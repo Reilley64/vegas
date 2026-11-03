@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct Context;
 struct Input;
@@ -13,7 +14,7 @@ void FUN_00e06010(unsigned char *);
 // 0x00e06070
 void ProcessInput(::Context **, ::Input *, void *, bool, int *, bool *);
 // 0x00e061c0
-void ProcessListBlocks(int, ::ListE061 *);
+void ProcessListBlocks(intptr_t, ::ListE061 *);
 // 0x00e062a0
 void SwapMeshRecords(void *, ::S_00e062a0_Mesh *);
 // 0x00e06480

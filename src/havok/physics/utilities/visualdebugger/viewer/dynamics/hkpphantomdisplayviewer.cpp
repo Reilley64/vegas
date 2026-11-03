@@ -1252,7 +1252,7 @@ void Vw66530Self::FUN_00d66530(Vw66530Arg* arg)
     if (!bValid || root == 0)
         goto done;
     reinterpret_cast<::FUN_00ddfb70_cls *>(&(o))->FUN_00ddfb70();
-    ::FUN_00ddfb80((::FUN_00ddfb80_s *)&(col), &o, {});
+    ::FUN_00ddfb80((::FUN_00ddfb80_s *)&(col), reinterpret_cast<intptr_t>(&o), {});
     reinterpret_cast<::Node *>(&(col))->FUN_00de0f90(const_cast<void *>(root), (::XfResult *)(::fnv_00d66530::Vw66530Array< ::fnv_00d66530::Vw66530Entry *> *)(&entries));
     for (int i = entries.m_iElementCount - 1; i >= 0; i--)
     {

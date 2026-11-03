@@ -895,7 +895,7 @@ void Self::FUN_00d642c0(Arg* a)
     SweptArray<Shape*> list;
     Entry* e; e = unk08[idx];
     list.m_data = 0; list.m_iElementCount = 0; list.m_iCapacityState = 0x80000000; TmpA ta; reinterpret_cast<::FUN_00ddfb70_cls *>(&(ta))->FUN_00ddfb70();
-    TmpB tb; ::FUN_00ddfb80((::FUN_00ddfb80_s *)&(tb), &ta, {});
+    TmpB tb; ::FUN_00ddfb80((::FUN_00ddfb80_s *)&(tb), reinterpret_cast<intptr_t>(&ta), {});
     reinterpret_cast<::Node *>(&(tb))->FUN_00de0f90(a->unk10, (::XfResult *)(void *)(&list));
     for (int j = list.m_iElementCount - 1; j >= 0; j--) { Shape* s = (Shape*)list.m_data[j];
         if (s->unk50 == 6 && 0 == s->unk08) {

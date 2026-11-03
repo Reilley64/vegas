@@ -3,6 +3,8 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include <cmath>
 #include <ctime>
@@ -82,14 +84,14 @@ struct FUN_00e3f340_Class
 
 struct FUN_00e3f900_class
 {
-    int FUN_00e3f900(int a);
+    void* FUN_00e3f900(int a);
 };
 
 // @fnv 0x00e3f900
-int FUN_00e3f900_class::FUN_00e3f900(int a)
+void* FUN_00e3f900_class::FUN_00e3f900(int a)
 {
     reinterpret_cast<::FUN_00cb0a70_Class *>(this)->FUN_00cb0a70(a);
-    return (int)this;
+    return this;
 }
 
 // @fnv 0x00e30f40
@@ -137,7 +139,7 @@ void __cdecl AlignAndAdvance(char flags, int aiCount, int aiIndex, int* p)
 extern int DAT_010eb770;
 struct FUN_00e34800
 {
-    int vtbl;
+    void* vtbl;
     int a;
     int b;
     int c;
@@ -147,7 +149,7 @@ struct FUN_00e34800
 // @fnv 0x00e34800
 FUN_00e34800::FUN_00e34800(int aiValue)
 {
-    vtbl = (int)&DAT_010eb770;
+    vtbl = &DAT_010eb770;
     reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00e34800*)((char*)this + 0xc))))->FUN_00cb0a70(aiValue);
 }
 
@@ -169,22 +171,22 @@ void FUN_00e3b4d0_Class::ApplyToBothObjects(void* a, void* b)
 
 struct FUN_00e3ec30_Class
 {
-    int FUN_00e3ec30(int arg);
+    char* FUN_00e3ec30(intptr_t arg);
 };
 
 // @fnv 0x00e3ec30
-int FUN_00e3ec30_Class::FUN_00e3ec30(int arg)
+char* FUN_00e3ec30_Class::FUN_00e3ec30(intptr_t arg)
 {
     if (!arg)
         return 0;
     for (int i = 0; i < *(int*)((char*)this + 0x2c); ++i)
     {
-        int* p = *(int**)((char*)this + 0x28);
-        int pEntry = p[i];
-        int eax = *(int*)(pEntry + 0x14);
-        if ((eax & 0xfffffffe) != 0)
+        char** p = *(char***)((char*)this + 0x28);
+        char* pEntry = p[i];
+        uintptr_t eax = *(uintptr_t*)(pEntry + 0x14);
+        if ((eax & ~(uintptr_t)1) != 0)
         {
-            eax &= 0xfffffffe;
+            eax &= ~(uintptr_t)1;
             if (::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(eax), (const char *)(arg)) == 0)
                 return pEntry;
         }
@@ -194,6 +196,7 @@ int FUN_00e3ec30_Class::FUN_00e3ec30(int arg)
 
 struct D481D0RefVariant
 {
+    void set(void*, const void*);
 };
 struct FUN_00e3f8d0_class
 {
@@ -202,7 +205,7 @@ struct FUN_00e3f8d0_class
 // @fnv 0x00e3f8d0
 void FUN_00e3f8d0_class::FUN_00e3f8d0(void* a, const void* b)
 {
-    reinterpret_cast<::FUN_00d47770 *>((((D481D0RefVariant*)((char*)this + 4))))->SetObject((::hkReferencedObject *)(a), (int)(b));
+    reinterpret_cast<::FUN_00d47770 *>((((D481D0RefVariant*)((char*)this + 4))))->SetObject((::hkReferencedObject *)(a), (intptr_t)(b));
 }
 
 struct FUN_00e29620_class
@@ -210,7 +213,7 @@ struct FUN_00e29620_class
 };
 
 // @fnv 0x00e298f0
-void __cdecl FUN_00e298f0(FUN_00e29620_class* object, int param)
+void __cdecl FUN_00e298f0(FUN_00e29620_class* object, intptr_t param)
 {
     reinterpret_cast<::Invert6Matrix *>((object))->FUN_00e29620((*(const ::Invert6Matrix *)(param)));
 }
@@ -312,8 +315,8 @@ struct E2baaDst
     unsigned char unk19;
     unsigned char unk1A;
     unsigned char unk1B;
-    int unk1C;
-    int unk20;
+    E2baaSrc* unk1C;
+    E2baaSrc* unk20;
     int unk24;
     int unk28;
     int unk2C;
@@ -337,10 +340,10 @@ E2baaDst* __cdecl FUN_00e2baa0(E2baaDst* out, E2baaSrc* src, intptr_t flag)
     out->unk18 = 0;
     *(volatile int*)&out->unk24 = *(volatile int*)&src->unk30;
     int iSrc30 = src->unk30;
-    *(volatile int*)&out->unk20 = (int)src;
+    *(E2baaSrc* volatile*)&out->unk20 = src;
     out->unk28 = iSrc30;
     int iSrc24 = src->unk24;
-    *(volatile int*)&out->unk1C = (int)src;
+    *(E2baaSrc* volatile*)&out->unk1C = src;
     out->unk50 = iSrc24;
     int v = ((src->unk20 != 0) ? -1 : 0) & flag;
     out->unk54 = (v != 0) ? v + 0x10 : 0;
@@ -1735,7 +1738,7 @@ FUN_00e39a80::FUN_00e39a80()
 {
     float zero = 0.0f;
     *(volatile unsigned short*)&m_06 = 1;
-    *(volatile int*)&m_vptr00 = (int)&DAT_010df9f4;
+    *(void* volatile*)&m_vptr00 = (void*)&DAT_010df9f4;
     *(volatile int*)&m_08 = 0;
     *(volatile int*)&m_0c = 0;
     *(volatile int*)&m_10 = 0x80000000;
@@ -1785,14 +1788,13 @@ struct S_00e3ae70_Alloc
 
 struct S_00e3ae70_Holder
 {
-    int unk00;
+    char* unk00;
     int unk04;
     int unk08;
     int unk0c;
     S_00e3ae70_Alloc* m_pAllocator;
 };
 
-S_00e3ae70_Holder* __cdecl FUN_00c85750() throw();
 
 struct S_00e3ae70_Item
 {
@@ -1840,7 +1842,7 @@ void S_00e3ae70_cls::SetItemValues(unsigned int a1, unsigned int a2, float afVal
             } while (i < arr.iSize);
         }
     }
-    S_00e3ae70_Holder* pHolder = FUN_00c85750();
+    S_00e3ae70_Holder* pHolder = static_cast<S_00e3ae70_Holder*>(::FUN_00c85750());
     S_00e3ae70_Alloc* pAllocator = pHolder->m_pAllocator;
     unsigned int uiCapacityFlags = arr.SimpleArrayStorage;
     arr.iSize = 0;
@@ -1901,11 +1903,10 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00e3b0a0_cls
 {
-    int m_vptr00;
+    void* m_vptr00;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -1922,8 +1923,8 @@ struct FUN_00e3b0a0_cls
 // @fnv 0x00e3b0a0
 void FUN_00e3b0a0_cls::FUN_00e3b0a0()
 {
-    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_010eb98c));
-    AudioHolder* pHolder = FUN_00c85750();
+    m_vptr00 = &(*reinterpret_cast<int *>(&::DAT_010eb98c));
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapBits = m_uCapBits;
     m_iArrayLength = 0;
@@ -1933,7 +1934,7 @@ void FUN_00e3b0a0_cls::FUN_00e3b0a0()
     }
     m_pData = 0;
     m_uCapBits = 0x80000000u;
-    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr00 = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00e3b0a0
 
@@ -2043,7 +2044,7 @@ class FUN_00e3dfb0_cls
     int unk34;
     int m_38;
 
-    int FUN_00e3dfb0(FUN_00e3dfb0_arg* rec);
+    intptr_t FUN_00e3dfb0(FUN_00e3dfb0_arg* rec);
 };
 
 // Selects one of the object's fields based on rec->m_type and returns rec->value plus that field, or 0 for unknown types.
@@ -2121,7 +2122,7 @@ struct S_00e3ed00_Result
     int unk04;
     int unk08;
     int unk0c;
-    int unk10;
+    void* unk10;
 };
 
 struct S_00e3ed00_List
@@ -2359,12 +2360,12 @@ struct FUN_00e3ed80 : BaseE3EAA0
 // @fnv 0x00e3ed80
 FUN_00e3ed80::~FUN_00e3ed80()
 {
-    ::FUN_00cb0c00((int)&(m_40));
+    ::FUN_00cb0c00((intptr_t)&(m_40));
     m_34.ClearAndRelease();
     m_28.ClearAndRelease();
     m_1c.ClearAndRelease();
     m_18.release();
-    ::FUN_00cb0c00((int)&(m_14));
+    ::FUN_00cb0c00((intptr_t)&(m_14));
     reinterpret_cast<::FUN_00e3eaa0 *>(this)->FUN_00e3eaa0::~FUN_00e3eaa0();
 }
 
@@ -2414,7 +2415,6 @@ struct AudioHolder
 };
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
 
 struct AudioRefObject
 {
@@ -2467,14 +2467,14 @@ struct FUN_00e3f110_cls
 // @fnv 0x00e3f110
 void FUN_00e3f110_cls::Destroy() throw()
 {
-    *(volatile int*)&m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_010e33dc));
+    *(void* volatile*)&m_vptr00 = (void*)&(*reinterpret_cast<int *>(&::DAT_010e33dc));
     AudioRefObject* pRef = *(AudioRefObject* volatile*)&m_p7c;
     if (pRef != 0)
     {
         reinterpret_cast<::hkReferencedObjectC905 *>((pRef))->FUN_00c905b0();
     }
     m_p7c = 0;
-    AudioHolder* pHolder = (AudioHolder*)FUN_00c85750();
+    AudioHolder* pHolder = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
     int count = m_iCount74;
     AudioRefObject** pBuf = m_pBuf70;
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
@@ -2493,9 +2493,9 @@ void FUN_00e3f110_cls::Destroy() throw()
     }
     m_pBuf70 = 0;
     m_uCap78 = 0x80000000u;
-    AudioHolder* pHolder2 = (AudioHolder*)FUN_00c85750();
+    AudioHolder* pHolder2 = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
-    int* pEntry = (int*)m_pBuf18;
+    AudioRefObject** pEntry = (AudioRefObject**)m_pBuf18;
     if (m_iCount1c > 0)
     {
         int n = m_iCount1c;
@@ -2503,7 +2503,7 @@ void FUN_00e3f110_cls::Destroy() throw()
         {
             if (*pEntry != 0)
             {
-                reinterpret_cast<::hkReferencedObjectC905 *>((((AudioRefObject*)*pEntry)))->FUN_00c905b0();
+                reinterpret_cast<::hkReferencedObjectC905 *>(*pEntry)->FUN_00c905b0();
             }
             *pEntry = 0;
             pEntry += 3;
@@ -2517,7 +2517,7 @@ void FUN_00e3f110_cls::Destroy() throw()
     }
     m_pBuf18 = 0;
     m_uCap20 = 0x80000000u;
-    ::FUN_00cb0c00((int)&(m_sub14));
+    ::FUN_00cb0c00((intptr_t)&(m_sub14));
     reinterpret_cast<::FUN_00e3eaa0 *>(this)->FUN_00e3eaa0::~FUN_00e3eaa0();
 }
 }  // namespace fnv_00e3f110
@@ -2546,7 +2546,7 @@ unsigned char FUN_00e3f210_cls::HasDelimiter()
 
 struct FUN_00e3f230_Entry
 {
-    unsigned int m_flagged;
+    uintptr_t m_flagged;
     unsigned int unk04;
 };
 
@@ -2556,7 +2556,7 @@ struct FUN_00e3f230_cls
     int unk04;
     FUN_00e3f230_Entry* m_pEntries;
     int m_uiItemCount;
-    int FindEntryByKey(int arg);
+    int FindEntryByKey(intptr_t arg);
 };
 // @fnv 0x00e3f340
 void* FUN_00e3f340_Class::GetEntryByArg(int arg)
@@ -2565,7 +2565,7 @@ void* FUN_00e3f340_Class::GetEntryByArg(int arg)
     if (index != -1)
     {
         void* entry = *(void**)(*(char**)((char*)this + 8) + index * 8 + 4);
-        return (void*)((unsigned int)entry & ~1u);
+        return (void*)((uintptr_t)entry & ~(uintptr_t)1);
     }
     return 0;
 }
@@ -2579,7 +2579,7 @@ int FUN_00e3f230_cls::FindEntryByKey(intptr_t arg)
     {
         do
         {
-            unsigned int key = m_pEntries[i].m_flagged & 0xfffffffeu;
+            uintptr_t key = m_pEntries[i].m_flagged & ~(uintptr_t)1;
             if (::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(key), (const char *)(arg)) == 0)
             {
                 return i;
@@ -2603,14 +2603,14 @@ void __cdecl FUN_00e30ff0(int index, int arg)
 
 struct BE3E7E0Entry
 {
-    unsigned int m_uiTaggedName;
+    uintptr_t m_uiTaggedName;
     int unk04;
     int unk08;
     int unk0C;
 
     const char* GetName() const
     {
-        return (const char*)(m_uiTaggedName & ~1u);
+        return (const char*)(m_uiTaggedName & ~(uintptr_t)1);
     }
 };
 
@@ -2833,8 +2833,8 @@ void FUN_00e3f370_cls::ReleaseItems()
     int n = m_iArrayLength;
     for (int i = 0; i < n; i++)
     {
-        ::FUN_00cb0c00((int)&(p[i].second));
-        ::FUN_00cb0c00((int)&(p[i].first));
+        ::FUN_00cb0c00((intptr_t)&(p[i].second));
+        ::FUN_00cb0c00((intptr_t)&(p[i].first));
     }
     m_iArrayLength = 0;
 }
@@ -3346,12 +3346,12 @@ struct Mesh
     int unk018;
     unsigned short* m_pusIndices;
 
-    void FUN_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2);
+    void FUN_00e3d200(int iTri, float fValue, intptr_t iArg0, intptr_t iArg1, intptr_t iArg2);
 };
 
 // Calls FUN_00e3cd50 with m_pusIndices[iTri], [iTri+1], [iTri+2] each multiplied by 3, then fValue and the three remaining arguments.
 // @fnv 0x00e3d200
-void Mesh::FUN_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2)
+void Mesh::FUN_00e3d200(int iTri, float fValue, intptr_t iArg0, intptr_t iArg1, intptr_t iArg2)
 {
     reinterpret_cast<::CompressedChunk *>(this)->FUN_00e3cd50(m_pusIndices[iTri] * 3, m_pusIndices[iTri + 1] * 3, m_pusIndices[iTri + 2] * 3, fValue, (*(::hkVector4q *)(iArg0)), (*(::hkVector4q *)(iArg1)),
                  (*(::hkVector4q *)(iArg2)));
@@ -3359,10 +3359,9 @@ void Mesh::FUN_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2)
 
 }
 
-namespace ns_e3e8 {
-}
 struct Resource_e3e8
 {
+    void FUN_00c905b0() throw();
 };
 
 template <class T> struct hkRefPtr_e3e8
@@ -3467,7 +3466,7 @@ template <class T> class hkArrayE3A3
 
     ~hkArrayE3A3() throw()
     {
-        hkMemoryAllocatorE3A3& kAlloc = reinterpret_cast<hkMemoryRouterE3A3*>(FUN_00c85750())->heap();
+        hkMemoryAllocatorE3A3& kAlloc = reinterpret_cast<hkMemoryRouterE3A3*>(static_cast<S_00e3ae70_Holder*>(::FUN_00c85750()))->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -3489,6 +3488,7 @@ class hkReferencedObject : public hkBaseObject
   public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
+    void FUN_00c905b0() throw();
 };
 }
 
@@ -3671,25 +3671,8 @@ void FUN_00e2cfd0()
 
 #include <xmmintrin.h>
 namespace fnv_00e2cfe0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 extern "C"
 {
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    void _mm_store_ss(float*, __m128);
-    void _mm_store_ps(float*, __m128);
-    float _mm_cvtss_f32(__m128);
     void _WriteBarrier();
 }
 
@@ -3840,14 +3823,14 @@ struct Chain
     Chain* next;
 };
 
-struct __declspec(align(16)) Vec4
+struct __declspec(align(16)) NodeVec4
 {
     __m128 q;
 };
 
 struct __declspec(align(16)) Node
 {
-    Vec4 vector;
+    NodeVec4 vector;
     float value;
     int id;
     int unk18;
@@ -4041,11 +4024,11 @@ struct WorkArray : hkArr<WorkItem>
 };
 // Splits indices 0..count-1 using a work stack of plane nodes, calling FUN_00e2c100 on each popped item and pushing non-empty left and right results.
 // @fnv 0x00e2cc30
-void FUN_00e2cc30(SplitInput* input, int a2, int a3, int a4, int a5, int a6, int count)
+void FUN_00e2cc30(SplitInput* input, intptr_t a2, intptr_t a3, intptr_t a4, intptr_t a5, intptr_t a6, int count)
 {
     if (!input)
         return;
-    S_00e3ae70_Holder* router = FUN_00c85750();
+    S_00e3ae70_Holder* router = static_cast<S_00e3ae70_Holder*>(::FUN_00c85750());
     struct WeightArray : hkArr<float>
     {
         float* localMemory;
@@ -4053,7 +4036,7 @@ void FUN_00e2cc30(SplitInput* input, int a2, int a3, int a4, int a5, int a6, int
     float* weights = (float*)router->unk00;
     weightArray.m_data = weights;
     weightArray.localMemory = weights;
-    router->unk00 = (int)weights + ((count * 4 + 127) & -128);
+    router->unk00 = (char*)weights + ((count * 4 + 127) & -128);
     weightArray.m_iElementCount = count;
     weightArray.m_iCapacityState = count | 0x80000000;
     for (int i = 0; i < count; ++i)
@@ -4063,12 +4046,12 @@ void FUN_00e2cc30(SplitInput* input, int a2, int a3, int a4, int a5, int a6, int
     int& usedA = populations[0];
     int& usedB = populations[1];
     ::FUN_00e4e3f0();
-    router = FUN_00c85750();
+    router = static_cast<S_00e3ae70_Holder*>(::FUN_00c85750());
     WorkArray stack;
     WorkItem* data = (WorkItem*)router->unk00;
     stack.m_data = data;
     stack.localMemory = data;
-    router->unk00 = (int)data + 384;
+    router->unk00 = (char*)data + 384;
     int iMaxDepth = 0;
     stack.m_iElementCount = 0;
     stack.m_iCapacityState = 10 | 0x80000000;
@@ -4118,18 +4101,14 @@ void FUN_00e2cc30(SplitInput* input, int a2, int a3, int a4, int a5, int a6, int
         if (iMaxDepth <= stack.m_iElementCount)
             iMaxDepth = stack.m_iElementCount;
     } while (stack.m_iElementCount);
-    FUN_00c85750()->unk00 = (int)stack.localMemory;
+    static_cast<S_00e3ae70_Holder*>(::FUN_00c85750())->unk00 = (char*)stack.localMemory;
     stack.ClearAndRelease();
-    FUN_00c85750()->unk00 = (int)weightArray.localMemory;
+    static_cast<S_00e3ae70_Holder*>(::FUN_00c85750())->unk00 = (char*)weightArray.localMemory;
     weightArray.ClearAndRelease();
 }
 
 #include <xmmintrin.h>
 namespace fnv_00e2c8a0 {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
 
 struct ShortIndex
 {
@@ -4219,7 +4198,7 @@ struct Scratch
 };
 __forceinline Scratch* scratchRouter() throw()
 {
-    return (Scratch*)FUN_00c85750();
+    return (Scratch*)static_cast<S_00e3ae70_Holder*>(::FUN_00c85750());
 }
 struct __declspec(align(16)) Weights
 {
@@ -4270,7 +4249,7 @@ struct Outputs
 };
 // Pops an item stack, calls FUN_00e2bbd0 on each item, and pushes non-empty first and second results until the stack is empty.
 // @fnv 0x00e2c8a0
-void FUN_00e2c8a0(Owner* owner, int p2, int p3, int p4, int p5, int p6, int aiCount)
+void FUN_00e2c8a0(Owner* owner, intptr_t p2, intptr_t p3, intptr_t p4, intptr_t p5, intptr_t p6, int aiCount)
 {
     if (!owner)
         return;
@@ -4342,27 +4321,12 @@ void FUN_00e2c8a0(Owner* owner, int p2, int p3, int p4, int p5, int p6, int aiCo
             highWater = stackSize;
     } while (stackSize);
     scratchRouter()->top = (char*)stack;
-    FUN_00c85750();
+    static_cast<S_00e3ae70_Holder*>(::FUN_00c85750());
     weights.release();
 }
 }  // namespace fnv_00e2c8a0
 
 namespace FanSpace {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m[4];
-};
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" void _mm_store_ss(float*, __m128);
 struct SimdScalar
 {
     union
@@ -4572,22 +4536,19 @@ int FanBuilder::FUN_00e2d1b0(int count, FanEdge* chain, FanVertex* apex)
 
 #include <xmmintrin.h>
 #include <math.h>
+#include "fnv/decl/TrackCompressionParams.h"
+#include "fnv/symbols_00e29000.h"
+#include "fnv/symbols_00e2a000.h"
+#include "fnv/symbols_00e32000.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d1d000.h"
+#include "fnv/symbols_011b3000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_00d1b000.h"
+#include "fnv/symbols_simd.h"
 namespace fnv_00e2d550 {
 extern "C" void _ReadWriteBarrier();
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-    void _mm_store_ss(float* p, __m128 a);
-}
 
 struct HullFace;
 
@@ -4706,7 +4667,7 @@ template <class T> struct TyremarkArray
 
     void SetSizeAndGrow(int count)
     {
-        hkMemoryAllocatorE3A3& allocator = reinterpret_cast<hkMemoryRouterE3A3*>(FUN_00c85750())->heap();
+        hkMemoryAllocatorE3A3& allocator = reinterpret_cast<hkMemoryRouterE3A3*>(static_cast<S_00e3ae70_Holder*>(::FUN_00c85750()))->heap();
         int capacity = m_iCapacityState & 0x3fffffff;
         if (capacity < count)
         {
@@ -4725,7 +4686,7 @@ struct TyremarkWheelView : FUN_00e3a270
 inline TyremarkWheelView* allocateTyremarkWheel()
 {
     void* memory =
-        reinterpret_cast<hkMemoryRouterE3A3*>(FUN_00c85750())->heap().AllocateMemoryBlock(sizeof(TyremarkWheelView));
+        reinterpret_cast<hkMemoryRouterE3A3*>(static_cast<S_00e3ae70_Holder*>(::FUN_00c85750()))->heap().AllocateMemoryBlock(sizeof(TyremarkWheelView));
     TyremarkWheelView* wheel = static_cast<TyremarkWheelView*>(memory);
     wheel->m_usMemSizeAndFlags = sizeof(TyremarkWheelView);
     return ((::TyremarkWheelView *)(new ((void *)(wheel)) ::FUN_00e3a270()));
@@ -4789,8 +4750,8 @@ __declspec(noinline) unsigned char Q_cls::HasDelimiter()
 
 struct S_Pair2b0
 {
-    unsigned int first;
-    unsigned int second;
+    uintptr_t first;
+    uintptr_t second;
 };
 
 struct S_Out2b0
@@ -4818,14 +4779,779 @@ void S_Class2b0::FUN_00e3f2b0(S_Out2b0* apOut)
     reinterpret_cast<::FUN_00d61cc0_t *>((apOut))->FUN_00d61cc0();
     for (int i = 0; i < unk0c; i++)
     {
-        Q_cls* first = (Q_cls*)(unk08[i].first & ~1u);
-        Q_cls* second = (Q_cls*)(unk08[i].second & ~1u);
+        Q_cls* first = (Q_cls*)(unk08[i].first & ~(uintptr_t)1);
+        Q_cls* second = (Q_cls*)(unk08[i].second & ~(uintptr_t)1);
         const char* a = reinterpret_cast<::FUN_00e3f210_cls *>((first))->HasDelimiter() ? (*reinterpret_cast<char (*)[]>(&::fnv_00ac9790::DAT_01021184)) : ::DAT_01011584;
         const char* b = reinterpret_cast<::FUN_00e3f210_cls *>((second))->HasDelimiter() ? (*reinterpret_cast<char (*)[]>(&::fnv_00ac9790::DAT_01021184)) : ::DAT_01011584;
         reinterpret_cast<::hkOstreamD624 *>((apOut))->WriteFormatted(str_010ebaa4, a, first, a, b, second, b);
         if (i < unk0c - 1)
-            reinterpret_cast<::FUN_00d61df0_cls *>((apOut))->FUN_00d61df0((int)(str_010ebaa0));
+            reinterpret_cast<::FUN_00d61df0_cls *>((apOut))->FUN_00d61df0((intptr_t)(str_010ebaa0));
     }
+}
+
+void __cdecl CallHandlerByIndex(int iHandlerIndex, int b, int c);
+
+void __cdecl FUN_00e2ba90();
+
+
+
+
+void __cdecl FUN_00e36f40();
+
+// Probe for 0x00e29900: does cl 15.00.30729.01 /GL + /LTCG deliver this
+// wrapper's pointer argument in EAX, so the body compiles to
+//   50              push eax
+//   e8 xx xx xx xx  call ?__time64@@YA_JPA_J@Z
+//   83 c4 04        add esp, 4
+//   c3              ret
+// (original bytes at 0x00e29900: 50 e8 d4 14 0a 00 83 c4 04 c3)?
+// Without /GL the cdecl stack parameter forces "mov eax,[esp+4]" first,
+// which the original does not have.
+__int64 __cdecl __time64(__int64* t);
+
+static __int64 FUN_00e29900(__int64* t);
+
+
+__int64 probe_caller(void);
+
+void __cdecl FUN_00e2abd0();
+
+static unsigned int SwapByteOrder(unsigned int x);
+
+void call_byteswap_e2f9(void);
+
+static unsigned short FUN_00e34b20(unsigned short v);
+
+unsigned short call_e34b20();
+
+
+
+Resource_e3e8* FUN_00e3e8e0(const char* name, Resource_e3e8* expected);
+
+namespace hkE3A3 {
+
+}
+
+void __cdecl FUN_00e2cfc0();
+
+void FUN_00e2cfd0();
+
+
+
+inline TyremarkWheelView* allocateTyremarkWheel();
+
+namespace RaySimilarityMath {
+typedef __m128 __m128;
+
+struct RayScalar
+{
+    __m128 q;
+    RayScalar()
+    {}
+    RayScalar(float f) : q(_mm_load_ss(&f))
+    {}
+    RayScalar(const __m128& v) : q(v)
+    {}
+    operator float() const
+    {
+        float f;
+        _mm_store_ss(&f, q);
+        return f;
+    }
+};
+struct RayVector : FanSpace::FanVec
+{
+    void setSub(const RayVector& a, const RayVector& b)
+    {
+        q = _mm_sub_ps(a.q, b.q);
+    }
+    RayScalar dot3(const RayVector& b) const
+    {
+        __m128 p = _mm_mul_ps(q, b.q);
+        __m128 xy = _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p);
+        p = _mm_shuffle_ps(p, p, 0xaa);
+        p = _mm_add_ss(p, xy);
+        return RayScalar(p);
+    }
+    RayScalar lengthSquared3() const
+    {
+        return dot3(*this);
+    }
+};
+// @fnv 0x00e29920
+extern "C" bool __cdecl FUN_00e29920(const RayVector& a, const RayVector& b, const RayVector& c, const RayVector& d,
+                                     const RayVector& e, const RayVector& f, float g, float h)
+{
+    if (float(c.dot3(f)) < g)
+        return false;
+    RayScalar limit(h);
+    RayVector da, db;
+    da.setSub(d, a);
+    db.setSub(e, b);
+    RayScalar distance0;
+    distance0 = da.lengthSquared3();
+    if (distance0 > limit)
+        return false;
+    RayScalar distance1;
+    distance1 = db.lengthSquared3();
+    if (distance1 > limit)
+        return false;
+    return true;
+}
+
+}
+
+void __cdecl CallHandlerByIndex(int a, int b, int c);
+
+
+void __cdecl FUN_00e315a0(unsigned char a1, unsigned int a2, unsigned int a3, unsigned int* a4);
+
+
+extern "C" unsigned int __cdecl _rotl(unsigned int, int);
+
+// @fnv 0x00e315a0
+void __cdecl FUN_00e315a0(unsigned char flags, unsigned int count, unsigned int wide, unsigned int* cursor)
+{
+    if (!flags)
+        return;
+    *cursor = (*cursor + 3) & ~3u;
+    int paired = 0;
+    unsigned int mask = 1;
+    for (int i = 0; i < 3; ++i)
+    {
+        if (flags & _rotl(mask, 4))
+        {
+            SwapBytesAndAdvance(4, (unsigned char**)cursor);
+            SwapBytesAndAdvance(4, (unsigned char**)cursor);
+            ++paired;
+        }
+        else if (flags & mask)
+        {
+            SwapBytesAndAdvance(4, (unsigned char**)cursor);
+        }
+        mask = _rotl(mask, 1);
+    }
+    if (paired)
+    {
+        int stride = wide ? 2 : 1;
+        for (int j = 0; j <= (int)count; ++j)
+            for (int k = 0; k < paired; ++k)
+                SwapBytesAndAdvance(stride, (unsigned char**)cursor);
+    }
+}
+
+
+struct hkVector4Stub
+{
+    __m128 m_vComponents;
+    void set(float x, float y, float z, float w = 0.0f)
+    {
+        m_vComponents = _mm_setr_ps(x, y, z, w);
+    }
+};
+
+struct Mat34
+{
+    float m[3][4];
+};
+
+// @fnv 0x00e310c0
+void FUN_00e310c0(const Mat34* src, int stride, int n, int row, int col, hkVector4Stub** outA, hkVector4Stub** outB,
+                  hkVector4Stub** outC)
+{
+    for (int i = 0; i < n; i++)
+    {
+        const Mat34& t = src[(row + i) * stride + col];
+        (*outA)[i].set(t.m[0][0], t.m[0][1], t.m[0][2]);
+        (*outB)[i].set(t.m[1][0], t.m[1][1], t.m[1][2], t.m[1][3]);
+        (*outC)[i].set(t.m[2][0], t.m[2][1], t.m[2][2]);
+    }
+}
+
+class RayVector
+{
+    __m128 v;
+
+  public:
+    __forceinline RayVector()
+    {}
+    __forceinline RayVector(const RayVector& a) : v(a.v)
+    {}
+    __forceinline void operator=(const RayVector& a)
+    {
+        v = a.v;
+    }
+    __forceinline void set(float a, float b, float c, float d)
+    {
+        v = _mm_setr_ps(a, b, c, d);
+    }
+    __forceinline float& operator()(int i)
+    {
+        return ((float*)&v)[i];
+    }
+};
+
+class Flag
+{
+    char value;
+
+  public:
+    __forceinline Flag()
+    {}
+    __forceinline Flag(bool b) : value(char(b))
+    {}
+    __forceinline Flag& operator=(bool b)
+    {
+        value = char(b);
+        return *this;
+    }
+    __forceinline operator bool() const
+    {
+        return value != 0;
+    }
+};
+
+struct Ray
+{
+    RayVector from, to;
+    Flag filtering;
+    unsigned int filterInfo;
+    Ray() : filtering(false), filterInfo(0)
+    {}
+};
+
+struct Command
+{
+    Ray input;
+    void* results;
+    int capacity;
+    int count;
+    Flag useCollector, stop;
+    Command()
+    {
+        useCollector = false;
+        stop = false;
+    }
+};
+
+struct BundleCommand
+{
+    Ray input[4];
+    int active;
+    Flag stop;
+    void* results[4];
+    __declspec(align(16)) int counts[4];
+    Flag useCollector;
+};
+
+struct Task
+{
+    RayVector o0, o1, o2, i0, i1, i2;
+    int mask;
+};
+
+struct Input
+{
+    int unk00, unk04, unk08, unk0c;
+    void* data10;
+};
+
+struct WorkInput
+{
+    RayVector from, to;
+    unsigned int filterInfo;
+    void* filter;
+    WorkInput()
+    {
+        filterInfo = 0;
+        filter = 0;
+    }
+};
+
+class hkpBroadPhaseHandle;
+
+class hkpBroadPhaseCastCollector
+{
+  public:
+    virtual ~hkpBroadPhaseCastCollector()
+    {}
+    virtual float ReleaseCollector(const hkpBroadPhaseHandle*, int) = 0;
+};
+
+class hkKdTreeCastCollector
+{
+  public:
+    virtual ~hkKdTreeCastCollector()
+    {}
+    virtual Flag ReportHit(unsigned long) = 0;
+    virtual Flag DidHit() = 0;
+    virtual float GetHitFraction() = 0;
+};
+
+struct hkAabbTreeData
+{
+    struct RayQueryAabb
+    {
+    };
+    struct QuantizedAabb
+    {
+    };
+};
+
+template <class B, class I = unsigned short> class hkAabbTree
+{
+  public:
+    struct Node;
+};
+
+template <class B, class I = unsigned short> class hkAabbTreeQueryUtils
+{
+  public:
+    struct Collector
+    {
+        virtual ~Collector()
+        {}
+        virtual float GetHitDistance(const typename hkAabbTree<B, I>::Node*) = 0;
+    };
+};
+
+class hkCpuWorldRayCastCollector : public hkpBroadPhaseCastCollector,
+                                   public hkKdTreeCastCollector,
+                                   public hkAabbTreeQueryUtils<hkAabbTreeData::RayQueryAabb>::Collector,
+                                   public hkAabbTreeQueryUtils<hkAabbTreeData::QuantizedAabb>::Collector
+{
+  public:
+    void* filter;
+    float fraction;
+    Flag hit;
+    Command* command;
+    const Ray* original;
+    void* result;
+    void* next;
+    WorkInput work;
+    void* fixed;
+    RayVector fractions;
+    hkCpuWorldRayCastCollector() : fixed(0)
+    {
+        fraction = 1.0f;
+        hit = false;
+    }
+    virtual float ReleaseCollector(const hkpBroadPhaseHandle*, int);
+    virtual Flag ReportHit(unsigned long);
+    virtual Flag DidHit()
+    {
+        return hit;
+    }
+    virtual float GetHitFraction()
+    {
+        return fraction;
+    }
+    virtual float GetHitDistance(const hkAabbTree<hkAabbTreeData::RayQueryAabb>::Node*);
+    virtual float GetHitDistance(const hkAabbTree<hkAabbTreeData::QuantizedAabb>::Node*);
+};
+
+Task __cdecl FUN_00d1bb50(const RayVector&, const RayVector&, const RayVector&, const RayVector&, const RayVector&,
+                          const RayVector&, const RayVector&, const RayVector&, int);
+
+// @fnv 0x00e2b070
+void FUN_00e2b070(const Input* input, BundleCommand* src, void* filter, RayVector& fractions, void*, void*, void*,
+                  void*, int*)
+{
+    if (!input)
+        return;
+    Task task = FUN_00d1bb50(src->input[0].from, src->input[0].to, src->input[1].from, src->input[1].to,
+                             src->input[2].from, src->input[2].to, src->input[3].from, src->input[3].to, 15);
+    Command commands[4];
+    hkCpuWorldRayCastCollector collectors[4];
+    float limits[4];
+    hkAabbTreeQueryUtils<hkAabbTreeData::RayQueryAabb>::Collector* ptrs[4];
+    for (int i = 0; i < 4; ++i)
+    {
+        commands[i].results = src->results[i];
+        collectors[i].result = commands[i].results;
+        collectors[i].next = commands[i].results;
+        commands[i].input = src->input[i];
+        commands[i].stop = src->stop;
+        commands[i].capacity = 1;
+        commands[i].count = 0;
+        collectors[i].filter = filter;
+        collectors[i].original = &commands[i].input;
+        collectors[i].command = &commands[i];
+        limits[i] = fractions(i);
+        ptrs[i] = &collectors[i];
+    }
+    task.mask = DAT_011b3830[src->active];
+    ::FUN_00d1d530();
+    for (int i = 0; i < 4; ++i)
+        src->counts[i] = commands[i].count;
+    fractions.set(limits[0], limits[1], limits[2], limits[3]);
+}
+
+class Vec4
+{
+  public:
+    void operator=(const Vec4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+    void operator=(const __m128& q)
+    {
+        m_vComponents = q;
+    }
+    operator __m128() const
+    {
+        return m_vComponents;
+    }
+
+  private:
+    __m128 m_vComponents;
+};
+
+struct Bundle
+{
+    Vec4 m_data[3];
+};
+
+struct RayQuerySet
+{
+    __forceinline RayQuerySet()
+    {}
+    Bundle m_vFrom;
+    Bundle m_vInverseDirection;
+    int m_uiMask;
+};
+
+// @fnv 0x00e2baf0
+RayQuerySet __cdecl FUN_00e2baf0(const Vec4& from0, const Vec4& invDir0, const Vec4& from1, const Vec4& invDir1,
+                                 const Vec4& from2, const Vec4& invDir2, const Vec4& from3, const Vec4& invDir3,
+                                 int mask)
+{
+    Bundle bundleFrom;
+    Vec4 tmpFrom;
+    Bundle bundleInvDir;
+    Vec4 tmpInvDir;
+    bundleFrom.m_data[0] = from0;
+    bundleFrom.m_data[1] = from1;
+    bundleFrom.m_data[2] = from2;
+    tmpFrom = from3;
+    bundleInvDir.m_data[0] = invDir0;
+    bundleInvDir.m_data[1] = invDir1;
+    bundleInvDir.m_data[2] = invDir2;
+    tmpInvDir = invDir3;
+    {
+        __m128 tmp3, tmp2, tmp1, tmp0;
+
+        tmp0 = _mm_shuffle_ps((bundleFrom.m_data[0]), (bundleFrom.m_data[1]), 0x44);
+        tmp2 = _mm_shuffle_ps((bundleFrom.m_data[0]), (bundleFrom.m_data[1]), 0xEE);
+        tmp1 = _mm_shuffle_ps((bundleFrom.m_data[2]), (tmpFrom), 0x44);
+        tmp3 = _mm_shuffle_ps((bundleFrom.m_data[2]), (tmpFrom), 0xEE);
+
+        (bundleFrom.m_data[0]) = _mm_shuffle_ps(tmp0, tmp1, 0x88);
+        (bundleFrom.m_data[1]) = _mm_shuffle_ps(tmp0, tmp1, 0xDD);
+        (bundleFrom.m_data[2]) = _mm_shuffle_ps(tmp2, tmp3, 0x88);
+        (tmpFrom) = _mm_shuffle_ps(tmp2, tmp3, 0xDD);
+    }
+    {
+        __m128 tmp3, tmp2, tmp1, tmp0;
+
+        tmp0 = _mm_shuffle_ps((bundleInvDir.m_data[0]), (bundleInvDir.m_data[1]), 0x44);
+        tmp2 = _mm_shuffle_ps((bundleInvDir.m_data[0]), (bundleInvDir.m_data[1]), 0xEE);
+        tmp1 = _mm_shuffle_ps((bundleInvDir.m_data[2]), (tmpInvDir), 0x44);
+        tmp3 = _mm_shuffle_ps((bundleInvDir.m_data[2]), (tmpInvDir), 0xEE);
+
+        (bundleInvDir.m_data[0]) = _mm_shuffle_ps(tmp0, tmp1, 0x88);
+        (bundleInvDir.m_data[1]) = _mm_shuffle_ps(tmp0, tmp1, 0xDD);
+        (bundleInvDir.m_data[2]) = _mm_shuffle_ps(tmp2, tmp3, 0x88);
+        (tmpInvDir) = _mm_shuffle_ps(tmp2, tmp3, 0xDD);
+    }
+    RayQuerySet bundle;
+    bundle.m_vFrom = bundleFrom;
+    bundle.m_vInverseDirection = bundleInvDir;
+    bundle.m_uiMask = mask;
+    return bundle;
+}
+
+namespace fnv_00e2c100 {
+struct CastVector4
+{
+    __m128 v;
+    CastVector4()
+    {}
+    CastVector4(const CastVector4& o)
+    {
+        v = o.v;
+    }
+    CastVector4& operator=(const CastVector4& o)
+    {
+        v = o.v;
+        return *this;
+    }
+    inline void SetAllComponents(float f)
+    {
+        v = _mm_set_ps1(f);
+    }
+    inline void set(float x, float y, float z, float w = ::DAT_01011d78)
+    {
+        v = _mm_setr_ps(x, y, z, w);
+    }
+    inline void scale(const __m128& f)
+    {
+        v = _mm_mul_ps(v, f);
+    }
+    inline void subtract(const __m128& f)
+    {
+        v = _mm_sub_ps(v, f);
+    }
+};
+struct QuantizedNode
+{
+    unsigned short maxX, maxY, maxZ, minX, minY, minZ, child0, child1, flags, metadata;
+};
+struct NodeArray
+{
+    QuantizedNode* data;
+};
+struct Tree
+{
+    CastVector4 treeHeader;
+    int nodeCount, capacity, root;
+    NodeArray nodes;
+    int field20, field24, field28, field2c;
+    CastVector4 bounds;
+    CastVector4 offset;
+    CastVector4 scale0;
+    CastVector4 scale1;
+    CastVector4 scale;
+};
+struct Ray
+{
+    CastVector4 origin, invDirection;
+};
+struct Shape
+{
+    __m128 transform0, transform1;
+    signed char shapeType;
+    unsigned char unk21, unk22, unk23;
+    int shapeKey;
+    int unk28, unk2c;
+    void* object;
+    void* filter;
+    int key;
+    bool hasFilter;
+};
+struct Collector
+{
+    virtual void unused();
+    virtual float hit(QuantizedNode*);
+    int collectorState;
+};
+struct QueryHeader
+{
+    virtual void queryUnused();
+    int flags, user;
+};
+struct Query : QueryHeader, Collector
+{
+    float fraction;
+    bool hitFlag;
+    unsigned char unk19;
+    unsigned short unk1a;
+    void* body;
+    void* shape;
+    void* object;
+    void* object2;
+    CastVector4 normal;
+    CastVector4 position;
+    int key;
+    void* filter;
+    int mode;
+    int state;
+    void* callback;
+    int callbackFlags, callbackKey, callbackState;
+    CastVector4 maxFraction;
+};
+struct Filter
+{
+    virtual void InvokeCallback();
+    virtual void FUN_00df8960();
+    float fraction;
+    void* body;
+    void* object;
+    void* filter;
+    int flags;
+    int key;
+    Filter(void* a, void* b) : fraction(1.0f), body(a), object(a), filter(b), flags(0), key(0)
+    {}
+};
+struct FilterData
+{
+    int unk00, unk04, unk08, unk0c;
+    int data;
+};
+__declspec(noinline) Query* __cdecl FUN_00e2baa0(Query* q, Shape* s, void* f)
+{
+    q->fraction = 1.0f;
+    q->hitFlag = false;
+    q->object = s->object;
+    q->shape = s;
+    q->object2 = s->object;
+    q->body = s;
+    q->key = s->shapeKey;
+    FilterData* active = s->shapeType ? (FilterData*)f : 0;
+    q->filter = active ? &active->data : 0;
+    return q;
+}
+extern void __cdecl FUN_00d1bfa0(Tree*, QuantizedNode*, void*, void*, Collector**, float*);
+struct Bounds
+{
+    CastVector4 low, high;
+};
+__forceinline void restore(QuantizedNode* n, const CastVector4& scale, const CastVector4& offset, Bounds& out)
+{
+
+    out.high.set(float(n->maxX << 15), float(n->maxY << 15), float(n->maxZ << 15));
+    out.low.set(float(n->minX << 15), float(n->minY << 15), float(n->minZ << 15));
+    __m128 factor = scale.v;
+    out.low.v = _mm_mul_ps(out.low.v, factor);
+    out.high.v = _mm_mul_ps(factor, out.high.v);
+    out.low.subtract(offset.v);
+    out.high.subtract(offset.v);
+}
+__forceinline __m128 reduceNear(const __m128& mn)
+{
+    __m128 y = _mm_shuffle_ps(mn, mn, 0x55), z = _mm_shuffle_ps(mn, mn, 0xaa);
+    return _mm_max_ps(_mm_max_ps(mn, *(__m128*)&::DAT_01267e30), _mm_max_ps(y, z));
+}
+__forceinline __m128 reduceFar(const __m128& mx, const CastVector4& limit)
+{
+    __m128 y = _mm_shuffle_ps(mx, mx, 0x55), z = _mm_shuffle_ps(mx, mx, 0xaa);
+    return _mm_min_ps(_mm_min_ps(mx, limit.v), _mm_min_ps(y, z));
+}
+__forceinline bool intersects(const Bounds& bounds, Ray* r, const CastVector4& limit)
+{
+    const __m128& lo = bounds.low.v;
+    const __m128& hi = bounds.high.v;
+    CastVector4 a, b;
+    a.v = lo;
+    b.v = hi;
+    a.subtract(r->origin.v);
+    b.subtract(r->origin.v);
+    a.scale(r->invDirection.v);
+    b.scale(r->invDirection.v);
+    CastVector4 mn, mx;
+    mn.v = _mm_min_ps(a.v, b.v);
+    mx.v = _mm_max_ps(a.v, b.v);
+    CastVector4 nearValue, farValue;
+    nearValue.v = reduceNear(mn.v);
+    farValue.v = reduceFar(mx.v, limit);
+    return (_mm_movemask_ps(_mm_cmplt_ps(nearValue.v, farValue.v)) & 1) != 0;
+}
+// @fnv 0x00e2c100
+void __cdecl FUN_00e2c100(Tree* tree, QuantizedNode* node, void* arg3, Ray* rays, Query* queries, Filter* filters,
+                          Shape* shapes, void* arg8, float* fractions, int* indices, int count, int depth,
+                          int capacity0, int capacity1, int* out0, int* num0, int* out1, int* num1,
+                          QuantizedNode* child0, QuantizedNode* child1)
+{
+    *num1 = 0;
+    *num0 = 0;
+    const CastVector4& scale = tree->scale;
+    const CastVector4& offset = tree->offset;
+    if (node->flags & 0x8000)
+    {
+        Bounds bounds;
+        restore(node, scale, offset, bounds);
+        if (0 >= count)
+            return;
+        CastVector4 limit;
+        limit.v = _mm_set_ps1(1.0f);
+        for (int i = 0; i < count; ++i)
+        {
+            int index = indices[i];
+            if (intersects(bounds, rays + index, limit))
+            {
+                ::FUN_00e2baa0((::E2baaDst *)(queries), (::E2baaSrc *)(::fnv_00e2c100::Shape *)(shapes + index), (intptr_t)(arg8));
+                queries->hit(node);
+            }
+        }
+        return;
+    }
+    if (capacity0 >= count && capacity1 >= count && depth >= 2 && count > 4)
+    {
+        NodeArray* manager = &tree->nodes;
+        QuantizedNode* a = ((::fnv_00e2c100::QuantizedNode *)(reinterpret_cast<::FUN_00d9a4d0_Class *>((manager))->GetEntryOffset(node->child0)));
+        QuantizedNode* b = ((::fnv_00e2c100::QuantizedNode *)(reinterpret_cast<::FUN_00d9a4d0_Class *>((manager))->GetEntryOffset(node->child1)));
+        *child0 = *a;
+        *child1 = *b;
+        Bounds bounds0, bounds1;
+        restore(child0, scale, offset, bounds0);
+        restore(child1, scale, offset, bounds1);
+        CastVector4 limit;
+        limit.v = _mm_set_ps1(1.0f);
+        for (int i = 0; i < count; ++i)
+        {
+            int index = indices[i];
+            if (intersects(bounds0, rays + index, limit))
+            {
+                *out0++ = index;
+                ++*num0;
+            }
+            if (intersects(bounds1, rays + index, limit))
+            {
+                *out1++ = index;
+                ++*num1;
+            }
+        }
+        return;
+    }
+    int index4[4] = {0, 0, 0, 0};
+    int groups = (count + 3) >> 2;
+    if (groups <= 0)
+        return;
+    for (int bundle = 0; bundle < groups; ++bundle)
+    {
+        float oldFraction[4];
+        int left = count - 4 * bundle;
+        int n = left < 4 ? left : 4;
+        Query* query = queries;
+        for (int i = 0; i < n; ++i, ++query)
+        {
+            index4[i] = indices[4 * bundle + i];
+            Shape* shape = shapes + index4[i];
+
+            ::FUN_00e2baa0((::E2baaDst *)(query), (::E2baaSrc *)(shape), (intptr_t)(arg8));
+
+            query->maxFraction.SetAllComponents(fractions[index4[i]]);
+            oldFraction[i] = fractions[index4[i]];
+            if (shape->hasFilter)
+            {
+                query->callback = new (filters + i) Filter(shape->object, shape->filter);
+                DAT_0126ec04 = ((void (&)(void *, void *, S_00df8990_Obj *))::FUN_00e2b9b0);
+            }
+            else
+                query->callback = 0;
+        }
+        RayQuerySet batch = ::FUN_00e2baf0(
+            *(const Vec4*)&rays[index4[0]].origin.v, *(const Vec4*)&rays[index4[0]].invDirection.v,
+            *(const Vec4*)&rays[index4[1]].origin.v, *(const Vec4*)&rays[index4[1]].invDirection.v,
+            *(const Vec4*)&rays[index4[2]].origin.v, *(const Vec4*)&rays[index4[2]].invDirection.v,
+            *(const Vec4*)&rays[index4[3]].origin.v, *(const Vec4*)&rays[index4[3]].invDirection.v, DAT_011b3830[n]);
+        Collector* collectors[4] = {queries, queries + 1, queries + 2, 3 + queries};
+        FUN_00d1bfa0(tree, node, arg3, &batch, collectors, oldFraction);
+        for (int i = 0; i < n; ++i)
+            fractions[index4[i]] = queries[i].maxFraction.v[0];
+    }
+}
+}
+
+// @fnv 0x00e33610
+void __cdecl FUN_00e33610(float value, int unused, float* range, __m128* ends, __m128* result)
+{
+    float d0 = value - range[0];
+    __m128 v0 = _mm_load_ss(&d0);
+    float d1 = range[1] - value;
+    __m128 v1 = _mm_load_ss(&d1);
+    __m128 t = _mm_set1_ps(_mm_cvtss_f32(_mm_div_ss(v0, _mm_add_ss(v1, v0))));
+    *result = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, t), ends[0]), _mm_mul_ps(t, ends[1]));
 }
 
 #include "generated/data/staging/blk_00e20000_o2.inc"

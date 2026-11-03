@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class C11F0Object;
 class C11F0Owner;
@@ -17,7 +18,7 @@ int FUN_00c812d0(void *, void *);
 // 0x00c81730
 namespace fnv_00c81730 { ::fnv_00c81730::bhkBlendCollisionObject *CreateBlendCollisionObject(); }
 // 0x00c81b90
-float GetFloatProperty(int, const char *);
+float GetFloatProperty(intptr_t, const char *);
 // 0x00c81c50
 void *FUN_00c81c50(::S00c81c50_Obj *);
 // 0x00c81db0

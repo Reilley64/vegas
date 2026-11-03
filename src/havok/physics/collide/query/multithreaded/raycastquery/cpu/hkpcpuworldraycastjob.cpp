@@ -1095,8 +1095,8 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
             at->option = queryType;
             ++at;
         } while (queryRemaining-- != 1);
-        ::fnv_00e2c8a0::FUN_00e2c8a0((::fnv_00e2c8a0::Owner *)(request->passA), vertices.data, querySource, queryType, fields, iteration.destination, count);
-        ::FUN_00e2cc30((::SplitInput *)(request->passB), vertices.data, querySource, queryType, fields, iteration.destination, count);
+        ::fnv_00e2c8a0::FUN_00e2c8a0((::fnv_00e2c8a0::Owner *)(request->passA), (intptr_t)(vertices.data), (intptr_t)(querySource), (intptr_t)(queryType), (intptr_t)(fields), (intptr_t)(iteration.destination), count);
+        ::FUN_00e2cc30((::SplitInput *)(request->passB), (intptr_t)(vertices.data), (intptr_t)(querySource), (intptr_t)(queryType), (intptr_t)(fields), (intptr_t)(iteration.destination), count);
         hkMemoryRouter::getInstance().deallocateStack(iteration.destination);
         Field* end = fields + 4;
         int remaining = 3;

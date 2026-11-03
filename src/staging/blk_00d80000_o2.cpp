@@ -1,4 +1,7 @@
 // staging/blk_00d80000_o2.cpp: IdxStand_, ObjD9A4, MonitorBuffer (124 functions)
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
+#include <emmintrin.h>
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -67,6 +70,28 @@
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01269000.h"
 #include "../../include/layout_support.h"
+#include "fnv_asm_helpers.h"
+#include <stdarg.h>
+#include <string.h>
+#include "fnv/symbols_simd.h"
+#include <intrin.h>
+#include "fnv/decl/BufferOwner.h"
+#include "fnv/decl/FUN_00d86b30_class.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00d84000.h"
+#include "fnv/symbols_00d85000.h"
+#include "fnv/symbols_00d86000.h"
+#include "fnv/symbols_00d87000.h"
+#include "fnv/symbols_00d88000.h"
+#include "fnv/symbols_00d89000.h"
+#include "fnv/symbols_00d92000.h"
+#include "fnv/symbols_00d96000.h"
+#include "fnv/symbols_00d9f000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_00d1c000.h"
+#include "fnv/decl/FUN_009ba5f0_shell.h"
+#include "fnv/symbols_01272000.h"
 
 extern int DAT_010cc4f4;
 
@@ -181,15 +206,13 @@ struct AllocIface {
 };
 
 struct AllocHolder {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0c;
     AllocIface* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int size);
 
 struct FUN_00d85360_cls {
     void* m_vptr;
@@ -219,7 +242,7 @@ struct FUN_00d85360_cls {
 // @fnv 0x00d85360
 FUN_00d85360_cls* __cdecl FUN_00d85360(intptr_t pSource)
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     FUN_00d85360_cls* obj = (FUN_00d85360_cls*)holder->m_pAllocator->Alloc(0x50);
     obj->m_w04 = 0x50;
     obj = ((::FUN_00d85360_cls *)(new ((void *)(obj)) ::FUN_00d54290()));
@@ -241,8 +264,6 @@ struct AllocHolder {
     AllocIface* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int size);
 
 struct FUN_00d853a0_cls {
     void* m_vptr;
@@ -297,7 +318,7 @@ struct FUN_00d853a0_cls {
 // @fnv 0x00d853a0
 FUN_00d853a0_cls* __cdecl FUN_00d853a0(intptr_t a1)
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     FUN_00d853a0_cls* obj = (FUN_00d853a0_cls*)holder->m_pAllocator->Alloc(0xb0);
     obj->m_w04 = 0xb0;
     obj = ((::fnv_00d853a0::FUN_00d853a0_cls *)(reinterpret_cast<::S00cbe7b0_Obj *>((obj))->FUN_00cbe7b0()));
@@ -320,13 +341,11 @@ struct ObjD853 {
     unsigned short m_usSize;
     char pad006[0x0a];
 };
-extern "C" SingD853* __cdecl FUN_00c85750();
-extern "C" void* __cdecl FUN_00cb1260(void* pDst, const void* pSrc, unsigned int ItemUpdateArray);
 
 // @fnv 0x00d853f0
 ObjD853* __cdecl FUN_00d853f0(char* pSource)
 {
-    SingD853* pSingleton = FUN_00c85750();
+    SingD853* pSingleton = static_cast<SingD853*>(::FUN_00c85750());
     MemAllocD853* pAllocator = pSingleton->m_pAllocationContext;
     ObjD853* pObj = (ObjD853*)pAllocator->Alloc(0xe0);
     pObj->m_usSize = 0xe0;
@@ -352,7 +371,6 @@ struct D85440MemoryRouter {
     D85440Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" D85440MemoryRouter& __cdecl FUN_00c85750();
 
 void D85440MemCpy(void* dst, const void* src, int nbytes);
 
@@ -360,7 +378,7 @@ class D85440ReferencedObject {
 public:
     static void* operator new(std::size_t nbytes)
     {
-        D85440ReferencedObject* b = static_cast<D85440ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        D85440ReferencedObject* b = static_cast<D85440ReferencedObject*>((*static_cast<D85440MemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
@@ -425,8 +443,6 @@ struct FUN_00d4fe80_Stub {
     unsigned char unk10;
 };
 
-extern void* __cdecl FUN_00c85750();
-extern void __cdecl FUN_00cb1260(void* destination, const void* source, unsigned int size);
 
 // @fnv 0x00d85490
 void* __cdecl CloneAllocatedObject(int* source)
@@ -500,14 +516,12 @@ struct Src_Stub {
     int unk10;
 };
 
-A_Stub* __cdecl FUN_00c85750();
-void __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int size);
 
 // Allocates a 0x140-byte object via a->unk10->Create, sets its unk04 to 0x140, then copies 0x130 bytes from src->unk10 into the result's unk10 and returns it.
 // @fnv 0x00d854e0
 D_Stub* __cdecl CloneStub(Src_Stub* src)
 {
-    A_Stub* a = FUN_00c85750();
+    A_Stub* a = static_cast<A_Stub*>(::FUN_00c85750());
     C_Stub* obj = a->unk10->Create(0x140);
     obj->unk04 = 0x140;
     D_Stub* result = ((::fnv_00d854e0::D_Stub *)(new ((void *)(obj)) ::FUN_00cdf2f0()));
@@ -561,14 +575,12 @@ struct SpawnedSource {
     int unk10;
 };
 
-SpawnedHolder* __cdecl FUN_00c85750();
-void* __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int size);
 
 // Allocates a 0x50-byte SpawnedObject from the holder's allocator, sets its size, constructs it, and copies 0x38 bytes from pSrc+0x10 into unk10.
 // @fnv 0x00d85530
 SpawnedObject* __cdecl FUN_00d85530(SpawnedSource* pSrc)
 {
-    SpawnedHolder* pHolder = FUN_00c85750();
+    SpawnedHolder* pHolder = static_cast<SpawnedHolder*>(::FUN_00c85750());
     SpawnedAllocator* pAllocator = pHolder->m_pAllocator;
     SpawnedObject* pObj = (SpawnedObject*)pAllocator->Alloc(0x50);
     pObj->m_usSize = 0x50;
@@ -592,8 +604,6 @@ struct AllocHolder {
     AllocIface* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int size);
 
 struct FUN_00d85570_cls {
     void* m_vptr;
@@ -691,7 +701,7 @@ struct FUN_00d85570_cls {
 // @fnv 0x00d85570
 FUN_00d85570_cls* __cdecl CloneWithInit(intptr_t apSource)
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     FUN_00d85570_cls* obj = (FUN_00d85570_cls*)holder->m_pAllocator->Alloc(0x160);
     obj->m_w04 = 0x160;
     obj = ((::fnv_00d85570::FUN_00d85570_cls *)(new ((void *)(obj)) ::FUN_00d4edc0()));
@@ -719,14 +729,12 @@ struct FUN_00d855c0_Data {
     unsigned short unk04;
 };
 
-extern "C" FUN_00d855c0_Manager* FUN_00c85750();
 extern "C" void* FUN_00d84bd0(void* object);
-extern "C" void* FUN_00cb1260(void* destination, const void* source, unsigned int size);
 
 // @fnv 0x00d855c0
 void* __cdecl CloneDataBlock(void* source)
 {
-    FUN_00d855c0_Manager* manager = FUN_00c85750();
+    FUN_00d855c0_Manager* manager = static_cast<FUN_00d855c0_Manager*>(::FUN_00c85750());
     FUN_00d855c0_Data* data = static_cast<FUN_00d855c0_Data*>(
         manager->unk10->FUN_00d85300(0xB0));
 
@@ -756,8 +764,6 @@ struct AllocHolder {
     AllocIface* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int size);
 
 struct FUN_00d85610_cls {
     void* m_vptr;
@@ -800,7 +806,7 @@ struct FUN_00d85610_cls {
 // @fnv 0x00d85610
 FUN_00d85610_cls* __cdecl CloneWithCopiedPayload(intptr_t apSource)
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     FUN_00d85610_cls* obj = (FUN_00d85610_cls*)holder->m_pAllocator->Alloc(0x80);
     obj->m_w04 = 0x80;
     obj = ((::fnv_00d85610::FUN_00d85610_cls *)(new ((void *)(obj)) ::FUN_00deefd0()));
@@ -823,8 +829,6 @@ struct AllocHolder {
     AllocIface* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int size);
 
 struct FUN_00d856b0_cls {
     void* m_vptr;
@@ -882,7 +886,7 @@ struct FUN_00d856b0_cls {
 // @fnv 0x00d856b0
 FUN_00d856b0_cls* __cdecl CloneWithAllocatedCopy(intptr_t apSource)
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     FUN_00d856b0_cls* obj = (FUN_00d856b0_cls*)holder->m_pAllocator->Alloc(0xc0);
     obj->m_w04 = 0xc0;
     obj = ((::fnv_00d856b0::FUN_00d856b0_cls *)(new ((void *)(obj)) ::FUN_00d4f2a0()));
@@ -1456,7 +1460,7 @@ int __cdecl GetTypeCode(const char* typeName) {
         return 0x14;
 
     StringBuf buf;
-    reinterpret_cast<::FUN_00d61a50_cls *>(&(buf))->FUN_00d61a50((int)(typeName));
+    reinterpret_cast<::FUN_00d61a50_cls *>(&(buf))->FUN_00d61a50((intptr_t)(typeName));
 
     const char* bracket = FUN_00cb1140(typeName, '[');
     if (bracket != 0) {
@@ -1480,12 +1484,12 @@ int __cdecl GetTypeCode(const char* typeName) {
 
 struct B { char pad[0x12]; unsigned short w12; };
 struct S {
-    unsigned int m0;
+    uintptr_t m0;
     B* m4;
-    void SetValueAndPtr(unsigned int a, B* b);
+    void SetValueAndPtr(uintptr_t a, B* b);
 };
 // @fnv 0x00d87130
-void S::SetValueAndPtr(unsigned int uiValue, B* b) {
+void S::SetValueAndPtr(uintptr_t uiValue, B* b) {
 m0 = uiValue + b->w12; m4 = b;
 }
 
@@ -1497,7 +1501,7 @@ struct FUN_00d871c0_class {
 // @fnv 0x00d871c0
 FUN_00d871c0_class* FUN_00d871c0_class::Append(FUN_00d871c0_class* apData, int b, const void* p)
 {
-    reinterpret_cast<::FUN_00d87150_class *>((((D871A0Buffer*)this)))->InitBitOffset((int)(apData), (::FUN_00d46fe0_class *)(b), (const char *)((int)p));
+    reinterpret_cast<::FUN_00d87150_class *>((((D871A0Buffer*)this)))->InitBitOffset((intptr_t)(apData), (::FUN_00d46fe0_class *)(b), (const char *)((int)p));
     return this;
 }
 
@@ -1656,7 +1660,7 @@ void __cdecl FreeGlobalBlock()
     void* block = DAT_012691fc;
     if (block)
     {
-        AllocHolder* holder = FUN_00c85750();
+        AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
         AllocIfaceFree* allocator =
             static_cast<AllocIfaceFree*>(holder->m_pAllocator);
         allocator->Free(block, 60);
@@ -1909,7 +1913,6 @@ FUN_00d93310_cls* FUN_00d93310_cls::FUN_00d93310()
 extern "C" {
     unsigned __int64 __rdtsc(void);
     void _ReadWriteBarrier(void);
-    extern unsigned int DAT_0126835c;
     void __cdecl FUN_00d89f80(void* p, int a2, int a3, int a4, bool* pb);
 }
 
@@ -2066,11 +2069,17 @@ FUN_00d98390::FUN_00d98390()
 }
 
 
-// Calls FUN_00d98630 with the four arguments and returns a1.
+struct D986Result {
+    char value;
+    D986Result(bool b) : value(b) {}
+    operator bool() const { return value != 0; }
+};
+
+// Calls FUN_00d98630 with a2, a3 and a4, stores its result at a1 and returns a1.
 // @fnv 0x00d99540
-void* __cdecl FUN_00d99540(void* a1, void* a2, void* a3, void* a4)
+void* __cdecl FUN_00d99540(void* a1, void* a2, void* a3, int a4)
 {
-    ::FUN_00d98630((const ::__m128 *)(a1), (const ::__m128 *)(a2), (int)(a3));
+    *(D986Result*)a1 = ::FUN_00d98630((const __m128 *)(a2), (const __m128 *)(a3), a4);
     return a1;
 }
 
@@ -2080,7 +2089,12 @@ struct FNV_00d99f50_Result {
     FNV_00d99f50_Result() {}
     ~FNV_00d99f50_Result() {}
 };
-extern "C" void __cdecl FUN_00d98ca0(unsigned char* scratch, const FNV_00d99f50_Entry* entry, void* context, void* left, void* right);
+struct TreeData;
+struct RayVector;
+struct RayCollector;
+namespace RayTraversal {
+extern "C" FNV_00d99f50_Result __cdecl FUN_00d98ca0(const TreeData* tree, const RayVector& start, const RayVector& end, RayCollector* collector);
+}
 // Calls FUN_00d98ca0 for each entry with a payload and returns a result whose flag is set if any call reported a nonzero value.
 // @fnv 0x00d99f50
 FNV_00d99f50_Result __cdecl FUN_00d99f50(int count, const FNV_00d99f50_Entry* const* entries, void* context, void* left, void* right)
@@ -2090,10 +2104,9 @@ FNV_00d99f50_Result __cdecl FUN_00d99f50(int count, const FNV_00d99f50_Entry* co
     for (int i = 0; i < count; ++i) {
         const FNV_00d99f50_Entry* entry = entries[i];
         if (entry && entry->payload) {
-            unsigned char temporary;
-            FUN_00d98ca0(&temporary, entry, context, left, right);
+            FNV_00d99f50_Result temporary = RayTraversal::FUN_00d98ca0((const TreeData*)entry, *(const RayVector*)context, *(const RayVector*)left, (RayCollector*)right);
             unsigned char combined;
-            if (result.flag || temporary)
+            if (result.flag || temporary.flag)
                 combined = 1;
             else
                 combined = 0;
@@ -2141,7 +2154,7 @@ float FUN_00d9a4a0(
 
 struct IdxStand_ {
     char* m_iWordAt00;
-    void* FUN_00d9a4c0(int idx);
+    void* FUN_00d9a4c0(intptr_t idx);
 };
 // @fnv 0x00d9a4c0
 void* IdxStand_::FUN_00d9a4c0(intptr_t idx)
@@ -2150,9 +2163,9 @@ void* IdxStand_::FUN_00d9a4c0(intptr_t idx)
 }
 
 struct FUN_00d9a4d0_Class {
-    int unk00;
+    intptr_t unk00;
 
-    int GetEntryOffset(unsigned short value);
+    intptr_t GetEntryOffset(unsigned short value);
 };
 
 // @fnv 0x00d9a4d0
@@ -2204,9 +2217,7 @@ void FUN_00d9fcd0(int) {
 void FUN_00d9fce0(int) {
 }
 
-#include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
-extern unsigned int DAT_0126835c;
 typedef void* (* D85TlsFn)(unsigned long);
 extern D85TlsFn DAT_00fdf044;
 
@@ -2246,17 +2257,24 @@ struct D85Node5 {
     virtual void v05(D85Msg m);
 };
 
-static __declspec(noinline) D85Ctn* FUN_00d85d40(D85Ctn* c) {
-    for (int i = c->count - 1; i >= 0; --i) {
-        if (c->entries[i] != 0) continue;
-        c->count -= 1;
-        unsigned int cnt = c->count;
-        if (i < (int)cnt) {
-            for (int j = i; j < (int)cnt; ++j)
-                c->entries[j] = c->entries[j + 1];
+struct ListenerArray {
+    void** m_ppItems;
+    unsigned short m_wCount;
+};
+
+// Removes null entries from the listener array by shifting subsequent items down and decrementing the count.
+// @fnv 0x00d85d40
+static __declspec(noinline) void FUN_00d85d40(ListenerArray* pArr)
+{
+    for (int i = (int)pArr->m_wCount - 1; i >= 0; i--)
+    {
+        if (pArr->m_ppItems[i] == 0)
+        {
+            pArr->m_wCount--;
+            for (int j = i; j < (int)pArr->m_wCount; j++)
+                pArr->m_ppItems[j] = pArr->m_ppItems[j + 1];
         }
     }
-    return c;
 }
 
 // @fnv 0x00d85fa0
@@ -2290,7 +2308,7 @@ void __cdecl FUN_00d85fa0(D85Msg a) {
             }
         } while (--i >= 0);
     }
-    FUN_00d85d40(ctn);
+    FUN_00d85d40((ListenerArray*)ctn);
 }
 
 struct NiBinaryStreamD861 {
@@ -2399,18 +2417,16 @@ FUN_00d86220_Class::FUN_00d86220_Class()
     m_float18 = 0.0f;
 }
 
-extern __declspec(thread) unsigned int tlsArr[0xb0];
-
 class AutoMemContext {
 public:
     unsigned int m_saved;
 
     AutoMemContext()
     {
-        m_saved = tlsArr[0xaf];
-        tlsArr[0xaf] = 0x10;
+        m_saved = (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xaf];
+        (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xaf] = 0x10;
     }
-    ~AutoMemContext() { tlsArr[0xaf] = m_saved; }
+    ~AutoMemContext() { (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xaf] = m_saved; }
 };
 
 void __cdecl FUN_00c9eae0(void* p);
@@ -2464,7 +2480,7 @@ struct FUN_00dee750 {
 
     static void* operator new(std::size_t sz)
     {
-        AllocHolder* holder = FUN_00c85750();
+        AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
         AllocIface* alloc = holder->m_pAllocator;
         void* p = alloc->Alloc(sz);
         ((FUN_00dee750*)p)->m_usMemorySizeAndFlags = (unsigned short)sz;
@@ -2595,7 +2611,6 @@ struct hkMemoryRouterD881 {
 };
 
 namespace hkRouterD881 {
-    extern "C" hkMemoryRouterD881& __cdecl FUN_00c85750() throw();
 }
 
 class FUN_00d88050 {
@@ -2605,8 +2620,8 @@ public:
     FUN_00d88050() throw();
     ~FUN_00d88050() throw() {}
 
-    static void* operator new(std::size_t nbytes) { return hkRouterD881::FUN_00c85750().heap().AllocateMemoryBlock(0x3c); }
-    static void operator delete(void* p) { hkRouterD881::FUN_00c85750().heap().ReleaseBlock(p, 0x3c); }
+    static void* operator new(std::size_t nbytes) { return (*static_cast<hkMemoryRouterD881*>(::FUN_00c85750())).heap().AllocateMemoryBlock(0x3c); }
+    static void operator delete(void* p) { (*static_cast<hkMemoryRouterD881*>(::FUN_00c85750())).heap().ReleaseBlock(p, 0x3c); }
 };
 
 namespace hkGlobalsD881 {
@@ -2715,9 +2730,6 @@ void S00d96870_Entry(unsigned char* self, int* src)
     FUN_00d96870(self, src, S00d96870_outp);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 
 struct D99FC0Quad { int a; int b; int c; int d; };
 
@@ -3098,7 +3110,6 @@ void __cdecl SetPivotAtom(PivotCData* data, const __m128* pivot, int pivotIndex)
     }
 }
 
-extern unsigned int DAT_0126835c;
 typedef void* (* D90TlsFn)(unsigned long);
 extern D90TlsFn DAT_00fdf044;
 
@@ -3132,18 +3143,6 @@ struct D90Node {
     virtual void v03(D90Owner* pOwner);
 };
 
-static __declspec(noinline) D90Ctn* FUN_00d85d40(D90Ctn* c) {
-    for (int i = c->count - 1; i >= 0; --i) {
-        if (c->entries[i] != 0) continue;
-        c->count -= 1;
-        unsigned int cnt = c->count;
-        if (i < (int)cnt) {
-            for (int j = i; j < (int)cnt; ++j)
-                c->entries[j] = c->entries[j + 1];
-        }
-    }
-    return c;
-}
 
 // Iterates the owner's listener array in reverse, records a TtconAddCb/Et profiling event around each v01 call, then compacts the array.
 // @fnv 0x00d85d90
@@ -3177,7 +3176,8 @@ D90Ctn* __cdecl FUN_00d85d90(D90Owner* pOwner) {
             }
         } while (--i >= 0);
     }
-    return FUN_00d85d40(ctn);
+    FUN_00d85d40((ListenerArray*)ctn);
+    return ctn;
 }
 
 struct hkTimerCommand {
@@ -3229,14 +3229,6 @@ struct hkpConstraintInstance {
     ResizableArray<hkpConstraintListener*> m_kListeners;
 };
 
-static void FUN_00d85d40(ResizableArray<hkpConstraintListener*>& cleanupArray)
-{
-    for (int i = cleanupArray.GetLogicalSize() - 1; i >= 0; i--) {
-        if (cleanupArray[i] == 0) {
-            cleanupArray.removeAtAndCopy(i);
-        }
-    }
-}
 
 // Invokes ConstraintRemovedCallback on each non-null listener in the constraint's listener array, then removes null entries.
 // @fnv 0x00d85e40
@@ -3251,7 +3243,7 @@ void __cdecl NotifyConstraintRemoved(hkpConstraintInstance* constraint)
             hkTimer("Et", ticks[1]);
         }
     }
-    FUN_00d85d40(listen);
+    FUN_00d85d40((ListenerArray*)&listen);
 }
 
 
@@ -3274,7 +3266,7 @@ public:
     }
     __forceinline void SetSizeAndGrow(int n, const T& fill)
     {
-        AllocIface* a; AllocHolder* h; h = FUN_00c85750(); a=h->m_pAllocator; reserve(*a,n);
+        AllocIface* a; AllocHolder* h; h = static_cast<AllocHolder*>(::FUN_00c85750()); a=h->m_pAllocator; reserve(*a,n);
         int i = n - m_iElementCount;
         T* p = m_data + m_iElementCount;
         while (i-- > 0)
@@ -3344,7 +3336,7 @@ struct FUN_00d61b10 {
 
     FUN_00d61b10(const char*, int) throw();
     ~FUN_00d61b10() throw() {
-        AllocHolder* router = FUN_00c85750();
+        AllocHolder* router = static_cast<AllocHolder*>(::FUN_00c85750());
         int cap = m_kStringBuffer.m_iCapacityState;
         HkTempAllocator* allocator = reinterpret_cast<HkTempAllocator*>(router->unk0c);
         m_kStringBuffer.m_iElementCount = 0;
@@ -3379,13 +3371,13 @@ int __cdecl GetTypeCodeFromString(const char* name) throw()
 }
 
 struct FUN_00d87180_cls : S {
-    FUN_00d87180_cls* FUN_00d87180(unsigned int a, B* b);
+    FUN_00d87180_cls* FUN_00d87180(uintptr_t a, B* b);
 };
 
 // @fnv 0x00d87180
 FUN_00d87180_cls* FUN_00d87180_cls::FUN_00d87180(uintptr_t auiValue, B* apPtr)
 {
-    void (S::*call)(unsigned int, B*) = &S::SetValueAndPtr;
+    void (S::*call)(uintptr_t, B*) = &S::SetValueAndPtr;
     (static_cast<S*>(this)->*call)(auiValue, apPtr);
     return this;
 }
@@ -3737,7 +3729,7 @@ static __declspec(noinline) void FUN_00d93ab0(CleanupObject* self) {
         self->unk68 = *reinterpret_cast<void**>(block);
 
         CleanupRouter* holder =
-            reinterpret_cast<CleanupRouter*>(FUN_00c85750());
+            reinterpret_cast<CleanupRouter*>(static_cast<AllocHolder*>(::FUN_00c85750()));
         holder->m_pThreadAllocator->unk08(block, 0x1000);
     }
 
@@ -3746,7 +3738,7 @@ static __declspec(noinline) void FUN_00d93ab0(CleanupObject* self) {
         self->unk78 = *reinterpret_cast<void**>(block);
 
         CleanupRouter* holder =
-            reinterpret_cast<CleanupRouter*>(FUN_00c85750());
+            reinterpret_cast<CleanupRouter*>(static_cast<AllocHolder*>(::FUN_00c85750()));
         holder->m_pThreadAllocator->unk08(block, 0x30);
     }
 
@@ -3755,7 +3747,7 @@ static __declspec(noinline) void FUN_00d93ab0(CleanupObject* self) {
         int size = self->unk1C;
 
         CleanupRouter* holder =
-            reinterpret_cast<CleanupRouter*>(FUN_00c85750());
+            reinterpret_cast<CleanupRouter*>(static_cast<AllocHolder*>(::FUN_00c85750()));
         holder->m_allocator2->unk10(block, size);
 
         self->unk14 = 0;
@@ -3766,14 +3758,14 @@ static __declspec(noinline) void FUN_00d93ab0(CleanupObject* self) {
         void* block = self->unk50;
 
         CleanupRouter* holder =
-            reinterpret_cast<CleanupRouter*>(FUN_00c85750());
+            reinterpret_cast<CleanupRouter*>(static_cast<AllocHolder*>(::FUN_00c85750()));
         holder->m_pThreadAllocator->unk10(block, size * 4);
 
         self->unk50 = 0;
     }
 
     CleanupRouter* holder =
-        reinterpret_cast<CleanupRouter*>(FUN_00c85750());
+        reinterpret_cast<CleanupRouter*>(static_cast<AllocHolder*>(::FUN_00c85750()));
     CleanupAllocator* allocator = holder->m_pThreadAllocator;
 
     int count = self->unk64;
@@ -3790,7 +3782,7 @@ static __declspec(noinline) void FUN_00d93ab0(CleanupObject* self) {
     self->unk64 = 0x80000000;
 
     CleanupRouter* pRouter =
-        reinterpret_cast<CleanupRouter*>(FUN_00c85750());
+        reinterpret_cast<CleanupRouter*>(static_cast<AllocHolder*>(::FUN_00c85750()));
     pRouter->m_pThreadAllocator->unk08(self, 0x80);
 }
 
@@ -3802,7 +3794,6 @@ extern "C" {
     unsigned __int64 __rdtsc(void);
 }
 
-extern unsigned int DAT_0126835c;
 extern "C" char str_010d3e98[];
 
 void __cdecl FUN_00d89ed0(void* p, int a, int b);
@@ -3897,7 +3888,6 @@ void __cdecl FUN_00d944d0(S00d944d0_Obj* apObj, S00d944d0_Arg1* a2,
 }
 
 namespace fnv_00d94570 {
-extern unsigned int DAT_0126835c;
 
 struct Fnv94570_Obj {
     int unk000;
@@ -4217,7 +4207,7 @@ struct ProfilerLongRecord {
     char* secondaryName;
 };
 struct ProfilerShortRecord {
-    char* name;
+    const char* name;
     unsigned int time;
     unsigned int unk08;
 };
@@ -4898,9 +4888,6 @@ Finish:
 }  // namespace fnv_00d969e0
 
 extern double DAT_01035718;
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 
 __forceinline unsigned int roundLane(const float& value)
 {
@@ -4917,10 +4904,10 @@ float FUN_00d974f0()
     for (int n = 23; n != 0; --n) {
         float mid = (high + low) * DAT_01011588;
         __m128 values = _mm_mul_ps(_mm_add_ps(*(const __m128*)&(*reinterpret_cast<char *>(&::DAT_01267e30)), _mm_set_ps1(mid)), scale);
-        unsigned int x = roundLane(values.m128_f32[0]);
-        unsigned int y = roundLane(values.m128_f32[1]);
-        unsigned int z = roundLane(values.m128_f32[2]);
-        unsigned int w = roundLane(values.m128_f32[3]);
+        unsigned int x = roundLane(values[0]);
+        unsigned int y = roundLane(values[1]);
+        unsigned int z = roundLane(values[2]);
+        unsigned int w = roundLane(values[3]);
         if (x < 11u) low = mid;
         else high = mid;
     }
@@ -4935,25 +4922,6 @@ __m128 __cdecl FUN_00d98620()
     return DAT_011b6de0;
 }
 
-struct ListenerArray {
-    void** m_ppItems;
-    unsigned short m_wCount;
-};
-
-// Removes null entries from the listener array by shifting subsequent items down and decrementing the count.
-// @fnv 0x00d85d40
-static __declspec(noinline) void FUN_00d85d40(ListenerArray* pArr)
-{
-    for (int i = (int)pArr->m_wCount - 1; i >= 0; i--)
-    {
-        if (pArr->m_ppItems[i] == 0)
-        {
-            pArr->m_wCount--;
-            for (int j = i; j < (int)pArr->m_wCount; j++)
-                pArr->m_ppItems[j] = pArr->m_ppItems[j + 1];
-        }
-    }
-}
 
 struct ListenerOwner {
     int unk00;
@@ -4965,7 +4933,6 @@ void CallCompact(ListenerOwner* o)
     FUN_00d85d40(&o->m_kNode);
 }
 
-#include <stdarg.h>
 namespace fnv_00d87aa0 {
 extern const char DAT_010d3cb4[];
 extern "C" int __cdecl FUN_00cb10d0(const char* s);
@@ -5148,7 +5115,6 @@ struct D94Tls {
     int unk08;
     D94Rec16* pEnd;
 };
-extern unsigned int DAT_0126835c;
 typedef void* (*D94TlsGetFn)(unsigned long);
 extern D94TlsGetFn DAT_00fdf044;
 extern const char str_010d3ef4[];
@@ -5212,8 +5178,6 @@ int __cdecl FUN_00d94df0(char* a1, D94Obj* a2, D94Body* a3)
     return reinterpret_cast<::LunaOwner *>((a2))->ProcessCallback((int)(a3), (int)(a3), 0);
 }
 
-#include <string.h>
-#include "fnv/symbols_simd.h"
 struct S00d967a0_Obj {
     void** vptr;
 };
@@ -5295,15 +5259,6 @@ int SplitRecord(int a1, int a2, S00d967a0_Rec* src, S00d967a0_Rec* dst)
     return 0;
 }
 
-extern "C" __m128 _mm_setzero_ps();
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
-extern "C" __m128 _mm_cmpeq_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
-struct D986Result {
-    char value;
-    D986Result(bool b) : value(b) {}
-    operator bool() const { return value != 0; }
-};
 // @fnv 0x00d98630
 D986Result __cdecl FUN_00d98630(const __m128* src, const __m128* dst, int mask)
 {
@@ -5474,33 +5429,6 @@ int __cdecl PopPart(int callbackCtx, int callbackIndex, D96600Blob* src, D96600B
 return popPart(src,dst);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128i { unsigned __int64 q[2]; };
-extern "C" {
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_and_ps(__m128, __m128);
-__m128 _mm_andnot_ps(__m128, __m128);
-__m128 _mm_or_ps(__m128, __m128);
-__m128 _mm_cmpeq_ps(__m128, __m128);
-__m128 _mm_cmplt_ps(__m128, __m128);
-__m128 _mm_cmple_ps(__m128, __m128);
-__m128 _mm_min_ps(__m128, __m128);
-__m128 _mm_max_ps(__m128, __m128);
-__m128 _mm_shuffle_ps(__m128, __m128, int);
-__m128 _mm_unpackhi_ps(__m128, __m128);
-__m128 _mm_rcp_ps(__m128);
-__m128 _mm_setzero_ps();
-
-__m128 _mm_load_ss(const float*);
-__m128 _mm_set_ps1(float);
-int _mm_movemask_ps(__m128);
-__m128i _mm_setzero_si128();
-__m128i _mm_unpacklo_epi16(__m128i, __m128i);
-__m128i _mm_unpackhi_epi16(__m128i, __m128i);
-__m128i _mm_srli_epi32(__m128i, int);
-__m128i _mm_slli_epi32(__m128i, int);
-__m128 _mm_cvtepi32_ps(__m128i);
-}
 
 
 __forceinline __m128 TreeSplat(float value) {
@@ -5743,10 +5671,7 @@ struct S00d94a80_TimerCmd {
     __forceinline void setTime()
     {
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = (unsigned int)__rdtsc();
         m_uiStartTicks = ticks;
     }
 };
@@ -5830,7 +5755,6 @@ void __cdecl FUN_00d94a80(Arg0* a1, Arg1* a2, Arg2* a3)
 }
 
 namespace fnv_00d86050 {
-extern unsigned int DAT_0126835c;
 
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
@@ -5872,15 +5796,6 @@ struct D86050Stamps {
     unsigned int out;
 };
 
-static __declspec(noinline) void FUN_00d85d40(D86050Arr* arr) {
-    for (int i = (int)arr->m_uiItemCount - 1; i >= 0; --i) {
-        if (arr->m_pElements[i] == 0) {
-            arr->m_uiItemCount = (unsigned short)(arr->m_uiItemCount - 1);
-            for (int j = i; j < (int)arr->m_uiItemCount; ++j)
-                arr->m_pElements[j] = arr->m_pElements[j + 1];
-        }
-    }
-}
 
 // Invokes the v06 callback on each non-null element of the indexed array, bracketing each call with TtconRepairedCb/Et profiler stamps, then compacts the array.
 // @fnv 0x00d86050
@@ -5912,12 +5827,11 @@ void __cdecl FUN_00d86050(D86050Self* self) {
             }
         }
     }
-    FUN_00d85d40(arr);
+    FUN_00d85d40((ListenerArray*)arr);
 }
 }  // namespace fnv_00d86050
 
 namespace fnv_00d87a10 {
-#include <windows.h>
 
 
 class FUN_00d87a10_Obj {
@@ -5939,10 +5853,8 @@ int FUN_00d87a10_Obj::FUN_00d87a10() {
 }  // namespace fnv_00d87a10
 
 namespace fnv_00d94340 {
-#include <intrin.h>
 
 
-extern unsigned long DAT_0126835c;
 
 struct T00d94340_Cmd {
     char* m_name;
@@ -6027,7 +5939,6 @@ float FUN_00d97440()
     return (float)((b + a) * 0.5 - DAT_01035718);
 }
 
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 
 struct FUN_00d84bd0
@@ -6106,40 +6017,6 @@ FUN_00d84bd0::FUN_00d84bd0()
     m_a2 = 0;
 }
 
-extern "C" {
-__m128 _mm_add_ss(__m128,__m128);
-__m128 _mm_shuffle_ps(__m128,__m128,int);
-__m128 _mm_mul_ps(__m128,__m128);
-__m128 _mm_rsqrt_ss(__m128);
-__m128 _mm_mul_ss(__m128,__m128);
-__m128 _mm_cmpeq_ss(__m128,__m128);
-__m128 _mm_set_ss(float);
-__m128 _mm_andnot_ps(__m128,__m128);
-__m128 _mm_sub_ss(__m128,__m128);
-__m128 _mm_or_ps(__m128,__m128);
-__m128 _mm_and_ps(__m128,__m128);
-__m128 _mm_setzero_ps();
-__m128 _mm_load_ss(const float*);
-__m128 _mm_set_ps1(float);
-__m128 _mm_cmpeq_ps(__m128,__m128);
-__m128 _mm_unpackhi_ps(__m128,__m128);
-__m128 _mm_rcp_ps(__m128);
-__m128 _mm_add_ps(__m128,__m128);
-__m128 _mm_cmple_ps(__m128,__m128);
-__m128 _mm_cmplt_ps(__m128,__m128);
-__m128 _mm_min_ps(__m128,__m128);
-__m128 _mm_max_ps(__m128,__m128);
-void _mm_store_ss(float*,__m128);
-int _mm_movemask_ps(__m128);
-}
-extern "C" {
-__m128i _mm_setzero_si128();
-__m128i _mm_unpacklo_epi16(__m128i, __m128i);
-__m128i _mm_unpackhi_epi16(__m128i, __m128i);
-__m128i _mm_slli_epi32(__m128i, int);
-__m128i _mm_srli_epi32(__m128i, int);
-__m128 _mm_cvtepi32_ps(__m128i);
-}
 
 // Storage remains POD so that the aligned scratch vectors do not require /GS.
 struct __declspec(align(16)) RayVector {
@@ -6280,7 +6157,7 @@ extern "C" FNV_00d99f50_Result __cdecl FUN_00d98ca0(const TreeData* tree, const 
     int capacity = tree->stackCapacity;
     if (capacity <= 0) capacity = 128;
     TreeNode state = readNode(node);
-    TraversalArena* arena = reinterpret_cast<TraversalArena*>(FUN_00c85750());
+    TraversalArena* arena = reinterpret_cast<TraversalArena*>(static_cast<AllocHolder*>(::FUN_00c85750()));
     float nearT = 0.0f;
     TraversalEntry* stackBase = reinterpret_cast<TraversalEntry*>(arena->current);
     TraversalEntry* stackTop = stackBase;
@@ -6409,10 +6286,1043 @@ extern "C" FNV_00d99f50_Result __cdecl FUN_00d98ca0(const TreeData* tree, const 
             break;
         }
     }
-    reinterpret_cast<TraversalArena*>(FUN_00c85750())->current = reinterpret_cast<unsigned char*>(stackBase);
+    reinterpret_cast<TraversalArena*>(static_cast<AllocHolder*>(::FUN_00c85750()))->current = reinterpret_cast<unsigned char*>(stackBase);
     return collector->finish();
 }
 
 }
 
+
+
+CpuOpaque* __cdecl FUN_00d9f6c0();
+
+int __cdecl GetTypeCode(const char* typeName);
+
+void __cdecl FUN_00d87a90();
+
+D85660Object* __cdecl CreateD85660Object();
+
+void __cdecl FUN_00d88060();
+
+void __cdecl FreeGlobalBlock();
+
+void __cdecl FUN_00d880e0();
+
+extern "C" {
+    unsigned __int64 __rdtsc(void);
+    void _ReadWriteBarrier(void);
+    void __cdecl FUN_00d89f80(void* p, int a2, int a3, int a4, bool* pb);
+}
+
+unsigned int __cdecl FUN_00d97640(float* values, unsigned int* result, signed char value);
+
+int __cdecl FormatVec4(FUN_00d97680_Vec* v, int* dst, char acSeparator);
+
+void* __cdecl FUN_00d99540(void* a1, void* a2, void* a3, void* a4);
+
+FNV_00d99f50_Result __cdecl FUN_00d99f50(int count, const FNV_00d99f50_Entry* const* entries, void* context, void* left, void* right);
+
+
+float FUN_00d9a4a0( FUN_00d9a4a0_Obj* self, int unused, FUN_00d9a4a0_Param* param);
+
+void FUN_00d9fca0(int);
+
+void FUN_00d9fcb0(int, int, int);
+
+void FUN_00d9fcc0(int);
+
+void FUN_00d9fcd0(int);
+
+void FUN_00d9fce0(int);
+
+void* __cdecl FUN_00d880a0();
+
+static int FUN_00d881a0(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, void* edi);
+
+int S00d881a0_Wrap(void* p);
+
+static void FUN_00d96870(unsigned char* self, int* src, unsigned char* out);
+
+void S00d96870_Entry(unsigned char* self, int* src);
+
+void __cdecl ComputeAndDispatchDelta(D99FC0Object* obj, int a2, int a3, float a4, float a5, float a6, int a7);
+
+void __cdecl SetPivotAtom(PivotCData* data, const __m128* pivot, int pivotIndex);
+
+D90Ctn* __cdecl FUN_00d85d90(D90Owner* pOwner);
+
+
+void __cdecl NotifyConstraintRemoved(hkpConstraintInstance* constraint);
+
+
+int __cdecl GetTypeCodeFromString(const char* name) throw();
+
+
+void __cdecl FUN_00d892e0();
+
+static void FUN_00d93ab0(CleanupObject* self);
+
+void CleanupEntry();
+
+static void WriteItems(StructA* a, StructB* b);
+
+void invoke_match();
+
+static void FUN_00d94eb0(d94eb0_cls* dst);
+
+void d94eb0_caller(void);
+
+static void FUN_00d96970(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value);
+
+void S00d96970_Entry(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value);
+
+float FUN_00d974f0();
+
+__m128 __cdecl FUN_00d98620();
+
+static void FUN_00d85d40(ListenerArray* pArr);
+
+void CallCompact(ListenerOwner* o);
+
+
+float FUN_00d97440();
+
+struct TypeNameD86 {
+};
+
+extern "C" char str_010d3b50[], str_010d3a88[], str_010d3b48[], str_010d3b40[], str_010d3b34[], str_010d3b28[], str_010d3b18[], str_010d3b10[], str_010d3b00[], str_010d3af0[], str_010d3ae0[], str_010d3ad0[], str_010d3abc[], str_010d3a74[];
+
+struct TextD86 : StringBuf {
+    void FUN_00d61c10(const char*) throw();
+};
+
+struct FreeD86 {
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void freeBlock(void*, int);
+};
+
+struct RouterD86 {
+    int unk00, unk04, unk08;
+    FreeD86* heap;
+};
+
+static __declspec(noinline) unsigned char FUN_00d868b0(int t) {
+    return (t >= 0 && (t < 20 || t == 28 || t == 30 || t == 29 || t == 32 || t == 33)) ? 1 : 0;
+}
+
+static __declspec(noinline) void FUN_00d868e0(int t, TextD86* text, int extent) {
+    if (!extent) text->FUN_00d61c10(DAT_011b6ab4[t].name);
+    else reinterpret_cast<::StringBuf *>((text))->FUN_00d61d00(str_010d3a74, DAT_011b6ab4[t].name, extent);
+}
+
+struct MemberD86 {
+    int unk00;
+    TypeNameD86* classType;
+    const char** enumType;
+    unsigned char type;
+    unsigned char subType;
+    short extent;
+};
+
+// @fnv 0x00d86ec0
+extern "C" int FUN_00d86ec0(MemberD86* self, void*, char* output, int capacity) {
+    TypeNameD86* cls = self->classType;
+    int t = self->type;
+    const char* className = cls ? reinterpret_cast<::FnvClassNameNode *>((cls))->FUN_00d46d40() : "unknown";
+    const char* enumName = self->enumType ? *self->enumType : "unknown";
+    TextD86 text;
+    reinterpret_cast<::BufferOwner *>(&(text))->InitBuffer();
+    if (!((t >= 0 && (t < 20 || t == 28 || t == 30 || t == 29 || t == 32 || t == 33)) || t == 27)) {
+    if (t == 20) {
+        if (self->classType) reinterpret_cast<::StringBuf *>((&text))->FUN_00d61d00(str_010d3b50, reinterpret_cast<::FnvClassNameNode *>((self->classType))->FUN_00d46d40());
+        else if (self->subType == 2) text.FUN_00d61c10(str_010d3a88);
+        else text.FUN_00d61c10(str_010d3b48);
+    } else if (t == 22 || t == 26) {
+        int st = ((int)(reinterpret_cast<::FUN_00d86b30_class *>((self))->FUN_00d86b30()));
+        const char* container = t == 22 ? str_010d3b10 : str_010d3b00;
+        if (FUN_00d868b0(st)) reinterpret_cast<::StringBuf *>((&text))->FUN_00d61d00(str_010d3af0, container, DAT_011b6ab4[st].name);
+        else if (st == 20) {
+            if (self->classType) reinterpret_cast<::StringBuf *>((&text))->FUN_00d61d00(str_010d3ae0, container, className);
+            else reinterpret_cast<::StringBuf *>((&text))->FUN_00d61d00(str_010d3ad0, container);
+        } else if (st == 25) reinterpret_cast<::StringBuf *>((&text))->FUN_00d61d00(str_010d3abc, container, className);
+    } else if (t == 24) reinterpret_cast<::StringBuf *>((&text))->FUN_00d61d00(str_010d3b40, enumName);
+    else if (t == 31) reinterpret_cast<::StringBuf *>((&text))->FUN_00d61d00(str_010d3b34, enumName);
+    else if (t == 25) {
+        if (!self->extent) reinterpret_cast<::StringBuf *>((&text))->FUN_00d61d00(str_010d3b28, className);
+        else reinterpret_cast<::StringBuf *>((&text))->FUN_00d61d00(str_010d3b18, className, self->extent);
+    }
+    } else {
+    FUN_00d868e0(t, &text, self->extent);
+    }
+    ::CopyIfNonEmpty(output, text.m_kStringBuffer, capacity);
+    int result = text.m_fRestLength - 1;
+    RouterD86* router = (RouterD86*)static_cast<AllocHolder*>(::FUN_00c85750());
+    FreeD86* heap = router->heap;
+    text.m_fRestLength = 0;
+    if ((text.m_iCapacityState & 0x80000000) == 0)
+        heap->freeBlock(text.m_kStringBuffer, text.m_iCapacityState & 0x3fffffff);
+    return result;
+}
+volatile int d86_type;
+
+TextD86* volatile d86_text;
+
+volatile int d86_extent;
+
+void D86HelperUse() {
+    FUN_00d868e0(d86_type, d86_text, d86_extent);
+}
+
+namespace RayBundleTraversal {
+
+class PacketScalar {
+    __m128 value;
+public:
+    PacketScalar(float f) { value = _mm_load_ss(&f); }
+    PacketScalar(const __m128& v) : value(v) {}
+    __forceinline __m128 spread() const { return _mm_shuffle_ps(value,value,0); }
+};
+class PacketVector;
+class PacketMask {
+    __m128 value;
+    friend class PacketVector;
+public:
+    enum Bits { All=15 };
+    __forceinline void combine(const PacketMask& a,const PacketMask& b) { value=_mm_and_ps(a.value,b.value); }
+    __forceinline void choose(const PacketMask& a,const PacketMask& b,const PacketMask& c) {
+        value=_mm_or_ps(_mm_and_ps(c.value,b.value),_mm_andnot_ps(c.value,a.value));
+    }
+    __forceinline void load(Bits bits) { value=DAT_01268460[bits]; }
+    __forceinline int any(Bits bits) const { return _mm_movemask_ps(value)&bits; }
+    __forceinline int any() const { return _mm_movemask_ps(value); }
+    __forceinline int bits() const { return _mm_movemask_ps(value); }
+};
+inline __m128 packetReciprocal(__m128 x) {
+    __m128 r=_mm_rcp_ps(x);
+    return _mm_sub_ps(_mm_add_ps(r,r),_mm_mul_ps(_mm_mul_ps(r,x),r));
+}
+inline __m128 packetInverseRoot(__m128 x) {
+    __m128 r=_mm_rsqrt_ps(x);
+    __m128 h=_mm_mul_ps(::DAT_010c71d0,r);
+    __m128 product=_mm_mul_ps(_mm_mul_ps(x,r),r);
+    return _mm_mul_ps(h,_mm_sub_ps(::DAT_010c71c0,product));
+}
+class PacketVector {
+    __m128 value;
+public:
+    operator __m128() const { return value; }
+    inline __m128& raw() { return value; }
+    inline const __m128& raw() const { return value; }
+    __forceinline void operator=(const PacketVector& x) { value=x.value; }
+    __forceinline void operator=(const __m128& x) { raw()=x; }
+    __forceinline float& operator()(int axis) { return reinterpret_cast<float*>(&value)[axis]; }
+    __forceinline const float& operator()(int axis) const { return reinterpret_cast<const float*>(&value)[axis]; }
+    __forceinline void fill(float x) { value=_mm_set_ps1(x); }
+    __forceinline void clear() { value=_mm_setzero_ps(); }
+    __forceinline void difference(const PacketVector& a,const PacketVector& b) { value=_mm_sub_ps(a.value,b.value); }
+    __forceinline void product(const PacketVector& a,const PacketVector& b) { value=_mm_mul_ps(a.value,b.value); }
+    __forceinline void product(const PacketScalar& a,const PacketVector& b) { value=_mm_mul_ps(a.spread(),b.value); }
+    __forceinline void accumulate(const PacketVector& a,const PacketVector& b) { value=_mm_add_ps(value,_mm_mul_ps(a.value,b.value)); }
+    __forceinline void multiply(const PacketVector& a) { value=_mm_mul_ps(value,a.value); }
+    __forceinline void subtract(const PacketVector& a) { value=_mm_sub_ps(value,a.value); }
+    __forceinline void add(const PacketVector& a) { value=_mm_add_ps(value,a.value); }
+    __forceinline void affine(const PacketVector& a,const PacketVector& b,const PacketVector& c) { value=_mm_add_ps(a.value,_mm_mul_ps(b.value,c.value)); }
+    __forceinline void inverse(const PacketVector& a) { value=packetReciprocal(a.value); }
+    __forceinline void inverseRoot(const PacketVector& a) { value=packetInverseRoot(a.value); }
+    __forceinline void minimum(const PacketVector& a,const PacketVector& b) { value=_mm_min_ps(a.raw(),b.raw()); }
+    __forceinline void maximum(const PacketVector& a,const PacketVector& b) { value=_mm_max_ps(a.raw(),b.raw()); }
+    __forceinline void choose(const PacketVector& a,const PacketVector& b,const PacketMask& m) {
+        value=_mm_or_ps(_mm_and_ps(m.value,b.value),_mm_andnot_ps(m.value,a.value));
+    }
+    __forceinline PacketMask equal(const PacketVector& a) const { PacketMask m; m.value=_mm_cmpeq_ps(value,a.value); return m; }
+    __forceinline PacketMask less(const PacketVector& a) const { PacketMask m; m.value=_mm_cmplt_ps(value,a.value); return m; }
+    __forceinline PacketMask lessEqual(const PacketVector& a) const { PacketMask m; m.value=_mm_cmple_ps(value,a.value); return m; }
+    __forceinline PacketMask greaterEqual(const PacketVector& a) const { return a.lessEqual(*this); }
+    __forceinline void broadcast(const PacketVector& a,int axis) {
+        switch(axis) {
+            case 0: value=_mm_shuffle_ps(a.value,a.value,0); break;
+            case 1: value=_mm_shuffle_ps(a.value,a.value,0x55); break;
+            case 2: value=_mm_shuffle_ps(a.value,a.value,0xaa); break;
+            default: value=_mm_shuffle_ps(a.value,a.value,0xff); break;
+        }
+    }
+    static __forceinline const PacketVector& zero() { return reinterpret_cast<const PacketVector&>((*reinterpret_cast<char *>(&::DAT_01267e30))); }
+};
+struct PacketRays { PacketVector m_vec[3]; };
+template<class T> class PacketField {
+    T value;
+public:
+    __forceinline PacketField() {}
+    __forceinline PacketField(T x) : value(x) {}
+    __forceinline void operator=(T x) { value=x; }
+    __forceinline T get() const { return value; }
+    __forceinline T operator->() const { return value; }
+    __forceinline operator T() const { return get(); }
+};
+class PacketNode {
+    struct Pair3Pool { __declspec(align(8)) int tag; unsigned int count; };
+    struct Branch { int offset; unsigned short minimum,maximum; };
+    union { Pair3Pool leaf; Branch branch; } data;
+public:
+    __forceinline PacketNode() { data.leaf.tag=0x7fffffff; data.leaf.count=0; }
+    __forceinline ~PacketNode() {}
+    __forceinline int leafBits() const { return ~(data.leaf.tag>>31); }
+    __forceinline int emptyBits() const { return ~(data.leaf.tag^0x7fffffff); }
+    __forceinline int axis() const { return data.branch.offset&3; }
+    __forceinline unsigned short lower() const { return data.branch.minimum; }
+    __forceinline unsigned short upper() const { return data.branch.maximum; }
+    __forceinline unsigned int primitive() const { return data.leaf.tag&0x7fffffff; }
+    __forceinline unsigned int count() const { return data.leaf.count; }
+    __forceinline PacketNode* left() const { return reinterpret_cast<PacketNode*>(reinterpret_cast<unsigned int>(this)+(data.branch.offset&0x7ffffffc)); }
+    __forceinline PacketNode* right() const { return left()+1; }
+};
+struct PacketLeaf {
+    __declspec(align(16)) unsigned short minimum[3];
+    unsigned short keyLow;
+    unsigned short maximum[3];
+    unsigned short keyHigh;
+    void operator=(const PacketLeaf& a) { *reinterpret_cast<__m128*>(this)=*reinterpret_cast<const __m128*>(&a); }
+    __forceinline unsigned long key() const {
+        union { unsigned long word; unsigned short halves[2]; } result;
+        result.halves[0]=keyLow; result.halves[1]=keyHigh;
+        return result.word;
+    }
+};
+template<class T> struct PacketArray {
+    PacketField<T*> data;
+    PacketField<int> size,capacity;
+    __forceinline T* begin() const { return data; }
+};
+struct PacketBox { PacketVector minimum,maximum; };
+class PacketTree {
+public:
+    __declspec(align(16)) PacketArray<PacketNode> nodes;
+    int m_iNumNodes;
+    int primitiveCount,regularCount,emptyCount;
+    PacketArray<PacketLeaf> projected;
+    PacketBox bounds;
+    __forceinline const PacketNode* root() const { return nodes.begin(); }
+    __forceinline const PacketLeaf* entries() const { return projected.begin(); }
+    __forceinline const PacketBox& box() const { return bounds; }
+};
+struct PacketState {
+    PacketField<const PacketNode*> node;
+    PacketVector nearValue,farValue;
+    PacketMask active;
+    void assign(const PacketNode* n,const PacketVector& low,const PacketVector& high,PacketMask& mask) {
+        node=n; nearValue=low; farValue=high; active=mask;
+    }
+};
+class PacketCollector {
+public:
+    virtual ~PacketCollector() {}
+    virtual void hit(unsigned long key,const PacketMask& mask)=0;
+    virtual void fractions(PacketVector& value) const=0;
+};
+class PacketResult {
+    char value;
+public:
+    inline PacketResult() {}
+    inline PacketResult(bool b) { value=static_cast<char>(b); }
+    inline operator bool() const { return value!=0; }
+};
+inline const PacketNode* readPacketNode(const PacketNode* n,PacketResult wait=true) { return n; }
+__forceinline const PacketNode* packetLeft(const PacketNode& cached,const PacketNode* n) { return n->left(); }
+__forceinline const PacketNode* packetRight(const PacketNode& cached,const PacketNode* n) { return n->right(); }
+__forceinline const PacketLeaf* packetEntry(const PacketNode& n,const PacketLeaf* data,int index=0) {
+    int first=(int)n.primitive();
+    const PacketLeaf* p=data+first+index;
+    return p;
+}
+class PacketIntegers {
+    __m128i value;
+public:
+    inline void clear() { value=_mm_setzero_si128(); }
+    inline void lowWords(const PacketIntegers& a,const PacketIntegers& b) { value=_mm_unpacklo_epi16(a.value,b.value); }
+    inline void highWords(const PacketIntegers& a,const PacketIntegers& b) { value=_mm_unpackhi_epi16(a.value,b.value); }
+    inline void floats(PacketVector& output) const {
+        const __m128 factor={1.0e16f,1.0e16f,1.0e16f,1.0e16f};
+        __m128i source=value;
+        __m128i high=_mm_srli_epi32(source,16);
+        __m128i low=_mm_srli_epi32(_mm_slli_epi32(source,16),16);
+        __m128 upper=_mm_mul_ps(_mm_cvtepi32_ps(high),factor);
+        __m128 lower=_mm_cvtepi32_ps(low);
+        output.raw()=_mm_add_ps(upper,lower);
+    }
+};
+__forceinline void packetUnpack(const PacketLeaf* leaf,PacketVector& low,PacketVector& high) {
+    PacketIntegers packed=*reinterpret_cast<const PacketIntegers*>(leaf);
+    PacketIntegers zero; zero.clear();
+    PacketIntegers a,b; a.lowWords(packed,zero); b.highWords(packed,zero);
+    a.floats(low); b.floats(high);
+}
+__forceinline __m128 packetQuantizer() {
+    return ::DAT_011b6de0;
+}
+__forceinline void packetBounds(const PacketLeaf* leaf,PacketVector* __restrict out,const PacketVector& origin,const PacketVector& extent) {
+    PacketVector scale; scale.raw()=packetQuantizer(); scale.multiply(extent);
+    PacketVector low,high; packetUnpack(leaf,low,high);
+    low.affine(origin,scale,low); high.affine(origin,scale,high);
+    out[0].broadcast(low,0); out[1].broadcast(high,0);
+    out[2].broadcast(low,1); out[3].broadcast(high,1);
+    out[4].broadcast(low,2); out[5].broadcast(high,2);
+}
+__forceinline PacketMask packetSlabs(const PacketRays& start,const PacketRays& inverse,const PacketVector& lowInput,const PacketVector& highInput,const PacketVector* bounds) {
+    PacketVector low=lowInput,high=highInput;
+    PacketMask valid; valid.load(PacketMask::All);
+    for(int axis=0;axis<3;++axis) {
+        PacketVector a,b; a=*bounds++; b=*bounds++;
+        PacketVector entry,exit,ta,tb;
+        ta.difference(a,start.m_vec[axis]); tb.difference(b,start.m_vec[axis]);
+        ta.multiply(inverse.m_vec[axis]); tb.multiply(inverse.m_vec[axis]);
+        PacketVector zero; zero.clear();
+        PacketMask positive=inverse.m_vec[axis].greaterEqual(zero);
+        PacketMask flat=inverse.m_vec[axis].equal(zero);
+        PacketMask inside=start.m_vec[axis].lessEqual(b);
+        inside.combine(inside,start.m_vec[axis].greaterEqual(a));
+        PacketMask accepted; accepted.choose(valid,inside,flat);
+        valid.combine(valid,accepted);
+        entry.choose(tb,ta,positive); exit.choose(ta,tb,positive);
+        entry.choose(entry,low,flat); exit.choose(exit,high,flat);
+        low.maximum(entry,low); high.minimum(exit,high);
+    }
+    PacketMask result=low.less(high); result.combine(result,valid); return result;
+}
+
+static __forceinline float decodeSplit(unsigned short value, float origin, float extent)
+{
+    return value / 65535.0 * extent + origin;
+}
+// @fnv 0x00d99570
+extern "C" PacketResult __cdecl FUN_00d99570(const PacketTree* tree,
+    const PacketRays& start, const PacketRays& finish,
+    PacketCollector* collector, PacketMask::Bits lanes)
+{
+    const PacketNode* root = tree->root();
+    const PacketLeaf* leaves = tree->entries();
+    const PacketVector origin = tree->box().minimum;
+    PacketVector extent; extent.difference(tree->box().maximum, tree->box().minimum);
+    int capacity = tree->m_iNumNodes > 0 ? tree->m_iNumNodes : 128;
+    const PacketNode* node = root;
+    __declspec(align(16)) PacketNode cached = *readPacketNode(root);
+    ::AllocHolder* arena = static_cast<::AllocHolder*>(::FUN_00c85750());
+    PacketState* base = reinterpret_cast<PacketState*>(arena->unk00);
+    arena->unk00 += (capacity * sizeof(PacketState) + 127) & ~127;
+    PacketState* stack = base;
+    const PacketRays& from = start;
+    PacketVector zero = PacketVector::zero();
+    PacketMask active; active.load(lanes);
+    PacketRays direction;
+    direction.m_vec[0].difference(finish.m_vec[0],start.m_vec[0]);
+    direction.m_vec[1].difference(finish.m_vec[1],start.m_vec[1]);
+    direction.m_vec[2].difference(finish.m_vec[2],start.m_vec[2]);
+    PacketVector squared;
+    squared.product(direction.m_vec[0],direction.m_vec[0]);
+    squared.accumulate(direction.m_vec[1],direction.m_vec[1]);
+    squared.accumulate(direction.m_vec[2],direction.m_vec[2]);
+    PacketVector inverseLength; inverseLength.inverseRoot(squared);
+    PacketVector length; length.inverse(inverseLength);
+    direction.m_vec[0].multiply(inverseLength);
+    direction.m_vec[1].multiply(inverseLength);
+    direction.m_vec[2].multiply(inverseLength);
+    PacketVector nearValue; nearValue.clear();
+    PacketVector farValue = length;
+    __m128 fraction = {1.0f/65535.0f,1.0f/65535.0f,1.0f/65535.0f,1.0f/65535.0f};
+    PacketVector fractionVector; fractionVector.raw() = fraction;
+    PacketRays inverse, coefficientA, coefficientB;
+    for (int axis=0; axis<3; ++axis) {
+        PacketVector one; one.raw() = ::DAT_010c7170;
+        PacketMask flat = direction.m_vec[axis].equal(zero);
+        PacketVector safe; safe.choose(direction.m_vec[axis],one,flat);
+        PacketVector inverseSafe; inverseSafe.inverse(safe);
+        PacketVector masked; masked.choose(inverseSafe,zero,flat);
+        inverse.m_vec[axis] = masked;
+        PacketVector scaled; scaled.product(extent(axis),masked);
+        scaled.multiply(fractionVector);
+        coefficientA.m_vec[axis] = scaled;
+        PacketVector shifted; shifted.fill(origin(axis));
+        shifted.subtract(from.m_vec[axis]);
+        shifted.multiply(masked);
+        coefficientB.m_vec[axis] = shifted;
+    }
+    PacketVector fractions; fractions.fill(1.0f);
+    PacketVector clipped; clipped.product(fractions,length);
+    PacketVector effectiveFar; effectiveFar.minimum(clipped,farValue);
+    for (;;) {
+        while (~cached.leafBits()) {
+            const PacketNode* left = packetLeft(cached,node);
+            const PacketNode* right = packetRight(cached,node);
+            int axis = cached.axis();
+            if (direction.m_vec[axis].equal(zero).any(static_cast<PacketMask::Bits>(active.bits()))) {
+                float splitLow = decodeSplit(cached.lower(),origin(axis),extent(axis));
+                float splitHigh = decodeSplit(cached.upper(),origin(axis),extent(axis));
+                PacketVector low,high; low.fill(splitLow); high.fill(splitHigh);
+                float tolerance = 0.00001f;
+                PacketVector epsilon; epsilon.fill(tolerance);
+                low.subtract(epsilon); high.add(epsilon);
+                PacketMask insideLeft = from.m_vec[axis].lessEqual(high);
+                PacketMask insideRight = from.m_vec[axis].greaterEqual(low);
+                PacketMask wantLeft,wantRight;
+                wantLeft.combine(insideLeft,active); wantRight.combine(insideRight,active);
+                int l = wantLeft.any(); int r = wantRight.any();
+                if (l && r) {
+                    node = left;
+                    stack->assign(right,nearValue,farValue,wantRight);
+                    ++stack;
+                    active = wantLeft;
+                } else if (l || r) {
+                    node = l ? left : right;
+                } else goto pop;
+                cached = *readPacketNode(node);
+                continue;
+            } else {
+                PacketVector low, high;
+                low.fill(float(cached.lower())); high.fill(float(cached.upper()));
+                PacketVector tLow,tHigh;
+                tLow.affine(coefficientB.m_vec[axis],coefficientA.m_vec[axis],low);
+                tHigh.affine(coefficientB.m_vec[axis],coefficientA.m_vec[axis],high);
+                PacketMask positive = direction.m_vec[axis].greaterEqual(zero);
+                positive.combine(positive,active);
+                const PacketNode* first; const PacketNode* second;
+                if (positive.any()) { first=left; second=right; }
+                else { first=right; second=left; }
+                PacketVector entry,exit;
+                entry.choose(tHigh,tLow,positive); exit.choose(tLow,tHigh,positive);
+                PacketMask exitPastNear = exit.greaterEqual(nearValue);
+                PacketMask entryBeforeFar = entry.lessEqual(effectiveFar);
+                PacketMask wantFirst,wantSecond;
+                wantFirst.combine(active,exitPastNear); wantSecond.combine(active,entryBeforeFar);
+                int f=wantFirst.any(), s=wantSecond.any();
+                int both=f && s;
+                if (both) {
+                    PacketVector nextNear; nextNear.maximum(nearValue,entry);
+                    stack->assign(second,nextNear,farValue,wantSecond);
+                    ++stack;
+                    node=first;
+                    farValue.minimum(exit,farValue);
+                    active=wantFirst;
+                    PacketVector distance; distance.product(fractions,length);
+                    effectiveFar.minimum(distance,farValue);
+                } else if(f) node=first;
+                else node=second;
+                cached=*readPacketNode(node);
+            }
+        }
+        if (~cached.emptyBits()) {
+            int count=cached.count();
+            for(int index=0;index<count;++index) {
+                const PacketLeaf* leaf=packetEntry(cached,leaves,index);
+                unsigned long key=leaf->key();
+                PacketVector bounds[6];
+                packetBounds(leaf,bounds,origin,extent);
+                PacketMask hit=packetSlabs(from,inverse,nearValue,effectiveFar,bounds);
+                hit.combine(hit,active);
+                if(hit.any()) {
+                    collector->hit(key,hit);
+                    collector->fractions(fractions);
+                }
+            }
+        }
+    pop:
+        if(stack==base) break;
+        --stack;
+        node=stack->node;
+        cached=*readPacketNode(node);
+        nearValue=stack->nearValue; farValue=stack->farValue; active=stack->active;
+        PacketVector distance; distance.product(fractions,length);
+        effectiveFar.minimum(distance,farValue);
+        active.combine(nearValue.less(effectiveFar),active);
+        if(!active.any()) goto pop;
+    }
+    static_cast<::AllocHolder*>(::FUN_00c85750())->unk00=reinterpret_cast<intptr_t>(base);
+    return true;
+}
+
+}
+
+namespace linear_cast_d9a2a0 {
+struct ContextArg { int* value; };
+
+
+struct SimdReal
+{
+    __m128 m_vValue;
+    SimdReal() {}
+    SimdReal(float v) { m_vValue = _mm_load_ss(&v); }
+    operator float() const
+    {
+        float s;
+        _mm_store_ss(&s, m_vValue);
+        return s;
+    }
+};
+
+
+struct Vec4
+{
+    __m128 m_vComponents;
+
+    Vec4& operator=(const Vec4& v) { m_vComponents = v.m_vComponents; return *this; }
+    void setSub4(const Vec4& a, const Vec4& b) { m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents); }
+    void setAdd4(const Vec4& a, const Vec4& b) { m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents); }
+    SimdReal length3() const
+    {
+        __m128 x2 = _mm_mul_ps(m_vComponents, m_vComponents);
+        SimdReal s;
+        s.m_vValue = _mm_sqrt_ss(_mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2)));
+        return s;
+    }
+    void setInterpolate4(const Vec4& a, const Vec4& b, const SimdReal& t)
+    {
+        __m128 tt = _mm_shuffle_ps(t.m_vValue, t.m_vValue, 0);
+        m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, tt), a.m_vComponents), _mm_mul_ps(b.m_vComponents, tt));
+    }
+    void setMul4(const SimdReal& r, const Vec4& a)
+    {
+        __m128 rr = _mm_shuffle_ps(r.m_vValue, r.m_vValue, 0);
+        m_vComponents = _mm_mul_ps(rr, a.m_vComponents);
+    }
+};
+
+struct TargetNode {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    Vec4 m_pos;
+};
+
+struct Segment {
+    Vec4 m_kRayStart;
+    Vec4 m_kRayEnd;
+};
+
+struct Spline3 {
+    Vec4 m_mid;
+    Vec4 m_ctrl;
+    Vec4 m_tangent;
+};
+
+struct PathIface {
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0C();
+    virtual void vf10();
+    virtual void vf14();
+    virtual void vf18();
+    virtual void getSegment(TargetNode* node, float t, Segment* out);
+    int unk04;
+    int unk08;
+    int unk0C;
+};
+
+struct Param2 {
+    PathIface* m_path;
+    int unk04;
+    TargetNode* m_node;
+};
+
+struct Param3 {
+    Vec4 m_pos;
+    float m_f10;
+    float m_f14;
+};
+
+struct Embedded5 {
+    int unk00;
+    int unk04;
+    union {
+        int unk08;
+        float m_fScalar;
+    };
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    __m128 m20;
+    __m128 m30;
+    __m128 m40;
+};
+
+
+struct PathBuilder {
+    int unk00;
+    int unk04;
+    Param3* m_p3;
+    int m_p4;
+    volatile int m_p7;
+    int m_p8;
+    Param2* m_p2;
+    int unk1C;
+    Embedded5 m_usTrailingValue;
+    Vec4 m_diff;
+    float m_f80;
+    float m_f84;
+    int m_p6;
+
+    int FUN_00d9a2a0(int a1, Param2* a2, Param3* a3, int a4, Embedded5* a5, int a6, int a7, volatile int a8);
+};
+// @fnv 0x00d9a2a0
+int PathBuilder::FUN_00d9a2a0(int a1, Param2* a2, Param3* a3, int a4, Embedded5* a5, int a6, int a7, volatile int a8) {
+    m_p7 = a7;
+    m_p8 = a8;
+    m_p2 = a2;
+    m_p4 = a4;
+    m_p3 = a3;
+    unk1C = a2->m_path->unk0C;
+    m_usTrailingValue.unk00 = a5->unk00;
+    m_usTrailingValue.unk04 = a5->unk04;
+    m_usTrailingValue.unk08 = a5->unk08;
+    m_usTrailingValue.unk0C = a5->unk0C;
+    m_usTrailingValue.unk10 = a5->unk10;
+    m_usTrailingValue.unk14 = a5->unk14;
+    m_usTrailingValue.m20 = a5->m20;
+    m_usTrailingValue.m30 = a5->m30;
+    m_usTrailingValue.m40 = a5->m40;
+    m_p6 = a6;
+
+    float t = a3->m_f14;
+    Vec4 diff;
+    diff.setSub4(a3->m_pos, a2->m_node->m_pos);
+    m_diff = diff;
+    m_f84 = diff.length3();
+    m_usTrailingValue.m_fScalar = t;
+    Segment seg;
+    a2->m_path->getSegment(a2->m_node, a3->m_f14, &seg);
+    Spline3 spl;
+    SimdReal half(0.5f);
+    spl.m_mid.setInterpolate4(seg.m_kRayStart, seg.m_kRayEnd, half);
+    spl.m_ctrl.setAdd4(spl.m_mid, diff);
+    Vec4 d;
+    d.setSub4(seg.m_kRayEnd, seg.m_kRayStart);
+    spl.m_tangent.setMul4(SimdReal(0.5f), d);
+    m_f80 = a3->m_f10;
+    ContextArg context = { &unk04 };
+    return ::FUN_00d1c2b0((::CompressedTree *)(a1), (int)(&seg), (const ::SweptBoxQuery *)(::linear_cast_d9a2a0::Spline3 *)(&spl), (*(::LeafCollector * *)&(const ::linear_cast_d9a2a0::ContextArg &)(context)), a3->m_f10, (int *)(0), 0);
+}
+
+}
+
+struct RoundedValue {float value;RoundedValue(float x):value(x){} operator float() const{return value;} bool above(float epsilon)const{return epsilon<value;} };
+
+struct Point {
+    union { __m128 value; float lane[4]; };
+    float& at(int index) { return lane[index]; }
+    float at(int index) const { return lane[index]; }
+    void add(const Point& a,const Point& b) { value = _mm_add_ps(a.value,b.value); }
+    void difference(const Point& a,const Point& b) { value = _mm_sub_ps(a.value,b.value); }
+    void absolute() { value = _mm_and_ps(value,::DAT_01017d10); }
+    void scale(float scale) {
+        __m128 factor = _mm_load_ss(&scale);
+        value = _mm_mul_ps(_mm_shuffle_ps(factor,factor,0),value);
+    }
+};
+
+inline __m128 scalar(float f);
+
+struct Bounds {
+    Point lower,upper;
+    void center(Point& result) const {Point sum;sum.add(lower,upper);result.value=_mm_mul_ps(_mm_shuffle_ps(scalar(0.5f),scalar(0.5f),0),sum.value);}
+    void empty() { lower.value=_mm_set_ps1(3.402820018375656e38f); upper.value=_mm_set_ps1(-3.402820018375656e38f); }
+    void include(const Point& p) { lower.value=_mm_min_ps(lower.value,p.value); upper.value=_mm_max_ps(upper.value,p.value); }
+};
+
+struct IndexList { int* data; int size; int capacity; int& operator[](int n) {return data[n];} };
+
+inline void exchangeValues(int& a,int& b) {int t=a;a=b;b=t;}
+
+inline __m128 scalar(float f) {return _mm_load_ss(&f);}
+
+inline void centerSwap(Point& result,const Bounds& b) {__m128 sum=_mm_add_ps(b.lower.value,b.upper.value);__m128 factor=scalar(0.5f);factor=_mm_shuffle_ps(factor,factor,0);result.value=_mm_mul_ps(factor,sum);}
+
+// @fnv 0x00d9a520
+extern "C" void __cdecl FUN_00d9a520(const Bounds* bounds,const Bounds* prims,IndexList* indices,int start,int count,Bounds* left,Bounds* right,int* leftCount,int* rightCount)
+{
+    static const float emptyMinimum = 3.402820018375656e38f;
+    static const float emptyMaximum = -3.402820018375656e38f;
+    __m128 lo=_mm_set_ps1(emptyMinimum);
+    __m128 hi=_mm_set_ps1(emptyMaximum);
+    left->lower.value=lo; left->upper.value=hi;
+    right->lower.value=lo; right->upper.value=hi;
+    Point sum,extent;
+    sum.add(bounds->lower,bounds->upper);
+    extent.difference(bounds->upper,bounds->lower);
+    extent.absolute();
+    int axis;
+    if (extent.at(0)<extent.at(1)) axis=extent.at(1)<extent.at(2)?2:1;
+    else axis=extent.at(0)<extent.at(2)?2:0;
+    float mid=sum.at(axis)*0.5f;
+    int cursor;
+    float spanMax=bounds->upper.at(axis)-mid;RoundedValue spanMin(mid-bounds->lower.at(axis));
+    if (spanMax>2.384185791015625e-07f && spanMin>2.384185791015625e-07f) {
+        int lo=start;
+        int hi=start+count-1;
+        do {
+            Point leftCenter,rightCenter;
+            prims[(*indices)[lo]].center(leftCenter);
+            while (leftCenter.at(axis)<=mid) {
+                left->include(leftCenter);
+                ++lo;
+                prims[(*indices)[lo]].center(leftCenter);
+            }
+            prims[(*indices)[hi]].center(rightCenter);
+            while (rightCenter.at(axis)>mid) {
+                right->include(rightCenter);
+                --hi;
+                prims[(*indices)[hi]].center(rightCenter);
+            }
+            if(lo>=hi)break;
+            exchangeValues((*indices)[lo],(*indices)[hi]);
+            centerSwap(leftCenter,prims[(*indices)[lo]]);
+            prims[(*indices)[hi]].center(rightCenter);
+            left->include(leftCenter);
+            right->include(rightCenter);
+            --hi;++lo;
+        } while(lo<=hi);
+        cursor=lo;
+    } else {
+        cursor=start+(count>>1);
+        left->lower.value=bounds->lower.value;left->upper.value=bounds->upper.value;
+        right->lower.value=bounds->lower.value;right->upper.value=bounds->upper.value;
+    }
+    int taken=cursor-start;
+    *leftCount=taken;
+    *rightCount=count-taken;
+}
+
+static const float partitionLowLimit=3.402820018375656e38f;
+
+static const float partitionHighLimit=-3.402820018375656e38f;
+
+struct __declspec(align(16)) PartitionVector {
+    union { __m128 value; struct { float x,y,z,w; }; };
+    void operator=(const PartitionVector& rhs) { value = rhs.value; }
+    void set(__m128 v) { value = v; }
+    __m128 get() const { return value; }
+    const float& component(int axis) const { return (&x)[axis]; }
+    void setAdd4(const PartitionVector& a, const PartitionVector& b) { set(_mm_add_ps(a.get(),b.get())); }
+    void setSub4(const PartitionVector& a, const PartitionVector& b) { set(_mm_sub_ps(a.get(),b.get())); }
+    void setAbs4(const PartitionVector& a) { set(_mm_and_ps(a.get(), ::DAT_01017d10)); }
+    void add4(const PartitionVector& b) { set(_mm_add_ps(get(),b.get())); }
+    void mul4(const __m128& a) { set(_mm_mul_ps(get(),_mm_shuffle_ps(a,a,0))); }
+    void set(float a, float b, float c, float d) { set(_mm_setr_ps(a,b,c,d)); }
+};
+
+struct PartitionBounds {
+    PartitionVector minimum;
+    PartitionVector maximum;
+};
+
+struct PartitionQuantizedBounds {
+    unsigned short minX, minY, minZ;
+    unsigned short maxX, maxY, maxZ;
+};
+
+struct PartitionIndices { unsigned short* data; };
+
+struct PartitionScalar { __m128 value;
+    __forceinline PartitionScalar(float f) { value = _mm_load_ss(&f); }
+};
+
+__forceinline void partitionCenter(const PartitionQuantizedBounds& bounds, PartitionVector& center) {
+    center.set(float(bounds.minX),float(bounds.minY),float(bounds.minZ),0.0f);
+    PartitionVector other;
+    other.set(float(bounds.maxX),float(bounds.maxY),float(bounds.maxZ),0.0f);
+    center.add4(other);
+    center.mul4(PartitionScalar(0.5f).value);
+}
+__forceinline void partitionInclude(PartitionBounds& bounds, __m128 point)
+{
+    bounds.minimum.set(_mm_min_ps(bounds.minimum.get(), point));
+    bounds.maximum.set(_mm_max_ps(bounds.maximum.get(), point));
+}
+__forceinline void partitionSwap(unsigned short& a, unsigned short& b) {
+    unsigned short saved = a;
+    a = b;
+    b = saved;
+}
+__forceinline void partitionLeftCenter(const PartitionQuantizedBounds& bounds, PartitionVector& center) {
+    float v3 = float(bounds.minX);
+    float v4 = float(bounds.minY);
+    float v5 = float(bounds.minZ);
+    float v0 = float(bounds.maxX);
+    float v1 = float(bounds.maxY);
+    float v2 = float(bounds.maxZ);
+    center.set(v0,v1,v2,0.0f);
+    PartitionVector other;
+    other.set(v3,v4,v5,0.0f);
+    center.add4(other);
+    center.mul4(PartitionScalar(0.5f).value);
+}
+__forceinline void scanPartitionLeft(const PartitionQuantizedBounds* items, PartitionIndices& indices,
+    int& left, PartitionVector& leftCenter, int axis, float split, PartitionBounds& leftBounds) {
+    while (true) {
+        partitionLeftCenter(items[indices.data[left]],leftCenter);
+        if (leftCenter.component(axis) <= split) {
+            ++left;
+            partitionInclude(leftBounds, leftCenter.get());
+        } else break;
+    }
+}
+
+// @fnv 0x00d9a850
+extern "C" void __cdecl FUN_00d9a850(const PartitionBounds& bounds, const PartitionQuantizedBounds* items,
+    PartitionIndices& indices, unsigned short start, int count,
+    PartitionBounds& leftBounds, PartitionBounds& rightBounds, int& leftCount, int& rightCount)
+{
+    __m128 low=_mm_set_ps1(partitionLowLimit);
+    __m128 high=_mm_set_ps1(partitionHighLimit);
+    leftBounds.minimum.set(low);
+    leftBounds.maximum.set(high);
+    rightBounds.minimum.set(low);
+    rightBounds.maximum.set(high);
+    int axis;
+    float split;
+    {
+    PartitionVector sum;
+    sum.setAdd4(bounds.minimum,bounds.maximum);
+    PartitionVector extent;
+    extent.setSub4(bounds.maximum,bounds.minimum);
+    extent.setAbs4(extent);
+    axis = extent.component(0) < extent.component(1)
+        ? (extent.component(1) < extent.component(2) ? 2 : 1)
+        : (extent.component(0) < extent.component(2) ? 2 : 0);
+    split = float(sum.component(axis) * 0.5);
+    }
+    int left;
+    if (float(bounds.maximum.component(axis) - split) > 2.384185791015625e-7f &&
+        float(split - bounds.minimum.component(axis)) > 2.384185791015625e-7f) {
+        try {
+        left = start;
+        int right = start + count - 1;
+        do {
+            PartitionVector leftCenter, rightCenter;
+            scanPartitionLeft(items,indices,left,leftCenter,axis,split,leftBounds);
+            while (true) {
+                partitionCenter(items[indices.data[right]],rightCenter);
+                if (rightCenter.component(axis) > split) {
+                    --right;
+                    partitionInclude(rightBounds, rightCenter.get());
+                } else break;
+            }
+            if (left >= right) break;
+            partitionSwap(indices.data[left], indices.data[right]);
+            
+            partitionCenter(items[indices.data[left]],leftCenter);
+            partitionCenter(items[indices.data[right]],rightCenter);
+            partitionInclude(leftBounds, leftCenter.get());
+            partitionInclude(rightBounds, rightCenter.get());
+            ++left;
+            --right;
+        } while (left <= right);
+        } catch (...) { throw; }
+    } else {
+        left = start + (count >> 1);
+        leftBounds = bounds;
+        rightBounds = bounds;
+    }
+    leftCount = left - start;
+    rightCount = count - leftCount;
+}
+
+int FUN_00d881a0(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, void* edi);
+
+void FUN_00d96870(unsigned char* self, int* src, unsigned char* out);
+
+void FUN_00d93ab0(CleanupObject* self);
+
+void WriteItems(StructA* a, StructB* b);
+
+void FUN_00d94eb0(d94eb0_cls* dst);
+
+void FUN_00d96970(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value);
+
+
+struct D863MemoryContext {
+    unsigned int saved;
+    D863MemoryContext() { saved = (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xad]; (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xad] = 0x10; }
+    ~D863MemoryContext() { (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xad] = saved; }
+};
+
+struct D863_Rec {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    float unk1c;
+    unsigned char unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    __m128 unk30;
+    __m128 unk40;
+    __m128 unk50;
+    __m128 unk60;
+    __m128 unk70;
+    __m128 unk80;
+    __m128 unk90;
+    __m128 unka0;
+};
+
+struct D863_Params {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    float unk10;
+};
+
+union D863_Quad { __m128 v; char bytes[16]; };
+
+__forceinline __m128 Scale(__m128 v, float x) { D863_Quad t; t.v = _mm_load_ss(&x); return _mm_mul_ps(_mm_shuffle_ps(t.v, t.v, 0), v); }
+
+struct D863_Owner {
+    int unk00;
+    D863_Rec* m_src;
+    void FUN_00d86300(D863_Rec* dst, D863_Params* p);
+};
+
+// @fnv 0x00d86300
+void D863_Owner::FUN_00d86300(D863_Rec* dst, D863_Params* p)
+{
+    D863MemoryContext guard;
+    D863_Rec* s = m_src;
+    if (!dst) {
+        dst = (D863_Rec*)new FUN_00dee750;
+    }
+    dst->unk1c = s->unk1c;
+    dst->unk20 = s->unk20;
+    dst->unk30 = s->unk30;
+    dst->unk40 = s->unk40;
+    dst->unk50 = s->unk50;
+    dst->unk60 = s->unk60;
+    dst->unk70 = s->unk70;
+    dst->unk80 = s->unk80;
+    dst->unk90 = s->unk90;
+    dst->unka0 = s->unka0;
+    float k = p->unk10;
+    if (k != 1.0f) {
+        (_mm_store_ps)((float*)&dst->unk60, Scale(dst->unk60, k));
+        dst->unka0 = Scale(dst->unka0, k);
+    }
+    reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(dst), (int)(p));
+}
+
 #include "generated/data/staging/blk_00d80000_o2.inc"
+#include "generated/data/staging/blk_00d80000_o2_rtm_variant.inc"

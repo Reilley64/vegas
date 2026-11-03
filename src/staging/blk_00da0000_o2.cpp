@@ -1,5 +1,6 @@
 // staging/blk_00da0000_o2.cpp: Holder, MapHolder, SpawnedOuter, SearchObject and more (113 functions)
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "generated/data/vtables.h"
 #include <windows.h>
@@ -53,8 +54,8 @@ void __cdecl FUN_00da07b0(void* apObject, void* b)
 {
     if (apObject)
     {
-        *(int*)apObject = (int)&DAT_010d461c;
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00da07b0_class*)((char*)apObject + 0x64))))->FUN_00cb0a70((int)(b));
+        *(void**)apObject = (void*)&DAT_010d461c;
+        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00da07b0_class*)((char*)apObject + 0x64))))->FUN_00cb0a70((intptr_t)(b));
     }
 }
 
@@ -101,25 +102,32 @@ void __cdecl FUN_00da08e0(void* pObject, int bSetField)
 void __cdecl FUN_00da0b10(int* p)
 {
     if (p)
-        *p = (int)&DAT_010c6fd0;
+        *(void**)p = (void*)&DAT_010c6fd0;
 }
 
 extern int DAT_010d6014;
 
 struct FUN_00db7ab0_class
 {
+    void* m_vptr;
+    short unk04;
+    short m_sRefCount;
+    void* m_pC;
+    void* m_pA;
+    void* m_pB;
+    int m_iFlag;
     void* FUN_00db7ab0(void* a, void* b, void* c);
 };
 
 // @fnv 0x00db7ab0
 void* FUN_00db7ab0_class::FUN_00db7ab0(void* a, void* b, void* c)
 {
-    *(short*)((char*)this + 6) = 1;
-    *(int*)((char*)this + 12) = (int)a;
-    *(int*)this = (int)&DAT_010d6014;
-    *(int*)((char*)this + 16) = (int)b;
-    *(int*)((char*)this + 20) = 1;
-    *(int*)((char*)this + 8) = (int)c;
+    m_sRefCount = 1;
+    m_pA = a;
+    m_vptr = &DAT_010d6014;
+    m_pB = b;
+    m_iFlag = 1;
+    m_pC = c;
     return this;
 }
 
@@ -198,7 +206,7 @@ void __cdecl FUN_00da0680(char* pObject, int bReset)
             *(int*)(pObject + 0x48) = 0;
             *(int*)(pObject + 0x20) = 1;
             *(int*)(pObject + 0x30) = 0;
-            *(char*)(ecx + 5) = (char)((char)(unsigned char)(unsigned int)pObject - (char)(unsigned int)ecx);
+            *(char*)(ecx + 5) = (char)(pObject - ecx);
         }
         *(int*)(pObject + 0x50) = 0;
         *(int*)(pObject + 0x54) = 0;
@@ -226,7 +234,7 @@ void __cdecl FUN_00da0760(void* pObject, void* b)
     if (pObject)
     {
         *(void**)((char*)pObject + 0) = (void*)fnv_vftable_S00da0780_Object;
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70_class*)((char*)pObject + 8))))->FUN_00cb0a70((int)b);
+        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70_class*)((char*)pObject + 8))))->FUN_00cb0a70((intptr_t)b);
     }
 }
 
@@ -600,9 +608,9 @@ int* __cdecl FUN_00da0a80(void)
 
 
 // @fnv 0x00da0aa0
-int __cdecl FUN_00da0aa0()
+void* __cdecl FUN_00da0aa0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_0126994c)));
+    return &(*reinterpret_cast<int *>(&::g_0126994c));
 }
 
 struct CpuOpaque;
@@ -741,7 +749,7 @@ DB7570Result DB7570Map::Lookup(unsigned int key, unsigned int& valueOut) const
 struct FUN_00db75b0_entry
 {
     int unk00;
-    int unk04;
+    const char* unk04;
 };
 
 struct FUN_00db75b0_class
@@ -750,16 +758,16 @@ struct FUN_00db75b0_class
     FUN_00db75b0_entry* unk04;
     int unk08;
 
-    unsigned int FUN_00db75b0(int a1, unsigned int* a2);
+    unsigned int FUN_00db75b0(intptr_t a1, unsigned int* a2);
 };
 
 // @fnv 0x00db75b0
-unsigned int FUN_00db75b0_class::FUN_00db75b0(int a1, unsigned int* a2)
+unsigned int FUN_00db75b0_class::FUN_00db75b0(intptr_t a1, unsigned int* a2)
 {
     for (int index = 0; index < unk08; ++index)
     {
-        unsigned int value = unk04[index].unk04;
-        if (::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(a1), (const char *)(value)) == 0)
+        const char* value = unk04[index].unk04;
+        if (::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(a1), value) == 0)
         {
             unsigned int result = unk04[index].unk00;
             *a2 = result;
@@ -819,10 +827,9 @@ struct AudioMgr
 };
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 struct MapPair
@@ -889,7 +896,6 @@ void MapHolder::CopyMapEntries(const MapHolder& other)
 }
 
 namespace fnv_00db7960 {
-extern "C" void* __cdecl FUN_00c85750();
 
 struct FUN_00db7960_Target
 {
@@ -915,7 +921,7 @@ struct FUN_00db7960_Result
 // @fnv 0x00db7960
 void* __cdecl CreateAudioResult()
 {
-    void* audio = FUN_00c85750();
+    void* audio = static_cast<BSAudio*>(::FUN_00c85750());
     FUN_00db7960_Target* target = *reinterpret_cast<FUN_00db7960_Target**>(reinterpret_cast<char*>(audio) + 0x10);
 
     void* allocated = target->vf04(0x14);
@@ -930,11 +936,11 @@ void* __cdecl CreateAudioResult()
     data[1] = 0;
     data[2] = -1;
 
-    void* audio2 = FUN_00c85750();
+    void* audio2 = static_cast<BSAudio*>(::FUN_00c85750());
     void* target2 = *reinterpret_cast<void**>(reinterpret_cast<char*>(audio2) + 0x10);
 
     FUN_00db7960_Data* dataObject = reinterpret_cast<FUN_00db7960_Data*>(reinterpret_cast<char*>(allocated) + 8);
-    reinterpret_cast<::FUN_00cb1fe0_t *>((dataObject))->EnsureCapacity((int)(target2), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>((dataObject))->EnsureCapacity((intptr_t)(target2), 0);
 
     return allocated;
 }
@@ -958,7 +964,6 @@ struct AudioMgr
 };
 
 struct BSAudio;
-__declspec(nothrow) BSAudio* __cdecl FUN_00c85750();
 
 struct hkBool
 {
@@ -984,7 +989,7 @@ class RefObj
 
     static void* operator new(std::size_t nbytes)
     {
-        RefObj* b = (RefObj*)((AudioMgr*)FUN_00c85750())->heap().AllocateMemoryBlock(nbytes);
+        RefObj* b = (RefObj*)((AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750()))->heap().AllocateMemoryBlock(nbytes);
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -1037,10 +1042,10 @@ struct CallTarget_00dba270
 };
 struct SearchObject
 {
-    int FUN_00dba320(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
+    int FUN_00dba320(uintptr_t arg0, uintptr_t arg1, uintptr_t arg2, unsigned int arg3);
 };
 // @fnv 0x00dba320
-int SearchObject::FUN_00dba320(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
+int SearchObject::FUN_00dba320(uintptr_t arg0, uintptr_t arg1, uintptr_t arg2, unsigned int arg3)
 {
     unsigned int callResult0 =
         (unsigned int)((CallTarget_00dba270*)this)->Splice((int)arg0, (int)arg1, (int)0u, (int)arg2, (int)arg3);
@@ -1056,7 +1061,7 @@ class DBA340Object
 // @fnv 0x00dba340
 int DBA340Object::FUN_00dba340(void* pvA, void* pvB, void* pvC)
 {
-    return reinterpret_cast<::SearchObject *>(this)->FUN_00dba320((unsigned int)(pvA), (unsigned int)(pvB), (unsigned int)(pvC), 1);
+    return reinterpret_cast<::SearchObject *>(this)->FUN_00dba320((uintptr_t)(pvA), (uintptr_t)(pvB), (uintptr_t)(pvC), 1);
 }
 
 namespace fnv_00dba3d0 {
@@ -1083,7 +1088,6 @@ struct DBA3D0MemoryRouter
     }
 };
 
-extern "C" DBA3D0MemoryRouter& __cdecl FUN_00c85750() throw();
 
 struct DBA3D0Pair
 {
@@ -1104,7 +1108,7 @@ template <class T> struct DBA3D0Array
 
     ~DBA3D0Array() throw()
     {
-        DBA3D0Allocator& alloc = FUN_00c85750().heap();
+        DBA3D0Allocator& alloc = (*static_cast<DBA3D0MemoryRouter*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
@@ -1129,7 +1133,7 @@ class DBA3D0Map : public DBA3D0MapBase
   public:
     ~DBA3D0Map() throw()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease((*static_cast<DBA3D0MemoryRouter*>(::FUN_00c85750())).heap());
     }
 };
 
@@ -1347,7 +1351,6 @@ struct BSAudio
     DBA430Listener* m_10;
 };
 
-BSAudio* __cdecl FUN_00c85750();
 
 struct DBA430Owner
 {
@@ -1363,9 +1366,9 @@ struct DBA430Owner
 void DBA430Owner::Reset()
 {
     DBA430Inner* p = &m_0C;
-    reinterpret_cast<::CB1A90Owner *>((p))->ProcessArgument((::CB1A90Argument *)(FUN_00c85750()->m_10));
+    reinterpret_cast<::CB1A90Owner *>((p))->ProcessArgument((::CB1A90Argument *)(static_cast<BSAudio*>(::FUN_00c85750())->m_10));
     ::FUN_00a29680();
-    BSAudio* audio = FUN_00c85750();
+    BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
     DBA430Listener* listener = audio->m_10;
     m_04 = 0;
     if (!(m_08 & (int)0x80000000))
@@ -1575,7 +1578,7 @@ struct FUN_00da2840_Obj
 
 struct FUN_00da2b90_Obj
 {
-    int unk00;
+    void* unk00;
     short unk04;
     short unk06;
     int* unk08;
@@ -1588,7 +1591,7 @@ struct FUN_00da2b90_Obj
 unsigned int* FUN_00da2b90_Obj::Initialize()
 {
     unk06 = 1;
-    unk00 = reinterpret_cast<int>(&DAT_010d4de4);
+    unk00 = &DAT_010d4de4;
     unk08 = &DAT_01269a9c;
 
     reinterpret_cast<FUN_00da2840_Obj*>(&DAT_01269a9c)->FUN_00da2840();
@@ -1620,7 +1623,6 @@ struct DA2D70Object
     void* NotifyAudioListener(int flags);
 };
 
-extern BSAudio* __cdecl FUN_00c85750();
 
 // @fnv 0x00da2da0
 void __cdecl FUN_00da2da0()
@@ -1697,7 +1699,7 @@ struct CreatedObject
 // @fnv 0x00db79c0
 void* __cdecl FUN_00db79c0()
 {
-    Manager* manager = (Manager*)FUN_00c85750();
+    Manager* manager = (Manager*)static_cast<BSAudio*>(::FUN_00c85750());
     CreatedObject* object = (CreatedObject*)manager->heap->Alloc(0x20);
     object->Init();
     return object;
@@ -2028,12 +2030,12 @@ extern "C" unsigned int stub_val(void);
 // @fnv 0x00db0db0
 static __declspec(noinline) int* FUN_00db0db0(unsigned int a)
 {
-    return (int*)((a & 0x70) + (unsigned int)&DAT_010d52d0);
+    return (int*)((char*)&DAT_010d52d0 + (a & 0x70));
 }
 
-int stub_caller(void)
+int* stub_caller(void)
 {
-    return (int)FUN_00db0db0(stub_val());
+    return FUN_00db0db0(stub_val());
 }
 
 struct FUN_00db7c80_class
@@ -2340,7 +2342,7 @@ __declspec(noinline) int Holder::FindOrAddCallTrace(int* buffer, int count)
 int Holder::FUN_00da2d20(ArgObj* param)
 {
     int buffer[0x40];
-    int count = ::FUN_00da2b20((int)(param), (int)(buffer));
+    int count = ::FUN_00da2b20((intptr_t)(param), (intptr_t)(buffer));
     if (count > 0)
         return reinterpret_cast<::S_00da2bd0_CallTree *>(this)->FindOrAddCallTrace((const unsigned int *)(int *)(buffer + 1), count - 1);
     return 0;
@@ -2461,7 +2463,7 @@ struct S06c0_Mgr
 };
 inline S06c0_Mgr* s06c0_mgr()
 {
-    return (S06c0_Mgr*)FUN_00c85750();
+    return (S06c0_Mgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 struct S06c0_Key
 {
@@ -2630,16 +2632,6 @@ extern "C" void __cdecl S00db0aa0_Entry(void)
 }
 
 namespace fnv_00db0e50 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-};
-extern "C" __m128 _mm_setzero_ps();
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 
 struct VectorFlags
 {
@@ -2928,7 +2920,7 @@ void* __cdecl BuildEventIndex(void* apCtx, void* apUnused, void* apOut, void* ap
     S00da6eb0_List* pList = static_cast<S00da6eb0_Ctx*>(apCtx)->m_pRouter->m_pEntries;
     int iSize = pList->m_uiSize;
 
-    S00da6eb0_Alloc* pAlloc = reinterpret_cast<S00da6eb0_Alloc*>(FUN_00c85750());
+    S00da6eb0_Alloc* pAlloc = reinterpret_cast<S00da6eb0_Alloc*>(static_cast<BSAudio*>(::FUN_00c85750()));
     unsigned int* pEventIndex = reinterpret_cast<unsigned int*>(pAlloc->m_pCur);
 
     pAlloc->m_pCur += (iSize * 4 + 0x83) & 0xffffff80;
@@ -2952,37 +2944,12 @@ void* __cdecl BuildEventIndex(void* apCtx, void* apUnused, void* apOut, void* ap
 
     S00da6eb0_TimerMark(::DAT_010c41f8);
 
-    reinterpret_cast<S00da6eb0_Alloc*>(FUN_00c85750())->m_pCur = reinterpret_cast<char*>(pEventIndex);
+    reinterpret_cast<S00da6eb0_Alloc*>(static_cast<BSAudio*>(::FUN_00c85750()))->m_pCur = reinterpret_cast<char*>(pEventIndex);
 
     return reinterpret_cast<char*>(apOut) + 0x10;
 }
 
 namespace CleanSimd {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float lane[4];
-    unsigned int bits[4];
-} __m128;
-extern "C"
-{
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    int _mm_movemask_ps(__m128);
-}
 
 extern float DAT_01011d78;
 extern float DAT_01017718;
@@ -3114,28 +3081,6 @@ void __cdecl FUN_00da8340()
 
 namespace N {
 extern "C" void _ReadWriteBarrier();
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C"
-{
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    int _mm_movemask_ps(__m128);
-}
 extern const __m128 DAT_010c44d0;
 class Scalar
 {
@@ -3257,8 +3202,8 @@ static __declspec(noinline) int FUN_00dacf10(const N::Rows* rows, const N::Desc*
     p.cross(ac, u);
     q.cross(ad, v);
     r.cross(ab, w);
-    N::__m128 dots = N::fourDots(p, q, r, rows->separating, n);
-    unsigned mask = N::_mm_movemask_ps(N::_mm_cmplt_ps(dots, N::_mm_setzero_ps()));
+    __m128 dots = N::fourDots(p, q, r, rows->separating, n);
+    unsigned mask = _mm_movemask_ps(_mm_cmplt_ps(dots, _mm_setzero_ps()));
     out->normal = n;
     if (mask & 8)
         out->normal.negate(n);
@@ -3275,20 +3220,6 @@ void callPlane()
 
 #include <xmmintrin.h>
 namespace fnv_00db47a0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-};
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" float _mm_cvtss_f32(__m128);
 
 struct S00db47a0_Obj
 {
@@ -3405,20 +3336,18 @@ void drive()
 
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
+#include <emmintrin.h>
+#include <cstdint>
+#include <cstdio>
+#include "fnv/decl/BDBA270Array.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_00db0000.h"
+#include "fnv/symbols_00db7000.h"
+#include "fnv/symbols_01267000.h"
+#include <string.h>
+#include "fnv/symbols_00da1000.h"
+#include <math.h>
 namespace fnv_00db48a0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
 
 union __declspec(align(16)) SlabVec
 {
@@ -3535,7 +3464,7 @@ static __declspec(noinline) float FUN_00db48a0(const VecHolder* pv, const VecHol
     r1.cross(A, e1);
     SlabMath e2(pe[1].v00), r2;
     r2.cross(C, e2);
-    SlabMath vNegC(_mm_xor_ps(c.p->v00, (*reinterpret_cast<const ::fnv_00db48a0::__m128 *>((void *)&::DAT_010c44d0))));
+    SlabMath vNegC(_mm_xor_ps(c.p->v00, (*reinterpret_cast<const __m128 *>((void *)&::DAT_010c44d0))));
     SlabMath r, delta, dot;
     r.add(r1, vNegC);
     delta.sub(r, r2);
@@ -3592,7 +3521,7 @@ void* DA2D70Object::NotifyAudioListener(int flags)
 
     if (flags & 1)
     {
-        DA2D70Audio* audio = reinterpret_cast<DA2D70Audio*>(FUN_00c85750());
+        DA2D70Audio* audio = reinterpret_cast<DA2D70Audio*>(static_cast<BSAudio*>(::FUN_00c85750()));
         DA2D70Listener* listener = audio->m_10;
         listener->vf08(this, static_cast<int>(unk04));
     }
@@ -3637,4 +3566,676 @@ void StackTraceOwner::FUN_00da2930()
     vtable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
+void __cdecl FUN_00da0680(char* a, int b);
+
+void* __cdecl FUN_00da0610();
+
+char* __cdecl FUN_00da0630(void);
+
+int* __cdecl FUN_00da0660(void);
+
+int* __cdecl FUN_00da0670();
+
+CpuOpaque* __cdecl FUN_00da0730();
+
+int* __cdecl FUN_00da0750();
+
+int* __cdecl FUN_00da08b0();
+
+void* __cdecl FUN_00da08d0(void);
+
+void* __cdecl FUN_00da0910(void);
+
+void* __cdecl FUN_00da0950();
+
+void* __cdecl FUN_00da0970();
+
+void* FUN_00da09a0();
+
+CpuOpaque* __cdecl FUN_00da09c0();
+
+void* __cdecl FUN_00da09e0();
+
+CpuOpaque* __cdecl FUN_00da0a00();
+
+void* __cdecl FUN_00da0a20();
+
+// FUN_00da0a40 : a one-line function - getter
+void* FUN_00da0a40();
+
+void* __cdecl FUN_00da0a60();
+
+// FUN_00da0a80 : returns the address of a global data object.
+int* __cdecl FUN_00da0a80(void);
+
+void* __cdecl FUN_00da0aa0();
+
+CpuOpaque* __cdecl FUN_00da0ac0();
+
+int* __cdecl FUN_00da0ae0(void);
+
+void* __cdecl FUN_00da0b00();
+
+void* __cdecl FUN_00da0b20();
+
+static void FUN_00dbb100(const DBB100Registry* registry, const void* object, DBB100Writer* writer);
+
+void DBB100WriteClassNames(const DBB100Registry* registry, const void** objects, DBB100Writer* writer);
+
+void __cdecl FUN_00da06d0(Buffer* self);
+
+int __cdecl SweepCollidePairs(const SweepBounds* bounds, int count, SweepPair* pairs, int capacity, int& skipped);
+
+void __cdecl FUN_00da0600();
+
+void __cdecl FUN_00da0620(void);
+
+void FUN_00da0640();
+
+void FUN_00da0650();
+
+void __cdecl FUN_00da0960();
+
+void __cdecl FUN_00da0980();
+
+void __cdecl FUN_00da0990();
+
+void __cdecl FUN_00da09b0();
+
+void __cdecl FUN_00da09d0();
+
+void __cdecl FUN_00da09f0();
+
+void FUN_00da0a10();
+
+void __cdecl FUN_00da0a30();
+
+void __cdecl FUN_00da0a50();
+
+void __cdecl FUN_00da0a70();
+
+void __cdecl FUN_00da0a90();
+
+void __cdecl FUN_00da0ab0();
+
+void __cdecl FUN_00da0ad0();
+
+void __cdecl FUN_00da2da0();
+
+void* __cdecl FUN_00db79c0();
+
+// 0x00db7c10  /MT /O2 /GS /EHsc /Gy   target: B8 28 9B 26 01 C3  (mov eax, offset DAT_01269b28; ret)
+int* FUN_00db7c10();
+
+extern "C" void __cdecl FUN_00ec658f(const void*);
+
+void* __cdecl FUN_00dba610();
+
+struct Vec4
+{
+    __declspec(align(16)) float v[4];
+};
+
+// @fnv 0x00db0dc0
+static __declspec(noinline) void FUN_00db0dc0(float* pFirst, float* pSecond, int idxFirst, int idxSecond,
+                                              unsigned char* pOut)
+{
+    Vec4 first = *(Vec4*)pFirst;
+    Vec4 second = *(Vec4*)pSecond;
+
+    first.v[idxFirst] = 1.0f;
+    second.v[idxSecond] = 1.0f;
+
+    __m128 zero = _mm_setzero_ps();
+    unsigned int maskFirst = _mm_movemask_ps(_mm_cmplt_ps(*(const __m128*)&first, zero));
+    unsigned int maskSecond = _mm_movemask_ps(_mm_cmplt_ps(*(const __m128*)&second, zero));
+
+    pOut[0] = (unsigned char)(((maskFirst | 0xf8) << 4) | idxFirst);
+    pOut[1] = (unsigned char)((((~maskSecond) & 7) << 4) + idxSecond);
+}
+
+float* volatile gA;
+
+float* volatile gB;
+
+volatile int gI;
+
+volatile int gJ;
+
+unsigned char* volatile gO;
+
+void drive_db0dc0(void)
+{
+    FUN_00db0dc0(gA, gB, gI, gJ, gO);
+}
+
+struct SymbolInfoBuffer
+{
+    unsigned int size, address, symbolSize, flags, maxNameLength;
+    char name[2028];
+};
+
+struct SourceLine
+{
+    unsigned int size;
+    void* key;
+    unsigned int lineNumber;
+    const char* fileName;
+    unsigned __int64 address;
+};
+
+struct DebugFunctions
+{
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* unk10;
+    void* unk14;
+    int(* symbolFromAddress)(void*, unsigned int, unsigned int*, SymbolInfoBuffer*);
+    void* unk1c;
+    void* unk20;
+    void* unk24;
+    int(* lineFromAddress)(void*, unsigned __int64, unsigned int*, SourceLine*);
+};
+
+extern char DAT_01269a88;
+
+struct StackTracer
+{
+    int unk00, unk04;
+    DebugFunctions* functions;
+    void FUN_00da2990(unsigned int* addresses, intptr_t count, void(__cdecl* output)(const char*, void*), void* context);
+};
+
+// @fnv 0x00da2990
+void StackTracer::FUN_00da2990(unsigned int* addresses, intptr_t count, void(__cdecl* output)(const char*, void*),
+                               void* context)
+{
+    void* process = GetCurrentProcess();
+    for (int i = 0; i < count; ++i)
+    {
+        unsigned int address = addresses[i];
+        SymbolInfoBuffer symbol;
+        memset(&symbol, 0, 24);
+        unsigned int displacement = 0;
+        symbol.size = 24;
+        symbol.maxNameLength = 2024;
+        if (!functions->symbolFromAddress(process, address, &displacement, &symbol))
+        {
+            if (!DAT_01269a88)
+            {
+                output(
+                    "**************************************************************\n* Cannot find symbol for an address\n* Either debug information was not found or your version of\n* dbghelp.dll may be too old to understand the debug format.\n* See the comments in hkStackTracer::hkStackTracer()\n* d:\\Projects\\fallout\\code\\Havok\\Source\\Common/Base/System/StackTracer/Impl/hkStackTracerWin32.cxx\n**************************************************************\n",
+                    context);
+                DAT_01269a88 = 1;
+            }
+            strcpy(symbol.name, "(unknown)");
+        }
+        else if (!strcmp(symbol.name, "WinMain"))
+            break;
+        SourceLine line;
+        memset(&line, 0, sizeof(line));
+        line.size = 24;
+        functions->lineFromAddress(process, address, &displacement, &line);
+        char buffer[2048];
+        std::snprintf(buffer, 2048, "%s(%i):'%s'\n", line.fileName, line.lineNumber, symbol.name);
+        output(buffer, context);
+    }
+}
+
+struct dad340_quad
+{
+    int unk00;
+    unsigned char idx04;
+    unsigned char idx05;
+    unsigned char idx06;
+    unsigned char idx07;
+};
+
+static const float dad340_ones[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+
+struct RowTable
+{
+    __m128 vertices[16];
+    __m128 normal;
+};
+
+// @fnv 0x00dad340
+static __declspec(noinline) int FUN_00dad340(const dad340_quad* q, const RowTable* table, __m128* out)
+{
+    const char* rows = (const char*)table;
+    unsigned i0 = q->idx04;
+    unsigned val = q->idx05;
+    unsigned p = q->idx07;
+    unsigned i2 = q->idx06;
+    const __m128* X = (const __m128*)(i0 + rows);
+    const __m128* EW = (const __m128*)(rows + val);
+    const __m128* p2 = (const __m128*)(i2 + rows);
+    const __m128* n = (const __m128*)(rows + p);
+    __m128 v3 = *n;
+    __m128 den_t = *EW;
+    __m128 p0 = *X;
+    __m128 u = *p2;
+    __m128 r = _mm_sub_ps(den_t, p0);
+    __m128 v0 = _mm_sub_ps(v3, u);
+    __m128 b = _mm_sub_ps(p0, u);
+    __m128 V = _mm_sub_ps(den_t, v3);
+    __m128 j = _mm_shuffle_ps(v0, v0, 0xc9);
+    __m128 Xd2 = _mm_shuffle_ps(v0, v0, 0xd2);
+    __m128 i1 = _mm_shuffle_ps(r, r, 0xd2);
+    __m128 Uc9 = _mm_shuffle_ps(r, r, 0xc9);
+    __m128 C = _mm_sub_ps(_mm_mul_ps(Xd2, Uc9), _mm_mul_ps(j, i1));
+    __m128 p3 = _mm_shuffle_ps(C, C, 0xc9);
+    __m128 Cd2 = _mm_shuffle_ps(C, C, 0xd2);
+    __m128 EV = _mm_sub_ps(_mm_mul_ps(Cd2, Uc9), _mm_mul_ps(p3, i1));
+    __m128 E = _mm_sub_ps(_mm_mul_ps(Cd2, j), _mm_mul_ps(p3, Xd2));
+    out[2] = table->normal;
+    __m128 DW = _mm_mul_ps(b, EV);
+    __m128 tq = _mm_mul_ps(E, b);
+    __m128 D = _mm_mul_ps(E, V);
+    __m128 ewdw_hi = _mm_shuffle_ps(tq, DW, 0xee);
+    __m128 ewdw_lo = _mm_shuffle_ps(tq, DW, 0x44);
+    __m128 DV = _mm_mul_ps(EV, V);
+    __m128 pObj = _mm_shuffle_ps(D, DV, 0x44);
+    __m128 lo = _mm_shuffle_ps(ewdw_lo, pObj, 0x88);
+    __m128 odd = _mm_shuffle_ps(ewdw_lo, pObj, 0xdd);
+    __m128 evdv_hi = _mm_shuffle_ps(D, DV, 0xee);
+    __m128 lo_pair = _mm_add_ps(odd, lo);
+    __m128 hi_pair = _mm_shuffle_ps(ewdw_hi, evdv_hi, 0x88);
+    __m128 F = _mm_add_ps(hi_pair, lo_pair);
+
+    if (_mm_movemask_ps(_mm_cmplt_ps(F, _mm_setzero_ps())) == 3 ||
+        _mm_movemask_ps(_mm_cmplt_ps(F, _mm_setzero_ps())) == 0xC)
+    {
+        __m128 a0 = *X;
+        __m128 f2 = _mm_shuffle_ps(F, F, 0xaa);
+        __m128 v2 = _mm_sub_ss(F, f2);
+        __m128 A = _mm_div_ss(F, v2);
+        __m128 i = _mm_shuffle_ps(A, A, 0x00);
+        __m128 f1 = _mm_sub_ps(_mm_load_ps(dad340_ones), i);
+        __m128 a1 = *EW;
+        __m128 p1 = _mm_add_ps(_mm_mul_ps(f1, a0), _mm_mul_ps(a1, i));
+        __m128 oneminus_t = _mm_shuffle_ps(F, F, 0x55);
+        __m128 f3 = _mm_shuffle_ps(F, F, 0xff);
+        *out = p1;
+        __m128 cnt = _mm_sub_ss(oneminus_t, f3);
+        __m128 uq = _mm_div_ss(oneminus_t, cnt);
+        __m128 evdv_lo = *p2;
+        __m128 Xc9 = _mm_shuffle_ps(uq, uq, 0x00);
+        __m128 oneminus_u = _mm_sub_ps(_mm_load_ps(dad340_ones), Xc9);
+        __m128 t2 = _mm_mul_ps(oneminus_u, evdv_lo);
+        __m128 a3 = *n;
+        __m128 v1 = _mm_add_ps(t2, _mm_mul_ps(a3, Xc9));
+        out[1] = _mm_sub_ps(p1, v1);
+        return 0;
+    }
+    return 1;
+}
+
+extern "C" const RowTable* get_rows();
+
+extern "C" dad340_quad* get_quad();
+
+extern "C" __m128* get_output();
+
+volatile int dad340_result;
+
+void dad340_drive()
+{
+    dad340_result = FUN_00dad340(get_quad(), get_rows(), get_output());
+}
+
+class GridVector
+{
+    __m128 value;
+
+  public:
+    __forceinline operator __m128() const
+    {
+        return value;
+    }
+    __forceinline void operator=(const GridVector& other)
+    {
+        value = other.value;
+    }
+    __forceinline void operator=(const __m128& other)
+    {
+        value = other;
+    }
+    __forceinline __m128& quad()
+    {
+        return value;
+    }
+    __forceinline const __m128& quad() const
+    {
+        return value;
+    }
+    __forceinline const float& lane(int i) const
+    {
+        return ((const float*)&value)[i];
+    }
+    __forceinline void fill(float f)
+    {
+        value = _mm_set1_ps(f);
+    }
+    __forceinline void subtract(const GridVector& other)
+    {
+        value = _mm_sub_ps(value, other.value);
+    }
+    __forceinline void add(const GridVector& other)
+    {
+        value = _mm_add_ps(value, other.value);
+    }
+    __forceinline void multiply(const GridVector& other)
+    {
+        value = _mm_mul_ps(value, other.value);
+    }
+    __forceinline void difference(const GridVector& a, const GridVector& b)
+    {
+        value = _mm_sub_ps(a.value, b.value);
+    }
+    __forceinline void sum(const GridVector& a, const GridVector& b)
+    {
+        value = _mm_add_ps(a.value, b.value);
+    }
+    __forceinline void quotient(const GridVector& a, const GridVector& b)
+    {
+        value = _mm_div_ps(a.value, b.value);
+    }
+    __forceinline void minimum(const GridVector& a, const GridVector& b)
+    {
+        value = _mm_min_ps(a.quad(), b.quad());
+    }
+    __forceinline void maximum(const GridVector& a, const GridVector& b)
+    {
+        value = _mm_max_ps(a.quad(), b.quad());
+    }
+    static __forceinline const GridVector& zero();
+};
+
+__forceinline const GridVector& GridVector::zero()
+{
+    return (*reinterpret_cast<::GridVector *>(&::DAT_01267e30));
+}
+
+struct GridBounds
+{
+    GridVector lower, upper;
+    GridBounds()
+    {}
+    __forceinline void reset()
+    {
+        lower.fill(3.40282e38f);
+        upper.fill(-3.40282e38f);
+    }
+    __forceinline void include(const GridVector& v)
+    {
+        lower.minimum(lower, v);
+        upper.maximum(upper, v);
+    }
+};
+
+union GridUIntStorage
+{
+    __m128i vector;
+    unsigned int lanes[4];
+};
+
+class GridUInt
+{
+    __m128i value;
+
+  public:
+    __forceinline operator __m128i() const
+    {
+        return value;
+    }
+    __forceinline void encode(const GridVector& v)
+    {
+        GridUIntStorage bits;
+        bits.lanes[0] = (unsigned int)v.lane(0);
+        bits.lanes[1] = (unsigned int)v.lane(1);
+        bits.lanes[2] = (unsigned int)v.lane(2);
+        bits.lanes[3] = (unsigned int)v.lane(3);
+        value = bits.vector;
+    }
+    __forceinline void decode(GridVector& out) const
+    {
+        const __m128 factor = {1.0e16f, 1.0e16f, 1.0e16f, 1.0e16f};
+        __m128i bits = value;
+        {
+            __m128i top = _mm_srli_epi32(bits, 16);
+            __m128i bottom = _mm_srli_epi32(_mm_slli_epi32(bits, 16), 16);
+            __m128 highFloat = _mm_mul_ps(_mm_cvtepi32_ps(top), factor);
+            __m128 lowFloat = _mm_cvtepi32_ps(bottom);
+            out.quad() = _mm_add_ps(highFloat, lowFloat);
+        }
+    }
+};
+
+struct GridArray
+{
+    GridVector* data;
+    int count;
+    __forceinline int size() const
+    {
+        return count;
+    }
+    __forceinline GridVector& operator[](int i)
+    {
+        return data[i];
+    }
+};
+
+struct GridMesh
+{
+    GridArray vertices;
+};
+
+// @fnv 0x00da0d50
+void __cdecl FUN_00da0d50(GridMesh& mesh, int resolution)
+{
+    GridBounds bounds;
+    bounds.reset();
+    for (int i = 0; i < mesh.vertices.size(); ++i)
+        bounds.include(mesh.vertices[i]);
+    GridVector border;
+    border.fill(0.01f);
+    bounds.lower.subtract(border);
+    bounds.upper.add(border);
+    GridVector width;
+    width.difference(bounds.upper, bounds.lower);
+    GridVector domain;
+    domain.fill(float(resolution - 1.0));
+    GridVector step;
+    step.quotient(width, domain);
+    GridVector reciprocal;
+    reciprocal.quotient(domain, width);
+    for (int i = 0; i < mesh.vertices.size(); ++i)
+    {
+        GridVector value;
+        value.difference(mesh.vertices[i], bounds.lower);
+        value.multiply(reciprocal);
+        GridUInt packed;
+        packed.encode(value);
+        packed.decode(value);
+        value.maximum(GridVector::zero(), value);
+        value.minimum(domain, value);
+        value.multiply(step);
+        mesh.vertices[i].sum(value, bounds.lower);
+    }
+}
+
+void FUN_00da82d0();
+
+static float FUN_00db09f0(unsigned short arg);
+
+void drive_db09f0(void);
+
+static int* FUN_00db0db0(unsigned int a);
+
+int* stub_caller(void);
+
+class hkMemoryAllocatorDA24
+{
+  public:
+    virtual ~hkMemoryAllocatorDA24() throw();
+    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
+    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
+    virtual void* AllocateBufferWithSize(int& iReqNumBytes) throw();
+    virtual void ReturnMemory(void* p, int iNumBytes) throw();
+};
+
+struct hkMemoryRouterDA24
+{
+    int unk00, unk04, unk08, unk0C;
+    hkMemoryAllocatorDA24* m_pStreamAllocator;
+    hkMemoryAllocatorDA24& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+};
+
+namespace hkRouterDA24 {
+}
+
+namespace hkArrayUtilDA24 {
+template <class T> __forceinline void destruct(T* t, int numElements)
+{
+    for (int i = 0; i < numElements; i++)
+        t[i].~T();
+}
+}
+
+template <class T> class hkArrayDA24
+{
+  public:
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    enum
+    {
+        CAPACITY_MASK = 0x3fffffff,
+        DONT_DEALLOCATE_FLAG = 0x80000000
+    };
+
+    int getCapacity() const
+    {
+        return m_iCapacityState & CAPACITY_MASK;
+    }
+
+    __forceinline void _clearAndDeallocate(hkMemoryAllocatorDA24& alloc)
+    {
+        hkArrayUtilDA24::destruct(m_data, m_iElementCount);
+        m_iElementCount = 0;
+        if ((m_iCapacityState & DONT_DEALLOCATE_FLAG) == 0)
+            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+        m_data = 0;
+        m_iCapacityState = DONT_DEALLOCATE_FLAG;
+    }
+
+    ~hkArrayDA24() throw()
+    {
+        _clearAndDeallocate((*static_cast<hkMemoryRouterDA24*>(::FUN_00c85750())).heap());
+    }
+
+    hkArrayDA24() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(DONT_DEALLOCATE_FLAG)
+    {}
+};
+
+struct hkBoolDA24
+{
+    char m_cBooleanValue;
+    hkBoolDA24(bool b) throw() : m_cBooleanValue((char)b)
+    {}
+};
+
+// @fnv 0x00da24b0
+void __cdecl FUN_00da24b0(intptr_t iParam, float fParam)
+{
+    hkArrayDA24<int> kFirst;
+    hkArrayDA24<int> kSecond;
+    ::FUN_00da12b0((::ScriptProgram *)(iParam), fParam, (*(bool *)&(const ::hkBoolDA24 &)(false)), (::MeshArray<int> *)&(kFirst), (::MeshArray<int> *)&(kSecond));
+}
+
+// da0bd0: dot(C, cross(A,B)) scalar triple product, SSE.
+// Body 1:1 from ORIG (see probe/). Decl order (pC, pA, pB): stack arg = decl1
+// (deref'd last), pA->ecx, pB->edx â€” the per-TU (decl1->stack, decl2->ecx,
+// decl3->edx) law. ORIG has (eax, ecx, stack + edx-cache): only the GP-register
+// renaming differs, 4 operand bytes, both 91 bytes total.
+
+struct __declspec(align(16)) Vec4da0
+{
+    float x, y, z, w;
+};
+
+extern "C" const Vec4da0* da0_eax_src(void);
+
+// undefined: return in eax at call site
+
+const Vec4da0* volatile g_da0_pb;
+
+const Vec4da0* volatile g_da0_pc;
+
+volatile float g_da0_sink;
+
+// @fnv 0x00da0bd0
+static __declspec(noinline) float FUN_00da0bd0(const Vec4da0* pC, const Vec4da0* pA, const Vec4da0* pB)
+{
+    __m128 a = _mm_load_ps(&pA->x);
+    __m128 b = _mm_load_ps(&pB->x);
+    __m128 b1 = _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1));  // b1 b2 b0 b3
+    __m128 a1 = _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 1, 0, 2));  // a2 a0 a1 a3
+    __m128 m1 = _mm_mul_ps(b1, a1);
+    __m128 b2 = _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 1, 0, 2));  // b2 b0 b1 b3
+    __m128 a2 = _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1));  // a1 a2 a0 a3
+    __m128 c = _mm_load_ps(&pC->x);
+    __m128 m2 = _mm_mul_ps(b2, a2);
+    __m128 cr = _mm_sub_ps(m2, m1);
+    __m128 t = _mm_mul_ps(cr, c);
+    __m128 h1 = _mm_add_ss(_mm_shuffle_ps(t, t, 85), t);    // lane1 + lane0
+    __m128 h2 = _mm_add_ss(_mm_shuffle_ps(t, t, 170), h1);  // lane2 + (l1+l0)
+    float r;
+    _mm_store_ss(&r, h2);
+    return r;
+}
+
+void da0_caller(void)
+{
+    g_da0_sink = FUN_00da0bd0(g_da0_pb, da0_eax_src(), g_da0_pc);
+}
+
+extern "C"
+{
+// @fnv 0x00da82e0
+    static __declspec(noinline) float FUN_00da82e0(const float* weights, const __m128* other, const __m128* value)
+    {
+        float sum;
+        __m128 difference = _mm_sub_ps(*other, *value);
+        __m128 product = _mm_mul_ps(difference, _mm_load_ps(weights));
+        __m128 sum01 = _mm_shuffle_ps(product, product, 0x55);
+        __m128 sum2 = _mm_shuffle_ps(product, product, 0xaa);
+        sum01 = _mm_add_ss(sum01, product);
+        sum2 = _mm_add_ss(sum2, sum01);
+        _mm_store_ss(&sum, sum2);
+        return sum * fabs(sum);
+    }
+}
+
+extern "C" const __m128* nextValue();
+
+extern "C" const __m128* nextOther();
+
+extern "C" const float* nextWeights();
+
+volatile float dotResult;
+
+void dotCaller()
+{
+    dotResult = FUN_00da82e0(nextWeights(), nextOther(), nextValue());
+}
+
 #include "generated/data/staging/blk_00da0000_o2.inc"
+#include "generated/data/staging/blk_00da0000_o2_gs_nogs_variant.inc"

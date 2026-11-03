@@ -12,6 +12,6 @@ struct SplitInput;
 // 0x00e2c100
 namespace fnv_00e2c100 { void FUN_00e2c100(::fnv_00e2c100::Tree *, ::fnv_00e2c100::QuantizedNode *, void *, ::fnv_00e2c100::Ray *, ::fnv_00e2c100::Query *, ::fnv_00e2c100::Filter *, ::fnv_00e2c100::Shape *, void *, float *, int *, int, int, int, int, int *, int *, int *, int *, ::fnv_00e2c100::QuantizedNode *, ::fnv_00e2c100::QuantizedNode *); }
 // 0x00e2c8a0
-namespace fnv_00e2c8a0 { void FUN_00e2c8a0(::fnv_00e2c8a0::Owner *, void *, const void *, int, void *, void *, int); }
+namespace fnv_00e2c8a0 { void FUN_00e2c8a0(::fnv_00e2c8a0::Owner *, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, int); }
 // 0x00e2cc30
-void FUN_00e2cc30(::SplitInput *, void *, const void *, int, void *, void *, int);
+void FUN_00e2cc30(::SplitInput *, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, int);

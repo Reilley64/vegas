@@ -18,7 +18,10 @@
 #include "fnv/symbols_00c9d000.h"
 #include "fnv/symbols_00cb5000.h"
 #include "fnv/symbols_00cb6000.h"
-#include "fnv/symbols_00cf6000.h"
+struct Meta64;
+struct Writer64;
+// symbols_00cf6000.h forward-declares hkBool as a struct, which clashes with hkBase.h's typedef.
+void WriteReflectedMembers(void *, ::Meta64 *, ::Writer64 *);
 #include "fnv/symbols_00cff000.h"
 #include "fnv/symbols_00d06000.h"
 #include "fnv/symbols_00d1a000.h"

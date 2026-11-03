@@ -22,7 +22,6 @@
 #include "fnv/decl/MProduct.h"
 #include "fnv/decl/S_00cd4c70.h"
 #include "fnv/decl/S_00d752e0_Class.h"
-#include "fnv/decl/Solver.h"
 #include "fnv/decl/fnv_00d75560__FUN_00d75560_cls.h"
 #include "fnv/decl/fnv_00d75600__S_00d75600_Obj.h"
 #include "fnv/decl/fnv_00d76940__FUN_00d76940_cls.h"
@@ -46,9 +45,7 @@
 #include "fnv/symbols_010cb000.h"
 #include "fnv/symbols_011b1000.h"
 #include "fnv/symbols_01272000.h"
-struct Object
-{
-};
+struct Object;
 void __cdecl FUN_00cebdf0(float* source, float value, Object* destination);
 // Multiplies the float at source by scale and passes the result to FUN_00cebdf0 along with source and destination.
 // @fnv 0x00cebe50
@@ -60,17 +57,21 @@ void __cdecl FUN_00cebe50(float* source, float scale, Object* destination)
 
 struct Receiver
 {
+    float m_volume;
+    float m_mass;
+    __m128 m_centerOfMass;
+    __m128 m_inertiaTensor[3];
     void FUN_00cecc90(float value);
 };
 struct State
 {
-    int first;
+    const __m128* first;
     int count;
     int context;
 };
 void FUN_00cebbb0(void* state, float zero, void* receiver);
 // @fnv 0x00ced020
-int __cdecl ApplyLimitToReceiver(int owner, int context, int count, float limit, Receiver* receiver, float value)
+int __cdecl ApplyLimitToReceiver(const __m128* owner, int context, int count, float limit, Receiver* receiver, float value)
 {
     State state;
     if (limit <= 0.0f)
@@ -292,18 +293,20 @@ void __cdecl FUN_00ced230(float afDivisor, S_00ced230_T* pData)
 
 
 
+struct Edge;
+struct Node;
 struct S_00cee1c0_Arr
 {
-    unsigned int* m_data;
+    Edge** m_data;
     int m_iElementCount;
     unsigned int m_cap;
-    unsigned int* m_pTrailingData;
+    Edge** m_pTrailingData;
 };
 
-float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int unk, float value);
+float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, Node* node, float value);
 
 // @fnv 0x00cee1c0
-void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, float value)
+void __cdecl ProcessArrayWithValue(Edge** source, int count, Node* unk, float value)
 {
     S_00cee1c0_Arr arr;
     arr.m_data = 0;
@@ -311,7 +314,7 @@ void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, flo
     arr.m_cap = 0x80000000;
 
     hkMemoryRouter* r = &hkMemoryRouter::getInstance();
-    unsigned int* mem = static_cast<unsigned int*>(r->allocateStack((count * 4 + 0x7f) & 0xffffff80));
+    Edge** mem = static_cast<Edge**>(r->allocateStack((count * sizeof(Edge*) + 0x7f) & ~size_t(0x7f)));
     arr.m_cap = count | 0x80000000;
     arr.m_data = mem;
     arr.m_pTrailingData = mem;
@@ -327,7 +330,7 @@ void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, flo
     }
 
     FUN_00cedec0(&arr, unk, value);
-    unsigned int* local = arr.m_pTrailingData;
+    Edge** local = arr.m_pTrailingData;
     if (local == arr.m_data)
     {
         arr.m_iElementCount = 0;
@@ -337,7 +340,7 @@ void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, flo
     arr.m_iElementCount = 0;
     if ((arr.m_cap & 0x80000000) == 0)
     {
-        h->bufFree(arr.m_data, (arr.m_cap & 0x3fffffff) * 4);
+        h->bufFree(arr.m_data, (arr.m_cap & 0x3fffffff) * sizeof(Edge*));
     }
 }
 
@@ -461,7 +464,7 @@ struct Vector
     }
     float& operator()(int i)
     {
-        return q[i];
+        return reinterpret_cast<float*>(&q)[i];
     }
     int maxAxisSecond() const
     {
@@ -494,7 +497,6 @@ struct Bounds
 {
     Vector lo, hi;
 };
-extern const Vector DAT_01017d10;
 void FUN_00d5ac50(char*, Matrix*, Vector*, Vector*, Vector*);
 struct Shape
 {
@@ -524,10 +526,10 @@ void FUN_00cedae0(Shape* shape, const Matrix* input, Vector* outA, Vector* outB)
     shape->getAabb(&transform, 0.0f, &bounds);
     Vector extent, absolute;
     extent.q = _mm_sub_ps(bounds.hi.q, bounds.lo.q);
-    absolute.q = _mm_and_ps(extent.q, DAT_01017d10.q);
+    absolute.q = _mm_and_ps(extent.q, DAT_01017d10);
     int first = absolute.maxAxis();
     extent(first) = 0.0f;
-    absolute.q = _mm_and_ps(extent.q, DAT_01017d10.q);
+    absolute.q = _mm_and_ps(extent.q, DAT_01017d10);
     int second = absolute.maxAxisSecond();
     *outA = transform.columns[first];
     *outB = transform.columns[second];
@@ -703,13 +705,13 @@ int __cdecl FUN_00ceccf0(float start, float span, float t, S00ceccf0_Out* out)
 
 struct Edge
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int n14;
-    int n18;
+    void* m_vtable;
+    int m_memSizeAndRefCount;
+    void* m_owner;
+    void* m_data;
+    void* m_constraintModifiers;
+    Node* n14;
+    Node* n18;
 };
 
 struct __declspec(align(16)) Mat3
@@ -767,7 +769,7 @@ __forceinline void releaseArr(LocalArr* a)
     int cap = a->m_cap;
     a->m_iElementCount = 0;
     if ((cap & 0x80000000) == 0)
-        heap->bufFree(a->m_data, (cap & 0x3fffffff) * 4);
+        heap->bufFree(a->m_data, (cap & 0x3fffffff) * sizeof(Edge*));
 }
 
 __forceinline float fMinimumInputValue(float a, float b)
@@ -781,7 +783,7 @@ __forceinline float fTargetUpperBound(float a, float b)
 
 // Recurses over arr's edges linked to the node, then for a non-static node limits its inertia diagonal entries and returns a clamped value; static nodes return 0.
 // @fnv 0x00cedec0
-float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int aiNode, float value)
+float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, Node* aiNode, float value)
 {
     LocalArr local;
     local.m_data = &local.storage[0];
@@ -790,16 +792,16 @@ float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int aiNode, float value)
 
     for (int i = arr->m_iElementCount - 1; i >= 0; --i)
     {
-        unsigned int* data = arr->m_data;
-        Edge* e = (Edge*)data[i];
-        int other;
+        Edge** data = arr->m_data;
+        Edge* e = data[i];
+        Node* other;
         if (e->n14 == aiNode)
             other = e->n18;
         else if (e->n18 != aiNode)
             continue;
         else
             other = e->n14;
-        if (other == 0)
+        if (other == nullptr)
             continue;
 
         int n = --arr->m_iElementCount;
@@ -808,7 +810,7 @@ float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int aiNode, float value)
 
         hkMemoryRouter* router = &hkMemoryRouter::getInstance();
         if (local.m_iElementCount == (local.m_cap & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(void *)(&local), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(void *)(&local), sizeof(Edge*));
         local.m_data[local.m_iElementCount++] = e;
     }
 
@@ -817,14 +819,14 @@ float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int aiNode, float value)
     for (int i = local.m_iElementCount - 1; i >= 0; --i)
     {
         Edge* e = local.m_data[i];
-        int other = (e->n14 == aiNode) ? e->n18 : e->n14;
+        Node* other = (e->n14 == aiNode) ? e->n18 : e->n14;
         float r = FUN_00cedec0(arr, other, value);
         sum += r;
         if (best < r)
             best = r;
     }
 
-    Node* body = (Node*)aiNode;
+    Node* body = aiNode;
     if (body->isStatic())
     {
         releaseArr(&local);
@@ -2209,21 +2211,16 @@ function_end:
     return;
 }
 
-struct S_00cecc90_Sub
-{
-    void Multiply(Vector* v);
-};
-
 // Stores value at offset 4, computes value divided by the previous value, and passes the quotient to Multiply.
 // @fnv 0x00cecc90
 __declspec(noinline) void Receiver::FUN_00cecc90(float value)
 {
-    float* p = (float*)((char*)this + 4);
+    float* p = &m_mass;
     float quotient = value / *p;
     *p = value;
     Vector v;
     v.q = _mm_load_ss(&quotient);
-    reinterpret_cast<::S_00cd4c70 *>((((S_00cecc90_Sub*)((char*)this + 0x20))))->Multiply((*(const ::S_V4 *)(&v)));
+    reinterpret_cast<::S_00cd4c70 *>(m_inertiaTensor)->Multiply((*(const ::S_V4 *)(&v)));
 }
 
 
@@ -2269,7 +2266,7 @@ struct V4
     }
     float& operator()(int i)
     {
-        return q[i];
+        return reinterpret_cast<float*>(&q)[i];
     }
     const float& operator()(int i) const
     {
@@ -2362,12 +2359,18 @@ struct DestBlock
     void Multiply(Vec4Q* v);
 };
 
+struct Object
+{
+    __m128 m_unk00[5];
+    DestBlock m_massBlock;
+};
+
 // Copies four __m128 blocks from source into destination at offset 0x50, stores value in f40, and calls Multiply with value divided by src->f04.
 // @fnv 0x00cebdf0
 void __cdecl FUN_00cebdf0(float* source, float value, Object* destination)
 {
     SourceBlock* src = (SourceBlock*)source;
-    DestBlock* dst = (DestBlock*)((char*)destination + 0x50);
+    DestBlock* dst = &destination->m_massBlock;
     float q = value / src->f04;
     float* qp = &q;
     dst->f40 = value;
@@ -2631,9 +2634,10 @@ int __cdecl FUN_00cedcb0(char* apVertices, int stride, int count, float mass, Ou
     float zero = 0.0f;
     for (int i = 0; i < count; i++)
     {
-        a.data[i].x = ((float*)p)[0];
-        a.data[i].y = ((float*)p)[1];
-        a.data[i].z = ((float*)p)[2];
+        const float* vertex = reinterpret_cast<const float*>(p);
+        a.data[i].x = vertex[0];
+        a.data[i].y = vertex[1];
+        a.data[i].z = vertex[2];
         a.data[i].w = zero;
         p += stride;
     }
@@ -2766,7 +2770,7 @@ void __cdecl FUN_00ced6b0(Geometry* geometry, float mass, MassPropertiesSV* resu
     {
         Vec4 shift;
         *(__m128*)&shift = _mm_xor_ps(DAT_010c44d0, centerValue);
-        reinterpret_cast<::Solver *>(&(integrator))->FUN_00ced390((::State *)(geometry), (float *)(::Vec4 *)(&shift));
+        integrator.FUN_00ced390(geometry, &shift);
     }
     if (integrator.m_64 <= 0.0f)
     {
@@ -2804,11 +2808,11 @@ void __cdecl FUN_00ced6b0(Geometry* geometry, float mass, MassPropertiesSV* resu
 #include "fnv/symbols_00d5a000.h"
 #include "fnv/symbols_01013000.h"
 void __cdecl FUN_00cebe50(float* source, float scale, Object* destination);
-int __cdecl ApplyLimitToReceiver(int owner, int context, int count, float limit, Receiver* receiver, float value);
+int __cdecl ApplyLimitToReceiver(const __m128* owner, int context, int count, float limit, Receiver* receiver, float value);
 void __cdecl FUN_00cebe80(FUN_00cebe80_Struct* pThis, float fParam2, float* pOut);
 void __cdecl AddInertiaTensor(float* param_1, float param_2, float* param_3);
 void __cdecl FUN_00ced230(float d, S_00ced230_T* p);
-void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, float value);
+void __cdecl ProcessArrayWithValue(Edge** source, int count, Node* unk, float value);
 void FUN_00cedae0(Shape* shape, const Matrix* input, Vector* outA, Vector* outB);
 
 
@@ -2883,25 +2887,6 @@ int __cdecl FUN_00cece50(float* src, float mass, float thickness, CE50Body* out,
         return 0;
     }
     return 1;
-}
-__declspec(noinline) void __cdecl FUN_00cec7f0(int first, int count, float* b, float* a)
-{
-    _mm_store_ps(b, _mm_setzero_ps());
-    _mm_store_ps(a, _mm_setzero_ps());
-    __m128 lo = _mm_set_ps1(DAT_0104da48);
-    __m128 hi = _mm_xor_ps(lo, DAT_010c44d0);
-    const __m128* vertices = (const __m128*)first;
-    for (int i = 0; i < count; ++i)
-    {
-        lo = _mm_min_ps(vertices[i], lo);
-        hi = _mm_max_ps(vertices[i], hi);
-    }
-    if (count != 0)
-    {
-        __m128 half = _mm_set_ps1(::fnv_00c88020::DAT_01016248);
-        _mm_store_ps(b, _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, half), lo), _mm_mul_ps(half, hi)));
-        _mm_store_ps(a, _mm_sub_ps(hi, lo));
-    }
 }
 __int64 __cdecl FUN_00cebaf0(float* source, float value, void* dest);
 
@@ -3100,7 +3085,7 @@ int __cdecl FUN_00ced8e0(State* self, float value, OutBlock* out)
         return 1;
     Vec4F b;
     Vec4F a;
-    FUN_00cec7f0(self->first, self->count, (float*)&b, (float*)&a);
+    FUN_00cec7f0(self->first, self->count, reinterpret_cast<__m128*>(&b), reinterpret_cast<__m128*>(&a));
     Work w;
     w.pair.x = 0.0f;
     w.pair.y = 0.0f;
@@ -3387,21 +3372,9 @@ class hkVector4
     }
     hkQuadReal m_vComponents;
 public:
-    __forceinline void operator=(const hkVector4& v)
-    {
-        m_vComponents = v.m_vComponents;
-    }
-    __forceinline void setZero4()
-    {
-        m_vComponents = _mm_setzero_ps();
-    }
     __forceinline void add4(const hkVector4& v)
     {
         m_vComponents = _mm_add_ps(m_vComponents, v.m_vComponents);
-    }
-    __forceinline void setSub4(const hkVector4& v0, const hkVector4& v1)
-    {
-        m_vComponents = _mm_sub_ps(v0.m_vComponents, v1.m_vComponents);
     }
     __forceinline void setMul4(hkSimdRealParameter r, const hkVector4& v1)
     {
@@ -3411,52 +3384,10 @@ public:
     {
         m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(r.broadcast(), v1.m_vComponents));
     }
-    __forceinline void setCross(const hkVector4& v0, const hkVector4& v1)
-    {
-        hkQuadReal cross0;
-        cross0 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xc9),
-                            _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2));
-        hkQuadReal cross1;
-        cross1 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xd2),
-                            _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9));
-        m_vComponents = _mm_sub_ps(cross0, cross1);
-    }
-    __forceinline VectorComponentValue dot3(const hkVector4& a) const
-    {
-        hkQuadReal x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
-        hkQuadReal xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
-        return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), xySum);
-    }
-    __forceinline VectorComponentValue length3() const
-    {
-        return _mm_sqrt_ss(this->dot3(*this).getQuad());
-    }
-    __forceinline VectorComponentValue lengthInverse3() const
-    {
-        const hkQuadReal half = _mm_set_ss(0.5f);
-        const hkQuadReal three = _mm_set_ss(3.0f);
-        const hkQuadReal zero = _mm_set_ss(0.0f);
-        const hkQuadReal len2 = this->dot3(*this).getQuad();
-        const hkQuadReal len2EqualsZero = _mm_cmpeq_ss(len2, zero);
-        const hkQuadReal approx = _mm_rsqrt_ss(len2);
-        const hkQuadReal refined =
-            _mm_mul_ss(_mm_mul_ss(half, approx), _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(len2, approx), approx)));
-        return _mm_andnot_ps(len2EqualsZero, refined);
-    }
-    __forceinline void normalize3()
-    {
-        hkQuadReal lenInv = lengthInverse3().broadcast();
-        m_vComponents = _mm_mul_ps(lenInv, m_vComponents);
-    }
-    __forceinline hkReal& operator()(int a)
-    {
-        return reinterpret_cast<hkReal*>(&m_vComponents)[a];
-    }
     __forceinline const hkReal& operator()(int a) const
     {
         return reinterpret_cast<const hkReal*>(&m_vComponents)[a];
     }
-    hkQuadReal m_vComponents;
 };
 
 class hkQuaternion
@@ -3506,22 +3437,6 @@ class hkMatrix3
         (*this)(0, 0) = one;
         (*this)(1, 1) = one;
         (*this)(2, 2) = one;
-    }
-    hkVector4 m_kColumn0, m_kColumn1, m_kColumn2;
-public:
-    __forceinline void operator=(const hkMatrix3& a)
-    {
-        m_kColumn0 = a.getColumn(0);
-        m_kColumn1 = a.getColumn(1);
-        m_kColumn2 = a.getColumn(2);
-    }
-    __forceinline void setZero()
-    {
-        hkVector4 zero;
-        zero.setZero4();
-        getColumn(0) = zero;
-        getColumn(1) = zero;
-        getColumn(2) = zero;
     }
     hkVector4 m_kColumn0, m_kColumn1, m_kColumn2;
 };
@@ -3714,12 +3629,12 @@ int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver);
 int __cdecl FUN_00ced090(S_00ced090_State* s, S_00ced090_Out* out);
 
 
-template <typename T> class HavokElementArray
+template <typename T> class HavokElementArrayEhsc
 {
   public:
-    __forceinline HavokElementArray() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    __forceinline HavokElementArrayEhsc() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {}
-    __forceinline HavokElementArray(T* ptr, int size, int capacity)
+    __forceinline HavokElementArrayEhsc(T* ptr, int size, int capacity)
         : m_data(ptr), m_iElementCount(size), m_iCapacityState(capacity | 0x80000000)
     {}
     __forceinline int getCapacity() const
@@ -3760,7 +3675,7 @@ template <typename T> class HavokElementArray
         m_iElementCount += n;
         return m_data + oldsize;
     }
-    __forceinline void copyFromArray(hkMemoryAllocator& alloc, const HavokElementArray<T>& a)
+    __forceinline void copyFromArray(hkMemoryAllocator& alloc, const HavokElementArrayEhsc<T>& a)
     {
         if (getCapacity() < a.GetLogicalSize())
         {
@@ -3794,12 +3709,12 @@ template <typename T> class HavokElementArray
     int m_iElementCount;
     int m_iCapacityState;
 };
-template <typename T> class hkArray : public HavokElementArray<T>
+template <typename T> class hkArrayEhsc : public HavokElementArrayEhsc<T>
 {
   public:
-    __forceinline hkArray()
+    __forceinline hkArrayEhsc()
     {}
-    __forceinline hkArray(T* ptr, int size, int capacity) : HavokElementArray<T>(ptr, size, capacity)
+    __forceinline hkArrayEhsc(T* ptr, int size, int capacity) : HavokElementArrayEhsc<T>(ptr, size, capacity)
     {}
     __forceinline void ClearAndRelease()
     {
@@ -3813,18 +3728,18 @@ template <typename T> class hkArray : public HavokElementArray<T>
     {
         return this->_expandBy(RouterHeapAllocatorProvider().get(this), n);
     }
-    __forceinline hkArray<T>& operator=(const hkArray<T>& a)
+    __forceinline hkArrayEhsc<T>& operator=(const hkArrayEhsc<T>& a)
     {
         this->copyFromArray(RouterHeapAllocatorProvider().get(this), a);
         return *this;
     }
 };
-template <typename T, unsigned N> class hkInplaceArray : public hkArray<T>
+template <typename T, unsigned N> class hkInplaceArrayEhsc : public hkArrayEhsc<T>
 {
   public:
-    __forceinline explicit hkInplaceArray(int size = 0) : hkArray<T>(m_kStorage, size, N)
+    __forceinline explicit hkInplaceArrayEhsc(int size = 0) : hkArrayEhsc<T>(m_kStorage, size, N)
     {}
-    __forceinline ~hkInplaceArray()
+    __forceinline ~hkInplaceArrayEhsc()
     {
         this->ClearAndRelease();
     }
@@ -3844,8 +3759,8 @@ struct hkGeometry
             m_iMaterialIndex = material;
         }
     };
-    hkArray<hkVector4> m_kVertices;
-    hkArray<Triangle> m_uiTriangleCount;
+    hkArrayEhsc<hkVector4> m_kVertices;
+    hkArrayEhsc<Triangle> m_uiTriangleCount;
     __forceinline hkGeometry()
     {}
     __forceinline ~hkGeometry()
@@ -3942,7 +3857,7 @@ int __cdecl FUN_00cee290(const hkVector4& v0, const hkVector4& v1, const hkVecto
     else
     {
         normal.normalize3();
-        hkInplaceArray<hkVector4, 6> vertices(0);
+        hkInplaceArrayEhsc<hkVector4, 6> vertices(0);
         vertices.SetSizeAndGrow(6);
         vertices[0] = v0;
         vertices[1] = v0;
@@ -4076,7 +3991,7 @@ struct CapsuleMassMatrix
     }
     __forceinline float& at(int r, int c)
     {
-        return (&row0)[c].m[r];
+        return reinterpret_cast<float*>(&(&row0)[c].m)[r];
     }
     __forceinline void identity()
     {

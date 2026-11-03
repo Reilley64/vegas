@@ -2,6 +2,7 @@
 // src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpumoppaabbjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpumoppaabbjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/GridCell.h"
 #include "fnv/decl/LunaOwner.h"
@@ -78,7 +79,6 @@ struct S_00df7010_Router
     }
 };
 
-S_00df7010_Router* FUN_00c85750() throw();
 
 struct S_00df7010_HitArray
 {
@@ -91,7 +91,7 @@ struct S_00df7010_HitArray
     {}
     ~S_00df7010_HitArray() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(static_cast<S_00df7010_Router*>(::FUN_00c85750())->heap());
     }
 
     int getCapacity() const
@@ -115,7 +115,7 @@ struct S_00df7010_HitArray
     }
     void AddBack(const unsigned int& e)
     {
-        _pushBack(FUN_00c85750()->heap(), e);
+        _pushBack(static_cast<S_00df7010_Router*>(::FUN_00c85750())->heap(), e);
     }
 };
 

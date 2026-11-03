@@ -26,11 +26,11 @@ struct hkVector4
     }
     float& operator()(int i)
     {
-        return m_vComponents[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
     const float& operator()(int i) const
     {
-        return m_vComponents[i];
+        return reinterpret_cast<const float*>(&m_vComponents)[i];
     }
 
     __forceinline void setSub4(const hkVector4& a, const hkVector4& b)
@@ -336,11 +336,11 @@ class ManifoldVector
     }
     __forceinline float& operator()(int index)
     {
-        return value[index];
+        return reinterpret_cast<float*>(&value)[index];
     }
     __forceinline const float& operator()(int index) const
     {
-        return value[index];
+        return reinterpret_cast<const float*>(&value)[index];
     }
     __forceinline void setSub4(const ManifoldVector& a, const ManifoldVector& b)
     {

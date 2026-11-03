@@ -2,6 +2,7 @@
 // src/havok/physics/collide/util/welding/hkpmeshweldingutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/welding/hkpmeshweldingutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include <cmath>
@@ -90,7 +91,6 @@ struct S_00ddecf0_Router
         return *m_pStreamAllocator;
     }
 };
-S_00ddecf0_Router* FUN_00c85750();
 
 struct S_00ddecf0_Array
 {
@@ -411,7 +411,7 @@ void S_00ddecf0::InsertKey(float t, float a, float b)
     key.t = t;
     key.a = a;
     key.b = b;
-    reinterpret_cast<::S_00ddecd0 *>(&(m_keys))->FUN_00ddecd0((int)&(FUN_00c85750()->heap()), n, (int)&(key));
+    reinterpret_cast<::S_00ddecd0 *>(&(m_keys))->FUN_00ddecd0((int)&(static_cast<S_00ddecf0_Router*>(::FUN_00c85750())->heap()), n, (int)&(key));
 }
 // @fnv 0x00ddecd0
 void S_00ddecd0::FUN_00ddecd0(int aiArg1, int aiArg2, int aiArg3)
@@ -846,7 +846,6 @@ struct S_00ddecf0_Heap
     }
 };
 
-__declspec(nothrow) S_00ddecf0_Router* FUN_00c85750();
 
 struct KeyLess
 {
@@ -868,7 +867,7 @@ struct ArrayAllocator
 {
     __forceinline S_00ddecf0_Heap& get(const void*) const
     {
-        return FUN_00c85750()->heap();
+        return static_cast<S_00ddecf0_Router*>(::FUN_00c85750())->heap();
     }
 };
 template <typename T> struct SpanStorage
@@ -1151,13 +1150,13 @@ void __cdecl FUN_00dde760(int a, int aiPayload, int c, int d)
     vector.elements = 0;
     vector.size = 0;
     vector.encodedCapacity = 0x80000000;
-    S00dde760_PoolState* poolState = ((S00dde760_PoolState*)FUN_00c85750());
+    S00dde760_PoolState* poolState = ((S00dde760_PoolState*)static_cast<S_00ddecf0_Router*>(::FUN_00c85750()));
     char* cursor = poolState->cursor;
     poolState->cursor = cursor + 0x80;
     vector.elements = reinterpret_cast<Item*>(cursor);
     vector.encodedCapacity = 0x80000001;
     vector.originalCursor = cursor;
-    poolState = ((S00dde760_PoolState*)FUN_00c85750());
+    poolState = ((S00dde760_PoolState*)static_cast<S_00ddecf0_Router*>(::FUN_00c85750()));
     if (vector.size == (vector.encodedCapacity & 0x3fffffff))
     {
         ::ResizeAudioStream((::AudioAllocator *)(poolState->allocator), (::AudioStream *)(void *)(&vector), 0x50);
@@ -1171,8 +1170,8 @@ void __cdecl FUN_00dde760(int a, int aiPayload, int c, int d)
     char* finalCursor = vector.originalCursor;
     if (finalCursor == reinterpret_cast<char*>(vector.elements))
         vector.size = 0;
-    ((S00dde760_PoolState*)FUN_00c85750())->cursor = finalCursor;
-    poolState = ((S00dde760_PoolState*)FUN_00c85750());
+    ((S00dde760_PoolState*)static_cast<S_00ddecf0_Router*>(::FUN_00c85750()))->cursor = finalCursor;
+    poolState = ((S00dde760_PoolState*)static_cast<S_00ddecf0_Router*>(::FUN_00c85750()));
     S_00ddecf0_Heap* currentAllocator = poolState->allocator;
     vector.size = 0;
     if ((vector.encodedCapacity & 0x80000000u) == 0)
@@ -1494,7 +1493,7 @@ struct hkInplaceArrayW
     }
     inline ~hkInplaceArrayW()
     {
-        S_00ddecf0_Heap& alloc = FUN_00c85750()->heap();
+        S_00ddecf0_Heap& alloc = static_cast<S_00ddecf0_Router*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(unsigned int));
@@ -1531,7 +1530,7 @@ struct hkHistogramW
     }
     inline ~hkHistogramW()
     {
-        S_00ddecf0_Heap& alloc = FUN_00c85750()->heap();
+        S_00ddecf0_Heap& alloc = static_cast<S_00ddecf0_Router*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(hkEntryW));
@@ -1868,7 +1867,7 @@ struct S00dde4c0_Array
     }
     __forceinline void finish()
     {
-        release(::FUN_00c85750()->heap());
+        release(static_cast<S_00ddecf0_Router*>(::FUN_00c85750())->heap());
     }
     __forceinline void release(::S_00ddecf0_Heap& a)
     {

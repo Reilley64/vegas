@@ -1,6 +1,7 @@
 // src/havok/physics/collide/broadphase/hkpbroadphase.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/broadphase/hkpbroadphase.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <windows.h>
 #include "fnv/decl/FUN_00cf6d20_Class.h"
 #include "fnv/decl/FUN_00cf6da0_cls.h"
@@ -85,7 +86,6 @@ struct Holder
     Obj* m_10;
 };
 
-Holder* FUN_00c85750();
 
 class Owner
 {
@@ -102,7 +102,7 @@ void Owner::FUN_00d97070(void* apArg)
 {
     if (m_10 == 0)
     {
-        Holder* h = FUN_00c85750();
+        Holder* h = static_cast<Holder*>(::FUN_00c85750());
         Obj* obj = h->m_10;
         Spawned* s = obj->v04(0x18);
         m_10 = (s != 0) ? ((::Spawned *)(reinterpret_cast<::FUN_00cf6da0_cls *>((s))->FUN_00cf6da0((unsigned long)(apArg)))) : s;
@@ -125,7 +125,6 @@ struct CpuAllocatorHolder
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct CpuObject
 {
     unsigned int unk00;
@@ -140,7 +139,7 @@ CpuObject* CpuObject::FUN_00d97100(unsigned int flags)
     FUN_00d970c0();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = static_cast<CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -193,7 +192,7 @@ void FUN_00d970c0_cls::FUN_00d970c0()
     if (pCs != 0)
     {
         DeleteCriticalSection(pCs);
-        Holder* pHolder = FUN_00c85750();
+        Holder* pHolder = static_cast<Holder*>(::FUN_00c85750());
         FreeAllocator* pAllocator = reinterpret_cast<FreeAllocator*>(pHolder->m_10);
         pAllocator->Free(pCs, 0x18);
         m_pCs = 0;

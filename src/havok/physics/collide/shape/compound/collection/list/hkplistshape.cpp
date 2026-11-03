@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/list/hkplistshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/list/hkplistshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/fnv_00cf4fb0__ShapeCollection.h"
@@ -288,7 +289,6 @@ struct FnvCpu_FUN_00cf5890_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00cf5890_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00cf5890_CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00cf5890_CpuObject
 {
     unsigned int unk00;
@@ -303,7 +303,7 @@ FnvCpu_FUN_00cf5890_CpuObject* FnvCpu_FUN_00cf5890_CpuObject::Destroy(unsigned i
     FUN_00cf5750();
     if (flags & 1)
     {
-        FnvCpu_FUN_00cf5890_CpuAllocatorHolder* pAllocatorHolder = FUN_00c85750();
+        FnvCpu_FUN_00cf5890_CpuAllocatorHolder* pAllocatorHolder = static_cast<FnvCpu_FUN_00cf5890_CpuAllocatorHolder*>(::FUN_00c85750());
         pAllocatorHolder->allocator->Invoke(this, size);
     }
     return this;
@@ -322,7 +322,6 @@ struct hkMemoryRouterCF56
 };
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterCF56& __cdecl FUN_00c85750() throw();
 }
 
 template <class T> class hkArrayCF56
@@ -340,7 +339,7 @@ template <class T> class hkArrayCF56
     }
     __forceinline void reserve(int n)
     {
-        hkMemoryAllocatorCF56& kAlloc = fnvc_adapt::FUN_00c85750().heap();
+        hkMemoryAllocatorCF56& kAlloc = static_cast<hkMemoryRouterCF56*>(::FUN_00c85750())->heap();
         const int iCap = getCapacity();
         if (iCap < n)
         {
@@ -486,7 +485,7 @@ FUN_00cf5640::FUN_00cf5640(int iA, int iB, int iC) throw() : FUN_00d21410(9, 0)
 void ListShapeCF54::FUN_00cf54d0(int* shapes, int count, int* shapeData, int flag)
 {
     hkArray<hkpListShapeChildInfo>& children = m_kChildInfoList;
-    ShapeAlloc& heap = reinterpret_cast<ShapeRouter*>(FUN_00c85750())->heap();
+    ShapeAlloc& heap = reinterpret_cast<ShapeRouter*>(static_cast<FnvCpu_FUN_00cf5890_CpuAllocatorHolder*>(::FUN_00c85750()))->heap();
     int capacity = children.m_iCapacityState & 0x3fffffff;
     if (capacity < count)
     {
@@ -870,7 +869,6 @@ struct hkMemoryRouterCF5
     }
 };
 
-extern "C" hkMemoryRouterCF5* __cdecl FUN_00c85750() throw();
 
 struct hkRefCF5
 {
@@ -893,7 +891,7 @@ template <class T> class hkArrayCF5
     }
     ~hkArrayCF5() throw()
     {
-        hkMemoryAllocatorCF5& alloc = FUN_00c85750()->heap();
+        hkMemoryAllocatorCF5& alloc = static_cast<hkMemoryRouterCF5*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));

@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/collidable/hkpcollidable.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/collidable/hkpcollidable.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "havok/hkpCollidable.h"
 
 struct FUN_00d01a60
@@ -53,12 +54,11 @@ struct hkMemoryRouterD01A
 };
 
 namespace hkRouterD01A {
-extern "C" hkMemoryRouterD01A& __cdecl FUN_00c85750() throw();
 }
 
 template <typename T> inline void hkDeallocateChunkD01A(T* p, int n)
 {
-    hkRouterD01A::FUN_00c85750().heap().ReleaseBlock(p, n * sizeof(T));
+    static_cast<hkMemoryRouterD01A*>(::FUN_00c85750())->heap().ReleaseBlock(p, n * sizeof(T));
 }
 
 struct hkEntryD01A
@@ -102,10 +102,10 @@ void FUN_00d01ae0_shell::FUN_00d01ae0(unsigned int n)
     if (n)
     {
         unsigned int bytes = m_iElementCount;
-        hkMemoryAllocatorD01A& allocator = hkRouterD01A::FUN_00c85750().heap();
+        hkMemoryAllocatorD01A& allocator = static_cast<hkMemoryRouterD01A*>(::FUN_00c85750())->heap();
         m_entries = static_cast<hkEntryD01A*>(allocator.AllocateMemoryBlock(bytes << 5));
         unsigned int count = ((unsigned int)m_pRayCursor + 3) & ~3u;
-        hkMemoryAllocatorD01A& b = hkRouterD01A::FUN_00c85750().heap();
+        hkMemoryAllocatorD01A& b = static_cast<hkMemoryRouterD01A*>(::FUN_00c85750())->heap();
         m_bits = static_cast<int*>(b.AllocateMemoryBlock(count * 4));
     }
 }

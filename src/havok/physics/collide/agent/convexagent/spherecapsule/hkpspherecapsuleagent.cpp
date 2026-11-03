@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
@@ -125,11 +126,10 @@ struct SmallRecord {
 
 extern char DAT_010cf018[];
 
-AllocHolder* FUN_00c85750();
 
 // @fnv 0x00d3e2f0
 void __cdecl FUN_00d3e2f0(int aiUnused1, int aiUnused2, int aiUnused3, int aiValue) {
-    AllocHolder* pAllocHolder = FUN_00c85750();
+    AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
     ObjAllocator* allocator = (ObjAllocator*)pAllocHolder->m_pAllocator;
     SmallRecord* pRecord = (SmallRecord*)allocator->Alloc(0x10);
     pRecord->m_w04 = 0x10;

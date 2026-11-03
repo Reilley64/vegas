@@ -1,5 +1,6 @@
 // havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp: AdjDerived (12 functions)
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_010c6000.h"
@@ -73,7 +74,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00e60c30_cls {
     int m_vptr;
@@ -95,7 +95,7 @@ FUN_00e60c30_cls* FUN_00e60c30_cls::Destroy(unsigned char acFlags)
     m_p14 = (void*)&DAT_010c6fb0;
     m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1) {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -805,7 +805,7 @@ struct S5fb50_Array
     }
     inline S5fb50_PrimitiveInfo& AllocatePair()
     {
-        return _expandOne(FUN_00c85750());
+        return _expandOne(static_cast<AudioHolder*>(::FUN_00c85750()));
     }
 };
 

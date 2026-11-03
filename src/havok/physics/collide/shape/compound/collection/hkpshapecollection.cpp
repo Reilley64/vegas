@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/hkpshapecollection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/hkpshapecollection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <windows.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_0102e000.h"
@@ -68,7 +69,6 @@ struct Holder
     unsigned int userData;
     unsigned int shapeType;
     void* shapeVtable;
-    MemorySystem* FUN_00c85750();
     Holder* Destroy(unsigned char flags);
 };
 // Sets shapeVtable and vtable, then frees the object via the memory system allocator if the low bit of flags is set.
@@ -79,7 +79,7 @@ Holder* Holder::Destroy(unsigned char flags)
     vtable = &(*reinterpret_cast<char *>(&::DAT_0102e388));
     if ((flags & 1) != 0)
     {
-        MemorySystem* memory = FUN_00c85750();
+        MemorySystem* memory = static_cast<MemorySystem*>(::FUN_00c85750());
         memory->allocator->Free(this, memSizeAndFlags);
     }
     return this;

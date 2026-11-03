@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent3/machine/nn/hkplinkedcollidable.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/nn/hkplinkedcollidable.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d04000.h"
@@ -59,7 +60,6 @@ struct hkMemoryRouterD082
 };
 
 namespace hkRouterD082 {
-extern "C" hkMemoryRouterD082& __cdecl FUN_00c85750() throw();
 }
 
 
@@ -120,7 +120,7 @@ template <class T> class hkArrayD082
     }
     __forceinline hkArrayD082& operator=(const hkArrayD082& a)
     {
-        _copyFromArray(hkRouterD082::FUN_00c85750(), a);
+        _copyFromArray((*static_cast<hkMemoryRouterD082*>(::FUN_00c85750())), a);
         return *this;
     }
 };

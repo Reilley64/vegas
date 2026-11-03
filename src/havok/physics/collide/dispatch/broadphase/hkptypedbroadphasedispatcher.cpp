@@ -2,6 +2,7 @@
 // src/havok/physics/collide/dispatch/broadphase/hkptypedbroadphasedispatcher.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/dispatch/broadphase/hkptypedbroadphasedispatcher.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/CB1BC0Map.h"
 #include "fnv/decl/Cb1b80Arr.h"
 #include "fnv/decl/FUN_006cf900_Class.h"
@@ -156,7 +157,6 @@ struct GlobalPool
         return *scratch;
     }
 };
-extern "C" void* __cdecl FUN_00c85750();
 
 template <typename T> static __forceinline void Swap(T& x, T& y)
 {
@@ -171,7 +171,7 @@ template <typename T> static __forceinline T Min2(T x, T y)
 
 static __forceinline GlobalPool* GetPool()
 {
-    return (GlobalPool*)FUN_00c85750();
+    return (GlobalPool*)::FUN_00c85750();
 }
 
 static void ShrinkEdges(EdgeArray* array, int size, void* allocator)

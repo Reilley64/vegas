@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/util/symmetric/hkpsymmetricagentlinearcast.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/util/symmetric/hkpsymmetricagentlinearcast.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 struct FUN_00d2dbe0;
 struct Callback
 {
@@ -18,7 +19,6 @@ struct FUN_00d2dbe0
 {
     int unk00[3];
     Result* result;
-    Result* FUN_00c85750();
     virtual void Virtual0();
     FUN_00d2dbe0(unsigned int flags);
 };
@@ -28,7 +28,7 @@ FUN_00d2dbe0::FUN_00d2dbe0(unsigned int flags)
 {
     if (flags & 1)
     {
-        Result* value = FUN_00c85750();
+        Result* value = static_cast<Result*>(::FUN_00c85750());
         value->callback->Run(this, 8);
     }
 }

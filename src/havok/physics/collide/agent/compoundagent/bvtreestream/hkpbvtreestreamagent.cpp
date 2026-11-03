@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/Agent.h"
@@ -115,10 +116,9 @@ struct AudioMgr
 };
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 struct RefObj
@@ -938,7 +938,6 @@ struct AllocHolder
     Allocator* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
 
 struct Dispatch
 {
@@ -984,14 +983,14 @@ void* FUN_00d2e5a0(void* a1, void* a2, void* a3, void* a4)
         {
         case 0:
         case 2: {
-            AllocHolder* holder = FUN_00c85750();
+            AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
             Allocator* pAllocator = holder->m_pAllocator;
             SpawnedObject* obj = (SpawnedObject*)pAllocator->Alloc(0x40);
             obj->m_iElementCount = 0x40;
             return ((void *)(reinterpret_cast<::FUN_00d2def0_cls *>((((FUN_00d2def0_cls*)obj)))->FUN_00d2def0(a1, a2, (int *)(a3), (int)(a4))));
         }
         case 1: {
-            AllocHolder* holder = FUN_00c85750();
+            AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
             Allocator* pAllocator = holder->m_pAllocator;
             SpawnedObject* obj = (SpawnedObject*)pAllocator->Alloc(0x38);
             obj->m_iElementCount = 0x38;
@@ -1002,7 +1001,7 @@ void* FUN_00d2e5a0(void* a1, void* a2, void* a3, void* a4)
         }
     }
 
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     Allocator* pAllocator = holder->m_pAllocator;
     SpawnedObject* obj = (SpawnedObject*)pAllocator->Alloc(0x40);
     obj->m_iElementCount = 0x40;
@@ -1050,7 +1049,7 @@ template <class Agent> struct hkpSymmetricAgent : Agent
 // @fnv 0x00d2e680
 hkpSymmetricAgent<hkpBvTreeStreamAgent>* __cdecl FUN_00d2e680(void* a, void* b, void* c, void* d)
 {
-    GlobalOwner* owner = (GlobalOwner*)FUN_00c85750();
+    GlobalOwner* owner = (GlobalOwner*)static_cast<BSAudio*>(::FUN_00c85750());
     void* object = owner->allocator->Allocate(0x40);
     *(unsigned short*)((char*)object + 4) = 0x40;
     return new (object) hkpSymmetricAgent<hkpBvTreeStreamAgent>(a, b, c, d);
@@ -1168,7 +1167,6 @@ struct AgentManagerHolder
     AgentHandler* unk10;
 };
 
-extern "C" AgentManagerHolder* __cdecl FUN_00c85750();
 
 // Resets the vtable, frees its buffer through the handler if owned, and if flags bit 0 is set calls the handler's release(this, id); returns this.
 // @fnv 0x00d2eae0
@@ -1176,7 +1174,7 @@ void* hkpBvTreeStreamAgent::FUN_00d2eae0(unsigned int flags)
 {
     vtbl = &g_vtblAgent;
 
-    AgentManagerHolder* holder = FUN_00c85750();
+    AgentManagerHolder* holder = static_cast<AgentManagerHolder*>(::FUN_00c85750());
     AgentHandler* handler = holder->unk10;
 
     int count = unk38;
@@ -1190,7 +1188,7 @@ void* hkpBvTreeStreamAgent::FUN_00d2eae0(unsigned int flags)
 
     if (flags & 1)
     {
-        AgentManagerHolder* holder2 = FUN_00c85750();
+        AgentManagerHolder* holder2 = static_cast<AgentManagerHolder*>(::FUN_00c85750());
         holder2->unk10->release(this, id);
     }
 

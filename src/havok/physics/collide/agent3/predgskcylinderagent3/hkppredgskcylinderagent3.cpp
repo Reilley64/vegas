@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/Cls_dafcd0.h"
 #include "fnv/decl/FUN_00d22590_Class.h"
@@ -68,7 +69,6 @@ struct Manager
     Allocator* allocator;
 };
 
-extern "C" Manager* __cdecl FUN_00c85750();
 extern double DAT_010cf218;
 
 struct Node
@@ -183,7 +183,7 @@ float __cdecl ComputeExtendedResult(LocalSource* source, void* apArg, FNVFlags* 
             FNVObject** slot;
             slot = slots[i];
             ExtendedRecord* record = (ExtendedRecord*)(*slot)->record;
-            Manager* pManager = FUN_00c85750();
+            Manager* pManager = static_cast<Manager*>(::FUN_00c85750());
             Node* node = pManager->allocator->allocate(0x40);
             node->unk04 = 0x40;
             float v = record->unk10;
@@ -376,7 +376,7 @@ static __declspec(noinline) void FUN_00d40a10(int* a, FNVTypeRecord** apRecords,
         if (a[i] != 0)
         {
             D40A10Shape* shape = (D40A10Shape*)list[i]->record->unknown0;
-            D40A10Node* node = (D40A10Node*)((D40A10Holder*)FUN_00c85750())->heap().allocate(0x40);
+            D40A10Node* node = (D40A10Node*)((D40A10Holder*)static_cast<Manager*>(::FUN_00c85750()))->heap().allocate(0x40);
             node->unk04 = 0x40;
             float t = shape->unk10;
             float val = t + reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((shape))->FUN_00d571a0() + DAT_010cf218;
@@ -3707,7 +3707,7 @@ Memory* memory();
 
 __forceinline Shape* makeShape(Shape* shape)
 {
-    Shape* p = (Shape*)FUN_00c85750()->allocator->allocate(64);
+    Shape* p = (Shape*)static_cast<Manager*>(::FUN_00c85750())->allocator->allocate(64);
     p->allocationSize = 64;
     float radius = shape->radius;
     float inflated = (float)(reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((shape))->FUN_00d571a0() + radius + 0.0020000000949949026);
@@ -3976,7 +3976,7 @@ Cache* __cdecl FUN_00d40d80(Pair* pair, State* state, Cache* cache, VecArg norma
 
                 Body** slot = refBodies[j];
                 ExtendedRecord* record = (ExtendedRecord*)(*slot)->shape;
-                Manager* mgr = FUN_00c85750();
+                Manager* mgr = static_cast<Manager*>(::FUN_00c85750());
                 scalarScratch.node = mgr->allocator->allocate(0x40);
                 scalarScratch.node->unk04 = 0x40;
                 float v = record->unk10;
@@ -4106,7 +4106,7 @@ distant:
             {
                 Body** slot = bodies[k];
                 ExtendedRecord* record = (ExtendedRecord*)(*slot)->shape;
-                Manager* mgr = FUN_00c85750();
+                Manager* mgr = static_cast<Manager*>(::FUN_00c85750());
                 Node* node = mgr->allocator->allocate(64);
                 node->unk04 = 64;
                 lateScratch.radius = record->unk10;

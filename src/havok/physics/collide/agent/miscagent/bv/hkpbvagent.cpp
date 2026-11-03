@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/miscagent/bv/hkpbvagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/bv/hkpbvagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include <windows.h>
@@ -410,7 +411,6 @@ struct D45480MemoryRouter
     }
 };
 
-extern "C" D45480MemoryRouter& __cdecl FUN_00c85750();
 
 class D45480ReferencedObject
 {
@@ -418,7 +418,7 @@ class D45480ReferencedObject
     static void* operator new(size_t nbytes)
     {
         D45480ReferencedObject* b =
-            static_cast<D45480ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+            static_cast<D45480ReferencedObject*>(static_cast<D45480MemoryRouter*>(::FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -2005,7 +2005,6 @@ struct SpawnedHolder
     SpawnedAllocator* m_pAllocator;
 };
 
-extern SpawnedHolder* __cdecl FUN_00c85750();
 
 struct SpawnedBase
 {
@@ -2030,7 +2029,7 @@ inline void* __cdecl operator new(size_t, void* p) throw()
 // @fnv 0x00d45f30
 void* __cdecl FUN_00d45f30(int a1, int a2, int a3, int a4)
 {
-    SpawnedHolder* pHolder = FUN_00c85750();
+    SpawnedHolder* pHolder = static_cast<SpawnedHolder*>(::FUN_00c85750());
     SpawnedAllocator* pAlloc = pHolder->m_pAllocator;
     SpawnedObject* pObj = (SpawnedObject*)pAlloc->v1(0x14);
     pObj->m_iElementCount = 0x14;

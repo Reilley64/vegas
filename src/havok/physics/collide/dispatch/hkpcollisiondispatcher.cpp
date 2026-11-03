@@ -2,6 +2,7 @@
 // src/havok/physics/collide/dispatch/hkpcollisiondispatcher.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/dispatch/hkpcollisiondispatcher.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstring>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -40,11 +41,10 @@ struct BSAudio
     }
 };
 
-BSAudio* FUN_00c85750();
 
 inline void FreeBuffer(void* p)
 {
-    FUN_00c85750()->GetAlloc().Free(p, 0xc00);
+    static_cast<BSAudio*>(::FUN_00c85750())->GetAlloc().Free(p, 0xc00);
 }
 
 struct Owner
@@ -6003,7 +6003,6 @@ struct S_00cfc550_Router
     int unk8;
     int unkc;
     S_00cfc550_Alloc* m_pStreamAllocator;
-    static S_00cfc550_Router& FUN_00c85750();
     S_00cfc550_Alloc& heap()
     {
         return *m_pStreamAllocator;
@@ -6019,7 +6018,7 @@ struct S_00cfc550_RefObj
     void operator delete(void* p)
     {
         S_00cfc550_RefObj* b = static_cast<S_00cfc550_RefObj*>(p);
-        S_00cfc550_Router::FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        static_cast<S_00cfc550_Router*>(::FUN_00c85750())->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 

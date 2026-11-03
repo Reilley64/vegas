@@ -191,12 +191,12 @@ class Shape
 
 struct FN : public Shape
 {
-    void FUN_00c9e2a0(int p1, int p2, Cb* p3);
+    void FUN_00c9e2a0(void* p1, P2* p2, Cb* p3);
 };
 
 // Calls v8 to fill out.v, multiplies it by the Mat3 in P2, stores the result back, then invokes the VTable callback fn on Cb.
 // @fnv 0x00c9e2a0
-void FN::FUN_00c9e2a0(int p1, int p2, Cb* apCb)
+void FN::FUN_00c9e2a0(void* p1, P2* p2, Cb* apCb)
 {
     bool ok;
     Out out;
@@ -206,13 +206,12 @@ void FN::FUN_00c9e2a0(int p1, int p2, Cb* apCb)
     out.b = -1;
     out.c = 0;
 
-    this->v8(&ok, (void*)(*(volatile int*)&p1), &out);
+    this->v8(&ok, *(void* volatile*)&p1, &out);
 
     if (ok)
     {
         __m128 v = _mm_load_ps(&out.v.x);
-        int p2Value = p2;
-        P2* pP2 = (P2*)p2Value;
+        P2* pP2 = p2;
         Mat3* m = pP2->m;
         VTable* vt = apCb->vt;
         void(* fn)(Cb*, P2*, Vec4*) = vt->fn;

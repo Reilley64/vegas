@@ -428,7 +428,7 @@ int TriangleWelding::FUN_00d203f0(unsigned short* indices, unsigned char* count,
 typedef unsigned char hkUint8_S;
 typedef unsigned short hkUint16_S;
 typedef unsigned int hkUint32_S;
-typedef unsigned long __w64 hkUlong_S;
+typedef uintptr_t hkUlong_S;
 typedef size_t hk_size_t;class FinishingFlag
 {
 public:

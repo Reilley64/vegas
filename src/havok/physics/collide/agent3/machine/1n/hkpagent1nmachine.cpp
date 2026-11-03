@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include "fnv/symbols_00c90000.h"
@@ -39,7 +40,6 @@ struct BlockPoolMemoryRouter
     }
 };
 
-extern "C" BlockPoolMemoryRouter& __cdecl FUN_00c85750();
 
 struct BlockPoolBlock
 {
@@ -99,9 +99,9 @@ struct BlockPoolArray
 void __cdecl InitBlockPool(BlockPoolArray* blocks)
 {
     blocks->m_iElementCount = 0;
-    blocks->GrowArrayCapacity(FUN_00c85750().heap(), 4);
-    blocks->_expandOne(FUN_00c85750().heap());
-    BlockPoolBlock* block = new (FUN_00c85750().heap().AllocateMemoryBlock(0x200)) BlockPoolBlock();
+    blocks->GrowArrayCapacity(static_cast<BlockPoolMemoryRouter*>(::FUN_00c85750())->heap(), 4);
+    blocks->_expandOne(static_cast<BlockPoolMemoryRouter*>(::FUN_00c85750())->heap());
+    BlockPoolBlock* block = new (static_cast<BlockPoolMemoryRouter*>(::FUN_00c85750())->heap().AllocateMemoryBlock(0x200)) BlockPoolBlock();
     blocks->m_data[0] = block;
     block->unk13 = 0x10;
     block->unk10 = 1;
@@ -2164,7 +2164,7 @@ struct BlockPoolHeap : BlockPoolAllocator
 
 __forceinline BlockPoolHeap& fullHeap()
 {
-    return static_cast<BlockPoolHeap&>(FUN_00c85750().heap());
+    return static_cast<BlockPoolHeap&>(static_cast<BlockPoolMemoryRouter*>(::FUN_00c85750())->heap());
 }
 
 // Iterates over all agent entries in the block pool, dispatches their destroy functions, then releases the blocks and resets the array.
@@ -2282,7 +2282,7 @@ void FUN_00da44d0(int apBlocks, int apHeader, void* apTransform)
     int outIndex = 0;
     BlockPoolBlock* input = blocks->m_data[0];
     BlockPoolBlock* previous = 0;
-    BlockPoolBlock* output = new (FUN_00c85750().heap().AllocateMemoryBlock(512)) BlockPoolBlock;
+    BlockPoolBlock* output = new (static_cast<BlockPoolMemoryRouter*>(::FUN_00c85750())->heap().AllocateMemoryBlock(512)) BlockPoolBlock;
     unsigned char* cursor = (unsigned char*)&input->unk10;
     unsigned char* out = (unsigned char*)&output->unk10;
     int inIndex = 1;
@@ -2316,7 +2316,7 @@ process:
     if (cursor == end)
     {
         if (previous)
-            ((StreamAllocator*)&FUN_00c85750().heap())->ReleaseBlock(previous, 512);
+            ((StreamAllocator*)&static_cast<BlockPoolMemoryRouter*>(::FUN_00c85750())->heap())->ReleaseBlock(previous, 512);
         previous = input;
         if (inIndex >= blocks->m_iElementCount)
             goto finish;
@@ -2350,7 +2350,7 @@ process:
     output->unk00 = used;
     if (outIndex >= inIndex)
     {
-        BlockPoolAllocator& alloc = FUN_00c85750().heap();
+        BlockPoolAllocator& alloc = static_cast<BlockPoolMemoryRouter*>(::FUN_00c85750())->heap();
         int count = inIndex;
         inIndex = blocks->m_iElementCount + 1;
         int tail = -(count - blocks->m_iElementCount);
@@ -2366,7 +2366,7 @@ process:
         previous = 0;
     }
     else
-        output = new (FUN_00c85750().heap().AllocateMemoryBlock(512)) BlockPoolBlock;
+        output = new (static_cast<BlockPoolMemoryRouter*>(::FUN_00c85750())->heap().AllocateMemoryBlock(512)) BlockPoolBlock;
     out = (unsigned char*)&output->unk10;
     limit = (unsigned char*)output + 512;
     if (staging)
@@ -2387,11 +2387,11 @@ finish:
     }
     output->unk00 = used;
     int newCount = outIndex + 1;
-    blocks->GrowArrayCapacity(FUN_00c85750().heap(), newCount);
+    blocks->GrowArrayCapacity(static_cast<BlockPoolMemoryRouter*>(::FUN_00c85750())->heap(), newCount);
     blocks->m_iElementCount = newCount;
     blocks->m_data[outIndex] = output;
     if (previous)
-        ((StreamAllocator*)&FUN_00c85750().heap())->ReleaseBlock(previous, 512);
+        ((StreamAllocator*)&static_cast<BlockPoolMemoryRouter*>(::FUN_00c85750())->heap())->ReleaseBlock(previous, 512);
 }
 
 struct __declspec(align(16)) TOIBody

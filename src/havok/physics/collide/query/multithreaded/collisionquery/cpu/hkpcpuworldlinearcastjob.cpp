@@ -2,6 +2,7 @@
 // src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldlinearcastjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldlinearcastjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 struct FUN_00df71c0_Value
 {
     int unk00;
@@ -425,7 +426,6 @@ struct S_00df71d0_Router
     }
 };
 
-S_00df71d0_Router* FUN_00c85750();
 
 struct S_00df71d0_B0
 {
@@ -492,9 +492,9 @@ struct FUN_00df71d0 : S_00df71d0_B0, S_00df71d0_B1, S_00df71d0_B2, S_00df71d0_B3
 // @fnv 0x00df71d0
     virtual ~FUN_00df71d0()
     {}
-    static void operator delete(void* p, unsigned int n)
+    static void operator delete(void* p, size_t n)
     {
-        FUN_00c85750()->heap().ReleaseBlock(p, n);
+        static_cast<S_00df71d0_Router*>(::FUN_00c85750())->heap().ReleaseBlock(p, n);
     }
 };
 

@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/miscagent/transform/hkptransformagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/transform/hkptransformagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include <intrin.h>
@@ -516,7 +517,6 @@ struct Allocator {
     virtual Header* allocate(int size);
 };
 struct Resource { int unk00;int unk04;int unk08;int unk0c; Allocator* allocator; };
-Resource* __cdecl FUN_00c85750();
 
 struct Meta {int unk00; int unk04; int unk08; int sequence;};
 struct Root {
@@ -549,7 +549,7 @@ struct HandlerEntry {
 // Allocates a 16-byte Header, fills tag/format/userValue, runs workspace setup, selects a handler by kind from a table and stores its return in header->result.
 // @fnv 0x00d42a70
 Header* __cdecl BuildHeaderAndDispatchHandler(InputA* pSource,InputB* pPathInput,InputC* pStateInput,int value) {
-    Resource* resource = FUN_00c85750();
+    Resource* resource = static_cast<Resource*>(::FUN_00c85750());
     Header* header = resource->allocator->allocate(16);
     header->byteCount=16;
     header->format=1;
@@ -1290,7 +1290,7 @@ struct S_00d43030_RefObj {
     __forceinline S_00d43030_RefObj() throw() { m_sReferenceCount = 1; }
     __forceinline void* operator new(size_t nbytes)
     {
-        S_00d43030_RefObj* b = static_cast<S_00d43030_RefObj*>((void*)static_cast<S_00d43030_Router*>(FUN_00c85750())->heap().allocate(nbytes));
+        S_00d43030_RefObj* b = static_cast<S_00d43030_RefObj*>((void*)static_cast<S_00d43030_Router*>(static_cast<Resource*>(::FUN_00c85750()))->heap().allocate(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }

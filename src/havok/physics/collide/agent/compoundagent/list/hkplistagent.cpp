@@ -2,6 +2,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00d36000.h"
 #include "fnv/symbols_00d97000.h"
 #include "fnv/symbols_00da3000.h"
@@ -252,7 +253,6 @@ struct S00d369a0_ProcessInput
     __m128 unk60;
     __m128 tim;
 };
-extern "C" void* __cdecl FUN_00c85750();
 extern "C" unsigned int _rotl(unsigned int, int);
 struct S00d369a0_ListAgent
 {
@@ -283,7 +283,7 @@ void S00d369a0_ListAgent::FUN_00d369a0(S00d369a0_Body* a1, S00d369a0_Body* a2, S
     input.tim[3] = (f0 * o->f9c) * o->fa0 + (f1 * p->f9c) * p->fa0;
     reinterpret_cast<::hkTransformCB22 *>(&(input.transform))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(o)), (*(const ::hkTransformCB22 *)(p)));
     int count = bits->m1C;
-    unsigned int* out = (unsigned int*)FUN_00c85750();
+    unsigned int* out = (unsigned int*)::FUN_00c85750();
     unsigned int* dst = (unsigned int*)*out;
     *out = (unsigned int)dst + ((count * 4 + 0x83) & 0xffffff80);
     int n = 0;
@@ -295,5 +295,5 @@ void S00d369a0_ListAgent::FUN_00d369a0(S00d369a0_Body* a1, S00d369a0_Body* a2, S
     }
     dst[n] = 0xffffffff;
     ::fnv_00da4aa0::FUN_00da4aa0((*(::fnv_00da4aa0::Q30 *)(&this->track10)), (*(const ::fnv_00da4aa0::Q14 *)(&input)), (const ::fnv_00da4aa0::Q24 *)(bits), (const unsigned int *)(dst), (*(::fnv_00da4aa0::Q6 *)(a4)));
-    *(unsigned int*)FUN_00c85750() = (unsigned int)dst;
+    *(unsigned int*)::FUN_00c85750() = (unsigned int)dst;
 }

@@ -131,11 +131,11 @@ struct HfVec_d49850
     }
     float& operator()(int i)
     {
-        return m_vComponents[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
     const float& operator()(int i) const
     {
-        return m_vComponents[i];
+        return reinterpret_cast<const float*>(&m_vComponents)[i];
     }
 };
 

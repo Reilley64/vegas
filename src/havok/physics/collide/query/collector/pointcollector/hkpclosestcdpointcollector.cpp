@@ -33,6 +33,7 @@ void C6D170Timer::Reset()
     m_iArrayLength = 0;
 }
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 struct S_cd3b20_node
 {
@@ -139,7 +140,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750();
 
 struct FUN_00c6d9c0
 {
@@ -183,7 +183,7 @@ struct FUN_00c6d9c0
 
     static void operator delete(void* apMemory)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(apMemory, sizeof(FUN_00c6d9c0));
     }

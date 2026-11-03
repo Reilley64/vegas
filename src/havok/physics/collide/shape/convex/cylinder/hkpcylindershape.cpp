@@ -96,8 +96,8 @@ namespace fnv_00d57220 {
 
 struct Vec_d57220v {
     __m128 q;
-    float& operator()(int i) { return q[i]; }
-    const float& operator()(int i) const { return q[i]; }
+    float& operator()(int i) { return reinterpret_cast<float*>(&q)[i]; }
+    const float& operator()(int i) const { return reinterpret_cast<const float*>(&q)[i]; }
     void setZero4() { q = _mm_setzero_ps(); }
     __forceinline void normalize3()
     {
@@ -837,7 +837,7 @@ void CylinderSupportShape::FUN_00d57400(const hkVector4& direction, CylinderSupp
 typedef unsigned char hkUint8_S;
 typedef unsigned short hkUint16_S;
 typedef unsigned int hkUint32_S;
-typedef unsigned long __w64 hkUlong_S;
+typedef uintptr_t hkUlong_S;
 typedef size_t hk_size_t;
 class FinishingFlag
 {

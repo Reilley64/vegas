@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/FUN_00dabf10_cls.h"
@@ -277,7 +278,6 @@ struct hkMemoryRouterDACC
 };
 
 namespace hkRouterDACC {
-extern "C" hkMemoryRouterDACC& __cdecl FUN_00c85750() throw();
 }
 
 struct hkAllocHeaderDACC
@@ -288,7 +288,7 @@ struct hkAllocHeaderDACC
 
 inline void* allocateAgentDACC(int nbytes)
 {
-    void* b = hkRouterDACC::FUN_00c85750().heap().AllocateMemoryBlock(nbytes);
+    void* b = static_cast<hkMemoryRouterDACC*>(::FUN_00c85750())->heap().AllocateMemoryBlock(nbytes);
     static_cast<hkAllocHeaderDACC*>(b)->allocationSize = (unsigned short)nbytes;
     return b;
 }

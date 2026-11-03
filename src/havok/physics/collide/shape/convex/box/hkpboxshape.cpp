@@ -356,8 +356,8 @@ struct BRVector4
     __m128 m_vComponents;
 
     void operator=(const BRVector4& v) { m_vComponents = v.m_vComponents; }
-    hkReal& operator()(int i) { return m_vComponents[i]; }
-    const hkReal& operator()(int i) const { return m_vComponents[i]; }
+    hkReal& operator()(int i) { return reinterpret_cast<float*>(&m_vComponents)[i]; }
+    const hkReal& operator()(int i) const { return reinterpret_cast<const float*>(&m_vComponents)[i]; }
     void SetAllComponents(hkReal r) { m_vComponents = _mm_set_ps1(r); }
     void setAdd4(const BRVector4& a, const BRVector4& b) { m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents); }
     void setNeg4(const BRVector4& v) { m_vComponents = _mm_xor_ps(v.m_vComponents, g_brSignMask); }

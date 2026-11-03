@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include "generated/data/vtables.h"
@@ -327,7 +328,6 @@ struct hkMemoryRouterD33D
         return *m_pkHeap;
     }
 };
-extern "C" hkMemoryRouterD33D* __cdecl FUN_00c85750() throw();
 
 struct hkpCdBodyD33D;
 struct hkpContactMgrD33D;
@@ -358,7 +358,7 @@ class hkpCollisionAgentD33D
 
     static __forceinline void* operator new(size_t uiSize) throw()
     {
-        hkpCollisionAgentD33D* p = (hkpCollisionAgentD33D*)FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
+        hkpCollisionAgentD33D* p = (hkpCollisionAgentD33D*)static_cast<hkMemoryRouterD33D*>(::FUN_00c85750())->heap().AllocateMemoryBlock(uiSize);
         p->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
@@ -515,7 +515,6 @@ struct hkMemoryRouterD343
         return *m_pkHeap;
     }
 };
-extern "C" hkMemoryRouterD343* __cdecl FUN_00c85750() throw();
 
 struct hkpCdBodyD343;
 struct hkpContactMgrD343;
@@ -546,7 +545,7 @@ class hkpCollisionAgentD343
 
     static __forceinline void* operator new(size_t uiSize) throw()
     {
-        hkpCollisionAgentD343* p = (hkpCollisionAgentD343*)FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
+        hkpCollisionAgentD343* p = (hkpCollisionAgentD343*)static_cast<hkMemoryRouterD343*>(::FUN_00c85750())->heap().AllocateMemoryBlock(uiSize);
         p->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
@@ -1214,7 +1213,6 @@ struct MemoryRouter
 
 extern "C"
 {
-    MemoryRouter* __cdecl FUN_00c85750();
     void* __cdecl FUN_00dacbd0();
     void* __cdecl FUN_00d440f0();
     void* __cdecl FUN_00d33940();
@@ -1257,7 +1255,7 @@ void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input,
         switch (input->m_pCollisionDispatcher->getCollisionType(bodyA, bodyB, input))
         {
         case 0: {
-            MemoryRouter* pMemoryRouter = FUN_00c85750();
+            MemoryRouter* pMemoryRouter = static_cast<MemoryRouter*>(::FUN_00c85750());
             int iAllocSize = 0x90;
             void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
             ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
@@ -1266,7 +1264,7 @@ void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input,
             return agent;
         }
         case 1: {
-            MemoryRouter* pMemoryRouter = FUN_00c85750();
+            MemoryRouter* pMemoryRouter = static_cast<MemoryRouter*>(::FUN_00c85750());
             int iAllocSize = 0x38;
             void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
             ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
@@ -1276,14 +1274,14 @@ void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input,
             switch (input->m_pCollisionDispatcher->getCollisionType(bodyB, bodyA, input))
             {
             case 0: {
-                MemoryRouter* pMemoryRouter = FUN_00c85750();
+                MemoryRouter* pMemoryRouter = static_cast<MemoryRouter*>(::FUN_00c85750());
                 int iAllocSize = 0x90;
                 void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
                 ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
                 return ((PfnD33940)FUN_00d33940)(agent, bodyA, bodyB, input, contactMgr);
             }
             case 1: {
-                MemoryRouter* pMemoryRouter = FUN_00c85750();
+                MemoryRouter* pMemoryRouter = static_cast<MemoryRouter*>(::FUN_00c85750());
                 int iAllocSize = 0x38;
                 void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
                 ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
@@ -1292,7 +1290,7 @@ void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input,
                 return agent;
             }
             case 2: {
-                MemoryRouter* pMemoryRouter = FUN_00c85750();
+                MemoryRouter* pMemoryRouter = static_cast<MemoryRouter*>(::FUN_00c85750());
                 int iAllocSize = 0x80;
                 void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
                 ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
@@ -1308,7 +1306,7 @@ void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input,
     }
     else
     {
-        MemoryRouter* pMemoryRouter = FUN_00c85750();
+        MemoryRouter* pMemoryRouter = static_cast<MemoryRouter*>(::FUN_00c85750());
         int iAllocSize = 0x38;
         void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
         ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
@@ -1711,14 +1709,14 @@ __forceinline void Agent::streamCollision(const Shape& a, const Shape& b, const 
     big.vec.quad = motion;
     reinterpret_cast<::hkTransformCB22 *>(&(big.co))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(a.m_08)), (*(const ::hkTransformCB22 *)(b.m_08)));
     int count = bHead->count;
-    ScratchArena* pool = (ScratchArena*)FUN_00c85750();
+    ScratchArena* pool = (ScratchArena*)static_cast<hkMemoryRouterD33D*>(::FUN_00c85750());
     int* arr = pool->cursor;
     pool->cursor = (int*)((unsigned int)arr + (((unsigned int)(count * 4 + 4) + 0x7f) & ~0x7f));
     for (int i = 0; i < count; i++)
         arr[i] = i;
     arr[count] = -1;
     ::fnv_00da4aa0::FUN_00da4aa0((*(::fnv_00da4aa0::Q30 *)(&streaming())), (*(const ::fnv_00da4aa0::Q14 *)(&big)), (*(const ::fnv_00da4aa0::Q24 * *)&(const ::AddressValue &)(AddressValue(&bHead->unk14))), (const unsigned int *)(arr), (*(::fnv_00da4aa0::Q6 *)(&d)));
-    ScratchArena* pool2 = (ScratchArena*)FUN_00c85750();
+    ScratchArena* pool2 = (ScratchArena*)static_cast<hkMemoryRouterD33D*>(::FUN_00c85750());
     pool2->cursor = arr;
 }
 __forceinline void Agent::processCached(const Shape& a, const Shape& b, const Arg3& c, Arg4& d, const Vec4& vec,

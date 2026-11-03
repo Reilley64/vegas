@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <windows.h>
 #include "fnv/decl/FUN_00cb21e0_shell.h"
 #include "fnv/decl/FUN_00cfbd60_cls.h"
@@ -390,7 +391,6 @@ struct S00d2d890_Obj
     int unk08;
     int unk0c;
 };
-char** FUN_00c85750();
 int FUN_00d2d4f0(int a, int b, S00d2d890_Local* l, void* c, int d, int e, char* f, int g);
 int FUN_00d2d4b0(int a, S00d2d890_Hits* h);
 
@@ -410,7 +410,7 @@ char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, int a4)
         r->stamp = tb;
         t->cur = (char*)(r + 1);
     }
-    char** arena = FUN_00c85750();
+    char** arena = static_cast<char**>(::FUN_00c85750());
     char* mark = *arena;
     *arena = mark + 0x4000;
     S00d2d890_Local loc;
@@ -445,7 +445,7 @@ char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, int a4)
         r->stamp = tb;
         t->cur = (char*)(r + 1);
     }
-    *FUN_00c85750() = mark;
+    *static_cast<char**>(::FUN_00c85750()) = mark;
     return child + 0x10;
 }
 

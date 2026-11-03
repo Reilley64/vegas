@@ -186,7 +186,7 @@ const hkpShapeE48C* hkpMeshShapeE48C::FUN_00e48cb0(unsigned int uiKey, unsigned 
     FUN_00de10b0* pkTriangle = new (pucBuffer) FUN_00de10b0(m_fSphereRadius, usWeldingInfo, m_eWeldingType);
     pkTriangle->m_kVertexA.setMul4(*pkA, m_kScaling);
     pkTriangle->m_kVertexB.m_vComponents =
-        _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&pkB->m_vComponents)), m_kScaling.m_vComponents);
+        _mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&pkB->m_vComponents)), m_kScaling.m_vComponents);
     pkTriangle->m_kVertexC.setMul4(*pkC, m_kScaling);
     return pkTriangle;
 }

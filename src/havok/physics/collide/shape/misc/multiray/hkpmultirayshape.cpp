@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/misc/multiray/hkpmultirayshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/misc/multiray/hkpmultirayshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_00c90000.h"
@@ -132,7 +133,6 @@ struct NineIntegerRecord
     }
 };
 
-extern "C" NineIntegerRecord* FUN_00c85750();
 
 union hkQuadVector
 {
@@ -173,7 +173,7 @@ struct hkWorldRayArray
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        _setSize(FUN_00c85750()->heap(), n);
+        _setSize(static_cast<NineIntegerRecord*>(::FUN_00c85750())->heap(), n);
     }
     __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
@@ -258,7 +258,7 @@ void hkpMultiRayShapeImpl::FUN_00e3c800(const hkTransform& localToWorld, hkReal 
     }
     out.m_kMinimumCorner = mn;
     out.m_kMaximumCorner = mx;
-    worldRays._clearAndDeallocate(FUN_00c85750()->heap());
+    worldRays._clearAndDeallocate(static_cast<NineIntegerRecord*>(::FUN_00c85750())->heap());
 }
 
 struct RayStandIn
@@ -297,7 +297,7 @@ struct RayArrayStandIn
     }
     RayStandIn* expandBy(int n)
     {
-        return _expandBy(FUN_00c85750()->heap(), n);
+        return _expandBy(static_cast<NineIntegerRecord*>(::FUN_00c85750())->heap(), n);
     }
 };
 

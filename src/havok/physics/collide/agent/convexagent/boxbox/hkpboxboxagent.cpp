@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/FUN_00db0920_cls.h"
 #include "fnv/decl/hkpGskBaseAgent_S.h"
@@ -98,7 +99,6 @@ void __cdecl RegisterStaticCollisionAgent(D41FD0CollisionDispatcher* dispatcher)
 
 extern "C" const double DAT_010cf200;
 extern "C" char DAT_010cf1c4;
-extern "C" void* __cdecl FUN_00c85750(void);
 
 class Allocator
 {
@@ -154,7 +154,7 @@ void* FUN_00d401d0(void* apFirst, void* apSecond, void* a3, void* a4)
     {
         goto callPath;
     }
-    Holder* pHolder = (Holder*)FUN_00c85750();
+    Holder* pHolder = (Holder*)::FUN_00c85750();
     Allocator* pAllocator = pHolder->m_pAllocator;
     SpawnedObject* pSpawned = (SpawnedObject*)pAllocator->Alloc(0x50);
     pSpawned->m_04 = 0x50;

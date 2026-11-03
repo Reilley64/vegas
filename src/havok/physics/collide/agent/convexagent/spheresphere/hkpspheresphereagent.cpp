@@ -552,7 +552,7 @@ void S_00d3f780_Obj::FUN_00d3f780(S_00d3f780_In* a, S_00d3f780_In* b, S_00d3f780
         __m128 bcast = _mm_shuffle_ps(rb, rb, 0);
         out->unk00 = _mm_add_ps(_mm_mul_ps(bcast, out->unk10), *posB);
         // the penetration depth shares the last component of the normal
-        volatile float& distance = out->unk10[3];
+        volatile float& distance = reinterpret_cast<float*>(&out->unk10)[3];
         distance = depth;
 
         if (unkC == 0xffff)

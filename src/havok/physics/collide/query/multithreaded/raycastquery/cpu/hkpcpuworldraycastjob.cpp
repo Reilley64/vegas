@@ -2,6 +2,7 @@
 // src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/symbols_00e2b000.h"
@@ -109,7 +110,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00df8960_cls
 {
@@ -125,7 +125,7 @@ FUN_00df8960_cls* FUN_00df8960_cls::FUN_00df8960(unsigned char acFlags)
     m_vptr = (int)&DAT_0101e594;
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, 0x1c);
     }
@@ -179,7 +179,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct BaseA
 {
@@ -218,7 +217,7 @@ MultiBaseOwner* MultiBaseOwner::FUN_00df9470(unsigned char acFlags)
     this->MultiBaseOwner::~MultiBaseOwner();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, 0x80);
     }
@@ -861,7 +860,7 @@ struct Pool
 };
 static __forceinline Pool* pool()
 {
-    return (Pool*)FUN_00c85750();
+    return (Pool*)static_cast<AudioHolder*>(::FUN_00c85750());
 }
 struct Finalizer
 {

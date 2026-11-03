@@ -2,9 +2,11 @@
 // src/havok/physics/collide/query/collector/raycollector/hkpallrayhitcollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/raycollector/hkpallrayhitcollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cf0000.h"
-void __cdecl FUN_00c852c0(void* owner, int a2, int a3, int a4);
+struct Item;
+void __cdecl FUN_00c852c0(Item* arr, int low, int high, int a4);
 
 class FUN_00c855f0_cls
 {
@@ -13,7 +15,7 @@ class FUN_00c855f0_cls
     int unk04;
     int unk08;
     int unk0C;
-    void* m_10;
+    Item* m_10;
     int m_14;
 
     void FUN_00c855f0();
@@ -54,7 +56,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750();
 
 struct ChainNode
 {
@@ -129,7 +130,7 @@ struct FUN_00c85520_cls
 void FUN_00c85520_cls::AddEntry(ChainOwner* apOwner, SourceEntry* apSource)
 {
     EntryListNode* pList = &m_kNode;
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     if (pList->m_uCount == (pList->m_uCapFlags & 0x3fffffffu))
     {
         ::ResizeAudioStream(pHolder->m_pAllocator, (::AudioStream *)(pList), sizeof(SpawnedEntry));
@@ -170,7 +171,6 @@ void FUN_00c85520_cls::AddEntry(ChainOwner* apOwner, SourceEntry* apSource)
 
 // src/havok/physics/collide/query/collector/raycollector/hkpallrayhitcollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/raycollector/hkpallrayhitcollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-#include "fnv/symbols_00c85000.h"
 struct __declspec(align(16)) Item
 {
     __m128 v;

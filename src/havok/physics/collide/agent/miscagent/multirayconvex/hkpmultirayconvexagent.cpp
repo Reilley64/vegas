@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/symbols_00c90000.h"
@@ -152,7 +153,6 @@ struct D376B0MemoryRouter
     }
 };
 
-extern "C" D376B0MemoryRouter& __cdecl FUN_00c85750();
 
 class D376B0ReferencedObject
 {
@@ -183,7 +183,7 @@ struct D376B0IndexArray
 
     void SetSizeAndGrow(int n)
     {
-        D376B0Allocator& alloc = FUN_00c85750().heap();
+        D376B0Allocator& alloc = static_cast<D376B0MemoryRouter*>(::FUN_00c85750())->heap();
         const int cap = getCapacity();
         if (cap < n)
         {
@@ -262,12 +262,11 @@ struct S_00d37740_Object
     S_00d37740_Interface* unk10;
 };
 
-S_00d37740_Object* FUN_00c85750();
 
 // @fnv 0x00d37740
 void FUN_00d37740(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
-    S_00d37740_Object* obj = FUN_00c85750();
+    S_00d37740_Object* obj = static_cast<S_00d37740_Object*>(::FUN_00c85750());
     S_00d376b0_Class* result = obj->unk10->FUN_00d37740_Method(0x20);
 
     result->unk04 = 0x20;
@@ -296,7 +295,6 @@ struct AllocHolder
     Allocator* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
 
 struct SpawnedObject
 {
@@ -314,7 +312,7 @@ struct FUN_00d376b0_cls
 // @fnv 0x00d37780
 void* FUN_00d37780_impl(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
-    AllocHolder* pAllocHolder = FUN_00c85750();
+    AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
     Allocator* alloc = pAllocHolder->m_pAllocator;
     SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x20);
     obj->m_iElementCount = 0x20;

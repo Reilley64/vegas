@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -23,7 +24,6 @@ struct BSAudio {
     hkMemoryAllocator* unk10;
 };
 
-BSAudio* FUN_00c85750();
 
 
 struct SizeSource {
@@ -46,7 +46,7 @@ struct hkArrayU16 {
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     __forceinline void reserve(int n)
     {
-        BSAudio* a = FUN_00c85750();
+        BSAudio* a = static_cast<BSAudio*>(::FUN_00c85750());
         hkMemoryAllocator* alloc = a->unk10;
         int c = m_iCapacityState & 0x3fffffff;
         if (c < n) {
@@ -105,7 +105,6 @@ struct BSAudio {
     Allocator* allocator;
 };
 
-BSAudio* FUN_00c85750();
 
 struct TargetObj {
     int unk00;
@@ -115,7 +114,7 @@ struct TargetObj {
 // Allocates a 0x18-byte TargetObj from the BSAudio allocator, sets its size to 0x18, and returns the result of FUN_00d32060(a1, a2, a3, a4).
 // @fnv 0x00d32110
 TargetObj* AllocateTargetObj(void* apArg1, void* apArg2, void* apArg3, void* apArg4) {
-    BSAudio* audio = FUN_00c85750();
+    BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
     TargetObj* obj = (TargetObj*)audio->allocator->Allocate(0x18);
     obj->size = 0x18;
     return ((::fnv_00d32110::TargetObj *)(reinterpret_cast<::FUN_00d32060_Class *>((obj))->Init((*(const ::SourceRef *)(apArg1)), (int)(apArg2), (int)(apArg3), (int)(apArg4))));
@@ -518,7 +517,7 @@ void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4)
 
     int count = ((hkpShape*)shapeA)->getNumCollisionSpheres();
 
-    BSAudio* q = FUN_00c85750();
+    BSAudio* q = static_cast<BSAudio*>(::FUN_00c85750());
     char* cur1 = (char*)q->unk00;
     hkSphere* sphereBuffer = (hkSphere*)cur1;
     q->unk00 = (int)(cur1 + ((count * 16 + 127) & ~127));
@@ -528,7 +527,7 @@ void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4)
 
     StringCursor::GetMonitorStream().timerSplit("StCollide");
 
-    BSAudio* bs2 = FUN_00c85750();
+    BSAudio* bs2 = static_cast<BSAudio*>(::FUN_00c85750());
     char* cur2 = (char*)bs2->unk00;
     hkSphere* hitResults = (hkSphere*)cur2;
     {
@@ -551,8 +550,8 @@ void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4)
         }
     }
 
-    FUN_00c85750()->unk00 = (int)hitResults;
-    FUN_00c85750()->unk00 = (int)sphereBuffer;
+    static_cast<BSAudio*>(::FUN_00c85750())->unk00 = (int)hitResults;
+    static_cast<BSAudio*>(::FUN_00c85750())->unk00 = (int)sphereBuffer;
 
     StringCursor::GetMonitorStream().timerEnd("lt");
 }
@@ -571,7 +570,6 @@ struct AllocHolder {
     AllocIface* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750() throw();
 
 extern char DAT_010ceaf4[];
 
@@ -586,7 +584,7 @@ struct FUN_00d32190_cls {
 // @fnv 0x00d32190
 FUN_00d32190_cls* __cdecl FUN_00d32190(int a1, int a2, int a3, int a4)
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     FUN_00d32190_cls* obj = (FUN_00d32190_cls*)holder->m_pAllocator->Alloc(0x18);
     obj->m_w04 = 0x18;
     reinterpret_cast<::FUN_00d32060_Class *>((obj))->Init((*(const ::SourceRef *)(a2)), a1, a3, a4);
@@ -711,7 +709,7 @@ extern "C" void __cdecl FUN_00d31d30(void* arg0,void* arg1,void* arg2,void* arg3
     CastTransform relativeTransform;
     reinterpret_cast<::hkTransformCB22 *>(&(relativeTransform))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(bodyB->transform)),(*(const ::hkTransformCB22 *)(bodyA->transform)));
     int count=shape->count();
-    BSAudio* scratch=FUN_00c85750();
+    BSAudio* scratch=static_cast<BSAudio*>(::FUN_00c85750());
     int savedStack=scratch->unk00;
     scratch->unk00=savedStack+((count*16+127)&~127);
     __m128 c0=bodyB->transform->r0.v;
@@ -762,7 +760,7 @@ extern "C" void __cdecl FUN_00d31d30(void* arg0,void* arg1,void* arg2,void* arg3
         heightField->CastSphere(sphereInput,*bodyB,collector);
         ++spheres;
     } while(--remaining); }
-    FUN_00c85750()->unk00=savedStack;
+    static_cast<BSAudio*>(::FUN_00c85750())->unk00=savedStack;
     event((TimerStream*)TlsGetValue(DAT_0126835c),"lt");
     }
 }
@@ -808,7 +806,7 @@ struct ManagerD {
 };
 struct ArenaD { __m128* top; };
 static __forceinline __m128* reserve(int n) {
-    ArenaD* arena = (ArenaD*)FUN_00c85750();
+    ArenaD* arena = (ArenaD*)static_cast<BSAudio*>(::FUN_00c85750());
     __m128* p = arena->top;
     int bytes = (n * 16 + 127) & -128;
     arena->top = (__m128*)((char*)p + bytes);
@@ -878,8 +876,8 @@ void AgentD::FUN_00d324e0(const BodyD& a, const BodyD& b, const InputD& input, O
             c->id = *id;
         }
     }
-    ((ArenaD*)FUN_00c85750())->top = planes;
-    ((ArenaD*)FUN_00c85750())->top = transformed;
+    ((ArenaD*)static_cast<BSAudio*>(::FUN_00c85750()))->top = planes;
+    ((ArenaD*)static_cast<BSAudio*>(::FUN_00c85750()))->top = transformed;
     timer(::DAT_010c41f8);
 }
 }  // namespace fnv_00d324e0
@@ -902,7 +900,7 @@ void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector)
 
     int count = ((hkpShape*)shapeA)->getNumCollisionSpheres();
 
-    BSAudio* q = FUN_00c85750();
+    BSAudio* q = static_cast<BSAudio*>(::FUN_00c85750());
     char* cur1 = (char*)q->unk00;
     hkSphere* sphereBuffer = (hkSphere*)cur1;
     q->unk00 = (int)(cur1 + ((count * 16 + 127) & ~127));
@@ -918,7 +916,7 @@ void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector)
     StringCursor::GetMonitorStream().timerSplit(DAT_010cea54);
 
     const CollisionAgentContext* __restrict in = input;
-    BSAudio* bs2 = FUN_00c85750();
+    BSAudio* bs2 = static_cast<BSAudio*>(::FUN_00c85750());
     char* cur2 = (char*)bs2->unk00;
     hkSphere* hitResults = (hkSphere*)cur2;
     {
@@ -956,8 +954,8 @@ void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector)
         }
     }
 
-    FUN_00c85750()->unk00 = (int)hitResults;
-    FUN_00c85750()->unk00 = (int)sphereBuffer;
+    static_cast<BSAudio*>(::FUN_00c85750())->unk00 = (int)hitResults;
+    static_cast<BSAudio*>(::FUN_00c85750())->unk00 = (int)sphereBuffer;
 
     StringCursor::GetMonitorStream().timerEnd(::str_01076f38);
 }

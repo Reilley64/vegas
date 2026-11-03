@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/compoundagent/shapecollection/hkpshapecollectionagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/shapecollection/hkpshapecollectionagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <windows.h>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d34000.h"
@@ -471,7 +472,6 @@ struct RouterS
     int unk0c;
     void* m_pStreamAllocator;
 };
-RouterS* FUN_00c85750();
 
 struct CollisionAgentMapRecord
 {
@@ -502,7 +502,7 @@ struct AgentArray
     }
     void reserve(int n)
     {
-        RouterS* r = FUN_00c85750();
+        RouterS* r = static_cast<RouterS*>(::FUN_00c85750());
         GrowArrayCapacity(r->m_pStreamAllocator, n);
     }
     void init()
@@ -857,7 +857,7 @@ struct MemRouter
 
 __forceinline MemRouter* getRouter()
 {
-    return (MemRouter*)FUN_00c85750();
+    return (MemRouter*)static_cast<RouterS*>(::FUN_00c85750());
 }
 
 __forceinline void memCpyOneAligned8(void* dst, const void* src)
@@ -1780,7 +1780,7 @@ struct CollectionProcessBody
     void* pResult;
     void* pShape;
     unsigned int unk08;
-    unsigned int unk0c;
+    ShapeArg* unk0c;
 };
 
 struct CollectionProcessAgent : hkpShapeCollectionAgent
@@ -1807,7 +1807,7 @@ void CollectionProcessAgent::FUN_00d437a0(ShapeArg* arg, unsigned int a0, unsign
     CollectionProcessBody pair;
     hkpShapeBuffer out;
     pair.unk08 = arg->unk08;
-    pair.unk0c = (unsigned int)arg;
+    pair.unk0c = arg;
 
     CollectionProcessEntry* pEntry = (CollectionProcessEntry*)p2;
     for (int i = count - 1; i >= 0; i--)

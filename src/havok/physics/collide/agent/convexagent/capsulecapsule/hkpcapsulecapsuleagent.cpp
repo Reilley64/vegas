@@ -659,8 +659,8 @@ public:
     __forceinline void setQuad(__m128 value) { m_vComponents = value; }
     __forceinline void setVector(const CapsulePointVector& value) { m_vComponents = value.m_vComponents; }
 
-    float& operator()(int i) { return (&m_vComponents.x)[i]; }
-    const float& operator()(int i) const { return (&m_vComponents.x)[i]; }
+    float& operator()(int i) { return reinterpret_cast<float*>(&m_vComponents)[i]; }
+    const float& operator()(int i) const { return reinterpret_cast<const float*>(&m_vComponents)[i]; }
     __forceinline void _setTransformedPos(const CapsulePointTransform& t, const CapsulePointVector& b);
 };
 
@@ -698,7 +698,7 @@ struct CapsulePointTransforms {
         CapsulePointVector c1 = t.m_rotation.m_kColumn1;
         CapsulePointVector c2 = t.m_rotation.m_kColumn2;
         scratch = t.m_vTranslation;
-        __m128 saved = _mm_load_ps((&scratch.m_vComponents.x));
+        __m128 saved = _mm_load_ps(reinterpret_cast<const float*>(&scratch.m_vComponents));
         int i = numVectors - 1;
         do
         {
@@ -719,7 +719,7 @@ struct CapsulePointTransforms {
         CapsulePointVector c1 = t.m_rotation.m_kColumn1;
         CapsulePointVector c2 = t.m_rotation.m_kColumn2;
         CapsulePointVector c3 = t.m_vTranslation;
-        CapsulePointVector q1; q1.setQuad(_mm_load_ps((&c1.m_vComponents.x)));
+        CapsulePointVector q1; q1.setQuad(_mm_load_ps(reinterpret_cast<const float*>(&c1.m_vComponents)));
         int i = numVectors - 1;
         do
         {

@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/tree/mopp/modifiers/hkpremoveterminalsmoppmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/tree/mopp/modifiers/hkpremoveterminalsmoppmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/S00e67230_Machine.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00e5d000.h"
@@ -117,7 +118,6 @@ struct FUN_00e48580_Heap
     int unk0C;
     void* unk10;
 };
-void* __cdecl FUN_00c85750();
 struct Packed
 {
     unsigned int lo : 8;
@@ -140,7 +140,7 @@ struct FUN_00e48580_Obj
 void FUN_00e48580_Obj::AppendPackedValue(int value)
 {
     FUN_00e48580_Array* arr = &this->arr;
-    FUN_00e48580_Heap* heap = reinterpret_cast<FUN_00e48580_Heap*>(FUN_00c85750());
+    FUN_00e48580_Heap* heap = reinterpret_cast<FUN_00e48580_Heap*>(::FUN_00c85750());
     if (arr->unk04 == (int)(arr->unk08 & 0x3fffffff))
     {
         ::ResizeAudioStream((::AudioAllocator *)(heap->unk10), (::AudioStream *)(arr), 4);
@@ -225,7 +225,6 @@ struct hkMemoryRouterE487
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterE487& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void destructE487(T* t, int n)
 {
@@ -247,7 +246,7 @@ template <class T> class hkArrayE487
 
     ~hkArrayE487() throw()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease(static_cast<hkMemoryRouterE487*>(::FUN_00c85750())->heap());
     }
     __forceinline void clear()
     {

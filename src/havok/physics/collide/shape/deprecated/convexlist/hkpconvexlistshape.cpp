@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/deprecated/convexlist/hkpconvexlistshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/convexlist/hkpconvexlistshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FunctionContext.h"
@@ -232,7 +233,6 @@ struct BSAudio
     void* allocator;
 };
 
-BSAudio* FUN_00c85750();
 
 struct ConvexList : hkpConvexListShape
 {
@@ -243,7 +243,7 @@ struct ConvexList : hkpConvexListShape
 void ConvexList::SetChildren(hkpConvexShape** children, int numChildren)
 {
     hkArray<hkpConvexShape*>* pChildrenArray = &m_kChildShapes;
-    BSAudio* audio = FUN_00c85750();
+    BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
     void* allocator = audio->allocator;
     int iCapacity = pChildrenArray->m_iCapacityState & 0x3fffffff;
     if (iCapacity < numChildren)
@@ -684,7 +684,6 @@ struct hkMemoryRouterD5E7
 };
 
 namespace hkRouterD5E7 {
-extern "C" hkMemoryRouterD5E7* __cdecl FUN_00c85750() throw();
 }
 
 template <typename T> struct hkArrayD5E7
@@ -707,7 +706,7 @@ template <typename T> struct hkArrayD5E7
     }
     ~hkArrayD5E7() throw()
     {
-        _clearAndDeallocate(hkRouterD5E7::FUN_00c85750()->heap());
+        _clearAndDeallocate(static_cast<hkMemoryRouterD5E7*>(::FUN_00c85750())->heap());
     }
 };
 

@@ -501,7 +501,6 @@ void __cdecl FUN_00d231b0(const Point4& a, const Point4& b,
 void __cdecl GetClosestLinePoints(const Point4& aLineAStart, const Point4& aLineAEnd, const Point4& aLineBStart, const Point4& aLineBEnd, float* pfDistance, float* pfFractionA, float* pfFractionB, Point4* pointA, Point4* pointB);
 void __cdecl FUN_00d224c0(float* arg1, float* arg2, float* arg3, float* out);
 
-extern const __m128 DAT_010c7160, DAT_010ec7f0;
 
 class S00d22760_SimdReal {
 public:

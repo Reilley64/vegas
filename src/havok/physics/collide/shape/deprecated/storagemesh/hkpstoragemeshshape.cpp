@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/deprecated/storagemesh/hkpstoragemeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/storagemesh/hkpstoragemeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include <new>
@@ -44,7 +45,6 @@ struct hkMemoryRouterD4B
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD4B& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void copyD4B(T* pDst, const T* pSrc, int n)
 {
@@ -77,7 +77,7 @@ template <class T> class hkArrayD4B
 
     __forceinline hkArrayD4B& operator=(const hkArrayD4B& a)
     {
-        hkMemoryAllocatorD4B& kHeap = FUN_00c85750().heap();
+        hkMemoryAllocatorD4B& kHeap = static_cast<hkMemoryRouterD4B*>(::FUN_00c85750())->heap();
         if (getCapacity() < a.m_iElementCount)
         {
             if ((m_iCapacityState & 0x80000000) == 0)
@@ -193,7 +193,6 @@ struct hkMemoryRouterD4BC
         return *m_pkHeap;
     }
 };
-extern "C" hkMemoryRouterD4BC* __cdecl FUN_00c85750() throw();
 
 template <typename T> struct hkArrayD4BC
 {
@@ -211,7 +210,7 @@ template <typename T> struct hkArrayD4BC
     }
     ~hkArrayD4BC() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(static_cast<hkMemoryRouterD4BC*>(::FUN_00c85750())->heap());
     }
 };
 
@@ -264,7 +263,6 @@ struct hkMemoryRouterD4BD
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD4BD& __cdecl FUN_00c85750();
 
 class FUN_00d4bc00
 {
@@ -275,7 +273,7 @@ class FUN_00d4bc00
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<FUN_00d4bc00*>(p)->m_usMemSizeAndFlags);
+        static_cast<hkMemoryRouterD4BD*>(::FUN_00c85750())->heap().ReleaseBlock(p, static_cast<FUN_00d4bc00*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00d4bc00* DestroyAndFree(unsigned int uiFlags) throw();
@@ -293,7 +291,6 @@ FUN_00d4bc00* FUN_00d4bc00::DestroyAndFree(unsigned int uiFlags) throw()
 }  // namespace fnv_00d4bd30
 
 namespace fnv_00d4be00 {
-void* __cdecl FUN_00c85750(void);
 
 struct FUN_00d4b400_Obj
 {
@@ -328,7 +325,7 @@ FUN_00d4be00_cls* FUN_00d4be00_cls::FUN_00d4be00(int flags)
     ((FUN_00d4b400_Obj*)this)->FUN_00d4b400();
     if (flags & 1)
     {
-        FUN_00c85750_Ret* mem = (FUN_00c85750_Ret*)FUN_00c85750();
+        FUN_00c85750_Ret* mem = (FUN_00c85750_Ret*)::FUN_00c85750();
         FUN_00d4be00_Allocator* alloc = mem->allocator;
         alloc->ReleaseBlock(this, m_usMemSizeAndFlags);
     }
@@ -356,7 +353,6 @@ struct hkMemoryRouterD4B4
 };
 
 namespace hkRouterD4B4 {
-extern "C" hkMemoryRouterD4B4* __cdecl FUN_00c85750() throw();
 }
 
 template <typename T> struct hkArrayD4B4
@@ -379,7 +375,7 @@ template <typename T> struct hkArrayD4B4
     }
     ~hkArrayD4B4() throw()
     {
-        _clearAndDeallocate(hkRouterD4B4::FUN_00c85750()->heap());
+        _clearAndDeallocate(static_cast<hkMemoryRouterD4B4*>(::FUN_00c85750())->heap());
     }
 };
 
@@ -558,7 +554,7 @@ struct HeapPolicy480
 {
     __forceinline Alloc480& get(const void*)
     {
-        return (Alloc480&)FUN_00c85750().heap();
+        return (Alloc480&)static_cast<hkMemoryRouterD4B*>(::FUN_00c85750())->heap();
     }
 };
 template <class T> struct CoreArray480
@@ -656,13 +652,13 @@ template <class T> struct Arr480 : CoreArray480<T>
 };
 template <class Arr> __forceinline void GrowIfFull480(Arr& arr, int elemSize)
 {
-    hkMemoryRouterD4B& router = FUN_00c85750();
+    hkMemoryRouterD4B& router = (*static_cast<hkMemoryRouterD4B*>(::FUN_00c85750()));
     if (arr.m_iElementCount == (arr.m_iCapacityState & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(&arr), elemSize);
 }
 template <class Arr> __forceinline void ReserveCount480(Arr& arr, int count, int elemSize)
 {
-    Alloc480* heap = (Alloc480*)&FUN_00c85750().heap();
+    Alloc480* heap = (Alloc480*)&static_cast<hkMemoryRouterD4B*>(::FUN_00c85750())->heap();
     int cap = arr.m_iCapacityState & 0x3fffffff;
     int need = arr.m_iElementCount + count;
     if (cap < need)
@@ -712,7 +708,7 @@ void FUN_00dcd310::FUN_00d4b480(const hkpMeshShapeSubpartD4B& kSubpart) throw()
 {
     hkpMeshShapeSubpartD4B* pSubpart = ExpandInit480(m_kSubparts);
 
-    Storage480* storage = (Storage480*)((Alloc480*)&FUN_00c85750().heap())->V1(0x50);
+    Storage480* storage = (Storage480*)((Alloc480*)&static_cast<hkMemoryRouterD4B*>(::FUN_00c85750())->heap())->V1(0x50);
     storage->GetAllocationSize = 0x50;
     storage = ((::Storage480 *)(new ((void *)(storage)) ::FUN_00d4bbb0()));
 
@@ -1040,7 +1036,6 @@ struct hkMemoryRouterD4BD
     }
 };
 
-extern "C" hkMemoryRouterD4BD& __cdecl FUN_00c85750() throw();
 
 template <class T> class hkArrayD4BD
 {
@@ -1051,7 +1046,7 @@ template <class T> class hkArrayD4BD
 
     ~hkArrayD4BD() throw()
     {
-        hkMemoryAllocatorD4BD& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorD4BD& kAlloc = static_cast<hkMemoryRouterD4BD*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -1142,7 +1137,6 @@ struct FUN_00dcebd0_Router
     void* m_unknown0c;
     FUN_00dcebd0_Allocator* m_pThreadAllocator;
 };
-FUN_00dcebd0_Router* __cdecl FUN_00c85750();
 
 struct FUN_00dcebd0_Class
 {
@@ -1174,7 +1168,7 @@ struct FUN_00dcebd0_Class
 void FUN_00dcebd0_Class::FUN_00dcebd0(const FUN_00dcebd0_Class& source)
 {
     reinterpret_cast<::hkpPhysicsSystemD29 *>(this)->FUN_00d06290((const ::hkpPhysicsSystemD29 &)(source));
-    FUN_00dcebd0_Allocator* allocator = FUN_00c85750()->m_pThreadAllocator;
+    FUN_00dcebd0_Allocator* allocator = static_cast<FUN_00dcebd0_Router*>(::FUN_00c85750())->m_pThreadAllocator;
     int capacity = m_iCapacityState & 0x3fffffff;
     if (capacity < source.m_iElementCount)
     {

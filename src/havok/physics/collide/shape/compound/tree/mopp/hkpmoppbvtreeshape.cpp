@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <windows.h>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FunctionContext.h"
@@ -288,7 +289,6 @@ struct hkMemoryRouterD548
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD548& __cdecl FUN_00c85750();
 
 struct FUN_00d1df70
 {
@@ -304,7 +304,7 @@ class hkReferencedObjectD548
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkReferencedObjectD548*>(p)->m_usMemSizeAndFlags);
+        static_cast<hkMemoryRouterD548*>(::FUN_00c85750())->heap().ReleaseBlock(p, static_cast<hkReferencedObjectD548*>(p)->m_usMemSizeAndFlags);
     }
 };
 
@@ -1245,7 +1245,7 @@ int hkMoppBvTreeShapeBaseQ::FUN_00d54810(const hkAabbq& aabbIn, unsigned int* hi
     hkMoppHitsQ machine;
     reinterpret_cast<::GridCell *>(&(machine))->FUN_00dd1da0((::GridSource *)(code), (::GridBounds *)(&aabb), (int)(&hitsArray));
     int numHits = machine.m_kHits->m_iElementCount;
-    hitsArray._clearAndDeallocate(FUN_00c85750().heap());
+    hitsArray._clearAndDeallocate(static_cast<hkMemoryRouterD548*>(::FUN_00c85750())->heap());
     return numHits;
 }
 #include "generated/data/havok/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.inc"

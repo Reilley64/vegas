@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/misc/transform/hkptransformshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/misc/transform/hkptransformshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00cf5950_cls.h"
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -100,7 +101,6 @@ struct hkMemoryRouterCF5E
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterCF5E& __cdecl FUN_00c85750();
 
 struct FUN_00d1df70
 {
@@ -116,7 +116,7 @@ class hkReferencedObjectCF5E
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkReferencedObjectCF5E*>(p)->m_usMemSizeAndFlags);
+        static_cast<hkMemoryRouterCF5E*>(::FUN_00c85750())->heap().ReleaseBlock(p, static_cast<hkReferencedObjectCF5E*>(p)->m_usMemSizeAndFlags);
     }
 };
 

@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include <new>
@@ -64,10 +65,9 @@ struct AudioMgr
 };
 
 struct BSAudio;
-__declspec(nothrow) BSAudio* __cdecl FUN_00c85750();
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 
@@ -155,7 +155,6 @@ struct S_00d56880_Router
     int unk8;
     int unkc;
     S_00d56880_Alloc* m_pStreamAllocator;
-    static S_00d56880_Router& FUN_00c85750();
     S_00d56880_Alloc& heap()
     {
         return *m_pStreamAllocator;
@@ -224,7 +223,7 @@ struct S_00d56880_Array
     }
     __forceinline S_00d56880_Elem* expandBy(int n)
     {
-        S_00d56880_Alloc& a = S_00d56880_Router::FUN_00c85750().heap();
+        S_00d56880_Alloc& a = static_cast<S_00d56880_Router*>(::FUN_00c85750())->heap();
         int oldsize = m_iElementCount;
         GrowArrayCapacity(a, oldsize + n);
         S_00d56880_Elem* p = m_data + m_iElementCount;
@@ -949,7 +948,6 @@ struct BSAudio
     unsigned unk0c;
     BufferAllocator* allocator;
 };
-BSAudio* FUN_00c85750();
 struct Container
 {
     unsigned unk00;
@@ -965,7 +963,7 @@ struct Container
 // @fnv 0x00d56800
 void Container::FUN_00d56800()
 {
-    BufferAllocator* allocator = FUN_00c85750()->allocator;
+    BufferAllocator* allocator = static_cast<BSAudio*>(::FUN_00c85750())->allocator;
     int savedCount = count;
     hkReferencedObject** savedData = data;
     for (int i = 0; i < savedCount; ++i)
@@ -1001,7 +999,6 @@ struct BSAudio
     }
 };
 
-BSAudio* FUN_00c85750();
 
 extern "C" char DAT_010d0ecc[];
 extern "C" char DAT_010d0ea8[];
@@ -1031,7 +1028,7 @@ template <class T> struct hkArray
     }
     __forceinline void ClearAndRelease()
     {
-        hkMemoryAllocator& alloc = FUN_00c85750()->heap();
+        hkMemoryAllocator& alloc = static_cast<BSAudio*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
         {
@@ -1042,7 +1039,7 @@ template <class T> struct hkArray
     }
     __forceinline void destroyAndDeallocate()
     {
-        hkMemoryAllocator& alloc = FUN_00c85750()->heap();
+        hkMemoryAllocator& alloc = static_cast<BSAudio*>(::FUN_00c85750())->heap();
         int n = m_iElementCount;
         T* p = m_data;
         for (int i = 0; i < n; i++)
@@ -2126,7 +2123,6 @@ struct SubBuf
     int m_08;
 };
 
-AudioHolder* __cdecl FUN_00c85750();
 
 struct Allocator
 {
@@ -2218,10 +2214,10 @@ void FUN_00d56200_cls::FUN_00d56200(int a1)
             } while (i < m_b8);
         }
         SubBuf* sub = &m_cc;
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         if ((sub->m_08 & 0x3fffffff) < total)
             ::FUN_00c908c0((::SpawnedObject *)(pHolder->m_10), (::SpawnedArray *)(sub), total, 2);
-        AudioHolder* pHolder2 = FUN_00c85750();
+        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
         void* alloc2 = pHolder2->m_10;
         int size = sub->m_08 & 0x3fffffff;
         if (size < total)
@@ -2234,7 +2230,7 @@ void FUN_00d56200_cls::FUN_00d56200(int a1)
         sub->m_04 = total;
         return;
     }
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     Allocator* alloc = (Allocator*)pHolder->m_10;
     int size = m_cc.m_08;
     int zero = 0;

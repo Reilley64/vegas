@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -140,12 +141,11 @@ struct Built
     int field08;
     void FUN_00d2f980(int);
 };
-extern "C" Global* __cdecl FUN_00c85750();
 // Allocates a 0x40-byte Built from the global allocator, sets its field04 to 0x40, and calls FUN_00d2f980 with arg4.
 // @fnv 0x00d2f9d0
 void __cdecl FUN_00d2f9d0(int aiUnused1, int aiUnused2, int aiUnused3, int arg4)
 {
-    Global* global = FUN_00c85750();
+    Global* global = static_cast<Global*>(::FUN_00c85750());
     Built* pBuilt = (Built*)global->allocator->allocate(0x40);
     pBuilt->field04 = 0x40;
     pBuilt->FUN_00d2f980(arg4);
@@ -194,7 +194,6 @@ struct D2FA00MemoryRouter
 };
 
 namespace fnvc_adapt {
-extern "C" D2FA00MemoryRouter& __cdecl FUN_00c85750();
 }
 
 class D2FA00ReferencedObject
@@ -203,7 +202,7 @@ class D2FA00ReferencedObject
     static void* operator new(size_t nbytes)
     {
         D2FA00ReferencedObject* b =
-            static_cast<D2FA00ReferencedObject*>(fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+            static_cast<D2FA00ReferencedObject*>(static_cast<D2FA00MemoryRouter*>(::FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -907,7 +906,6 @@ struct S_00d30f50_Router
 {
     int unk00, unk04, unk08, unk0C;
     S_00d30f50_Heap* unk10;
-    static S_00d30f50_Router& FUN_00c85750();
     S_00d30f50_Heap& heap()
     {
         return *unk10;
@@ -947,7 +945,7 @@ template <class T> struct S_00d30f50_Array
     }
     ~S_00d30f50_Array() throw()
     {
-        _clearAndDeallocate(S_00d30f50_Router::FUN_00c85750().heap());
+        _clearAndDeallocate(static_cast<S_00d30f50_Router*>(::FUN_00c85750())->heap());
     }
 };
 
@@ -1299,7 +1297,6 @@ struct SpawnedObject
     SpawnedObject* FUN_00d2f980(int arg);
 };
 
-AllocHolder* FUN_00c85750();
 
 // Allocates a 0x40-byte object and calls FUN_00d2f980 with a4; unless the first m_a0 is less than the second, it then calls the destructor; returns the object.
 // @fnv 0x00d2fa40
@@ -1309,13 +1306,13 @@ SpawnedObject* FUN_00d2fa40(FloatOwner* apFirstOwner, FloatOwner* apSecondOwner,
     FloatSub* pSecondSub = apSecondOwner->m_08;
     if (pFirstSub->m_a0 < pSecondSub->m_a0)
     {
-        AllocHolder* holder = FUN_00c85750();
+        AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
         SlotAllocator* alloc = (SlotAllocator*)holder->m_pAllocator;
         SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x40);
         obj->m_04 = 0x40;
         return ((::fnv_00d2fa40::SpawnedObject *)(new ((void *)(obj)) struct ::FUN_00d2f980(a4)));
     }
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SlotAllocator* alloc = (SlotAllocator*)holder->m_pAllocator;
     SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x40);
     obj->m_04 = 0x40;
@@ -1574,7 +1571,7 @@ extern "C" void __cdecl FUN_00d31110(void* apBodyA, void* apBodyB, void* apInput
         }
     }
 
-    Global* g = FUN_00c85750();
+    Global* g = static_cast<Global*>(::FUN_00c85750());
     int iCapFlags = hits.m_capFlags;
     S00d31110_Free* pAllocator = (S00d31110_Free*)g->allocator;
     hits.m_iElementCount = 0;
@@ -1692,7 +1689,7 @@ struct S312_InplaceArray : S312_Array
     }
     ~S312_InplaceArray()
     {
-        ClearAndRelease((S312_Alloc&)fnvc_adapt::FUN_00c85750().heap());
+        ClearAndRelease((S312_Alloc&)static_cast<D2FA00MemoryRouter*>(::FUN_00c85750())->heap());
     }
 };
 struct S312_BvTree
@@ -2290,7 +2287,7 @@ struct SolRouter
     SolHeap* heapPtr;
     static SolRouter& GetMonitorStream()
     {
-        return *reinterpret_cast<SolRouter*>(FUN_00c85750());
+        return *reinterpret_cast<SolRouter*>(static_cast<Global*>(::FUN_00c85750()));
     }
     SolHeap& heap()
     {
@@ -3135,7 +3132,6 @@ inline void StackMemD3::deallocateStack( void* p )
 class RouterD3
 {
 	public:
-		static RouterD3& __cdecl FUN_00c85750();
 		inline StackMemD3& stack() { return m_aiEntries; }
 		inline AllocatorD3& heap() { return *m_pStreamAllocator; }
 	protected:
@@ -3153,19 +3149,19 @@ template <typename T> struct SizeOfD3 { enum { val = sizeof( T ) }; };
 template <typename T>
 __forceinline T* __cdecl allocStack( int n, const char* what = 0 )
 {
-	RouterD3& mem = RouterD3::FUN_00c85750();
+	RouterD3& mem = (*static_cast<RouterD3*>(::FUN_00c85750()));
 	return static_cast<T*>( mem.stack().allocateStack( ( ( n * SizeOfD3<T>::val ) + ( 128 - 1 ) ) & ( ~( 128 - 1 ) ), what ) );
 }
 
 template <typename T>
 __forceinline void __cdecl freeStack( T* ptr )
 {
-	RouterD3::FUN_00c85750().stack().deallocateStack( static_cast<void*>( ptr ) );
+	static_cast<RouterD3*>(::FUN_00c85750())->stack().deallocateStack( static_cast<void*>( ptr ) );
 }
 
 struct HeapAllocD3
 {
-	AllocatorD3& get( const void* ) { return RouterD3::FUN_00c85750().heap(); }
+	AllocatorD3& get( const void* ) { return static_cast<RouterD3*>(::FUN_00c85750())->heap(); }
 };
 
 

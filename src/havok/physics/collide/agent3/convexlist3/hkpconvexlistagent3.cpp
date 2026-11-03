@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
 #include <cstring>
 // @fnv 0x00d32b20
 #include "fnv/decl/FUN_00cfbd60_cls.h"
@@ -999,7 +1000,6 @@ struct Monitor
 };
 extern float DAT_010ceb6c;
 int __cdecl FUN_00dabca0(ProbeInput*, Agent*, void*, FourFloatVector*);
-void* __cdecl FUN_00c85750();
 
 struct TLSArgument
 {
@@ -1150,7 +1150,7 @@ fallback:
     collisionOutput->distance = -1.701410009187828e+38f;
     {
         int count = scratch.shapeEnd.shape->childCount;
-        int** arena = (int**)FUN_00c85750();
+        int** arena = (int**)::FUN_00c85750();
         int* keys = *arena;
         *arena = (int*)((char*)keys + ((count * 4 + 0x83) & ~0x7f));
         for (int i = 0; i < count; ++i)
@@ -1158,7 +1158,7 @@ fallback:
         int* sub = &(*(Shape* volatile*)&scratch.shapeEnd.shape)->unk14;
         Cache* cache = &agent->state.cache;
         ::fnv_00da4aa0::FUN_00da4aa0((*(::fnv_00da4aa0::Q30 *)((keys[count] = -1, cache))), (*(const ::fnv_00da4aa0::Q14 *)(context)), (const ::fnv_00da4aa0::Q24 *)(sub), (const unsigned int *)(keys), (*(::fnv_00da4aa0::Q6 *)(output)));
-        *(int**)FUN_00c85750() = keys;
+        *(int**)::FUN_00c85750() = keys;
         scratch.outcome.result = cache + 1;
     }
 finished:

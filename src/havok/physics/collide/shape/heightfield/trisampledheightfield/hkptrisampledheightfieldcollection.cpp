@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include <new>
@@ -228,7 +229,6 @@ struct hkMemoryRouterD267
 };
 
 namespace hkRouterD267 {
-extern "C" hkMemoryRouterD267& __cdecl FUN_00c85750() throw();
 }
 
 template <class T> struct hkArrayD267
@@ -239,7 +239,7 @@ template <class T> struct hkArrayD267
 
     ~hkArrayD267() throw()
     {
-        hkMemoryAllocatorD267& alloc = hkRouterD267::FUN_00c85750().heap();
+        hkMemoryAllocatorD267& alloc = static_cast<hkMemoryRouterD267*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -314,7 +314,6 @@ struct FUN_00d267c0_Alloc
     virtual void Free(void* data, int size);
 };
 
-void* FUN_00c85750(void);
 
 struct FUN_00d267c0_t : FUN_00d26450_S
 {
@@ -330,12 +329,12 @@ void FUN_00d267c0_t::FUN_00d267c0(int mode)
         char* o = (char*)reinterpret_cast<::FUN_00d26450_Obj *>(this)->FUN_00d26450();
         int idx = (2 * *(int*)(o + 0x14) - 2) * (*(int*)(o + 0x10) - 1);
         char* arr = (char*)this + 0x24;
-        char* cur = (char*)FUN_00c85750();
+        char* cur = (char*)::FUN_00c85750();
         if ((*(int*)(arr + 8) & 0x3fffffff) < idx)
         {
             ::FUN_00c908c0((::SpawnedObject *)(*(int*)(cur + 0x10)), (::SpawnedArray *)((int)arr), idx, 2);
         }
-        cur = (char*)FUN_00c85750();
+        cur = (char*)::FUN_00c85750();
         int alloc = *(int*)(cur + 0x10);
         int a = *(int*)(arr + 8) & 0x3fffffff;
         if (a < idx)
@@ -347,7 +346,7 @@ void FUN_00d267c0_t::FUN_00d267c0(int mode)
     }
     else
     {
-        char* cur = (char*)FUN_00c85750();
+        char* cur = (char*)::FUN_00c85750();
         FUN_00d267c0_Alloc* alloc = *(FUN_00d267c0_Alloc**)(cur + 0x10);
         int a = *(int*)((char*)this + 0x2c);
         *(int*)((char*)this + 0x28) = 0;

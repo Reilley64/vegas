@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
@@ -309,9 +310,8 @@ struct hkThreadMemoryq
     __forceinline hkMemoryAllocatorq& heap() { return *m_pStreamAllocator; }
 };
 
-void* __cdecl FUN_00c85750() throw();
 
-static __forceinline hkThreadMemoryq* hkGetThreadMemory() { return (hkThreadMemoryq*)FUN_00c85750(); }
+static __forceinline hkThreadMemoryq* hkGetThreadMemory() { return (hkThreadMemoryq*)::FUN_00c85750(); }
 
 template <class T>
 struct hkArrayq
@@ -653,7 +653,6 @@ struct hkMemoryRouterD598 {
     hkMemoryAllocatorD598& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" hkMemoryRouterD598& __cdecl FUN_00c85750() throw();
 
 template <class T>
 class hkArrayD598 {
@@ -664,7 +663,7 @@ public:
 
     ~hkArrayD598() throw()
     {
-        hkMemoryAllocatorD598& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorD598& kAlloc = static_cast<hkMemoryRouterD598*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -747,8 +746,8 @@ struct MatchVector
         m_vComponents[3] = v;
     }
     void operator=(const MatchVector& v) { m_vComponents = v.m_vComponents; }
-    float& operator()(int i) { return m_vComponents[i]; }
-    const float& operator()(int i) const { return m_vComponents[i]; }
+    float& operator()(int i) { return reinterpret_cast<float*>(&m_vComponents)[i]; }
+    const float& operator()(int i) const { return reinterpret_cast<const float*>(&m_vComponents)[i]; }
     void setMul4(const MatchVector& a, const MatchVector& b) { m_vComponents = _mm_mul_ps(_mm_load_ps((const float*)&a.m_vComponents), b.m_vComponents); }
     void addMul4(const MatchVector& a, const MatchVector& b) { m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(_mm_load_ps((const float*)&a.m_vComponents), b.m_vComponents)); }
     void add4(const MatchVector& a) { m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents); }
@@ -853,7 +852,7 @@ __forceinline void ResizePlanes(
     ArrayD5A360<Vector4D5A360>& planes,
     const ArrayD5A360<Vector4D5A360>& source)
 {
-    AllocatorD5A360& allocator = reinterpret_cast<AllocatorD5A360&>(FUN_00c85750().heap());
+    AllocatorD5A360& allocator = reinterpret_cast<AllocatorD5A360&>(static_cast<hkMemoryRouterD598*>(::FUN_00c85750())->heap());
 
     if ((planes.m_iCapacityState & 0x3fffffff) < source.m_iElementCount) {
         if ((planes.m_iCapacityState & 0x80000000) == 0)
@@ -1058,7 +1057,7 @@ hkBoolRet ConvexVertsShape::FUN_00d592a0(const RayInput& input, RayOutput& resul
                     __m128 dot = _mm_add_ss(_mm_shuffle_ps(pd, pd, 0x55), pd);
                     dot = _mm_add_ss(_mm_shuffle_ps(pd, pd, 0xaa), dot);
                     scratch.plane.w = LowFloat(_mm_sub_ss(DAT_010c7160, dot));
-                    hkMemoryRouterD598& router = FUN_00c85750();
+                    hkMemoryRouterD598& router = (*static_cast<hkMemoryRouterD598*>(::FUN_00c85750()));
                     if (arr->m_iElementCount == (arr->m_iCapacityState & 0x3fffffff)) {
                         ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(arr), 0x10);
                     }
@@ -1135,7 +1134,7 @@ struct VertArray96Q {
     hkVec4Q& operator[](int i) { return m_data[i]; }
     void SetSizeAndGrow(int n)
     {
-        hkMemoryAllocatorD598& alloc = FUN_00c85750().heap();
+        hkMemoryAllocatorD598& alloc = static_cast<hkMemoryRouterD598*>(::FUN_00c85750())->heap();
         int cap = m_iCapacityState & 0x3fffffff;
         if (cap < n)
         {
@@ -1180,7 +1179,7 @@ NineIntegerRecord* GetMemoryRouter_c85750();
 struct FourFloatVector
 {
     __m128 m_vComponents;
-    __forceinline float& operator()(int i) { return m_vComponents[i]; }
+    __forceinline float& operator()(int i) { return reinterpret_cast<float*>(&m_vComponents)[i]; }
 };
 
 struct FourVectors
@@ -1446,7 +1445,7 @@ struct PlaneArray {
 
         const hkArray<hkVector4>& other = shape->m_kVertexPositions;
 
-        Allocator& alloc = ((ThreadMemory*)&FUN_00c85750())->heap();
+        Allocator& alloc = ((ThreadMemory*)&(*static_cast<hkMemoryRouterD598*>(::FUN_00c85750())))->heap();
 
         if (other.m_iElementCount > 0) {
 
@@ -1506,7 +1505,7 @@ struct PlaneArray {
 
     __forceinline ~PlaneArray() throw() {
 
-        ClearAndRelease(((ThreadMemory*)&FUN_00c85750())->heap());
+        ClearAndRelease(((ThreadMemory*)&(*static_cast<hkMemoryRouterD598*>(::FUN_00c85750())))->heap());
 
     }
 
@@ -1534,7 +1533,7 @@ struct LocalArray {
 
         m_iCapacityState = 0x80000000;
 
-        ThreadMemory* mem = (ThreadMemory*)&FUN_00c85750();
+        ThreadMemory* mem = (ThreadMemory*)&(*static_cast<hkMemoryRouterD598*>(::FUN_00c85750()));
 
         void* p = mem->m_stackCurrent;
 
@@ -1562,9 +1561,9 @@ struct LocalArray {
 
         }
 
-        ((ThreadMemory*)&FUN_00c85750())->m_stackCurrent = initial;
+        ((ThreadMemory*)&(*static_cast<hkMemoryRouterD598*>(::FUN_00c85750())))->m_stackCurrent = initial;
 
-        ClearAndRelease(((ThreadMemory*)&FUN_00c85750())->heap());
+        ClearAndRelease(((ThreadMemory*)&(*static_cast<hkMemoryRouterD598*>(::FUN_00c85750())))->heap());
 
     }
 
@@ -1814,7 +1813,7 @@ if (reinterpret_cast<PlaneVector&>(normal).normalize()==PlaneSuccess) {
 
         int index = shape->m_kVertexPositions.m_iElementCount;
 
-        ThreadMemory* mem = (ThreadMemory*)&FUN_00c85750();
+        ThreadMemory* mem = (ThreadMemory*)&(*static_cast<hkMemoryRouterD598*>(::FUN_00c85750()));
 
         reinterpret_cast<::SearchObject *>((reinterpret_cast<FUN_00d5a4c0_Helper*>(&planeEquations)))->FUN_00d5a4c0(
 

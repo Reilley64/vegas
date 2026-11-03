@@ -2,6 +2,7 @@
 // src/havok/physics/collide/query/collector/pointcollector/hkpallcdpointcollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/pointcollector/hkpallcdpointcollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00c90000.h"
 struct FUN_00caba90_array
 {
@@ -13,7 +14,6 @@ struct FUN_006212c0_shell
 {
     void* FUN_006212c0(void* source);
 };
-void* __cdecl FUN_00c85750();
 struct FUN_00caba90_Class
 {
     int unk00;
@@ -27,7 +27,7 @@ struct FUN_00caba90_Class
 void* FUN_00caba90_Class::AppendItem(void* source)
 {
     FUN_00caba90_array* items = &array;
-    void* manager = FUN_00c85750();
+    void* manager = ::FUN_00c85750();
     if (items->count == (items->capacity & 0x3fffffff))
     {
         void* allocator = *(void**)((char*)manager + 0x10);
@@ -85,7 +85,6 @@ struct S_00cab970_Router
     int unk0c;
     S_00cab970_Heap* heap;
 };
-void* __cdecl FUN_00c85750();
 struct S_00cab970_Vec
 {
     __m128 q;
@@ -123,7 +122,7 @@ struct S_00cab970_Arr
     int m_cap;
     __forceinline S_00cab970_Entry& AllocatePair()
     {
-        S_00cab970_Router* r = (S_00cab970_Router*)FUN_00c85750();
+        S_00cab970_Router* r = (S_00cab970_Router*)::FUN_00c85750();
         if (m_iElementCount == (m_cap & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(r->heap), (::AudioStream *)(::S_00cab970_Arr *)(this), sizeof(S_00cab970_Entry));
         return m_data[m_iElementCount++];

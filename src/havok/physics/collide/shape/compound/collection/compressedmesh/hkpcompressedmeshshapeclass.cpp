@@ -1,6 +1,7 @@
 // src/havok/physics/collide/shape/compound/collection/compressedmesh/hkpcompressedmeshshapeclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/compressedmesh/hkpcompressedmeshshapeclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 struct AudioAllocator
 {
     virtual void v00();
@@ -19,7 +20,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00dfd380_cls
 {
@@ -47,7 +47,7 @@ struct FUN_00dfd380_cls
 // @fnv 0x00dfd380
 void FUN_00dfd380_cls::FUN_00dfd380()
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapA = m_uCapA;
     m_iCountA = 0;
@@ -58,7 +58,7 @@ void FUN_00dfd380_cls::FUN_00dfd380()
     m_pDataA = 0;
     m_uCapA = 0x80000000u;
 
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     unsigned int uCapB = m_uCapB;
     m_iCountB = 0;
@@ -69,7 +69,7 @@ void FUN_00dfd380_cls::FUN_00dfd380()
     m_pDataB = 0;
     m_uCapB = 0x80000000u;
 
-    AudioHolder* pHolder3 = FUN_00c85750();
+    AudioHolder* pHolder3 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator3 = pHolder3->m_pAllocator;
     unsigned int uCapC = m_uCapC;
     m_iCountC = 0;
@@ -80,7 +80,7 @@ void FUN_00dfd380_cls::FUN_00dfd380()
     m_pDataC = 0;
     m_uCapC = 0x80000000u;
 
-    AudioHolder* pHolder4 = FUN_00c85750();
+    AudioHolder* pHolder4 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator4 = pHolder4->m_pAllocator;
     unsigned int uCapD = m_uCapD;
     m_iCountD = 0;
@@ -111,7 +111,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00dfd440_cls
 {
@@ -136,7 +135,7 @@ struct FUN_00dfd440_cls
 // @fnv 0x00dfd440
 void FUN_00dfd440_cls::FUN_00dfd440()
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapA = m_uCapA;
     m_iCountA = 0;
@@ -147,7 +146,7 @@ void FUN_00dfd440_cls::FUN_00dfd440()
     m_pDataA = 0;
     m_uCapA = 0x80000000u;
 
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     unsigned int uCapB = m_uCapB;
     m_iCountB = 0;
@@ -158,7 +157,7 @@ void FUN_00dfd440_cls::FUN_00dfd440()
     m_pDataB = 0;
     m_uCapB = 0x80000000u;
 
-    AudioHolder* pHolder3 = FUN_00c85750();
+    AudioHolder* pHolder3 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator3 = pHolder3->m_pAllocator;
     unsigned int uCapC = m_uCapC;
     m_iCountC = 0;

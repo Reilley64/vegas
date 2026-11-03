@@ -5,6 +5,7 @@
 
 // Writes four function pointers into the first 16 bytes of p and clears the two bytes at offsets 16 and 17.
 // @fnv 0x00d3ab60
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
@@ -149,7 +150,6 @@ struct AllocHolder {
     AllocIface* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750() throw();
 
 
 extern char DAT_010cef38[];
@@ -169,7 +169,7 @@ struct FUN_00d39980_cls {
 // @fnv 0x00d39980
 FUN_00d39980_cls* __cdecl CreateAllocatedObject(int a1, int a2, int a3, int a4)
 {
-    AllocHolder* pAllocHolder = FUN_00c85750();
+    AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
     FUN_00d39980_cls* pObject = (FUN_00d39980_cls*)pAllocHolder->m_pAllocator->Alloc(0x28);
     pObject->m_w04 = 0x28;
     pObject->m_w06 = 1;

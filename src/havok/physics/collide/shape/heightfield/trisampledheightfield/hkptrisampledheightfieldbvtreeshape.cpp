@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldbvtreeshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldbvtreeshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00d26450_Obj.h"
@@ -245,7 +246,6 @@ struct hkThreadMemory
     hkMemory* m_pMemoryAllocator;
 };
 
-extern "C" hkThreadMemory* FUN_00c85750();
 
 template <typename T> __forceinline void hkConstructWithCopy(T* p, int n, const T& t)
 {
@@ -272,7 +272,7 @@ struct hkShapeKeyArray
 
     __forceinline void AddBack(const hkUint32& e)
     {
-        hkThreadMemory* tm = FUN_00c85750();
+        hkThreadMemory* tm = static_cast<hkThreadMemory*>(::FUN_00c85750());
         if (m_iElementCount == getCapacity())
         {
             ::ResizeAudioStream((::AudioAllocator *)(tm->m_pMemoryAllocator), (::AudioStream *)(void *)(this), sizeof(hkUint32));
@@ -283,7 +283,7 @@ struct hkShapeKeyArray
 
     __forceinline void SetSizeAndGrow(int n)
     {
-        hkThreadMemory* tm = FUN_00c85750();
+        hkThreadMemory* tm = static_cast<hkThreadMemory*>(::FUN_00c85750());
         hkMemory* memory = tm->m_pMemoryAllocator;
         int cap = getCapacity();
         if (cap < n)

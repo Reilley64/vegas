@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/heightfield/compressedsampledheightfield/hkpcompressedsampledheightfieldshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/compressedsampledheightfield/hkpcompressedsampledheightfieldshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_011b1000.h"
@@ -65,11 +66,11 @@ struct HfVec_e49530
     }
     float& operator()(int i)
     {
-        return m_vComponents[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
     const float& operator()(int i) const
     {
-        return m_vComponents[i];
+        return reinterpret_cast<const float*>(&m_vComponents)[i];
     }
 };
 
@@ -238,7 +239,6 @@ void HfShape_e49530::Collide(const HfInput_e49530& input, HfVec_e49530* outputAr
     HfCollide_e49530(*this, input, outputArray);
 }
 
-extern "C" void* __cdecl FUN_00c85750();
 extern int DAT_010e901c;
 
 struct hkBoolR_e499
@@ -304,7 +304,7 @@ struct Arr16_e499
     }
     __forceinline void reserve(int n)
     {
-        Holder_e499* h = (Holder_e499*)FUN_00c85750();
+        Holder_e499* h = (Holder_e499*)::FUN_00c85750();
         Alloc_e499* alloc = h->m_alloc;
         int c = m_iCapacityState & 0x3fffffff;
         if (c < n)

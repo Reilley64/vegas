@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/Container.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -138,7 +139,6 @@ struct hkMemoryRouterD49C
         return *m_pkHeap;
     }
 };
-extern "C" hkMemoryRouterD49C* __cdecl FUN_00c85750() throw();
 
 template <typename T> inline void hkDestructD49C(T* t, int n)
 {
@@ -167,7 +167,7 @@ template <typename T> struct hkArrayD49C
     }
     ~hkArrayD49C()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(static_cast<hkMemoryRouterD49C*>(::FUN_00c85750())->heap());
     }
 };
 
@@ -423,7 +423,6 @@ struct hkMemoryRouterD4AE
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD4AE& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void destructD4AE(T* t, int n)
 {
@@ -447,7 +446,7 @@ template <class T> class hkArrayD4AE
 
     __forceinline ~hkArrayD4AE()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease(static_cast<hkMemoryRouterD4AE*>(::FUN_00c85750())->heap());
     }
     __forceinline void clear()
     {
@@ -558,7 +557,6 @@ struct hkMemoryRouterD4AF
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD4AF& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void destructD4AF(T* t, int n)
 {
@@ -580,7 +578,7 @@ template <class T> class hkArrayD4AF
 
     __forceinline ~hkArrayD4AF()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease(static_cast<hkMemoryRouterD4AF*>(::FUN_00c85750())->heap());
     }
     __forceinline void clear()
     {
@@ -682,7 +680,6 @@ struct hkMemoryRouterD4AC
 };
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterD4AC& __cdecl FUN_00c85750() throw();
 }
 
 template <class T> class hkArrayD4AC
@@ -694,7 +691,7 @@ template <class T> class hkArrayD4AC
 
     ~hkArrayD4AC() throw()
     {
-        hkMemoryAllocatorD4AC& kAlloc = fnvc_adapt::FUN_00c85750().heap();
+        hkMemoryAllocatorD4AC& kAlloc = static_cast<hkMemoryRouterD4AC*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -780,7 +777,6 @@ struct hkMemoryRouterD4AA
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD4AA& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void copyD4AA(T* dst, const T* src, int n)
 {
@@ -813,7 +809,7 @@ template <class T> class hkArrayD4AA
 
     __forceinline void operator=(const hkArrayD4AA& a)
     {
-        copyFromArray(FUN_00c85750().heap(), a);
+        copyFromArray(static_cast<hkMemoryRouterD4AA*>(::FUN_00c85750())->heap(), a);
     }
     __forceinline void copyFromArray(hkMemoryAllocatorD4AA& kAlloc, const hkArrayD4AA& a)
     {
@@ -1027,7 +1023,6 @@ struct hkMemoryRouterD4AD
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD4AD& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void destructD4AD(T* t, int n)
 {
@@ -1069,7 +1064,7 @@ template <class T> class hkArrayD4AD
 
     __forceinline void operator=(const hkArrayD4AD& a)
     {
-        copyFromArray(FUN_00c85750().heap(), a);
+        copyFromArray(static_cast<hkMemoryRouterD4AD*>(::FUN_00c85750())->heap(), a);
     }
     __forceinline void copyFromArray(hkMemoryAllocatorD4AD& kAlloc, const hkArrayD4AD& a)
     {
@@ -1163,7 +1158,7 @@ struct NineIntegerRecord
     hkMemoryAllocator* m_pStreamAllocator;
     static __forceinline NineIntegerRecord& GetMonitorStream()
     {
-        return *static_cast<NineIntegerRecord*>(static_cast<void*>(FUN_00c85750()));
+        return *static_cast<NineIntegerRecord*>(static_cast<void*>(static_cast<hkMemoryRouterD49C*>(::FUN_00c85750())));
     }
     __forceinline hkMemoryAllocator& heap()
     {
@@ -1595,7 +1590,6 @@ struct hkMemoryRouterS
     }
 };
 
-hkMemoryRouterS* FUN_00c85750();
 
 struct hkArrayUtilS
 {
@@ -1674,7 +1668,7 @@ template <typename T> struct hkArrS
 
     __forceinline T* expandBy(int n)
     {
-        return _expandBy(FUN_00c85750()->heap(), n);
+        return _expandBy(static_cast<hkMemoryRouterS*>(::FUN_00c85750())->heap(), n);
     }
 };
 
@@ -1865,7 +1859,7 @@ template <class T> struct Buffer
     }
     inline T* grow(int count)
     {
-        return growUsing(fnvc_adapt::FUN_00c85750().heap(), count);
+        return growUsing(static_cast<hkMemoryRouterD4AC*>(::FUN_00c85750())->heap(), count);
     }
 };
 struct FUN_00d4aef0
@@ -1883,7 +1877,7 @@ struct FUN_00d4aef0
     FUN_00d4aef0() throw();
     static void* operator new(size_t bytes)
     {
-        hkMemoryAllocatorD4AC& allocator = fnvc_adapt::FUN_00c85750().heap();
+        hkMemoryAllocatorD4AC& allocator = static_cast<hkMemoryRouterD4AC*>(::FUN_00c85750())->heap();
         FUN_00d4aef0* memory = static_cast<FUN_00d4aef0*>(allocator.AllocateMemoryBlock(bytes));
         memory->size = static_cast<unsigned short>(bytes);
         return memory;
@@ -1897,7 +1891,7 @@ template <class T> inline void copyItems(T* destination, int count, const T& val
 }
 template <class T, template <class> class A> inline void append(A<T>& a, const T& value)
 {
-    hkMemoryRouterD49C* manager = FUN_00c85750();
+    hkMemoryRouterD49C* manager = static_cast<hkMemoryRouterD49C*>(::FUN_00c85750());
     if (a.m_iElementCount == (a.m_iCapacityState & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(manager->m_pkHeap), (::AudioStream *)(void *)(&a), sizeof(T));
     copyItems(a.m_data + a.m_iElementCount, 1, value);
@@ -1905,7 +1899,7 @@ template <class T, template <class> class A> inline void append(A<T>& a, const T
 }
 inline void append(Buffer<unsigned char>& a, const unsigned char& value)
 {
-    hkMemoryRouterD49C* manager = FUN_00c85750();
+    hkMemoryRouterD49C* manager = static_cast<hkMemoryRouterD49C*>(::FUN_00c85750());
     if (a.m_iElementCount == (a.m_iCapacityState & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(manager->m_pkHeap), (::AudioStream *)(void *)(&a), sizeof(unsigned char));
     unsigned char* slot = a.m_data;
@@ -1916,7 +1910,7 @@ inline void append(Buffer<unsigned char>& a, const unsigned char& value)
 }
 inline void append(Buffer<unsigned short>& a, const unsigned short& value)
 {
-    hkMemoryRouterD49C* manager = FUN_00c85750();
+    hkMemoryRouterD49C* manager = static_cast<hkMemoryRouterD49C*>(::FUN_00c85750());
     if (a.m_iElementCount == (a.m_iCapacityState & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(manager->m_pkHeap), (::AudioStream *)(void *)(&a), sizeof(unsigned short));
     copyItems(a.m_data + a.m_iElementCount, 1, value);

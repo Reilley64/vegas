@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/simplemesh/hkpsimplemeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/simplemesh/hkpsimplemeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include "fnv/symbols_00d06000.h"
@@ -101,7 +102,6 @@ struct hkMemoryRouterDFCF
     }
 };
 
-extern "C" hkMemoryRouterDFCF& __cdecl FUN_00c85750() throw();
 
 template <class T> class hkArrayDFCF
 {
@@ -112,7 +112,7 @@ template <class T> class hkArrayDFCF
 
     ~hkArrayDFCF() throw()
     {
-        hkMemoryAllocatorDFCF& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorDFCF& kAlloc = static_cast<hkMemoryRouterDFCF*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));

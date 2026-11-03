@@ -1508,8 +1508,8 @@ struct hkVec4
     void operator=(const hkVec4& v) { m_vComponents = v.m_vComponents; }
     void mul4(const hkVec4& a) { m_vComponents = _mm_mul_ps(m_vComponents, a.m_vComponents); }
     void setMul4(float r, const hkVec4& a) { __m128 s = _mm_load_ss(&r); __m128 t = _mm_shuffle_ps(s, s, 0); m_vComponents = _mm_mul_ps(t, a.m_vComponents); }
-    float& operator()(int i) { return m_vComponents[i]; }
-    const float& operator()(int i) const { return m_vComponents[i]; }
+    float& operator()(int i) { return reinterpret_cast<float*>(&m_vComponents)[i]; }
+    const float& operator()(int i) const { return reinterpret_cast<const float*>(&m_vComponents)[i]; }
 };
 
 float FUN_00d97440() throw();

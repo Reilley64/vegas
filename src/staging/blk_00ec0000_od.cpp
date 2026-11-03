@@ -224,8 +224,8 @@ struct FUN_00ec2a10_class
     int m_0000;
     int m_0004;
     int m_0008;
-    int m_000c;
-    int m_0010;
+    void* m_000c;
+    void* m_0010;
     void PauseMovie();
 };
 // If a movie is set, warns when another is already paused, calls DisableThreadPriorityBoost on it, stores it as the paused movie and clears the active movie pointer.
@@ -249,9 +249,9 @@ struct FUN_00ec2d40_class
     int m_0008;
     int m_000c;
     int m_0010;
-    int m_0014;
+    intptr_t m_0014;
     int m_0018;
-    int m_001c;
+    void (*m_001c)(void);
     int m_0020;
     void SetValueAndReset(intptr_t a);
 };
@@ -334,8 +334,8 @@ struct FUN_00ec2a60_class
     int m_0000;
     int m_0004;
     int m_0008;
-    int m_000c;
-    int m_0010;
+    void* m_000c;
+    void* m_0010;
     void FUN_00ec2a60();
 };
 // If m_000c is clear and m_0010 is set, moves m_0010 into m_000c, clears m_0010 and calls UnpauseBink on it.
@@ -440,9 +440,9 @@ struct FUN_00ec1b80_Map
 };
 struct FUN_00ec1b80_Class
 {
-    int m_0000;
+    void* m_0000;
     int m_0004;
-    int m_0008;
+    void* m_0008;
     void Initialize();
 };
 // @fnv 0x00ec1b80
@@ -450,7 +450,7 @@ void FUN_00ec1b80_Class::Initialize()
 {
     int pad1;
     int pad2;
-    m_0000 = (int)&DAT_010f1ca4;
+    m_0000 = &DAT_010f1ca4;
     reinterpret_cast<::FUN_00438af0_Class *>((((FUN_00ec1b80_Map*)this)))->FUN_00438af0();
     ::FUN_00aa10f0((void*)m_0008);
 }
@@ -481,7 +481,7 @@ void FUN_00ec1cc0_Class::AssignString(void* apTarget, const char* apString, int 
 
 struct FUN_00ec1a90_Class
 {
-    int m_ppVirtualMethodTable;
+    void* m_ppVirtualMethodTable;
 };
 struct FUN_00ec1d30_Class : FUN_00ec1a90_Class
 {
@@ -497,7 +497,7 @@ void FUN_00ec1d30_Class::FUN_00ec1d30()
     int e;
     int f;
     int g;
-    m_ppVirtualMethodTable = (int)&DAT_010f1c20;
+    m_ppVirtualMethodTable = &DAT_010f1c20;
     NiTStringMapCopy_Destroy(reinterpret_cast<::NiTStringMapCopy *>(this));
 }
 
@@ -592,7 +592,7 @@ void __cdecl FUN_00ec0460(FUN_00ec0460_cls* p)
 
 struct GridDesc
 {
-    int unk00;
+    void* unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -669,7 +669,7 @@ class NiPlaybackManager
     virtual void v04();
     virtual void v05();
     virtual void v06();
-    virtual int GetRenderer();
+    virtual void* GetRenderer();
 };
 
 
@@ -677,7 +677,7 @@ class NiPlaybackFile
 {
   public:
     NiPlaybackFrameSize* m_pkSize;
-    int m_iRenderer;
+    void* m_iRenderer;
     void* m_pkTextures;
     int m_unk0C;
     int m_unk10;
@@ -709,7 +709,7 @@ struct FUN_00ec1020_cls
 {
     int m_00;
     int m_04;
-    int m_08;
+    void* m_08;
     void FUN_00ec1020();
 };
 // @fnv 0x00ec1f40
@@ -747,7 +747,7 @@ extern "C" __declspec(dllimport) int BinkCopyToBufferRect(void* hBink, void* des
                                                                     unsigned int srcHeight, unsigned int flags);
 
 // @fnv 0x00ec14d0
-unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, uintptr_t a2, int a3)
+unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, void* a2, int a3)
 {
     int result2 = 1;
     int v1;
@@ -755,12 +755,12 @@ unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, uintptr_t a2, int a
     int v3;
     int v8;
     int vB;
-    int v7;
+    void* v7;
 
     BinkDoFrame(a1);
-    while (::LockNextTile((::TiledTexture *)(a2), (void **)(int *)(&v7), &vB, (unsigned int *)(int *)(&v8), (unsigned int *)(int *)(&v3), (unsigned int *)(int *)(&v2), (unsigned int *)(int *)(&v1)) != 0)
+    while (::LockNextTile((::TiledTexture *)(a2), &v7, &vB, (unsigned int *)(int *)(&v8), (unsigned int *)(int *)(&v3), (unsigned int *)(int *)(&v2), (unsigned int *)(int *)(&v1)) != 0)
     {
-        result2 = BinkCopyToBufferRect(a1, (void*)v7, vB, a1->m_04, 0, 0, v8, v3, v2, v1,
+        result2 = BinkCopyToBufferRect(a1, v7, vB, a1->m_04, 0, 0, v8, v3, v2, v1,
                                        ((a3 != 0 ? -1 : 0) & 0x80000000u) | 3u);
         ::ApplyLastEffect((::EffectStackEBF *)(a2));
     }
@@ -866,9 +866,9 @@ struct FUN_00ec1df0_pool
 
 struct FUN_00ec1df0_cls
 {
-    int m_vptr;
+    void* m_vptr;
     int m_04;
-    int m_08;
+    void* m_08;
 
 
     FUN_00ec1df0_cls* FUN_00ec1df0(unsigned int acFlags);
@@ -879,7 +879,7 @@ FUN_00ec1df0_cls* FUN_00ec1df0_cls::FUN_00ec1df0(unsigned int acFlags)
 {
     int unk00;
     int unk04;
-    m_vptr = (int)&DAT_010f1ca4;
+    m_vptr = &DAT_010f1ca4;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
     ::FUN_00aa10f0((void *)(m_08));
     if (acFlags & 1)
@@ -909,7 +909,7 @@ struct FUN_00ec1ee0_frame
 
 struct FUN_00ec1ee0_cls
 {
-    int m_vptr;
+    void* m_vptr;
     int unk04;
 
 
@@ -920,7 +920,7 @@ struct FUN_00ec1ee0_cls
 FUN_00ec1ee0_cls* FUN_00ec1ee0_cls::FUN_00ec1ee0(unsigned int auiFlags)
 {
     FUN_00ec1ee0_frame frame;
-    m_vptr = (int)&::DAT_010f1c20;
+    m_vptr = &::DAT_010f1c20;
     NiTStringMapCopy_Destroy(reinterpret_cast<::NiTStringMapCopy *>(this));
     if (auiFlags & 1)
     {
@@ -1099,7 +1099,7 @@ void S_00ec2d80_Class::FUN_00ec2d80(int a, intptr_t b)
     char* j;
 
     oB = ((char *)(std::uintptr_t)(std::strlen((const char *)(b))));
-    n = ((char *)(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ec2d80::S_00aa3e40_Class *>(&::g_memoryManager))))->FUN_00aa3e40((unsigned int)(oB + 1))));
+    n = ((char *)(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ec2d80::S_00aa3e40_Class *>(&::g_memoryManager))))->FUN_00aa3e40((unsigned int)((std::uintptr_t)oB + 1))));
     p = n;
 
     fnv::crt::strcpy_s(p, (std::size_t)(std::uintptr_t)(oB + 1), (const char *)(b));
@@ -2153,7 +2153,8 @@ struct EC1060File
 {
     EC1060Bink* apDirectSound;
     EC1060Device* device;
-    unsigned int texture, frame, decoded;
+    void* texture;
+    unsigned int frame, decoded;
     float scale, x, y;
     int state;
     bool Update(bool, bool, bool);
@@ -2452,7 +2453,7 @@ int __cdecl _strcpy_s(char* dest, unsigned int size, const char* src);
 
 void __cdecl FUN_00ec0550(GridDesc* grid, float startX, float startY, float scaleX, float scaleY);
 
-unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, uintptr_t a2, int a3);
+unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, void* a2, int a3);
 
 // Look up the file name registered under a key and copy it into a MAX_PATH buffer.
 
@@ -3558,7 +3559,7 @@ struct BaseE40
     virtual ~BaseE40()
     {
         reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-        ::FUN_00aa10f0((void *)((int)m_ppkHashTable));
+        ::FUN_00aa10f0((void *)(m_ppkHashTable));
     }
     virtual unsigned int KeyToHashIndex(int key) const;
     virtual bool IsKeysEqual(int a, int b) const;

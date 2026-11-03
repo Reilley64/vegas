@@ -15,7 +15,7 @@ char FUN_00af2750();
 // 0x00af27c0
 ::DownloadableContentManager *FUN_00af27c0(::DownloadableContentManager *);
 // 0x00af2c20
-void FUN_00af2c20(int);
+void FUN_00af2c20(void *);
 // 0x00af2d40
 void *FUN_00af2d40(void *);
 // 0x00af2e50

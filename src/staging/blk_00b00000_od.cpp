@@ -294,7 +294,7 @@ struct FUN_00b00c90_vt
 
 // Iterates DAT_011f8af8 up to DAT_011f8af0 and calls vfn_1 on each non-null entry.
 // @fnv 0x00b00c90
-void CallVfn1OnAllEntries(int param_1)
+void CallVfn1OnAllEntries(void* param_1)
 {
     int iIndex;
     for (iIndex = 0; iIndex < DAT_011f8af0; iIndex = iIndex + 1)

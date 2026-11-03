@@ -3868,17 +3868,17 @@ struct FUN_00707870_Target
 
 // Constructs a temporary with value 1.0 and dispatches it to DAT_011dea10 or to the object at a1 depending on FUN_004b5bf0(a1).
 // @fnv 0x00707870
-unsigned int __cdecl FUN_00707870(unsigned int a1)
+void* __cdecl FUN_00707870(void* a1)
 {
     unsigned int pad[6];
     FUN_00707870_Temp t(1.0f);
     if (::FUN_004b5bf0((::NiAVObject *)(a1)) != 0)
     {
-        return ((int)(reinterpret_cast<::FUN_00457ba0_class *>(((*reinterpret_cast<::FUN_00707870_Owner * *>(&::g_TES))))->FUN_00457ba0((::NiAVObject *)(a1), (::CloningProcess *)(::FUN_00707870_Temp *)(&t))));
+        return ((void *)(reinterpret_cast<::FUN_00457ba0_class *>(((*reinterpret_cast<::FUN_00707870_Owner * *>(&::g_TES))))->FUN_00457ba0((::NiAVObject *)(a1), (::CloningProcess *)(::FUN_00707870_Temp *)(&t))));
     }
     else
     {
-        return ((int)(reinterpret_cast<::A5D2C0Object *>((reinterpret_cast<FUN_00707870_Target*>(a1)))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&t)))));
+        return ((void *)(reinterpret_cast<::A5D2C0Object *>((reinterpret_cast<FUN_00707870_Target*>(a1)))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&t)))));
     }
 }
 

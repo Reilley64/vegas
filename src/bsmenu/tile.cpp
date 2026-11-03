@@ -2489,10 +2489,10 @@ struct UpdateTreeNode {
  UpdateTreeNode* parent;
  __forceinline UpdateTreeNode* GetParent() { return parent; }
  __forceinline UpdateNode* GetChildren() { return children; }
- UpdateTreeNode* FUN_00a037e0(int, float, int);
+ UpdateTreeNode* FUN_00a037e0(int, float, const char*);
 };
 // @fnv 0x00a037e0
-UpdateTreeNode* UpdateTreeNode::FUN_00a037e0(int trait, float value, int unused)
+UpdateTreeNode* UpdateTreeNode::FUN_00a037e0(int trait, float value, const char* unused)
 {
  UpdateTreeNode* aBound; MenuDepthController* aCurrent; float aLast; UpdateTreeNode* aReadObject;
  UpdateNode* aBipedNode; MenuDepthController* aOther; UpdateTreeNode* aContext; UpdateTreeNode* aList1; UpdateTreeNode* aPrevious; int aMargin; UpdateNode* aOuter2; UpdateTreeNode** aLocation;
@@ -6340,7 +6340,7 @@ FUN_00a1f610::FUN_00a1f610(int a, int b)
     vtable = DAT_01094cfc;
     m_0c = a;
     m_10 = b;
-    ::AssignFixedString((char *)this, (int)&(const ::NiFixedString &)(NiFixedString("Tileptr")), {});
+    ::AssignFixedString((char *)this, 0, (char **)&(const ::NiFixedString &)(NiFixedString("Tileptr")));
 }
 
 namespace fnv_00aaa7d0 {
@@ -8404,7 +8404,7 @@ void EvalValue::FUN_00a09410(bool update) {
  if(changedVal3 || update) {
   ::NotifyHandlersByKey((unsigned int)(this));
   if(pTile && !pTile->Flag(0x2000)) {
-   if(!pTile->ChangeValue(m_iValueId,fValue,pString)) reinterpret_cast<::UpdateTreeNode *>((pTile))->FUN_00a037e0(m_iValueId,fValue,(int)(pString));
+   if(!pTile->ChangeValue(m_iValueId,fValue,pString)) reinterpret_cast<::UpdateTreeNode *>((pTile))->FUN_00a037e0(m_iValueId,fValue,pString);
   }
  }
 }

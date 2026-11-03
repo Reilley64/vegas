@@ -735,7 +735,7 @@ NiTriShape* FUN_00a14a20_shell::CreateTextShape(int aiChars, void* axColor, bool
     pd = pshape->GetModelData();
     pd->m_ucKeepFlags = 0;
     pd->m_ucCompressFlags = 1;
-    ::AssignFixedString((char *)(pshape), (int)&(const ::NiFixedString &)(L::NiFixedString("Interface: Text")), {});
+    ::AssignFixedString((char *)(pshape), 0, (char **)&(const ::NiFixedString &)(L::NiFixedString("Interface: Text")));
     ((NiGeometryData_SetConsistency_View*)pshape->GetModelData())->SetDataConsistency(0x4000);
     ptsp = new TileShaderProperty(false);
     ((AttachWrap*)pshape)->AttachProperty((NiObject*)ptsp);
@@ -1595,7 +1595,7 @@ AtlasGeometry* FontAtlasFactory::FUN_00a14da0() {
  AtlasData* dataB=geometry_->GetData();
  dataB->keep=false;
  dataB->dynamic=true;
- ::AssignFixedString((char *)(geometry_), (int)&(const ::AtlasString &)(AtlasString(sheetGeometryName)), {});
+ ::AssignFixedString((char *)(geometry_), 0, (char **)&(const ::AtlasString &)(AtlasString(sheetGeometryName)));
  geometry_->GetData()->FUN_00a67050(0x4000);
  AtlasShader* shader3=new AtlasShader(false);
  reinterpret_cast<::FUN_00439410_cls *>((geometry_))->FUN_00439410((::ArgObject *)(shader3));
@@ -3007,7 +3007,7 @@ struct FontRenderer {
     BSStringT<char> atlas; FinalizerView finalizer;
     bool HasNoIcons() { return finalizer.count==0; }
     unsigned int GetIconCount() { return finalizer.count; }
-    void FUN_00a12880(int*,int*,int*,int,int,int,char,int,ShapeView**,ShapeView**);
+    void FUN_00a12880(int*,int*,int*,int,int,int,char,const void*,ShapeView**,ShapeView**);
     void FUN_00a12fb0(int,FUN_00759330*);
     void UpdateIconGeometry(int,ShapeView*,NiPoint3&);
 };
@@ -3029,7 +3029,7 @@ inline InlineManager* Manager() { return (InlineManager*)(*reinterpret_cast<::Fo
 __forceinline double TabMod(const float& value) { return (float)std::fmod((double)value,(double)::InventorySelection::DAT_0102f0f8); }
 __forceinline void TabAdvance(float& value) { float tabPosition=value; float tabMultiple=(float)TabMod(tabPosition); value=::DAT_010731a8-tabMultiple+value; }
 // @fnv 0x00a12880
-void FontRenderer::FUN_00a12880(int* source,int* width,int* height,int count,int limit,int mode,char separator,int flags,ShapeView** primary,ShapeView** secondary) {
+void FontRenderer::FUN_00a12880(int* source,int* width,int* height,int count,int limit,int mode,char separator,const void* flags,ShapeView** primary,ShapeView** secondary) {
     if(*height==0) *height=0x7fffffff;
     if(!limit) limit=0x7fffffff;
     unsigned char letter9;

@@ -800,7 +800,7 @@ TextNode* TextTile::BuildTextNode()
 
         node = (TextNode*)new NewTextNode(0);
 
-        reinterpret_cast<::fnv_00a12880::FontRenderer *>((fontA))->FUN_00a12880((int *)&(current), &maximumX, &countVal, 0, maximumTmp, kIndex, 10, (int)(&colorX), (::fnv_00a12880::ShapeView **)(::TextNode **)(&first), (::fnv_00a12880::ShapeView **)(::TextNode **)(&second));
+        reinterpret_cast<::fnv_00a12880::FontRenderer *>((fontA))->FUN_00a12880((int *)&(current), &maximumX, &countVal, 0, maximumTmp, kIndex, 10, &colorX, (::fnv_00a12880::ShapeView **)(::TextNode **)(&first), (::fnv_00a12880::ShapeView **)(::TextNode **)(&second));
 
         SetPosition(first->GetPosition());
 

@@ -185,7 +185,7 @@ struct Unk00b023f0
 // @fnv 0x00b023f0
 void FUN_00b023f0(Unk00b023f0* pTarget)
 {
-    ::CallVfn1OnAllEntries((int)(pTarget));
+    ::CallVfn1OnAllEntries(pTarget);
     reinterpret_cast<::JobThread *>((pTarget))->FUN_00b02460();
     reinterpret_cast<::FUN_00b00cf0_shell *>((pTarget))->CallVirtualOnAllEntries();
     ExitThread(0);

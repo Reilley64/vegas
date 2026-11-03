@@ -280,13 +280,13 @@ struct FUN_00affa10_V
 
 // If p3 is positive, calls p1->v17(p2, p3), then if p4 is set calls SwapBufferBySizes(p2, p3, p4, p5), and returns the v17 result.
 // @fnv 0x00affa10
-int __cdecl FUN_00affa10(FUN_00affa10_V* p1, void* apData, unsigned int auiSize, void* apExtra, void* apExtraArg)
+int __cdecl FUN_00affa10(FUN_00affa10_V* p1, void* apData, unsigned int auiSize, void* apExtra, unsigned int auiExtraCount)
 {
     if (auiSize <= 0)
         return 0;
     int result = p1->v17(apData, auiSize);
     if (apExtra)
-        ::SwapBufferBySizes((char *)(apData), auiSize, (const unsigned int *)(apExtra), (unsigned int)(apExtraArg));
+        ::SwapBufferBySizes((char *)(apData), auiSize, (const unsigned int *)(apExtra), auiExtraCount);
     return result;
 }
 
@@ -401,7 +401,7 @@ struct VTableV18_b7074
 
 
 // @fnv 0x00affa60
-int __cdecl FUN_00affa60(VTableV18_b7074* self, unsigned int a1, unsigned int auiSize, void* apExtra, void* a4)
+int __cdecl FUN_00affa60(VTableV18_b7074* self, const void* apSource, unsigned int auiSize, void* apExtra, unsigned int auiExtraCount)
 {
     if (auiSize <= 0)
     {
@@ -413,10 +413,10 @@ int __cdecl FUN_00affa60(VTableV18_b7074* self, unsigned int a1, unsigned int au
         void* tmp = reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(auiSize);
         p = tmp;
     }
-    std::memmove(p, (const void *)(a1), auiSize);
+    std::memmove(p, apSource, auiSize);
     if (apExtra != 0)
     {
-        ::SwapBufferBySizes((char *)(p), auiSize, (const unsigned int *)(apExtra), (unsigned int)(a4));
+        ::SwapBufferBySizes((char *)(p), auiSize, (const unsigned int *)(apExtra), auiExtraCount);
     }
     kRet = self->v18(p, auiSize);
     {
@@ -428,18 +428,11 @@ int __cdecl FUN_00affa60(VTableV18_b7074* self, unsigned int a1, unsigned int au
 
 struct FUN_00affaf0_H
 {
-    unsigned int handle;
+    const wchar_t* handle;
     unsigned short index;
 };
 
-
-struct FUN_00affaf0_W
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int(__cdecl* m_pfnWrite)(void* self, unsigned int h, unsigned int n, int* flag, int x);
-};
+typedef unsigned int(__cdecl* FUN_00affaf0_WriteFn)(void* self, const void* buffer, unsigned int n, int* flag, int x);
 
 struct FUN_00affaf0_cls : public BSFile
 {
@@ -449,16 +442,14 @@ struct FUN_00affaf0_cls : public BSFile
 // @fnv 0x00affaf0
 unsigned int FUN_00affaf0_cls::FUN_00affaf0(FUN_00affaf0_H* pEntry, bool bIncrement)
 {
-    unsigned int key;
-    unsigned int h4;
+    const wchar_t* key;
+    const wchar_t* h4;
     int flag;
-    unsigned int r3 = ((FUN_00affaf0_W*)this)
-                          ->m_pfnWrite(this, (h4 = pEntry->handle, flag = 1, h4),
-                                       ((pEntry->index == 0xffff ? std::wcslen((const wchar_t *)(key = pEntry->handle)) : pEntry->index) +
-                                        (bIncrement ? 1 : 0)) *
-                                           2,
-                                       &flag, 1);
-    *(unsigned int*)((char*)this + 4) += r3;
+    unsigned int r3 = reinterpret_cast<FUN_00affaf0_WriteFn>(writeHandler)(
+        this, (h4 = pEntry->handle, flag = 1, h4),
+        ((pEntry->index == 0xffff ? std::wcslen(key = pEntry->handle) : pEntry->index) + (bIncrement ? 1 : 0)) * 2,
+        &flag, 1);
+    m_uiAbsoluteCurrentPos += r3;
     unsigned int t = r3;
     unsigned int s = t;
     this->fileOffsetAt150 += s;

@@ -3216,7 +3216,7 @@ void AudioManager::FUN_00a0e770() {
                     } else slots[slotX].playback.FUN_0066b0d0(0);
                     if(slots[slotX].playback) {
                         slots[slotX].filename=text4;
-                        ::AssignFixedString((char *)(static_cast<Playback*>((SceneNode*)slots[slotX].playback)), (int)&(const ::FixedText &)(FixedText(text4)), {});
+                        ::AssignFixedString((char *)(static_cast<Playback*>((SceneNode*)slots[slotX].playback)), 0, (char **)&(const ::FixedText &)(FixedText(text4)));
                         slots[slotX].x=pending[i]->source->x;
                         slots[slotX].y=pending[i]->source->y;
                         slots[slotX].identifier=pending[i]->source->identifier;
@@ -3452,7 +3452,7 @@ struct Maker107 {
 FUN_0051cf00* __cdecl FUN_00a10770(const char* text,float x,float y,float scale,int idx,int p1,int p2,bool flag) {
     FUN_0051cf00* a;
     { a = new FUN_0051cf00; }
-    ::AssignFixedString((char *)(a), (int)&(const ::fnv_00a10770::S107 &)(S107(&DAT_01094f9c)), {});
+    ::AssignFixedString((char *)(a), 0, (char **)&(const ::fnv_00a10770::S107 &)(S107(&DAT_01094f9c)));
     int eb=10000;
     B107 s(text);
     FUN_0051cf00* h;
@@ -3646,11 +3646,11 @@ unsigned char __cdecl FUN_00a10c00(NiObject* root,int text,int height,float dura
   }
   static_cast<NiAVObject*>(root)->Detach(extra34->node);
   nodeB=new NiBillboardNode;
-  ::AssignFixedString((char *)(nodeB), (int)&(const ::FixedText &)(FixedText(&DAT_01094f9c)), {});
+  ::AssignFixedString((char *)(nodeB), 0, (char **)&(const ::FixedText &)(FixedText(&DAT_01094f9c)));
   found=true;
  } else {
   nodeB=new NiBillboardNode;
-  ::AssignFixedString((char *)(nodeB), (int)&(const ::FixedText &)(FixedText(&DAT_01094f9c)), {});
+  ::AssignFixedString((char *)(nodeB), 0, (char **)&(const ::FixedText &)(FixedText(&DAT_01094f9c)));
   extra34=new DebugTextExtraData(nodeB,(const char*)text,height,zt);
  }
  int total2=extra34->height+height;

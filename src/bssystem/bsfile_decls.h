@@ -15,8 +15,8 @@ class MemoryManager
 
 class NiFile
 {
-  private:
-    unsigned char fieldAt4[4];
+  protected:
+    unsigned int m_uiAbsoluteCurrentPos;
 
   public:
     void* readHandler;

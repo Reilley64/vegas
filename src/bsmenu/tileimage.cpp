@@ -64,7 +64,7 @@ Tile* TileImage::SetTraitValue(int trait, float value, const char* text)
 // @fnv 0x0078cdf0
 void TileImage::UpdateTileImage()
 {
-    reinterpret_cast<::FUN_004bc320_shell *>((((::TextureReceiver *)(::FUN_00559450((int *)(((ExtraDataList*)&g_011ded3c)))))))->FUN_004bc320({});
+    reinterpret_cast<::FUN_004bc320_shell *>(((*reinterpret_cast<::TextureReceiver **>(&g_011ded3c))))->FUN_004bc320({});
 }
 
 // @fnv 0x00a1f6e0
@@ -832,7 +832,7 @@ NiNode* TileImageShim::FUN_00a1fd50()
         m_bTextureLoaded = false;
     }
 
-    ::AssignFixedString((char *)((ptr_k).operator->()), (int)&(const ::L::NiFixedString &)(L::NiFixedString(kGeometryName)), {});
+    ::AssignFixedString((char *)((ptr_k).operator->()), 0, (char **)&(const ::L::NiFixedString &)(L::NiFixedString(kGeometryName)));
     GD(ptr_k);
 
     m_spShaderProperty = (TileShaderProperty*)(new FUN_00bb7c30(0));
@@ -850,7 +850,7 @@ NiNode* TileImageShim::FUN_00a1fd50()
         cnt_lgft = (NiNode*)((void *)(::Interface::GetInterfaceNode()));
     cnt_lgft->AttachChildInAvailableSlot(m_pRenderedNodeEntry, true);
 
-    ::AssignFixedString((char *)((m_pRenderedNodeEntry).operator->()), (int)&(const ::L::NiFixedString &)(L::NiFixedString(StringProvider.pString)), {});
+    ::AssignFixedString((char *)((m_pRenderedNodeEntry).operator->()), 0, (char **)&(const ::L::NiFixedString &)(L::NiFixedString(StringProvider.pString)));
     ::AttachFaceGenAnimationData((::NiAVObject *)(void *)(ptr_k));
     reinterpret_cast<::FUN_00a5a040_Class *>(((m_pRenderedNodeEntry).operator->()))->FUN_00a5a040();
     ::fnv_00707930::FUN_00707930(1);

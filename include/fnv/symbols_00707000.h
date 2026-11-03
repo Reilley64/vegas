@@ -23,7 +23,7 @@ void FUN_00707640(const char *);
 // 0x00707820
 void FUN_00707820();
 // 0x00707870
-unsigned int FUN_00707870(unsigned int);
+void *FUN_00707870(void *);
 // 0x00707930
 namespace fnv_00707930 { void FUN_00707930(bool); }
 // 0x007079b0

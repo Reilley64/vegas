@@ -188,7 +188,7 @@ NiNode* TileX::FUN_00a1f3b0()
     if (pkParent == 0)
         pkParent = ::Interface::GetInterfaceNode();
     pkParent->unknown_vtable_dc(unknown_2c, 1);
-    ::AssignFixedString((char *)((unknown_2c).operator->()), (int)&(const ::NiFixedString &)(NiFixedString(unknown_20)), {});
+    ::AssignFixedString((char *)((unknown_2c).operator->()), 0, (char **)&(const ::NiFixedString &)(NiFixedString(unknown_20)));
     unknown_2c->SetHidden(!reinterpret_cast<::FUN_00a01230_shell *>(this)->IsTraitNonZero(0xfa3), 1);
     reinterpret_cast<::FUN_00a5a040_Class *>(((unknown_2c).operator->()))->FUN_00a5a040();
     ::fnv_00707930::FUN_00707930(1);

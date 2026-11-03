@@ -550,9 +550,9 @@ void __cdecl ProcessArcList()
 
 
 // @fnv 0x00af6320
-bool __cdecl FUN_00af6320(int a1, int a2)
+bool __cdecl FUN_00af6320(const char* a1, int a2)
 {
-    return ((int)(::fnv_00af6160::FindArchiveForFile((const char *)(a1), a2)));
+    return ::fnv_00af6160::FindArchiveForFile(a1, a2) != 0;
 }
 
 

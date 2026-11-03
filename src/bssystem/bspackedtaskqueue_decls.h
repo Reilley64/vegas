@@ -1,13 +1,11 @@
-// bssystem/bspackedtaskqueue_decls.h: declares GarbageCollectorObjectPtr, BSPackedTask, PackedTaskQueueProcessor
+// bssystem/bspackedtaskqueue_decls.h: declares PackedTaskInputSources, BSPackedTask, PackedTaskQueueProcessor
 #ifndef BSPACKEDTASKQUEUE_DECLS_H
 #define BSPACKEDTASKQUEUE_DECLS_H
 
-class NiAVObject;
-class GarbageCollectorObjectPtr
+struct PackedTaskInputSources
 {
-  public:
-    NiAVObject* operator->() const;
-    unsigned char storage[12];
+    int iCount;
+    unsigned char storage[8];
 };
 class BSPackedTask
 {
@@ -23,7 +21,7 @@ class PackedTaskQueueProcessor
     virtual void vfn_0c();
     virtual bool vfn_10(BSPackedTask& task);
     unsigned char queueStorage[16];
-    GarbageCollectorObjectPtr inputSources;
+    PackedTaskInputSources inputSources;
     void(__cdecl* m_pTaskCompletionCallback)(const BSPackedTask&);
     bool m_bIsProcessing;
     bool Process();

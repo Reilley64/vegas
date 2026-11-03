@@ -122,7 +122,7 @@ FileFinder::FILE_LOCATION FileFinder::GetFileLocation(char* fileName, char* file
     return result;
 }
 
-bool __cdecl FUN_00af6320(int, int);
+bool __cdecl FUN_00af6320(const char*, int);
 struct PathArr_S
 {
     void* pVtbl;
@@ -147,7 +147,7 @@ struct FinderCalls_S
 int FUN_00afe220_shell::FUN_00afe220(char* apFilePath, unsigned int aiFlags, unsigned int aiArchiveType)
 {
     char acFullPath[260];
-    if (!(aiFlags & 1) && FUN_00af6320((int)apFilePath, aiArchiveType))
+    if (!(aiFlags & 1) && FUN_00af6320(apFilePath, aiArchiveType))
         return 2;
     if (!DAT_011acdf8 || DAT_011acdf9)
         aiFlags = 0;
@@ -177,6 +177,8 @@ int FUN_00afe220_shell::FUN_00afe220(char* apFilePath, unsigned int aiFlags, uns
 
 struct IOManager_S
 {
+    char pad[0x18];
+    int iBackgroundCloneCount;
     int CallInnerF3();
 };
 struct OSGlobals_S
@@ -196,7 +198,7 @@ void Loader_S::UpdateLoadingStatus()
     {
         int iPost = CallVirtual17();
         int iRefs = reinterpret_cast<::FUN_00446dc0_Class *>(this)->FUN_00446dc0();
-        int iBackground = ((int)(reinterpret_cast<::NiAVObject *>(((*reinterpret_cast<::IOManager_S * *>(&::DAT_01202d98))))->GetParentNode()));
+        int iBackground = (*reinterpret_cast<::IOManager_S * *>(&::DAT_01202d98))->iBackgroundCloneCount;
         int iTasks = (*reinterpret_cast<::IOManager_S * *>(&::DAT_01202d98))->CallInnerF3();
         if (iBackground || iRefs || iPost || iTasks)
         {
@@ -227,16 +229,16 @@ unsigned int FUN_00afe1f0_shell::FindFile(char* pcPath, unsigned int uiFlags)
 
 
 // @fnv 0x00afe400
-int __cdecl FUN_00afe400(int a2, int a1)
+FileMatchList* __cdecl FUN_00afe400(const char* a2, const char* a1)
 {
-    return ((int)(::FUN_00afe420((const char *)(a2), (const char *)(a1), 0xffff, (::FileMatchList *)(0))));
+    return ::FUN_00afe420(a2, a1, 0xffff, (::FileMatchList *)(0));
 }
 
 
 // @fnv 0x00afe590
-int __cdecl FUN_00afe590(int a1, int a2, int a3)
+FileMatchList* __cdecl FUN_00afe590(const char* a1, const char* a2, FileMatchList* a3)
 {
-    return ((int)(::FUN_00afe420((const char *)(a1), (const char *)(a2), 0xffffu, (::FileMatchList *)(a3))));
+    return ::FUN_00afe420(a1, a2, 0xffffu, a3);
 }
 
 struct FileFinderHack
@@ -337,7 +339,7 @@ BSSimpleList<Actor*>* __cdecl FUN_00afe5b0(const char* path, const char* name, i
     if (!DAT_011acdf8 || DAT_011acdf9)
         ok = FUN_00b01af0(path);
     if (!ok)
-        ok = FUN_00af6320((int)path, x);
+        ok = FUN_00af6320(path, x);
     if (ok)
     {
         unsigned int len5 = strlen(name);

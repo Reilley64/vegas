@@ -27,7 +27,7 @@ DownloadableContentManager& BSSystemUtility::QDLCUtility()
 // @fnv 0x00af2b10
 unsigned int DownloadableContentManager::MountDownloadableContent(unsigned int userIndex, MOUNT_CALLBACK callback)
 {
-    ::FUN_00af2c20((int)this);
+    ::FUN_00af2c20(this);
     struct MountProgress
     {
         BSSimpleList<ContentMountRecord*>* pkList;
@@ -140,7 +140,7 @@ bool S::InvokeCallback(int aiUnused, void(__cdecl* b)(int, int, int), int aiValu
 }
 
 // @fnv 0x00af2c20
-void FUN_00af2c20(int ecx)
+void FUN_00af2c20(void* ecx)
 {}
 
 namespace fnv_00af2850 {
@@ -403,7 +403,7 @@ struct OwnQ
 void OwnQ::ClearItems(bool bFlag)
 {
     if (bFlag)
-        ::FUN_00af2c20((int)this);
+        ::FUN_00af2c20(this);
     NodQ* pNode = &kList.kHead;
     while (pNode && !pNode->IsEmpty())
     {

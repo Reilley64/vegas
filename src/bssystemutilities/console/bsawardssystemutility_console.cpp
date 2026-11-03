@@ -1,3 +1,4 @@
+#include <cstdint>
 // bssystemutilities/console/bsawardssystemutility_console.cpp: IdleSystem, DownloadableContentManager (12 functions)
 
 #include <cstring>
@@ -131,7 +132,7 @@ struct FUN_00af2420_class
 bool FUN_00af2420_class::FUN_00af2420(int value)
 {
     void* q = reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(4);
-    void *p = q ? *(void**)q = (void*)value, q : 0;
+    void *p = q ? *(void**)q = reinterpret_cast<void*>(static_cast<std::intptr_t>(value)), q : 0;
     char buf[8];
     reinterpret_cast<::TemplateList_00a0ae70 *>(this)->AddTail((::TileTemplate_00a0ae70 **)(void **)(&p));
     return true;

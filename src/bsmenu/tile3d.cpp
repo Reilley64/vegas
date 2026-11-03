@@ -1556,7 +1556,7 @@ void Tile3DX::LoadTile()
     }
     SetFlag20000(flag);
     if (m_kModelObjectsItem->GetParent())
-        m_kModelObjectsItem = ((::fnv_00a20980::NiAVObject *)(::FUN_00707870((unsigned int)(m_kModelObjectsItem))));
+        m_kModelObjectsItem = ((::fnv_00a20980::NiAVObject *)(::FUN_00707870(m_kModelObjectsItem)));
     reinterpret_cast<::FUN_00a20c80_shell *>(this)->AttachController((::NiAVObject *)(m_kModelObjectsItem));
     reinterpret_cast<::fnv_00c5ac00::ArrObj *>(&(node->m_children))->FUN_004dffa0();
     reinterpret_cast<::FUN_00a20ba0_X *>(this)->RemovePropertyRecursive((char *)(m_kModelObjectsItem));

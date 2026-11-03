@@ -1,5 +1,6 @@
 // fallout_shared/extradatalist.cpp: ExtraDataList, Owner, DelStandIn, ExtraPatrolRefData and more (578 functions)
 
+#include "fnv_result_slot.h"
 #include <cstdint>
 #include <new>
 #include <cmath>
@@ -4391,11 +4392,13 @@ struct FUN_00422480_shell : public ExtraDataList
 
 struct PlayerCharacter;
 
-template <> class BSSimpleList<Actor*>
+}  // namespace fnv_00422480
+template <> class BSSimpleList<fnv_00422480::Actor*>
 {
   public:
-    bool IsInList(Actor* const&) const;
+    bool IsInList(fnv_00422480::Actor* const&) const;
 };
+namespace fnv_00422480 {
 
 class ExtraFollower : public BSExtraData
 {
@@ -4637,7 +4640,7 @@ bool FUN_00422a40_shell::FUN_00422a40(TESObjectREFR* apRef)
     BSExtraData* pExtra = reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x42);
     if (pExtra)
     {
-        ((BGSLoadGameSubBuffer*)&FormChangeMask(*(int*)((char*)pExtra + 0xc)))->RestoreAnimation((TESForm*)apRef);
+        ((BGSLoadGameSubBuffer*)&ResultSlot(FormChangeMask(*(int*)((char*)pExtra + 0xc))))->RestoreAnimation((TESForm*)apRef);
         *(int*)((char*)pExtra + 0xc) = 0;
         RemoveExtra(0x42);
         return true;
@@ -4976,7 +4979,7 @@ struct TESSound
 void FUN_0042d9e0_shell::FUN_0042d9e0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     TESObjectREFR* pref = apLoadGameBuffer->GetReference();
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)(((FormChangeMask*)&apLoadGameBuffer->GetChangeFlags())))->FUN_004280f0()(DAT_01183f04))
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)(((FormChangeMask*)&ResultSlot(apLoadGameBuffer->GetChangeFlags()))))->FUN_004280f0(DAT_01183f04))
     {
         BSExtraData* pextraSayToTopicInfo = reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x75);
         if (pextraSayToTopicInfo && pref)
@@ -5000,7 +5003,7 @@ void FUN_0042d9e0_shell::FUN_0042d9e0(BGSLoadFormBuffer* apLoadGameBuffer)
     }
     if (pref)
     {
-        if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)(((FormChangeMask*)&apLoadGameBuffer->GetChangeFlags())))->FUN_004280f0()(::DAT_01183dfc))
+        if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)(((FormChangeMask*)&ResultSlot(apLoadGameBuffer->GetChangeFlags()))))->FUN_004280f0(::DAT_01183dfc))
         {
             BSExtraData* pextraNonActorMagicTarget = reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x33);
             if (pextraNonActorMagicTarget)
@@ -8161,7 +8164,7 @@ struct ExtraPatrolRefData
     void* FUN_0041fd80(unsigned int flags);
 };
 
-extern "C" void* __cdecl _Deallocate(void*);
+extern "C" void __cdecl _Deallocate(void*);
 
 // Calls FUN_0041fdb0, then frees this with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x0041fd80
@@ -8391,6 +8394,7 @@ FUN_0042c9c0::FUN_0042c9c0() : BE(0x56)
 struct ExtraSecuritronFace
 {
     void* FUN_0042cd40(unsigned int flags);
+    static char* GetPersonality();
 };
 
 void __cdecl _Deallocate(void* p);
@@ -8437,7 +8441,7 @@ struct FUN_0042ea00Class
 // @fnv 0x0042ea00
 void FUN_0042ea00Class::FUN_0042ea00(ActorCause* cause)
 {
-    reinterpret_cast<::Holder0042f780 *>((((NiPointer<ActorCause>*)((char*)this + 0x0c))))->FUN_0042f780=((::AC_0042f730 *)(cause));
+    reinterpret_cast<::Holder0042f780 *>((((NiPointer<ActorCause>*)((char*)this + 0x0c))))->FUN_0042f780((::AC_0042f730 *)(cause));
 }
 }  // namespace fnv_0042ea00
 
@@ -11922,7 +11926,6 @@ BSExtraData* FUN_0042f420_helper::GetOrCreateExtraData()
 }
 
 namespace fnv_0040f900 {
-extern "C" void* __cdecl memset(void* dest, int c, unsigned int count);
 struct FUN_0040f900_tls
 {
     int pad0;
@@ -12771,7 +12774,7 @@ void FUN_0041b7e0_cls::SetNodeExtra(void* data)
     if (data == 0)
     {
         if (extra != 0 &&
-            reinterpret_cast<::_FUN_00822510_Class *>((void *)(reinterpret_cast<NiPointer<NiNode>*>(reinterpret_cast<unsigned char*>(extra) + 0xc)))->operator====((int)(0)))
+            reinterpret_cast<::_FUN_00822510_Class *>((void *)(reinterpret_cast<NiPointer<NiNode>*>(reinterpret_cast<unsigned char*>(extra) + 0xc)))->operator==((int)(0)))
         {
             _FUN_00410020(extra, true);
             extra = 0;
@@ -13855,7 +13858,7 @@ class FormChangeMask
 class BGSLoadFormBuffer
 {
   public:
-    FormChangeMask GetChangeFlags(int flags);
+    FormChangeMask GetChangeFlags();
 };
 
 class BGSSaveFormBuffer : public BGSLoadFormBuffer
@@ -13874,7 +13877,7 @@ class BGSChangeHandler
 // @fnv 0x0047f940
 void BGSChangeHandler::SaveChangeData(BGSSaveFormBuffer* buffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_0047f940::FormChangeMask &)(buffer->GetChangeFlags(8)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_0047f940::FormChangeMask &)(buffer->GetChangeFlags()))->FUN_004280f0(8))
     {
         reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 4, 0x14, 0);
     }
@@ -13894,7 +13897,7 @@ class FormChangeMask
 class BGSLoadFormBuffer
 {
   public:
-    FormChangeMask GetChangeFlags(unsigned int flags);
+    FormChangeMask GetChangeFlags();
     void ReadTypedData(void* data, unsigned int size);
 };
 
@@ -13906,7 +13909,7 @@ struct FUN_0047f980_Class
 // @fnv 0x0047f980
 void FUN_0047f980_Class::FUN_0047f980(BGSLoadFormBuffer* buffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_0047f980::FormChangeMask &)(buffer->GetChangeFlags(8)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_0047f980::FormChangeMask &)(buffer->GetChangeFlags()))->FUN_004280f0(8))
     {
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 4)), 0x14);
     }
@@ -13926,7 +13929,7 @@ class FormChangeMask
 class BGSLoadFormBuffer
 {
   public:
-    FormChangeMask GetChangeFlags(unsigned int);
+    FormChangeMask GetChangeFlags();
     void ReadTypedData(void*, unsigned int);
 };
 
@@ -13941,7 +13944,7 @@ struct FUN_004802b0_Class
 // @fnv 0x004802b0
 void FUN_004802b0_Class::LoadDataIfChanged(BGSLoadFormBuffer* pLoadBuffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)(void *)&(const ::fnv_004802b0::FormChangeMask &)(pLoadBuffer->GetChangeFlags(4)))->FUN_004280f0 bool({}))
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)(void *)&(const ::fnv_004802b0::FormChangeMask &)(pLoadBuffer->GetChangeFlags()))->FUN_004280f0(4))
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pLoadBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_data), 7);
 }
 }  // namespace fnv_004802b0
@@ -15029,7 +15032,7 @@ class EcHolderObj
 {
   public:
     void AddEntry(char* p);
-    void Notify(char* s);
+    void Notify(const char* s);
 };
 
 class FUN_0041ec80_cls
@@ -16116,7 +16119,7 @@ struct PacketReadResult
 
 struct PacketSerializer
 {
-    PacketReadResult* FUN_00428110(void* destination, unsigned int size);
+    PacketReadResult* FUN_00428110(void* destination);
 };
 
 struct FUN_00480270_shell
@@ -16130,7 +16133,7 @@ struct FUN_00480270_shell
 void FUN_00480270_shell::FUN_00480270(PacketSerializer* stream)
 {
     unsigned int value;
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((stream->FUN_00428110(&value, 4)))->FUN_004280f0({}))
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((stream->FUN_00428110(&value)))->FUN_004280f0(4))
     {
         reinterpret_cast<::FUN_00865e50_shell *>((stream))->FUN_00865e50(&unk04, 7, 0);
     }
@@ -18120,7 +18123,7 @@ int B9A0Ref::GetExtraHandleCount()
     B9A0Extra* pkExtra = ((::B9A0Extra *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(1)));
     int iResult;
     const B9A0Handle* pkSource;
-    iResult = ::FUN_00559450((int *)((pkSource = pkExtra ? &pkExtra->m_kHandle : &B9A0Handle(0))));
+    iResult = ::FUN_00559450((int *)((pkSource = pkExtra ? &pkExtra->m_kHandle : &ResultSlot(B9A0Handle(0)))));
     return iResult;
 }
 
@@ -19472,7 +19475,7 @@ void Extras::FUN_00424960(unsigned int auiChangeFlags, unsigned int unused, TESO
                              *reinterpret_cast<unsigned int*>(&header->changes));
             }
             else
-                ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_010156a8)), DAT_010152d0, 0x2c2c, (*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->FUN_008df040());
+                ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_010156a8)), DAT_010152d0, 0x2c2c, reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->FUN_008df040());
         }
         pActor = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&bLoadedScript, 2);
@@ -19968,10 +19971,10 @@ void Extras::FUN_00424960(unsigned int auiChangeFlags, unsigned int unused, TESO
         {
             if (qidnYUK > pActor + bLoadedScript)
                 ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_010154a0)), qidnYUK - (pActor + bLoadedScript), DAT_010152d0, 0x2ee9,
-                             (*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->FUN_008df040());
+                             reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->FUN_008df040());
             else if (qidnYUK < pActor + bLoadedScript)
                 ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_01015440)), pActor + bLoadedScript - qidnYUK, DAT_010152d0, 0x2ee9,
-                             (*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->FUN_008df040());
+                             reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->FUN_008df040());
         }
     }
 }
@@ -20697,8 +20700,8 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x8f: {
                 Node* t = node;
-                reinterpret_cast<::FUN_00865e70_shell *>((apBuffer))->FUN_00865e70((const char *)(::FUN_00559450((int *)&(t->FUN_00428070(0)))), {});
-                reinterpret_cast<::FUN_00865e70_shell *>((apBuffer))->FUN_00865e70((const char *)(::FUN_00559450((int *)&(t->CallWithField14(0)))), {});
+                reinterpret_cast<::FUN_00865e70_shell *>((apBuffer))->FUN_00865e70((const char *)(::FUN_00559450((int *)&ResultSlot(t->FUN_00428070(0)))), {});
+                reinterpret_cast<::FUN_00865e70_shell *>((apBuffer))->FUN_00865e70((const char *)(::FUN_00559450((int *)&ResultSlot(t->CallWithField14(0)))), {});
                 break;
             }
             case 0x92: {
@@ -24505,7 +24508,7 @@ void ExtraDataListEx_ctx::FUN_004103d0(BSExtraDataEx* apExtra)
         reinterpret_cast<::FUN_004197d0_shell *>(this)->SetExtraDataValue((int)(((ExtraGlobal_ctx*)apExtra)->pGlobalForm));
         break;
     case 0x23:
-        reinterpret_cast<::fnv_004198a0::FUN_004198a0 *>(this)->SetTeleportData((::fnv_004198a0::TeleportableReference_ctx *)(((ExtraRank*)apExtra)->m_iRank));
+        reinterpret_cast<::fnv_004198a0::FUN_004198a0 *>(this)->SetTeleportData((::fnv_004198a0::TeleportableReference *)(((ExtraRank*)apExtra)->m_iRank));
         break;
     case 0x24:
         reinterpret_cast<::FUN_00419ad0_shell *>(this)->FUN_00419ad0(((ExtraCount_ctx*)apExtra)->m_sCount);
@@ -24565,13 +24568,13 @@ void ExtraDataListEx_ctx::FUN_004103d0(BSExtraDataEx* apExtra)
     case 0x2B: {
         TeleportableReference_ctx* pTeleport = new TeleportableReference_ctx;
         reinterpret_cast<::QuantityData *>((pTeleport))->CopyFrom(((ExtraTeleport*)apExtra)->pData);
-        reinterpret_cast<::fnv_00419120::FUN_00419120_shell *>(this)->FUN_00419120((::fnv_00419120::TeleportableReference_ctx *)(pTeleport));
+        reinterpret_cast<::fnv_00419120::FUN_00419120_shell *>(this)->FUN_00419120((::fnv_00419120::TeleportableReference *)(pTeleport));
         break;
     }
     case 0x2C: {
         MapMarkerData_ctx* pTeleportMarker = new MapMarkerData_ctx;
         reinterpret_cast<::FUN_00438df0 *>((pTeleportMarker))->FUN_00438df0_copy((::FUN_00438df0 *)(((ExtraMapMarker*)apExtra)->pData));
-        reinterpret_cast<::fnv_00419250::FUN_00419250_shell *>(this)->SetMapMarker((::fnv_00419250::MapMarkerData_ctx *)(pTeleportMarker));
+        reinterpret_cast<::fnv_00419250::FUN_00419250_shell *>(this)->SetMapMarker((::fnv_00419250::MapMarkerData *)(pTeleportMarker));
         break;
     }
     case 0x90: {
@@ -24768,7 +24771,7 @@ void ExtraDataListEx_ctx::FUN_004103d0(BSExtraDataEx* apExtra)
             pNewData = new Point3Offset_ctx;
             reinterpret_cast<::Unk_00439120 *>((pNewData))->FUN_00439120((::Unk_00439120 *)(pSrcData));
         }
-        reinterpret_cast<::FUN_00421f30_shell *>(this)->FUN_00421f30(pNewData);
+        reinterpret_cast<::FUN_00421f30_shell *>(this)->FUN_00421f30((::Point3Offset *)(pNewData));
         break;
     }
     case 0x1E:
@@ -24790,7 +24793,7 @@ void ExtraDataListEx_ctx::FUN_004103d0(BSExtraDataEx* apExtra)
         break;
     case 0x5E: {
         reinterpret_cast<::FUN_0042e760_shell *>(this)->FUN_0042e760();
-        ExtraFactionChanges_ctx* pChanges = reinterpret_cast<::FUN_0042e800_shell *>(this)->FUN_0042e800();
+        ExtraFactionChanges_ctx* pChanges = (ExtraFactionChanges_ctx*)reinterpret_cast<::FUN_0042e800_shell *>(this)->FUN_0042e800();
         BSSimpleList<FactionRankData*>* pRankIter = ((ExtraFactionChangesData*)apExtra)->pFactions;
         while (pRankIter && (pRankIter->m_item))
         {
@@ -24819,7 +24822,7 @@ void ExtraDataListEx_ctx::FUN_004103d0(BSExtraDataEx* apExtra)
     case 0x6F: {
         PatrolRefData_ctx* pPatrol = new PatrolRefData_ctx;
         reinterpret_cast<::Target0067c6f0 *>((pPatrol))->FUN_0067c6f0((::Target0067c6f0 *)(((ExtraPatrolRefData_ctx*)apExtra)->pData));
-        reinterpret_cast<::fnv_0041fc10::FUN_0041fc10_shell *>(this)->SetPatrolRefData((::fnv_0041fc10::PatrolRefData_ctx *)(pPatrol));
+        reinterpret_cast<::fnv_0041fc10::FUN_0041fc10_shell *>(this)->SetPatrolRefData((::fnv_0041fc10::PatrolRefData *)(pPatrol));
         break;
     }
     case 0x71:
@@ -25735,14 +25738,14 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             if (flags & 0)
             {
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-                ::ExtraLeveledItem_rtti2* x = dynamic_cast< ::ExtraLeveledItem_rtti2*>((::BSExtraData*)extra);
+                ::ExtraLeveledItem_rtti2* x = reinterpret_cast< ::ExtraLeveledItem_rtti2*>((::BSExtraData*)extra);
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&x->unk0C, 4);
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&x->unk10, 1);
             }
             break;
         case 25: {
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-            SExtraPackage* x = (SExtraPackage*)dynamic_cast< ::ExtraPackage_rtti2*>((::BSExtraData*)extra);
+            SExtraPackage* x = (SExtraPackage*)reinterpret_cast< ::ExtraPackage_rtti2*>((::BSExtraData*)extra);
             unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((x->package))->FUN_0084e3a0()));
             unsigned int iD8 = 0;
             if (x->form14)
@@ -25767,7 +25770,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             {
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
                 SExtraTresPassPackage* x =
-                    (SExtraTresPassPackage*)dynamic_cast< ::ExtraTresPassPackage_rtti2*>((::BSExtraData*)extra);
+                    (SExtraTresPassPackage*)reinterpret_cast< ::ExtraTresPassPackage_rtti2*>((::BSExtraData*)extra);
                 unsigned int id = 0;
                 if (x->package)
                 {
@@ -25784,7 +25787,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             if (flags & 0)
             {
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-                ::ExtraReferencePointer_rtti2* x = dynamic_cast< ::ExtraReferencePointer_rtti2*>((::BSExtraData*)extra);
+                ::ExtraReferencePointer_rtti2* x = reinterpret_cast< ::ExtraReferencePointer_rtti2*>((::BSExtraData*)extra);
                 unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((x->ref))->FUN_0084e3a0()));
                 reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&id), 4);
             }
@@ -25800,7 +25803,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             short n = 0;
             unsigned int pos2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&n, 2);
-            SExtraRunOncePacks* x = (SExtraRunOncePacks*)dynamic_cast< ::ExtraRunOncePacks_rtti2*>((::BSExtraData*)extra);
+            SExtraRunOncePacks* x = (SExtraRunOncePacks*)reinterpret_cast< ::ExtraRunOncePacks_rtti2*>((::BSExtraData*)extra);
             ListNode* kIter = x->list;
             while (kIter && !kIter->FUN_008256d0())
             {
@@ -25819,7 +25822,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
         }
         case 24: {
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-            ::ExtraPackageStartLocation_rtti2* x = dynamic_cast< ::ExtraPackageStartLocation_rtti2*>((::BSExtraData*)extra);
+            ::ExtraPackageStartLocation_rtti2* x = reinterpret_cast< ::ExtraPackageStartLocation_rtti2*>((::BSExtraData*)extra);
             unsigned int iD = 0;
             if (x->loc)
             {
@@ -25836,7 +25839,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
         }
         case 29: {
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-            ::ExtraFollower_rtti2* x = dynamic_cast< ::ExtraFollower_rtti2*>((::BSExtraData*)extra);
+            ::ExtraFollower_rtti2* x = reinterpret_cast< ::ExtraFollower_rtti2*>((::BSExtraData*)extra);
             short n = 0;
             unsigned int pos2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&n, 2);
@@ -25859,7 +25862,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             if (flags & 0)
             {
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-                ::NonActorMagicCaster* X = dynamic_cast< ::NonActorMagicCaster*>((::BSExtraData*)extra);
+                ::NonActorMagicCaster* X = reinterpret_cast< ::NonActorMagicCaster*>((::BSExtraData*)extra);
                 int a = 0;
                 if (X->caster.vf34())
                 {
@@ -25884,7 +25887,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             if (flags & 0)
             {
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-                ::NonActorMagicTarget_rtti2* x = dynamic_cast< ::NonActorMagicTarget_rtti2*>((::BSExtraData*)extra);
+                ::NonActorMagicTarget_rtti2* x = reinterpret_cast< ::NonActorMagicTarget_rtti2*>((::BSExtraData*)extra);
                 unsigned int iD = 0;
                 if (x->target.vf04())
                 {
@@ -25898,7 +25901,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             if (flags & 0x20000)
             {
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-                ::ExtraTeleport_rtti2* x = dynamic_cast< ::ExtraTeleport_rtti2*>((::BSExtraData*)extra);
+                ::ExtraTeleport_rtti2* x = reinterpret_cast< ::ExtraTeleport_rtti2*>((::BSExtraData*)extra);
                 reinterpret_cast<::Thing *>((x->data))->Save();
             }
             break;
@@ -25906,7 +25909,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             if (flags & 0)
             {
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-                ::ExtraPoison_rtti2* x = dynamic_cast< ::ExtraPoison_rtti2*>((::BSExtraData*)extra);
+                ::ExtraPoison_rtti2* x = reinterpret_cast< ::ExtraPoison_rtti2*>((::BSExtraData*)extra);
                 unsigned int iD = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((x->poison))->FUN_0084e3a0()));
                 reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&iD), 4);
             }
@@ -25915,7 +25918,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             if (flags & 0x10000000)
             {
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-                ::ExtraLastFinishedSequence* x = dynamic_cast< ::ExtraLastFinishedSequence*>((::BSExtraData*)extra);
+                ::ExtraLastFinishedSequence* x = reinterpret_cast< ::ExtraLastFinishedSequence*>((::BSExtraData*)extra);
                 unsigned char len = ((unsigned char)(::FUN_0044a670(x->name)));
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&len, 1);
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(x->name, len);
@@ -25925,7 +25928,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             if (flags & 0)
             {
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-                ::ExtraMapMarker_rtti2* x = dynamic_cast< ::ExtraMapMarker_rtti2*>((::BSExtraData*)extra);
+                ::ExtraMapMarker_rtti2* x = reinterpret_cast< ::ExtraMapMarker_rtti2*>((::BSExtraData*)extra);
                 unsigned char b = ((unsigned char)(reinterpret_cast<::FUN_00424940_shell *>((x->data))->FUN_00424940()));
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&b, 1);
             }
@@ -25934,14 +25937,14 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             if (flags & 0)
             {
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-                ::ExtraAudioMarker_rtti2* x = dynamic_cast< ::ExtraAudioMarker_rtti2*>((::BSExtraData*)extra);
+                ::ExtraAudioMarker_rtti2* x = reinterpret_cast< ::ExtraAudioMarker_rtti2*>((::BSExtraData*)extra);
             }
             break;
         case 145:
             if (flags & 0)
             {
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-                ::ExtraAudioBuoyMarker_rtti2* x = dynamic_cast< ::ExtraAudioBuoyMarker_rtti2*>((::BSExtraData*)extra);
+                ::ExtraAudioBuoyMarker_rtti2* x = reinterpret_cast< ::ExtraAudioBuoyMarker_rtti2*>((::BSExtraData*)extra);
             }
             break;
         case 12:
@@ -25949,7 +25952,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             {
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
                 SExtraPersistentCell* x =
-                    (SExtraPersistentCell*)dynamic_cast< ::ExtraPersistentCell_rtti2*>((::BSExtraData*)extra);
+                    (SExtraPersistentCell*)reinterpret_cast< ::ExtraPersistentCell_rtti2*>((::BSExtraData*)extra);
                 unsigned int iD = 0;
                 if (x->cell)
                 {
@@ -25961,7 +25964,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             break;
         case 57: {
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-            ::ExtraItemDropper* x = dynamic_cast< ::ExtraItemDropper*>((::BSExtraData*)extra);
+            ::ExtraItemDropper* x = reinterpret_cast< ::ExtraItemDropper*>((::BSExtraData*)extra);
             unsigned int id = 0;
             if (x->dropper)
             {
@@ -25973,7 +25976,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
         }
         case 70: {
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-            SExtraHeadingTarget* x = (SExtraHeadingTarget*)dynamic_cast< ::ExtraHeadingTarget_rtti2*>((::BSExtraData*)extra);
+            SExtraHeadingTarget* x = (SExtraHeadingTarget*)reinterpret_cast< ::ExtraHeadingTarget_rtti2*>((::BSExtraData*)extra);
             unsigned int id = 0;
             if (x->target)
             {
@@ -25999,7 +26002,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             }
             break;
         case 77: {
-            ::ExtraInfoGeneralTopic* x = dynamic_cast< ::ExtraInfoGeneralTopic*>((::BSExtraData*)extra);
+            ::ExtraInfoGeneralTopic* x = reinterpret_cast< ::ExtraInfoGeneralTopic*>((::BSExtraData*)extra);
             if (x->topic)
             {
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
@@ -26009,7 +26012,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
         }
         case 78: {
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
-            ::ExtraHasNoRumors* x = dynamic_cast< ::ExtraHasNoRumors*>((::BSExtraData*)extra);
+            ::ExtraHasNoRumors* x = reinterpret_cast< ::ExtraHasNoRumors*>((::BSExtraData*)extra);
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&x->value, 1);
         }
         }
@@ -26457,7 +26460,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
         {
             if (a1 & 0)
             {
-                X54* x = (X54*)dynamic_cast<NonActorMagicCaster*>((BSExtraData*)((::load_extra_fixup::E *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x32))));
+                X54* x = (X54*)reinterpret_cast<NonActorMagicCaster*>((BSExtraData*)((::load_extra_fixup::E *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x32))));
                 if (x)
                 {
                     G* v5c = x->ia.s13();
@@ -26470,7 +26473,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
                     if (v58)
                         reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((x))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(::load_extra_fixup::G *)((G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(v58)))));
                 }
-                X54* y = (X54*)dynamic_cast<NonActorMagicTarget_rtti2*>((BSExtraData*)((::load_extra_fixup::E *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x33))));
+                X54* y = (X54*)reinterpret_cast<NonActorMagicTarget_rtti2*>((BSExtraData*)((::load_extra_fixup::E *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x33))));
                 if (y)
                 {
                     G* v64 = y->ia.s1();
@@ -26647,7 +26650,7 @@ void OwnQ::FUN_00426720(unsigned int uiFlags, int a2, P3Q* p3)
         }
         if (uiFlags & 0)
         {
-            NonActorMagicTarget_rtti* pTarget = dynamic_cast<NonActorMagicTarget_rtti*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x33));
+            NonActorMagicTarget_rtti* pTarget = reinterpret_cast<NonActorMagicTarget_rtti*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x33));
             if (pTarget)
                 ::FUN_00806130((::ActiveEffectListBridge *)(pTarget->kMT.GetCaster()), (::ActorBridge *)(0));
         }
@@ -26747,6 +26750,8 @@ class LoadBuffer
     LoadFlags GetFlags();                     // 0x428110
                // 0x428130
     LoadFlags GetFlags2();                    // 0x42ce30
+    char pad04[0x20];
+    void* m_pForm;  // +0x24
               // 0x86cf00
                   // 0x42ce90
             // 0x42ce50
@@ -27918,7 +27923,7 @@ void ExtraDataLoader::FUN_00428150(LoadBuffer* buf)
                 }
                 if (pRef == 0)
                 {
-                    reinterpret_cast<::TESRecipe *>((buf))->SetRequiredSkill((::ActorValue::Index)(((void *)(::ExtraSecuritronFace::GetPersonality()))));
+                    buf->m_pForm = ::ExtraSecuritronFace::GetPersonality();
                 }
                 if (p0D->pEventList == 0)
                 {
@@ -27931,7 +27936,7 @@ void ExtraDataLoader::FUN_00428150(LoadBuffer* buf)
                 }
                 if (pRef == 0)
                 {
-                    reinterpret_cast<::TESRecipe *>((buf))->SetRequiredSkill((::ActorValue::Index)(0));
+                    buf->m_pForm = 0;
                 }
                 break;
             }
@@ -28554,7 +28559,7 @@ void ExtraDataLoader::FUN_00428150(LoadBuffer* buf)
                     bRemove = false;
                     break;
                 case 0x92: {
-                    ExtraSpecialRenderFlags_rtti* pFlags = dynamic_cast<ExtraSpecialRenderFlags_rtti*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x92));
+                    ExtraSpecialRenderFlags_rtti* pFlags = reinterpret_cast<ExtraSpecialRenderFlags_rtti*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x92));
                     if (pFlags != 0)
                     {
                         reinterpret_cast<::FUN_0041fd00_shell *>((pFlags))->FUN_0041fd00(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pFlags))->FUN_0084e3a0())) & 7);

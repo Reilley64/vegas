@@ -421,7 +421,7 @@ bool FUN_009f30d0_shell::SetPatrolRefIndex(unsigned int aiRefIndex)
     ::ClampInt((int *)(unsigned int *)(&aiclampedRefIndex), 0, isize);
     bool bsuccess = true;
     TESObjectREFR* pnewRef =
-        (TESObjectREFR*)((BSSimpleArray<unsigned int, 1024>*)((char*)this + 0x1c))->GetAt(aiclampedRefIndex);
+        SimpleArrayItem<TESObjectREFR*>((char*)this + 0x1c, aiclampedRefIndex);
     ExtraDataList* pnewExtra = pnewRef ? (ExtraDataList*)((const ::fnv_009f30d0::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((RefExtraHelper*)pnewRef)))->FUN_005d43c0())) : 0;
     if (pnewExtra)
     {
@@ -464,8 +464,7 @@ TESObjectREFR* FUN_009f3390_shell::FUN_009f3390()
 {
     if (!reinterpret_cast<::FUN_0076b610_Class *>((void *)(((BSSimpleArray<NavMeshEdgeSegment, 1024>*)((char*)this + 0x1c))))->FUN_0076b610())
     {
-        return (TESObjectREFR*)((BSSimpleArray<unsigned int, 1024>*)((char*)this + 0x1c))
-            ->GetAt(*(unsigned int*)((char*)this + 0x34));
+        return SimpleArrayItem<TESObjectREFR*>((char*)this + 0x1c, *(unsigned int*)((char*)this + 0x34));
     }
     else
     {

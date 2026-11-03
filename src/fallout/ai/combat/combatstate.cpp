@@ -7816,7 +7816,7 @@ void FUN_0099d310_shell::FUN_0099d310(FUN_0099d310_arg* param)
     {
         if (FUN_0097ee90() && (unsigned char)_pad[0x74] == 0)
         {
-            reinterpret_cast<::FUN_006e4f10_class *>((param))->FUN_006e4f10((*(const ::NiPoint3 *)(((int(*)(void*))(*(void***)item)[0x1f4 / 4])(item))));
+            reinterpret_cast<::FUN_006e4f10_class *>((param))->FUN_006e4f10((*((const ::NiPoint3 *(*)(void*))(*(void***)item)[0x1f4 / 4])(item)));
         }
         reinterpret_cast<::fnv_0099cb70::FUN_0099cb70_struct *>(this)->CollectCastSoundPositions((::fnv_0099cb70::Arr_006cee30 *)(((intptr_t)(reinterpret_cast<::FUN_006e4fb0_shell *>((param))->GetOffsetF4()))));
     }

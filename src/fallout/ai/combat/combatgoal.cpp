@@ -1,5 +1,6 @@
 // fallout/ai/combat/combatgoal.cpp: CombatGoal (22 functions)
 
+#include "fnv/combat_world_state_fields.h"
 #include <cstdint>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CombatAction.h"
@@ -542,8 +543,8 @@ bool CombatGoal::FUN_009843b0(CombatStateValues* values)
     while (current && (((current))->m_item))
     {
         value = (((current))->m_item);
-        state = ::FUN_00559450((int *)(value));
-        type = ((int)(reinterpret_cast<::Callees *>((value))->FUN_00726070()));
+        state = reinterpret_cast<CombatWorldStateCondFields*>(value)->iKey;
+        type = reinterpret_cast<CombatWorldStateCondFields*>(value)->iValue;
         if (state == 21)
         {
             if (((uintptr_t)(reinterpret_cast<::FUN_00984470_Class *>((values))->GetCombatGoal(type))))

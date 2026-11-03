@@ -65,6 +65,15 @@
 #include "fnv/symbols_011cd000.h"
 #include "fnv/symbols_011f6000.h"
 
+
+// The first two members of a spectator threat entry, as the spectator package reads them. The getters folded into
+// 0x00559450 and 0x00726070 read `pThreat` and `pTarget`.
+struct SpectatorThreatView
+{
+    void* pThreat;
+    void* pTarget;
+};
+
 // @fnv 0x009f9c80
 int SpectatorPackage::IsComplete(const SpectatorPackage& other)
 {
@@ -1538,7 +1547,7 @@ void SpectatorPackageStandIn::FUN_009f8420(Actor& aActor)
             isize_--;
             i6--;
         }
-        else if (((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<SpectatorThreatInfoStandIn*>(scanInfo)))->FUN_00726070())) ==
+        else if (reinterpret_cast<uintptr_t>(reinterpret_cast<::SpectatorThreatView*>(scanInfo)->pTarget) ==
                  reinterpret_cast<uintptr_t>(&aActor))
         {
             *reinterpret_cast<Actor**>(reinterpret_cast<char*>(scanInfo) + 4) = 0;
@@ -2392,7 +2401,7 @@ void FUN_009f7f20_class::FUN_009f7f20(MobileObject* actor, unsigned char flag)
         if ((unsigned int)(((int)SimpleArraySize((((ThreatList*)&this->entries))))) > 0)
         {
             TargetView* A5 =
-                (TargetView*)((int)(reinterpret_cast<::Callees *>((((Entry*)((FUN_009f8aa0_class*)&this->entries)->FUN_009f8aa0())))->FUN_00726070()));
+                (TargetView*)reinterpret_cast<::SpectatorThreatView*>(((FUN_009f8aa0_class*)&this->entries)->FUN_009f8aa0())->pTarget;
             AX = (A5 != 0 && A5->IsActor() != 0) ? A5 : (TargetView*)0;
             if (AX != 0)
             {
@@ -3280,7 +3289,7 @@ void Package::FUN_009f8330(Parameter* actor)
     for (int i = 0; i < count; ++i)
     {
         Entry* e = ((::Entry *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((((ThreatList*)((char*)this + 0xA0))))->FUN_009f8a80(i)));
-        if (((::Parameter *)(::FUN_00559450((int *)(e)))) == actor && ((int)(reinterpret_cast<::Callees *>((e))->FUN_00726070())) == id)
+        if (((::Parameter *)reinterpret_cast<::SpectatorThreatView*>(e)->pThreat) == actor && reinterpret_cast<intptr_t>(reinterpret_cast<::SpectatorThreatView*>(e)->pTarget) == id)
         {
             match = e;
             break;

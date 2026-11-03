@@ -1,6 +1,7 @@
 
 // SSE_DECLARATIONS_DEFER_TO_SDK
 #include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
 #include <xmmintrin.h>
 #include <cstdint>
 #include <cstddef>
@@ -16116,7 +16117,6 @@ CpuOpaque* __cdecl FUN_00cb9c00();
 void* __cdecl FUN_00cba1c0();
 
 
-void __cdecl ResizeAudioStream(void*, void*, int);
 
 
 int __cdecl FUN_00ca6610(int param_1);
@@ -19002,7 +19002,6 @@ extern float DAT_0126829c;
 extern float DAT_012682a8;
 extern const float DAT_01011d78;
 extern const float DAT_01012068 = 1.0f;
-extern void __cdecl FUN_00c908c0(FNVTaskAllocator&, void*, int, int);
 template <class T> struct ArrayBase
 {
     T* data;
@@ -19033,13 +19032,13 @@ template <class T> struct ArrayBase
         {
             int doubled = 2 * cap;
             int wanted = n < doubled ? doubled : n;
-            FUN_00c908c0(heap, this, wanted, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&heap), (::SpawnedArray *)(void *)(this), wanted, sizeof(T));
         }
     }
     __forceinline void reserveExact(FNVTaskAllocator& heap, int n)
     {
         if (getCapacity() < n)
-            FUN_00c908c0(heap, this, n, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&heap), (::SpawnedArray *)(void *)(this), n, sizeof(T));
     }
     __forceinline void SetSizeAndGrow(FNVTaskAllocator& heap, int n)
     {

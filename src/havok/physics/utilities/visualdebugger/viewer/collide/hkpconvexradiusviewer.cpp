@@ -49,19 +49,19 @@ struct FUN_00d68a70_class
     int unk24;
     int unk28;
     int unk2c;
-    int** entries;
+    void*** entries;
     int count;
-    int FindKeyIndex(int key);
+    int FindKeyIndex(const void* key);
 };
 // Scans the entries array for the first entry whose first int equals key and returns its index, or -1 if none match.
 // @fnv 0x00d68a70
-int FUN_00d68a70_class::FindKeyIndex(int key)
+int FUN_00d68a70_class::FindKeyIndex(const void* key)
 {
     int limit = count;
     int index = 0;
     if (limit > 0)
     {
-        int** ppEntry = entries;
+        void*** ppEntry = entries;
         do
         {
             if (**ppEntry == key)
@@ -144,7 +144,7 @@ struct Base
 };
 struct Sub
 {
-    void FUN_00d69160(int);
+    void FUN_00d69160(void* value);
 };
 // @fnv 0x00d69180
 void* __cdecl FUN_00d69180()
@@ -256,7 +256,7 @@ void FUN_00d68aa0_cls::RemoveItem(FUN_00d68aa0_req* pRequest)
     {
         return;
     }
-    int idx = reinterpret_cast<::FUN_00d68a70_class *>((((FUN_00d68aa0_owner*)((char*)this - 0x28))))->FindKeyIndex((int)(pRequest->m_08));
+    int idx = reinterpret_cast<::FUN_00d68a70_class *>((((FUN_00d68aa0_owner*)((char*)this - 0x28))))->FindKeyIndex(pRequest->m_08);
     if (idx < 0)
     {
         return;
@@ -565,7 +565,7 @@ struct T68B20
 struct T68Base : T68B0, T68B8, T68B20
 {
     int m24;
-    T68Base(int arg);
+    T68Base(void* arg);
 };
 
 struct T68D28
@@ -595,7 +595,7 @@ struct FUN_00d68b90 : T68Base, T68D28, T68D2c
     T68Arr m30;
     void* m3c;
     void* m40;
-    FUN_00d68b90(int arg);
+    FUN_00d68b90(void* arg);
     virtual void b0v0();
     virtual void b8v0();
     virtual void b20v0();
@@ -604,7 +604,7 @@ struct FUN_00d68b90 : T68Base, T68D28, T68D2c
 };
 
 // @fnv 0x00d68b90
-FUN_00d68b90::FUN_00d68b90(int arg) : T68Base(arg), m3c(DAT_01269018), m40(DAT_01269014)
+FUN_00d68b90::FUN_00d68b90(void* arg) : T68Base(arg), m3c(DAT_01269018), m40(DAT_01269014)
 {}
 
 struct Mem_d65f
@@ -710,7 +710,7 @@ struct Phantom_d65f : Base_d65f, Listener_d65f, Watch2_d65f
 };
 // Calls FindKeyIndex on the Base at this-0x20 with value, and if the result is non-negative passes it to FUN_00d69010.
 // @fnv 0x00d69160
-void Sub::FUN_00d69160(int value)
+void Sub::FUN_00d69160(void* value)
 {
     Base* base = reinterpret_cast<Base*>(reinterpret_cast<char*>(this) - 0x20);
     int result = reinterpret_cast<::FUN_00d68a70_class *>((base))->FindKeyIndex(value);
@@ -1093,9 +1093,9 @@ struct S_00d68c00_Arg
 {
     int unk00;
     int unk04;
-    int unk08;
+    const void* unk08;
     int unk0c;
-    int unk10;
+    const char* unk10;
     int unk14;
     int unk18;
     int unk1c;
@@ -1231,7 +1231,7 @@ struct S_00d68c00_Obj
     virtual void v0() throw();
     virtual void v1(S_00d68c00_Arr* arr, void* p, char* name, void* dat, int zero) throw();
     virtual void v2() throw();
-    virtual void v3(int a, char* name, void* dat) throw();
+    virtual void v3(void* a, char* name, void* dat) throw();
 };
 
 struct S_00d68c00_Log
@@ -1310,7 +1310,7 @@ void S_00d68c00_Sub::FUN_00d68c00(S_00d68c00_Arg* a2) throw()
     new ((void *)&(radius)) ::FUN_00de3050();
     S_00d68c00_Query query;
     new ((void *)&(query)) ::FUN_00de3060((const unsigned int *)(::fnv_00d68c00::S_00d68c00_Real *)(&radius));
-    reinterpret_cast<::CollectorStandIn *>(&(query))->FUN_00de4420((const char *)(a2->unk10), (::OutputStandIn *)(::fnv_00d68c00::S_00d68c00_Arr *)(&arr));
+    reinterpret_cast<::CollectorStandIn *>(&(query))->FUN_00de4420(a2->unk10, (::OutputStandIn *)(::fnv_00d68c00::S_00d68c00_Arr *)(&arr));
     for (int i = arr.size - 1; i >= 0; i--)
     {
         S_00d68c00_Elem* e = arr.data[i];
@@ -1340,9 +1340,9 @@ void S_00d68c00_Sub::FUN_00d68c00(S_00d68c00_Arg* a2) throw()
         list->size++;
         S_00d68c00_Main::unk18->v1(&arr, &a2->unkf0, name, DAT_01269010, 0);
         if (a2->unke8 == 5)
-            S_00d68c00_Main::unk18->v3((int)S_00d68c00_Listener::unk14, name, DAT_01269010);
+            S_00d68c00_Main::unk18->v3(S_00d68c00_Listener::unk14, name, DAT_01269010);
         else
-            S_00d68c00_Main::unk18->v3((int)S_00d68c00_Listener::unk18, name, DAT_01269010);
+            S_00d68c00_Main::unk18->v3(S_00d68c00_Listener::unk18, name, DAT_01269010);
     }
     for (int j = 0; j < arr.size; j++)
     {
@@ -1390,7 +1390,7 @@ void* __cdecl FUN_00d68e00(void* arg1)
 {
     TargetAgent* agent = (TargetAgent*)getMemoryRouter()->allocateChunk(0x44);
     agent->m_usMemSizeAndFlags = 0x44;
-    TargetAgent* res = ((::fnv_00d68e00::TargetAgent *)(new ((void *)(agent)) ::FUN_00d68b90((int)(arg1))));
+    TargetAgent* res = ((::fnv_00d68e00::TargetAgent *)(new ((void *)(agent)) ::FUN_00d68b90(arg1)));
     return res ? (char*)res + 8 : 0;
 }
 }  // namespace fnv_00d68e00

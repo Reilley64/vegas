@@ -178,6 +178,18 @@ struct hkBool
 
 struct PtrList;
 
+struct SnapshotBackOwner
+{
+    char m_before[0x24];
+    void* m_object;  // +0x24
+};
+struct SnapshotBackLinked
+{
+    void* m_vtbl;
+    int m_memSizeAndRefCount;
+    SnapshotBackOwner* m_owner;  // +0x8
+};
+
 struct PtrList
 {
     void** m_00;
@@ -253,7 +265,7 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
             State* h2 = getMemoryRouter();
             if (list->m_04 == (list->m_08 & 0x3fffffff))
             {
-                ::ResizeAudioStream((::AudioAllocator *)(h2->interface10), (::AudioStream *)(list), 4);
+                ::ResizeAudioStream((::AudioAllocator *)(h2->interface10), (::AudioStream *)(list), sizeof(void*));
             }
             list->Add(o);
             *a1 = o;
@@ -274,7 +286,7 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
             State* h2 = getMemoryRouter();
             if (list->m_04 == (list->m_08 & 0x3fffffff))
             {
-                ::ResizeAudioStream((::AudioAllocator *)(h2->interface10), (::AudioStream *)(list), 4);
+                ::ResizeAudioStream((::AudioAllocator *)(h2->interface10), (::AudioStream *)(list), sizeof(void*));
             }
             list->Add(o);
             *a1 = o;
@@ -295,7 +307,7 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
             State* h2 = getMemoryRouter();
             if (list->m_04 == (list->m_08 & 0x3fffffff))
             {
-                ::ResizeAudioStream((::AudioAllocator *)(h2->interface10), (::AudioStream *)(list), 4);
+                ::ResizeAudioStream((::AudioAllocator *)(h2->interface10), (::AudioStream *)(list), sizeof(void*));
             }
             list->Add(o);
             *a1 = o;
@@ -306,8 +318,8 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
     if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(::g_01268bcc.FUN_00d46d80(*cur)))->FUN_005609f0())
     {
         void* v = *a1;
-        unsigned int* back = (unsigned int*)((unsigned int*)v)[2];
-        if (back != 0 && back[9] == (unsigned int)v)
+        SnapshotBackOwner* back = static_cast<SnapshotBackLinked*>(v)->m_owner;
+        if (back != 0 && back->m_object == v)
         {
             *a1 = 0;
             *cur = 0;
@@ -344,7 +356,7 @@ extern int DAT_010c93e4;
 
 struct FUN_00cc0ae0_cls
 {
-    int m_vptr00;
+    const void* m_vptr00;
     unsigned int unk04;
     PooledItem** m_pItems;
     int m_iArrayLength;
@@ -357,7 +369,7 @@ struct FUN_00cc0ae0_cls
 // @fnv 0x00cc0ae0
 void FUN_00cc0ae0_cls::FUN_00cc0ae0()
 {
-    m_vptr00 = (int)&DAT_010c93e4;
+    m_vptr00 = &DAT_010c93e4;
     for (int i = 0; i < m_iArrayLength; i++)
     {
         PooledItem* item = m_pItems[i];
@@ -376,7 +388,7 @@ void FUN_00cc0ae0_cls::FUN_00cc0ae0()
     }
     m_pItems = 0;
     m_uCapBits = 0x80000000u;
-    *(volatile int*)&m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(const void* volatile*)&m_vptr00 = &::DAT_0102e388;
 }
 }  // namespace fnv_00cc0ae0
 
@@ -440,7 +452,6 @@ unsigned char* FUN_00cc0b50(unsigned char* apResult, unsigned int a2, unsigned i
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <cstddef>
 #include "fnv/decl/FUN_00d46d40_s.h"
-#include "fnv/decl/fnv_00cc0ae0__FUN_00cc0ae0_cls.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00cc0000.h"
 

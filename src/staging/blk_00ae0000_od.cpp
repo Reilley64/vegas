@@ -11,7 +11,6 @@
 #include <cstdlib>
 #include <cstring>
 #include "runtime/crt.h"
-#include "fnv/decl/AF1430.h"
 #include "fnv/decl/BSGameSound.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -21,8 +20,6 @@
 #include "fnv/decl/FUN_00aa63c0.h"
 #include "fnv/decl/FUN_00ad6f40.h"
 #include "fnv/decl/FUN_00ae9c50_s.h"
-#include "fnv/decl/FUN_00aeafb0.h"
-#include "fnv/decl/ListenerDestruction__FUN_00aea770.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/O.h"
 #include "fnv/decl/SndStack70.h"
@@ -54,7 +51,6 @@
 #include "fnv/decl/AudioMgr_adac30.h"
 #include "fnv/decl/FUN_00439ef0_class.h"
 #include "fnv/decl/FUN_004b6190_shell.h"
-#include "fnv/decl/FUN_00ae8090_Class.h"
 #include "fnv/decl/Point3Offset.h"
 #include "fnv/decl/S_00afea20_Arr.h"
 #include "fnv/symbols_00457000.h"
@@ -394,15 +390,6 @@ struct FUN_00aeaa80_Class
     void* FUN_00aeaa80(unsigned int flags);
     void FUN_00aea770();
 };
-// Calls FUN_00aea770, deallocates this via g_memoryManager when flags has bit 1 set, and returns this.
-// @fnv 0x00aeaa80
-void* FUN_00aeaa80_Class::FUN_00aeaa80(unsigned int flags)
-{
-    reinterpret_cast<::ListenerDestruction::FUN_00aea770 *>(this)->ListenerDestruction::FUN_00aea770::~FUN_00aea770();
-    if (flags & 1)
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
-    return this;
-}
 
 struct FUN_00aefcf0_Class
 {
@@ -416,24 +403,6 @@ void FUN_00aefcf0_Class::FUN_00aefcf0(float a, float b, float c)
     ((void(*)(void*, float, float, float))(*((void***)this))[20])(this, a, b, c);
 }
 
-namespace fnv_00af1cc0 {
-struct MemoryManager
-{
-};
-struct FUN_00af1cc0_Class
-{
-    void* FUN_00af1cc0(unsigned int flags);
-};
-// Calls FUN_00aeafb0, deallocates this via _g_memoryManager when flags has bit 1 set, and returns this.
-// @fnv 0x00af1cc0
-void* FUN_00af1cc0_Class::FUN_00af1cc0(unsigned int flags)
-{
-    reinterpret_cast<::FUN_00aeafb0 *>(this)->FUN_00aeafb0::~FUN_00aeafb0();
-    if (flags & 1)
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00af1cc0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
-    return this;
-}
-}  // namespace fnv_00af1cc0
 
 struct FUN_00af1d20_Class
 {
@@ -1888,213 +1857,6 @@ class FUN_00aec530_cls
     SndStream* m_pBinaryStream;
 };
 
-// Creates the DirectSound buffer for the sound, sets up streaming chunks and 3D/reverb parameters, then updates flags.
-// @fnv 0x00aec530
-void FUN_00aec530_cls::FUN_00aec530()
-{
-    long hr5;
-    SndEffectDesc gate;
-    unsigned long flagVal;
-    char* found2;
-    unsigned int entry2;
-    int gap;
-    char* data4;
-    void* buf;
-    char* head2;
-    long hr3;
-    unsigned long countB;
-    int bytes;
-    {
-        float* entry6;
-        unsigned int endA;
-        char* element4;
-        unsigned int iter4;
-        char* indexX;
-        unsigned int id8;
-        char* holder7;
-        unsigned int group4;
-        unsigned int fresh4;
-        char* handleA;
-        unsigned int hashA;
-        char* gammaA;
-        unsigned int gateVal;
-        char* bVal;
-        unsigned int bResult;
-        char* flagJ;
-        unsigned int flagH;
-        unsigned int fcList;
-        unsigned int f11;
-        void* iterVal;
-        void* curVal;
-        void* chc;
-        void* first2;
-        void* input2;
-        void* itemB;
-
-        if (m_pDirectInputDevice == 0)
-        {
-            reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(0);
-            return;
-        }
-        bytes = m_kDesc.lpwfxFormat->wBitsPerSample / 8;
-        if (reinterpret_cast<::BSGameSound *>(this)->HasSoundFlagTwo() || reinterpret_cast<::BSGameSound *>(this)->CanStartPlayback())
-        {
-            m_sFrequency = 10000;
-        }
-        if (m_pData != 0)
-        {
-            if ((unsigned char)(((m_uiValue1 & 0x4000000) || (m_uiValue1 & 0x2000000)) ? 1 : 0))
-            {
-                gap = 0x400;
-                itemB = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa3e40(0x24);
-                m_pBinaryStream = (SndStream*)itemB;
-                m_pBinaryStream->uiHeadSize = m_iLoopStart * bytes;
-                m_pBinaryStream->uiTailSize = m_uiSize - m_iLoopEnd * bytes;
-                m_pBinaryStream->uiBodySize = m_uiSize - (m_pBinaryStream->uiHeadSize + m_pBinaryStream->uiTailSize);
-                m_uiSize = m_kDesc.lpwfxFormat->nAvgBytesPerSec / 2;
-                m_kDesc.dwBufferBytes = m_uiSize;
-                m_pBinaryStream->uiTailPos = 0;
-                m_pBinaryStream->iState = 0;
-                m_pBinaryStream->uiPos = 0;
-                f11 = m_pBinaryStream->uiHeadSize;
-                input2 = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa3e40(f11);
-                m_pBinaryStream->pHead = (char*)input2;
-                fcList = m_pBinaryStream->uiBodySize;
-                first2 = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa3e40(fcList);
-                m_pBinaryStream->pBody = (char*)first2;
-                flagH = m_pBinaryStream->uiTailSize + gap;
-                chc = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa3e40(flagH);
-                m_pBinaryStream->pTail = (char*)chc;
-                data4 = m_pData;
-                bResult = m_pBinaryStream->uiHeadSize;
-                flagJ = m_pBinaryStream->pHead;
-                std::memmove(flagJ, data4, bResult);
-                data4 += m_pBinaryStream->uiHeadSize;
-                gateVal = m_pBinaryStream->uiBodySize;
-                bVal = m_pBinaryStream->pBody;
-                std::memmove(bVal, data4, gateVal);
-                data4 += m_pBinaryStream->uiBodySize;
-                hashA = m_pBinaryStream->uiTailSize;
-                gammaA = m_pBinaryStream->pTail;
-                std::memmove(gammaA, data4, hashA);
-                handleA = (char*)(m_pBinaryStream->uiTailSize + *(volatile unsigned int*)&m_pBinaryStream->pTail);
-                std::memset(handleA, 0, gap);
-                m_pBinaryStream->uiTailSize = m_pBinaryStream->uiTailSize + gap;
-            }
-            if (m_iValueAt14 < 0x96 &&
-                (unsigned char)(((m_uiValue1 & 0x10) || (m_uiValue1 & 0x4000000) || (m_uiValue1 & 0x2000000)) ? 1 : 0))
-            {
-                m_kDesc.dwFlags = m_kDesc.dwFlags & 0xfffffdff;
-            }
-            hr3 = m_pDirectInputDevice->CreateSoundBuffer(&m_kDesc, &m_pBuffer, 0);
-            if (hr3 < 0)
-            {
-                fresh4 = m_uiValue1;
-                if ((fresh4 & 2) && m_kDesc.lpwfxFormat->nChannels > 1)
-                {
-                    ::FUN_005b5e40();
-                }
-                else if (hr3 == 0x887800b4)
-                {
-                    ::FUN_005b5e40();
-                }
-                if (m_pData != 0)
-                {
-                    curVal = m_pData;
-                    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa4060(curVal);
-                    m_pData = 0;
-                }
-                reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(0);
-                return;
-            }
-            hr3 = m_pBuffer->QueryInterface(&g_IID_SndBuffer8, &m_pBuffer8);
-            if (m_pBuffer8 != 0)
-            {
-                group4 = m_uiValue1;
-                if (group4 & 2)
-                {
-                    hr3 = m_pBuffer8->QueryInterface(&g_IID_Snd3DBuffer, &m_p3DBuffer);
-                    m_p3DBuffer->SetMinDistance(g_fSndMinDistance, 1);
-                    SetPosition(g_fSndConeValue, g_fSndConeValue, g_fSndConeValue);
-                    m_fUnk150 = ::DAT_01016970;
-                    m_pBuffer->SetVolume(-10000);
-                }
-            }
-            buf = 0;
-            countB = 0;
-            hr3 = m_pBuffer8->Lock(0, m_uiSize, &buf, &countB, 0, 0, 0);
-            if (hr3 < 0)
-            {
-                reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(0);
-                return;
-            }
-            head2 = (char*)buf;
-            if ((unsigned char)(((m_uiValue1 & 0x4000000) || (m_uiValue1 & 0x2000000)) ? 1 : 0) &&
-                m_pBinaryStream != 0 && m_pBinaryStream->pHead != 0)
-            {
-                if (m_pBinaryStream->uiHeadSize > m_uiSize)
-                {
-                    id8 = m_uiSize;
-                    holder7 = m_pBinaryStream->pHead;
-                    std::memmove(head2, holder7, id8);
-                    m_pBinaryStream->uiPos = m_uiSize;
-                    m_pBinaryStream->iState = 1;
-                }
-                else
-                {
-                    entry2 = m_uiSize - m_pBinaryStream->uiHeadSize;
-                    found2 = head2 + m_pBinaryStream->uiHeadSize;
-                    iter4 = m_pBinaryStream->uiHeadSize;
-                    indexX = m_pBinaryStream->pHead;
-                    std::memmove(head2, indexX, iter4);
-                    m_pBinaryStream->uiPos = 0;
-                    m_pBinaryStream->uiTailPos = m_pBinaryStream->uiHeadSize;
-                    m_pBinaryStream->iState = 2;
-                }
-            }
-            else
-            {
-                endA = m_uiSize;
-                element4 = m_pData;
-                std::memmove(head2, element4, endA);
-            }
-            m_pBuffer8->Unlock(buf, countB, 0, 0);
-            if (m_pData != 0)
-            {
-                iterVal = m_pData;
-                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa4060(iterVal);
-                m_pData = 0;
-            }
-            SetVolume(m_fPlaybackVolume);
-        }
-        if (m_iValueAt14 >= 0x96)
-        {
-            reinterpret_cast<::AF1430 *>(this)->FUN_00af1430();
-        }
-        if (m_uiValue1 & 0x80000)
-        {
-            gate.dwSize = 0x20;
-            gate.dwFlags = 0;
-            gate.guidDSFXClass = g_GUID_SndFX;
-            gate.dwReserved1 = 0;
-            gate.dwReserved2 = 0;
-            hr5 = m_pBuffer8->SetFX(1, &gate, &flagVal);
-            hr5 = m_pBuffer8->GetObjectInPath(&g_GUID_SndFX, 0, &g_IID_SndFXParams, &m_pReverb);
-            if (hr5 >= 0)
-            {
-                entry6 = (&(*reinterpret_cast<::SndFloatHolder *>(&::g_011f7154)) != 0) ? &(*reinterpret_cast<::SndFloatHolder *>(&::g_011f7154)).fValue
-                                                  : ((*reinterpret_cast<float *>(&::DAT_01202800)) = 0.0f, &(*reinterpret_cast<float *>(&::DAT_01202800)));
-                m_afReverb[0] = *entry6;
-                m_afReverb[1] = 0.0f;
-                m_afReverb[2] = ::runtimeFloatSettingDefault247;
-                m_afReverb[3] = g_fSndReverb2;
-                m_afReverb[4] = ::runtimeFloatSettingDefault247;
-                m_pReverb->SetAllParameters(m_afReverb);
-            }
-        }
-        reinterpret_cast<::BSGameSound *>(this)->Prepare();
-    }
-}
 
 class S_Subsys
 {
@@ -4770,17 +4532,6 @@ int S_008785e0::OpenFile(const char* lpFileName)
 }
 
 
-typedef unsigned long DWORD;
-typedef void* HANDLE;
-
-enum
-{
-    ERROR_SUCCESS = 0,
-    ERROR_FILE_NOT_FOUND = 2,
-    ERROR_PATH_NOT_FOUND = 3,
-    ERROR_WRITE_PROTECT = 19
-};
-
 struct Win32ReadFile
 {
     void* pVtable;
@@ -5709,7 +5460,7 @@ struct WaveFormat
     U32 m_uiSamplesPerSecond;
     U32 averageBytes;
     U16 blockAlign;
-    U16 m_usBitsPerSample;
+    U16 m_usBitsPerSample;    U16 cbSize;
 };
 
 struct AudioInterface
@@ -5855,6 +5606,8 @@ extern const char DAT_010a4168[], DAT_010a4130[], DAT_010a40f0[], DAT_010a40b0[]
 extern const char DAT_010a3ffc[], DAT_010a3fc0[], DAT_010a3f84[], DAT_010a3f48[], DAT_010a3f0c[], DAT_010a3ed0[];
 
 
+struct AF1d80;
+
 class AudioBuffer
 {
 
@@ -5906,143 +5659,7 @@ class AudioBuffer
     unsigned int unk_030;
 
     unsigned short m_sampleRate;
-    unsigned short m_unused36;
-
-    unsigned int unk_038;
-
-    unsigned int unk_03c;
-
-    unsigned int unk_040;
-
-    unsigned int unk_044;
-
-    unsigned int unk_048;
-
-    unsigned int unk_04c;
-
-    unsigned int unk_050;
-
-    unsigned int unk_054;
-
-    unsigned int unk_058;
-
-    unsigned int unk_05c;
-
-    unsigned int unk_060;
-
-    unsigned int unk_064;
-
-    unsigned int unk_068;
-
-    unsigned int unk_06c;
-
-    unsigned int unk_070;
-
-    unsigned int unk_074;
-
-    unsigned int unk_078;
-
-    unsigned int unk_07c;
-
-    unsigned int unk_080;
-
-    unsigned int unk_084;
-
-    unsigned int unk_088;
-
-    unsigned int unk_08c;
-
-    unsigned int unk_090;
-
-    unsigned int unk_094;
-
-    unsigned int unk_098;
-
-    unsigned int unk_09c;
-
-    unsigned int unk_0a0;
-
-    unsigned int unk_0a4;
-
-    unsigned int unk_0a8;
-
-    unsigned int unk_0ac;
-
-    unsigned int unk_0b0;
-
-    unsigned int unk_0b4;
-
-    unsigned int unk_0b8;
-
-    unsigned int unk_0bc;
-
-    unsigned int unk_0c0;
-
-    unsigned int unk_0c4;
-
-    unsigned int unk_0c8;
-
-    unsigned int unk_0cc;
-
-    unsigned int unk_0d0;
-
-    unsigned int unk_0d4;
-
-    unsigned int unk_0d8;
-
-    unsigned int unk_0dc;
-
-    unsigned int unk_0e0;
-
-    unsigned int unk_0e4;
-
-    unsigned int unk_0e8;
-
-    unsigned int unk_0ec;
-
-    unsigned int unk_0f0;
-
-    unsigned int unk_0f4;
-
-    unsigned int unk_0f8;
-
-    unsigned int unk_0fc;
-
-    unsigned int unk_100;
-
-    unsigned int unk_104;
-
-    unsigned int unk_108;
-
-    unsigned int unk_10c;
-
-    unsigned int unk_110;
-
-    unsigned int unk_114;
-
-    unsigned int unk_118;
-
-    unsigned int unk_11c;
-
-    unsigned int unk_120;
-
-    unsigned int unk_124;
-
-    unsigned int unk_128;
-
-    unsigned int unk_12c;
-
-    unsigned int unk_130;
-
-    unsigned int unk_134;
-
-    unsigned int unk_138;
-
-    unsigned int unk_13c;
-
-    unsigned int unk_140;
-
-    unsigned int unk_144;
+    char m_fileName[0x112];
 
     unsigned int m_copy148;
 
@@ -6103,7 +5720,7 @@ class AudioBuffer
 
     GuidValue m_algo;
 
-    unsigned int m_oldBuffer;
+    void* m_oldBuffer;
 
     AudioInterface* m_duplicate;
 
@@ -6153,7 +5770,7 @@ class AudioBuffer
 
     CopyState* m_copyState;
 
-
+    AF1d80* m_stream;
 
     __forceinline bool IsBuffered()
     {
@@ -6164,6 +5781,7 @@ class AudioBuffer
         return (m_flags & 0x4000000) || (m_flags & 0x2000000);
     }
     void FUN_00af0630(AudioBuffer*, bool);
+    bool Setup(bool& bHalf, unsigned int& nSize);
 public:
     bool FUN_00aebff0();
 };
@@ -6511,7 +6129,7 @@ void AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
                 if (result5 < 0)
                 {
 
-                    switch (result5)
+                    switch ((unsigned int)result5)
                     {
                     case 0x8878000a:
                         fnv::crt::strcpy_s(message11, 255, DAT_010a4168);
@@ -7350,224 +6968,55 @@ struct AF1d80
     }
 };
 
-// VEGAS17-CONFLICT: AudioBuffer (variant definition below differs from the one above)
-struct AudioBuffer
+__forceinline bool AudioBuffer::Setup(bool& bHalf, unsigned int& nSize)
 {
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int m8;
-    unsigned int unk00c;
-    unsigned int unk010;
-    int m14;
-    unsigned int unk018;
-    unsigned int unk01c;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02c;
-    unsigned int unk030;
-    unsigned short m34;
-    char m36;
-    unsigned char unk037;
-    unsigned int unk038;
-    unsigned int unk03c;
-    unsigned int unk040;
-    unsigned int unk044;
-    unsigned int unk048;
-    unsigned int unk04c;
-    unsigned int unk050;
-    unsigned int unk054;
-    unsigned int unk058;
-    unsigned int unk05c;
-    unsigned int unk060;
-    unsigned int unk064;
-    unsigned int unk068;
-    unsigned int unk06c;
-    unsigned int unk070;
-    unsigned int unk074;
-    unsigned int unk078;
-    unsigned int unk07c;
-    unsigned int unk080;
-    unsigned int unk084;
-    unsigned int unk088;
-    unsigned int unk08c;
-    unsigned int unk090;
-    unsigned int unk094;
-    unsigned int unk098;
-    unsigned int unk09c;
-    unsigned int unk0a0;
-    unsigned int unk0a4;
-    unsigned int unk0a8;
-    unsigned int unk0ac;
-    unsigned int unk0b0;
-    unsigned int unk0b4;
-    unsigned int unk0b8;
-    unsigned int unk0bc;
-    unsigned int unk0c0;
-    unsigned int unk0c4;
-    unsigned int unk0c8;
-    unsigned int unk0cc;
-    unsigned int unk0d0;
-    unsigned int unk0d4;
-    unsigned int unk0d8;
-    unsigned int unk0dc;
-    unsigned int unk0e0;
-    unsigned int unk0e4;
-    unsigned int unk0e8;
-    unsigned int unk0ec;
-    unsigned int unk0f0;
-    unsigned int unk0f4;
-    unsigned int unk0f8;
-    unsigned int unk0fc;
-    unsigned int unk100;
-    unsigned int unk104;
-    unsigned int unk108;
-    unsigned int unk10c;
-    unsigned int unk110;
-    unsigned int unk114;
-    unsigned int unk118;
-    unsigned int unk11c;
-    unsigned int unk120;
-    unsigned int unk124;
-    unsigned int unk128;
-    unsigned int unk12c;
-    unsigned int unk130;
-    unsigned int unk134;
-    unsigned int unk138;
-    unsigned int unk13c;
-    unsigned int unk140;
-    unsigned int unk144;
-    unsigned int unk148;
-    unsigned int unk14c;
-    unsigned int unk150;
-    unsigned int unk154;
-    unsigned char unk158;
-    unsigned char unk159;
-    unsigned short m15a;
-    unsigned int unk15c;
-    unsigned int unk160;
-    unsigned int unk164;
-    unsigned int unk168;
-    unsigned int unk16c;
-    unsigned int unk170;
-    unsigned int unk174;
-    unsigned int unk178;
-    unsigned int unk17c;
-    unsigned int unk180;
-    unsigned int unk184;
-    unsigned int unk188;
-    unsigned int unk18c;
-    unsigned int unk190;
-    unsigned int unk194;
-    unsigned int unk198;
-    unsigned int unk19c;
-    unsigned int unk1a0;
-    unsigned int m1a4;
-    unsigned int m1a8;
-    unsigned int m1ac;
-    unsigned int unk1b0;
-    WavFmt* m1b4;
-    unsigned int unk1b8;
-    unsigned int unk1bc;
-    unsigned int unk1c0;
-    unsigned int unk1c4;
-    void* m1c8;
-    unsigned int unk1cc;
-    unsigned int unk1d0;
-    unsigned int unk1d4;
-    unsigned int unk1d8;
-    unsigned int m1dc;
-    unsigned int unk1e0;
-    unsigned int unk1e4;
-    unsigned int unk1e8;
-    unsigned int unk1ec;
-    unsigned int unk1f0;
-    unsigned int unk1f4;
-    unsigned int unk1f8;
-    unsigned int unk1fc;
-    unsigned int unk200;
-    unsigned int unk204;
-    unsigned int unk208;
-    unsigned int unk20c;
-    unsigned int unk210;
-    unsigned int unk214;
-    unsigned int unk218;
-    unsigned int unk21c;
-    unsigned int unk220;
-    unsigned int unk224;
-    unsigned int unk228;
-    AF1d80* m22c;
-
-    __forceinline unsigned int Flags()
+    void* p;
+    if (this->Any() && ((this->m_flags & 0x2000) || (this->m_flags & 0x1000)))
+        this->m_flags |= 0x10;
+    this->m_flags &= 0xfdffffff;
+    this->m_flags &= 0xfbffffff;
+    bHalf = (this->m_flags & 0x400000) || (this->m_flags & 0x100000);
+    nSize = 0;
+    this->m_descSize = 0x24;
+    this->m_eVertexFormat->cbSize = 0;
+    this->m_eVertexFormat->tag = 1;
+    this->m_eVertexFormat->m_uiSamplesPerSecond = this->m_stream->SamplesPerSec();
+    this->m_eVertexFormat->m_usBitsPerSample = 0x10;
+    this->m_eVertexFormat->channels = this->m_stream->Channels();
+    this->m_eVertexFormat->blockAlign = (this->m_eVertexFormat->m_usBitsPerSample / 8) * this->m_eVertexFormat->channels;
+    this->m_eVertexFormat->averageBytes = this->m_eVertexFormat->m_uiSamplesPerSecond * this->m_eVertexFormat->blockAlign;
+    this->m_bufferBytes = this->m_stream->BytesPerFrame();
+    this->m_totalBytes = this->m_bufferBytes;
+    if (bHalf)
+        nSize = this->m_bufferBytes + (this->m_eVertexFormat->averageBytes >> 1);
+    else
+        nSize = this->m_bufferBytes;
+    p = reinterpret_cast<::MemoryManagerStandIn *>((((Mgr*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(nSize);
+    this->m_oldBuffer = p;
+    std::memset(this->m_oldBuffer, 0, nSize);
+    this->m_sampleRate = this->m_eVertexFormat->m_uiSamplesPerSecond;
+    this->m_sampleCount = this->m_sampleRate;
+    this->m_playLength = this->m_totalBytes / (2 * this->m_stream->Channels()) / (this->m_sampleRate / 1000);
+    reinterpret_cast<::FUN_00af2100_cls *>((this->m_stream))->FUN_00af2100((unsigned char *)(this->m_oldBuffer), this->m_bufferBytes);
+    if ((this->m_flags & 1) || (this->m_stream->Channels() > 1))
     {
-        return this->m8;
+        this->m_descFlags = 0x40;
+        this->m_flags &= 0xfffffffd;
+        this->m_flags |= 1;
     }
-    __forceinline bool Any()
+    else
     {
-        return (this->m8 & 0x4000000) || (this->m8 & 0x2000000);
+        this->m_descFlags = 0x30010;
     }
-
-    __forceinline void* GetBuffer()
+    this->m_descFlags |= 0x2a0;
+    if (bHalf)
     {
-        return this->m1c8;
+        this->m_bufferBytes = this->m_bufferBytes + (this->m_eVertexFormat->averageBytes >> 1);
+        this->m_totalBytes = this->m_bufferBytes;
+        this->m_playLength = this->m_playLength + 0x1f4;
     }
-    __forceinline void* AllocSnd(unsigned int n)
-    {
-        void* p = reinterpret_cast<::MemoryManagerStandIn *>((((Mgr*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
-        return p;
-    }
-
-    __forceinline bool Setup(bool& bHalf, unsigned int& nSize)
-    {
-        void* p;
-        if (this->Any() && ((this->m8 & 0x2000) || (this->m8 & 0x1000)))
-            this->m8 |= 0x10;
-        this->m8 &= 0xfdffffff;
-        this->m8 &= 0xfbffffff;
-        bHalf = (this->Flags() & 0x400000) || (this->Flags() & 0x100000);
-        nSize = 0;
-        this->m1a4 = 0x24;
-        this->m1b4->wCbSize = 0;
-        this->m1b4->wFormatTag = 1;
-        this->m1b4->dwSamplesPerSec = this->m22c->SamplesPerSec();
-        this->m1b4->wBitsPerSample = 0x10;
-        this->m1b4->wChannels = this->m22c->Channels();
-        this->m1b4->wBlockAlign = (this->m1b4->wBitsPerSample / 8) * this->m1b4->wChannels;
-        this->m1b4->dwAvgBytesPerSec = this->m1b4->dwSamplesPerSec * this->m1b4->wBlockAlign;
-        this->m1ac = this->m22c->BytesPerFrame();
-        this->m1dc = this->m1ac;
-        if (bHalf)
-            nSize = this->m1ac + (this->m1b4->dwAvgBytesPerSec >> 1);
-        else
-            nSize = this->m1ac;
-        p = reinterpret_cast<::MemoryManagerStandIn *>((((Mgr*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(nSize);
-        this->m1c8 = p;
-        std::memset(this->GetBuffer(), 0, nSize);
-        this->m34 = this->m1b4->dwSamplesPerSec;
-        this->m15a = this->m34;
-        this->m14 = this->m1dc / (2 * this->m22c->Channels()) / (this->m34 / 1000);
-        reinterpret_cast<::FUN_00af2100_cls *>((this->m22c))->FUN_00af2100((unsigned char *)(this->m1c8), this->m1ac);
-        if ((this->Flags() & 1) || (this->m22c->Channels() > 1))
-        {
-            this->m1a8 = 0x40;
-            this->m8 &= 0xfffffffd;
-            this->m8 |= 1;
-        }
-        else
-        {
-            this->m1a8 = 0x30010;
-        }
-        this->m1a8 |= 0x2a0;
-        if (bHalf)
-        {
-            this->m1ac = this->m1ac + (this->m1b4->dwAvgBytesPerSec >> 1);
-            this->m1dc = this->m1ac;
-            this->m14 = this->m14 + 0x1f4;
-        }
-        return reinterpret_cast<::FUN_00ae9c50_s *>((this))->SetFlagState(true);
-    }
-    bool FUN_00aebff0();
-};
+    return reinterpret_cast<::FUN_00ae9c50_s *>((this))->SetFlagState(true);
+}
 
 struct AE8150_Node
 {
@@ -7762,6 +7211,25 @@ struct FUN_00aeafb0 : FUN_00ae93f0
     AudioCleanupHelper* unk22C;
     virtual ~FUN_00aeafb0();
 };
+
+namespace fnv_00af1cc0 {
+struct MemoryManager
+{
+};
+struct FUN_00af1cc0_Class
+{
+    void* FUN_00af1cc0(unsigned int flags);
+};
+// Calls FUN_00aeafb0, deallocates this via _g_memoryManager when flags has bit 1 set, and returns this.
+// @fnv 0x00af1cc0
+void* FUN_00af1cc0_Class::FUN_00af1cc0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00aeafb0 *>(this)->FUN_00aeafb0::~FUN_00aeafb0();
+    if (flags & 1)
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00af1cc0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
+    return this;
+}
+}  // namespace fnv_00af1cc0
 
 // @fnv 0x00aeafb0
 FUN_00aeafb0::~FUN_00aeafb0()
@@ -8659,11 +8127,11 @@ struct OggStream
 // @fnv 0x00aebff0
 bool AudioBuffer::FUN_00aebff0()
 {
-    this->m22c = new AF1d80();
-    if (!reinterpret_cast<::OggStream *>((this->m22c))->FUN_00af1e00((const char *)(void *)(&this->m36)))
+    this->m_stream = new AF1d80();
+    if (!reinterpret_cast<::OggStream *>((this->m_stream))->FUN_00af1e00(this->m_fileName))
     {
-        delete this->m22c;
-        this->m22c = 0;
+        delete this->m_stream;
+        this->m_stream = 0;
         return false;
     }
     bool bHalf;
@@ -9294,6 +8762,214 @@ struct AF1430
     bool FUN_00af1430();
 };
 
+// Creates the DirectSound buffer for the sound, sets up streaming chunks and 3D/reverb parameters, then updates flags.
+// @fnv 0x00aec530
+void FUN_00aec530_cls::FUN_00aec530()
+{
+    long hr5;
+    SndEffectDesc gate;
+    unsigned long flagVal;
+    char* found2;
+    unsigned int entry2;
+    int gap;
+    char* data4;
+    void* buf;
+    char* head2;
+    long hr3;
+    unsigned long countB;
+    int bytes;
+    {
+        float* entry6;
+        unsigned int endA;
+        char* element4;
+        unsigned int iter4;
+        char* indexX;
+        unsigned int id8;
+        char* holder7;
+        unsigned int group4;
+        unsigned int fresh4;
+        char* handleA;
+        unsigned int hashA;
+        char* gammaA;
+        unsigned int gateVal;
+        char* bVal;
+        unsigned int bResult;
+        char* flagJ;
+        unsigned int flagH;
+        unsigned int fcList;
+        unsigned int f11;
+        void* iterVal;
+        void* curVal;
+        void* chc;
+        void* first2;
+        void* input2;
+        void* itemB;
+
+        if (m_pDirectInputDevice == 0)
+        {
+            reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(0);
+            return;
+        }
+        bytes = m_kDesc.lpwfxFormat->wBitsPerSample / 8;
+        if (reinterpret_cast<::BSGameSound *>(this)->HasSoundFlagTwo() || reinterpret_cast<::BSGameSound *>(this)->CanStartPlayback())
+        {
+            m_sFrequency = 10000;
+        }
+        if (m_pData != 0)
+        {
+            if ((unsigned char)(((m_uiValue1 & 0x4000000) || (m_uiValue1 & 0x2000000)) ? 1 : 0))
+            {
+                gap = 0x400;
+                itemB = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa3e40(0x24);
+                m_pBinaryStream = (SndStream*)itemB;
+                m_pBinaryStream->uiHeadSize = m_iLoopStart * bytes;
+                m_pBinaryStream->uiTailSize = m_uiSize - m_iLoopEnd * bytes;
+                m_pBinaryStream->uiBodySize = m_uiSize - (m_pBinaryStream->uiHeadSize + m_pBinaryStream->uiTailSize);
+                m_uiSize = m_kDesc.lpwfxFormat->nAvgBytesPerSec / 2;
+                m_kDesc.dwBufferBytes = m_uiSize;
+                m_pBinaryStream->uiTailPos = 0;
+                m_pBinaryStream->iState = 0;
+                m_pBinaryStream->uiPos = 0;
+                f11 = m_pBinaryStream->uiHeadSize;
+                input2 = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa3e40(f11);
+                m_pBinaryStream->pHead = (char*)input2;
+                fcList = m_pBinaryStream->uiBodySize;
+                first2 = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa3e40(fcList);
+                m_pBinaryStream->pBody = (char*)first2;
+                flagH = m_pBinaryStream->uiTailSize + gap;
+                chc = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa3e40(flagH);
+                m_pBinaryStream->pTail = (char*)chc;
+                data4 = m_pData;
+                bResult = m_pBinaryStream->uiHeadSize;
+                flagJ = m_pBinaryStream->pHead;
+                std::memmove(flagJ, data4, bResult);
+                data4 += m_pBinaryStream->uiHeadSize;
+                gateVal = m_pBinaryStream->uiBodySize;
+                bVal = m_pBinaryStream->pBody;
+                std::memmove(bVal, data4, gateVal);
+                data4 += m_pBinaryStream->uiBodySize;
+                hashA = m_pBinaryStream->uiTailSize;
+                gammaA = m_pBinaryStream->pTail;
+                std::memmove(gammaA, data4, hashA);
+                handleA = (char*)(m_pBinaryStream->uiTailSize + *(volatile unsigned int*)&m_pBinaryStream->pTail);
+                std::memset(handleA, 0, gap);
+                m_pBinaryStream->uiTailSize = m_pBinaryStream->uiTailSize + gap;
+            }
+            if (m_iValueAt14 < 0x96 &&
+                (unsigned char)(((m_uiValue1 & 0x10) || (m_uiValue1 & 0x4000000) || (m_uiValue1 & 0x2000000)) ? 1 : 0))
+            {
+                m_kDesc.dwFlags = m_kDesc.dwFlags & 0xfffffdff;
+            }
+            hr3 = m_pDirectInputDevice->CreateSoundBuffer(&m_kDesc, &m_pBuffer, 0);
+            if (hr3 < 0)
+            {
+                fresh4 = m_uiValue1;
+                if ((fresh4 & 2) && m_kDesc.lpwfxFormat->nChannels > 1)
+                {
+                    ::FUN_005b5e40();
+                }
+                else if (hr3 == 0x887800b4)
+                {
+                    ::FUN_005b5e40();
+                }
+                if (m_pData != 0)
+                {
+                    curVal = m_pData;
+                    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa4060(curVal);
+                    m_pData = 0;
+                }
+                reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(0);
+                return;
+            }
+            hr3 = m_pBuffer->QueryInterface(&g_IID_SndBuffer8, &m_pBuffer8);
+            if (m_pBuffer8 != 0)
+            {
+                group4 = m_uiValue1;
+                if (group4 & 2)
+                {
+                    hr3 = m_pBuffer8->QueryInterface(&g_IID_Snd3DBuffer, &m_p3DBuffer);
+                    m_p3DBuffer->SetMinDistance(g_fSndMinDistance, 1);
+                    SetPosition(g_fSndConeValue, g_fSndConeValue, g_fSndConeValue);
+                    m_fUnk150 = ::DAT_01016970;
+                    m_pBuffer->SetVolume(-10000);
+                }
+            }
+            buf = 0;
+            countB = 0;
+            hr3 = m_pBuffer8->Lock(0, m_uiSize, &buf, &countB, 0, 0, 0);
+            if (hr3 < 0)
+            {
+                reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(0);
+                return;
+            }
+            head2 = (char*)buf;
+            if ((unsigned char)(((m_uiValue1 & 0x4000000) || (m_uiValue1 & 0x2000000)) ? 1 : 0) &&
+                m_pBinaryStream != 0 && m_pBinaryStream->pHead != 0)
+            {
+                if (m_pBinaryStream->uiHeadSize > m_uiSize)
+                {
+                    id8 = m_uiSize;
+                    holder7 = m_pBinaryStream->pHead;
+                    std::memmove(head2, holder7, id8);
+                    m_pBinaryStream->uiPos = m_uiSize;
+                    m_pBinaryStream->iState = 1;
+                }
+                else
+                {
+                    entry2 = m_uiSize - m_pBinaryStream->uiHeadSize;
+                    found2 = head2 + m_pBinaryStream->uiHeadSize;
+                    iter4 = m_pBinaryStream->uiHeadSize;
+                    indexX = m_pBinaryStream->pHead;
+                    std::memmove(head2, indexX, iter4);
+                    m_pBinaryStream->uiPos = 0;
+                    m_pBinaryStream->uiTailPos = m_pBinaryStream->uiHeadSize;
+                    m_pBinaryStream->iState = 2;
+                }
+            }
+            else
+            {
+                endA = m_uiSize;
+                element4 = m_pData;
+                std::memmove(head2, element4, endA);
+            }
+            m_pBuffer8->Unlock(buf, countB, 0, 0);
+            if (m_pData != 0)
+            {
+                iterVal = m_pData;
+                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa4060(iterVal);
+                m_pData = 0;
+            }
+            SetVolume(m_fPlaybackVolume);
+        }
+        if (m_iValueAt14 >= 0x96)
+        {
+            reinterpret_cast<::AF1430 *>(this)->FUN_00af1430();
+        }
+        if (m_uiValue1 & 0x80000)
+        {
+            gate.dwSize = 0x20;
+            gate.dwFlags = 0;
+            gate.guidDSFXClass = g_GUID_SndFX;
+            gate.dwReserved1 = 0;
+            gate.dwReserved2 = 0;
+            hr5 = m_pBuffer8->SetFX(1, &gate, &flagVal);
+            hr5 = m_pBuffer8->GetObjectInPath(&g_GUID_SndFX, 0, &g_IID_SndFXParams, &m_pReverb);
+            if (hr5 >= 0)
+            {
+                entry6 = (&(*reinterpret_cast<::SndFloatHolder *>(&::g_011f7154)) != 0) ? &(*reinterpret_cast<::SndFloatHolder *>(&::g_011f7154)).fValue
+                                                  : ((*reinterpret_cast<float *>(&::DAT_01202800)) = 0.0f, &(*reinterpret_cast<float *>(&::DAT_01202800)));
+                m_afReverb[0] = *entry6;
+                m_afReverb[1] = 0.0f;
+                m_afReverb[2] = ::runtimeFloatSettingDefault247;
+                m_afReverb[3] = g_fSndReverb2;
+                m_afReverb[4] = ::runtimeFloatSettingDefault247;
+                m_pReverb->SetAllParameters(m_afReverb);
+            }
+        }
+        reinterpret_cast<::BSGameSound *>(this)->Prepare();
+    }
+}
+
 // @fnv 0x00af1430
 bool AF1430::FUN_00af1430()
 {
@@ -9783,8 +9459,6 @@ double FUN_00ecbc80(double);
 
 extern "C" char* __cdecl xStrstr(char* s, const char* sub);
 
-extern "C" int __cdecl strcpy_s(char* dst, unsigned int n, const char* src);
-
 extern "C" void* __cdecl xMemcpy(void* d, const void* s, unsigned int n);
 
 int __cdecl FUN_00ec3bad(int value);
@@ -9794,13 +9468,6 @@ int __cdecl FUN_00ecadb8();
 extern void __cdecl FUN_00ec65a6(char*, U32, const char*);
 
 void __cdecl FUN_00aea020();
-
-extern "C" int __cdecl _splitpath_s(const char* source, char* drive, unsigned int driveSize, char* directory,
-                                    unsigned int directorySize, char* filename, unsigned int filenameSize,
-                                    char* extension, unsigned int extensionSize);
-
-extern "C" int __cdecl _makepath_s(char* result, unsigned int resultSize, const char* drive, const char* directory,
-                                   const char* filename, const char* extension);
 
 namespace ListenerDestruction {
 struct ListenerBase
@@ -9833,6 +9500,16 @@ void DestroyListener(void* object)
 {
     static_cast<FUN_00aea770*>(object)->FUN_00aea770::~FUN_00aea770();
 }
+}
+
+// Calls FUN_00aea770, deallocates this via g_memoryManager when flags has bit 1 set, and returns this.
+// @fnv 0x00aeaa80
+void* FUN_00aeaa80_Class::FUN_00aeaa80(unsigned int flags)
+{
+    reinterpret_cast<::ListenerDestruction::FUN_00aea770 *>(this)->ListenerDestruction::FUN_00aea770::~FUN_00aea770();
+    if (flags & 1)
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
+    return this;
 }
 
 #include "generated/data/staging/blk_00ae0000_od.inc"

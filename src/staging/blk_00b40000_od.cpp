@@ -7,8 +7,6 @@
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00b3f030_Class.h"
-#include "fnv/decl/FUN_00b416d0.h"
-#include "fnv/decl/FUN_00b420f0_Reference.h"
 #include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
 #include "fnv/decl/xlenb0f__BxVecBase.h"
 #include "fnv/symbols_00401000.h"
@@ -18,23 +16,22 @@
 #include "fnv/symbols_0101b000.h"
 #include "fnv/symbols_0107d000.h"
 #include "../../include/layout_support.h"
-#include "fnv/decl/BitTrim.h"
 #include "fnv/decl/FUN_00b2abc0_It.h"
 #include "fnv/decl/FUN_00b2ac30_t.h"
 #include "fnv/decl/FUN_00b2e330_It.h"
 #include "fnv/decl/FUN_00b3f130_shell.h"
-#include "fnv/decl/FUN_00b40430_cls.h"
 #include "fnv/decl/FUN_00b404c0_cls.h"
 #include "fnv/decl/FnvVecIter.h"
 #include "fnv/decl/IndexSet.h"
 #include "fnv/decl/IntVector.h"
-#include "fnv/decl/S_00b41ae0_Bits.h"
 #include "fnv/decl/V3cdd0.h"
 #include "fnv/decl/VectorStorage.h"
 #include "fnv/decl/Vector_b17f50.h"
 #include "fnv/symbols_0044d000.h"
 #include "fnv/symbols_00b42000.h"
 #include "fnv/symbols_01140000.h"
+#include <string.h>
+#include <cstring>
 
 struct NiPoint3
 {
@@ -338,18 +335,6 @@ struct FUN_00b40ad0_cls
     void FUN_00b416d0();
 };
 
-// Calls FUN_00b416d0, then stores the three floats and the int into m_18, m_1c, m_24 and m_20, and returns this.
-// @fnv 0x00b40ad0
-FUN_00b40ad0_cls* FUN_00b40ad0_cls::Init(int a, float b, float c, float d)
-{
-    FUN_00b40ad0_Frame frame;
-    new ((void *)(this)) ::FUN_00b416d0();
-    m_18 = b;
-    m_1c = c;
-    m_20 = a;
-    m_24 = d;
-    return this;
-}
 
 // Stand-in for the class that owns ReserveEntries.
 // Offsets are taken from the original code:
@@ -500,7 +485,6 @@ int FUN_00b420a0_cls::CompareAndGetDelta(FUN_00b42980 const& arg)
 }
 
 
-extern char DAT_01140ef8[];
 
 
 // @fnv 0x00b42df0
@@ -530,21 +514,6 @@ struct S_00b41ae0_Bits
     S_00b41ae0_Bits* SetBit(bool bSet);
 };
 
-// Sets or clears the bit at index unk08 in the word returned by FUN_00b420f0, then returns this.
-// @fnv 0x00b41ae0
-S_00b41ae0_Bits* S_00b41ae0_Bits::SetBit(bool bSet)
-{
-    S_00b41ae0_Pad pad;
-    if (bSet)
-    {
-        *reinterpret_cast<::FUN_00b420f0_Reference *>(this)->FUN_00b420f0() |= (1u << unk08);
-    }
-    else
-    {
-        *reinterpret_cast<::FUN_00b420f0_Reference *>(this)->FUN_00b420f0() &= ~(1u << unk08);
-    }
-    return this;
-}
 
 struct FUN_00b40430_cls
 {
@@ -872,7 +841,7 @@ template <class _Ty> class allocator
     {}
     void deallocate(pointer _Ptr, size_type)
     {
-        ::FUN_00401030 delete(_Ptr);
+        operator delete(_Ptr);
     }
     pointer allocate(size_type _Count)
     {
@@ -999,7 +968,7 @@ template <class _Iter> inline _Iter __cdecl _Checked_base(_Iter& _It)
 template <class _FwdIt, class _Ty> inline void __cdecl _Fill(_FwdIt _First, _FwdIt _Last, const _Ty& _Val)
 {
     for (; _First != _Last; ++_First)
-        reinterpret_cast<::S_00b41ae0_Bits *>((void *)&(const ::stl::_Vb_reference<unsigned int, int, ::stl::vector<bool, ::stl::allocator<bool>>> &)(*_First))->SetBit(_Val);
+        *_First = _Val;
 }
 
 template <class _FwdIt, class _Ty> inline void __cdecl fill(_FwdIt _First, _FwdIt _Last, const _Ty& _Val)
@@ -1093,7 +1062,7 @@ template <class _Ty, class _Alloc> class _Vector_const_iterator : public _Iterat
     }
     bool operator!=(const _Myt& _Right) const
     {
-        return (!(reinterpret_cast<::FUN_00b2ac30_t *>((void *)&(const ::stl::_Vector_const_iterator< ::MatchNode *, ::stl::allocator< ::MatchNode *>> &)(*this))->FUN_00b2ac30((::FUN_00b2ac30_t *)&(_Right))));
+        return (!(*this == _Right));
     }
 
     _Tptr _Myptr;
@@ -1114,16 +1083,16 @@ template <class _Ty, class _Alloc> class _Vector_iterator : public _Vector_const
     {}
     reference operator*() const
     {
-        return ((reference) reinterpret_cast<::FnvVecIter *>((void *)&(const ::stl::_Vector_const_iterator< ::MatchNode *, ::stl::allocator< ::MatchNode *>> &)(*(_Mybase*)this))->FUN_00b2ab50());
+        return ((reference) * *(_Mybase*)this);
     }
     _Myt& operator++()
     {
-        reinterpret_cast<::FUN_00b2abc0_It *>((void *)&(const ::stl::_Vector_const_iterator< ::MatchNode *, ::stl::allocator< ::MatchNode *>> &)((*(_Mybase*)this)))->FUN_00b2abc0();
+        ++(*(_Mybase*)this);
         return (*this);
     }
     _Myt& operator+=(difference_type _Off)
     {
-        reinterpret_cast<::FUN_00b2e330_It *>((void *)&(const ::stl::_Vector_const_iterator< ::MatchNode *, ::stl::allocator< ::MatchNode *>> &)((*(_Mybase*)this)))->FUN_00b2e330(_Off);
+        (*(_Mybase*)this) += _Off;
         return (*this);
     }
     _Myt operator+(difference_type _Off) const
@@ -1133,7 +1102,7 @@ template <class _Ty, class _Alloc> class _Vector_iterator : public _Vector_const
     }
     difference_type operator-(const _Mybase& _Right) const
     {
-        return (reinterpret_cast<::FUN_00b420a0_cls *>((void *)&(const ::stl::_Vector_const_iterator< ::MatchNode *, ::stl::allocator< ::MatchNode *>> &)(*(_Mybase*)this))->CompareAndGetDelta((const ::FUN_00b42980 &)(_Right)));
+        return (*(_Mybase*)this - _Right);
     }
 };
 
@@ -1669,7 +1638,7 @@ template <class T> struct VbAlloc
     {}
     void deallocate(pointer p, size_type)
     {
-        ::FUN_00401030 delete(p);
+        operator delete(p);
     }
 };
 
@@ -2295,7 +2264,6 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     pointer _Myfirst;
     pointer _Mylast;
     pointer _Myend;
-    reference operator[](size_type _Pos) { if (!(_Pos < size())) InvalidParameterNoInfoS(); return (*(_Myfirst + _Pos)); }
 };
 
 template <class _MycontTy> class _Vb_iter_baseS : public _RanitS<bool>
@@ -2338,6 +2306,22 @@ unsigned int* FUN_00b420f0_Reference::FUN_00b420f0() const
     return (this->_Myptr);
 }
 
+// Sets or clears the bit at index unk08 in the word returned by FUN_00b420f0, then returns this.
+// @fnv 0x00b41ae0
+S_00b41ae0_Bits* S_00b41ae0_Bits::SetBit(bool bSet)
+{
+    S_00b41ae0_Pad pad;
+    if (bSet)
+    {
+        *reinterpret_cast<::FUN_00b420f0_Reference *>(this)->FUN_00b420f0() |= (1u << unk08);
+    }
+    else
+    {
+        *reinterpret_cast<::FUN_00b420f0_Reference *>(this)->FUN_00b420f0() &= ~(1u << unk08);
+    }
+    return this;
+}
+
 struct MessageString
 {
     int allocator;
@@ -2376,14 +2360,6 @@ struct AllocationError : ExceptionBase
     AllocationError(const char*);
 };
 
-inline void* FUN_00b42df0(unsigned _Count, void*)
-{
-    if (_Count <= 0)
-        _Count = 0;
-    else if ((unsigned(-1) / _Count) < sizeof(FUN_00b42980))
-        throw AllocationError(0);
-    return ::FUN_00401000(_Count * sizeof(FUN_00b42980));
-}
 
 struct RangeTag
 {
@@ -2667,7 +2643,7 @@ void RecordVector::FUN_00b42180(void* iteratorState, FUN_00b42980* _Where, unsig
 
 extern char str_010a5950[];
 
-namespace std {
+namespace vc9_std {
 template <class T> struct char_traits
 {
 };
@@ -2775,7 +2751,7 @@ class length_error : public logic_error
     ~length_error()
     {}
 };
-}
+}  // namespace vc9_std
 
 struct VbXlen
 {
@@ -2785,7 +2761,7 @@ struct VbXlen
 // @fnv 0x00b429d0
 void VbXlen::FUN_00b429d0() const
 {
-    throw std::length_error(str_010a5950);
+    throw vc9_std::length_error(str_010a5950);
 }
 
 struct ContainerBaseAuxB42
@@ -2942,10 +2918,8 @@ template <class T> struct VecAlloc
     }
     void deallocate(T* ptr, unsigned int)
     {
-        ::FUN_00401030 delete(ptr);
+        operator delete(ptr);
     }
-    T* allocate(unsigned int count) { return (T*)FUN_0044d670(count, (T*)0); }
-    void deallocate(T* ptr, unsigned int) { ::operator delete(ptr); }
 };
 
 template <class T> struct VecContainerAlloc : VecContainerBase
@@ -2984,7 +2958,7 @@ struct FUN_00b416d0 : VecValue<Elem>
     FUN_00b416d0();
 };
 
-inline bool VecValue<Elem>::ReserveEntries(unsigned int count)
+template <> inline bool VecValue<Elem>::ReserveEntries(unsigned int count)
 {
     int v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23,
         v24, v25, v26, v27, v28, v29, v30;
@@ -3037,6 +3011,19 @@ inline bool VecValue<Elem>::ReserveEntries(unsigned int count)
 FUN_00b416d0::FUN_00b416d0() : VecValue<Elem>()
 {
     reinterpret_cast<::FnvCamera *>(this)->ReserveEntries(0);
+}
+
+// Calls FUN_00b416d0, then stores the three floats and the int into m_18, m_1c, m_24 and m_20, and returns this.
+// @fnv 0x00b40ad0
+FUN_00b40ad0_cls* FUN_00b40ad0_cls::Init(int a, float b, float c, float d)
+{
+    FUN_00b40ad0_Frame frame;
+    new ((void *)(this)) ::FUN_00b416d0();
+    m_18 = b;
+    m_1c = c;
+    m_20 = a;
+    m_24 = d;
+    return this;
 }
 
 namespace fnv_00b42da0 {
@@ -3537,8 +3524,6 @@ EUMB* __cdecl FUN_00b42da0(EUMB* _First, EUMB* _Last, EUMB* _Dest)
 // namespace fnv_00b42da0
 
 namespace fnv_00b40b30 {
-#include <string.h>
-#include <cstring>
 
 template <class T> struct VecAlloc
 {
@@ -3551,7 +3536,7 @@ template <class T> struct VecAlloc
     T* allocate(unsigned int);
     void deallocate(T* _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        operator delete(_Ptr);
     }
 };
 struct VecAux
@@ -3847,7 +3832,7 @@ template <class T> struct VecAlloc_Z
     }
     void deallocate(T* _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        operator delete(_Ptr);
     }
 };
 
@@ -4281,12 +4266,6 @@ inline void BitVectorOps_Z::Trim(unsigned int _Size)
         _Myvec[_Words - 1] &= (unsigned int)((1 << _Remainder) - 1);
 }
 
-// @fnv 0x00b418b0
-FUN_00b418b0::FUN_00b418b0(unsigned int n, bool val)
-    : VecContainerAlloc_Z<bool>(VecAlloc_Z<bool>()), size(0), vec(Nw(n), (unsigned int)(val ? -1 : 0))
-{
-    reinterpret_cast<::BitTrim *>(this)->FUN_00b41db0(n);
-}
 
 struct P133Pair;
 
@@ -4542,733 +4521,42 @@ P133List P133Owner::FUN_00b40c80()
     return output9;
 }
 
-inline It8::It8(E8* p, V8* v)
-{
-    cont = 0;
-    if (v == 0 || v->first > p || p > v->last)
-        FUN_00ec7c56_t::FUN_00ec7c56();
-    cont = v->proxy;
-    ptr = p;
-}
 
 // VC9 (Dinkumware, _SECURE_SCL=1) vector / vector<bool> subset, transcribed
 // into namespace stl so the checker can compile it without <vector>.
 namespace stl {
 
-struct _Length_error
-{
-    _Length_error(const char*);
-};
 
-template <class _Ty> inline _Ty* _Allocate(unsigned int _Count, _Ty*)
-{
-    if (_Count <= 0)
-        _Count = 0;
-    else if (((unsigned int)(-1) / _Count) < sizeof(_Ty))
-        throw _Length_error("bad allocation");
-    return ((_Ty*)::FUN_00401000(_Count * sizeof(_Ty)));
-}
 
-template <class _Ty> class allocator
-{
-  public:
-    typedef _Ty value_type;
-    typedef _Ty* pointer;
-    typedef _Ty& reference;
-    typedef const _Ty* const_pointer;
-    typedef const _Ty& const_reference;
-    typedef unsigned int size_type;
-    typedef int difference_type;
-    template <class _Other> struct rebind
-    {
-        typedef allocator<_Other> other;
-    };
-    allocator() throw()
-    {}
-    allocator(const allocator<_Ty>&) throw()
-    {}
-    template <class _Other> allocator(const allocator<_Other>&) throw()
-    {}
-    void deallocate(pointer _Ptr, size_type)
-    {
-        ::FUN_00401030 delete(_Ptr);
-    }
-    pointer allocate(size_type _Count)
-    {
-        return (_Allocate(_Count, (pointer)0));
-    }
-    size_type max_size() const throw()
-    {
-        size_type _Count = (size_type)(-1) / sizeof(_Ty);
-        return (0 < _Count ? _Count : 1);
-    }
-};
 
-template <class _Ty> inline void _Destroy_range(_Ty*, _Ty*, allocator<_Ty>&)
-{}
 
-template <class _Ty> inline void _Uninit_fill_n(_Ty* _First, unsigned int _Count, const _Ty& _Val, allocator<_Ty>&)
-{
-    for (; 0 < _Count; --_Count, ++_First)
-        *_First = _Val;
-}
 
 class _Container_base_aux;
 
-class _Aux_cont
-{
-  public:
-    explicit _Aux_cont(const _Container_base_aux* const _Pcont) : _Mycontainer(_Pcont)
-    {}
-    const _Container_base_aux* _Getcont() const
-    {
-        return _Mycontainer;
-    }
 
-  private:
-    const _Container_base_aux* _Mycontainer;
-};
 
-class _Container_base_aux
-{
-  public:
-    _Container_base_aux()
-    {}
-    _Container_base_aux(const _Container_base_aux&)
-    {}
-    _Container_base_aux& operator=(const _Container_base_aux&)
-    {
-        return *this;
-    }
-    ~_Container_base_aux()
-    {}
 
-  protected:
-    friend class _Iterator_base_aux;
-    _Aux_cont* _Myownedaux;
-};
-
-template <class _Alloc> class _Container_base_aux_alloc_real : public _Container_base_aux
-{
-  protected:
-    explicit _Container_base_aux_alloc_real(_Alloc _Al) : _Alaux(_Al)
-    {
-        _Myownedaux = new (_Alaux.allocate(1)) _Aux_cont(this);
-    }
-    _Container_base_aux_alloc_real(const _Container_base_aux_alloc_real& _Right) : _Alaux(_Right._Alaux)
-    {
-        _Myownedaux = new (_Alaux.allocate(1)) _Aux_cont(this);
-    }
-    _Container_base_aux_alloc_real& operator=(const _Container_base_aux_alloc_real&)
-    {
-        return *this;
-    }
-    ~_Container_base_aux_alloc_real()
-    {
-        _Myownedaux->~_Aux_cont();
-        _Alaux.deallocate(_Myownedaux, 1);
-    }
-    typename _Alloc::template rebind<_Aux_cont>::other _Alaux;
-};
-
-class _Iterator_base_aux
-{
-  public:
-    _Iterator_base_aux() : _Myaux(0)
-    {}
-    void _Set_container(const _Container_base_aux* const _Pcont)
-    {
-        _Myaux = _Pcont->_Myownedaux;
-    }
-    const _Container_base_aux* _Getmycont() const
-    {
-        return _Myaux ? _Myaux->_Getcont() : 0;
-    }
-    bool _Same_container(const _Iterator_base_aux& _Other) const
-    {
-        return _Myaux == _Other._Myaux;
-    }
-    bool _Has_container() const
-    {
-        return _Myaux != 0;
-    }
-
-  private:
-    const _Aux_cont* _Myaux;
-};
 
 typedef _Container_base_aux _Container_base;
 typedef _Iterator_base_aux _Iterator_base;
 
-struct _Unchanged_checked_iterator_base_type_tag
-{
-};
 
-template <class _Iter> inline _Iter __cdecl _Checked_base(_Iter& _It, _Unchanged_checked_iterator_base_type_tag)
-{
-    return _It;
-}
 
-template <class _Iter> inline _Iter __cdecl _Checked_base(_Iter& _It)
-{
-    _Unchanged_checked_iterator_base_type_tag _Base_tag;
-    return _Checked_base(_It, _Base_tag);
-}
 
-template <class _FwdIt, class _Ty> inline void __cdecl _Fill(_FwdIt _First, _FwdIt _Last, const _Ty& _Val)
-{
-    for (; _First != _Last; ++_First)
-        *_First = _Val;
-}
 
-template <class _FwdIt, class _Ty> inline void __cdecl fill(_FwdIt _First, _FwdIt _Last, const _Ty& _Val)
-{
-    _Fill(_Checked_base(_First), _Checked_base(_Last), _Val);
-}
 
 template <class _Ty, class _Ax> class vector;
 
-template <class _Ty, class _Alloc> class _Vector_const_iterator : public _Iterator_base
-{
-  public:
-    typedef _Vector_const_iterator<_Ty, _Alloc> _Myt;
-    typedef vector<_Ty, _Alloc> _Myvec;
-    typedef typename _Alloc::pointer _Tptr;
-    typedef typename _Alloc::difference_type difference_type;
-    typedef typename _Alloc::const_reference reference;
 
-    _Vector_const_iterator()
-    {
-        _Myptr = 0;
-    }
-    _Vector_const_iterator(_Tptr _Ptr, const _Container_base* _Pvector)
-    {
-        if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-        {
-            std::abort();
-        }
-        this->_Set_container(_Pvector);
-        _Myptr = _Ptr;
-    }
-    reference operator*() const
-    {
-        if (!(this->_Has_container()))
-        {
-            std::abort();
-        }
-        if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-        {
-            std::abort();
-        }
-        return (*_Myptr);
-    }
-    _Myt& operator++()
-    {
-        if (!(this->_Has_container()))
-        {
-            std::abort();
-        }
-        if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-        {
-            std::abort();
-        }
-        ++_Myptr;
-        return (*this);
-    }
-    _Myt& operator+=(difference_type _Off)
-    {
-        if (!(this->_Has_container()))
-        {
-            std::abort();
-        }
-        if (!(_Myptr + _Off <= ((_Myvec*)(this->_Getmycont()))->_Mylast &&
-              _Myptr + _Off >= ((_Myvec*)(this->_Getmycont()))->_Myfirst))
-        {
-            std::abort();
-        }
-        _Myptr += _Off;
-        return (*this);
-    }
-    _Myt operator+(difference_type _Off) const
-    {
-        _Myt _Tmp = *this;
-        return (_Tmp += _Off);
-    }
-    difference_type operator-(const _Myt& _Right) const
-    {
-        if (!(this->_Has_container() && this->_Same_container(_Right)))
-        {
-            std::abort();
-        }
-        return (_Myptr - _Right._Myptr);
-    }
-    bool operator==(const _Myt& _Right) const
-    {
-        if (!(this->_Has_container() && this->_Same_container(_Right)))
-        {
-            std::abort();
-        }
-        return (_Myptr == _Right._Myptr);
-    }
-    bool operator!=(const _Myt& _Right) const
-    {
-        return (!(*this == _Right));
-    }
 
-    _Tptr _Myptr;
-};
 
-template <class _Ty, class _Alloc> class _Vector_iterator : public _Vector_const_iterator<_Ty, _Alloc>
-{
-  public:
-    typedef _Vector_iterator<_Ty, _Alloc> _Myt;
-    typedef _Vector_const_iterator<_Ty, _Alloc> _Mybase;
-    typedef typename _Alloc::difference_type difference_type;
-    typedef typename _Alloc::pointer pointer;
-    typedef typename _Alloc::reference reference;
-
-    _Vector_iterator()
-    {}
-    _Vector_iterator(pointer _Ptr, const _Container_base* _Pvector) : _Mybase(_Ptr, _Pvector)
-    {}
-    reference operator*() const
-    {
-        return ((reference) * *(_Mybase*)this);
-    }
-    _Myt& operator++()
-    {
-        ++(*(_Mybase*)this);
-        return (*this);
-    }
-    _Myt& operator+=(difference_type _Off)
-    {
-        (*(_Mybase*)this) += _Off;
-        return (*this);
-    }
-    _Myt operator+(difference_type _Off) const
-    {
-        _Myt _Tmp = *this;
-        return (_Tmp += _Off);
-    }
-    difference_type operator-(const _Mybase& _Right) const
-    {
-        return (*(_Mybase*)this - _Right);
-    }
-};
-
-template <class _Ty, class _Alloc> class _Vector_val : public _Container_base_aux_alloc_real<_Alloc>
-{
-  protected:
-    _Vector_val(_Alloc _Al = _Alloc()) : _Container_base_aux_alloc_real<_Alloc>(_Al), _Alval(_Al)
-    {}
-    typedef typename _Alloc::template rebind<_Ty>::other _Alty;
-    _Alty _Alval;
-};
-
-template <class _Ty, class _Ax = allocator<_Ty> > class vector : public _Vector_val<_Ty, _Ax>
-{
-  public:
-    typedef vector<_Ty, _Ax> _Myt;
-    typedef _Vector_val<_Ty, _Ax> _Mybase;
-    typedef typename _Mybase::_Alty _Alloc;
-    typedef typename _Alloc::size_type size_type;
-    typedef typename _Alloc::pointer pointer;
-    typedef _Vector_iterator<_Ty, _Alloc> iterator;
-    typedef _Vector_const_iterator<_Ty, _Alloc> const_iterator;
-    friend class _Vector_const_iterator<_Ty, _Alloc>;
-
-    vector() : _Mybase()
-    {
-        _Buy(0);
-    }
-    vector(size_type _Count, const _Ty& _Val) : _Mybase()
-    {
-        _Construct_n(_Count, _Val);
-    }
-    void _Construct_n(size_type _Count, const _Ty& _Val)
-    {
-        if (_Buy(_Count))
-        {
-            try
-            {
-                _Mylast = _Ufill(_Myfirst, _Count, _Val);
-            }
-            catch (...)
-            {
-                _Tidy();
-                throw;
-            }
-        }
-    }
-    ~vector()
-    {
-        _Tidy();
-    }
-    iterator begin()
-    {
-        return (iterator(_Myfirst, this));
-    }
-    const_iterator begin() const
-    {
-        return (const_iterator(_Myfirst, this));
-    }
-    iterator end()
-    {
-        return (iterator(_Mylast, this));
-    }
-    size_type size() const
-    {
-        return (_Mylast - _Myfirst);
-    }
-    size_type max_size() const
-    {
-        return (this->_Alval.max_size());
-    }
-    size_type capacity() const
-    {
-        return (_Myfirst == 0 ? 0 : _Myend - _Myfirst);
-    }
-    void push_back(const _Ty& _Val)
-    {
-        if (size() < capacity())
-            _Mylast = _Ufill(_Mylast, 1, _Val);
-        else
-            insert(end(), _Val);
-    }
-    iterator insert(const_iterator _Where, const _Ty& _Val)
-    {
-        size_type _Off = size() == 0 ? 0 : _Where - begin();
-        _Insert_n(_Where, (size_type)1, _Val);
-        return (begin() + _Off);
-    }
-    void _Insert_n(const_iterator _Where, size_type _Count, const _Ty& _Val);
-    _Ty& operator[](size_type _Pos)
-    {
-        if (!(_Pos < size()))
-        {
-            std::abort();
-        }
-        return (*(_Myfirst + _Pos));
-    }
-    iterator erase(const_iterator _First_arg, const_iterator _Last_arg)
-    {
-        iterator _First(_First_arg._Myptr, this);
-        iterator _Last(_Last_arg._Myptr, this);
-        if (_First != _Last)
-        {
-            pointer _Ptr = _First._Myptr;
-            for (pointer _Src = _Last._Myptr; _Src != _Mylast; ++_Src, ++_Ptr)
-                *_Ptr = *_Src;
-            _Destroy(_Ptr, _Mylast);
-            _Mylast = _Ptr;
-        }
-        return (_First);
-    }
-
-  protected:
-    bool _Buy(size_type _Capacity)
-    {
-        _Myfirst = 0, _Mylast = 0, _Myend = 0;
-        if (_Capacity == 0)
-            return (false);
-        else if (max_size() < _Capacity)
-            _Xlen();
-        else
-        {
-            _Myfirst = this->_Alval.allocate(_Capacity);
-            _Mylast = _Myfirst;
-            _Myend = _Myfirst + _Capacity;
-        }
-        return (true);
-    }
-    void _Destroy(pointer _First, pointer _Last)
-    {
-        _Destroy_range(_First, _Last, this->_Alval);
-    }
-    void _Tidy()
-    {
-        if (_Myfirst != 0)
-        {
-            _Destroy(_Myfirst, _Mylast);
-            this->_Alval.deallocate(_Myfirst, _Myend - _Myfirst);
-        }
-        _Myfirst = 0, _Mylast = 0, _Myend = 0;
-    }
-    pointer _Ufill(pointer _Ptr, size_type _Count, const _Ty& _Val)
-    {
-        _Uninit_fill_n(_Ptr, _Count, _Val, this->_Alval);
-        return (_Ptr + _Count);
-    }
-    static void _Xlen()
-    {
-        throw _Length_error("vector<T> too long");
-    }
-
-  public:
-    pointer _Myfirst;
-    pointer _Mylast;
-    pointer _Myend;
-};
 
 typedef unsigned _Vbase;
-const int _VBITS = 8 * sizeof(_Vbase);
 
-template <class _Sizet, class _Difft, class _MycontTy> class _Vb_iter_base : public _Iterator_base
-{
-  public:
-    _Vb_iter_base() : _Myptr(0), _Myoff(0)
-    {}
-    _Vb_iter_base(_Vbase* _Ptr, _Sizet _Off, const _Container_base* _Mypvbool) : _Myptr(_Ptr), _Myoff(_Off)
-    {
-        if (!(_Mypvbool != 0))
-        {
-            std::abort();
-        }
-        this->_Set_container(_Mypvbool);
-    }
-    _Vbase* _Myptr;
-    _Sizet _Myoff;
 
-    _Vbase* _My_cont_begin() const
-    {
-        return ((((_MycontTy*)this->_Getmycont())->_Myvec.begin())._Myptr);
-    }
-    _Sizet _My_actual_offset() const
-    {
-        _Sizet _Off = this->_Myoff;
-        _Off += _VBITS * (this->_Myptr - _My_cont_begin());
-        return (_Off);
-    }
-};
 
-template <class _Sizet, class _Difft, class _MycontTy>
-class _Vb_reference : public _Vb_iter_base<_Sizet, _Difft, _MycontTy>
-{
-  public:
-    typedef _Vb_iter_base<_Sizet, _Difft, _MycontTy> _Mybase;
-    typedef _Vb_reference<_Sizet, _Difft, _MycontTy> _Mytype;
 
-    _Vb_reference(const _Mybase& _Right) : _Mybase(_Right._Myptr, _Right._Myoff, _Right._Getmycont())
-    {}
-    _Mytype& operator=(bool _Val)
-    {
-        int hq0;
-        int hq1;
-        if (_Val)
-            *_Getptr() |= _Mask();
-        else
-            *_Getptr() &= ~_Mask();
-        return (*this);
-    }
-    operator bool() const
-    {
-        return ((*_Getptr() & _Mask()) != 0);
-    }
-    _Vbase* _Getptr() const
-    {
-        if (!(this->_Has_container() && this->_Myptr != 0))
-        {
-            std::abort();
-        }
-        if (!(this->_My_actual_offset() < ((_MycontTy*)this->_Getmycont())->_Mysize))
-        {
-            std::abort();
-        }
-        return (this->_Myptr);
-    }
 
-  protected:
-    _Vbase _Mask() const
-    {
-        return ((_Vbase)(1 << this->_Myoff));
-    }
-};
-
-template <class _Sizet, class _Difft, class _MycontTy>
-class _Vb_const_iterator : public _Vb_iter_base<_Sizet, _Difft, _MycontTy>
-{
-  public:
-    typedef _Vb_iter_base<_Sizet, _Difft, _MycontTy> _Mybase;
-    typedef _Vb_const_iterator<_Sizet, _Difft, _MycontTy> _Mytype;
-    typedef _Vb_reference<_Sizet, _Difft, _MycontTy> _Reft;
-    typedef _Sizet size_type;
-    typedef _Difft difference_type;
-
-    _Vb_const_iterator()
-    {}
-    _Vb_const_iterator(const _Vbase* _Ptr, const _Container_base* _Mypvbool)
-        : _Mybase((_Vbase*)_Ptr, 0, (_Container_base*)_Mypvbool)
-    {}
-    _Mytype& operator++()
-    {
-        _Inc();
-        return (*this);
-    }
-    _Mytype& operator+=(difference_type _Off)
-    {
-        if (_Off == 0)
-            return (*this);
-        if (!(this->_Has_container() && this->_Myptr != 0))
-        {
-            std::abort();
-        }
-        if (_Off < 0)
-        {
-            if (!(this->_My_actual_offset() >= ((size_type)-_Off)))
-            {
-                std::abort();
-            }
-        }
-        else
-        {
-            if (!((this->_My_actual_offset() + _Off) <= ((_MycontTy*)this->_Getmycont())->_Mysize))
-            {
-                std::abort();
-            }
-        }
-        if (_Off < 0 && this->_Myoff < 0 - (size_type)_Off)
-        {
-            this->_Myoff += _Off;
-            this->_Myptr -= 1 + ((size_type)(-1) - this->_Myoff) / _VBITS;
-            this->_Myoff %= _VBITS;
-        }
-        else
-        {
-            this->_Myoff += _Off;
-            this->_Myptr += this->_Myoff / _VBITS;
-            this->_Myoff %= _VBITS;
-        }
-        return (*this);
-    }
-    bool operator==(const _Mytype& _Right) const
-    {
-        return (this->_Myptr == _Right._Myptr && this->_Myoff == _Right._Myoff);
-    }
-    bool operator!=(const _Mytype& _Right) const
-    {
-        return (!(*this == _Right));
-    }
-
-  protected:
-    void _Inc()
-    {
-        if (!(this->_Has_container() && this->_Myptr != 0))
-        {
-            std::abort();
-        }
-        if (!((this->_My_actual_offset() + 1) <= ((_MycontTy*)this->_Getmycont())->_Mysize))
-        {
-            std::abort();
-        }
-        if (this->_Myoff < _VBITS - 1)
-            ++this->_Myoff;
-        else
-            this->_Myoff = 0, ++this->_Myptr;
-    }
-};
-
-template <class _Sizet, class _Difft, class _MycontTy>
-class _Vb_iterator : public _Vb_const_iterator<_Sizet, _Difft, _MycontTy>
-{
-  public:
-    typedef _Vb_const_iterator<_Sizet, _Difft, _MycontTy> _Mybase;
-    typedef _Vb_iterator<_Sizet, _Difft, _MycontTy> _Mytype;
-    typedef _Vb_reference<_Sizet, _Difft, _MycontTy> _Reft;
-    typedef _Difft difference_type;
-    typedef _Reft reference;
-
-    _Vb_iterator()
-    {}
-    _Vb_iterator(_Vbase* _Ptr, _Container_base* _Mypvbool) : _Mybase(_Ptr, _Mypvbool)
-    {}
-    reference operator*() const
-    {
-        return (_Reft(*this));
-    }
-    _Mytype& operator++()
-    {
-        ++*(_Mybase*)this;
-        return (*this);
-    }
-    _Mytype& operator+=(difference_type _Off)
-    {
-        *(_Mybase*)this += _Off;
-        return (*this);
-    }
-    _Mytype operator+(difference_type _Off) const
-    {
-        _Mytype _Tmp = *this;
-        return (_Tmp += _Off);
-    }
-};
-
-template <class _Alloc> class vector<bool, _Alloc> : public _Container_base_aux_alloc_real<_Alloc>
-{
-  public:
-    typedef typename _Alloc::size_type size_type;
-    typedef typename _Alloc::difference_type difference_type;
-    typedef vector<_Vbase, typename _Alloc::template rebind<_Vbase>::other> _Vbtype;
-    typedef vector<bool, _Alloc> _Myt;
-    typedef _Vb_reference<size_type, difference_type, _Myt> reference;
-    typedef _Vb_iterator<size_type, difference_type, _Myt> iterator;
-
-    explicit vector(size_type _Count, bool _Val = false)
-        : _Container_base_aux_alloc_real<_Alloc>(_Alloc()), _Mysize(0), _Myvec(_Nw(_Count), (_Vbase)(_Val ? -1 : 0))
-    {
-        _Trim(_Count);
-    }
-    ~vector()
-    {
-        _Mysize = 0;
-    }
-    iterator begin()
-    {
-        return (iterator((_Myvec.begin())._Myptr, this));
-    }
-    iterator end()
-    {
-        iterator _Tmp = begin();
-        if (0 < _Mysize)
-            _Tmp += _Mysize;
-        return (_Tmp);
-    }
-    size_type size() const
-    {
-        return (_Mysize);
-    }
-    reference operator[](size_type _Off)
-    {
-        return (*(begin() + _Off));
-    }
-    void _Trim(size_type _Size)
-    {
-        if (max_size() < _Size)
-            _Xlen();
-        size_type _Words = _Nw(_Size);
-        if (_Words < _Myvec.size())
-            _Myvec.erase(_Myvec.begin() + _Words, _Myvec.end());
-        _Mysize = _Size;
-        _Size %= _VBITS;
-        if (0 < _Size)
-            _Myvec[_Words - 1] &= (_Vbase)((1 << _Size) - 1);
-    }
-    size_type max_size() const
-    {
-        const size_type _Maxsize = _Myvec.max_size();
-        return (_Maxsize < (size_type)(-1) / _VBITS ? _Maxsize * _VBITS : (size_type)(-1));
-    }
-    static size_type _Nw(size_type _Count)
-    {
-        return ((_Count + _VBITS - 1) / _VBITS);
-    }
-    static void _Xlen()
-    {
-        throw _Length_error("vector<bool> too long");
-    }
-
-    size_type _Mysize;
-    _Vbtype _Myvec;
-};
 
 }
 
@@ -5276,40 +4564,6 @@ void __cdecl InvalidParameterNoInfoX41D40();
 
 void __cdecl InvalidParameterNoInfoS();
 
-// VEGAS17-CONFLICT: _Vector_const_iteratorS (variant definition below differs from the one above)
-template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
-{
-  public:
-    typedef _Vector_const_iteratorS<_Ty> _Myt;
-    typedef vectorS<_Ty> _Myvec;
-    typedef _Ty* _Tptr;
-    _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
-    {
-        if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
-        this->_Set_container(_Pvector);
-        _Myptr = _Ptr;
-    }
-    _Ty& operator*() const
-    {
-        if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
-        if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
-        return (*_Myptr);
-    }
-    bool operator==(const _Myt& _Right) const
-    {
-        if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
-        return (_Myptr == _Right._Myptr);
-    }
-    bool operator!=(const _Myt& _Right) const
-    {
-        return (!(*this == _Right));
-    }
-    _Tptr _Myptr;
-};
 
 void* __cdecl FUN_0044d670(unsigned int count, void* hint);
 
@@ -5713,6 +4967,13 @@ void BitTrim::FUN_00b41db0(unsigned int _Size)
     _Size %= 32;
     if (0 < _Size)
         _Myvec[_Words - 1] &= (unsigned int)((1 << _Size) - 1);
+}
+
+// @fnv 0x00b418b0
+FUN_00b418b0::FUN_00b418b0(unsigned int n, bool val)
+    : VecContainerAlloc_Z<bool>(VecAlloc_Z<bool>()), size(0), vec(Nw(n), (unsigned int)(val ? -1 : 0))
+{
+    reinterpret_cast<::BitTrim *>(this)->FUN_00b41db0(n);
 }
 
 struct VbIterBaseQ_00b42c60 : stl::_Vb_iter_base<unsigned int, int, stl::vector<bool> >

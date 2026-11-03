@@ -210,15 +210,15 @@ extern long long DAT_011f6070;
 // @fnv 0x00aa12f0
 float GetElapsedSeconds()
 {
-    long long currentCounter;
+    LARGE_INTEGER currentCounter;
     if (DAT_011ac222 != 0)
     {
-        QueryPerformanceFrequency(&DAT_011f6070);
-        QueryPerformanceCounter(&DAT_011f6068);
+        QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&DAT_011f6070));
+        QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&DAT_011f6068));
         DAT_011ac222 = 0;
     }
     QueryPerformanceCounter(&currentCounter);
-    long long diff = currentCounter - DAT_011f6068;
+    long long diff = currentCounter.QuadPart - DAT_011f6068;
     return (float)diff / (float)DAT_011f6070;
 }
 
@@ -1458,20 +1458,6 @@ struct Heap
 {
 };
 
-struct SysInfoQ
-{
-    unsigned long dwOemId;
-    unsigned long dwPageSize;
-    void* lpMinimumApplicationAddress;
-    void* lpMaximumApplicationAddress;
-    unsigned long dwActiveProcessorMask;
-    unsigned long dwNumberOfProcessors;
-    unsigned long dwProcessorType;
-    unsigned long dwAllocationGranularity;
-    unsigned short wProcessorLevel;
-    unsigned short wProcessorRevision;
-};
-
 // Allocates 8 bytes from the memory manager, stores the processor count and performance frequency, and sets the global pointer to the block.
 // @fnv 0x00aa1920
 void __cdecl FUN_00aa1920()
@@ -1479,12 +1465,12 @@ void __cdecl FUN_00aa1920()
     unsigned int* p = (unsigned int*)reinterpret_cast<::MemoryManagerStandIn *>((((Heap*)&::g_memoryManager)))->FUN_00aa3e40(8);
     if (p)
     {
-        SysInfoQ sysInfo;
+        SYSTEM_INFO sysInfo;
         GetSystemInfo(&sysInfo);
         *p = sysInfo.dwNumberOfProcessors;
-        long long perfFreq;
+        LARGE_INTEGER perfFreq;
         QueryPerformanceFrequency(&perfFreq);
-        *(float*)(p + 1) = (float)perfFreq;
+        *(float*)(p + 1) = (float)perfFreq.QuadPart;
         (*reinterpret_cast<void * *>(&::g_011f6078)) = p;
         return;
     }

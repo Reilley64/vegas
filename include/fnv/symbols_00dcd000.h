@@ -19,7 +19,7 @@ int FUN_00dcd4d0(void *);
 // 0x00dcd550
 int FUN_00dcd550(::CollisionRecordHeader *, char, ::DCD6A0Context **, int *, int *, void **, int);
 // 0x00dcd6a0
-int DispatchItemToAgent(int, ::DCD6A0Context **, int, int, ::DCD6A0Item *);
+int DispatchItemToAgent(int, ::DCD6A0Context **, void *, void *, ::DCD6A0Item *);
 // 0x00dcd720
 int FUN_00dcd720(::S00dcd720_Cb *, ::S00dcd720_Src *, int, ::S00dcd720_Out *);
 // 0x00dcd950

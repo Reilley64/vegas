@@ -31,9 +31,9 @@ void FUN_00d323b0(const void *, const void *, const void *, void *);
 // 0x00d323f0
 namespace fnv_00d323f0 { void FUN_00d323f0(void *, void *, const ::fnv_00d323f0::CopyPacket *, void *, void *); }
 // 0x00d32ac0
-int FUN_00d32ac0(int, int);
+void *FUN_00d32ac0(void *, unsigned char *);
 // 0x00d32ad0
-void *FUN_00d32ad0(int, char *);
+void *FUN_00d32ad0(const void *, char *);
 // 0x00d32ba0
 void FUN_00d32ba0(void *, ::hkpShapeD32 *, void *, void *, void *);
 // 0x00d32c40

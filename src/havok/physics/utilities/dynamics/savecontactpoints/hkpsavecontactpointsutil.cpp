@@ -85,7 +85,7 @@ struct D10710Object
 // @fnv 0x00d10710
 void D10710Object::CallWithFlag(void* a, void* b, void* c)
 {
-    reinterpret_cast<::SearchObject *>(this)->Search((unsigned int)(a), (unsigned int)(b), (unsigned int)(c), 1);
+    reinterpret_cast<::SearchObject *>(this)->Search(reinterpret_cast<uintptr_t>(a), reinterpret_cast<uintptr_t>(b), reinterpret_cast<uintptr_t>(c), 1);
 }
 
 struct Entry
@@ -178,7 +178,7 @@ struct DCD6A0Context;
 struct DCD6A0Item;
 typedef void(__cdecl* DCD6A0AgentFunc)();
 
-typedef void(__cdecl* DCD6A0Func)(DCD6A0Item* item, void* data, int a, int b, DCD6A0Context* context);
+typedef void(__cdecl* DCD6A0Func)(DCD6A0Item* item, void* data, void* a, void* b, DCD6A0Context* context);
 
 struct DCD6A0Entry
 {
@@ -1704,7 +1704,7 @@ static int DCD6A0GetAgentId(DCD6A0AgentFunc func)
 int(__cdecl* g_DCD6A0GetAgentId)(DCD6A0AgentFunc) = DCD6A0GetAgentId;
 
 // @fnv 0x00dcd6a0
-int __cdecl DispatchItemToAgent(int aiExpectedAgentId, DCD6A0Context** contextPtr, int aiArg1, int aiArg2,
+int __cdecl DispatchItemToAgent(int aiExpectedAgentId, DCD6A0Context** contextPtr, void* aiArg1, void* aiArg2,
                                 DCD6A0Item* item)
 {
     void* data;
@@ -1893,7 +1893,7 @@ struct S_00dcdd80_Item
 struct S_00dcdd80_Listener
 {
 };
-int __cdecl FUN_00dcd720(void* a, S_00dcdd80_Item* item, int c, FUN_00dce930* obj);
+int __cdecl FUN_00dcd720(void* a, S_00dcdd80_Item* item, int c, struct FUN_00dce930* obj);
 
 static inline S_00dcdd80_WorldObj* S_00dcdd80_getRigidBody(S_00dcdd80_Collidable* c)
 {
@@ -1909,7 +1909,7 @@ void FUN_00dcdd80(void* a, S_00dcdd80_Item** items, int count, S_00dcdd80_Listen
     S_00dcdd80_World2* world = S_00dcdd80_getRigidBody(items[0]->unk10)->m_pOwningWorld;
     for (int i = 0; i < count; i++)
     {
-        FUN_00dce930* obj = new FUN_00dce930();
+        struct FUN_00dce930* obj = new struct FUN_00dce930();
         int iWorldValue = world->unk78;
         if (!FUN_00dcd720(a, items[i], iWorldValue, obj))
             reinterpret_cast<::hkpEntityGroupDCEC *>((listener))->AddObject((::hkReferencedObjectDCEC *)(obj));
@@ -1991,7 +1991,7 @@ int DispatchInstruction(char* source, int kind, void* context, char** ppRegistry
         if (payload[11] & 32)
             return 0;
         return CopyAudioNodeTree(context, ppRegistry,
-                                 reset(static_cast<EntryState*>(((void *)(::FUN_00d32ac0((int)(instruction), (int)(payload)))))));
+                                 reset(static_cast<EntryState*>(::FUN_00d32ac0(instruction, payload))));
     case 6:
     case 7:
     case 8:
@@ -2028,12 +2028,18 @@ struct FUN_00dce7e0_local
 };
 // Reads a value from *p, initializes a local via FUN_00dce840, calls FUN_00dcea10, then invokes two methods on the local using a value from FUN_00c85750.
 // @fnv 0x00dce7e0
-void __cdecl FUN_00dce7e0(int aiArg1, int aiArg2, int* p, int d)
+struct FUN_00dce7e0_Source
+{
+    int unk00;
+    int unk04;
+    ::Ctx* m_08;
+};
+void __cdecl FUN_00dce7e0(::Resolver* aiArg1, ::ListOwner* aiArg2, FUN_00dce7e0_Source** p, void* d)
 {
     FUN_00dce7e0_local local;
-    int value = *(int*)(*p + 8);
-    local.FUN_00dce840(p, (void*)d);
-    ::FUN_00dcea10((::Resolver *)(aiArg1), (::ListOwner *)(aiArg2), (::Ctx *)(value), (::Visitor *)(void *)(&local));
+    ::Ctx* value = (*p)->m_08;
+    local.FUN_00dce840(p, d);
+    ::FUN_00dcea10(aiArg1, aiArg2, value, (::Visitor *)(void *)(&local));
     hkMemoryAllocator* heap = hkMemoryRouter::getInstance().m_heap;
     reinterpret_cast<::CB1A90Owner *>((((FUN_00dce7e0_local*)((char*)&local + 4))))->ProcessArgument((::CB1A90Argument *)(heap));
     ::FUN_00a29680();
@@ -2098,9 +2104,10 @@ struct SrcNode
     int m_iFirstValue;
 };
 
+struct Buffer512;
 struct DstBlock
 {
-    unsigned int* m_pData;
+    Buffer512** m_pData;
     int m_iArrayLength;
     unsigned int m_uCapBits;
 };
@@ -2254,7 +2261,7 @@ int __cdecl CopyAudioNodeTree(SrcNode* apSrc, int aiCount, DstBlock* apDst)
         {
             newCap = count;
         }
-        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(apDst), (unsigned int)newCap, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(apDst), (unsigned int)newCap, sizeof(Buffer512*));
     }
     apDst->m_iArrayLength = count;
     for (int i = 0; i < apSrc->m_iArrayLength; ++i)
@@ -2270,23 +2277,22 @@ int __cdecl CopyAudioNodeTree(SrcNode* apSrc, int aiCount, DstBlock* apDst)
         {
             p = 0;
         }
-        apDst->m_pData[i] = (unsigned int)p;
-        Buffer512* d = (Buffer512*)apDst->m_pData[i];
+        apDst->m_pData[i] = (Buffer512*)p;
+        Buffer512* d = apDst->m_pData[i];
         Buffer512* pSrcBuffer = (Buffer512*)apSrc->m_ppBuffers[i];
         *d = *pSrcBuffer;
     }
     for (int j = 0; j < apSrc->m_iItemCount; ++j)
     {
         SrcNode* item = apSrc->m_ppItems[j];
-        unsigned int uiChildAddr = apDst->m_pData[item->m_iIndex] + item->m_iFirstValue + 0x10;
-        if (uiChildAddr != 0)
+        DstBlock* child = (DstBlock*)((char*)apDst->m_pData[item->m_iIndex] + item->m_iFirstValue + 0x10);
+        if (child != 0)
         {
-            unsigned int* pChildHeader = (unsigned int*)uiChildAddr;
-            pChildHeader[0] = 0;
-            pChildHeader[1] = 0;
-            pChildHeader[2] = 0x80000000u;
+            child->m_pData = 0;
+            child->m_iArrayLength = 0;
+            child->m_uCapBits = 0x80000000u;
         }
-        if (CopyAudioNodeTree(item, aiCount, (DstBlock*)uiChildAddr) == 1)
+        if (CopyAudioNodeTree(item, aiCount, child) == 1)
         {
             return 1;
         }
@@ -2410,7 +2416,7 @@ void __cdecl ProcessCollisionRecords(void* arg1, S_00dcda40_World* world, S_00dc
                 end = p + 0x200;
             while (p < end)
             {
-                FUN_00dce930* r = new FUN_00dce930;
+                struct ::FUN_00dce930* r = new struct ::FUN_00dce930;
                 void* callbackArg = arg1;
                 int state = world->unk78;
                 if (!FUN_00dcd720(callbackArg, (S_00dcdd80_Item*)p, state, r))
@@ -2887,7 +2893,7 @@ int __cdecl FUN_00dcdf70(const hkArray<Block512*>& chunks, void* context, Struct
             void* subPtr = 0;
             int itemSize = 0;
             int dummy;
-            Struct0x20* __restrict child = new Struct0x20();
+            Struct0x20* child = new Struct0x20();
             if (FUN_00dcd550(cur, hkBool_dcd(false), context, &itemSize, &dummy, &subPtr, child) == 0)
             {
                 if (child->arr1.m_iElementCount != 0)
@@ -2924,10 +2930,10 @@ struct SpawnedItem
 {
     unsigned int unk00;
     unsigned int unk04;
-    unsigned int m_08;
-    unsigned int m_0C;
-    unsigned int m_10;
-    unsigned int m_14;
+    unsigned char* m_08;
+    unsigned char* m_0C;
+    unsigned char* m_10;
+    unsigned char* m_14;
     unsigned char m_18;
     unsigned char unk19;
     unsigned char unk1A;
@@ -3009,13 +3015,13 @@ struct Resolver
     unsigned char unk01;
     unsigned char unk02;
     unsigned char unk03;
-    unsigned int(__cdecl* m_04)(unsigned int);
+    unsigned char*(__cdecl* m_04)(unsigned char*);
 };
 
 struct Visitor
 {
     virtual void v00();
-    virtual int v01(unsigned int key);
+    virtual int v01(unsigned char* key);
 };
 
 struct ListOwner
@@ -3083,7 +3089,7 @@ struct Ctx
     unsigned int unk6C;
     unsigned int unk70;
     unsigned int unk74;
-    unsigned int m_78;
+    void* m_78;
     unsigned int unk7C;
     unsigned int unk80;
     unsigned int unk84;
@@ -3108,8 +3114,8 @@ void __cdecl FUN_00dcea10(Resolver* apResolver, ListOwner* apListOwner, Ctx* apC
     for (int i = apListOwner->m_48 - 1; i >= 0; --i)
     {
         SpawnedItem* item = apListOwner->m_44[i];
-        unsigned int edi;
-        unsigned int ebx;
+        unsigned char* edi;
+        unsigned char* ebx;
         if (item->m_18 != 0)
         {
             edi = apResolver->m_04(item->m_10);
@@ -3128,8 +3134,8 @@ void __cdecl FUN_00dcea10(Resolver* apResolver, ListOwner* apListOwner, Ctx* apC
         if (p == 0)
             continue;
         if (item->m_12C != 0x103)
-            ::SwapMeshRecords((void *)(apCtx->m_78), (::S_00e062a0_Mesh *)(item));
-        int ok = ::FUN_00dce180((::Arg0 *)(apResolver), (::NodeDce *)(item), (::NodeDce *)(edi), (::NodeDce *)(ebx), (void *)(apCtx->m_78), (::P5 *)(p));
+            ::SwapMeshRecords(apCtx->m_78, (::S_00e062a0_Mesh *)(item));
+        int ok = ::FUN_00dce180((::Arg0 *)(apResolver), (::NodeDce *)(item), (::NodeDce *)(edi), (::NodeDce *)(ebx), apCtx->m_78, (::P5 *)(p));
         if (apResolver->m_00 == 0 || ok == 0)
             continue;
         SpawnedItem** d = apListOwner->m_44;
@@ -3247,7 +3253,7 @@ int __cdecl FUN_00dcd550(CollisionRecordHeader* apRecord, char abOffset, DCD6A0C
             *size = apRecord->size;
             if (data[11] & 32)
                 return 0;
-            *output = ::FUN_00d32ad0((int)(apRecord), (char *)(data));
+            *output = ::FUN_00d32ad0(apRecord, (char *)(data));
             return FUN_00dcdf70(*output, context, arg);
         case 6:
         case 7:
@@ -3384,7 +3390,7 @@ struct SubH
 {
     int u00;
     BodyDce* m_kNodeCollection[2];
-    int m_0c;
+    void* m_0c;
     unsigned short m_10;
     unsigned short u12;
     unsigned short m_14w;
@@ -3583,7 +3589,7 @@ struct NodeDce
     int u0c0;
     int u0c4;
     int u0c8;
-    int m_0cc;
+    void* m_0cc;
     int u0d0;
     int u0d4;
     int u0d8;
@@ -6970,8 +6976,8 @@ struct SmallDce
 {
     void* m_00;
     void* m_04;
-    int m_08;
-    int m_0c;
+    void* m_08;
+    void* m_0c;
     void* m_10;
     void* m_14;
     void* m_18;
@@ -6991,7 +6997,6 @@ struct LocalStateDce
     void* transform;
 };
 
-extern "C" int DispatchItemToAgent(int a, void* p4, WorkObj* wb, int cc, void* p5);
 extern "C" int DispatchInstruction(NodeDce* p1, int sb, void* inner, void* p4, void* p5);
 extern "C" void AccumulateStats(void* cc, void* elem, void* a, int* b);
 typedef int(* FnThiscallInt)(void* self, int a);
@@ -7066,9 +7071,9 @@ int __cdecl FUN_00dce180(Arg0* apFlags, NodeDce* apNode, NodeDce* apNodeA, NodeD
 {
     void* idx = 0;
     LocalStateDce i;
-    unsigned int ecx0_2 = apNodeA->m_0cc;
+    void* ecx0_2 = apNodeA->m_0cc;
     WorkObj* c = p5->m_08;
-    int w4_2 = apNodeB->m_0cc;
+    void* w4_2 = apNodeB->m_0cc;
     if (ecx0_2 != w4_2)
     {
         if (5 == apNodeA->m_0e8)
@@ -7077,11 +7082,11 @@ int __cdecl FUN_00dce180(Arg0* apFlags, NodeDce* apNode, NodeDce* apNodeA, NodeD
         }
         else if (apNodeB->m_0e8 != 5)
         {
-            ecx0_2 = ((int)(::PickIslandByValue((unsigned int)(p5), (::Island *)(ecx0_2), (::Island *)(w4_2))));
+            ecx0_2 = ::PickIslandByValue(p5, (::Island *)(ecx0_2), (::Island *)(w4_2));
         }
     }
     int item_end = apNode->m_019;
-    if (DispatchItemToAgent(item_end, apContext, c, ecx0_2, p5) == 0)
+    if (::DispatchItemToAgent(item_end, (::DCD6A0Context **)(apContext), c, ecx0_2, (::DCD6A0Item *)(p5)) == 0)
     {
         NodeF* want = p5->m_10;
         NodeF* pResolved = ResolveF(want);
@@ -7134,7 +7139,7 @@ int __cdecl FUN_00dce180(Arg0* apFlags, NodeDce* apNode, NodeDce* apNodeA, NodeD
             c->m_3c = ((::NodeG *)(::AllocateBlock(ecxv, cnt, s58, n)));
             c->m_3c->m_04 = (unsigned short)ecxv;
             c->m_3c->m_block = apNode->m_030;
-            c->m_pHavokConstraint.m_pConstraintInternal->m_0c = (int)c->m_3c;
+            c->m_pHavokConstraint.m_pConstraintInternal->m_0c = c->m_3c;
             c->m_pHavokConstraint.m_pConstraintInternal->m_10 = c->m_3c->m_02;
             {
                 CountInfoDce info;
@@ -7198,9 +7203,9 @@ int __cdecl FUN_00dce180(Arg0* apFlags, NodeDce* apNode, NodeDce* apNodeA, NodeD
                     z.m_18 = val.current;
                     z.m_28 = &val.current->m_14;
                     z.m_00 = (void*)2;
-                    z.m_0c = (int)c;
+                    z.m_0c = c;
                     z.m_04 = apNodeA;
-                    z.m_08 = (int)apNodeB;
+                    z.m_08 = apNodeB;
                     z.m_10 = (void*)4;
                     z.m_1c = 0;
                     z.m_1d = 0;
@@ -7427,7 +7432,7 @@ struct PointerMap
     }
 };
 
-__forceinline int AddAgentHelper(void* a, const CollisionKeyEntry& e, int c, FUN_00dce930* agent)
+__forceinline int AddAgentHelper(void* a, const CollisionKeyEntry& e, int c, struct FUN_00dce930* agent)
 {
     return ::FUN_00dcd720((::S00dcd720_Cb *)(a), (::S00dcd720_Src *)(e.m_pAgentEntry), c, (::S00dcd720_Out *)(agent));
 }
@@ -7451,7 +7456,7 @@ void __cdecl FUN_00dcdc00(void* a, BodyEntity** entities, int numEntities, S_00d
             CollisionKeyEntry& entry = entries[j];
             if (!map.isValid(reinterpret_cast<::FUN_00cb18f0_t *>(&(map))->FindSlot(reinterpret_cast<intptr_t>(entry.m_pCollidable))))
             {
-                FUN_00dce930* agent = new FUN_00dce930();
+                struct FUN_00dce930* agent = new struct FUN_00dce930();
                 if (!AddAgentHelper(a, entry, world->unk78, agent))
                     reinterpret_cast<::hkpEntityGroupDCEC *>((listener))->AddObject((::hkReferencedObjectDCEC *)(agent));
                 reinterpret_cast<::hkReferencedObjectC905 *>((agent))->FUN_00c905b0();

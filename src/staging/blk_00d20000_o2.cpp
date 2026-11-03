@@ -1852,13 +1852,13 @@ void FnvCpu_FUN_00d329b0_CpuObject::DispatchWithBound(void* first, void* second,
 }
 
 // @fnv 0x00d32ac0
-int __cdecl FUN_00d32ac0(int param_1, int param_2)
+void* __cdecl FUN_00d32ac0(void* param_1, unsigned char* param_2)
 {
     return param_2 + 0x10;
 }
 
 // @fnv 0x00d32ad0
-void* __cdecl FUN_00d32ad0(int unused, char* p) {
+void* __cdecl FUN_00d32ad0(const void* unused, char* p) {
     return p + 16;
 }
 

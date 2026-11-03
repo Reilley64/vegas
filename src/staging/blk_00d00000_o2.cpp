@@ -1288,10 +1288,6 @@ extern __m128 DAT_011b3810;
 extern "C" void _ReadWriteBarrier(void);
 
 
-struct MemSource
-{
-};
-
 struct KdNode
 {
     int a;

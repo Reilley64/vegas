@@ -4160,7 +4160,6 @@ struct AnimSink {
 class FUN_00a3da20_cls {
 public:
     void AccumulateAnimSink(intptr_t a1);
-    void AccumulateAnimSink(int a1);
 };
 // @fnv 0x00a27430
 void FUN_00a27430_T::FUN_00a27430(NiStream& stream)

@@ -1218,8 +1218,6 @@ void PointerMap::InsertOrAssign(uintptr_t key, NiPointer<MapRefObject> value)
     ++count;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
-
 struct BlobBase
 {
     BlobBase();

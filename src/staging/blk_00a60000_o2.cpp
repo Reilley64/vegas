@@ -756,7 +756,6 @@ struct FUN_00a61670_Map
     HashNode_00a61670* buckets[1001];
     unsigned int count;
     HashValue_00a61670* RemoveByKey(uintptr_t key);
-    HashValue_00a61670* RemoveByKey(unsigned int key);
 };
 // Looks up a key in the hash map, unlinks and deallocates its node, clears the value's key, and returns the removed value or null.
 // @fnv 0x00a61670
@@ -1021,7 +1020,6 @@ class FUN_00a61920_Class
     FUN_00a61920_Node* m_pBuckets[1];
 
     bool FindShaderByHash(int, intptr_t, NiShader**);
-    bool FindShaderByHash(int, int, NiShader**);
 };
 
 void NiShader::Release()
@@ -1612,7 +1610,6 @@ struct FUN_00a69b40_Class
     char pad24[0x2];
     unsigned short unk26;
     void FUN_00a69b40(intptr_t param_2);
-    void FUN_00a69b40(int param_2);
 };
 
 // Sets or clears bit 0 of the flags at offset 0x18 depending on whether param_2 is nonzero or any entry after the first in the array at 0x20 is nonzero.
@@ -3790,7 +3787,6 @@ class HashA616
     unsigned int m_uiItemCount;
 
     void FUN_00a61610(uintptr_t key, EntryA616* entry);
-    void FUN_00a61610(unsigned int key, EntryA616* entry);
 };
 
 // @fnv 0x00a61610

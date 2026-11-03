@@ -343,7 +343,6 @@ struct FUN_0064db00_class
 struct FUN_0064db50_class
 {
     void FUN_0064db50(int a, intptr_t b);
-    void FUN_0064db50(int a, int b);
 };
 
 struct FUN_0064dbd0_Class

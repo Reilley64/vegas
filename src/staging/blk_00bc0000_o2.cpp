@@ -16678,12 +16678,6 @@ struct NiFrustum
     NiFrustum(bool bOrtho);
 };
 
-inline float tanf(float _X)
-{
-    return (float)tan((double)_X);
-}
-
-
 class FUN_00a712f0
 {
   public:
@@ -17040,7 +17034,7 @@ FUN_00bd8290::FUN_00bd8290(int iArg)
 
     NiFrustum kFrustum(false);
     kFrustum.m_bOrthographic = false;
-    double dTan = tanf(0.7853982f);
+    double dTan = static_cast<float>(std::tan(static_cast<double>(0.7853982f)));
     float fTan = (float)dTan;
     kFrustum.m_fLeftBound = -fTan;
     kFrustum.m_fRightBound = fTan;

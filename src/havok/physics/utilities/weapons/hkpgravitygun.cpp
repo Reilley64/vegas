@@ -11,21 +11,41 @@
 #include "fnv/decl/FUN_00ca88e0_cls.h"
 #include "fnv/decl/MotionMassView.h"
 #include "fnv/decl/SStringPtr.h"
-#include "fnv/decl/World_e45e.h"
 #include "fnv/decl/fnv_00c91f70__RayWorld.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
-#include "fnv/decl/hkpGravityGunE45.h"
 #include "havok/hkpGravityGun.h"
 
-struct FUN_00e45fb0_class
+#include "fnv/symbols_01016000.h"
+struct Body_e45e
 {
-    void FUN_00e45fb0(int, int, int);
+    int unk[0x1a0 / 4];
+    __m128 m_kInertiaAndMassInv;
+    float getMassInv() const
+    {
+        float w;
+        _mm_store_ss(&w, _mm_shuffle_ps(m_kInertiaAndMassInv, m_kInertiaAndMassInv, 0xff));
+        return w;
+    }
+};
+
+struct World_e45e : hkpGravityGun
+{
+    Body_e45e* FUN_00e45e60(int index);
+};
+struct hkpGravityGunE45 : hkpGravityGun
+{
+    void FUN_00e45ee0(const void* dirSlot, const void* viewSlot, const void* p3Slot);
+};
+
+struct FUN_00e45fb0_class : hkpGravityGun
+{
+    void FUN_00e45fb0(const void*, const void*, const void*);
 };
 
 // @fnv 0x00e45fb0
-void FUN_00e45fb0_class::FUN_00e45fb0(int, int, int)
+void FUN_00e45fb0_class::FUN_00e45fb0(const void*, const void*, const void*)
 {
-    if (*(int*)((char*)this + 0x24) != 0)
+    if (m_kPickedBodies.m_iElementCount != 0)
         reinterpret_cast<::World_e45e *>(this)->FUN_00e45e60(0);
 }
 
@@ -226,7 +246,7 @@ struct GGVector4
     }
     hkReal& operator()(int i)
     {
-        return m_vComponents[i];
+        return reinterpret_cast<hkReal*>(&m_vComponents)[i];
     }
 };
 
@@ -632,8 +652,6 @@ struct hkpGravityGunEx : public hkpGravityGun
 
     void FUN_00e46140(hkReal dt, DDCC60World* world, GunArg3* a3, GunTransform* a4, bool b1, bool b2);
 public:
-    void FUN_00e45c90(float, const ::hkTransform &, ::hkpRigidBody *);
-public:
     __declspec(noinline) void FUN_00e45c90(float dTime, const hkTransform& transform, hkpRigidBody* otherRb);
 };
 
@@ -647,7 +665,7 @@ void hkpGravityGunEx::FUN_00e46140(hkReal dt, DDCC60World* world, GunArg3* a3, G
 
     if (b1)
     {
-        reinterpret_cast<::hkpGravityGunE45 *>(this)->FUN_00e45ee0((int)(apGunTransform), (int)(a3), (int)(world));
+        reinterpret_cast<::hkpGravityGunE45 *>(this)->FUN_00e45ee0(apGunTransform, a3, world);
         *(__m128*)&v1 = *(__m128*)&a3->unk120;
         for (int i = 0; i < m_kListeners.m_iElementCount; ++i)
         {
@@ -668,7 +686,7 @@ void hkpGravityGunEx::FUN_00e46140(hkReal dt, DDCC60World* world, GunArg3* a3, G
         }
         else
         {
-            reinterpret_cast<::FUN_00e45fb0_class *>(this)->FUN_00e45fb0((int)(apGunTransform), (int)(a3), (int)(world));
+            reinterpret_cast<::FUN_00e45fb0_class *>(this)->FUN_00e45fb0(apGunTransform, a3, world);
             *(__m128*)&v2 = *(__m128*)&a3->unk120;
             for (int i = 0; i < m_kListeners.m_iElementCount; ++i)
             {
@@ -850,38 +868,16 @@ FUN_00e46260::FUN_00e46260() throw()
 // Moved from hkpgravitygun_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
 #include "fnv/symbols_01016000.h"
 
-struct Body_e45e
-{
-    int unk[0x1a0 / 4];
-    __m128 m_kInertiaAndMassInv;
-    float getMassInv() const
-    {
-        float w;
-        _mm_store_ss(&w, _mm_shuffle_ps(m_kInertiaAndMassInv, m_kInertiaAndMassInv, 0xff));
-        return w;
-    }
-};
-
-struct World_e45e
-{
-    int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
-    Body_e45e** m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    Body_e45e* FUN_00e45e60(int index);
-};
 // @fnv 0x00e45e60
 Body_e45e* World_e45e::FUN_00e45e60(int index)
 {
-    Body_e45e** volatile* pdata = (Body_e45e * * volatile*)&m_data;
-    Body_e45e* body = (*pdata)[index];
-    m_iElementCount--;
-    int n = (m_iElementCount - index) * 4;
-    Body_e45e** data = *pdata;
-    char* dst = (char*)&data[index];
-    const char* src = (const char*)&data[index + 1];
-    for (int i = 0; i < n; i += 4)
-        *(unsigned int*)(dst + i) = *(const unsigned int*)(src + i);
+    void** volatile* pdata = &m_kPickedBodies.m_data;
+    Body_e45e* body = (Body_e45e*)(*pdata)[index];
+    m_kPickedBodies.m_iElementCount--;
+    int n = m_kPickedBodies.m_iElementCount - index;
+    void** data = *pdata;
+    for (int i = 0; i < n; i++)
+        data[index + i] = data[index + 1 + i];
     reinterpret_cast<::FUN_00ca88e0_cls *>((body))->FUN_00ca88e0((float)(body->getMassInv() * DAT_01016408));
     reinterpret_cast<::hkReferencedObjectC905 *>((body))->FUN_00c905b0();
     return body;
@@ -1074,10 +1070,8 @@ struct ImpulseVector : hkVector4
 void hkpGravityGunEx::FUN_00e46080(GunTransform* a4, GunArg3* a3, DDCC60World* world)
 {
     hkVector4* direction = (hkVector4*)a4;
-    int argC = (int)a3;
-    int arg10 = (int)world;
     GravityGunQ* gq = (GravityGunQ*)this;
-    Target* target = ((::Target *)(reinterpret_cast<::GravityGun *>((gq))->FUN_00e45a60((*(const ::GGTransform *)(direction)), (const ::GGRigidBody *)(argC), (const ::GGWorld *)(arg10))));
+    Target* target = ((::Target *)(reinterpret_cast<::GravityGun *>((gq))->FUN_00e45a60((*(const ::GGTransform *)(direction)), (const ::GGRigidBody *)(a3), (const ::GGWorld *)(world))));
 
     if (target != 0)
     {
@@ -1339,13 +1333,9 @@ static inline __m128 bcastE45(const float& f)
     return _mm_shuffle_ps(s, s, 0);
 }
 
-struct hkpGravityGunE45 : public hkpGravityGun
-{
-    void FUN_00e45ee0(int dirSlot, int viewSlot, int p3Slot);
-};
 
 // @fnv 0x00e45ee0
-void hkpGravityGunE45::FUN_00e45ee0(int dirSlot, int viewSlot, int p3Slot)
+void hkpGravityGunE45::FUN_00e45ee0(const void* dirSlot, const void* viewSlot, const void* p3Slot)
 {
     union
     {

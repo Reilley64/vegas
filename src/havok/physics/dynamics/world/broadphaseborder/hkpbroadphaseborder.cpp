@@ -528,21 +528,6 @@ Derived::Derived()
 {}
 
 namespace fnv_00d0bbf0 {
-struct Allocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Deallocate(void*, unsigned short);
-};
-
-struct Manager
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Allocator* allocator;
-};
 
 
 
@@ -563,8 +548,7 @@ struct FUN_00d0bbf0
     void* unk2c;
     static void operator delete(void* object)
     {
-        Manager* manager = static_cast<Manager*>(::FUN_00c85750());
-        manager->allocator->Deallocate(object, ((FUN_00d0bbf0*)object)->unk04);
+        hkMemoryRouter::getInstance().heap().blockFree(object, static_cast<FUN_00d0bbf0*>(object)->unk04);
     }
 };
 

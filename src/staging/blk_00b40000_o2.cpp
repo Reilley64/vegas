@@ -59,8 +59,34 @@
 #include "fnv/symbols_011f9000.h"
 #include "../../include/layout_support.h"
 
+struct ImageSpaceTexture
+{
+};
 struct ImageSpaceManager
 {
+    char pad000[0x204];
+    ImageSpaceTexture m_kTexture204;
+};
+
+struct ImageSpaceEffectArray
+{
+    void* vtbl;
+    void** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+};
+struct ImageSpaceEffectBase
+{
+    void* vtbl;
+    bool m_bIsActive;
+    bool m_bParamsChanged;
+    ImageSpaceEffectArray m_kEffectList;
+    ImageSpaceEffectArray m_kEffectParamList;
+    ImageSpaceEffectArray m_kArray28;
+    ImageSpaceEffectArray m_kTextureList;
+    ImageSpaceEffectArray m_kEffectOutput;
 };
 
 
@@ -87,15 +113,12 @@ void FUN_00b4f510()
     }
 }
 
-struct ImageSpaceTexture
-{
-};
 struct ImageSpaceManager;
 
 // @fnv 0x00b540b0
 void FUN_00b540b0()
 {
-    reinterpret_cast<::H_00ba39a0 *>((((ImageSpaceTexture*)((char*)DAT_011f91ac + 0x204))))->FUN_00ba39a0();
+    reinterpret_cast<::H_00ba39a0 *>(&DAT_011f91ac->m_kTexture204)->FUN_00ba39a0();
 }
 
 extern int DAT_011ffa0c;
@@ -165,15 +188,17 @@ BGSDecalNode* BGSDecalNode::FUN_00b584c0(unsigned int flags)
 
 extern char DAT_011f968c;
 
-struct FUN_00b5a3f0_Class
+struct FUN_00b5a3f0_Class : ImageSpaceEffectBase
 {
+    char pad58[0x6c - 0x58];
+    float unk6c;
     int FUN_00b5a3f0();
 };
 
 // @fnv 0x00b5a3f0
 int FUN_00b5a3f0_Class::FUN_00b5a3f0()
 {
-    if (*(float*)((char*)this + 0x6c) > 0.0f && DAT_011f968c)
+    if (unk6c > 0.0f && DAT_011f968c)
         return 1;
     return 0;
 }
@@ -205,6 +230,10 @@ int __cdecl FUN_00b5a980(int* piLeft, int* piRight)
 
 struct FUN_00b5a9d0_class
 {
+    char pad00[0x100];
+    int unk100;
+    int unk104;
+    int unk108;
     void SetTripleInts(int a, int b, int c);
 };
 
@@ -212,9 +241,9 @@ struct FUN_00b5a9d0_class
 // @fnv 0x00b5a9d0
 void FUN_00b5a9d0_class::SetTripleInts(int aiFirst, int aiSecond, int aiThird)
 {
-    *(int*)((char*)this + 0x100) = aiFirst;
-    *(int*)((char*)this + 0x104) = aiSecond;
-    *(int*)((char*)this + 0x108) = aiThird;
+    unk100 = aiFirst;
+    unk104 = aiSecond;
+    unk108 = aiThird;
 }
 
 
@@ -237,40 +266,52 @@ void* FUN_00b5f980_class::FUN_00b5f980(bool abDelete)
 
 struct FUN_00b57fe0_class
 {
+    char pad00[0x84];
+    int unk84;
     void FUN_00b57fe0(int value);
 };
 // @fnv 0x00b57fe0
 void FUN_00b57fe0_class::FUN_00b57fe0(int value)
 {
-    *(int*)((char*)this + 0x84) = value;
+    unk84 = value;
 }
 
 struct NodePoolView
 {
+    unsigned int count;
     void* AddHead();
+};
+struct FUN_00b58570_Node
+{
+    FUN_00b58570_Node* next;
+    FUN_00b58570_Node* prev;
+    void* element;
 };
 struct FUN_00b58570_Class
 {
+    FUN_00b58570_Node* head;
+    FUN_00b58570_Node* tail;
+    NodePoolView pool;
     void* FUN_00b58570(void* source);
 };
 // Allocates a node from the pool at this+8, links it after the current tail (this+4) or as the first node, and returns it.
 // @fnv 0x00b58570
 void* FUN_00b58570_Class::FUN_00b58570(void* source)
 {
-    void* node = ((void *)(reinterpret_cast<::FUN_0043a010_shell *>((((NodePoolView*)((char*)this + 8))))->FUN_0043a010()));
-    *(void**)((char*)node + 8) = *(void**)source;
-    *(void**)node = 0;
-    *(void**)((char*)node + 4) = *(void**)((char*)this + 4);
-    if (*(void**)((char*)this + 4))
+    FUN_00b58570_Node* node = (FUN_00b58570_Node*)(void*)reinterpret_cast<::FUN_0043a010_shell *>(&pool)->FUN_0043a010();
+    node->element = *(void**)source;
+    node->next = 0;
+    node->prev = tail;
+    if (tail)
     {
-        *(void**)(*(void**)((char*)this + 4)) = node;
-        ++*(unsigned int*)((char*)this + 8);
-        *(void**)((char*)this + 4) = node;
+        tail->next = node;
+        ++pool.count;
+        tail = node;
         return node;
     }
-    ++*(unsigned int*)((char*)this + 8);
-    *(void**)this = node;
-    *(void**)((char*)this + 4) = node;
+    ++pool.count;
+    head = node;
+    tail = node;
     return node;
 }
 
@@ -338,18 +379,23 @@ struct ImageSpaceShaderParam
 {
     void SetShaderConstantVector4(int, float, float, float, float);
 };
-struct FUN_00b59cb0_Class
+struct FUN_00b59cb0_Class : ImageSpaceEffectBase
 {
+    float unk58;
+    float unk5c;
+    float unk60;
+    float unk64;
+    float unk68;
+    float unk6c;
+    float unk70;
     bool ApplyShaderParams(int arg);
 };
 // @fnv 0x00b59cb0
 bool FUN_00b59cb0_Class::ApplyShaderParams(int arg)
 {
-    ImageSpaceShaderParam* pShaderParam = *reinterpret_cast<ImageSpaceShaderParam**>(*(int*)((char*)this + 0x1c));
-    pShaderParam->SetShaderConstantVector4(0, *(float*)((char*)this + 0x58), *(float*)((char*)this + 0x5c),
-                                           *(float*)((char*)this + 0x60), *(float*)((char*)this + 0x64));
-    pShaderParam->SetShaderConstantVector4(1, *(float*)((char*)this + 0x6c), *(float*)((char*)this + 0x70),
-                                           *(float*)((char*)this + 0x68), 0.0f);
+    ImageSpaceShaderParam* pShaderParam = (ImageSpaceShaderParam*)m_kEffectParamList.m_pBase[0];
+    pShaderParam->SetShaderConstantVector4(0, unk58, unk5c, unk60, unk64);
+    pShaderParam->SetShaderConstantVector4(1, unk6c, unk70, unk68, 0.0f);
     return true;
 }
 
@@ -392,7 +438,7 @@ struct NiTPrimitiveArray_int___
 {
 };
 
-struct FUN_00b5a3a0_Class
+struct FUN_00b5a3a0_Class : ImageSpaceEffectBase
 {
     void FUN_00b5a3a0();
 };
@@ -400,15 +446,14 @@ struct FUN_00b5a3a0_Class
 // @fnv 0x00b5a3a0
 void FUN_00b5a3a0_Class::FUN_00b5a3a0()
 {
-    int iZero;
-    ImageSpaceTexture* tex = *(ImageSpaceTexture**)((char*)this + 0x2c);
-    tex = *(ImageSpaceTexture**)((char*)tex + 8);
+    void* pNull;
+    ImageSpaceTexture* tex = (ImageSpaceTexture*)m_kArray28.m_pBase[2];
     reinterpret_cast<::H_00ba39a0 *>((tex))->FUN_00ba39a0();
-    NiTPrimitiveArray_int___* arr = (NiTPrimitiveArray_int___*)((char*)this + 0x28);
-    iZero = 0;
-    reinterpret_cast<::FUN_00a41520_cls *>((arr))->FUN_00ba3aa0(2, (::KeyPair **)&(iZero));
-    iZero = 0;
-    reinterpret_cast<::FUN_00a41520_cls *>((arr))->FUN_00ba3aa0(3, (::KeyPair **)&(iZero));
+    ImageSpaceEffectArray* arr = &m_kArray28;
+    pNull = 0;
+    reinterpret_cast<::FUN_00a41520_cls *>((arr))->FUN_00ba3aa0(2, (::KeyPair **)&(pNull));
+    pNull = 0;
+    reinterpret_cast<::FUN_00a41520_cls *>((arr))->FUN_00ba3aa0(3, (::KeyPair **)&(pNull));
 }
 
 
@@ -423,7 +468,7 @@ void __cdecl FUN_00b4f540(unsigned int a, unsigned int b, unsigned int c, unsign
 // @fnv 0x00b59d10
 int FUN_00b59d10(char* p, int)
 {
-    if (*(float*)(p + 0x58) > 0.0f && DAT_011f968c)
+    if (reinterpret_cast<FUN_00b59cb0_Class*>(p)->unk58 > 0.0f && DAT_011f968c)
         return 1;
     return 0;
 }
@@ -1537,8 +1582,11 @@ struct FUN_00ba3aa0_Class
 struct FUN_00ba37f0_Class
 {
 };
-struct FUN_00b5a340_Class
+struct FUN_00b5a340_Class : ImageSpaceEffectBase
 {
+    char pad58[0xb4 - 0x58];
+    char m_kTextureB4[0xc4 - 0xb4];
+    FUN_00ba37f0_Class m_kTextureC4;
     void InitSubObjects(int arg);
 };
 // @fnv 0x00b5a340
@@ -1546,13 +1594,13 @@ void FUN_00b5a340_Class::InitSubObjects(int arg)
 {
     char* value;
     FUN_00ba37f0_Class* object;
-    value = (char*)this + 0xb4;
+    value = m_kTextureB4;
     reinterpret_cast<::H_00ba3840 *>((((FUN_00ba3840_Class*)value)))->FUN_00ba3840(0x28);
-    reinterpret_cast<::FUN_00a41520_cls *>((((FUN_00ba3aa0_Class*)((char*)this + 0x28))))->FUN_00ba3aa0(2, (::KeyPair **)(void *)(&value));
-    object = (FUN_00ba37f0_Class*)((char*)this + 0xc4);
+    reinterpret_cast<::FUN_00a41520_cls *>(&m_kArray28)->FUN_00ba3aa0(2, (::KeyPair **)(void *)(&value));
+    object = &m_kTextureC4;
     value = (char*)object;
     reinterpret_cast<::Holder00ba37f0 *>((object))->FUN_00ba37f0((::Tex00ba37f0 *)(::GetImageSpaceTexture()));
-    reinterpret_cast<::FUN_00a41520_cls *>((((FUN_00ba3aa0_Class*)((char*)this + 0x28))))->FUN_00ba3aa0(3, (::KeyPair **)(void *)(&value));
+    reinterpret_cast<::FUN_00a41520_cls *>(&m_kArray28)->FUN_00ba3aa0(3, (::KeyPair **)(void *)(&value));
 }
 
 struct PaletteFieldFlags

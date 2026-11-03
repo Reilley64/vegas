@@ -72,7 +72,7 @@ class TESDataHandler
     void RegisterAddonNode(BGSAddonNode*);
     int GetDLCIndex(const char*);
     void GetReferencesInArea(TESObjectCELL*, const NiPoint3&, float, const NiPoint3&, float,
-                             bool(__cdecl*)(TESObjectREFR*, long), long);
+                             bool(__cdecl*)(TESObjectREFR*, long), std::intptr_t);
     void GetRegions();
     TESFile* LookupTESFile(const char*);
     unsigned int GetNextID();

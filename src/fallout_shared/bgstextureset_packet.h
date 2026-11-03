@@ -170,7 +170,7 @@ struct TaskQueueInterface
 {
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
-int strcat_s(char*, unsigned int, const char*);
+#include <string.h>
 class FileNameHash;
 class NiPoint2
 {

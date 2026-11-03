@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSFadeNode.h"
 #include "fnv/decl/Callees.h"
@@ -46,6 +47,21 @@
 #include "fnv/symbols_011cf000.h"
 #include "fnv/symbols_011d0000.h"
 #include "fnv/symbols_011d1000.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_0056ded0.h"
+#include "fnv/decl/FUN_00c8d280_cls.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/NiPosData.h"
+#include "fnv/decl/NiTransform.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/WorldObject_c8d3.h"
+#include "fnv/decl/_dummy_476a80.h"
+#include "fnv/decl/fnv_00437c10__FUN_00437c10.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_004a3000.h"
 struct FUN_006295a0_shell
 {
     void FUN_006295a0();
@@ -209,7 +225,7 @@ void* FUN_0043b560_shell::GetSourceFilesFromObject()
         if (obj)
         {
             obj->FUN_0043b5b0();
-            result = ((void *)(::FUN_00460140((int)(reinterpret_cast<TgtOps*>(obj)))));
+            result = ((void *)(::FUN_00460140((std::intptr_t)(reinterpret_cast<TgtOps*>(obj)))));
             reinterpret_cast<::FUN_0043b5f0_cls *>((reinterpret_cast<FUN_0043b5f0_shell*>(obj)))->FUN_0043b5f0();
         }
     }
@@ -304,17 +320,17 @@ void CountCollisionShapes(NiAVObject* object, unsigned int* firstCount, unsigned
                 CollisionShape* shape5 = wrapper_2 ? ((::CollisionShape *)(reinterpret_cast<::FUN_00620b80_shell *>((wrapper_2))->GetReferenceFlags())) : 0;
                 if (shape5)
                 {
-                    if (((int)(::fnv_0043b230::FUN_0043b230((const char *)(shape5)))) == 23)
+                    if (((int)(std::intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(shape5)))) == 23)
                     {
                         CollisionShape* list7 = shape5;
                         *secondCount += list7->container.Count();
                     }
-                    else if (((int)(::fnv_0043b230::FUN_0043b230((const char *)(shape5)))) == 6)
+                    else if (((int)(std::intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(shape5)))) == 6)
                     {
                         CollisionShape* collection = shape5;
                         *firstCount += collection->Count();
                     }
-                    else if (((int)(::fnv_0043b230::FUN_0043b230((const char *)(shape5)))) == 10)
+                    else if (((int)(std::intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(shape5)))) == 10)
                     {
                         CollisionShape* parent = shape5;
                         CollisionShape* child9 = parent->GetChild();
@@ -480,7 +496,7 @@ struct FUN_0061f890_shell
 // @fnv 0x0061f890
 bool FUN_0061f890_shell::FUN_0061f890(NiAVObject* object, bool flag)
 {
-    bool removed = reinterpret_cast<::NiTMap_S *>(&(m_map))->RemoveKey((unsigned int)object);
+    bool removed = reinterpret_cast<::NiTMap_S *>(&(m_map))->RemoveKey((std::uintptr_t)object);
     if (removed && flag)
         SoundPlaybackManager::ResetAcousticSpace(((::BGSAcousticSpace *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Ref*)object)))->FUN_007af430())));
     return removed;
@@ -635,7 +651,7 @@ class Refr62C3C0
 
 // Returns true if refr is non-null and passes vfn100/vfn22C/vfn230 checks, or if GetBSXFlags(handle, 0x48) equals 0x48.
 // @fnv 0x0062c3c0
-bool FUN_0062c3c0(Refr62C3C0* refr, unsigned int handle)
+bool FUN_0062c3c0(Refr62C3C0* refr, std::uintptr_t handle)
 {
     if (refr != 0 && refr->vfn100() && (refr->vfn22C(0) || refr->vfn230()))
     {
@@ -759,7 +775,7 @@ extern "C" RuntimeNode* __cdecl FUN_0043b610(SceneNode* node);
 
 // Recursively updates the physics collision scale of a scene node and its children based on a size coefficient and material type.
 // @fnv 0x0062b660
-void __cdecl SetCollisionScale(SceneNode* node, unsigned int operation, float size, MaterialSelector* material)
+void __cdecl SetCollisionScale(SceneNode* node, std::uintptr_t operation, float size, MaterialSelector* material)
 {
     if (node)
     {
@@ -789,7 +805,6 @@ void __cdecl SetCollisionScale(SceneNode* node, unsigned int operation, float si
                 }
                 float scale = size * coefficient;
                 PhysicsTransform transform;
-                new ((void *)&(transform)) ::Vec3();
                 body->UpdateTransform(&transform);
                 reinterpret_cast<::V *>(&(transform))->FUN_00961190((*(const ::V *)(operation)));
                 reinterpret_cast<::S0062aea0_Vector *>(&(transform))->FUN_0062aea0();
@@ -797,7 +812,7 @@ void __cdecl SetCollisionScale(SceneNode* node, unsigned int operation, float si
                 PhysicsData volume;
                 new ((void *)&(volume)) ::FUN_005dbf20(scale);
                 reinterpret_cast<::S_00627920 *>(&(transform))->FUN_00627920((::S_00561240 *)(void *)(&volume));
-                reinterpret_cast<::V *>(&(transform))->FUN_00553f70((*(const ::V *)(::FUN_00560dc0((::TESDataHandler *)(state)))));
+                reinterpret_cast<::V *>(&(transform))->FUN_00553f70((*(const ::V *)(std::uintptr_t)(::FUN_00560dc0((::TESDataHandler *)(state)))));
                 reinterpret_cast<::FUN_005616d0_Owner *>((state))->OnTrigger((::TriggerContext *)(::PhysicsTransform *)(&transform));
             }
         }
@@ -1018,7 +1033,7 @@ void __cdecl FUN_0062c430(VtObj* apVtObj)
         else
             ::CollectTreeResultValues((::TreeNode_cls *)(::Inner62c *)(apVtObj->v116()), (::SpawnedPtrArray *)(::SeqArray *)(&arr5));
 
-        if (((int)(reinterpret_cast<::Callees *>(&(arr5))->FUN_00726070())) != 0)
+        if (((std::intptr_t)(reinterpret_cast<::Callees *>(&(arr5))->FUN_00726070())) != 0)
         {
             Inner62c* owner3 = ((::Inner62c *)(reinterpret_cast<::Twin_0044ddc0 *>((((::NiSeq *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(arr5))->FUN_00629ab0(0)))))->GetName()));
 
@@ -1026,7 +1041,7 @@ void __cdecl FUN_0062c430(VtObj* apVtObj)
             {
                 reinterpret_cast<::TESForm *>((owner3))->ClearData();
 
-                for (int i = 1; i < ((int)(reinterpret_cast<::Callees *>(&(arr5))->FUN_00726070())); i++)
+                for (int i = 1; i < ((int)(std::intptr_t)(reinterpret_cast<::Callees *>(&(arr5))->FUN_00726070())); i++)
                 {
                     unsigned int b;
                     unsigned int a2;
@@ -1040,6 +1055,107 @@ void __cdecl FUN_0062c430(VtObj* apVtObj)
             }
         }
     }
+}
+
+
+
+struct Point3
+{
+    float x, y, z;
+};
+
+struct Aabb
+{
+    __m128 minimum, maximum;
+};
+
+struct HavokTransform
+{
+    __m128 rotation0, rotation1, rotation2, translation;
+};
+
+struct Transform
+{
+    float rotation[3][3];
+    Point3 translation;
+    float scale;
+    Transform* FUN_0062c250(Transform* out, const Transform* other) const;
+    Point3* FUN_00524c40(Point3* out, const Point3* point) const;
+};
+
+struct Node
+{
+};
+
+struct WorldObject
+{
+};
+
+struct CollisionObject
+{
+};
+
+struct RTTI;
+
+// @fnv 0x0062bfb0
+Point3* FUN_0062bfb0(Point3* out, Node* node)
+{
+    Point3 chosen = (*reinterpret_cast<::Point3 *>((void *)&::NiPoint3::ZERO));
+    CollisionObject* collision = ((::CollisionObject *)(::fnv_004b5260::FUN_004b5260((::NiAVObject *)(node))));
+    if (collision)
+    {
+        WorldObject* body = ((::WorldObject *)(::fnv_006fa820::FUN_006fa820((const char *)(collision))));
+        if (body)
+        {
+            Aabb bounds;
+            new ((void *)&(bounds)) ::fnv_00437c10::FUN_00437c10();
+            reinterpret_cast<::WorldObject_c8d3 *>((body))->GetAabb((*(::Aabb_c8d3 *)(&bounds)));
+            Point3 minimum;
+            ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&minimum)), (*(const ::hkVector4 *)(&bounds.minimum)));
+            Point3 maximum;
+            ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&maximum)), (*(const ::hkVector4 *)(&bounds.maximum)));
+            Point3 lower, upper, minTermA, maxTermA, minTermB, maxTermB;
+            reinterpret_cast<::Point3Offset *>((void *)(((::Point3 *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::Point3 *)(&maxTermA), .55f, (const ::NiPoint3 *)(const ::Point3 *)(&maximum))))))->ProjectileLaunched((::NiPoint3 *)(::Point3 *)(&upper), (::NiPoint3 *)(((::Point3 *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::Point3 *)(&minTermA), .45f, (const ::NiPoint3 *)(const ::Point3 *)(&minimum))))));
+            reinterpret_cast<::Point3Offset *>((void *)(((::Point3 *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::Point3 *)(&maxTermB), .45f, (const ::NiPoint3 *)(const ::Point3 *)(&maximum))))))->ProjectileLaunched((::NiPoint3 *)(::Point3 *)(&lower), (::NiPoint3 *)(((::Point3 *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::Point3 *)(&minTermB), .55f, (const ::NiPoint3 *)(const ::Point3 *)(&minimum))))));
+            Point3 random;
+            chosen = *((::Point3 *)(reinterpret_cast<::FUN_00416870_t *>(&(random))->FUN_00416870(::RandomFloat(lower.x, upper.x), ::RandomFloat(lower.y, upper.y),
+                                          ::RandomFloat(lower.z, upper.z))));
+            if (::FUN_0043b300((const ::NiRTTI *)(const ::RTTI *)(&(*reinterpret_cast<::RTTI *>(&::g_012683c8))), (::NiAVObject *)(body)) || ((::Node *)(reinterpret_cast<::Twin_0044ddc0 *>((collision))->GetName())) != node)
+            {
+                HavokTransform bodyHavok;
+                new ((void *)&(bodyHavok)) ::FUN_0056ded0();
+                reinterpret_cast<::FUN_00c8d280_cls *>((body))->FUN_00c8d280((::S8d280_Mat *)(::HavokTransform *)(&bodyHavok));
+                Transform bodyWorld;
+                reinterpret_cast<::_dummy_476a80 *>(&(bodyWorld))->FUN_00476a80();
+                ::FUN_00624ad0((::NiTransform *)(struct ::Transform *)(&bodyWorld), (::TopicH *)(&bodyHavok));
+                bodyWorld.scale = 1.0f;
+                Transform inverse;
+                reinterpret_cast<::_dummy_476a80 *>(&(inverse))->FUN_00476a80();
+                reinterpret_cast<::NiTransform *>((void *)(((const struct ::Transform *)(::FUN_00461130((std::intptr_t)(node))))))->CalculateInverse((*(::NiTransform *)(&inverse)));
+                Transform composed;
+                Point3 transformed;
+                chosen = *inverse.FUN_0062c250(&composed, &bodyWorld)->FUN_00524c40(&transformed, &chosen);
+            }
+        }
+    }
+    *out = chosen;
+    return out;
+}
+
+struct __declspec(align(16)) V_0062b8d0
+{
+    char buf[16];
+
+    V_0062b8d0();
+};
+
+// @fnv 0x0062b8d0
+void __cdecl FUN_0062b8d0(void* object, const void* in, unsigned char flag)
+{
+    V_0062b8d0 v;
+
+    ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&v)), (*(const ::fnv_004a3e00::NiPoint3 *)(in)));
+    ::FUN_0062b930((::NiAVObject *)(object), (::Vec3Arg *)(::V_0062b8d0 *)(&v), flag);
 }
 
 #include "generated/data/fallout_shared/havok/teshavokutilities.inc"

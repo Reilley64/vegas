@@ -45,12 +45,12 @@ struct DummyPointerMap
 struct PathingLOSMap
 {
     char* pTriangleScores;
-    char* GetTriangleScore(unsigned int aNavMeshID);
+    char* GetTriangleScore(std::uintptr_t aNavMeshID);
 };
 
 // Looks up aNavMeshID in the map at this+8 and returns a pointer into the buffer at this+0x18 offset by the stored offset, or null if not found.
 // @fnv 0x006e1610
-char* PathingLOSMap::GetTriangleScore(unsigned int aNavMeshID)
+char* PathingLOSMap::GetTriangleScore(std::uintptr_t aNavMeshID)
 {
     unsigned int ioffset;
     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 8))))->FUN_00853130(aNavMeshID, (::fnv_00853130::CombatThreatRecord *&)(ioffset)))
@@ -144,7 +144,7 @@ struct Script
 };
 struct FUN_006e1770_shell
 {
-    bool FUN_006e1770(unsigned int a, unsigned int b);
+    bool FUN_006e1770(std::uintptr_t a, std::uintptr_t b);
 };
 namespace fnv_006e2000 {
 struct Script
@@ -209,7 +209,7 @@ struct FUN_006e1470 : PathingLOSBase
 // @fnv 0x006e1440
 void* PathingLOSMap::DestroyAndFree(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006e1470 *>((this))->FUN_006e1470::~FUN_006e1470();
+    reinterpret_cast<::FUN_006e1470 *>((this))->::FUN_006e1470::~FUN_006e1470();
     if (flags & 1)
         operator delete(this, 0x50);
     return this;
@@ -275,7 +275,7 @@ bool FUN_006e1500_class::BuildNavMeshMap(NavMeshCollection* pNavMeshArray)
     unsigned int i;
     unsigned int j2;
     m_uTotalCount = 0;
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pNavMeshArray))->GetName())); i++)
+    for (i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pNavMeshArray))->GetName())); i++)
     {
         reinterpret_cast<::FUN_00844700_Class *>(&(m_map))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::NavMesh *)(::FUN_00559450((int *)&(pNavMeshArray->FUN_00877a30(i)))))))->FUN_0084e3a0())), m_uTotalCount);
         m_uTotalCount += ::FUN_00558200((char *)(((::NavMesh *)(::FUN_00559450((int *)&(pNavMeshArray->FUN_00877a30(i)))))));
@@ -325,7 +325,7 @@ struct FUN_006e1670_cls
 };
 // Returns false if the helper at offset 0x1c reports true; otherwise scans text entries and returns true on the first non-positive char whose lookup succeeds.
 // @fnv 0x006e1770
-bool FUN_006e1770_shell::FUN_006e1770(unsigned int a, unsigned int b)
+bool FUN_006e1770_shell::FUN_006e1770(std::uintptr_t a, std::uintptr_t b)
 {
     if (reinterpret_cast<::FUN_0076b610_Class *>((void *)(((const ArrHelper*)((char*)this + 0x1c))))->FUN_0076b610())
         return false;
@@ -353,11 +353,11 @@ char FUN_006e1670_cls::FUN_006e1670(unsigned int limit, SpawnedTarget* target, u
     }
 
     i = 0;
-    for (accum = 0; accum < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((SeqList*)&this->unk1c)))->GetName())); accum++)
+    for (accum = 0; accum < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((SeqList*)&this->unk1c)))->GetName())); accum++)
     {
         unsigned int len;
         Script* script = ((::Script *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::SeqEntry *)(::FUN_00559450((int *)(((SeqList*)&this->unk1c)->FUN_00877a30(accum)))))))->FUN_0084e3a0()));
-        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((((SubMatcher*)&this->unk08)))->FUN_00853130((unsigned int)(script), (*(::fnv_00853130::CombatThreatRecord * *)(&len))))
+        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((((SubMatcher*)&this->unk08)))->FUN_00853130((std::uintptr_t)(script), (*(::fnv_00853130::CombatThreatRecord * *)(&len))))
         {
             return 0;
         }
@@ -644,7 +644,8 @@ NiSortAdjustNode* ScriptClass::CreateSortAdjustNode()
     NiPointer<NiAlphaProperty> spA(new NiAlphaProperty());
     reinterpret_cast<::FUN_0049ed90_shell *>(((spA).operator->()))->FUN_0049ed90(true);
     NiPointer<NiMaterialProperty> spB(new NiMaterialProperty());
-    reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>(((spB).operator->()))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::NiColor *)((const NiColor*)&NiPoint3(1.0f, 1.0f, 1.0f)));
+    NiPoint3 kWhite(1.0f, 1.0f, 1.0f);
+    reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>(((spB).operator->()))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::NiColor *)((const NiColor*)&kWhite));
     reinterpret_cast<::DecalStub *>(((spB).operator->()))->FUN_0068c9f0(0.75f);
     reinterpret_cast<::FUN_00439410_cls *>((rootNode))->FUN_00439410((::ArgObject *)(::NiObject *)(spA));
     reinterpret_cast<::FUN_00439410_cls *>((rootNode))->FUN_00439410((::ArgObject *)(::NiObject *)(spB));
@@ -666,7 +667,7 @@ NiSortAdjustNode* ScriptClass::CreateSortAdjustNode()
     {
         NavMeshLocalPtr p2;
         unsigned short p0;
-        if (!(unsigned char)reinterpret_cast<::FUN_006e1670_cls *>((this))->FUN_006e1670(j, (::SpawnedTarget *)((unsigned int)&p2), (unsigned short *)((unsigned int)&p0)))
+        if (!(unsigned char)reinterpret_cast<::FUN_006e1670_cls *>((this))->FUN_006e1670(j, (::SpawnedTarget *)(&p2), (unsigned short *)(&p0)))
             continue;
         char a = reinterpret_cast<::FUN_006d7ee0_shell *>((this))->GetByteAt(j);
         if (a == 0x7f)
@@ -698,7 +699,7 @@ NiSortAdjustNode* ScriptClass::CreateSortAdjustNode()
             ((FUN_004bc1f0_S*)ac)->FUN_004bc1f0(this->f3c, this->f40, (float)((double)m * 25.0 + this->f44));
             p4->AttachChildInAvailableSlot((NiAVObject*)ac, 1);
         }
-        void* ac1 = ((void *)(::FUN_00c58d30(16.0f, 16.0f, 400.0f, 10, 10, (int)(&vec))));
+        void* ac1 = ((void *)(::FUN_00c58d30(16.0f, 16.0f, 400.0f, 10, 10, (std::intptr_t)(&vec))));
         reinterpret_cast<::FUN_00440460_S *>((((NiSortAdjustNode*)ac1)))->FUN_00440460((const ::V3 *)&(*(const NiPoint3*)&this->f3c));
         p4->AttachChildInAvailableSlot((NiAVObject*)ac1, 1);
         ::fnv_004b6e90::AttachLightingPropertyRecursive((::NiAVObject *)(p4));

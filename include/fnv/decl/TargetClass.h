@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class InventoryEntry;
 class NiNode;
@@ -12,7 +13,7 @@ template <class> class NiPointer;
 struct TargetClass {
 public:
     // 0x004eedd0
-    int FUN_004eedd0(int, int);
+    int FUN_004eedd0(std::intptr_t, int);
     // 0x0052a9b0
     void FUN_0052a9b0(const ::NiPointer< ::NiNode> &);
     // 0x0072f120

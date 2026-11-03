@@ -30,6 +30,7 @@ enum FIGHT_REACTION
 class MediaLocationController : public TESForm, public TESFullName
 {
   public:
+    MediaLocationController();
     // base TESForm at +0x0, size 24
     // base TESFullName at +0x18, size 12
     unsigned int m_fUpdateCooldown;  // +0x24, 4 bytes

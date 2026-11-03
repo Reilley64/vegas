@@ -632,7 +632,7 @@ void* S486f40::FUN_00486f40(intptr_t aiArg, bool abFlag)
 struct IdleAnimationManager
 {
 };
-void __cdecl FUN_004858f0(uintptr_t, unsigned char);
+void __cdecl FUN_004858f0(unsigned int, unsigned char);
 struct FUN_00489240_Class
 {
     void FUN_00489240(unsigned a);
@@ -1278,7 +1278,7 @@ void FUN_0049fbf0_class::FUN_0049fbf0(unsigned int a, unsigned int b)
 
 
 // @fnv 0x00485820
-void __cdecl FUN_00485820(void* destination, void* source, unsigned int count)
+void __cdecl FUN_00485820(void* destination, void* source, uintptr_t count)
 {
     unsigned int size = count << 1;
 
@@ -1302,9 +1302,9 @@ void __cdecl FUN_00485820(void* destination, void* source, unsigned int count)
 }
 
 // @fnv 0x004858f0
-void __cdecl FUN_004858f0(uintptr_t a, unsigned char ucValue)
+void __cdecl FUN_004858f0(unsigned int a, unsigned char ucValue)
 {
-    ::AppendChunk((unsigned int)a, &ucValue, 1);
+    ::AppendChunk(a, &ucValue, 1);
 }
 
 int __cdecl strcpy_s(char*, unsigned int, char*);

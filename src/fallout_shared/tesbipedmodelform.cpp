@@ -35,6 +35,7 @@
 #include "tesbipedmodelform_types_BIPED_OBJECT.h"
 #include "tesbipedmodelform_types_SEX.h"
 #include "tesbipedmodelform_types_BGSBipedModelList.h"
+#include "fnv/decl/TESActorBase.h"
 
 // @fnv 0x00480d10
 bool TESBipedModelForm::IsPowerArmor()
@@ -76,7 +77,7 @@ bool TESBipedModelForm::HasBipedModel(BIPED_OBJECT slot, bool hair, BGSBipedMode
                     TESBipedModelForm* bipedForm;
                     TESForm* form;
                 } locals;
-                locals.form = ((::TESForm *)(new ((void *)(itemList)) ::Vec3()));
+                locals.form = (itemList->m_item);
                 locals.bipedForm = ::TESBipedModelForm::GetFormAsBipedModel(locals.form);
                 if (locals.bipedForm)
                     fillsSlot = locals.bipedForm->HasBipedModel(slot, hair, 0);
@@ -179,13 +180,13 @@ struct FUN_00480ad0_shell
 {
     unsigned int m_00;
     unsigned int m_04;
-    bool HasFlag(const FUN_00480ad0_shell* other);
+    bool HasFlag(std::uintptr_t arg);
 };
 
 // @fnv 0x00480ad0
-bool FUN_00480ad0_shell::HasFlag(const FUN_00480ad0_shell* other)
+bool FUN_00480ad0_shell::HasFlag(std::uintptr_t arg)
 {
-    return (m_04 & other->m_04) ? true : false;
+    return (m_04 & ((unsigned int*)((char*)arg + 4))[0]) ? true : false;
 }
 
 struct FUN_00481150_shell
@@ -606,4 +607,23 @@ void BipedModelCopy::FUN_004807a0(BaseFormComponent* component)
         messageIcon[1].CopyFromBase(&source->messageIcon[1]);
         m_kFaceGenModel.CopyFromBase(&source->m_kFaceGenModel);
     }
+}
+
+class FUN_00480400
+{
+  public:
+    virtual ~FUN_00480400();
+
+    BipedModelForm m_kBipedModelForm;
+    TESModelTextureSwap bipedModel[2];
+    TESModelTextureSwap worldModel[2];
+    TESIcon m_kIcon[2];
+    BGSMessageIcon messageIcon[2];
+    TESModelRDT m_kFaceGenModel;
+};
+
+// @fnv 0x00480400
+FUN_00480400::~FUN_00480400()
+{
+    reinterpret_cast<::FUN_00480570_cls *>(this)->FreeModels();
 }

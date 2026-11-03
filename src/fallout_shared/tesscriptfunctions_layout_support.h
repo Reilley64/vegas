@@ -459,15 +459,6 @@ template <class Allocator, class T> class NiTListBase
         unsigned int m_uiCount;
     } m_kItemCount;
 };
-template <class Allocator, class T> class NiTPointerListBase : public NiTListBase<Allocator, T>
-{
-  public:
-    void RemoveAll();
-    T RemoveHead();
-    T RemoveTail();
-    T RemovePos(void*& position);
-    void DeleteItem(NiTListItem<T>* item);
-};
 typedef NiTListItem<void*> FNVPointerListItem;
 typedef NiTListBase<NiTPointerAllocator<unsigned int>, void*> FNVPointerListBase;
 enum ACTOR_CRITICAL_STAGE

@@ -139,7 +139,7 @@ bool FUN_005fdfa0_shell::IsHairValidForNPC(TESNPC* apNPC)
     if (apNPC && ((::TESHairRaceResult *)(reinterpret_cast<::FUN_004ac110_shell *>((((TESHairCanBeNPCData*)apNPC)))->FUN_004ac110())) != 0)
     {
         hair = (BGSQuestObjective*)this;
-        if (reinterpret_cast<::RefList *>((((::BSSimpleList< ::BGSQuestObjective *> *)(::FUN_0045bb80((int)(((::TESHairRaceResult *)(reinterpret_cast<::FUN_004ac110_shell *>((((TESHairCanBeNPCData*)apNPC)))->FUN_004ac110()))))))))->FUN_005f65d0((void **)&(hair)))
+        if (reinterpret_cast<::RefList *>((((::BSSimpleList< ::BGSQuestObjective *> *)(::FUN_0045bb80((std::intptr_t)(((::TESHairRaceResult *)(reinterpret_cast<::FUN_004ac110_shell *>((((TESHairCanBeNPCData*)apNPC)))->FUN_004ac110()))))))))->FUN_005f65d0((void **)&(hair)))
         {
             switch (((TESActorBase*)apNPC)->GetSex())
             {
@@ -251,3 +251,35 @@ bool HairComparisonEntry::FUN_005fded0(TESForm* apCompare)
         return true;
     return false;
 }
+
+// sub ecx,0x24; jmp FUN_005fdb60  ==  MSVC adjustor thunk (multiple inheritance).
+// The primary base occupies 0x24 bytes; both bases declare the same virtual, and the
+// derived class defines only its constructor, so the compiler emits the this-adjusting
+// thunk for the secondary base's vtable slot.
+struct PrimaryBase
+{
+    virtual void FUN_005fe030();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005fe030();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x005fe030
+    virtual void FUN_005fe030();
+};
+
+Derived::Derived()
+{}

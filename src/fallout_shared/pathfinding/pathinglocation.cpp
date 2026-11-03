@@ -122,6 +122,14 @@ bool PathingLocation::FindNavMeshTriangle(NavMeshPtr& navMesh, unsigned short& t
         return false;
 }
 
+struct NavMeshInfoArrayView
+{
+    void* pVtbl;
+    const NavMeshInfo** pBuffer;
+    unsigned int uiSize;
+    unsigned int uiCapacity;
+};
+
 // @fnv 0x006dd540
 const NavMeshInfo* PathingLocationProxy::GetAssociatedNavMesh()
 {
@@ -130,7 +138,7 @@ const NavMeshInfo* PathingLocationProxy::GetAssociatedNavMesh()
     else if (!pNavMeshInfoArray)
         return 0;
     else if (((bool)(::IsPathingLocationFlagSet((::PathingLocation *)this))))
-        return (const NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(0)));
+        return (const NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[0];
     else
         return 0;
 }
@@ -150,7 +158,7 @@ void PathingLocation::LoadGame(BGSLoadGameBuffer* buffer)
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&Location), 12);
     unsigned int navMeshID = 0;
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((((BGSLoadFormBuffer*)buffer)))->FUN_008648e0((unsigned int *)(void *)(&navMeshID));
-    m_pLocationNavMesh = ((::NavMeshInfo *)(((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00()))->FindReferenceByFormId({})));
+    m_pLocationNavMesh = ((::NavMeshInfo *)(((::Pathing *)(reinterpret_cast<::Owner45A *>((((::TES *)::g_TES)))->FUN_0045af00()))->FindReferenceByFormId({})));
     pCell = dynamic_cast<TESObjectCELL*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
     m_pContainingWorldspace = dynamic_cast<TESWorldSpace*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiPathingFlags), 4);
@@ -211,8 +219,8 @@ struct StandInShell
 // @fnv 0x006dcc40
 StandInShell* StandInShell::FUN_006dcc40(void* other)
 {
-    *(int*)this = (int)&DAT_0102583c;
-    new ((void *)(((StandIn6815c0*)((char*)this + 4)))) ::Vec3();
+    *(void**)this = (void*)&DAT_0102583c;
+    (void *)(((StandIn6815c0*)((char*)this + 4)));
     *(Point3_12*)((char*)this + 4) = *(Point3_12*)((char*)other + 4);
     *(int*)((char*)this + 0x10) = *(int*)((char*)other + 0x10);
     *(int*)((char*)this + 0x14) = *(int*)((char*)other + 0x14);
@@ -242,7 +250,7 @@ struct FUN_006dcfe0_shell : public PathingLocation
 PathingLocation* FUN_006dcf20(PathingLocation* self, PtrLoc aLocation, PtrNav apNavMeshInfo)
 {
     self->m_ppVirtualMethodTable = (void**)&::DAT_0102583c;
-    new ((void *)(&self->Location)) ::Vec3();
+    (void *)(&self->Location);
     self->Location = *aLocation.p;
     self->uiFlags = 0;
     self->m_pLocationNavMesh = apNavMeshInfo.p;
@@ -420,7 +428,7 @@ void FUN_006def40_shell::FUN_006def40(BGSSaveFormBuffer* buffer)
     bool bhadNavMeshesArray;
 
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(data, 12, 0);
-    reinterpret_cast<::FUN_00865db0_shell *>((buffer))->FUN_00865db0(reinterpret_cast<unsigned int>(m_pLocationNavMesh ? ((::fnv_006def40::TESObjectREFR *)(::FUN_00559450((int *)(m_pLocationNavMesh)))) : 0), 0);
+    reinterpret_cast<::FUN_00865db0_shell *>((buffer))->FUN_00865db0(reinterpret_cast<std::uintptr_t>(m_pLocationNavMesh ? ((::fnv_006def40::TESObjectREFR *)(::FUN_00559450((int *)(m_pLocationNavMesh)))) : 0), 0);
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pCell), 0);
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(m_pContainingWorldspace), 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&data[0x1c], 4, 0);
@@ -445,7 +453,7 @@ struct SetupPathingLocation : PathingLocation
 PathingLocation::PathingLocation(const NiPoint3& location, TESObjectREFR* reference)
 {
     m_ppVirtualMethodTable = (void**)fnv_vftable_DAT_0102583c;
-    new ((void *)(reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(&Location))) ::Vec3();
+    &(reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(&Location))->m_item;
     reinterpret_cast<::SetupPathingLocation *>(this)->FUN_006dd280(location, reinterpret_cast<TESObjectCELL*>(reinterpret_cast<LowProcess*>(reference)->GetTarget()),
                     ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((reference))->FUN_00575d70())));
 }
@@ -453,7 +461,7 @@ PathingLocation::PathingLocation(const NiPoint3& location, TESObjectREFR* refere
 PathingLocation* FUN_006dce60_shell::FUN_006dce60(NiPoint3 const& a, TESObjectCELL* b)
 {
     m_ppVirtualMethodTable = (void**)&DAT_0102583c;
-    new ((void *)(&Location)) ::Vec3();
+    (void *)(&Location);
     reinterpret_cast<::SetupPathingLocation *>(this)->FUN_006dd280(a, b, 0);
     return this;
 }
@@ -462,7 +470,7 @@ PathingLocation* FUN_006dce60_shell::FUN_006dce60(NiPoint3 const& a, TESObjectCE
 FUN_006dd0d0::FUN_006dd0d0(const NiPoint3* aLocation, PathingLocation* aHintLoc)
 {
     m_ppVirtualMethodTable = (void**)&DAT_0102583c;
-    new ((void *)(((_ref_006815c0_t*)&Location))) ::Vec3();
+    (void *)(((_ref_006815c0_t*)&Location));
     Location = *aLocation;
     uiFlags = 0;
     m_usTriangleID = kClearTriangleDataValue1;
@@ -482,7 +490,7 @@ FUN_006dd0d0::FUN_006dd0d0(const NiPoint3* aLocation, PathingLocation* aHintLoc)
         }
     }
     reinterpret_cast<::SetupPathingLocation *>((((SetupData_t*)this)))->FUN_006dd280((*(const ::NiPoint3 *)((void*)aLocation)), aHintLoc->GetContainingCell(),
-                          (TESWorldSpace*)((BGSTerrainManager*)aHintLoc)->GetMinLevel());
+                          (TESWorldSpace*)(std::uintptr_t)((BGSTerrainManager*)aHintLoc)->GetMinLevel());
 }
 // @fnv 0x006dd460
 void FUN_006dd460::FUN_006dd460_1(const NiPoint3& pos)
@@ -526,7 +534,7 @@ void SetupPathingLocation::FUN_006dd280(const NiPoint3& position, TESObjectCELL*
             m_uiPathingFlags = 0xDEADDEAD;
         }
     }
-    if (pNavMeshInfoArray && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((const_cast<BSSimpleArray<NavMeshInfo_const*, 1024>*>(pNavMeshInfoArray)))->GetName())) == 1)
+    if (pNavMeshInfoArray && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((const_cast<BSSimpleArray<NavMeshInfo_const*, 1024>*>(pNavMeshInfoArray)))->GetName())) == 1)
     {
         reinterpret_cast<::FUN_006dcfe0_shell *>(this)->FUN_006dcfe0(true);
         m_pLocationNavMesh = reinterpret_cast<const NavMeshInfo*>(
@@ -616,12 +624,12 @@ struct FUN_006f4da0
     unsigned int flags;
     FUN_006dcbb0 path;
     int context;
-    FUN_006f4da0(int, int);
+    FUN_006f4da0(std::intptr_t, int);
 };
 
 // Initialises the path from source, stores contextValue, sets flags to 6 and adds bit 1 when the path check for 0 succeeds.
 // @fnv 0x006f4da0
-FUN_006f4da0::FUN_006f4da0(int source, int contextValue) : path()
+FUN_006f4da0::FUN_006f4da0(std::intptr_t source, int contextValue) : path()
 {
     reinterpret_cast<::PathingLocation *>(&(path))->operator=((*(const ::PathingLocation *)(source)));
     context = contextValue;
@@ -677,11 +685,11 @@ bool MeshBounds::ContainsPoint(const MeshPoint* pkPoint)
         {
             float m_fGlyphExtent = m_kMax.z - m_kMin.z;
             float fOut;
-            for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kTris))->GetName())); i++)
+            for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kTris))->GetName())); i++)
             {
-                MeshPoint kA = *m_kVerts.FUN_006a1440(((::MeshTriangle *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(m_kTris))->FUN_0069ccf0(i)))->v0);
-                MeshPoint kB = *m_kVerts.FUN_006a1440(((::MeshTriangle *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(m_kTris))->FUN_0069ccf0(i)))->v1);
-                MeshPoint kC = *m_kVerts.FUN_006a1440(((::MeshTriangle *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(m_kTris))->FUN_0069ccf0(i)))->v2);
+                MeshPoint kA = *m_kVerts.FUN_006a1440(((::MeshTriangle *)(std::uintptr_t)(reinterpret_cast<::FUN_0069ccf0_class *>(&(m_kTris))->FUN_0069ccf0(i)))->v0);
+                MeshPoint kB = *m_kVerts.FUN_006a1440(((::MeshTriangle *)(std::uintptr_t)(reinterpret_cast<::FUN_0069ccf0_class *>(&(m_kTris))->FUN_0069ccf0(i)))->v1);
+                MeshPoint kC = *m_kVerts.FUN_006a1440(((::MeshTriangle *)(std::uintptr_t)(reinterpret_cast<::FUN_0069ccf0_class *>(&(m_kTris))->FUN_0069ccf0(i)))->v2);
                 if (::FUN_006b9cf0((*(const ::NiPoint3 *)(&kA)), (*(const ::NiPoint3 *)(&kB)), (*(const ::NiPoint3 *)(&kC)), (*(const ::NiPoint3 *)(pkPoint)), (*(float *)(&fOut)), m_fGlyphExtent, m_fGlyphExtent))
                     return true;
             }
@@ -802,7 +810,7 @@ struct DebugLocation
 // @fnv 0x006de790
 void DebugLocation::FormatDebugString(char* acBuffer, unsigned int capacity)
 {
-    if (!mesh || (meshes && !((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((meshes))->GetName()))))
+    if (!mesh || (meshes && !((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((meshes))->GetName()))))
     {
         if (!world)
         {
@@ -838,12 +846,12 @@ void DebugLocation::FormatDebugString(char* acBuffer, unsigned int capacity)
             ::FUN_00406d00(list7, capacity, "[");
             {
                 unsigned int i3;
-                for (i3 = 0; i3 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((meshes))->GetName())); i3++)
+                for (i3 = 0; i3 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((meshes))->GetName())); i3++)
                 {
                     char entry2[64];
                     ::FUN_00406d00(entry2, 64, "%08x", ((unsigned int)(::FUN_00559450((int *)(((::DebugMesh *)(reinterpret_cast<::S3e60 *>((meshes))->FUN_006a7ad0(i3))))))));
                     FUN_00406d50(list7, 256, entry2);
-                    if (i3 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((meshes))->GetName())) - 1)
+                    if (i3 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((meshes))->GetName())) - 1)
                         FUN_00406d50(list7, 256, ", ");
                 }
                 FUN_00406d50(list7, 256, "]");
@@ -977,7 +985,7 @@ bool PathingLocation::HasPathingLocation()
                 NavMeshInfo* info;
             } meshEntry;
             meshEntry.info = (NavMeshInfo*)((NiFormArray*)&meshes)->FUN_00877a30(i);
-            meshEntry.bounds = (NavMeshBounds*)((LowProcess*)meshEntry.info)->GetPackageObjectType();
+            meshEntry.bounds = (NavMeshBounds*)(std::uintptr_t)((LowProcess*)meshEntry.info)->GetPackageObjectType();
             if (meshEntry.bounds)
             {
                 if (reinterpret_cast<::MeshBounds *>((meshEntry.bounds))->ContainsPoint((const ::MeshPoint *)&(Location)))
@@ -1041,8 +1049,8 @@ bool FUN_006de490_cls::HasAllNodes()
         if (m_14 != 0 && !reinterpret_cast<::FUN_0076b610_Class *>((m_14))->FUN_0076b610())
         {
             reinterpret_cast<::FUN_00438690 *>(&(list))->FUN_007cb2e0((unsigned int *)(::Node_cls **)(((::Node_cls **)(reinterpret_cast<::S3e60 *>((m_14))->FUN_006a7ad0(0)))));
-            aJ = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*((::Node_cls **)(reinterpret_cast<::S3e60 *>((m_14))->FUN_006a7ad0(0))))->m_24))->GetName()));
-            b = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*((::Node_cls **)(reinterpret_cast<::S3e60 *>((m_14))->FUN_006a7ad0(0))))->m_34))->GetName()));
+            aJ = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*((::Node_cls **)(reinterpret_cast<::S3e60 *>((m_14))->FUN_006a7ad0(0))))->m_24))->GetName()));
+            b = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*((::Node_cls **)(reinterpret_cast<::S3e60 *>((m_14))->FUN_006a7ad0(0))))->m_34))->GetName()));
             for (iG = 0; iG < aJ + b; iG++)
             {
                 if (iG < aJ)
@@ -1058,19 +1066,19 @@ bool FUN_006de490_cls::HasAllNodes()
                     reinterpret_cast<::FUN_00438690 *>(&(list))->FUN_007cb2e0((unsigned int *)(::Node_cls **)(&itemB));
                 }
             }
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())) == ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((m_14))->GetName())))
+            if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())) == ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((m_14))->GetName())))
             {
                 return true;
             }
             do
             {
                 changed2 = false;
-                for (k = 1; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())); k++)
+                for (k = 1; k < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())); k++)
                 {
                     fCur = list.GetAt(k);
-                    aJ = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(fCur->m_24))->GetName()));
-                    b = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(fCur->m_34))->GetName()));
-                    for (j6 = 0; j6 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(fCur->m_24))->GetName())); j6++)
+                    aJ = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(fCur->m_24))->GetName()));
+                    b = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(fCur->m_34))->GetName()));
+                    for (j6 = 0; j6 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(fCur->m_24))->GetName())); j6++)
                     {
                         if (j6 < aJ)
                         {
@@ -1091,7 +1099,7 @@ bool FUN_006de490_cls::HasAllNodes()
                     }
                 }
             } while (changed2);
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())) == ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((m_14))->GetName())))
+            if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())) == ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((m_14))->GetName())))
             {
                 return true;
             }
@@ -1181,7 +1189,7 @@ bool PathingLocationProxy::FindContainingTriangle(FindTriangleForLocationFilter*
             NavMeshPtr mesh;
             if (const_cast<NavMeshInfo*>(m_pLocationNavMesh)->ResolveNavMesh(mesh))
                 m_usTriangleID =
-                    reinterpret_cast<::fnv_00696a50::FUN_00696a50_shell *>((((NavMesh*)((NiPointer<NiNode>*)&mesh)->operator->())))->FUN_00696a50((const ::NiPoint3 *)&(Location), (int)(filter));
+                    reinterpret_cast<::fnv_00696a50::FUN_00696a50_shell *>((((NavMesh*)((NiPointer<NiNode>*)&mesh)->operator->())))->FUN_00696a50((const ::NiPoint3 *)&(Location), (std::intptr_t)(filter));
         }
         return true;
     }
@@ -1190,16 +1198,16 @@ bool PathingLocationProxy::FindContainingTriangle(FindTriangleForLocationFilter*
         for (unsigned int i = 0; i < ((BSSimpleArray<SandboxProcedureData, 1024>*)pNavMeshInfoArray)->GetSize(); ++i)
         {
             NavMeshPtr mesh;
-            if (((NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(i))))
+            if (((NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[i])
                     ->ResolveNavMesh(mesh) &&
                 !((NiPointer<NiNode>*)&mesh)->operator->()->GetDisabled())
             {
                 unsigned short triangle =
-                    reinterpret_cast<::fnv_00696a50::FUN_00696a50_shell *>((((NavMesh*)((NiPointer<NiNode>*)&mesh)->operator->())))->FUN_00696a50((const ::NiPoint3 *)&(Location), (int)(filter));
+                    reinterpret_cast<::fnv_00696a50::FUN_00696a50_shell *>((((NavMesh*)((NiPointer<NiNode>*)&mesh)->operator->())))->FUN_00696a50((const ::NiPoint3 *)&(Location), (std::intptr_t)(filter));
                 if (triangle != 0xffff)
                 {
                     m_pLocationNavMesh =
-                        (NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(i)));
+                        (NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[i];
                     pNavMeshInfoArray = 0;
                     m_usTriangleID = triangle;
                     reinterpret_cast<::FUN_006dcfe0_shell *>(this)->FUN_006dcfe0(true);
@@ -1221,18 +1229,18 @@ bool PathingLocationProxy::FindContainingTriangle(FindTriangleForLocationFilter*
     {
         for (unsigned int i = 0; i < ((BSSimpleArray<SandboxProcedureData, 1024>*)pNavMeshInfoArray)->GetSize(); ++i)
         {
-            const NavMeshInfo* info = (NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(i)));
+            const NavMeshInfo* info = (NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[i];
             if (!::FUN_0068f320((const ::NavMeshInfo *)(info)))
             {
-                NavMeshBounds* bounds = (NavMeshBounds*)((LowProcess*)info)->GetPackageObjectType();
+                NavMeshBounds* bounds = (NavMeshBounds*)(std::uintptr_t)((LowProcess*)info)->GetPackageObjectType();
                 if (bounds && reinterpret_cast<::MeshBounds *>((bounds))->ContainsPoint((const ::MeshPoint *)&(Location)))
                 {
                     m_pLocationNavMesh =
-                        (NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(i)));
+                        (NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[i];
                     pNavMeshInfoArray = 0;
                     NavMeshPtr mesh;
                     if (const_cast<NavMeshInfo*>(m_pLocationNavMesh)->ResolveNavMesh(mesh))
-                        m_usTriangleID = reinterpret_cast<::fnv_00696a50::FUN_00696a50_shell *>((((NavMesh*)((NiPointer<NiNode>*)&mesh)->operator->())))->FUN_00696a50((const ::NiPoint3 *)&(Location), (int)(filter));
+                        m_usTriangleID = reinterpret_cast<::fnv_00696a50::FUN_00696a50_shell *>((((NavMesh*)((NiPointer<NiNode>*)&mesh)->operator->())))->FUN_00696a50((const ::NiPoint3 *)&(Location), (std::intptr_t)(filter));
                     reinterpret_cast<::FUN_006dcfe0_shell *>(this)->FUN_006dcfe0(true);
                     return true;
                 }
@@ -1249,10 +1257,10 @@ bool PathingLocationProxy::FindContainingTriangle(FindTriangleForLocationFilter*
         nearest.closestIndex = -1;
         for (unsigned int i = 0; i < ((BSSimpleArray<SandboxProcedureData, 1024>*)pNavMeshInfoArray)->GetSize(); ++i)
         {
-            const NavMeshInfo* info = (NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(i)));
+            const NavMeshInfo* info = (NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[i];
             if (!::FUN_0068f320((const ::NavMeshInfo *)(info)))
             {
-                NavMeshBounds* bounds = (NavMeshBounds*)((LowProcess*)info)->GetPackageObjectType();
+                NavMeshBounds* bounds = (NavMeshBounds*)(std::uintptr_t)((LowProcess*)info)->GetPackageObjectType();
                 if (bounds)
                 {
                     NiPoint3 delta = bounds->FUN_0069c070(Location);
@@ -1270,7 +1278,7 @@ bool PathingLocationProxy::FindContainingTriangle(FindTriangleForLocationFilter*
         if (nearest.minimumDistance < ::DAT_0106cd60)
         {
             m_pLocationNavMesh =
-                (NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(nearest.closestIndex)));
+                (NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[nearest.closestIndex];
             pNavMeshInfoArray = 0;
             m_usTriangleID = kClearTriangleDataValue1;
             reinterpret_cast<::FUN_006dcfe0_shell *>(this)->FUN_006dcfe0(true);
@@ -1279,7 +1287,7 @@ bool PathingLocationProxy::FindContainingTriangle(FindTriangleForLocationFilter*
         else
         {
             m_pLocationNavMesh =
-                (NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(nearest.noBoundsIndex)));
+                (NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[nearest.noBoundsIndex];
             pNavMeshInfoArray = 0;
             reinterpret_cast<::FUN_006dcfe0_shell *>(this)->FUN_006dcfe0(reinterpret_cast<::FUN_006de490_cls *>(this)->HasAllNodes());
             return ((bool)(::IsPathingLocationFlagSet((::PathingLocation *)this)));
@@ -1326,9 +1334,9 @@ bool NLLocation::UpdateMeshLocation()
         int iClosest = -1;
         unsigned short usBestTri = kClearTriangleDataValue1;
         bool bValidFound = false;
-        unsigned int uiNumMeshes = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pNavMeshInfoArray))->GetName()));
+        unsigned int uiNumMeshes = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pNavMeshInfoArray))->GetName()));
         bool bClose = false;
-        if (reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::NLTES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)&(Location), (::CellView *)(pCell)) + 25.0 > Location.z)
+        if (reinterpret_cast<::FUN_0045cbc0_shell *>((((::NLTES *)::g_TES)))->GetCellHeightAtPosition((const ::NiPoint3 *)&(Location), (::CellView *)(pCell)) + 25.0 > Location.z)
             bClose = true;
         for (unsigned int i = 0; i < uiNumMeshes; i++)
         {

@@ -3714,7 +3714,7 @@ struct FUN_00a351d0_cls {
 
 // Forwards the five arguments to self->CrossFadeTo.
 // @fnv 0x00a2e1b0
-void CallFUN_00a351d0(FUN_00a351d0_cls* self, int aiArg1, float afArg2, int aiArg3, float afArg4, float afArg5)
+void CallFUN_00a351d0(FUN_00a351d0_cls* self, intptr_t aiArg1, float afArg2, int aiArg3, float afArg4, float afArg5)
 {
     self->CrossFadeTo(aiArg1, afArg2, aiArg3, afArg4, afArg5);
 }

@@ -96,7 +96,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
     } templateSelection;
     {
         TESCreature defaultCreature;
-        reinterpret_cast<::FUN_008126e0_shell *>(&(defaultCreature))->SetWhich((int)(((::TESCombatStyle *)(::FUN_00505000()))));
+        reinterpret_cast<::FUN_008126e0_shell *>(&(defaultCreature))->SetWhich((std::intptr_t)(((::TESCombatStyle *)(::FUN_00505000()))));
         templateSelection.creature = 0;
         if (!reinterpret_cast<::FUN_0047cdd0_shell *>(this)->FUN_0047cdd0())
             templateSelection.creature =
@@ -199,7 +199,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
             reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((reinterpret_cast<TESResponse*>(reinterpret_cast<char*>(&actorData) - offsetof(TESActorBaseData, actorData))))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(::TESIdleForm *)((TESIdleForm*)templateSelection.creature->GetVoiceType()));
             reinterpret_cast<::fnv_0047e1c0::S47b *>(this)->SetClampedValue(templateSelection.creature->GetHealthRegeneration());
             reinterpret_cast<::FUN_005fbdb0_shell *>(this)->FUN_005fbdb0(((unsigned char)(templateSelection.creature->GetCreatureType())));
-            reinterpret_cast<::FUN_005f8bd0_Helper *>(this)->Set((int)(((::BGSListForm *)(::GetField158((int)(templateSelection.creature))))));
+            reinterpret_cast<::FUN_005f8bd0_Helper *>(this)->Set((std::intptr_t)(((::BGSListForm *)(::GetField158((std::intptr_t)(templateSelection.creature))))));
             SetCombatStyle(templateSelection.creature->GetCombatStyle());
         }
         if (reinterpret_cast<::FUN_0047cd40_shell *>(this)->FUN_0047cd40((*(int *)&(const ::TESActorBaseData::TEMPLATE_USE_FLAG &)(USE_STATS))))
@@ -235,7 +235,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
         templateSelection.leveled = ((::TESForm *)(::FindFirstNonActorBaseTemplate((::DummyVtable *)(::TESActorBase *)(this), (unsigned short *)&(templateSelection.useFlags))));
         if (templateSelection.leveled)
         {
-            reinterpret_cast<::TESRecipe *>((reinterpret_cast<TESResponse*>(reinterpret_cast<char*>(&actorData) - offsetof(TESActorBaseData, actorData))))->SetRequiredSkill((::ActorValue::Index)((TESIdleForm*)templateSelection.leveled));
+            reinterpret_cast<TESActorBaseData*>(reinterpret_cast<char*>(&actorData) - offsetof(TESActorBaseData, actorData))->m_ppTemplateForms = templateSelection.leveled;
             reinterpret_cast<::FUN_0047cd90_shell *>(this)->FUN_0047cd90(templateSelection.useFlags);
         }
         reinterpret_cast<::FUN_0047ccc0_shell *>(this)->FUN_0047ccc0(true);

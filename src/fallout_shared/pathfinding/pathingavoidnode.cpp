@@ -17,7 +17,7 @@
 // @fnv 0x005582f0
 NavMeshTriangle* NavMesh::GetTriangle(unsigned short index)
 {
-    return ((::NavMeshTriangle *)(reinterpret_cast<::FUN_00558dd0_class *>(&(triangles))->FUN_00558dd0(index)));
+    return ((::NavMeshTriangle *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(triangles))->FUN_00558dd0(index)));
 }
 // @fnv 0x006a78d0
 NavMeshTriangle* NavMeshTriangleReference::FUN_006a78d0() const
@@ -145,7 +145,7 @@ float AvoidNodeList::FUN_006dc9f0(const NiPoint3& point, NiPoint3& outDir)
     float fValueSum = 0.0f;
     outDir = ::NiPoint3::ZERO;
     float fCostSum = 0.0f;
-    unsigned int count8 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int count8 = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
     if (count8 > 0)
     {
         for (unsigned int aI = 0; aI < count8; aI++)

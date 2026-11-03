@@ -2,4 +2,4 @@
 #include <cstdint>
 
 // 0x0048d150
-intptr_t GetOffsetC(intptr_t);
+std::intptr_t GetOffsetC(std::intptr_t);

@@ -844,7 +844,7 @@ ImpactHandler620* ImpactManager620::FUN_00620340(CollisionInfo620* pkInfo, void*
     void* pvRefB = ((void *)(::FUN_0056f930((::NiAVObject *)(pvObjB))));
     void* pvSourceBody = pvRefA == pvSource ? pkInfo->m_pvBodyA : (pvRefB == pvSource ? pkInfo->m_pvBodyB : 0);
     void* pvTargetBody = pvRefA == pvTarget ? pkInfo->m_pvBodyA : (pvRefB == pvTarget ? pkInfo->m_pvBodyB : 0);
-    ImpactHandler620* pkHandler = ((::ImpactHandler620 *)(reinterpret_cast<::S_00620260_C *>(this)->FUN_00620260((intptr_t)(pvSource), (intptr_t)(pvSourceBody))));
+    ImpactHandler620* pkHandler = ((::ImpactHandler620 *)(reinterpret_cast<::S_00620260_C *>(this)->FUN_00620260((intptr_t)(pvSource), pvSourceBody)));
     if (pkHandler)
     {
         ImpactEvent620* pkEvent = 0;

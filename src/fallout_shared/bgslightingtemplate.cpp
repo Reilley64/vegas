@@ -155,7 +155,7 @@ void FUN_00526730_obj::FUN_00526730()
     reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::SwapBlock *>((((InteriorData*)((char*)this + 0x18))))->SwapBytes();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)((char*)this + 0x18)), 0x2c);
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((std::intptr_t)((char*)this + 0x18)), 0x2c);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::SwapBlock *>((((InteriorData*)((char*)this + 0x18))))->SwapBytes();
     reinterpret_cast<::Holder *>((((FUN_00485680_shell*)this)))->FUN_00485680();

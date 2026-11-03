@@ -114,8 +114,6 @@ class TESForm : public BaseFormComponent
     static TESForm* LookupFormByEditorID(const char* editorID);
     void SetFile(TESFile* file);
     static NiTLargePrimitiveArray<TESForm*>* ms_pAllForms;
-
-  private:
     static void InitializeFormIDMap();
 };
 #endif

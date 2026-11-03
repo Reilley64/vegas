@@ -92,8 +92,6 @@ class TESFile
     unsigned int GetOffsetChunk();
     bool HasNextForm();
     bool IsGroupOpen();
-
-  protected:
     BSSimpleList<_ULARGE_INTEGER*>* GetMasterDataList();
 };
 #endif

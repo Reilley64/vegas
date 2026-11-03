@@ -13,7 +13,7 @@ namespace ActorValue { enum Index; }
 class LowProcess {
 public:
     // 0x005a8060
-    void SetPackageObjectType(int);
+    void SetPackageObjectType(std::intptr_t);
     // 0x006286d0
     intptr_t GetPackageObjectType();
     // 0x008041a0

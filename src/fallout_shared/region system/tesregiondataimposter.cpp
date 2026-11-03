@@ -212,9 +212,9 @@ void TESRegionDataImposter::InitItem(TESForm* form)
     BSSimpleList<TESObjectREFR*>* pList = (BSSimpleList<TESObjectREFR*>*)((TESTopicInfoData*)this)->GetLinkToList();
     while (pList)
     {
-        if (((::TESObjectREFR *)(new ((void *)(pList)) ::Vec3())))
+        if ((pList->m_item))
         {
-            entry.formID = reinterpret_cast<unsigned int>(((::TESObjectREFR *)(new ((void *)(pList)) ::Vec3())));
+            entry.formID = (unsigned int)(std::uintptr_t)((pList->m_item));
             TESFile* file = form ? form->GetFile(-1) : 0;
             ::ResolveFormID((unsigned int *)&(entry.formID), file);
             entry.reference = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(entry.formID));
@@ -223,7 +223,7 @@ void TESRegionDataImposter::InitItem(TESForm* form)
         if (!entry.reference)
         {
             pList->RemoveHead();
-            if (!((::TESObjectREFR *)(new ((void *)(pList)) ::Vec3())))
+            if (!(pList->m_item))
                 break;
         }
         else
@@ -244,12 +244,12 @@ void FUN_004f20b0_cls::ResetAndCollectProbes()
         unsigned int* pProbes = new unsigned int[count];
         for (unsigned int iIndex = 0; pNode && iIndex < (unsigned int)count; iIndex++)
         {
-            pElem = *((::FUN_004f20b0_elem **)(new ((void *)(pNode)) ::Vec3()));
+            pElem = *((::FUN_004f20b0_elem **)((void *)(pNode)));
             unsigned int v2 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pElem))->FUN_0084e3a0()));
             pProbes[iIndex] = v2;
             pNode = ((::FUN_004f20b0_node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         }
-        ::FUN_00485710((void *)(0x44494452), pProbes, (void *)(count));
+        ::FUN_00485710((void *)(0x44494452), pProbes, (void *)(std::uintptr_t)(count));
         delete pProbes;
     }
 }
@@ -262,9 +262,9 @@ bool Obj4f11::FUN_004f11e0()
         return false;
     if (!reinterpret_cast<::ActionIterator *>((m_pHead))->FUN_004f3610())
         return false;
-    while (pNode && *((::Item4f11 **)(new ((void *)(((Node4f11*)pNode))) ::Vec3())))
+    while (pNode && *((::Item4f11 **)((void *)(((Node4f11*)pNode)))))
     {
-        if (!reinterpret_cast<::fnv_004f81e0::FUN_004f81e0_shell *>(((*((::Item4f11 **)(new ((void *)(((Node4f11*)pNode))) ::Vec3())))))->FUN_004f81e0(1))
+        if (!reinterpret_cast<::fnv_004f81e0::FUN_004f81e0_shell *>(((*((::Item4f11 **)((void *)(((Node4f11*)pNode)))))))->FUN_004f81e0(1))
             return false;
         pNode = ((::ContNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
@@ -354,7 +354,7 @@ FUN_004f1f70_cls::FUN_004f1f70_cls(void* param) : BaseCls(param)
         void* node = ((void *)(reinterpret_cast<::TESTopicInfoData *>((((Callees*)refr)))->GetLinkToList()));
         while (node != 0)
         {
-            ((Callees*)&m_kMemberDescriptor)->FUN_00905820(((void *)(new ((void *)(((Callees*)node))) ::Vec3())));
+            ((Callees*)&m_kMemberDescriptor)->FUN_00905820(((void *)((void *)(((Callees*)node)))));
             node = ((Callees*)node)->FUN_00726070();
         }
     }

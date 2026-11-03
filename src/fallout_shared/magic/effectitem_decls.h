@@ -3,6 +3,7 @@
 #define FNV_EFFECTITEM_DECLS_H
 
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/BGSDebris.h"
 #include "fnv/decl/Callees.h"
@@ -84,7 +85,7 @@ struct MagicEffectEntry
     int m_iArea;
     int m_iPayloadInteger;
     int m_eRange;
-    int m_eAssociatedActorValue;
+    std::intptr_t m_eAssociatedActorValue;
     void Endian();
 };
 

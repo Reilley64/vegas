@@ -17,7 +17,7 @@ void TESImageSpaceModifiableForm::InitItem(TESForm* owner)
 {
     if (m_pImageSpaceModifier)
     {
-        unsigned int formID = (unsigned int)m_pImageSpaceModifier;
+        unsigned int formID = (unsigned int)(std::uintptr_t)m_pImageSpaceModifier;
         if (owner)
             ::ResolveFormID((unsigned int *)&(formID), owner->GetFile(-1));
         m_pImageSpaceModifier = dynamic_cast<TESImageSpaceModifier*>(::FUN_004839c0(formID));
@@ -110,7 +110,7 @@ bool FUN_004875c0_shell::FUN_004875c0(BaseFormComponent* apCompareFC)
     TESImageSpaceModifiableForm* pCompareImageSpaceForm = dynamic_cast<TESImageSpaceModifiableForm*>(apCompareFC);
     if (!pCompareImageSpaceForm)
         return true;
-    if (((int)(reinterpret_cast<::Callees *>((this))->FUN_00726070())) != ((int)(reinterpret_cast<::Callees *>((reinterpret_cast<BaseFormComponent*>(pCompareImageSpaceForm)))->FUN_00726070())))
+    if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((this))->FUN_00726070())) != ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<BaseFormComponent*>(pCompareImageSpaceForm)))->FUN_00726070())))
         return true;
     return false;
 }

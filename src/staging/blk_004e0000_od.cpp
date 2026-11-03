@@ -746,7 +746,7 @@ void FUN_004e20f0(unsigned char value)
 struct GlobalObject_00633c90;
 
 // @fnv 0x004e7ff0
-unsigned int FUN_004e7ff0()
+std::uintptr_t FUN_004e7ff0()
 {
     return ((Flt*)&::g_011c7c28)->operator unsigned int();
 }
@@ -2405,7 +2405,7 @@ struct FUN_004f6850_Class
 {
     int m0;
     RDLNode m_node;
-    RDLItem* FUN_004f6850(int arg0, intptr_t arg1, int arg2);
+    RDLItem* FUN_004f6850(intptr_t arg0, intptr_t arg1, intptr_t arg2);
 };
 
 class TESForm
@@ -2763,7 +2763,7 @@ extern int DAT_011c7a3c;
 extern int DAT_011c7a44;
 extern int DAT_011c7a40;
 
-unsigned int __cdecl FUN_004e7ff0();
+std::uintptr_t __cdecl FUN_004e7ff0();
 
 class FUN_004e1650
 {
@@ -3353,7 +3353,7 @@ struct Polygon : PolygonNode
     bool FUN_004f8360(PolygonPoint*);
 };
 // @fnv 0x004f6850
-RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, intptr_t arg1, int arg2)
+RDLItem* FUN_004f6850_Class::FUN_004f6850(intptr_t arg0, intptr_t arg1, intptr_t arg2)
 {
     bool foundC = false;
     unsigned short bestPrioB = 0;

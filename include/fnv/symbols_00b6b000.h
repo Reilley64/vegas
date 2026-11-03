@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class B6B610Wrapper;
 class BSShaderAccumulator;
 class NiCamera;
@@ -30,7 +32,7 @@ void FUN_00b6b7d0(::NiRenderTargetGroup *, unsigned int);
 // 0x00b6b840
 void FUN_00b6b840();
 // 0x00b6b890
-void FUN_00b6b890(int, int);
+void FUN_00b6b890(int, std::intptr_t);
 // 0x00b6b8d0
 bool FUN_00b6b8d0(int, ::NiRenderTargetGroup *);
 // 0x00b6b910

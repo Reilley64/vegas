@@ -238,31 +238,6 @@ void HermiteStub::FUN_006e7c40(float tp)
     b = d - t2 + tt;
 }
 
-struct SubS
-{
-};
-struct RetS
-{
-    float v[3];
-};
-struct OwnS
-{
-    char pad[0x14];
-    SubS s1;
-    char pad2[0x17];
-    SubS s2;
-    RetS FUN_006e7d60(int, int);
-    RetS FUN_006e7cc0(int a, int b);
-};
-// Calls FUN_006e7d10 on s1 with a and on s2 with b, then returns FUN_006e7d60(a, b).
-// @fnv 0x006e7cc0
-RetS OwnS::FUN_006e7cc0(int aiFirst, int aiSecond)
-{
-    ::FUN_006e7d10((::_S_006e7d10 *)&(s1), (::_Arg_006e7d10)(aiFirst));
-    ::FUN_006e7d10((::_S_006e7d10 *)&(s2), (::_Arg_006e7d10)(aiSecond));
-    return FUN_006e7d60(aiFirst, aiSecond);
-}
-
 struct _S_006e7d10_vec
 {
     float x, y, z;
@@ -278,6 +253,31 @@ struct _Arg_006e7d10
 {
     const _S_006e7d10* p;
 };
+
+struct SubS
+{
+};
+struct RetS
+{
+    float v[3];
+};
+struct OwnS
+{
+    char pad[0x14];
+    SubS s1;
+    char pad2[0x17];
+    SubS s2;
+    RetS FUN_006e7d60(const _S_006e7d10*, const _S_006e7d10*);
+    RetS FUN_006e7cc0(const _S_006e7d10* a, const _S_006e7d10* b);
+};
+// Calls FUN_006e7d10 on s1 with a and on s2 with b, then returns FUN_006e7d60(a, b).
+// @fnv 0x006e7cc0
+RetS OwnS::FUN_006e7cc0(const _S_006e7d10* apFirst, const _S_006e7d10* apSecond)
+{
+    ::FUN_006e7d10((::_S_006e7d10 *)&(s1), ::_Arg_006e7d10{apFirst});
+    ::FUN_006e7d10((::_S_006e7d10 *)&(s2), ::_Arg_006e7d10{apSecond});
+    return FUN_006e7d60(apFirst, apSecond);
+}
 
 // Copies the two vector members a and b from the pointed-to struct into this struct and returns this.
 // @fnv 0x006e7d10
@@ -360,22 +360,22 @@ struct FUN_006e7d10_caller
 // @fnv 0x006e8450
 void FUN_006e8450_shell::FUN_006e8450(void* aKey1, void* aKey2)
 {
-    ::FUN_006e7d10((::_S_006e7d10 *)(reinterpret_cast<FUN_006e7d10_caller*>(this->Key1)), (::_Arg_006e7d10)(aKey1));
-    ::FUN_006e7d10((::_S_006e7d10 *)(reinterpret_cast<FUN_006e7d10_caller*>(this->Key2)), (::_Arg_006e7d10)(aKey2));
+    ::FUN_006e7d10((::_S_006e7d10 *)(reinterpret_cast<FUN_006e7d10_caller*>(this->Key1)), ::_Arg_006e7d10{(const ::_S_006e7d10 *)aKey1});
+    ::FUN_006e7d10((::_S_006e7d10 *)(reinterpret_cast<FUN_006e7d10_caller*>(this->Key2)), ::_Arg_006e7d10{(const ::_S_006e7d10 *)aKey2});
 }
 
 namespace fnv_006e8f60 {
 class PathBuilder
 {
   public:
-    void* FUN_006e8f40(void*);
-    void* FUN_006e8f60(void* a1);
+    void* FUN_006e8f40(unsigned int);
+    void* FUN_006e8f60(unsigned int aiIndex);
 };
 
 // @fnv 0x006e8f60
-void* PathBuilder::FUN_006e8f60(void* apArg)
+void* PathBuilder::FUN_006e8f60(unsigned int aiIndex)
 {
-    return FUN_006e8f40(apArg);
+    return FUN_006e8f40(aiIndex);
 }
 }  // namespace fnv_006e8f60
 
@@ -418,7 +418,7 @@ struct FUN_006e7720 : public EBase
 // @fnv 0x006e76f0
 void* DelS::FUN_006e76f0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006e7720 *>(this)->FUN_006e7720::~FUN_006e7720();
+    reinterpret_cast<::FUN_006e7720 *>(this)->::FUN_006e7720::~FUN_006e7720();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x44);
     return this;
@@ -494,18 +494,20 @@ _ref_006815c0 FUN_006e7d60_stub::FUN_006e7d60(char* pFirst, char* pSecond)
 
 struct FUN_006e8f40_shell
 {
-    std::intptr_t FUN_006e8f40(int a) const;
+    void* m_pVtbl;
+    char* m_pBuffer;
+    std::intptr_t FUN_006e8f40(std::intptr_t a) const;
 };
 // @fnv 0x006e78b0
 void* FUN_006e78b0_shell::FUN_006e78b0(unsigned int aiIndex)
 {
-    return ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)((char*)this + 8))))->FUN_006e8f40((int)((void*)aiIndex))));
+    return ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)((char*)this + 8))))->FUN_006e8f40(aiIndex)));
 }
 
 // @fnv 0x006e8f40
-std::intptr_t FUN_006e8f40_shell::FUN_006e8f40(int aiIndex) const
+std::intptr_t FUN_006e8f40_shell::FUN_006e8f40(std::intptr_t aiIndex) const
 {
-    return aiIndex * 0x30 + *(int*)((char*)this + 4);
+    return aiIndex * 0x30 + reinterpret_cast<std::intptr_t>(m_pBuffer);
 }
 
 namespace fnv_006e7e70 {
@@ -638,7 +640,7 @@ bool FUN_006e7e70_shell::FUN_006e7e70(float afCurrentParameter, float afDist, bo
         int icurrentSpline = (int)afCurrentParameter;
         if (icurrentSpline < 0)
             icurrentSpline = 0;
-        if (icurrentSpline >= (int)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&member2)))->GetName())) - 1)
+        if (icurrentSpline >= (int)((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&member2)))->GetName())) - 1)
             --icurrentSpline;
         float fcurrentParam = afCurrentParameter;
         float fdist = afDist;
@@ -680,17 +682,17 @@ struct FUN_006e8480_shell
 {
     char _pad[32];
     ArrHelper m;
-    int FUN_006e8480();
+    void* FUN_006e8480();
 };
 // Returns 0 when m.FUN_0076b610() is true, otherwise returns m.FUN_006e8fc0().
 // @fnv 0x006e8480
-int FUN_006e8480_shell::FUN_006e8480()
+void* FUN_006e8480_shell::FUN_006e8480()
 {
     if (reinterpret_cast<::FUN_0076b610_Class *>((void *)&(m))->FUN_0076b610())
     {
         return 0;
     }
-    return ((int)(reinterpret_cast<::FUN_006e8fc0_Class *>(&(m))->FUN_006e8fc0()));
+    return reinterpret_cast<::FUN_006e8fc0_Class *>(&(m))->FUN_006e8fc0();
 }
 
 struct HelperA
@@ -724,8 +726,8 @@ void MyClass::FUN_006e8ab0(MyClass* apTarget)
 struct PathingGraphNode;
 struct BSSimpleArray_PathingNode_1024
 {
-    int m_auiShapeKeys;
-    int m_pBase;
+    void* m_pVtbl;
+    char* m_pBase;
     PathingGraphNode* FUN_006e8f80(unsigned int aiIndex);
 };
 // @fnv 0x006e7970
@@ -741,7 +743,7 @@ bool S3e60::FUN_006e8fa0(unsigned int auiFlag)
 // @fnv 0x006e8f80
 PathingGraphNode* BSSimpleArray_PathingNode_1024::FUN_006e8f80(unsigned int aiIndex)
 {
-    return (PathingGraphNode*)((char*)m_pBase + aiIndex * 0x3C);
+    return (PathingGraphNode*)(m_pBase + aiIndex * 0x3C);
 }
 
 namespace fnv_006e9ab0 {
@@ -753,13 +755,13 @@ struct OwnS
 {
     char _pad[48];
     RetS FUN_006e9ab0(float);
-    RetS FUN_006e7d60(int, int);
+    RetS FUN_006e7d60(std::intptr_t, std::intptr_t);
 };
 // @fnv 0x006e9ab0
 RetS OwnS::FUN_006e9ab0(float f)
 {
     ::FUN_006e7c20(this, f);
-    return FUN_006e7d60((int)((char*)this + 0x14), (int)((char*)this + 0x2c));
+    return FUN_006e7d60((std::intptr_t)((char*)this + 0x14), (std::intptr_t)((char*)this + 0x2c));
 }
 }  // namespace fnv_006e9ab0
 
@@ -1101,6 +1103,10 @@ struct _Mem_20a4
 };
 struct FUN_006a7ad0_shell
 {
+    void** m_ppVirtualMethodTable;
+    unsigned int* pBuffer;
+    unsigned int iSize;
+    unsigned int iCapacity;
 };
 struct PathingAvoidNodeArray
 {
@@ -1122,7 +1128,7 @@ void FUN_006e8d50_shell::FUN_006e8d50(BGSLoadFormBuffer* apLoadGameBuffer)
         reinterpret_cast<::FUN_006e90a0_class *>((((FUN_006e90a0_shell*)((char*)this + 8))))->FUN_006e90a0(isaveGameCount, true);
         for (unsigned int i = 0; i < isaveGameCount; i++)
         {
-            FUN_006f5100_shell* virtualNode = ((::FUN_006f5100_shell *)(reinterpret_cast<::fnv_006e8f60::PathBuilder *>((((FUN_006e90a0_shell*)((char*)this + 8))))->FUN_006e8f60((void *)(i))));
+            FUN_006f5100_shell* virtualNode = ((::FUN_006f5100_shell *)(reinterpret_cast<::fnv_006e8f60::PathBuilder *>((((FUN_006e90a0_shell*)((char*)this + 8))))->FUN_006e8f60(i)));
             reinterpret_cast<::LoadHolder6F51 *>((virtualNode))->FUN_006f5100(apLoadGameBuffer);
         }
     }
@@ -1151,7 +1157,7 @@ void FUN_006e8d50_shell::FUN_006e8d50(BGSLoadFormBuffer* apLoadGameBuffer)
         reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((_Mem_20a4*)((char*)this + 0x30))))->FUN_006f2290(isaveGameCount, true);
         for (unsigned int i = 0; i < isaveGameCount; i++)
         {
-            unsigned int* puiDoorID = &((unsigned int)(reinterpret_cast<::S3e60 *>((((FUN_006a7ad0_shell*)((char*)this + 0x30))))->FUN_006a7ad0(i)));
+            unsigned int* puiDoorID = &((FUN_006a7ad0_shell*)((char*)this + 0x30))->pBuffer[i];
             reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0(puiDoorID);
         }
     }
@@ -1190,13 +1196,13 @@ float FUN_006e9af0_cls::MeasurePathLength(float afStart, float afEnd, unsigned i
     PathVec3 p5;
     float t;
 
-    reinterpret_cast<::fnv_006e9ab0::OwnS *>((this))->FUN_006e9ab0((float)(&p9));
+    *reinterpret_cast<::fnv_006e9ab0::RetS *>(&p9) = reinterpret_cast<::fnv_006e9ab0::OwnS *>((this))->FUN_006e9ab0(afStart);
     sum_2 = 0.0f;
     for (idx = 0; idx < uiSteps; idx++)
     {
         t = (afEnd - afStart) * (float)(idx + 1) / (float)uiSteps + afStart;
         PathClampHelper(&t, 0.0f, 1.0f);
-        reinterpret_cast<::fnv_006e9ab0::OwnS *>((this))->FUN_006e9ab0((float)(&p5));
+        *reinterpret_cast<::fnv_006e9ab0::RetS *>(&p5) = reinterpret_cast<::fnv_006e9ab0::OwnS *>((this))->FUN_006e9ab0(t);
         reinterpret_cast<::FUN_00439ef0_class *>((((PathVecHelper*)&p5)))->FUN_00439ef0((::NiPoint3 *)(::PathVec3 *)(&p3), (*(const ::NiPoint3 *)(&p9)));
         sum_2 = sum_2 + reinterpret_cast<::NiPoint3 *>((((PathMagHelper*)&p3)))->ComputeMagnitude();
         p9 = p5;
@@ -1269,8 +1275,8 @@ struct SaveArrayB
 };
 struct SaveArrayD
 {
-    int unk00;
-    int unk04;
+    void** m_ppVirtualMethodTable;
+    unsigned int* pBuffer;
     int unk08;
     int unk0c;
 };
@@ -1304,15 +1310,15 @@ void SaveSolution::FUN_006e8b10(SaveBuffer* buffer)
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&flags, 1, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&unk18, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&unk1c, 4, 0);
-    unsigned int countA9 = &first ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&first)))->GetName())) : 0;
+    unsigned int countA9 = &first ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&first)))->GetName())) : 0;
     reinterpret_cast<::BGSSaveGameBuffer *>((buffer))->FUN_00865f60(countA9);
     for (unsigned int indexA = 0; indexA < countA9; ++indexA)
     {
-        SaveEntryA* entryA8 = ((::SaveEntryA *)(reinterpret_cast<::fnv_006e8f60::PathBuilder *>(&(first))->FUN_006e8f60((void *)(indexA))));
+        SaveEntryA* entryA8 = ((::SaveEntryA *)(reinterpret_cast<::fnv_006e8f60::PathBuilder *>(&(first))->FUN_006e8f60(indexA)));
         reinterpret_cast<::FUN_006f50b0_shell *>((entryA8))->FUN_006f50b0((::BGSSaveFormBuffer *)(buffer));
     }
     {
-        unsigned int countB8 = &second ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&second)))->GetName())) : 0;
+        unsigned int countB8 = &second ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&second)))->GetName())) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((buffer))->FUN_00865f60(countB8);
         for (unsigned int indexB6 = 0; indexB6 < countB8; ++indexB6)
         {
@@ -1322,7 +1328,7 @@ void SaveSolution::FUN_006e8b10(SaveBuffer* buffer)
     }
     AvoidArray avoided5;
     {
-        unsigned int countCA = &avoided5 ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&avoided5)))->GetName())) : 0;
+        unsigned int countCA = &avoided5 ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&avoided5)))->GetName())) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((buffer))->FUN_00865f60(countCA);
         for (unsigned int indexC5 = 0; indexC5 < countCA; ++indexC5)
         {
@@ -1331,11 +1337,11 @@ void SaveSolution::FUN_006e8b10(SaveBuffer* buffer)
         }
     }
     {
-        unsigned int countD8 = &fourth ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&fourth)))->GetName())) : 0;
+        unsigned int countD8 = &fourth ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&fourth)))->GetName())) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((buffer))->FUN_00865f60(countD8);
         for (unsigned int indexD = 0; indexD < countD8; ++indexD)
         {
-            unsigned int& entryD3 = ((unsigned int)(reinterpret_cast<::S3e60 *>(&(fourth))->FUN_006a7ad0(indexD)));
+            unsigned int& entryD3 = fourth.pBuffer[indexD];
             reinterpret_cast<::FUN_00865db0_shell *>((buffer))->FUN_00865db0(entryD3, 0);
         }
     }
@@ -1436,7 +1442,8 @@ bool FUN_006e9830_shell::FindPointAtDistance(float afT, float afDistance, bool a
     while (!bFound)
     {
         kPoint = FUN_006e9ab0(fCurrentAmountNext);
-        float _fLength = reinterpret_cast<::TESCombatStyle *>((void *)(((const FUN_004a7290_point*)&(_kOrigin - kPoint))))->UpdateCombatStyle();
+        NiPoint3 kOffset = _kOrigin - kPoint;
+        float _fLength = reinterpret_cast<::TESCombatStyle *>((void *)(((const FUN_004a7290_point*)&kOffset)))->UpdateCombatStyle();
         if ((_fLength < fNewMinSqr && abForward) || (_fLength > kFMaxSqr && !abForward))
         {
             if (fCurrentAmountNext >= 0.99f)

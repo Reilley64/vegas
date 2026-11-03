@@ -1,5 +1,6 @@
 // fallout_shared/facegen/bsfacegenmorph.cpp: BSFaceGenMorphStatistical, BSFaceGenMorphDifferential, GeometryVertexBuffer (14 functions)
 
+#include <cstdint>
 #include "fnv/decl/C6533F0Holder.h"
 #include "fnv/decl/FUN_004534f0_shell.h"
 #include "fnv/decl/FUN_00534570_shell.h"
@@ -43,7 +44,7 @@ BSFaceGenMorphDifferential::BSFaceGenMorphDifferential(unsigned int count)
 // @fnv 0x0065b390
 void GeometryVertexBuffer::SetVertex(unsigned int index, const NiPoint3& vertex)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>((((MagicCaster*)this)))->FUN_004534f0((unsigned int)((MagicItem*)index));
+    reinterpret_cast<::FUN_004534f0_shell *>((((MagicCaster*)this)))->FUN_004534f0(index);
     char* pVertex = m_pkDeltas + index * stride;
     NiPoint3& result = *(NiPoint3*)pVertex;
     result = vertex;
@@ -174,15 +175,15 @@ struct FUN_006606b0_shell
 };
 struct FUN_00660a50_shell
 {
-    int field0;
+    const void* field0;
     void* field4;
     void FUN_00660a50();
 };
-// Sets field0 to the address of _DAT_01065cd0, frees field4 if non-null, then calls SetVTable on this.
+// Sets field0 to the DAT_01065cd0 vtable, frees field4 if non-null, then calls SetVTable on this.
 // @fnv 0x00660a50
 void FUN_00660a50_shell::FUN_00660a50()
 {
-    field0 = (int)&(*reinterpret_cast<int *>(&::DAT_01065cd0));
+    field0 = &::DAT_01065cd0;
     if (field4 != 0)
     {
         void* tmp = field4;
@@ -210,7 +211,7 @@ void* FUN_006606b0_shell::Destroy(unsigned int flags)
 // @fnv 0x006606e0
 void FUN_006606e0_shell::SetVTable()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_01065cb8;
+    *reinterpret_cast<const void**>(this) = &DAT_01065cb8;
 }
 
 struct B65EB90Entry

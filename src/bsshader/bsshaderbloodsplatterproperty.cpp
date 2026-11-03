@@ -53,7 +53,7 @@ struct S_00b81420_Node : S_00b81420_AVObject
 
 // If obj is geometry, sets property 3's m_iValue when its type is 0x17; otherwise recurses into each child of obj's node.
 // @fnv 0x00b81420
-void FUN_00b81420(S_00b81420_AVObject* obj, int value)
+void FUN_00b81420(S_00b81420_AVObject* obj, std::intptr_t value)
 {
     if (!obj)
         return;

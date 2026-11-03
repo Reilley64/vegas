@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct FUN_004a98e0_class {
 public:

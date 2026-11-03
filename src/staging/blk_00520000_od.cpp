@@ -2148,10 +2148,10 @@ struct Thing
 {
     char pad[0x118];
     int m_uiFilterValue;
-    int GetOrFallback(intptr_t arg);
+    intptr_t GetOrFallback(intptr_t arg);
 };
 // @fnv 0x00525a90
-int Thing::GetOrFallback(intptr_t arg)
+intptr_t Thing::GetOrFallback(intptr_t arg)
 {
     Obj* result = ((::Obj *)(reinterpret_cast<::AmmoOwner *>(this)->FUN_00525980((::AmmoActor *)(arg))));
     if (result != 0)

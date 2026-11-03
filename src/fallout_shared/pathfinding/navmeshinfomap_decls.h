@@ -2,6 +2,7 @@
 // NavMeshInfoMap: bounding-box verification and loaded-info initialization.
 // NavMeshBounds, BSSimpleArray 16, NiTPointerMap 16) with layout asserts.
 
+#include <cstdint>
 #include <stddef.h>
 #include <malloc.h>
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -250,7 +251,7 @@ class NavMeshInfoMap : public TESForm
     unsigned char pad3D[3];
     NavMeshInfoMap();
     bool Load(TESFile*);
-    NavMeshInfo* FUN_00693d70(unsigned int);
+    NavMeshInfo* FUN_00693d70(std::uintptr_t);
     bool ValidateNavMeshInfoArrays();
     void InitItem();
     void InsertNavMeshInfo(NavMeshInfo* info);

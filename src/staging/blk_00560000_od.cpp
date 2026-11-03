@@ -148,7 +148,7 @@ struct GlobalObject_00559cc0
 };
 
 // @fnv 0x00565670
-void FUN_00565670(unsigned int index)
+void FUN_00565670(uintptr_t index)
 {
     reinterpret_cast<::NiTMap_S *>(&(::g_011ca0e0))->RemoveKey(index);
 }

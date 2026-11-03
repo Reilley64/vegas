@@ -362,7 +362,7 @@ public:
 // @fnv 0x006aa000
 bool HideSearch::ExpandNeighbors(NavSearchNodeInfo* pkInfo, NavSearchNodeList* pkList)
 {
-    NiPoint3 kPosX = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((pkInfo))->FUN_0045cd60())) ? (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>(&(pkInfo->m_kRef))->FUN_006a6eb0({}))) : reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::GetOffsetC((int)(m_pActor))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 kPosX = ((std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((pkInfo))->FUN_0045cd60())) ? (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>(&(pkInfo->m_kRef))->FUN_006a6eb0({}))) : reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::GetOffsetC((std::intptr_t)(m_pActor))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
     for (int i9 = 0; i9 < 3; i9++)
     {
         NavMeshStandIn* pMesh5;
@@ -402,7 +402,7 @@ bool HideSearch::ExpandNeighbors(NavSearchNodeInfo* pkInfo, NavSearchNodeList* p
             float fCost_ = reinterpret_cast<::FUN_00589850_Class *>((void *)&(kDeltaW))->FUN_00589850() * fMultY + pkInfo->m_fCost;
             float fExtraZ = 0.0f;
             if (((::HideTarget *)(reinterpret_cast<::_Dummy_0069e390 *>((m_pActor))->GetString())))
-                fExtraZ = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::HideTarget *)(reinterpret_cast<::_Dummy_0069e390 *>((m_pActor))->GetString()))))->SumNodeValues((int)(&kCenterTmp));
+                fExtraZ = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::HideTarget *)(reinterpret_cast<::_Dummy_0069e390 *>((m_pActor))->GetString()))))->SumNodeValues((std::intptr_t)(&kCenterTmp));
             float fDist6 = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCenterTmp))->FUN_00439ef0((::NiPoint3 *)&(m_kTargetPos), *(const ::NiPoint3 *)nullptr)))))->FUN_00589850();
             float fNearOut = 1.0f - fDist6 / 512.0;
             fExtraZ += FUN_00404010(fNearOut, 0.0f);
@@ -578,17 +578,17 @@ struct HideSearchX
 
     void FUN_006a7c90(int iPacked, InfoF* pkInfo, float fVal);
     void FUN_006a7d60(ParamX* pkObj, int iArg, int iOne);
-    int SetupActorTarget(ActorX* pkActor, TriRef20* pkInfo, ParamX* pkObj, int iArg);
+    int SetupActorTarget(ActorX* pkActor, TriRef20* pkInfo, ParamX* pkObj, std::intptr_t iArg);
 };
 
 // @fnv 0x006a9d80
-int HideSearchX::SetupActorTarget(ActorX* pkActor, TriRef20* pkInfo, ParamX* pkObj, int iArg)
+int HideSearchX::SetupActorTarget(ActorX* pkActor, TriRef20* pkInfo, ParamX* pkObj, std::intptr_t iArg)
 {
     unk2058 = pkActor;
     m_pActor = pkActor;
     m_kInfo = *pkInfo;
 
-    NiPoint3 kActorPos5 = reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::GetOffsetC((int)(pkActor))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 kActorPos5 = reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::GetOffsetC((std::intptr_t)(pkActor))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
     m_kStartPoint = ::NiPoint3::ZERO;
     m_fFirstLightParameter = 0.0f;
     if (((::HideTgtx *)(reinterpret_cast<::_Dummy_0069e390 *>((m_pActor))->GetString())))
@@ -694,7 +694,7 @@ bool FUN_006aa470_cls::FUN_006aa470(NavData6aa4* pkData)
 
     float fDist_2 = 0.0f;
     if (((::Target6aa4 *)(reinterpret_cast<::_Dummy_0069e390 *>((m_pkActor))->GetString())))
-        fDist_2 = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::Target6aa4 *)(reinterpret_cast<::_Dummy_0069e390 *>((m_pkActor))->GetString()))))->SumNodeValues((int)(&kPos));
+        fDist_2 = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::Target6aa4 *)(reinterpret_cast<::_Dummy_0069e390 *>((m_pkActor))->GetString()))))->SumNodeValues((std::intptr_t)(&kPos));
     return fDist_2 <= ::_DAT_01012060;
 }
 

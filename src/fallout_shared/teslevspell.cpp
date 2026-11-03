@@ -219,7 +219,7 @@ bool LevSpellS::FUN_0050ba30(TESFile* apFile)
                 reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(&levObj), 0xc);
                 if (apFile->IsEndianConversionRequired())
                     ((TmpEndian*)&levObj)->SwapEndian();
-                DAT_011c8f98 = ((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>((((TESLeveledList*)((char*)this + 0x30))))->InsertEntryByPriority(levObj.sLevel, levObj.m_sCount, (int)(levObj.pForm), (int)(0))));
+                DAT_011c8f98 = ((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>((((TESLeveledList*)((char*)this + 0x30))))->InsertEntryByPriority(levObj.sLevel, levObj.m_sCount, (std::intptr_t)(levObj.pForm), (int)(0))));
                 break;
             }
             case 'DEOC':
@@ -358,7 +358,7 @@ FUN_0096a2d0* SpellSelector::FUN_0050c000(void* actor, unsigned short level)
         SpellEntryNode* node = ((::SpellEntryNode *)(reinterpret_cast<::BaseProcess *>(&(choices))->GetCurrentProcessData()));
         while (node)
         {
-            SpellEntry* entry = *((::SpellEntry **)(new ((void *)(node)) ::Vec3()));
+            SpellEntry* entry = *((::SpellEntry **)((void *)(node)));
             if (entry)
             {
                 if (!result)
@@ -429,13 +429,13 @@ struct FUN_0050c1d0_shell
 FUN_0096a2d0* FUN_0050c1d0_shell::CollectHeadParts(SpellOwner* pkOwner)
 {
     FUN_0096a2d0* pkResult = 0;
-    for (int i = 0; i < 6; i++)
+    for (std::intptr_t i = 0; i < 6; i++)
     {
         List_009e03e0* pkIter = ((::fnv_0050c1d0::List_009e03e0 *)(reinterpret_cast<::SpellSelector *>(this)->FUN_0050c000((void *)(i), (unsigned short)(pkOwner->m_kSource.GetEntry(::GetMinusOne())))));
         List_009e03e0* pkListCur = pkIter;
         while (pkIter)
         {
-            BGSHeadPart* pkItem = ((::fnv_0050c1d0::BGSHeadPart *)(new ((void *)(pkIter)) ::Vec3()));
+            BGSHeadPart* pkItem = ((::fnv_0050c1d0::BGSHeadPart *)((void *)(pkIter)));
             if (pkItem)
             {
                 bool bAppend = true;
@@ -534,9 +534,9 @@ void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short leve
     maxLevel = 0;
     best = 0;
     node = ((::ListNode *)(reinterpret_cast<::BaseProcess *>(&(((FieldLayout*)this)->list30))->GetCurrentProcessData()));
-    while (node != 0 && *((::Entry **)(new ((void *)(node)) ::Vec3())) != 0)
+    while (node != 0 && *((::Entry **)((void *)(node))) != 0)
     {
-        Entry* entryLevel = *((::Entry **)(new ((void *)(node)) ::Vec3()));
+        Entry* entryLevel = *((::Entry **)((void *)(node)));
         FUN_0050bf90_cls* mapped =
             (FUN_0050bf90_cls*)FUN_00ec43fb(entryLevel->form, 0, &DAT_01183028, &DAT_01183140, 0);
         int entry = entryLevel->level;
@@ -566,11 +566,11 @@ void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short leve
                 return;
         }
         unsigned short nestedRecord;
-        Entry* chosen = *((::Entry **)(new ((void *)(node)) ::Vec3()));
+        Entry* chosen = *((::Entry **)((void *)(node)));
         unsigned int foundForm = chosen->form;
         nestedRecord = chosen->count;
         FUN_0050bf90_cls* selectedEntry =
-            (FUN_0050bf90_cls*)((unsigned int)(std::uintptr_t)(dynamic_cast<::TESLevSpell *>(reinterpret_cast<::TESForm *>(chosen->form))));
+            (FUN_0050bf90_cls*)((std::uintptr_t)(dynamic_cast<::TESLevSpell *>(reinterpret_cast<::TESForm *>(chosen->form))));
         if (selectedEntry != 0 && recurse != 0)
         {
             unsigned short recursiveCount;

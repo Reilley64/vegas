@@ -10135,7 +10135,7 @@ struct SceneRadiusUpdater
     void ProcessTargetIfEligible(SceneRenderable*, ScenePosition, unsigned int);
 };
 // @fnv 0x006fa6d0
-void UpdateSceneEntryRadii(const ScenePosition& aPosition, unsigned int radius)
+void UpdateSceneEntryRadii(const ScenePosition& aPosition, uintptr_t radius)
 {
     unsigned int scale = radius;
     ScenePosition position8 = aPosition.FUN_0045bb80();

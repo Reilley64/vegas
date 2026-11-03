@@ -1,5 +1,6 @@
 // fallout_shared/bipedanim.cpp: BipedAnim, BipedAnimWeap, FaceLoader, BipedAnimHelper (75 functions)
 
+#include <cstring>
 #include <new>
 #include <cstdint>
 #include "runtime/crt.h"
@@ -131,6 +132,16 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_011f9000.h"
 #include "bipedanim_decls.h"
+#include "fnv/decl/NP_0092c820.h"
+#include "fnv/decl/W_0043b4f0.h"
+#include "fnv/symbols_00441000.h"
+#include "fnv/decl/FUN_00a62660_cls.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_0109b000.h"
+#include <windows.h>
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/symbols_011f3000.h"
 
 // The supplied identity for this span differs from its PC receiver semantics.
 // Removes the biped weapon and related weapon/quiver nodes from the reference's 3D, updating the actor's process and weapon model state.
@@ -721,7 +732,7 @@ void FUN_004addc0(DummyThis* this_ptr, StackArg aStackArg)
 
 
 // @fnv 0x004ade00
-void __cdecl FUN_004ade00(int a1, int a2)
+void __cdecl FUN_004ade00(std::intptr_t a1, std::intptr_t a2)
 {
     ::FUN_00c4b470((::FUN_00c4b470_owner *)(a1), (void **)(a2), 1);
 }
@@ -774,7 +785,7 @@ SrcList* FUN_004ae700_S::FUN_004ae700()
     if (f)
     {
         ::FUN_00a29680();
-        r = ((::SrcList *)(::FUN_00460140((int)(f))));
+        r = ((::SrcList *)(::FUN_00460140((std::intptr_t)(f))));
         ::FUN_00a29680();
     }
     return r;
@@ -889,8 +900,6 @@ struct TESFullNameSetFullNameAccess : public TESFullName
 // @fnv 0x004afa20
 TESModel* FUN_004afa20_shell::FUN_004afa20(int aeBipedObject, char* ap1stPersonFileName)
 {
-    reinterpret_cast<TESFullName*>(&DAT_011c5d10[aeBipedObject])
-            ->*reinterpret_cast<void (TESFullName::*)(const char*)>(&TESFullNameSetFullNameAccess::SetFullName);
     reinterpret_cast<::TESFullName *>((reinterpret_cast<TESFullNameSetFullNameAccess*>(&DAT_011c5d10[aeBipedObject])))->SetFullName(ap1stPersonFileName);
     return &DAT_011c5d10[aeBipedObject];
 }
@@ -931,12 +940,12 @@ struct Dummy_004f8a90
 
 struct FUN_004f8a30_shell2
 {
-    int FUN_004f8a30(int arg1);
+    int FUN_004f8a30(std::intptr_t arg1);
 };
 
 // Calls FUN_004f8a90 with arg1 and a local result, then returns that result.
 // @fnv 0x004f8a30
-int FUN_004f8a30_shell2::FUN_004f8a30(int arg1)
+int FUN_004f8a30_shell2::FUN_004f8a30(std::intptr_t arg1)
 {
     int result = 0;
     reinterpret_cast<::FUN_004f8a90_Class *>((((Dummy_004f8a90*)this)))->FUN_004f8a90(arg1, (*(unsigned int *)(&result)));
@@ -1185,10 +1194,10 @@ struct BSPackedTask
 };
 struct Host0087b360
 {
-    void FUN_0087b360(int a, int b);
+    void FUN_0087b360(std::intptr_t a, int b);
 };
 // @fnv 0x0087b360
-void Host0087b360::FUN_0087b360(int aiFirst, int aiSecond)
+void Host0087b360::FUN_0087b360(std::intptr_t aiFirst, int aiSecond)
 {
     BSPackedTask task;
     task.f0 = 0x15;
@@ -1418,7 +1427,7 @@ struct GO
 {
     unsigned int value;
 
-    GO(int);
+    GO(std::intptr_t);
     operator unsigned int() const;
     ~GO();
 };
@@ -1435,7 +1444,7 @@ void FUN_004aad00_shell::InitBoneSlots(NiAVObject* pBone)
 
     for (i = 0; i < 5; ++i)
     {
-        GO bone(reinterpret_cast<int>(::FUN_004aae30(pBone, (::NiFixedString *)(DAT_01188b74[i]))));
+        GO bone(reinterpret_cast<std::intptr_t>(::FUN_004aae30(pBone, (::NiFixedString *)(DAT_01188b74[i]))));
 
         if (bone.operator unsigned int() && reinterpret_cast<NiAVObject*>(bone.operator unsigned int())->IsSceneNode())
         {
@@ -1541,7 +1550,7 @@ void __cdecl FUN_004ade40(NiNode* source, NiAVObject* object, NiAVObject* notify
         if (geometry)
         {
             NiAVObject* boneCount;
-            unsigned int replacement = ((unsigned int)(reinterpret_cast<::LowProcess *>((reinterpret_cast<SkinDataProbe*>(((::NiSkinData *)(reinterpret_cast<::TESRegionDataMap *>((geometry))->GetRegionMapName())))))->GetActiveCombatTarget()));
+            std::uintptr_t replacement = ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((reinterpret_cast<SkinDataProbe*>(((::NiSkinData *)(reinterpret_cast<::TESRegionDataMap *>((geometry))->GetRegionMapName())))))->GetActiveCombatTarget()));
             NiAVObject** bones = ((::NiAVObject **)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((geometry))->FUN_00825c00()));
             for (unsigned int i = 0; i < replacement; ++i)
             {
@@ -1686,7 +1695,7 @@ class B4AEE60ModelLoader
 class B4AEE60Owner
 {
   public:
-    void RequestModelLoad(int iParamA, int iParamB, B4AEE60Request* pkRequest, int iSlot);
+    void RequestModelLoad(int iParamA, std::intptr_t iParamB, B4AEE60Request* pkRequest, int iSlot);
 
     int unk00;
     int unk04;
@@ -1712,7 +1721,7 @@ void C4AEDE0Queue::QueueItem(int iA, int iB, int iC)
 
 // If the request has no result yet, starts a model load for the given slot when its handle is valid, otherwise completes the request with null.
 // @fnv 0x004aee60
-void B4AEE60Owner::RequestModelLoad(int iParamA, int iParamB, B4AEE60Request* pkRequest, int iSlot)
+void B4AEE60Owner::RequestModelLoad(int iParamA, std::intptr_t iParamB, B4AEE60Request* pkRequest, int iSlot)
 {
     if (((void *)(::FUN_00559450((int *)(pkRequest)))))
         return;
@@ -2143,7 +2152,7 @@ NiAVObject* BipedAnim::AttachBipedModel(NiNode* model, NiNode* parent, BIPED_OBJ
                     reinterpret_cast<::FUN_004adde0_shell *>((skinned.geom))->FUN_004adde0((::NiNode *)(::NiSkinInstance *)((NiSkinInstance*)((::NiObject *)(reinterpret_cast<::CloneSourceA5d6 *>((((::NiSkinInstance *)(::fnv_0043fad0::FUN_0043fad0((const char *)(skinned.geom))))))->FUN_00a5d680()))));
                     ((::NiSkinInstance *)(::fnv_0043fad0::FUN_0043fad0((const char *)(skinned.geom))))->FUN_004addc0((NiSkinPartition*)(NiAVObject*)partition);
                 }
-                m_pActorBaseFormItem->GetFaceGenCoords((*(FaceGenMatrix<float> (*)(&)[2][2])&(coords)));
+                m_pActorBaseFormItem->GetFaceGenCoords((*(FaceGenMatrix<float> (*)[2][2])&(coords)));
                 if (((bool)(::FUN_0043faf0())))
                     reinterpret_cast<::FUN_0065a970_shell *>((attachment.face))->ApplyMorphs((::FaceGenCoordinate *)(FaceGenMatrix<float> (*)[4])(&coords), skinned.geom, false);
             }
@@ -2154,7 +2163,7 @@ NiAVObject* BipedAnim::AttachBipedModel(NiNode* model, NiNode* parent, BIPED_OBJ
                 if (!pResult)
                     pResult = skinned.child;
                 BipedSkinBoneBinding binding;
-                binding.count = (unsigned int)((LowProcess*)((::NiSkinData *)(reinterpret_cast<::TESRegionDataMap *>((skinned.skin))->GetRegionMapName())))->GetActiveCombatTarget();
+                binding.count = (unsigned int)(std::uintptr_t)((LowProcess*)((::NiSkinData *)(reinterpret_cast<::TESRegionDataMap *>((skinned.skin))->GetRegionMapName())))->GetActiveCombatTarget();
                 binding.boneArray = (NiAVObject**)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)skinned.skin)))->FUN_00825c00();
                 for (unsigned int j = 0; j < binding.count; ++j)
                 {
@@ -2202,7 +2211,7 @@ void BipedAnimHelper::ApplySkinTextures(NiAVObject* apObject, bool abArg2)
     NiPointer<NiTexture> ptrB3(0);
 
     if (pNPC)
-        pNPC->GetFaceGenCoords((*(FaceGenMatrix<float> (*)(&)[2][2])&(coords3)));
+        pNPC->GetFaceGenCoords((*(FaceGenMatrix<float> (*)[2][2])&(coords3)));
 
     bool bResultTmp = false;
     if (abArg2)
@@ -2371,7 +2380,7 @@ void BipedLoadAccess::UpdateBipedObjects(bool force)
                 if (reinterpret_cast<::FUN_004ad010_shell *>((weapon))->IsFlag4Set() && this == ((::BipedAnim *)(reinterpret_cast<::PlayerCharacter *>((((PlayerLoadAccess*)::_g_thePlayer)))->FUN_00950b00(false))))
                 {
                     if (!reinterpret_cast<::FUN_004ad030_shell *>((((WeapLoadAccess*)weapon)))->GetFlag() || mods)
-                        ::FUN_00709c20((int)(((::TESModel *)(reinterpret_cast<::FUN_00504e60_shell *>((weapon))->FUN_00504e60()))));
+                        ::FUN_00709c20((std::intptr_t)(((::TESModel *)(reinterpret_cast<::FUN_00504e60_shell *>((weapon))->FUN_00504e60()))));
                 }
             }
             else
@@ -2456,7 +2465,7 @@ void BipedLoadAccess::UpdateBipedObjects(bool force)
                                     reinterpret_cast<::NiObjectD510 *>((((DataLoadAccess*)((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(geometry)))))))->FUN_00a5d510((::NiPointerD510 &)(data));
                                     npc = (NiGeometryData*)data;
                                     geometry->ReplaceModelData(npc);
-                                    newData->GetFaceGenCoords((*(FaceGenMatrix<float> (*)(&)[2][2])&(coords)));
+                                    newData->GetFaceGenCoords((*(FaceGenMatrix<float> (*)[2][2])&(coords)));
                                     if (!((bool)(::FUN_0043faf0())) || reinterpret_cast<::FUN_0065a970_shell *>((face))->ApplyMorphs((::FaceGenCoordinate *)(FaceGenMatrix<float> (*)[4])(&coords), geometry, false))
                                     {
                                         ThreeByThreeMatrix rotation;
@@ -2526,6 +2535,354 @@ void BipedLoadAccess::UpdateBipedObjects(bool force)
         }
     }
     reinterpret_cast<::FUN_00a5a040_Class *>((((CloneLoadAccess*)((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((m_pActor))->FUN_0043fcd0())))))->FUN_00a5a040();
+}
+
+// @fnv 0x004abd30
+void BipedAnim::FUN_004abd30(IO_TASK_PRIORITY priority, NiPointer<QueuedHelmet>& queuedHelmet, QueuedFile* file)
+{
+    unsigned int modelFlags;
+    TESNPC* npc;
+    int i;
+    NiPointer<QueuedHelmet> pHelmetQueueEntry(0);
+    modelFlags = 0;
+    npc = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((m_pActor))->FUN_007af430())));
+    if (npc)
+    {
+        for (i = 0; i < 20; i++)
+        {
+            if (object[i].m_pModel && object[i].m_pModel != (TESModel*)-1)
+            {
+                modelFlags |= ((unsigned int)(::FUN_004abf80((unsigned char *)(object[i].m_pModel))));
+                if (IsSlotHidden((BIPED_OBJECT)i) && (*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011c5ef0)).Bool()->b && ((bool)(::FUN_0043faf0())) &&
+                    CanLoadHiddenBipedObjects())
+                {
+                    reinterpret_cast<::B4AEE60Owner *>(this)->RequestModelLoad((*(int *)&(priority)), (std::intptr_t)(file), (::B4AEE60Request *)&(pHelmetQueueEntry), (*(int *)&(const ::BIPED_OBJECT &)((BIPED_OBJECT)i)));
+                }
+                else
+                {
+                    if (m_pActor == ::_g_thePlayer)
+                    {
+                        TESModel* firstPersonModel = GetModelForSlot((BIPED_OBJECT)i, object[i].m_pModel);
+                        if (firstPersonModel != object[i].m_pModel)
+                            reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(firstPersonModel), (*(int *)&(priority)), (std::uintptr_t)(file), 3, true, false, false);
+                    }
+                    reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(object[i].m_pModel), (*(int *)&(priority)), (std::uintptr_t)(file), 3, true, false, false);
+                    TESBipedModelForm* biped = ::TESBipedModelForm::GetFormAsBipedModel(object[i].pParent);
+                    if (biped)
+                    {
+                        const char* path = (const char*)biped->FUN_00480ce0();
+                        if (*path)
+                            reinterpret_cast<::QueueHelper *>((g_modelLoader))->FUN_00444040((int)(path), (*(int *)&(priority)), (int)(file), 3, true, false, false);
+                    }
+                }
+            }
+        }
+    }
+    reinterpret_cast<::NP_0092c820 *>((void *)&(const ::NiPointer< ::QueuedHelmet> &)(queuedHelmet))->FUN_0092c820((const ::NP_0092c820 &)(pHelmetQueueEntry));
+    QueueBipedObjectLoads(modelFlags, priority, file);
+}
+
+struct NiShader
+{
+};
+
+struct Holder_o2
+{
+    bool FUN_00a5ba40(NiTexture* pkTex);
+    bool FUN_00a5bc40(const NiFixedString& kName, NiTexture* pkTex);
+};
+
+// @fnv 0x00a5bc40
+bool Holder_o2::FUN_00a5bc40(const NiFixedString& kName, NiTexture* pkTex)
+{
+    if ((int)(std::uintptr_t)kName.data == (*reinterpret_cast<int *>(&::DAT_0109b220)))
+        return false;
+    if (!pkTex)
+        return false;
+    if ((*(const ::NiFixedString *)&(reinterpret_cast<::FUN_00a62660_cls *>((void *)(((NiShader*)pkTex)))->FUN_00a62660())).data == (const char*)(*reinterpret_cast<std::intptr_t *>(&::DAT_0109b220)))
+    {
+        ::AssignFixedString((char *)(((NiAVObject*)pkTex)), (int)&(kName), {});
+    }
+    else
+    {
+        if (kName.data != (*(const ::NiFixedString *)&(reinterpret_cast<::FUN_00a62660_cls *>((void *)(((NiShader*)pkTex)))->FUN_00a62660())).data)
+            return false;
+    }
+    return FUN_00a5ba40(pkTex);
+}
+
+struct FUN_00b553d0_PropertyLayout
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    NiPoint3 value;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int count;
+};
+
+struct FUN_00b553d0_NodeLayout
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    NiAVObject** children;
+    unsigned short unkA4;
+    unsigned short childCount;
+};
+
+// @fnv 0x00b553d0
+void __cdecl FUN_00b553d0(NiGeometry* pObject, NiPoint3* pValue)
+{
+    if (pObject == 0)
+        return;
+
+    if (pObject->IsGeometry() != 0)
+    {
+        NiProperty* pFirst = ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pObject))->FUN_00a59d30(2)));
+        NiProperty* pSecond = ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pObject))->FUN_00a59d30(3)));
+
+        if (pFirst != 0 && pSecond != 0)
+        {
+            FUN_00b553d0_PropertyLayout* pFirstLayout = (FUN_00b553d0_PropertyLayout*)pFirst;
+            FUN_00b553d0_PropertyLayout* pSecondLayout = (FUN_00b553d0_PropertyLayout*)pSecond;
+
+            if ((pSecondLayout->unk20 & 0x20000000u) <= 0)
+                return;
+
+            pFirstLayout->value = *pValue;
+            ++pFirstLayout->count;
+        }
+        return;
+    }
+
+    NiNode* pNode = pObject->IsSceneNode();
+    if (pNode == 0)
+        return;
+
+    FUN_00b553d0_NodeLayout* pNodeLayout = (FUN_00b553d0_NodeLayout*)pNode;
+
+    unsigned int count = pNodeLayout->childCount;
+    for (unsigned int i = 0; i < count; ++i)
+    {
+        NiAVObject* pChild = pNodeLayout->children[i];
+        if (pChild != 0)
+            FUN_00b553d0((NiGeometry*)pChild, pValue);
+    }
+}
+
+struct NiStub10
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+};
+
+class NiController
+{
+  public:
+    virtual void V00();
+    virtual void V04();
+    virtual void V08();
+    virtual void V0C();
+    virtual void V10();
+    virtual void V14();
+    virtual void V18();
+    virtual void V1C();
+    virtual void V20();
+    virtual void V24();
+    virtual void V28();
+    virtual void V2C();
+    virtual void V30();
+    virtual void V34();
+    virtual void V38();
+    virtual NiStub10* GetTarget();
+};
+
+struct SceneNode
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    SceneNode* m_parent;
+    NiController* m_controller;
+    SceneNode* GetParent() const
+    {
+        return m_parent;
+    }
+};
+
+class NiGlobalStringTable_o2
+{
+  public:
+    static char* AddString(const char* s);
+};
+
+struct BackpackName
+{
+    char* m_data;
+    BackpackName(const char* s)
+    {
+        m_data = NiGlobalStringTable_o2::AddString(s);
+    }
+    ~BackpackName();
+};
+
+struct AttachInfo
+{
+    void* m_data;
+};
+
+void FUN_00c88a40(void* a1, AttachInfo a2, SceneNode* obj, SceneNode* parent, bool a4);
+
+static __forceinline SceneNode* FindAttachParent(SceneNode* obj, SceneNode* root)
+{
+    SceneNode* p = obj ? obj->GetParent() : 0;
+    while (p)
+    {
+        NiController* c = p->m_controller;
+        if (c && (!c->GetTarget() || p->m_controller->GetTarget()->unk10 != 0))
+            break;
+        if (p == root)
+            break;
+        p = p->GetParent();
+    }
+    if (p == root)
+        return 0;
+    return p;
+}
+
+// @fnv 0x00c89050
+void FUN_00c89050(void* a1, AttachInfo a2, SceneNode* root, bool a4)
+{
+    SceneNode* obj = ((::SceneNode *)(::FUN_00c4b310((::ObjQ *)(root), "Weapon", 0)));
+    SceneNode* parent = FindAttachParent(obj, root);
+    if (obj && parent)
+        FUN_00c88a40(a1, a2, obj, parent, a4);
+
+    static BackpackName kBackpack("Backpack");
+    obj = ((::SceneNode *)(::FUN_00c4b470((::FUN_00c4b470_owner *)(root), (void **)(::BackpackName *)(&kBackpack), 0)));
+    parent = FindAttachParent(obj, root);
+    if (obj && parent)
+        FUN_00c88a40(a1, a2, obj, parent, a4);
+}
+
+struct FixStrQ
+{
+    char* m_kHandle;
+    FixStrQ(const char* s)
+    {
+        if (s == 0)
+            m_kHandle = DAT_0109b220;
+        else
+            m_kHandle = ::NiGlobalStringTable::AddString(s);
+    }
+    ~FixStrQ()
+    {
+        if (m_kHandle == DAT_0109b220)
+            return;
+        long* pRef = (long*)(m_kHandle - 8);
+        InterlockedDecrement(pRef);
+    }
+};
+
+struct ResultQ;
+
+struct FinderQ
+{
+    virtual void v00(), v01(), v02(), v03(), v04(), v05(), v06(), v07(), v08(), v09(), v10(), v11(), v12(), v13(),
+        v14(), v15(), v16(), v17(), v18(), v19(), v20(), v21(), v22(), v23(), v24(), v25(), v26(), v27(), v28(), v29(),
+        v30(), v31(), v32(), v33(), v34();
+    virtual ResultQ* Find(const FixStrQ& name);
+};
+
+struct ExtQ
+{
+    char pad[0x78];
+    FinderQ* m_pFinder;
+    FinderQ* GetFinder()
+    {
+        FinderQ* p = m_pFinder;
+        return p;
+    }
+};
+
+struct ObjQ
+{
+    virtual void v00(), v01(), v02(), v03(), v04(), v05(), v06(), v07(), v08(), v09(), v10(), v11(), v12(), v13(),
+        v14(), v15(), v16(), v17(), v18(), v19(), v20(), v21(), v22(), v23(), v24(), v25(), v26(), v27(), v28(), v29(),
+        v30(), v31(), v32(), v33(), v34(), v35(), v36(), v37(), v38();
+    virtual ResultQ* GetObjectByName(const FixStrQ& name);
+};
+
+// @fnv 0x00c4b310
+ResultQ* __cdecl FUN_00c4b310(ObjQ* pObj, const char* pcName, bool bRecurse)
+{
+    if (!pObj || !pcName)
+        return 0;
+    ExtQ* pExt3 = ((::ExtQ *)(reinterpret_cast<::MyHost *>((pObj))->FUN_00a5c570((const ::MyRTTI *)(void *)(&(*reinterpret_cast<char *>(&::g_011f36ac))))));
+    FixStrQ kName9(pcName);
+    if (pExt3)
+    {
+        ResultQ* pRes2 = pExt3->GetFinder()->Find(kName9);
+        if (pRes2)
+            return pRes2;
+    }
+    if (bRecurse)
+        return pObj->GetObjectByName(kName9);
+    return 0;
 }
 
 #include "generated/data/fallout_shared/bipedanim.inc"

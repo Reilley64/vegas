@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace fnv_00b174c0 { struct CompareD10; }
 namespace fnv_00b174c0 { struct NodeD10; }
 namespace fnv_00b17630 { struct SortItem; }
@@ -22,7 +24,7 @@ void FUN_00b17530(::SortEntry **, ::SortEntry **, ::SortEntry **, ::SortPred);
 // 0x00b17630
 namespace fnv_00b17630 { void FUN_00b17630(::fnv_00b17630::SortItem **, ::fnv_00b17630::SortItem **); }
 // 0x00b17740
-void FUN_00b17740(int, int, int, int);
+void FUN_00b17740(std::uintptr_t, std::uintptr_t, std::uintptr_t, std::uintptr_t);
 // 0x00b17790
 void FUN_00b17790(::BB17790Iterator, ::BB17790Iterator, int *, void *);
 // 0x00b177e0

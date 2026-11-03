@@ -13,7 +13,7 @@ class PathingSolutionBase
     virtual ~PathingSolutionBase();
     unsigned int refs;
 };
-template <class T, int N> class BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
   public:
     BSSimpleArray();

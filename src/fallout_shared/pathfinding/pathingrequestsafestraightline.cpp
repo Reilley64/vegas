@@ -99,12 +99,12 @@ struct FUN_006e6010 : FUN_006e3fb0_base
 {
     char _pad[0xB4];
     int pTarget;
-    FUN_006e6010(int ai);
+    FUN_006e6010(std::intptr_t ai);
     ~FUN_006e6010();
 };
 // Constructs the base with ai and stores the result of FUN_004036b0 called on ai into pTarget.
 // @fnv 0x006e6010
-FUN_006e6010::FUN_006e6010(int ai) : FUN_006e3fb0_base(ai)
+FUN_006e6010::FUN_006e6010(std::intptr_t ai) : FUN_006e3fb0_base(ai)
 {
     pTarget = ((int)(reinterpret_cast<::FUN_004036b0_Class *>((((S_004036b0*)(void*)ai)))->FUN_004036b0()));
 }
@@ -125,6 +125,6 @@ void Holder_006e6140::ResolveReference(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     *(TESObjectREFR**)((char*)this + 0xb8) = (*(TESObjectREFR**)((char*)this + 0xb8))
                                                  ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0(
-                                                       (unsigned int)*(TESObjectREFR**)((char*)this + 0xb8)))
+                                                       (unsigned int)(std::uintptr_t)*(TESObjectREFR**)((char*)this + 0xb8)))
                                                  : 0;
 }

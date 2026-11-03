@@ -64,7 +64,7 @@ void BGSZoneTargetListener::SetFlags(int flags, bool set)
 }  // namespace fnv_00620760
 
 // @fnv 0x0087e9b0
-void CallWithParam(intptr_t param)
+void CallWithParam(std::intptr_t param)
 {
     ::FUN_00553380((void *)(param));
 }
@@ -73,7 +73,7 @@ struct FUN_0061fc10_shell
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void FUN_0061fc10(unsigned int a, unsigned int b);
+    void FUN_0061fc10(std::uintptr_t a, std::uintptr_t b);
 };
 
 extern void* DAT_0104e3e8;
@@ -82,7 +82,7 @@ struct FUN_0062d840_shell
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void* FUN_0062d840(unsigned int a, unsigned int b);
+    void* FUN_0062d840(std::uintptr_t a, std::uintptr_t b);
 };
 
 struct Member140
@@ -94,14 +94,14 @@ struct FUN_0061fc10
     void* m0;
     char _4[16];
     int _14;
-    FUN_0061fc10(unsigned int a, unsigned int b);
+    FUN_0061fc10(std::uintptr_t a, std::uintptr_t b);
 };
 extern int DAT_0104d9d8;
 struct FUN_0061fe70_shell
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void* Construct(unsigned int a, unsigned int b);
+    void* Construct(std::uintptr_t a, std::uintptr_t b);
 };
 struct FUN_00620720_shell
 {
@@ -113,7 +113,7 @@ struct FUN_00620720_shell
 };
 // Calls FUN_0061fc10 with a and b, sets the first field to point at DAT_0104e3e8, and returns this.
 // @fnv 0x0062d840
-void* FUN_0062d840_shell::FUN_0062d840(unsigned int a, unsigned int b)
+void* FUN_0062d840_shell::FUN_0062d840(std::uintptr_t a, std::uintptr_t b)
 {
     new ((void *)(((FUN_0061fc10_shell*)this))) ::FUN_0061fc10(a, b);
     m_iWordAt00 = &DAT_0104e3e8;
@@ -121,7 +121,7 @@ void* FUN_0062d840_shell::FUN_0062d840(unsigned int a, unsigned int b)
 }
 // Calls FUN_00620720 on the member at offset 4 with a and b, then sets m0 to DAT_0104d9cc and _14 to 0.
 // @fnv 0x0061fc10
-FUN_0061fc10::FUN_0061fc10(unsigned int uiFirst, unsigned int uiSecond)
+FUN_0061fc10::FUN_0061fc10(std::uintptr_t uiFirst, std::uintptr_t uiSecond)
 {
     reinterpret_cast<::FUN_00620720_shell *>((((Member140*)&this->_4[0])))->FUN_00620720((void *)(uiFirst), (void *)(uiSecond));
     m0 = DAT_0104d9cc;
@@ -160,7 +160,7 @@ void FUN_0061fea0_shell::ClearList()
         void* pNext;
         pNext = ((FUN_0061fef0_Node*)pNode)->FUN_0061fef0();
         tmp = pNode;
-        CallWithParam((int)tmp);
+        CallWithParam((std::intptr_t)tmp);
         pNode = pNext;
     }
     m_14 = 0;
@@ -168,12 +168,12 @@ void FUN_0061fea0_shell::ClearList()
 
 struct FUN_0061ffe0_shell
 {
-    FUN_0061fc10* Create(unsigned int a, unsigned int b);
+    FUN_0061fc10* Create(std::uintptr_t a, std::uintptr_t b);
 };
 
 // Allocates and constructs a new FUN_0061fc10 object from the two unsigned int arguments and returns it.
 // @fnv 0x0061ffe0
-FUN_0061fc10* FUN_0061ffe0_shell::Create(unsigned int uiFirst, unsigned int uiSecond)
+FUN_0061fc10* FUN_0061ffe0_shell::Create(std::uintptr_t uiFirst, std::uintptr_t uiSecond)
 {
     return new FUN_0061fc10(uiFirst, uiSecond);
 }
@@ -264,7 +264,7 @@ struct Holder
     Node* node14;
     void FUN_0061ff30(Node* node);
 };
-void CallWithParam(intptr_t value);
+void CallWithParam(std::intptr_t value);
 
 // @fnv 0x0061ff30
 void Holder::FUN_0061ff30(Node* node)
@@ -273,7 +273,7 @@ void Holder::FUN_0061ff30(Node* node)
         return;
     node14 = static_cast<Node*>(node->FUN_006207a0(node14));
     Node* toRelease = node;
-    CallWithParam((int)toRelease);
+    CallWithParam((std::intptr_t)toRelease);
 }
 
 struct ZoneTargetNode
@@ -343,11 +343,11 @@ struct S_0061fba0_Obj
     S_0061fba0_Sub m_20;
     S_0061fba0_Sub m_30;
     int unk40;
-    S_0061fba0_Obj* FUN_0061fba0(unsigned int a, unsigned int b);
+    S_0061fba0_Obj* FUN_0061fba0(std::uintptr_t a, std::uintptr_t b);
 };
 // Calls FUN_0061fba0 with a and b, stores the address of DAT_0104d9d8 at this, and returns this.
 // @fnv 0x0061fe70
-void* FUN_0061fe70_shell::Construct(unsigned int a, unsigned int b)
+void* FUN_0061fe70_shell::Construct(std::uintptr_t a, std::uintptr_t b)
 {
     reinterpret_cast<::S_0061fba0_Obj *>(this)->FUN_0061fba0(a, b);
     *reinterpret_cast<void**>(this) = &DAT_0104d9d8;
@@ -355,12 +355,10 @@ void* FUN_0061fe70_shell::Construct(unsigned int a, unsigned int b)
 }
 
 // @fnv 0x0061fba0
-S_0061fba0_Obj* S_0061fba0_Obj::FUN_0061fba0(unsigned int a, unsigned int b)
+S_0061fba0_Obj* S_0061fba0_Obj::FUN_0061fba0(std::uintptr_t a, std::uintptr_t b)
 {
     reinterpret_cast<::FUN_00620720_shell *>(&(m_10))->FUN_00620720((void *)(a), (void *)(b));
     vtbl = (const void*)&DAT_0104d9c4;
-    new ((void *)&(m_20)) ::Vec3();
-    new ((void *)&(m_30)) ::Vec3();
     reinterpret_cast<::S_00538f40 *>(&(m_20))->FUN_00538f40();
     reinterpret_cast<::S_00538f40 *>(&(m_30))->FUN_00538f40();
     unk40 = 0x24;

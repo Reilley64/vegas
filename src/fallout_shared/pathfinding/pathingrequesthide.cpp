@@ -34,7 +34,7 @@ struct FUN_006e55e0 : FUN_006e2620
 // @fnv 0x006e55a0
 void* PathingRequestHide::Destroy(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006e55e0 *>((this))->FUN_006e55e0::~FUN_006e55e0();
+    reinterpret_cast<::FUN_006e55e0 *>((this))->::FUN_006e55e0::~FUN_006e55e0();
     if (flags & 1)
         ::FUN_00aa1460(this, 0xdc);
     return this;

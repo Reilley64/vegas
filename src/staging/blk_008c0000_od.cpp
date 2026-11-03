@@ -1873,7 +1873,7 @@ void Actor8C4::FUN_008c4510(int iValue)
 
 
 // @fnv 0x008c4f00
-int __cdecl FUN_008c4f00()
+void* __cdecl FUN_008c4f00()
 {
     return DAT_011c3580;
 }

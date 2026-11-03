@@ -154,6 +154,16 @@ template <class T> class BSSimpleList
 };
 class BGSPerkEntry;
 class TESObjectREFR;
+template <> class BSSimpleList<TESObjectREFR*>
+{
+  public:
+    TESObjectREFR* item;
+    BSSimpleList* next;
+    BSSimpleList();
+    ~BSSimpleList();
+    bool FUN_008256d0();
+    void AddHead(TESObjectREFR* const& item);
+};
 class BGSLoadedReferenceCollection
 {
   public:
@@ -243,6 +253,8 @@ public:
     ::TESRegionList *GetRegionList(bool);
 public:
     void RemoveNonPersistentRefs();
+    void FUN_005571a0(bool active);
+    bool FUN_005434d0(struct FormGroupQuery* group);
 };
 
 #endif

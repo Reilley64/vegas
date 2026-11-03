@@ -70,6 +70,7 @@
 #include "pathingrequest_types_TESPackage.h"
 #include "TESObjectREFR.h"
 #include "pathingrequest_decls.h"
+#include "fnv/decl/FUN_006a7910_shell.h"
 
 // @fnv 0x006e38d0
 void PathingRequest::InitLoadGame(BGSLoadFormBuffer* buffer)
@@ -151,7 +152,7 @@ PathingRequest::PathingRequest() : m_pPathingAvoidNodeArray(0)
 // @fnv 0x006e3880
 PathingAvoidNodeArray* PathingAvoidNodeArray::Destroy(unsigned int flags)
 {
-    reinterpret_cast<::PathingAvoidNodeArray *>((reinterpret_cast<PathingAvoidNodeArrayDestructionView*>(this)))->PathingAvoidNodeArray::~PathingAvoidNodeArray();
+    reinterpret_cast<::PathingAvoidNodeArray *>((reinterpret_cast<PathingAvoidNodeArrayDestructionView*>(this)))->::PathingAvoidNodeArray::~PathingAvoidNodeArray();
     if (flags & 1)
         ::FUN_00aa1460(this, 24);
     return this;
@@ -183,7 +184,7 @@ struct FUN_006e2980_shell : public PathingRequest
 // @fnv 0x006e2750
 void PathingRequest::CopyTo(PathingRequest* request)
 {
-    reinterpret_cast<::FUN_006d3ac0_Class *>((request))->AssignPathingLocation((*(const ::PathingLocation *)(((::PathingLocation *)(::GetOffsetC((int)this))))));
+    reinterpret_cast<::FUN_006d3ac0_Class *>((request))->AssignPathingLocation((*(const ::PathingLocation *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)this))))));
     request->SetDestination(((::PathingLocation *)(::FUN_006a9540((char *)this))));
     request->SetActorRadius(GetActorRadius());
     reinterpret_cast<::FUN_006d3ae0 *>((request))->SetValue(::GetFloatAtOffset68((const char *)this));
@@ -301,7 +302,7 @@ struct FUN_006e39d0 : public FUN_006e3ab0, public FUN_00496910
 // @fnv 0x006e38b0
 PathingAvoidNodeArray::~PathingAvoidNodeArray()
 {
-    reinterpret_cast<::FUN_006e39d0 *>(this)->FUN_006e39d0::~FUN_006e39d0();
+    reinterpret_cast<::FUN_006e39d0 *>(this)->::FUN_006e39d0::~FUN_006e39d0();
 }
 // Destructor that calls Clear(true) on the object at this address.
 // @fnv 0x006e39d0
@@ -520,7 +521,7 @@ void FUN_006e3230_shell::FUN_006e3230(BGSSaveFormBuffer* buffer)
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xac), 1, 0);
 
     i = ((::PathingAvoidNodeArray *)(::FUN_00559450((int *)(reinterpret_cast<PathingAvoidPointerView*>(reinterpret_cast<char*>(this) + 0x94)))))
-            ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(
+            ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(
                   ((::PathingAvoidNodeArray *)(::FUN_00559450((int *)(reinterpret_cast<PathingAvoidPointerView*>(reinterpret_cast<char*>(this) + 0x94))))))))->GetName()))
             : 0;
 
@@ -658,5 +659,30 @@ void PathingRequestDebugView::PrintDebugInfo(PathingDebugOutput* output)
     output->Print(0, 1, "Ignoring Locks: %s", bIgnoreLocks ? "true" : "false");
     output->Print(0, 1, "Pathsmoothing retry count: %i", m_iRequestType);
 }
+
+// sub ecx,0x10; jmp FUN_006e3880  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
+// declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x10).
+struct PrimaryBase
+{
+    virtual void FUN_006e3f20();
+    int unk04;
+    int unk08;
+    int unk0C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_006e3f20();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x006e3f20
+    virtual void FUN_006e3f20();
+};
+
+Derived::Derived()
+{}
 
 #include "generated/data/fallout_shared/pathfinding/pathingrequest.inc"

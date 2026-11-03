@@ -588,11 +588,11 @@ struct FUN_00401400_class
 };
 struct TESObjectLIGH
 {
-    bool FUN_0050e4b0(unsigned int, unsigned int, bool, unsigned int, unsigned int);
+    bool FUN_0050e4b0(unsigned int, std::uintptr_t, bool, unsigned int, std::uintptr_t);
 };
 // Returns false if FUN_0046f070 fails, otherwise forwards the arguments to InvokeAction and returns its result.
 // @fnv 0x0050e4b0
-bool TESObjectLIGH::FUN_0050e4b0(unsigned int a1, unsigned int a2, bool bFlag, unsigned int a4, unsigned int a5)
+bool TESObjectLIGH::FUN_0050e4b0(unsigned int a1, std::uintptr_t a2, bool bFlag, unsigned int a4, std::uintptr_t a5)
 {
     if (!reinterpret_cast<::FUN_0046f070_shell *>(this)->FUN_0046f070())
         return false;
@@ -601,11 +601,11 @@ bool TESObjectLIGH::FUN_0050e4b0(unsigned int a1, unsigned int a2, bool bFlag, u
 
 struct Unk515010
 {
-    void ForwardToF670(int, int, bool, int, int);
+    void ForwardToF670(int, std::intptr_t, bool, int, std::intptr_t);
 };
 // Calls InvokeAction with the same five arguments, forwarding the call unchanged.
 // @fnv 0x00515010
-void Unk515010::ForwardToF670(int aiArg1, int aiArg2, bool abFlag, int aiArg4, int aiArg5)
+void Unk515010::ForwardToF670(int aiArg1, std::intptr_t aiArg2, bool abFlag, int aiArg4, std::intptr_t aiArg5)
 {
     reinterpret_cast<::ActionCaller *>(this)->InvokeAction(aiArg1, (void *)(aiArg2), abFlag, aiArg4, (void *)(aiArg5));
 }
@@ -625,11 +625,11 @@ public:
 };
 struct Dummy25750
 {
-    void CastToActorAndCall(int, TESObjectREFR*, bool, int, int);
+    void CastToActorAndCall(int, TESObjectREFR*, bool, int, std::intptr_t);
 };
 // Casts b to Actor and forwards all arguments to InvokeAction; the cast result is unused.
 // @fnv 0x00525750
-void Dummy25750::CastToActorAndCall(int aiArg1, TESObjectREFR* apRefr, bool abFlag, int aiArg4, int aiArg5)
+void Dummy25750::CastToActorAndCall(int aiArg1, TESObjectREFR* apRefr, bool abFlag, int aiArg4, std::intptr_t aiArg5)
 {
     Actor* actor = dynamic_cast<Actor*>(apRefr);
     reinterpret_cast<::ActionCaller *>(this)->InvokeAction(aiArg1, apRefr, abFlag, aiArg4, (void *)(aiArg5));
@@ -743,7 +743,8 @@ struct Flt
 // @fnv 0x005f0060
 char* FUN_005f0060_shell::FUN_005f0060()
 {
-    return (unsigned int)(*(Flt*)((char*)this + 0x1c)) ? (char*)(unsigned int)(*(Flt*)((char*)this + 0x1c)) : "";
+    char* pText = *reinterpret_cast<char**>((char*)this + 0x1c);
+    return pText ? pText : (char*)"";
 }
 
 namespace fnv_005fe0f0 {
@@ -766,7 +767,7 @@ struct Flt
 // @fnv 0x005fe0f0
 char* FUN_005fe0f0_shell::FUN_005fe0f0()
 {
-    return (unsigned int)(*(Flt*)((char*)this + 0x4c)) ? (char*)(unsigned int)(*(Flt*)((char*)this + 0x4c)) : (char*)"";
+    return (unsigned int)(*(Flt*)((char*)this + 0x4c)) ? *(char**)((char*)this + 0x4c) : (char*)"";
 }
 }  // namespace fnv_005fe0f0
 
@@ -1371,12 +1372,12 @@ struct ResolvedLight
 };
 struct LightController : TESObjectLIGH
 {
-    unsigned char FUN_004fde40(unsigned int first, unsigned int second, bool allow, unsigned int param4,
-                                          unsigned int param5);
+    unsigned char FUN_004fde40(unsigned int first, std::uintptr_t second, bool allow, unsigned int param4,
+                                          std::uintptr_t param5);
 };
 // @fnv 0x004fde40
-unsigned char LightController::FUN_004fde40(unsigned int first, unsigned int second, bool allow, unsigned int param4,
-                                            unsigned int param5)
+unsigned char LightController::FUN_004fde40(unsigned int first, std::uintptr_t second, bool allow, unsigned int param4,
+                                            std::uintptr_t param5)
 {
     void* lightSource = dynamic_cast<::Actor *>(reinterpret_cast<::TESObjectREFR *>(second));
     ResolvedLight* linkedLight = static_cast<ResolvedLight*>(FUN_00ec43fb(first, 0, &::DAT_011841cc, &DAT_01189dbc, 0));
@@ -1800,7 +1801,7 @@ bool ActivationRef::ActivateWithActorCheck(ActivationRef* source, ActivationRef*
     if (target && target->IsActor())
     {
         ActivationRef* actor = target;
-        ::FUN_00600900((int)(this));
+        ::FUN_00600900((std::intptr_t)(this));
         ::FUN_00600940(1);
         float height2 = reinterpret_cast<::fnv_008be940::FloatValueProvider *>((actor))->FUN_008be940() + actor->Position().z - actor->GroundOffset();
         float sourceHeight = source->Position().z;
@@ -2090,7 +2091,7 @@ bool DialogueStarter::FUN_004feeb0(RefLike* apRef, RefLike* apTarget, int aiUnus
     }
     else
     {
-        reinterpret_cast<::FUN_0042e060_class *>((((::ExtraListLike *)(reinterpret_cast<::FUN_005d43c0_ *>((apRef))->FUN_005d43c0()))))->FUN_0042e060((unsigned int)(this), (unsigned int)(apRef));
+        reinterpret_cast<::FUN_0042e060_class *>((((::ExtraListLike *)(reinterpret_cast<::FUN_005d43c0_ *>((apRef))->FUN_005d43c0()))))->FUN_0042e060((std::uintptr_t)(this), (std::uintptr_t)(apRef));
         apRef->SetFlag(0x80000000);
         ExtraHolder* pNewHolder = ((::ExtraHolder *)(reinterpret_cast<::fnv_0042e110::FUN_0042e110 *>((((::ExtraListLike *)(reinterpret_cast<::FUN_005d43c0_ *>((apRef))->FUN_005d43c0()))))->GetExtraData()));
         pSpeakerActor = pNewHolder->unk0C;
@@ -2109,7 +2110,7 @@ bool DialogueStarter::FUN_004feeb0(RefLike* apRef, RefLike* apTarget, int aiUnus
         if ((void*)apTarget == (void*)::_g_thePlayer)
         {
             reinterpret_cast<::VATS *>(&((*reinterpret_cast<::VATSLike *>(&::g_011f2250))))->FUN_009c8950(0, 0);
-            ::FUN_00709470(4, (int)pSpeakerActor, 0, unk90, 1);
+            ::FUN_00709470(4, (std::intptr_t)pSpeakerActor, 0, unk90, 1);
         }
         else
         {
@@ -2118,7 +2119,7 @@ bool DialogueStarter::FUN_004feeb0(RefLike* apRef, RefLike* apTarget, int aiUnus
             {
                 pCurrentPackage = ((::PackageLike *)(reinterpret_cast<::FUN_009344a0_shell *>((pSpeakerActor))->FUN_009344a0()));
             }
-            if (pCurrentPackage && ::FUN_009ee040((char *)(pCurrentPackage)) == (int)pTargetForm)
+            if (pCurrentPackage && ::FUN_009ee040((char *)(pCurrentPackage)) == (int)(std::uintptr_t)pTargetForm)
             {
                 return true;
             }
@@ -3200,7 +3201,7 @@ int FUN_0047b250(ActivateReference*);
 bool ActivateObject::FUN_00516dc0(ActivateReference* apTarget, TESObjectREFR* activator, int unused, int a4, int a5)
 {
     ActivateActor* actor2 = (ActivateActor*)dynamic_cast<Actor*>(activator);
-    int extra = 0;
+    std::intptr_t extra = 0;
     int found8 = 0;
     if (actor2)
     {
@@ -3245,14 +3246,14 @@ bool ActivateObject::FUN_00516dc0(ActivateReference* apTarget, TESObjectREFR* ac
                         ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00516dc0::ActivateMessage *>(&::g_011d276c))))->GetMenuTitle()))), 0, (const char *)(DAT_0102b0d0), 0, ::DAT_010162c0, 0);
                     }
                     else
-                        ::fnv_00705830::FUN_00705830((int)(apTarget), 0, 0);
+                        ::fnv_00705830::FUN_00705830((std::intptr_t)(apTarget), 0, 0);
                 }
                 else
                 {
                     ActivateAnimation* animation = actor2->GetAnimation();
                     if (animation)
                         reinterpret_cast<::Animation *>((animation))->SpecialIdleFree(1, 0);
-                    ::FUN_00600900((int)((*reinterpret_cast<::fnv_00516dc0::ActivateKey * *>(&::g_pLockpickItem))));
+                    ::FUN_00600900((std::intptr_t)((*reinterpret_cast<::fnv_00516dc0::ActivateKey * *>(&::g_pLockpickItem))));
                     ::FUN_00600940(1);
                     ::FUN_00600920(1);
                     ((::fnv_00516dc0::ActivateActorAction *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor2))->GetBaseTexture()))->Action(actor2, 0, 2, 1, 0, 1);
@@ -3354,8 +3355,8 @@ void FUN_009f2220_obj::ResolveReferences()
     BSSimpleList<TESObjectREFR*>* aPrev = 0;
     while (iter5 && !iter5->IsEmpty())
     {
-        TESObjectREFR* ref = ((::TESObjectREFR *)(new ((void *)(iter5)) ::Vec3()));
-        unsigned int formID3 = (unsigned int)ref;
+        TESObjectREFR* ref = (iter5->m_item);
+        unsigned int formID3 = (unsigned int)(std::uintptr_t)ref;
         if (formID3)
             ref = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID3));
         if (!ref)
@@ -3366,7 +3367,7 @@ void FUN_009f2220_obj::ResolveReferences()
             }
             else
             {
-                TESObjectREFR* stale = (TESObjectREFR*)formID3;
+                TESObjectREFR* stale = (TESObjectREFR*)(std::uintptr_t)formID3;
                 reinterpret_cast<::ItemChangeListNode *>((aPrev))->FUN_00905330((::InventoryStackRecord *const &)(stale));
                 iter5 = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((aPrev))->FUN_00726070()));
             }
@@ -3378,10 +3379,10 @@ void FUN_009f2220_obj::ResolveReferences()
             iter5 = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((iter5))->FUN_00726070()));
         }
     }
-    unsigned int actorID2 = (unsigned int)actorA4;
+    unsigned int actorID2 = (unsigned int)(std::uintptr_t)actorA4;
     if (actorID2)
         actorA4 = dynamic_cast<Actor*>(FUN_004839c0(actorID2));
-    unsigned int refID9 = (unsigned int)refA0;
+    unsigned int refID9 = (unsigned int)(std::uintptr_t)refA0;
     if (refID9)
         refA0 = dynamic_cast<TESObjectREFR*>(FUN_004839c0(refID9));
 }
@@ -3497,7 +3498,7 @@ bool FUN_005113f0_shell::FUN_005113f0(ActivationRef* ref, ActivationRef* activat
         h = activator;
     if (h)
     {
-        ::FUN_00600900((int)((ActivationRef*)this));
+        ::FUN_00600900((std::intptr_t)((ActivationRef*)this));
         ::FUN_00600940(1);
         float a = reinterpret_cast<::fnv_008be940::FloatValueProvider *>((h))->FUN_008be940() + h->Position().z - h->GroundOffset();
         float f = ref->Position().z;
@@ -3525,14 +3526,14 @@ bool FUN_005113f0_shell::FUN_005113f0(ActivationRef* ref, ActivationRef* activat
             reinterpret_cast<::fnv_00496080::FUN_00496080_shell *>((((::AnimationView *)(reinterpret_cast<::PlayerCharacter *>((((PlayerView*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))))->GetAnimation(false)))))->FUN_00496080(true, 0.0f);
         }
         if (!reinterpret_cast<::OwnershipReferenceView *>((((RefView*)ref)))->FUN_005785e0((::Actor *)(h), true))
-            reinterpret_cast<::fnv_008c0ec0::Target *>((((ActorView*)h)))->UpdateTargetUnits((int)(ref), (int)(((void *)(reinterpret_cast<::OwnerLookupView *>((((RefView*)ref)))->FUN_00567790()))), -1);
+            reinterpret_cast<::fnv_008c0ec0::Target *>((((ActorView*)h)))->UpdateTargetUnits((std::intptr_t)(ref), (std::intptr_t)(((void *)(reinterpret_cast<::OwnerLookupView *>((((RefView*)ref)))->FUN_00567790()))), -1);
     }
     if (((::SoundView *)(reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820())))
     {
         PositionOwner* a = 0;
         if (ref && ((NodeView*)ref)->Node())
             a = ((NodeView*)ref)->Node()->Find((*(const ::FixedName *)&(::FUN_004ef990())));
-        ActivationPosition h = a ? *((const ::ActivationPosition *)(::FUN_0045bb80((int)(a)))) : ref->Position();
+        ActivationPosition h = a ? *((const ::ActivationPosition *)(::FUN_0045bb80((std::intptr_t)(a)))) : ref->Position();
         int i = 0;
         if (p)
             i = ::GetFlagMask((*(::SoundRecord *)(reinterpret_cast<::Holder *>((((::SoundView *)(reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820()))))->CopyBig({}))).unk04);
@@ -4386,7 +4387,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
     else if (pkActorVal->IsDead(0))
     {
         if (pkActivator == (AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))
-            ::FUN_00709470(1, (int)(pkRef), 0, 0, 1);
+            ::FUN_00709470(1, (std::intptr_t)(pkRef), 0, 0, 1);
         else if (pkObject && !dynamic_cast<TESNPC*>(pkObject))
             ((AAActor*)pkRef)->ActivateItem(pkObject, 0, iCount, 0, 0, pkActivator, 0, 0, 1, 0);
     }
@@ -4411,14 +4412,14 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
             return false;
         }
         else
-            ::FUN_00709470(1, (int)(pkRef), 0, 0, 2);
+            ::FUN_00709470(1, (std::intptr_t)(pkRef), 0, 0, 2);
     }
     else if (reinterpret_cast<::Standin00898ff0 *>((pkActorVal))->FUN_00898ff0() || pkActivator != (AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))
     {
         if (reinterpret_cast<::MiddleHighProcess *>((pkActorVal))->IsActorInCombat() && pkActivatorRef == (TESObjectREFR*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))
         {
             if (::FUN_00754d90((::Actor *)(pkActorVal)))
-                ::FUN_00709470(8, (int)(pkRef), 0, 0, 0);
+                ::FUN_00709470(8, (std::intptr_t)(pkRef), 0, 0, 0);
             return false;
         }
         AASceneList* pkScenes = pkActivator == (AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)) ? ((::AASceneList *)(::fnv_0061a2d0::GetTopicSubTypeName(0, 0))) : 0;
@@ -4431,7 +4432,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
         else if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((pkActorVal))->FUN_00493bb0())) && pkActivator == (AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)) && reinterpret_cast<::MiddleHighProcess *>((pkActorVal))->IsActorInCombat())
         {
             reinterpret_cast<::VATS *>((((AAMusic*)&(*reinterpret_cast<::VATSLike *>(&::g_011f2250)))))->FUN_009c8950(0, 0);
-            ::FUN_00709470(4, (int)(pkActorVal), 0, 0, 1);
+            ::FUN_00709470(4, (std::intptr_t)(pkActorVal), 0, 0, 1);
         }
         else if (pkActorVal && (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((pkActorVal))->FUN_00493bb0())) || pkActorVal->IsIncapacitated()) &&
                  (pkActivator != (AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)) || !pkActorVal->GetSitSleepState() ||
@@ -4466,7 +4467,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
                     AAActor* pkTarget = pkActivator;
                     if (pkTarget == (AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))
                         pkTarget = pkActorVal;
-                    ::FUN_00709470(4, (int)(pkTarget), iDialogueTopic, 0, 1);
+                    ::FUN_00709470(4, (std::intptr_t)(pkTarget), iDialogueTopic, 0, 1);
                 }
                 else
                     pkActorVal->StartConversation((AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)), 0, 0, 1, 0, 0, 0, 0, 0);
@@ -4493,7 +4494,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
                 AAActor* pkTarget2 = pkActivator;
                 if (pkTarget2 == (AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))
                     pkTarget2 = pkActorVal;
-                ::FUN_00709470(4, (int)(pkTarget2), iDialogueTopic, 0, 1);
+                ::FUN_00709470(4, (std::intptr_t)(pkTarget2), iDialogueTopic, 0, 1);
             }
             else
             {
@@ -4524,7 +4525,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
     else if (reinterpret_cast<::MiddleHighProcess *>((pkActorVal))->IsActorInCombat() && pkActivatorRef == (TESObjectREFR*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))
     {
         if (::FUN_00754d90((::Actor *)(pkActorVal)))
-            ::FUN_00709470(8, (int)(pkRef), 0, 0, 0);
+            ::FUN_00709470(8, (std::intptr_t)(pkRef), 0, 0, 0);
         return false;
     }
     return true;

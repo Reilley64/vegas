@@ -1,5 +1,6 @@
 // fallout_shared/magic/effectitem.cpp: EffectItem, EffectItemList, ScriptEffect, Setting and more (52 functions)
 
+#include "fnv/tls.h"
 #include <cstring>
 #include "fnv/decl/BGSDebris.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -177,7 +178,7 @@ bool EffectItem::Load(TESFile* file, const char* actorEffect)
             ::FUN_005b5e40();
         else if (reinterpret_cast<::S3c60 *>((m_pEffectSetting))->HasFlag2() && reinterpret_cast<::FUN_00403e80_shell *>((m_pEffectSetting))->FUN_00403e80())
             data.m_eAssociatedActorValue =
-                reinterpret_cast<int>(reinterpret_cast<InterfaceManager*>(m_pEffectSetting)->FUN_00586150());
+                reinterpret_cast<std::intptr_t>(reinterpret_cast<InterfaceManager*>(m_pEffectSetting)->FUN_00586150());
         break;
     case 0x41445443:
         ((::PerkEntryConditionSet *)(reinterpret_cast<::BGSDebris *>(this)->GetDataList()))->Load(file);
@@ -191,7 +192,7 @@ bool EffectItem::Load(TESFile* file, const char* actorEffect)
 // @fnv 0x00403e80
 bool FUN_00403e80_shell::FUN_00403e80()
 {
-    return (int)((InterfaceManager*)this)->FUN_00586150() != -1;
+    return (int)(std::uintptr_t)((InterfaceManager*)this)->FUN_00586150() != -1;
 }
 
 struct FUN_00403ee0_shell : public EffectItem
@@ -557,7 +558,6 @@ int __cdecl FUN_00647b70(int iA, int iB)
 
 extern "C" int __tls_index;
 
-__declspec(thread) int DAT_tls_field = 0x3b;
 
 // @fnv 0x00404f50
 int __cdecl GetTlsField()
@@ -621,14 +621,12 @@ bool EffectItem_shell::FUN_00404470(int range)
 }
 
 namespace fnv_00404f30 {
-extern "C" unsigned int __tls_index;
 
-__declspec(thread) int tlsVar[0x2b4 / 4 + 1];
 
 // @fnv 0x00404f30
 void __cdecl FUN_00404f30(int aiValue)
 {
-    (*reinterpret_cast<int (*)[174]>(&::g_tlsBlock))[0x2b4 / 4] = aiValue;
+    ::g_tlsBlock.memoryContext = aiValue;
 }
 }  // namespace fnv_00404f30
 
@@ -749,9 +747,9 @@ struct FUN_00404f90_shell
 // @fnv 0x00404f90
 void FUN_00404f90_shell::RemoveSettingFromMap(ArrSI* apSetting)
 {
-    if (apSetting && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apSetting))->GetName())))
+    if (apSetting && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apSetting))->GetName())))
     {
-        reinterpret_cast<::NiTMap_S *>(&(_map))->RemoveKey(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apSetting))->GetName())));
+        reinterpret_cast<::NiTMap_S *>(&(_map))->RemoveKey(((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apSetting))->GetName())));
     }
 }
 
@@ -839,7 +837,7 @@ class FUN_00403b30_cls : public FUN_00403b30_base
 {
   public:
     FUN_00403b30_member m_1c;
-    FUN_00403b30_cls(int a);
+    FUN_00403b30_cls(std::intptr_t a);
 };
 
 
@@ -862,7 +860,7 @@ class FUN_00403be0_cls
 };
 // Initializes the base and member subobjects, then calls Init with the given value.
 // @fnv 0x00403b30
-FUN_00403b30_cls::FUN_00403b30_cls(int aiValue) : FUN_00403b30_base(), m_1c()
+FUN_00403b30_cls::FUN_00403b30_cls(std::intptr_t aiValue) : FUN_00403b30_base(), m_1c()
 {
     reinterpret_cast<::FUN_00403be0_cls *>(this)->FUN_00403be0((::InterfaceManager *)(aiValue));
 }
@@ -875,7 +873,7 @@ void FUN_00403be0_cls::FUN_00403be0(InterfaceManager* manager)
     unk04 = 0;
     unk08 = 0;
     unk00 = 0;
-    m_iResult = reinterpret_cast<::S3c60 *>((reinterpret_cast<FUN_00403be0_target*>(m_pManager)))->HasFlag2() ? (int)m_pManager->FUN_00586150() : -1;
+    m_iResult = reinterpret_cast<::S3c60 *>((reinterpret_cast<FUN_00403be0_target*>(m_pManager)))->HasFlag2() ? (std::intptr_t)m_pManager->FUN_00586150() : -1;
     m_fValue = ::DAT_01012054;
 }
 
@@ -987,7 +985,7 @@ bool SettingRegistry::FUN_00405120()
     bool isValid = FUN_00404d30(this);
     if (isValid)
     {
-        int iterator = ((int)(reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((reinterpret_cast<SettingMap*>(reinterpret_cast<char*>(this) + 0x10c)))->GetFirstPos()));
+        std::intptr_t iterator = ((std::intptr_t)(reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((reinterpret_cast<SettingMap*>(reinterpret_cast<char*>(this) + 0x10c)))->GetFirstPos()));
         while (iterator != 0)
         {
             int value;
@@ -1033,7 +1031,7 @@ FUN_004d61b0::FUN_004d61b0(int a1, int a2, int a3, const char* apName, int a5, i
     m28 = a3;
     char* pNameBuffer = ((char *)(::FUN_00401000(FUN_0044a670(apName) + 1)));
     m2c = pNameBuffer;
-    FUN_004046f0(m2c, ((const char *)(::FUN_00464f30((int)(apName)))));
+    FUN_004046f0(m2c, ((const char *)(::FUN_00464f30((std::intptr_t)(apName)))));
     reinterpret_cast<::TreeCtrl4d63 *>(this)->CreateTreeWindows(a5, a6, a7, a8);
     reinterpret_cast<::FUN_004d6490_Class *>(this)->FUN_004d6490();
     if (a3 != 0)

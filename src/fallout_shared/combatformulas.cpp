@@ -766,7 +766,7 @@ struct S00525ae0
 BGSProjectile* S00525ae0::FUN_00525ae0(void* pActorOffset)
 {
     Actor* actor = pActorOffset ? (Actor*)((char*)pActorOffset - 0xA4) : 0;
-    return ((::BGSProjectile *)(reinterpret_cast<::Thing *>((((TESObjectWEAP*)this)))->GetOrFallback((int)(actor))));
+    return ((::BGSProjectile *)(reinterpret_cast<::Thing *>((((TESObjectWEAP*)this)))->GetOrFallback((std::intptr_t)(actor))));
 }
 
 struct FUN_00646020_shell : TESObjectWEAP
@@ -1445,7 +1445,7 @@ void __cdecl RollChanceOutcome(void* unused, ChanceModifier* modifier, int baseC
     }
     if (modifier && (*critical || *success))
     {
-        switch (((int)(reinterpret_cast<::FUN_008a16b0_shell *>((modifier))->FUN_008a16b0())))
+        switch (((int)(std::uintptr_t)(reinterpret_cast<::FUN_008a16b0_shell *>((modifier))->FUN_008a16b0())))
         {
         case 1:
             *critical = 0;
@@ -1567,14 +1567,14 @@ float GetWeaponDamage(TESObjectWEAP* weapon, float condition, DamageExtra* extra
     if (weapon && reinterpret_cast<::FUN_00524b40_class *>((weapon))->FUN_00524b40() && FUN_006450c0(weapon))
     {
         ((FUN_00645320_shell*)weapon)->SetFlag2(false);
-        damage = ::FUN_00644ce0((::ActorValueOwner *)(void *)(static_cast<ActorValueOwner*>(::_g_thePlayer)), (::DmgWeapon *)((int)weapon), condition, 1.0f, 0, 0,
-                              (::InventoryStackRecord *)((int)extra), specifiedAmmo != 0);
+        damage = ::FUN_00644ce0((::ActorValueOwner *)(void *)(static_cast<ActorValueOwner*>(::_g_thePlayer)), (::DmgWeapon *)((std::intptr_t)weapon), condition, 1.0f, 0, 0,
+                              (::InventoryStackRecord *)((std::intptr_t)extra), specifiedAmmo != 0);
         ((FUN_00645320_shell*)weapon)->SetFlag2(true);
     }
     else
     {
-        damage = ::FUN_00644ce0((::ActorValueOwner *)(void *)(static_cast<ActorValueOwner*>(::_g_thePlayer)), (::DmgWeapon *)((int)weapon), condition, 1.0f, 0, 0,
-                              (::InventoryStackRecord *)((int)extra), specifiedAmmo != 0);
+        damage = ::FUN_00644ce0((::ActorValueOwner *)(void *)(static_cast<ActorValueOwner*>(::_g_thePlayer)), (::DmgWeapon *)((std::intptr_t)weapon), condition, 1.0f, 0, 0,
+                              (::InventoryStackRecord *)((std::intptr_t)extra), specifiedAmmo != 0);
     }
     TESAmmo* ammo = 0;
     if (weapon)
@@ -1694,7 +1694,7 @@ float __cdecl ComputeWeaponDamageModifier(Actor* actor, TESObjectWEAP* weapon, v
     int weaponCategoryX = weapon ? ((int)(reinterpret_cast<::FUN_008d85e0_Class *>((reinterpret_cast<CombatWeapon*>(weapon)))->GetUnk15C())) : 0x2d;
     float categoryValueB = reinterpret_cast<::ActorValueOwner *>((reinterpret_cast<CombatAVOwner*>(static_cast<ActorValueOwner *>(actor))))->GetActorValueAsInteger((::ActorValue::Index)(weaponCategoryX));
     int categoryLevel = (unsigned int)categoryValueB;
-    int weaponClass2 = ((int)(reinterpret_cast<::FUN_008d8160_Class *>((reinterpret_cast<CombatWeapon*>(weapon)))->GetField1BC()));
+    std::intptr_t weaponClass2 = ((std::intptr_t)(reinterpret_cast<::FUN_008d8160_Class *>((reinterpret_cast<CombatWeapon*>(weapon)))->GetField1BC()));
     float categoryModifier4 = ::fnv_00647870::ComputeScaledCount(weaponClass2, categoryLevel, 0);
     modifier4 += categoryModifier4;
 

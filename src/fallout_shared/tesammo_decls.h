@@ -2,6 +2,7 @@
 #ifndef TESAMMO_DECLS_H
 #define TESAMMO_DECLS_H
 
+#include <cstdint>
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_0097a000.h"
 class Script;
@@ -18,7 +19,7 @@ class MiddleLowProcess
 {
   public:
     int GetProcessInteger();
-    void SetProcessInteger(int);
+    void SetProcessInteger(std::intptr_t);
 };
 
 class TESAmmoInitCalls

@@ -1,7 +1,8 @@
 #pragma once
+#include <cstdint>
 
 struct NiTMap_S {
 public:
     // 0x00405430
-    bool RemoveKey(unsigned int);
+    bool RemoveKey(std::uintptr_t);
 };

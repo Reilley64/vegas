@@ -1,5 +1,6 @@
 // fallout_shared/packageschedule.cpp: PackedByteIntRecord, DurationData (9 functions)
 
+#include <cstdint>
 #include "fnv/decl/Calendar.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -108,7 +109,7 @@ void FUN_0067fd40_shell::FUN_0067fd40(DurationData* apCopy)
         reinterpret_cast<::FUN_005407b0_Class *>(this)->FUN_005407b0(reinterpret_cast<::DurationData *>((apCopy))->FUN_00678ca0());
         SetStartDate(reinterpret_cast<::FUN_00678ce0_shell *>((apCopy))->FUN_00678ce0());
         SetStartTime(reinterpret_cast<::Calendar *>((apCopy))->GetGameHour());
-        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((apCopy))->FUN_00726070()))));
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((apCopy))->FUN_00726070()))));
     }
 }
 }  // namespace fnv_0067fd40
@@ -234,7 +235,7 @@ char DurationData::FUN_0067fe10(DurationData* other)
         return 1;
     if (reinterpret_cast<::Calendar *>(this)->GetGameHour() != reinterpret_cast<::Calendar *>((other))->GetGameHour())
         return 1;
-    if (((int)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) != ((int)(reinterpret_cast<::Callees *>((other))->FUN_00726070())))
+    if (((int)(std::intptr_t)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) != ((std::intptr_t)(reinterpret_cast<::Callees *>((other))->FUN_00726070())))
         return 1;
     return 0;
 }

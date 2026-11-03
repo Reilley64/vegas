@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class SpawnEntry;
 namespace fnv_00ac1170 { struct ElemC117; }
 namespace fnv_00ac1220 { struct E1220; }
@@ -95,4 +97,4 @@ void FUN_00ac1ea0(int, int, int, ::TagB);
 // 0x00ac1ee0
 namespace fnv_00ac1ee0 { ::fnv_00ac1ee0::ElemMOVE *FUN_00ac1ee0(::fnv_00ac1ee0::ElemMOVE *, ::fnv_00ac1ee0::ElemMOVE *, ::fnv_00ac1ee0::ElemMOVE *, ::fnv_00ac1ee0::allocatorS< ::fnv_00ac1ee0::ElemMOVE> &); }
 // 0x00ac1f60
-void FUN_00ac1f60(int, int, int, unsigned char);
+void FUN_00ac1f60(std::intptr_t, std::intptr_t, std::intptr_t, unsigned char);

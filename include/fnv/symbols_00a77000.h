@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 struct A77740Format;
 struct BitPackDesc;
 struct BitPackLayout;
@@ -19,9 +21,9 @@ void FUN_00a77110(unsigned int, unsigned int, unsigned int, unsigned char *, uns
 // 0x00a771d0
 void FUN_00a771d0(unsigned int, unsigned int, unsigned int, unsigned int *, unsigned int, const ::NiPixelFormatA775 *, const unsigned char *, const ::NiPixelFormatA775 &);
 // 0x00a772b0
-void UnpackPixels(unsigned int, unsigned int, unsigned int, unsigned char *, unsigned int, unsigned int, unsigned int, const ::BitPackLayout *);
+void UnpackPixels(unsigned int, unsigned int, unsigned int, unsigned char *, unsigned int, unsigned int, std::uintptr_t, const ::BitPackLayout *);
 // 0x00a77330
-void ConvertPixelsToBytes(unsigned int, unsigned int, unsigned int, char *, unsigned int, void *, unsigned short *, ::FnvPixelFormat *);
+void ConvertPixelsToBytes(unsigned int, std::uintptr_t, unsigned int, char *, unsigned int, void *, unsigned short *, ::FnvPixelFormat *);
 // 0x00a773d0
 void FUN_00a773d0(unsigned int, unsigned int, unsigned int, unsigned char *, unsigned int, unsigned int, const unsigned short *, const ::NiPixelChannelsA773 *);
 // 0x00a77460

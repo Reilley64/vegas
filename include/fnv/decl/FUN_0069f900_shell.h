@@ -1,9 +1,11 @@
 #pragma once
 
+#include <cstdint>
+
 class PathSmootherPOVPoint;
 
 struct FUN_0069f900_shell {
 public:
     // 0x0069f900
-    unsigned int FUN_0069f900(::PathSmootherPOVPoint *, int);
+    std::uintptr_t FUN_0069f900(::PathSmootherPOVPoint *, int);
 };

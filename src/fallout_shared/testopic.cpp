@@ -141,6 +141,7 @@
 #include "MobileObject.h"
 #include "PlayerCharacter.h"
 #include "game_constants.h"
+#include "TESTopicInfo_decl_testopic.h"
 
 // @fnv 0x0061a790
 TESTopicInfo* TESTopic::FindMatchingTopicInfo(bool& deferred, TESObjectREFR* speaker, TESObjectREFR* listener,
@@ -156,11 +157,11 @@ struct TESObject
 };
 struct FUN_00616f40_shell
 {
-    bool DispatchOnNextFormType(TESObject* obj, int a, int b, int c, int d);
+    bool DispatchOnNextFormType(TESObject* obj, std::intptr_t a, std::intptr_t b, std::intptr_t c, std::intptr_t d);
 };
 // If obj is non-null and its next object's form type is 0x16, 0x2a or 0x2b, forwards that next object to BuildVoiceFilePath; otherwise returns false.
 // @fnv 0x00616f40
-bool FUN_00616f40_shell::DispatchOnNextFormType(TESObject* obj, int a, int b, int c, int d)
+bool FUN_00616f40_shell::DispatchOnNextFormType(TESObject* obj, std::intptr_t a, std::intptr_t b, std::intptr_t c, std::intptr_t d)
 {
     if (obj)
     {
@@ -217,14 +218,14 @@ QuestDialogueInfo* FUN_006195d0_shell::GetOrCreateQuestInfo(TESQuest* apQuest, b
     BSSimpleList<QuestDialogueInfo*>* pList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::TESRegion *>((void *)this)->GetDiffuseColor()));
     QuestDialogueInfo* pQuestInfo = 0;
 
-    while (pList && ((::QuestDialogueInfo *)(new ((void *)(pList)) ::Vec3())) && !pQuestInfo)
+    while (pList && (pList->m_item) && !pQuestInfo)
     {
-        pQuestInfo = ((::QuestDialogueInfo *)(new ((void *)(pList)) ::Vec3()));
+        pQuestInfo = (pList->m_item);
         pList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         if (pQuestInfo->bInitialized)
         {
-            if ((!pQuestInfo->pQuest || ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pQuestInfo->pQuest))->FUN_0084e3a0())) != (unsigned int)apQuest) &&
-                (!pQuestInfo->m_pAlternateQuest || ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pQuestInfo->m_pAlternateQuest))->FUN_0084e3a0())) != (unsigned int)apQuest))
+            if ((!pQuestInfo->pQuest || ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pQuestInfo->pQuest))->FUN_0084e3a0())) != (unsigned int)(std::uintptr_t)apQuest) &&
+                (!pQuestInfo->m_pAlternateQuest || ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pQuestInfo->m_pAlternateQuest))->FUN_0084e3a0())) != (unsigned int)(std::uintptr_t)apQuest))
             {
                 pQuestInfo = 0;
             }
@@ -298,10 +299,10 @@ TESQuest* FUN_00619d00_shell::FindQuestForTopicInfo(TESTopicInfo* apInfo)
     while (
         pList &&
         *reinterpret_cast<QuestDialogueInfo**>(
-            ((::BSSimpleList< ::TESTopic *> *)(new ((void *)(reinterpret_cast<TESTopicInfoData*>(const_cast<BSSimpleList<QuestDialogueInfo*>*>(pList)))) ::Vec3()))))
+            ((::BSSimpleList< ::TESTopic *> *)((void *)(reinterpret_cast<TESTopicInfoData*>(const_cast<BSSimpleList<QuestDialogueInfo*>*>(pList)))))))
     {
         QuestDialogueInfo* pQuestInfo = *reinterpret_cast<QuestDialogueInfo**>(
-            ((::BSSimpleList< ::TESTopic *> *)(new ((void *)(reinterpret_cast<TESTopicInfoData*>(const_cast<BSSimpleList<QuestDialogueInfo*>*>(pList)))) ::Vec3())));
+            ((::BSSimpleList< ::TESTopic *> *)((void *)(reinterpret_cast<TESTopicInfoData*>(const_cast<BSSimpleList<QuestDialogueInfo*>*>(pList))))));
         pList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::Callees *>((void *)(pList))->FUN_00726070()));
 
         maxSize = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((pQuestInfo))->GetCurrentProcessData())))))->FUN_0084e3a0()));
@@ -339,9 +340,9 @@ TESTopicInfo* FUN_00619e10_impl::FindTopicInfoByFormID(unsigned int aiInfoID, bo
     BSSimpleList<QuestDialogueInfo*>* pList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::TESRegion *>((void *)this)->GetDiffuseColor()));
     unsigned int maxSize = 0;
 
-    while (pList && ((::QuestDialogueInfo *)(new ((void *)(pList)) ::Vec3())))
+    while (pList && (pList->m_item))
     {
-        QuestDialogueInfo* pQuestInfo = ((::QuestDialogueInfo *)(new ((void *)(pList)) ::Vec3()));
+        QuestDialogueInfo* pQuestInfo = (pList->m_item);
         pList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         maxSize = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((pQuestInfo))->GetCurrentProcessData()))))->FUN_0084e3a0()));
         if (maxSize != 0)
@@ -542,9 +543,9 @@ void __cdecl CreateDefaultTopics()
                 (*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic->SetFormID((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].formID, true);
                 (*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic->SetEditorID((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].editorID);
                 reinterpret_cast<::TESFullName *>(&((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic->fullName))->SetFullName(
-                    ((const char *)(::FUN_00464f30((int)((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].editorID)))));
-                reinterpret_cast<::FUN_00461780_cls *>(((*reinterpret_cast<::DataHandlerEx * *>(&::g_dataHandler))))->Method((int)((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic));
-                reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((unsigned int)((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].editorID), (TESGlobal*)(*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic);
+                    ((const char *)(::FUN_00464f30((std::intptr_t)((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].editorID)))));
+                reinterpret_cast<::FUN_00461780_cls *>(((*reinterpret_cast<::DataHandlerEx * *>(&::g_dataHandler))))->Method((std::intptr_t)((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic));
+                reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((std::uintptr_t)((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].editorID), (TESGlobal*)(*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic);
             }
         }
     }
@@ -584,9 +585,9 @@ struct TopicHelper
 TESTopic* __cdecl FindTopicByInfo(TESTopicInfo* pTopicInfo)
 {
     TESTopicInfoData* pList = ((::TESTopicInfoData *)(reinterpret_cast<::FUN_004612e0_shell *>(((*reinterpret_cast<::fnv_0061a310::DataHandler * *>(&::g_dataHandler))))->FUN_004612e0()));
-    while (pList && *(TESTopic**)((::BSSimpleList< ::TESTopic *> *)(new ((void *)(pList)) ::Vec3())))
+    while (pList && *(TESTopic**)((::BSSimpleList< ::TESTopic *> *)((void *)(pList))))
     {
-        TESTopic* pTopic = *(TESTopic**)((::BSSimpleList< ::TESTopic *> *)(new ((void *)(pList)) ::Vec3()));
+        TESTopic* pTopic = *(TESTopic**)((::BSSimpleList< ::TESTopic *> *)((void *)(pList)));
         pList = ((::TESTopicInfoData *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         if (reinterpret_cast<::FUN_00619e10_impl *>((((TopicHelper*)pTopic)))->FindTopicInfoByFormID(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pTopicInfo))->FUN_0084e3a0())), 0) == pTopicInfo)
         {
@@ -618,7 +619,7 @@ void __cdecl AddTopicToList(TESTopic* apTopic, BSSimpleList<TESTopic*>* apTopicL
             BSSimpleList<TESTopic*>* pCurrentElementNext = apTopicList;
             while (pCurrentElementNext && !_ref_008256d0(pCurrentElementNext))
             {
-                TESTopic* pMenuTopicEntry = *(TESTopic**)((::BSSimpleList< ::TESTopic *> *)(new ((void *)(((TESTopicInfoData*)pCurrentElementNext))) ::Vec3()));
+                TESTopic* pMenuTopicEntry = *(TESTopic**)((::BSSimpleList< ::TESTopic *> *)((void *)(((TESTopicInfoData*)pCurrentElementNext))));
                 if (pMenuTopicEntry == apTopic)
                     break;
                 if (FUN_0061a450(pMenuTopicEntry, apTopic, abUsePriority))
@@ -717,11 +718,11 @@ bool CheckTopicsForQuest(TESQuest* apQuest)
 {
     bool result = true;
     TESTopicInfoData* pCurrentElementNext = ((::TESTopicInfoData *)(reinterpret_cast<::FUN_004612e0_shell *>(((*reinterpret_cast<::fnv_0061ba10::DataHandlerStandin * *>(&::g_dataHandler))))->FUN_004612e0()));
-    while (pCurrentElementNext && *(TopicStandin**)((::BSSimpleList< ::TESTopic *> *)(new ((void *)(pCurrentElementNext)) ::Vec3())) && result)
+    while (pCurrentElementNext && *(TopicStandin**)((::BSSimpleList< ::TESTopic *> *)((void *)(pCurrentElementNext))) && result)
     {
-        if (!apQuest || (*(TopicStandin**)((::BSSimpleList< ::TESTopic *> *)(new ((void *)(pCurrentElementNext)) ::Vec3())))->HasInfoForQuest(apQuest, 0))
+        if (!apQuest || (*(TopicStandin**)((::BSSimpleList< ::TESTopic *> *)((void *)(pCurrentElementNext))))->HasInfoForQuest(apQuest, 0))
         {
-            result = reinterpret_cast<::SortOwner *>(((*(TopicStandin**)((::BSSimpleList< ::TESTopic *> *)(new ((void *)(pCurrentElementNext)) ::Vec3())))))->SortList();
+            result = reinterpret_cast<::SortOwner *>(((*(TopicStandin**)((::BSSimpleList< ::TESTopic *> *)((void *)(pCurrentElementNext))))))->SortList();
         }
         pCurrentElementNext = ((::TESTopicInfoData *)(reinterpret_cast<::Callees *>((((ConvStandin*)pCurrentElementNext)))->FUN_00726070()));
     }
@@ -872,9 +873,9 @@ bool TopicSaver::SaveTopicInfo(FileStub* apFile)
     reinterpret_cast<::FUN_00472fe0_cls *>((apFile))->RunProbe((::Fun472Param *)(void *)(this));
     mastersave = ((bool)(reinterpret_cast<::FUN_004600f0_class *>(((*reinterpret_cast<::fnv_006189c0::DHStub * *>(&::g_dataHandler))))->GetByteAt618()));
     pList6 = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::TESRegion *>((void *)(((TESTopic*)this)))->GetDiffuseColor()));
-    while (pList6 && ((::QuestDialogueInfo *)(new ((void *)(pList6)) ::Vec3())))
+    while (pList6 && (pList6->m_item))
     {
-        pQuestInfo = ((::QuestDialogueInfo *)(new ((void *)(pList6)) ::Vec3()));
+        pQuestInfo = (pList6->m_item);
         pList6 = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::Callees *>((pList6))->FUN_00726070()));
         pArray = ((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((pQuestInfo))->GetCurrentProcessData()));
         aMaxSize = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)pArray)))->FUN_0084e3a0()));
@@ -1088,7 +1089,6 @@ DialogueItem* FUN_0061b320_shell::FUN_0061b320(TESObjectREFR* apSpeaker, TESObje
 }
 
 namespace fnv_00618aa0 {
-extern "C" void* __cdecl _alloca(unsigned int);
 
 struct TESFileRef
 {
@@ -1131,11 +1131,15 @@ struct NavMeshTriangleEdgeReference
     int b;
     int c;
 };
-template <> class BSSimpleArray<NavMeshTriangleEdgeReference, 1024>
+}  // namespace fnv_00618aa0
+
+template <> class BSSimpleArray<fnv_00618aa0::NavMeshTriangleEdgeReference, 1024>
 {
   public:
-    unsigned int Add(const NavMeshTriangleEdgeReference&);
+    unsigned int Add(const fnv_00618aa0::NavMeshTriangleEdgeReference&);
 };
+
+namespace fnv_00618aa0 {
 typedef BSSimpleArray<ParentSpaceNode, 1024> PSNArr;
 struct FUN_006195d0_shell : public TESTopic
 {
@@ -1161,14 +1165,14 @@ bool FUN_00618aa0_t::FUN_00618aa0(::TESFile* pFile)
     reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(pFile));
 
     BSSimpleList<QuestDialogueInfo*>* pQuestInfoList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::TESRegion *>((void *)this)->GetDiffuseColor()));
-    while (pQuestInfoList && *(int*)((::BSSimpleList< ::TESTopic *> *)(new ((void *)(((TESTopicInfoData*)pQuestInfoList))) ::Vec3())) != 0)
+    while (pQuestInfoList && *(int*)((::BSSimpleList< ::TESTopic *> *)((void *)(((TESTopicInfoData*)pQuestInfoList)))) != 0)
     {
-        QuestDialogueInfo* pQuestInfo = *(QuestDialogueInfo**)((::BSSimpleList< ::TESTopic *> *)(new ((void *)(((TESTopicInfoData*)pQuestInfoList))) ::Vec3()));
+        QuestDialogueInfo* pQuestInfo = *(QuestDialogueInfo**)((::BSSimpleList< ::TESTopic *> *)((void *)(((TESTopicInfoData*)pQuestInfoList))));
         if (pQuestInfo)
         {
             reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)pQuestInfo + 0x1c))))->Clear(true);
         }
-        pQuestInfoList = ((::BSSimpleList< ::QuestDialogueInfo *> *)((reinterpret_cast<::Callees *>((void *)(pQuestInfoList))->FUN_00726070()));
+        pQuestInfoList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::Callees *>((void *)(pQuestInfoList))->FUN_00726070()));
     }
 
     int chunkid;
@@ -1192,11 +1196,11 @@ bool FUN_00618aa0_t::FUN_00618aa0(::TESFile* pFile)
             unsigned int uiChunkType = 0;
             ((TESFileRef*)pFile)->_ref_004727f0(&uiChunkType);
             ::ResolveFormID((unsigned int *)&(uiChunkType), GetFile(-1));
-            QuestDialogueInfo* pQuestInfo = reinterpret_cast<::FUN_006195d0_shell *>((((FUN_006195d0_shell*)this)))->GetOrCreateQuestInfo((TESQuest*)uiChunkType, false);
+            QuestDialogueInfo* pQuestInfo = reinterpret_cast<::FUN_006195d0_shell *>((((FUN_006195d0_shell*)this)))->GetOrCreateQuestInfo((TESQuest*)(std::uintptr_t)uiChunkType, false);
             if (pQuestInfo)
             {
                 pLastQuestInfo = pQuestInfo;
-                unsigned int uiOldSize = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((pQuestInfo))->GetCurrentProcessData())))))->GetName()));
+                unsigned int uiOldSize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((pQuestInfo))->GetCurrentProcessData())))))->GetName()));
                 ((NiTLargeArraySetSizeHelper*)((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((pQuestInfo))->GetCurrentProcessData())))->SetSize(uiOldSize + 100);
                 reinterpret_cast<::FUN_00600ab0_shell *>((((TESConditionItem*)((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((pQuestInfo))->GetCurrentProcessData())))))->FUN_00600ab0(10);
             }
@@ -1222,10 +1226,10 @@ bool FUN_00618aa0_t::FUN_00618aa0(::TESFile* pFile)
             if (pLastQuestInfo)
             {
                 int IdxJustAdded;
-                if ((IdxJustAdded = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)pLastQuestInfo + 0x1c))))->GetName())) - 1) >= 0)
+                if ((IdxJustAdded = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)pLastQuestInfo + 0x1c))))->GetName())) - 1) >= 0)
                 {
                     ((PSNArr*)((char*)pLastQuestInfo + 0x1c))->GetAt(IdxJustAdded).c = m_iIndex;
-                    int size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)pLastQuestInfo + 0x1c))))->GetName()));
+                    int size = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)pLastQuestInfo + 0x1c))))->GetName()));
                     for (int iter = 0; iter < IdxJustAdded; iter++)
                     {
                         if (*(int*)&((PSNArr*)((char*)pLastQuestInfo + 0x1c))->GetAt(iter) ==
@@ -1335,9 +1339,9 @@ TESTopic* FUN_00619c50_shell::FindTopicByInfoID(unsigned int topicID)
 {
     BSSimpleList<QuestDialogueInfo*>* pList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::TESRegion *>((void *)this)->GetDiffuseColor()));
     unsigned int count_2 = 0;
-    while (pList && ((::QuestDialogueInfo *)(new ((void *)(pList)) ::Vec3())))
+    while (pList && (pList->m_item))
     {
-        QuestDialogueInfo* pInfo = ((::QuestDialogueInfo *)(new ((void *)(pList)) ::Vec3()));
+        QuestDialogueInfo* pInfo = (pList->m_item);
         pList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         count_2 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((pInfo))->GetCurrentProcessData())))))->FUN_0084e3a0()));
         if (count_2)
@@ -1398,20 +1402,20 @@ void SortTopicList(bool abSortByPriority, BSSimpleList<TESTopic*>* apTopicList)
     SL sortlist;
     BSSimpleList<TESTopic*>* pCurrentElementNext = pBaseList;
     BSSimpleList<TESTopic*>* plastlist = 0;
-    while (pCurrentElementNext && (*(TESTopic**)((::BSSimpleList< ::TESTopic *> *)(new ((void *)(((TESTopicInfoData*)(pCurrentElementNext)))) ::Vec3()))))
+    while (pCurrentElementNext && (*(TESTopic**)((::BSSimpleList< ::TESTopic *> *)((void *)(((TESTopicInfoData*)(pCurrentElementNext)))))))
     {
         bool badvanced = false;
-        if (((BSSimpleList<TESTopic*>*)((int)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(pCurrentElementNext))))->FUN_00726070()))))
+        if (((BSSimpleList<TESTopic*>*)((std::intptr_t)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(pCurrentElementNext))))->FUN_00726070()))))
         {
-            TESTopic* ptopic1 = (*(TESTopic**)((::BSSimpleList< ::TESTopic *> *)(new ((void *)(((TESTopicInfoData*)(pCurrentElementNext)))) ::Vec3())));
+            TESTopic* ptopic1 = (*(TESTopic**)((::BSSimpleList< ::TESTopic *> *)((void *)(((TESTopicInfoData*)(pCurrentElementNext))))));
             TESTopic* ptopic2 =
-                (*(TESTopic**)((::BSSimpleList< ::TESTopic *> *)(new ((void *)(((TESTopicInfoData*)(((BSSimpleList<TESTopic*>*)((int)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(pCurrentElementNext))))->FUN_00726070()))))))) ::Vec3())));
+                (*(TESTopic**)((::BSSimpleList< ::TESTopic *> *)((void *)(((TESTopicInfoData*)(((BSSimpleList<TESTopic*>*)((std::intptr_t)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(pCurrentElementNext))))->FUN_00726070())))))))));
             if (::FUN_0061a450(ptopic1, ptopic2, abSortByPriority))
             {
                 if (plastlist)
                 {
                     reinterpret_cast<::ItemChangeListNode *>((((VATS_CommandList*)plastlist)))->FUN_00905330((::InventoryStackRecord *const &)((VATSCommand* const&)ptopic1));
-                    pCurrentElementNext = ((BSSimpleList<TESTopic*>*)((int)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(plastlist))))->FUN_00726070())));
+                    pCurrentElementNext = ((BSSimpleList<TESTopic*>*)((std::intptr_t)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(plastlist))))->FUN_00726070())));
                 }
                 else
                 {
@@ -1424,12 +1428,12 @@ void SortTopicList(bool abSortByPriority, BSSimpleList<TESTopic*>* apTopicList)
         if (!badvanced)
         {
             plastlist = pCurrentElementNext;
-            pCurrentElementNext = ((BSSimpleList<TESTopic*>*)((int)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(pCurrentElementNext))))->FUN_00726070())));
+            pCurrentElementNext = ((BSSimpleList<TESTopic*>*)((std::intptr_t)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(pCurrentElementNext))))->FUN_00726070())));
         }
     }
     while (!_ref_008256d0(&sortlist))
     {
-        TESTopic* pMenuTopicEntry = (*(TESTopic**)((::BSSimpleList< ::TESTopic *> *)(new ((void *)(((TESTopicInfoData*)(&sortlist)))) ::Vec3())));
+        TESTopic* pMenuTopicEntry = (*(TESTopic**)((::BSSimpleList< ::TESTopic *> *)((void *)(((TESTopicInfoData*)(&sortlist))))));
         ((ItemList*)&sortlist)->FUN_0063f7b0();
         ::AddTopicToList(pMenuTopicEntry, pBaseList, abSortByPriority);
     }
@@ -1448,9 +1452,9 @@ bool FUN_00619bc0_shell::HasInfoForQuest(TESQuest* apQuest, bool apCheck)
     if (!apQuest)
         return false;
     BSSimpleList<QuestDialogueInfo*>* pList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::TESRegion *>((void *)this)->GetDiffuseColor()));
-    while (pList && ((::QuestDialogueInfo *)(new ((void *)(pList)) ::Vec3())))
+    while (pList && (pList->m_item))
     {
-        QuestDialogueInfo* pInfo = ((::QuestDialogueInfo *)(new ((void *)(pList)) ::Vec3()));
+        QuestDialogueInfo* pInfo = (pList->m_item);
         pList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         if (pInfo->pQuest == apQuest)
         {
@@ -1469,9 +1473,9 @@ struct FUN_00619f70_shell : public TESTopic
 TopicInfoArray* FUN_00619f70_shell::FindQuestInfoArray(TESTopicInfo* apInfo)
 {
     BSSimpleList<QuestDialogueInfo*>* list = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::TESRegion *>((void *)this)->GetDiffuseColor()));
-    while (list && ((::QuestDialogueInfo *)(new ((void *)(list)) ::Vec3())))
+    while (list && (list->m_item))
     {
-        QuestDialogueInfo* info = ((::QuestDialogueInfo *)(new ((void *)(list)) ::Vec3()));
+        QuestDialogueInfo* info = (list->m_item);
         list = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
         if (info->pQuest == (TESQuest*)apInfo && (apInfo || !info->m_pAlternateQuest))
             return ((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((info))->GetCurrentProcessData()));
@@ -1525,7 +1529,7 @@ class FUN_00935a40_cls
     FUN_00935a40_cls* m_pFirstNode;
 
 
-    bool HasEntryWithKey(int key);
+    bool HasEntryWithKey(std::intptr_t key);
 };
 // Picks a TESTopicInfo from the topic's quest info lists, honoring conditions, history, filters and random selection, and reports deferred info via deferred.
 // Scans quest topic info for dialogue candidates, applies link and history checks, and may return a deferred or randomly selected candidate.
@@ -1546,9 +1550,9 @@ TESTopicInfo* TESTopic::FindMatchingTopicInfo(const TESTopic* originalTopic, boo
     bool bWasPlaying = false;
     BSSimpleList<QuestDialogueInfo*>* pQuestInfoList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::TESRegion *>((void *)(pTopic))->GetDiffuseColor()));
     TESTopicInfo* lastDeferredInfo = 0;
-    while (pQuestInfoList && ((::QuestDialogueInfo *)(new ((void *)(pQuestInfoList)) ::Vec3())) && !bWasPlaying)
+    while (pQuestInfoList && (pQuestInfoList->m_item) && !bWasPlaying)
     {
-        QuestDialogueInfo* questInfo = ((::QuestDialogueInfo *)(new ((void *)(pQuestInfoList)) ::Vec3()));
+        QuestDialogueInfo* questInfo = (pQuestInfoList->m_item);
         TESQuest* quest = questInfo->pQuest;
         pQuestInfoList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::Callees *>((pQuestInfoList))->FUN_00726070()));
         if (quest && reinterpret_cast<::TESFaction_RankDataView *>((quest))->FUN_00455620() && quest->GetConditions()->ContainsTrait(speaker, listener))
@@ -1558,7 +1562,7 @@ TESTopicInfo* TESTopic::FindMatchingTopicInfo(const TESTopic* originalTopic, boo
             unsigned int sourceCount = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pSourceArray))->FUN_0084e3a0()));
             for (unsigned int sourceIndex = 0; sourceIndex < sourceCount; sourceIndex++)
                 reinterpret_cast<::S00863d90 *>(&(sortedArray))->FUN_00863d90((const unsigned int &)(pSourceArray->GetAt(sourceIndex)));
-            unsigned int linkSize = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(questInfo->m_kInfoLinks))->GetName()));
+            unsigned int linkSize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(questInfo->m_kInfoLinks))->GetName()));
             for (unsigned int linkIndex = 0; linkIndex < linkSize; linkIndex++)
             {
                 if (questInfo->m_kInfoLinks.GetAt(linkIndex).pInfo)
@@ -1580,7 +1584,7 @@ TESTopicInfo* TESTopic::FindMatchingTopicInfo(const TESTopic* originalTopic, boo
                 if (pTopicInfo && reinterpret_cast<::TopicFlagStandIn *>((pTopicInfo))->FUN_0061aef0() && speaker->IsMobileObject())
                 {
                     MobileObject* mobileSpeaker = static_cast<MobileObject*>(speaker);
-                    if (reinterpret_cast<::FUN_00935a40_cls *>((mobileSpeaker))->HasEntryWithKey((int)(pTopicInfo)))
+                    if (reinterpret_cast<::FUN_00935a40_cls *>((mobileSpeaker))->HasEntryWithKey((std::intptr_t)(pTopicInfo)))
                         bAllowed = false;
                 }
                 if (pTopicInfo && bAllowed && reinterpret_cast<::FUN_0061e600_t *>((pTopicInfo))->FUN_0061e600(bDeferred, 0, speaker, listener))
@@ -1595,11 +1599,11 @@ TESTopicInfo* TESTopic::FindMatchingTopicInfo(const TESTopic* originalTopic, boo
                             if (previousTopic)
                             {
                                 select = false;
-                                BSSimpleList<TESTopic*>* topicNode = ((::BSSimpleList< ::TESTopic *> *)(new ((void *)(conversationData)) ::Vec3()));
+                                BSSimpleList<TESTopic*>* topicNode = ((::BSSimpleList< ::TESTopic *> *)((void *)(conversationData)));
                                 while (topicNode && !topicNode->IsEmpty())
                                 {
-                                    if (((::TESTopic *)(new ((void *)(topicNode)) ::Vec3())) == previousTopic ||
-                                        ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::TESTopic *)(new ((void *)(topicNode)) ::Vec3()))))->FUN_0084e3a0())) == kAnyPreviousTopicFormID)
+                                    if ((topicNode->m_item) == previousTopic ||
+                                        ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((topicNode->m_item)))->FUN_0084e3a0())) == kAnyPreviousTopicFormID)
                                     {
                                         select = true;
                                         break;
@@ -1609,7 +1613,7 @@ TESTopicInfo* TESTopic::FindMatchingTopicInfo(const TESTopic* originalTopic, boo
                                 if (!filter && topicNode && topicNode->IsEmpty())
                                     select = true;
                             }
-                            else if (!((::BSSimpleList< ::TESTopic *> *)(new ((void *)(conversationData)) ::Vec3()))->IsEmpty() && listener != ::_g_thePlayer)
+                            else if (!((::BSSimpleList< ::TESTopic *> *)((void *)(conversationData)))->IsEmpty() && listener != ::_g_thePlayer)
                                 select = false;
                         }
                         if (select)
@@ -1619,7 +1623,7 @@ TESTopicInfo* TESTopic::FindMatchingTopicInfo(const TESTopic* originalTopic, boo
                             BSSimpleList<DialogueItem*>* historyNode = history;
                             while (historyNode && !historyNode->IsEmpty())
                             {
-                                DialogueItem* dialogue = ((::DialogueItem *)(new ((void *)(historyNode)) ::Vec3()));
+                                DialogueItem* dialogue = (historyNode->m_item);
                                 if (((::TESTopicInfo *)(reinterpret_cast<::FUN_0084e3a0_Class *>((dialogue))->FUN_0084e3a0())) == pTopicInfo)
                                 {
                                     usedCandidate = pTopicInfo;
@@ -1690,7 +1694,7 @@ TESTopicInfo* TESTopic::FindMatchingTopicInfo(const TESTopic* originalTopic, boo
         TESTopicInfo* pSelectedInfo = 0;
         while (seen < randomChoice && pCandidate)
         {
-            pSelectedInfo = ((::TESTopicInfo *)(new ((void *)(pCandidate)) ::Vec3()));
+            pSelectedInfo = (pCandidate->m_item);
             if (pSelectedInfo)
             {
                 result = pSelectedInfo;
@@ -1705,7 +1709,7 @@ TESTopicInfo* TESTopic::FindMatchingTopicInfo(const TESTopic* originalTopic, boo
 
 // Walks the entry list reached through FUN_00574900/FUN_005e3fa0/FUN_005d43c0/FUN_0042efe0 and returns true if any entry's unk00 equals key.
 // @fnv 0x00935a40
-bool FUN_00935a40_cls::HasEntryWithKey(int key)
+bool FUN_00935a40_cls::HasEntryWithKey(std::intptr_t key)
 {
     FUN_00935a40_cls* res = 0;
     if (((bool)(::FUN_00574900((const unsigned char *)(this)))))
@@ -1719,9 +1723,9 @@ bool FUN_00935a40_cls::HasEntryWithKey(int key)
     if (res != 0)
     {
         FUN_00935a40_cls* cur = res->m_pFirstNode;
-        while (cur != 0 && *((::FUN_00935a40_cls **)(new ((void *)(cur)) ::Vec3())) != 0)
+        while (cur != 0 && *((::FUN_00935a40_cls **)((void *)(cur))) != 0)
         {
-            FUN_00935a40_cls* item = *((::FUN_00935a40_cls **)(new ((void *)(cur)) ::Vec3()));
+            FUN_00935a40_cls* item = *((::FUN_00935a40_cls **)((void *)(cur)));
             if (item->unk00 == key)
             {
                 return true;
@@ -1767,15 +1771,15 @@ void TESTopic_Shell::InitializeTopic()
 
     BSSimpleList<QuestDialogueInfo*>* pIter = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::TESRegion *>((void *)this)->GetDiffuseColor()));
     BSSimpleList<QuestDialogueInfo*>* prev = 0;
-    while (pIter && ((::QuestDialogueInfo *)(new ((void *)(pIter)) ::Vec3())))
+    while (pIter && (pIter->m_item))
     {
-        QuestDialogueInfo* questInfo = ((::QuestDialogueInfo *)(new ((void *)(pIter)) ::Vec3()));
+        QuestDialogueInfo* questInfo = (pIter->m_item);
         TopicInfoArray* array;
         if (questInfo)
         {
             if (!questInfo->bInitialized)
             {
-                int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(questInfo->m_kInfoLinks))->GetName()));
+                int count = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(questInfo->m_kInfoLinks))->GetName()));
                 for (int i = 0; i < count; i++)
                 {
                     unsigned int formID = questInfo->m_kInfoLinks.GetAt(i).nID;
@@ -1802,7 +1806,7 @@ void TESTopic_Shell::InitializeTopic()
                     }
                     else
                     {
-                        unsigned int uiChunkType = (unsigned int)questInfo->pQuest;
+                        std::uintptr_t uiChunkType = (std::uintptr_t)questInfo->pQuest;
                         TESQuest* quest = dynamic_cast<TESQuest*>(::FUN_004839c0(uiChunkType));
                         reinterpret_cast<::FUN_0061bf70_Class *>((((BSSimpleArray_Helper*)&questInfo->m_kInfoLinks)))->FUN_0061bf70(i, true);
                         count--;
@@ -1812,12 +1816,12 @@ void TESTopic_Shell::InitializeTopic()
 
                 if (questInfo->pQuest)
                 {
-                    unsigned int uiChunkType = (unsigned int)questInfo->pQuest;
+                    std::uintptr_t uiChunkType = (std::uintptr_t)questInfo->pQuest;
                     questInfo->pQuest = dynamic_cast<TESQuest*>(::FUN_004839c0(uiChunkType));
                 }
                 else if (questInfo->m_pAlternateQuest)
                 {
-                    unsigned int formID = (unsigned int)questInfo->m_pAlternateQuest;
+                    unsigned int formID = (unsigned int)(std::uintptr_t)questInfo->m_pAlternateQuest;
                     ::ResolveFormID(&formID, GetFile(-1));
                     questInfo->m_pAlternateQuest = dynamic_cast<TESQuest*>(::FUN_004839c0(formID));
                 }
@@ -1856,7 +1860,7 @@ void TESTopic_Shell::InitializeTopic()
                     TESTopicInfo* curInfo = array->GetAt(i);
                     if (curInfo)
                     {
-                        reinterpret_cast<::ValueModifierEffect *>((((TopicInfoStandin*)curInfo)))->SetActorValue((::ActorValue::Index)(questInfo->pQuest));
+                        curInfo->m_pOwnerQuest = questInfo->pQuest;
                         curInfo->InitItem();
                         reinterpret_cast<::FUN_0061f340_shell *>((((TopicInfoStandin*)curInfo)))->FUN_0061f340((unsigned short)i);
                     }
@@ -1869,7 +1873,7 @@ void TESTopic_Shell::InitializeTopic()
 
     if (::FUN_00619410((const char *)this))
     {
-        reinterpret_cast<::fnv_00952830::FUN_00952830_Class *>((((PlayerCharacter_Helper*)::_g_thePlayer)))->FUN_00952830((int)(this), 0, 0);
+        reinterpret_cast<::fnv_00952830::FUN_00952830_Class *>((((PlayerCharacter_Helper*)::_g_thePlayer)))->FUN_00952830((std::intptr_t)(this), 0, 0);
     }
     SetInitializationState(true);
 }
@@ -2063,7 +2067,7 @@ unsigned int __cdecl GenerateConversation(TESObjectREFR* speaker, TESObjectREFR*
         return 0;
     while (history && !history->FUN_008256d0())
     {
-        delete (FUN_005c90d0*)((::DialogueItem *)(new ((void *)(history)) ::Vec3()));
+        delete (FUN_005c90d0*)((::DialogueItem *)((void *)(history)));
         history->FUN_0063f7b0();
     }
     if (!speaker || !listener)
@@ -2128,7 +2132,7 @@ unsigned int __cdecl GenerateConversation(TESObjectREFR* speaker, TESObjectREFR*
                 int n = 0;
                 while (n < exhausted && topics && !topics->FUN_008256d0())
                 {
-                    nextItem = (FUN_0061b320_shell*)((::TESTopic *)(new ((void *)(topics)) ::Vec3()));
+                    nextItem = (FUN_0061b320_shell*)((::TESTopic *)((void *)(topics)));
                     topics = ((::TopicList *)(reinterpret_cast<::Callees *>((topics))->FUN_00726070()));
                     n++;
                 }
@@ -2160,19 +2164,19 @@ unsigned int __cdecl GenerateConversation(TESObjectREFR* speaker, TESObjectREFR*
         DialogueList* node = history;
         {
             int index = 1;
-            while (node && ((::DialogueItem *)(new ((void *)(node)) ::Vec3())))
+            while (node && ((::DialogueItem *)((void *)(node))))
             {
-                ItemView* entry = (ItemView*)((::DialogueItem *)(new ((void *)(node)) ::Vec3()));
+                ItemView* entry = (ItemView*)((::DialogueItem *)((void *)(node)));
                 node = ((::DialogueList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
                 if (entry)
                 {
                     if (reinterpret_cast<::DialogueItem *>((entry))->SelectDefaultResponseList())
                     {
-                        ::FUN_00703c00("Item %d: %s says '%s'", (const char *)(index));
+                        ::FUN_00703c00("Item %d: %s says '%s'", (const char *)(std::uintptr_t)(index));
                     }
                     else
                     {
-                        ::FUN_00703c00("Item %d: %s has no response!", (const char *)(index));
+                        ::FUN_00703c00("Item %d: %s has no response!", (const char *)(std::uintptr_t)(index));
                     }
                 }
                 index++;
@@ -2180,6 +2184,116 @@ unsigned int __cdecl GenerateConversation(TESObjectREFR* speaker, TESObjectREFR*
         }
     }
     return history->FUN_005ae380();
+}
+
+// @fnv 0x0061af30
+TESTopicInfo* FUN_0061af30(TESTopicInfo* input, bool& deferredResult, TESObjectREFR* speaker, TESObjectREFR* listener,
+                           bool filter, BSSimpleList<DialogueItem*>* history)
+{
+    TESTopicInfo* b = input;
+    deferredResult = false;
+    if (!b || reinterpret_cast<::FUN_00440d80_shell *>((void *)(b))->FUN_00440d80())
+        return 0;
+    TESTopicInfo* excluded = 0;
+    BSSimpleList<TESTopicInfo*> choices;
+    unsigned int f = 0;
+    bool h = false;
+    BSSimpleList<TESTopicInfo*>* a = 0;
+    if (((::TESTopicInfoData *)(::GetField38((char *)(b)))))
+        a = ((::BSSimpleList< ::TESTopicInfo *> *)(::FUN_00460140((std::intptr_t)(((::TESTopicInfoData *)(::GetField38((char *)(b))))))));
+    TESTopicInfo* fallback = 0;
+    while (a && (a->m_item) && !h)
+    {
+        TESTopicInfo* info = (a->m_item);
+        TESQuest* quest = info->m_pOwnerQuest;
+        a = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((a))->FUN_00726070()));
+        if (quest && reinterpret_cast<::TESFaction_RankDataView *>((quest))->FUN_00455620() && quest->GetConditions()->ContainsTrait(speaker, listener))
+        {
+            bool deferred = false;
+            bool allowed = true;
+            if (info && reinterpret_cast<::TopicFlagStandIn *>((info))->FUN_0061aef0() && speaker->IsMobileObject())
+            {
+                MobileObject* mobile = (MobileObject*)speaker;
+                if (reinterpret_cast<::FUN_00935a40_cls *>((mobile))->HasEntryWithKey((std::intptr_t)(info)))
+                    allowed = false;
+            }
+            if (info && allowed && reinterpret_cast<::FUN_0061e600_t *>((info))->FUN_0061e600(deferred, 0, speaker, listener))
+            {
+                deferredResult = false;
+                bool keep = true;
+                if (keep)
+                {
+                    if (::IsFlag20Set((char *)(info)))
+                        h = true;
+                    BSSimpleList<DialogueItem*>* seen = history;
+                    while (seen && !seen->IsEmpty())
+                    {
+                        DialogueItem* dialogue = (seen->m_item);
+                        if (((::TESTopicInfo *)(reinterpret_cast<::FUN_0084e3a0_Class *>((dialogue))->FUN_0084e3a0())) == info)
+                        {
+                            excluded = info;
+                            keep = false;
+                            break;
+                        }
+                        seen = ((::BSSimpleList< ::DialogueItem *> *)(reinterpret_cast<::Callees *>((seen))->FUN_00726070()));
+                    }
+                }
+                if (keep)
+                {
+                    if (::IsFlag20Set((char *)(info)))
+                        h = true;
+                    if (choices.IsEmpty() && !::FUN_00619410((const char *)(info)))
+                    {
+                        return info;
+                    }
+                    else if (!::FUN_00619410((const char *)(info)))
+                    {
+                        h = true;
+                        break;
+                    }
+                    else
+                    {
+                        choices.AddHead(info);
+                        f++;
+                    }
+                }
+                if (!filter && deferred)
+                {
+                    fallback = info;
+                    deferredResult = true;
+                }
+                if (h)
+                    break;
+            }
+        }
+    }
+    if (choices.IsEmpty())
+    {
+        if (filter)
+            return 0;
+        else
+            return fallback;
+    }
+    else
+    {
+        int pick = f ? DialogueRandom() % f + 1 : 0;
+        int a = 0;
+        BSSimpleList<TESTopicInfo*>* c = &choices;
+        TESTopicInfo* selected = 0;
+        TESTopicInfo* b = 0;
+        while (a < pick && c)
+        {
+            b = (c->m_item);
+            if (b)
+            {
+                selected = b;
+                a++;
+            }
+            c = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((c))->FUN_00726070()));
+        }
+        reinterpret_cast<::FileMatchList *>(&(choices))->RemoveAll();
+        return selected;
+    }
 }
 
 #include "generated/data/fallout_shared/testopic.inc"

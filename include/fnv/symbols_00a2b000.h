@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class BA2BA10Stream;
 namespace fnv_00a2bc60 { struct SpawnTarget; }
 struct A2BBF0Record;
@@ -29,9 +31,9 @@ void SaveKey(::BA2BA10Stream &, ::BA2BA10Key *);
 // 0x00a2baa0
 void FUN_00a2baa0(int, int);
 // 0x00a2bb00
-namespace fnv_00a2bb00 { void *AllocateElement76Array(int, unsigned int); }
+namespace fnv_00a2bb00 { void *AllocateElement76Array(std::intptr_t, unsigned int); }
 // 0x00a2bb60
-void FUN_00a2bb60(int, int, unsigned int);
+void FUN_00a2bb60(std::intptr_t, std::intptr_t, unsigned int);
 // 0x00a2bb90
 namespace fnv_00a2bb90 { int FUN_00a2bb90(); }
 // 0x00a2bbf0

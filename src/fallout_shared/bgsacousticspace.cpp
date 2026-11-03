@@ -105,7 +105,7 @@ bool BGSAcousticSpace::Load(TESFile* file)
             else if (m_uiSoundEntryCount == 2)
                 reinterpret_cast<::FUN_00409480_shell *>(this)->FUN_00409480((::TESActorBase *)(::TESSound *)(reinterpret_cast<TESSound*>(soundFormID)));
             else if (m_uiSoundEntryCount == 1)
-                reinterpret_cast<::FUN_0040e500_shell *>(this)->SetValue((int)(reinterpret_cast<TESSound*>(soundFormID)));
+                reinterpret_cast<::FUN_0040e500_shell *>(this)->SetValue((std::intptr_t)(reinterpret_cast<TESSound*>(soundFormID)));
             else
                 reinterpret_cast<::LowProcess *>(this)->SetCurrentBoundObject((::TESBoundObject *)(::TESSound *)(reinterpret_cast<TESSound*>(soundFormID)));
             m_uiSoundEntryCount++;
@@ -116,7 +116,7 @@ bool BGSAcousticSpace::Load(TESFile* file)
         case 0x54414452:  // RDAT
             soundFormID = 0;
             file->GetChunkData(&soundFormID);
-            reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(reinterpret_cast<TESRegion*>(soundFormID)));
+            pRegion = reinterpret_cast<TESRegion*>(static_cast<std::uintptr_t>(soundFormID));
             break;
         case 0x4D414E41:  // ANAM
             file->GetChunkData(&soundFormID);
@@ -142,7 +142,7 @@ bool BGSAcousticSpace::Load(TESFile* file)
 // @fnv 0x00589f50
 void FUN_00589f50_shell::SetSound(void* apSound)
 {
-    *(int*)((char*)this + 0x4c) = (int)apSound;
+    *(std::intptr_t*)((char*)this + 0x4c) = (std::intptr_t)apSound;
 }
 
 struct Standin00589930
@@ -169,7 +169,7 @@ void BGSAcousticSpace::InitItem()
     unsigned int formID;
     if (reinterpret_cast<::TESForm *>((void *)(static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))))->GetInitialized())
         return;
-    formID = reinterpret_cast<unsigned int>(pDawnSound);
+    formID = (unsigned int)(std::uintptr_t)(pDawnSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -177,7 +177,7 @@ void BGSAcousticSpace::InitItem()
         if (!pDawnSound)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(pNoonSound);
+    formID = (unsigned int)(std::uintptr_t)(pNoonSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -185,7 +185,7 @@ void BGSAcousticSpace::InitItem()
         if (!pNoonSound)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(pDuskSound);
+    formID = (unsigned int)(std::uintptr_t)(pDuskSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -193,7 +193,7 @@ void BGSAcousticSpace::InitItem()
         if (!pDuskSound)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(pNightSound);
+    formID = (unsigned int)(std::uintptr_t)(pNightSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -201,7 +201,7 @@ void BGSAcousticSpace::InitItem()
         if (!pNightSound)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(pRegion);
+    formID = (unsigned int)(std::uintptr_t)(pRegion);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -209,7 +209,7 @@ void BGSAcousticSpace::InitItem()
         if (!pRegion)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(pWallaSound);
+    formID = (unsigned int)(std::uintptr_t)(pWallaSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -285,7 +285,7 @@ struct Idle_008b2010
 };
 struct BGSAddonNode
 {
-    void SetIndex(unsigned int);
+    void SetIndex(std::uintptr_t);
 };
 struct FUN_005e78f0_t
 {
@@ -302,12 +302,12 @@ void FUN_0058a120_shell::CopyFromAcousticSpace(TESForm* apCopy)
         return;
     ((FUN_00792780_Class*)this)->SetByteAtOffset30(GetByteAtOffset48(pcopy));
     reinterpret_cast<::LowProcess *>(this)->SetCurrentBoundObject((::TESBoundObject *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)pcopy)))->GetPrevPath()))));
-    reinterpret_cast<::FUN_0040e500_shell *>(this)->SetValue((int)(((::TESSound *)(::GetField38((char *)(((TESTopicInfo*)pcopy)))))));
+    reinterpret_cast<::FUN_0040e500_shell *>(this)->SetValue((std::intptr_t)(((::TESSound *)(::GetField38((char *)(((TESTopicInfo*)pcopy)))))));
     reinterpret_cast<::FUN_00409480_shell *>(this)->FUN_00409480((::TESActorBase *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::Twin_00639b40 *>((((EP_008c48d0*)pcopy)))->GetEntryPoint()))));
     reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>(this)->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)pcopy)))->GetTarget()))));
     reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((::TESObjectREFR *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::LowProcess *>((((Idle_008b2010*)pcopy)))->GetActiveCombatTarget()))));
-    ((BGSAddonNode*)this)->SetIndex(((unsigned int)(reinterpret_cast<::FUN_0068a830_shell *>((((BGSAddonNode*)pcopy)))->GetGrass())));
-    reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(((TESTopicInfo*)pcopy)->GetParentQuest()));
+    ((BGSAddonNode*)this)->SetIndex(((std::uintptr_t)(reinterpret_cast<::FUN_0068a830_shell *>((((BGSAddonNode*)pcopy)))->GetGrass())));
+    pRegion = ((TESTopicInfo*)pcopy)->GetParentQuest();
     reinterpret_cast<::FUN_00589f50_shell *>(this)->SetSound((*(void * *)&(const ::CELL_ENVIRO_TYPE &)((CELL_ENVIRO_TYPE)reinterpret_cast<::FUN_0068a810_class *>((((FUN_0068a810_shell*)pcopy)))->GetField4C())));
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(pcopy);
 }
@@ -441,7 +441,7 @@ bool FUN_0058a220_shell::IsNotEqual(TESForm* apCompare)
     if (((::TESSound *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<Idle_008b2010*>(this)))->GetActiveCombatTarget())) != ((::TESSound *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<Idle_008b2010*>(pcomp)))->GetActiveCombatTarget())))
         return true;
 
-    if (((unsigned int)(reinterpret_cast<::FUN_0068a830_shell *>((reinterpret_cast<BGSAddonNode*>(this)))->GetGrass())) != ((unsigned int)(reinterpret_cast<::FUN_0068a830_shell *>((reinterpret_cast<BGSAddonNode*>(pcomp)))->GetGrass())))
+    if (((std::uintptr_t)(reinterpret_cast<::FUN_0068a830_shell *>((reinterpret_cast<BGSAddonNode*>(this)))->GetGrass())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::FUN_0068a830_shell *>((reinterpret_cast<BGSAddonNode*>(pcomp)))->GetGrass())))
         return true;
 
     if (reinterpret_cast<TESTopicInfo*>(this)->GetParentQuest() !=

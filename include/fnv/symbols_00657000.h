@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class TESActorBase;
 namespace fnv_00657010 { struct NiAVObject; }
 struct QueryObject;
@@ -15,4 +17,4 @@ void QueueFaceGenAssets(::TESActorBase *, int, ::QueuedFile *);
 // 0x00657a30
 unsigned int FUN_00657a30(const ::_vec_60 *);
 // 0x00657bc0
-int FUN_00657bc0(intptr_t);
+int FUN_00657bc0(std::intptr_t);

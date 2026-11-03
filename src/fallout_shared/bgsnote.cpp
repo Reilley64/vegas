@@ -34,6 +34,8 @@
 #include "fnv/symbols_0048e000.h"
 #include "fnv/symbols_005b5000.h"
 #include "bgsnote_decls.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/symbols_00472000.h"
 // @fnv 0x005e8240
 void BGSNote::ResetFormData()
 {
@@ -162,7 +164,7 @@ void FUN_005e92d0_shell::FUN_005e92d0(TESActorBase* apSpeaker)
 
 struct FUN_005e9130_shell : BGSNote
 {
-    void FUN_005e9130(int a1);
+    void FUN_005e9130(std::intptr_t a1);
 };
 // @fnv 0x005e8900
 void BGSNote::InitItem()
@@ -174,7 +176,7 @@ void BGSNote::InitItem()
     while (current && !current->IsEmpty())
     {
         BGSNoteReference<TESQuest> noteRef;
-        noteRef.id = (unsigned int)((::TESQuest *)(new ((void *)(current)) ::Vec3()));
+        noteRef.id = (unsigned int)(std::uintptr_t)(current->item);
         ::ResolveFormID((unsigned int *)&(noteRef.id), GetFile(-1));
         noteRef.form = dynamic_cast<TESQuest*>(::FUN_004839c0(noteRef.id));
         if (noteRef.form)
@@ -188,7 +190,7 @@ void BGSNote::InitItem()
             ::FUN_005b5e40();
             if (previous)
             {
-                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(((::TESQuest *)(new ((void *)(current)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((current->item)));
                 current = ((::BSSimpleList< ::TESQuest *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
             }
             else
@@ -198,17 +200,17 @@ void BGSNote::InitItem()
     if (FUN_005e9100())
     {
         BGSNoteReference<TESSound> noteRef;
-        noteRef.id = (unsigned int)FUN_005e9100();
+        noteRef.id = (unsigned int)(std::uintptr_t)FUN_005e9100();
         ::ResolveFormID((unsigned int *)&(noteRef.id), GetFile(-1));
         noteRef.form = dynamic_cast<TESSound*>(::FUN_004839c0(noteRef.id));
-        reinterpret_cast<::FUN_005e9130_shell *>(this)->FUN_005e9130((int)(noteRef.form));
+        reinterpret_cast<::FUN_005e9130_shell *>(this)->FUN_005e9130((std::intptr_t)(noteRef.form));
         if (!noteRef.form)
             ::FUN_005b5e40();
     }
     if (FUN_005e9240())
     {
         BGSNoteReference<TESTopic> noteRef;
-        noteRef.id = (unsigned int)FUN_005e9240();
+        noteRef.id = (unsigned int)(std::uintptr_t)FUN_005e9240();
         ::ResolveFormID((unsigned int *)&(noteRef.id), GetFile(-1));
         noteRef.form = dynamic_cast<TESTopic*>(::FUN_004839c0(noteRef.id));
         reinterpret_cast<::FUN_005e9270_shell *>(this)->FUN_005e9270(noteRef.form);
@@ -218,7 +220,7 @@ void BGSNote::InitItem()
     if (FUN_005e92a0())
     {
         BGSNoteReference<TESActorBase> noteRef;
-        noteRef.id = (unsigned int)FUN_005e92a0();
+        noteRef.id = (unsigned int)(std::uintptr_t)FUN_005e92a0();
         ::ResolveFormID((unsigned int *)&(noteRef.id), GetFile(-1));
         noteRef.form = dynamic_cast<TESActorBase*>(::FUN_004839c0(noteRef.id));
         reinterpret_cast<::FUN_005e92d0_shell *>(this)->FUN_005e92d0(noteRef.form);
@@ -262,13 +264,13 @@ bool BGSNote::Load(TESFile* file)
         case 0x4d414e59: {
             unsigned int id = 0;
             file->GetChunkData(&id);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::TESSound *)((TESSound*)id));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::TESSound *)((TESSound*)(std::uintptr_t)id));
             break;
         }
         case 0x4d414e5a: {
             unsigned int id = 0;
             file->GetChunkData(&id);
-            reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(::TESSound *)((TESSound*)id));
+            reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(::TESSound *)((TESSound*)(std::uintptr_t)id));
             break;
         }
         case 0x41544144: {
@@ -280,7 +282,7 @@ bool BGSNote::Load(TESFile* file)
         case 0x4d414e4f: {
             unsigned int id = 0;
             file->GetChunkData(&id);
-            ownerQuests.AddHead((TESQuest*)id);
+            ownerQuests.AddHead((TESQuest*)(std::uintptr_t)id);
             break;
         }
         case 0x4d414e58: {
@@ -302,7 +304,7 @@ bool BGSNote::Load(TESFile* file)
                 {
                     unsigned int id = 0;
                     file->GetChunkData(&id);
-                    reinterpret_cast<::FUN_005e9130_shell *>(this)->FUN_005e9130((int)((TESSound*)id));
+                    reinterpret_cast<::FUN_005e9130_shell *>(this)->FUN_005e9130((std::intptr_t)((TESSound*)(std::uintptr_t)id));
                 }
                 break;
             case 1:
@@ -326,13 +328,13 @@ bool BGSNote::Load(TESFile* file)
                 {
                     unsigned int id = 0;
                     file->GetChunkData(&id);
-                    reinterpret_cast<::FUN_005e92d0_shell *>(this)->FUN_005e92d0((TESActorBase*)id);
+                    reinterpret_cast<::FUN_005e92d0_shell *>(this)->FUN_005e92d0((TESActorBase*)(std::uintptr_t)id);
                 }
                 else if (chunk == 0x4d414e54)
                 {
                     unsigned int id = 0;
                     file->GetChunkData(&id);
-                    reinterpret_cast<::FUN_005e9270_shell *>(this)->FUN_005e9270((TESTopic*)id);
+                    reinterpret_cast<::FUN_005e9270_shell *>(this)->FUN_005e9270((TESTopic*)(std::uintptr_t)id);
                 }
                 break;
             }
@@ -346,7 +348,7 @@ bool BGSNote::Load(TESFile* file)
 
 // If GetNoteType returns 0, stores a1 at offset 0x6c of this object.
 // @fnv 0x005e9130
-void FUN_005e9130_shell::FUN_005e9130(int a1)
+void FUN_005e9130_shell::FUN_005e9130(std::intptr_t a1)
 {
     if (reinterpret_cast<::FUN_005e8d40_shell *>(this)->GetNoteType() == 0)
         *(int*)((char*)this + 0x6c) = a1;
@@ -368,10 +370,10 @@ struct Fake9190
 };
 struct FUN_005e9190_shell : BGSNote
 {
-    void FUN_005e9190(int);
+    void FUN_005e9190(std::intptr_t);
 };
 // @fnv 0x005e9190
-void FUN_005e9190_shell::FUN_005e9190(int a)
+void FUN_005e9190_shell::FUN_005e9190(std::intptr_t a)
 {
     if (reinterpret_cast<::FUN_005e8d40_shell *>(this)->GetNoteType() == 2)
         ((Fake9190*)m_pText)->f2(a);
@@ -414,7 +416,7 @@ struct BGSNoteStandin : TESForm
 void BGSNoteStandin::FUN_005e9480(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::TESForm *>((((TESFormBufferAccess*)this)))->LoadGame(apLoadGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         *(unsigned char*)((char*)this + 0x7d) = 1;
 }
 
@@ -438,8 +440,8 @@ struct FUN_005e94d0_shell : TESForm
 // @fnv 0x005e94d0
 void FUN_005e94d0_shell::FUN_005e94d0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)this)))->FUN_004534f0(reinterpret_cast<unsigned int>(apLoadGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005e94d0::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+    reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)this)))->FUN_004534f0(reinterpret_cast<std::uintptr_t>(apLoadGameBuffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005e94d0::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         *(char*)((char*)this + 0x7d) = 0;
 }
 }  // namespace fnv_005e94d0
@@ -617,7 +619,7 @@ void BGSNoteSave::SaveNote()
     SaveQuestList* pNode = ((::SaveQuestList *)(reinterpret_cast<::BGSExplosion *>(this)->FUN_004fadc0()));
     while (pNode && !pNode->IsListEmpty())
     {
-        TESQuest* pOwner = ((::TESQuest *)(new ((void *)(pNode)) ::Vec3()));
+        TESQuest* pOwner = ((::TESQuest *)((void *)(pNode)));
         unsigned int uiOwnerQuestID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SaveForm*)pOwner)))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e4f, uiOwnerQuestID);
         pNode = ((::SaveQuestList *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
@@ -691,13 +693,13 @@ void BGSNoteCopy::CopyFromNote(TESForm* apForm)
     switch (cType)
     {
     case 0:
-        reinterpret_cast<::FUN_005e9130_shell *>(this)->FUN_005e9130((int)(pSource->FUN_005e9100()));
+        reinterpret_cast<::FUN_005e9130_shell *>(this)->FUN_005e9130((std::intptr_t)(pSource->FUN_005e9100()));
         break;
     case 1:
         reinterpret_cast<::FUN_005e9200_shell *>(this)->FUN_005e9200(reinterpret_cast<::BGSNote *>((pSource))->GetNoteDescription());
         break;
     case 2:
-        reinterpret_cast<::FUN_005e9190_shell *>(this)->FUN_005e9190((int)(pSource->GetNoteTexture()));
+        reinterpret_cast<::FUN_005e9190_shell *>(this)->FUN_005e9190((std::intptr_t)(pSource->GetNoteTexture()));
         break;
     case 3:
         reinterpret_cast<::FUN_005e9270_shell *>(this)->FUN_005e9270(pSource->FUN_005e9240());
@@ -708,7 +710,7 @@ void BGSNoteCopy::CopyFromNote(TESForm* apForm)
     pIter = ((::BSSimpleList< ::TESQuest *> *)(reinterpret_cast<::BGSExplosion *>((pSource))->FUN_004fadc0()));
     while (pIter && !pIter->IsEmpty())
     {
-        ownerQuests.AddHead(((::TESQuest *)(new ((void *)(pIter)) ::Vec3())));
+        ownerQuests.AddHead((pIter->item));
         pIter = ((::BSSimpleList< ::TESQuest *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
     }
     m_bIsRead = pSource->m_bIsRead;
@@ -794,7 +796,7 @@ bool NoteCompare::FUN_005e8d60(TESForm* apForm)
     NoteQuestList* pNode = ((::fnv_005e8d60::NoteQuestList *)(reinterpret_cast<::BGSExplosion *>(this)->FUN_004fadc0()));
     while (pNode && !pNode->IsEmpty())
     {
-        TESQuest* pQuest = ((::TESQuest *)(new ((void *)(pNode)) ::Vec3()));
+        TESQuest* pQuest = ((::TESQuest *)((void *)(pNode)));
         if (!reinterpret_cast<::RefList *>((((::fnv_005e8d60::NoteQuestList *)(reinterpret_cast<::BGSExplosion *>((((NoteCompare*)pNote)))->FUN_004fadc0()))))->FUN_005f65d0((void **)&(pQuest)))
             return true;
         pNode = ((::fnv_005e8d60::NoteQuestList *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
@@ -802,3 +804,28 @@ bool NoteCompare::FUN_005e8d60(TESForm* apForm)
     return false;
 }
 }  // namespace fnv_005e8d60
+
+// Adjustor thunk: the derived class inherits a virtual that is declared by a
+// secondary base, so MSVC emits a this-adjusting thunk that moves `this` back
+// to the primary sub-object (sizeof(NotePrimaryBase) == 0x30) before jumping
+// to the implementation.
+struct NotePrimaryBase
+{
+    virtual void FUN_005e9520();
+    char unk04[0x2c];
+};
+
+struct NoteSecondaryBase
+{
+    virtual void FUN_005e9520();
+};
+
+struct NoteDerived : NotePrimaryBase, NoteSecondaryBase
+{
+    NoteDerived();
+// @fnv 0x005e9520
+    virtual void FUN_005e9520();
+};
+
+NoteDerived::NoteDerived()
+{}

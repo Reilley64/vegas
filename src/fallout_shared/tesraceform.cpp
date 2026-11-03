@@ -27,7 +27,7 @@ void TESRaceForm::InitItem(TESForm* owner)
 {
     if (m_pRace)
     {
-        unsigned int formID = reinterpret_cast<unsigned int>(m_pRace);
+        unsigned int formID = (unsigned int)(std::uintptr_t)(m_pRace);
         ::ResolveFormID((unsigned int *)&(formID), owner->GetFile(-1));
         m_pRace = dynamic_cast<TESRace*>(::FUN_004839c0(formID));
         if (!m_pRace)

@@ -923,7 +923,7 @@ struct DH
 };
 // If a is non-zero, walks the list from g_dataHandler and calls ProcessTopicInfoList(a) on each item until _ref_008256d0 is true.
 // @fnv 0x00619b60
-void FUN_00619b60(int a)
+void FUN_00619b60(intptr_t a)
 {
     if (a)
     {

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class BGSExplosion;
 class BGSRadiationStage;
@@ -110,7 +111,7 @@ extern ::TESBoundObject *g_pLockpickItem;
 // 0x011ca26c
 extern ::TESObjectSTAT *DAT_011ca26c;
 // 0x011ca278
-extern unsigned int DAT_011ca278;
+extern std::uintptr_t DAT_011ca278;
 // 0x011ca27c
 extern ::Ref *DAT_011ca27c;
 // 0x011ca280
@@ -138,7 +139,7 @@ extern ::GlobalObject_0045cf30 g_011ca3ec;
 // 0x011ca430
 namespace TerrainLOD { extern bool DAT_011ca430; }
 // 0x011ca438
-extern unsigned int DAT_011ca438;
+extern void *DAT_011ca438;
 // 0x011ca43c
 namespace fnv_0057de00 { extern ::fnv_0057de00::NiPoint3 *DAT_011ca43c; }
 // 0x011ca440

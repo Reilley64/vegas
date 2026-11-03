@@ -2932,7 +2932,7 @@ void RleDecoder::Decode(NiBinaryStream& stream,unsigned char* dest,unsigned int 
 
 // 0x00a85510  ret 0x20
 // @fnv 0x00a85510
-void FUN_00a85510(int, int, int, int, int, int, int, int) {
+void FUN_00a85510(intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, int, intptr_t, intptr_t) {
 }
 
 // @fnv 0x00a877d0

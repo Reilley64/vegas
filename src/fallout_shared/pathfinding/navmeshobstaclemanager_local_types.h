@@ -32,6 +32,8 @@ template <class T> class NiPointer
 template <class T> class BSSimpleList
 {
   public:
+    T m_item;
+    BSSimpleList<T>* m_pkNext;
     bool IsEmpty();
     T& GetItem();
     BSSimpleList* GetNext();

@@ -28,6 +28,8 @@ class BGSCameraShot;
 template <class T> class BSSimpleList
 {
   public:
+    T m_item;
+    BSSimpleList<T>* m_pkNext;
     bool IsInList(T&);
     void Remove(T const&);
 };

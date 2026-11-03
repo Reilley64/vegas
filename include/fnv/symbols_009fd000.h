@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 struct AggregateFD4;
 struct CallbackOwner;
 
@@ -20,6 +22,6 @@ unsigned long FUN_009fd430(::AggregateFD4 *);
 // 0x009fd5a0
 long FUN_009fd5a0(void **);
 // 0x009fdbb0
-int FUN_009fdbb0(int);
+int FUN_009fdbb0(std::intptr_t);
 // 0x009fdbd0
-int FUN_009fdbd0(int);
+int FUN_009fdbd0(std::intptr_t);

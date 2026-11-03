@@ -2,6 +2,7 @@
 // src/staging/blk_00440000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <stdexcept>
@@ -2282,7 +2283,7 @@ void This_00450d00::FUN_00450d00()
 
 struct NiNode;
 // @fnv 0x00451010
-unsigned int __cdecl FUN_00451010()
+std::uintptr_t __cdecl FUN_00451010()
 {
     return (*reinterpret_cast<::Flt *>(&::g_011ca0d8));
 }
@@ -3096,12 +3097,12 @@ class C4442C0Ptr
 class C4442C0Queue
 {
   public:
-    void QueueFullWithNullResult(intptr_t iA, int iB, int iC, intptr_t iD, intptr_t iE, bool bF, bool bG, bool bH);
+    void QueueFullWithNullResult(intptr_t iA, intptr_t iB, int iC, intptr_t iD, intptr_t iE, bool bF, bool bG, bool bH);
 };
 
 // Creates a null C4442C0Ptr and forwards all arguments to QueueFull.
 // @fnv 0x004442c0
-void C4442C0Queue::QueueFullWithNullResult(intptr_t aiArg1, int aiArg2, int aiArg3, intptr_t aiArg4, intptr_t aiArg5, bool abFlag1,
+void C4442C0Queue::QueueFullWithNullResult(intptr_t aiArg1, intptr_t aiArg2, int aiArg3, intptr_t aiArg4, intptr_t aiArg5, bool abFlag1,
                                            bool abFlag2, bool abFlag3)
 {
     C4442C0Ptr spResult(0);

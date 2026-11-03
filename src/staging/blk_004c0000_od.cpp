@@ -2333,9 +2333,9 @@ class DepthDevice;
 
 
 // @fnv 0x004dc040
-uintptr_t __cdecl FUN_004dc040()
+void* __cdecl FUN_004dc040()
 {
-    return reinterpret_cast<uintptr_t>(::DAT_0126f0d8);
+    return ::DAT_0126f0d8;
 }
 
 // @fnv 0x004dc0a0
@@ -2361,7 +2361,7 @@ char** FUN_004dc110()
 // @fnv 0x004dc1e0
 int __cdecl FUN_004dc1e0()
 {
-    return DAT_011c6fbc;
+    return (int)(std::intptr_t)DAT_011c6fbc;
 }
 
 
@@ -3504,7 +3504,7 @@ void RecreateRenderDevice()
             OutT outVal = {0, 0};
             int v1 = reinterpret_cast<::TESObjectCELL *>((((GO45*)&::g_011c73dc)))->GetCellStandValue();
             int v3 = reinterpret_cast<::TESObjectCELL *>((((GO45*)&::g_011c718c)))->GetCellStandValue();
-            DAT_00fdf310(&outVal, DAT_00fdf2e8(uiFlags, -16), DAT_00fdf2ec(DAT_011c6fbc, -8));
+            DAT_00fdf310(&outVal, DAT_00fdf2e8(uiFlags, -16), DAT_00fdf2ec((int)(std::intptr_t)DAT_011c6fbc, -8));
             int iDeltaX = v1 - outVal.x;
             int iDeltaY = v3 - outVal.y;
             DAT_00fdf2a4(uiFlags, 0,

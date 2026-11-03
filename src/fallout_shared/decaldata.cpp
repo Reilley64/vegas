@@ -96,7 +96,7 @@ void FUN_00593320_shell::FUN_00593320(void* a1)
 {
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_00593370_shell *>((((DecalData*)this)))->SwapEndianFields();
-    ::AppendChunk((unsigned int)(a1), this, 0x24);
+    ::AppendChunk((std::uintptr_t)(a1), this, 0x24);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_00593370_shell *>((((DecalData*)this)))->SwapEndianFields();
 }

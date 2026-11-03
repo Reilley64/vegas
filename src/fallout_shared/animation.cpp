@@ -1110,7 +1110,7 @@ void FUN_00496080_shell::FUN_00496080(int aeSection, float afEaseOutTime)
 
     if (*reinterpret_cast<BSStringT<char>*>(reinterpret_cast<char*>(this) + 0xd8) && esection < 8 &&
         reinterpret_cast<NiControllerSequence**>(&this->m_pChildTile[0])[esection] &&
-        ((int)(reinterpret_cast<::LowProcess *>((reinterpret_cast<NiControllerSequence**>(&this->m_pChildTile[0])[esection]))->GetActiveCombatTarget())))
+        ((std::intptr_t)(reinterpret_cast<::LowProcess *>((reinterpret_cast<NiControllerSequence**>(&this->m_pChildTile[0])[esection]))->GetActiveCombatTarget())))
     {
         if (reinterpret_cast<::LowProcess *>((reinterpret_cast<TESChallenge**>(&this->m_pChildTile[0])[esection]))->GetPackageObjectType())
         {
@@ -1801,7 +1801,7 @@ struct TESObjectREFR_GetFlags_Helper
 bool FUN_00498170_shell::FUN_00498170()
 {
     if (reinterpret_cast<BSStringT<char>*>(&LocalStateValue)->operator const char*() &&
-        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR_GetFlags_Helper*>(
+        ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR_GetFlags_Helper*>(
             const_cast<char*>(reinterpret_cast<BSStringT<char>*>(&LocalStateValue)->operator const char*()))))->GetName())) == 1 &&
         AddAnimation(
             reinterpret_cast<KFModel*>(
@@ -1897,13 +1897,13 @@ bool FUN_00498f80_cls::FUN_00498f80()
     {
         if (reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)a.operator const char*())))->FUN_00490e40() == 0)
         {
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((FUN_00498f80_flags*)a.operator const char*())))->GetName())) == 3)
+            if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((FUN_00498f80_flags*)a.operator const char*())))->GetName())) == 3)
                 return false;
             return true;
         }
         else
         {
-            switch (((int)(reinterpret_cast<::LowProcess *>((reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)a.operator const char*())))->FUN_00490e40()))->GetActiveCombatTarget())))
+            switch (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)a.operator const char*())))->FUN_00490e40()))->GetActiveCombatTarget())))
             {
             case 2:
             case 5:
@@ -1919,7 +1919,7 @@ bool FUN_00498f80_cls::FUN_00498f80()
         }
         else
         {
-            switch (((int)(reinterpret_cast<::LowProcess *>((reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)b.operator const char*())))->FUN_00490e40()))->GetActiveCombatTarget())))
+            switch (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)b.operator const char*())))->FUN_00490e40()))->GetActiveCombatTarget())))
             {
             case 2:
             case 5:
@@ -2206,14 +2206,14 @@ BSAnimGroupSequence* FUN_0048f450_shell::GetSequenceByIndex(char aiSequenceIndex
     BSAnimGroupSequence* pForwardSequence;
     void* listIt;
     int iTargetIndex;
-    if (aiSequenceIndex != -1 && (unsigned int)aiSequenceIndex < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)m_pSingleSequence)))->GetName())))
+    if (aiSequenceIndex != -1 && (unsigned int)aiSequenceIndex < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)m_pSingleSequence)))->GetName())))
         iTargetIndex = aiSequenceIndex;
     else
-        iTargetIndex = ::DialogueRandom() % ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)m_pSingleSequence)))->GetName()));
-    listIt = (void*)(unsigned int)*(Flt*)m_pSingleSequence;
+        iTargetIndex = ::DialogueRandom() % ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)m_pSingleSequence)))->GetName()));
+    listIt = *(void**)(m_pSingleSequence);
     while (listIt)
     {
-        pForwardSequence = *(BSAnimGroupSequence**)((int *)(reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_struct*)m_pSingleSequence)))->AddEight((int)listIt)));
+        pForwardSequence = *(BSAnimGroupSequence**)((int *)(reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_struct*)m_pSingleSequence)))->AddEight((std::intptr_t)listIt)));
         if (iTargetIndex-- == 0)
             return pForwardSequence;
         listIt = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)(((NiTPointerList_TESObjectREFR*)m_pSingleSequence)))->DereferenceIfNotNull((int **)(listIt))));
@@ -2442,21 +2442,21 @@ void FUN_00493d50_shell::CheckAnimGroupMovement(TESAnimGroup* apAnimGroup)
     {
         NiPointer<AnimIdle> spseq(((AnimSequenceBase_Helper*)panimSeq)->vfn_04(-1));
         NiPoint3 interpDelta = NiPoint3::ZERO;
-        for (unsigned int n = 0; n < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((AnimIdle_Helper*)(unsigned int)(*(Flt*)&spseq))))->FUN_0084e3a0())); ++n)
+        for (unsigned int n = 0; n < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*(AnimIdle_Helper**)(&spseq))))->FUN_0084e3a0())); ++n)
         {
-            if (((int)(reinterpret_cast<::fnv_00494210::FUN_00494210_cls *>((((AnimIdle_Helper*)(unsigned int)(*(Flt*)&spseq))))->GetItemIconFormID(n))) ==
-                ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((((TESChallenge*)(unsigned int)(*(Flt*)&spseq))))->FUN_005f5f80())))
+            if (((int)(reinterpret_cast<::fnv_00494210::FUN_00494210_cls *>(((*(AnimIdle_Helper**)(&spseq))))->GetItemIconFormID(n))) ==
+                ((int)(std::uintptr_t)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>(((*(TESChallenge**)(&spseq))))->FUN_005f5f80())))
             {
-                NiInterpolator* pinterp = ((::fnv_00493d50::NiInterpolator *)(reinterpret_cast<::fnv_004937a0::FUN_004937a0_shell *>((((AnimIdle_Helper*)(unsigned int)(*(Flt*)&spseq))))->FUN_004937a0(n)));
-                float fstartTime = reinterpret_cast<::FUN_00759450_shell *>((((FUN_00759450_shell*)(unsigned int)(*(Flt*)&spseq))))->FUN_00759450();
-                float fstopTime = reinterpret_cast<::FUN_00508100_shell *>((((FUN_00508100_shell*)(unsigned int)(*(Flt*)&spseq))))->FUN_00508100();
+                NiInterpolator* pinterp = ((::fnv_00493d50::NiInterpolator *)(reinterpret_cast<::fnv_004937a0::FUN_004937a0_shell *>(((*(AnimIdle_Helper**)(&spseq))))->FUN_004937a0(n)));
+                float fstartTime = reinterpret_cast<::FUN_00759450_shell *>(((*(FUN_00759450_shell**)(&spseq))))->FUN_00759450();
+                float fstopTime = reinterpret_cast<::FUN_00508100_shell *>(((*(FUN_00508100_shell**)(&spseq))))->FUN_00508100();
                 NiQuatTransform quatStart;
                 NiQuatTransform quatStop;
                 pinterp->vfn_35(fstartTime, 0, &quatStart);
                 pinterp->vfn_35(fstopTime, 0, &quatStop);
                 if (reinterpret_cast<::FUN_004942c0_shell *>(&(quatStart))->IsTranslateXNotNegatedConstant() && reinterpret_cast<::FUN_004942c0_shell *>(&(quatStop))->IsTranslateXNotNegatedConstant())
                 {
-                    NiPoint3 delta = (*(const ::fnv_00493d50::NiPoint3_sub *)(new ((void *)&(quatStop)) ::Vec3())) - (*(const ::fnv_00493d50::NiPoint3_sub *)(new ((void *)&(quatStart)) ::Vec3()));
+                    NiPoint3 delta = (*(const ::fnv_00493d50::NiPoint3_sub *)((void *)&(quatStop))) - (*(const ::fnv_00493d50::NiPoint3_sub *)((void *)&(quatStart)));
                     reinterpret_cast<::FUN_004941c0_shell *>((((FUN_004941c0_shell*)&delta)))->ScaleByInverse(fstopTime - fstartTime);
                     reinterpret_cast<::FUN_005f4c40_shell *>((((FUN_005f4c40_shell*)apAnimGroup)))->SetSpeed(&delta);
                 }
@@ -2713,7 +2713,7 @@ void FUN_00497040_shell::FUN_00497040(Animation* apAnimation)
     {
         if (!(unsigned int)*(Flt*)((char*)this + 0x18) ||
             ((unsigned int)*(Flt*)((char*)this + 0x18),
-             ((int)(reinterpret_cast<::LowProcess *>((((NiControllerSequence*)(unsigned int)*(Flt*)((char*)this + 0x18))))->GetActiveCombatTarget()))) == 0)
+             ((std::intptr_t)(reinterpret_cast<::LowProcess *>(((*(NiControllerSequence**)((char*)this + 0x18))))->GetActiveCombatTarget()))) == 0)
         {
             *(int*)((char*)this + 8) = 3;
             if (*(HA**)((char*)this + 0x34) && reinterpret_cast<::FUN_008a7570_shell *>(((*(HA**)((char*)this + 0x34))))->FUN_008a7570() == 0xd)
@@ -2985,23 +2985,23 @@ struct FUN_00498d30_t : public Animation
 bool FUN_00498d30_t::HasIdleForm(TESIdleForm* apIdleForm)
 {
     if (LocalInput && ((::TESIdleForm *)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)(AnimIdle*)LocalInput)))->GetIconFormID())) == apIdleForm &&
-        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(AnimIdle*)LocalInput)))->GetName())) != 1)
+        ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(AnimIdle*)LocalInput)))->GetName())) != 1)
         return true;
     if (LocalStateValue && ((::TESIdleForm *)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)(AnimIdle*)LocalStateValue)))->GetIconFormID())) == apIdleForm &&
-        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(AnimIdle*)LocalStateValue)))->GetName())) != 1)
+        ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(AnimIdle*)LocalStateValue)))->GetName())) != 1)
         return true;
     if (LocalOutput[0])
     {
         if (((::TESIdleForm *)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)(AnimIdle*)LocalOutput[0])))->GetIconFormID())) == apIdleForm)
             return true;
-        else if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011f2250))))->GetName())) == 4 && reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)LocalOutput[0])))->FUN_00490e40())
+        else if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011f2250))))->GetName())) == 4 && reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)LocalOutput[0])))->FUN_00490e40())
             return true;
     }
     if (LocalOutput[1])
     {
         if (((::TESIdleForm *)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)(AnimIdle*)LocalOutput[1])))->GetIconFormID())) == apIdleForm)
             return true;
-        else if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011f2250))))->GetName())) == 4 && reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)LocalOutput[1])))->FUN_00490e40())
+        else if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011f2250))))->GetName())) == 4 && reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)LocalOutput[1])))->FUN_00490e40())
             return true;
     }
     return false;
@@ -3188,7 +3188,7 @@ void FUN_0049bd90_shell::FUN_0049bd90(void* a1)
 {
     void* seq = ((void *)(reinterpret_cast<::TESRegionDataMap *>(this)->GetRegionMapName()));
     if (seq)
-        reinterpret_cast<::FUN_004f05c0_cls *>((((FUN_004f05c0_shell*)seq)))->ApplyFlagsToEntries((unsigned int)(a1));
+        reinterpret_cast<::FUN_004f05c0_cls *>((((FUN_004f05c0_shell*)seq)))->ApplyFlagsToEntries((std::uintptr_t)(a1));
 }
 
 namespace fnv_0048f080 {
@@ -3329,8 +3329,8 @@ bool Holder::FUN_00498230(void* apActor)
 {
     if (FUN_00498290(this))
     {
-        reinterpret_cast<::LowProcess *>((((LowProcess*)(unsigned int)*(Flt*)((char*)this + 0x124))))->SetCurrentBoundObject((::TESBoundObject *)(apActor));
-        reinterpret_cast<::fnv_008a73e0::FUN_008a73e0_shell *>((((HA*)apActor)))->FUN_008a73e0(0xD, (::fnv_008a73e0::BSAnimGroupSequence *)(void *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)(unsigned int)*(Flt*)((char*)this + 0x124))))->FUN_00490e40()));
+        reinterpret_cast<::LowProcess *>(((*(LowProcess**)((char*)this + 0x124))))->SetCurrentBoundObject((::TESBoundObject *)(apActor));
+        reinterpret_cast<::fnv_008a73e0::FUN_008a73e0_shell *>((((HA*)apActor)))->FUN_008a73e0(0xD, (::fnv_008a73e0::BSAnimGroupSequence *)(void *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>(((*(AnimIdle**)((char*)this + 0x124))))->FUN_00490e40()));
         return true;
     }
     return false;
@@ -3354,7 +3354,7 @@ bool FUN_004985b0_Owner::IsFlaggedAsTwo()
 {
     if ((unsigned int)*(Flt*)((char*)this + 0x124) == 0)
         return 0;
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)(unsigned int)*(Flt*)((char*)this + 0x124))))->GetName())) == 2;
+    return ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*(TESObjectREFR_GetFlags_Helper**)((char*)this + 0x124))))->GetName())) == 2;
 }
 }  // namespace fnv_004985b0
 
@@ -3767,8 +3767,8 @@ bool FUN_00490e60_shell::ShouldQueueAnimations()
     {
         bqueueAnims = false;
     }
-    else if ((NiNode*)(unsigned int)*(Flt*)((char*)this + 8) == ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(false))) ||
-             (NiNode*)(unsigned int)*(Flt*)((char*)this + 8) == ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(true))) ||
+    else if (*(NiNode**)((char*)this + 8) == ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(false))) ||
+             *(NiNode**)((char*)this + 8) == ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(true))) ||
              reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::fnv_00490e60::_FUN_00822510_Class &)(*(const _FUN_00822510_Class*)((char*)this + 8)))->operator==(((int)(::fnv_00490f80::FUN_00490f80((char *)((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))))))
     {
         if (!Interface::IsMenuActive((Interface::enumMenus)0x40c, 0))
@@ -3815,12 +3815,12 @@ struct FUN_0048f720_shell
 // @fnv 0x0048f720
 char FUN_0048f720_shell::FindSequenceIndex(BSAnimGroupSequence* apSeq)
 {
-    void* listIt = (void*)(unsigned int)*(Flt*)m_pSingleSequence;
+    void* listIt = *(void**)(m_pSingleSequence);
     char iIndex = 0;
     while (listIt)
     {
         BSAnimGroupSequence* pSequence =
-            *(BSAnimGroupSequence**)reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_struct*)m_pSingleSequence)))->AddEight((int)listIt);
+            *(BSAnimGroupSequence**)reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_struct*)m_pSingleSequence)))->AddEight((std::intptr_t)listIt);
         if (apSeq == pSequence)
             return iIndex;
         ++iIndex;
@@ -3852,7 +3852,7 @@ unsigned short FUN_00497100_shell::FUN_00497100()
     v += 4;
     v += 1;
     if ((unsigned int)*(Flt*)((char*)this + 0x18))
-        v += (unsigned short)(unsigned short)reinterpret_cast<::FUN_004efb10_shell *>((((FUN_004efb10_shell*)((unsigned int)*(Flt*)((char*)this + 0x18)))))->FUN_004efb10() +
+        v += (unsigned short)(unsigned short)reinterpret_cast<::FUN_004efb10_shell *>(((*(FUN_004efb10_shell**)((char*)this + 0x18))))->FUN_004efb10() +
              1;
     return v;
 }
@@ -3880,7 +3880,7 @@ bool FUN_004981f0_shell::FUN_004981f0()
 {
     if (!((GO*)((char*)this + 0x124))->operator unsigned int())
         return false;
-    return (unsigned int)((::TESObjectREFR *)(reinterpret_cast<::Twin_0044ddc0 *>((((Crime*)((GO*)((char*)this + 0x124))->operator unsigned int())))->GetName())) == 1;
+    return (unsigned int)(std::uintptr_t)((::TESObjectREFR *)(reinterpret_cast<::Twin_0044ddc0 *>((((Crime*)((GO*)((char*)this + 0x124))->operator unsigned int())))->GetName())) == 1;
 }
 }  // namespace fnv_004981f0
 
@@ -3923,7 +3923,7 @@ FUN_0048f220::~FUN_0048f220()
         void* pos = ((void *)(::FUN_00559450((int *)(pList))));
         while (pos)
         {
-            SeqObj* pForwardSequence = ((::fnv_0048f220::SeqObj *)(reinterpret_cast<::FUN_006317a0_struct *>((pList))->AddEight((int)(pos))));
+            SeqObj* pForwardSequence = ((::fnv_0048f220::SeqObj *)(reinterpret_cast<::FUN_006317a0_struct *>((pList))->AddEight((std::intptr_t)(pos))));
             char acName[260];
             ::TaskQueueInterface::CopyStringToBuffer(acName, 260, (*(::fnv_0048f220::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((pForwardSequence))->GetLinkToList())));
             reinterpret_cast<::WaitableObject *>((pForwardSequence))->FUN_00401970();
@@ -4210,7 +4210,7 @@ void FUN_0049bdc0_shell::SetAnimationAmount(float amount)
                 reinterpret_cast<::AnimationSequence *>((((Seq_49bdc0*)m_pChildTile[3])))->FUN_00a34ba0(reinterpret_cast<::FUN_00759450_shell *>((((Seq_49bdc0*)m_pChildTile[3])))->FUN_00759450() + time, true);
             }
         }
-        if (m_pChildTile[3] && ((int)(reinterpret_cast<::LowProcess *>((((Seq_49bdc0*)m_pChildTile[3])))->GetActiveCombatTarget())) == 1)
+        if (m_pChildTile[3] && ((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((((Seq_49bdc0*)m_pChildTile[3])))->GetActiveCombatTarget())) == 1)
         {
             float delta =
                 reinterpret_cast<::FUN_00508100_shell *>((((Seq_49bdc0*)m_pChildTile[3])))->FUN_00508100() - reinterpret_cast<::FUN_00759450_shell *>((((Seq_49bdc0*)m_pChildTile[3])))->FUN_00759450();
@@ -4305,7 +4305,7 @@ SeqIface* FUN_004948c0_shell::GetSequenceForGroup(unsigned short group, int type
 BNObject* BNLookup::FindObjectByNameVariant(BNObject* apObject, int aiVariant)
 {
     void* pPosVal = ((void *)(::FUN_00559450((int *)(m_pObjectList))));
-    char* pName3 = strrchr((*(::BNFixedString *)(reinterpret_cast<::TESTopicInfoData *>((apObject))->GetLinkToList())), '\\');
+    char* pName3 = (char*)strrchr((*(::BNFixedString *)(reinterpret_cast<::TESTopicInfoData *>((apObject))->GetLinkToList())), '\\');
     char* pSuffix4;
     char acBufferX[260];
 
@@ -4344,8 +4344,8 @@ BNObject* BNLookup::FindObjectByNameVariant(BNObject* apObject, int aiVariant)
 
     while (pPosVal)
     {
-        BNObject* pObject = ((::BNObject *)(reinterpret_cast<::FUN_006317a0_struct *>((m_pObjectList))->AddEight((int)(pPosVal))));
-        char* pObjectName = strrchr((*(::BNFixedString *)(reinterpret_cast<::TESTopicInfoData *>((pObject))->GetLinkToList())), '\\');
+        BNObject* pObject = ((::BNObject *)(reinterpret_cast<::FUN_006317a0_struct *>((m_pObjectList))->AddEight((std::intptr_t)(pPosVal))));
+        char* pObjectName = (char*)strrchr((*(::BNFixedString *)(reinterpret_cast<::TESTopicInfoData *>((pObject))->GetLinkToList())), '\\');
         if (pObjectName && !::FUN_00404dc0(pObjectName, pName3))
             return pObject;
         pPosVal = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((m_pObjectList))->DereferenceIfNotNull((int **)(pPosVal))));
@@ -4626,7 +4626,7 @@ bool Animation::Init(BSSimpleList<const char*>* files, NiNode* root, TESObjectRE
     bool bQueue = IsAnimationLoaded();
     while (!files->IsEmpty())
     {
-        const char* file = ((const char *)(new ((void *)(files)) ::Vec3()));
+        const char* file = (files->m_item);
         KFModel* model = ((::KFModel *)(reinterpret_cast<::fnv_004471c0::FUN_004471c0_shell *>((g_modelLoader))->LoadKFModel((char *)(file))));
         if (model && ((void *)(reinterpret_cast<::TESRegionDataMap *>((model))->GetRegionMapName())))
             reinterpret_cast<::Anim490 *>(this)->AddModel((::Model490 *)(model), bQueue);
@@ -4664,7 +4664,7 @@ void FUN_00490330_t::FUN_00490330(BSSimpleList<const char*>* apFileList, const c
         char message[260];
         const char* pfilename;
         bool bqueueAnims;
-        pfilename = *((const char **)(new ((void *)(((FileListNode*)pfileList))) ::Vec3()));
+        pfilename = *((const char **)((void *)(((FileListNode*)pfileList))));
         ::FUN_00406d00(message, 260, "%s\\%s\\%s", apPath, "SpecialAnims", pfilename);
         pkfModel = ((::KFModel *)(reinterpret_cast<::fnv_004471c0::FUN_004471c0_shell *>((g_modelLoader))->LoadKFModel((char *)(message))));
         bqueueAnims = IsAnimationLoaded();
@@ -4685,7 +4685,7 @@ void S_00490400_Anim::FUN_00490400(BSSimpleList<const char*>* apFileList)
         bool bFlag = reinterpret_cast<::fnv_00490e60::FUN_00490e60_shell *>((this))->ShouldQueueAnimations();
         while (!apFileList->IsEmpty())
         {
-            const char* pcPath7 = ((const char *)(new ((void *)(apFileList)) ::Vec3()));
+            const char* pcPath7 = (apFileList->m_item);
             KFModel* m_kModelObjectsItem = ((::KFModel *)(reinterpret_cast<::fnv_004471c0::FUN_004471c0_shell *>((g_modelLoader))->LoadKFModel((char *)(pcPath7))));
             reinterpret_cast<::Anim490 *>((this))->AddModel((::Model490 *)(m_kModelObjectsItem), bFlag);
             delete pcPath7;
@@ -4824,12 +4824,12 @@ bool Anim490::AddModel(Model490* model, bool queue)
         }
         Seq490* seq = 0;
         bool aCompatible = ::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_011c7d74))), (::NiAVObject *)(original4));
-        if (aCompatible && ((int)(reinterpret_cast<::Callees *>((original4))->FUN_00726070())) == 1)
+        if (aCompatible && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((original4))->FUN_00726070())) == 1)
             seq = (Seq490*)original4;
         else
             seq = new Seq490(((::Group490 *)(reinterpret_cast<::TESRegionDataMap *>((model))->GetRegionMapName())), original4);
         base->Set(seq, true);
-        bool added = ::AttachSeqToOwner((::Owner *)(((Manager490*)manager)), (int)(seq), (::Seq *)(int *)(&(*reinterpret_cast<int *>(&::DAT_011f49e0))), (int *)(true), {});
+        bool added = ::AttachSeqToOwner((::Owner *)(((Manager490*)manager)), (std::intptr_t)(seq), (::Seq *)(int *)(&(*reinterpret_cast<int *>(&::DAT_011f49e0))), (int *)(true), {});
         if (!added)
         {
             bool removed = false;
@@ -5754,9 +5754,9 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
     BlendSequence* previous2 = sequences[section3];
     int previousType = FUN_005f2440(groups[section3]);
     bool synchronize = false;
-    int state = 0;
+    std::intptr_t state = 0;
     if (previous2)
-        state = ((int)(reinterpret_cast<::LowProcess *>((previous2))->GetActiveCombatTarget()));
+        state = ((std::intptr_t)(reinterpret_cast<::LowProcess *>((previous2))->GetActiveCombatTarget()));
     if (!apSequence || group == 255)
         return 0;
     if (apSequence)
@@ -5772,7 +5772,7 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
                 BlendProcess* process = ((::AnimationBlend::BlendProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()));
                 bool reset = true;
                 if ((::TESAnimGroup::IsAimAnimation((unsigned short)type4) || ::TESAnimGroup::IsActionTypeValid((unsigned short)type4)) && process &&
-                    ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) <= 1)
+                    ((int)(std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) <= 1)
                 {
                     BlendProcess* highProcess = process;
                     BlendSequence* priorA = ((::AnimationBlend::BlendSequence *)(reinterpret_cast<::FUN_00495560_shell *>((highProcess))->GetFieldAt(section3 - 4)));
@@ -5786,18 +5786,18 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
                     reinterpret_cast<::FUN_00495480_shell *>((apSequence))->FUN_00495480(0.0f);
             }
         }
-        if (((int)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 3)
+        if (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 3)
             apSequence->Deactivate(0.0f, 0);
-        if (((((int)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) != 0 && !((void *)(reinterpret_cast<::ActorMover *>((apSequence))->GetCurrentMoveModeType()))) ||
-             (((int)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 1 && apSequence == previous2)) &&
-            (!::FUN_00702360() || ((int)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 1))
+        if (((((std::intptr_t)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) != 0 && !((void *)(reinterpret_cast<::ActorMover *>((apSequence))->GetCurrentMoveModeType()))) ||
+             (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 1 && apSequence == previous2)) &&
+            (!::FUN_00702360() || ((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 1))
         {
             flags[section3] = 0;
             ::SetNegatedGlobal((void *)(apSequence));
             return apSequence;
         }
         if (::FUN_00702360() && ((::AnimationBlend::BlendObject *)(::FUN_00559450((int *)&(node)))) == ((::AnimationBlend::BlendObject *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::AnimationBlend::BlendActor * *>(&::_g_thePlayer))))->FUN_00950bb0(0))) && !reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::AnimationBlend::BlendGame * *>(&::g_TESSaveLoadGame))))->EvaluateCondition() &&
-            !((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::AnimationBlend::BlendMode *>(&::g_011f2250))))->GetName())))
+            !((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::AnimationBlend::BlendMode *>(&::g_011f2250))))->GetName())))
         {
         }
         else if (::fnv_00705a00::FUN_00705a00() && ((::AnimationBlend::BlendObject *)(::FUN_00559450((int *)&(node)))) == ((::AnimationBlend::BlendObject *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::AnimationBlend::BlendActor * *>(&::_g_thePlayer))))->FUN_00950bb0(1))) && type4 == 1 &&
@@ -5825,7 +5825,7 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
                 reinterpret_cast<::fnv_00496080::FUN_00496080_shell *>(this)->FUN_00496080(originalSection, 0.0f);
                 previous2 = 0;
             }
-            else if (originalSection != section3 || force || ((int)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) != 0)
+            else if (originalSection != section3 || force || ((std::intptr_t)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) != 0)
             {
                 reinterpret_cast<::fnv_00496080::FUN_00496080_shell *>(this)->FUN_00496080(originalSection, 0.0f);
             }
@@ -5900,14 +5900,14 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
         else if (duration < ::DAT_01016408)
             reinterpret_cast<::NiControllerManager *>((((::AnimationBlend::BlendManager *)(::FUN_00559450((int *)&(manager))))))->ActivateControllerSequence((::NiControllerSequence *)(apSequence), 0, 1, ::GetFloatAtOffset1C((char *)(apSequence)), 0.0f, (::NiControllerSequence *)(0));
         else if (synchronize)
-            ::CallFUN_00a351d0((::FUN_00a351d0_cls *)(((::AnimationBlend::BlendManager *)(::FUN_00559450((int *)&(manager))))), (int)(previous2), (float)(apSequence), duration, 0,
-                                                     ::GetFloatAtOffset1C((char *)(previous2)));
+            ::CallFUN_00a351d0((::FUN_00a351d0_cls *)(previous2), (std::intptr_t)(apSequence), duration, 0,
+                                                         ::GetFloatAtOffset1C((char *)(previous2)), ::GetFloatAtOffset1C((char *)(apSequence)));
         else
         {
             bool blended = false;
-            if (previous2 && ((int)(reinterpret_cast<::LowProcess *>((previous2))->GetActiveCombatTarget())))
-                blended = ::sa2e280::FUN_00a2e280((::sa2e280::Sequence *)(((::AnimationBlend::BlendManager *)(::FUN_00559450((int *)&(manager))))), (::sa2e280::Sequence *)(previous2), (float)(apSequence), duration, 0, 1,
-                                                               ::GetFloatAtOffset1C((char *)(apSequence)));
+            if (previous2 && ((std::intptr_t)(reinterpret_cast<::LowProcess *>((previous2))->GetActiveCombatTarget())))
+                blended = ::sa2e280::FUN_00a2e280((::sa2e280::Sequence *)(previous2), (::sa2e280::Sequence *)(apSequence), duration, 0, 1,
+                                                ::GetFloatAtOffset1C((char *)(apSequence)), 0);
             if (!blended)
             {
                 if (reinterpret_cast<::fnv_00451530::FUN_00451530_shell *>(((*reinterpret_cast<::AnimationBlend::BlendMain * *>(&::g_TES))))->FUN_00451530())
@@ -5920,13 +5920,13 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
                         if (((bool)(::FUN_00495580())) && blendActor->ragdoll && ::FUN_004955a0((::bhkRagdollController *)(blendActor->ragdoll)))
                             reinterpret_cast<::FUN_00c75b40_cls *>((blendActor->ragdoll))->UpdateBoneLocalTransforms();
                     }
-                    ::FUN_00a2f800((::NiControllerSequence *)(((::AnimationBlend::BlendManager *)(::FUN_00559450((int *)&(manager))))), (float)(apSequence), 0.0f, duration, 0);
+                    ::FUN_00a2f800((::NiControllerSequence *)(apSequence), 0.0f, duration, 0, 0);
                 }
             }
         }
         if (previous2 && previous2 != apSequence)
         {
-            switch (((int)(reinterpret_cast<::LowProcess *>((previous2))->GetActiveCombatTarget())))
+            switch (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((previous2))->GetActiveCombatTarget())))
             {
             case 1:
             case 2:
@@ -6025,14 +6025,14 @@ char AnimationInterface::FUN_00495f50(int sequenceIndex, int actionId, float* ou
     float tracks = reinterpret_cast<::TESObjectREFR *>((static_cast<SequenceInterface*>(m_pChildTile[sequenceIndex])))->GetScale();
     FUN_00495f30_shell* sequenceTime = static_cast<SequenceInterface*>(m_pChildTile[sequenceIndex])->FUN_00700300();
     TrackEntry* key = reinterpret_cast<TrackEntry*>(sequenceTime->FUN_00495f30(&entries));
-    unsigned int trackCount = ::FUN_0044a670((const char *)(actionId));
+    unsigned int trackCount = ::FUN_0044a670((const char *)(std::uintptr_t)(actionId));
     if (!trackCount)
         return 0;
 
     for (unsigned int i = 0; i < static_cast<unsigned int>(entries); ++i)
     {
         signed char* object = key[i].FUN_00717e50()->FUN_0043b1b0();
-        if (object != 0 && fnv::crt::strnicmp((const char *)(object), (const char *)(actionId), trackCount) == 0 && tracks <= reinterpret_cast<::CombatTargetTimestamp *>(&(key[i]))->FUN_006a7f50())
+        if (object != 0 && fnv::crt::strnicmp((const char *)(object), (const char *)(std::uintptr_t)(actionId), trackCount) == 0 && tracks <= reinterpret_cast<::CombatTargetTimestamp *>(&(key[i]))->FUN_006a7f50())
         {
             if (outTime != 0)
                 *outTime = reinterpret_cast<::CombatTargetTimestamp *>(&(key[i]))->FUN_006a7f50();
@@ -6344,7 +6344,7 @@ void FUN_00499080_shell::FUN_00499080()
     }
     while (((FUN_00493830_shell*)this)->FUN_00493830())
     {
-        KFModel* model = ((::KFModel *)(new ((void *)&(kfModelList)) ::Vec3()));
+        KFModel* model = (kfModelList.m_item);
         FinishScriptRunLockIfActive(model);
         FinishScriptRunLockIfActive(model);
         kfModelList.RemoveHead();
@@ -6571,14 +6571,14 @@ void ResetAnimation::FUN_00499240(bool attach)
             if (attach)
             {
                 if (!((void *)(reinterpret_cast<::MyHost *>((((ResetRoot*)root)))->FUN_00a5c570((const ::MyRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_011f36bc)))))) && priority2)
-                    reinterpret_cast<::TargetClass *>((seqSecond3))->FUN_004eedd0((int)((ResetRoot*)root), priority2);
+                    reinterpret_cast<::TargetClass *>((seqSecond3))->FUN_004eedd0((std::intptr_t)((ResetRoot*)root), priority2);
                 if (*(const unsigned short*)(const char*)(*(::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((seqSecond3))->GetLinkToList())) != 0x5f5f)
                     reinterpret_cast<::BindSequence *>((seqSecond3))->FUN_00a32c70((bool)((ResetRoot*)root));
             }
             else
             {
                 reinterpret_cast<::S004eee_Owner *>((seqSecond3))->UpdateEntryStates();
-                reinterpret_cast<::TargetClass *>((seqSecond3))->FUN_004eedd0((int)((ResetRoot*)root), priority2);
+                reinterpret_cast<::TargetClass *>((seqSecond3))->FUN_004eedd0((std::intptr_t)((ResetRoot*)root), priority2);
             }
         }
     }
@@ -6911,7 +6911,7 @@ struct OutObj_00499b90
     virtual void v0c();
     virtual void v10();
     virtual void v14();
-    virtual char FUN_0018(unsigned int uVal);
+    virtual char FUN_0018(std::uintptr_t uVal);
 };
 struct ChnObj_00499b90
 {
@@ -7182,7 +7182,7 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
 {
     unsigned short lengthA5;
     unsigned int uStart7;
-    unsigned int uMark2;
+    std::uintptr_t uMark2;
     char cb_;
     char bMask7;
     unsigned char bFlagVal;
@@ -7231,7 +7231,7 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
             bId = 0xff;
             if (reinterpret_cast<::NiTMapBase *>((((Lookup_00499b90*)this->fdc)))->Lookup(this->f4c[cb_], (*(::AnimSequenceBase * *)(&pOut))))
             {
-                bId = (unsigned char)((OutObj_00499b90*)pOut)->FUN_0018((unsigned int)this->fe0[cb_]);
+                bId = (unsigned char)((OutObj_00499b90*)pOut)->FUN_0018((std::uintptr_t)this->fe0[cb_]);
             }
             if (this->fe0[cb_] == 0)
             {
@@ -7256,11 +7256,11 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
     }
     if (((unsigned int)(::FUN_00559450((int *)(((Span_00499b90*)&this->f128))))) != 0)
     {
-        ::fnv_004975e0::FUN_004975e0(pPi14, (::fnv_004975e0::SavedAnim *)(((unsigned int)(::FUN_00559450((int *)(((Span_00499b90*)&this->f128)))))), (int)(((void*)this)), *(float*)&this->fd0);
+        ::fnv_004975e0::FUN_004975e0(pPi14, (::fnv_004975e0::SavedAnim *)(((unsigned int)(::FUN_00559450((int *)(((Span_00499b90*)&this->f128)))))), (std::intptr_t)(((void*)this)), *(float*)&this->fd0);
     }
     else
     {
-        ::fnv_004975e0::FUN_004975e0(pPi14, (::fnv_004975e0::SavedAnim *)(((unsigned int)(::FUN_00559450((int *)(((Span_00499b90*)&this->f124)))))), (int)(((void*)this)), *(float*)&this->fd0);
+        ::fnv_004975e0::FUN_004975e0(pPi14, (::fnv_004975e0::SavedAnim *)(((unsigned int)(::FUN_00559450((int *)(((Span_00499b90*)&this->f124)))))), (std::intptr_t)(((void*)this)), *(float*)&this->fd0);
     }
     reinterpret_cast<::FUN_008579b0_shell *>((((Stream_00499b90*)(*reinterpret_cast<::ActiveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&this->f120), 1);
     bFlagVal = 0;
@@ -7271,7 +7271,7 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
                  ->v8c(FUN_00499b70());
         if (pV != 0)
         {
-            int iVar;
+            std::intptr_t iVar;
             iVar = ((ChnObj_00499b90*)pV)->FUN_000c();
             if (iVar != 0)
             {
@@ -7279,14 +7279,14 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
                 p38 = (Chan_00499b90*)((int)(reinterpret_cast<::S_FUN_0045bc00 *>((((Bc_00499b90*)iVar)))->FUN_0045bc00(0)));
                 if (p38 != 0)
                 {
-                    unsigned int u38;
-                    unsigned int u3c3;
-                    u38 = ((unsigned int)(::fnv_0043b230::FUN_0043b230((const char *)(((Chan2_00499b90*)p38)))));
-                    u3c3 = (unsigned int)((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<char *>(&::g_011f36ac))), (::NiObject *)(u38))));
+                    std::uintptr_t u38;
+                    std::uintptr_t u3c3;
+                    u38 = ((std::uintptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(((Chan2_00499b90*)p38)))));
+                    u3c3 = (std::uintptr_t)((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<char *>(&::g_011f36ac))), (::NiObject *)(u38))));
                     if (u3c3 != 0)
                     {
-                        unsigned int u40;
-                        u40 = reinterpret_cast<::fnv_0047a520::Fn47a520 *>((((Chan3_00499b90*)u3c3)))->FUN_0047a520((::fnv_0047a520::NFSHelper *)((unsigned int)FUN_00499b80()));
+                        std::uintptr_t u40;
+                        u40 = reinterpret_cast<::fnv_0047a520::Fn47a520 *>((((Chan3_00499b90*)u3c3)))->FUN_0047a520((::fnv_0047a520::NFSHelper *)((std::uintptr_t)FUN_00499b80()));
                         if (u40 != 0)
                         {
                             bFlagVal = 1;
@@ -7317,9 +7317,9 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
     if (*((Detect_00499b90*)&(*reinterpret_cast<::StringManager *>(&::g_011de4e8)))->FUN_00408d60() != '\0')
     {
         unsigned int u50_2;
-        unsigned int u4c4;
+        std::uintptr_t u4c4;
         u50_2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((Stream_00499b90*)(*reinterpret_cast<::ActiveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
-        u4c4 = ((unsigned int)(reinterpret_cast<::EffectSetting *>((((Stream_00499b90*)(*reinterpret_cast<::ActiveManager * *>(&::g_TESSaveLoadGame)))))->GetHitSound()));
+        u4c4 = ((std::uintptr_t)(reinterpret_cast<::EffectSetting *>((((Stream_00499b90*)(*reinterpret_cast<::ActiveManager * *>(&::g_TESSaveLoadGame)))))->GetHitSound()));
         if (u4c4 != 0)
         {
             MemObj_00499b90* p54;
@@ -7390,7 +7390,7 @@ void FUN_0049bb70_shell::FUN_0049bb70(int aiUnused)
     ReplayDelayNode* pIter = (ReplayDelayNode*)&m_acTrailingData;
     while (pIter)
     {
-        IdleReplayDelayEntry* pDelay = *((::fnv_0049bb70::IdleReplayDelayEntry **)(new ((void *)(pIter)) ::Vec3()));
+        IdleReplayDelayEntry* pDelay = *((::fnv_0049bb70::IdleReplayDelayEntry **)((void *)(pIter)));
         delete pDelay;
         pIter = ((::fnv_0049bb70::ReplayDelayNode *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
     }
@@ -7422,7 +7422,7 @@ void SetSequenceProgress(float afPercent, ManagerStub* apManager, SeqStub* apSeq
 
     if (afPercent == ::_DAT_01012060)
     {
-        if (((int)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 1)
+        if (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 1)
         {
             reinterpret_cast<::fnv_00a328b0::SeqExt *>((apSequence))->FUN_00a328b0(0.0f, true);
             reinterpret_cast<::AnimationSequence *>((apSequence))->FUN_00a34ba0(0.0f, true);
@@ -7430,13 +7430,13 @@ void SetSequenceProgress(float afPercent, ManagerStub* apManager, SeqStub* apSeq
     }
     else
     {
-        if (((int)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 0)
+        if (((std::intptr_t)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 0)
         {
             reinterpret_cast<::TaskQueueInterface *>((apManager))->QueueReferenceStateTask(true);
             reinterpret_cast<::NiControllerManager *>((apManager))->ActivateControllerSequence((::NiControllerSequence *)(apSequence), 0, false, 1.0f, 0.0f, (::NiControllerSequence *)(::fnv_0049bf10::SeqStub *)(0));
             reinterpret_cast<::AnimationSequence *>((apSequence))->FUN_00a34ba0(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0049bf10::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() / 1000.0 + reinterpret_cast<::FUN_00759450_shell *>((apSequence))->FUN_00759450(), true);
         }
-        if (((int)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 1)
+        if (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 1)
         {
             float fScaleMultiplier = reinterpret_cast<::FUN_00508100_shell *>((apSequence))->FUN_00508100() - reinterpret_cast<::FUN_00759450_shell *>((apSequence))->FUN_00759450();
             float fTime2 = reinterpret_cast<::FUN_00759450_shell *>((apSequence))->FUN_00759450() + fScaleMultiplier * afPercent;
@@ -7715,7 +7715,6 @@ struct Loader496
 struct Save496
 {
 };
-extern "C" char DAT_011de45c;
 struct Target496
 {
     static void DetachObjectModels(Data496* data);
@@ -7756,7 +7755,7 @@ void Target496::DetachObjectModels(Data496* data)
         }
     }
     if (!data->count)
-        reinterpret_cast<::SaveOwner_b9539 *>(((*(Loader496**)&(*reinterpret_cast<char *>(&::g_modelLoader)))))->FUN_004454d0((int)(data));
+        reinterpret_cast<::SaveOwner_b9539 *>(((*(Loader496**)&(*reinterpret_cast<char *>(&::g_modelLoader)))))->FUN_004454d0((std::intptr_t)(data));
     if (!reinterpret_cast<::FUN_0047c850 *>(((*(Save496**)&DAT_011de45c)))->EvaluateCondition() && data->actor && reinterpret_cast<::FUN_008a7570_shell *>((data->actor))->FUN_008a7570() == 13)
     {
         Process496* process = ((::fnv_00496a50::Process496 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((data->actor))->GetBaseTexture()));
@@ -7960,7 +7959,7 @@ void Animation::SpecialIdleFree(bool freeQueued, bool immediate)
                 m_pChildTile[section] = 0;
             else
             {
-                switch (((int)(reinterpret_cast<::LowProcess *>((LocalInput->GetControllerSequence()))->GetActiveCombatTarget())))
+                switch (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((LocalInput->GetControllerSequence()))->GetActiveCombatTarget())))
                 {
                 case 2:
                 case 5:
@@ -8003,7 +8002,7 @@ void Animation::SpecialIdleFree(bool freeQueued, bool immediate)
                 m_pChildTile[queuedSection] = 0;
             else
             {
-                switch (((int)(reinterpret_cast<::LowProcess *>((LocalStateValue->GetControllerSequence()))->GetActiveCombatTarget())))
+                switch (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((LocalStateValue->GetControllerSequence()))->GetActiveCombatTarget())))
                 {
                 case 2:
                 case 5:
@@ -8056,7 +8055,7 @@ void FUN_00498910_shell::FUN_00498910(bool abFreeQueued, bool abForceDelete)
             }
             else
             {
-                switch (((int)(reinterpret_cast<::LowProcess *>((reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>(((LocalInput).operator->()))->FUN_00490e40()))->GetActiveCombatTarget())))
+                switch (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>(((LocalInput).operator->()))->FUN_00490e40()))->GetActiveCombatTarget())))
                 {
                 case 2:
                 case 5:
@@ -8103,7 +8102,7 @@ void FUN_00498910_shell::FUN_00498910(bool abFreeQueued, bool abForceDelete)
             }
             else
             {
-                switch (((int)(reinterpret_cast<::LowProcess *>((reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>(((LocalStateValue).operator->()))->FUN_00490e40()))->GetActiveCombatTarget())))
+                switch (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>(((LocalStateValue).operator->()))->FUN_00490e40()))->GetActiveCombatTarget())))
                 {
                 case 2:
                 case 5:
@@ -8144,7 +8143,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
     {
         for (; (*reinterpret_cast<unsigned int *>(&::DAT_011c56e8)) < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingStub *>(&::g_011c5778)))))); (*reinterpret_cast<unsigned int *>(&::DAT_011c56e8))++)
         {
-            KFModel* m_kModelObjectsItem = ((::KFModel *)(new ((void *)&(kfModelList)) ::Vec3()));
+            KFModel* m_kModelObjectsItem = (kfModelList.m_item);
             reinterpret_cast<::Anim490 *>(this)->AddModel((::Model490 *)(m_kModelObjectsItem), false);
             FinishScriptRunLockIfActive(m_kModelObjectsItem);
             kfModelList.RemoveHead();
@@ -8194,7 +8193,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
         BSSimpleList<IdleReplayDelayEntry*>* pNode = &m_acTrailingData;
         while (pNode)
         {
-            IdleReplayDelayEntry* pDelay = ((::IdleReplayDelayEntry *)(new ((void *)(pNode)) ::Vec3()));
+            IdleReplayDelayEntry* pDelay = (pNode->m_item);
             pDelay->m_fDelay = pDelay->m_fDelay - afDelta;
             if (pDelay->m_fDelay <= 0.0)
             {
@@ -8224,7 +8223,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
         {
             if (reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((IdleStub*)(AnimIdle*)LocalOutput[iIdle])))->FUN_00490e40())
             {
-                if (((int)(reinterpret_cast<::LowProcess *>((reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((IdleStub*)(AnimIdle*)LocalOutput[iIdle])))->FUN_00490e40()))->GetActiveCombatTarget())) == 1)
+                if (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((IdleStub*)(AnimIdle*)LocalOutput[iIdle])))->FUN_00490e40()))->GetActiveCombatTarget())) == 1)
                 {
                     Warning("'%s' is trying to free a special idle '%s' sequence '%s' that is animating.",
                             m_pAttachedReference->GetName(),
@@ -8232,12 +8231,12 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
                             (const char*)(*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((IdleStub*)(AnimIdle*)LocalOutput[iIdle])))->FUN_00490e40()))->GetLinkToList())));
                     LocalOutput[iIdle] = 0;
                 }
-                else if (((int)(reinterpret_cast<::LowProcess *>((reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((IdleStub*)(AnimIdle*)LocalOutput[iIdle])))->FUN_00490e40()))->GetActiveCombatTarget())) == 0)
+                else if (((std::intptr_t)(reinterpret_cast<::LowProcess *>((reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((IdleStub*)(AnimIdle*)LocalOutput[iIdle])))->FUN_00490e40()))->GetActiveCombatTarget())) == 0)
                 {
                     reinterpret_cast<::Target *>(this)->RemoveItemFromMap((::Ref *)&(LocalOutput[iIdle]));
                 }
             }
-            else if (((int)(reinterpret_cast<::Twin_0044ddc0 *>((((IdleStub*)(AnimIdle*)LocalOutput[iIdle])))->GetName())))
+            else if (((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((IdleStub*)(AnimIdle*)LocalOutput[iIdle])))->GetName())))
             {
                 reinterpret_cast<::Target *>(this)->RemoveItemFromMap((::Ref *)&(LocalOutput[iIdle]));
             }
@@ -8344,7 +8343,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
         {
             reinterpret_cast<::fnv_00a328b0::SeqExt *>((pSequence))->FUN_00a328b0(reinterpret_cast<::FUN_00493770_shell *>((pSequence))->FUN_00493770() - fTimeStep, {});
         }
-        else if (((int)(reinterpret_cast<::LowProcess *>((pSequence))->GetActiveCombatTarget())) == 1)
+        else if (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((pSequence))->GetActiveCombatTarget())) == 1)
         {
             if (iGroup >= 3 && iGroup <= 0x10)
                 reinterpret_cast<::fnv_00a328b0::SeqExt *>((pSequence))->FUN_00a328b0(reinterpret_cast<::FUN_00493770_shell *>((pSequence))->FUN_00493770() + (fTimeStep * m_fMovementRate - fTimeStep), {});
@@ -8356,7 +8355,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
                 reinterpret_cast<::fnv_00a328b0::SeqExt *>((pSequence))->FUN_00a328b0(reinterpret_cast<::FUN_00493770_shell *>((pSequence))->FUN_00493770() + (fTimeStep * m_fReloadAnimationRate - fTimeStep), {});
         }
 
-        if (bUpdate && ((int)(reinterpret_cast<::LowProcess *>((pSequence))->GetActiveCombatTarget())) == 1)
+        if (bUpdate && ((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((pSequence))->GetActiveCombatTarget())) == 1)
         {
             switch (DAT_011977e4[iGroup].iSequenceType)
             {
@@ -8453,7 +8452,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
                     action[i] = (ANIM_GROUP_ACTION)(action[i] + 1);
                 if (action[i] == 2 && pRefActor && ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(pRefActor))->GetBaseTexture())) &&
                     ((((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(pRefActor))->GetBaseTexture()))->IsHoldingWeapon() && reinterpret_cast<::FUN_008a7570_shell *>((pRefActor))->FUN_008a7570() == 2) ||
-                     (m_pAttachedReference == ::_g_thePlayer && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011f2250))))->GetName())) == 4 &&
+                     (m_pAttachedReference == ::_g_thePlayer && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011f2250))))->GetName())) == 4 &&
                       reinterpret_cast<::ListHolder *>((((VATSStub*)&(*reinterpret_cast<::ArrSI *>(&::g_011f2250)))))->FUN_009c71c0())) &&
                     reinterpret_cast<::FUN_005f3780_shell *>((((::AnimGroupInfoStub *)(reinterpret_cast<::BSAnimGroupSequence *>((void *)(pSequence))->GetAnimGroup()))))->FUN_005f3780(2) >= afPrevTimes[i])
                 {
@@ -8622,7 +8621,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
                     bUseMoveData = true;
                     break;
                 default:
-                    switch (((int)(reinterpret_cast<::LowProcess *>((m_pChildTile[1]))->GetActiveCombatTarget())))
+                    switch (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((m_pChildTile[1]))->GetActiveCombatTarget())))
                     {
                     case 2:
                     case 5:
@@ -8707,12 +8706,12 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
         }
         m_kNodeTranslation.x = reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((((ActorStub*)apRef)))->FUN_00567400() * m_kNodeTranslation.x;
         m_kNodeTranslation.y = reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((((ActorStub*)apRef)))->FUN_00567400() * m_kNodeTranslation.y;
-        if (!bUseMoveData && !m_pChildTile[1] && m_pCurrentSequence && ((int)(reinterpret_cast<::LowProcess *>((m_pCurrentSequence))->GetActiveCombatTarget())))
+        if (!bUseMoveData && !m_pChildTile[1] && m_pCurrentSequence && ((std::intptr_t)(reinterpret_cast<::LowProcess *>((m_pCurrentSequence))->GetActiveCombatTarget())))
         {
             m_kNodeTranslation.y = 0.0f;
             m_kNodeTranslation.x = 0.0f;
         }
-        if (m_pCurrentSequence && !((int)(reinterpret_cast<::LowProcess *>((m_pCurrentSequence))->GetActiveCombatTarget())))
+        if (m_pCurrentSequence && !((std::intptr_t)(reinterpret_cast<::LowProcess *>((m_pCurrentSequence))->GetActiveCombatTarget())))
             m_pCurrentSequence = 0;
     }
 
@@ -8750,7 +8749,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
                 }
                 SeqStub* pForwardSequence = (SeqStub*)reinterpret_cast<::FUN_00491040_shell *>(this)->FUN_00491040(i);
                 if (pForwardSequence && apSequences[i] == pForwardSequence &&
-                    (((int)(reinterpret_cast<::LowProcess *>((pForwardSequence))->GetActiveCombatTarget())) == 1 || ((int)(reinterpret_cast<::LowProcess *>((pForwardSequence))->GetActiveCombatTarget())) == 2 || ((int)(reinterpret_cast<::LowProcess *>((pForwardSequence))->GetActiveCombatTarget())) == 5))
+                    (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((pForwardSequence))->GetActiveCombatTarget())) == 1 || ((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((pForwardSequence))->GetActiveCombatTarget())) == 2 || ((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((pForwardSequence))->GetActiveCombatTarget())) == 5))
                 {
                     bool bPlaySounds = true;
                     if (DAT_01199bcc[i])
@@ -8818,7 +8817,7 @@ void FUN_00497ca0_shell::FUN_00497ca0(TESIdleForm* a1, int a2)
         {
             if (m_pChildTile[section] == reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>(((LocalInput).operator->()))->FUN_00490e40())
             {
-                switch (((int)(reinterpret_cast<::LowProcess *>((reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>(((LocalInput).operator->()))->FUN_00490e40()))->GetActiveCombatTarget())))
+                switch (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>(((LocalInput).operator->()))->FUN_00490e40()))->GetActiveCombatTarget())))
                 {
                 case 2:
                 case 5:
@@ -9102,7 +9101,7 @@ bool MovementAnimation::GetMovement(MotionPoint* apMovement, MotionActor* actor,
         ((::fnv_00494390::MotionGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequences[1]))->GetAnimGroup()))->FUN_005f2420() >= 3 && ((::fnv_00494390::MotionGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequences[1]))->GetAnimGroup()))->FUN_005f2420() <= 16)
     {
         speed2 = reinterpret_cast<::TESAnimGroup *>((((::fnv_00494390::MotionGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequences[1]))->GetAnimGroup()))))->GetAnimationSpeed() * moveSpeed * deltaTime7 * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((owner))->FUN_00567400();
-        if (sequences[4] && ((int)(reinterpret_cast<::LowProcess *>((sequences[4]))->GetActiveCombatTarget())) == 1)
+        if (sequences[4] && ((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((sequences[4]))->GetActiveCombatTarget())) == 1)
         {
             alternate = reinterpret_cast<::TESAnimGroup *>((((::fnv_00494390::MotionGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequences[4]))->GetAnimGroup()))))->GetAnimationSpeed() * attackSpeed * deltaTime7 * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((owner))->FUN_00567400();
             if (alternate > speed2)
@@ -9399,7 +9398,6 @@ void* FUN_0048ef60(void* apThis, unsigned int flags)
 
 namespace fnv_004965d0 {
 extern "C" char DAT_0101dcd8;
-extern "C" char DAT_011c3f2c;
 
 struct ItemPad4965
 {
@@ -9492,7 +9490,7 @@ FUN_004965d0::FUN_004965d0(Item4965* apItem, void* apField14, void* apFieldC, Ac
     source = apItem;
     for (int i = 0; i < 2; ++i)
     {
-        items[i] = (Item4965*)((void *)(reinterpret_cast<::TESDataHandler *>(((*(Container4965**)&DAT_011c3f2c)))->FindNthMatchingItem(apItem, i)));
+        items[i] = (Item4965*)((void *)(reinterpret_cast<::TESDataHandler *>(((*(Container4965**)&::fnv_004994f0::DAT_011c3f2c)))->FindNthMatchingItem(apItem, i)));
         sols[i].Reset(0);
     }
     field30 = aiField30;
@@ -9642,7 +9640,7 @@ void LogWarning(const char* apFormat, ...);
 
 // Writes the animation save block to the save buffer, including the target refID, save group, and animation state, then patches the block size.
 // @fnv 0x004975e0
-void FUN_004975e0(void* apUnused, SavedAnim* apAnim, int aiState, float afTime)
+void FUN_004975e0(void* apUnused, SavedAnim* apAnim, std::intptr_t aiState, float afTime)
 {
     unsigned short usBlockSize4 = 0;
     char* pSizePos8 = 0;
@@ -9700,12 +9698,12 @@ bool AnimationAccess::FUN_00498290()
 {
     if ((AnimIdle*)LocalStateValue)
     {
-        if (((int)(reinterpret_cast<::Twin_0044ddc0 *>((static_cast<AnimIdleAccess*>((AnimIdle*)LocalStateValue)))->GetName())) == 1)
+        if (((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((static_cast<AnimIdleAccess*>((AnimIdle*)LocalStateValue)))->GetName())) == 1)
             SpecialIdleFree(false, true);
         else
             return false;
     }
-    if ((AnimIdle*)LocalInput && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((static_cast<AnimIdleAccess*>((AnimIdle*)LocalInput)))->GetName())) == 1)
+    if ((AnimIdle*)LocalInput && ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((static_cast<AnimIdleAccess*>((AnimIdle*)LocalInput)))->GetName())) == 1)
     {
         IdleModelAccess* pkModel = ((::IdleModelAccess *)(::fnv_006fa820::FUN_006fa820((const char *)(static_cast<AnimIdleAccess*>((AnimIdle*)LocalInput)))));
         if (pkModel && reinterpret_cast<::Anim490 *>(this)->AddModel((::Model490 *)(pkModel), false) && ((::IdleAnimGroupAccess498 *)(reinterpret_cast<::TESRegionDataMap *>((pkModel))->GetRegionMapName())))
@@ -9765,7 +9763,7 @@ BSAnimGroupSequence* AnimSequenceMultiple::FUN_0048f790(TESAnimGroup* apAnimGrou
     while (listIt != 0)
     {
         BSAnimGroupSequence* pseq;
-        pseq = *(BSAnimGroupSequence**)((FUN_006317a0_struct*)m_pSingleSequence)->AddEight((int)listIt);
+        pseq = *(BSAnimGroupSequence**)((FUN_006317a0_struct*)m_pSingleSequence)->AddEight((std::intptr_t)listIt);
         if (reinterpret_cast<::BSAnimGroupSequence *>((void *)(pseq))->GetAnimGroup() == apAnimGroup)
             return pseq;
         listIt = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)(((NiTPointerList_SV<TESObjectREFR*>*)m_pSingleSequence)))->DereferenceIfNotNull((int **)(listIt))));

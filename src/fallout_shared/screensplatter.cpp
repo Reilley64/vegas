@@ -213,7 +213,7 @@ void FUN_004e0800()
         ((GO*)((char*)&DAT_011c7860 + i * 4))->operator=(0);
 }
 
-void __cdecl CallWithParam(int);
+void __cdecl CallWithParam(std::intptr_t);
 struct Dummy00622c50
 {
     void* FUN_00622c50(unsigned int flags);
@@ -224,7 +224,7 @@ void* Dummy00622c50::FUN_00622c50(unsigned int flags)
 {
     reinterpret_cast<::FUN_00622d00_Class *>(this)->FUN_00622d00_Class::~FUN_00622d00_Class();
     if (flags & 1)
-        CallWithParam((int)this);
+        CallWithParam((std::intptr_t)this);
     return this;
 }
 
@@ -337,7 +337,7 @@ void FUN_004e0330(unsigned int requested, float time)
             reinterpret_cast<::FUN_00a5bca0_shell *>((a))->SetExtraDataName((::NiExtraData *)(h));
             ::AssignFixedString((char *)(a), (int)&(const ::NiFixedString &)(NiFixedString("ScreenSplatterRoot")), {});
             ((RootProxy*)(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)).operator->())->Attach(a, true);
-            ::FUN_00b81420((::S_00b81420_AVObject *)(a), ((unsigned int)(reinterpret_cast<::NonActorMagicTarget *>((h))->GetActiveEffectList())));
+            ::FUN_00b81420((::S_00b81420_AVObject *)(a), ((std::uintptr_t)(reinterpret_cast<::NonActorMagicTarget *>((h))->GetActiveEffectList())));
             NiUpdateData i(0.0f, false, false);
             reinterpret_cast<::FUN_00a59c60_cls *>((((RootProxy*)(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)).operator->())))->FUN_00a59c60((std::intptr_t)&(i));
         }
@@ -398,7 +398,7 @@ void FUN_004e0110()
             if (child4)
             {
                 ExtraShell* extra4 = ((::ExtraShell *)(reinterpret_cast<::NiAVObject *>((((ObjShell*)child4)))->GetExtraData((*(const ::NiFixedString *)(FUN_004e0320())))));
-                OpacityFadeState* data = ((::OpacityFadeState *)(::GetOffsetC((int)(extra4))));
+                OpacityFadeState* data = ((::OpacityFadeState *)(::GetOffsetC((std::intptr_t)(extra4))));
                 data->age += elapsed_2;
                 if (data->age >= data->life)
                 {

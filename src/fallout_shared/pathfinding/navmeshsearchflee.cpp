@@ -140,7 +140,7 @@ bool NavMeshSearchFlee::IsNodeValid(const AStarNode<NavMeshTriangleReference, Na
         if (pdest->FindNavMeshTriangle(spmeshPtr, sgoalTri))
         {
             const NavMeshTriangleReference* thisNode = &(*(const ::NavMeshTriangleReference *)(reinterpret_cast<::TESTopicInfoData *>((void *)(apNode))->GetLinkToList()));
-            if ((unsigned int)thisNode->m_pLocationNavMesh == *(Flt*)&spmeshPtr &&
+            if ((std::uintptr_t)thisNode->m_pLocationNavMesh == *(Flt*)&spmeshPtr &&
                 thisNode->m_usTriangleIdentifier == sgoalTri)
                 return true;
         }
@@ -148,19 +148,19 @@ bool NavMeshSearchFlee::IsNodeValid(const AStarNode<NavMeshTriangleReference, Na
     if (apNode == ((const ::AStarNode< ::NavMeshTriangleReference, ::NavMeshTriangleEdgeReference> *)(reinterpret_cast<::FUN_009962d0_class *>(this)->GetFieldAt2050())))
         return false;
     NiPoint3 nodeCenter = (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)&(apNode->kNode))->FUN_006a6eb0({})));
-    float fsqrLength = reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::NiPoint3 &)((reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((int)(pRequest))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - nodeCenter)))->GetSquaredXYLength();
+    float fsqrLength = reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::NiPoint3 &)((reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(pRequest))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - nodeCenter)))->GetSquaredXYLength();
     if (fsqrLength < reinterpret_cast<::FUN_006d2c20_Class *>((void *)(pRequest))->GetFloatAtOffsetB0() * reinterpret_cast<::FUN_006d2c20_Class *>((void *)(pRequest))->GetFloatAtOffsetB0())
         return false;
     if (bHasDestination)
     {
         NiPoint3 destinationVec = kDestination - nodeCenter;
-        NiPoint3 originDestinationVec = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((int)(pRequest))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - kDestination;
+        NiPoint3 originDestinationVec = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(pRequest))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - kDestination;
         if (reinterpret_cast<::TESCombatStyle *>((void *)&(originDestinationVec))->UpdateCombatStyle() < reinterpret_cast<::TESCombatStyle *>((void *)&(destinationVec))->UpdateCombatStyle())
             return false;
     }
     fscore = 0.0f;
     if (((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(pRequest))->GetString())))
-        fscore = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(pRequest))->GetString()))))->SumNodeValues((int)&(nodeCenter));
+        fscore = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(pRequest))->GetString()))))->SumNodeValues((std::intptr_t)&(nodeCenter));
     return fscore <= ::_DAT_01012060;
 }
 
@@ -254,7 +254,7 @@ struct FUN_006a92c0_cls : public AStarSearchBase
 // @fnv 0x006a9290
 void* FUN_006a9290_shell::DestroyIfFlagged(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006a92c0_cls *>(this)->FUN_006a92c0_cls::~FUN_006a92c0_cls();
+    reinterpret_cast<::FUN_006a92c0_cls *>(this)->::FUN_006a92c0_cls::~FUN_006a92c0_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -287,14 +287,14 @@ struct FleeSearch : FUN_006a9580_shell
     AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* FUN_006a7c90(unsigned int, const FleeStartNode*,
                                                                                     float);
     bool FUN_006a7d60(FleePath*, unsigned int, bool);
-    bool StartFleeSearch(FleeRequest*, const FleeStartNode*, FleePath*, unsigned int);
+    bool StartFleeSearch(FleeRequest*, const FleeStartNode*, FleePath*, std::uintptr_t);
 };
 // @fnv 0x006a92e0
-bool FleeSearch::StartFleeSearch(FleeRequest* request, const FleeStartNode* start, FleePath* path, unsigned int limit)
+bool FleeSearch::StartFleeSearch(FleeRequest* request, const FleeStartNode* start, FleePath* path, std::uintptr_t limit)
 {
     pRequest = request;
     reinterpret_cast<FleeStartNode&>(pad205c) = *start;
-    NiPoint3 a = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((int)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 a = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
     reinterpret_cast<NiPoint3&>(kAvoidVector) = ::NiPoint3::ZERO;
     fFleeRange = reinterpret_cast<::FUN_006d2c20_Class *>((void *)(request))->GetFloatAtOffsetB0();
     if (((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(static_cast<FleeRequest*>(pRequest)))->GetString())))
@@ -456,7 +456,7 @@ bool Search::ExpandNode(Node* node, NodeArray* output)
             float extra = reinterpret_cast<::FUN_00589850_Class *>((void *)&(cost))->FUN_00589850() * delta + node->cost;
             if (avoid)
             {
-                extra += reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::AvoidPoints *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(((Request*)pRequest)))->GetString()))))->SumNodeValues((int)&(multiplier));
+                extra += reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::AvoidPoints *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(((Request*)pRequest)))->GetString()))))->SumNodeValues((std::intptr_t)&(multiplier));
                 Vector3 penalty = cost;
                 reinterpret_cast<::FUN_004a0c10_s *>(&(penalty))->FUN_004a0c10();
                 float travel = FUN_00404010(0.0f, reinterpret_cast<::FUN_004b6190_shell *>((void *)&(penalty))->DotProduct((void *)&(position)));

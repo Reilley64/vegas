@@ -4,5 +4,5 @@
 struct FUN_00484d20_Class {
 public:
     // 0x00484d20
-    void ForwardToSaveLoadGame(intptr_t, int);
+    void ForwardToSaveLoadGame(std::intptr_t, int);
 };

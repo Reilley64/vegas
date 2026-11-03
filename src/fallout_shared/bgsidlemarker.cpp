@@ -20,7 +20,7 @@
 BGSIdleMarker::BGSIdleMarker()
 {
     ::FUN_005e9530((::FUN_005e9530_Obj *)this);
-    *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&BGSQuestPerkEntry_vtbl);
+    *reinterpret_cast<std::uintptr_t*>(this) = reinterpret_cast<std::uintptr_t>(&BGSQuestPerkEntry_vtbl);
     *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 8) = 0;
     *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 12) = 0;
 }

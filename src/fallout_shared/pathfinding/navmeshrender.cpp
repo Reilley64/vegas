@@ -75,7 +75,7 @@ void NavMeshObstacleManager::ProcessActivatedObstacles()
         bhkRigidBody* body;
         reinterpret_cast<::C006c6030 *>(&(m_kActivatedRigidBodies))->FUN_006c6030((void *)&(body));
         NiPointer<ObstacleData> obstacle;
-        if (reinterpret_cast<::Map62d0 *>((void *)&(RigidBodyObstacleLookup))->FUN_006c62d0((unsigned int)(body), (void **)&(obstacle)))
+        if (reinterpret_cast<::Map62d0 *>((void *)&(RigidBodyObstacleLookup))->FUN_006c62d0((std::uintptr_t)(body), (void **)&(obstacle)))
         {
             if (reinterpret_cast<::FUN_006c6400_Node *>(&(m_kActiveObstacles))->Contains((const ::NiPointer< ::NiAVObject> &)(obstacle)))
                 continue;
@@ -238,6 +238,8 @@ struct NiNode
 
 struct NiAVObject : public NiNode
 {
+    void IncRefCount();
+    void DecRefCount();
 };
 
 struct GO
@@ -311,7 +313,6 @@ struct PaddedBooleanState
 
 
 GlobalObject_0045cfe0 g_011c63cc;
-int g_TES;
 
 // @fnv 0x006a5ca0
 void PaddedBooleanState::FUN_006a5ca0()
@@ -932,16 +933,16 @@ void NavRenderX::FUN_006a37a0(CellX* apCell, bool abUpdate)
     unsigned int qQMZREG;
     if (!apCell)
         return;
-    qfTOqo = ((::NavArrX *)(::FUN_0070ec90((char *)(apCell))));
+    qfTOqo = ((::NavArrX *)(std::uintptr_t)(::FUN_0070ec90((char *)(apCell))));
     if (!qfTOqo)
         return;
     qQMZREG = reinterpret_cast<::FUN_00620b80_shell *>((qfTOqo))->GetReferenceFlags();
     SpX<NodeX> qAhbO(0);
-    if (!reinterpret_cast<::Map62d0 *>(&(kMap))->FUN_006c62d0((unsigned int)(apCell), (void **)&(qAhbO)))
+    if (!reinterpret_cast<::Map62d0 *>(&(kMap))->FUN_006c62d0((std::uintptr_t)(apCell), (void **)&(qAhbO)))
     {
         qAhbO = new NodeX(qQMZREG * 2);
         ((NodeX*)(*reinterpret_cast<::SpX< ::NodeX> *>(&::g_011d6e5c)))->AttachChildInAvailableSlot(qAhbO, true);
-        reinterpret_cast<::Map6920 *>(&(kMap))->FUN_006c6920((unsigned int)(apCell), (*(::NiPointer< ::NiAVObject> *)&(const ::SpX< ::NodeX> &)(qAhbO)));
+        reinterpret_cast<::Map6920 *>(&(kMap))->FUN_006c6920((std::uintptr_t)(apCell), (*(::NiPointer< ::NiAVObject> *)&(const ::SpX< ::NodeX> &)(qAhbO)));
     }
     else
     {
@@ -1248,7 +1249,7 @@ void NavRenderX::FUN_006a37a0(CellX* apCell, bool abUpdate)
         memcpy(qFffvLe, &qkJsUdT.GetAt(0), qXMUYT * sizeof(Pt3X));
         memcpy(qZAdkzg, &qrEZrs.GetAt(0), qXMUYT * sizeof(ColorX));
         SpX<AVObjX> qpTd(new TriShapeX(qXMUYT, qFffvLe, 0, qZAdkzg, 0, 0, 0, qMBds, qaGEwZ));
-        ::AssignFixedString((char *)(((AVObjX*)qpTd)), (int)&(const ::FixedStrX &)(FixedStrX("NavMesh Triangles")), {});
+        ::AssignFixedString((char *)(((AVObjX*)qpTd)), (std::intptr_t)&(const ::FixedStrX &)(FixedStrX("NavMesh Triangles")), {});
         SpX<AVObjX> qSVM(new PropX());
         ((AVObjX*)qSVM)->SetFlags(0x20, 0);
         reinterpret_cast<::FUN_00439410_cls *>((((AVObjX*)qpTd)))->FUN_00439410((::ArgObject *)(::AVObjX *)(spVertexColor));
@@ -1263,7 +1264,7 @@ void NavRenderX::FUN_006a37a0(CellX* apCell, bool abUpdate)
             SpX<AVObjX> qmgeiw(new AlphaX());
             reinterpret_cast<::FUN_0049ed90_shell *>((((AVObjX*)qmgeiw)))->FUN_0049ed90(true);
             reinterpret_cast<::FUN_00439410_cls *>((((AVObjX*)qFwpo)))->FUN_00439410((::ArgObject *)(::AVObjX *)(qmgeiw));
-            reinterpret_cast<::FUN_00440460_S *>((((AVObjX*)qFwpo)))->FUN_00440460((const ::V3 *)(const ::Pt3PodX *)(((::Pt3PodX *)(new ((void *)(qsCroYH)) ::Vec3()))));
+            reinterpret_cast<::FUN_00440460_S *>((((AVObjX*)qFwpo)))->FUN_00440460((const ::V3 *)(const ::Pt3PodX *)(((::Pt3PodX *)((void *)(qsCroYH)))));
             ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qFwpo, true);
         }
         ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qrzAir, true);

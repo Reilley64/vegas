@@ -349,7 +349,7 @@ void FUN_0050a1d0_shell::FUN_0050a1d0()
     reinterpret_cast<::FUN_004891d0_cls *>((((FUN_004891d0_shell*)((char*)this + 0x30))))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
     if (::FUN_00401500())
         ((TESGrass__GRASS_DATA*)((char*)this + 0x48))->ResetGrassData();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)((char*)this + 0x48)), 0x20);
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((std::intptr_t)((char*)this + 0x48)), 0x20);
     if (::FUN_00401500())
         ((TESGrass__GRASS_DATA*)((char*)this + 0x48))->ResetGrassData();
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
@@ -823,3 +823,44 @@ bool FUN_0050a2a0(::TESGrass* apGrass, GrassCompare50A2A0Detail::Argument apComp
         return true;
     return false;
 }
+
+struct FUN_00509c90_shell_o2
+{
+    void* DestroyIfFlagged(unsigned int flags);
+};
+
+// sub ecx,0x30; jmp DestroyIfFlagged
+// This is an MSVC this-adjusting (adjustor) thunk: a derived class overrides a
+// virtual that both of its bases declare, so the secondary base's vtable slot
+// holds a thunk that walks `this` back to the derived object (the size of the
+// primary base, 0x30) and tail-jumps to the derived override.
+struct PrimaryBase
+{
+    virtual void* FUN_0050a590(unsigned int flags);
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void* FUN_0050a590(unsigned int flags);
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0050a590
+    virtual void* FUN_0050a590(unsigned int flags);
+};
+
+Derived::Derived()
+{}

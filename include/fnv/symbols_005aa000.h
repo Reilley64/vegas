@@ -1,13 +1,15 @@
 #pragma once
 
+#include <cstdint>
+
 class Actor;
 class BGSSaveFormBuffer;
 namespace fnv_005aaaf0 { class BGSLoadFormBuffer; }
 
 // 0x005aa500
-namespace fnv_005aa500 { void FUN_005aa500(intptr_t, unsigned char); }
+namespace fnv_005aa500 { void FUN_005aa500(std::intptr_t, unsigned char); }
 // 0x005aa5d0
-namespace fnv_005aa5d0 { void FUN_005aa5d0(int); }
+namespace fnv_005aa5d0 { void FUN_005aa5d0(std::intptr_t); }
 // 0x005aa630
 namespace fnv_005aa630 { bool FUN_005aa630(::Actor *); }
 // 0x005aa680

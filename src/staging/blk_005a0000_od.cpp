@@ -2,6 +2,7 @@
 // src/staging/blk_005a0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/ActList.h"
@@ -273,7 +274,7 @@ struct Flt
     operator unsigned int() const;
 };
 // @fnv 0x005bac50
-unsigned int FUN_005bac50()
+std::uintptr_t FUN_005bac50()
 {
     return (*reinterpret_cast<::fnv_005bac50::Flt *>(&::g_011c786c));
 }
@@ -298,7 +299,7 @@ void* FUN_005bac70()
 
 
 // @fnv 0x005bac80
-void FUN_005bac80(int value)
+void FUN_005bac80(intptr_t value)
 {
     (*reinterpret_cast<int *>(&::DAT_011c6f18)) = value;
 }
@@ -790,7 +791,7 @@ struct Script
 
 // Reads a short count and that many values from data via Script::GetValue, then formats them into string using format; returns false if any read fails.
 // @fnv 0x005b4960
-bool __cdecl FUN_005b4960(int unused, char const* data, TESObjectREFR* reference1, TESObjectREFR* reference2,
+bool __cdecl FUN_005b4960(intptr_t unused, char const* data, TESObjectREFR* reference1, TESObjectREFR* reference2,
                           Script* script, ScriptLocals* locals, int unused2, unsigned int& value, char const* format,
                           BSStringT<char>* string)
 {

@@ -1,12 +1,14 @@
 #pragma once
 
+#include <cstdint>
+
 class NiRefObject;
 struct FUN_00b5aa40_self;
 struct FUN_00b5ac60_self;
 struct FUN_00b5ade0_arr;
 
 // 0x00b5a8c0
-void FUN_00b5a8c0(int, int, int, int, int, int);
+void FUN_00b5a8c0(std::intptr_t, int, int, int, int, int);
 // 0x00b5a980
 int FUN_00b5a980(int *, int *);
 // 0x00b5aa40

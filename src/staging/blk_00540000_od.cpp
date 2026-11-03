@@ -657,7 +657,7 @@ int __cdecl FUN_005510f0();
 void __cdecl FUN_00551100(int a);
 // If a is nonzero, clears DAT_011ca080 when it equals a, and calls FUN_00551100(0) when FUN_005510f0() returns a.
 // @fnv 0x005510b0
-void __cdecl ClearGlobalIfMatches(int aiValue)
+void __cdecl ClearGlobalIfMatches(intptr_t aiValue)
 {
     if (aiValue)
     {

@@ -41,7 +41,7 @@ struct S006e3a50
 // @fnv 0x006e3a50
 void* S006e3a50::FUN_006e3a50(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006e39d0 *>((reinterpret_cast<C006e39d0*>(this)))->FUN_006e39d0::~FUN_006e39d0();
+    reinterpret_cast<::FUN_006e39d0 *>((reinterpret_cast<C006e39d0*>(this)))->::FUN_006e39d0::~FUN_006e39d0();
     if (flags & 1)
         ::FUN_00aa1460(this, 24);
     return this;
@@ -160,8 +160,8 @@ void FUN_006e5b20_shell::FUN_006e5b20(BGSSaveFormBuffer* apSaveGameBuffer)
     reinterpret_cast<::FUN_006e3230_shell *>((reinterpret_cast<StandIn5740*>(this)))->FUN_006e3230(apSaveGameBuffer);
 
     unsigned int isaveGameCount =
-        (reinterpret_cast<unsigned int>(this) + 0xB4) != 0
-            ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR_GetFlags_Helper*>(reinterpret_cast<char*>(this) + 0xB4)))->GetName()))
+        (reinterpret_cast<std::uintptr_t>(this) + 0xB4) != 0
+            ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR_GetFlags_Helper*>(reinterpret_cast<char*>(this) + 0xB4)))->GetName()))
             : 0;
 
     reinterpret_cast<BGSSaveGameBuffer*>(apSaveGameBuffer)->FUN_00865f60(isaveGameCount);
@@ -350,7 +350,7 @@ struct __declspec(novtable) FUN_006e58d0 : S_006e58d0_Base
 // @fnv 0x006e5890
 void* PathingRequestLOS::DestroyAndFree(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006e58d0 *>((this))->FUN_006e58d0::~FUN_006e58d0();
+    reinterpret_cast<::FUN_006e58d0 *>((this))->::FUN_006e58d0::~FUN_006e58d0();
     if (flags & 1)
         ::FUN_00aa1460(this, 0xd8);
     return this;

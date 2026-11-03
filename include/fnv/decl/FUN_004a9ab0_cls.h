@@ -4,5 +4,5 @@
 struct FUN_004a9ab0_cls {
 public:
     // 0x004a9ab0
-    void ConstructScanItems(intptr_t, unsigned int);
+    void ConstructScanItems(std::intptr_t, unsigned int);
 };

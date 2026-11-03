@@ -24,6 +24,8 @@ class BGSPerkEntry;
 template <class T> class BSSimpleList
 {
   public:
+    T m_item;
+    BSSimpleList<T>* m_pkNext;
     BSSimpleList<T>* GetNext();
 };
 class BGSEquipType

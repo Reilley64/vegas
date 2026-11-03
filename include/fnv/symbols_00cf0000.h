@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class CF4BC0Stream;
 struct ArrayData;
 struct Dest;
@@ -26,7 +28,7 @@ int CollectValuesReversed(int *, int, ::LinkedEntry *);
 // 0x00cf08c0
 bool FUN_00cf08c0(const ::FUN_00cf08c0_VectorArray *, const ::FUN_00cf08c0_VectorArray *);
 // 0x00cf0930
-void FUN_00cf0930(void *, int, ::Vector3 *);
+void FUN_00cf0930(void *, std::intptr_t, ::Vector3 *);
 // 0x00cf09a0
 void FUN_00cf09a0(::StreamOwner *, ::Record *);
 // 0x00cf0b00

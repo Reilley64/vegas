@@ -2282,7 +2282,7 @@ FUN_00b5a410::FUN_00b5a410()
 }
 
 // @fnv 0x00b5a8c0
-void FUN_00b5a8c0(int, int, int, int, int, int)
+void FUN_00b5a8c0(intptr_t, int, int, int, int, int)
 {}
 
 struct FUN_00b59c20 : FUN_00ba3d30

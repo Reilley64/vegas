@@ -95,7 +95,7 @@ bool MapMarkerData::Load(TESFile* file)
         unsigned int reputationID = 0;
         file->GetChunkData(&reputationID);
         if (reputationID)
-            pReputationData = (TESReputation*)reputationID;
+            pReputationData = (TESReputation*)(std::uintptr_t)reputationID;
     }
     else
     {

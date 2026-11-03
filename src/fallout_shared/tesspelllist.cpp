@@ -42,11 +42,11 @@ void TESSpellList::ClearSpells()
     BSSimpleList<InventoryStackRecord*>* pFirstList =
         reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData());
     BSSimpleList<InventoryStackRecord*>* pSecondList;
-    while (pFirstList && ((::InventoryStackRecord *)(new ((void *)(pFirstList)) ::Vec3())))
+    while (pFirstList && (pFirstList->m_item))
         pFirstList->RemoveHead();
 
-    pSecondList = ((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((int)this)));
-    while (pSecondList && ((::InventoryStackRecord *)(new ((void *)(pSecondList)) ::Vec3())))
+    pSecondList = ((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((std::intptr_t)this)));
+    while (pSecondList && (pSecondList->m_item))
         pSecondList->RemoveHead();
 }
 
@@ -83,7 +83,7 @@ FUN_0048d060::~FUN_0048d060()
 }
 
 // @fnv 0x0048d150
-intptr_t GetOffsetC(intptr_t apBase)
+std::intptr_t GetOffsetC(std::intptr_t apBase)
 {
     return apBase + 0xc;
 }
@@ -164,7 +164,7 @@ bool Holder_0048d830::ContainsPackage(ActorPackageContext* package)
     ListNode* node = reinterpret_cast<ListNode*>(GetCurrentProcessData());
     while (node)
     {
-        ActorPackageContext* entry = ((::ActorPackageContext *)(new ((void *)(node)) ::Vec3()));
+        ActorPackageContext* entry = ((::ActorPackageContext *)((void *)(node)));
         if (entry == package)
             return true;
         node = ((::ListNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -181,10 +181,10 @@ struct FUN_0048d880_shell : public BSSimpleList<void*>
 // @fnv 0x0048d880
 bool FUN_0048d880_shell::FUN_0048d880(void* item)
 {
-    BSSimpleList<void*>* node = ((::BSSimpleList<void *> *)(::GetOffsetC((int)this)));
+    BSSimpleList<void*>* node = ((::BSSimpleList<void *> *)(::GetOffsetC((std::intptr_t)this)));
     while (node)
     {
-        void* entry = ((void *)(new ((void *)(node)) ::Vec3()));
+        void* entry = (node->m_item);
         if (entry == item)
             return true;
         node = ((::BSSimpleList<void *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -226,14 +226,14 @@ void TESSpellList::InitItem(TESForm* owner)
     listCursor.current =
         reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData());
     listCursor.file = owner ? owner->GetFile(-1) : 0;
-    while (listCursor.current && ((::InventoryStackRecord *)(new ((void *)(listCursor.current)) ::Vec3())))
+    while (listCursor.current && (listCursor.current->m_item))
     {
         struct ResolvedForm
         {
             unsigned int id;
             TESForm* form;
         } resolvedForm;
-        resolvedForm.id = reinterpret_cast<unsigned int>(((::InventoryStackRecord *)(new ((void *)(listCursor.current)) ::Vec3())));
+        resolvedForm.id = (unsigned int)(std::uintptr_t)((listCursor.current->m_item));
         ::ResolveFormID((unsigned int *)&(resolvedForm.id), listCursor.file);
         resolvedForm.form = ::FUN_004839c0(resolvedForm.id);
         {
@@ -348,9 +348,9 @@ bool SpellListTask::FUN_0048d210(TESLevSpell* spell)
         return false;
     if (this == static_cast<SpellListTask*>(((::PlayerProcess *)(reinterpret_cast<::Actor *>((reinterpret_cast<PlayerProcessAccessor*>(::_g_thePlayer)))->GetActorBase()))))
         return false;
-    if (reinterpret_cast<::RefList *>((((::SpellListHandle *)(::GetOffsetC((int)this)))))->FUN_005f65d0({}))
+    if (reinterpret_cast<::RefList *>((((::SpellListHandle *)(::GetOffsetC((std::intptr_t)this)))))->FUN_005f65d0({}))
         return false;
-    ((::SpellListHandle *)(::GetOffsetC((int)this)))->FUN_005ae3d0();
+    ((::SpellListHandle *)(::GetOffsetC((std::intptr_t)this)))->FUN_005ae3d0();
     return true;
 }
 
@@ -375,7 +375,7 @@ bool SpellListView::DiffersFrom(BaseFormComponent* apOther)
     SpellNode* pSpellNode = ((::SpellNode *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     while (pSpellNode)
     {
-        void* pSpell = ((void *)(new ((void *)(pSpellNode)) ::Vec3()));
+        void* pSpell = ((void *)((void *)(pSpellNode)));
         if (pSpell)
         {
             if (!reinterpret_cast<::Holder_0048d830 *>((pOtherList))->ContainsPackage((::ActorPackageContext *)(pSpell)))
@@ -388,19 +388,19 @@ bool SpellListView::DiffersFrom(BaseFormComponent* apOther)
         return true;
     {
         int iLevSpellCount = 0;
-        SpellNode* pLevSpellNode = ((::SpellNode *)(::GetOffsetC((int)this)));
+        SpellNode* pLevSpellNode = ((::SpellNode *)(::GetOffsetC((std::intptr_t)this)));
         while (pLevSpellNode)
         {
-            void* pLevSpell = ((void *)(new ((void *)(pLevSpellNode)) ::Vec3()));
+            void* pLevSpell = ((void *)((void *)(pLevSpellNode)));
             if (pLevSpell)
             {
-                if (!reinterpret_cast<::FUN_0048d880_shell *>((pOtherList))->FUN_0048d880(((void *)(new ((void *)(pLevSpellNode)) ::Vec3()))))
+                if (!reinterpret_cast<::FUN_0048d880_shell *>((pOtherList))->FUN_0048d880(((void *)((void *)(pLevSpellNode)))))
                     return true;
                 iLevSpellCount++;
             }
             pLevSpellNode = ((::SpellNode *)(reinterpret_cast<::Callees *>((pLevSpellNode))->FUN_00726070()));
         }
-        if (((::SpellNode *)(::GetOffsetC((int)(pOtherList))))->Count() != iLevSpellCount)
+        if (((::SpellNode *)(::GetOffsetC((std::intptr_t)(pOtherList))))->Count() != iLevSpellCount)
             return true;
     }
     return false;
@@ -537,7 +537,7 @@ void TESSpellListShell::FUN_0048d330()
     ListNode* currentLeveledSpell = ((::ListNode *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     unsigned int currentSpell;
     ActorPackageContext* spell;
-    while (currentLeveledSpell != 0 && (spell = ((::ActorPackageContext *)(new ((void *)(currentLeveledSpell)) ::Vec3()))) != 0)
+    while (currentLeveledSpell != 0 && (spell = ((::ActorPackageContext *)((void *)(currentLeveledSpell)))) != 0)
     {
         if (!reinterpret_cast<::FUN_00440d80_shell *>((spell))->FUN_00440d80())
         {
@@ -546,10 +546,10 @@ void TESSpellListShell::FUN_0048d330()
         }
         currentLeveledSpell = ((::ListNode *)(reinterpret_cast<::Callees *>((currentLeveledSpell))->FUN_00726070()));
     }
-    ListNode* leveledSpell = (ListNode*)((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((int)this)));
+    ListNode* leveledSpell = (ListNode*)((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((std::intptr_t)this)));
     {
         ActorPackageContext* formId;
-        while (leveledSpell != 0 && (formId = ((::ActorPackageContext *)(new ((void *)(leveledSpell)) ::Vec3()))) != 0)
+        while (leveledSpell != 0 && (formId = ((::ActorPackageContext *)((void *)(leveledSpell)))) != 0)
         {
             if (!reinterpret_cast<::FUN_00440d80_shell *>((formId))->FUN_00440d80())
             {
@@ -624,7 +624,7 @@ void TESSpellList_Target::SaveSpellList(unsigned int flags)
         unsigned int currentPos1;
         void* createdObj2;
         TESForm* form;
-        unsigned int startBlock;
+        std::uintptr_t startBlock;
         unsigned int posNow1;
 
         startPosData = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
@@ -646,7 +646,7 @@ void TESSpellList_Target::SaveSpellList(unsigned int flags)
         curNodePtr = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<ActorMagicSpellList*>(this)))->GetCurrentProcessData()));
         while (curNodePtr)
         {
-            spell3 = ((::SpellItem *)(new ((void *)(curNodePtr)) ::Vec3()));
+            spell3 = (curNodePtr->m_item);
             if (spell3)
             {
                 spellID1 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((spell3))->FUN_0084e3a0()));
@@ -657,10 +657,10 @@ void TESSpellList_Target::SaveSpellList(unsigned int flags)
         }
 
         levNode2 =
-            reinterpret_cast<BSSimpleList<SpellItem*>*>(((::BSSimpleList<void *> *)(::GetOffsetC((int)(reinterpret_cast<FUN_0048d880_shell*>(this))))));
+            reinterpret_cast<BSSimpleList<SpellItem*>*>(((::BSSimpleList<void *> *)(::GetOffsetC((std::intptr_t)(reinterpret_cast<FUN_0048d880_shell*>(this))))));
         while (levNode2)
         {
-            levSpell2 = ((::SpellItem *)(new ((void *)(levNode2)) ::Vec3()));
+            levSpell2 = (levNode2->m_item);
             if (levSpell2)
             {
                 leveledID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((levSpell2))->FUN_0084e3a0()));
@@ -690,7 +690,7 @@ void TESSpellList_Target::SaveSpellList(unsigned int flags)
         if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
         {
             posNow1 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
-            startBlock = (unsigned int)pBlockSize3;
+            startBlock = (std::uintptr_t)pBlockSize3;
             if (posNow1 > startBlock + 0xFFFF)
             {
                 ::FUN_005b5e40();
@@ -727,18 +727,18 @@ void SpellListAccess::FUN_0048d630(BaseFormComponent* source)
     void* d;
     while (f != 0)
     {
-        d = ((void *)(new ((void *)(f)) ::Vec3()));
+        d = ((void *)((void *)(f)));
         if (d != 0)
             b->FUN_005ae3d0(d);
         f = ((::fnv_0048d630::SpellNode *)(reinterpret_cast<::Callees *>((f))->FUN_00726070()));
     }
 
-    SpellNode* e = reinterpret_cast<SpellNode*>(((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((int)(a)))));
+    SpellNode* e = reinterpret_cast<SpellNode*>(((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((std::intptr_t)(a)))));
     {
-        SpellNode* c = reinterpret_cast<SpellNode*>(((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((int)this))));
+        SpellNode* c = reinterpret_cast<SpellNode*>(((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((std::intptr_t)this))));
         while (e != 0)
         {
-            void* g = ((void *)(new ((void *)(e)) ::Vec3()));
+            void* g = ((void *)((void *)(e)));
             if (g != 0)
                 c->FUN_005ae3d0(g);
             e = ((::fnv_0048d630::SpellNode *)(reinterpret_cast<::Callees *>((e))->FUN_00726070()));
@@ -885,4 +885,171 @@ unsigned short S0048d8f0_SpellListSaveSizer::FUN_0048d8f0(unsigned int saveFlags
         }
     }
     return size;
+}
+
+// sub ecx,0x7c; jmp FUN_005f18c0
+// MSVC adjustor thunk: a class derives from two bases that both declare the same
+// virtual, so the secondary base's vtable entry is an adjustor thunk that moves
+// `this` back by the size of the primary base (0x7c = vptr + thirty int fields).
+struct ThunkPrimaryBase
+{
+    virtual void FUN_005fbf70();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+};
+
+struct ThunkSecondaryBase
+{
+    virtual void FUN_005fbf70();
+};
+
+struct ThunkDerived : ThunkPrimaryBase, ThunkSecondaryBase
+{
+    ThunkDerived();
+// @fnv 0x005fbf70
+    virtual void FUN_005fbf70();
+};
+
+ThunkDerived::ThunkDerived()
+{}
+
+// MSVC adjustor thunk: the primary base occupies 0x7c bytes; both bases declare the virtual,
+// the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_005fbfe0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005fbfe0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x005fbfe0
+    virtual void FUN_005fbfe0();
+};
+
+Derived::Derived()
+{}
+
+namespace fnv_005fc020 {
+// Adjustor (this-adjusting) thunk for FUN_005fc020:
+//     sub ecx, 0x7c ; jmp FUN_005f1b30
+// MSVC emits such a thunk in the vftable of a class that inherits the same
+// virtual from two bases: it converts the secondary base sub-object pointer
+// back to the derived object pointer by subtracting the size of the primary
+// base (0x7c = 4 byte vptr + 30 int members) and tail jumps to the
+// implementation.  Both bases declare the virtual, the derived class
+// redeclares it and only defines its constructor, which makes the compiler
+// emit the vtables and the adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_005fc020();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005fc020();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x005fc020
+    virtual void FUN_005fc020();
+};
+
+Derived::Derived()
+{}
 }

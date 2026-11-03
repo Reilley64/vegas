@@ -78,16 +78,16 @@ bool NavMeshInfoMap::ValidateNavMeshInfoArrays()
             unsigned int uiInnerKey;
             void* pArrayRaw;
             reinterpret_cast<::C6b7f20_Map *>((((CellKeyMap*)outer.pInnerMapRaw)))->FUN_006b7f20((::C6b7f20_Node **)&(pInnerPos), (unsigned int *)&(uiInnerKey), (void **)&(pArrayRaw));
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((NavMeshInfoArray*)pArrayRaw)))->GetName())) > 1)
+            if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((NavMeshInfoArray*)pArrayRaw)))->GetName())) > 1)
             {
                 InnerCounts counts;
                 counts.uiValid = 0;
-                for (counts.uiIndex = 0; counts.uiIndex < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((NavMeshInfoArray*)pArrayRaw)))->GetName())); counts.uiIndex++)
+                for (counts.uiIndex = 0; counts.uiIndex < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((NavMeshInfoArray*)pArrayRaw)))->GetName())); counts.uiIndex++)
                 {
                     if (((::NavMeshBounds *)(reinterpret_cast<::LowProcess *>((((::NavMeshInfo *)(reinterpret_cast<::S3e60 *>((((NavMeshInfoArray*)pArrayRaw)))->FUN_006a7ad0((int)counts.uiIndex)))))->GetPackageObjectType())))
                         counts.uiValid++;
                 }
-                if (counts.uiValid < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((NavMeshInfoArray*)pArrayRaw)))->GetName())) - 1)
+                if (counts.uiValid < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((NavMeshInfoArray*)pArrayRaw)))->GetName())) - 1)
                     bResult = false;
             }
         }
@@ -145,7 +145,7 @@ void NavMeshInfoMap::InitItem()
                     ((NavMeshInfo*)entry.info)->ReleaseNavMesh();
             }
         }
-        for (unsigned int uiIndex = 0; uiIndex < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(DeleteArray))->GetName())); uiIndex++)
+        for (unsigned int uiIndex = 0; uiIndex < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(DeleteArray))->GetName())); uiIndex++)
         {
             reinterpret_cast<::NiTMap_S *>(&(m_kNavMeshInfosByFormID))->RemoveKey(((unsigned int)(::FUN_00559450((int *)(DeleteArray[uiIndex])))));
             delete DeleteArray[uiIndex];
@@ -190,7 +190,7 @@ struct FUN_006b7d90_arg
 int* FUN_006b7d90(int* self, FUN_006b7d90_arg aArg)
 {
     reinterpret_cast<::FUN_006b7eb0_t *>((self))->FUN_006b7eb0((*(int *)&(const ::FUN_006b7d90_arg &)(aArg)));
-    *self = (int)&DAT_01031fac;
+    *reinterpret_cast<void**>(self) = &DAT_01031fac;
     return self;
 }
 
@@ -208,7 +208,7 @@ struct FUN_006b7dc0_arg
 int* FUN_006b7dc0(int* self, FUN_006b7dc0_arg aArg)
 {
     reinterpret_cast<::FUN_006b8060_class *>((self))->FUN_006b8060((*(int *)&(const ::fnv_006b7dc0::FUN_006b7dc0_arg &)(aArg)));
-    *self = (int)&DAT_01031fac;
+    *reinterpret_cast<void**>(self) = &DAT_01031fac;
     return self;
 }
 }  // namespace fnv_006b7dc0
@@ -227,7 +227,7 @@ struct FUN_006b7df0_arg
 int* FUN_006b7df0(int* self, FUN_006b7df0_arg aArg)
 {
     reinterpret_cast<::FUN_006b8160_class *>((self))->FUN_006b8160((*(int *)&(const ::fnv_006b7df0::FUN_006b7df0_arg &)(aArg)));
-    *self = (int)&DAT_01031fac;
+    *reinterpret_cast<void**>(self) = &DAT_01031fac;
     return self;
 }
 }  // namespace fnv_006b7df0
@@ -273,7 +273,7 @@ bool FUN_006b5d80_shell::LoadNavMeshInfoMap(TESFile* apFile)
             unsigned int navmeshID;
             NavMeshInfo* pinfo;
             reinterpret_cast<::C6b7f20_Map *>((((NiTPointerMap<unsigned int, void*>*)((char*)this + 0x1c))))->FUN_006b7f20((::C6b7f20_Node **)&(it), (unsigned int *)&(navmeshID), (void **)&((void*&)pinfo));
-            for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&pinfo->doors)))->GetName())); i++)
+            for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&pinfo->doors)))->GetName())); i++)
                 *((Arr*)&pinfo->doors)->GetAt(i) = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*(TESForm**)((Arr*)&pinfo->doors)->GetAt(i))))->FUN_0084e3a0()));
         }
         this->m_bKeepNavMeshLoaded = false;
@@ -338,7 +338,7 @@ bool FUN_006b5d80_shell::LoadNavMeshInfoMap(TESFile* apFile)
             }
             else
             {
-                reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)((char*)this + 0x1c))))->FUN_00844700(((unsigned int)(::FUN_00559450((int *)(pnewInfo)))), (unsigned int)pnewInfo);
+                reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)((char*)this + 0x1c))))->FUN_00844700(((unsigned int)(::FUN_00559450((int *)(pnewInfo)))), (std::uintptr_t)pnewInfo);
             }
             break;
         }
@@ -428,7 +428,7 @@ bool FUN_006b6910_shell::FUN_006b6910(TESForm* apForm)
 namespace fnv_006b7850 {
 struct FUN_006b7850_shell : public NavMeshInfoMap
 {
-    void* FUN_006b7850(TESWorldSpace*, int);
+    void* FUN_006b7850(TESWorldSpace*, std::intptr_t);
 };
 
 struct DummyPointerMap
@@ -436,7 +436,7 @@ struct DummyPointerMap
 };
 // Looks up the worldspace's map by form ID, then the cell's entry by prepared key, returning the stored info pointer or null.
 // @fnv 0x006b7850
-void* FUN_006b7850_shell::FUN_006b7850(TESWorldSpace* apWorldSpace, int aiCellKey)
+void* FUN_006b7850_shell::FUN_006b7850(TESWorldSpace* apWorldSpace, std::intptr_t aiCellKey)
 {
     DummyPointerMap* worldspaceMap;
     void* infoarray;
@@ -490,20 +490,20 @@ struct Holder
 {
     char _pad[0x2c];
     DummyPointerMap m;
-    unsigned int LookupScriptMessageValue(const char*);
+    void* LookupScriptMessageValue(const char*);
 };
 // Looks up two map entries: one at key 0, then one keyed by PrepareScriptMessage(s), returning the second value or 0 if either lookup fails.
 // @fnv 0x006b78b0
-unsigned int Holder::LookupScriptMessageValue(const char* pcScriptMessage)
+void* Holder::LookupScriptMessageValue(const char* pcScriptMessage)
 {
-    unsigned int uiValue;
+    void* pValue;
     {
-        unsigned int uiMapPtr;
-        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(m))->FUN_00853130(0, (::fnv_00853130::CombatThreatRecord *&)(uiMapPtr)))
+        void* pMap;
+        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(m))->FUN_00853130(0, (::fnv_00853130::CombatThreatRecord *&)(pMap)))
             return 0;
-        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)uiMapPtr)))->FUN_00853130((unsigned int)((const char *)(::FUN_00464f30((int)(pcScriptMessage)))), (::fnv_00853130::CombatThreatRecord *&)(uiValue)))
+        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)pMap)))->FUN_00853130((std::uintptr_t)((const char *)(::FUN_00464f30((std::intptr_t)(pcScriptMessage)))), (::fnv_00853130::CombatThreatRecord *&)(pValue)))
             return 0;
-        return uiValue;
+        return pValue;
     }
 }
 }  // namespace fnv_006b78b0
@@ -546,18 +546,18 @@ struct DoorH
 };
 struct FUN_006b77e0_shell
 {
-    int FUN_006b77e0(TESObjectCELL*);
+    void* FUN_006b77e0(TESObjectCELL*);
 };
 // @fnv 0x006b77e0
-int FUN_006b77e0_shell::FUN_006b77e0(TESObjectCELL* cell)
+void* FUN_006b77e0_shell::FUN_006b77e0(TESObjectCELL* cell)
 {
     if (!cell)
         return 0;
     if (cell->IsInterior())
-        return ((int)(reinterpret_cast<::fnv_006b78b0::Holder *>(this)->LookupScriptMessageValue((const char *)(cell))));
+        return reinterpret_cast<::fnv_006b78b0::Holder *>(this)->LookupScriptMessageValue((const char *)(cell));
     else
-        return ((int)(reinterpret_cast<::fnv_006b7850::FUN_006b7850_shell *>(this)->FUN_006b7850((::TESWorldSpace *)(void *)(((DoorH*)cell)->GetParentWorldSpace()),
-                            ::PackShortPair((short)((CellH*)cell)->GetCellGridX(), (short)((CellH*)cell)->GetCellGridY()))));
+        return (reinterpret_cast<::fnv_006b7850::FUN_006b7850_shell *>(this)->FUN_006b7850((::TESWorldSpace *)(void *)(((DoorH*)cell)->GetParentWorldSpace()),
+                            ::PackShortPair((short)((CellH*)cell)->GetCellGridX(), (short)((CellH*)cell)->GetCellGridY())));
 }
 }  // namespace fnv_006b77e0
 
@@ -915,12 +915,12 @@ struct FUN_006b6990_vslot
 };
 struct FUN_006b6990_shell : public NavMeshInfoMap
 {
-    void FUN_006b6990(unsigned int id);
+    void FUN_006b6990(std::uintptr_t id);
 };
 // @fnv 0x006b6990
-void FUN_006b6990_shell::FUN_006b6990(unsigned int id)
+void FUN_006b6990_shell::FUN_006b6990(std::uintptr_t id)
 {
-    unsigned int info;
+    std::uintptr_t info;
     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(reinterpret_cast<NiTPointerMap<unsigned int, unsigned int>*>(&m_kNavMeshInfosByFormID)))->FUN_00853130(id, (::fnv_00853130::CombatThreatRecord *&)(info)))
     {
         reinterpret_cast<::NiTMap_S *>((reinterpret_cast<CellKeyMap*>(&m_kNavMeshInfosByFormID)))->RemoveKey(id);
@@ -1003,7 +1003,7 @@ struct FUN_006b6b20_shell : public NavMeshInfoMap
 // @fnv 0x006b5cd0
 void* NavMeshInfoMapShell::FUN_006b5cd0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006b5d00 *>(this)->FUN_006b5d00::~FUN_006b5d00();
+    reinterpret_cast<::FUN_006b5d00 *>(this)->::FUN_006b5d00::~FUN_006b5d00();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -1256,7 +1256,7 @@ void WorkerNavMap::ValidateNavMeshes()
                 while (iterator)
                 {
                     reinterpret_cast<::C6b7f20_Map *>(&(m_kNavMeshInfosByFormID))->FUN_006b7f20((::C6b7f20_Node **)&(iterator), (unsigned int *)&(identifier), (void **)&((void*&)meshInfo));
-                    if (!((int)(::FUN_00690830((const ::NavMeshInfo *)(meshInfo)))))
+                    if (!((std::uintptr_t)(::FUN_00690830((const ::NavMeshInfo *)(meshInfo)))))
                     {
                         ::FUN_005b5e40();
                         reinterpret_cast<::FUN_00438690 *>(&(invalidatedList))->FUN_007cb2e0((unsigned int *)(void *)(&meshInfo));
@@ -1264,7 +1264,7 @@ void WorkerNavMap::ValidateNavMeshes()
                     else if (!reinterpret_cast<::FUN_0069dfb0_class *>((meshInfo))->HasNonZeroAtOffset54())
                     {
                         ::FUN_005b5e40();
-                        ::RemoveNavMeshId((unsigned int)(meshInfo));
+                        ::RemoveNavMeshId((std::uintptr_t)(meshInfo));
                         reinterpret_cast<::FUN_00438690 *>(&(invalidatedList))->FUN_007cb2e0((unsigned int *)(void *)(&meshInfo));
                     }
                     else
@@ -1280,12 +1280,12 @@ void WorkerNavMap::ValidateNavMeshes()
                             }
                             if (reinterpret_cast<::FUN_00440d80_shell *>((((::NavMesh *)(::FUN_00559450((int *)&(activeMesh))))))->FUN_00440d80())
                                 reinterpret_cast<::FUN_00438690 *>(&(invalidatedList))->FUN_007cb2e0((unsigned int *)(void *)(&meshInfo));
-                            for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshInfo->adjacent))->GetName())); ++k)
+                            for (unsigned int k = 0; k < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshInfo->adjacent))->GetName())); ++k)
                             {
                                 bool invalid = false;
                                 if (*((MeshInfoArray*)&meshInfo->adjacent)->FUN_00877a30(k))
                                 {
-                                    if (!FUN_00693d70((unsigned int)((::NavMesh *)(::FUN_00559450((int *)(((PtrView*)*((MeshInfoArray*)&meshInfo->adjacent)
+                                    if (!FUN_00693d70((std::uintptr_t)((::NavMesh *)(::FUN_00559450((int *)(((PtrView*)*((MeshInfoArray*)&meshInfo->adjacent)
                                                                          ->FUN_00877a30(k))))))))
                                         invalid = true;
                                 }
@@ -1298,12 +1298,12 @@ void WorkerNavMap::ValidateNavMeshes()
                                     --k;
                                 }
                             }
-                            for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshInfo->preferred))->GetName())); ++k)
+                            for (unsigned int k = 0; k < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshInfo->preferred))->GetName())); ++k)
                             {
                                 bool invalid = false;
                                 if (*((MeshInfoArray*)&meshInfo->preferred)->FUN_00877a30(k))
                                 {
-                                    if (!FUN_00693d70((unsigned int)((::NavMesh *)(::FUN_00559450((int *)(((PtrView*)*((MeshInfoArray*)&meshInfo->preferred)
+                                    if (!FUN_00693d70((std::uintptr_t)((::NavMesh *)(::FUN_00559450((int *)(((PtrView*)*((MeshInfoArray*)&meshInfo->preferred)
                                                                          ->FUN_00877a30(k))))))))
                                         invalid = true;
                                 }
@@ -1317,7 +1317,7 @@ void WorkerNavMap::ValidateNavMeshes()
                                 }
                             }
                             LocalList neighborList;
-                            if (((int)(::FUN_00690800((const ::NavMeshInfo *)(meshInfo)))))
+                            if (((std::uintptr_t)(::FUN_00690800((const ::NavMeshInfo *)(meshInfo)))))
                             {
                                 short gridX, gridY;
                                 ::SplitUInt32(meshInfo->m_uiPathingFlags, (unsigned short *)(short *)(&gridX), (unsigned short *)(short *)(&gridY));
@@ -1328,10 +1328,10 @@ void WorkerNavMap::ValidateNavMeshes()
                                         if (x == gridX && y == gridY)
                                             continue;
                                         MeshInfoArray* pCellMeshes =
-                                            ((::MeshInfoArray *)(reinterpret_cast<::fnv_006b7850::FUN_006b7850_shell *>((((GridLookup*)this)))->FUN_006b7850((::TESWorldSpace *)(::NavMesh *)((NavMesh*)((int)(::FUN_00690800((const ::NavMeshInfo *)(meshInfo))))),
+                                            ((::MeshInfoArray *)(reinterpret_cast<::fnv_006b7850::FUN_006b7850_shell *>((((GridLookup*)this)))->FUN_006b7850((::TESWorldSpace *)(::NavMesh *)((NavMesh*)((::FUN_00690800((const ::NavMeshInfo *)(meshInfo))))),
                                                                ((unsigned int)(::PackShortPair((unsigned short)x, (unsigned short)y))))));
                                         if (pCellMeshes)
-                                            for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pCellMeshes))->GetName())); ++i)
+                                            for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pCellMeshes))->GetName())); ++i)
                                                 reinterpret_cast<::FUN_00438690 *>(&(neighborList))->FUN_007cb2e0((unsigned int *)(void *)(((::NavMeshInfo **)(reinterpret_cast<::S3e60 *>((pCellMeshes))->FUN_006a7ad0(i)))));
                                     }
                                 }
@@ -1341,11 +1341,11 @@ void WorkerNavMap::ValidateNavMeshes()
                             {
                                 bool corrupt = false;
                                 {
-                                    for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshInfo->adjacent))->GetName())); ++k)
+                                    for (unsigned int k = 0; k < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshInfo->adjacent))->GetName())); ++k)
                                     {
                                         NavMeshInfo* record = *((MeshInfoArray*)&meshInfo->adjacent)->FUN_00877a30(k);
                                         LinkChecker linkChecker;
-                                        reinterpret_cast<::fnv_00697590::FUN_00697590_shell *>((((GridMap*)((::NavMesh *)(::FUN_00559450((int *)&(meshPtr)))))))->CollectTrianglesForDoor((unsigned int)(record), (::fnv_00697590::BSSimpleArrayActor *)(void *)(&linkChecker));
+                                        reinterpret_cast<::fnv_00697590::FUN_00697590_shell *>((((GridMap*)((::NavMesh *)(::FUN_00559450((int *)&(meshPtr)))))))->CollectTrianglesForDoor((std::uintptr_t)(record), (::fnv_00697590::BSSimpleArrayActor *)(void *)(&linkChecker));
                                         if (reinterpret_cast<::FUN_0076b610_Class *>(&(linkChecker))->FUN_0076b610())
                                         {
                                             ::FUN_005b5e40();
@@ -1353,11 +1353,11 @@ void WorkerNavMap::ValidateNavMeshes()
                                             break;
                                         }
                                     }
-                                    for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshInfo->preferred))->GetName())); ++k)
+                                    for (unsigned int k = 0; k < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshInfo->preferred))->GetName())); ++k)
                                     {
                                         NavMeshInfo* record = *((MeshInfoArray*)&meshInfo->preferred)->FUN_00877a30(k);
                                         LinkChecker linkChecker;
-                                        reinterpret_cast<::fnv_00697590::FUN_00697590_shell *>((((GridMap*)((::NavMesh *)(::FUN_00559450((int *)&(meshPtr)))))))->CollectTrianglesForDoor((unsigned int)(record), (::fnv_00697590::BSSimpleArrayActor *)(void *)(&linkChecker));
+                                        reinterpret_cast<::fnv_00697590::FUN_00697590_shell *>((((GridMap*)((::NavMesh *)(::FUN_00559450((int *)&(meshPtr)))))))->CollectTrianglesForDoor((std::uintptr_t)(record), (::fnv_00697590::BSSimpleArrayActor *)(void *)(&linkChecker));
                                         if (reinterpret_cast<::FUN_0076b610_Class *>(&(linkChecker))->FUN_0076b610())
                                         {
                                             ::FUN_005b5e40();
@@ -1377,14 +1377,14 @@ void WorkerNavMap::ValidateNavMeshes()
                                                 ((GridRecord*)((void *)(reinterpret_cast<::FUN_00693d30_shell *>((((GridMap*)((::NavMesh *)(::FUN_00559450((int *)&(meshPtr)))))))->GetEdge((unsigned short)k))))
                                                     ->info;
                                             bool missing = true;
-                                            size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshInfo->adjacent))->GetName()));
+                                            size = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshInfo->adjacent))->GetName()));
                                             for (unsigned int i = 0; i < size; ++i)
                                                 if (*((MeshInfoArray*)&meshInfo->adjacent)->FUN_00877a30(i) == other)
                                                 {
                                                     missing = false;
                                                     break;
                                                 }
-                                            size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshInfo->preferred))->GetName()));
+                                            size = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshInfo->preferred))->GetName()));
                                             for (unsigned int i = 0; i < size; ++i)
                                                 if (*((MeshInfoArray*)&meshInfo->preferred)->FUN_00877a30(i) == other)
                                                 {
@@ -1414,7 +1414,7 @@ void WorkerNavMap::ValidateNavMeshes()
                                             break;
                                         }
                                     }
-                                    for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshInfo->doors))->GetName())); ++k)
+                                    for (unsigned int k = 0; k < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshInfo->doors))->GetName())); ++k)
                                     {
                                         NavMeshInfo* other = *((MeshInfoArray*)&meshInfo->doors)->FUN_00877a30(k);
                                         {
@@ -1443,9 +1443,9 @@ void WorkerNavMap::ValidateNavMeshes()
                         }
                     }
                 }
-                for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(invalidatedList))->GetName())); ++i)
+                for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(invalidatedList))->GetName())); ++i)
                 {
-                    reinterpret_cast<::FUN_006b6990_shell *>((((CleanupMap*)this)))->FUN_006b6990((unsigned int)(((::NavMesh *)(::FUN_00559450((int *)(((PtrView*)*invalidatedList.FUN_00877a30(i))))))));
+                    reinterpret_cast<::FUN_006b6990_shell *>((((CleanupMap*)this)))->FUN_006b6990((std::uintptr_t)(((::NavMesh *)(::FUN_00559450((int *)(((PtrView*)*invalidatedList.FUN_00877a30(i))))))));
                     NavMeshInfo* info = *invalidatedList.FUN_00877a30(i);
                     NavMeshInfo* current = info;
                     current ? ((NavigationRequest*)current)->FUN_006b6390(true) : 0;
@@ -1496,13 +1496,13 @@ void NavMeshInfoMap::InsertNavMeshInfo(NavMeshInfo* info)
                 hashSize = 1009;
         }
         lookup.innerMap = new NiTPointerMap<unsigned int, NavMeshInfoArray*>(hashSize);
-        reinterpret_cast<::FUN_00844700_Class *>(&(m_kNavMeshInfoArraysByWorldspace))->FUN_00844700(lookup.parentID, (unsigned int)(lookup.innerMap));
+        reinterpret_cast<::FUN_00844700_Class *>(&(m_kNavMeshInfoArraysByWorldspace))->FUN_00844700(lookup.parentID, (std::uintptr_t)(lookup.innerMap));
     }
     NavMeshInfoArray* array;
     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, NavMeshInfoArray*>*)lookup.innerMap)))->FUN_00853130(lookup.cellKey, (::fnv_00853130::CombatThreatRecord *&)(array)))
     {
         array = new NavMeshInfoArray;
-        reinterpret_cast<::FUN_00844700_Class *>((((NiTPointerMap<unsigned int, NavMeshInfoArray*>*)lookup.innerMap)))->FUN_00844700(lookup.cellKey, (unsigned int)(array));
+        reinterpret_cast<::FUN_00844700_Class *>((((NiTPointerMap<unsigned int, NavMeshInfoArray*>*)lookup.innerMap)))->FUN_00844700(lookup.cellKey, (std::uintptr_t)(array));
     }
     if (array->Find(info, 0, ((bool (&)(NavMeshInfo *&, NavMeshInfo *&))::FUN_009a3830)) != (unsigned int)-1)
         return;

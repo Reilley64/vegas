@@ -122,7 +122,7 @@ void TESQuest::RemoveAllStages()
     BSSimpleList<QuestStage*>* stages = ((::BSSimpleList< ::QuestStage *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     while (stages && !stages->IsEmpty())
     {
-        delete ((::QuestStage *)(new ((void *)(stages)) ::Vec3()));
+        delete (stages->m_item);
         stages->RemoveHead();
     }
 }
@@ -134,8 +134,8 @@ bool TESQuest::HasStage(unsigned char ucStageIndex)
     BSSimpleList<QuestStage*>* stages = ((::BSSimpleList< ::QuestStage *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     while (stages && !stages->IsEmpty())
     {
-        if (((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((((::QuestStage *)(new ((void *)(stages)) ::Vec3()))))->FUN_009373f0())) == ucStageIndex)
-            return reinterpret_cast<::FUN_005dc960_shell *>((((::QuestStage *)(new ((void *)(stages)) ::Vec3()))))->FUN_005dc960();
+        if (((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>(((stages->m_item)))->FUN_009373f0())) == ucStageIndex)
+            return reinterpret_cast<::FUN_005dc960_shell *>(((stages->m_item)))->FUN_005dc960();
         stages = ((::BSSimpleList< ::QuestStage *> *)(reinterpret_cast<::Callees *>((stages))->FUN_00726070()));
     }
     return false;
@@ -161,7 +161,7 @@ void TESQuest::ClearObjectives()
     BSSimpleList<BGSQuestObjective*>* objectives = ((::BSSimpleList< ::BGSQuestObjective *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
     while (objectives && !objectives->IsEmpty())
     {
-        delete ((::BGSQuestObjective *)(new ((void *)(objectives)) ::Vec3()));
+        delete (objectives->m_item);
         objectives->RemoveHead();
     }
 }
@@ -176,10 +176,10 @@ void TESQuest::GetTargetsAndObjectives(BSSimpleList<RegionObjectEntry*>* targets
     if (reinterpret_cast<::FUN_0059e400_shell *>(this)->FUN_0059e400())
         return;
     BSSimpleList<BGSQuestObjective*>* pObjectiveNode = ((::BSSimpleList< ::BGSQuestObjective *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
-    while (pObjectiveNode && ((::BGSQuestObjective *)(new ((void *)(pObjectiveNode)) ::Vec3())))
+    while (pObjectiveNode && (pObjectiveNode->m_item))
     {
-        if (reinterpret_cast<::RefList *>((objectives))->FUN_005f65d0((void **)&(((::BGSQuestObjective *)(new ((void *)(pObjectiveNode)) ::Vec3())))))
-            reinterpret_cast<::FUN_005ec500_shell *>((((::BGSQuestObjective *)(new ((void *)(pObjectiveNode)) ::Vec3()))))->AddMatchingTargetsToList(targets);
+        if (reinterpret_cast<::RefList *>((objectives))->FUN_005f65d0((void **)&((pObjectiveNode->m_item))))
+            reinterpret_cast<::FUN_005ec500_shell *>(((pObjectiveNode->m_item)))->AddMatchingTargetsToList(targets);
         pObjectiveNode = ((::BSSimpleList< ::BGSQuestObjective *> *)(reinterpret_cast<::Callees *>((pObjectiveNode))->FUN_00726070()));
     }
 }
@@ -192,7 +192,7 @@ void TESQuest::UpdateStageMask()
     unsigned char currentStage = 0;
     while (stages && !stages->IsEmpty())
     {
-        QuestStage* stage = ((::QuestStage *)(new ((void *)(stages)) ::Vec3()));
+        QuestStage* stage = (stages->m_item);
         if (reinterpret_cast<::FUN_005dc960_shell *>((stage))->FUN_005dc960() && ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((stage))->FUN_009373f0())) > currentStage)
             currentStage = ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((stage))->FUN_009373f0()));
         stages = ((::BSSimpleList< ::QuestStage *> *)(reinterpret_cast<::Callees *>((stages))->FUN_00726070()));
@@ -211,16 +211,16 @@ bool TESQuest::HasTargetsAndObjectives(BSSimpleList<RegionObjectEntry*>* targets
     {
         while (currentObjective)
         {
-            if (((::BGSQuestObjective *)(new ((void *)(currentObjective)) ::Vec3())) && (*(::QUEST_OBJECTIVE_STATE *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::BGSQuestObjective *)(new ((void *)(currentObjective)) ::Vec3()))))->FUN_007af430())) == QOS_DISPLAYED &&
-                reinterpret_cast<::RefList *>((objectives))->FUN_005f65d0((void **)&(((::BGSQuestObjective *)(new ((void *)(currentObjective)) ::Vec3())))))
+            if ((currentObjective->m_item) && (*(::QUEST_OBJECTIVE_STATE *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((currentObjective->m_item)))->FUN_007af430())) == QOS_DISPLAYED &&
+                reinterpret_cast<::RefList *>((objectives))->FUN_005f65d0((void **)&((currentObjective->m_item))))
             {
-                BSSimpleList<RegionObjectEntry*>* objectiveTarget = ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::NonActorMagicTarget *>((((::BGSQuestObjective *)(new ((void *)(currentObjective)) ::Vec3()))))->GetActiveEffectList()));
+                BSSimpleList<RegionObjectEntry*>* objectiveTarget = ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::NonActorMagicTarget *>(((currentObjective->m_item)))->GetActiveEffectList()));
                 while (objectiveTarget)
                 {
-                    RegionObjectEntry* target = ((::RegionObjectEntry *)(new ((void *)(objectiveTarget)) ::Vec3()));
+                    RegionObjectEntry* target = (objectiveTarget->m_item);
                     if (target && ((::PerkEntryConditionSet *)(reinterpret_cast<::BaseProcess *>((target))->GetCurrentProcessData()))->ContainsTrait(target->GetReference(false), 0))
                     {
-                        if (!currentTarget || !((::RegionObjectEntry *)(new ((void *)(currentTarget)) ::Vec3())) || ((::RegionObjectEntry *)(new ((void *)(currentTarget)) ::Vec3())) != target)
+                        if (!currentTarget || !(currentTarget->m_item) || (currentTarget->m_item) != target)
                             return false;
                         if (currentTarget)
                             currentTarget = ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::Callees *>((currentTarget))->FUN_00726070()));
@@ -256,13 +256,13 @@ void TESQuest::InitItem()
     BSSimpleList<QuestStage*>* stage = ((::BSSimpleList< ::QuestStage *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     while (stage && !stage->IsEmpty())
     {
-        reinterpret_cast<::FUN_0060f320_shell *>((((::QuestStage *)(new ((void *)(stage)) ::Vec3()))))->FUN_0060f320(this);
+        reinterpret_cast<::FUN_0060f320_shell *>(((stage->m_item)))->FUN_0060f320(this);
         stage = ((::BSSimpleList< ::QuestStage *> *)(reinterpret_cast<::Callees *>((stage))->FUN_00726070()));
     }
     BSSimpleList<BGSQuestObjective*>* objective = ((::BSSimpleList< ::BGSQuestObjective *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
     while (objective && !objective->IsEmpty())
     {
-        ((::BGSQuestObjective *)(new ((void *)(objective)) ::Vec3()))->InitItem(this);
+        (objective->m_item)->InitItem(this);
         objective = ((::BSSimpleList< ::BGSQuestObjective *> *)(reinterpret_cast<::Callees *>((objective))->FUN_00726070()));
     }
     SetStartsEnabled(reinterpret_cast<::TESFaction_RankDataView *>(this)->FUN_00455620());
@@ -303,8 +303,8 @@ BGSQuestObjective* TESQuest::GetObjective(unsigned int index)
     search.objectiveIndex = 0;
     while (search.objectives && !search.objectives->IsEmpty())
     {
-        BGSQuestObjective* objective = ((::BGSQuestObjective *)(new ((void *)(search.objectives)) ::Vec3()));
-        if (objective && ((unsigned int)(reinterpret_cast<::Callees *>((objective))->FUN_00726070())) == index)
+        BGSQuestObjective* objective = (search.objectives->m_item);
+        if (objective && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((objective))->FUN_00726070())) == index)
             return objective;
         search.objectives = ((::BSSimpleList< ::BGSQuestObjective *> *)(reinterpret_cast<::Callees *>((search.objectives))->FUN_00726070()));
     }
@@ -315,11 +315,11 @@ BGSQuestObjective* TESQuest::GetObjective(unsigned int index)
 void TESQuest::LoadGame(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::TESForm *>(this)->LoadGame(buffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0(2))
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&data.m_ucEntryType), 1);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(4)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(4)))->FUN_004280f0(4))
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&data.fQuestDelayTime), 4);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000U)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000U)))->FUN_004280f0(0x80000000U))
     {
         unsigned int stageCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
         for (unsigned int i = 0; i < stageCount; ++i)
@@ -357,7 +357,7 @@ void TESQuest::LoadGame(BGSLoadFormBuffer* buffer)
         m_ucEnabled = 0;
         UpdateStageMask();
     }
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x40000000U)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x40000000U)))->FUN_004280f0(0x40000000U))
     {
         if (m_pScriptLocals)
             reinterpret_cast<::fnv_005a9f20::FUN_005a9f20_shell *>((m_pScriptLocals))->FUN_005a9f20((::fnv_005a9f20::BGSLoadFormBuffer *)(buffer));
@@ -367,7 +367,7 @@ void TESQuest::LoadGame(BGSLoadFormBuffer* buffer)
             reinterpret_cast<::fnv_005a9f20::FUN_005a9f20_shell *>(&(locals))->FUN_005a9f20((::fnv_005a9f20::BGSLoadFormBuffer *)(buffer));
         }
     }
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x20000000U)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x20000000U)))->FUN_004280f0(0x20000000U))
     {
         unsigned int objectiveCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
         for (unsigned int k = 0; k < objectiveCount; ++k)
@@ -577,13 +577,13 @@ bool TESQuest::IsStageComplete(unsigned char ucStageIndex)
     BSSimpleList<QuestStage*>* stages = ((::BSSimpleList< ::QuestStage *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     while (stages && !stages->IsEmpty())
     {
-        if (((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((((::QuestStage *)(new ((void *)(stages)) ::Vec3()))))->FUN_009373f0())) == ucStageIndex)
+        if (((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>(((stages->m_item)))->FUN_009373f0())) == ucStageIndex)
         {
             if (!reinterpret_cast<::FUN_0059e400_shell *>(this)->FUN_0059e400() || reinterpret_cast<::FUN_0060d5e0_shell *>(this)->HasFlag8())
                 SetEnabled(true);
             if (ucStageIndex > m_ucEnabled)
                 m_ucEnabled = ucStageIndex;
-            reinterpret_cast<::StageHolder *>((((::QuestStage *)(new ((void *)(stages)) ::Vec3()))))->FUN_0060f4a0(this, false);
+            reinterpret_cast<::StageHolder *>(((stages->m_item)))->FUN_0060f4a0(this, false);
             MarkAsModified(0x80000000U);
             return true;
         }
@@ -719,7 +719,7 @@ struct FUN_0060e7c0_outer
 // @fnv 0x0060e7c0
 void FUN_0060e7c0_outer::FUN_0060e7c0(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x40000000)))->FUN_004280f0() && _5c == 0)
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x40000000)))->FUN_004280f0(0x40000000) && _5c == 0)
         reinterpret_cast<::FormChangeRecord *>((apSaveGameBuffer))->FUN_005621f0(0x40000000);
 }
 
@@ -953,9 +953,9 @@ struct FUN_0060c950_cls
 void FUN_0060c950_cls::FUN_0060c950(int a1)
 {
     FUN_0060c950_node* node = ((::FUN_0060c950_node *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
-    while (node && *((::FUN_0060c950_item **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::FUN_0060c950_item **)((void *)(node))))
     {
-        reinterpret_cast<::fnv_005ec5d0::FUN_005ec5d0_shell *>(((*((::FUN_0060c950_item **)(new ((void *)(node)) ::Vec3())))))->FUN_005ec5d0((::fnv_005ec5d0::QUEST_OBJECTIVE_STATE)(reinterpret_cast<::BGSQuestObjective *>(((*((::FUN_0060c950_item **)(new ((void *)(node)) ::Vec3())))))->GetDisplayed() ? 3 : 2));
+        reinterpret_cast<::fnv_005ec5d0::FUN_005ec5d0_shell *>(((*((::FUN_0060c950_item **)((void *)(node))))))->FUN_005ec5d0((::fnv_005ec5d0::QUEST_OBJECTIVE_STATE)(reinterpret_cast<::BGSQuestObjective *>(((*((::FUN_0060c950_item **)((void *)(node))))))->GetDisplayed() ? 3 : 2));
         node = ((::FUN_0060c950_node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
 }
@@ -1007,13 +1007,13 @@ void FUN_0060cd60_shell::FUN_0060cd60()
     FNV_InitNode* node = ((::FNV_InitNode *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     while (node != 0 && !node->FUN_008256d0())
     {
-        reinterpret_cast<::TESForm *>((((::FNV_NodeValue *)(new ((void *)(node)) ::Vec3()))->object))->ClearData();
+        reinterpret_cast<::TESForm *>((((::FNV_NodeValue *)((void *)(node)))->object))->ClearData();
         node = ((::FNV_InitNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     FNV_InitNode* pOtherNode = ((::FNV_InitNode *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
     while (pOtherNode != 0 && !pOtherNode->FUN_008256d0())
     {
-        reinterpret_cast<::fnv_005ec280::FUN_005ec280_shell *>((((::FNV_NodeValue *)(new ((void *)(pOtherNode)) ::Vec3()))->object))->FUN_005ec280();
+        reinterpret_cast<::fnv_005ec280::FUN_005ec280_shell *>((((::FNV_NodeValue *)((void *)(pOtherNode)))->object))->FUN_005ec280();
         pOtherNode = ((::FNV_InitNode *)(reinterpret_cast<::Callees *>((pOtherNode))->FUN_00726070()));
     }
     reinterpret_cast<::Holder *>(this)->FUN_00485680();
@@ -1038,10 +1038,10 @@ void __cdecl FUN_0060d8f0(BSSimpleList<QuestEntryStandIn*>* apList, TESQuest* ap
     reinterpret_cast<::FileMatchList *>((apList))->RemoveAll();
     BSSimpleList<TESQuest*> kSeen;
     BSSimpleList<QuestEntryStandIn*>* pNode = ((::BSSimpleList< ::QuestEntryStandIn *> *)(reinterpret_cast<::FUN_0060da90_shell *>(((*reinterpret_cast<::PlayerQuestListStandIn * *>(&::_g_thePlayer))))->GetOffsetPointer()));
-    while (pNode && ((::QuestEntryStandIn *)(new ((void *)(pNode)) ::Vec3())))
+    while (pNode && (pNode->m_item))
     {
         TESQuest* pQuest;
-        QuestEntryStandIn* pEntry2 = ((::QuestEntryStandIn *)(new ((void *)(pNode)) ::Vec3()));
+        QuestEntryStandIn* pEntry2 = (pNode->m_item);
         pQuest = ((::TESQuest *)(reinterpret_cast<::DialogueItem *>((pEntry2))->SelectDefaultResponseList()));
         pNode = ((::BSSimpleList< ::QuestEntryStandIn *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         if (pQuest)
@@ -1126,7 +1126,7 @@ unsigned short QuestSaveSize::FUN_0060dba0(unsigned int changedFlags)
         size7 += 1;
         while (node9)
         {
-            QuestStageStub* stage = ((::QuestStageStub *)(new ((void *)(node9)) ::Vec3()));
+            QuestStageStub* stage = ((::QuestStageStub *)((void *)(node9)));
             if (stage)
             {
                 size7 += 2;
@@ -1163,20 +1163,20 @@ struct FUN_004534f0_shell
 // @fnv 0x0060EE40
 void TESQuest::Revert(BGSLoadFormBuffer* buffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000U)))->FUN_004280f0())
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((std::uintptr_t)(buffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000U)))->FUN_004280f0(0x80000000U))
     {
         BSSimpleList<QuestStage*>* stages = &m_kStageList;
         while (stages)
         {
-            QuestStage* stage = ((::QuestStage *)(new ((void *)(stages)) ::Vec3()));
+            QuestStage* stage = (stages->m_item);
             if (stage)
             {
                 reinterpret_cast<::FUN_0067fdb0_shell *>((stage))->FUN_0067fdb0(false);
                 BSSimpleList<PlayerQuestData*>* items = ((::BSSimpleList< ::PlayerQuestData *> *)(reinterpret_cast<::BaseProcess *>((stage))->GetCurrentProcessData()));
                 while (items)
                 {
-                    PlayerQuestData* item = ((::PlayerQuestData *)(new ((void *)(items)) ::Vec3()));
+                    PlayerQuestData* item = (items->m_item);
                     if (item && ((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((item))->GetBaseTexture())))
                     {
                         delete ((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((item))->GetBaseTexture()));
@@ -1189,14 +1189,14 @@ void TESQuest::Revert(BGSLoadFormBuffer* buffer)
         }
         m_ucEnabled = 0;
     }
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x40000000U)))->FUN_004280f0() && m_pScriptLocals)
-        reinterpret_cast<::fnv_005aa090::FUN_005aa090 *>((m_pScriptLocals))->Method((int)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x20000000U)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x40000000U)))->FUN_004280f0(0x40000000U) && m_pScriptLocals)
+        reinterpret_cast<::fnv_005aa090::FUN_005aa090 *>((m_pScriptLocals))->Method((std::intptr_t)(buffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x20000000U)))->FUN_004280f0(0x20000000U))
     {
         BSSimpleList<BGSQuestObjective*>* objectives = &m_kObjectives;
         while (objectives)
         {
-            BGSQuestObjective* objective = ((::BGSQuestObjective *)(new ((void *)(objectives)) ::Vec3()));
+            BGSQuestObjective* objective = (objectives->m_item);
             if (objective)
                 reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((objective))->FUN_0050f9c0((*(::fnv_0050f9c0::TESForm * *)&(const ::QUEST_OBJECTIVE_STATE &)(QOS_DORMANT)));
             objectives = ((::BSSimpleList< ::BGSQuestObjective *> *)(reinterpret_cast<::Callees *>((objectives))->FUN_00726070()));
@@ -1222,14 +1222,14 @@ void FUN_0060e6a0_shell::FUN_0060e6a0(unsigned int auiFlags)
         BSSimpleList<QuestStage*>* pStageIter = ((::BSSimpleList< ::QuestStage *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
         while (pStageIter)
         {
-            QuestStage* pStage = ((::QuestStage *)(new ((void *)(pStageIter)) ::Vec3()));
+            QuestStage* pStage = (pStageIter->m_item);
             if (pStage)
             {
                 reinterpret_cast<::FUN_0067fdb0_shell *>((pStage))->FUN_0067fdb0(false);
                 BSSimpleList<PlayerQuestData*>* pItemIter = ((::BSSimpleList< ::PlayerQuestData *> *)(reinterpret_cast<::BaseProcess *>((pStage))->GetCurrentProcessData()));
                 while (pItemIter)
                 {
-                    PlayerQuestData* pItem3 = ((::PlayerQuestData *)(new ((void *)(pItemIter)) ::Vec3()));
+                    PlayerQuestData* pItem3 = (pItemIter->m_item);
                     Date* pDate3 = pItem3 ? ((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pItem3))->GetBaseTexture())) : 0;
                     if (pDate3)
                     {
@@ -1302,7 +1302,7 @@ void QuestSave::FUN_0060dd50(unsigned int flags)
         QuestSaveStageNode* h = ((::QuestSaveStageNode *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));  // Stage iterator.
         while (h)
         {
-            QuestSaveStage* stage = ((::QuestSaveStage *)(new ((void *)(h)) ::Vec3()));
+            QuestSaveStage* stage = ((::QuestSaveStage *)((void *)(h)));
             if (stage)
             {
                 unsigned char eb = ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((stage))->FUN_009373f0()));  // Stage index.
@@ -1315,7 +1315,7 @@ void QuestSave::FUN_0060dd50(unsigned int flags)
                 QuestSaveItemNode* s = ((::QuestSaveItemNode *)(reinterpret_cast<::BaseProcess *>((stage))->GetCurrentProcessData()));  // Stage-item iterator.
                 while (s)
                 {
-                    QuestSaveItem* item = ((::QuestSaveItem *)(new ((void *)(s)) ::Vec3()));
+                    QuestSaveItem* item = ((::QuestSaveItem *)((void *)(s)));
                     if (item)
                     {
                         unsigned char j = ((unsigned char)(::FUN_005dc980((const char *)(item))));  // Stage-item index.
@@ -1418,13 +1418,13 @@ void QuestLoader::LoadQuestData(unsigned int flags, unsigned int extra)
             void* entry = ((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))));
             if (entry)
             {
-                void* view = ((void *)(::FUN_004839c0((unsigned int)(*(void**)entry))));
+                void* view = ((void *)(::FUN_004839c0((unsigned int)(std::uintptr_t)(*(void**)entry))));
                 ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_01015718)), UNK_0104ad80, 0xfaf, *(void**)entry, ((TagMethod*)*(void**)view)[76](view),
                              *(unsigned char*)((char*)entry + 9), *(unsigned int*)((char*)entry + 5));
             }
             else
             {
-                ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_010156a8)), UNK_0104ad80, 0xfaf, ((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008df040());
+                ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_010156a8)), UNK_0104ad80, 0xfaf, reinterpret_cast<::FUN_008df040_shell *>(((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame))))->FUN_008df040());
             }
         }
         start = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
@@ -1527,7 +1527,7 @@ void QuestLoader::LoadQuestData(unsigned int flags, unsigned int extra)
             entry = ((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))));
             if (entry)
             {
-                void* view = ((void *)(::FUN_004839c0((unsigned int)(*(void**)entry))));
+                void* view = ((void *)(::FUN_004839c0((unsigned int)(std::uintptr_t)(*(void**)entry))));
                 if (actual > start + sizeRead)
                     ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_01015588)), actual - (start + sizeRead), UNK_0104ad80, 0x1010, *(void**)entry,
                                  ((TagMethod*)*(void**)view)[76](view), *(unsigned char*)((char*)entry + 9),
@@ -1541,10 +1541,10 @@ void QuestLoader::LoadQuestData(unsigned int flags, unsigned int extra)
             {
                 if (actual > start + sizeRead)
                     ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_010154a0)), actual - (start + sizeRead), UNK_0104ad80, 0x1010,
-                                 ((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008df040());
+                                 reinterpret_cast<::FUN_008df040_shell *>(((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame))))->FUN_008df040());
                 else if (actual < start + sizeRead)
                     ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_01015440)), (start + sizeRead) - actual, UNK_0104ad80, 0x1010,
-                                 ((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008df040());
+                                 reinterpret_cast<::FUN_008df040_shell *>(((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame))))->FUN_008df040());
             }
         }
     }
@@ -1663,7 +1663,7 @@ void FUN_0060e810_shell::WriteToBuffer(F810Buf* buf)
         nodeC = &list44;
         while (nodeC != 0)
         {
-            itemD = *((::F810Item1 **)(new ((void *)(nodeC)) ::Vec3()));
+            itemD = *((::F810Item1 **)((void *)(nodeC)));
             if (itemD != 0)
             {
                 rawD = ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((itemD))->FUN_009373f0()));
@@ -1675,7 +1675,7 @@ void FUN_0060e810_shell::WriteToBuffer(F810Buf* buf)
                 listD = ((::F810Node2 *)(reinterpret_cast<::BaseProcess *>((itemD))->GetCurrentProcessData()));
                 while (listD != 0)
                 {
-                    item2 = *((::F810Item2 **)(new ((void *)(listD)) ::Vec3()));
+                    item2 = *((::F810Item2 **)((void *)(listD)));
                     if (item2 != 0)
                     {
                         opts = ((bool)(::FUN_005dc980((const char *)(item2))));
@@ -1709,7 +1709,7 @@ void FUN_0060e810_shell::WriteToBuffer(F810Buf* buf)
         head1 = &list4c;
         while (head1 != 0)
         {
-            entry = *((::F810Item3 **)(new ((void *)(head1)) ::Vec3()));
+            entry = *((::F810Item3 **)((void *)(head1)));
             if (entry != 0)
             {
                 valY = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((entry))->FUN_007af430()));
@@ -1793,14 +1793,14 @@ void QuestShell::FUN_0060d720()
         aStageNode = ((::StageNode *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
         while (aStageNode)
         {
-            stage = *((::Stage **)(new ((void *)(aStageNode)) ::Vec3()));
+            stage = *((::Stage **)((void *)(aStageNode)));
             if (stage)
             {
                 reinterpret_cast<::FUN_0067fdb0_shell *>((stage))->FUN_0067fdb0(false);
                 itemNode = ((::SItemNode *)(reinterpret_cast<::BaseProcess *>((stage))->GetCurrentProcessData()));
                 while (itemNode)
                 {
-                    stageItemA = *((::StageItem **)(new ((void *)(itemNode)) ::Vec3()));
+                    stageItemA = *((::StageItem **)((void *)(itemNode)));
                     logDate3 = stageItemA ? ((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((stageItemA))->GetBaseTexture())) : 0;
                     if (logDate3)
                     {
@@ -1817,9 +1817,9 @@ void QuestShell::FUN_0060d720()
     m_ucEnabled = 0;
 
     objNode = ((::ObjNode *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
-    while (objNode && *((::ObjItem **)(new ((void *)(objNode)) ::Vec3())))
+    while (objNode && *((::ObjItem **)((void *)(objNode))))
     {
-        reinterpret_cast<::fnv_005ec5d0::FUN_005ec5d0_shell *>(((*((::ObjItem **)(new ((void *)(objNode)) ::Vec3())))))->FUN_005ec5d0((::fnv_005ec5d0::QUEST_OBJECTIVE_STATE)(0));
+        reinterpret_cast<::fnv_005ec5d0::FUN_005ec5d0_shell *>(((*((::ObjItem **)((void *)(objNode))))))->FUN_005ec5d0((::fnv_005ec5d0::QUEST_OBJECTIVE_STATE)(0));
         objNode = ((::ObjNode *)(reinterpret_cast<::Callees *>((objNode))->FUN_00726070()));
     }
 
@@ -1829,7 +1829,7 @@ void QuestShell::FUN_0060d720()
         m_pScriptLocals = reinterpret_cast<::FUN_005abf60_shell *>((((::ScriptX *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->FUN_005abf60();
     }
 
-    ::FUN_00619b60((int)(this));
+    ::FUN_00619b60((std::intptr_t)(this));
     reinterpret_cast<::TESQuest *>(this)->SetEnabled(reinterpret_cast<::FUN_0060d8d0_shell *>(this)->HasFlag0x10());
     reinterpret_cast<::FUN_0060ca30_shell *>(this)->FUN_0060ca30(false);
     reinterpret_cast<::FUN_0060caf0_shell *>(this)->FUN_0060caf0(false);

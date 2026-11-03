@@ -133,7 +133,7 @@ struct FUN_004a8070_shell
 // @fnv 0x004a8070
 int FUN_004a8070_shell::GetScriptText()
 {
-    return ((int)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)((unsigned int)(*(Flt*)((char*)this + 0xb8))))))->GetIconFormID()));
+    return ((int)(reinterpret_cast<::BGSMessageInitAccess *>(((*(Script**)((char*)this + 0xb8))))->GetIconFormID()));
 }
 
 extern unsigned char DAT_0118868c;
@@ -167,6 +167,7 @@ struct GlobalObject2_0040c150
 
 struct GlobalObject2_0045cfe0
 {
+    int* Int();
 };
 
 GlobalObject2_0045cfe0 g_011c59e0;
@@ -223,7 +224,7 @@ struct FUN_004a7c80_shell
 // @fnv 0x004a7c40
 void* FUN_004a7c40_shell::FUN_004a7c40()
 {
-    *(int*)this = (int)&DAT_0101ec68;
+    *(std::intptr_t*)this = (std::intptr_t)&DAT_0101ec68;
     reinterpret_cast<::FUN_004a7c80_shell *>((((FUN_004a7c40_shell*)((char*)this + 4))))->ClearToZero();
     ::FUN_00403d30((char*)this + 4, 0, 0x40);
     *(int*)((char*)this + 0x44) = 0;
@@ -289,7 +290,7 @@ struct This_004a8050
 // @fnv 0x004a8050
 void* This_004a8050::GetNextProc()
 {
-    return ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((Proc_S*)(unsigned int)*(Flt*)((char*)this + 0xB8))))->FUN_0045cd60()));
+    return ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(Proc_S**)((char*)this + 0xB8))))->FUN_0045cd60()));
 }
 
 extern int DAT_0101ecec;
@@ -309,7 +310,7 @@ void* FUN_004a8f50_shell::FUN_004a8f50()
 void* FUN_004a95d0_shell::FUN_004a95d0(int a)
 {
     reinterpret_cast<::FUN_004a97e0_Class *>(this)->FUN_004a97e0(a);
-    *(int*)this = (int)&DAT_0101ecec;
+    *(std::intptr_t*)this = (std::intptr_t)&DAT_0101ecec;
     return this;
 }
 
@@ -317,7 +318,7 @@ extern int DAT_0101ed0c;
 
 struct FUN_004a9600_shell
 {
-    int m_0000;
+    std::intptr_t m_0000;
     void* FUN_004a9600(void* arg);
 };
 
@@ -325,8 +326,8 @@ struct FUN_004a9600_shell
 // @fnv 0x004a9600
 void* FUN_004a9600_shell::FUN_004a9600(void* arg)
 {
-    reinterpret_cast<::FUN_004a98e0_class *>(this)->FUN_004a98e0((int)(arg));
-    m_0000 = (int)&DAT_0101ed0c;
+    reinterpret_cast<::FUN_004a98e0_class *>(this)->FUN_004a98e0((std::intptr_t)(arg));
+    m_0000 = (std::intptr_t)&DAT_0101ed0c;
     return this;
 }
 
@@ -397,10 +398,11 @@ struct INISettingCollection
     virtual int v04();
     virtual int v05(unsigned int a);
 };
-struct SettingT
+struct SettingT_004a8fe0
 {
     static INISettingCollection* __cdecl GetCollection();
 };
+extern "C" unsigned char DAT_01188694[];
 
 // @fnv 0x004a8fe0
 void __cdecl FUN_004a8fe0()
@@ -408,8 +410,8 @@ void __cdecl FUN_004a8fe0()
     int i;
     for (i = 0; i < 0x10; ++i)
     {
-        SettingT::GetCollection()->v05(*(unsigned int*)(0x01188694 + i * 0x14));
-        SettingT::GetCollection()->v05(*(unsigned int*)(0x01188698 + i * 0x14));
+        SettingT_004a8fe0::GetCollection()->v05(*(unsigned int*)(DAT_01188694 + i * 0x14));
+        SettingT_004a8fe0::GetCollection()->v05(*(unsigned int*)(DAT_01188694 + 4 + i * 0x14));
     }
 }
 
@@ -436,7 +438,7 @@ extern GlobalObject2_0045cfe0 g_011c5c04;
 int FUN_004a9050()
 {
     int iValue = *((int *)&(::FUN_0043d4d0((int *)&(g_011c5b20))));
-    if (!((int)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)g_TES)))->GetPrevPath())))
+    if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)g_TES)))->GetPrevPath())))
     {
         TESWorldSpace* pworld = ((::TESWorldSpace *)(reinterpret_cast<::EffectSetting *>((((TESSaveLoadGame*)g_TES)))->GetHitSound()));
         TESWorldSpace* pLODworld;
@@ -570,7 +572,7 @@ void FUN_004a8230_shell::ResetAndProcessNode(NiNode* node, bool includeAddonNode
     reinterpret_cast<::FUN_00438af0_Class *>(&(g_011c5be8))->FUN_00438af0();
     reinterpret_cast<::FUN_00438af0_Class *>(&(g_011c5ad0))->FUN_00438af0();
 
-    if (includeAddonNodes && DAT_0118868d && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(g_011c5ab4))->GetName())) == 0)
+    if (includeAddonNodes && DAT_0118868d && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(g_011c5ab4))->GetName())) == 0)
         reinterpret_cast<::LoadScenes *>((this))->LoadSceneModels();
 
     ::FUN_00403d30((char*)this + 4, 0, 0x40);
@@ -624,7 +626,7 @@ void NavMeshSearchLOSArray::InsertAt(unsigned int index, const SearchRecord& val
         unsigned int fresh = ((unsigned int)(reinterpret_cast<::FUN_009a3910_cls *>((((S5460*)this)))->FUN_009a3910()));
         SearchRecord* newCapacity = Allocate(fresh);
         reinterpret_cast<::FUN_004a9b50_Class *>(this)->CopyBlocks((char *)(newCapacity), (char *)(data), index);
-        reinterpret_cast<::FUN_004a9ab0_cls *>(this)->ConstructScanItems((int)(newCapacity + index), 1);
+        reinterpret_cast<::FUN_004a9ab0_cls *>(this)->ConstructScanItems((std::intptr_t)(newCapacity + index), 1);
         reinterpret_cast<::FUN_004a9b50_Class *>(this)->CopyBlocks((char *)(::SearchRecord *)(newCapacity + index + 1), (char *)(::SearchRecord *)(data + index), count - index);
         ::FUN_006a8500((::DummyClass_006a8500 *)this);
         data = newCapacity;
@@ -633,7 +635,7 @@ void NavMeshSearchLOSArray::InsertAt(unsigned int index, const SearchRecord& val
     else
     {
         reinterpret_cast<::FUN_004a9b50_Class *>(this)->CopyBlocks((char *)(::SearchRecord *)(data + index + 1), (char *)(::SearchRecord *)(data + index), count - index);
-        reinterpret_cast<::FUN_004a9ab0_cls *>(this)->ConstructScanItems((int)(data + index), 1);
+        reinterpret_cast<::FUN_004a9ab0_cls *>(this)->ConstructScanItems((std::intptr_t)(data + index), 1);
     }
     count = count + 1;
     data[index] = value;
@@ -842,7 +844,7 @@ void SceneCounter::AccumulateSceneStats(SceneOwner* owner)
         l = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((j))->DereferenceIfNotNull((int **)(ba))));
         if (ba)
         {
-            OuterRecord* q = *((::OuterRecord **)(reinterpret_cast<::FUN_006317a0_struct *>((j))->AddEight((int)(ba))));
+            OuterRecord* q = *((::OuterRecord **)(reinterpret_cast<::FUN_006317a0_struct *>((j))->AddEight((std::intptr_t)(ba))));
             if (q)
             {
                 int eb = 0;
@@ -852,15 +854,15 @@ void SceneCounter::AccumulateSceneStats(SceneOwner* owner)
                 while (s)
                 {
                     cf = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(q->items))->DereferenceIfNotNull((int **)(s))));
-                    SceneItem* i = *((::SceneItem **)(reinterpret_cast<::FUN_006317a0_struct *>(&(q->items))->AddEight((int)(s))));
+                    SceneItem* i = *((::SceneItem **)(reinterpret_cast<::FUN_006317a0_struct *>(&(q->items))->AddEight((std::intptr_t)(s))));
                     if (!reinterpret_cast<::FUN_0057c850_cls *>(&(e))->FUN_0057c850(((::SceneOwner *)(reinterpret_cast<::LowProcess *>((i))->GetTarget())), &f))
                         ++eb;
                     if (!reinterpret_cast<::FUN_0057c850_cls *>(&(k))->FUN_0057c850(i, &f) && ((::SceneOwner *)(reinterpret_cast<::LowProcess *>((i))->GetTarget())) == owner)
                     {
                         ++this->count;
-                        reinterpret_cast<::FUN_0084d310_class *>(&(k))->FUN_0084d310((int)(i), 1);
+                        reinterpret_cast<::FUN_0084d310_class *>(&(k))->FUN_0084d310((std::intptr_t)(i), 1);
                     }
-                    reinterpret_cast<::FUN_0084d310_class *>(&(e))->FUN_0084d310((int)(((::SceneOwner *)(reinterpret_cast<::LowProcess *>((i))->GetTarget()))), 1);
+                    reinterpret_cast<::FUN_0084d310_class *>(&(e))->FUN_0084d310((std::intptr_t)(((::SceneOwner *)(reinterpret_cast<::LowProcess *>((i))->GetTarget()))), 1);
                     s = cf;
                 }
                 if (reinterpret_cast<::FUN_0057c850_cls *>(&(e))->FUN_0057c850(owner, &f))
@@ -872,10 +874,10 @@ void SceneCounter::AccumulateSceneStats(SceneOwner* owner)
         reinterpret_cast<::FUN_00438af0_Class *>(&(e))->FUN_00438af0();
         ba = l;
     }
-    MeshNode* c = ((::MeshNode *)(::FUN_00545710((int)(owner))));
-    while (c && *((::MeshObject **)(new ((void *)(c)) ::Vec3())))
+    MeshNode* c = ((::MeshNode *)(::FUN_00545710((std::intptr_t)(owner))));
+    while (c && *((::MeshObject **)((void *)(c))))
     {
-        MeshObject* h = *((::MeshObject **)(new ((void *)(c)) ::Vec3()));
+        MeshObject* h = *((::MeshObject **)((void *)(c)));
         MeshGroup* p = h->v116();
         if (p && p->v4())
         {
@@ -887,7 +889,7 @@ void SceneCounter::AccumulateSceneStats(SceneOwner* owner)
                 unsigned int j2 = ((unsigned short)(reinterpret_cast<::FUN_004a8090_shell *>((b))->CallTargetV36()));
                 if (((int)(reinterpret_cast<::FUN_0049ec60 *>((b))->GetNext())))
                     e2 += j2 * 12;
-                if (((int)(reinterpret_cast<::This_004a8050 *>((b))->GetNextProc())))
+                if (((std::intptr_t)(reinterpret_cast<::This_004a8050 *>((b))->GetNextProc())))
                     e2 += j2 * 16;
                 if (((int)(reinterpret_cast<::FUN_004a8030_shell *>((b))->FUN_004a8030())))
                     e2 += j2 * 12;
@@ -1048,7 +1050,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
                 StatExtra* extra = (StatExtra*)((void *)(::FUN_00653270((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_01202de8))), (::NiObject *)(node3))));
                 int index = ::FUN_009ee040((char *)(extra));
                 if (index >= 0 && index < (int)reinterpret_cast<::BSFaceGenMorphData *>((DAT_011c3f2c))->DynamicCast() &&
-                    index < ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((StatMap*)&g_011c5ab4)))->GetName())))
+                    index < ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((StatMap*)&g_011c5ab4)))->GetName())))
                 {
                     for (int i = 0; i < 16; i++)
                     {
@@ -1084,7 +1086,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
                     }
                 }
                 StatNodeLink* link = (StatNodeLink*)((::fnv_004a82d0::StatForm *)(reinterpret_cast<::FUN_0041f050_shell *>((((::fnv_004a82d0::StatLink *)(reinterpret_cast<::FUN_005d43c0_ *>((reference))->FUN_005d43c0()))))->FUN_0041f050()));
-                while (link && *((int *)(new ((void *)(link)) ::Vec3())))
+                while (link && *((int *)((void *)(link))))
                 {
                     counts[14]++;
                     link = ((::fnv_004a82d0::StatNodeLink *)(reinterpret_cast<::Callees *>((link))->FUN_00726070()));
@@ -1155,9 +1157,9 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
                         while (texture1)
                         {
                             int uses = 0;
-                            reinterpret_cast<::fnv_00853130::NiTMapBase *>((((StatTextureSet*)&g_011c5ad0)))->FUN_00853130((unsigned int)(texture1), (*(::fnv_00853130::CombatThreatRecord * *)(&uses)));
+                            reinterpret_cast<::fnv_00853130::NiTMapBase *>((((StatTextureSet*)&g_011c5ad0)))->FUN_00853130((std::uintptr_t)(texture1), (*(::fnv_00853130::CombatThreatRecord * *)(&uses)));
                             uses++;
-                            reinterpret_cast<::FUN_00844700_Class *>((((StatTextureSet*)&g_011c5ad0)))->FUN_00844700((unsigned int)(texture1), uses);
+                            reinterpret_cast<::FUN_00844700_Class *>((((StatTextureSet*)&g_011c5ad0)))->FUN_00844700((std::uintptr_t)(texture1), uses);
                             if (uses == *((int *)&(::FUN_0043d4d0((int *)&(DAT_011c5a90)))))
                                 counts[13]++;
                             texture1 = ((void *)(::FUN_00b70680((::NiTListItem< ::ShadowSceneLight *> *&)(shader1))));
@@ -1197,7 +1199,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
                 if (particle)
                 {
                     StatObject* manager = ((::fnv_004a82d0::StatObject *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)));
-                    if (manager && ((int)(::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(manager), (int)(particle), {}))))
+                    if (manager && ((std::intptr_t)(::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(manager), (int)(particle), {}))))
                         counts[12]++;
                 }
             }
@@ -1271,7 +1273,7 @@ void __cdecl FUN_004a8bb0(float* cost, float* count, bool include, bool addons)
         reinterpret_cast<::LowProcess *>((scene))->SetCurrentCombatTarget((::TESObjectREFR *)(cell));
         reinterpret_cast<::FUN_004a8230_shell *>((scene))->ResetAndProcessNode(reinterpret_cast<::FUN_00545cb0_shell *>((cell))->FUN_00545cb0(), addons, false);
         reinterpret_cast<::SceneCounter *>((scene))->AccumulateSceneStats((::SceneOwner *)(cell));
-        reinterpret_cast<::FUN_004aa3d0_shell *>(&(list))->SetValueAndCall((int)(reinterpret_cast<::FUN_00545cb0_shell *>((cell))->FUN_00545cb0()), (int)(cell), 0);
+        reinterpret_cast<::FUN_004aa3d0_shell *>(&(list))->SetValueAndCall((std::intptr_t)(reinterpret_cast<::FUN_00545cb0_shell *>((cell))->FUN_00545cb0()), (std::intptr_t)(cell), 0);
         map.FUN_005ae3d0(scene);
     }
     else
@@ -1290,7 +1292,7 @@ void __cdecl FUN_004a8bb0(float* cost, float* count, bool include, bool addons)
                     FUN_004a7c40* cell2 = new FUN_004a7c40;
                     reinterpret_cast<::LowProcess *>((cell2))->SetCurrentCombatTarget((::TESObjectREFR *)(scene2));
                     reinterpret_cast<::FUN_004a8230_shell *>((cell2))->ResetAndProcessNode(reinterpret_cast<::FUN_00545cb0_shell *>((scene2))->FUN_00545cb0(), addons, false);
-                    reinterpret_cast<::FUN_004aa3d0_shell *>(&(list))->SetValueAndCall((int)(reinterpret_cast<::FUN_00545cb0_shell *>((scene2))->FUN_00545cb0()), (int)(scene2), 0);
+                    reinterpret_cast<::FUN_004aa3d0_shell *>(&(list))->SetValueAndCall((std::intptr_t)(reinterpret_cast<::FUN_00545cb0_shell *>((scene2))->FUN_00545cb0()), (std::intptr_t)(scene2), 0);
                     reinterpret_cast<::SceneCounter *>((cell2))->AccumulateSceneStats((::SceneOwner *)(scene2));
                     map.FUN_005ae3d0(cell2);
                 }
@@ -1299,7 +1301,7 @@ void __cdecl FUN_004a8bb0(float* cost, float* count, bool include, bool addons)
     }
     while (!map._ref_008256d0())
     {
-        FUN_004a7c40* current = ((::fnv_004a8bb0::FUN_004a7c40 *)(new ((void *)&(map)) ::Vec3()));
+        FUN_004a7c40* current = ((::fnv_004a8bb0::FUN_004a7c40 *)((void *)&(map)));
         map.FUN_0063f7b0();
         *count += ((unsigned int)(reinterpret_cast<::FUN_004a7cf0_shell *>((current))->GetValueAt(9)));
         for (int i = 0; i < 16; i++)
@@ -1400,6 +1402,141 @@ void* FUN_004a9970_shell::FUN_004a9660(unsigned int flags)
 FUN_004a9970::~FUN_004a9970()
 {
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+}
+
+struct Script_o2
+{
+    int GetText();
+};
+
+unsigned char __cdecl FUN_004a82c0();
+
+int __cdecl MinInt(int iA, int iB);
+
+struct FUN_004a8f50_shell_o2
+{
+    void FUN_004a95d0(int a);
+    void* FUN_004a8f50();
+};
+
+struct GlobalObject2_0040c150_o2
+{
+    int* Int();
+};
+
+
+struct FUN_004a9850_shell_o2
+{
+    void FUN_004a9850();
+};
+
+void __cdecl _Deallocate(void* p);
+
+struct __declspec(align(16)) ChildBuffer
+{
+    char name[512];
+};
+
+struct Node;
+
+struct TileWorkList
+{
+    virtual void vf00();
+    virtual void vf04();
+    virtual int GetFirst();
+    virtual int GetNext(int index);
+    virtual void vf10();
+    virtual Node* GetAt(int index, ChildBuffer* buffer);
+};
+
+struct Node
+{
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0c();
+    virtual TileWorkList* GetChildren();
+
+};
+
+// @fnv 0x004a9240
+int __cdecl FUN_004a9240(Node* node)
+{
+    if (node == 0)
+        return 0;
+    int count = 0;
+    switch (((int)(std::uintptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(node)))))
+    {
+    case 3:
+        return 1;
+        break;
+    case 10: {
+        Node* obj = node;
+        TileWorkList* list = obj->GetChildren();
+        int index = list->GetFirst();
+        while (index != -1)
+        {
+            ChildBuffer buffer;
+            Node* child = list->GetAt(index, &buffer);
+            if (child == 0)
+                break;
+            count += FUN_004a9240(child);
+            index = list->GetNext(index);
+        }
+        return count;
+    }
+    break;
+    case 9: {
+        Node* obj = node;
+        TileWorkList* list = obj->GetChildren();
+        int index = list->GetFirst();
+        while (index != -1)
+        {
+            ChildBuffer buffer;
+            Node* child = list->GetAt(index, &buffer);
+            if (child == 0)
+                break;
+            count += FUN_004a9240(child);
+            index = list->GetNext(index);
+        }
+        return count;
+    }
+    break;
+    case 22: {
+        Node* obj = node;
+        TileWorkList* list = obj->GetChildren();
+        int index = list->GetFirst();
+        while (index != -1)
+        {
+            ChildBuffer buffer;
+            Node* child = list->GetAt(index, &buffer);
+            if (child == 0)
+                break;
+            count += FUN_004a9240(child);
+            index = list->GetNext(index);
+        }
+        return count;
+    }
+    break;
+    case 23: {
+        Node* obj = node;
+        TileWorkList* list = obj->GetChildren();
+        int index = list->GetFirst();
+        while (index != -1)
+        {
+            ChildBuffer buffer;
+            Node* child = list->GetAt(index, &buffer);
+            if (child == 0)
+                break;
+            count += FUN_004a9240(child);
+            index = list->GetNext(index);
+        }
+        return count;
+    }
+    break;
+    default:
+        return 10;
+    }
 }
 
 #include "generated/data/fallout_shared/bgssceneinfo.inc"

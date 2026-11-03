@@ -3,6 +3,7 @@
 #define PATHSMOOTHERPOV_DECLS_H
 
 #include <cmath>
+#include <cstdint>
 #include "fnv/decl/BSMultiBoundSphere.h"
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/FUN_004b6190_shell.h"
@@ -50,7 +51,6 @@ class NiPoint3
     NiPoint3& operator*=(float);
     NiPoint3& operator+=(const NiPoint3&);
     float GetLengthSquared();
-    void ComputeMagnitude();
     float GetSquaredXYLength() const;
     float FUN_004a7290() const;
     static const NiPoint3 ZERO;
@@ -63,9 +63,6 @@ public:
 public:
     ::NiPoint3 Cross(const ::NiPoint3 &) const;
 };
-namespace std {
-float abs(float);
-}
 void FUN_005330e0(float&, float, float);
 class NavMeshClosedDoorInfo
 {
@@ -215,7 +212,7 @@ template <class N, class L> class AStarNode
     AStarNode* GetField54() const;
     float FUN_006a7f50() const;
 };
-template <class T, int N = 1024> class BSSimpleArray
+template <class T, unsigned int N = 1024> class BSSimpleArray
 {
   public:
     BSSimpleArray();
@@ -333,7 +330,7 @@ class PathSmootherPOVSearch : public AStarSearch<PathSmootherPOVAvoidanceNode, N
                        PathingSolution*, BSSimpleArray<NavMeshTriangleEdgeReference>*,
                        BSSimpleArray<const NavMeshInfo*>*);
     void AddAvoidanceNodes();
-    void InsertNode(unsigned int, const PathSmootherPOVAvoidanceNode&, float);
+    void InsertNode(std::uintptr_t, const PathSmootherPOVAvoidanceNode&, float);
     bool FUN_006b3380(BSSimpleArray<PathSmootherPOVAvoidanceNode>*, BSSimpleArray<NavMeshEdgeSegment>*, bool);
     void BuildFallbackPath();
     bool FUN_006b2fc0(BSSimpleArray<NavMeshTriangleEdgeReference>*);
@@ -349,8 +346,8 @@ class PathSmootherPOVSearch : public AStarSearch<PathSmootherPOVAvoidanceNode, N
     bool FUN_006b1e50(const NavMeshEdgePoint&, Sphere&, CircularArc, NavMeshEdgePoint*);
     bool FUN_006b23d0(const NavMeshEdgePoint&, Sphere&, CircularArc);
     bool FUN_006b25f0(const NavMeshEdgePoint&, const NiPoint3&, NavMeshEdgePoint*, bool, bool, float&);
-    unsigned int FUN_0069f900(PathSmootherPOVPoint*, ANGLE_DIRECTION);
-    int InsertOrUpdateNode(unsigned int, float, POVNode*&);
+    std::uintptr_t FUN_0069f900(PathSmootherPOVPoint*, ANGLE_DIRECTION);
+    int InsertOrUpdateNode(std::uintptr_t, float, POVNode*&);
     void SetPOVSearchNode(POVNode*, PathSmootherPOVPoint*, ANGLE_DIRECTION);
 };
 NiPoint3 FUN_006ba550(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&);

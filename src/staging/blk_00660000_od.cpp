@@ -2,6 +2,7 @@
 // src/staging/blk_00660000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/AlignedVector.h"
@@ -191,7 +192,7 @@ struct Flt
     operator unsigned int();
 };
 // @fnv 0x0066b660
-unsigned int __cdecl GetFltValueAtOffset16()
+std::uintptr_t __cdecl GetFltValueAtOffset16()
 {
     return ((Flt*)((char*)::FUN_00664840(1) + 0x10))->operator unsigned int();
 }

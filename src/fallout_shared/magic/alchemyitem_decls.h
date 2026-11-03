@@ -3,6 +3,7 @@
 #define ALCHEMYITEM_DECLS_H
 
 
+#include <cstdint>
 #include "fnv/decl/FUN_0084e3a0_Class.h"
 #include "fnv/decl/FUN_00874460_cls.h"
 #include "fnv/decl/FUN_009acce0_shell.h"
@@ -166,9 +167,9 @@ class AlchemyItem : public TESForm
     int unk0B8;
     unsigned char unk0BC;
     unsigned char pad0BD[3];
-    int unk0C0;
+    std::intptr_t unk0C0;
     float unk0C4;
-    int unk0C8;
+    std::intptr_t unk0C8;
 
     void ClearData();
     void ResetFormData();

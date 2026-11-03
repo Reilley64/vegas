@@ -1624,7 +1624,7 @@ struct Holder00aad6b0
 {
 };
 // @fnv 0x00652fc0
-void __cdecl FUN_00652fc0(float a1, int a2, int a3)
+void __cdecl FUN_00652fc0(float a1, intptr_t a2, intptr_t a3)
 {
     if (a3 != 0 && a2 != 0)
     {

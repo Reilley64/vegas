@@ -57,7 +57,7 @@ void TESClass::ResetFormData()
 void TESClass::LoadGame(BGSLoadFormBuffer* buffer)
 {
     TESForm::LoadGame(buffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0(2))
     {
         for (unsigned int i = 0; i < 4; ++i)
             reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&data.skills[i]), 4);
@@ -248,8 +248,8 @@ struct FUN_005f7150_shell
 void FUN_005f7150_shell::SaveForm(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     unsigned int i;
-    reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged((::BGSSaveFormBuffer *)((unsigned int)apSaveGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)apSaveGameBuffer)->GetChangeFlags(2)))->FUN_004280f0())
+    reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged((::BGSSaveFormBuffer *)((std::uintptr_t)apSaveGameBuffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)apSaveGameBuffer)->GetChangeFlags(2)))->FUN_004280f0(2))
     {
         for (i = 0; i < 4; ++i)
         {
@@ -418,3 +418,5 @@ bool ClassComparison::FUN_005f6cf0(TESForm* other)
         return true;
     return false;
 }
+
+

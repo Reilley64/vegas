@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct FUN_00605fc0_disp;
 struct FUN_00605fc0_owner;

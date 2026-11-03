@@ -14,7 +14,7 @@
 // @fnv 0x0047b8e0
 void BGSRepairItemList::InitItem(TESForm* owner)
 {
-    unsigned int formID = (unsigned int)pRepairItemList;
+    unsigned int formID = (unsigned int)(std::uintptr_t)pRepairItemList;
     if (formID)
     {
         TESFile* file = owner ? owner->GetFile(-1) : 0;
@@ -103,7 +103,7 @@ void MyHolder::CopyFrom(BaseFormComponent* apCopyFC)
     BGSRepairItemList* pcopy = dynamic_cast<BGSRepairItemList*>(apCopyFC);
     if (!pcopy)
         return;
-    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((unsigned int)(reinterpret_cast<::Callees *>((((Unnamed07*)pcopy)))->FUN_00726070()))));
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((std::uintptr_t)(reinterpret_cast<::Callees *>((((Unnamed07*)pcopy)))->FUN_00726070()))));
 }
 
 struct RepairListComparison : BGSRepairItemList
@@ -118,7 +118,7 @@ bool RepairListComparison::FUN_0047ba20(BaseFormComponent* component)
     BGSRepairItemList* other = dynamic_cast<BGSRepairItemList*>(component);
     if (!other)
         return true;
-    if (((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<Unnamed07*>(other)))->FUN_00726070())) != ((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<Unnamed07*>(this)))->FUN_00726070())))
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<Unnamed07*>(other)))->FUN_00726070())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<Unnamed07*>(this)))->FUN_00726070())))
         return true;
     return false;
 }

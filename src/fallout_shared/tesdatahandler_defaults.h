@@ -9,10 +9,6 @@
 #include "fnv/symbols_011c5000.h"
 #include "fnv/symbols_011ca000.h"
 #include "fnv/symbols_011cb000.h"
-class ActorValue
-{
-  public:
-};
 class CameraPathManager
 {
   public:

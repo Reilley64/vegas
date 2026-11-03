@@ -1,9 +1,10 @@
 #pragma once
+#include <cstdint>
 
 struct xPt3C;
 
 class xWorldC {
 public:
     // 0x00457520
-    bool FUN_00457520(const ::xPt3C *, int);
+    bool FUN_00457520(const ::xPt3C *, std::intptr_t);
 };

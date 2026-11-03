@@ -5,9 +5,9 @@
 #pragma comment(linker, "/alternatename:?DAT_01183a1c@fnv_00546ee0@@3Vtype_info@1@A=DAT_01183a1c")
 #pragma comment(linker, "/alternatename:?DAT_011de45c@CellLoad@@3PEAUStream@1@EA=?DAT_011de45c@@3PEAUSaveManager@@EA")
 #pragma comment(linker, "/alternatename:?DAT_011de45c@fnv_00585e00@@3PEAVLinkProbe@1@EA=?DAT_011de45c@@3PEAUSaveManager@@EA")
-#pragma comment(linker, "/alternatename:?DAT_011dea10@@3PEAUWorldManager552@@EA=?g_TES@@3HA")
-#pragma comment(linker, "/alternatename:?DAT_011dea10@fnv_00548880@@3PEAXEA=?g_TES@@3HA")
-#pragma comment(linker, "/alternatename:?DAT_011dea10@fnv_005574d0@@3PEAUS_011dea10_Owner@1@EA=?g_TES@@3HA")
+#pragma comment(linker, "/alternatename:?DAT_011dea10@@3PEAUWorldManager552@@EA=?g_TES@@3PEAUTES@@EA")
+#pragma comment(linker, "/alternatename:?DAT_011dea10@fnv_00548880@@3PEAXEA=?g_TES@@3PEAUTES@@EA")
+#pragma comment(linker, "/alternatename:?DAT_011dea10@fnv_005574d0@@3PEAUS_011dea10_Owner@1@EA=?g_TES@@3PEAUTES@@EA")
 #pragma comment(linker, "/alternatename:?DAT_011dea3c@@3PEAXEA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")
 #pragma comment(linker, "/alternatename:?DAT_011dea3c@fnv_005453b0@@3PEAUFNV_Ref@1@EA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")
 #pragma comment(linker, "/alternatename:?DAT_011dea3c@fnv_00548880@@3PEAUFNV_Ref@1@EA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")
@@ -54,5 +54,5 @@ int DAT_011ca08c;
 namespace fnv_00547ad0 { bool DAT_011ca090; }
 float runtimeInitializationFloat2390;
 StatsCell *DAT_011ca218;
-unsigned int DAT_011ca438;
+void* DAT_011ca438;
 ::TESWaterForm *DAT_011ca53c;

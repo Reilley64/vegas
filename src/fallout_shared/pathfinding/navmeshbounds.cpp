@@ -95,14 +95,14 @@ void Owner69c4c0::WriteToBuffer(char* apBuffer)
     }
     ::__memcpy(apBuffer, &v, 12);
     apBuffer += 12;
-    w = (unsigned short)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_arr12))->GetName()));
+    w = (unsigned short)((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_arr12))->GetName()));
     if (((bool)(::FUN_00401500())))
     {
         ::FUN_00407a90((short*)&w);
     }
     ::__memcpy(apBuffer, &w, 2);
     apBuffer += 2;
-    w = (unsigned short)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_arr6))->GetName()));
+    w = (unsigned short)((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_arr6))->GetName()));
     if (((bool)(::FUN_00401500())))
     {
         ::FUN_00407a90((short*)&w);
@@ -111,7 +111,7 @@ void Owner69c4c0::WriteToBuffer(char* apBuffer)
     apBuffer += 2;
     if (!reinterpret_cast<::FUN_0076b610_Class *>(&(m_arr12))->FUN_0076b610())
     {
-        count2 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_arr12))->GetName()));
+        count2 = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_arr12))->GetName()));
         bytes5 = count2 * 12;
         arr = new Elem12[count2];
         ::__memcpy(arr, m_arr12.FUN_006a1440(0), bytes5);
@@ -128,10 +128,10 @@ void Owner69c4c0::WriteToBuffer(char* apBuffer)
         apBuffer += bytes5;
         delete[] arr;
         arr = 0;
-        count2 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_arr6))->GetName()));
+        count2 = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_arr6))->GetName()));
         bytes5 = count2 * 6;
         arr2_2 = new Elem6[count2];
-        ::__memcpy(arr2_2, ((::Elem6 *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(m_arr6))->FUN_0069ccf0(0))), bytes5);
+        ::__memcpy(arr2_2, ((::Elem6 *)(std::uintptr_t)(reinterpret_cast<::FUN_0069ccf0_class *>(&(m_arr6))->FUN_0069ccf0(0))), bytes5);
         if (((bool)(::FUN_00401500())))
         {
             for (i4 = 0; i4 < count2; i4++)

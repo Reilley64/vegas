@@ -986,9 +986,9 @@ bool FUN_004a0e50_Class::FUN_004a0e50()
 struct NiRenderer;
 
 // @fnv 0x004a0e90
-unsigned int FUN_004a0e90()
+void* FUN_004a0e90()
 {
-    return *(Flt*)&::DAT_011f9508;
+    return ::DAT_011f9508;
 }
 
 struct CalleeObj
@@ -2141,9 +2141,9 @@ bool FUN_004b9b20_class::FUN_004b9b20(int arg, FUN_004b9b20_result* result)
 }
 
 // @fnv 0x004a0ea0
-int __cdecl FUN_004a0ea0()
+void* __cdecl FUN_004a0ea0()
 {
-    return (*reinterpret_cast<int *>(&::DAT_011f91a8));
+    return ::DAT_011f91a8;
 }
 
 

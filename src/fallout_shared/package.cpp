@@ -1,5 +1,6 @@
 // fallout_shared/package.cpp: TESPackage, TESFormStub, Package, PHost and more (140 functions)
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include <cstdio>
@@ -154,6 +155,24 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "package_decls.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_0067f140_shell.h"
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_00833c20_shell.h"
+#include "fnv/decl/FUN_008a08c0_Class.h"
+#include "fnv/decl/FUN_008bf4e0_cls.h"
+#include "fnv/decl/FUN_009ec830_t.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/TESClass.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/ZOwner.h"
+#include "fnv/decl/fnv_005653d0__FUN_005653d0_shell.h"
+#include "fnv/decl/fnv_00881680__FUN_00881680_shell.h"
+#include "fnv/decl/fnv_00884350__FUN_00884350_shell.h"
+#include "fnv/decl/fnv_009eb9c0__Crime.h"
+#include "fnv/decl/fnv_009ec810__FUN_009ec810_t.h"
 // @fnv 0x006e25d0
 float TESPackage::GetPackageDefaultFloat()
 {
@@ -517,7 +536,7 @@ void TESPackage::ResetFormData()
     f2c = 0;
     f30 = 0;
     f34 = 0;
-    f48 = 0;
+    pCombatStyle = 0;
     data = 0;
     CopyScheduleFrom(0);
     flags18 = ~0u;
@@ -1577,6 +1596,7 @@ class TESFile;
 struct PerkEntryConditionSet
 {
     void InitializeConditionItems();
+    void InitItem(::TESForm *);
 public:
     void Load(::TESFile *);
 public:
@@ -2684,7 +2704,7 @@ void FUN_006777b0_shell::ComputePackageFlags(TESObjectREFR* apLinkedRef)
     {
         char message[260];
         ::std::sprintf(message, "Package '%s' is not a valid package because it is missing necessary Target Or Location Info.",
-                ((const char *)(::FUN_00464f30((int)(((TESPackageVt*)this)->GetEditorID())))));
+                ((const char *)(::FUN_00464f30((std::intptr_t)(((TESPackageVt*)this)->GetEditorID())))));
         flags18 = 0;
         ((TESPackageEx*)this)->SetPackageType(6);
     }
@@ -4178,12 +4198,12 @@ bool TESPackage::GetPackageSearchRadius(MobileObject* actor, float& radius)
 int FUN_00672930_cls::FUN_00672930()
 {
     PackageTargetRecord* ptarget = ((::PackageTargetRecord *)(reinterpret_cast<::Script *>(this)->GetData()));
-    int count;
+    std::intptr_t count;
     if (!ptarget)
         return 0;
     if (ptarget->GetTargetKind() == 0 || ptarget->GetTargetKind() == 3)
         return 1;
-    count = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((FUN_00672930_flags*)ptarget)))->GetName()));
+    count = ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((FUN_00672930_flags*)ptarget)))->GetName()));
     if (count > 0)
         return count;
     if (((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>(this)->FUN_009611e0())) == 0x1c)
@@ -5967,11 +5987,11 @@ void FUN_0067a1b0_shell::FUN_0067a1b0(TESPackage* apCopy)
     reinterpret_cast<::Struct_067A4A0 *>((((Struct_067A4A0*)this)))->FUN_0067a4a0(reinterpret_cast<::FUN_0067a480_shell *>((((FUN_0067a480_shell*)apCopy)))->FUN_0067a480());
     reinterpret_cast<::FUN_0067a510_shell *>((((FUN_0067a510_shell*)this)))->SetFlag20000(reinterpret_cast<::FUN_0067a4f0_shell *>((((FUN_0067a4f0_shell*)apCopy)))->FUN_0067a4f0());
     reinterpret_cast<::Fake067a790 *>((((Fake067a790*)this)))->FUN_0067a790(reinterpret_cast<::FUN_0067a770_shell *>((((FUN_0067a770_shell*)apCopy)))->IsNotFlag8000000());
-    reinterpret_cast<::ValueModifierEffect *>((((BGSAcousticSpace*)this)))->SetActorValue((::ActorValue::Index)((TESRegion*)((TESTopicInfo*)apCopy)->GetParentQuest()));
+    reinterpret_cast<::TESPackage *>(this)->pCombatStyle = (TESCombatStyle*)((TESTopicInfo*)apCopy)->GetParentQuest();
     reinterpret_cast<::FUN_0067a720_shell *>((((FUN_0067a720_shell*)this)))->SetFlag4000000(reinterpret_cast<::FUN_0067a700_shell *>((((FUN_0067a700_shell*)apCopy)))->FUN_0067a700());
     reinterpret_cast<::FUN_0067a410_shell *>((((FUN_0067a410_shell*)this)))->SetFlag400000(reinterpret_cast<::FUN_0067a3f0_shell *>((((FUN_0067a3f0_shell*)apCopy)))->HasFlag400000());
     reinterpret_cast<::FUN_0067a5f0_shell *>((((FUN_0067a5f0_shell*)this)))->SetFlag80000(reinterpret_cast<::FUN_0067a5d0_class *>((((FUN_0067a5d0_class*)apCopy)))->FUN_0067a5d0());
-    reinterpret_cast<::FUN_0067a580_shell *>((((FUN_0067a580_shell*)this)))->SetFlag40000(::FUN_0067a560((int)apCopy));
+    reinterpret_cast<::FUN_0067a580_shell *>((((FUN_0067a580_shell*)this)))->SetFlag40000(::FUN_0067a560((std::intptr_t)apCopy));
     reinterpret_cast<::fnv_0067a800::S *>((((FUN_0067a800_shell*)this)))->FUN_0067a800(reinterpret_cast<::FUN_0067a7e0_shell *>((((FUN_0067a7e0_shell*)apCopy)))->IsFlag28Clear());
 }
 }  // namespace fnv_0067a1b0
@@ -6000,9 +6020,9 @@ bool FUN_00962720_shell::HasExtraFollowerForm(char* apForm)
     if (pkFollower && *(char**)((char*)pkFollower + 0xc))
     {
         _ref_006815c0* pkNode = *(_ref_006815c0**)((char*)pkFollower + 0xc);
-        while (pkNode && *((char **)(new ((void *)(pkNode)) ::Vec3())))
+        while (pkNode && *((char **)((void *)(pkNode))))
         {
-            char* pkEntry = *((char **)(new ((void *)(pkNode)) ::Vec3()));
+            char* pkEntry = *((char **)((void *)(pkNode)));
             if (pkEntry == apForm)
                 return true;
             pkNode = (_ref_006815c0*)((char *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
@@ -6267,8 +6287,8 @@ void FUN_006738b0_shell::FUN_006738b0()
     if (((char *)(reinterpret_cast<::PackedByteIntRecord *>((reinterpret_cast<PackedByteIntRecord*>(this)))->Endian())))
         reinterpret_cast<::FUN_00680910_shell *>((reinterpret_cast<TESConditionSave*>(((char *)(reinterpret_cast<::PackedByteIntRecord *>((reinterpret_cast<PackedByteIntRecord*>(this)))->Endian())))))->ProcessItems();
 
-    if (((int)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(this)))->GetPrevPath())))
-        reinterpret_cast<::FUN_004799f0_shell *>((reinterpret_cast<FUN_004799f0_shell*>(((int)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(this)))->GetPrevPath())))))->FUN_004799f0();
+    if (((int)(std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(this)))->GetPrevPath())))
+        reinterpret_cast<::FUN_004799f0_shell *>((reinterpret_cast<FUN_004799f0_shell*>(((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(this)))->GetPrevPath())))))->FUN_004799f0();
 
     if (reinterpret_cast<TESTopicInfo*>(this)->GetParentQuest())
         ::FUN_00485910(0x4D414E43, reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESTopicInfo*>(this)->GetParentQuest()))->FUN_0084e3a0());
@@ -6501,12 +6521,12 @@ void FUN_00679b10_shell::FUN_00679b10(BGSLoadFormBuffer* buffer)
 {
     if (!reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::fnv_00679b10::DataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))
     {
-        if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00679b10::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+        if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00679b10::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         {
             flags &= 0xffff7fff;
         }
 
-        if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00679b10::FormChangeMask &)(buffer->GetOldChangeFlags(0x40000000)))->FUN_004280f0())
+        if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00679b10::FormChangeMask &)(buffer->GetOldChangeFlags(0x40000000)))->FUN_004280f0(0x40000000))
         {
             flags &= 0xfffeffff;
         }
@@ -7100,7 +7120,7 @@ bool Package::IsTargetWithinRadius(Actor* actor, int extra)
         return false;
     Location* location4 = FUN_0055b980();
     bool answer8 = false;
-    if (location4 && reinterpret_cast<::FUN_0067f220_cls *>((location4))->LookupAndStore((int)(actor), (int)(target2), (unsigned char *)&(answer8)))
+    if (location4 && reinterpret_cast<::FUN_0067f220_cls *>((location4))->LookupAndStore((std::intptr_t)(actor), (std::intptr_t)(target2), (unsigned char *)&(answer8)))
         return answer8;
     int radius = ((int)(reinterpret_cast<::HighProcess *>(this)->UpdateHighProcessState(actor)));
     if (radius == 0 && location4)
@@ -7491,7 +7511,7 @@ bool FUN_00677570_shell::IsTargetInRange(ActorStandIn* actor, float radius)
         return false;
     LocStandIn* location4 = ((::fnv_00677570::LocStandIn *)(reinterpret_cast<::FUN_00672dd0_shell *>(this)->FUN_00672dd0()));
     bool inRange2 = false;
-    if (location4 && reinterpret_cast<::FUN_0067f220_cls *>((location4))->LookupAndStore((int)(actor), (int)(target), (unsigned char *)&(inRange2)))
+    if (location4 && reinterpret_cast<::FUN_0067f220_cls *>((location4))->LookupAndStore((std::intptr_t)(actor), (std::intptr_t)(target), (unsigned char *)&(inRange2)))
         return inRange2;
     if (radius < 0.0)
     {
@@ -7772,12 +7792,12 @@ void PackageCopy::CopyFromPackage(TESForm* form)
         return;
     reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(p);
     reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>(this)->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(((PackageAccessor*)p)->FUN_0055b980()));
-    reinterpret_cast<::FUN_00672fc0_shell *>(this)->FUN_00672fc0((::PackageTargetRecord *)(((int)(reinterpret_cast<::Script *>((((PackageAccessor*)p)))->GetData()))));
-    reinterpret_cast<::TESPackage *>(this)->CopyScheduleFrom((::DurationData *)(((int)(reinterpret_cast<::FUN_0041d8a0_shell *>((((PackageAccessor*)p)))->FUN_0041d8a0()))));
-    reinterpret_cast<::BGSDehydrationStage *>(this)->FUN_0050f9a0((::SpellItem *)(((int)(reinterpret_cast<::BGSTerrainManager *>((((PackageAccessor*)p)))->GetMinLevel()))));
+    reinterpret_cast<::FUN_00672fc0_shell *>(this)->FUN_00672fc0((::PackageTargetRecord *)(((reinterpret_cast<::Script *>((((PackageAccessor*)p)))->GetData()))));
+    reinterpret_cast<::TESPackage *>(this)->CopyScheduleFrom((::DurationData *)(((reinterpret_cast<::FUN_0041d8a0_shell *>((((PackageAccessor*)p)))->FUN_0041d8a0()))));
+    reinterpret_cast<::BGSDehydrationStage *>(this)->FUN_0050f9a0((::SpellItem *)(((reinterpret_cast<::BGSTerrainManager *>((((PackageAccessor*)p)))->GetMinLevel()))));
     f22 = p->f22;
-    reinterpret_cast<::fnv_00673200::FUN_00673200_shell *>(this)->FUN_00673200((::fnv_00673200::BGSIdleCollection *)(((int)(reinterpret_cast<::PackedByteIntRecord *>((((PackageAccessor*)p)))->Endian()))));
-    reinterpret_cast<::fnv_006730a0::FUN_006730a0_shell *>(this)->CallOrResetObject((void *)(((int)(reinterpret_cast<::BGSCameraPath *>((((PackageAccessor*)p)))->GetPrevPath()))));
+    reinterpret_cast<::fnv_00673200::FUN_00673200_shell *>(this)->FUN_00673200((::fnv_00673200::BGSIdleCollection *)(((reinterpret_cast<::PackedByteIntRecord *>((((PackageAccessor*)p)))->Endian()))));
+    reinterpret_cast<::fnv_006730a0::FUN_006730a0_shell *>(this)->CallOrResetObject((void *)(((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((((PackageAccessor*)p)))->GetPrevPath()))));
     reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(((PackageAccessor*)p)->FUN_006733e0()));
     reinterpret_cast<::PackageEx *>(this)->SetPackageType((*(int *)&(const ::PTYPE &)(p->GetPackType())));
     f24 = p->f24;
@@ -10138,9 +10158,6 @@ struct P070Package
     NiPoint3 FUN_00675360(P070Ref*);
     bool IsWithinPackageLocation(P070Ref*, P070Ref*, bool, float, bool);
 };
-namespace std {
-float abs(float);
-}
 // @fnv 0x00676390
 bool P070Package::IsWithinPackageLocation(P070Ref* object, P070Ref* actor, bool ignoreRadius, float customRadius,
                                           bool useProcess)
@@ -10178,7 +10195,7 @@ bool P070Package::IsWithinPackageLocation(P070Ref* object, P070Ref* actor, bool 
     if (!aSame)
         return false;
     bool locationResult3 = false;
-    if (loc3 && reinterpret_cast<::FUN_0067f220_cls *>((loc3))->LookupAndStore((int)(actor), (int)(object), (unsigned char *)&(locationResult3)))
+    if (loc3 && reinterpret_cast<::FUN_0067f220_cls *>((loc3))->LookupAndStore((std::intptr_t)(actor), (std::intptr_t)(object), (unsigned char *)&(locationResult3)))
         return locationResult3;
     int radius2 = ((int)(reinterpret_cast<::fnv_00675670::FUN_00675670_shell *>(this)->FUN_00675670()));
     if (radius2 > 0)
@@ -10200,7 +10217,7 @@ bool P070Package::IsWithinPackageLocation(P070Ref* object, P070Ref* actor, bool 
         {
             if (reinterpret_cast<::FUN_00568680_shell *>((target8))->FUN_00568680() && ((::P070Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((object))->GetBaseTexture())) && ((::P070Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((object))->GetBaseTexture()))->GetLocation())
             {
-                if (!((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::P070Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())))
+                if (!((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::P070Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())))
                     position = *((::P070Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetLocation();
                 radius2 = 20;
                 exact2 = true;
@@ -10555,7 +10572,7 @@ struct Package679120 : TESPackage
 void Package679120::SavePackage()
 {
     unsigned short blockLength = 0;
-    unsigned int start = 0;
+    std::uintptr_t start = 0;
     unsigned int blockStart = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveStream679120*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
     if (*::g_011de4e8.Bool())
         blockStart = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveStream679120*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
@@ -10598,7 +10615,7 @@ void Package679120::SavePackage()
         unsigned int begin = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveStream679120*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
         unsigned int end = start;
         if (begin > end + 0xffff)
-            ::FUN_005b5e40(::DAT_01015318, str_010685dc, 0x1d6e);
+            ::FUN_005b5e40();
         *(unsigned short*)start = (unsigned short)(begin - end);
     }
 }
@@ -10965,7 +10982,7 @@ struct A90Cls
 // @fnv 0x00679a90
 void A90Cls::DispatchToSubobjects(int aiValue)
 {
-    if (!reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::A90Mgr * *>(&::g_dataHandler))))->IsRenderTargetId((unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))))
+    if (!reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::A90Mgr * *>(&::g_dataHandler))))->IsRenderTargetId((unsigned int)(std::uintptr_t)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))))
         return;
     if (m_2c)
         reinterpret_cast<::FUN_0067fc50_shell *>((m_2c))->ResolveObject(aiValue);
@@ -10986,7 +11003,7 @@ struct FUN_00672f20_cls
 // @fnv 0x006758a0
 unsigned int Proxy758a0::FUN_006758a0(MobileObject* apMobile)
 {
-    int loc = ((int)(reinterpret_cast<::FUN_00672f20_cls *>((((PkgProxy*)this)))->FUN_00672f20()));
+    std::intptr_t loc = ((std::intptr_t)(reinterpret_cast<::FUN_00672f20_cls *>((((PkgProxy*)this)))->FUN_00672f20()));
     return loc == ((Script*)this)->GetText() ? reinterpret_cast<::HighProcess *>((((TESPackage*)this)))->UpdateHighProcessState((::Actor *)(apMobile))
                                              : reinterpret_cast<::fnv_00675670::FUN_00675670_shell *>((((F5670*)this)))->FUN_00675670();
 }
@@ -10994,13 +11011,13 @@ unsigned int Proxy758a0::FUN_006758a0(MobileObject* apMobile)
 // @fnv 0x006757e0
 int FUN_006757e0_shell::FUN_006757e0(MobileObject* actor)
 {
-    int firstResult = ((int)(reinterpret_cast<::FUN_00672f20_cls *>(this)->FUN_00672f20()));
+    std::intptr_t firstResult = ((std::intptr_t)(reinterpret_cast<::FUN_00672f20_cls *>(this)->FUN_00672f20()));
     return firstResult == FUN_0055b980() ? FUN_00675c20(actor) : ((int)(reinterpret_cast<::fnv_006751a0::Pkg *>(this)->FUN_006751a0((::fnv_006751a0::Ref *)(actor))));
 }
 // @fnv 0x00675830
 PackValue12* FUN_00675830_shell::FUN_00675830(PackValue12* output, void* actor)
 {
-    int packageType = ((int)(reinterpret_cast<::FUN_00672f20_cls *>(this)->FUN_00672f20()));
+    std::intptr_t packageType = ((std::intptr_t)(reinterpret_cast<::FUN_00672f20_cls *>(this)->FUN_00672f20()));
     PackValue12 successful;
     PackValue12 fallback;
     const PackValue12* sourceValue =
@@ -11303,7 +11320,7 @@ struct Package
 // @fnv 0x006787e0
 float Package::GetPackageResult(Obj* obj, bool flag)
 {
-    int result = 0;
+    std::intptr_t result = 0;
     void* ref = flag ? ((void *)(reinterpret_cast<::FUN_00672dd0_shell *>(this)->FUN_00672dd0())) : FUN_0055b980();
     Obj* unused = 0;
     if (obj->isRef())
@@ -11319,9 +11336,9 @@ float Package::GetPackageResult(Obj* obj, bool flag)
         {
             Package* pPackage = ((::fnv_006787e0::Package *)(reinterpret_cast<::FUN_0041cb10_shell *>((((::fnv_006787e0::Extra *)(reinterpret_cast<::FUN_005d43c0_ *>((unused))->FUN_005d43c0()))))->FUN_0041cb10()));
             if (reinterpret_cast<struct ::FUN_0041ca90 *>(this)->get() == 28 && pPackage && ((::fnv_006787e0::Data *)(reinterpret_cast<::Script *>((pPackage))->GetData())))
-                result = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_006787e0::Data *)(reinterpret_cast<::Script *>((pPackage))->GetData()))))->GetName()));
+                result = ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_006787e0::Data *)(reinterpret_cast<::Script *>((pPackage))->GetData()))))->GetName()));
             else if (((::fnv_006787e0::Data *)(reinterpret_cast<::Script *>(this)->GetData())) && type != 26)
-                result = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_006787e0::Data *)(reinterpret_cast<::Script *>(this)->GetData()))))->GetName()));
+                result = ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_006787e0::Data *)(reinterpret_cast<::Script *>(this)->GetData()))))->GetName()));
             if (!result && !target->isRef())
             {
                 result = (int)reinterpret_cast<::TESObjectREFR *>((target))->GetBoundingRadius();
@@ -12270,9 +12287,9 @@ V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)
             }
             else
             {
-                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_006780e0::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(((int)(reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)targetObj)))->GetTarget()))), (*(const ::NiPoint3 *)((int)targetObj->f07d())),
-                                            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)((int)targetObj->f07d())),
-                                            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, long))(void (*)())(&((void (&)())::IsValidPickTarget)), (long)(&ctx));
+                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_006780e0::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(((reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)targetObj)))->GetTarget()))), (*(const ::NiPoint3 *)(targetObj->f07d())),
+                                            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)(targetObj->f07d())),
+                                            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, long))(void (*)())(&((void (&)())::IsValidPickTarget)), (std::intptr_t)(&ctx));
                 secondary7 = DAT_011d6580;
                 DAT_011d6580 = 0;
             }
@@ -12283,9 +12300,9 @@ V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)
             ctx3.ref = targetObj;
             ctx3.opt = option;
             targType2 = ((::fnv_006780e0::Data *)(reinterpret_cast<::Script *>((((Script*)this)))->GetData()))->FUN_00680080();
-            reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_006780e0::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(((int)(reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)targetObj)))->GetTarget()))), (*(const ::NiPoint3 *)((int)targetObj->f07d())),
-                                        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)((int)targetObj->f07d())),
-                                        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, long))(void (*)())(&((void (&)())::IsValidPickTarget)), (long)(&ctx3));
+            reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_006780e0::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(((reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)targetObj)))->GetTarget()))), (*(const ::NiPoint3 *)(targetObj->f07d())),
+                                        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)(targetObj->f07d())),
+                                        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, long))(void (*)())(&((void (&)())::IsValidPickTarget)), (std::intptr_t)(&ctx3));
             secondary7 = DAT_011d6580;
             DAT_011d6580 = 0;
             break;
@@ -12298,7 +12315,7 @@ V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)
         if (GetPackType() == (PTYPE)1 || GetPackType() == (PTYPE)7)
         {
             if (secondary7 == (*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer)) &&
-                ((::fnv_006780e0::V *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)targetObj)))->GetBaseTexture()))->f14b() != (unsigned int)(*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer)) &&
+                ((::fnv_006780e0::V *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)targetObj)))->GetBaseTexture()))->f14b() != (unsigned int)(std::uintptr_t)(*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer)) &&
                 !reinterpret_cast<::FUN_00962720_shell *>(((*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer))))->HasExtraFollowerForm((char *)(targetObj)) &&
                 reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>(((*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer))))->FUN_00962620() > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_006780e0::NumberSingleton *>(&::g_011cdad0)))))))
             {
@@ -12393,7 +12410,7 @@ void PackX::FUN_009ecbe0()
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_009ecbe0::SaveX * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&cType, 1);
         unsigned short usID;
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_009ecbe0::SaveX * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&usID, 2);
-        int iResult = ((int)(reinterpret_cast<::FUN_009727c0_shell *>(&((*reinterpret_cast<::fnv_009ecbe0::ListX *>(&::g_011e0e80))))->FUN_009727c0(cType, usID)));
+        std::intptr_t iResult = ((std::intptr_t)(reinterpret_cast<::FUN_009727c0_shell *>(&((*reinterpret_cast<::fnv_009ecbe0::ListX *>(&::g_011e0e80))))->FUN_009727c0(cType, usID)));
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_009ecbe0::SaveX * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
@@ -13307,6 +13324,8 @@ public:
     ::TESObjectREFR *GetLocationReference();
 public:
     ::TESObjectCELL *GetLocationCellReference();
+    void FUN_0067f3c0(::TESObjectREFR *);
+    void InitItem(::TESForm *);
 };
 // @fnv 0x00674fd0
 World74* Package74::FUN_00674fd0(Ref74* actor)
@@ -13728,6 +13747,1181 @@ bool PackageComparison::FUN_00673420(TESForm* form)
     if (reinterpret_cast<::FUN_0067dbf0_shell *>(&(onChange))->FUN_0067dbf0((::TESObjectREFR_GetFlags_caller *)(&other->onChange)))
         return true;
     return false;
+}
+
+class PackageInit;
+
+class FUN_00670b30_ctx
+{
+  public:
+    ~FUN_00670b30_ctx();
+};
+
+class FUN_0067f030_ctx : public FUN_00670b30_ctx
+{
+  public:
+    unsigned int type, value;
+    float radius;
+    FUN_0067f030_ctx();
+    ~FUN_0067f030_ctx();
+};
+
+class FUN_0067ff70
+{
+  public:
+    unsigned int type, target, count, unknown;
+    FUN_0067ff70();
+    ~FUN_0067ff70();
+};
+
+struct ConditionInit
+{
+};
+
+struct IdleInit
+{
+};
+
+struct ProcedureInit
+{
+    unsigned int unk00, unk04, unk08, unk0c;
+};
+
+struct PackageDataInit
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void Init(PackageInit*);
+    unsigned char unk04, flag05;
+};
+
+class TESForm_ctx
+{
+  public:
+    virtual void unused();
+public:
+    bool GetInitialized() const;
+public:
+    void SetInitializationState(bool);
+public:
+    ::TESFile *GetFile(int);
+};
+
+class TESCombatStyle : public TESForm_ctx
+{
+};
+
+void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
+
+extern int DAT_0118627c;
+
+class PackageInit
+{
+  public:
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual const char* GetDebugName();
+    unsigned int unk04, unk08, unk0c, unk10, unk14;
+    unsigned int flags18, packageFlags;
+    unsigned char type, unk21;
+    unsigned short unk22;
+    unsigned int unk24;
+    PackageDataInit* data;
+    unsigned int unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48;
+    ProcedureInit begin, end, change;
+    unsigned int FUN_006733e0();
+    void FUN_00674930();
+};
+
+// @fnv 0x00674930
+void PackageInit::FUN_00674930()
+{
+    if (reinterpret_cast<::TESForm_ctx *>(this)->GetInitialized())
+        return;
+    int warningsA = FUN_0046e8a0();
+    if (((struct ::FUN_0067f030_ctx *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())))
+        reinterpret_cast<::LocationDescriptor *>((((struct ::FUN_0067f030_ctx *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->InitItem((::TESForm *)(::PackageInit *)(this));
+    if (((struct ::FUN_0067f030_ctx *)(reinterpret_cast<::FUN_00672dd0_shell *>(this)->FUN_00672dd0())))
+        reinterpret_cast<::LocationDescriptor *>((((struct ::FUN_0067f030_ctx *)(reinterpret_cast<::FUN_00672dd0_shell *>(this)->FUN_00672dd0()))))->InitItem((::TESForm *)(::PackageInit *)(this));
+    if (((class ::FUN_0067ff70 *)(reinterpret_cast<::Script *>(this)->GetData())))
+        reinterpret_cast<::PackageTargetRecord *>((((class ::FUN_0067ff70 *)(reinterpret_cast<::Script *>(this)->GetData()))))->InitItem((::TESForm *)(::PackageInit *)(this));
+    if (((::ConditionInit *)(reinterpret_cast<::PackedByteIntRecord *>(this)->Endian())))
+        reinterpret_cast<::PerkEntryConditionSet *>((((::ConditionInit *)(reinterpret_cast<::PackedByteIntRecord *>(this)->Endian()))))->InitItem((::TESForm *)(::PackageInit *)(this));
+    if (((::IdleInit *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())))
+        reinterpret_cast<::BGSIdleCollection *>((((::IdleInit *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath()))))->InitItem((::TESForm *)(::PackageInit *)(this));
+    if (data)
+        data->Init(this);
+    unsigned int kCombatStyle = FUN_006733e0();
+    if (kCombatStyle)
+    {
+        ::ResolveFormID(&kCombatStyle, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm_ctx *>(this)->GetFile(-1)))));
+        reinterpret_cast<::TESPackage *>(this)->pCombatStyle = dynamic_cast<TESCombatStyle*>(FUN_004839c0(kCombatStyle));
+        if (!FUN_006733e0())
+            ::FUN_005b5e40();
+    }
+    reinterpret_cast<::FUN_0041fd00_shell *>(&(begin))->FUN_0041fd00(0);
+    reinterpret_cast<::FUN_0041fd00_shell *>(&(end))->FUN_0041fd00(1);
+    reinterpret_cast<::FUN_0041fd00_shell *>(&(change))->FUN_0041fd00(2);
+    reinterpret_cast<::PackageEventActionData *>(&(begin))->InitItem((::TESForm *)(::PackageInit *)(this));
+    reinterpret_cast<::PackageEventActionData *>(&(end))->InitItem((::TESForm *)(::PackageInit *)(this));
+    reinterpret_cast<::PackageEventActionData *>(&(change))->InitItem((::TESForm *)(::PackageInit *)(this));
+    if (warningsA != FUN_0046e8a0())
+    {
+        ::FUN_005b5e40(
+            );
+        packageFlags |= 0x8000;
+    }
+    switch (reinterpret_cast<struct ::FUN_0041ca90 *>(this)->get())
+    {
+    case 9:
+        if (reinterpret_cast<::TESPackage *>(this)->FUN_00674d20())
+            reinterpret_cast<::FUN_0067f140_shell *>((((struct ::FUN_0067f030_ctx *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->FUN_0067f140(6);
+        break;
+    case 14:
+        if (reinterpret_cast<::TESPackage *>(this)->FUN_00674d20())
+        {
+            if (!((class ::FUN_0067ff70 *)(reinterpret_cast<::Script *>(this)->GetData())))
+                reinterpret_cast<::FUN_00672fc0_shell *>(this)->FUN_00672fc0((::PackageTargetRecord *)(class ::FUN_0067ff70 *)(new FUN_0067ff70));
+            reinterpret_cast<::PackageTargetRecord *>((((class ::FUN_0067ff70 *)(reinterpret_cast<::Script *>(this)->GetData()))))->SetTargetKind((::PACK_TARG_TYPE)(3));
+        }
+        break;
+    case 13: {
+        PackageDataInit* packageData_2 = data;
+        if (packageData_2->flag05)
+            reinterpret_cast<::FUN_0067f140_shell *>((((struct ::FUN_0067f030_ctx *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->FUN_0067f140(6);
+        if (!((struct ::FUN_0067f030_ctx *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())))
+        {
+            FUN_0067f030_ctx* location = new FUN_0067f030_ctx;
+            reinterpret_cast<::FUN_0067f140_shell *>((location))->FUN_0067f140(6);
+            reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>(this)->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(location));
+            delete static_cast<FUN_00670b30_ctx*>(location);
+        }
+        break;
+    }
+    case 12:
+        if (reinterpret_cast<::TESPackage *>(this)->FUN_00673890())
+            reinterpret_cast<::FUN_0067f140_shell *>((((struct ::FUN_0067f030_ctx *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->FUN_0067f140(6);
+        break;
+    }
+    reinterpret_cast<::TESForm_ctx *>(this)->SetInitializationState(1);
+}
+
+
+
+struct A;
+
+struct P;
+
+struct Proc_rtti;
+
+struct Target;
+
+struct Loc_rtti;
+
+struct P : TESPackage
+{
+};
+
+struct TESObjectREFR;
+
+class FleePackage : public P
+{
+  public:
+public:
+    void FUN_009f1310(::TESObjectREFR *);
+};
+
+struct Created : P
+{
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    Created(A*);
+};
+
+struct Loc_rtti
+{
+    int unk00, unk04, unk08;
+    Loc_rtti();
+    ~Loc_rtti();
+};
+
+struct Target
+{
+    int unk00, unk04, unk08, unk0c;
+    Target();
+    ~Target();
+};
+
+struct Cls
+{
+};
+
+struct List
+{
+    int GetSize();
+};
+
+struct Lists
+{
+};
+
+struct SettingLocal
+{
+};
+
+struct Proc_rtti
+{
+    virtual void ReportDiagnostic();
+    virtual void unused1();
+    virtual void unused2();
+    virtual void FlushUsageData();
+    virtual void unused4();
+    virtual void unused5();
+    virtual void unused6();
+    virtual void unused7();
+    virtual void unused8();
+    virtual void unused9();
+    virtual void Reset();
+    virtual void unused11();
+    virtual void unused12();
+    virtual void unused13();
+    virtual void unused14();
+    virtual void unused15();
+    virtual void unused16();
+    virtual void unused17();
+    virtual void unused18();
+    virtual void unused19();
+    virtual void unused20();
+    virtual void unused21();
+    virtual void unused22();
+    virtual void unused23();
+    virtual void unused24();
+    virtual void unused25();
+    virtual void unused26();
+    virtual void unused27();
+    virtual void unused28();
+    virtual void unused29();
+    virtual void unused30();
+    virtual void unused31();
+    virtual void unused32();
+    virtual void unused33();
+    virtual void unused34();
+    virtual void unused35();
+    virtual void unused36();
+    virtual void unused37();
+    virtual void unused38();
+    virtual void unused39();
+    virtual void unused40();
+    virtual void unused41();
+    virtual void unused42();
+    virtual void unused43();
+    virtual void unused44();
+    virtual void unused45();
+    virtual void unused46();
+    virtual void unused47();
+    virtual void unused48();
+    virtual void unused49();
+    virtual void unused50();
+    virtual void unused51();
+    virtual void unused52();
+    virtual void unused53();
+    virtual void unused54();
+    virtual void unused55();
+    virtual void unused56();
+    virtual void unused57();
+    virtual void unused58();
+    virtual void unused59();
+    virtual void unused60();
+    virtual void unused61();
+    virtual void unused62();
+    virtual void unused63();
+    virtual void unused64();
+    virtual void unused65();
+    virtual void unused66();
+    virtual void unused67();
+    virtual void unused68();
+    virtual void unused69();
+    virtual void unused70();
+    virtual void unused71();
+    virtual void unused72();
+    virtual void unused73();
+    virtual A* GetTarget();
+    virtual void unused75();
+    virtual void unused76();
+    virtual void unused77();
+    virtual void unused78();
+    virtual void unused79();
+    virtual void unused80();
+    virtual void unused81();
+    virtual void unused82();
+    virtual void unused83();
+    virtual void unused84();
+    virtual void unused85();
+    virtual void unused86();
+    virtual void unused87();
+    virtual void unused88();
+    virtual void unused89();
+    virtual void unused90();
+    virtual void unused91();
+    virtual void unused92();
+    virtual void unused93();
+    virtual void unused94();
+    virtual void unused95();
+    virtual void unused96();
+    virtual void unused97();
+    virtual void unused98();
+    virtual void unused99();
+    virtual void unused100();
+    virtual void unused101();
+    virtual void unused102();
+    virtual void unused103();
+    virtual void unused104();
+    virtual void unused105();
+    virtual void unused106();
+    virtual void unused107();
+    virtual void unused108();
+    virtual void unused109();
+    virtual void unused110();
+    virtual void unused111();
+    virtual void unused112();
+    virtual void unused113();
+    virtual void unused114();
+    virtual void unused115();
+    virtual void unused116();
+    virtual void unused117();
+    virtual void unused118();
+    virtual void unused119();
+    virtual void unused120();
+    virtual void unused121();
+    virtual void unused122();
+    virtual void unused123();
+    virtual void unused124();
+    virtual void unused125();
+    virtual void unused126();
+    virtual void unused127();
+    virtual void unused128();
+    virtual void unused129();
+    virtual void unused130();
+    virtual void unused131();
+    virtual void unused132();
+    virtual void Prepare();
+    virtual void unused134();
+    virtual void unused135();
+    virtual void unused136();
+    virtual void unused137();
+    virtual void unused138();
+    virtual P* GetAssignedPackage();
+    virtual void unused140();
+    virtual void unused141();
+    virtual void unused142();
+    virtual void unused143();
+    virtual void unused144();
+    virtual void unused145();
+    virtual void unused146();
+    virtual void unused147();
+    virtual void unused148();
+    virtual void unused149();
+    virtual void unused150();
+    virtual void unused151();
+    virtual void unused152();
+    virtual void unused153();
+    virtual void unused154();
+    virtual void unused155();
+    virtual void unused156();
+    virtual void unused157();
+    virtual void unused158();
+    virtual void unused159();
+    virtual void unused160();
+    virtual void SetValue(int);
+    virtual void unused162();
+    virtual void unused163();
+    virtual void unused164();
+    virtual void unused165();
+    virtual void unused166();
+    virtual void unused167();
+    virtual void unused168();
+    virtual void unused169();
+    virtual void unused170();
+    virtual void unused171();
+    virtual void unused172();
+    virtual void unused173();
+    virtual void unused174();
+    virtual void unused175();
+    virtual void unused176();
+    virtual void unused177();
+    virtual void unused178();
+    virtual void unused179();
+    virtual void unused180();
+    virtual void unused181();
+    virtual void unused182();
+    virtual void unused183();
+    virtual void unused184();
+    virtual void unused185();
+    virtual void unused186();
+    virtual void unused187();
+    virtual void unused188();
+    virtual void unused189();
+    virtual void unused190();
+    virtual void unused191();
+    virtual void unused192();
+    virtual void unused193();
+    virtual void unused194();
+    virtual void unused195();
+    virtual void unused196();
+    virtual void unused197();
+    virtual void unused198();
+    virtual void unused199();
+    virtual void unused200();
+    virtual void unused201();
+    virtual void unused202();
+    virtual void unused203();
+    virtual void unused204();
+    virtual void unused205();
+    virtual void unused206();
+    virtual void Respond(A*, A*, int, int, int, int, int, int, int, int, int, int, int);
+    virtual void unused208();
+    virtual void React(A*, A*, A*);
+    virtual void SetCount(int);
+    virtual void unused211();
+    virtual void unused212();
+    virtual void unused213();
+    virtual void unused214();
+    virtual void unused215();
+    virtual void unused216();
+    virtual void unused217();
+    virtual void unused218();
+    virtual void unused219();
+    virtual void unused220();
+    virtual void unused221();
+    virtual void unused222();
+    virtual void unused223();
+    virtual void unused224();
+    virtual void unused225();
+    virtual void unused226();
+    virtual void unused227();
+    virtual void unused228();
+    virtual void unused229();
+    virtual void unused230();
+    virtual void unused231();
+    virtual void unused232();
+    virtual void unused233();
+    virtual void unused234();
+    virtual void unused235();
+    virtual void unused236();
+    virtual void unused237();
+    virtual void unused238();
+    virtual void unused239();
+    virtual void unused240();
+    virtual void unused241();
+    virtual void unused242();
+    virtual void unused243();
+    virtual void unused244();
+    virtual void unused245();
+    virtual void unused246();
+    virtual void unused247();
+    virtual void unused248();
+    virtual void unused249();
+    virtual void unused250();
+    virtual void unused251();
+    virtual void unused252();
+    virtual void unused253();
+    virtual void unused254();
+    virtual void unused255();
+    virtual void unused256();
+    virtual void unused257();
+    virtual void unused258();
+    virtual void unused259();
+    virtual void unused260();
+    virtual void unused261();
+    virtual void unused262();
+    virtual void unused263();
+    virtual void unused264();
+    virtual void unused265();
+    virtual void unused266();
+    virtual void unused267();
+    virtual void unused268();
+    virtual void unused269();
+    virtual void unused270();
+    virtual void unused271();
+    virtual void unused272();
+    virtual void unused273();
+    virtual void unused274();
+    virtual void unused275();
+    virtual void unused276();
+    virtual void unused277();
+    virtual void unused278();
+    virtual void unused279();
+    virtual void unused280();
+    virtual void unused281();
+    virtual void unused282();
+    virtual void unused283();
+    virtual void unused284();
+    virtual void unused285();
+    virtual void unused286();
+    virtual void unused287();
+    virtual void unused288();
+    virtual void unused289();
+    virtual void unused290();
+    virtual void unused291();
+    virtual void unused292();
+    virtual void unused293();
+    virtual void unused294();
+    virtual void unused295();
+    virtual void unused296();
+    virtual void unused297();
+    virtual void unused298();
+    virtual void unused299();
+    virtual void unused300();
+    virtual void unused301();
+    virtual void unused302();
+    virtual void unused303();
+    virtual void unused304();
+    virtual void unused305();
+    virtual void unused306();
+    virtual void unused307();
+    virtual void unused308();
+    virtual void unused309();
+    virtual void unused310();
+    virtual void unused311();
+    virtual void unused312();
+    virtual void unused313();
+    virtual void unused314();
+    virtual void unused315();
+    virtual void unused316();
+    virtual void unused317();
+    virtual void unused318();
+    virtual void unused319();
+    virtual void unused320();
+    virtual void unused321();
+    virtual void unused322();
+    virtual void unused323();
+    virtual void unused324();
+    virtual void unused325();
+    virtual void unused326();
+    virtual void unused327();
+    virtual void unused328();
+    virtual void unused329();
+    virtual void unused330();
+    virtual void unused331();
+    virtual void unused332();
+    virtual void unused333();
+    virtual void unused334();
+    virtual void unused335();
+    virtual void unused336();
+    virtual void unused337();
+    virtual void unused338();
+    virtual void unused339();
+    virtual void unused340();
+    virtual void unused341();
+    virtual void unused342();
+    virtual void unused343();
+    virtual void unused344();
+    virtual void unused345();
+    virtual void unused346();
+    virtual void unused347();
+    virtual void unused348();
+    virtual void unused349();
+    virtual void unused350();
+    virtual void unused351();
+    virtual void unused352();
+    virtual void unused353();
+    virtual void unused354();
+    virtual void unused355();
+    virtual void unused356();
+    virtual void unused357();
+    virtual void unused358();
+    virtual void unused359();
+    virtual void unused360();
+    virtual void unused361();
+    virtual void unused362();
+    virtual void unused363();
+    virtual void unused364();
+    virtual void unused365();
+    virtual void unused366();
+    virtual void unused367();
+    virtual int GetCount();
+    virtual void SetFlag(int);
+    virtual void unused370();
+    virtual void unused371();
+    virtual void unused372();
+    virtual void unused373();
+    virtual void unused374();
+    virtual void unused375();
+    virtual void unused376();
+    virtual void unused377();
+    virtual void unused378();
+    virtual void unused379();
+    virtual void unused380();
+    virtual void unused381();
+    virtual void unused382();
+    virtual void unused383();
+    virtual void unused384();
+    virtual void unused385();
+    virtual void unused386();
+    virtual void unused387();
+    virtual void unused388();
+    virtual void unused389();
+    virtual void unused390();
+    virtual void unused391();
+    virtual void unused392();
+    virtual void unused393();
+    virtual void unused394();
+    virtual void unused395();
+    virtual void unused396();
+    virtual void unused397();
+    virtual void unused398();
+    virtual void unused399();
+    virtual void unused400();
+    virtual void unused401();
+    virtual void unused402();
+    virtual void unused403();
+    virtual void unused404();
+    virtual void unused405();
+    virtual void unused406();
+    virtual void unused407();
+    virtual void unused408();
+    virtual void unused409();
+    virtual void unused410();
+    virtual void unused411();
+    virtual void unused412();
+    virtual void unused413();
+    virtual void unused414();
+    virtual void unused415();
+    virtual void unused416();
+    virtual void unused417();
+    virtual void unused418();
+    virtual void unused419();
+    virtual void unused420();
+    virtual void unused421();
+    virtual void unused422();
+    virtual void unused423();
+    virtual void unused424();
+    virtual void unused425();
+    virtual void unused426();
+    virtual void unused427();
+    virtual void unused428();
+    virtual void unused429();
+    virtual void unused430();
+    virtual void unused431();
+    virtual void unused432();
+    virtual void unused433();
+    virtual void unused434();
+    virtual void unused435();
+    virtual void unused436();
+    virtual void unused437();
+    virtual void unused438();
+    virtual void unused439();
+    virtual void unused440();
+    virtual void unused441();
+    virtual void unused442();
+    virtual void unused443();
+    virtual void unused444();
+    virtual void unused445();
+    virtual void unused446();
+    virtual void unused447();
+    virtual void unused448();
+    virtual void unused449();
+    virtual void unused450();
+    virtual void unused451();
+    virtual void Notify(A*);
+};
+
+struct A
+{
+    virtual void ReportDiagnostic();
+    virtual void unused1();
+    virtual void unused2();
+    virtual void FlushUsageData();
+    virtual void unused4();
+    virtual void unused5();
+    virtual void unused6();
+    virtual void unused7();
+    virtual void unused8();
+    virtual void unused9();
+    virtual void unused10();
+    virtual void unused11();
+    virtual void unused12();
+    virtual void unused13();
+    virtual void unused14();
+    virtual void unused15();
+    virtual void unused16();
+    virtual void unused17();
+    virtual void unused18();
+    virtual void unused19();
+    virtual void unused20();
+    virtual void unused21();
+    virtual void unused22();
+    virtual void unused23();
+    virtual void unused24();
+    virtual void unused25();
+    virtual void unused26();
+    virtual void unused27();
+    virtual void unused28();
+    virtual void unused29();
+    virtual void unused30();
+    virtual void unused31();
+    virtual void unused32();
+    virtual void unused33();
+    virtual void unused34();
+    virtual void unused35();
+    virtual void unused36();
+    virtual void unused37();
+    virtual void unused38();
+    virtual void unused39();
+    virtual void unused40();
+    virtual void unused41();
+    virtual void unused42();
+    virtual void unused43();
+    virtual void unused44();
+    virtual void unused45();
+    virtual void unused46();
+    virtual void unused47();
+    virtual void unused48();
+    virtual void unused49();
+    virtual void unused50();
+    virtual void unused51();
+    virtual void unused52();
+    virtual void unused53();
+    virtual void unused54();
+    virtual void unused55();
+    virtual void unused56();
+    virtual void unused57();
+    virtual void unused58();
+    virtual void unused59();
+    virtual void unused60();
+    virtual void unused61();
+    virtual void unused62();
+    virtual void unused63();
+    virtual void unused64();
+    virtual void unused65();
+    virtual void unused66();
+    virtual void unused67();
+    virtual void unused68();
+    virtual void unused69();
+    virtual void unused70();
+    virtual void unused71();
+    virtual void unused72();
+    virtual void unused73();
+    virtual void unused74();
+    virtual void unused75();
+    virtual void unused76();
+    virtual void unused77();
+    virtual void unused78();
+    virtual void unused79();
+    virtual void unused80();
+    virtual void unused81();
+    virtual void unused82();
+    virtual void unused83();
+    virtual void unused84();
+    virtual void unused85();
+    virtual void unused86();
+    virtual void unused87();
+    virtual void unused88();
+    virtual void unused89();
+    virtual void unused90();
+    virtual void unused91();
+    virtual void unused92();
+    virtual void unused93();
+    virtual void unused94();
+    virtual void unused95();
+    virtual void unused96();
+    virtual void unused97();
+    virtual void unused98();
+    virtual void unused99();
+    virtual void unused100();
+    virtual void unused101();
+    virtual void unused102();
+    virtual void unused103();
+    virtual void unused104();
+    virtual void unused105();
+    virtual void unused106();
+    virtual void unused107();
+    virtual void unused108();
+    virtual void unused109();
+    virtual void unused110();
+    virtual void unused111();
+    virtual void unused112();
+    virtual void unused113();
+    virtual void unused114();
+    virtual void unused115();
+    virtual void unused116();
+    virtual void unused117();
+    virtual void unused118();
+    virtual void unused119();
+    virtual void unused120();
+    virtual void unused121();
+    virtual void unused122();
+    virtual void unused123();
+    virtual void unused124();
+    virtual void unused125();
+    virtual void unused126();
+    virtual void unused127();
+    virtual void unused128();
+    virtual void unused129();
+    virtual void unused130();
+    virtual void unused131();
+    virtual void unused132();
+    virtual int GetType();
+    virtual bool IsActor();
+    virtual void unused135();
+    virtual void unused136();
+    virtual void unused137();
+    virtual void unused138();
+    virtual bool IsState(int);
+    virtual void unused140();
+    virtual void unused141();
+    virtual void unused142();
+    virtual void unused143();
+    virtual void unused144();
+    virtual void unused145();
+    virtual void unused146();
+    virtual void unused147();
+    virtual void unused148();
+    virtual void unused149();
+    virtual void unused150();
+    virtual void unused151();
+    virtual void unused152();
+    virtual void unused153();
+    virtual void unused154();
+    virtual void unused155();
+    virtual void unused156();
+    virtual void unused157();
+    virtual void unused158();
+    virtual void unused159();
+    virtual void unused160();
+    virtual void unused161();
+    virtual void unused162();
+    virtual void unused163();
+    virtual void unused164();
+    virtual void unused165();
+    virtual void unused166();
+    virtual void unused167();
+    virtual void unused168();
+    virtual void unused169();
+    virtual void unused170();
+    virtual void unused171();
+    virtual void unused172();
+    virtual void unused173();
+    virtual void unused174();
+    virtual void unused175();
+    virtual void unused176();
+    virtual void unused177();
+    virtual void unused178();
+    virtual void unused179();
+    virtual void unused180();
+    virtual void unused181();
+    virtual void unused182();
+    virtual void unused183();
+    virtual void unused184();
+    virtual void unused185();
+    virtual void unused186();
+    virtual void unused187();
+    virtual void unused188();
+    virtual void SetPackage(P*, int, int);
+    virtual void unused190();
+    virtual void unused191();
+    virtual void unused192();
+    virtual bool IsSpecial();
+    virtual void unused194();
+    virtual void unused195();
+    virtual void unused196();
+    virtual void unused197();
+    virtual void unused198();
+    virtual void unused199();
+    virtual void unused200();
+    virtual void unused201();
+    virtual void unused202();
+    virtual void unused203();
+    virtual void unused204();
+    virtual void unused205();
+    virtual void unused206();
+    virtual void unused207();
+    virtual void unused208();
+    virtual void unused209();
+    virtual void unused210();
+    virtual void unused211();
+    virtual void unused212();
+    virtual void unused213();
+    virtual void unused214();
+    virtual void unused215();
+    virtual void unused216();
+    virtual void unused217();
+    virtual void unused218();
+    virtual void unused219();
+    virtual void unused220();
+    virtual void unused221();
+    virtual void unused222();
+    virtual void unused223();
+    virtual void unused224();
+    virtual void unused225();
+    virtual void unused226();
+    virtual void unused227();
+    virtual void unused228();
+    virtual void unused229();
+    virtual void unused230();
+    virtual void unused231();
+    virtual void unused232();
+    virtual void unused233();
+    virtual void unused234();
+    virtual void unused235();
+    virtual void unused236();
+    virtual void unused237();
+    virtual void unused238();
+    virtual void unused239();
+    virtual void unused240();
+    virtual void unused241();
+    virtual void unused242();
+    virtual void unused243();
+    virtual void unused244();
+    virtual void unused245();
+    virtual void unused246();
+    virtual void unused247();
+    virtual void unused248();
+    virtual void unused249();
+    virtual void unused250();
+    virtual void unused251();
+    virtual void unused252();
+    virtual void unused253();
+    virtual void unused254();
+    virtual void unused255();
+    virtual void unused256();
+    virtual void unused257();
+    virtual void unused258();
+    virtual void unused259();
+    virtual void Flee(A*, int, int, int, int, int, float, float);
+    virtual void unused261();
+    virtual void ResetState();
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    Proc_rtti* process;
+    void FUN_008bed50(A*, int, bool, A*);
+};
+
+struct Extra
+{
+};
+
+// @fnv 0x008bed50
+void A::FUN_008bed50(A* source, int value, bool react, A* target)
+{
+    if (process && process->GetAssignedPackage() && reinterpret_cast<struct ::FUN_0041ca90 *>((process->GetAssignedPackage()))->get() == 21)
+        return;
+    if (IsSpecial())
+    {
+        if (source && !target)
+            target = ((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()));
+        List* val;
+        val = ((::List *)(reinterpret_cast<::ZOwner *>(&((*reinterpret_cast<::Lists *>(&::g_011e0e80))))->CollectActorsByPackage((int)(target), 21, 0)));
+        if (!val)
+            ((::Proc_rtti *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->SetCount(0);
+        else
+            ((::Proc_rtti *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->SetCount(val->GetSize());
+        if (target && ((::Proc_rtti *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->GetCount() >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingLocal *>(&::g_011cd808)))))))
+        {
+            return;
+        }
+        else if (target)
+        {
+            if (target == (*reinterpret_cast<::A * *>(&::_g_thePlayer)) && ((unsigned char)(reinterpret_cast<::FUN_008a08c0_Class *>(((*reinterpret_cast<::A * *>(&::_g_thePlayer))))->GetByteAt7C4())))
+            {
+                process->Respond(this, target, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
+                return;
+            }
+            else
+                ((::Proc_rtti *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->SetFlag(1);
+        }
+    }
+    if (GetType() == 9)
+        ResetState();
+    P* v = 0;
+    P* package2;
+    package2 = ((::P *)(reinterpret_cast<::Thing *>(this)->FUN_00881510()));
+    if (package2 && reinterpret_cast<::TESPackage *>((package2))->IsPackageBlockingGreeting())
+        package2 = ((::P *)(reinterpret_cast<::FUN_0041cb10_shell *>((((Extra*)((::P *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0())))))->FUN_0041cb10()));
+    if ((((bool)(reinterpret_cast<::FUN_00493bb0_Class *>(this)->FUN_00493bb0())) || IsState(0) || reinterpret_cast<::FleeActorEntry *>(this)->FUN_008a6650(0) ||
+         (package2 && reinterpret_cast<::FUN_0067a3f0_shell *>((package2))->HasFlag400000() && source &&
+          ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((source))->GetName())) != (unsigned int)(std::uintptr_t)process->GetTarget())) &&
+        react)
+    {
+        if (!IsState(0) && !((bool)(reinterpret_cast<::FUN_00833c20_shell *>((source))->FUN_00833c20())))
+            process->React(this, ((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0())), source);
+        return;
+    }
+    process->Prepare();
+    if (((::P *)(reinterpret_cast<::FUN_009344a0_shell *>(this)->FUN_009344a0())))
+    {
+        if (reinterpret_cast<struct ::FUN_0041ca90 *>((((::P *)(reinterpret_cast<::FUN_009344a0_shell *>(this)->FUN_009344a0()))))->get() == 21)
+            v = ((::P *)(reinterpret_cast<::FUN_009344a0_shell *>(this)->FUN_009344a0()));
+        else if (reinterpret_cast<::TESPackage *>((((::P *)(reinterpret_cast<::FUN_009344a0_shell *>(this)->FUN_009344a0()))))->IsPackageBlockingGreeting())
+            reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>(this)->FUN_00881680(0);
+    }
+    if (source && reinterpret_cast<::TESClass *>((((::Cls *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>(this)->FUN_00884350()))))->IsGuard())
+    {
+        reinterpret_cast<::FUN_008bf4e0_cls *>((source))->set(1);
+        if (((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))->IsActor() && ((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0())) != (*reinterpret_cast<::A * *>(&::_g_thePlayer)) &&
+            !((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))))->FUN_00493bb0())) && reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))))->FUN_005653d0())
+        {
+            A* locationX;
+            locationX = ((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()));
+            if (!reinterpret_cast<::FleeActorEntry *>((locationX))->FUN_008a6650(0))
+                locationX->Flee(this, 0, 1, 1, 0, 0, -1.0f, -1.0f);
+            FleePackage* flee;
+            flee = dynamic_cast<FleePackage*>(static_cast<TESPackage*>(((::P *)(reinterpret_cast<::FUN_009344a0_shell *>((locationX))->FUN_009344a0()))));
+            if (flee)
+                flee->FUN_009f1310((::TESObjectREFR *)(::A *)(this));
+        }
+    }
+    if (!v)
+    {
+        P* tmp = ((::Proc_rtti *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->GetAssignedPackage();
+        Created* current;
+        current = new Created(source);
+        reinterpret_cast<::PackageEx *>((current))->SetPackageType(21);
+        if (tmp)
+        {
+            reinterpret_cast<::FUN_00671a20_shell *>((current))->FUN_00671a20(reinterpret_cast<::FUN_0067a460_shell *>((tmp))->FUN_0067a460());
+            reinterpret_cast<::FUN_0067a640_shell *>((current))->SetFlag200000(reinterpret_cast<::TESPackage *>((tmp))->GetForceUnequipWeapon());
+        }
+        reinterpret_cast<::TESPackage *>((current))->SetMustReachLocation(true);
+        reinterpret_cast<::TESPackage *>((current))->SetMustComplete(true);
+        Loc_rtti* s = new Loc_rtti;
+        if (source)
+            reinterpret_cast<::LocationDescriptor *>((s))->FUN_0067f3c0((::TESObjectREFR *)(::A *)(((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))));
+        else
+            reinterpret_cast<::LocationDescriptor *>((s))->FUN_0067f3c0((::TESObjectREFR *)(target));
+        reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((current))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(s));
+        delete s;
+        Target* created;
+        created = new Target;
+        reinterpret_cast<::FUN_00672fc0_shell *>((current))->FUN_00672fc0((::PackageTargetRecord *)(created));
+        delete created;
+        reinterpret_cast<::TESPackage *>((current))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(11));
+        reinterpret_cast<::PackageTargetRecord *>((((::Target *)(reinterpret_cast<::Script *>((current))->GetData()))))->SetTargetKind((::PACK_TARG_TYPE)(0));
+        if (source)
+            reinterpret_cast<::PackageTargetRecord *>((((::Target *)(reinterpret_cast<::Script *>((current))->GetData()))))->SetTargetObjectReference((::TESObjectREFR *)(::A *)(((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))));
+        else
+            reinterpret_cast<::PackageTargetRecord *>((((::Target *)(reinterpret_cast<::Script *>((current))->GetData()))))->SetTargetObjectReference((::TESObjectREFR *)(target));
+        ((::Proc_rtti *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->Reset();
+        ((::Proc_rtti *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->Notify(this);
+        SetPackage(current, 0, 1);
+        if (source)
+            reinterpret_cast<::fnv_009eb9c0::Crime *>((source))->AddActor((::Actor *)(::A *)(this));
+        process->SetValue(value);
+    }
+    else if (source && process->GetTarget() == ((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0())) && !reinterpret_cast<::fnv_009ec810::FUN_009ec810_t *>((v))->IsSpellInList((::fnv_009ec810::SpellItem *)(source)))
+        reinterpret_cast<::FUN_009ec830_t *>((v))->AddHeadAtOffset((int *)(source));
 }
 
 #include "generated/data/fallout_shared/package.inc"

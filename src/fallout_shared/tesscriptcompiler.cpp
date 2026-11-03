@@ -1,5 +1,6 @@
 // fallout_shared/tesscriptcompiler.cpp: ScriptCompiler, BGSCameraPath, S7f, S5a and more (36 functions)
 
+#include <cstdint>
 #include <new>
 #include <cctype>
 #include <cstdlib>
@@ -44,6 +45,26 @@
 #include "fnv/symbols_01190000.h"
 #include "fnv/symbols_011c3000.h"
 #include "tesscriptcompiler_packet_decls.h"
+#include "fnv/decl/B408A80String.h"
+#include "fnv/decl/ExpressionConverter.h"
+#include "fnv/decl/fnv_005653d0__FUN_005653d0_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_0118c000.h"
+#include "fnv/symbols_011de000.h"
+#include <ctype.h>
+#include "fnv/decl/TESContainer.h"
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/s55d310__Owner.h"
+#include "fnv/symbols_004d5000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_0118a000.h"
+#include "fnv/symbols_01197000.h"
+#include "fnv/symbols_01199000.h"
+#include "fnv/symbols_0119b000.h"
+#include "fnv/symbols_011ca000.h"
+#include <stdlib.h>
 
 // If DAT_011c40c8 is clear, sets it true, reads GetEditorID(), resets it, and returns the name's length or 0 when there is no name.
 // @fnv 0x00474cb0
@@ -194,9 +215,9 @@ ScriptVariableData* ScriptVariableData::Reset()
 
 
 // @fnv 0x005afe10
-void __cdecl FUN_005afe10(int aiArg1, int aiArg2, int aiArg3)
+unsigned int __cdecl FUN_005afe10(const char* apString, char** apEnd, int aiBase)
 {
-    std::strtoul((const char *)(aiArg1), (char **)(aiArg2), aiArg3);
+    return std::strtoul(apString, apEnd, aiBase);
 }
 
 // Advances *apOffset past tab, space and comma characters in apExpLine, stopping at the first other character.
@@ -256,7 +277,7 @@ void TESDataHandler::ClearHairList()
     List* pList = ((::List *)(reinterpret_cast<::FUN_00613790_shell *>(this)->FUN_00613790()));
     while (pList && !pList->_ref_008256d0())
     {
-        void* item = ((void *)(new ((void *)(pList)) ::Vec3()));
+        void* item = ((void *)((void *)(pList)));
         ::FUN_00401030(item);
         pList->_ref_0063f7b0();
     }
@@ -410,7 +431,7 @@ bool ScriptCompiler::FUN_005aedb0(Script* apScript, TESObjectREFR* apOwnerObject
         compileData.m_pName = DAT_0118ca7c[compileData.m_eCompilerIndex];
     else
         reinterpret_cast<::TextString *>((((BSStr*)&compileData.m_pName)))->FUN_004037f0(((BGSCameraPath*)compileData.pScript)->GetEditorID(), 0);
-    compileData.pText = ((char *)(reinterpret_cast<::BGSMessageInitAccess *>((apScript))->GetIconFormID()));
+    compileData.pText = ((char *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((apScript))->GetIconFormID()));
     bResult = FUN_005aeb90(apScript, &compileData);
     return bResult;
 }
@@ -647,7 +668,7 @@ void* Cls_5afe30::GetNodeValue(unsigned int uiIndex)
         ++uiPos;
         p = ((::Node_5afe30 *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
     }
-    return *((void **)(new ((void *)(p)) ::Vec3()));
+    return *((void **)((void *)(p)));
 }
 
 struct ScriptCommandView
@@ -772,7 +793,7 @@ void FUN_005ae730_shell::FUN_005ae730()
     while (list && !list->_ref_008256d0())
     {
         HairObject* object;
-        void* item = ((void *)(new ((void *)(list)) ::Vec3()));
+        void* item = ((void *)((void *)(list)));
         object = static_cast<HairObject*>(item);
         object ? reinterpret_cast<::p07::DelStandIn *>((object))->DestroyAndFree_0061cb30(1) : 0;
         list->_ref_0063f7b0();
@@ -897,9 +918,9 @@ bool CompilerCtx::ResolveReference(ScriptRefHolder* apRef)
 
     cur = ((::ListNode *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()));
     apRef->m_20c = 0;
-    while (cur != 0 && ((void *)(new ((void *)(cur)) ::Vec3())) != 0)
+    while (cur != 0 && ((void *)((void *)(cur))) != 0)
     {
-        item = (Item*)((void *)(new ((void *)(cur)) ::Vec3()));
+        item = (Item*)((void *)((void *)(cur)));
         if (fnv::crt::strnicmp(((char *)(::FUN_00559450((int *)&(item->m_18)))), (const char *)(apRef), idx) == 0)
         {
             cA = ((char *)(::FUN_00559450((int *)&(item->m_18))))[idx];
@@ -969,11 +990,11 @@ void __cdecl ReportScriptError(CStringArgument* self, const char* pcFormat, ...)
                  self->m_uiLastLineNumber, msg);
     if (self->m_eCompilerIndex == 1)
     {
-        ::FUN_00703c00((const char *)(::FUN_00464f30((int)(((char *)(::FUN_00559450((int *)&(strBuf))))))), {});
+        ::FUN_00703c00((const char *)(::FUN_00464f30((std::intptr_t)(((char *)(::FUN_00559450((int *)&(strBuf))))))), {});
     }
     else
     {
-        ::FUN_005b5e40(::FUN_00464f30(strBuf))));
+        ::FUN_005b5e40();
     }
 }
 
@@ -1142,7 +1163,7 @@ int ScriptBlockScanner::ScanBlockLines(CStringArgument* apData, unsigned int* ap
     pNodeX = (LineListNode*)reinterpret_cast<::FUN_00613790_shell *>((apData))->FUN_00613790();
     while (pNodeX && !pNodeX->IsEmpty() && !bFound)
     {
-        pLine = ((::ScriptLineBuffer *)(new ((void *)(pNodeX)) ::Vec3()));
+        pLine = ((::ScriptLineBuffer *)((void *)(pNodeX)));
         if (pLine->m_uiValueBeforeData > *apStartLine)
         {
             eType4 = pLine->unk410;
@@ -1383,7 +1404,7 @@ bool ScriptCompiler::FUN_005aeb90(Script* script, FUN_00613790_shell* pSource)
                 ::ReportScriptError((::CStringArgument *)(::ScriptSource *)((ScriptSource*)pSource), scriptNameError);
                 return false;
             }
-            ScriptLineBuffer* first = (ScriptLineBuffer*)*((void **)(new ((void *)(buffer)) ::Vec3()));
+            ScriptLineBuffer* first = (ScriptLineBuffer*)*((void **)((void *)(buffer)));
             opcode = first->unk410;
             if (opcode == 0xffff)
             {
@@ -1402,7 +1423,7 @@ bool ScriptCompiler::FUN_005aeb90(Script* script, FUN_00613790_shell* pSource)
     ScriptLineBuffer* currentLine = 0;
     while (buffer && !buffer->_ref_008256d0())
     {
-        currentLine = (ScriptLineBuffer*)*((void **)(new ((void *)(buffer)) ::Vec3()));
+        currentLine = (ScriptLineBuffer*)*((void **)((void *)(buffer)));
         opcode = currentLine->unk410;
         pSource->m_uiLastLineNumber = currentLine->m_uiValueBeforeData;
         if (!reinterpret_cast<::LineCompiler *>(this)->FUN_005aff40((::CompileScript *)(script), (::CompileState *)(pSource), (::CompileLine *)(currentLine)))
@@ -1425,7 +1446,7 @@ bool FUN_005b1180_shell::FUN_005b1180(ScriptBufferS* pkBuffer)
     ScriptLineNode* pIterCur = ((::ScriptLineNode *)(reinterpret_cast<::FUN_00613790_shell *>((pkBuffer))->FUN_00613790()));
     while (pIterCur && !FUN_008256d0(pIterCur))
     {
-        ScriptLineS* pkLine = ((::ScriptLineS *)(new ((void *)(pIterCur)) ::Vec3()));
+        ScriptLineS* pkLine = ((::ScriptLineS *)((void *)(pIterCur)));
         uiType5 = pkLine->m_uiType;
         switch (uiType5)
         {
@@ -1764,7 +1785,7 @@ int FUN_005b12c0_owner::CountLinesInBeginBlock(CStringArgument* apData, unsigned
     ScriptLine* line6;
     while (node5 && !node5->FUN_008256d0() && !done)
     {
-        line6 = *((::fnv_005b12c0::ScriptLine **)(new ((void *)(node5)) ::Vec3()));
+        line6 = *((::fnv_005b12c0::ScriptLine **)((void *)(node5)));
         if (line6->m_uiValueBeforeData > *apLineNumber)
         {
             type = line6->unk410;
@@ -1826,7 +1847,7 @@ void Owner5AE6C0::ClearList()
     List5AE6C0* pkList = ((::List5AE6C0 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     while (pkList && !pkList->IsEmpty())
     {
-        delete ((::Item5AE6C0 *)(new ((void *)(pkList)) ::Vec3()));
+        delete ((::Item5AE6C0 *)((void *)(pkList)));
         pkList->RemoveHead();
     }
 }
@@ -2013,9 +2034,9 @@ struct FUN_005afa50_obj
 bool FUN_005afa50_shell::FUN_005afa50()
 {
     FUN_005afa50_list* list = &m_kReferencedObjectList;
-    while (list != 0 && ((void *)(new ((void *)(list)) ::Vec3())) != 0)
+    while (list != 0 && ((void *)((void *)(list))) != 0)
     {
-        FUN_005afa50_obj* item = (FUN_005afa50_obj*)((void *)(new ((void *)(list)) ::Vec3()));
+        FUN_005afa50_obj* item = (FUN_005afa50_obj*)((void *)((void *)(list)));
         list = ((::fnv_005afa50::FUN_005afa50_list *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
         if (item->m_08 == 0 && item->m_0c == 0)
         {
@@ -2293,4 +2314,1978 @@ bool __cdecl FUN_005b3cd0(unsigned short opcode, MessageParameter_5b3c* apParame
     }
 }
 
+class TESForm_ctx
+{
+  public:
+    virtual ~TESForm_ctx();
+    int FUN_00401170();
+public:
+    static ::TESForm_ctx *LookupFormByEditorID(const char *);
+};
+
+class TESObjectREFR_ctx : public TESForm_ctx
+{
+  public:
+};
+
+struct BSStringT_char
+{
+    char* data;
+    unsigned short length, capacity;
+};
+
+class ScriptReferencedObject
+{
+  public:
+    BSStringT_char name;
+    TESForm_ctx* form;
+    unsigned int variableID;
+    ScriptReferencedObject();
+    ~ScriptReferencedObject();
+};
+
+template <class T> struct BSSimpleList
+{
+    T item;
+    BSSimpleList* next;
+    T& FUN_006815c0();
+    BSSimpleList* FUN_00726070();
+    void FUN_00905820(const T&);
+};
+
+struct ScriptInfo
+{
+    unsigned int variableCount, m_uiReferenceID, dataSize, lastID;
+    unsigned short type;
+    bool compiled;
+    unsigned char unk13;
+};
+
+struct ScriptToken
+{
+    char name[0x200];
+    unsigned int refIndex;
+    unsigned char type;
+    unsigned int opcode;
+    unsigned int variableID;
+    TESForm_ctx* form;
+    unsigned int unk214, unk218, paramTextLen;
+};
+
+struct CStringArgument_ctx
+{
+    char* scriptText;
+    unsigned int textOffset;
+    int runtimeMode;
+    BSStringT_char scriptName;
+    unsigned int errorCode;
+    bool partialScript;
+    unsigned int curLineNumber;
+    unsigned char* scriptData;
+    unsigned int dataOffset;
+    ScriptInfo info;
+    BSSimpleList<void*> vars;
+    BSSimpleList<ScriptReferencedObject*> refVars;
+    void* currentScript;
+    BSSimpleList<void*> lines;
+    bool FUN_005afad0(ScriptToken*, bool, bool);
+};
+
+unsigned int FUN_005afe10(const char*, char**, int);
+
+// @fnv 0x005afad0
+bool CStringArgument_ctx::FUN_005afad0(ScriptToken* token, bool variable, bool allowUnknown)
+{
+    bool result = false;
+    unsigned int index = 1;
+    BSSimpleList<ScriptReferencedObject*>* entry = &refVars;
+    while (entry && (entry->item))
+    {
+        if (!reinterpret_cast<::B408A80String *>((void *)&((entry->item)->name))->FUN_00408a80(token->name, true))
+        {
+            token->refIndex = index;
+            token->form = (entry->item)->form;
+            if (variable)
+                (entry->item)->variableID = token->variableID;
+            else
+                token->variableID = (entry->item)->variableID;
+            result = true;
+            break;
+        }
+        entry = ((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070()));
+        index++;
+    }
+    if (!result)
+    {
+        ScriptReferencedObject* reference = new ScriptReferencedObject;
+        if (variable)
+            result = true;
+        else
+        {
+            if (!FUN_00404dc0(token->name, "Player"))
+            {
+                reference->form = (*reinterpret_cast<::TESForm_ctx * *>(&::_g_thePlayer));
+                result = true;
+            }
+            if (!result)
+            {
+                reference->form = ::TESForm_ctx::LookupFormByEditorID(token->name);
+                if (reference->form)
+                {
+                    if (reference->form->FUN_00401170() == 3)
+                        reference->form = 0;
+                    else
+                        result = true;
+                }
+            }
+            if (!result)
+            {
+                char* end = 0;
+                unsigned int formID = FUN_005afe10(token->name, &end, 16);
+                if (formID && end && !*end)
+                {
+                    reference->form = (TESForm_ctx*)FUN_004839c0(formID);
+                    if (reference->form)
+                        result = true;
+                }
+            }
+            if (result && runtimeMode != 1)
+            {
+                TESObjectREFR_ctx* refr = dynamic_cast<TESObjectREFR_ctx*>(reference->form);
+                if (refr && !reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((refr))->FUN_005653d0())
+                {
+                    ReportScriptError((CStringArgument*)this, "Non-persistent reference '%s' cannot be used in a script.", token->name);
+                    result = false;
+                }
+            }
+        }
+        if (result || allowUnknown)
+        {
+            result = true;
+            if (variable)
+            {
+                reference->form = 0;
+                reference->variableID = token->variableID;
+            }
+            else
+            {
+                token->form = reference->form;
+                reference->variableID = 0;
+            }
+            reinterpret_cast<::TextString *>(&(reference->name))->FUN_004037f0(token->name, 0);
+            info.m_uiReferenceID++;
+            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_00905820((void *)&(reference));
+            token->refIndex = info.m_uiReferenceID;
+        }
+        else
+            delete reference;
+    }
+    return result;
+}
+
+extern const char missingSetExpression[];
+
+struct CompileLine;
+
+struct CompileState;
+
+struct CompileWord
+{
+    char text[512];
+    unsigned refIndex;
+    char variableType;
+    unsigned functionCode;
+    unsigned variableID;
+    void* form;
+    CompileWord();
+};
+
+struct CompileString
+{
+    char* text;
+    unsigned short length, capacity;
+};
+
+struct CompileVariable
+{
+    unsigned id;
+    unsigned unk04, unk08, unk0c;
+    bool integer;
+    unsigned char unk11;
+    unsigned short unk12;
+    unsigned unk14;
+    CompileString name;
+    CompileVariable();
+};
+
+struct CompileVariables
+{
+};
+
+struct CompileReference
+{
+    unsigned unk00, unk04;
+    TESForm_ctx* form;
+    unsigned variableID;
+};
+
+struct CompileScript
+{
+};
+
+struct CompileState
+{
+    unsigned unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    char* output;
+    unsigned outputSize;
+    unsigned unk28, unk2c, unk30;
+    unsigned variableCount;
+    bool partial;
+};
+
+struct CompileLine
+{
+    unsigned lineNumber;
+    char input[512];
+    unsigned inputSize, inputOffset;
+    char output[512];
+    unsigned outputSize;
+    int kind;
+    unsigned refIndex;
+    unsigned error;
+    CompileLine();
+};
+
+typedef bool(__cdecl* CompileCallback)(unsigned short, void*, CompileLine*, CompileState*);
+
+struct CompileCommand
+{
+    const char* name;
+    const char* alias;
+    unsigned short opcode, unk0a;
+    unsigned unk0c;
+    bool requiresReference;
+    unsigned char unk11;
+    unsigned short parameterCount;
+    void* parameters;
+    unsigned unk18;
+    CompileCallback compile;
+    unsigned unk20, unk24;
+};
+
+extern unsigned DAT_011cadbc;
+
+int FUN_005af5f0(CompileState*, CompileWord*, char*, unsigned*, unsigned char, int);
+
+bool FUN_005afeb0(const char*);
+
+bool FUN_005b1a90(const char*, unsigned);
+
+struct CompileOperand
+{
+    unsigned kind, unk04, unk08, unk0c;
+};
+
+struct CompileOperators
+{
+    unsigned values[64];
+    int top;
+};
+
+struct CompileOperands
+{
+    CompileOperand values[32];
+    int top;
+};
+
+struct CompileExpression
+{
+    int error;
+    char output[1024];
+    CompileOperators operators;
+    CompileOperands operands;
+    CompileExpression();
+    ~CompileExpression();
+};
+
+struct LineCompiler_ctx
+{
+    bool FUN_005aff40(CompileScript*, CompileState*, CompileLine*);
+};
+
+// @fnv 0x005aff40
+bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compiler, CompileLine* line)
+{
+    CompileWord word6;
+
+    unsigned offset_2 = 0;
+
+    CompileExpression expression5;
+    char* expressionCodeVal9;
+
+    line->outputSize = 0;
+    line->inputOffset = 0;
+
+    switch (line->kind)
+    {
+    case 29:
+        break;
+
+    case 16:
+        if (FUN_005af5f0(compiler, &word6, line->input, &line->inputOffset, 0, 0))
+        {
+            int i;
+            bool found7 = false;
+
+            for (i = 0; i < 38; ++i)
+            {
+                if (!FUN_00404dc0((*reinterpret_cast<CompileCommand (*)[]>(&::g_scriptBlocks))[i].name, word6.text) || !FUN_00404dc0((*reinterpret_cast<CompileCommand (*)[]>(&::g_scriptBlocks))[i].alias, word6.text))
+                {
+                    found7 = true;
+                    break;
+                }
+            }
+            if (found7)
+            {
+                *(unsigned short*)(line->output + line->outputSize) = (unsigned short)((*reinterpret_cast<CompileCommand (*)[]>(&::g_scriptBlocks))[i].opcode);
+                line->outputSize += 2;
+
+                int length = 0;
+                length = reinterpret_cast<::fnv_005b12c0::FUN_005b12c0_owner *>(this)->CountLinesInBeginBlock((::fnv_005b12c0::CStringArgument *)(compiler), (unsigned int *)(line));
+
+                if (length == -1)
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Mismatched begin/end block.");
+                    return false;
+                }
+                *(unsigned*)(line->output + line->outputSize) = 0x55555555;
+
+                DAT_011cadbc = compiler->outputSize + line->outputSize;
+
+                line->outputSize += 4;
+
+                CompileCommand* command = &(*reinterpret_cast<CompileCommand (*)[]>(&::g_scriptBlocks))[i];
+
+                if (command)
+                {
+                    if (command->requiresReference && compiler->partial)
+                    {
+                        ::ReportScriptError((::CStringArgument *)(compiler), "Invalid block type for quest script.");
+                        return false;
+                    }
+                    if (command && command->parameters)
+                    {
+                        void* blockParameters0 = command->parameters;
+
+                        CompileCallback blockCallback11 = command->compile;
+
+                        unsigned short count = command->parameterCount;
+
+                        CompileLine parametersLine;
+
+                        ::TaskQueueInterface::CopyStringToBuffer(parametersLine.input, 512, line->input + line->inputOffset);
+
+                        parametersLine.outputSize = 0;
+
+                        parametersLine.lineNumber = line->lineNumber;
+
+                        if (!blockCallback11(count, blockParameters0, &parametersLine, compiler))
+                            return false;
+
+                        ::__memcpy(line->output + line->outputSize, parametersLine.output, parametersLine.outputSize);
+
+                        line->outputSize += parametersLine.outputSize;
+                    }
+                }
+                if (DAT_011cadbc)
+                {
+                    *(unsigned*)(line->output + (DAT_011cadbc - compiler->outputSize)) =
+                        compiler->outputSize + line->outputSize;
+                }
+            }
+            else
+            {
+                ::ReportScriptError((::CStringArgument *)(compiler), "Syntax Error.  Invalid block type in 'begin' command.");
+                return false;
+            }
+        }
+        else
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), "Syntax Error.  Missing block type in 'begin' command.");
+            return false;
+        }
+        break;
+
+    case 17:
+        if (DAT_011cadbc)
+        {
+            unsigned start6 = *(unsigned*)(compiler->output + (DAT_011cadbc + 4));
+
+            *(unsigned*)(compiler->output + (DAT_011cadbc + 4)) = compiler->outputSize - start6;
+            DAT_011cadbc = 0;
+        }
+        else
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), "Syntax Error.  Failed to store the 'begin' 'end' jump block.");
+            return false;
+        }
+    case 30:
+        break;
+    case 18:
+    case 19:
+    case 20:
+    case 31:
+        if (FUN_005af5f0(compiler, &word6, line->input, &line->inputOffset, 0, 0))
+        {
+            const char* variableName1 = word6.text;
+
+            if (!FUN_005afeb0(variableName1))
+            {
+                ::ReportScriptError((::CStringArgument *)(compiler), "Invalid variable name '%s'.\r\nCompiled script not saved!", variableName1);
+                return false;
+            }
+            CompileVariable* variableInfo0 = new CompileVariable;
+
+            variableInfo0->integer = (line->kind != 20 && line->kind != 31) ? 1 : 0;
+
+            reinterpret_cast<::TextString *>(&(variableInfo0->name))->FUN_004037f0(variableName1, 0);
+
+            if (((signed char)(reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((script))->Method_005ac6a0(((const char *)(::FUN_00559450((int *)&(variableInfo0->name)))), (unsigned int *)(variableInfo0)))))
+            {
+            }
+            else
+            {
+                compiler->variableCount++;
+                variableInfo0->id = compiler->variableCount;
+            }
+            reinterpret_cast<::Callees *>((((::CompileVariables *)(reinterpret_cast<struct ::FUN_005a8080 *>((compiler))->GetField()))))->FUN_00905820((void *)&(variableInfo0));
+
+            if (line->kind == 31)
+            {
+                word6.variableID = variableInfo0->id;
+                reinterpret_cast<::CStringArgument_ctx *>((compiler))->FUN_005afad0((::ScriptToken *)(::CompileWord *)(&word6), true, false);
+            }
+        }
+        else
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), "Missing variable name in variable declaration.");
+            return false;
+        }
+        break;
+
+    case 21: {
+        if (!FUN_005af5f0(compiler, &word6, line->input, &line->inputOffset, 1, 1))
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), "Missing variable name in set command.");
+            return false;
+        }
+        if (!word6.variableType || word6.variableType == 'X')
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), "Unknown variable '%s'.", &word6);
+            return false;
+        }
+        CompileWord setWord20;
+
+        FUN_005af5f0(compiler, &setWord20, line->input, &line->inputOffset, 0, 0);
+
+        if (tolower(setWord20.text[0]) != 't' || tolower(setWord20.text[1]) != 'o')
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), "Syntax Error.  Missing \"to\" in set command.");
+            return false;
+        }
+        if (word6.refIndex > 0)
+        {
+            if (word6.variableType == 'G')
+            {
+                line->output[line->outputSize] = 'G';
+                line->outputSize++;
+            }
+            else
+            {
+                line->output[line->outputSize] = 'r';
+                line->outputSize++;
+            }
+            *(unsigned short*)(line->output + line->outputSize) = (unsigned short)(word6.refIndex);
+            line->outputSize += 2;
+        }
+        if (word6.variableID > 0)
+        {
+            line->output[line->outputSize] = word6.variableType;
+            line->outputSize++;
+            *(unsigned short*)(line->output + line->outputSize) = (unsigned short)(word6.variableID);
+            line->outputSize += 2;
+        }
+        if (!FUN_005b1a90(line->input, line->inputOffset))
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), "Syntax Error.  Mismatched parentheses in set command.");
+            return false;
+        }
+        ::FUN_005b1b60(line->input, (int *)(unsigned int *)(&line->inputOffset));
+
+        char setText20[512];
+        ::FUN_00403d30(setText20, 0, 512);
+
+        int setLength1 = 0;
+        setLength1 = reinterpret_cast<::FUN_005b1570_Class *>(this)->CompileScriptLine((::CStringArgument *)(compiler), (unsigned int *)(line), (char *)(line->input + line->inputOffset), setText20);
+
+        if (!setLength1)
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), missingSetExpression);
+            return false;
+        }
+        expressionCodeVal9 = reinterpret_cast<::ExpressionConverter *>(&(expression5))->ConvertToPostfix(setText20, (unsigned int *)(int *)(&setLength1));
+
+        if (::FUN_00559450((int *)&(expression5)))
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), "InfixToPostfix Error.");
+            return false;
+        }
+        *(unsigned short*)(line->output + line->outputSize) = (unsigned short)(setLength1);
+        line->outputSize += 2;
+
+        ::__memcpy(line->output + line->outputSize, expressionCodeVal9, setLength1);
+        line->outputSize += setLength1;
+    }
+    break;
+
+    case 22:
+    case 24: {
+        offset_2 = 0;
+
+        if (!FUN_005b1a90(line->input, offset_2))
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), "Mismatched parentheses.");
+            return false;
+        }
+        ::FUN_005b1b60(line->input, (int *)(unsigned int *)(&offset_2));
+
+        char branchText7[512];
+        ::FUN_00403d30(branchText7, 0, 512);
+
+        int branchLength10 = 0;
+        branchLength10 = reinterpret_cast<::FUN_005b1570_Class *>(this)->CompileScriptLine((::CStringArgument *)(compiler), (unsigned int *)(line), (char *)(line->input + offset_2), branchText7);
+
+        if (!branchLength10)
+            return false;
+
+        expressionCodeVal9 = reinterpret_cast<::ExpressionConverter *>(&(expression5))->ConvertToPostfix(branchText7, (unsigned int *)(int *)(&branchLength10));
+
+        if (::FUN_00559450((int *)&(expression5)))
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), ::g_expressionErrorStrings[::FUN_00559450((int *)&(expression5))]);
+            return false;
+        }
+        int branchJump11 = reinterpret_cast<::ScriptBlockScanner *>(this)->ScanBlockLines((::CStringArgument *)(compiler), (unsigned int *)(line));
+
+        if (branchJump11 == -1)
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), "Mismatched if/then/else block.");
+            return false;
+        }
+        *(unsigned short*)(line->output + line->outputSize) = (unsigned short)(branchJump11);
+        line->outputSize += 2;
+        *(unsigned short*)(line->output + line->outputSize) = (unsigned short)(branchLength10);
+        line->outputSize += 2;
+
+        ::__memcpy(line->output + line->outputSize, expressionCodeVal9, branchLength10);
+        line->outputSize += branchLength10;
+    }
+    break;
+
+    case 23: {
+        int jump = 0;
+        jump = reinterpret_cast<::ScriptBlockScanner *>(this)->ScanBlockLines((::CStringArgument *)(compiler), (unsigned int *)(line));
+
+        if (jump == -1)
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), "Mismatched if/then/else block.");
+            return false;
+        }
+        *(unsigned short*)(line->output + line->outputSize) = (unsigned short)(jump);
+        line->outputSize += 2;
+    }
+    break;
+
+    case 28:
+        break;
+
+    case 25:
+        break;
+
+    default: {
+        CompileCommand* command = ((::CompileCommand *)(::GetFunctionByOpcode((::SCRIPT_OUTPUT)(line->kind))));
+
+        if (!command)
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), "Unknown function code %d.", line->kind);
+            return false;
+        }
+        if (command)
+        {
+            if (command->requiresReference && compiler->partial && !line->refIndex)
+            {
+                ::ReportScriptError((::CStringArgument *)(compiler), "Reference function requires explicit reference in quest script.");
+                return false;
+            }
+            if (command->requiresReference && line->refIndex > 0)
+            {
+                CompileReference* ref2 = ((::CompileReference *)(reinterpret_cast<::Cls_5afe30 *>((compiler))->GetNodeValue(line->refIndex)));
+
+                TESObjectREFR_ctx* object = dynamic_cast<TESObjectREFR_ctx*>(ref2->form);
+
+                if (!object && !ref2->variableID)
+                {
+                    ::ReportScriptError(
+                        (::CStringArgument *)(compiler),
+                        "Syntax error.  Invalid reference '%s' (only object references and reference variables are allowed in this context).",
+                        ((const char *)(::FUN_00559450((int *)(ref2)))));
+                    return false;
+                }
+            }
+            if (command->parameters)
+            {
+                void* commandParameters0 = command->parameters;
+
+                CompileCallback commandCallback1 = command->compile;
+
+                unsigned short commandCount3 = command->parameterCount;
+
+                if (!commandCallback1(commandCount3, commandParameters0, line, compiler))
+                    return false;
+            }
+        }
+    }
+    break;
+    }
+    switch (line->kind)
+    {
+    case 18:
+    case 19:
+    case 20:
+    case 31:
+        break;
+
+    default:
+        if (compiler->outputSize + line->outputSize + 10 >= 0x4000)
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), "MAX_SCRIPT_SIZE exceeded.\r\nCompiled script not saved!");
+            return false;
+        }
+        if (line->refIndex > 0)
+        {
+            *(unsigned short*)(compiler->output + compiler->outputSize) = (unsigned short)(28);
+            compiler->outputSize += 2;
+            *(unsigned short*)(compiler->output + compiler->outputSize) = (unsigned short)(line->refIndex);
+            compiler->outputSize += 2;
+        }
+        *(unsigned short*)(compiler->output + compiler->outputSize) = (unsigned short)(line->kind);
+        compiler->outputSize += 2;
+        *(unsigned short*)(compiler->output + compiler->outputSize) = (unsigned short)(line->outputSize);
+        compiler->outputSize += 2;
+
+        ::__memcpy(compiler->output + compiler->outputSize, line->output, line->outputSize);
+        compiler->outputSize += line->outputSize;
+    }
+    return true;
+}
+
+extern "C" void* _FNV_DynamicCast(void*, int, void*, void*, int);
+
+struct EncodeFormView : TESForm
+{
+
+    virtual void slot00();
+
+    virtual void slot04();
+
+    virtual void slot08();
+
+    virtual void slot0c();
+
+    virtual void slot10();
+
+    virtual void slot14();
+
+    virtual void slot18();
+
+    virtual void slot1c();
+
+    virtual void slot20();
+
+    virtual void slot24();
+
+    virtual void slot28();
+
+    virtual void slot2c();
+
+    virtual void slot30();
+
+    virtual void slot34();
+
+    virtual void slot38();
+
+    virtual void slot3c();
+
+    virtual void slot40();
+
+    virtual void slot44();
+
+    virtual void slot48();
+
+    virtual void slot4c();
+
+    virtual void slot50();
+
+    virtual void slot54();
+
+    virtual void slot58();
+
+    virtual void slot5c();
+
+    virtual void slot60();
+
+    virtual void slot64();
+
+    virtual void slot68();
+
+    virtual void slot6c();
+
+    virtual void slot70();
+
+    virtual void slot74();
+
+    virtual void slot78();
+
+    virtual void slot7c();
+
+    virtual void slot80();
+
+    virtual void slot84();
+
+    virtual void slot88();
+
+    virtual void slot8c();
+
+    virtual void slot90();
+
+    virtual void slot94();
+
+    virtual void slot98();
+
+    virtual void slot9c();
+
+    virtual void slota0();
+
+    virtual void slota4();
+
+    virtual void slota8();
+
+    virtual void slotac();
+
+    virtual void slotb0();
+
+    virtual void slotb4();
+
+    virtual void slotb8();
+
+    virtual void slotbc();
+
+    virtual void slotc0();
+
+    virtual void slotc4();
+
+    virtual void slotc8();
+
+    virtual void slotcc();
+
+    virtual void slotd0();
+
+    virtual void slotd4();
+
+    virtual void slotd8();
+
+    virtual void slotdc();
+
+    virtual void slote0();
+
+    virtual void slote4();
+
+    virtual bool IsReference();
+
+    virtual void slotec();
+
+    virtual void slotf0();
+
+    virtual void slotf4();
+
+    virtual void slotf8();
+
+    virtual void slotfc();
+
+    virtual bool IsActor();
+};
+
+struct BGSNote;
+
+struct BGSListForm;
+
+struct EncodeReferenceView : EncodeFormView
+{
+};
+
+struct BGSEncounterZone;
+
+struct TESIdleForm;
+
+struct EncodeCellView
+{
+};
+
+struct TESObject;
+
+struct EffectSetting;
+
+struct TESActorBase;
+
+struct TESPackage;
+
+struct BGSPerk;
+
+struct BGSMenuIcon;
+
+struct TESCombatStyle;
+
+struct TESObjectBOOK;
+
+struct TESWorldSpace;
+
+struct SpellItem;
+
+struct MagicItem;
+
+extern char DAT_0118a650[];
+
+extern char DAT_011840dc[];
+
+extern char DAT_01186a18[];
+
+extern char DAT_011863d4[];
+
+extern char DAT_011863f0[];
+
+extern char DAT_0118640c[];
+
+extern char DAT_01183128[];
+
+extern char DAT_0118627c[];
+
+struct EncodeWord
+{
+    char text[512];
+    unsigned refIndex;
+    char variableType;
+    unsigned functionCode;
+    unsigned variableID;
+    TESForm* form;
+    EncodeWord();
+};
+
+struct EncodeCompiler
+{
+};
+
+struct EncodeParameter
+{
+    const char* name;
+    unsigned type;
+    bool optional;
+};
+
+struct EncodeKind
+{
+    const char* name;
+    unsigned char kind;
+    bool isReference;
+    unsigned short reserved;
+};
+
+extern const char* DAT_01199e90;
+
+struct EncodeAnimation
+{
+    const char* name;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+};
+
+// @fnv 0x005b1ba0
+bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameters, ScriptLineBuffer* line,
+                          EncodeCompiler* compiler)
+
+{
+
+    line->uiElapsedMilliseconds = 0;
+
+    char* countDestinationTmp = &line->cOutput[line->m_uiValueAfterSecondBuffer];
+
+    *(unsigned short*)countDestinationTmp = count;
+
+    line->m_uiValueAfterSecondBuffer += 2;
+
+    short index4;
+
+    for (index4 = 0; index4 < count; ++index4)
+    {
+
+        unsigned char kindX = (*reinterpret_cast<EncodeKind (*)[]>(&::DAT_0118cdd0))[parameters[index4].type].kind;
+
+        EncodeWord word7;
+
+        int lengthVal = ::FUN_005af5f0((::CompilerShell *)(compiler), (::ScriptVariableData *)(::EncodeWord *)(&word7), line->cLine, (int *)(unsigned int *)(&line->uiElapsedMilliseconds), kindX, 0);
+
+        if (!lengthVal)
+        {
+
+            if (!parameters[index4].optional)
+            {
+                ::ReportScriptError((::CStringArgument *)(compiler), "Missing parameter %s.\r\nCompiled script not saved!", parameters[index4].name);
+                return false;
+            }
+
+            else
+            {
+                *(unsigned short*)countDestinationTmp = index4;
+                return true;
+            }
+        }
+
+        if (kindX == 0 && (word7.refIndex > 0 || word7.variableType != 0))
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), "Parameter %s may not be a variable.\r\nCompiled script not saved!",
+                         parameters[index4].name);
+            return false;
+        }
+
+        if ((*reinterpret_cast<EncodeKind (*)[]>(&::DAT_0118cdd0))[parameters[index4].type].isReference &&
+            (!reinterpret_cast<::CStringArgument *>((compiler))->FUN_005afad0((::ScriptToken *)(::EncodeWord *)(&word7), false, false) || !word7.refIndex))
+        {
+            ::ReportScriptError((::CStringArgument *)(compiler), "Item '%s' not found for parameter %s.\r\nCompiled script not saved!", &word7,
+                         parameters[index4].name);
+            return false;
+        }
+
+        if ((*reinterpret_cast<EncodeKind (*)[]>(&::DAT_0118cdd0))[parameters[index4].type].isReference)
+        {
+
+            switch (parameters[index4].type)
+            {
+
+            case 3: {
+
+                if (!word7.variableID && (!word7.form || !::TESContainer::IsValidContainerType(word7.form->FUN_00401170())))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler),
+                                 "Invalid inventory object '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 50: {
+
+                if (!word7.variableID &&
+                    (!word7.form || (!::TESContainer::IsValidContainerType(word7.form->FUN_00401170()) && word7.form->FUN_00401170() != 85)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler),
+                                 "Invalid inventory object '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 53: {
+
+                if (!word7.variableID &&
+                    (!word7.form || (!reinterpret_cast<EncodeFormView*>(word7.form)->IsReference() &&
+                                     word7.form->FUN_00401170() != 85)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid object '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 4:
+            case 6:
+            case 24:
+            case 26: {
+
+                if (!word7.variableID)
+                {
+                    EncodeReferenceView* reference =
+                        (EncodeReferenceView*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), (*reinterpret_cast<char (*)[]>(&::DAT_011841cc)), 0);
+
+                    if (!reference)
+                    {
+                        ::ReportScriptError((::CStringArgument *)(compiler),
+                                     "Invalid object reference '%s' for parameter %s.\r\nCompiled script not saved!",
+                                     &word7, parameters[index4].name);
+                        return false;
+                    }
+
+                    switch (parameters[index4].type)
+                    {
+
+                    case 26:
+                        if (!((void *)(reinterpret_cast<::s55d310::Owner *>((reference))->FUN_0055d310())))
+                        {
+                            ::ReportScriptError(
+                                (::CStringArgument *)(compiler),
+                                "Invalid container reference '%s' for parameter %s.\r\nCompiled script not saved!",
+                                &word7, parameters[index4].name);
+                            return false;
+                        }
+                        break;
+
+                    case 24:
+                        if (((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())) != (*reinterpret_cast<::TESForm * *>(&::DAT_011ca224)))
+                        {
+                            ::ReportScriptError((::CStringArgument *)(compiler),
+                                         "Invalid map marker '%s' for parameter %s.\r\nCompiled script not saved!",
+                                         &word7, parameters[index4].name);
+                            return false;
+                        }
+                        break;
+
+                    case 6:
+                        if (!reference->IsActor())
+                        {
+                            ::ReportScriptError((::CStringArgument *)(compiler), "Invalid actor '%s' for parameter %s.\r\nCompiled script not saved!",
+                                         &word7, parameters[index4].name);
+                            return false;
+                        }
+                        break;
+                    }
+                }
+            }
+            break;
+
+            case 7: {
+
+                if (!word7.variableID &&
+                    (!word7.form || (!(SpellItem*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_01183060, 0) &&
+                                     !(TESObjectBOOK*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_0118a650, 0))))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid spell item '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 9: {
+
+                EncodeCellView* object =
+                    (EncodeCellView*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), (*reinterpret_cast<char (*)[]>(&::DAT_01183fb4)), 0);
+
+                if (!word7.variableID && (!object || !reinterpret_cast<::TESObjectCELL *>((object))->IsCellInterior()))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid interior cell '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 47: {
+
+                BGSEncounterZone* object =
+                    (BGSEncounterZone*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_011840dc, 0);
+
+                if (!word7.variableID && !object)
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler),
+                                 "Invalid encounter zone '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                                 parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 48: {
+
+                TESIdleForm* object = (TESIdleForm*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_01186a18, 0);
+
+                if (!word7.variableID && !object)
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid Idle form'%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 37: {
+
+                BGSListForm* object = (BGSListForm*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_011863d4, 0);
+
+                if (!word7.variableID && !object)
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid form list '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 38: {
+
+                BGSMenuIcon* object = (BGSMenuIcon*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_011863f0, 0);
+
+                if (!word7.variableID && !object)
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid menu icon '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 39: {
+
+                BGSPerk* object = (BGSPerk*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_011861dc, 0);
+
+                if (!word7.variableID && !object)
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid perk '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                                 parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 40: {
+
+                BGSNote* object = (BGSNote*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_0118640c, 0);
+
+                if (!word7.variableID && !object)
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid note '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                                 parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 27: {
+
+                if (!word7.variableID &&
+                    (!word7.form || !(TESWorldSpace*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_01183fd0, 0)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid worldspace '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 11: {
+
+                if (!word7.variableID &&
+                    (!word7.form || !(MagicItem*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), (*reinterpret_cast<char (*)[]>(&::DAT_01183140)), 0)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid magic item '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 31: {
+
+                if (!word7.variableID &&
+                    (!word7.form || !(EffectSetting*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_011837c4, 0)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler),
+                                 "Invalid effect setting '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                                 parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 12: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 13)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid sound '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                                 parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 54: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 102)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid music type '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 13: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 69)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid topic '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                                 parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 14: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 71)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid info '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                                 parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 15: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 12)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid race '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                                 parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 16: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 7)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid class '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                                 parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 17: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 8)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid faction '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 62: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 104)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid reputation '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 65: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 113)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid challenge '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 63: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 109)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid casino '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 64: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 108)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid casino chip '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 66: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 116)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid caravan money '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 67: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 115)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid caravan card '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 68: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 117)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid caravan card '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 69: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 55)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid region '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 19: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 6)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid global '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 20: {
+
+                if (!word7.variableID &&
+                    (!word7.form || (word7.form->FUN_00401170() != 39 && word7.form->FUN_00401170() != 85)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler),
+                                 "Invalid furniture object/list '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 21: {
+
+                if (!word7.variableID &&
+                    (!word7.form || !(TESObject*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_01183128, 0)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid object '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 25: {
+
+                if (!word7.variableID &&
+                    (!word7.form || !(TESActorBase*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), (*reinterpret_cast<char (*)[]>(&::DAT_011846e8)), 0)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid actor base '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 29: {
+
+                if (!word7.variableID &&
+                    (!word7.form || !(TESPackage*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), (*reinterpret_cast<char (*)[]>(&::DAT_011846a0)), 0)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid package '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 30: {
+
+                if (!word7.variableID &&
+                    (!word7.form || !(TESCombatStyle*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_0118627c, 0)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid combat style '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 33: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 53)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid weather '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 42: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 84)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler),
+                                 "Invalid Imagespace Modifier '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 43: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 83)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid Imagespace '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 34: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 42)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid NPC '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                                 parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 35: {
+
+                if (!word7.variableID &&
+                    (!word7.form || (word7.form->FUN_00401170() != 42 && word7.form->FUN_00401170() != 8)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid owner '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                                 parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 36: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 79)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid Effect Shader '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 49: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 98)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid message '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 56: {
+
+                if (!word7.variableID &&
+                    (!word7.form || (word7.form->FUN_00401170() != 42 && word7.form->FUN_00401170() != 45)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler),
+                                 "Invalid NPC or LeveledCharacter '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 57: {
+
+                if (!word7.variableID &&
+                    (!word7.form || (word7.form->FUN_00401170() != 43 && word7.form->FUN_00401170() != 44)))
+                {
+                    ::ReportScriptError(
+                        (::CStringArgument *)(compiler),
+                        "Invalid Creature or LeveledCreature '%s' for parameter %s.\r\nCompiled script not saved!",
+                        &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 58: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 45)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler),
+                                 "Invalid LeveledCharacter '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 59: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 44)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler),
+                                 "Invalid LeveledCreature '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                                 parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 60: {
+
+                if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 52)))
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid LeveledItem '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 61: {
+
+                if (!word7.variableID && !word7.form)
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid form '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                                 parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            default:
+                ::FUN_005b5e40(
+                    );
+                return false;
+            }
+
+            char* output = line->cOutput;
+
+            output[line->m_uiValueAfterSecondBuffer] = 'r';
+            line->m_uiValueAfterSecondBuffer++;
+
+            *(unsigned short*)(output + line->m_uiValueAfterSecondBuffer) = (unsigned short)word7.refIndex;
+
+            line->m_uiValueAfterSecondBuffer += 2;
+        }
+        else
+            switch (parameters[index4].type)
+            {
+
+            case 0:
+
+                *(unsigned short*)(line->cOutput + line->m_uiValueAfterSecondBuffer) = (unsigned short)lengthVal;
+
+                line->m_uiValueAfterSecondBuffer += 2;
+
+                ::__memcpy(line->cOutput + line->m_uiValueAfterSecondBuffer, &word7, lengthVal);
+
+                line->m_uiValueAfterSecondBuffer += lengthVal;
+
+                break;
+
+            case 1:
+            case 2:
+            case 23: {
+
+                char* output = line->cOutput;
+
+                if (word7.refIndex > 0)
+                {
+
+                    if (word7.variableType == 'G')
+                    {
+                        output[line->m_uiValueAfterSecondBuffer] = 'G';
+                        line->m_uiValueAfterSecondBuffer++;
+                    }
+                    else
+                    {
+                        output[line->m_uiValueAfterSecondBuffer] = 'r';
+                        line->m_uiValueAfterSecondBuffer++;
+                    }
+
+                    *(unsigned short*)(output + line->m_uiValueAfterSecondBuffer) = (unsigned short)word7.refIndex;
+                    line->m_uiValueAfterSecondBuffer += 2;
+                }
+
+                if (word7.variableType != 'G')
+                {
+
+                    if (word7.variableID > 0)
+                    {
+
+                        output[line->m_uiValueAfterSecondBuffer] = word7.variableType;
+                        line->m_uiValueAfterSecondBuffer++;
+
+                        *(unsigned short*)(output + line->m_uiValueAfterSecondBuffer) =
+                            (unsigned short)word7.variableID;
+                        line->m_uiValueAfterSecondBuffer += 2;
+                    }
+                    else if (parameters[index4].type == 1 || parameters[index4].type == 23)
+                    {
+
+                        if (!::IsIntegerString(word7.text))
+                        {
+                            ::ReportScriptError((::CStringArgument *)(compiler),
+                                         "Unknown variable '%s' for parameter %s.\r\nCompiled script not saved!",
+                                         &word7, parameters[index4].name);
+                            return false;
+                        }
+                        else
+                        {
+
+                            output[line->m_uiValueAfterSecondBuffer] = 'n';
+                            line->m_uiValueAfterSecondBuffer++;
+
+                            int value = atol(word7.text);
+
+                            *(int*)(output + line->m_uiValueAfterSecondBuffer) = value;
+                            line->m_uiValueAfterSecondBuffer += 4;
+                        }
+                    }
+                    else
+                    {
+
+                        if (!::FUN_004b12d0((char *)(word7.text)))
+                        {
+                            ::ReportScriptError((::CStringArgument *)(compiler),
+                                         "Unknown variable '%s' for parameter %s.\r\nCompiled script not saved!",
+                                         &word7, parameters[index4].name);
+                            return false;
+                        }
+                        else
+                        {
+
+                            output[line->m_uiValueAfterSecondBuffer] = 'z';
+                            line->m_uiValueAfterSecondBuffer++;
+
+                            double value = atof(word7.text);
+
+                            *(double*)(output + line->m_uiValueAfterSecondBuffer) = value;
+                            line->m_uiValueAfterSecondBuffer += 8;
+                        }
+                    }
+                }
+            }
+            break;
+
+            case 5: {
+
+                int value = ::FindEntryIndexByName(word7.text);
+
+                if (value != 77)
+                {
+
+                    char* output = line->cOutput;
+
+                    *(unsigned short*)(output + line->m_uiValueAfterSecondBuffer) = (unsigned short)value;
+                    line->m_uiValueAfterSecondBuffer += 2;
+                }
+                else
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid actor value '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 51: {
+
+                short value = 0;
+
+                for (value = 0; value < 5; ++value)
+                {
+                    if (!FUN_00404dc0(DAT_01186cf4[value], word7.text))
+                        break;
+                }
+
+                if (value != 5)
+                {
+                    char* output = line->cOutput;
+                    *(unsigned short*)(output + line->m_uiValueAfterSecondBuffer) = (unsigned short)value;
+                    line->m_uiValueAfterSecondBuffer += 2;
+                }
+
+                else
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid alignment '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 55: {
+
+                short value = 0;
+
+                for (value = 0; value < 5; ++value)
+                {
+                    if (!FUN_00404dc0(DAT_0119bbb0[value], word7.text))
+                        break;
+                }
+
+                if (value != 5)
+                {
+                    char* output = line->cOutput;
+                    *(unsigned short*)(output + line->m_uiValueAfterSecondBuffer) = (unsigned short)value;
+                    line->m_uiValueAfterSecondBuffer += 2;
+                }
+
+                else
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid CriticalStage '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 52: {
+
+                short value = 0;
+
+                for (value = 0; value < 14; ++value)
+                {
+                    if (!FUN_00404dc0(DAT_011869bc[value], word7.text))
+                        break;
+                }
+
+                if (value != 14)
+                {
+                    char* output = line->cOutput;
+                    *(unsigned short*)(output + line->m_uiValueAfterSecondBuffer) = (unsigned short)value;
+                    line->m_uiValueAfterSecondBuffer += 2;
+                }
+
+                else
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid EquipType '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+            }
+            break;
+
+            case 41: {
+
+                int value = ::FindMiscStatIndex(word7.text);
+
+                if (value == 43)
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid misc stat '%s' for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+                else
+                {
+
+                    char* output = line->cOutput;
+                    *(unsigned short*)(output + line->m_uiValueAfterSecondBuffer) = (unsigned short)value;
+                    line->m_uiValueAfterSecondBuffer += 2;
+                }
+            }
+            break;
+
+            case 28: {
+
+                if (!::IsIntegerString(word7.text))
+                {
+                    ::ReportScriptError(
+                        (::CStringArgument *)(compiler),
+                        "Invalid crime type '%s' for parameter %s.  Crime type must be a numeric value from 0-%d.\r\nCompiled script not saved!",
+                        &word7, parameters[index4].name, 4);
+                    return false;
+                }
+
+                int value = atol(word7.text);
+
+                if (value < 0 || value >= 5)
+                {
+                    ::ReportScriptError(
+                        (::CStringArgument *)(compiler),
+                        "Invalid crime type '%s' for parameter %s.  Crime type must be a numeric value from 0-%d.\r\nCompiled script not saved!",
+                        &word7, parameters[index4].name, 4);
+                    return false;
+                }
+
+                char* output = line->cOutput;
+                *(unsigned short*)(output + line->m_uiValueAfterSecondBuffer) = (unsigned short)value;
+                line->m_uiValueAfterSecondBuffer += 2;
+            }
+            break;
+
+            case 8: {
+
+                char axis4Probe2 = (char)toupper(word7.text[0]);
+
+                if (axis4Probe2 != 'X' && axis4Probe2 != 'Y' && axis4Probe2 != 'Z')
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Axis (X,Y,Z) required for parameter %s.\r\nCompiled script not saved!",
+                                 parameters[index4].name);
+                    return false;
+                }
+
+                char* output = line->cOutput;
+                output[line->m_uiValueAfterSecondBuffer] = axis4Probe2;
+                line->m_uiValueAfterSecondBuffer++;
+            }
+            break;
+
+            case 18: {
+
+                int value = 2;
+
+                if (!FUN_00404dc0(word7.text, (*reinterpret_cast<const char * *>((void *)&::DAT_01199e8c))))
+                    value = 0;
+
+                else if (!FUN_00404dc0(word7.text, DAT_01199e90))
+                    value = 1;
+
+                if (value == 2)
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler),
+                                 "Sex (Male, Female) required for parameter %s.\r\nCompiled script not saved!",
+                                 parameters[index4].name);
+                    return false;
+                }
+
+                char* output = line->cOutput;
+                *(unsigned short*)(output + line->m_uiValueAfterSecondBuffer) = (unsigned short)value;
+                line->m_uiValueAfterSecondBuffer += 2;
+            }
+            break;
+
+            case 10: {
+
+                int value = 255;
+
+                int jProbe3;
+
+                for (jProbe3 = 0; jProbe3 < 245; ++jProbe3)
+                {
+                    if (!FUN_00404dc0(word7.text, (*reinterpret_cast<EncodeAnimation (*)[]>(&::DAT_011977d8))[jProbe3].name))
+                    {
+                        value = jProbe3;
+                        break;
+                    }
+                }
+
+                if (value == 255)
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler),
+                                 "Animation group \"%s\" not found for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+
+                char* output = line->cOutput;
+                *(unsigned short*)(output + line->m_uiValueAfterSecondBuffer) = (unsigned short)value;
+                line->m_uiValueAfterSecondBuffer += 2;
+            }
+            break;
+
+            case 32: {
+
+                unsigned char value = 0;
+
+                for (int j = 0; j < 87; ++j)
+                {
+                    if (!FUN_00404dc0(word7.text, DAT_0118a2d8[j]))
+                    {
+                        value = DAT_0118a598[j];
+                        break;
+                    }
+                }
+
+                if (!value)
+                {
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Form Type \"%s\" not found for parameter %s.\r\nCompiled script not saved!",
+                                 &word7, parameters[index4].name);
+                    return false;
+                }
+
+                char* output = line->cOutput;
+                *(unsigned short*)(output + line->m_uiValueAfterSecondBuffer) = (unsigned short)value;
+                line->m_uiValueAfterSecondBuffer += 2;
+            }
+            break;
+
+            default:
+                ::FUN_005b5e40();
+                return false;
+            }
+    }
+
+    if (line->uiElapsedMilliseconds < line->uiSize)
+    {
+        ::ReportScriptError((::CStringArgument *)(compiler), "Expected end of line.\r\nCompiled script not saved!", parameters[index4].name);
+        return false;
+    }
+
+    return true;
+}
+
 #include "generated/data/fallout_shared/tesscriptcompiler.inc"
+#include "generated/data/fallout_shared/tesscriptcompiler_ctx_variant.inc"
+#include "generated/data/fallout_shared/tesscriptcompiler_rtti2_variant.inc"

@@ -377,7 +377,7 @@ struct FUN_00c1a660_holder : FUN_00a74480_holder
 FUN_00c1a660_holder* FUN_00c1a660_holder::FUN_00c1a660(uintptr_t a)
 {
     new ((void *)this) ::FUN_00a74480((::NiTriBasedGeomData *)(a));
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010bcdc8);
+    *reinterpret_cast<void**>(this) = (void*)&DAT_010bcdc8;
     return this;
 }
 
@@ -658,7 +658,7 @@ struct FUN_00c03350_class
 // @fnv 0x00c03350
 bool FUN_00c03350_class::FUN_00c03350(int)
 {
-    ((ImageSpaceShaderParam*)*((int*)(*(uintptr_t*)((char*)this + 0x1c) + 4)))
+    ((ImageSpaceShaderParam*)*((uintptr_t*)(*(uintptr_t*)((char*)this + 0x1c) + 4)))
         ->SetShaderConstantVector4(0, DAT_012023f4, DAT_012023f8, 0.0f, 0.0f);
     DAT_011ae680 = 0x80;
     return false;
@@ -676,12 +676,12 @@ struct FUN_00c03390_class
 // @fnv 0x00c03390
 void FUN_00c03390_class::FUN_00c03390(int)
 {
-    int texture;
+    ISTex* texture;
     ISTex* pTexture = reinterpret_cast<ISTex*>(reinterpret_cast<char*>(this) + 0x58);
 
     reinterpret_cast<::H_00ba3840 *>((pTexture))->FUN_00ba3840(3);
 
-    texture = reinterpret_cast<int>(pTexture);
+    texture = pTexture;
     reinterpret_cast<::FUN_00a41520_cls *>((reinterpret_cast<NiTPrimitiveArray_int___*>(reinterpret_cast<char*>(this) + 0x28)))->FUN_00ba3aa0(2, (::KeyPair **)&(texture));
 }
 
@@ -1052,14 +1052,14 @@ struct FUN_00c1a480_class
 {
     intptr_t m_vtbl;
     int m_iWordAt04;
-    int FUN_00c1a480(int a);
+    void* FUN_00c1a480(int a);
 };
 // @fnv 0x00c1a480
-int FUN_00c1a480_class::FUN_00c1a480(int aiArg)
+void* FUN_00c1a480_class::FUN_00c1a480(int aiArg)
 {
     reinterpret_cast<::FUN_00a71cc0_cls *>(this)->FUN_00a71cc0(aiArg);
     m_vtbl = (intptr_t)&DAT_010bcc90;
-    return (int)this;
+    return this;
 }
 
 struct StrArr
@@ -2154,7 +2154,7 @@ class FUN_00c043f0_cls
 // @fnv 0x00c043f0
 void FUN_00c043f0_cls::FUN_00c043f0(int a1)
 {
-    B4630X* x = (*reinterpret_cast<B4630Holder**>(&(*reinterpret_cast<int *>(&::DAT_011f91e0))))->m_00;
+    B4630X* x = (*reinterpret_cast<B4630Holder**>(&(*reinterpret_cast<uintptr_t *>(&::DAT_011f91e0))))->m_00;
     int* pos = &x->m_68;
     const char* name = x->m_20 != 0 ? x->m_20 : reinterpret_cast<const char*>(&(*reinterpret_cast<char *>(&::g_defaultBound)));
     int edi = x->m_b8->m_34;
@@ -4997,19 +4997,19 @@ void ApplyRendererToShaderPasses(unsigned int opcode, Renderer* renderer)
     {
         void* resource = renderer->m_secondary->m_object;
         if (!resource)
-            resource = (void*)DAT_011f9510;
+            resource = (void*)(uintptr_t)DAT_011f9510;
         second->m_resource = resource;
         reinterpret_cast<::E7DE90Owner *>((second))->ApplyPairToState(renderer->getProperty());
     }
 
     if ((unsigned int)(DAT_011f91e4 - 452) <= 3 && reinterpret_cast<::FUN_00b704b0_t *>((renderer))->get68() > 0)
     {
-        RenderOptions* options = (RenderOptions*)(*reinterpret_cast<int *>(&::DAT_011f91e0));
+        RenderOptions* options = (RenderOptions*)(*reinterpret_cast<uintptr_t *>(&::DAT_011f91e0));
         ShaderResource* resource = options->m_handle->m_resource;
         if (resource->m_bSlotEnabled && resource->m_generator && options->m_bSlotEnabled > 0)
         {
             DecompPass266* pTertiaryPass = g->m_passes->m_tertiary;
-            pTertiaryPass->m_resource = ((void *)(reinterpret_cast<::FUN_004bc320_shell *>((resource->m_generator))->FUN_004bc320(0)));
+            pTertiaryPass->m_resource = ((void *)(uintptr_t)(reinterpret_cast<::FUN_004bc320_shell *>((resource->m_generator))->FUN_004bc320(0)));
             reinterpret_cast<::E7DEF0TextureStage *>((pTertiaryPass))->FUN_00e7def0(1);
             reinterpret_cast<::E7DE90Owner *>((pTertiaryPass))->ApplyPairToState(0);
         }
@@ -10825,7 +10825,7 @@ struct S00c03c80_item
     virtual void v8c() = 0;
     virtual void v90() = 0;
     virtual int Get94();
-    virtual int Get98();
+    virtual void* Get98();
 };
 struct S00c03c80_entry
 {
@@ -11009,7 +11009,7 @@ void S00c03c80_cls::ProcessEntries()
         if (m_entries[i] != 0 && (item = ((::S00c03c80_item *)(reinterpret_cast<::FUN_00ba3780_struct *>((m_entries[i]))->FUN_00ba3780()))) != 0)
         {
             if (m_processor != 0)
-                reinterpret_cast<::S_00b8a6e0_Foo *>((m_processor))->FUN_00b8a6e0(i, item->Get94(), (uintptr_t)((void*)item->Get98()));
+                reinterpret_cast<::S_00b8a6e0_Foo *>((m_processor))->FUN_00b8a6e0(i, item->Get94(), (uintptr_t)(item->Get98()));
         }
         else
         {
@@ -11839,19 +11839,19 @@ void C0CD80Shader::FUN_00c0cd80(unsigned int technique, Renderer* renderer)
             {
                 void* tex = renderer->m_secondary->m_object;
                 if (!tex)
-                    tex = (void*)DAT_011f9510;
+                    tex = (void*)(uintptr_t)DAT_011f9510;
                 secondary->m_resource = tex;
                 ::FUN_00bb9640((uintptr_t)this, (uintptr_t)((ShaderEntry*)secondary));
             }
 
             if ((DAT_011f91e4 - 0x1C4) <= 3 && reinterpret_cast<::FUN_00b704b0_t *>((((C0CD80Rdr*)renderer)))->get68() > 0)
             {
-                C0CD80Mgr* mgr = (C0CD80Mgr*)(*reinterpret_cast<int *>(&::DAT_011f91e0));
+                C0CD80Mgr* mgr = (C0CD80Mgr*)(*reinterpret_cast<uintptr_t *>(&::DAT_011f91e0));
                 C0CD80Item* item = *mgr->m_kNode;
                 if (item->unkEC && item->m_gen && mgr->unk09 > 0)
                 {
                     DecompPass266* tertiary = g->m_passes->m_tertiary;
-                    tertiary->m_resource = ((::TextureReceiver *)(reinterpret_cast<::FUN_004bc320_shell *>((item->m_gen))->FUN_004bc320(0)));
+                    tertiary->m_resource = ((::TextureReceiver *)(uintptr_t)(reinterpret_cast<::FUN_004bc320_shell *>((item->m_gen))->FUN_004bc320(0)));
                     if (DAT_011f91b0 == 3)
                         reinterpret_cast<::E7DEF0TextureStage *>((((C0CD80Pass*)tertiary)))->FUN_00e7def0(1);
                     else
@@ -11901,7 +11901,7 @@ struct SplatterGeom
     int unkA0, unkA4, unkA8;
     SplatterItem* unkAC;
     SplatterItem* unkB0;
-    int* unkB4;
+    void** unkB4;
 };
 
 struct BloodUpdater : ShaderUpdater
@@ -12007,7 +12007,7 @@ void BloodUpdater::FUN_00c0cf10(unsigned int kind, SplatterGeom* geom)
         // ponytail: share the flag-helper tail by natural fallthrough.
     case 0x185:
     case 0x194:
-        ::CopyOwnerValuesToItems((::Cb50Ctx *)this, (::Cb50Owner *)(table), (unsigned char)(geom));
+        ::CopyOwnerValuesToItems((::Cb50Ctx *)(table), (::Cb50Owner *)(geom), 1);
         break;
     case 0x1BD:
     case 0x1BE:

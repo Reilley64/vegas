@@ -1179,7 +1179,7 @@ struct FUN_00c3a4b0_node
 {
     FUN_00c3a4b0_node* m_00;
     void* m_04;
-    unsigned int m_08;
+    uintptr_t m_08;
 };
 
 struct FUN_00c3a4b0_sub
@@ -1192,11 +1192,11 @@ struct FUN_00c3a4b0_cls
     FUN_00c3a4b0_node* m_00;
     void* m_04;
     FUN_00c3a4b0_sub m_08;
-    unsigned int FUN_00c3a4b0();
+    uintptr_t FUN_00c3a4b0();
 };
 
 // @fnv 0x00c3a4b0
-unsigned int FUN_00c3a4b0_cls::FUN_00c3a4b0()
+uintptr_t FUN_00c3a4b0_cls::FUN_00c3a4b0()
 {
     FUN_00c3a4b0_node unusedNode;
     FUN_00c3a4b0_node* pRemoved = this->m_00;
@@ -1209,7 +1209,7 @@ unsigned int FUN_00c3a4b0_cls::FUN_00c3a4b0()
     {
         this->m_04 = 0;
     }
-    unsigned int uiValue = pRemoved->m_08;
+    uintptr_t uiValue = pRemoved->m_08;
     pRemoved->m_08 = 0;
     reinterpret_cast<::FUN_0045cee0_shell *>(&(this->m_08))->FUN_0045cee0(pRemoved);
     this->m_08.m_uiItemCount = this->m_08.m_uiItemCount - 1;
@@ -2533,22 +2533,22 @@ struct FUN_00c3f750_Class
     void* unk10;
     FUN_00c41610_Obj* unk14;
 
-    int FUN_00c3f750();
+    void* FUN_00c3f750();
 };
 
-extern "C" int(* DAT_00fdf044)(unsigned int index);
+extern "C" void*(* DAT_00fdf044)(unsigned int index);
 
 // Calls DAT_00fdf044 with unk14->unk04 and returns the result if nonzero; otherwise returns unk14->SetSlotValue(this).
 // @fnv 0x00c3f750
-int FUN_00c3f750_Class::FUN_00c3f750()
+void* FUN_00c3f750_Class::FUN_00c3f750()
 {
     int tmp;
     int d2;
     int d3;
     int d0;
     int v;
-    int j;
-    int found;
+    void* j;
+    void* found;
     FUN_00c41610_Obj* obj;
 
     obj = this->unk14;
@@ -2561,7 +2561,7 @@ int FUN_00c3f750_Class::FUN_00c3f750()
     }
     else
     {
-        j = ((int)(reinterpret_cast<::fnv_00c41610::FUN_00c41610_cls *>((obj))->SetSlotValue((::fnv_00c41610::SlotValueSource *)(void *)(this))));
+        j = (void*)(uintptr_t)(reinterpret_cast<::fnv_00c41610::FUN_00c41610_cls *>((obj))->SetSlotValue((::fnv_00c41610::SlotValueSource *)(void *)(this)));
     }
 
     return j;
@@ -5747,7 +5747,7 @@ struct ArrayC3D6C0
             u = i;
         else
             u = s;
-        data = (void*)(i + s + u + count);
+        data = (void*)(uintptr_t)(i + s + u + count);
         cap = neu;
     }
     int FUN_00c3d6c0();

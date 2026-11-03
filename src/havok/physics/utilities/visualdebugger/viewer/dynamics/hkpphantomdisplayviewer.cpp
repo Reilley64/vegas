@@ -48,7 +48,26 @@ struct World
     int m_phantomCount;
 };
 
-struct hkpPhantomDisplayViewer
+// The viewer's phantom-listener vtable: slot 1 phantomAddedCallback, slot 2 phantomRemovedCallback.
+struct PhantomListenerVtableD66
+{
+    void* m_dtor;
+    void (*m_phantomAdded)(void* listener, void* phantom);
+    void (*m_phantomRemoved)(void* listener, void* phantom);
+};
+
+// hkpPhantomDisplayViewer: referenced-object header, the hkProcess part at +8, the phantom listener at +0x28 and the
+// world-deletion listener at +0x2c (32-bit offsets).
+struct PhantomViewerD66
+{
+    void* m_vtable;
+    int m_memSizeAndFlags;
+    unsigned char m_process[0x20];
+    const PhantomListenerVtableD66* m_phantomListener;
+    void* m_worldDeletionListener;
+};
+
+struct hkpPhantomDisplayViewer : PhantomViewerD66
 {
     void FUN_00d66250(void*);
 };
@@ -56,21 +75,18 @@ struct hkpPhantomDisplayViewer
 // @fnv 0x00d66250
 void hkpPhantomDisplayViewer::FUN_00d66250(void* arg)
 {
-    void* p1 = this ? (char*)this + 0x28 : 0;
+    void* p1 = this ? &m_phantomListener : 0;
     reinterpret_cast<::hkWorldC91F *>((((World*)arg)))->FUN_00c917f0(p1);
-    void* p2 = this ? (char*)this + 0x2c : 0;
+    void* p2 = this ? &m_worldDeletionListener : 0;
     reinterpret_cast<::SearchArray *>((((Container*)arg)))->ClearValue((p2));
     int i = 0;
     World* world = static_cast<World*>(arg);
     if (world->m_phantomCount > 0)
     {
-        char* base = (char*)this + 0x28;
         do
         {
             void* item = world->m_phantoms[i];
-            void* vt = *(void**)base;
-            void* fn = *(void**)((char*)vt + 8);
-            ((void(*)(void*, void*))fn)(base, item);
+            m_phantomListener->m_phantomRemoved(&m_phantomListener, item);
             ++i;
         } while (i < world->m_phantomCount);
     }
@@ -87,7 +103,7 @@ struct D698B0Island
     int m_count_114;    // +0x114
 };
 
-struct FUN_00d662c0_stub
+struct FUN_00d662c0_stub : PhantomViewerD66
 {
     void AttachToIsland(void* arg);
 };
@@ -95,29 +111,26 @@ struct FUN_00d662c0_stub
 // @fnv 0x00d662c0
 void FUN_00d662c0_stub::AttachToIsland(void* pIsland)
 {
-    char* pSelf = (char*)this;
     void* p1;
-    if (pSelf)
-        p1 = pSelf + 0x28;
+    if (this)
+        p1 = &m_phantomListener;
     else
         p1 = 0;
     D698B0Island* edi = (D698B0Island*)pIsland;
     reinterpret_cast<::fnv_00c93860::hkpWorldXc93860 *>((((FUN_00c93860_stub*)edi)))->FUN_00c93860((::fnv_00c93860::hkpEntityListenerXc93860 *)(p1));
     void* p2;
-    if (pSelf)
-        p2 = pSelf + 0x2c;
+    if (this)
+        p2 = &m_worldDeletionListener;
     else
         p2 = 0;
     reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((edi))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(p2));
     int i = 0;
     if (edi->m_count_114 > 0)
     {
-        char* base = pSelf + 0x28;
         do
         {
             void* item = ((void**)edi->m_items_110)[i];
-            void* pVtable = *(void**)base;
-            ((void(*)(void*, void*)) * (void**)((char*)pVtable + 4))(base, item);
+            m_phantomListener->m_phantomAdded(&m_phantomListener, item);
             ++i;
         } while (i < edi->m_count_114);
     }
@@ -313,7 +326,7 @@ void FUN_00d66330_StandIn::FUN_00d66330()
     {
         for (int i = 0; i < m_pShapeCollection->m_uiItemCount; ++i)
         {
-            reinterpret_cast<FUN_00d662c0_stub*>(reinterpret_cast<char*>(this) - 8)
+            reinterpret_cast<FUN_00d662c0_stub*>(reinterpret_cast<char*>(this) - offsetof(PhantomViewerD66, m_process))
                 ->AttachToIsland(m_pShapeCollection->m_items[i]);
         }
     }
@@ -395,6 +408,8 @@ struct FnvCpu_FUN_00d66770_CpuBlock
 {
     unsigned int unk00;
     unsigned short size;
+    unsigned short unk06;
+    void* m_processVtable;
     FnvCpu_FUN_00d66770_CpuBlock* FUN_00d66430(unsigned int value);
 };
 // @fnv 0x00d66770
@@ -406,7 +421,7 @@ void* __cdecl FUN_00d66770(unsigned int value)
     pCpuBlock->size = 60;
     pCpuBlock = pCpuBlock->FUN_00d66430(value);
     if (pCpuBlock)
-        return reinterpret_cast<char*>(pCpuBlock) + 8;
+        return &pCpuBlock->m_processVtable;
     return 0;
 }
 
@@ -699,7 +714,7 @@ static __forceinline void Monitor(const char* name)
         MonitorCommand* cmd = (MonitorCommand*)stream.cursor;
         cmd->name = name;
         cmd->setTime();
-        stream.cursor = (char*)(cmd + 1);
+        stream.cursor = reinterpret_cast<char*>(cmd + 1);
     }
 }
 static __forceinline void Monitor(const char* name, volatile unsigned int& slot)
@@ -710,7 +725,7 @@ static __forceinline void Monitor(const char* name, volatile unsigned int& slot)
         MonitorCommand* cmd = (MonitorCommand*)stream.cursor;
         cmd->name = name;
         cmd->setTime(slot);
-        stream.cursor = (char*)(cmd + 1);
+        stream.cursor = reinterpret_cast<char*>(cmd + 1);
     }
 }
 static __forceinline hkMemoryRouter* S00d667b0_router()
@@ -1249,7 +1264,7 @@ void Vw66530Self::FUN_00d66530(Vw66530Arg* arg)
         }
     }
     m_args.AddBack(arg);
-    Vw66530Outer* outer = reinterpret_cast<Vw66530Outer*>((char*)this - 0x10);
+    Vw66530Outer* outer = reinterpret_cast<Vw66530Outer*>(reinterpret_cast<char*>(this) - offsetof(Vw66530Outer, self));
     outer->m_disp->add(&entries, info->unk08, info, ::DAT_01268ff0, root);
     outer->m_disp->update(::DAT_01268ff4, info, ::DAT_01268ff0);
     for (int k = 0; k < entries.m_iElementCount; k++)

@@ -10,8 +10,6 @@ struct ObstacleUndoData
     void* Destroy(unsigned int flags);
 };
 
-void __cdecl FUN_006bc330(ObstacleUndoData*);
-
 // Runs the destructor and, when flags has bit 0 set, frees this with _delete using size 0x70; returns this.
 // @fnv 0x006bc300
 void* ObstacleUndoData::Destroy(unsigned int flags)

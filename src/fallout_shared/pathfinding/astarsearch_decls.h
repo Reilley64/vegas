@@ -13,6 +13,14 @@
 #include "fnv/symbols_0040f000.h"
 #include "layout_support.h"
 
+class EdgeExtraInfo;
+class NavMeshTriangleReference;
+struct PNode;
+struct HX
+{
+    bool FUN_006a8290(PNode*, BSSimpleArray<NavMeshTriangleReference, 1024>*, BSSimpleArray<EdgeExtraInfo, 1024>*);
+};
+
 enum CREATE_ASTARNODE_RESULT
 {
     CREATE_ASTARNODE_RESULT_ASTAR_CREATED_NEW_NODE = 0,

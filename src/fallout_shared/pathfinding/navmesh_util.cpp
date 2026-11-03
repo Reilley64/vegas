@@ -291,7 +291,7 @@ ASC* ASC::Multiply(ASC* out, const ASC* apOther)
     new ((void *)&(ret)) ::Vec3();
     ret.s = s * apOther->s + c * apOther->c;
     ret.c = c * apOther->s - s * apOther->c;
-    reinterpret_cast<::FUN_006985f0_shell *>((out))->CopyFloatPair=((void *)&(ret));
+    reinterpret_cast<::FUN_006985f0_shell *>((out))->CopyFloatPair((void *)&(ret));
     return out;
 }
 
@@ -869,9 +869,6 @@ struct FUN_00699b60_shell : public NavMesh
     void BuildPortalPOVs();
 };
 
-namespace std {
-float __cdecl abs(float);
-}
 
 
 // Builds per-vertex edge lists from triangle edges, pairs edges into portals, and assigns each triangle the nearest portal vertex within a radius.
@@ -1172,7 +1169,7 @@ struct FUN_00698300_shell
 // @fnv 0x00698300
 FUN_00698300_shell* FUN_00698300_shell::FUN_00698300()
 {
-    new ((void *)(((FUN_00698300_shell*)((char*)this + 8)))) ::Vec3();
+    (void *)(((FUN_00698300_shell*)((char*)this + 8)));
     return this;
 }
 
@@ -2081,7 +2078,7 @@ int FUN_006995c0_shell::FindEntryIndex(void* apTarget)
     unsigned int i = 0;
     for (; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xd0))))->GetName())); ++i)
     {
-        if (reinterpret_cast<::FUN_004b0460_class *>((void *)(((NiPointerStandIn*)(((GO*)((char*)((Arr*)((char*)this + 0xd0))->GetAt(i)))->operator unsigned int() + 0xc))))->FUN_004b0460==((const void **)(apTarget)))
+        if (reinterpret_cast<::FUN_004b0460_class *>((void *)(((NiPointerStandIn*)(((GO*)((char*)((Arr*)((char*)this + 0xd0))->GetAt(i)))->operator unsigned int() + 0xc))))->FUN_004b0460((const void **)&(apTarget)))
             return i;
     }
     return -1;

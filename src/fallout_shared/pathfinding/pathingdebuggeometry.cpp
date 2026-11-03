@@ -734,7 +734,7 @@ void Ref::FUN_00574400()
                     it1 = (Iter*)reinterpret_cast<::Fn56ac90 *>(this)->FUN_0056ac90();
                     while (it1 != 0 && !it1->FUN_008256d0())
                     {
-                        procCopy = *((::Ref **)(new ((void *)(it1)) ::Vec3()));
+                        procCopy = *((::Ref **)((void *)(it1)));
                         if (((bool)(reinterpret_cast<::InventoryChanges *>((procCopy))->CreateForReference())))
                         {
                             if (reinterpret_cast<::fnv_0041dbd0::FUN_0041dbd0_Class *>((((::ExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>((procCopy))->FUN_005d43c0()))))->FUN_0041dbd0())
@@ -752,7 +752,7 @@ void Ref::FUN_00574400()
                     val = (Iter*)reinterpret_cast<::FUN_0041df90_shell *>((((::ExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041df90();
                     while (val != 0 && !val->FUN_008256d0())
                     {
-                        it2 = *((::Ref **)(new ((void *)(val)) ::Vec3()));
+                        it2 = *((::Ref **)((void *)(val)));
                         reinterpret_cast<::FUN_0041de40_class *>((((::ExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>((it2))->FUN_005d43c0()))))->FUN_0041de40((::TESObjectREFR *)(::Ref *)(0));
                         reinterpret_cast<::B572270Object *>((it2))->FUN_00572270();
                         val->FUN_0063f7b0();
@@ -798,13 +798,13 @@ void __cdecl FUN_007f6a20(int a1)
     ListNode* pNode = &(*reinterpret_cast<::ListNode *>(&::g_011db150));
     while (pNode != 0 && !pNode->Probe())
     {
-        if ((*(int**)((::ObjectResolver *)(new ((void *)(pNode)) ::Vec3())))[0] == a1)
+        if ((*(int**)((::ObjectResolver *)((void *)(pNode))))[0] == a1)
         {
             if ((*reinterpret_cast<int *>(&::DAT_011f21cc)) == a1 && DAT_011db0d4 != 0)
             {
                 ((EventTarget*)DAT_011db0d4)->v0c(2, 0);
             }
-            reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::ListNode *>(&::g_011db150))))->FUN_00905330((*(::InventoryStackRecord *const *)(((::ObjectResolver *)(new ((void *)(pNode)) ::Vec3())))));
+            reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::ListNode *>(&::g_011db150))))->FUN_00905330((*(::InventoryStackRecord *const *)(((::ObjectResolver *)((void *)(pNode))))));
             if ((*reinterpret_cast<::ListNode *>(&::g_011db150)).Probe() && DAT_011db0d4 != 0)
             {
                 ::ShutdownVats();

@@ -102,21 +102,8 @@
 #include "fnv/symbols_011d7000.h"
 #include "fnv/symbols_011de000.h"
 #include "pathsmootherpov_decls.h"
-#include "fnv/decl/AvoidNodes__Search.h"
-#include "fnv/decl/ClearanceSearch.h"
-#include "fnv/decl/FUN_00505c00_shell.h"
-#include "fnv/decl/FUN_00507e10_shell.h"
 #include "fnv/decl/FUN_00697980_t.h"
-#include "fnv/decl/FUN_0069f900_shell.h"
-#include "fnv/decl/FUN_006b05d0_shell.h"
-#include "fnv/decl/FUN_006b1df0_shell.h"
-#include "fnv/decl/FUN_006b3380_shell.h"
-#include "fnv/decl/FUN_006b3420_shell.h"
 #include "fnv/decl/FloatValueProvider.h"
-#include "fnv/decl/LastNodeSearch17.h"
-#include "fnv/decl/PSSearchView.h"
-#include "fnv/decl/PathSmootherAccess.h"
-#include "fnv/decl/Thing.h"
 #include "fnv/symbols_00533000.h"
 #include "pathsmootherpov_decls_decl_pathsmootherpov.h"
 
@@ -982,8 +969,8 @@ void* FUN_006ae120(char* pObject)
     *(NiPoint3*)(pObject + 4) = NiPoint3::ZERO;
     *(float*)(pObject + 0x10) = 0.0f;
     ::FUN_006240d0((void *)(((NiBound*)(pObject + 0x14))));
-    new ((void *)(((AvoidSphere*)(pObject + 0x20)))) ::Vec3();
-    new ((void *)(((AvoidSphere*)(pObject + 0x2c)))) ::Vec3();
+    (void *)(((AvoidSphere*)(pObject + 0x20)));
+    (void *)(((AvoidSphere*)(pObject + 0x2c)));
     *(float*)(pObject + 0x38) = 1.0f;
     return pObject;
 }
@@ -4399,7 +4386,7 @@ void FUN_006aefc0_cls::FUN_006aefc0()
             cur->eType = 4;
             cur->m_kFirstEdge = ::NiPoint3::ZERO;
             cur->m_kSecondEdge = ::NiPoint3::ZERO;
-            cur->Center = (*(const ::NiPoint3 *)(new ((void *)(avoid)) ::Vec3()));
+            cur->Center = (*(const ::NiPoint3 *)((void *)(avoid)));
             cur->m_fWeight = 1.0f;
             cur->fRadius = (float)(reinterpret_cast<::BSMultiBoundSphere *>((void *)(avoid))->GetRadius() + ::GetFloatAtOffset68((const char *)(this->pRequest)) * 1.2f);
             cur->m_uiReferenceIndex = 0xffffffff;
@@ -4413,7 +4400,7 @@ void FUN_006aefc0_cls::FUN_006aefc0()
                 pov2->eType = 5;
                 pov2->m_kFirstEdge = ::NiPoint3::ZERO;
                 pov2->m_kSecondEdge = ::NiPoint3::ZERO;
-                pov2->Center = (*(const ::NiPoint3 *)(new ((void *)(avoid)) ::Vec3()));
+                pov2->Center = (*(const ::NiPoint3 *)((void *)(avoid)));
                 pov2->m_fWeight = 10.0f;
                 pov2->fRadius = (float)(reinterpret_cast<::BSMultiBoundSphere *>((void *)(avoid))->GetRadius() * 0.25 + ::GetFloatAtOffset68((const char *)(this->pRequest)) * 1.2f);
                 pov2->m_uiReferenceIndex = 0xffffffff;

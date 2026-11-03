@@ -212,7 +212,7 @@ struct StandInShell
 StandInShell* StandInShell::FUN_006dcc40(void* other)
 {
     *(int*)this = (int)&DAT_0102583c;
-    new ((void *)(((StandIn6815c0*)((char*)this + 4)))) ::Vec3();
+    (void *)(((StandIn6815c0*)((char*)this + 4)));
     *(Point3_12*)((char*)this + 4) = *(Point3_12*)((char*)other + 4);
     *(int*)((char*)this + 0x10) = *(int*)((char*)other + 0x10);
     *(int*)((char*)this + 0x14) = *(int*)((char*)other + 0x14);
@@ -242,7 +242,7 @@ struct FUN_006dcfe0_shell : public PathingLocation
 PathingLocation* FUN_006dcf20(PathingLocation* self, PtrLoc aLocation, PtrNav apNavMeshInfo)
 {
     self->m_ppVirtualMethodTable = (void**)&::DAT_0102583c;
-    new ((void *)(&self->Location)) ::Vec3();
+    (void *)(&self->Location);
     self->Location = *aLocation.p;
     self->uiFlags = 0;
     self->m_pLocationNavMesh = apNavMeshInfo.p;
@@ -445,7 +445,7 @@ struct SetupPathingLocation : PathingLocation
 PathingLocation::PathingLocation(const NiPoint3& location, TESObjectREFR* reference)
 {
     m_ppVirtualMethodTable = (void**)fnv_vftable_DAT_0102583c;
-    new ((void *)(reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(&Location))) ::Vec3();
+    &(reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(&Location))->m_item;
     reinterpret_cast<::SetupPathingLocation *>(this)->FUN_006dd280(location, reinterpret_cast<TESObjectCELL*>(reinterpret_cast<LowProcess*>(reference)->GetTarget()),
                     ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((reference))->FUN_00575d70())));
 }
@@ -453,7 +453,7 @@ PathingLocation::PathingLocation(const NiPoint3& location, TESObjectREFR* refere
 PathingLocation* FUN_006dce60_shell::FUN_006dce60(NiPoint3 const& a, TESObjectCELL* b)
 {
     m_ppVirtualMethodTable = (void**)&DAT_0102583c;
-    new ((void *)(&Location)) ::Vec3();
+    (void *)(&Location);
     reinterpret_cast<::SetupPathingLocation *>(this)->FUN_006dd280(a, b, 0);
     return this;
 }
@@ -462,7 +462,7 @@ PathingLocation* FUN_006dce60_shell::FUN_006dce60(NiPoint3 const& a, TESObjectCE
 FUN_006dd0d0::FUN_006dd0d0(const NiPoint3* aLocation, PathingLocation* aHintLoc)
 {
     m_ppVirtualMethodTable = (void**)&DAT_0102583c;
-    new ((void *)(((_ref_006815c0_t*)&Location))) ::Vec3();
+    (void *)(((_ref_006815c0_t*)&Location));
     Location = *aLocation;
     uiFlags = 0;
     m_usTriangleID = kClearTriangleDataValue1;

@@ -238,31 +238,6 @@ void HermiteStub::FUN_006e7c40(float tp)
     b = d - t2 + tt;
 }
 
-struct SubS
-{
-};
-struct RetS
-{
-    float v[3];
-};
-struct OwnS
-{
-    char pad[0x14];
-    SubS s1;
-    char pad2[0x17];
-    SubS s2;
-    RetS FUN_006e7d60(int, int);
-    RetS FUN_006e7cc0(int a, int b);
-};
-// Calls FUN_006e7d10 on s1 with a and on s2 with b, then returns FUN_006e7d60(a, b).
-// @fnv 0x006e7cc0
-RetS OwnS::FUN_006e7cc0(int aiFirst, int aiSecond)
-{
-    ::FUN_006e7d10((::_S_006e7d10 *)&(s1), (::_Arg_006e7d10)(aiFirst));
-    ::FUN_006e7d10((::_S_006e7d10 *)&(s2), (::_Arg_006e7d10)(aiSecond));
-    return FUN_006e7d60(aiFirst, aiSecond);
-}
-
 struct _S_006e7d10_vec
 {
     float x, y, z;
@@ -278,6 +253,31 @@ struct _Arg_006e7d10
 {
     const _S_006e7d10* p;
 };
+
+struct SubS
+{
+};
+struct RetS
+{
+    float v[3];
+};
+struct OwnS
+{
+    char pad[0x14];
+    SubS s1;
+    char pad2[0x17];
+    SubS s2;
+    RetS FUN_006e7d60(const _S_006e7d10*, const _S_006e7d10*);
+    RetS FUN_006e7cc0(const _S_006e7d10* a, const _S_006e7d10* b);
+};
+// Calls FUN_006e7d10 on s1 with a and on s2 with b, then returns FUN_006e7d60(a, b).
+// @fnv 0x006e7cc0
+RetS OwnS::FUN_006e7cc0(const _S_006e7d10* apFirst, const _S_006e7d10* apSecond)
+{
+    ::FUN_006e7d10((::_S_006e7d10 *)&(s1), ::_Arg_006e7d10{apFirst});
+    ::FUN_006e7d10((::_S_006e7d10 *)&(s2), ::_Arg_006e7d10{apSecond});
+    return FUN_006e7d60(apFirst, apSecond);
+}
 
 // Copies the two vector members a and b from the pointed-to struct into this struct and returns this.
 // @fnv 0x006e7d10
@@ -360,8 +360,8 @@ struct FUN_006e7d10_caller
 // @fnv 0x006e8450
 void FUN_006e8450_shell::FUN_006e8450(void* aKey1, void* aKey2)
 {
-    ::FUN_006e7d10((::_S_006e7d10 *)(reinterpret_cast<FUN_006e7d10_caller*>(this->Key1)), (::_Arg_006e7d10)(aKey1));
-    ::FUN_006e7d10((::_S_006e7d10 *)(reinterpret_cast<FUN_006e7d10_caller*>(this->Key2)), (::_Arg_006e7d10)(aKey2));
+    ::FUN_006e7d10((::_S_006e7d10 *)(reinterpret_cast<FUN_006e7d10_caller*>(this->Key1)), ::_Arg_006e7d10{(const ::_S_006e7d10 *)aKey1});
+    ::FUN_006e7d10((::_S_006e7d10 *)(reinterpret_cast<FUN_006e7d10_caller*>(this->Key2)), ::_Arg_006e7d10{(const ::_S_006e7d10 *)aKey2});
 }
 
 namespace fnv_006e8f60 {
@@ -1101,6 +1101,10 @@ struct _Mem_20a4
 };
 struct FUN_006a7ad0_shell
 {
+    void** m_ppVirtualMethodTable;
+    unsigned int* pBuffer;
+    unsigned int iSize;
+    unsigned int iCapacity;
 };
 struct PathingAvoidNodeArray
 {
@@ -1151,7 +1155,7 @@ void FUN_006e8d50_shell::FUN_006e8d50(BGSLoadFormBuffer* apLoadGameBuffer)
         reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((_Mem_20a4*)((char*)this + 0x30))))->FUN_006f2290(isaveGameCount, true);
         for (unsigned int i = 0; i < isaveGameCount; i++)
         {
-            unsigned int* puiDoorID = &((unsigned int)(reinterpret_cast<::S3e60 *>((((FUN_006a7ad0_shell*)((char*)this + 0x30))))->FUN_006a7ad0(i)));
+            unsigned int* puiDoorID = &((FUN_006a7ad0_shell*)((char*)this + 0x30))->pBuffer[i];
             reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0(puiDoorID);
         }
     }
@@ -1190,13 +1194,13 @@ float FUN_006e9af0_cls::MeasurePathLength(float afStart, float afEnd, unsigned i
     PathVec3 p5;
     float t;
 
-    reinterpret_cast<::fnv_006e9ab0::OwnS *>((this))->FUN_006e9ab0((float)(&p9));
+    *reinterpret_cast<::fnv_006e9ab0::RetS *>(&p9) = reinterpret_cast<::fnv_006e9ab0::OwnS *>((this))->FUN_006e9ab0(afStart);
     sum_2 = 0.0f;
     for (idx = 0; idx < uiSteps; idx++)
     {
         t = (afEnd - afStart) * (float)(idx + 1) / (float)uiSteps + afStart;
         PathClampHelper(&t, 0.0f, 1.0f);
-        reinterpret_cast<::fnv_006e9ab0::OwnS *>((this))->FUN_006e9ab0((float)(&p5));
+        *reinterpret_cast<::fnv_006e9ab0::RetS *>(&p5) = reinterpret_cast<::fnv_006e9ab0::OwnS *>((this))->FUN_006e9ab0(t);
         reinterpret_cast<::FUN_00439ef0_class *>((((PathVecHelper*)&p5)))->FUN_00439ef0((::NiPoint3 *)(::PathVec3 *)(&p3), (*(const ::NiPoint3 *)(&p9)));
         sum_2 = sum_2 + reinterpret_cast<::NiPoint3 *>((((PathMagHelper*)&p3)))->ComputeMagnitude();
         p9 = p5;
@@ -1269,8 +1273,8 @@ struct SaveArrayB
 };
 struct SaveArrayD
 {
-    int unk00;
-    int unk04;
+    void** m_ppVirtualMethodTable;
+    unsigned int* pBuffer;
     int unk08;
     int unk0c;
 };
@@ -1335,7 +1339,7 @@ void SaveSolution::FUN_006e8b10(SaveBuffer* buffer)
         reinterpret_cast<::BGSSaveGameBuffer *>((buffer))->FUN_00865f60(countD8);
         for (unsigned int indexD = 0; indexD < countD8; ++indexD)
         {
-            unsigned int& entryD3 = ((unsigned int)(reinterpret_cast<::S3e60 *>(&(fourth))->FUN_006a7ad0(indexD)));
+            unsigned int& entryD3 = fourth.pBuffer[indexD];
             reinterpret_cast<::FUN_00865db0_shell *>((buffer))->FUN_00865db0(entryD3, 0);
         }
     }
@@ -1436,7 +1440,8 @@ bool FUN_006e9830_shell::FindPointAtDistance(float afT, float afDistance, bool a
     while (!bFound)
     {
         kPoint = FUN_006e9ab0(fCurrentAmountNext);
-        float _fLength = reinterpret_cast<::TESCombatStyle *>((void *)(((const FUN_004a7290_point*)&(_kOrigin - kPoint))))->UpdateCombatStyle();
+        NiPoint3 kOffset = _kOrigin - kPoint;
+        float _fLength = reinterpret_cast<::TESCombatStyle *>((void *)(((const FUN_004a7290_point*)&kOffset)))->UpdateCombatStyle();
         if ((_fLength < fNewMinSqr && abForward) || (_fLength > kFMaxSqr && !abForward))
         {
             if (fCurrentAmountNext >= 0.99f)

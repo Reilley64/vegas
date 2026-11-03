@@ -238,6 +238,8 @@ struct NiNode
 
 struct NiAVObject : public NiNode
 {
+    void IncRefCount();
+    void DecRefCount();
 };
 
 struct GO
@@ -1263,7 +1265,7 @@ void NavRenderX::FUN_006a37a0(CellX* apCell, bool abUpdate)
             SpX<AVObjX> qmgeiw(new AlphaX());
             reinterpret_cast<::FUN_0049ed90_shell *>((((AVObjX*)qmgeiw)))->FUN_0049ed90(true);
             reinterpret_cast<::FUN_00439410_cls *>((((AVObjX*)qFwpo)))->FUN_00439410((::ArgObject *)(::AVObjX *)(qmgeiw));
-            reinterpret_cast<::FUN_00440460_S *>((((AVObjX*)qFwpo)))->FUN_00440460((const ::V3 *)(const ::Pt3PodX *)(((::Pt3PodX *)(new ((void *)(qsCroYH)) ::Vec3()))));
+            reinterpret_cast<::FUN_00440460_S *>((((AVObjX*)qFwpo)))->FUN_00440460((const ::V3 *)(const ::Pt3PodX *)(((::Pt3PodX *)((void *)(qsCroYH)))));
             ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qFwpo, true);
         }
         ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qrzAir, true);

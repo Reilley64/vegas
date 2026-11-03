@@ -83,7 +83,7 @@ struct FUN_006f3430_shell : FUN_006f3460
 // @fnv 0x006f3430
 void* FUN_006f3430_shell::DestroyAndDeallocate(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006f3460 *>(this)->FUN_006f3460::~FUN_006f3460();
+    reinterpret_cast<::FUN_006f3460 *>(this)->::FUN_006f3460::~FUN_006f3460();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

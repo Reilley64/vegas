@@ -93,10 +93,6 @@
 #include "fnv/symbols_011d6000.h"
 #include "fnv/symbols_011de000.h"
 #include "navmesh_loadsave_decls.h"
-#include "fnv/decl/FUN_006947e0_cls.h"
-#include "fnv/decl/Map00694c50.h"
-#include "fnv/decl/Map00694d30.h"
-#include "fnv/decl/Map6946a0.h"
 
 // Public PC annotation: JohnnyGuitar TESForm.cpp, GAME 0x693EF0.
 // @fnv 0x00693ef0
@@ -1731,7 +1727,7 @@ void FUN_00693fe0_cls::FUN_00693fe0(unsigned char arg)
     if (arg != 0)
     {
         ::RemoveNavMeshId((unsigned int)(((void *)(reinterpret_cast<::FUN_0068efb0_shell *>(this)->FUN_0068efb0()))));
-        reinterpret_cast<::NavigationOwner *>((((::Res *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::Mgr * *>(&::g_TES))))->FUN_0045af00(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))))->ActivateNavigationEntry({});
+        reinterpret_cast<::NavigationOwner *>((((::Res *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::Mgr * *>(&::g_TES))))->FUN_0045af00()))))->ActivateNavigationEntry((int)reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0());
     }
 }
 
@@ -2006,7 +2002,7 @@ struct Manager69
 // @fnv 0x00694500
 bool __cdecl FUN_00694500(unsigned int uiNavMeshId, bool disabled)
 {
-    Info69* info = ((::Info69 *)(reinterpret_cast<::Pathing *>((((::Map69 *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::Manager69 * *>(&::g_TES))))->FUN_0045af00()))))->FindReferenceByFormId({})));
+    Info69* info = ((::Info69 *)(reinterpret_cast<::Pathing *>((((::Map69 *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::Manager69 * *>(&::g_TES))))->FUN_0045af00()))))->FindReferenceByFormId(uiNavMeshId)));
     if (!info)
     {
         ::FUN_005b5e40();

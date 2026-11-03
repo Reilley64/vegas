@@ -15,9 +15,7 @@
 #include "fnv/decl/FUN_006a0840_shell.h"
 #include "fnv/symbols_00558000.h"
 #include "fnv/symbols_0069b000.h"
-namespace std {
-float abs(float);
-}
+#include <cmath>
 class NiPoint3
 {
   public:

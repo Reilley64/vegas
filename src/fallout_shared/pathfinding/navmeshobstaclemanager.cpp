@@ -193,11 +193,6 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f6000.h"
 #include "navmeshobstaclemanager_decls.h"
-#include "fnv/decl/C006c6030.h"
-#include "fnv/decl/HostA.h"
-#include "fnv/decl/Map62d0.h"
-#include "fnv/decl/ObstacleMgrX.h"
-#include "fnv/decl/fnv_006c5ce0__FUN_006c5ce0_shell.h"
 // Locks the manager's lock, appends task to the array at offset 0x14c, then unlocks.
 // @fnv 0x006c4f70
 void NavMeshObstacleManager::AddProcessedTask(ObstacleTaskData* task)
@@ -250,7 +245,7 @@ void NavMeshObstacleManager::ClearObstacles()
     BSSimpleList<BGSPerkEntry*>* item = (BSSimpleList<BGSPerkEntry*>*)((char*)this + 0x34);
     while (item && !((BSSimpleList<BGSCameraShot*>*)item)->IsEmpty())
     {
-        unsigned int auiFormId = (unsigned int)((::BGSPerkEntry *)(new ((void *)(item)) ::Vec3()));
+        unsigned int auiFormId = (unsigned int)(item->m_item);
         item = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((item))->FUN_00726070()));
         NiPointer<AnimIdle> spReference((AnimIdle*)0);
         if (((NiTMapBase<DFALL<NiTMapItem<bhkRigidBody*, NiPointer<ObstacleData> > >, bhkRigidBody*,
@@ -746,7 +741,7 @@ bool FUN_006c4900_shell::FUN_006c4900()
     BSSimpleList<int>* pCurrentElementNext = reinterpret_cast<BSSimpleList<int>*>(reinterpret_cast<char*>(this) + 0x180);
     while (pCurrentElementNext && !_ref_008256d0(pCurrentElementNext))
     {
-        int meshID = *((int *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        int meshID = pCurrentElementNext->m_item;
         ::FUN_00694500(meshID, 0);
         pCurrentElementNext = ((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
     }
@@ -1783,9 +1778,9 @@ bool __cdecl CollectCellsNearObstacle(const Flt*, CellArr*);
 bool FUN_006c2050(const Flt* apData, S2f850* apReturnNavMeshArray)
 {
     NiPoint3 navmeshMin;
-    new ((void *)(((P3Ctor*)&navmeshMin))) ::Vec3();
+    (void *)(((P3Ctor*)&navmeshMin));
     NiPoint3 navmeshMax;
-    new ((void *)(((P3Ctor*)&navmeshMax))) ::Vec3();
+    (void *)(((P3Ctor*)&navmeshMax));
     CellArr cells(0x20, 0, 0);
     if (CollectCellsNearObstacle(apData, &cells))
     {
@@ -1956,7 +1951,7 @@ void FUN_006c47e0_shell::FUN_006c47e0()
     UList* pNode = (UList*)((char*)this + 0x34);
     while (pNode && !_ref_008256d0(pNode))
     {
-        unsigned int prefID = *((unsigned int *)(new ((void *)(pNode)) ::Vec3()));
+        unsigned int prefID = *((unsigned int *)((void *)(pNode)));
         pNode = (UList*)((int)(reinterpret_cast<::Callees *>((void *)(((GridArray*)pNode)))->FUN_00726070()));
         GO spArray(0);
         if (reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 0x1c))))->FUN_006c62d0((unsigned int)((void*)prefID), (void **)&(spArray)))
@@ -2035,7 +2030,7 @@ bool FUN_006c4fb0_shell::ProcessDoorObstacles()
     pCurrentElementNext = (UNode*)((char*)this + 0xf8);
     while (pCurrentElementNext)
     {
-        unsigned int doorId = *((unsigned int *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        unsigned int doorId = *((unsigned int *)((void *)(pCurrentElementNext)));
         pCurrentElementNext = ((::fnv_006c4fb0::UNode *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         GO spArray(0);
         if (reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 0x110))))->FUN_006c62d0((unsigned int)((void*)doorId), (void **)&(spArray)))
@@ -2566,7 +2561,7 @@ void FUN_006c45e0_shell::ProcessAddedRefs()
     ListStand* pCurrentElementNext = (ListStand*)((char*)this + 0x2c);
     while (pCurrentElementNext && !((FUN_008256d0_s*)pCurrentElementNext)->FUN_008256d0())
     {
-        TESObjectREFR* pref = *((::fnv_006c45e0::TESObjectREFR **)(new ((void *)(((FUN_006815c0_s*)pCurrentElementNext))) ::Vec3()));
+        TESObjectREFR* pref = *((::fnv_006c45e0::TESObjectREFR **)((void *)(((FUN_006815c0_s*)pCurrentElementNext))));
         pCurrentElementNext = ((::fnv_006c45e0::ListStand *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         GO spArray(0);
         if (reinterpret_cast<::Map62d0 *>((((Map62d0*)((char*)this + 0x1c))))->FUN_006c62d0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDView_006c45e0*)pref)))->FUN_0084e3a0())), (void **)&(spArray)))
@@ -6133,9 +6128,9 @@ void FUN_00963d60_shell::FUN_00963d60(int param_2)
         return;
     pNode = unk60c;
     pEntry = 0;
-    while (pNode != 0 && *((int *)(new ((void *)(pNode)) ::Vec3())) != 0)
+    while (pNode != 0 && pNode->m_item != 0)
     {
-        pEntry = *((int *)(new ((void *)(pNode)) ::Vec3()));
+        pEntry = pNode->m_item;
         if (pEntry != 0 && param_2 == *(int*)((char*)pEntry + 8))
         {
             reinterpret_cast<::ItemChangeListNode *>((((Call_00905330*)pNode)))->FUN_00905330((*(::InventoryStackRecord *const *)((bhkRigidBody**)&pEntry)));
@@ -6449,7 +6444,7 @@ bool SelfX::FUN_006c5190()
     NodeX* pkNode = &m_kList;
     while (pkNode && !pkNode->FUN_008256d0())
     {
-        ObjX* pkObj = *((::fnv_006c5190::ObjX **)(new ((void *)(pkNode)) ::Vec3()));
+        ObjX* pkObj = *((::fnv_006c5190::ObjX **)((void *)(pkNode)));
         if (pkObj->F1d0())
         {
             PtrX spScreenData(new NewX);
@@ -6995,7 +6990,7 @@ void ObsMgr::FUN_006c4d30()
     unsigned int uiTimeLimitMs = (unsigned int)(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006c4d30::GlobalObject_0044f440 *>(&::g_011d71b0)))))) * 1000.0);
     for (ObstList* node = &list3C; node && !reinterpret_cast<::ObsList *>((node))->FUN_004a4460();)
     {
-        ObstPtr1920 item((*(::fnv_006c4d30::ObstPtr1920 *)(new ((void *)(node)) ::Vec3())));
+        ObstPtr1920 item((*(::fnv_006c4d30::ObstPtr1920 *)((void *)(node))));
         node = ((::fnv_006c4d30::ObstList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         Holder3 h;
         new ((void *)&(h)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((::fnv_006c4d30::BodyRef *)(reinterpret_cast<::FUN_00620b80_shell *>((((::fnv_006c4d30::RigidBody *)(::FUN_00559450((int *)&(((::fnv_006c4d30::ObstData1920 *)(::FUN_00559450((int *)&(item))))->m_pRigidBody))))))->GetReferenceFlags()))->FUN_004b4ec0())));

@@ -245,7 +245,6 @@ bool NavMesh::GetStaticAvoidNodesForTriangle(unsigned short triangle,
 PathingLocation::PathingLocation(const CoordinateTriple& location, NavMeshInfo* navMesh, unsigned short triangle)
 {
     m_ppVirtualMethodTable = (void**)fnv_vftable_DAT_0102583c;
-    new ((void *)(((BSSimpleList<InventoryStackRecord*>*)&Location))) ::Vec3();
     Location = location.Point;
     uiFlags = 0;
     m_pLocationNavMesh = navMesh;
@@ -450,7 +449,7 @@ struct FUN_006915d0_helper : public PathingAvoidanceNode
 PathingAvoidanceNode* FUN_006915d0_helper::FUN_006915d0(const NiPoint3& arPoint, float afRadius, float afCost)
 {
     m_kLocation = arPoint;
-    new ((void *)(&TwoComponentVector)) ::Vec3();
+    (void *)(&TwoComponentVector);
     fRadius = afRadius;
     m_fPathingCostCur = afCost;
     eType = 0;
@@ -823,7 +822,7 @@ struct FUN_00691f00_shell : NiTPointerMap
 // @fnv 0x00691f00
 void FUN_00691f00_shell::FUN_00691f00()
 {
-    *reinterpret_cast<void**>(this) = "p!i";
+    *reinterpret_cast<void**>(this) = (void*)"p!i";
     reinterpret_cast<::FUN_00438af0_Class *>((this))->FUN_00438af0();
     ::FUN_00aa10f0(_member8);
 }
@@ -1455,6 +1454,7 @@ struct EBase
     virtual ~EBase();
     char pad04[0x8];
 };
+}  // namespace fnv_0068ed70
 template <> class BSSimpleArray<unsigned short, 1024>
 {
   public:
@@ -1463,6 +1463,7 @@ template <> class BSSimpleArray<unsigned short, 1024>
     unsigned int size;
     unsigned int reserved;
 };
+namespace fnv_0068ed70 {
 struct FUN_00691a90
 {
     char pad[0x10];

@@ -38,21 +38,11 @@
 #include "fnv/symbols_0106d000.h"
 #include "pathmanager_decls.h"
 #include "fnv/decl/FUN_006c9900_shell.h"
-#include "fnv/decl/FUN_006ea330_shell.h"
-#include "fnv/decl/FUN_006eabe0_shell.h"
-#include "fnv/decl/FUN_006eb790_shell.h"
-#include "fnv/decl/FUN_006eb7b0_shell.h"
-#include "fnv/decl/FUN_006eb7d0_shell.h"
-#include "fnv/decl/FUN_006eb7f0_shell.h"
-#include "fnv/decl/FUN_006ebde0_shell.h"
-#include "fnv/decl/GlobalObject_0044fae0.h"
 #include <cstdint>
 #include "fnv/decl/FUN_00a59c60_cls.h"
 #include "fnv/decl/FUN_00aa62e0_shell.h"
-#include "fnv/decl/ManagerView.h"
 #include "fnv/decl/TaskQueueInterface.h"
 #include "fnv/decl/fnv_006c5ec0__S6c5ec0.h"
-#include "fnv/decl/fnv_006eac70__PathManagerImpl_t.h"
 #include "fnv/decl/fnv_0087ac00__Owner0087ac00.h"
 #include "fnv/decl/fnv_0087ac60__FUN_0087AC60_Holder.h"
 #include "fnv/decl/fnv_0087ad50__Host.h"
@@ -7546,15 +7536,18 @@ class NiNode
 {
   public:
 };
+}  // namespace fnv_006eae40
 
-template <> class NiPointer<NiNode>
+template <> class NiPointer<fnv_006eae40::NiNode>
 {
   public:
-    NiNode* m_pObject;
-    NiPointer(NiNode* p = 0);
+    fnv_006eae40::NiNode* m_pObject;
+    NiPointer(fnv_006eae40::NiNode* p = 0);
     ~NiPointer();
-    operator NiNode*() const;
+    operator fnv_006eae40::NiNode*() const;
 };
+
+namespace fnv_006eae40 {
 
 struct FUN_006eae40_shell
 {

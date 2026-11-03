@@ -82,9 +82,7 @@ void FUN_006e0ed0_shell::FUN_006e0ed0(void* arg)
     reinterpret_cast<FUN_006a62f0_shell*>(this)->AddOffset(arg);
 }
 
-typedef void* NavMeshPtr;
 
-class NavMeshPtr;
 struct NavMeshInfo
 {
 public:
@@ -843,7 +841,7 @@ bool LOSGridOwner::UpdateNavMeshes(LOSTargetPtr& arTarget)
         unsigned int uiKey;
         reinterpret_cast<::C6b7f20_Map *>(&(kMap))->FUN_006b7f20((::C6b7f20_Node **)&(pPos3), (unsigned int *)&(uiKey), (void **)&(pInfo));
         NavMeshRef kRef9;
-        if (reinterpret_cast<::FUN_006e08f0_shell *>((pInfo))->FUN_006e08f0((void *&)(kRef9)))
+        if (reinterpret_cast<::FUN_006e08f0_shell *>((pInfo))->FUN_006e08f0((::NavMeshPtr &)(kRef9)))
             reinterpret_cast<::S2f850 *>(&(kArray2))->AppendValue((const ::NavMeshPtr &)(kRef9));
     }
     reinterpret_cast<::FUN_006e1500_class *>((((LOSTarget*)arTarget)))->BuildNavMeshMap((::NavMeshCollection *)&(kArray2));
@@ -853,7 +851,7 @@ bool LOSGridOwner::UpdateNavMeshes(LOSTargetPtr& arTarget)
         unsigned int uiKey2;
         reinterpret_cast<::C6b7f20_Map *>(&(kMap))->FUN_006b7f20((::C6b7f20_Node **)&(pPos3), (unsigned int *)&(uiKey2), (void **)&(pInfo2));
         NavMeshRef kRefX;
-        if (reinterpret_cast<::FUN_006e08f0_shell *>((pInfo2))->FUN_006e08f0((void *&)(kRefX)))
+        if (reinterpret_cast<::FUN_006e08f0_shell *>((pInfo2))->FUN_006e08f0((::NavMeshPtr &)(kRefX)))
             reinterpret_cast<::List6DFD *>((pInfo2))->ApplyAllTriFlags((int)&(arTarget));
     }
     reinterpret_cast<::Lock00aa62c0 *>(&(kLock))->FUN_00aa62c0();
@@ -1253,6 +1251,10 @@ struct _Mem_20a4
 
 struct BSSimpleArray : public _Mem_20a4
 {
+    void** m_ppVirtualMethodTable;
+    FormLoadEntry** pBuffer;
+    unsigned int iSize;
+    unsigned int iCapacity;
 };
 
 struct TESConditionItem
@@ -1271,7 +1273,7 @@ void FUN_006e0480::FUN_006e0070(BGSLoadFormBuffer* apLoadGameBuffer)
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)(&inavmeshID));
 
     ((NavMeshInfo**)((char*)this + 0x10))[0] =
-        ((::NavMeshInfo *)(((Pathing*)((::Pathing *)(reinterpret_cast<::Owner45A *>((((TES*)g_TES)))->FUN_0045af00())))->FindReferenceByFormId({})));
+        ((::NavMeshInfo *)(((Pathing*)((::Pathing *)(reinterpret_cast<::Owner45A *>((((TES*)g_TES)))->FUN_0045af00())))->FindReferenceByFormId(inavmeshID)));
 
     {
         unsigned int isaveGameCount;
@@ -1286,7 +1288,7 @@ void FUN_006e0480::FUN_006e0070(BGSLoadFormBuffer* apLoadGameBuffer)
             {
                 FormLoadEntry** ppFormLoadEntry;
 
-                ppFormLoadEntry = &((::FormLoadEntry *)(reinterpret_cast<::S3e60 *>((((BSSimpleArray*)this)))->FUN_006a7ad0(i)));
+                ppFormLoadEntry = &((BSSimpleArray*)this)->pBuffer[i];
                 *ppFormLoadEntry = (FormLoadEntry*)new FUN_006e0190();
 
                 (*ppFormLoadEntry)->LoadForm(apLoadGameBuffer);

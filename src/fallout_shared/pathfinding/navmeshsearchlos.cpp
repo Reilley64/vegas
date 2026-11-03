@@ -247,8 +247,12 @@ void FUN_006aac10_shell::InitNavMeshPoint(void* p, NavMesh* n, unsigned short t)
     ((float*)((char*)p + 16))[1] = vecPos.y;
     ((float*)((char*)p + 16))[2] = vecPos.z;
     if (((unsigned char*)((char*)this + 0x2074))[0])
-        ((float*)p)[1] =
-            reinterpret_cast<::FUN_00589850_Class *>((void *)(((P3L*)&(vecPos - (*(::P3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)(((NavMeshTriangleReference*)((char*)this + 0x2078))))->FUN_006a6eb0({})))))))->FUN_00589850();
+    {
+        P3 kCenter;
+        P3L kDiff;
+        static_cast<P3&>(kDiff) = vecPos - *reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)(((NavMeshTriangleReference*)((char*)this + 0x2078))))->FUN_006a6eb0(&kCenter);
+        ((float*)p)[1] = reinterpret_cast<::FUN_00589850_Class *>(&kDiff)->FUN_00589850();
+    }
     else
         ((float*)p)[1] = 0.0f;
 }
@@ -444,16 +448,17 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                                 continue;
                                         }
                                         connectedMesh->FUN_00558220(candidatePoint, connectedTri);
-                                        cost = reinterpret_cast<::FUN_00589850_Class *>((void *)(((P3L*)&(reinterpret_cast<const Point3&>(originPos) - candidatePoint))))->FUN_00589850();
+                                        Point3 kCostDiff = reinterpret_cast<const Point3&>(originPos) - candidatePoint;
+                                        cost = reinterpret_cast<::FUN_00589850_Class *>(&kCostDiff)->FUN_00589850();
                                         extraCost = 0.0f;
                                         if (((::VectVec *)(reinterpret_cast<::_Dummy_0069e390 *>((query))->GetString())))
                                             extraCost = (float)((double)(reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::VectVec *)(reinterpret_cast<::_Dummy_0069e390 *>((query))->GetString()))))->SumNodeValues((int)(&candidatePoint))));
                                         if (useDirection)
                                         {
+                                            P3 kDestCenter = ((NavMeshTriangleReference*)&destination)->FUN_006a6eb0();
                                             Point3 vecDirectionA =
                                                 reinterpret_cast<const Point3&>(originPos) -
-                                                reinterpret_cast<const Point3&>(
-                                                    ((NavMeshTriangleReference*)&destination)->FUN_006a6eb0());
+                                                reinterpret_cast<const Point3&>(kDestCenter);
                                             {
                                                 Point3 vecDirectionB =
                                                     reinterpret_cast<const Point3&>(originPos) - candidatePoint;

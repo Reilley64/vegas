@@ -268,7 +268,7 @@ class NiBound
 void* FUN_006a0480(void* pThis)
 {
     ::FUN_006240d0((void *)(((NiBound*)pThis)));
-    new ((void *)((char*)pThis + 0xC)) ::Vec3();
+    (void *)((char*)pThis + 0xC);
     return pThis;
 }
 

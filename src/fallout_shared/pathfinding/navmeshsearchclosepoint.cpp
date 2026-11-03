@@ -2463,7 +2463,10 @@ bool FUN_006a90a0_Class::IsNodeWithinSearchCriteria(NavMeshTriangleReference* ap
     NiPoint3 pt;
     ((GetCenterX_006a6eb0*)&apNode->pMesh)->FUN_006a6eb0((P3*)&pt);
 
-    float fDist = reinterpret_cast<::FUN_00589850_Class *>((void *)(((NiPoint3_Sub*)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((int)(this->pRequest))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - pt))))->FUN_00589850();
+    ::NiPoint3 kStart;
+    NiPoint3_Sub kDelta;
+    static_cast<NiPoint3&>(kDelta) = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((int)(this->pRequest))))))->QueueActorAnimationTask(kStart) - pt;
+    float fDist = reinterpret_cast<::FUN_00589850_Class *>(&kDelta)->FUN_00589850();
     if (fDist < this->fRadius)
         return false;
 

@@ -644,7 +644,8 @@ NiSortAdjustNode* ScriptClass::CreateSortAdjustNode()
     NiPointer<NiAlphaProperty> spA(new NiAlphaProperty());
     reinterpret_cast<::FUN_0049ed90_shell *>(((spA).operator->()))->FUN_0049ed90(true);
     NiPointer<NiMaterialProperty> spB(new NiMaterialProperty());
-    reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>(((spB).operator->()))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::NiColor *)((const NiColor*)&NiPoint3(1.0f, 1.0f, 1.0f)));
+    NiPoint3 kWhite(1.0f, 1.0f, 1.0f);
+    reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>(((spB).operator->()))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::NiColor *)((const NiColor*)&kWhite));
     reinterpret_cast<::DecalStub *>(((spB).operator->()))->FUN_0068c9f0(0.75f);
     reinterpret_cast<::FUN_00439410_cls *>((rootNode))->FUN_00439410((::ArgObject *)(::NiObject *)(spA));
     reinterpret_cast<::FUN_00439410_cls *>((rootNode))->FUN_00439410((::ArgObject *)(::NiObject *)(spB));

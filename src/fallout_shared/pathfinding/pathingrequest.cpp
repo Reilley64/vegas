@@ -70,11 +70,7 @@
 #include "pathingrequest_types_TESPackage.h"
 #include "TESObjectREFR.h"
 #include "pathingrequest_decls.h"
-#include "fnv/decl/BSSimpleArray_PathingAvoidNode_1024.h"
 #include "fnv/decl/FUN_006a7910_shell.h"
-#include "fnv/decl/FUN_006e2980_shell.h"
-#include "fnv/decl/FUN_006e3960.h"
-#include "fnv/decl/FUN_006e39d0.h"
 
 // @fnv 0x006e38d0
 void PathingRequest::InitLoadGame(BGSLoadFormBuffer* buffer)

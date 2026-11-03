@@ -356,8 +356,11 @@ bool FUN_006b8c50_shell::SetupNavMeshSearch(PathingActorData* apActorLockData, v
         this->m_bUseGoalDistanceHeuristic = true;
     float fstartheuristic = 3.402823466e+38F;
     if (this->m_bUseGoalDistanceHeuristic)
-        fstartheuristic = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)((&this->m_kGoalPosition)))->FUN_00439ef0-((::NiPoint3 *)&((this->m_pStartNavMeshInfo)->m_kNavMeshPosition), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() *
-                          (double)0.1f;
+    {
+        ::NiPoint3 kGoalOffset;
+        reinterpret_cast<::FUN_00439ef0_class *>((void *)((&this->m_kGoalPosition)))->FUN_00439ef0(&kGoalOffset, *(const ::NiPoint3 *)&((this->m_pStartNavMeshInfo)->m_kNavMeshPosition));
+        fstartheuristic = kGoalOffset.ComputeMagnitude() * (double)0.1f;
+    }
     else
         fstartheuristic = 1.0f;
     reinterpret_cast<::FUN_006b8ec0_cls *>((((NavSearch_S*)this)))->FUN_006b8ec0((int)(apStartMesh), (int *)(void **)(&apStartMesh), fstartheuristic);

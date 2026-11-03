@@ -1,203 +1,100 @@
-// fnv_asm_helpers.h - x87 helpers written for this project.
+// fnv_asm_helpers.h - helpers for instruction sequences the original program wrote in x87 inline assembly.
 //
-// Two instruction sequences in the original program cannot be produced from plain C++ with this compiler
-// (Visual C++ 2008 SP1, cl 15.00.30729.01):
-//   - fsincos (sine and cosine of one angle in a single instruction), and
-//   - a float-to-int conversion in the current FPU rounding mode (fld + fistp, without the _ftol2 helper call).
-// The original engine reached them through small inline helpers written in inline assembly. These functions are our
-// own versions with the same instruction sequences. Call them from C++; inline assembly in submitted code stays
-// forbidden. In units compiled with inlining enabled (/Ob1, /O2) the compiler inlines them like the originals.
+// The original engine reached fsincos, a float-to-int conversion in the current rounding mode (fld + fistp), rdtsc,
+// cpuid, int 3 and a few fixed x87 transform loops through small inline-assembly helpers. These are C++ and compiler
+// intrinsic versions with the same results. Call sites use the same names and arguments.
 #pragma once
 
-__forceinline void fnv_SinCos(float fRadians, float& fSin, float& fCos)
+#include <cmath>
+#include <intrin.h>
+
+// fsincos.
+inline void fnv_SinCos(float fRadians, float& fSin, float& fCos)
 {
-    float s, c;
-    __asm {
-        fld fRadians
-        fsincos
-        fstp c
-        fstp s
-    }
-    fSin = s;
-    fCos = c;
+    fSin = std::sin(fRadians);
+    fCos = std::cos(fRadians);
 }
 
-__forceinline int fnv_FloatToInt(float fValue)
+// fld + fistp: rounds in the current rounding mode (round to nearest even by default). Out-of-range values give
+// INT_MIN, as fistp's integer indefinite does.
+inline int fnv_FloatToInt(float fValue)
 {
-    int iValue;
-    __asm {
-        fld fValue
-        fistp iValue
+    return _mm_cvtss_si32(_mm_set_ss(fValue));
+}
+
+// dst[i] = matrix * src[i] for n vectors of three floats; the matrix is nine floats, row by row.
+inline void fnv_TransformVectors(unsigned int n, const void* src, void* dst, const void* matrix)
+{
+    const float* s = static_cast<const float*>(src);
+    float* d = static_cast<float*>(dst);
+    const float* m = static_cast<const float*>(matrix);
+    for (; n != 0; --n, s += 3, d += 3)
+    {
+        const float x = s[0], y = s[1], z = s[2];
+        d[0] = x * m[0] + y * m[1] + z * m[2];
+        d[1] = x * m[3] + y * m[4] + z * m[5];
+        d[2] = x * m[6] + y * m[7] + z * m[8];
     }
-    return iValue;
 }
 
-// Fixed operations reconstructed from the PC executable. Candidate source calls these helpers;
-// arbitrary inline assembly in submissions remains forbidden. Transform labels allow one use per function.
-#define fnv_TransformVectors(n,src,dst,matrix) __asm { \
-__asm mov edx, n \
-__asm cmp edx, 0 \
-__asm jne La74895 \
-__asm jmp La748fb \
-__asm La74895: \
-__asm mov eax, src \
-__asm mov ebx, dst \
-__asm mov ecx, matrix \
-__asm La7489e: \
-__asm fld dword ptr [eax] \
-__asm fmul dword ptr [ecx] \
-__asm fld dword ptr [eax + 4] \
-__asm fmul dword ptr [ecx + 4] \
-__asm fld dword ptr [eax + 8] \
-__asm fmul dword ptr [ecx + 8] \
-__asm fxch st(1) \
-__asm faddp st(2), st(0) \
-__asm fld dword ptr [eax] \
-__asm fmul dword ptr [ecx + 0xc] \
-__asm fxch st(2) \
-__asm faddp st(1), st(0) \
-__asm fxch st(1) \
-__asm fld dword ptr [eax + 4] \
-__asm fmul dword ptr [ecx + 0x10] \
-__asm fld dword ptr [eax + 8] \
-__asm fmul dword ptr [ecx + 0x14] \
-__asm fxch st(3) \
-__asm fstp dword ptr [ebx] \
-__asm faddp st(1), st(0) \
-__asm fld dword ptr [eax] \
-__asm fmul dword ptr [ecx + 0x18] \
-__asm fxch st(2) \
-__asm faddp st(1), st(0) \
-__asm fld dword ptr [eax + 4] \
-__asm fmul dword ptr [ecx + 0x1c] \
-__asm fld dword ptr [eax + 8] \
-__asm fmul dword ptr [ecx + 0x20] \
-__asm fxch st(1) \
-__asm faddp st(3), st(0) \
-__asm fxch st(1) \
-__asm fstp dword ptr [ebx + 4] \
-__asm faddp st(1), st(0) \
-__asm add eax, 0xc \
-__asm add ebx, 0xc \
-__asm fstp dword ptr [ebx - 4] \
-__asm dec edx \
-__asm jne La7489e \
-__asm La748fb: \
+// fnv_TransformVectors, then adds (tx, ty, tz).
+inline void fnv_TransformPoints(unsigned int n, const void* src, void* dst, const void* matrix, float tx, float ty,
+                                float tz)
+{
+    const float* s = static_cast<const float*>(src);
+    float* d = static_cast<float*>(dst);
+    const float* m = static_cast<const float*>(matrix);
+    for (; n != 0; --n, s += 3, d += 3)
+    {
+        const float x = s[0], y = s[1], z = s[2];
+        d[0] = x * m[0] + y * m[1] + z * m[2] + tx;
+        d[1] = x * m[3] + y * m[4] + z * m[5] + ty;
+        d[2] = x * m[6] + y * m[7] + z * m[8] + tz;
+    }
 }
 
-#define fnv_TransformPoints(n,src,dst,matrix,tx,ty,tz) __asm { \
-__asm mov edx, n \
-__asm cmp edx, 0 \
-__asm jne La74985 \
-__asm jmp La749fe \
-__asm La74985: \
-__asm mov eax, src \
-__asm mov ebx, dst \
-__asm mov ecx, matrix \
-__asm La7498e: \
-__asm fld dword ptr [eax] \
-__asm fmul dword ptr [ecx] \
-__asm fld dword ptr [eax + 4] \
-__asm fmul dword ptr [ecx + 4] \
-__asm fld dword ptr [eax + 8] \
-__asm fmul dword ptr [ecx + 8] \
-__asm fxch st(1) \
-__asm faddp st(2), st(0) \
-__asm fld dword ptr [eax] \
-__asm fmul dword ptr [ecx + 0xc] \
-__asm fxch st(2) \
-__asm faddp st(1), st(0) \
-__asm fxch st(1) \
-__asm fld dword ptr [eax + 4] \
-__asm fmul dword ptr [ecx + 0x10] \
-__asm fld dword ptr [eax + 8] \
-__asm fmul dword ptr [ecx + 0x14] \
-__asm fxch st(1) \
-__asm faddp st(2), st(0) \
-__asm fxch st(2) \
-__asm fadd tx \
-__asm fld dword ptr [ecx + 0x18] \
-__asm fxch st(2) \
-__asm faddp st(3), st(0) \
-__asm fxch st(1) \
-__asm fmul dword ptr [eax] \
-__asm fld dword ptr [ecx + 0x1c] \
-__asm fld dword ptr [ecx + 0x20] \
-__asm fxch st(1) \
-__asm fmul dword ptr [eax + 4] \
-__asm fxch st(4) \
-__asm fadd ty \
-__asm fxch st(1) \
-__asm fmul dword ptr [eax + 8] \
-__asm fxch st(4) \
-__asm faddp st(2), st(0) \
-__asm fxch st(2) \
-__asm fstp dword ptr [ebx] \
-__asm faddp st(2), st(0) \
-__asm fstp dword ptr [ebx + 4] \
-__asm fadd tz \
-__asm add eax, 0xc \
-__asm add ebx, 0xc \
-__asm fstp dword ptr [ebx - 4] \
-__asm dec edx \
-__asm jne La7498e \
-__asm La749fe: \
+// rdtsc.
+inline void fnv_ReadTicks64(unsigned __int64& ticks)
+{
+    ticks = __rdtsc();
 }
 
-#define fnv_ReadTicks64(ticks) __asm { \
-__asm push ebx \
-__asm pop ebx \
-__asm rdtsc \
-__asm mov dword ptr[ticks],eax \
-__asm mov dword ptr[ticks+4],edx \
+// cpuid leaf 0x80000000: the highest extended leaf (eax).
+inline void fnv_CpuidMaxExtended(int& result)
+{
+    int registers[4];
+    __cpuid(registers, static_cast<int>(0x80000000u));
+    result = registers[0];
 }
 
-#define fnv_CpuidMaxExtended(result) __asm { \
-__asm mov eax,80000000h \
-__asm cpuid \
-__asm mov result,eax \
+// cpuid leaf 0x80000001, eax. The original loaded the leaf into edx instead of eax, so the leaf it queried was
+// whatever eax held; eax of an extended leaf never has bit 31 set, which is the only bit the caller tests.
+inline void fnv_CpuidLegacyExtended(int& result)
+{
+    int registers[4];
+    __cpuid(registers, static_cast<int>(0x80000001u));
+    result = registers[0];
 }
 
-#define fnv_CpuidLegacyExtended(result) __asm { \
-__asm mov edx,80000001h \
-__asm cpuid \
-__asm mov result,eax \
+// cpuid leaf 1: the feature flags (edx).
+inline void fnv_CpuidFeatures(int& result)
+{
+    int registers[4];
+    __cpuid(registers, 1);
+    result = registers[3];
 }
 
-#define fnv_CpuidFeatures(result) __asm { \
-__asm mov eax,1 \
-__asm cpuid \
-__asm mov result,edx \
+// Havok HK_BREAKPOINT, reached at the end of HK_ERROR / HK_ASSERT reports in release builds.
+inline void fnv_Breakpoint()
+{
+    __debugbreak();
 }
 
-// Havok HK_BREAKPOINT (hkBaseTypes.h, MSVC IA32: __asm { int 3 }), reached at the end of HK_ERROR / HK_ASSERT reports
-// in release builds. An inline-asm block changes how VC9 /O2 lays out the frame of the function that holds it, and
-// __debugbreak() does not (0x00d7b600: 73 bytes of stack slots differ). Candidate source calls fnv_Breakpoint();
-// arbitrary inline assembly in submissions remains forbidden. Added 2026-10-30.
-// A macro, not a function: a function body here (even unused) shifts the string-literal ($SG) numbering of every
-// file that includes this header.
-#define fnv_Breakpoint() __asm { int 3 }
-
-// 0x00a855f0 (position-only skinning loop): dst += p * weight, fixed x87 sequence from the PC executable. Pass three
-// named locals: the destination NiPoint3 pointer, a float pointer to the transformed point, and the float weight.
-#define fnv_AddWeightedPoint(out,point,weight) __asm { \
-__asm mov eax, out \
-__asm mov ecx, point \
-__asm fld dword ptr [ecx] \
-__asm fmul weight \
-__asm fld dword ptr [ecx + 4] \
-__asm fmul weight \
-__asm fxch st(1) \
-__asm fadd dword ptr [eax] \
-__asm fld dword ptr [ecx + 8] \
-__asm fmul weight \
-__asm fxch st(2) \
-__asm fadd dword ptr [eax + 4] \
-__asm fxch st(1) \
-__asm fstp dword ptr [eax] \
-__asm fxch st(1) \
-__asm fadd dword ptr [eax + 8] \
-__asm fxch st(1) \
-__asm fstp dword ptr [eax + 4] \
-__asm fstp dword ptr [eax + 8] \
+// out += point * weight for one point of three floats (the position-only skinning loop at 0x00a855f0).
+inline void fnv_AddWeightedPoint(void* out, const float* point, float weight)
+{
+    float* o = static_cast<float*>(out);
+    o[0] = point[0] * weight + o[0];
+    o[1] = point[1] * weight + o[1];
+    o[2] = point[2] * weight + o[2];
 }

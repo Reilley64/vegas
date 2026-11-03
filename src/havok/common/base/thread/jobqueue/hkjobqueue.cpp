@@ -7,8 +7,6 @@
 #include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_005609f0_shell.h"
-#include "fnv/decl/fnv_00d04b50__Owner.h"
-#include "fnv/decl/fnv_00d057f0__ItemPool.h"
 #include "fnv/symbols_00d2c000.h"
 #include <intrin.h>
 #include <windows.h>
@@ -229,13 +227,8 @@ __declspec(align(16)) struct RequestContext
 };
 struct Owner
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
+    CRITICAL_SECTION m_section;
+    void* unk18;
     int unk1C;
     intptr_t unk20;
     int unk24;
@@ -627,11 +620,7 @@ struct FUN_00d048e0_cls
     int unk6c;
     int unk70;
     int unk74;
-    int m_78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
+    void* m_78[5];
     int m_8c;
 
     void ProcessPendingEntries(char* tbl);
@@ -696,7 +685,7 @@ scan:
     return;
 found:
     *(unsigned short*)(tbl + 0x22 + i * 2) += 0xffff;
-    ::FUN_00d043c0((::CallTarget *)((&this->m_78)[i]), 1);
+    ::FUN_00d043c0((::CallTarget *)(this->m_78[i]), 1);
 }
 
 struct __declspec(align(16)) D049D0LockInfo
@@ -2338,7 +2327,7 @@ struct QueueLockView : Owner
 // @fnv 0x00d04400
 Registry* QueueLockView::FUN_00d04400(RequestContext*)
 {
-    EnterCriticalSection(this);
+    EnterCriticalSection(&m_section);
     return reinterpret_cast<Registry*>(unk18);
 }
 
@@ -2368,7 +2357,7 @@ void FUN_00d04450_cls::SetValue(int aiValue)
     {
         unsigned short dec = 0xffff;
         *(unsigned short*)(obj + 0x22 + *(signed char*)((char*)this + 0xea) * 2) += dec;
-        ::FUN_00d043c0((::CallTarget *)(((int*)((char*)this + 0x78))[*(signed char*)((char*)this + 0xea)]), 1);
+        ::FUN_00d043c0((::CallTarget *)(((void**)((char*)this + 0x78))[*(signed char*)((char*)this + 0xea)]), 1);
     }
     reinterpret_cast<::CriticalSectionOwner *>(this)->FUN_00d04420((::Registry *)(obj));
 }
@@ -2521,7 +2510,7 @@ void Worker::FUN_00d04d80(TraceArg* apTraceArg, int flag)
 // @fnv 0x00d04420
 void CriticalSectionOwner::FUN_00d04420(Registry* data)
 {
-    LeaveCriticalSection(this);
+    LeaveCriticalSection((LPCRITICAL_SECTION)this);
 }
 
 
@@ -2659,6 +2648,11 @@ struct ThreePointerIntegerRecord
     int m_iIntegerValue;
     void* m_pSecondPointer;
     void* m_pThirdPointer;
+};
+
+enum
+{
+    MAX_NUM_THREAD_TYPES = 5
 };
 
 class JobDispatcher
@@ -2903,6 +2897,7 @@ struct Refs
     Bucket20 buckets[1];
     bool IsClear(int m) const { if (f18 & m) return false; return true; }
 };
+typedef int (__cdecl *ItemFn)(void* self, Refs* refs, ItemBuf* item, int arg);
 struct BSRenderedTexture;
 struct FUN_00b37880;
 struct FakeObj;

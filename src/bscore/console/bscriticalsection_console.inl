@@ -22,3 +22,26 @@ void RecursiveLock::Unlock(BSCriticalSectionEntry** entry, unsigned int* key, un
         *entry = 0;
     }
 }
+
+// Shares address 0x00a0c850 with the unsigned int version (the same code iterates maps of pointers).
+void RecursiveLock::Unlock(BSCriticalSectionEntry** entry, unsigned int* key, void** value)
+{
+    unsigned int uiIndex;
+    BSCriticalSectionPointerEntry* pEntry = (BSCriticalSectionPointerEntry*)*entry;
+    *key = pEntry->key;
+    *value = pEntry->value;
+    if (pEntry->next) {
+        *entry = (BSCriticalSectionEntry*)pEntry->next;
+    } else {
+        uiIndex = vfn_4(pEntry->key);
+        ++uiIndex;
+        for (; uiIndex < bucketCount; ++uiIndex) {
+            BSCriticalSectionEntry* pBucket = buckets[uiIndex];
+            if (pBucket) {
+                *entry = pBucket;
+                return;
+            }
+        }
+        *entry = 0;
+    }
+}

@@ -6844,10 +6844,12 @@ class NiD3DVertexShader
             DeleteThis();
     }
 };
-template <> class NiPointer<NiD3DPixelShader>
+}  // namespace fnv_00bd44c0
+
+template <> class NiPointer<fnv_00bd44c0::NiD3DPixelShader>
 {
   public:
-    NiD3DPixelShader* m_pObject;
+    fnv_00bd44c0::NiD3DPixelShader* m_pObject;
     NiPointer()
     {
         m_pObject = 0;
@@ -6858,10 +6860,10 @@ template <> class NiPointer<NiD3DPixelShader>
             m_pObject->DecRefCount();
     }
 };
-template <> class NiPointer<NiD3DVertexShader>
+template <> class NiPointer<fnv_00bd44c0::NiD3DVertexShader>
 {
   public:
-    NiD3DVertexShader* m_pObject;
+    fnv_00bd44c0::NiD3DVertexShader* m_pObject;
     NiPointer()
     {
         m_pObject = 0;
@@ -6872,6 +6874,8 @@ template <> class NiPointer<NiD3DVertexShader>
             m_pObject->DecRefCount();
     }
 };
+
+namespace fnv_00bd44c0 {
 
 struct FUN_00b79b00
 {
@@ -12430,7 +12434,7 @@ class ImageSpaceEffectParam
     virtual ~ImageSpaceEffectParam();
 };
 
-template <class T> class NiTPrimitiveArray
+template <class T, class TAlloc = NiTMallocInterface<T>> class NiTPrimitiveArray
 {
   public:
     void* m_vptr;
@@ -14838,12 +14842,12 @@ Pass91* Shader91::FUN_00bde9b0(Geometry91* geometry, Light91* light, unsigned sh
         }
         pass->count = lights;
         void* position = 0;
-        Light91* next = ((::fnv_00bde9b0::Light91 *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)&(position), {})));
+        Light91* next = ((::fnv_00bde9b0::Light91 *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&position))));
         int i = 1;
         while (next && i < pass->count)
         {
             pass->lights[i++] = next;
-            next = ((::fnv_00bde9b0::Light91 *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+            next = ((::fnv_00bde9b0::Light91 *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&position))));
         }
     }
     int lights = pass->count;
@@ -17622,7 +17626,7 @@ void ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, u
     if (flag)
     {
         void* cursor;
-        IterObj* obj = ((::IterObj *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&cursor), {})));
+        IterObj* obj = ((::IterObj *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&cursor))));
         while (obj)
         {
             if (!obj)
@@ -17635,7 +17639,7 @@ void ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, u
                 else
                     ++*count;
             }
-            obj = ((::IterObj *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+            obj = ((::IterObj *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor))));
         }
     }
     for (unsigned char i = 0; i < n; ++i)
@@ -17687,7 +17691,7 @@ void ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, u
         if (flag)
         {
             void* cursor;
-            IterObj* obj = ((::IterObj *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&cursor), {})));
+            IterObj* obj = ((::IterObj *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&cursor))));
             while (obj)
             {
                 if (!obj)
@@ -17705,7 +17709,7 @@ void ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, u
                         ++*count;
                     }
                 }
-                obj = ((::IterObj *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                obj = ((::IterObj *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor))));
             }
         }
     }
@@ -21041,7 +21045,7 @@ regular:
         {
             float dist;
             passType = 0;
-            S3e40_Light* __restrict primary = ((::S3e40_Light *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&passType), {})));
+            S3e40_Light* __restrict primary = ((::S3e40_Light *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&passType))));
             {
                 S3e40_State* ss = sceneLight->state;
                 dist = S3e40_Len(ss->dir);
@@ -21078,7 +21082,7 @@ regular:
                             secondLight = primary;
                             SetFlag(0x100, true);
                         }
-                        primary = ((::S3e40_Light *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                        primary = ((::S3e40_Light *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&passType))));
                         if (primary)
                         {
                             secondary = primary;
@@ -21091,7 +21095,7 @@ regular:
                         SetFlag(0x80, true);
                         if (dist > 0.0f)
                         {
-                            primary = ((::S3e40_Light *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                            primary = ((::S3e40_Light *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&passType))));
                             if (primary)
                             {
                                 secondLight = sceneLight;
@@ -21109,11 +21113,11 @@ regular:
                         }
                         else
                         {
-                            primary = ((::S3e40_Light *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                            primary = ((::S3e40_Light *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&passType))));
                             if (primary)
                             {
                                 secondLight = primary;
-                                primary = ((::S3e40_Light *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                                primary = ((::S3e40_Light *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&passType))));
                                 secondary = primary;
                                 SetFlag(0x100, true);
                                 FUN_00441130(0x29, primary != 0);
@@ -22425,7 +22429,7 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
         {
             DrawLight* light;
             void* cursor = 0;
-            light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&cursor), {})));
+            light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&cursor))));
             if (!extraLight && !hasNoOverlay && !hasRenderContext)
             {
                 reinterpret_cast<::Shader_00bd9770 *>(this)->FUN_00bd9770((::NiGeometry *)(geometry), (::ShadowSceneLight *)(primaryLight), (::ShadowSceneLight *)(light), count, effectType, &first, false, attr0);
@@ -22440,7 +22444,7 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
                 if (light->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
                     reinterpret_cast<::Shader9840 *>(this)->FUN_00bd9840((::NiGeometry *)(geometry), (::ShadowSceneLight *)(light), count, effectType, (*(bool *)(&first)), hasNoOverlay, true, false, attr0);
             }
-            for (light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700((::ListItem_b70700 *&)this))); light; light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700((::ListItem_b70700 *&)this))))
+            for (light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor)))); light; light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor)))))
             {
                 if (light->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
                     reinterpret_cast<::Shader9840 *>(this)->FUN_00bd9840((::NiGeometry *)(geometry), (::ShadowSceneLight *)(light), count, effectType, (*(bool *)(&first)), hasNoOverlay, true, false, attr0);
@@ -22449,7 +22453,7 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
                          needsNormal, attr0, specialBlend);
             if (basePass)
             {
-                light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&cursor), {})));
+                light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&cursor))));
                 if (useAlternate && primaryLight->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
                 {
                     FUN_00bd99c0(geometry, primaryLight, count, effectType, &first, hasNoOverlay, false, false,
@@ -22459,14 +22463,14 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
                 {
                     FUN_00bd99c0(geometry, light, count, effectType, &first, hasNoOverlay, true, false, hasNoBasePass,
                                  false, attr0);
-                    light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                    light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor))));
                 }
                 while (light)
                 {
                     if (light->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
                         FUN_00bd99c0(geometry, light, count, effectType, &first, hasNoOverlay, true, false,
                                      hasNoBasePass, false, attr0);
-                    light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                    light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor))));
                 }
             }
             if (addAdditional)
@@ -22506,7 +22510,7 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
             if (primaryLight->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
                 reinterpret_cast<::Shader9840 *>(this)->FUN_00bd9840((::NiGeometry *)(geometry), (::ShadowSceneLight *)(primaryLight), count, effectType, (*(bool *)(&first)), hasNoOverlay, false, false, attr0);
             void* cursor = 0;
-            for (light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&cursor), {}))); light; light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700((::ListItem_b70700 *&)this))))
+            for (light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&cursor)))); light; light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor)))))
                 if (light->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
                     reinterpret_cast<::Shader9840 *>(this)->FUN_00bd9840((::NiGeometry *)(geometry), (::ShadowSceneLight *)(light), count, effectType, (*(bool *)(&first)), hasNoOverlay, true, false, attr0);
         }
@@ -22517,7 +22521,7 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
         {
             DrawLight* light;
             void* cursor = 0;
-            light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&cursor), {})));
+            light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&cursor))));
             if (useAlternate && primaryLight->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
             {
                 FUN_00bd99c0(geometry, primaryLight, count, effectType, &first, hasNoOverlay, false, false,
@@ -22528,14 +22532,14 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
             {
                 FUN_00bd99c0(geometry, light, count, effectType, &first, hasNoOverlay, true, false, hasNoBasePass,
                              false, attr0);
-                light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor))));
             }
             while (light)
             {
                 if (light->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
                     FUN_00bd99c0(geometry, light, count, effectType, &first, hasNoOverlay, true, false, hasNoBasePass,
                                  false, attr0);
-                light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor))));
             }
         }
         if (addAdditional && (8 & passMask))
@@ -23541,7 +23545,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                     pass->shader = shader;
                     pass->enabled = true;
                 }
-                light = ((::fnv_00bdf790::PLight *)(::FUN_00b70680((::NiTListItem< ::ShadowSceneLight *> *&)this)));
+                light = ((::fnv_00bdf790::PLight *)(::FUN_00b70680(*reinterpret_cast<::NiTListItem< ::ShadowSceneLight *> **>(&activePosition))));
             } while (light);
         }
     }
@@ -23576,7 +23580,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                         }
                         else
                         {
-                            PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&lightPosition), {})));
+                            PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
                             reinterpret_cast<::ShaderPassBuilder *>(this)->FUN_00bdd520((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), (::ShadowSceneLight *)(light), count, passMode, &firstPass, skinned, hasValue,
                                          flag10, false, special, flag11, castA, flag18);
                         }
@@ -23591,7 +23595,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                     }
                     else
                     {
-                        PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&lightPosition), {})));
+                        PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
                         reinterpret_cast<::ShaderTwoLightSelector *>(this)->SelectTwoLightPass((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), (::ShadowSceneLight *)(light), count, passMode, &firstPass, skinned, hasValue, flag10,
                                      false, special, flag11, castA, flag18);
                     }
@@ -23633,7 +23637,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                         }
                         else
                         {
-                            PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&lightPosition), {})));
+                            PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
                             reinterpret_cast<::ShaderTwoLightSelector *>(this)->SelectTwoLightPass((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), (::ShadowSceneLight *)(light), count, passMode, &firstPass, skinned, hasValue,
                                          flag10, false, special, flag11, castA, flag18);
                         }
@@ -23646,15 +23650,15 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                     {
                         if (lightCount <= 1)
                         {
-                            PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&lightPosition), {})));
+                            PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
                             reinterpret_cast<::ShaderTarget *>(this)->FUN_00bdc0d0((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), (::ShadowSceneLight *)(light), count, passMode, &firstPass, skinned, hasValue,
                                          flag10, false, special, flag11, castA);
                             remaining = 0;
                         }
                         else
                         {
-                            PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&lightPosition), {})));
-                            PLight* light2 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                            PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
+                            PLight* light2 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
                             reinterpret_cast<::ShaderPassOwner *>(this)->AddShadowPass((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), (::ShadowSceneLight *)(light), (::ShadowSceneLight *)(light2), count, passMode, &firstPass, skinned,
                                           hasValue, flag10, false, special, flag11, castA);
                             remaining -= 2;
@@ -23673,15 +23677,15 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                 if (first)
                 {
                     reinterpret_cast<::Shader9840 *>(this)->FUN_00bd9840((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), count, passMode, (*(bool *)(&firstPass)), skinned, false, false, castA);
-                    light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&lightPosition), {})));
+                    light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
                 }
                 else
-                    light = ((::fnv_00bdf790::PLight *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                    light = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
                 while (light)
                 {
                     if (remaining <= 2)
                     {
-                        PLight* light2 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                        PLight* light2 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
                         reinterpret_cast<::ShaderPassSelector *>(this)->FUN_00bdda20((::NiGeometry *)(geom), (::ShadowSceneLight *)(light), (::ShadowSceneLight *)(light2), count, passMode, &firstPass, skinned, flag10, false, flag11,
                                      castA);
                         if (remaining <= 1)
@@ -23691,13 +23695,13 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                     }
                     else
                     {
-                        PLight* light2 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
-                        PLight* light3 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                        PLight* light2 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
+                        PLight* light3 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
                         reinterpret_cast<::FUN_00bddbc0_class *>(this)->FUN_00bddbc0((::NiGeometry *)(geom), (::ShadowSceneLight *)(light), (::ShadowSceneLight *)(light2), (::ShadowSceneLight *)(light3), count, passMode, &firstPass, skinned, flag10, false,
                                      flag11, castA);
                         remaining -= 3;
                     }
-                    light = ((::fnv_00bdf790::PLight *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                    light = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
                 }
             }
             if (doSpecular)
@@ -23710,20 +23714,20 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                 if (blackAmbient)
                     reinterpret_cast<::fnv_00bdef40::Shader98 *>(this)->FUN_00bdef40((::NiGeometry *)(geom), (::fnv_00bdef40::Light98 *)(sceneLight), count, passMode, &firstPass, skinned, false, special, flag11, castA,
                                  flag18);
-                PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&lightPosition), {})));
+                PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
                 while (light)
                 {
                     if (ambientRemaining > 2)
                     {
-                        PLight* light2 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
-                        PLight* light3 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                        PLight* light2 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
+                        PLight* light3 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
                         reinterpret_cast<::Shader_bddfb0 *>(this)->FUN_00bddfb0((::NiGeometry *)(geom), (::ShadowSceneLight *)(light), (::ShadowSceneLight *)(light2), (::ShadowSceneLight *)(light3), count, passMode, &firstPass, skinned, flag11, castA,
                                      flag18);
                         ambientRemaining -= 3;
                     }
                     else if (ambientRemaining > 1)
                     {
-                        PLight* light2 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                        PLight* light2 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
                         reinterpret_cast<::Shader_00bdde10 *>(this)->FUN_00bdde10((::NiGeometry *)(geom), (::ShadowSceneLight *)(light), (::ShadowSceneLight *)(light2), count, passMode, &firstPass, skinned, flag11, castA, flag18);
                         ambientRemaining -= 2;
                     }
@@ -23733,13 +23737,13 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                                      flag18);
                         --ambientRemaining;
                     }
-                    light = ((::fnv_00bdf790::PLight *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                    light = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
                 }
             }
         ambientExtra:
             if (doAmbientExtra)
             {
-                PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&lightPosition), {})));
+                PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
                 reinterpret_cast<::BDBF60_Shader *>(this)->FUN_00bdbf60((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), (::ShadowSceneLight *)(light), count, passMode, &firstPass, skinned, projected, flag21);
                 goto extraPass;
             }

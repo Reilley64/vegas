@@ -45,7 +45,6 @@
 #include "fnv/decl/NiAVObject.h"
 #include "fnv/decl/NiD3DPass.h"
 #include "fnv/decl/NiGeometryData_shell.h"
-#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/RenderAccumulator.h"
 #include "fnv/decl/RenderPassB71.h"
 #include "fnv/decl/RenderTargetManager.h"
@@ -121,6 +120,12 @@
 #include "fnv/symbols_01270000.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
+
+// fnv/decl/NiTPointerListBase.h declares a plain struct with the name of the NiTPointerListBase template in layout_support.h,
+// so the two cannot be in one unit; this unit calls 0x004ed900 (RemoveAll) through this declaration.
+struct NiTPointerListBase_004ed900 {
+    void FUN_004ed900();
+};
 
 struct FUN_00b6f4a0_class
 {
@@ -546,7 +551,6 @@ void FUN_00b60d70(void* self, int, int value)
 struct RecursiveSpinLock
 {
 };
-extern RecursiveSpinLock g_011c5f80;
 extern unsigned int DAT_011c5f84;
 struct NiTAbstractPoolAllocator_unsigned_int
 {
@@ -612,12 +616,12 @@ void FUN_00b66520_class::ApplyRenderMode()
         ::fnv_00b65ae0::FUN_00b65ae0((::AccumWIP *)(void *)(this));
         return;
     }
-    if ((*reinterpret_cast<void (**[])(void *)>(&::DAT_011f9f40))[*(unsigned int*)((char*)this + 0x19c)])
+    if ((*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f9f40))[*(unsigned int*)((char*)this + 0x19c)])
     {
-        (*reinterpret_cast<void (**[])(void *)>(&::DAT_011f9f40))[*(unsigned int*)((char*)this + 0x19c)](this);
+        (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f9f40))[*(unsigned int*)((char*)this + 0x19c)](this);
         return;
     }
-    (*reinterpret_cast<void (**[])(void *)>(&::DAT_011f9f40))[0](this);
+    (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f9f40))[0](this);
 }
 
 bool FUN_00b70270(void*);
@@ -2835,7 +2839,7 @@ struct B6List
     unsigned count;
     ~B6List() throw()
     {
-        reinterpret_cast<::NiTPointerListBase *>(this)->FUN_004ed900();
+        reinterpret_cast<::NiTPointerListBase_004ed900 *>(this)->FUN_004ed900();
     }
 };
 struct FUN_00b6a520 : B6Base
@@ -2848,7 +2852,7 @@ struct FUN_00b6a520 : B6Base
 // @fnv 0x00b6a520
 FUN_00b6a520::~FUN_00b6a520()
 {
-    reinterpret_cast<::NiTPointerListBase *>(&(list))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBase_004ed900 *>(&(list))->FUN_004ed900();
     B6Ref* p = p148;
     if (p && !InterlockedDecrement(&p->refs))
         p->DeleteThis();
@@ -2996,14 +3000,8 @@ B6B100RefObject* B6B100Manager::GetCurrentItem()
 }
 
 
-struct B6B330CriticalSection
+struct B6B330CriticalSection : CRITICAL_SECTION
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
 };
 
 class B6B330Renderer
@@ -5401,6 +5399,7 @@ struct ShaderPass
     int unk1c;
     int unk20;
     StageList* m_kTextureStages;
+    RenderState* GetRenderState();
 };
 
 struct RenderState
@@ -7882,7 +7881,6 @@ struct CopyList
 };
 extern unsigned DAT_011c5f80;
 extern unsigned DAT_011c5f84;
-extern CopyNode* DAT_011c5f58;
 struct CopyObject : CopyBase
 {
     unsigned f000;
@@ -8090,7 +8088,7 @@ void CopyObject::FUN_00b6a6c0(CopyObject* dst, std::intptr_t arg)
     dst->f084 = f084;
     dst->f083 = f083;
     CopyList* dest = &dst->list;
-    reinterpret_cast<::NiTPointerListBase *>((dest))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBase_004ed900 *>((dest))->FUN_004ed900();
     CopyNode* pos = list.head;
     while (pos)
     {
@@ -8443,7 +8441,7 @@ FUN_00b60b10::FUN_00b60b10()
 // @fnv 0x00b6a510
 void FUN_00b6a510()
 {
-    static_cast<::NiTPointerListBase *>(nullptr)->FUN_004ed900();
+    static_cast<::NiTPointerListBase_004ed900 *>(nullptr)->FUN_004ed900();
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
@@ -11105,10 +11103,10 @@ void TexturePool::ResizeActivePool(int kind, unsigned count)
                     available.PopFront();
                     if (0)
                     {
-                        reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(holder))->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&OutlinePtr(0))));
-                        reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(holder))->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&OutlinePtr(0))));
-                        reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(holder))->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&OutlinePtr(0))));
-                        reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(holder))->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&OutlinePtr(0))));
+                        { OutlinePtr kNull(0); reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(holder))->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&kNull))); }
+                        { OutlinePtr kNull(0); reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(holder))->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&kNull))); }
+                        { OutlinePtr kNull(0); reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(holder))->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&kNull))); }
+                        { OutlinePtr kNull(0); reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(holder))->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&kNull))); }
                     }
                 }
                 else
@@ -12198,7 +12196,6 @@ namespace fnv_00b6b6c0 {
 extern "C" void _ReadWriteBarrier();
 
 
-extern "C" B6B330Renderer* DAT_011f4748;
 
 void __cdecl FUN_00b6b0b0()
 {
@@ -12220,7 +12217,7 @@ void __cdecl ClearAndUnlockRenderer()
 {
     while (DAT_011fa020)
         FUN_00b6b0b0();
-    B6B330Renderer* renderer = DAT_011f4748;
+    B6B330Renderer* renderer = reinterpret_cast<B6B330Renderer*>(DAT_011f4748);
     if (renderer->m_ucLocked)
         renderer->TryUnlock();
 }
@@ -12354,7 +12351,8 @@ struct Target051
 };
 __forceinline Target051* TextureOf(Target051* p)
 {
-    return *(p ? &p->texture : &NiPointer<Target051>());
+    NiPointer<Target051> kNull;
+    return *(p ? &p->texture : &kNull);
 }
 struct FencePtr
 {
@@ -12410,7 +12408,8 @@ struct FUN_00c1b4a0_holder : FUN_00b9e7c0_list
     __declspec(noinline) void FUN_00c1b4a0(FencePtr* p);
     __forceinline void Insert(Target051* obj)
     {
-        reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(this)->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&FencePtr(obj))));
+        FencePtr kFence(obj);
+        reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(this)->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&kFence)));
     }
 };
 void FUN_00c1b4a0_holder::FUN_00c1b4a0(FencePtr* p)
@@ -14352,8 +14351,9 @@ struct S00b7ba70_Updater
 void S00b7ba70_Updater::FUN_00b7ba70(RenderProperty* property, ShaderType* shader, ShaderGeometry* geometry,
                                      void* state)
 {
-    ShaderColor current = DAT_011FA0C0;
-    DAT_011FA0C0 = ShaderColor(current.r, current.g, current.b, property->alpha);
+    ShaderColor& kShaderColor = *reinterpret_cast<ShaderColor*>(const_cast<unsigned char*>(DAT_011FA0C0));
+    ShaderColor current = kShaderColor;
+    kShaderColor = ShaderColor(current.r, current.g, current.b, property->alpha);
     ShaderType* index = S00b7ba70_Index();
     if ((*reinterpret_cast<::FadeConfig * *>(&::DAT_011fec3c))->enabled && (shader->type < 195 || shader->type > 214))
         ::ApplySourceColor((::Source374 *)this);
@@ -14365,13 +14365,13 @@ void S00b7ba70_Updater::FUN_00b7ba70(RenderProperty* property, ShaderType* shade
         DAT_011fa27c = static_cast<float>(shader->count);
     }
     if (DAT_011f91a7)
-        DAT_011FA0C0 = ShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        kShaderColor = ShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
     if ((property->flags24 & 0x8000) > 0 && (property->flags20 & 0x20000) <= 0 && index->type >= 580 &&
         index->type <= 587)
     {
         unsigned int alpha = 0;
         float x = 0.0f;
-        ShaderLink* light = static_cast<ShaderLink*>(((void *)(::FUN_00b70600((::FUN_00b70600_list *)(property), (int)(&alpha), {}))));
+        ShaderLink* light = static_cast<ShaderLink*>(((void *)(::FUN_00b70600((::FUN_00b70600_list *)(property), 0, (::FUN_00b70600_node **)(&alpha)))));
         ShaderVector falloff = reinterpret_cast<ShaderLink*>((*reinterpret_cast<::Camera * *>(&::DAT_011f91c8)))->linkE0->scene->GetColor();
         float gp = falloff.Luminance();
         if (light)
@@ -14393,7 +14393,7 @@ void S00b7ba70_Updater::FUN_00b7ba70(RenderProperty* property, ShaderType* shade
             x *= reinterpret_cast<::FUN_00b719e0_class *>(&(scaled))->ComputeWeightedSum();
         }
         x = static_cast<float>(S00b7ba70_Max(x, gp));
-        DAT_011FA0C0.a *= x;
+        kShaderColor.a *= x;
     }
     unsigned int mode = DAT_011f91b8;
     if (mode == 8)
@@ -14401,11 +14401,11 @@ void S00b7ba70_Updater::FUN_00b7ba70(RenderProperty* property, ShaderType* shade
         float active = (property->flags24 & 0x20000) > 0 ? 0.0f : 1.0f;
         ShaderSourceRecord* z = geometry->property;
         float blue = (!(z->flagsLo & 1) && !((unsigned char)(z->flags >> 9) & 1)) ? 1.0f : 0.0f;
-        DAT_011FA0C0 = ShaderColor(0.0f, 0.0f, blue, active);
+        kShaderColor = ShaderColor(0.0f, 0.0f, blue, active);
     }
     if (DAT_011f91e4 - 580 <= 7 && 10 != mode)
     {
-        DAT_011FA0C0.a *= property->GetOpacity();
+        kShaderColor.a *= property->GetOpacity();
     }
 }
 
@@ -14937,7 +14937,7 @@ PassArray* ShaderPassBuilder::FUN_00b60790(void* geometry, unsigned int mode, in
         }
         if (lightCount > 0)
         {
-            void* light = ((void *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&position), {})));
+            void* light = ((void *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&position))));
             FUN_00ba8c50(array->passes[array->count - 1], 1, light);
         }
         if (::DAT_011f91c0 >= 3)
@@ -14966,7 +14966,7 @@ PassArray* ShaderPassBuilder::FUN_00b60790(void* geometry, unsigned int mode, in
                                 array->FUN_00ba9ee0(geometry, 0x284, false, 1, light, 0, 0, 0);
                         }
                     }
-                    light = ((::fnv_00b60790::Light *)(::FUN_00b70680((::NiTListItem< ::ShadowSceneLight *> *&)this)));
+                    light = ((::fnv_00b60790::Light *)(::FUN_00b70680(*reinterpret_cast<::NiTListItem< ::ShadowSceneLight *> **>(&position))));
                 }
             }
         }
@@ -15877,9 +15877,9 @@ struct FUN_00b63b60_class
 // @fnv 0x00b63b60
 void FUN_00b63b60_class::FUN_00b63b60()
 {
-    EnterCriticalSection((void*)(this + 0x200));
+    EnterCriticalSection((CRITICAL_SECTION*)((char*)this + 0x200));
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)((char*)this + 0x1b4))))->FUN_00b601a0();
-    LeaveCriticalSection((void*)(this + 0x200));
+    LeaveCriticalSection((CRITICAL_SECTION*)((char*)this + 0x200));
 }
 
 #include "generated/data/staging/blk_00b60000_o2.inc"

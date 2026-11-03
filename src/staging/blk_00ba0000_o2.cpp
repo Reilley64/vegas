@@ -550,10 +550,8 @@ void* FUN_00bb4650_Class::FUN_00bb4650(unsigned char flags)
     return this;
 }
 
-void __cdecl FUN_00bb7d70();
 struct FUN_00bb7f60_Class
 {
-    void FUN_00bb7d70();
     FUN_00bb7f60_Class* FUN_00bb7f60(unsigned char flags);
 };
 // @fnv 0x00bb7f60
@@ -3680,7 +3678,7 @@ void BAA720_Effect::ApplyLightToEffect(BAA720_List* list, const BAA720_Matrix* a
                                        unsigned int flags)
 {
     BAA720_Node* iter = 0;
-    BAA720_Light* light = ((::BAA720_Entry *)(::FUN_00b70600((::FUN_00b70600_list *)(list), (int)(&iter), {})))->light;
+    BAA720_Light* light = ((::BAA720_Entry *)(::FUN_00b70600((::FUN_00b70600_list *)(list), 0, (::FUN_00b70600_node **)(&iter))))->light;
     NiPoint3 diffuse = light->GetDiffuse();
     lightColor = RgbaColor(diffuse.x, diffuse.y, diffuse.z, 1.0f);
     NiPoint3 kWorldTranslate = light->GetWorldTranslate();
@@ -6039,10 +6037,10 @@ int ShaderBB2::RenderGeometry(int iA, int iB, int iC, int iD, RenderObjBB2* pkOb
     D3DXMATRIXBB2 kWorld;
     D3DXMATRIXBB2 kInvWorld;
     GetD3DFromNiBB2(kWorld, *pkXform);
-    ::FUN_00ee6dda();
+    reinterpret_cast<void*(__stdcall*)(void*, float*, const void*)>(&::FUN_00ee6dda)(&kInvWorld, 0, &kWorld);
 
     GeometryBB2* pkGeom = pkObj->m_pkRenderableGeometry;
-    ::UpdateLightDirection((::LightOwner *)this, (const ::Matrix44 *)(::GeometryBB2 *)(IsSkinnedBB2(pkGeom) ? pkGeom : 0), (float)(&kInvWorld));
+    ::UpdateLightDirection((::LightOwner *)(IsSkinnedBB2(pkGeom) ? pkGeom : 0), (const ::Matrix44 *)&kInvWorld, pkXform->m_fScale);
     FUN_00bb1a90();
     return 0;
 }
@@ -7449,7 +7447,7 @@ void* FUN_00bb3a50_cls::FUN_00bb3a50(int a1, int aiKeyLow, unsigned short* apOut
         else
         {
             aiKeyHigh = 0;
-            int r = ((int)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&aiKeyHigh), {})));
+            int r = ((int)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&aiKeyHigh))));
             m_3c->FUN_00ba9ee0(a1, 0x3f, 1, 2, edi, r, 0, 0);
         }
         m_38 = key;
@@ -13343,7 +13341,7 @@ int ACShader::FUN_00baac10(int a, int b, int c, int d, ACObject* object, int f, 
     D3DXMATRIXBB2 world, inverse;
     GetD3DFromNiBB2(world, *transform);
     unsigned int flags = (*reinterpret_cast<int *>(&::DAT_011f91e4));
-    ::FUN_00ee6dda();
+    reinterpret_cast<void*(__stdcall*)(void*, float*, const void*)>(&::FUN_00ee6dda)(&inverse, 0, &world);
     UpPair upPair;
     upPair.up.x = 0.0f;
     upPair.up.y = 1.0f;
@@ -15063,7 +15061,7 @@ class LockMember_ba
     ~LockMember_ba()
     {
         Lock_ba* pLock = m_pLock;
-        if (pLock != 0 && !InterlockedDecrement(&pLock->cs))
+        if (pLock != 0 && !TryEnterCriticalSection(&pLock->cs))
         {
             pLock->v04();
         }
@@ -17479,11 +17477,11 @@ void Shader2760::FUN_00bb2760(Input2760* input)
     Setup(geometry, 0, 0, buffer, input, 0, world, bound);
     if (DAT_011f91a7)
     {
-        DAT_011FA0C0 = Vec4(1.0f, 1.0f, 1.0f, 1.0f);
+        *(Vec4*)(void*)&::DAT_011FA0C0 = Vec4(1.0f, 1.0f, 1.0f, 1.0f);
         if (DAT_011f91b8 == 9)
-            DAT_011FA0D0 = Vec4(0.0f, DAT_010231a8, 0.0f, 0.0f);
+            *(Vec4*)(void*)&::DAT_011FA0D0 = Vec4(0.0f, DAT_010231a8, 0.0f, 0.0f);
         else
-            DAT_011FA0D0 = Vec4(0.0f, 0.0f, 0.0f, 0.0f);
+            *(Vec4*)(void*)&::DAT_011FA0D0 = Vec4(0.0f, 0.0f, 0.0f, 0.0f);
     }
     const void* m = camera->GetMatrix();
     std::memmove(&matrix, m, 0x300);
@@ -18573,7 +18571,7 @@ void Spectrum::FUN_00ba20e0()
                 }
                 else
                 {
-                    scale = (x == 0 && y == 0) ? 0 : sqrt(::FUN_00ba1480((float)this, x));
+                    scale = (x == 0 && y == 0) ? 0 : sqrt(::FUN_00ba1480(x, y));
                     sample = ::FUN_00ba13d0(0, 1);
                     float phase = std::rand() / DAT_01029790;
                     phase = phase * 2 * 3.1415927410125732;
@@ -18596,7 +18594,7 @@ void Spectrum::FUN_00ba20e0()
                 rv *= DAT_010b7f30;
                 rv = sqrt(rv);
                 radius[row][col] = rv;
-                scale = (x == 0 && y == 0) ? 0 : sqrt(::FUN_00ba1480((float)this, x));
+                scale = (x == 0 && y == 0) ? 0 : sqrt(::FUN_00ba1480(x, y));
                 sample = ::FUN_00ba13d0(0, 1);
                 float phase = std::rand() / DAT_01029790;
                 phase = phase * 2 * 3.1415927410125732;
@@ -19858,13 +19856,13 @@ P368PassArray* P368Shader::FUN_00bb4740(P368Geom* geom, unsigned int auFlags, bo
 
                 unsigned char count = 1;
 
-                P368Light* light = ((::P368Light *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&cursor), {})));
+                P368Light* light = ((::P368Light *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&cursor))));
 
                 if (light)
                     do
                     {
                         ++count;
-                        light = ((::P368Light *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                        light = ((::P368Light *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor))));
                     } while (light);
 
                 if (count > 0)
@@ -19877,7 +19875,7 @@ P368PassArray* P368Shader::FUN_00bb4740(P368Geom* geom, unsigned int auFlags, bo
                         p->capacity = count;
                     }
 
-                    light = ((::P368Light *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&cursor), {})));
+                    light = ((::P368Light *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&cursor))));
 
                     p->lights[0] = defaultLight;
 
@@ -19886,7 +19884,7 @@ P368PassArray* P368Shader::FUN_00bb4740(P368Geom* geom, unsigned int auFlags, bo
                     while (light && j < count)
                     {
                         p->lights[j++] = light;
-                        light = ((::P368Light *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+                        light = ((::P368Light *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor))));
                     }
 
                     p->count = (unsigned char)j;
@@ -19899,7 +19897,7 @@ P368PassArray* P368Shader::FUN_00bb4740(P368Geom* geom, unsigned int auFlags, bo
 
                 if (p->count == 1)
                 {
-                    P368Light* light = ((::P368Light *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&singleCursor), {})));
+                    P368Light* light = ((::P368Light *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&singleCursor))));
                     if (light)
                         p->lights[0] = light;
                     else
@@ -20027,7 +20025,7 @@ P368PassArray* P368Shader::FUN_00bb4740(P368Geom* geom, unsigned int auFlags, bo
     {
         if (!light->special)
             ++p->count;
-        light = ((::P368Light *)(::FUN_00b70680((::NiTListItem< ::ShadowSceneLight *> *&)this)));
+        light = ((::P368Light *)(::FUN_00b70680(*reinterpret_cast<::NiTListItem< ::ShadowSceneLight *> **>(&cursor))));
     }
 
     if (p->count > 0)
@@ -20049,7 +20047,7 @@ P368PassArray* P368Shader::FUN_00bb4740(P368Geom* geom, unsigned int auFlags, bo
         {
             if (!light->special)
                 p->lights[j++] = light;
-            light = ((::P368Light *)(::FUN_00b70680((::NiTListItem< ::ShadowSceneLight *> *&)this)));
+            light = ((::P368Light *)(::FUN_00b70680(*reinterpret_cast<::NiTListItem< ::ShadowSceneLight *> **>(&cursor))));
         }
 
         p->count = j;
@@ -20413,7 +20411,7 @@ P368PassArray* P368Shader::FUN_00bb4740(P368Geom* geom, unsigned int auFlags, bo
                     p->blend = reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x35) ? 1 : 5;
             }
 
-            light = ((::P368Light *)(::FUN_00b70680((::NiTListItem< ::ShadowSceneLight *> *&)this)));
+            light = ((::P368Light *)(::FUN_00b70680(*reinterpret_cast<::NiTListItem< ::ShadowSceneLight *> **>(&cursor))));
         }
     }
 

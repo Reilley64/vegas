@@ -150,7 +150,7 @@ void* FUN_00a8a5f0_class::FUN_00a8a5f0()
     void* old = (void*)DAT_011f5b84;
     ++DAT_011f5b84;
     if (!old)
-        ::FUN_00aa2060((int)((void*)&InitializeGameSystems), (int)((void*)&FUN_00a8a280));
+        ::FUN_00aa2060((void (*)())&InitializeGameSystems, (void (*)())&FUN_00a8a280);
     return this;
 }
 

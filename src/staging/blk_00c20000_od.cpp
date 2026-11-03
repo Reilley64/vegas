@@ -8,8 +8,6 @@
 #include "runtime/crt.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
-#include "fnv/decl/Builder.h"
-#include "fnv/decl/C3D980Cls.h"
 #include "fnv/decl/ControlGraph.h"
 #include "fnv/decl/E70Owner.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -21,16 +19,11 @@
 #include "fnv/decl/FUN_00a5db30_shell.h"
 #include "fnv/decl/FUN_00aa4c60_class.h"
 #include "fnv/decl/FUN_00b5af80_self.h"
-#include "fnv/decl/FUN_00c39770.h"
-#include "fnv/decl/FUN_00c3c620.h"
-#include "fnv/decl/List250.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
-#include "fnv/decl/NiCamera.h"
 #include "fnv/decl/S_0060ba10.h"
 #include "fnv/decl/S_00a59e00.h"
 #include "fnv/decl/S_00aff060_Class.h"
 #include "fnv/decl/SystemFileWriter.h"
-#include "fnv/decl/fnv_00c3bab0__FUN_00c3bab0.h"
 #include "fnv/decl/fnv_00c3cea0__FUN_00c3cea0.h"
 #include "fnv/decl/fnv_00c41610__FUN_00c41610_cls.h"
 #include "fnv/decl/fnv_00c42b80__C42List.h"
@@ -65,6 +58,12 @@
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_01204000.h"
 #include "../../include/layout_support.h"
+
+// fnv/decl/NiTPointerListBase.h declares a plain struct with the name of the NiTPointerListBase template in layout_support.h,
+// so the two cannot be in one unit; this unit calls 0x004ed900 (RemoveAll) through this declaration.
+struct NiTPointerListBase_004ed900 {
+    void FUN_004ed900();
+};
 #include <cmath>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -80,7 +79,6 @@
 #include "fnv/decl/FUN_00c3e340_cls.h"
 #include "fnv/decl/FUN_00c3e690_cls.h"
 #include "fnv/decl/FUN_00c3e860_t.h"
-#include "fnv/decl/FUN_00c3f750_Class.h"
 #include "fnv/decl/FUN_00c41050_Class.h"
 #include "fnv/decl/FUN_00c42060_Class.h"
 #include "fnv/decl/FUN_00c64780_Class.h"
@@ -89,17 +87,14 @@
 #include "fnv/decl/Map40.h"
 #include "fnv/decl/NiGlobalStringTable.h"
 #include "fnv/decl/NiSourceTexture.h"
-#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/NodeMap.h"
 #include "fnv/decl/Point3Offset.h"
 #include "fnv/decl/RemovalMapState.h"
-#include "fnv/decl/S00c3a2e0_Cls.h"
 #include "fnv/decl/S_0045c520.h"
 #include "fnv/decl/Sphere.h"
 #include "fnv/decl/Target.h"
 #include "fnv/decl/TaskProcessor.h"
 #include "fnv/decl/TextureFileEntrySetter.h"
-#include "fnv/decl/fnv_00c3a620__FUN_00c3a620_cls.h"
 #include "fnv/symbols_0040f000.h"
 #include "fnv/symbols_00a61000.h"
 #include "fnv/symbols_00aa1000.h"
@@ -243,14 +238,6 @@ void QueuedParents::FUN_00c3c570()
     reinterpret_cast<::FUN_00c3d930_Class *>(this)->FUN_00c3d930();
 }
 
-// Sets the vftable to DAT_010c14fc and calls FUN_00c3d980 with 1.
-// @fnv 0x00c3d930
-void FUN_00c3d930_Class::FUN_00c3d930()
-{
-    char buf[0x18];
-    vftable = &DAT_010c14fc;
-    reinterpret_cast<::C3D980Cls *>(this)->FUN_00c3d980(1);
-}
 
 struct FUN_00c3f6f0_Class
 {
@@ -387,15 +374,6 @@ struct FUN_00c3a140_Class
     void* FUN_00c3a140(unsigned int flags);
     void FUN_00c39770();
 };
-// Calls FUN_00c39770, then deletes this with operator delete when flags has bit 0 set, and returns this.
-// @fnv 0x00c3a140
-void* FUN_00c3a140_Class::FUN_00c3a140(unsigned int flags)
-{
-    reinterpret_cast<::FUN_00c39770 *>(this)->FUN_00c39770::~FUN_00c39770();
-    if (flags & 1)
-        operator delete(this, 0xec);
-    return this;
-}
 
 struct NiUpdateData
 {
@@ -437,8 +415,6 @@ void* FUN_00c3a6a0_Class::FUN_00c3a6a0(unsigned int flags)
     return this;
 }
 
-void __cdecl strcpy_s(char* dst, unsigned int dstsz, const char* src);
-void __cdecl strcat_s(char* dst, unsigned int dstsz, const char* src);
 // @fnv 0x00c3bb90
 void FUN_00c3bb90(const char* src)
 {
@@ -456,8 +432,6 @@ void __cdecl FUN_00c3bbe0(const char* pcSuffix)
 }  // namespace fnv_00c3bbe0
 
 extern char DAT_01202a40[0x104];
-void __cdecl strcpy_s(char* dst, unsigned int n, const char* src);
-void strcat_s(char* dst, unsigned int n, const char* src);
 // Copies DAT_01202fa0 into DAT_01202a40, then appends p to it.
 // @fnv 0x00c3bc30
 void __cdecl FUN_00c3bc30(const char* pcSuffix)
@@ -829,16 +803,6 @@ struct FUN_00c3ba80_Class
     void FUN_00c3bab0();
 };
 
-// Calls FUN_00c3bab0, then deletes this with operator delete when flags has bit 0 set, and returns this.
-// @fnv 0x00c3ba80
-void* FUN_00c3ba80_Class::FUN_00c3ba80(unsigned int flags)
-{
-    int x, y, z;
-    reinterpret_cast<::fnv_00c3bab0::FUN_00c3bab0 *>(this)->fnv_00c3bab0::FUN_00c3bab0::~FUN_00c3bab0();
-    if (flags & 1)
-        operator delete(this, 0x18);
-    return this;
-}
 
 extern "C" unsigned char DAT_01202d55;
 void* __cdecl FUN_00c3c100(void*, void*, unsigned int);
@@ -849,7 +813,7 @@ void* __cdecl FUN_00c3c180(void* a)
 {
     void* result;
     DAT_01202d55 = 1;
-    result = FUN_00c3c100(a, "Confirm", 0x2034);
+    result = FUN_00c3c100(a, (void*)"Confirm", 0x2034);
     DAT_01202d55 = 0;
     return result;
 }
@@ -861,7 +825,7 @@ extern unsigned char DAT_01202d55;
 void* __cdecl FUN_00c3c1c0(void* a)
 {
     DAT_01202d55 = 1;
-    void* result = FUN_00c3c100(a, "Confirm", 0x2033);
+    void* result = FUN_00c3c100(a, (void*)"Confirm", 0x2033);
     DAT_01202d55 = 0;
     return result;
 }
@@ -1100,35 +1064,6 @@ struct FUN_00c347d0_cls
     bool FUN_00c347d0(FUN_00c347d0_Obj* obj);
 };
 
-// @fnv 0x00c347d0
-bool FUN_00c347d0_cls::FUN_00c347d0(FUN_00c347d0_Obj* obj)
-{
-    FUN_00c347d0_Scratch b1;
-    FUN_00c347d0_Elem res[4];
-    int tt = 4;
-    FUN_00c347d0_Elem* g1 = res;
-    while (--tt >= 0)
-    {
-        g1 = (FUN_00c347d0_Elem*)((char*)g1 + 12);
-    }
-    int lst;
-    int val;
-    reinterpret_cast<::Builder *>(this)->FUN_00c35c10((::Point *)(res));
-    for (lst = 0; lst < 6; lst++)
-    {
-        if ((bool)((1u << lst) & obj->m_uiMask))
-        {
-            for (val = 0; val < 4; val++)
-            {
-                if (reinterpret_cast<::NiCamera *>(&(obj->m_slot[lst]))->ClassifyPoint((const ::NiPoint3 *)(::FUN_00c347d0_Elem *)(&res[val])) == 2)
-                {
-                    return false;
-                }
-            }
-        }
-    }
-    return true;
-}
 
 class Node
 {
@@ -1393,7 +1328,6 @@ void S_00c3a5e0::FUN_00c3a5e0()
 }
 
 namespace fnv_00c3a620 {
-extern "C" void* DAT_010c117c;
 
 class SpawnedBase
 {
@@ -1419,8 +1353,6 @@ void FUN_00c3a620_cls::FUN_00c3a620()
 }  // namespace fnv_00c3a620
 
 
-void __cdecl strcpy_s(char* dst, unsigned int dstsz, const char* src);
-void __cdecl strcat_s(char* dst, unsigned int dstsz, const char* src);
 
 PFN_NiObjectLoader __cdecl FUN_00c3b3c0(const char* name);
 
@@ -1622,12 +1554,6 @@ int __cdecl FUN_00c3c220()
     return 0;
 }
 
-typedef unsigned long DWORD;
-typedef unsigned long WPARAM;
-typedef long LPARAM;
-typedef void* HINSTANCE;
-typedef void* HHOOK;
-typedef void (*HOOKPROC)(int code, WPARAM wParam, LPARAM lParam);
 
 
 
@@ -1638,7 +1564,7 @@ void __cdecl FUN_00c3c250()
 {
     if (DAT_01202d70 == 0)
     {
-        DAT_01202d70 = (int)SetWindowsHookExA(5, (HOOKPROC)((void (&)(int, unsigned long, long))::CbtHookProc), 0, GetCurrentThreadId());
+        DAT_01202d70 = (int)SetWindowsHookExA(5, (HOOKPROC)::CbtHookProc, 0, GetCurrentThreadId());
     }
 }
 
@@ -1649,7 +1575,7 @@ void __cdecl FUN_00c3c280()
 {
     if (DAT_01202d70 != 0)
     {
-        UnhookWindowsHookEx((void*)DAT_01202d70);
+        UnhookWindowsHookEx((HHOOK)DAT_01202d70);
         DAT_01202d70 = 0;
     }
 }
@@ -1692,23 +1618,23 @@ int CbtHookProc(int code, unsigned int wParam, int lParam)
 {
     if (code < 0)
     {
-        return CallNextHookEx((void*)DAT_01202d70, code, wParam, lParam);
+        return CallNextHookEx((HHOOK)DAT_01202d70, code, wParam, lParam);
     }
     switch (code)
     {
     case 5: {
         void* owner = (void*)wParam;
         void* found = 0;
-        EnumChildWindows(owner, ((int (&)(void *, int))::FindFirstNonCancelButton), (int)&found);
+        EnumChildWindows((HWND)owner, (WNDENUMPROC)::FindFirstNonCancelButton, (LPARAM)&found);
         if (found != 0)
         {
-            SetWindowTextA(found, "Yes to all");
+            SetWindowTextA((HWND)found, "Yes to all");
             FUN_00c3c280();
         }
         break;
     }
     }
-    return CallNextHookEx((void*)DAT_01202d70, code, wParam, lParam);
+    return CallNextHookEx((HHOOK)DAT_01202d70, code, wParam, lParam);
 }
 
 struct FUN_00c3c540_Class
@@ -1792,16 +1718,6 @@ class C3D3E0Palette
     C3D3E0Palette* FUN_00c3d3e0(unsigned int uiFlags);
 };
 
-// Scalar deleting destructor.
-// Destructs the object, frees it via g_kC3D3E0Heap when uiFlags has bit 0 set, and returns this.
-// @fnv 0x00c3d3e0
-C3D3E0Palette* C3D3E0Palette::FUN_00c3d3e0(unsigned int uiFlags)
-{
-    reinterpret_cast<::FUN_00c3c620 *>((this))->FUN_00c3c620::~FUN_00c3c620();
-    if (uiFlags & 1)
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::C3D3E0Heap *>(&::g_memoryManager))))->FUN_00aa4060(this);
-    return this;
-}
 
 struct RefObject
 {
@@ -2315,8 +2231,6 @@ void __cdecl FUN_00c3c0b0()
 void __cdecl FUN_00c3c240()
 {}
 
-void __cdecl strcpy_s(char* dst, unsigned int dstsz, const char* src);
-void __cdecl strcat_s(char* dst, unsigned int dstsz, const char* src);
 int __cdecl FUN_00c33090(const char* p);
 
 union SettingValue
@@ -2422,17 +2336,6 @@ struct FUN_00c39ad0_Class
     void FUN_00c39ad0(int a);
 };
 
-// If a is non-zero, forwards it to m_c0.FUN_00c3a250.
-// @fnv 0x00c39ad0
-void FUN_00c39ad0_Class::FUN_00c39ad0(int a)
-{
-    int pad0[10];
-    int pad1[9];
-    if (a)
-    {
-        reinterpret_cast<::List250 *>(&(m_c0))->FUN_00c3a250((void *&)(a));
-    }
-}
 
 struct S00c3a2e0_Ptr
 {
@@ -2508,11 +2411,11 @@ bool __cdecl FUN_00c3be50(const char* path, const char* text, bool flush)
     return true;
     if (!path)
         return true;
-    EnterCriticalSection(&DAT_01202d78);
+    EnterCriticalSection((CRITICAL_SECTION*)&DAT_01202d78);
     if (DAT_01202d58 && !DAT_01202d90)
     {
         DAT_01202d90 = true;
-        char* prefix = DAT_01202d58 + 8;
+        const char* prefix = DAT_01202d58 + 8;
         if (!*prefix)
             prefix = ::DAT_01015890;
         char buffer[256];
@@ -2520,7 +2423,7 @@ bool __cdecl FUN_00c3be50(const char* path, const char* text, bool flush)
         FUN_00c3be50(path, buffer, false);
         DAT_01202d90 = false;
     }
-    LeaveCriticalSection(&DAT_01202d78);
+    LeaveCriticalSection((CRITICAL_SECTION*)&DAT_01202d78);
     bool success = false;
     C3BEFile file(path, 1, 1, 0);
     if (file.m_00 == 0)
@@ -2678,7 +2581,6 @@ int __cdecl FUN_00ec6130(int value);
 
 void __cdecl LoadObjectLoadersFromIni(const char* dir);
 
-extern "C" int __cdecl _strnicmp(const char* a, const char* b, unsigned int n);
 
 void __cdecl BuildDataPath(char* out, const char* path, const char* suffix);
 
@@ -2806,7 +2708,7 @@ template <class TVAL> class NiTStringPointerMapL
 PFN_NiObjectLoader __cdecl FUN_00c3b3c0(const char* pcName)
 {
     PFN_NiObjectLoader pfnLoader = 0;
-    reinterpret_cast<::A54440Hash *>((void *)((*reinterpret_cast<::NiTStringPointerMapL<NiObject *(**)()> *>(&::DAT_011f4784))))->FUN_00a53c30((::A54440Manager *)(pcName), (::A54440Manager **)(pfnLoader));
+    reinterpret_cast<::A54440Hash *>((void *)(&::DAT_011f4784))->FUN_00a53c30((::A54440Manager *)(pcName), (::A54440Manager **)(pfnLoader));
     return pfnLoader;
 }
 
@@ -3791,7 +3693,6 @@ bool RectangleClip::FUN_00c33cf0(ClipVolume* volume, bool testCenter, NiPoint3 p
 }
 
 namespace fnv_00c34350 {
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned);
 class NiPoint3
 {
   public:
@@ -3975,7 +3876,6 @@ struct ClipMatrix
     }
 };
 extern const double DAT_01072f80;
-extern "C" void* __cdecl memmove(void*, const void*, unsigned int);
 struct SSNode
 {
     virtual void v0();
@@ -4308,7 +4208,7 @@ struct List_c0 : List_c0_base
 {
     inline ~List_c0()
     {
-        reinterpret_cast<::NiTPointerListBase *>(this)->FUN_004ed900();
+        reinterpret_cast<::NiTPointerListBase_004ed900 *>(this)->FUN_004ed900();
     }
     void FUN_004ed900();
     void DeleteItem(ListItem*);
@@ -4422,7 +4322,7 @@ class FUN_00c39770 : public Base_00c46af0
 FUN_00c39770::~FUN_00c39770()
 {
     reinterpret_cast<::BSShaderLightingProperty *>(&(m_b4))->ClearLights();
-    reinterpret_cast<::NiTPointerListBase *>(&(m_c0))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBase_004ed900 *>(&(m_c0))->FUN_004ed900();
     reinterpret_cast<::S00c3a2e0_Cls *>(&(m_d0))->FUN_00c3a2e0();
     reinterpret_cast<::FUN_00b5af80_self *>(&(m_dc))->FUN_00b5af80(true);
     if (m_c0.unk0C)
@@ -4952,7 +4852,7 @@ struct S00c3a180_Scope
 void S00c3a180_cls::FUN_00c3a180()
 {
     S00c3a180_Scope s;
-    reinterpret_cast<::NiTPointerListBase *>(this)->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBase_004ed900 *>(this)->FUN_004ed900();
 }
 
 struct ScopeGuardA3a1
@@ -7114,7 +7014,6 @@ bool SearchC3::FUN_00c3ffb0(int index, KeyC3 key, RefC3* value, bool replace)
 }
 
 namespace fnv_00c35c10 {
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 class NiPoint3
 {
   public:
@@ -7668,6 +7567,89 @@ bool OccluderC358::FUN_00c358a0(Point point)
         return false;
     else
         return true;
+}
+
+// Sets the vftable to DAT_010c14fc and calls FUN_00c3d980 with 1.
+// @fnv 0x00c3d930
+void FUN_00c3d930_Class::FUN_00c3d930()
+{
+    char buf[0x18];
+    vftable = &DAT_010c14fc;
+    reinterpret_cast<::C3D980Cls *>(this)->FUN_00c3d980(1);
+}
+
+// Calls FUN_00c39770, then deletes this with operator delete when flags has bit 0 set, and returns this.
+// @fnv 0x00c3a140
+void* FUN_00c3a140_Class::FUN_00c3a140(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00c39770 *>(this)->FUN_00c39770::~FUN_00c39770();
+    if (flags & 1)
+        operator delete(this, 0xec);
+    return this;
+}
+
+// Calls FUN_00c3bab0, then deletes this with operator delete when flags has bit 0 set, and returns this.
+// @fnv 0x00c3ba80
+void* FUN_00c3ba80_Class::FUN_00c3ba80(unsigned int flags)
+{
+    int x, y, z;
+    reinterpret_cast<::fnv_00c3bab0::FUN_00c3bab0 *>(this)->fnv_00c3bab0::FUN_00c3bab0::~FUN_00c3bab0();
+    if (flags & 1)
+        operator delete(this, 0x18);
+    return this;
+}
+
+// @fnv 0x00c347d0
+bool FUN_00c347d0_cls::FUN_00c347d0(FUN_00c347d0_Obj* obj)
+{
+    FUN_00c347d0_Scratch b1;
+    FUN_00c347d0_Elem res[4];
+    int tt = 4;
+    FUN_00c347d0_Elem* g1 = res;
+    while (--tt >= 0)
+    {
+        g1 = (FUN_00c347d0_Elem*)((char*)g1 + 12);
+    }
+    int lst;
+    int val;
+    reinterpret_cast<::Builder *>(this)->FUN_00c35c10((::Point *)(res));
+    for (lst = 0; lst < 6; lst++)
+    {
+        if ((bool)((1u << lst) & obj->m_uiMask))
+        {
+            for (val = 0; val < 4; val++)
+            {
+                if (reinterpret_cast<::NiCamera *>(&(obj->m_slot[lst]))->ClassifyPoint((const ::NiPoint3 *)(::FUN_00c347d0_Elem *)(&res[val])) == 2)
+                {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+// Scalar deleting destructor.
+// Destructs the object, frees it via g_kC3D3E0Heap when uiFlags has bit 0 set, and returns this.
+// @fnv 0x00c3d3e0
+C3D3E0Palette* C3D3E0Palette::FUN_00c3d3e0(unsigned int uiFlags)
+{
+    reinterpret_cast<::FUN_00c3c620 *>((this))->FUN_00c3c620::~FUN_00c3c620();
+    if (uiFlags & 1)
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::C3D3E0Heap *>(&::g_memoryManager))))->FUN_00aa4060(this);
+    return this;
+}
+
+// If a is non-zero, forwards it to m_c0.FUN_00c3a250.
+// @fnv 0x00c39ad0
+void FUN_00c39ad0_Class::FUN_00c39ad0(int a)
+{
+    int pad0[10];
+    int pad1[9];
+    if (a)
+    {
+        reinterpret_cast<::List250 *>(&(m_c0))->FUN_00c3a250((void *&)(a));
+    }
 }
 
 #include "generated/data/staging/blk_00c20000_od.inc"

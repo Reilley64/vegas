@@ -381,8 +381,8 @@ void ClipManager::FUN_00b7be00(unsigned int state)
             ClipMatrix inverse;
             ClipPlane16 transformed[6];
             ::FUN_00ee6de0((Matrix132*)&transform, (const Matrix132*)&view, (const Matrix132*)&projection);
-            ::FUN_00ee6dda();
-            ::FUN_00ee6dd4();
+            reinterpret_cast<void*(__stdcall*)(void*, float*, const void*)>(&::FUN_00ee6dda)(&inverse, 0, &transform);
+            reinterpret_cast<void*(__stdcall*)(void*, const void*)>(&::FUN_00ee6dd4)(&transform, &inverse);
 
             for (int i = 0; i < 6; ++i)
             {

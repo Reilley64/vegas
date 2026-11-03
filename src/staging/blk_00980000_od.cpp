@@ -251,18 +251,24 @@ struct DialogueItem_0083c7b0 {
 
 struct FUN_00993d60
 {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
     FUN_00993d60* Init(int arg);
 };
 
 // @fnv 0x00993d60
 FUN_00993d60* FUN_00993d60::Init(int arg)
 {
-    *((int*)this + 0x00) = 0;
-    *((int*)this + 0x01) = 0;
-    *((int*)this + 0x02) = 0;
-    *((int*)this + 0x03) = 0;
-    *((int*)this + 0x04) = 0xffffffff;
-    *((int*)this + 0x05) = arg;
+    unk00 = 0;
+    unk04 = 0;
+    unk08 = 0;
+    unk0c = 0;
+    unk10 = 0xffffffff;
+    unk14 = arg;
     return this;
 }
 
@@ -825,7 +831,9 @@ struct QuantityData
 };
 struct FUN_009959c0Class
 {
-    char pad[0x60];
+    char pad[0x4];
+    QuantityData* unk04;
+    char pad08[0x60 - 0x8];
     char unk60;
     void FUN_009959c0(int a, intptr_t b);
 };
@@ -834,7 +842,7 @@ struct FUN_009959c0Class
 void FUN_009959c0Class::FUN_009959c0(int iIndex, intptr_t iValue)
 {
     ((int*)&unk60)[iIndex] = iValue;
-    reinterpret_cast<::FUN_00537e90 *>((reinterpret_cast<QuantityData*>(*(reinterpret_cast<int**>(this) + 1))))->SetQuantity(iIndex);
+    reinterpret_cast<::FUN_00537e90 *>((unk04))->SetQuantity(iIndex);
 }
 
 struct FUN_00995db0_Class
@@ -1048,12 +1056,17 @@ struct FUN_0098c6e0_class
 {
     void FUN_0098c6e0(intptr_t);
 };
+struct FUN_0098c6e0_Door
+{
+    char pad[0x9];
+    char unk09;
+};
 // @fnv 0x0098c6e0
 void FUN_0098c6e0_class::FUN_0098c6e0(intptr_t arg)
 {
     CombatSearchDoor* result = ((FUN_0098c590_shell*)this)->FindParentSpaceNode(arg);
     if (result)
-        ((char*)result)[9] = 1;
+        ((FUN_0098c6e0_Door*)result)->unk09 = 1;
 }
 
 namespace fnv_0098c750 {
@@ -1065,12 +1078,17 @@ struct FUN_0098c750_class
 {
     void FUN_0098c750(intptr_t arg);
 };
+struct FUN_0098c750_Door
+{
+    char pad[0xa];
+    char unk0a;
+};
 // @fnv 0x0098c750
 void FUN_0098c750_class::FUN_0098c750(intptr_t arg)
 {
     CombatSearchDoor* p = ((::fnv_0098c750::CombatSearchDoor *)(reinterpret_cast<::FUN_0098c590_shell *>((((FUN_0098c590_shell*)this)))->FindParentSpaceNode(arg)));
     if (p)
-        ((char*)p)[0xa] = 1;
+        ((FUN_0098c750_Door*)p)->unk0a = 1;
 }
 }  // namespace fnv_0098c750
 
@@ -1228,13 +1246,18 @@ struct FUN_0098de00_class
 {
     intptr_t GetFieldAtOffset16(intptr_t arg);
 };
+struct FUN_0098de00_Result
+{
+    char pad[0x10];
+    int unk10;
+};
 // Calls FUN_009865f0 with arg and returns the int at offset 16 of the result, or 0 if the result is null.
 // @fnv 0x0098de00
 intptr_t FUN_0098de00_class::GetFieldAtOffset16(intptr_t arg)
 {
     void* result = reinterpret_cast<FUN_009865f0_shell*>(this)->FUN_009865f0(arg);
     if (result)
-        return reinterpret_cast<int*>(result)[4];
+        return static_cast<FUN_0098de00_Result*>(result)->unk10;
     return 0;
 }
 
@@ -1326,6 +1349,11 @@ public:
 };
 struct FUN_0098fa00_shell
 {
+};
+struct FUN_0098f7b0_Vtbl
+{
+    void* v0;
+    void* (*v1)(void*, int);
 };
 struct FUN_0098f7b0_Class
 {
@@ -1463,6 +1491,7 @@ struct CombatStateArray
 };
 struct FUN_00994e60_class
 {
+    char pad[0xdc];
     int m_dc;
     int m_e0;
     CombatStateArray* ResetState(CombatStateArray* a);
@@ -1471,8 +1500,8 @@ struct FUN_00994e60_class
 CombatStateArray* FUN_00994e60_class::ResetState(CombatStateArray* a)
 {
     ((CombatStateArray*)this)->FUN_009aa490(a);
-    ((int*)((char*)this + 0xdc))[0] = 0;
-    ((int*)((char*)this + 0xe0))[0] = -1;
+    m_dc = 0;
+    m_e0 = -1;
     return (CombatStateArray*)this;
 }
 
@@ -1565,6 +1594,9 @@ struct FUN_00996ae0_shell
 };
 struct FUN_00996420_class
 {
+    char pad[0x2048];
+    void* m_2048;
+    char pad204c[0x2054 - 0x204c];
     unsigned char m_2054;
     int FindPath();
     int ExtractNodeValues(int a, int b, int c);
@@ -2369,16 +2401,17 @@ void FUN_0098c600_class::AddRadioReference(TESObjectREFR* pRef)
         ->m_0009 = 0;
 }
 
-struct FUN_0098dc20 : Inner097
+struct FUN_0098dc20
 {
     int pad;
+    Inner097 unk04;
     FUN_0098dc20* Method();
 };
 
 // @fnv 0x0098dc20
 FUN_0098dc20* FUN_0098dc20::Method()
 {
-    reinterpret_cast<::FUN_0097ede0_cls *>((((Inner097*)((char*)this + 4))))->FUN_0097ede0();
+    reinterpret_cast<::FUN_0097ede0_cls *>((&unk04))->FUN_0097ede0();
     return this;
 }
 
@@ -3473,6 +3506,11 @@ struct FUN_00982e70_Temporary
     void* context;
     FUN_00982e70_Temporary* FUN_004b0680(int item, void* context);
 };
+struct FUN_00982e70_Context
+{
+    char pad[0x70];
+    FUN_00982b90_class unk70;
+};
 struct FUN_00982e70_Class
 {
     char pad[0x10];
@@ -3494,9 +3532,9 @@ void FUN_00982e70_Class::AddItem(int item, void* context)
     }
     if (!*(&unk15))
     {
-        ((FUN_00982f10*)this)->Set((const char*)context + 0x70);
+        ((FUN_00982f10*)this)->Set((const char*)&static_cast<FUN_00982e70_Context*>(context)->unk70);
     }
-    unsigned int flags = ((FUN_00982b90_class*)((char*)context + 0x70))->ComputeBitMask();
+    unsigned int flags = static_cast<FUN_00982e70_Context*>(context)->unk70.ComputeBitMask();
     unk10 |= flags;
     {
         FUN_00982e70_Temporary temporary;
@@ -3609,6 +3647,11 @@ class FUN_00982ff0_cls
     bool FUN_00982ff0(uintptr_t id, void* arg);
 };
 
+struct FUN_00982ff0_Arg
+{
+    char pad[0x70];
+    FUN_00982b90_class unk70;
+};
 // @fnv 0x00982ff0
 bool FUN_00982ff0_cls::FUN_00982ff0(uintptr_t id, void* arg)
 {
@@ -3624,7 +3667,7 @@ bool FUN_00982ff0_cls::FUN_00982ff0(uintptr_t id, void* arg)
             }
             else
             {
-                m_010 &= ~reinterpret_cast<FUN_00982b90_class*>((char*)arg + 0x70)->ComputeBitMask();
+                m_010 &= ~static_cast<FUN_00982ff0_Arg*>(arg)->unk70.ComputeBitMask();
                 reinterpret_cast<::ActorAvoidanceDataArray *>(this)->FUN_00983720(i, 1);
             }
             return false;
@@ -4776,7 +4819,7 @@ unsigned int FUN_0098f7b0_Class::FUN_0098f7b0()
         if (m_0c == 0)
         {
             int v = 4;
-            m_04 = ((void*(*)(void*, int))((void**)vtbl)[1])(this, v);
+            m_04 = ((FUN_0098f7b0_Vtbl*)vtbl)->v1(this, v);
             m_0c = v;
         }
         else
@@ -5748,7 +5791,7 @@ struct PathSearch
 // @fnv 0x00996420
 unsigned char FUN_00996420_class::SetThreadTasklet(void* a, void* b, int abUseStored)
 {
-    ((unsigned char*)this)[0x2054] = (unsigned char)::GetTaskletManager().SetThreadTasklet((int)gm_GetCurrentThreadId());
+    m_2054 = (unsigned char)::GetTaskletManager().SetThreadTasklet((int)gm_GetCurrentThreadId());
     void* d = reinterpret_cast<::PathSearch *>(this)->FindPath();
     void* e;
     unsigned char f;
@@ -5760,7 +5803,7 @@ unsigned char FUN_00996420_class::SetThreadTasklet(void* a, void* b, int abUseSt
     else if ((unsigned char)abUseStored)
     {
         f = 0;
-        e = *(void**)((char*)this + 0x2048);
+        e = m_2048;
     }
     else
     {

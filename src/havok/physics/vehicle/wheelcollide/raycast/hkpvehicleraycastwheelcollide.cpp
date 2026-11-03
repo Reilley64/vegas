@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollide.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollide.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -164,21 +165,6 @@ void FUN_00e41fc0_host::FUN_00e41fc0()
     *(int**)this = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
-class hkMemoryAllocatorXe42610;
-
-struct hkMemoryRouterXe42610
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorXe42610* m_pStreamAllocator;
-    hkMemoryAllocatorXe42610& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 
 template <class T> __forceinline void constructWithCopyXe42610(T* p, int n, const T& t)
@@ -200,7 +186,7 @@ template <class T> class hkArrayXe42610
     }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorXe42610& kAlloc = (*static_cast<hkMemoryRouterXe42610*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyXe42610(m_data + m_iElementCount, 1, t);
@@ -238,11 +224,6 @@ struct S00e41f30_arg
     int unk18;
 };
 
-struct FUN_00c85750_vt
-{
-    virtual void vf00();
-    virtual void* vf04(unsigned int size);
-};
 
 struct FUN_00c85750_obj
 {
@@ -314,14 +295,6 @@ struct FUN_00c85750_obj
 
 };
 
-struct FUN_00c85750_host
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    FUN_00c85750_vt* unk10;
-};
 
 struct S00e41f30_listener
 {
@@ -368,9 +341,9 @@ void S00e41f30_impl::CreateWheelPhantom(S00e41f30_arg* arg)
 
     this->vf34(arg, &aabb);
 
-    FUN_00c85750_host* host = static_cast<FUN_00c85750_host*>(::FUN_00c85750());
+    hkMemoryRouter* host = &hkMemoryRouter::getInstance();
 
-    FUN_00c85750_obj* allocated = reinterpret_cast<FUN_00c85750_obj*>(host->unk10->vf04(0xe0));
+    FUN_00c85750_obj* allocated = reinterpret_cast<FUN_00c85750_obj*>(host->m_heap->blockAlloc(0xe0));
 
     allocated->unk04 = 0xe0;
 
@@ -549,27 +522,6 @@ FUN_00e42550::FUN_00e42550() : m_uiWheelCount(0), m_pPhantom(0)
 }
 
 namespace fnv_00e42590 {
-class hkMemoryAllocatorE42
-{
-  public:
-    virtual ~hkMemoryAllocatorE42() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterE42
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorE42* m_pStreamAllocator;
-
-    hkMemoryAllocatorE42& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterE42 {
 
@@ -627,7 +579,7 @@ class FUN_00e42550
 
     static void* operator new(size_t nbytes)
     {
-        FUN_00e42550* b = static_cast<FUN_00e42550*>((*static_cast<hkMemoryRouterE42*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
+        FUN_00e42550* b = static_cast<FUN_00e42550*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }

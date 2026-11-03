@@ -269,22 +269,6 @@ void D0B630Collector::FlushDeferredEntities(const void* event)
     }
 }
 
-struct D0B6A0Allocator;
-
-struct D0B6A0MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    D0B6A0Allocator* m_pStreamAllocator;
-
-    D0B6A0Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 
 struct D0B6A0Entity
@@ -335,7 +319,7 @@ struct D0B6A0EntityArray
 
     __forceinline void AddBack(D0B6A0Entity* const& e)
     {
-        D0B6A0Allocator& alloc = (*static_cast<D0B6A0MemoryRouter*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(D0B6A0Entity*));
         construct(m_data + m_iElementCount, 1, e);
@@ -646,11 +630,6 @@ struct hkAabb
     hkVector4 m_kMaximumCorner;
 };
 
-struct D0B6A0Allocator
-{
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
 
 namespace bpb {
 
@@ -869,7 +848,7 @@ struct hkReferencedObject
     }
     static void* operator new(size_t nbytes)
     {
-        hkReferencedObject* b = static_cast<hkReferencedObject*>((*static_cast<D0B6A0MemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
+        hkReferencedObject* b = static_cast<hkReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }

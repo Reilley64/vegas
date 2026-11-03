@@ -881,7 +881,7 @@ bool TopicSaver::SaveTopicInfo(FileStub* apFile)
         aMaxSize = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)pArray)))->FUN_0084e3a0()));
         for (i4 = 0; i4 < aMaxSize; ++i4)
         {
-            info = (TESTopicInfo*)*((Arr*)pArray)->GetAt(i4);
+            info = (TESTopicInfo*)(std::uintptr_t)*((Arr*)pArray)->GetAt(i4);
             if (info)
                 reinterpret_cast<::FUN_00460270_cls *>(((*reinterpret_cast<::fnv_006189c0::DHStub * *>(&::g_dataHandler))))->FUN_00460270((::TESForm *)(info), reinterpret_cast<::TESFile *>((apFile))->IsMasterFile());
         }
@@ -1631,7 +1631,7 @@ TESTopicInfo* TESTopic::FindMatchingTopicInfo(const TESTopic* originalTopic, boo
                                     break;
                                 }
                                 if (!reinterpret_cast<::FUN_0061af10_shell *>((questInfo->pQuest))->HasFlag4() &&
-                                    ((::TESQuest *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((dialogue))->FUN_00825c00())) == questInfo->pQuest &&
+                                    ((::TESQuest *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((dialogue))->FUN_00825c00())) == questInfo->pQuest &&
                                     ((::TESTopic *)(reinterpret_cast<::MagicCaster_shell *>((dialogue))->FUN_0044edb0())) == originalTopic)
                                 {
                                     usedCandidate = pTopicInfo;

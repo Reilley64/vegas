@@ -268,7 +268,7 @@ void BipedAnim::AttachFaceGenNode()
             NiNode* pWeaponNode = pOwnerContext.process->GetWeaponNode(false);
             if (pWeaponNode)
             {
-                ::FUN_00b5b1c0((::ShadowSceneNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)), (int)(pWeaponNode), {});
+                ::FUN_00b5b1c0((::ShadowSceneNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)), (std::intptr_t)(pWeaponNode), {});
                 reinterpret_cast<::FUN_00572160_shell *>((pWeaponNode))->FUN_00572160();
             }
             if (((TESObjectREFR*)this)->IsCreature())
@@ -284,7 +284,7 @@ void BipedAnim::AttachFaceGenNode()
                         nodes.found = (NiNode*)object;
                         if (nodes.found)
                         {
-                            ::FUN_00b5b1c0((::ShadowSceneNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)), (int)(nodes.found), {});
+                            ::FUN_00b5b1c0((::ShadowSceneNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)), (std::intptr_t)(nodes.found), {});
                             reinterpret_cast<::FUN_00572160_shell *>((nodes.found))->FUN_00572160();
                         }
                     }
@@ -305,7 +305,7 @@ void BipedAnim::AttachFaceGenNode()
                 }
                 if (bow)
                 {
-                    ::FUN_00b5b1c0((::ShadowSceneNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)), (int)(pWeaponNode), {});
+                    ::FUN_00b5b1c0((::ShadowSceneNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)), (std::intptr_t)(pWeaponNode), {});
                     reinterpret_cast<::FUN_00572160_shell *>((pWeaponNode))->FUN_00572160();
                 }
             }
@@ -1314,7 +1314,7 @@ void FUN_004aeb20_holder::AttachFaceGenModel(BSFaceGenModel* apFaceGenModel, NiN
             BSStringT<char> newName;
             ::FUN_00406f60((::FUN_00406f90_this *)&(newName), "%s %s (%08X)", DAT_01188b98[aeBipedObject], object[aeBipedObject].pParent->GetEditorID(),
                             ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((object[aeBipedObject].pParent))->FUN_0084e3a0())));
-            ::AssignFixedString((char *)(ppartClone), (int)&(const ::NiFixedString &)(NiFixedString(newName)), {});
+            ::AssignFixedString((char *)(ppartClone), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(newName)), {});
             ApplyReferenceExtraData(apNode, pcloneNode, aeBipedObject, m_pActor);
             if (!object[aeBipedObject].bHasAnimation && ppartClone->IsSceneNode())
             {
@@ -1551,7 +1551,7 @@ void __cdecl FUN_004ade40(NiNode* source, NiAVObject* object, NiAVObject* notify
         {
             NiAVObject* boneCount;
             std::uintptr_t replacement = ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((reinterpret_cast<SkinDataProbe*>(((::NiSkinData *)(reinterpret_cast<::TESRegionDataMap *>((geometry))->GetRegionMapName())))))->GetActiveCombatTarget()));
-            NiAVObject** bones = ((::NiAVObject **)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((geometry))->FUN_00825c00()));
+            NiAVObject** bones = ((::NiAVObject **)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((geometry))->FUN_00825c00()));
             for (unsigned int i = 0; i < replacement; ++i)
             {
                 if (bones[i])
@@ -1567,7 +1567,7 @@ void __cdecl FUN_004ade40(NiNode* source, NiAVObject* object, NiAVObject* notify
                         if (report)
                         {
                             if (node && !fnv::crt::strnicmp((const char*)(*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(object))->GetLinkToList())), (const char*)(*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(bones[i]))->GetLinkToList())),
-                                                      (std::size_t)(std::uintptr_t)(((const char *)(::FUN_0044a670((const char*)(*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(bones[i]))->GetLinkToList()))))))))
+                                                      (std::size_t)(std::uintptr_t)(((const char *)(std::uintptr_t)(::FUN_0044a670((const char*)(*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(bones[i]))->GetLinkToList()))))))))
                             {
                                 ::FUN_005b5e40();
                             }
@@ -1770,7 +1770,7 @@ void FUN_004ab750_shell::FUN_004ab750(TESObjectWEAP* apWeapon, unsigned char iMo
             BSStringT<char> str;
             ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&str), "%s %s (%08X)", DAT_01188b98[5], object[5].pParent->GetEditorID(),
                          ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((object[5].pParent))->FUN_0084e3a0())));
-            ::AssignFixedString((char *)(object[5].m_pSceneObject), (int)&(const ::NiFixedString &)(NiFixedString((const char*)str)), {});
+            ::AssignFixedString((char *)(object[5].m_pSceneObject), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString((const char*)str)), {});
             if (((FUN_004ab730_shell*)apWeapon)->IsFlagSet() && object[7].m_pSceneObject)
                 reinterpret_cast<::TaskQueueInterface *>((object[7].m_pSceneObject))->QueueActorDisarm(true);
             if (m_pActor->IsActor())
@@ -2164,7 +2164,7 @@ NiAVObject* BipedAnim::AttachBipedModel(NiNode* model, NiNode* parent, BIPED_OBJ
                     pResult = skinned.child;
                 BipedSkinBoneBinding binding;
                 binding.count = (unsigned int)(std::uintptr_t)((LowProcess*)((::NiSkinData *)(reinterpret_cast<::TESRegionDataMap *>((skinned.skin))->GetRegionMapName())))->GetActiveCombatTarget();
-                binding.boneArray = (NiAVObject**)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)skinned.skin)))->FUN_00825c00();
+                binding.boneArray = (NiAVObject**)(std::uintptr_t)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)skinned.skin)))->FUN_00825c00();
                 for (unsigned int j = 0; j < binding.count; ++j)
                 {
                     if (!BIPED_OBJECT_TEXT(binding.boneArray[j]))
@@ -2497,7 +2497,7 @@ void BipedLoadAccess::UpdateBipedObjects(bool force)
                 BSStringT<char> name;
                 ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&name), "%s %s (%08X)", DAT_01188b98[slot], object[slot].pParent->GetEditorID(),
                              ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((object[slot].pParent))->FUN_0084e3a0())));
-                ::AssignFixedString((char *)(result), (int)&(const ::NiFixedString &)(NiFixedString(name)), {});
+                ::AssignFixedString((char *)(result), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(name)), {});
                 ::BipedAnim::ApplyReferenceExtraData(_clone, boneIndexd, (BIPED_OBJECT)slot, m_pActor);
                 if (!object[slot].bHasAnimation && result->IsSceneNode())
                 {
@@ -2572,7 +2572,7 @@ void BipedAnim::FUN_004abd30(IO_TASK_PRIORITY priority, NiPointer<QueuedHelmet>&
                     {
                         const char* path = (const char*)biped->FUN_00480ce0();
                         if (*path)
-                            reinterpret_cast<::QueueHelper *>((g_modelLoader))->FUN_00444040((int)(path), (*(int *)&(priority)), (int)(file), 3, true, false, false);
+                            reinterpret_cast<::QueueHelper *>((g_modelLoader))->FUN_00444040((std::intptr_t)(path), (*(int *)&(priority)), (std::intptr_t)(file), 3, true, false, false);
                     }
                 }
             }
@@ -2601,7 +2601,7 @@ bool Holder_o2::FUN_00a5bc40(const NiFixedString& kName, NiTexture* pkTex)
         return false;
     if ((*(const ::NiFixedString *)&(reinterpret_cast<::FUN_00a62660_cls *>((void *)(((NiShader*)pkTex)))->FUN_00a62660())).data == (const char*)(*reinterpret_cast<std::intptr_t *>(&::DAT_0109b220)))
     {
-        ::AssignFixedString((char *)(((NiAVObject*)pkTex)), (int)&(kName), {});
+        ::AssignFixedString((char *)(((NiAVObject*)pkTex)), (std::intptr_t)&(kName), {});
     }
     else
     {

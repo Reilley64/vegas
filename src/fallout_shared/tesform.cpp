@@ -433,7 +433,7 @@ extern int DAT_01014210;
 // @fnv 0x0040ecb0
 void FUN_0040ecb0(int* p)
 {
-    *p = (int)&DAT_01014210;
+    *reinterpret_cast<void**>(p) = &DAT_01014210;
 }
 
 struct FUN_00471d60_shell : public TESFile
@@ -523,7 +523,7 @@ void FUN_005890c0(int* self, FUN_00486930_arg a);
 int* FUN_00486930(int* self, FUN_00486930_arg aArg)
 {
     FUN_005890c0(self, aArg);
-    *self = (int)&DAT_01031fac;
+    *reinterpret_cast<void**>(self) = &DAT_01031fac;
     return self;
 }
 
@@ -1192,7 +1192,7 @@ bool FUN_004854e0_shell::IsGroupFormOfType(FormRecordHeader* apGroupFORM, bool a
     bool bretval = false;
     if (apGroupFORM && apGroupFORM->form == ::fnv_00543df0::kGroupFormType && apGroupFORM->iFormID == 0)
     {
-        if (apGroupFORM->flags == *(unsigned int*)(this->GetFormType() * 0xc + 0x1187008))
+        if (apGroupFORM->flags == *(unsigned int*)(std::uintptr_t)(this->GetFormType() * 0xc + 0x1187008))
             bretval = true;
     }
     return bretval;
@@ -1209,7 +1209,7 @@ void __cdecl FUN_004856d0(int arg)
 // @fnv 0x004856f0
 void __cdecl FUN_004856f0(void* apArg1, void* apArg2, void* apArg3)
 {
-    ::AppendChunk((std::uintptr_t)(apArg1), apArg2, (unsigned int)(apArg3));
+    ::AppendChunk((std::uintptr_t)(apArg1), apArg2, (unsigned int)(std::uintptr_t)(apArg3));
 }
 
 void __cdecl FUN_00485750(void* arg0, void* arg1, void* arg2);
@@ -1557,7 +1557,7 @@ void FUN_004696f0_shell::FUN_004696f0(unsigned int value)
     desired = *(unsigned int*)((char*)this + 0x218);
     desired = 0xff;
     if (value && (value >> 0x18) == desired && !((unsigned char*)this)[0x621] &&
-        value < *(unsigned int*)((char*)this + 0x208) && (value & (unsigned int)&DAT_00ffffff) > 0x7ff)
+        value < *(unsigned int*)((char*)this + 0x208) && (value & 0x00ffffffu) > 0x7ff)
         *(unsigned int*)((char*)this + 0x208) = value;
 }
 
@@ -1855,7 +1855,7 @@ struct FUN_00487010_shell
 void FUN_00487010_shell::FUN_00487010()
 {
     if (((TESModel*)this)->GetModelLength())
-        ::FUN_004856f0((void *)(0x4C4C5546), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)this)))->FUN_00408da0())), (void *)(((TESModel*)this)->GetModelLength() + 1));
+        ::FUN_004856f0((void *)(0x4C4C5546), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)this)))->FUN_00408da0())), (void *)(std::uintptr_t)(((TESModel*)this)->GetModelLength() + 1));
 }
 
 struct FUN_00549580_shell
@@ -2610,7 +2610,7 @@ void FUN_00485530_shell::InitGroupForm(GroupEntry* apOutGroupFORM, GroupData* ap
     {
         apOutGroupFORM->form = ::fnv_00543df0::kGroupFormType;
         apOutGroupFORM->iFormID = 0;
-        apOutGroupFORM->flags = *(unsigned int*)(0x1187008 + GetFormType() * 12);
+        apOutGroupFORM->flags = *(unsigned int*)(std::uintptr_t)(0x1187008 + GetFormType() * 12);
         apOutGroupFORM->length = 0;
         apOutGroupFORM->m_uiVersionControlInfo = 0;
         apOutGroupFORM->m_usFormVersion = 0;
@@ -3071,7 +3071,7 @@ struct FUN_004867a0_arg
 // @fnv 0x004867a0
 void* FUN_004867a0_cls::FUN_004867a0(void* unused, void* arg)
 {
-    FUN_004867a0_vbase* obj = (FUN_004867a0_vbase*)((void *)(::TESDataHandler::CreateFormForType((unsigned char)(GetA()))));
+    FUN_004867a0_vbase* obj = (FUN_004867a0_vbase*)((void *)(::TESDataHandler::CreateFormForType((unsigned char)(std::uintptr_t)(GetA()))));
     if (obj != 0)
     {
         FUN_004867a0_holder holder(((void *)(reinterpret_cast<::FUN_00401280_Class *>(this)->FUN_00401280())));
@@ -3098,7 +3098,7 @@ struct S4868f0_host
 // @fnv 0x004868f0
 void S4868f0_host::FUN_004868f0(std::uintptr_t a)
 {
-    ::FUN_00406f60((::FUN_00406f90_this *)(a), "%s Form '%s' (%08X)", ((unsigned int)(std::uintptr_t)(reinterpret_cast<::FUN_00440e30_This *>(this)->FUN_00440e30())), ((unsigned int)(reinterpret_cast<::FUN_00401280_Class *>(this)->FUN_00401280())), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())));
+    ::FUN_00406f60((::FUN_00406f90_this *)(a), "%s Form '%s' (%08X)", ((reinterpret_cast<::FUN_00440e30_This *>(this)->FUN_00440e30())), ((reinterpret_cast<::FUN_00401280_Class *>(this)->FUN_00401280())), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())));
 }
 
 extern char DAT_011841cc;
@@ -3576,8 +3576,8 @@ FUN_00483370::FUN_00483370()
     if ((*reinterpret_cast<::fnv_00483370::TESDataHandler * *>(&::g_dataHandler)) && !reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_00483370::TESDataHandler * *>(&::g_dataHandler))))->LoadDescriptionForForm())
     {
         iFormID = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_00483370::TESDataHandler * *>(&::g_dataHandler))))->GetNextID();
-        if (((::TESFile *)(::GetField20C((char*)(*reinterpret_cast<::fnv_00483370::TESDataHandler * *>(&::g_dataHandler))))))
-            ((TESForm*)this)->SetFile(((::TESFile *)(::GetField20C((char*)(*reinterpret_cast<::fnv_00483370::TESDataHandler * *>(&::g_dataHandler))))));
+        if (((::TESFile *)(std::uintptr_t)(::GetField20C((char*)(*reinterpret_cast<::fnv_00483370::TESDataHandler * *>(&::g_dataHandler))))))
+            ((TESForm*)this)->SetFile(((::TESFile *)(std::uintptr_t)(::GetField20C((char*)(*reinterpret_cast<::fnv_00483370::TESDataHandler * *>(&::g_dataHandler))))));
         if (iFormID <= 0x7ff)
             reinterpret_cast<::FUN_00485c10_shell *>((((TESForm*)this)))->FUN_00485c10(0x800, true);
     }
@@ -3607,19 +3607,19 @@ void __cdecl FUN_00485750(void* apDestination, void* apSource, void* aiCount)
     if (((bool)(::FUN_00401500())))
     {
         unsigned int i;
-        p4 = new Slot4[(unsigned int)aiCount];
+        p4 = new Slot4[(unsigned int)(std::uintptr_t)aiCount];
         ::__memcpy(p4, apSource, bytes7);
         for (i = 0; i < (unsigned int)(std::uintptr_t)aiCount; ++i)
         {
 
             ::FUN_00401080((int *)(void *)(&p4[i]));
         }
-        ::AppendChunk((std::uintptr_t)(apDestination), p4, (unsigned int)((void*)bytes7));
+        ::AppendChunk((std::uintptr_t)(apDestination), p4, (unsigned int)(std::uintptr_t)((void*)bytes7));
         delete[] p4;
     }
     else
     {
-        ::AppendChunk((std::uintptr_t)(apDestination), apSource, (unsigned int)((void*)bytes7));
+        ::AppendChunk((std::uintptr_t)(apDestination), apSource, (unsigned int)(std::uintptr_t)((void*)bytes7));
     }
 }
 

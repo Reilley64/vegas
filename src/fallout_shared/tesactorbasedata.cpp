@@ -523,7 +523,7 @@ DummyVtable* __cdecl FindFirstNonActorBaseTemplate(DummyVtable* apBase, unsigned
         {
             DummyVtable* ptempbase = pCurrent;
             *aiOutCompositeTemplateUseFlags &= *(unsigned short*)((char*)ptempbase + 0x4A);
-            pCurrent = (DummyVtable*)reinterpret_cast<::ActorMover *>((((BSThread*)((char*)ptempbase + 0x30))))->GetCurrentMoveModeType();
+            pCurrent = (DummyVtable*)(std::uintptr_t)reinterpret_cast<::ActorMover *>((((BSThread*)((char*)ptempbase + 0x30))))->GetCurrentMoveModeType();
         }
         else
         {
@@ -1535,7 +1535,7 @@ void FlagSet::FUN_0047dd50(int aMask, unsigned char aSet, unsigned char aForce)
             {
                 if (!(*reinterpret_cast<::GlobalMgr * *>(&::g_BGSSaveLoadGame))->Test(r, NameRef("")))
                 {
-                    reinterpret_cast<::fnv_0047e2a0::FUN_0047e2a0_shell *>(this)->FUN_0047e2a0((int)(""));
+                    reinterpret_cast<::fnv_0047e2a0::FUN_0047e2a0_shell *>(this)->FUN_0047e2a0((std::intptr_t)(""));
                 }
                 else
                 {
@@ -1919,14 +1919,14 @@ void OwnerShell::FUN_0047ce10(RefShell* ref)
     if (!ref || !reinterpret_cast<::FUN_0047cdb0_shell *>(this)->FUN_0047cdb0() || reinterpret_cast<::Thing *>((ref))->FUN_0056afc0())
         return;
     LeveledShell* level = 0;
-    if (((::fnv_0047ce10::FormShell *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->FUN_00401170() == 45)
+    if (((::fnv_0047ce10::FormShell *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->FUN_00401170() == 45)
     {
-        NPCShell* npc2 = (NPCShell*)((::fnv_0047ce10::FormShell *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()));
+        NPCShell* npc2 = (NPCShell*)((::fnv_0047ce10::FormShell *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()));
         level = npc2;
     }
-    else if (((::fnv_0047ce10::FormShell *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->FUN_00401170() == 44)
+    else if (((::fnv_0047ce10::FormShell *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->FUN_00401170() == 44)
     {
-        CreatureShell* creature3 = (CreatureShell*)((::fnv_0047ce10::FormShell *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()));
+        CreatureShell* creature3 = (CreatureShell*)((::fnv_0047ce10::FormShell *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()));
         level = creature3;
     }
     if (level)
@@ -2113,16 +2113,16 @@ void FUN_0047e4a0_cls::SaveFactionData(int flags)
     FormObj* _obj;
     SaveRefRecord* aRefF;
 
-    startPosP = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    startPosP = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
     if (*(*reinterpret_cast<::SettingRef *>(&::g_011de4e8)).GetFlag())
     {
-        startPosP = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        startPosP = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         magic = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void *)(&magic), 4);
-        blockPosY = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        blockPosY = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void *)(&kBlockSize), 2);
     }
     if (flags & 2)
@@ -2130,7 +2130,7 @@ void FUN_0047e4a0_cls::SaveFactionData(int flags)
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void *)(&actorData), 0x18);
     }
     aCount = 0;
-    countPos_ = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    countPos_ = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void *)(&aCount), 2);
     nodeV = GetFactionHead();
     while (nodeV)
@@ -2150,7 +2150,7 @@ void FUN_0047e4a0_cls::SaveFactionData(int flags)
 
     if (*(*reinterpret_cast<::SettingRef *>(&::g_011de4e8)).GetFlag())
     {
-        endPos = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        endPos = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
         aRefF = ((::SaveRefRecord *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (aRefF)
         {
@@ -2165,7 +2165,7 @@ void FUN_0047e4a0_cls::SaveFactionData(int flags)
 
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        endPosB = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        endPosB = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveGameBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
         baseStart = blockPosY;
         if (endPosB > baseStart + 0xffff)
         {

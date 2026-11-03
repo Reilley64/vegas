@@ -973,7 +973,7 @@ bool FUN_00858730_shell::FUN_00858730(TESForm* apForm)
             bool brestore;
             LoadFormHeader_s formHeader;
 
-            reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_00858730::ATM *>(&::g_011de494))))->FUN_004538a0((int)"TESSaveLoadGame::LoadForm");
+            reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_00858730::ATM *>(&::g_011de494))))->FUN_004538a0((std::intptr_t)"TESSaveLoadGame::LoadForm");
             this->unk14 = ptempbuffer;
             ((FUN_008579e0_shell*)::g_TESSaveLoadGame)->FUN_008579e0(&formHeader, 4);
             if (FNV_GetFormType(apForm) != formHeader.type)
@@ -1214,12 +1214,12 @@ struct FUN_00858570_class
 // @fnv 0x00858570
 void FUN_00858570_class::LoadTempEffectsList(std::intptr_t apFile)
 {
-    void* ptempBuffer = ((void *)(reinterpret_cast<::SaveProcessLists *>((((FUN_009755b0_class*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_009755b0()));
+    void* ptempBuffer = ((void *)(std::uintptr_t)(reinterpret_cast<::SaveProcessLists *>((((FUN_009755b0_class*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_009755b0()));
     ((FUN_008586a0_class*)this)->FUN_00857b50(apFile, &ptempBuffer, 4);
     if (ptempBuffer)
     {
         if (*(void**)((char*)this + 0x44))
-            reinterpret_cast<::FUN_008558a0 *>((((FUN_008558a0_class*)*(void**)((char*)this + 0x44))))->SetExtraDataString((int)(ptempBuffer), "Temp Effects List");
+            reinterpret_cast<::FUN_008558a0 *>((((FUN_008558a0_class*)*(void**)((char*)this + 0x44))))->SetExtraDataString((std::intptr_t)(ptempBuffer), "Temp Effects List");
         void* ptempBuffer2 = ((FUN_00858600_class*)this)->FUN_00858600(ptempBuffer);
         reinterpret_cast<::PLTempEffectSaver *>((((FUN_009756c0_class*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->SaveTempEffects();
         reinterpret_cast<::FUN_008586a0_class *>((((FUN_008586a0_class*)this)))->ForwardToFUN_00857b50(apFile, (std::intptr_t)(ptempBuffer2), (std::intptr_t)ptempBuffer);
@@ -1572,7 +1572,7 @@ struct FUN_008638f0
 // @fnv 0x008633f0
 void* FUN_008633f0_class::FUN_008633f0(void* apArg)
 {
-    new ((void *)this) ::FUN_008638f0((unsigned int)(apArg));
+    new ((void *)this) ::FUN_008638f0((unsigned int)(std::uintptr_t)(apArg));
     p = &DAT_01081e90;
     return this;
 }
@@ -2206,7 +2206,7 @@ FUN_00855310_cls::~FUN_00855310_cls()
             reinterpret_cast<::FileMatchList *>((c3))->RemoveAll();
             Cell00855310* t = c3;
             Cell00855310* u = t;
-            (u != 0) ? ((unsigned int)(reinterpret_cast<::W004702f0 *>((u))->FUN_004702f0(1))) : 0;
+            (u != 0) ? ((std::uintptr_t)(reinterpret_cast<::W004702f0 *>((u))->FUN_004702f0(1))) : 0;
         }
     }
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
@@ -3779,7 +3779,7 @@ void C857950::FUN_00857950(int* pObject, std::intptr_t b)
     p = ((int *)(reinterpret_cast<::SaveOwner *>((((C857370*)this)))->OpenSaveFile((::SaveFile *)(pObject), (const char *)(b), 3)));
     if (p == 0)
         p = pObject;
-    ::FUN_00aff0b0((const char *)((*(int(**)(int*))(*(int**)p + 6))(p)));
+    ::FUN_00aff0b0((const char *)(std::uintptr_t)((*(int(**)(int*))(*(int**)p + 6))(p)));
     reinterpret_cast<::fnv_008578b0::FUN_008578b0_Class *>((((C8578b0*)this)))->ReleaseFile((::fnv_008578b0::BSFile *)(p), 3);
 }
 // Builds the save file path from the name and settings, rotates .bak backups, then opens or seeks a SaveFile according to mode.
@@ -5790,7 +5790,7 @@ Texture* Reader::ReadTexture(File* file, unsigned int size, unsigned int* puiFla
                              unsigned int* puiNumber, unsigned int* puiImageSize)
 {
     void* buffer5 = FUN_00858600(size);
-    reinterpret_cast<::FUN_008586d0_class *>(this)->FUN_008586d0((int)(file), (int)(buffer5), size);
+    reinterpret_cast<::FUN_008586d0_class *>(this)->FUN_008586d0((std::intptr_t)(file), (std::intptr_t)(buffer5), size);
     if ((*reinterpret_cast<::SaveThumbnail::Game * *>(&::g_TESSaveLoadGame))->FUN_008df040() >= 56)
     {
         unsigned int flagsValue;
@@ -6088,7 +6088,7 @@ void SaveNamer::BuildSaveFilename(char* output)
             elapsed4 -= minutes5 * 60000;
             unsigned int seconds = elapsed4 / 1000;
             char fullPath[260];
-            ::FUN_00406d00(filename, 260, DAT_01081b08, ((int)(reinterpret_cast<::FUN_00862370_class *>(this)->GetOrCreatePointer())), name, location,
+            ::FUN_00406d00(filename, 260, DAT_01081b08, ((std::intptr_t)(reinterpret_cast<::FUN_00862370_class *>(this)->GetOrCreatePointer())), name, location,
                          reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_00860ae0::SavePlayer * *>(&::_g_thePlayer))))->FUN_0087f9f0(), hours, minutes5, seconds, suffix_);
             char* bad3 = 0;
             char* cursorA = filename;
@@ -6589,8 +6589,8 @@ void Repair624::FUN_008624e0(Ref624* reference)
                 void* form = ((void *)(reinterpret_cast<::FUN_0041b320_shell *>((((::Extra624 *)(reinterpret_cast<::FUN_005d43c0_ *>((reference))->FUN_005d43c0()))))->FUN_0041b320()));
                 if (form)
                 {
-                    void* parentCell = (void*)((std::uintptr_t)(dynamic_cast<::TESObjectCELL *>(reinterpret_cast<::TESForm *>((unsigned int)form))));
-                    void* parentWorld = (void*)((std::uintptr_t)(dynamic_cast<::TESWorldSpace *>(reinterpret_cast<::TESForm *>((unsigned int)form))));
+                    void* parentCell = (void*)((std::uintptr_t)(dynamic_cast<::TESObjectCELL *>(reinterpret_cast<::TESForm *>(form))));
+                    void* parentWorld = (void*)((std::uintptr_t)(dynamic_cast<::TESWorldSpace *>(reinterpret_cast<::TESForm *>(form))));
                     if (parentCell || parentWorld)
                         ::fnv_00573800::FUN_00573800((::fnv_00573800::MoveRef *)(reference), (::fnv_00573800::MoveCell *)(parentCell), (::fnv_00573800::MoveWorld *)(parentWorld));
                 }
@@ -7018,8 +7018,8 @@ void FUN_00c3ea10_holder::FUN_00c3ea10()
 struct Worker
 {
     Queue* queue;
-    volatile unsigned long* hazardHead;
-    volatile unsigned long* hazardNext;
+    volatile std::uintptr_t* hazardHead;
+    volatile std::uintptr_t* hazardNext;
     bool TryDequeue(Ptr* output);
 };
 // Pops the queue head with hazard-pointer protection, copies its value into output, retires the node and returns whether an item was dequeued.
@@ -7030,7 +7030,7 @@ bool Worker::TryDequeue(Ptr* output)
     while (true)
     {
         head = queue->head;
-        *hazardHead = (unsigned long)head;
+        *hazardHead = (std::uintptr_t)head;
         if (head != queue->head)
             continue;
         int A2;
@@ -7041,7 +7041,7 @@ bool Worker::TryDequeue(Ptr* output)
         (void)&A;
         Node* tailNode = queue->tail;
         Node* volatile next = head->next;
-        *hazardNext = (unsigned long)next;
+        *hazardNext = (std::uintptr_t)next;
         if (head != queue->head)
             continue;
         if (!next)
@@ -7065,7 +7065,7 @@ bool Worker::TryDequeue(Ptr* output)
             Node* value2 = next;
             Node* volatile* location = &queue->tail;
             bool success3 =
-                InterlockedCompareExchange((volatile long*)location, (long)value2, (long)tailNode) == (long)(std::uintptr_t)tailNode;
+                InterlockedCompareExchangePointer((PVOID volatile*)location, value2, tailNode) == tailNode;
             continue;
         }
         {
@@ -7094,7 +7094,7 @@ bool Worker::TryDequeue(Ptr* output)
             Node* value = next;
             Node* volatile* location4 = &queue->head;
             bool successTmp =
-                InterlockedCompareExchange((volatile long*)location4, (long)value, (long)expected) == (long)(std::uintptr_t)expected;
+                InterlockedCompareExchangePointer((PVOID volatile*)location4, value, expected) == expected;
             if (successTmp)
             {
                 int A5KzC;
@@ -7951,7 +7951,7 @@ int SaveMetadataReader::ReadSaveMetadata(const char* path, unsigned int* number,
         entryB = (SaveMetadataFile*)path;
     void* object4 = 0;
     if (entryB && ::FUN_008905f0((bool *)(entryB)))
-        object4 = ((void *)(reinterpret_cast<::SaveHeaderReader *>(this)->FUN_00860e20((::NiBinaryStream *)(entryB), 0)));
+        object4 = ((void *)(std::uintptr_t)(reinterpret_cast<::SaveHeaderReader *>(this)->FUN_00860e20((::NiBinaryStream *)(entryB), 0)));
     if (!object4)
     {
         if (number)
@@ -8605,7 +8605,7 @@ void TESSaveLoadGame_861f20::FUN_00861f20(int aiType)
             {
                 pCell9 = ((::TESObjectCELL *)(reinterpret_cast<::BGSCameraPath *>((((TES_861f20*)g_TES)))->GetPrevPath()));
                 if (!pCell9)
-                    pCell9 = ((::TESObjectCELL *)(reinterpret_cast<::FUN_00459470_Class *>((((TES_861f20*)g_TES)))->FUN_00459470(iA)));
+                    pCell9 = ((::TESObjectCELL *)(std::uintptr_t)(reinterpret_cast<::FUN_00459470_Class *>((((TES_861f20*)g_TES)))->FUN_00459470(iA)));
                 if (pCell9)
                     reinterpret_cast<::Cell550 *>((pCell9))->FUN_0054b5b0();
             }
@@ -9107,7 +9107,7 @@ void SaveHandler85A520::FUN_0085a520(SaveForm85A520* form, unsigned int flags)
         else if (pRef)
         {
             world.type = 2;
-            world.base = reinterpret_cast<::FUN_00861b70_Class *>(this)->FindOrAddValue(((unsigned int)(reinterpret_cast<::S86a0 *>((((::SaveInitialData85A520::SaveEffect85A520 *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((::SaveInitialData85A520::SaveMagic85A520 *)(reinterpret_cast<::InterfaceManager *>((pRef))->FUN_00586150()))))->FUN_00825c00()))))->FUN_004086a0())));
+            world.base = reinterpret_cast<::FUN_00861b70_Class *>(this)->FindOrAddValue(((unsigned int)(reinterpret_cast<::S86a0 *>((((::SaveInitialData85A520::SaveEffect85A520 *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((::SaveInitialData85A520::SaveMagic85A520 *)(reinterpret_cast<::InterfaceManager *>((pRef))->FUN_00586150()))))->FUN_00825c00()))))->FUN_004086a0())));
         }
         reinterpret_cast<::FUN_008579b0_shell *>((((SaveStream85A520*)(*reinterpret_cast<::FUN_008df040_cls * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&world, 36);
     }
@@ -10282,11 +10282,11 @@ struct C006c6fe0
         Ops006c6fe0* tail;
         Node006c6fe0* node;
         Node006c6fe0* old;
-        long expected;
-        long result;
+        void* expected;
+        void* result;
         std::intptr_t current;
         std::intptr_t compare;
-        long outcome;
+        std::intptr_t outcome;
         bool ok;
         for (;;)
         {
@@ -10313,14 +10313,14 @@ struct C006c6fe0
             if (cur == tail)
             {
                 expected = 0;
-                result = InterlockedCompareExchange((long volatile*)&ops->tail, (long)node, expected);
+                result = InterlockedCompareExchangePointer((PVOID volatile*)&ops->tail, node, expected);
                 if (result != 0)
                     continue;
                 continue;
             }
             current = (std::intptr_t)cur;
             compare = (std::intptr_t)tail;
-            outcome = InterlockedCompareExchange((long volatile*)&cur->next, current, compare);
+            outcome = (std::intptr_t)InterlockedCompareExchangePointer((PVOID volatile*)&cur->next, (PVOID)current, (PVOID)compare);
             ok = outcome == current;
             if (!ok)
                 continue;

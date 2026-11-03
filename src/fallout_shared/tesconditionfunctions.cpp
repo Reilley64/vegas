@@ -235,7 +235,7 @@ class Actor
 {
   public:
     bool IsEssentialActor();
-    unsigned int GetActorStateFlags() const;
+    std::uintptr_t GetActorStateFlags() const;
 public:
     ::TESActorBase *GetActorBase();
 public:
@@ -1002,7 +1002,7 @@ struct SitActor
     virtual void b130();
     virtual void b131();
     virtual void b132();
-    virtual unsigned int GetActorStateFlags();
+    virtual std::uintptr_t GetActorStateFlags();
 };
 // @fnv 0x0059dd90
 bool __cdecl FUN_0059dd90(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
@@ -2855,7 +2855,7 @@ bool __cdecl GetTalkingValue(TESObjectREFR* apRefObject, void* apParam1, void* a
     }
     else
     {
-        MobileObject* pmob = ((::MobileObject *)(reinterpret_cast<::TESObjectREFR578 *>((apRefObject))->FUN_00578970()));
+        MobileObject* pmob = ((::MobileObject *)(std::uintptr_t)(reinterpret_cast<::TESObjectREFR578 *>((apRefObject))->FUN_00578970()));
         if (pmob && reinterpret_cast<::S0092f160 *>((pmob))->FUN_0092f160())
             afReturnValue = 1.0;
     }
@@ -5111,7 +5111,7 @@ bool __cdecl FUN_005a5bd0(TESObjectREFR* reference, void* arg1, void* arg2, doub
 {
     TESReputation* pReputationData = (TESReputation*)arg1;
     {
-        ReputationType eReputationType = (ReputationType)(int)arg2;
+        ReputationType eReputationType = (ReputationType)(int)(std::intptr_t)arg2;
         if (pReputationData)
         {
             result = pReputationData->GetUnsignedIntegerPointer(eReputationType);
@@ -5163,7 +5163,7 @@ void __cdecl DebugLog(char const*, ...);
 bool __cdecl GetMenuModeValue(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
 {
     *afReturnValue = 0.0;
-    Interface::enumMenus eMenuId = (Interface::enumMenus)(int)apParam1;
+    Interface::enumMenus eMenuId = (Interface::enumMenus)(int)(std::intptr_t)apParam1;
     if (eMenuId == 0)
     {
         *afReturnValue = (double)::FUN_00702360();
@@ -7346,7 +7346,7 @@ bool __cdecl FUN_0059e1a0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         }
         if (m_pScriptLocals && ((ScriptLocals*)m_pScriptLocals)->m_pOwnerScript)
         {
-            afReturnValue = reinterpret_cast<::FUN_005a9140_shell *>((reinterpret_cast<ScriptLocals_Helper*>(m_pScriptLocals)))->FUN_005a9140((unsigned int)(apParam2), 0);
+            afReturnValue = reinterpret_cast<::FUN_005a9140_shell *>((reinterpret_cast<ScriptLocals_Helper*>(m_pScriptLocals)))->FUN_005a9140((unsigned int)(std::uintptr_t)(apParam2), 0);
         }
     }
     return true;
@@ -7377,7 +7377,7 @@ bool FUN_0059e700(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
         ((void *)(reinterpret_cast<::MagicCaster_shell *>((pWeatherSky))->FUN_0044edb0())) && reinterpret_cast<::FUN_0059e7d0_Class *>((((FUN_0059e7d0_Class*)((void *)(reinterpret_cast<::MagicCaster_shell *>((pWeatherSky))->FUN_0044edb0())))))->FUN_0059e7d0()
             ? ::FUN_006447d0((const char *)(pWeatherSky))
             : 0.0;
-    afReturnValue += reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(pWeatherSky))->FUN_00825c00() && reinterpret_cast<::FUN_0059e7d0_Class *>((((FUN_0059e7d0_Class*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(pWeatherSky))->FUN_00825c00())))->FUN_0059e7d0()
+    afReturnValue += reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(pWeatherSky))->FUN_00825c00() && reinterpret_cast<::FUN_0059e7d0_Class *>((((FUN_0059e7d0_Class*)(std::uintptr_t)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(pWeatherSky))->FUN_00825c00())))->FUN_0059e7d0()
                          ? 1.0 - ::FUN_006447d0((const char *)(pWeatherSky))
                          : 0.0;
     if (::g_tlsBlock.conditionFunctionDebug)
@@ -7403,7 +7403,7 @@ bool __cdecl FUN_0059e7f0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         ((void *)(reinterpret_cast<::MagicCaster_shell *>((pWeatherSky))->FUN_0044edb0())) && reinterpret_cast<::FUN_0059e8c0_Class *>((((FUN_0059e8c0_Class*)((void *)(reinterpret_cast<::MagicCaster_shell *>((pWeatherSky))->FUN_0044edb0())))))->IsFlag2Set()
             ? ::FUN_006447d0((const char *)(pWeatherSky))
             : 0.0;
-    afReturnValue += reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(pWeatherSky))->FUN_00825c00() && reinterpret_cast<::FUN_0059e8c0_Class *>((((FUN_0059e8c0_Class*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(pWeatherSky))->FUN_00825c00())))->IsFlag2Set()
+    afReturnValue += reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(pWeatherSky))->FUN_00825c00() && reinterpret_cast<::FUN_0059e8c0_Class *>((((FUN_0059e8c0_Class*)(std::uintptr_t)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(pWeatherSky))->FUN_00825c00())))->IsFlag2Set()
                          ? 1.0 - ::FUN_006447d0((const char *)(pWeatherSky))
                          : 0.0;
     if (::g_tlsBlock.conditionFunctionDebug)
@@ -7945,7 +7945,7 @@ extern "C" void __cdecl _DebugLog(const char*, ...);
 bool __cdecl FUN_005a2590(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
 {
     result = 0.0;
-    result = (double)(int)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_005a2590::ArrSI *>(&::g_011f2250))))->GetName()));
+    result = (double)(int)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_005a2590::ArrSI *>(&::g_011f2250))))->GetName()));
     if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("VATS Mode >> %0.2f", result);
     return true;
@@ -8281,7 +8281,7 @@ struct FUN_005a4160_shell
     virtual void vf8();
     virtual void vfc();
     virtual bool v100();
-    unsigned int GetActorStateFlags() const;
+    std::uintptr_t GetActorStateFlags() const;
 };
 
 // @fnv 0x005a4160
@@ -9695,10 +9695,10 @@ bool __cdecl FUN_0059d100(TESObjectREFR* reference, void* param1, void* param2, 
         {
             BGSTerminal* pterminal;
 
-            if (reinterpret_cast<TESObject*>(((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(reference)))->FUN_007af430())))->_FNV_GetFormType() ==
+            if (reinterpret_cast<TESObject*>(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(reference)))->FUN_007af430())))->_FNV_GetFormType() ==
                 0x17)
             {
-                pterminal = reinterpret_cast<BGSTerminal*>(((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(reference)))->FUN_007af430())));
+                pterminal = reinterpret_cast<BGSTerminal*>(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(reference)))->FUN_007af430())));
 
                 if (reinterpret_cast<::FUN_00501ae0_shell *>((pterminal))->FUN_00501ae0(reference))
                 {
@@ -10082,7 +10082,7 @@ bool __cdecl FUN_0059ebb0(void* apParam1, TESObjectREFR* apRefObject, void* apPa
         pweather = reinterpret_cast<TESWeather*>(apRefObject);
     }
 
-    if (pweather == reinterpret_cast<TESWeather*>(((int)(reinterpret_cast<::MagicCaster_shell *>((((::fnv_0059ebb0::Sky *)(::Sky::GetInstance()))))->FUN_0044edb0()))))
+    if (pweather == reinterpret_cast<TESWeather*>(((std::intptr_t)(reinterpret_cast<::MagicCaster_shell *>((((::fnv_0059ebb0::Sky *)(::Sky::GetInstance()))))->FUN_0044edb0()))))
     {
         afReturnValue = 1.0;
     }
@@ -11303,8 +11303,8 @@ bool __cdecl FUN_0059f180(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     TESNPC* pnpc = 0;
     if (apRefObject)
     {
-        if (_FNV_GetFormType(reinterpret_cast<void*>(((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())))) == 0x2a)
-            pnpc = reinterpret_cast<TESNPC*>(((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())));
+        if (_FNV_GetFormType(reinterpret_cast<void*>(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())))) == 0x2a)
+            pnpc = reinterpret_cast<TESNPC*>(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())));
     }
 
     TESClass* pclass = 0;
@@ -11342,7 +11342,7 @@ class TESObject
   public:
 };
 
-unsigned int _FNV_GetFormType(unsigned int formID);
+unsigned int _FNV_GetFormType(std::uintptr_t formID);
 void __cdecl _DebugLog(const char* format, ...);
 
 struct FUN_0059f240_ThreadLocal
@@ -11361,14 +11361,14 @@ bool __cdecl FUN_0059f240(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     TESNPC* pnpc = 0;
     if (apRefObject)
     {
-        if (_FNV_GetFormType(((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430()))) == 42)
-            pnpc = reinterpret_cast<TESNPC*>(((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())));
+        if (_FNV_GetFormType(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430()))) == 42)
+            pnpc = reinterpret_cast<TESNPC*>(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())));
     }
 
     TESRace* prace = 0;
     if (apParam1)
     {
-        if (_FNV_GetFormType(reinterpret_cast<unsigned int>(apParam1)) == 12)
+        if (_FNV_GetFormType(reinterpret_cast<std::uintptr_t>(apParam1)) == 12)
             prace = static_cast<TESRace*>(apParam1);
     }
 
@@ -16109,7 +16109,7 @@ class FlameObjectLocal
     {}
     virtual void vf08()
     {}
-    virtual int GetFlameState()
+    virtual std::intptr_t GetFlameState()
     {
         return 0;
     }
@@ -17441,7 +17441,7 @@ bool __cdecl FUN_005a5e90(TESObjectREFR* reference, void* pSkillArg, void* pUnus
     {
         void* skillArg = pSkillArg;
         TESObjectREFR* ref = reference;
-        ActorValue::Index skill = static_cast<ActorValue::Index>(reinterpret_cast<int>(skillArg));
+        ActorValue::Index skill = static_cast<ActorValue::Index>((int)reinterpret_cast<std::intptr_t>(skillArg));
         if (::FUN_0047f060((*(int *)&(skill))) && ((::TESClass *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>((reinterpret_cast<PC7d*>(::_g_thePlayer)))->FUN_00884350()))->IsTagSkill(skill))
         {
             result = 1.0;
@@ -20346,7 +20346,7 @@ bool FUN_005a3fa0(ActorK* reference, void* apFormList, void* apUnused, double& r
     if (pActor && ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture())) && pActor->IsDead(0) && pList)
     {
         CombatK* pCombat = ((::fnv_005a3fa0::CombatK *)(reinterpret_cast<::ExtraDataList *>((((::fnv_005a3fa0::HolderK *)(reinterpret_cast<::FUN_005d43c0_ *>((pActor))->FUN_005d43c0()))))->GetDismemberedLimbs()));
-        KillerK* pKillerEntry = ((::fnv_005a3fa0::KillerK *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pCombat))->FUN_00825c00()));
+        KillerK* pKillerEntry = ((::fnv_005a3fa0::KillerK *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pCombat))->FUN_00825c00()));
         if (pKillerEntry && reinterpret_cast<::RefList *>((((::fnv_005a3fa0::ListRes *)(reinterpret_cast<::BGSCameraPath *>((pList))->GetConditions()))))->FUN_005f65d0({}))
             result = 1;
     }
@@ -22928,7 +22928,7 @@ bool __cdecl FUN_0059f450(TESObjectREFR* apRefObject, void* apParam1, void* apPa
             case 0x16: {
                 VoiceCondition59f450Activator* pta =
                     reinterpret_cast<VoiceCondition59f450Activator*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRefObject))->FUN_007af430())));
-                pcompvoice = ((::BGSVoiceType *)(reinterpret_cast<::PlayerMover *>((pta))->GetActorStateFlags()));
+                pcompvoice = ((::BGSVoiceType *)(std::uintptr_t)(reinterpret_cast<::PlayerMover *>((pta))->GetActorStateFlags()));
             }
             break;
             }
@@ -23283,7 +23283,7 @@ class Actor_o2
 {
   public:
     bool IsEssentialActor();
-    unsigned int GetActorStateFlags() const;
+    std::uintptr_t GetActorStateFlags() const;
     BooleanFloatQuery* RefreshActorRuntimeData();
 };
 

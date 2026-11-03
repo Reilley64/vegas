@@ -666,11 +666,11 @@ struct FUN_0063c440_shell
 {
     unsigned char pad[8];
     Flt m_flt;
-    int FUN_0063c440(int index);
+    std::intptr_t FUN_0063c440(int index);
 };
 
 // @fnv 0x0063c440
-int FUN_0063c440_shell::FUN_0063c440(int index)
+std::intptr_t FUN_0063c440_shell::FUN_0063c440(int index)
 {
     return ((Flt*)((char*)&this->m_flt + index * 4))->operator unsigned int();
 }
@@ -686,7 +686,7 @@ unsigned char FUN_0063c460()
 extern int DAT_011c7a3c;
 
 // @fnv 0x0063c470
-int __cdecl FUN_0063c470()
+std::intptr_t __cdecl FUN_0063c470()
 {
     return DAT_011c7a3c;
 }
@@ -1850,7 +1850,7 @@ void Sky::UpdateWeatherTransition(float time)
         m_pSun->Update(this, time);
     Renderer::SetBackgroundColor(m_kSkyColors[1]);
 }
-int FUN_0063c470();
+std::intptr_t FUN_0063c470();
 float FUN_0063c480();
 unsigned char FUN_0063c460();
 extern float DAT_011ccc60;
@@ -2222,7 +2222,7 @@ class Sun139
 class Climate139
 {
   public:
-    int FUN_0063cfe0();
+    std::intptr_t FUN_0063cfe0();
 };
 class Stars139
 {
@@ -2507,7 +2507,7 @@ void FUN_0063ef20_shell::FUN_0063ef20()
                 _res = 0;
                 if (0 != m_pRegionWeather)
                 {
-                    _res = ((void *)(reinterpret_cast<::FUN_005822a0_cls *>(&(((WeatherX*)m_pRegionWeather)->sub18))->FUN_005822a0(dVal)));
+                    _res = ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_005822a0_cls *>(&(((WeatherX*)m_pRegionWeather)->sub18))->FUN_005822a0(dVal)));
                 }
                 if (!_res)
                 {
@@ -2523,7 +2523,7 @@ void FUN_0063ef20_shell::FUN_0063ef20()
                     _res = 0;
                     if (0 != m_pRegionWeather)
                     {
-                        _res = ((void *)(reinterpret_cast<::FUN_005822a0_cls *>(&(((WeatherX*)m_pRegionWeather)->sub18))->FUN_005822a0(which5)));
+                        _res = ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_005822a0_cls *>(&(((WeatherX*)m_pRegionWeather)->sub18))->FUN_005822a0(which5)));
                     }
                     if (_res == 0)
                     {
@@ -2542,7 +2542,7 @@ void FUN_0063ef20_shell::FUN_0063ef20()
                 if (m_pPreviousWeather != 0 && m_fWeatherBlend < 1.0)
                 {
                     _res = 0;
-                    _res = ((void *)(reinterpret_cast<::FUN_005822a0_cls *>(&(((WeatherX*)m_pPreviousWeather)->sub18))->FUN_005822a0(dVal)));
+                    _res = ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_005822a0_cls *>(&(((WeatherX*)m_pPreviousWeather)->sub18))->FUN_005822a0(dVal)));
                     if (0 == _res)
                     {
                         _res = ((void *)(::GetDefaultImageSpaceModifier()));
@@ -2555,7 +2555,7 @@ void FUN_0063ef20_shell::FUN_0063ef20()
                     if (p)
                     {
                         _res = 0;
-                        _res = ((void *)(reinterpret_cast<::FUN_005822a0_cls *>(&(((WeatherX*)m_pPreviousWeather)->sub18))->FUN_005822a0(which5)));
+                        _res = ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_005822a0_cls *>(&(((WeatherX*)m_pPreviousWeather)->sub18))->FUN_005822a0(which5)));
                         if (_res == 0)
                         {
                             _res = ((void *)(::GetDefaultImageSpaceModifier()));
@@ -2926,8 +2926,8 @@ void FogSky::FUN_0063bce0()
             if (mode == 3 || mode == 2)
             {
                 bool hidden = blend8 > ::DAT_01011588;
-                for (int i = 0; i < ((int)(reinterpret_cast<::FUN_00634830_cls *>((((::FogClouds *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->GetOffset58())); ++i)
-                    reinterpret_cast<::TaskQueueInterface *>((((::FogNode *)(reinterpret_cast<::FUN_0063c440_shell *>((((::FogClouds *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->FUN_0063c440(i)))))->QueueActorDisarm(hidden);
+                for (int i = 0; i < ((int)(reinterpret_cast<::FUN_00634830_cls *>((((::FogClouds *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->GetOffset58())); ++i)
+                    reinterpret_cast<::TaskQueueInterface *>((((::FogNode *)(reinterpret_cast<::FUN_0063c440_shell *>((((::FogClouds *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->FUN_0063c440(i)))))->QueueActorDisarm(hidden);
                 reinterpret_cast<::TaskQueueInterface *>((((::FogNode *)(reinterpret_cast<::TESRegionDataMap *>((((::FogCelestial *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))->GetRegionMapName()))))->QueueActorDisarm(hidden);
                 reinterpret_cast<::TaskQueueInterface *>((((::FogNode *)(reinterpret_cast<::TESRegionDataMap *>((((::FogCelestial *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetRegionMapName()))))->QueueActorDisarm(hidden);
                 reinterpret_cast<::TaskQueueInterface *>((((::FogNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((::FogCelestial *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))))))->QueueActorDisarm(hidden);
@@ -3101,8 +3101,8 @@ void SkyWeatherUpdate::FUN_0063d1d0()
     {
         p = m_pQueuedWeather;
         WeatherCell* cell = ((::WeatherCell *)(reinterpret_cast<::TESObjectCELL *>((::_g_thePlayer))->FUN_005454d0()));
-        if (cell && ((::TESWeather *)(reinterpret_cast<::ActorMover *>((cell))->GetCurrentMoveModeType())) && eMode != 2)
-            p = ((::TESWeather *)(reinterpret_cast<::ActorMover *>((cell))->GetCurrentMoveModeType()));
+        if (cell && ((::TESWeather *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((cell))->GetCurrentMoveModeType())) && eMode != 2)
+            p = ((::TESWeather *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((cell))->GetCurrentMoveModeType()));
     }
     else
     {

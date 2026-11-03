@@ -193,10 +193,10 @@ TESObject* TESFormList::InsertObjectAfter(TESObject* after, TESObject* object)
     }
     if (!((::TESObject *)(reinterpret_cast<::FUN_00510360_Class *>(this)->FUN_00510360(object))))
         m_pSecondObject = object;
-    if (!((::TESObject *)(reinterpret_cast<::FUN_00510380_Class *>(this)->GetTerrainMinLevel((::BGSTerrainManager *)(object)))))
+    if (!((::TESObject *)(std::uintptr_t)(reinterpret_cast<::FUN_00510380_Class *>(this)->GetTerrainMinLevel((::BGSTerrainManager *)(object)))))
         m_pFirstObject = object;
     ++m_uiObjectCount;
-    reinterpret_cast<::TESPackage *>((((InterfaceManager*)object)))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)((unsigned int)this));
+    reinterpret_cast<::TESPackage *>((((InterfaceManager*)object)))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)((std::uintptr_t)this));
     return object;
 }
 
@@ -273,7 +273,7 @@ NiNode* TESObjectLIGH::Create3DModel(TESObjectREFR* reference)
         {
             node = ((NiPointer<NiNode>*)&source)->operator->()->GetAsNiNode();
             if (node)
-                ::AssignFixedString((char *)(node), (int)&(const ::NiFixedString &)(NiFixedString(GetEditorID())), {});
+                ::AssignFixedString((char *)(node), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(GetEditorID())), {});
         }
         if (reinterpret_cast<::FUN_0050d4a0_shell *>((((PlayerCharacter*)this)))->FUN_0050d4a0() && reference)
             reinterpret_cast<::TESForm *>((reference))->SetCollisionDisabled(true);
@@ -1328,7 +1328,7 @@ NiAVObject* FUN_005e7f90_class::CreateFadeNode(const char* pfilename)
 {
     NiAVObject* pData3D = 0;
     pData3D = new BSFadeNode;
-    ::AssignFixedString((char *)(pData3D), (int)&(const ::NiFixedString &)(NiFixedString(this->GetModelName())), {});
+    ::AssignFixedString((char *)(pData3D), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(this->GetModelName())), {});
     return pData3D;
 }
 
@@ -1370,7 +1370,7 @@ class Fb990Embedded
     {}
     virtual void Slot04()
     {}
-    virtual int Slot05()
+    virtual std::intptr_t Slot05()
     {
         return 0;
     }
@@ -1565,7 +1565,7 @@ struct FUN_0048cee0_class
     virtual void Slot02();
     virtual void Slot03();
     virtual void Slot04();
-    virtual int Slot05();
+    virtual std::intptr_t Slot05();
     int FUN_0048cee0();
 };
 
@@ -2168,7 +2168,7 @@ class SubObj
     virtual void s2();
     virtual void s3();
     virtual void s4();
-    virtual int s5();
+    virtual std::intptr_t s5();
 };
 class NodeLike
 {
@@ -3072,9 +3072,9 @@ void ProjectileShell::LoadModel(RefTarget* apRef)
             break;
         default:
             RefTarget* ref = apRef;
-            if (ref && ((::fnv_004fd440::BaseModelForm *)(reinterpret_cast<::FUN_009d9f00_Class *>((ref))->FUN_009d9f00())) && ((::fnv_004fd440::NiModelData *)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_004fd440::BaseModelForm *)(reinterpret_cast<::FUN_009d9f00_Class *>((ref))->FUN_009d9f00()))))->GetName())))
+            if (ref && ((::fnv_004fd440::BaseModelForm *)(std::uintptr_t)(reinterpret_cast<::FUN_009d9f00_Class *>((ref))->FUN_009d9f00())) && ((::fnv_004fd440::NiModelData *)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_004fd440::BaseModelForm *)(std::uintptr_t)(reinterpret_cast<::FUN_009d9f00_Class *>((ref))->FUN_009d9f00()))))->GetName())))
             {
-                const char* name = reinterpret_cast<::FUN_0050fd90_cls *>((((::fnv_004fd440::NiModelData *)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_004fd440::BaseModelForm *)(reinterpret_cast<::FUN_009d9f00_Class *>((ref))->FUN_009d9f00()))))->GetName()))))->FUN_0050fd90((::TESObject *)(0));
+                const char* name = reinterpret_cast<::FUN_0050fd90_cls *>((((::fnv_004fd440::NiModelData *)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_004fd440::BaseModelForm *)(std::uintptr_t)(reinterpret_cast<::FUN_009d9f00_Class *>((ref))->FUN_009d9f00()))))->GetName()))))->FUN_0050fd90((::TESObject *)(0));
                 reinterpret_cast<::FUN_0045a5e0_shell *>(((*reinterpret_cast<::fnv_004fd440::ModelLoaderMgr * *>(&::g_modelLoader))))->FUN_0045a5e0((char *)(name));
             }
             else
@@ -9715,7 +9715,7 @@ void PairInsertionVector<T>::FUN_00abe310(GvConstIterator<T> _Where, unsigned in
         }
         catch (...)
         {
-            reinterpret_cast<::FUN_0065dc60Class *>(this)->FUN_0065dc60((int)(_Where._Myptr + _Count), (int)(_Mylast + _Count));
+            reinterpret_cast<::FUN_0065dc60Class *>(this)->FUN_0065dc60((::std::intptr_t)(_Where._Myptr + _Count), (::std::intptr_t)(_Mylast + _Count));
             throw;
         }
         _Mylast += _Count;

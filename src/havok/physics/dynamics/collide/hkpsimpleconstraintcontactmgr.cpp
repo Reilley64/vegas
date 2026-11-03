@@ -27,6 +27,7 @@
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpSimpleConstraintContactMgr.h"
+#include "havok/hkContactPoint.h"
 
 struct hkpSimpleContactConstraintAtomCFD2 {
     hkUint16 m_type;
@@ -558,7 +559,7 @@ struct hkpSimpleContactConstraintAtomCFD {
 
     hkpContactPointPropertiesCFD* getContactPointPropertiesStream(int i)
     {
-        char* pcBase = reinterpret_cast<char*>(this) + sizeof(hkpSimpleContactConstraintAtomCFD) + m_usMaxNumContactPoints * 0x20;
+        char* pcBase = reinterpret_cast<char*>(reinterpret_cast<hkContactPoint*>(this + 1) + m_usMaxNumContactPoints);
         return reinterpret_cast<hkpContactPointPropertiesCFD*>(pcBase + i * m_ucContactPointPropertiesStriding);
     }
 };

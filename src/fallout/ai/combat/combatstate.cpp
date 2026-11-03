@@ -1,5 +1,6 @@
 // fallout/ai/combat/combatstate.cpp: CombatState, Host, Holder, NavMeshSearchLOSArray and more (141 functions)
 
+#include "fnv/combat_manager_fields.h"
 #include "fnv/inventory_entry_fields.h"
 #include "fnv/combat_controller_fields.h"
 #include <cstdint>
@@ -4544,7 +4545,7 @@ bool FUN_0099e190_cls::SelectAndMoveToPoint(MyMover* mover, unsigned int mask1, 
             }
             Vec3 target = pp + off * dist;
             Vec3 end = target + off * radius;
-            if (((::Result *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::Mgr * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))->EvaluateThreats() > 0.0)
+            if (((::Result *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::Mgr * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap))->EvaluateThreats() > 0.0)
                 continue;
             Picker hit;
             if (!FUN_006d7490(&p4, &end, &hit, 0))
@@ -5821,7 +5822,7 @@ void CombatUpdate::FUN_00997cf0()
         {
             if (danger > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting481)))))) || (flags & 0x100))
             {
-                danger = ((::fnv_00997cf0::CombatHazard *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00997cf0::CombatHazardHolder * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))->EvaluateThreats(*owner_21->GetPosition(), owner_21, 0, 0,
+                danger = ((::fnv_00997cf0::CombatHazard *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::fnv_00997cf0::CombatHazardHolder * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap))->EvaluateThreats(*owner_21->GetPosition(), owner_21, 0, 0,
                                                                        hazardData, 0);
                 if (danger >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting481)))))) && oldDangerX < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting481)))))))
                     reinterpret_cast<::FUN_0097f200_t *>((controller))->FUN_0097f200();
@@ -7631,7 +7632,7 @@ bool SearchC::FindPathCandidate(SegmentC* segment, DestinationC* destination, Op
             else
                 continue;
         }
-        if (!reinterpret_cast<::FUN_009835d0_cls *>((((::ControllerC *)(reinterpret_cast<::FUN_009611e0_shell *>(((*reinterpret_cast<::WorldC * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_009611e0()))))->TryUseCoverItem((uintptr_t)(first), (uintptr_t)(segment), (uintptr_t)(controller), radius, options, force, alternate4))
+        if (!reinterpret_cast<::FUN_009835d0_cls *>((((::ControllerC *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::WorldC * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pCoverMap))))->TryUseCoverItem((uintptr_t)(first), (uintptr_t)(segment), (uintptr_t)(controller), radius, options, force, alternate4))
         {
             failure5 = 9;
             continue;
@@ -7687,14 +7688,14 @@ bool SearchC::FindPathCandidate(SegmentC* segment, DestinationC* destination, Op
             PointC delta4 = *actor->Position() - fStartB;
             travelTime8 = reinterpret_cast<::NiPoint3 *>((void *)&(delta4))->ComputeMagnitude() / reinterpret_cast<::fnv_008a0b10::FUN_008a0b10_shell *>((actor))->FUN_008a0b10();
         }
-        if (((::HazardC *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::WorldC * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))->Evaluate(fStartB, actor, travelTime8, 0.0f, TimeC(0.0f), 0.0f) > 0.0)
+        if (((::HazardC *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::WorldC * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap))->Evaluate(fStartB, actor, travelTime8, 0.0f, TimeC(0.0f), 0.0f) > 0.0)
         {
             failure5 = 11;
             continue;
         }
         if (_aim)
         {
-            if (((::HazardC *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::WorldC * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))->Evaluate(kEnd4, actor, travelTime8, 0.0f, TimeC(0.0f), 0.0f) > 0.0)
+            if (((::HazardC *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::WorldC * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap))->Evaluate(kEnd4, actor, travelTime8, 0.0f, TimeC(0.0f), 0.0f) > 0.0)
             {
                 failure5 = 12;
                 continue;
@@ -9852,7 +9853,7 @@ bool FUN_0099b8e0_cls::FUN_0099b8e0(intptr_t a1, QOut* out, QState* st, intptr_t
     reinterpret_cast<::NavMeshSearchLOSArray *>(&(out->locs))->FUN_006dbde0(false);
     if (((int)(::FindNearbyTriangles((::GeometrySource *)(::fnv_0099b8e0::QBuilder *)(&builder2), (::OutputList *)(::fnv_0099b8e0::QLocArray *)(&out->locs)))))
     {
-        reinterpret_cast<::FUN_0099c210_shell *>((((::fnv_0099b8e0::QLockable *)(reinterpret_cast<::FUN_009611e0_shell *>(((*reinterpret_cast<::fnv_0099b8e0::QMgr * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_009611e0()))))->LockCombatTargetMap();
+        reinterpret_cast<::FUN_0099c210_shell *>((((::fnv_0099b8e0::QLockable *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::fnv_0099b8e0::QMgr * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pCoverMap))))->LockCombatTargetMap();
         for (unsigned int i = 0; i < SimpleArraySize(&(out->locs)); i++)
         {
             QLocElem* elem = ((::fnv_0099b8e0::QLocElem *)(reinterpret_cast<::FUN_009052c0_shell *>(&(out->locs))->FUN_009052c0(i)));
@@ -9892,7 +9893,7 @@ bool FUN_0099b8e0_cls::FUN_0099b8e0(intptr_t a1, QOut* out, QState* st, intptr_t
                 elem->state = aUres;
             }
         }
-        reinterpret_cast<::FUN_00995890_shell *>((((::fnv_0099b8e0::QLockable *)(reinterpret_cast<::FUN_009611e0_shell *>(((*reinterpret_cast<::fnv_0099b8e0::QMgr * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_009611e0()))))->FUN_00995890();
+        reinterpret_cast<::FUN_00995890_shell *>((((::fnv_0099b8e0::QLockable *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::fnv_0099b8e0::QMgr * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pCoverMap))))->FUN_00995890();
     }
     reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::fnv_0099b8e0::QLock *>(&::g_011f1a61))))->ClearData();
     return false;
@@ -10900,7 +10901,7 @@ bool CombatController::FUN_0099d030(Arg0Class* a0, Arg1Class* a1, Arg2Class* a2,
     a0->unk30 = 0;
     if (a1->unk68 != 0 && a3 == a1->unk04)
     {
-        if (reinterpret_cast<::FUN_009835d0_cls *>((((CalendarDays*)reinterpret_cast<::FUN_009611e0_shell *>(((*reinterpret_cast<::fnv_0099d030::TESWorldSpace * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_009611e0())))->TryUseCoverItem((uintptr_t)(a1->unk68), (uintptr_t)(&a1->unk14), (uintptr_t)(this->member_1c4), actor->FUN_008be1b0(), &a1->unk70, 1,
+        if (reinterpret_cast<::FUN_009835d0_cls *>((((CalendarDays*)reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::fnv_0099d030::TESWorldSpace * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pCoverMap)))->TryUseCoverItem((uintptr_t)(a1->unk68), (uintptr_t)(&a1->unk14), (uintptr_t)(this->member_1c4), actor->FUN_008be1b0(), &a1->unk70, 1,
                                   a1->unk75))
         {
             return true;

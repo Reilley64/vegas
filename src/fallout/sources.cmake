@@ -6,22 +6,37 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/ai/ailineartaskthread.cpp
   src/fallout/ai/ailineartaskthread_h_unit.cpp
   src/fallout/ai/aitaskmanager.cpp
+  src/fallout/ai/alarmpackage.cpp
   src/fallout/ai/arrowprojectile.cpp
+  src/fallout/ai/backuppackage.cpp
   src/fallout/ai/baseprocess_h_unit.cpp
   src/fallout/ai/bsplayerdistancecheckcontroller.cpp
   src/fallout/ai/cachedvalues.cpp
   src/fallout/ai/camerashake.cpp
   src/fallout/ai/character_h_unit.cpp
+  src/fallout/ai/combat/combatdialoguemanager.cpp
   src/fallout/ai/combat/combatplan.cpp
+  src/fallout/ai/combat/combatplanner.cpp
   src/fallout/ai/combat/combatprocedure.cpp
+  src/fallout/ai/combat/combatprocedureattackgrenade.cpp
   src/fallout/ai/combat/combatprocedureattacklow.cpp
+  src/fallout/ai/combat/combatprocedureattackmelee.cpp
+  src/fallout/ai/combat/combatprocedurebeincover.cpp
+  src/fallout/ai/combat/combatprocedurehidefromtarget.cpp
   src/fallout/ai/combat/combatprocedureusecombatitem.cpp
   src/fallout/ai/combat/combattargetmap.cpp
   src/fallout/ai/combat/combatthreatmap.cpp
   src/fallout/ai/combat/combattimer.cpp
+  src/fallout/ai/combat/combatutilities.cpp
   src/fallout/ai/combat/flameprojectile.cpp
+  src/fallout/ai/combat/hitdata.cpp
+  src/fallout/ai/combat/missileprojectile.cpp
+  src/fallout/ai/combat/projectilelistener.cpp
+  src/fallout/ai/combat/vats.cpp
   src/fallout/ai/creature.cpp
+  src/fallout/ai/dialoguepackage.cpp
   src/fallout/ai/escortpackage.cpp
+  src/fallout/ai/fleepackage.cpp
   src/fallout/ai/followerbarks.cpp
   src/fallout/ai/guardpackage.cpp
   src/fallout/ai/guardpackage_h_unit.cpp
@@ -36,6 +51,7 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/ai/movement/virtualactorpathhandler_h_unit.cpp
   src/fallout/ai/playercharacter_h_unit.cpp
   src/fallout/ai/procedure.cpp
+  src/fallout/ai/sandboxpackage.cpp
   src/fallout/ai/searchpackage.cpp
   src/fallout/ai/trespasspackage.cpp
   src/fallout/audio/falloutaudio.cpp
@@ -166,47 +182,32 @@ set(VEGAS19_FALLOUT_NARROWING_SOURCES
   src/fallout/ai/actor_h_unit.cpp
   src/fallout/ai/actor_magic.cpp
   src/fallout/ai/ailineartaskthreadmanager.cpp
-  src/fallout/ai/alarmpackage.cpp
-  src/fallout/ai/backuppackage.cpp
   src/fallout/ai/baseprocess.cpp
   src/fallout/ai/character.cpp
   src/fallout/ai/combat/beamprojectile.cpp
   src/fallout/ai/combat/combataction.cpp
   src/fallout/ai/combat/combatactions.cpp
   src/fallout/ai/combat/combatcovermap.cpp
-  src/fallout/ai/combat/combatdialoguemanager.cpp
   src/fallout/ai/combat/combatgoal.cpp
   src/fallout/ai/combat/combatgroup.cpp
   src/fallout/ai/combat/combatgroupstrategy.cpp
   src/fallout/ai/combat/combatmanager.cpp
-  src/fallout/ai/combat/combatplanner.cpp
   src/fallout/ai/combat/combatprocedureactivateobject.cpp
-  src/fallout/ai/combat/combatprocedureattackgrenade.cpp
-  src/fallout/ai/combat/combatprocedureattackmelee.cpp
   src/fallout/ai/combat/combatprocedureattackranged.cpp
-  src/fallout/ai/combat/combatprocedurebeincover.cpp
   src/fallout/ai/combat/combatprocedureengagetarget.cpp
   src/fallout/ai/combat/combatprocedureevade.cpp
-  src/fallout/ai/combat/combatprocedurehidefromtarget.cpp
   src/fallout/ai/combat/combatproceduremove.cpp
   src/fallout/ai/combat/combatproceduresearch.cpp
   src/fallout/ai/combat/combatprocedureswitchweapon.cpp
   src/fallout/ai/combat/combatstate.cpp
-  src/fallout/ai/combat/combatutilities.cpp
   src/fallout/ai/combat/combatworldstate.cpp
   src/fallout/ai/combat/continuousbeamprojectile.cpp
   src/fallout/ai/combat/explosion.cpp
   src/fallout/ai/combat/grenadeprojectile.cpp
-  src/fallout/ai/combat/hitdata.cpp
-  src/fallout/ai/combat/missileprojectile.cpp
   src/fallout/ai/combat/muzzleflash.cpp
   src/fallout/ai/combat/projectile.cpp
-  src/fallout/ai/combat/projectilelistener.cpp
-  src/fallout/ai/combat/vats.cpp
   src/fallout/ai/combatcontroller.cpp
-  src/fallout/ai/dialoguepackage.cpp
   src/fallout/ai/falloutcharacterprogression.cpp
-  src/fallout/ai/fleepackage.cpp
   src/fallout/ai/highprocess.cpp
   src/fallout/ai/lowprocess.cpp
   src/fallout/ai/middlehighprocess.cpp
@@ -219,7 +220,6 @@ set(VEGAS19_FALLOUT_NARROWING_SOURCES
   src/fallout/ai/patrolpackage.cpp
   src/fallout/ai/playercharacter.cpp
   src/fallout/ai/processlists.cpp
-  src/fallout/ai/sandboxpackage.cpp
   src/fallout/ai/spectatorpackage.cpp
   src/fallout/interface/forenderedmenu.cpp
   src/fallout/interface/forenderedmenuracesex.cpp

@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatproceduremove.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatproceduremove.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_manager_fields.h"
 #include "fnv/combat_controller_fields.h"
 #include <cstdint>
 #include <new>
@@ -704,7 +705,7 @@ void ProcedureValue::UpdateOutput(OutputValue* output)
     TargetActor* holder = ((::TargetActor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
     Holder* target = ((::Holder *)(reinterpret_cast<::InterfaceManager *>((unk04))->FUN_00586150()));
     reinterpret_cast<::NiPtr *>((output))->Assign(
-        (char *)(void *)(((void *)(reinterpret_cast<::AvoidanceMap *>((((::ResultValue *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::ManagerValue * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->BuildAvoidanceNodes({}, {}, {})))));
+        (char *)(void *)(((void *)(reinterpret_cast<::AvoidanceMap *>((((::ResultValue *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::ManagerValue * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap))))->BuildAvoidanceNodes({}, {}, {})))));
     target->SetValue(FUN_00435dd0());
     void* actor = 0;
     switch (unk3c)

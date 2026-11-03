@@ -1,5 +1,7 @@
 // fallout/ai/combat/projectile.cpp: Projectile, BGSProjectile, Holder, PlayerCharacter and more (71 functions)
 
+#include "fnv/combat_manager_fields.h"
+#include "fnv/projectile_fields.h"
 #include "fnv/havok_array_view.h"
 #include "fnv/vats_camera_data_view.h"
 #include <cstdint>
@@ -5907,7 +5909,7 @@ P062Object* __cdecl CreateProjectile(P062Ammo* ammo, P062Object* owner, P062Obje
         reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::P062World * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(geometry), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P062Setting *>(&::g_011f210c)))))));
     }
     if (projectile)
-        reinterpret_cast<::FUN_009a52f0_shell *>((((P062Queued*)((::P062Object *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::P062Queue * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00())))))->UpdateExplosion({});
+        reinterpret_cast<::FUN_009a52f0_shell *>((((P062Queued*)((::P062Object *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::P062Queue * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap)))))->UpdateExplosion({});
     return projectile;
 }
 
@@ -7096,12 +7098,12 @@ void GameScreen::FUN_009bf190()
                 if (!reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x800))
                 {
                     reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>(this)->FUN_005de0a0(0x800, 1);
-                    reinterpret_cast<::FUN_009a52f0_shell *>((((::fnv_009bf190::UIController *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_009bf190::UIController * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->UpdateExplosion({});
-                    if (((::fnv_009bf190::MenuObject *)(reinterpret_cast<::FUN_009b4440_shell *>(this)->FUN_009b4440())))
+                    reinterpret_cast<::FUN_009a52f0_shell *>((((::fnv_009bf190::UIController *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::fnv_009bf190::UIController * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap))))->UpdateExplosion({});
+                    if (((::fnv_009bf190::MenuObject *)(reinterpret_cast<ProjectileFields*>(this)->pSourceRef)))
                     {
-                        if (((::fnv_009bf190::MenuObject *)(reinterpret_cast<::FUN_009b4440_shell *>(this)->FUN_009b4440()))->CanShow())
+                        if (((::fnv_009bf190::MenuObject *)(reinterpret_cast<ProjectileFields*>(this)->pSourceRef))->CanShow())
                         {
-                            currentMenu = ((::fnv_009bf190::MenuObject *)(reinterpret_cast<::FUN_009b4440_shell *>(this)->FUN_009b4440()));
+                            currentMenu = ((::fnv_009bf190::MenuObject *)(reinterpret_cast<ProjectileFields*>(this)->pSourceRef));
                             if (((::fnv_009bf190::UIManager *)(reinterpret_cast<::BSShaderNoLightingProperty *>((currentMenu))->GetBaseTexture())))
                             {
                                 ((::fnv_009bf190::UIManager *)(reinterpret_cast<::BSShaderNoLightingProperty *>((currentMenu))->GetBaseTexture()))->SetEnabled(1);
@@ -8855,7 +8857,7 @@ struct RemOwner
 // @fnv 0x009c4c80
 void RemOwner::FUN_009c4c80(RemForm* apForm)
 {
-    if (((::RemForm *)(reinterpret_cast<::FUN_009b4440_shell *>(this)->FUN_009b4440())) == apForm)
+    if (((::RemForm *)(reinterpret_cast<ProjectileFields*>(this)->pSourceRef)) == apForm)
     {
         reinterpret_cast<::FUN_00420ba0_Class *>(this)->FUN_00420ba0(0);
         if (reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x400))
@@ -11361,10 +11363,10 @@ void S9b41b0::Update(float afTime)
         f = *((float *)&(::FUN_00403e20((float *)(((FloatSetting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting646)))))));
     if (f != 0.0 && f < reinterpret_cast<::FUN_00885bd0_St *>(this)->FUN_00885bd0() && reinterpret_cast<::BSShaderRenderUtility *>((((DataHandler*)(*reinterpret_cast<void * *>(&::g_dataHandler)))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))
         reinterpret_cast<::Projectile *>(this)->FUN_009bc8f0();
-    if (reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x400) && ((::fnv_009b41b0::S9b41b0 *)(reinterpret_cast<::FUN_009b4440_shell *>(this)->FUN_009b4440())))
+    if (reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x400) && ((::fnv_009b41b0::S9b41b0 *)(reinterpret_cast<ProjectileFields*>(this)->pSourceRef)))
     {
         reinterpret_cast<::fnv_009bf190::GameScreen *>(this)->FUN_009bf190();
-        reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)&(*((::fnv_009b41b0::S9b41b0 *)(reinterpret_cast<::FUN_009b4440_shell *>(this)->FUN_009b4440()))->v1f4()));
+        reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)&(*((::fnv_009b41b0::S9b41b0 *)(reinterpret_cast<ProjectileFields*>(this)->pSourceRef))->v1f4()));
     }
     reinterpret_cast<::ZProjectile *>(this)->UpdateDetonation(afTime);
 }
@@ -11990,17 +11992,17 @@ FUN_009bc470::~FUN_009bc470()
     }
 
     if (reinterpret_cast<::FUN_00444d00_Class *>((reinterpret_cast<FUN_00444d00_Class*>(this)))->FUN_00444d00(0x400) &&
-        ((::fnv_009bc470::Actor *)(reinterpret_cast<::FUN_009b4440_shell *>((reinterpret_cast<FUN_009b4440_shell*>(this)))->FUN_009b4440())))
+        ((::fnv_009bc470::Actor *)(reinterpret_cast<ProjectileFields*>((reinterpret_cast<FUN_009b4440_shell*>(this)))->pSourceRef)))
     {
-        if (((::fnv_009bc470::Actor *)(reinterpret_cast<::FUN_009b4440_shell *>((reinterpret_cast<FUN_009b4440_shell*>(this)))->FUN_009b4440()))->Virtual100())
+        if (((::fnv_009bc470::Actor *)(reinterpret_cast<ProjectileFields*>((reinterpret_cast<FUN_009b4440_shell*>(this)))->pSourceRef))->Virtual100())
         {
-            Actor* shooter = ((::fnv_009bc470::Actor *)(reinterpret_cast<::FUN_009b4440_shell *>((reinterpret_cast<FUN_009b4440_shell*>(this)))->FUN_009b4440()));
+            Actor* shooter = ((::fnv_009bc470::Actor *)(reinterpret_cast<ProjectileFields*>((reinterpret_cast<FUN_009b4440_shell*>(this)))->pSourceRef));
             if (((::fnv_009bc470::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((shooter))->GetBaseTexture())))
             {
                 ((::fnv_009bc470::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((shooter))->GetBaseTexture()))->Virtual384(0);
             }
         }
-        ((::fnv_009bc470::Actor *)(reinterpret_cast<::FUN_009b4440_shell *>((reinterpret_cast<FUN_009b4440_shell*>(this)))->FUN_009b4440()))->Virtual17c(
+        ((::fnv_009bc470::Actor *)(reinterpret_cast<ProjectileFields*>((reinterpret_cast<FUN_009b4440_shell*>(this)))->pSourceRef))->Virtual17c(
             ((::fnv_009bc470::TESActorBase *)(reinterpret_cast<::Actor *>((reinterpret_cast<Actor*>(this)))->GetActorBase())), 0, 1, 0, 0, 0, 0, 0, 1, 0);
     }
 
@@ -12016,7 +12018,7 @@ FUN_009bc470::~FUN_009bc470()
     if (!reinterpret_cast<::FUN_004226e0_shell *>(((*reinterpret_cast<::fnv_009bc470::DH * *>(&::g_dataHandler))))->FUN_004226e0())
     {
         reinterpret_cast<::fnv_0092ed60::FNVCurrent *>((reinterpret_cast<ST_009333e0*>(this)))->FUN_0092ed60(0);
-        reinterpret_cast<::EntryMap9A5 *>((((::fnv_009bc470::WorldSpaceTarget *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_009bc470::TESWorldSpace * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->RemoveEntryForRef((::Ref9A5 *)(::fnv_009bc470::FUN_009bc470 *)(this));
+        reinterpret_cast<::EntryMap9A5 *>((((::fnv_009bc470::WorldSpaceTarget *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::fnv_009bc470::TESWorldSpace * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap))))->RemoveEntryForRef((::Ref9A5 *)(::fnv_009bc470::FUN_009bc470 *)(this));
     }
 
     if (word140)
@@ -12131,10 +12133,10 @@ void ZProjectile::UpdateDetonation(float elapsed)
                     Release();
                 reinterpret_cast<::Projectile *>(this)->FUN_009bc8f0();
             }
-            if (reinterpret_cast<::PathingRequest *>((((::ZExplosion *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::ZBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))))))->GetTargetRadius() > 0.0 && reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x400) && ((::ZObject *)(reinterpret_cast<::FUN_009b4440_shell *>(this)->FUN_009b4440())) &&
-                ((::ZObject *)(reinterpret_cast<::FUN_009b4440_shell *>(this)->FUN_009b4440()))->IsActor())
+            if (reinterpret_cast<::PathingRequest *>((((::ZExplosion *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::ZBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))))))->GetTargetRadius() > 0.0 && reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x400) && ((::ZObject *)(reinterpret_cast<ProjectileFields*>(this)->pSourceRef)) &&
+                ((::ZObject *)(reinterpret_cast<ProjectileFields*>(this)->pSourceRef))->IsActor())
             {
-                ZObject* victim = ((::ZObject *)(reinterpret_cast<::FUN_009b4440_shell *>(this)->FUN_009b4440()));
+                ZObject* victim = ((::ZObject *)(reinterpret_cast<ProjectileFields*>(this)->pSourceRef));
                 ZObject* killer3 = ((::ZObject *)(::FUN_00874480((char *)this))) && ((::ZObject *)(::FUN_00874480((char *)this)))->IsActor() ? ((::ZObject *)(::FUN_00874480((char *)this))) : 0;
                 if (killer3->IsPlayer())
                 {

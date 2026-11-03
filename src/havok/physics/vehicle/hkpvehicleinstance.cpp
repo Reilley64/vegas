@@ -7,18 +7,12 @@
 #include <cstddef>
 #include <xmmintrin.h>
 #include <windows.h>
-#include "fnv/decl/AxleGroundBuild__Vehicle.h"
 #include "fnv/decl/Cb0StringCopy.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91620_Class.h"
 #include "fnv/decl/FUN_00d2b2b0_class.h"
-#include "fnv/decl/FnvVehicle.h"
-#include "fnv/decl/VUBCD_Instance.h"
-#include "fnv/decl/VehInst37.h"
-#include "fnv/decl/WVehicle.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/decl/hkpEntityC9C.h"
-#include "fnv/decl/hkpVehicleInstanceCustom.h"
 #include "fnv/decl/hkpWorldC914.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00e59000.h"
@@ -905,26 +899,6 @@ struct VehicleInstance
     void FUN_00e39190(const VehicleStepInfo* stepInfo);
 };
 
-// @fnv 0x00e39190
-void VehicleInstance::FUN_00e39190(const VehicleStepInfo* stepInfo)
-{
-    reinterpret_cast<::VUBCD_Instance *>(this)->FUN_00e37940();
-    int wheelCount = m_data->m_iWheelCount;
-    VehicleMemoryRouter* router = (VehicleMemoryRouter*)::FUN_00c85750();
-    char* originalTop = router->m_stackTop;
-    float deltaTime = stepInfo->m_fTimeStep;
-    router->m_stackTop = originalTop + (((wheelCount * 3 << 5) + 127) & ~127);
-    int capacityAndFlags = wheelCount | 0x80000000;
-
-    m_pWheelCollide->CollideWheels(deltaTime, this, originalTop);
-    reinterpret_cast<::VUC_StepInstance *>(this)->FUN_00e39030((*(const ::VUC_StepInfo *)(stepInfo)), originalTop);
-    ((VehicleMemoryRouter*)::FUN_00c85750())->m_stackTop = originalTop;
-    VehicleScratchAllocator* allocator = ((VehicleMemoryRouter*)::FUN_00c85750())->m_pThreadAllocator;
-    if (!(capacityAndFlags & 0x80000000))
-    {
-        allocator->free(originalTop, (capacityAndFlags & 0x3fffffff) * 3 << 5);
-    }
-}
 
 class hkMemoryAllocatorE392
 {
@@ -1426,64 +1400,6 @@ struct VehStep_Vehicle
     void FUN_00e385e0(const VUC_StepInfo& stepInfo, VehStep_Output* out, void* a2, void* a3);
 };
 
-// Calls motion slots 5c and 60 with out's transforms, applies velocity damping, then runs the axle and friction helpers between two timer samples.
-// @fnv 0x00e385e0
-void VehStep_Vehicle::FUN_00e385e0(const VUC_StepInfo& stepInfo, VehStep_Output* out, void* a2, void* a3)
-{
-    volatile unsigned int ticks;
-    {
-        VUC_Mon* mon = (VUC_Mon*)TlsGetValue(DAT_0126835c);
-        char* pos = mon->m_kRayEnd;
-        if (pos < mon->m_capMinus16)
-        {
-            VUC_Timer* t = (VUC_Timer*)pos;
-            t->m_name = str_010eb844;
-            _ReadWriteBarrier();
-            ticks = (unsigned int)__rdtsc();
-            t->m_ticks = ticks;
-            mon->m_kRayEnd = pos + sizeof(VUC_Timer);
-        }
-    }
-
-    float dt = stepInfo.m_fTimeStep;
-    m_pEntity->getMotion()->slot5c(dt, &out->m_transform0);
-    m_pEntity->getMotion()->slot60(dt, &out->m_transform1);
-
-    if (m_pVelocityDamper)
-        m_pVelocityDamper->ApplyVelocityDamping(dt, *this);
-
-    VehStep_FrictionParams frictionParams;
-    for (int i = 0; i < 2; i++)
-        frictionParams.m_akAxleParams[i].initialize();
-    VehStep_Ground ground;
-    VehStep_Accumulators accumulators;
-    ground.m_kPointA = 0;
-    ground.m_kPointB = 0;
-
-    FUN_00e375a0(dt, a2, a3, ground, frictionParams);
-    frictionParams.m_fTorquePitchFactor = m_data->m_fTorquePitchFactor;
-    reinterpret_cast<::AxleGroundBuild::Vehicle *>(this)->FUN_00e37d60((void *)&(stepInfo), (::AxleGroundBuild::GroundBody **)&(ground), (::AxleGroundBuild::Accumulator *)&(frictionParams.m_kSecondAccumulator), (::AxleGroundBuild::Accumulator *)&(accumulators), (::AxleGroundBuild::AxleParams *)&(frictionParams));
-    reinterpret_cast<::VehInst37 *>(this)->FUN_00e37740((const ::TimeInterval &)(stepInfo), (::Out37 &)(frictionParams));
-    FUN_00e376e0(dt, frictionParams.m_pChassisCollidable);
-    reinterpret_cast<::FUN_00e38080StandIn *>((void *)(stepInfo))->FUN_00e38080((const ::VUC_StepInfo &)(frictionParams), {});
-    reinterpret_cast<::Q_e380c0_cls *>(this)->FUN_00e380c0((const ::Q_e380c0_Vec *)&(frictionParams.m_pChassisCollidable));
-    FUN_00e38140(dt, frictionParams, ground);
-    reinterpret_cast<::WVehicle *>(this)->FUN_00e38310(dt, (const int *)&(ground), (const ::WGround *)&(frictionParams));
-
-    {
-        VUC_Mon* mon = (VUC_Mon*)TlsGetValue(DAT_0126835c);
-        char* pos = mon->m_kRayEnd;
-        if (pos < mon->m_capMinus16)
-        {
-            VUC_Timer* t = (VUC_Timer*)pos;
-            t->m_name = ::DAT_010c41f8;
-            _ReadWriteBarrier();
-            ticks = (unsigned int)__rdtsc();
-            t->m_ticks = ticks;
-            mon->m_kRayEnd = pos + sizeof(VUC_Timer);
-        }
-    }
-}
 }  // namespace fnv_00e385e0
 
 struct FUN_00e39300_class
@@ -1581,7 +1497,7 @@ template <class T> __forceinline void destructE39(T* pArr, int n)
 template <class T> __forceinline void copyE39(T* pDst, const T* pSrc, int n)
 {
     for (int i = 0; i < n; i++)
-        reinterpret_cast<::FUN_00e39300_class *>((void *)&(const ::WheelE39 &)(pDst[i]))->FUN_00e39300((const ::FUN_00e39300_class *)&(pSrc[i]));
+        reinterpret_cast<::FUN_00e39300_class *>(&pDst[i])->FUN_00e39300((const ::FUN_00e39300_class *)&(pSrc[i]));
 }
 template <class T> __forceinline void constructWithArrayE39(T* pDst, int n, const T* pSrc)
 {
@@ -3064,38 +2980,6 @@ class S00e375a0_VehicleInstance : public VUC_Instance
                       S00e375a0_hkpRigidBody* maxMassBodyPerAxle[2], S00e375a0_AxleData* axleData);
 };
 
-// Iterates wheels, calls FUN_00e371d0 and FUN_00e37350, and tracks the max-mass contact body per axle in maxMassBodyPerAxle.
-// @fnv 0x00e375a0
-void S00e375a0_VehicleInstance::FUN_00e375a0(float deltaTime, VUC_RealArray& suspensionForceAtWheel,
-                                             VUC_RealArray& totalLinearForceAtWheel,
-                                             S00e375a0_hkpRigidBody* maxMassBodyPerAxle[2],
-                                             S00e375a0_AxleData* axleData)
-{
-    S00e375a0_hkpRigidBody* chassis = (S00e375a0_hkpRigidBody*)m_pEntity;
-    float linearVelocity;
-    _mm_store_ss(&linearVelocity, chassis->m_kTranslationalVelocity.length3());
-
-    for (int i = 0; i < (int)m_data->m_iWheelCount; ++i)
-    {
-        int axle = m_data->m_kWheelParams[i].m_iAxle;
-        hkpVehicleInstanceWheelInfo* wheelInfo = &m_kWheelInfoArray.m_data[i];
-
-        reinterpret_cast<::hkpVehicleInstanceCustom *>(this)->FUN_00e371d0(deltaTime, i, suspensionForceAtWheel.m_data[i]);
-
-        S00e375a0_hkpRigidBody* contactBody = wheelInfo->m_pUserData;
-        if (contactBody)
-        {
-            S00e375a0_hkpRigidBody* curMaxBody = maxMassBodyPerAxle[axle];
-            if (!curMaxBody || contactBody->m_kInertiaAndMassInv.getW() < curMaxBody->m_kInertiaAndMassInv.getW())
-            {
-                maxMassBodyPerAxle[axle] = contactBody;
-            }
-        }
-
-        reinterpret_cast<::FnvVehicle *>(this)->FUN_00e37350(i, totalLinearForceAtWheel.m_data[i], suspensionForceAtWheel.m_data[i], linearVelocity,
-                     (*(::FnvAxleParams *)(&axleData[axle])));
-    }
-}
 
 struct VUC_DriverInputStandIn
 {
@@ -3211,87 +3095,6 @@ void VehicleAeroInstance::FUN_00e37080(float deltaTime, void* output) throw()
 }
 
 // Moved from hkpvehicleinstance_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
-#include "fnv/decl/VehicleAeroInstance.h"
-#include "fnv/decl/fnv_00e385e0__VehStep_Vehicle.h"
-void __cdecl FUN_00c908c0(VUC_Allocator* allocator, VUC_RealArray* array, int capacity, int stride);
-void __cdecl FUN_00c908c0(hkAllocatorE38D& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
-template <typename T> struct hkArrayE38D
-{
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    hkArrayE38D() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
-    {}
-    ~hkArrayE38D() throw()
-    {
-        hkAllocatorE38D& kAlloc = ((hkMemoryRouterE38D*)::FUN_00c85750())->heap();
-        m_iElementCount = 0;
-        if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc._bufFree<T>(m_data, m_iCapacityState & 0x3fffffff);
-        m_data = 0;
-        m_iCapacityState = 0x80000000;
-    }
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-    void GrowArrayCapacity(hkAllocatorE38D& kAlloc, int n)
-    {
-        const int iCapacity = getCapacity();
-        if (iCapacity < n)
-        {
-            int iCap2 = 2 * iCapacity;
-            int iNewSize = (n < iCap2) ? iCap2 : n;
-            FUN_00c908c0(kAlloc, this, iNewSize, sizeof(T));
-        }
-    }
-    void SetSizeAndGrow(int n)
-    {
-        GrowArrayCapacity(((hkMemoryRouterE38D*)::FUN_00c85750())->heap(), n);
-        m_iElementCount = n;
-    }
-};
-void __cdecl FUN_00e392f0();
-void __cdecl FUN_00c908c0(hkMemoryAllocatorE39& kAlloc, void* pArray, int iNumElements, int iSizeElem);
-template <class T> __forceinline void copyE39(T* pDst, const T* pSrc, int n)
-{
-    for (int i = 0; i < n; i++)
-        pDst[i] = pSrc[i];
-}
-template <class T> class hkClassArrayE39
-{
-  public:
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-    __forceinline void reserve(hkMemoryAllocatorE39& kAlloc, int n)
-    {
-        if (getCapacity() < n)
-        {
-            int iCap2 = 2 * getCapacity();
-            int iNewSize = (n < iCap2) ? iCap2 : n;
-            FUN_00c908c0(kAlloc, this, iNewSize, sizeof(T));
-        }
-    }
-    __forceinline hkClassArrayE39& operator=(const hkClassArrayE39& a)
-    {
-        hkMemoryAllocatorE39& kAlloc = GetMemoryRouterE39().heap();
-        const int iOldSize = m_iElementCount;
-        const int iNewSize = a.m_iElementCount;
-        int iCopiedSize = (iNewSize > iOldSize) ? iOldSize : iNewSize;
-        reserve(kAlloc, iNewSize);
-        destructE39(m_data + iNewSize, iOldSize - iNewSize);
-        copyE39(m_data, a.m_data, iCopiedSize);
-        constructWithArrayE39(m_data + iCopiedSize, iNewSize - iCopiedSize, a.m_data + iCopiedSize);
-        m_iElementCount = iNewSize;
-        return *this;
-    }
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
 
 
 struct WVec4
@@ -3891,13 +3694,6 @@ typedef __m128 AxleQuad;
 using ::hkVector4;
 using ::hkRotation;
 using ::hkpVehicleInstance;
-using _mm_add_ps;
-using _mm_mul_ps;
-using _mm_shuffle_ps;
-using _mm_setzero_ps;
-using _mm_add_ss;
-using _mm_sub_ps;
-using _mm_store_ss;
 
 
 struct Accumulator
@@ -5881,3 +5677,118 @@ void S00e384e0_WheelCollectorE38::FUN_00e384e0(const S00e384e0_ChassisE38* pkCha
                                        kPosOut.m_vComponents);
 }
 #include "generated/data/havok/physics/vehicle/hkpvehicleinstance.inc"
+
+// @fnv 0x00e39190
+void VehicleInstance::FUN_00e39190(const VehicleStepInfo* stepInfo)
+{
+    reinterpret_cast<::VUBCD_Instance *>(this)->FUN_00e37940();
+    int wheelCount = m_data->m_iWheelCount;
+    VehicleMemoryRouter* router = (VehicleMemoryRouter*)::FUN_00c85750();
+    char* originalTop = router->m_stackTop;
+    float deltaTime = stepInfo->m_fTimeStep;
+    router->m_stackTop = originalTop + (((wheelCount * 3 << 5) + 127) & ~127);
+    int capacityAndFlags = wheelCount | 0x80000000;
+
+    m_pWheelCollide->CollideWheels(deltaTime, this, originalTop);
+    reinterpret_cast<::VUC_StepInstance *>(this)->FUN_00e39030((*(const ::VUC_StepInfo *)(stepInfo)), originalTop);
+    ((VehicleMemoryRouter*)::FUN_00c85750())->m_stackTop = originalTop;
+    VehicleScratchAllocator* allocator = ((VehicleMemoryRouter*)::FUN_00c85750())->m_pThreadAllocator;
+    if (!(capacityAndFlags & 0x80000000))
+    {
+        allocator->free(originalTop, (capacityAndFlags & 0x3fffffff) * 3 << 5);
+    }
+}
+
+namespace fnv_00e385e0 {
+// Calls motion slots 5c and 60 with out's transforms, applies velocity damping, then runs the axle and friction helpers between two timer samples.
+// @fnv 0x00e385e0
+void VehStep_Vehicle::FUN_00e385e0(const VUC_StepInfo& stepInfo, VehStep_Output* out, void* a2, void* a3)
+{
+    volatile unsigned int ticks;
+    {
+        VUC_Mon* mon = (VUC_Mon*)TlsGetValue(DAT_0126835c);
+        char* pos = mon->m_kRayEnd;
+        if (pos < mon->m_capMinus16)
+        {
+            VUC_Timer* t = (VUC_Timer*)pos;
+            t->m_name = str_010eb844;
+            _ReadWriteBarrier();
+            ticks = (unsigned int)__rdtsc();
+            t->m_ticks = ticks;
+            mon->m_kRayEnd = pos + sizeof(VUC_Timer);
+        }
+    }
+
+    float dt = stepInfo.m_fTimeStep;
+    m_pEntity->getMotion()->slot5c(dt, &out->m_transform0);
+    m_pEntity->getMotion()->slot60(dt, &out->m_transform1);
+
+    if (m_pVelocityDamper)
+        m_pVelocityDamper->ApplyVelocityDamping(dt, *this);
+
+    VehStep_FrictionParams frictionParams;
+    for (int i = 0; i < 2; i++)
+        frictionParams.m_akAxleParams[i].initialize();
+    VehStep_Ground ground;
+    VehStep_Accumulators accumulators;
+    ground.m_kPointA = 0;
+    ground.m_kPointB = 0;
+
+    FUN_00e375a0(dt, a2, a3, ground, frictionParams);
+    frictionParams.m_fTorquePitchFactor = m_data->m_fTorquePitchFactor;
+    reinterpret_cast<::AxleGroundBuild::Vehicle *>(this)->FUN_00e37d60((void *)&(stepInfo), (::AxleGroundBuild::GroundBody **)&(ground), (::AxleGroundBuild::Accumulator *)&(frictionParams.m_kSecondAccumulator), (::AxleGroundBuild::Accumulator *)&(accumulators), (::AxleGroundBuild::AxleParams *)&(frictionParams));
+    reinterpret_cast<::VehInst37 *>(this)->FUN_00e37740((const ::TimeInterval &)(stepInfo), (::Out37 &)(frictionParams));
+    FUN_00e376e0(dt, frictionParams.m_pChassisCollidable);
+    reinterpret_cast<::FUN_00e38080StandIn *>(this)->FUN_00e38080(stepInfo, &frictionParams);
+    reinterpret_cast<::Q_e380c0_cls *>(this)->FUN_00e380c0((const ::Q_e380c0_Vec *)&(frictionParams.m_pChassisCollidable));
+    FUN_00e38140(dt, frictionParams, ground);
+    reinterpret_cast<::WVehicle *>(this)->FUN_00e38310(dt, (const int *)&(ground), (const ::WGround *)&(frictionParams));
+
+    {
+        VUC_Mon* mon = (VUC_Mon*)TlsGetValue(DAT_0126835c);
+        char* pos = mon->m_kRayEnd;
+        if (pos < mon->m_capMinus16)
+        {
+            VUC_Timer* t = (VUC_Timer*)pos;
+            t->m_name = ::DAT_010c41f8;
+            _ReadWriteBarrier();
+            ticks = (unsigned int)__rdtsc();
+            t->m_ticks = ticks;
+            mon->m_kRayEnd = pos + sizeof(VUC_Timer);
+        }
+    }
+}
+}  // namespace fnv_00e385e0
+
+// Iterates wheels, calls FUN_00e371d0 and FUN_00e37350, and tracks the max-mass contact body per axle in maxMassBodyPerAxle.
+// @fnv 0x00e375a0
+void S00e375a0_VehicleInstance::FUN_00e375a0(float deltaTime, VUC_RealArray& suspensionForceAtWheel,
+                                             VUC_RealArray& totalLinearForceAtWheel,
+                                             S00e375a0_hkpRigidBody* maxMassBodyPerAxle[2],
+                                             S00e375a0_AxleData* axleData)
+{
+    S00e375a0_hkpRigidBody* chassis = (S00e375a0_hkpRigidBody*)m_pEntity;
+    float linearVelocity;
+    _mm_store_ss(&linearVelocity, chassis->m_kTranslationalVelocity.length3());
+
+    for (int i = 0; i < (int)m_data->m_iWheelCount; ++i)
+    {
+        int axle = m_data->m_kWheelParams[i].m_iAxle;
+        hkpVehicleInstanceWheelInfo* wheelInfo = &m_kWheelInfoArray.m_data[i];
+
+        reinterpret_cast<::hkpVehicleInstanceCustom *>(this)->FUN_00e371d0(deltaTime, i, suspensionForceAtWheel.m_data[i]);
+
+        S00e375a0_hkpRigidBody* contactBody = wheelInfo->m_pUserData;
+        if (contactBody)
+        {
+            S00e375a0_hkpRigidBody* curMaxBody = maxMassBodyPerAxle[axle];
+            if (!curMaxBody || contactBody->m_kInertiaAndMassInv.getW() < curMaxBody->m_kInertiaAndMassInv.getW())
+            {
+                maxMassBodyPerAxle[axle] = contactBody;
+            }
+        }
+
+        reinterpret_cast<::FnvVehicle *>(this)->FUN_00e37350(i, totalLinearForceAtWheel.m_data[i], suspensionForceAtWheel.m_data[i], linearVelocity,
+                     (*(::FnvAxleParams *)(&axleData[axle])));
+    }
+}

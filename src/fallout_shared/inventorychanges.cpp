@@ -674,7 +674,7 @@ float FUN_004be180(char* pThis)
 
 struct ItemNode;
 struct ExtraNode;
-int _FNV_GetFormType(unsigned int);
+int _FNV_GetFormType(std::uintptr_t);
 struct ArrSI
 {
 };
@@ -731,9 +731,9 @@ bool FUN_004bfc80_shell::FUN_004bfc80()
     while (pkCurrentObject && *((::InventoryStackRecord **)((void *)(pkCurrentObject))))
     {
         pchange3 = *((::InventoryStackRecord **)((void *)(pkCurrentObject)));
-        if (pchange3 && _FNV_GetFormType(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pchange3)))->GetName()))) == 24 && !bfound7)
+        if (pchange3 && _FNV_GetFormType(((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pchange3)))->GetName()))) == 24 && !bfound7)
         {
-            unsigned int flags3 = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pchange3)))->GetName()));
+            std::uintptr_t flags3 = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pchange3)))->GetName()));
             ExtraNode* pkFirst2 = *(ExtraNode**)pchange3;
             ExtraDataList* pextra = 0;
             while (pkFirst2 && *((::ExtraDataList **)((void *)(pkFirst2))) && !bfound7)
@@ -1793,7 +1793,7 @@ struct FUN_004bed00_host
 {
     _DummySimpleList* first;
     int unk04;
-    int unk08;
+    void* unk08;
     void FUN_004bed00();
 };
 // Walks the linked list from first, and for each non-empty node whose extra data is non-null, calls FUN_00426020 with unk08.
@@ -1807,7 +1807,7 @@ void FUN_004bed00_host::FUN_004bed00()
         pExtra = *((::ExtraDataList **)((void *)(pNode)));
         if (pExtra)
         {
-            reinterpret_cast<::load_extra_fixup::ThisQ *>((((CallerNode*)pExtra)))->FUN_00426020(0, 0, (::load_extra_fixup::O *)(0), (void *)(unk08));
+            reinterpret_cast<::load_extra_fixup::ThisQ *>((((CallerNode*)pExtra)))->FUN_00426020(0, 0, (::load_extra_fixup::O *)(0), unk08);
         }
         pNode = ((::_DummySimpleList *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
@@ -2594,7 +2594,7 @@ void FUN_004d1610_shell::FUN_004d1610()
     {
         InventoryItemEntry* pItem = *((::InventoryItemEntry **)((void *)(pCurrentElementNext)));
         pCurrentElementNext = ((::ContNode *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
-        if (pItem->pObj && _FNV_GetFormType((unsigned int)pItem->pObj) != 0x34 && pItem->m_pExtraData)
+        if (pItem->pObj && _FNV_GetFormType((std::uintptr_t)pItem->pObj) != 0x34 && pItem->m_pExtraData)
         {
             ExtraDataList* pextra = (ExtraDataList*)new FUN_00410360;
             reinterpret_cast<::FUN_00419ad0_shell *>((((FUN_00419ad0_S*)pextra)))->FUN_00419ad0(*(unsigned short*)&pItem->m_iCountDelta);
@@ -3026,8 +3026,8 @@ int FUN_004c8fd0_t::FUN_004c8fd0(bool abcountplayable)
         if (pitem)
         {
             if ((unsigned int)*(const Flt*)pitem &&
-                ((((BSSimpleList<ExtraDataList*>*)(unsigned int)*(const Flt*)pitem))->m_item) &&
-                ((((BSSimpleList<ExtraDataList*>*)(unsigned int)*(const Flt*)pitem))->m_item)->HasExtraDataType0x2F())
+                (((*(BSSimpleList<ExtraDataList*>* const*)pitem))->m_item) &&
+                (((*(BSSimpleList<ExtraDataList*>* const*)pitem))->m_item)->HasExtraDataType0x2F())
                 bcontinue = true;
             else if (((FUN_004bffb0_shell*)this)->FUN_004bffb0() &&
                      ((FUN_004bffb0_shell*)this)->FUN_004bffb0()->HasObjectOfType((TESObject*)pitem->m_pItemObject))
@@ -3062,8 +3062,8 @@ int FUN_004c8fd0_t::FUN_004c8fd0(bool abcountplayable)
                 icount++;
             if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)pitem)))->FUN_00726070())) < 0 &&
                 !((unsigned int)*(const Flt*)pitem &&
-                  ((((BSSimpleList<ExtraDataList*>*)(unsigned int)*(const Flt*)pitem))->m_item) &&
-                  ((((BSSimpleList<ExtraDataList*>*)(unsigned int)*(const Flt*)pitem))->m_item)->HasExtraDataType0x2F()))
+                  (((*(BSSimpleList<ExtraDataList*>* const*)pitem))->m_item) &&
+                  (((*(BSSimpleList<ExtraDataList*>* const*)pitem))->m_item)->HasExtraDataType0x2F()))
             {
                 reinterpret_cast<::ItemChangeListNode *>(((*(BSSimpleList<InventoryStackRecord*>**)this)))->FUN_00905330(pitem);
                 ((FUN_004bc780_shell*)pitem)->ClearExtraDataList();
@@ -3155,14 +3155,14 @@ struct FUN_004bed60_shell
 {
     BSSimpleList<BGSPerk*>* list;
     int pad0;
-    int pad1;
+    void* pad1;
     void SavePerkList(BGSSaveFormBuffer* buffer);
 };
 
 // @fnv 0x004bed60
 void FUN_004bed60_shell::SavePerkList(BGSSaveFormBuffer* buffer)
 {
-    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((SaveFormIDHelper*)buffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)((void*)pad1), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((SaveFormIDHelper*)buffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(pad1), 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)&this->pad0, 4, 0);
     unsigned int count = 0;
     unsigned int total = reinterpret_cast<::FUN_00865f20_shell *>((buffer))->FUN_00865f20();
@@ -4091,7 +4091,9 @@ struct ContainerView
 };
 struct Product
 {
-    unsigned int unk00, unk04, unk08, unk0c;
+    void* unk00;
+    void* unk04;
+    unsigned int unk08, unk0c;
     ContainerView* container;
     unsigned int unk14, unk18, unk1c, unk20, unk24;
     Product();
@@ -4109,7 +4111,7 @@ Product* OwnerProduct::FUN_004ca200()
     context->unk00 = 0;
     context->unk04 = 0;
     if (((::ContainerView *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())))
-        context->unk00 = ((unsigned int)(reinterpret_cast<::Source08 *>((((::ContainerView *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->CopyUniqueObjects()));
+        context->unk00 = ((void *)(reinterpret_cast<::Source08 *>((((::ContainerView *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->CopyUniqueObjects()));
     context->unk08 = 0;
     context->unk0c = 0;
     context->container = ((::ContainerView *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()));
@@ -4153,12 +4155,12 @@ struct Changes
 {
     ChangeNode* list;
     Container* FUN_004bffb0();
-    int FUN_004cba70(TESLevItem* object);
+    std::intptr_t FUN_004cba70(TESLevItem* object);
 };
 // @fnv 0x004cba70
-int Changes::FUN_004cba70(TESLevItem* pLeveledItem)
+std::intptr_t Changes::FUN_004cba70(TESLevItem* pLeveledItem)
 {
-    int result = 0;
+    std::intptr_t result = 0;
     if (pLeveledItem)
     {
         ContainerNode* node = ((::fnv_004cba70::Container *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))->FUN_00717e50();
@@ -4188,7 +4190,7 @@ int Changes::FUN_004cba70(TESLevItem* pLeveledItem)
                     Extra* extra = *((::fnv_004cba70::Extra **)((void *)(extraNode)));
                     if (extra && reinterpret_cast<::FUN_0041d360_shell *>((extra))->FUN_0041d360() == index)
                     {
-                        result = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((change))->GetName()));
+                        result = ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((change))->GetName()));
                         break;
                     }
                     extraNode = ((::fnv_004cba70::ExtraNode *)(reinterpret_cast<::Callees *>((extraNode))->FUN_00726070()));
@@ -11102,7 +11104,7 @@ struct Transfer4c37C37Obj
     virtual void Pad3ec_248();
     virtual void Pad3ec_249();
     virtual void Pad3ec_250();
-    virtual void Vcall3ec(int a, int b, int c, int d);
+    virtual void Vcall3ec(std::intptr_t a, int b, int c, int d);
 };
 
 struct Transfer4c37Form4
@@ -11248,7 +11250,7 @@ struct Transfer4c37Entry
     ~Transfer4c37Entry();
     void* m00;
     int m04;
-    int m08;
+    void* m08;
 };
 struct Transfer4c37Cont
 {
@@ -11415,7 +11417,7 @@ struct Transfer4c37FormFull
 };
 struct Transfer4c37C37This
 {
-    int m00;
+    void* m00;
     Transfer4c37FormFull* m04;
     float m08;
     float m0c;
@@ -11958,7 +11960,7 @@ bool FUN_004cffe0_t::CheckItemRequirement(void* a1, void* a2, int iRequiredCount
     while (pNode != 0 && !pNode->FUN_008256d0())
     {
         void* pObj = (*((::ContObj6 **)((void *)(pNode))))->pObj;
-        if (pObj != 0 && ((a1 != 0 && pObj == a1) || (a1 == 0 && a2 != 0 && ::MatchesObjectType((::TESForm *)(pObj), (int)(a2)))))
+        if (pObj != 0 && ((a1 != 0 && pObj == a1) || (a1 == 0 && a2 != 0 && ::MatchesObjectType((::TESForm *)(pObj), (int)(std::intptr_t)(a2)))))
         {
             Item2_6* pItem = ((::Item2_6 *)(reinterpret_cast<::FUN_004bfba0_shell *>((this))->FUN_004bfba0((::TESBoundObject *)(pObj), 1, 0)));
             if (pItem != 0)
@@ -12012,7 +12014,7 @@ bool FUN_004cffe0_t::CheckItemRequirement(void* a1, void* a2, int iRequiredCount
             while (pNode2 != 0 && !pNode2->FUN_008256d0() && *((::ItemCh6 **)((void *)(pNode2))) != 0)
             {
                 void* pObj2 = (*((::ItemCh6 **)((void *)(pNode2))))->m_pItemObject;
-                if (pObj2 != 0 && a2 != 0 && ::MatchesObjectType((::TESForm *)(pObj2), (int)(a2)) &&
+                if (pObj2 != 0 && a2 != 0 && ::MatchesObjectType((::TESForm *)(pObj2), (int)(std::intptr_t)(a2)) &&
                     ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::ItemCh6 **)((void *)(pNode2))))))->FUN_00726070())) >= iRequiredCount)
                 {
                     if (pOwner != 0 && ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture())) != 0)
@@ -16980,7 +16982,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                         }
                         if (!copyModel0)
                         {
-                            if (FUN_00401170((int)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()))) == 0x2a)
+                            if (FUN_00401170((std::uintptr_t)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()))) == 0x2a)
                             {
                                 if (((Transfer4c37AuxObj*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430())))->FUN_005f0cc0() == 1)
                                 {
@@ -17056,7 +17058,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                             }
                             if (!copyReferenceModel20)
                             {
-                                if (FUN_00401170((int)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()))) == 0x2a)
+                                if (FUN_00401170((std::uintptr_t)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()))) == 0x2a)
                                 {
                                     if (((Transfer4c37AuxObj*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430())))->FUN_005f0cc0() == 1)
                                     {
@@ -17303,7 +17305,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                         }
                         if (!copyPlainModel42)
                         {
-                            if (FUN_00401170((int)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()))) == 0x2a)
+                            if (FUN_00401170((std::uintptr_t)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()))) == 0x2a)
                             {
                                 if (((Transfer4c37AuxObj*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430())))->FUN_005f0cc0() == 1)
                                 {
@@ -17527,7 +17529,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                                     }
                                     if (!copyStackModel11)
                                     {
-                                        if (FUN_00401170((int)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()))) == 0x2a)
+                                        if (FUN_00401170((std::uintptr_t)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()))) == 0x2a)
                                         {
                                             if (((Transfer4c37AuxObj*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430())))->FUN_005f0cc0() == 1)
                                             {
@@ -17619,7 +17621,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                                         }
                                         if (!copyStackReferenceModel26)
                                         {
-                                            if (FUN_00401170((int)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()))) == 0x2a)
+                                            if (FUN_00401170((std::uintptr_t)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()))) == 0x2a)
                                             {
                                                 if (((Transfer4c37AuxObj*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430())))->FUN_005f0cc0() ==
                                                     1)
@@ -17755,7 +17757,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                 }
                 if (!copyRemainderModel32)
                 {
-                    if (FUN_00401170((int)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()))) == 0x2a)
+                    if (FUN_00401170((std::uintptr_t)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()))) == 0x2a)
                     {
                         if (((Transfer4c37AuxObj*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430())))->FUN_005f0cc0() == 1)
                         {
@@ -17885,7 +17887,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
     if (updateWeapon9)
     {
         if (((std::uintptr_t)(reinterpret_cast<::FUN_008a1710_shell *>((playerSource2))->FUN_008a1710())) != 0)
-            playerSource2->Vcall3ec(((int)(reinterpret_cast<::FUN_008a1710_shell *>((playerSource2))->FUN_008a1710())), 0, 0, 0);
+            playerSource2->Vcall3ec(((std::intptr_t)(reinterpret_cast<::FUN_008a1710_shell *>((playerSource2))->FUN_008a1710())), 0, 0, 0);
     }
     return resultRef6;
 }

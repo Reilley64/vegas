@@ -42,6 +42,16 @@ struct hkBool
     }
 };
 
+// The registration records as the shared declarations (fnv/decl/FUN_00cfbbe0_cls.h, FUN_00cfbd60_cls.h) name them.
+struct FUN_00cfbbe0_rec : hkpCollisionDispatcher::AgentFuncs
+{
+};
+
+struct SrcRec : hkpCollisionDispatcher::Agent3Funcs
+{
+};
+
+
 
 
 
@@ -241,12 +251,12 @@ void FUN_00cfb510_cls::MergeBitsRecursive(unsigned int uiDstIndex, unsigned int 
 class FUN_00cfbbe0_cls : public hkpCollisionDispatcher
 {
   public:
-    void FUN_00cfbbe0(hkpCollisionDispatcher::AgentFuncs* a1, int a2, int a3);
+    void FUN_00cfbbe0(FUN_00cfbbe0_rec* a1, int a2, int a3);
 };
 
 // Copies the agent2 functions into the table at the current index, registers the agent type in the agent2 and agent3 tables, and increments the index.
 // @fnv 0x00cfbbe0
-void FUN_00cfbbe0_cls::FUN_00cfbbe0(hkpCollisionDispatcher::AgentFuncs* pRecord, int a2, int a3)
+void FUN_00cfbbe0_cls::FUN_00cfbbe0(FUN_00cfbbe0_rec* pRecord, int a2, int a3)
 {
     int idx = m_numAgent2Types;
     m_agent2Func[idx] = *pRecord;
@@ -261,7 +271,7 @@ void FUN_00cfbbe0_cls::FUN_00cfbbe0(hkpCollisionDispatcher::AgentFuncs* pRecord,
     m_numAgent2Types++;
 }
 
-struct SpawnRequest : hkpCollisionDispatcher::AgentFuncs
+struct SpawnRequest : FUN_00cfbbe0_rec
 {
 };
 
@@ -290,11 +300,11 @@ void FUN_00cfbcc0_cls::AddSpawnEntry(SpawnRequest* pRequest, int a, int b)
 
 struct FUN_00cfbd60_cls : hkpCollisionDispatcher
 {
-    int AddEntry(hkpCollisionDispatcher::Agent3Funcs* a1, int a2, int a3);
+    int AddEntry(SrcRec* a1, int a2, int a3);
 };
 
 // @fnv 0x00cfbd60
-int FUN_00cfbd60_cls::AddEntry(hkpCollisionDispatcher::Agent3Funcs* pSrc, int a2, int a3)
+int FUN_00cfbd60_cls::AddEntry(SrcRec* pSrc, int a2, int a3)
 {
     hkpCollisionDispatcher::Agent3FuncsIntern e;
     m_1e21 = 1;

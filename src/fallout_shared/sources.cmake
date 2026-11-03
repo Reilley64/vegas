@@ -181,6 +181,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tempeffects/bstecreatetask.cpp
   src/fallout_shared/tempeffects/bstempeffect.cpp
   src/fallout_shared/tempeffects/bstempeffectdebris_copies_026.cpp
+  src/fallout_shared/tes.cpp
   src/fallout_shared/tesaiform.cpp
   src/fallout_shared/tesammoeffect.cpp
   src/fallout_shared/tesanimation.cpp
@@ -326,7 +327,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/tempeffects/bstempeffectgeometrydecal.cpp
   src/fallout_shared/tempeffects/bstempeffectparticle.cpp
   src/fallout_shared/tempeffects/bstempeffectsimpledecal.cpp
-  src/fallout_shared/tes.cpp
   src/fallout_shared/tesactorbase.cpp
   src/fallout_shared/tesactorbasedata.cpp
   src/fallout_shared/tesammo.cpp

@@ -4535,7 +4535,9 @@ P133List P133Owner::FUN_00b40c80()
             float offset = (frameTmp->height - 0.5) * (scale * frameTmp->scale * 0.5);
             position3[2] += offset;
             camera->SetPos(position3);
-            reinterpret_cast<::FUN_00b404c0_cls *>((camera))->FUN_00b404c0((const ::FUN_00b28440_Class *)&(const ::P133Point &)(((*(::P133Point *)(reinterpret_cast<::FUN_00b40430_cls *>((iter->first))->FUN_00b40430({}))) + (*(::P133Point *)(reinterpret_cast<::FUN_00b40430_cls *>((iter->second))->FUN_00b40430({})))) * 0.5f), false);
+            P133Point firstPos;
+            P133Point secondPos;
+            reinterpret_cast<::FUN_00b404c0_cls *>((camera))->FUN_00b404c0((const ::FUN_00b28440_Class *)&(const ::P133Point &)(((*(::P133Point *)(reinterpret_cast<::FUN_00b40430_cls *>((iter->first))->FUN_00b40430((float *)(void *)(&firstPos)))) + (*(::P133Point *)(reinterpret_cast<::FUN_00b40430_cls *>((iter->second))->FUN_00b40430((float *)(void *)(&secondPos))))) * 0.5f), false);
             reinterpret_cast<::IndexSet *>(&(output9))->FUN_00b15390((const unsigned int &)(camera));
         }
     }

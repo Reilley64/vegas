@@ -13756,7 +13756,8 @@ B61Entry* __cdecl FUN_00b61980(const char** ppcName)
         {
             if (spEntry->m_spLoaded->m_iFadeIndex >= 4)
             {
-                reinterpret_cast<::FUN_00c663d0 *>((void *)&(const ::NiPointer< ::B61AVObject> &)(m_pRootNode))->operator=((const ::FUN_00c663d0 &)((const ::NiPointer< ::B61AVObject> &)((*(::NiPointer< ::B61AVObject> *)(reinterpret_cast<::FUN_00b60750_owner *>(((spEntry->m_spLoaded).operator->()))->FUN_00b60750({}))))));
+                NiPointer< ::B61AVObject> loaded;
+                reinterpret_cast<::FUN_00c663d0 *>((void *)&(const ::NiPointer< ::B61AVObject> &)(m_pRootNode))->operator=((const ::FUN_00c663d0 &)((const ::NiPointer< ::B61AVObject> &)((*(::NiPointer< ::B61AVObject> *)(reinterpret_cast<::FUN_00b60750_owner *>(((spEntry->m_spLoaded).operator->()))->FUN_00b60750((void *)(&loaded)))))));
                 reinterpret_cast<::FnvB60280Owner *>((void *)&(const ::NiPointer< ::B61Loaded> &)(spEntry->m_spLoaded))->FUN_00b60280((::FnvB60280Ref *)(::B61Loaded *)((0)));
             }
         }

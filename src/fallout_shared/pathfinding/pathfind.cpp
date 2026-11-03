@@ -785,7 +785,7 @@ struct FUN_006d6df0_shell
 // @fnv 0x006d6df0
 unsigned char FUN_006d6df0_shell::FUN_006d6df0()
 {
-    return *reinterpret_cast<unsigned char*>(reinterpret_cast<int>(this) + 0xce);
+    return *(reinterpret_cast<unsigned char*>(this) + 0xce);
 }
 
 struct FUN_006d6e10_shell
@@ -1288,7 +1288,7 @@ struct CP_008c48d0
 };
 
 // @fnv 0x006d9350
-int __cdecl FUN_006d9350(void* form, int value, float distance, TESSound* sound)
+int __cdecl FUN_006d9350(void* form, std::intptr_t value, float distance, TESSound* sound)
 {
     if (form == 0 || sound == 0)
         return 0;
@@ -1415,7 +1415,7 @@ bool FUN_006d91d0(BSSimpleArray<NavMeshPtr, 1024>* apRetNavMeshes)
     if (((std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(::g_TES)))->GetPrevPath())))
     {
         parray = reinterpret_cast<NavMeshCollection*>(
-            ((int)(::FUN_0070ec90((char *)(reinterpret_cast<EffectSetting*>(((int)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(::g_TES)))->GetPrevPath()))))))));
+            (std::uintptr_t)(::FUN_0070ec90((char *)(reinterpret_cast<EffectSetting*>(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(::g_TES)))->GetPrevPath())))));
 
         if (parray)
         {
@@ -1609,10 +1609,10 @@ class FUN_006d0680_cls
 {
   public:
     virtual void v00();
-    virtual int v04(int a);
+    virtual void* v04(int a);
     virtual void v08();
-    virtual int v0c(int a, int b);
-    int m_04;
+    virtual void* v0c(void* a, int b);
+    void* m_04;
     int unk08;
     int m_0c;
     void FUN_006d0680(int a1, int a2);
@@ -1630,8 +1630,8 @@ void FUN_006d0680_cls::FUN_006d0680(int a1, int a2)
         }
         else
         {
-            std::intptr_t tmp = v04(a1);
-            reinterpret_cast<::FUN_006d0730_shell *>(this)->FUN_006d0730((void *)(tmp), (const void *)(m_04), a2);
+            void* tmp = v04(a1);
+            reinterpret_cast<::FUN_006d0730_shell *>(this)->FUN_006d0730(tmp, m_04, a2);
             ::FUN_006a8500((::DummyClass_006a8500 *)this);
             m_04 = tmp;
         }
@@ -2089,7 +2089,7 @@ bool __cdecl InitSolutionEndpoints(PFRequest* apRequest, PFSolution* apSolution)
     PFPoint3 kStart2 = (*(::PFPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((::PFLocation *)(::GetOffsetC((std::intptr_t)(apRequest))))))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())));
     const PFPoint3& rkStart5 = kStart2;
     PFCell* pCellA = ((::PFCell *)(reinterpret_cast<::PathingLocation *>((void *)(((::PFLocation *)(::GetOffsetC((std::intptr_t)(apRequest))))))->GetContainingCell()));
-    unsigned int uiSpace2 = reinterpret_cast<::BGSTerrainManager *>((((::PFLocation *)(::GetOffsetC((std::intptr_t)(apRequest))))))->GetMinLevel();
+    std::uintptr_t uiSpace2 = (std::uintptr_t)reinterpret_cast<::BGSTerrainManager *>((((::PFLocation *)(::GetOffsetC((std::intptr_t)(apRequest))))))->GetMinLevel();
     PFPoint3 kDir3;
     PFPoint3 kGoal9;
 
@@ -2503,7 +2503,7 @@ bool BuildPathBetweenLocations(RequestOps* request, SolutionOps* result)
         return false;
     PathRecord h = (*(::fnv_006d1f80::PathRecord *)(reinterpret_cast<::FUN_006b3160_shell *>(&(q))->FUN_006b3160(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(q))->GetName())) - 1)));
     NiPoint3 e;
-    reinterpret_cast<::NavMesh *>((((MeshOps*)h.mesh)))->GetNavMeshData((unsigned short)(&e));
+    e = reinterpret_cast<::NavMesh *>((((MeshOps*)h.mesh)))->GetNavMeshData(h.triangle);
     reinterpret_cast<::fnv_006c99c0::FUN_006c99c0_shell *>((result))->AddPathingItem((void *)&(p), (::TESObjectREFR *)(reinterpret_cast<::FUN_0068efb0_shell *>((((MeshOps*)s.mesh)))->FUN_0068efb0()));
     reinterpret_cast<::fnv_006c99c0::FUN_006c99c0_shell *>((result))->AddPathingItem((void *)&(e), (::TESObjectREFR *)(reinterpret_cast<::FUN_0068efb0_shell *>((((MeshOps*)h.mesh)))->FUN_0068efb0()));
     result->beginIndex = 0;
@@ -2769,11 +2769,11 @@ bool __cdecl FUN_006d5490(RouteLocation* start, RouteLocation* end, void* option
                 FUN_006815c0 newLeft12, newRight5;
                 reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((nextEdge20->mesh))->FUN_0068f0c0(nextEdge20->triangle, nextEdge20->index, (::NiPoint3 *)(class ::FUN_006815c0 *)(&newLeft12), (::NiPoint3 *)(class ::FUN_006815c0 *)(&newRight5));
                 FUN_006815c0 intersection30;
-                if (::FUN_006ba7e0((unsigned int)(&newLeft12), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&newRight5), (unsigned int)(&origin520), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&left938), (::NiPoint3 *)(class ::FUN_006815c0 *)(&intersection30)))
+                if (::FUN_006ba7e0((std::uintptr_t)(&newLeft12), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&newRight5), (std::uintptr_t)(&origin520), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&left938), (::NiPoint3 *)(class ::FUN_006815c0 *)(&intersection30)))
                     left938 = intersection30;
                 else
                     left938 = newLeft12;
-                if (::FUN_006ba7e0((unsigned int)(&newLeft12), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&newRight5), (unsigned int)(&origin520), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&right314), (::NiPoint3 *)(class ::FUN_006815c0 *)(&intersection30)))
+                if (::FUN_006ba7e0((std::uintptr_t)(&newLeft12), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&newRight5), (std::uintptr_t)(&origin520), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&right314), (::NiPoint3 *)(class ::FUN_006815c0 *)(&intersection30)))
                     right314 = intersection30;
                 else
                     right314 = newRight5;
@@ -5995,7 +5995,7 @@ bool __cdecl IsPathingLocationClear(PathingLocation* location, float radius)
     {
         TriangleIndices indices;
         reinterpret_cast<::Obj00696c00 *>((((MeshAccessor*)((::NavMesh *)(::FUN_00559450((int *)&(meshes.FUN_00877a30(i))))))))->ForwardToSub((std::intptr_t)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()) - RadiusPoint(radius, radius, 0.0f)),
-                           (int)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()) + RadiusPoint(radius, radius, 0.0f)), (std::intptr_t)&(indices));
+                           (std::intptr_t)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()) + RadiusPoint(radius, radius, 0.0f)), (std::intptr_t)&(indices));
         for (unsigned int j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(indices))->GetName())); ++j)
         {
             reinterpret_cast<::FUN_006dba30_Class *>(&(scratch))->FUN_006dba30((const ::S0069a690 *)&(const ::TriangleReference &)(TriangleReference(reinterpret_cast<::FUN_0068efb0_shell *>((((MeshAccessor*)((::NavMesh *)(::FUN_00559450((int *)&(meshes.FUN_00877a30(i))))))))->FUN_0068efb0(),
@@ -8555,7 +8555,7 @@ bool __cdecl FUN_006d1c60(P048Request* request, P048Solution* solution)
         return false;
     P048Node end3 = *((::P048Node *)(reinterpret_cast<::FUN_006b3160_shell *>(&(open2))->FUN_006b3160(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(open2))->GetName())) - 1)));
     NiPoint3 goal_2;
-    reinterpret_cast<::NavMesh *>((end3.mesh))->GetNavMeshData((unsigned short)(&goal_2));
+    goal_2 = reinterpret_cast<::NavMesh *>((end3.mesh))->GetNavMeshData(end3.triangle);
     reinterpret_cast<::fnv_006c99c0::FUN_006c99c0_shell *>((solution))->AddPathingItem((void *)&(origin6), (::TESObjectREFR *)(reinterpret_cast<::FUN_0068efb0_shell *>((startTmp.mesh))->FUN_0068efb0()));
     reinterpret_cast<::fnv_006c99c0::FUN_006c99c0_shell *>((solution))->AddPathingItem((void *)&(goal_2), (::TESObjectREFR *)(reinterpret_cast<::FUN_0068efb0_shell *>((end3.mesh))->FUN_0068efb0()));
     solution->current = 0;

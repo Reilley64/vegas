@@ -922,7 +922,7 @@ struct EdgeArr
 };
 struct DoorS
 {
-    unsigned int DoorRef;
+    void* DoorRef;
     unsigned short m_usTriangleIdentifier;
 };
 struct DoorArr
@@ -1067,12 +1067,12 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
                 {
                     if (reinterpret_cast<::TESFile *>((apFile))->IsEndianConversionRequired())
                         reinterpret_cast<::FUN_004141e0_class *>((((::fnv_00692950::DoorS *)(reinterpret_cast<::S006950d0 *>((((DoorArr*)((char*)this + 0x58))))->GetElement(i)))))->FUN_004141e0();
-                    unsigned int idoorID = ((::fnv_00692950::DoorS *)(reinterpret_cast<::S006950d0 *>((((DoorArr*)((char*)this + 0x58))))->GetElement(i)))->DoorRef;
+                    unsigned int idoorID = (unsigned int)(std::uintptr_t)((::fnv_00692950::DoorS *)(reinterpret_cast<::S006950d0 *>((((DoorArr*)((char*)this + 0x58))))->GetElement(i)))->DoorRef;
                     ::ResolveFormID((unsigned int *)&(idoorID), (::TESFile*)apFile);
                     TESObjectREFR* pdoor = (TESObjectREFR*)::FUN_004839c0(idoorID);
                     if (pdoor)
                     {
-                        ((::fnv_00692950::DoorS *)(reinterpret_cast<::S006950d0 *>((((DoorArr*)((char*)this + 0x58))))->GetElement(i)))->DoorRef = (unsigned int)pdoor;
+                        ((::fnv_00692950::DoorS *)(reinterpret_cast<::S006950d0 *>((((DoorArr*)((char*)this + 0x58))))->GetElement(i)))->DoorRef = pdoor;
                     }
                     else
                     {
@@ -1133,7 +1133,7 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
                     {
                         ::__memcpy(&oldFormat, pchunkPointer, 0x30);
                         if (oldFormat.m_uiDoorFormID)
-                            reinterpret_cast<::FUN_00438690 *>((((NavMeshPortalIndexArray*)&oldDoorPortalIndices)))->FUN_007cb2e0((unsigned int *)&(const ::NavMesh *const &)((NavMesh*)i));
+                            reinterpret_cast<::FUN_00438690 *>((((NavMeshPortalIndexArray*)&oldDoorPortalIndices)))->FUN_007cb2e0((unsigned int *)&(const ::NavMesh *const &)((NavMesh*)(std::uintptr_t)i));
                         char newFormat[48];
                         char* pbufferLoc = newFormat;
                         *(NavMeshInfo**)pbufferLoc = oldFormat.m_pNavMeshInfo;
@@ -1444,7 +1444,7 @@ void S5460::FUN_006949d0(unsigned int uiNewSize, bool bShrinkCapacity)
             m_pRayCursor = uiNewSize;
         }
 
-        reinterpret_cast<::FUN_00644490_Class *>((reinterpret_cast<Arr16*>(this)))->FUN_00644490((char *)(reinterpret_cast<int>(m_data + m_uiItemCount * 16)),
+        reinterpret_cast<::FUN_00644490_Class *>((reinterpret_cast<Arr16*>(this)))->FUN_00644490((char *)(m_data + m_uiItemCount * 16),
                                                      uiNewSize - m_uiItemCount);
         m_uiItemCount = uiNewSize;
     }
@@ -1461,7 +1461,7 @@ void S5460::FUN_006949d0(unsigned int uiNewSize, bool bShrinkCapacity)
     }
     else
     {
-        reinterpret_cast<::FUN_00644490_Class *>((reinterpret_cast<Arr16*>(this)))->FUN_00644490((char *)(reinterpret_cast<int>(m_data + m_uiItemCount * 16)),
+        reinterpret_cast<::FUN_00644490_Class *>((reinterpret_cast<Arr16*>(this)))->FUN_00644490((char *)(m_data + m_uiItemCount * 16),
                                                      uiNewSize - m_uiItemCount);
         m_uiItemCount = uiNewSize;
     }
@@ -1515,7 +1515,7 @@ void FUN_0072ba80_shell::FUN_006950f0(unsigned int size, bool clear)
         }
 
         reinterpret_cast<::FUN_006927d0_cls *>((this))->ConstructPairCells(
-            (::PairCell *)(reinterpret_cast<int>(reinterpret_cast<char*>(this->m_data) + this->m_uiItemCount * 8)),
+            (::PairCell *)(reinterpret_cast<char*>(this->m_data) + this->m_uiItemCount * 8),
             size - this->m_uiItemCount);
         this->m_uiItemCount = size;
         return;
@@ -1536,7 +1536,7 @@ void FUN_0072ba80_shell::FUN_006950f0(unsigned int size, bool clear)
     }
 
     reinterpret_cast<::FUN_006927d0_cls *>((this))->ConstructPairCells(
-        (::PairCell *)(reinterpret_cast<int>(reinterpret_cast<char*>(this->m_data) + this->m_uiItemCount * 8)),
+        (::PairCell *)(reinterpret_cast<char*>(this->m_data) + this->m_uiItemCount * 8),
         size - this->m_uiItemCount);
     this->m_uiItemCount = size;
 }

@@ -122,6 +122,14 @@ bool PathingLocation::FindNavMeshTriangle(NavMeshPtr& navMesh, unsigned short& t
         return false;
 }
 
+struct NavMeshInfoArrayView
+{
+    void* pVtbl;
+    const NavMeshInfo** pBuffer;
+    unsigned int uiSize;
+    unsigned int uiCapacity;
+};
+
 // @fnv 0x006dd540
 const NavMeshInfo* PathingLocationProxy::GetAssociatedNavMesh()
 {
@@ -130,7 +138,7 @@ const NavMeshInfo* PathingLocationProxy::GetAssociatedNavMesh()
     else if (!pNavMeshInfoArray)
         return 0;
     else if (((bool)(::IsPathingLocationFlagSet((::PathingLocation *)this))))
-        return (const NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(0)));
+        return (const NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[0];
     else
         return 0;
 }
@@ -420,7 +428,7 @@ void FUN_006def40_shell::FUN_006def40(BGSSaveFormBuffer* buffer)
     bool bhadNavMeshesArray;
 
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(data, 12, 0);
-    reinterpret_cast<::FUN_00865db0_shell *>((buffer))->FUN_00865db0(reinterpret_cast<unsigned int>(m_pLocationNavMesh ? ((::fnv_006def40::TESObjectREFR *)(::FUN_00559450((int *)(m_pLocationNavMesh)))) : 0), 0);
+    reinterpret_cast<::FUN_00865db0_shell *>((buffer))->FUN_00865db0(reinterpret_cast<std::uintptr_t>(m_pLocationNavMesh ? ((::fnv_006def40::TESObjectREFR *)(::FUN_00559450((int *)(m_pLocationNavMesh)))) : 0), 0);
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pCell), 0);
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(m_pContainingWorldspace), 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&data[0x1c], 4, 0);
@@ -482,7 +490,7 @@ FUN_006dd0d0::FUN_006dd0d0(const NiPoint3* aLocation, PathingLocation* aHintLoc)
         }
     }
     reinterpret_cast<::SetupPathingLocation *>((((SetupData_t*)this)))->FUN_006dd280((*(const ::NiPoint3 *)((void*)aLocation)), aHintLoc->GetContainingCell(),
-                          (TESWorldSpace*)((BGSTerrainManager*)aHintLoc)->GetMinLevel());
+                          (TESWorldSpace*)(std::uintptr_t)((BGSTerrainManager*)aHintLoc)->GetMinLevel());
 }
 // @fnv 0x006dd460
 void FUN_006dd460::FUN_006dd460_1(const NiPoint3& pos)
@@ -977,7 +985,7 @@ bool PathingLocation::HasPathingLocation()
                 NavMeshInfo* info;
             } meshEntry;
             meshEntry.info = (NavMeshInfo*)((NiFormArray*)&meshes)->FUN_00877a30(i);
-            meshEntry.bounds = (NavMeshBounds*)((LowProcess*)meshEntry.info)->GetPackageObjectType();
+            meshEntry.bounds = (NavMeshBounds*)(std::uintptr_t)((LowProcess*)meshEntry.info)->GetPackageObjectType();
             if (meshEntry.bounds)
             {
                 if (reinterpret_cast<::MeshBounds *>((meshEntry.bounds))->ContainsPoint((const ::MeshPoint *)&(Location)))
@@ -1190,7 +1198,7 @@ bool PathingLocationProxy::FindContainingTriangle(FindTriangleForLocationFilter*
         for (unsigned int i = 0; i < ((BSSimpleArray<SandboxProcedureData, 1024>*)pNavMeshInfoArray)->GetSize(); ++i)
         {
             NavMeshPtr mesh;
-            if (((NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(i))))
+            if (((NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[i])
                     ->ResolveNavMesh(mesh) &&
                 !((NiPointer<NiNode>*)&mesh)->operator->()->GetDisabled())
             {
@@ -1199,7 +1207,7 @@ bool PathingLocationProxy::FindContainingTriangle(FindTriangleForLocationFilter*
                 if (triangle != 0xffff)
                 {
                     m_pLocationNavMesh =
-                        (NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(i)));
+                        (NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[i];
                     pNavMeshInfoArray = 0;
                     m_usTriangleID = triangle;
                     reinterpret_cast<::FUN_006dcfe0_shell *>(this)->FUN_006dcfe0(true);
@@ -1221,14 +1229,14 @@ bool PathingLocationProxy::FindContainingTriangle(FindTriangleForLocationFilter*
     {
         for (unsigned int i = 0; i < ((BSSimpleArray<SandboxProcedureData, 1024>*)pNavMeshInfoArray)->GetSize(); ++i)
         {
-            const NavMeshInfo* info = (NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(i)));
+            const NavMeshInfo* info = (NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[i];
             if (!::FUN_0068f320((const ::NavMeshInfo *)(info)))
             {
-                NavMeshBounds* bounds = (NavMeshBounds*)((LowProcess*)info)->GetPackageObjectType();
+                NavMeshBounds* bounds = (NavMeshBounds*)(std::uintptr_t)((LowProcess*)info)->GetPackageObjectType();
                 if (bounds && reinterpret_cast<::MeshBounds *>((bounds))->ContainsPoint((const ::MeshPoint *)&(Location)))
                 {
                     m_pLocationNavMesh =
-                        (NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(i)));
+                        (NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[i];
                     pNavMeshInfoArray = 0;
                     NavMeshPtr mesh;
                     if (const_cast<NavMeshInfo*>(m_pLocationNavMesh)->ResolveNavMesh(mesh))
@@ -1249,10 +1257,10 @@ bool PathingLocationProxy::FindContainingTriangle(FindTriangleForLocationFilter*
         nearest.closestIndex = -1;
         for (unsigned int i = 0; i < ((BSSimpleArray<SandboxProcedureData, 1024>*)pNavMeshInfoArray)->GetSize(); ++i)
         {
-            const NavMeshInfo* info = (NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(i)));
+            const NavMeshInfo* info = (NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[i];
             if (!::FUN_0068f320((const ::NavMeshInfo *)(info)))
             {
-                NavMeshBounds* bounds = (NavMeshBounds*)((LowProcess*)info)->GetPackageObjectType();
+                NavMeshBounds* bounds = (NavMeshBounds*)(std::uintptr_t)((LowProcess*)info)->GetPackageObjectType();
                 if (bounds)
                 {
                     NiPoint3 delta = bounds->FUN_0069c070(Location);
@@ -1270,7 +1278,7 @@ bool PathingLocationProxy::FindContainingTriangle(FindTriangleForLocationFilter*
         if (nearest.minimumDistance < ::DAT_0106cd60)
         {
             m_pLocationNavMesh =
-                (NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(nearest.closestIndex)));
+                (NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[nearest.closestIndex];
             pNavMeshInfoArray = 0;
             m_usTriangleID = kClearTriangleDataValue1;
             reinterpret_cast<::FUN_006dcfe0_shell *>(this)->FUN_006dcfe0(true);
@@ -1279,7 +1287,7 @@ bool PathingLocationProxy::FindContainingTriangle(FindTriangleForLocationFilter*
         else
         {
             m_pLocationNavMesh =
-                (NavMeshInfo*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)))->FUN_006a7ad0(nearest.noBoundsIndex)));
+                (NavMeshInfo*)reinterpret_cast<const NavMeshInfoArrayView*>(pNavMeshInfoArray)->pBuffer[nearest.noBoundsIndex];
             pNavMeshInfoArray = 0;
             reinterpret_cast<::FUN_006dcfe0_shell *>(this)->FUN_006dcfe0(reinterpret_cast<::FUN_006de490_cls *>(this)->HasAllNodes());
             return ((bool)(::IsPathingLocationFlagSet((::PathingLocation *)this)));

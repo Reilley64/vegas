@@ -2526,25 +2526,25 @@ struct FUN_006eb250_VirtualObject
 {
     virtual void vf0();
     virtual void vf1();
-    virtual bool vf2(int value, int* result);
+    virtual bool vf2(int value, void** result);
 };
 
 struct FUN_006ea780_Obj
 {
-    unsigned int RequestLocationStatus(std::intptr_t a1, int a2, std::intptr_t a3, int a4);
+    unsigned int RequestLocationStatus(std::intptr_t a1, std::intptr_t a2, std::intptr_t a3, int a4);
 };
 
 struct FUN_006eb250_Class
 {
-    unsigned int CallVirtualObjectMethod(int arg1, int arg2, int arg3, int arg4, bool arg5);
+    unsigned int CallVirtualObjectMethod(int arg1, std::intptr_t arg2, std::intptr_t arg3, std::intptr_t arg4, bool arg5);
 };
 
 // Calls vf2 on the object at this+0x1480; if it succeeds, forwards arg2-arg5 to RequestLocationStatus on the returned object, otherwise returns 2.
 // @fnv 0x006eb250
-unsigned int FUN_006eb250_Class::CallVirtualObjectMethod(int aiValue, int arg2, int arg3, int arg4,
+unsigned int FUN_006eb250_Class::CallVirtualObjectMethod(int aiValue, std::intptr_t arg2, std::intptr_t arg3, std::intptr_t arg4,
                                                                     bool arg5)
 {
-    int resultObject = 0;
+    void* resultObject = 0;
 
     if (reinterpret_cast<FUN_006eb250_VirtualObject*>(reinterpret_cast<char*>(this) + 0x1480)
             ->vf2(aiValue, &resultObject))
@@ -3887,7 +3887,7 @@ class EB2B0Owner
     int unk147C;
     EB2B0Map m_kFormatEntries;
 
-    int ProcessKeyedItem(unsigned int uiKey, std::intptr_t a, std::intptr_t b, int c);
+    int ProcessKeyedItem(unsigned int uiKey, std::intptr_t a, std::intptr_t b, std::intptr_t c);
 };
 
 extern const char g_acB6EB310Name[];
@@ -5648,11 +5648,11 @@ struct Host17
     Spin17 spin;
     Arr40_17 arr40;
     Arr50_17 arr50;
-    int FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, int a3);
+    int FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, std::intptr_t a3);
 };
 // Looks up the item for uiKey in the map and forwards a, b, c to its Process; returns 2 if the key is not found.
 // @fnv 0x006eb2b0
-int EB2B0Owner::ProcessKeyedItem(unsigned int uiKey, std::intptr_t aiArg1, std::intptr_t aiArg2, int aiArg3)
+int EB2B0Owner::ProcessKeyedItem(unsigned int uiKey, std::intptr_t aiArg1, std::intptr_t aiArg2, std::intptr_t aiArg3)
 {
     EB2B0Item* pkItem = 0;
     if (m_kFormatEntries.GetAt(uiKey, pkItem))
@@ -5663,7 +5663,7 @@ int EB2B0Owner::ProcessKeyedItem(unsigned int uiKey, std::intptr_t aiArg1, std::
 
 // Locks the spin, scans arr50 for a type 2 entry whose loc8/loc30 match a1/a2 within 0.1, acts on its code4, or appends new Big17/Small17 entries and notifies.
 // @fnv 0x006ea510
-int Host17::FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, int iActivateArg)
+int Host17::FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, std::intptr_t iActivateArg)
 {
     int result = 0;
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(spin))->FUN_0040fbf0(0);
@@ -5753,7 +5753,7 @@ struct RequestManager
 };
 // Locks the manager, searches statuses for a matching type and location, updates or creates the request/status entries, unlocks, and returns the status.
 // @fnv 0x006ea780
-unsigned int FUN_006ea780_Obj::RequestLocationStatus(std::intptr_t pShape, int iLocation, std::intptr_t a3, int bTypeFlag)
+unsigned int FUN_006ea780_Obj::RequestLocationStatus(std::intptr_t pShape, std::intptr_t iLocation, std::intptr_t a3, int bTypeFlag)
 {
     unsigned int status = 0;
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(((RequestManager*)this)->lock))->FUN_0040fbf0((char *)(0));

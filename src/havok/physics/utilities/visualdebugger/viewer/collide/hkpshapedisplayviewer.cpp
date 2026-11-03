@@ -33,6 +33,13 @@
 struct FUN_00d65970_stub
 {
 };
+struct S_00d65970_Arg;
+struct S_00d65f70_Source
+{
+    char unk00[0x6c];
+    S_00d65970_Arg** m_items;
+    int m_itemCount;
+};
 struct FUN_00d65f70_class
 {
     int m_00;
@@ -42,7 +49,7 @@ struct FUN_00d65f70_class
     int m_10;
     int m_14;
     int m_18;
-    int m_1c;
+    S_00d65f70_Source* m_1c;
     void FUN_00d65f70();
 };
 struct S_00c6d840_Pair
@@ -66,7 +73,7 @@ struct S_00c6d840
     int unk04;
     int unk08;
     int unk0C;
-    int unk10;
+    void* unk10;
     int unk14;
     int unk18;
     int unk1C;
@@ -180,22 +187,6 @@ int FUN_00d655e0_class::FindItemIndex(int key)
     return -1;
 }
 
-struct FUN_00d657d0_class
-{
-    FUN_00d657d0_class* FUN_00d657d0(int);
-};
-// Allocates a 0x74-byte object from the audio allocator, initializes it with context, and returns a pointer 8 bytes into it, or null on failure.
-// @fnv 0x00d65910
-void* __cdecl FUN_00d65910(void* context)
-{
-    hkMemoryRouter* audio = &hkMemoryRouter::getInstance();
-    FUN_00d657d0_class* result = (FUN_00d657d0_class*)audio->m_heap->blockAlloc(0x74);
-    *(unsigned short*)((char*)result + 4) = 0x74;
-    result = result->FUN_00d657d0((int)context);
-    if (result)
-        return (char*)result + 8;
-    return 0;
-}
 
 struct FUN_00dd9380_class
 {
@@ -639,7 +630,8 @@ extern int DAT_01268fe4;
 struct FUN_00d657d0_cls
 {
     void* m_vptr00;
-    int unk04;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
     void* m_vptr08;
     int unk0c;
     int unk10;
@@ -691,27 +683,21 @@ FUN_00d657d0_cls* FUN_00d657d0_cls::FUN_00d657d0(ShapeList* apShapes)
     pShapeSub1->m_04 = 0;
     pShapeSub1->m_08 = -1;
     {
-        void* h1 = &hkMemoryRouter::getInstance();
-        int val1 = ((int*)h1)[4];
-        reinterpret_cast<::FUN_00cb1fe0_t *>((pShapeSub1))->EnsureCapacity(val1, 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>((pShapeSub1))->EnsureCapacity(reinterpret_cast<intptr_t>(hkMemoryRouter::getInstance().m_heap), 0);
     }
     ShapeSub* pShapeSub2 = &m_48;
     pShapeSub2->m_00 = 0;
     pShapeSub2->m_04 = 0;
     pShapeSub2->m_08 = -1;
     {
-        void* h2 = &hkMemoryRouter::getInstance();
-        int val2 = ((int*)h2)[4];
-        reinterpret_cast<::FUN_00cb1fe0_t *>((pShapeSub2))->EnsureCapacity(val2, 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>((pShapeSub2))->EnsureCapacity(reinterpret_cast<intptr_t>(hkMemoryRouter::getInstance().m_heap), 0);
     }
     ShapeSub* pShapeSub3 = &m_54;
     pShapeSub3->m_00 = 0;
     pShapeSub3->m_04 = 0;
     pShapeSub3->m_08 = -1;
     {
-        void* h3 = &hkMemoryRouter::getInstance();
-        int val3 = ((int*)h3)[4];
-        reinterpret_cast<::FUN_00cb1fe0_t *>((pShapeSub3))->EnsureCapacity(val3, 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>((pShapeSub3))->EnsureCapacity(reinterpret_cast<intptr_t>(hkMemoryRouter::getInstance().m_heap), 0);
     }
 
     FUN_00d657d0_cls* __restrict self = this;
@@ -739,6 +725,19 @@ found: {
     m_60 = ((o != 0) ? o - 8 : (char*)0)[0x58];
 }
     return this;
+}
+
+// Allocates a 0x74-byte object from the heap allocator, initializes it with context, and returns its process part (m_vptr08), or null on failure.
+// @fnv 0x00d65910
+void* __cdecl FUN_00d65910(void* context)
+{
+    hkMemoryRouter* audio = &hkMemoryRouter::getInstance();
+    FUN_00d657d0_cls* result = (FUN_00d657d0_cls*)audio->m_heap->blockAlloc(0x74);
+    result->m_memSizeAndFlags = 0x74;
+    result = result->FUN_00d657d0((ShapeList*)context);
+    if (result)
+        return &result->m_vptr08;
+    return 0;
 }
 
 
@@ -1188,7 +1187,7 @@ struct S8
     unsigned __int64 value;
     void* getPtr() const
     {
-        return (void*)(unsigned int)value;
+        return (void*)(uintptr_t)value;
     }
 };
 
@@ -1316,6 +1315,7 @@ struct Group
     ItemList m_kNode;
 };
 
+struct XfResult;
 struct Node
 {
     int unk00;
@@ -1421,7 +1421,7 @@ struct Listener
     virtual void v2();
     virtual void v3();
     virtual void v4();
-    virtual void FUN_v5(void* a, void* b, int c);
+    virtual void FUN_v5(void* a, int tag, int c);
 };
 
 
@@ -1451,8 +1451,8 @@ void Shell::FUN_00d65750(int index)
     Entry* entry = m_pTable[index];
     for (int i = 0; i < entry->m_aiIndexedValues.m_iArrayLength; i++)
     {
-        int nItem = (int)entry->m_aiIndexedValues.m_pData[i];
-        m_pListener->FUN_v5(entry->m_aiIndexedValues.m_pData[i], (*reinterpret_cast<void * *>(&::DAT_01268fe0)), *(int*)nItem);
+        void* item = entry->m_aiIndexedValues.m_pData[i];
+        m_pListener->FUN_v5(item, ::DAT_01268fe0, *(int*)item);
     }
     ArrayStruct* arr = &entry->m_aiIndexedValues;
     hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
@@ -1746,8 +1746,8 @@ void FUN_00d65f70_class::FUN_00d65f70()
 {
     if (m_1c)
     {
-        for (int i = 0; i < *(int*)(m_1c + 0x70); ++i)
-            reinterpret_cast<::S_00d65970_Obj *>((((FUN_00d65970_stub*)((char*)this - 8))))->FUN_00d65970((::S_00d65970_Arg *)(*(*(int**)(m_1c + 0x6c) + i)));
+        for (int i = 0; i < m_1c->m_itemCount; ++i)
+            reinterpret_cast<::S_00d65970_Obj *>((((FUN_00d65970_stub*)((char*)this - 8))))->FUN_00d65970(m_1c->m_items[i]);
     }
 }
 // @fnv 0x00d65fb0
@@ -1828,7 +1828,7 @@ struct S65_Pair
     }
     void* pointer() const
     {
-        return (void*)(unsigned long)bits;
+        return (void*)(uintptr_t)bits;
     }
 };
 struct S65_Param : S_00c6d840
@@ -1889,7 +1889,7 @@ struct S65_Map
     int s00;
     int s04;
     int s08;
-    __forceinline void insert(void* key, int val)
+    __forceinline void insert(void* key, uintptr_t val)
     {
         reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&s65Router().heap())), reinterpret_cast<uintptr_t>(key), val);
     }
@@ -1984,7 +1984,7 @@ struct S65_Err
 };
 struct S65_IntArr
 {
-    int* data;
+    void** data;
     int count;
     int cap;
 };
@@ -2077,7 +2077,7 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
     S65_Item* item = m_items[idx];
     void* key = ret;
     if (!key)
-        key = (void*)param->unk10;
+        key = param->unk10;
     if (!key)
         return;
     bool isNew = false;
@@ -2153,10 +2153,10 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
     S65_IntArr* arr = &item->arr;
     hkMemoryRouter* heap = &hkMemoryRouter::getInstance();
     if (arr->count == (arr->cap & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(heap->m_heap), (::AudioStream *)(arr), 4);
-    int* slot = arr->data + arr->count;
+        ::ResizeAudioStream((::AudioAllocator *)(heap->m_heap), (::AudioStream *)(arr), sizeof(void*));
+    void** slot = arr->data + arr->count;
     __assume(slot != 0);
-    new (slot) int((int)nv);
+    *slot = nv;
     arr->count++;
     if (!existing)
     {
@@ -2165,7 +2165,7 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
             host->v04(&vec, &param->transform, nv, DAT_01268fe0, key);
             if (b39)
             {
-                sub14.insert(key, (int)nv);
+                sub14.insert(key, reinterpret_cast<uintptr_t>(nv));
                 sub20.insert(key, 1);
             }
             int val = param->integerProperty(0x1130);

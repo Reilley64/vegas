@@ -15,7 +15,6 @@
 #include "fnv/decl/FUN_00cc00e0.h"
 #include "fnv/decl/FUN_00cf6da0_cls.h"
 #include "fnv/decl/HostWorld_00c951b0.h"
-#include "fnv/decl/MapperX.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/ShapeData.h"
 #include "fnv/decl/SinkOwner.h"
@@ -40,6 +39,25 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+#include "fnv/decl/C97E80World.h"
+#include "fnv/decl/Cls_c7f4e0.h"
+#include "fnv/decl/FUN_00d86220_Class.h"
+#include "fnv/symbols_00ce0000.h"
+#include "fnv/symbols_00ce2000.h"
+#include "fnv/symbols_00ce4000.h"
+#include "fnv/symbols_00ce5000.h"
+#include "fnv/symbols_00cf0000.h"
+#include "fnv/symbols_00cf7000.h"
+#include "fnv/symbols_00cfb000.h"
+#include "fnv/symbols_00cfc000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/decl/Quat74.h"
 
 extern int DAT_010cc164;
 void __cdecl FUN_00d86220();
@@ -279,12 +297,6 @@ void __cdecl FUN_00ce2cf0(int pObject, int param_2, int param_3)
 }
 
 
-// Calls FUN_00ce3090 with a1, a2, a3, two zero arguments, and a4.
-// @fnv 0x00ce4330
-void __cdecl FUN_00ce4330(int a1, int a2, int a3, int a4)
-{
-    reinterpret_cast<::MapperX *>((a1))->FUN_00ce3090((const ::PoseX *)(a2), (::PoseX *)(a3), (const short *)(0), (const short *)(0), a4);
-}
 
 namespace fnv_00ce5370 {
 extern "C" void _ReadWriteBarrier(void);
@@ -307,7 +319,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct AudioObjectRef
 {
@@ -334,7 +345,7 @@ struct FUN_00ce5370_cls
 // @fnv 0x00ce5370
 void FUN_00ce5370_cls::FUN_00ce5370()
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapA = m_uCapA;
     m_iCountA = 0;
@@ -345,7 +356,7 @@ void FUN_00ce5370_cls::FUN_00ce5370()
     m_pDataA = 0;
     m_uCapA = 0x80000000u;
 
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     unsigned int uCapB = m_uCapB;
     m_iCountB = 0;
@@ -356,7 +367,7 @@ void FUN_00ce5370_cls::FUN_00ce5370()
     m_pDataB = 0;
     m_uCapB = 0x80000000u;
 
-    AudioHolder* pHolder3 = FUN_00c85750();
+    AudioHolder* pHolder3 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator3 = pHolder3->m_pAllocator;
     unsigned int uCapC = m_uCapC;
     m_iCountC = 0;
@@ -755,7 +766,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct SubObject_b3813
 {
@@ -783,7 +793,7 @@ FUN_00cf4eb0_cls* FUN_00cf4eb0_cls::Destroy(unsigned char acFlags)
     m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -970,7 +980,6 @@ struct AllocHolder
     SpawnedAllocator* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750();
 
 struct SpawnedObject
 {
@@ -986,15 +995,15 @@ struct SpawnedObject
 // @fnv 0x00cf6b10
 void __cdecl FUN_00cf6b10()
 {
-    AllocHolder* pAllocHolder = FUN_00c85750();
+    AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedAllocator* alloc = pAllocHolder->m_pAllocator;
     SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x18);
     if (obj != 0)
     {
-        (*reinterpret_cast<void * *>(&::DAT_01268794)) = ((void *)(reinterpret_cast<::FUN_00cf6da0_cls *>((obj))->FUN_00cf6da0(0x3e8)));
+        ::DAT_01268794 = (::_RTL_CRITICAL_SECTION *)(reinterpret_cast<::FUN_00cf6da0_cls *>((obj))->FUN_00cf6da0(0x3e8));
         return;
     }
-    (*reinterpret_cast<void * *>(&::DAT_01268794)) = 0;
+    ::DAT_01268794 = 0;
 }
 }  // namespace fnv_00cf6b10
 
@@ -1664,7 +1673,7 @@ void hkObjCF46::SaveToArchive(hkArchiveCF46* ar)
 
 struct hkCriticalSectionCF6B
 {
-    int m_kCriticalSection;
+    CRITICAL_SECTION m_kCriticalSection;
 };
 
 struct hkCriticalSectionLockCF6B
@@ -1713,7 +1722,7 @@ void hkMultiThreadCheckCF6B::MarkForRead()
 
 struct hkCriticalSectionCF61
 {
-    int m_kCriticalSection;
+    CRITICAL_SECTION m_kCriticalSection;
 };
 
 struct hkCriticalSectionLockCF61
@@ -1759,7 +1768,7 @@ bool hkMultiThreadCheckCF61::IsCurrentThreadOwner()
 
 struct hkCriticalSectionCF6C
 {
-    int m_kCriticalSection;
+    CRITICAL_SECTION m_kCriticalSection;
 };
 
 struct hkCriticalSectionLockCF6C
@@ -1806,7 +1815,7 @@ void hkMultiThreadCheckCF6C::FUN_00cf6c60()
 
 struct hkCriticalSectionCF6D
 {
-    int m_kCriticalSection;
+    CRITICAL_SECTION m_kCriticalSection;
 };
 
 struct hkCriticalSectionLockCF6D
@@ -2330,7 +2339,7 @@ void SerializableCF42::FUN_00cf4260(NiStreamCF42& kStream)
 
 // bhkVelocityConstraintMotor ctor (hkpVelocityConstraintMotor chain):
 // vptr(0), memSizeAndFlags(4), referenceCount(6), motor type(8), min/max force, tau, damping, velocity-clamp bool.
-const void* DAT_010cc0ec[];
+extern const void* DAT_010cc0ec[];
 
 extern "C" void _ReadWriteBarrier();
 
@@ -2716,7 +2725,6 @@ class FUN_00cf7060
 FUN_00cf7060::~FUN_00cf7060()
 {}
 
-#include <xmmintrin.h>
 
 struct __declspec(align(16)) CE5430Vector4
 {
@@ -3474,7 +3482,7 @@ bool __cdecl IsAddressInBlock(const BlockList_cfd* list, unsigned addr)
 
 inline AudioAllocator& heap_cfde()
 {
-    return *FUN_00c85750()->m_pAllocator;
+    return *static_cast<AudioHolder*>(::FUN_00c85750())->m_pAllocator;
 }
 
 struct BlockArr_cfde
@@ -3509,7 +3517,7 @@ struct BlockArr_cfde
             int newCap = c + 1;
             if (newCap < 1)
             {
-                AudioHolder* h = FUN_00c85750();
+                AudioHolder* h = static_cast<AudioHolder*>(::FUN_00c85750());
                 ::fnv_00c909d0::FUN_00c909d0((*(::fnv_00c909d0::hkMemoryAllocator *)(h->m_pAllocator)), this, sizeof(char*), m_kStorage, 1);
             }
             else if (newCap < getCapacity())
@@ -3536,7 +3544,7 @@ static __declspec(noinline) void FUN_00cfdeb0(BlockStack_cfde* s)
     {
         char* block = s->m_kBlocks.back();
         s->m_kBlocks.popBack();
-        AudioHolder* h = FUN_00c85750();
+        AudioHolder* h = static_cast<AudioHolder*>(::FUN_00c85750());
         h->m_pAllocator->Free(block, 0x200);
         s->m_uiBufferCapacity = 0x200;
     }
@@ -3782,7 +3790,6 @@ void SelectionMapper::MapSelection(const Selection& sel, hkArrayX<hkInt16>& sour
         targetMap[output[i]] = i;
 }
 
-#include <xmmintrin.h>
 namespace fnv_00ce0ca0 {
 
 
@@ -3838,8 +3845,6 @@ void FUN_00ce0ca0_Quaternion::FUN_00ce0ca0(const FUN_00ce0ca0_Quaternion& rhs)
 }
 }  // namespace fnv_00ce0ca0
 
-#include <xmmintrin.h>
-#include "fnv/symbols_simd.h"
 namespace fnv_00cf4fb0 {
 extern const __m128 DAT_010c71d0;
 
@@ -3908,52 +3913,6 @@ void ShapeCollection::FUN_00cf4fb0(Bounds* bounds)
 }  // namespace fnv_00cf4fb0
 
 namespace fnv_00cf6d60 {
-#include <windows.h>
-#include "fnv/decl/C97E80World.h"
-#include "fnv/decl/Cls_c7f4e0.h"
-#include "fnv/decl/FUN_00d86220_Class.h"
-#include "fnv/decl/fnv_00ce5370__FUN_00ce5370_cls.h"
-#include "fnv/symbols_00ce0000.h"
-#include "fnv/symbols_00ce2000.h"
-#include "fnv/symbols_00ce4000.h"
-#include "fnv/symbols_00ce5000.h"
-#include "fnv/symbols_00cf0000.h"
-#include "fnv/symbols_00cf7000.h"
-#include "fnv/symbols_00cfb000.h"
-#include "fnv/symbols_00cfc000.h"
-#include "fnv/symbols_01011000.h"
-#include "fnv/symbols_01016000.h"
-#include "fnv/decl/Cls_c7f4e0.h"
-#include "fnv/decl/FUN_00d86220_Class.h"
-#include "fnv/decl/MapperInitialization.h"
-#include "fnv/decl/RotationRows.h"
-#include "fnv/decl/fnv_00ce5370__FUN_00ce5370_cls.h"
-#include "fnv/symbols_00c85000.h"
-#include "fnv/symbols_00ce0000.h"
-#include "fnv/symbols_00ce2000.h"
-#include "fnv/symbols_00ce4000.h"
-#include "fnv/symbols_00ce5000.h"
-#include "fnv/symbols_00cf0000.h"
-#include "fnv/symbols_00cf7000.h"
-#include "fnv/symbols_00cfb000.h"
-#include "fnv/symbols_00cfc000.h"
-#include "fnv/symbols_01032000.h"
-#include "fnv/decl/Cls_c7f4e0.h"
-#include "fnv/decl/FUN_00d86220_Class.h"
-#include "fnv/decl/MapperInitialization.h"
-#include "fnv/decl/Quat74.h"
-#include "fnv/decl/RotationRows.h"
-#include "fnv/decl/fnv_00ce5370__FUN_00ce5370_cls.h"
-#include "fnv/symbols_00ce0000.h"
-#include "fnv/symbols_00ce2000.h"
-#include "fnv/symbols_00ce4000.h"
-#include "fnv/symbols_00ce5000.h"
-#include "fnv/symbols_00cf0000.h"
-#include "fnv/symbols_00cf7000.h"
-#include "fnv/symbols_00cfb000.h"
-#include "fnv/symbols_00cfc000.h"
-#include "fnv/symbols_01011000.h"
-#include "fnv/symbols_01032000.h"
 
 struct AudioAllocator
 {
@@ -3971,19 +3930,18 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 // Deletes the global critical section and frees its memory through the audio holder's allocator.
 // @fnv 0x00cf6d60
 void FUN_00cf6d60()
 {
-    if ((*reinterpret_cast<::fnv_00cf6d60::_RTL_CRITICAL_SECTION * *>(&::DAT_01268794)) != 0)
+    if (::DAT_01268794 != 0)
     {
-        CRITICAL_SECTION* p = (*reinterpret_cast<::fnv_00cf6d60::_RTL_CRITICAL_SECTION * *>(&::DAT_01268794));
-        DeleteCriticalSection((*reinterpret_cast<::fnv_00cf6d60::_RTL_CRITICAL_SECTION * *>(&::DAT_01268794)));
-        AudioHolder* pHolder = FUN_00c85750();
+        CRITICAL_SECTION* p = ::DAT_01268794;
+        DeleteCriticalSection(::DAT_01268794);
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         pHolder->m_pAllocator->Free(p, 0x18);
-        (*reinterpret_cast<::fnv_00cf6d60::_RTL_CRITICAL_SECTION * *>(&::DAT_01268794)) = 0;
+        ::DAT_01268794 = 0;
     }
 }
 }  // namespace fnv_00cf6d60
@@ -4070,7 +4028,7 @@ struct CECountArray
 void __cdecl FUN_00ce43e0(CEMap* map)
 {
     int count = map->b->count;
-    AudioHolder* scratch = FUN_00c85750();
+    AudioHolder* scratch = static_cast<AudioHolder*>(::FUN_00c85750());
     CECountArray counts;
     counts.m_data = reinterpret_cast<int*>(scratch->unk00);
     scratch->unk00 += (count * 4 + 127) & -128;
@@ -4190,8 +4148,8 @@ void __cdecl FUN_00ce43e0(CEMap* map)
             }
         }
     }
-    FUN_00c85750()->unk00 = reinterpret_cast<int>(data);
-    CEAllocator* allocator = reinterpret_cast<CEAllocator*>(FUN_00c85750()->m_pAllocator);
+    static_cast<AudioHolder*>(::FUN_00c85750())->unk00 = reinterpret_cast<int>(data);
+    CEAllocator* allocator = reinterpret_cast<CEAllocator*>(static_cast<AudioHolder*>(::FUN_00c85750())->m_pAllocator);
     if ((counts.m_iCapacityState & (int)0x80000000) == 0)
         allocator->free(data, (counts.m_iCapacityState & 0x3fffffff) * 4);
 }
@@ -4263,29 +4221,8 @@ void __cdecl FUN_00cf6950(int a, int apObject);
 
 // VEGAS17-CONFLICT: FUN_00ce5370_cls (variant definition below differs from the one above)
 // Sub-object at +0x10; FUN_00ce5370 is the game's constructor for it.
-struct FUN_00ce5370_cls
-{
-};
 
-// VEGAS17-CONFLICT: FnvProbe (variant definition below differs from the one above)
-struct FnvProbe
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-};
 
-// VEGAS17-CONFLICT: FnvSpawnedObject (variant definition below differs from the one above)
-struct FnvSpawnedObject
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    FnvProbe m_10;
-    FnvProbe m_20;
-};
 
 void __cdecl FUN_00ce2cf0(int pObject, int param_2, int param_3);
 
@@ -4325,10 +4262,6 @@ static int FUN_00cfdb50(Cfd50Range* a);
 
 void Cfd50Caller(void);
 
-// VEGAS17-CONFLICT: CE1700World (variant definition below differs from the one above)
-struct CE1700World
-{
-};
 
 static void LinkEdge(Edge_cfdb70* e);
 
@@ -4500,7 +4433,7 @@ void __cdecl FUN_00ce4e20(QsTransform* xforms, const float* volatile weights, un
         QsTransform* scaled = xforms;
         do
         {
-            ScalarValue inv(_mm_div_ss(_mm_load_ss(&one[0]), _mm_load_ss(input + i)));
+            ScalarValue inv(_mm_div_ss(_mm_load_ss((const float*)&one), _mm_load_ss(input + i)));
             scaled->m_vTranslation.apply(inv);
             scaled->m_vScale.apply(inv);
             ++i;
@@ -4715,11 +4648,10 @@ struct ResultByte
     {}
 };
 
-// VEGAS17-CONFLICT: ScalarValue (variant definition below differs from the one above)
-struct ScalarValue
+struct ScalarValueEB6
 {
     __m128 packed;
-    __forceinline ScalarValue(__m128 x) : packed(x)
+    __forceinline ScalarValueEB6(__m128 x) : packed(x)
     {}
     __forceinline operator float() const
     {
@@ -4729,33 +4661,33 @@ struct ScalarValue
     }
 };
 
-struct VectorValue
+struct VectorValueEB6
 {
     __m128 packed;
-    __forceinline void subtract(const VectorValue& a, const VectorValue& b)
+    __forceinline void subtract(const VectorValueEB6& a, const VectorValueEB6& b)
     {
         packed = _mm_sub_ps(a.packed, b.packed);
     }
-    __forceinline void cross(const VectorValue& a, const VectorValue& b)
+    __forceinline void cross(const VectorValueEB6& a, const VectorValueEB6& b)
     {
         packed =
             _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a.packed, a.packed, 201), _mm_shuffle_ps(b.packed, b.packed, 210)),
                        _mm_mul_ps(_mm_shuffle_ps(a.packed, a.packed, 210), _mm_shuffle_ps(b.packed, b.packed, 201)));
     }
-    __forceinline ScalarValue dot(const VectorValue& b) const
+    __forceinline ScalarValueEB6 dot(const VectorValueEB6& b) const
     {
         __m128 products = _mm_mul_ps(packed, b.packed);
         __m128 first = _mm_add_ss(_mm_shuffle_ps(products, products, 85), products);
-        return ScalarValue(_mm_add_ss(_mm_shuffle_ps(products, products, 170), first));
+        return ScalarValueEB6(_mm_add_ss(_mm_shuffle_ps(products, products, 170), first));
     }
 };
 
 // @fnv 0x00ceb6f0
-ResultByte FUN_00ceb6f0(float& outT, float& outU, float& outV, const VectorValue& position,
-                        const VectorValue& direction, const VectorValue& a, const VectorValue& b, const VectorValue& c,
+ResultByte FUN_00ceb6f0(float& outT, float& outU, float& outV, const VectorValueEB6& position,
+                        const VectorValueEB6& direction, const VectorValueEB6& a, const VectorValueEB6& b, const VectorValueEB6& c,
                         bool cull)
 {
-    VectorValue e1, e2, p;
+    VectorValueEB6 e1, e2, p;
     e1.subtract(b, a);
     e2.subtract(c, a);
     p.cross(direction, e2);
@@ -4771,12 +4703,12 @@ ResultByte FUN_00ceb6f0(float& outT, float& outU, float& outV, const VectorValue
             return false;
     }
     float inverse = 1.0f / determinant;
-    VectorValue offset;
+    VectorValueEB6 offset;
     offset.subtract(position, a);
     outU = offset.dot(p);
     if (outU < 0.0f || outU > determinant)
         return false;
-    VectorValue q;
+    VectorValueEB6 q;
     q.cross(offset, e1);
     outV = direction.dot(q);
     if (outV < 0.0f || outU + outV > determinant)
@@ -4788,109 +4720,15 @@ ResultByte FUN_00ceb6f0(float& outT, float& outU, float& outV, const VectorValue
     return true;
 }
 
-// VEGAS17-CONFLICT: DragBinaryStreamView (variant definition below differs from the one above)
-struct DragBinaryStreamView {
-    void* vtable;
-    unsigned int absolutePosition;
-    unsigned int unk08;
-    unsigned int (__cdecl* read)(DragBinaryStreamView* stream, void* buffer, unsigned int totalBytes, unsigned int* componentSizes, unsigned int componentCount);
 
-    template <class T> void Load(T* value)
-    {
-        unsigned int size = sizeof(T);
-        absolutePosition += read(this, value, sizeof(T), &size, 1);
-    }
-};
 
-// VEGAS17-CONFLICT: PacketSerializer (variant definition below differs from the one above)
-struct PacketSerializer {
-    int metadata, bytesWritten, reserved;
-    typedef int (__cdecl *Fn)(PacketSerializer*, const void*, int, int*, int);
-    Fn write;
-};
 
-// VEGAS17-CONFLICT: SerializedObject (variant definition below differs from the one above)
-struct SerializedObject { int base00,base04,base08,base0C,base10,word14,word18;void SerializeToStream(int source); };
 
-// VEGAS17-CONFLICT: CF4BC0BinaryStream (variant definition below differs from the one above)
-class CF4BC0BinaryStream {
-public:
-    void* m_ppVirtualMethodTable;
-    unsigned int m_uiStreamFlags;
-    unsigned int (__cdecl *m_pfnRead)(CF4BC0BinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
-    unsigned int (__cdecl *m_pfnWrite)(CF4BC0BinaryStream*, const void*, unsigned int, unsigned int*, unsigned int);
 
-    unsigned int BinaryWrite(const void* p, unsigned int n, unsigned int* sizes, unsigned int count)
-    {
-        unsigned int written = m_pfnWrite(this, p, n, sizes, count);
-        m_uiStreamFlags += written;
-        return written;
-    }
-};
 
-// VEGAS17-CONFLICT: BinaryStream (variant definition below differs from the one above)
-struct BinaryStream {
-    void* vtable;
-    unsigned int absolutePosition;
-    unsigned int (__cdecl *read)(BinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
 
-    template <typename T> void Load(T* dest) {
-        unsigned int byteCount = sizeof(T);
-        absolutePosition += read(this, dest, sizeof(T), &byteCount, 1);
-    }
-};
 
-// VEGAS17-CONFLICT: NiBinaryStreamCF42 (variant definition below differs from the one above)
-struct NiBinaryStreamCF42 {
-    void* m_pvVtbl;
-    unsigned int m_uiStreamFlags;
-    void* m_pfnWrite;
-    unsigned int (__cdecl* m_pfnRead)(NiBinaryStreamCF42* pkThis, void* pvBuffer, unsigned int uiTotalBytes,
-        unsigned int* puiComponentSizes, unsigned int uiNumComponents);
 
-    unsigned int BinaryRead(void* pvBuffer, unsigned int uiTotalBytes, unsigned int* puiComponentSizes,
-        unsigned int uiNumComponents)
-    {
-        unsigned int uiBytesRead = m_pfnRead(this, pvBuffer, uiTotalBytes, puiComponentSizes, uiNumComponents);
-        m_uiStreamFlags += uiBytesRead;
-        return uiBytesRead;
-    }
-};
-
-// VEGAS17-CONFLICT: NiBinaryStreamCF44 (variant definition below differs from the one above)
-struct NiBinaryStreamCF44 {
-    void* m_pvVtbl;
-    unsigned int m_uiStreamFlags;
-    unsigned int (__cdecl* m_pfnRead)(NiBinaryStreamCF44* pkThis, void* pvBuffer, unsigned int uiTotalBytes,
-        unsigned int* puiComponentSizes, unsigned int uiNumComponents);
-
-    unsigned int BinaryRead(void* pvBuffer, unsigned int uiTotalBytes, unsigned int* puiComponentSizes,
-        unsigned int uiNumComponents)
-    {
-        unsigned int uiBytesRead = m_pfnRead(this, pvBuffer, uiTotalBytes, puiComponentSizes, uiNumComponents);
-        m_uiStreamFlags += uiBytesRead;
-        return uiBytesRead;
-    }
-};
-
-// VEGAS17-CONFLICT: CF4BC0BinaryStreamIn (variant definition below differs from the one above)
-class CF4BC0BinaryStreamIn {
-public:
-    void* m_ppVirtualMethodTable;
-    unsigned int m_uiStreamFlags;
-    unsigned int (__cdecl* m_pfnRead)(CF4BC0BinaryStreamIn*, void*, unsigned int, unsigned int*, unsigned int);
-
-    template <class T> void Load(T* value)
-    {
-        unsigned int uiSize = sizeof(T);
-        m_uiStreamFlags += m_pfnRead(this, value, sizeof(T), &uiSize, 1);
-    }
-};
-
-__forceinline TagState GetTag(int tag) { TagState state={(*reinterpret_cast<int *>(&::currentAllocationContext)),tag}; return state; }
-
-// VEGAS17-CONFLICT: AllocScope (variant definition below differs from the one above)
-struct AllocScope { int saved; AllocScope(TagState t):saved(t.oldTag){(*reinterpret_cast<int *>(&::currentAllocationContext))=t.newTag;} ~AllocScope(){(*reinterpret_cast<int *>(&::currentAllocationContext))=saved;} };
 
 static void FUN_00ce2a50(FourFloatVector* a, FourFloatVector* b);
 
@@ -4900,28 +4738,6 @@ static void FUN_00cf8b60(TransformOwner* self, __m128* pQuat);
 
 void cf8b60_caller(void);
 
-// VEGAS17-CONFLICT: ScalarValue (variant definition below differs from the one above)
-struct ScalarValue {
-    __m128 packed;
-    __forceinline ScalarValue(__m128 x) : packed(x) {}
-    __forceinline operator float() const { float f; _mm_store_ss(&f,packed); return f; }
-};
-
-// VEGAS17-CONFLICT: VectorValue (variant definition below differs from the one above)
-struct VectorValue {
-    __m128 packed;
-    __forceinline void subtract(const VectorValue& a,const VectorValue& b) { packed=_mm_sub_ps(a.packed,b.packed); }
-    __forceinline void cross(const VectorValue& a,const VectorValue& b) {
-        packed=_mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a.packed,a.packed,201),_mm_shuffle_ps(b.packed,b.packed,210)),_mm_mul_ps(_mm_shuffle_ps(a.packed,a.packed,210),_mm_shuffle_ps(b.packed,b.packed,201)));
-    }
-    __forceinline ScalarValue dot(const VectorValue& b) const {
-        __m128 products=_mm_mul_ps(packed,b.packed);
-        __m128 first=_mm_add_ss(_mm_shuffle_ps(products,products,85),products);
-        return ScalarValue(_mm_add_ss(_mm_shuffle_ps(products,products,170),first));
-    }
-};
-
-ResultByte FUN_00ceb6f0(float& outT,float& outU,float& outV,const VectorValue& position,const VectorValue& direction,const VectorValue& a,const VectorValue& b,const VectorValue& c,bool cull);
 
 struct BoolX {
     char value;
@@ -5097,7 +4913,7 @@ template<class T> struct ArrayBaseX {
 
 template<class T> struct ArrayX : ArrayBaseX<T> {};
 
-template<class T> struct RefX {
+template<class T> struct RefPtrX {
     T* pointer;
     __forceinline T* operator->() const throw() { return pointer; }
 };
@@ -5118,7 +4934,7 @@ struct LinkX { short a,b,c,d; PoseX root,end; };
 
 struct MapperX {
     int unk00,unk04,unk08,unk0c;
-    RefX<const SkeletonX> first,second;
+    RefPtrX<const SkeletonX> first,second;
     ArrayX<RecordX> records;
     ArrayX<LinkX> links;
     ArrayX<short> unmapped;
@@ -5127,6 +4943,13 @@ struct MapperX {
     int property;
     void __cdecl FUN_00ce3090(const PoseX*, PoseX*, const short*, const short*, bool) const;
 };
+
+// Calls FUN_00ce3090 with a1, a2, a3, two zero arguments, and a4.
+// @fnv 0x00ce4330
+void __cdecl FUN_00ce4330(int a1, int a2, int a3, int a4)
+{
+    reinterpret_cast<::MapperX *>((a1))->FUN_00ce3090((const ::PoseX *)(a2), (::PoseX *)(a3), (const short *)(0), (const short *)(0), a4);
+}
 
 struct ClockEventX { const char* tag; unsigned stamp; int unused; };
 
@@ -5174,7 +4997,7 @@ public:
 };
 
 template<class T> __forceinline T* stackAllocateX(int n) {
-    T** top=(T**)FUN_00c85750();
+    T** top=(T**)static_cast<AudioHolder*>(::FUN_00c85750());
     T* result=*top;
     *top=(T*)((char*)result+((n*int(sizeof(T))+127)&~127));
     return result;
@@ -5185,7 +5008,7 @@ template<class T> struct BufferX {
     int debugSize;
     __forceinline BufferX(int n) throw() { data=stackAllocateX<T>(n); }
     __forceinline T* begin() throw() { return data; }
-    __forceinline ~BufferX() throw() { *(T**)FUN_00c85750()=data.get(); }
+    __forceinline ~BufferX() throw() { *(T**)static_cast<AudioHolder*>(::FUN_00c85750())=data.get(); }
 };
 
 static __declspec(noinline) void FUN_00ce2a50(VectorX& a,VectorX& b) throw() {
@@ -5298,7 +5121,7 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
             RotationX offset; offset.vec=r.end.translation;
             RotationX applied; reinterpret_cast<::Quat74 *>(&(applied))->FUN_00c74ac0((const ::Quat74 &)(shortest),(const ::Quat74 &)(offset));
             output[c].rotation.FUN_00ce0ca0(applied);
-            ::fnv_00c66320::FUN_00c66320((__m128 *)&(output[d].rotation), (void *)&(r.end.rotation),(const __m128 *)&(input[b].rotation), {});
+            ::fnv_00c66320::FUN_00c66320((__m128 *)&(output[d].rotation), nullptr, (const __m128 *)&(r.end.rotation), (const __m128 *)&(input[b].rotation));
         }
     }
     if(additive) ::FUN_00ce2f40((unsigned int)(output),(unsigned int)(second->reference.begin()),(unsigned int)(mapB),second->bones.count(),(unsigned int)(output));

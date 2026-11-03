@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
 #include <xmmintrin.h>
 #include <cstddef>
 #include <new>
@@ -7037,9 +7038,7 @@ void* __cdecl FUN_00d4bf00();
 void ComputeByteScale(int bits);
 
 
-void __cdecl ResizeAudioStream(void*, void*, int);
 
-void __cdecl ResizeAudioStream(void*, void*, int);
 
 void FUN_00d42760();
 
@@ -7095,7 +7094,6 @@ static char* FUN_00d48420(char* p);
 
 char* d48420_caller();
 
-void __cdecl ResizeAudioStream(void* mem, void* array, int sizeOfElement);
 
 static void FUN_00d409b0(S* dst, S* src, int b, int c);
 
@@ -7144,7 +7142,7 @@ template <class T> struct RecordQueue
     {
         AllocHolder* arena = static_cast<AllocHolder*>(::FUN_00c85750());
         if (count == (capacity & 0x3fffffff))
-            ResizeAudioStream(arena->m_pAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(arena->m_pAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         CopyItems(data + count, 1, item);
         ++count;
     }

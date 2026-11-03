@@ -121,6 +121,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/pathfinding/navmeshsearchlos.cpp
   src/fallout_shared/pathfinding/navmeshsearchmaxcost.cpp
   src/fallout_shared/pathfinding/navmeshsearchslpoint.cpp
+  src/fallout_shared/pathfinding/pathbuilder.cpp
   src/fallout_shared/pathfinding/pathfind.cpp
   src/fallout_shared/pathfinding/pathingavoidnode.cpp
   src/fallout_shared/pathfinding/pathingdebuggeometry.cpp
@@ -220,6 +221,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesweather.cpp
   src/fallout_shared/tesweatherlist.cpp
   src/fallout_shared/tesweightform.cpp
+  src/fallout_shared/tesworldspace.cpp
 )
 target_sources(game PRIVATE ${VEGAS18_FALLOUT_SHARED_SOURCES})
 set_source_files_properties(${VEGAS18_FALLOUT_SHARED_SOURCES} PROPERTIES
@@ -288,7 +290,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/modelloader.cpp
   src/fallout_shared/package.cpp
   src/fallout_shared/pathfinding/navmeshobstaclemanager.cpp
-  src/fallout_shared/pathfinding/pathbuilder.cpp
   "src/fallout_shared/region system/tesregion.cpp"
   "src/fallout_shared/region system/tesregiondatagrass.cpp"
   "src/fallout_shared/region system/tesregiondataimposter.cpp"
@@ -367,7 +368,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/tesvalueform.cpp
   src/fallout_shared/teswater.cpp
   src/fallout_shared/teswaterform.cpp
-  src/fallout_shared/tesworldspace.cpp
 )
 target_sources(game PRIVATE ${VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES})
 set_source_files_properties(${VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES} PROPERTIES

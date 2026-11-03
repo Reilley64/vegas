@@ -1030,7 +1030,7 @@ void FUN_00628df0_class::FUN_00628df0(Arg1* a1, Arg2* apItems, Arg3* apTarget)
     for (int i = 0; i < ((intptr_t)(reinterpret_cast<::Callees *>((apItems))->FUN_00726070())); ++i)
     {
         ItemObj* p38 = (ItemObj*)((void *)(::FUN_00460140((intptr_t)(((::Arg2Item *)&(reinterpret_cast<::FUN_00629ab0_shell *>((apItems))->FUN_00629ab0(i)))->pItem))));
-        if (((const char *)(::FUN_00559450((int *)(p38)))))
+        if (((*(const char * *)((p38)))))
         {
             TargetObj* pTarget = ((::TargetObj *)(reinterpret_cast<::LowProcess *>((apTarget))->GetPackageObjectType()));
             pTarget->vfunc_0x3c(((void *)(reinterpret_cast<::NonActorMagicTarget *>((p38))->GetActiveEffectList())), &tmp);

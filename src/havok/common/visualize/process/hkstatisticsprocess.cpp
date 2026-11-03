@@ -81,7 +81,7 @@ struct PtrArrayMember
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
         if ((uCapacity & 0x80000000) == 0)
-            pAllocator->FreeArray(m_ppData, (uCapacity & 0x3fffffff) * 4);
+            pAllocator->FreeArray(m_ppData, (uCapacity & 0x3fffffff) * int(sizeof(void*)));
         m_ppData = 0;
         m_uCapacity = 0x80000000;
     }
@@ -158,13 +158,13 @@ __forceinline Singleton* GetSingleton()
 }
 struct IntVec
 {
-    int* m_pData;
+    unsigned char** m_pData;
     int m_iArrayLength;
     int m_iCapacity;
 };
 struct SrcArr
 {
-    int* m_pData;
+    unsigned char** m_pData;
     int m_iArrayLength;
     int m_iCapacity;
 };
@@ -336,16 +336,16 @@ void ThisCls::WriteToStream(int aiUnused)
                 if ((vecStarts.m_iCapacity & 0x3fffffff) < pSrcStarts->m_iArrayLength)
                 {
                     if ((vecStarts.m_iCapacity & 0x80000000u) == 0)
-                        alloc->Free(vecStarts.m_pData, (vecStarts.m_iCapacity & 0x3fffffff) * 4);
-                    int bytes = pSrcStarts->m_iArrayLength * 4;
-                    vecStarts.m_pData = (int*)alloc->Alloc(&bytes);
-                    vecStarts.m_iCapacity = bytes / 4;
+                        alloc->Free(vecStarts.m_pData, (vecStarts.m_iCapacity & 0x3fffffff) * int(sizeof(unsigned char*)));
+                    int bytes = pSrcStarts->m_iArrayLength * int(sizeof(unsigned char*));
+                    vecStarts.m_pData = (unsigned char**)alloc->Alloc(&bytes);
+                    vecStarts.m_iCapacity = bytes / int(sizeof(unsigned char*));
                 }
                 {
                     int iCopyCount = pSrcStarts->m_iArrayLength;
                     vecStarts.m_iArrayLength = iCopyCount;
-                    int* pSrcData = pSrcStarts->m_pData;
-                    int* pDstData = vecStarts.m_pData;
+                    unsigned char** pSrcData = pSrcStarts->m_pData;
+                    unsigned char** pDstData = vecStarts.m_pData;
                     for (int k = 0; k < iCopyCount; k++)
                         pDstData[k] = pSrcData[k];
                 }
@@ -355,16 +355,16 @@ void ThisCls::WriteToStream(int aiUnused)
                 if ((vecEnds.m_iCapacity & 0x3fffffff) < pSrcEnds->m_iArrayLength)
                 {
                     if ((vecEnds.m_iCapacity & 0x80000000u) == 0)
-                        pAllocator2->Free(vecEnds.m_pData, (vecEnds.m_iCapacity & 0x3fffffff) * 4);
-                    int bytes2 = pSrcEnds->m_iArrayLength * 4;
-                    vecEnds.m_pData = (int*)pAllocator2->Alloc(&bytes2);
-                    vecEnds.m_iCapacity = bytes2 / 4;
+                        pAllocator2->Free(vecEnds.m_pData, (vecEnds.m_iCapacity & 0x3fffffff) * int(sizeof(unsigned char*)));
+                    int bytes2 = pSrcEnds->m_iArrayLength * int(sizeof(unsigned char*));
+                    vecEnds.m_pData = (unsigned char**)pAllocator2->Alloc(&bytes2);
+                    vecEnds.m_iCapacity = bytes2 / int(sizeof(unsigned char*));
                 }
                 {
                     int iCopyCount2 = pSrcEnds->m_iArrayLength;
                     vecEnds.m_iArrayLength = iCopyCount2;
-                    int* pSrcData2 = pSrcEnds->m_pData;
-                    int* pDstData2 = vecEnds.m_pData;
+                    unsigned char** pSrcData2 = pSrcEnds->m_pData;
+                    unsigned char** pDstData2 = vecEnds.m_pData;
                     for (int k = 0; k < iCopyCount2; k++)
                         pDstData2[k] = pSrcData2[k];
                 }
@@ -375,16 +375,16 @@ void ThisCls::WriteToStream(int aiUnused)
     if (vecStarts.m_iArrayLength == 0)
     {
         TlsBuf* pTlsBuf = (TlsBuf*)TlsGetValue(DAT_0126835c);
-        intptr_t cur = (intptr_t)pTlsBuf->m_pCurrent;
-        intptr_t end = (intptr_t)pTlsBuf->m_pRecordEnd;
+        unsigned char* cur = (unsigned char*)pTlsBuf->m_pCurrent;
+        unsigned char* end = (unsigned char*)pTlsBuf->m_pRecordEnd;
         Singleton* s = GetSingleton();
         if (vecStarts.m_iArrayLength == (vecStarts.m_iCapacity & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(s->m_10), (::AudioStream *)(void *)(&vecStarts), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(s->m_10), (::AudioStream *)(void *)(&vecStarts), sizeof(unsigned char*));
         vecStarts.m_pData[vecStarts.m_iArrayLength] = cur;
         vecStarts.m_iArrayLength++;
         Singleton* pSingleton2 = GetSingleton();
         if (vecEnds.m_iArrayLength == (vecEnds.m_iCapacity & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(pSingleton2->m_10), (::AudioStream *)(void *)(&vecEnds), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(pSingleton2->m_10), (::AudioStream *)(void *)(&vecEnds), sizeof(unsigned char*));
         vecEnds.m_pData[vecEnds.m_iArrayLength] = end;
         vecEnds.m_iArrayLength++;
     }
@@ -462,7 +462,7 @@ void ThisCls::WriteToStream(int aiUnused)
         int cap2 = vecEnds.m_iCapacity;
         vecEnds.m_iArrayLength = 0;
         if ((cap2 & (int)0x80000000) == 0)
-            pAllocator9->Free(vecEnds.m_pData, (cap2 & 0x3fffffff) * 4);
+            pAllocator9->Free(vecEnds.m_pData, (cap2 & 0x3fffffff) * int(sizeof(unsigned char*)));
         vecEnds.m_pData = 0;
         vecEnds.m_iCapacity = (int)0x80000000;
         Singleton* pSingleton10 = GetSingleton();
@@ -470,7 +470,7 @@ void ThisCls::WriteToStream(int aiUnused)
         int cap1 = vecStarts.m_iCapacity;
         vecStarts.m_iArrayLength = 0;
         if ((cap1 & (int)0x80000000) == 0)
-            pAllocator10->Free(vecStarts.m_pData, (cap1 & 0x3fffffff) * 4);
+            pAllocator10->Free(vecStarts.m_pData, (cap1 & 0x3fffffff) * int(sizeof(unsigned char*)));
         vecStarts.m_pData = 0;
         vecStarts.m_iCapacity = (int)0x80000000;
         {
@@ -502,14 +502,14 @@ void ThisCls::WriteToStream(int aiUnused)
             int diff = vecEnds.m_pData[i] - vecStarts.m_pData[i];
             reinterpret_cast<::hkOArchive_2 *>((m_0c))->WriteInt(diff);
             if (diff > 0)
-                reinterpret_cast<::FUN_00d607b0_class *>((m_0c))->FUN_00d607b0(vecStarts.m_pData[i]);
+                reinterpret_cast<::FUN_00d607b0_class *>((m_0c))->FUN_00d607b0((intptr_t)vecStarts.m_pData[i]);
         }
         Singleton* pSingleton9 = GetSingleton();
         Allocator* pAllocator9 = pSingleton9->m_10;
         int cap2 = vecEnds.m_iCapacity;
         vecEnds.m_iArrayLength = 0;
         if ((cap2 & (int)0x80000000) == 0)
-            pAllocator9->Free(vecEnds.m_pData, (cap2 & 0x3fffffff) * 4);
+            pAllocator9->Free(vecEnds.m_pData, (cap2 & 0x3fffffff) * int(sizeof(unsigned char*)));
         vecEnds.m_pData = 0;
         vecEnds.m_iCapacity = (int)0x80000000;
         Singleton* pSingleton10 = GetSingleton();
@@ -517,7 +517,7 @@ void ThisCls::WriteToStream(int aiUnused)
         int cap1 = vecStarts.m_iCapacity;
         vecStarts.m_iArrayLength = 0;
         if ((cap1 & (int)0x80000000) == 0)
-            pAllocator10->Free(vecStarts.m_pData, (cap1 & 0x3fffffff) * 4);
+            pAllocator10->Free(vecStarts.m_pData, (cap1 & 0x3fffffff) * int(sizeof(unsigned char*)));
         vecStarts.m_pData = 0;
         vecStarts.m_iCapacity = (int)0x80000000;
     }
@@ -739,10 +739,10 @@ FUN_00ddbf00::FUN_00ddbf00(PtrArrayMember* pSource)
     if (iCap < pSource->m_iArrayLength)
     {
         if ((uCap & 0x80000000) == 0)
-            pAlloc->FreeArray(pThis->m_kFirst.m_ppData, iCap * 4);
-        int iBytes = pSource->m_iArrayLength * 4;
+            pAlloc->FreeArray(pThis->m_kFirst.m_ppData, iCap * int(sizeof(void*)));
+        int iBytes = pSource->m_iArrayLength * int(sizeof(void*));
         pThis->m_kFirst.m_ppData = (void**)pAlloc->AllocArray(&iBytes);
-        pThis->m_kFirst.m_uCapacity = iBytes / 4;
+        pThis->m_kFirst.m_uCapacity = iBytes / int(sizeof(void*));
     }
     int n = pSource->m_iArrayLength;
     void** pDst = pThis->m_kFirst.m_ppData;

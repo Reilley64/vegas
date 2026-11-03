@@ -301,21 +301,21 @@ void Processor::ProcessRequests()
     {
         Request* item = *((::Request **)(new ((void *)(pRequests)) ::Vec3()));
         pRequests->FUN_0063f7b0();
-        if (((void *)(::FUN_00559450((int *)&(item->subject)))) && item->amount > 0.0)
+        if (((*(void * *)(&(item->subject)))) && item->amount > 0.0)
         {
-            void* form = ((void *)(::FUN_004ae750((void *)(static_cast<Reference*>(((void *)(::FUN_00559450((int *)&(item->subject)))))))));
+            void* form = ((void *)(::FUN_004ae750((void *)(static_cast<Reference*>(((*(void * *)(&(item->subject)))))))));
             Form* ref = form ? ((::Form *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(form)))) : 0;
             void* actor = ref ? ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((ref))->GetName())) : 0;
             Actor* base = actor ? ((::Actor *)(::FUN_0056f930((::NiAVObject *)(actor)))) : 0;
             if (base)
             {
-                base->SetSource(((void *)(::FUN_00559450((int *)&(item->source)))));
+                base->SetSource(((*(void * *)(&(item->source)))));
                 if (!FUN_008c7aa0())
                     base->SetAmount(item->amount, 0);
                 else
                     reinterpret_cast<::TaskQueueProxy *>((((::ActorSystem *)(::TaskQueueInterface::GetSingleton()))))->QueueDamageTask((::TESObjectREFR *)(base), item->amount, 0);
-                if (reinterpret_cast<::FUN_00477ba0_shell *>((base))->FUN_00477ba0() && ((void *)(::FUN_00559450((int *)&(item->source)))) &&
-                    ((void *)(::FUN_00559450((int *)(static_cast<SmartRef*>(((void *)(::FUN_00559450((int *)&(item->source))))))))) == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
+                if (reinterpret_cast<::FUN_00477ba0_shell *>((base))->FUN_00477ba0() && ((*(void * *)(&(item->source)))) &&
+                    ((*(void * *)((static_cast<SmartRef*>(((*(void * *)(&(item->source))))))))) == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
                     reinterpret_cast<::fnv_00963eb0::PlayerView *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->SetEffectValue((void *)(10), 8.0f, (::fnv_00963eb0::EffectSource *)(0));
             }
         }

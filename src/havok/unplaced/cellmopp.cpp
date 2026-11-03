@@ -455,8 +455,8 @@ void CellMopp_00621e80::FUN_00621e80()
 // @fnv 0x00621ef0
 intptr_t C621EF0Owner::LookupFirstFormID()
 {
-    if (::FUN_009938b0((const unsigned short *)&(m_kThirdFollowingStreamField)) && ((::C621EF0Object *)(::FUN_00559450((int *)&(m_kThirdFollowingStreamField.GetAt(0))))))
-        return ((intptr_t)(::FUN_00621480((::HighProcess *)(((::C621EF0Object *)(::FUN_00559450((int *)&(m_kThirdFollowingStreamField.GetAt(0)))))->GetFormID()))));
+    if (::FUN_009938b0((const unsigned short *)&(m_kThirdFollowingStreamField)) && ((*(::C621EF0Object * *)(&(m_kThirdFollowingStreamField.GetAt(0))))))
+        return ((intptr_t)(::FUN_00621480((::HighProcess *)(((*(::C621EF0Object * *)(&(m_kThirdFollowingStreamField.GetAt(0)))))->GetFormID()))));
     else
         return 0;
 }
@@ -516,7 +516,7 @@ bool FUN_00622590_Owner::PlaceGridObjects(FUN_0056d2c0_Class* p1, const NiPoint3
             float _offsetX = -2048.0f;
             for (unsigned int j8 = 0; j8 < 2; j8++)
             {
-                FUN_005610f0_Class* pObj4 = (FUN_005610f0_Class*)((::C621EF0Object *)(::FUN_00559450((int *)&(m_kThirdFollowingStreamField.GetAt(kIdx++)))));
+                FUN_005610f0_Class* pObj4 = (FUN_005610f0_Class*)((*(::C621EF0Object * *)(&(m_kThirdFollowingStreamField.GetAt(kIdx++)))));
                 NiPoint3 kPos = *pPos;
                 kPos.x += _offsetX;
                 kPos.y += offsetY2;
@@ -530,7 +530,7 @@ bool FUN_00622590_Owner::PlaceGridObjects(FUN_0056d2c0_Class* p1, const NiPoint3
         {
             for (unsigned int k = 0; k < (unsigned int)((int)(::FUN_009938b0((const unsigned short *)(void *)(&m_kThirdFollowingStreamField)))); k++)
             {
-                FUN_005610f0_Class* pObj3 = (FUN_005610f0_Class*)((::C621EF0Object *)(::FUN_00559450((int *)&(m_kThirdFollowingStreamField.GetAt(k)))));
+                FUN_005610f0_Class* pObj3 = (FUN_005610f0_Class*)((*(::C621EF0Object * *)(&(m_kThirdFollowingStreamField.GetAt(k)))));
                 reinterpret_cast<::FUN_0056d2c0_cls *>((p1))->FUN_0056d2c0((::Arg56d2c0 *)(pObj3));
                 reinterpret_cast<::C68E30Owner *>((p1))->FUN_00c68e30((::C68E30Holder *)(pObj3), ::PackBytesBigEndian(0xdc, 0x96, 0x28, 0xff));
             }
@@ -2336,7 +2336,7 @@ bool xMgr::FUN_00621f60(xRef** apList, unsigned int auiCount, float afVal)
                     SC.m_44 = afVal;
                     reinterpret_cast<::S00cafef0_Obj *>(&(SC.m_10))->UpdateBoundsFromElements();
                     xPtr SHAPE(new xShape(&SC));
-                    reinterpret_cast<::FUN_006222f0_Class *>(&(CI))->FUN_006222f0(((int)(reinterpret_cast<::FUN_00620b80_shell *>((((void *)(::FUN_00559450((int *)&(SHAPE))))))->GetReferenceFlags())));
+                    reinterpret_cast<::FUN_006222f0_Class *>(&(CI))->FUN_006222f0(((int)(reinterpret_cast<::FUN_00620b80_shell *>((((*(void * *)(&(SHAPE))))))->GetReferenceFlags())));
                     xPhantom* PHANTOM = new xPhantom(&CI);
                     reinterpret_cast<::S_00c85c10 *>((PHANTOM))->FUN_00c85c10((int *)(REF), (int *)(::xThing *)(&(*reinterpret_cast<::xThing *>(&::g_011f4a20))));
                     reinterpret_cast<::FUN_006228e0_shell *>(&(m_8))->FUN_006227b0((uintptr_t)&(const ::xPtr &)(PHANTOM));

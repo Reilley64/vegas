@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -137,21 +138,7 @@ void FUN_00d378a0(void* aiArg1, void* aiArg2, void* aiArg3, void* aiId)
     ::FUN_00d37280((*(const ::hkpCdBody *)(aiArg2)), (*(const ::hkpCdBody *)(aiArg1)), (*(const ::CollisionAgentContext *)(aiArg3)), (*(::hkpCdPointCollector *)(&p)));
 }
 
-struct D376B0Allocator;
 
-struct D376B0MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    D376B0Allocator* m_pStreamAllocator;
-
-    D376B0Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 class D376B0ReferencedObject
@@ -183,13 +170,13 @@ struct D376B0IndexArray
 
     void SetSizeAndGrow(int n)
     {
-        D376B0Allocator& alloc = static_cast<D376B0MemoryRouter*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         const int cap = getCapacity();
         if (cap < n)
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            ::FUN_00c908c0((::SpawnedObject *)(::D376B0Allocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(unsigned short));
+            ::FUN_00c908c0((::SpawnedObject *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(unsigned short));
         }
         m_iElementCount = n;
     }
@@ -247,27 +234,13 @@ struct S_00d376b0_Class
     void FUN_00d376b0(int a, int b, int c, int d);
 };
 
-struct S_00d37740_Interface
-{
-    virtual void FUN_00d37740_Unknown() = 0;
-    virtual S_00d376b0_Class* FUN_00d37740_Method(int a) = 0;
-};
 
-struct S_00d37740_Object
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S_00d37740_Interface* unk10;
-};
 
 
 // @fnv 0x00d37740
 void FUN_00d37740(void* aiArg1, void* aiArg2, void* aiArg3, void* aiArg4)
 {
-    S_00d37740_Object* obj = static_cast<S_00d37740_Object*>(::FUN_00c85750());
-    S_00d376b0_Class* result = obj->unk10->FUN_00d37740_Method(0x20);
+    S_00d376b0_Class* result = static_cast<S_00d376b0_Class*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x20));
 
     result->unk04 = 0x20;
     new ((void *)(result)) ::FUN_00d376b0((*(const ::D376B0ShapeRef *)(aiArg1)), (void *)(aiArg2), (void *)(aiArg3), (void *)(aiArg4));
@@ -279,21 +252,7 @@ namespace fnv_00d37780 {
 // (`mov eax, esi` right before the epilogue), but the unit declares it as
 // `void FUN_00d37780(int,int,int,int)`, so the definition carries the real
 // return type under a name that still contains the canary tag.
-struct Allocator
-{
-    virtual void v00();
-    virtual void* Alloc(unsigned int size);
-    virtual void Free(void* p);
-};
 
-struct AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    Allocator* m_pAllocator;
-};
 
 
 struct SpawnedObject
@@ -312,9 +271,7 @@ struct FUN_00d376b0_cls
 // @fnv 0x00d37780
 void* FUN_00d37780_impl(void* aiArg1, void* aiArg2, void* aiArg3, void* aiArg4)
 {
-    AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
-    Allocator* alloc = pAllocHolder->m_pAllocator;
-    SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x20);
+    SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x20));
     obj->m_iElementCount = 0x20;
     new ((void *)(((FUN_00d376b0_cls*)obj))) ::FUN_00d376b0((*(const ::D376B0ShapeRef *)(aiArg2)), (void *)(aiArg1), (void *)(aiArg3), (void *)(aiArg4));
     // the original writes the derived vtable pointer into the object here
@@ -942,30 +899,11 @@ __forceinline T getData()const
 return(T)(hkUlong)TlsGetValue(m_slotID);
 }
 unsigned long m_slotID;};
-class hkMemoryAllocator
-{
-public:
-virtual void*AllocateMemoryBlock(int numBytes)=0;
-virtual void ReleaseBlock(void*p,int numBytes)=0;public:
-enum MemoryState
-{
-MEMORY_STATE_OK,
-MEMORY_STATE_OUT_OF_MEMORY
-};};
 struct StringPointerTriple
 {
 public:
 __forceinline StringPointerTriple();protected:
 ValueWrapper<void*>m_next;};
-class NineIntegerRecord
-{
-public:
-typedef hkMemoryAllocator Allocator;
-static NineIntegerRecord&__cdecl GetMonitorStream();inline Allocator&heap(){return*m_pStreamAllocator;}
-protected:
-StringPointerTriple m_aiEntries;
-Allocator*m_pTemp;
-Allocator*m_pStreamAllocator;};
 class hkBaseObject
 {
 public:
@@ -978,7 +916,7 @@ class hkStatisticsCollector;
 class hkReferencedObject:public hkBaseObject
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
 virtual const hkClass*GetClassType()const;
 virtual void CalcContentStatistics(hkStatisticsCollector*collector,const hkClass*cls)const;
 public:
@@ -994,7 +932,7 @@ template<bool N>struct BooleanTypeConstant{typedef BooleanTypeConstant<N>type;en
 typedef BooleanTypeConstant<true>hkTypeIsPod;
 struct RouterHeapAllocatorProvider
 {
-hkMemoryAllocator&get(const void*){return NineIntegerRecord::GetMonitorStream().heap();}
+hkMemoryAllocator&get(const void*){return hkMemoryRouter::getInstance().heap();}
 };
 template<typename T>
 class HavokElementArray
@@ -1083,7 +1021,7 @@ class hkTransform;
 class hkVector4
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 __forceinline void setInterpolate4(const hkVector4&a,const hkVector4&b,hkSimdRealParameter t);
 __forceinline void _setMul3(const hkMatrix3&a,const hkVector4&b);
 __forceinline void _setRotatedDir(const hkRotation&a,const hkVector4&b);
@@ -1101,7 +1039,7 @@ return m_vComponents;
 class hkMatrix3
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 __forceinline const hkVector4&getColumn(int i)const;
 protected:
 hkVector4 m_kColumn0;
@@ -1110,11 +1048,11 @@ hkVector4 m_kColumn2;};
 class __declspec(align(16))hkRotation:public hkMatrix3
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}};
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}};
 class hkTransform
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 __forceinline const hkVector4&getTranslation()const;
 __forceinline const hkRotation&getRotation()const;
 private:
@@ -1174,7 +1112,7 @@ return m_rotation;
 class StringCursor
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
 return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
@@ -1198,12 +1136,12 @@ hkBool m_bFlag;
 public:
 struct Command
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(StringCursor::Command));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(StringCursor::Command));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 const char*m_pCommandName;
 };
 struct CommandTimingEntry:public StringCursor::Command
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(StringCursor::CommandTimingEntry));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(StringCursor::CommandTimingEntry));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 hkUint32 m_uiStartTicks;
 hkUint32 m_uiEndTicks;
 __forceinline void setTime();
@@ -1223,7 +1161,7 @@ inline hkVector4&getPosition();
 inline hkVector4&getSeparatingNormal();
 inline void setDistance(hkReal d);
 protected:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 hkVector4 m_vContactPosition;
 hkVector4 m_vSeparatingNormal;};
 inline hkVector4&hkContactPoint::getPosition()
@@ -1241,7 +1179,7 @@ m_vSeparatingNormal(3)=d;
 class Vector4WithInt24W:public hkVector4
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}};
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}};
 enum CollisionShapeType
 {
 HK_SHAPE_INVALID=0,
@@ -1298,7 +1236,7 @@ virtual const hkpShapeContainer*GetShapeContainer()const{return 0;}
 virtual bool isConvex()const{return false;}
 struct PhysicsShape
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(hkpShape::PhysicsShape));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(hkpShape::PhysicsShape));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 bool m_bIsConvex;
 bool m_bIsConvexPiece;
 bool m_bIsComposite;
@@ -1348,7 +1286,7 @@ struct ShapeRayCastOutput:public RayCastHitResult
 public:
 enum{MAX_HIERARCHY_DEPTH=8};
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 __forceinline ShapeRayCastOutput();
 private:
 __forceinline void _reset();
@@ -1368,7 +1306,7 @@ _reset();
 class hkpCdBody
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline const hkTransform&getTransform()const;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline const hkTransform&getTransform()const;
 __forceinline const hkpShape*getShape()const;
 public:
 explicit __forceinline hkpCdBody(const hkpCdBody*parent);
@@ -1399,7 +1337,7 @@ const hkpCdBody&m_pBodyB;};
 class hkpCdPointCollector
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 inline virtual ~hkpCdPointCollector();
 virtual void AddCdPoint(const ContactPointPair&point)=0;
 protected:
@@ -1409,7 +1347,7 @@ class hkpContactMgr;
 class hkpCollisionAgent:public hkReferencedObject
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
 public:
 virtual void ProcessAgent(const hkpCdBody&a,const hkpCdBody&b,const GskAgentInput&input,WorldOperationEntry&result)=0;
 protected:
@@ -1421,7 +1359,7 @@ inline hkpContactMgr*getContactMgr();};
 class hkpIterativeLinearCastAgent:public hkpCollisionAgent
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}};
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}};
 class hkpMultiRayConvexAgent:public hkpIterativeLinearCastAgent
 {
 public:
@@ -1439,7 +1377,7 @@ static hkpCollisionAgent*__cdecl createConvexMultiRayAgent(const hkpCdBody&bodyA
 protected:
 struct ContactPointIdEntry
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(hkpMultiRayConvexAgent::ContactPointIdEntry));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(hkpMultiRayConvexAgent::ContactPointIdEntry));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 hkContactPointId m_usContactPointId;
 };
 hkInplaceArray<ContactPointIdEntry,4>m_kContactPointIds;
@@ -1471,7 +1409,7 @@ public:
 static const struct ClassMemberDescriptor Members[];
 struct Ray
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(hkpMultiRayShape::Ray));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(hkpMultiRayShape::Ray));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 static const struct ClassMemberDescriptor Members[];static const hkClass&__cdecl staticClass();struct DefaultStruct;
 hkVector4 m_kRayStart;
 hkVector4 m_kRayEnd;

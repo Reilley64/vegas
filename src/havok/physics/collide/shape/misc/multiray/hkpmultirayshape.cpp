@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/misc/multiray/hkpmultirayshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/misc/multiray/hkpmultirayshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FunctionContext.h"
@@ -111,27 +112,7 @@ void hkObjE3C6::AddRaysToStatistics(hkStatisticsCollectorE3C6* pkCollector, cons
 
 
 
-struct hkMemoryAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void ReturnMemory(void* p, int numBytes);
-};
 
-struct NineIntegerRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    hkMemoryAllocator* m_pStreamAllocator;
-    __forceinline hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 union hkQuadVector
@@ -173,13 +154,13 @@ struct hkWorldRayArray
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        _setSize(static_cast<NineIntegerRecord*>(::FUN_00c85750())->heap(), n);
+        _setSize(hkMemoryRouter::getInstance().heap(), n);
     }
     __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(hkWorldRay));
+            alloc.bufFree(m_data, getCapacity() * sizeof(hkWorldRay));
     }
 };
 
@@ -258,7 +239,7 @@ void hkpMultiRayShapeImpl::FUN_00e3c800(const hkTransform& localToWorld, hkReal 
     }
     out.m_kMinimumCorner = mn;
     out.m_kMaximumCorner = mx;
-    worldRays._clearAndDeallocate(static_cast<NineIntegerRecord*>(::FUN_00c85750())->heap());
+    worldRays._clearAndDeallocate(hkMemoryRouter::getInstance().heap());
 }
 
 struct RayStandIn
@@ -297,7 +278,7 @@ struct RayArrayStandIn
     }
     RayStandIn* expandBy(int n)
     {
-        return _expandBy(static_cast<NineIntegerRecord*>(::FUN_00c85750())->heap(), n);
+        return _expandBy(hkMemoryRouter::getInstance().heap(), n);
     }
 };
 

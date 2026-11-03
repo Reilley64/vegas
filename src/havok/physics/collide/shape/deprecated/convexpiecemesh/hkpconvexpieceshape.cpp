@@ -1,5 +1,6 @@
 // havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp: AdjDerived (12 functions)
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/symbols_0102e000.h"
@@ -60,19 +61,7 @@ struct FUN_00e60690_owner { int unk00; int unk04; int unk08; Dispatch* unk0c; in
 void FUN_00e60690_owner::DispatchToInner(int index,int value) { unk0c->inner.run(unk10[index],value); }
 
 
-struct AudioAllocator {
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
 
 struct FUN_00e60c30_cls {
@@ -87,16 +76,14 @@ struct FUN_00e60c30_cls {
     FUN_00e60c30_cls* Destroy(unsigned char acFlags);
 };
 
-// Sets the vtable and a global pointer, then, if acFlags has bit 0 set, frees this object through the allocator obtained from FUN_00c85750.
+// Sets the vtable and a global pointer, then, if acFlags has bit 0 set, frees this object to the heap allocator.
 // @fnv 0x00e60c30
 FUN_00e60c30_cls* FUN_00e60c30_cls::Destroy(unsigned char acFlags)
 {
     m_p14 = (void*)&DAT_010c6fb0;
     m_vptr = &::DAT_0102e388;
     if (acFlags & 1) {
-        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, m_uSize);
+        hkMemoryRouter::getInstance().heap().blockFree(this, m_uSize);
     }
     return this;
 }
@@ -789,11 +776,11 @@ struct S5fb50_Array
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    inline S5fb50_PrimitiveInfo& _expandOne(AudioHolder* router)
+    inline S5fb50_PrimitiveInfo& _expandOne(hkMemoryAllocator& heap)
     {
         if (m_iElementCount == getCapacity())
         {
-            ::ResizeAudioStream((::AudioAllocator *)(router->m_pAllocator), (::AudioStream *)(void *)(this), sizeof(S5fb50_PrimitiveInfo));
+            ::ResizeAudioStream((::AudioAllocator *)(&heap), (::AudioStream *)(void *)(this), sizeof(S5fb50_PrimitiveInfo));
         }
         for (int i = 0; i < 1; i++)
             ::new (m_data + m_iElementCount + i) S5fb50_PrimitiveInfo;
@@ -801,7 +788,7 @@ struct S5fb50_Array
     }
     inline S5fb50_PrimitiveInfo& AllocatePair()
     {
-        return _expandOne(static_cast<AudioHolder*>(::FUN_00c85750()));
+        return _expandOne(hkMemoryRouter::getInstance().heap());
     }
 };
 

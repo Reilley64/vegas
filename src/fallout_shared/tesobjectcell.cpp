@@ -5933,8 +5933,8 @@ struct FUN_0049f8f0_class
 };
 struct FUN_0049f210_class
 {
-    int pad0;
-    int pItems;
+    void* pad0;
+    char* pItems;
     unsigned int FUN_00978bc0();
     void ConstructEntries(int, unsigned int);
     unsigned int AddItem(const NiPoint3& kPos);
@@ -9853,7 +9853,7 @@ struct SpawnedVecC
 
 
 // @fnv 0x00558330
-bool __cdecl FUN_00558330(int a1, std::intptr_t a2, std::intptr_t a3)
+bool __cdecl FUN_00558330(std::intptr_t a1, std::intptr_t a2, std::intptr_t a3)
 {
     bool ok5 = true;
     int i = 0x2d;
@@ -15813,7 +15813,7 @@ void FUN_00557dd0(RenderCell* cell, render_test::FUN_00557da0* options, bool all
                     {
                         RenderVec pos = ((::fnv_00557dd0::RenderMesh *)(::FUN_00559450((int *)&(mesh2))))->FUN_00558220((unsigned short)k);
                         pos.z += 118.0;
-                        if (!FUN_00558330((int)cell, (int)&pos, (int)options))
+                        if (!FUN_00558330((std::intptr_t)cell, (std::intptr_t)&pos, (std::intptr_t)options))
                             testData = false;
                     }
                 }
@@ -15830,14 +15830,14 @@ void FUN_00557dd0(RenderCell* cell, render_test::FUN_00557da0* options, bool all
                 RenderVec ref = pos->v1f4();
                 if (pos->vfn_1d0())
                     ref = (*(::fnv_00557dd0::RenderVec *)((void *)(((::fnv_00557dd0::RenderBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((pos->vfn_1d0()))->FUN_0043d450())))));
-                if (!FUN_00558330((int)cell, (int)&ref, (int)options))
+                if (!FUN_00558330((std::intptr_t)cell, (std::intptr_t)&ref, (std::intptr_t)options))
                     testData = false;
             }
         }
     }
     else
     {
-        if (!FUN_00558330((int)cell, (int)&pPlayer->vfn_1d0()->FUN_0045bb80(), (int)options))
+        if (!FUN_00558330((std::intptr_t)cell, (std::intptr_t)&pPlayer->vfn_1d0()->FUN_0045bb80(), (std::intptr_t)options))
             testData = false;
     }
     reinterpret_cast<::FUN_00440460_S *>((((::fnv_00557dd0::RenderNode *)(::FUN_00558310((::NiNode_00558310 *)(kPosition))))))->FUN_00440460((const ::V3 *)&(bResult));

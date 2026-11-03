@@ -106,7 +106,7 @@ struct S00bbe6b0_Renderer
     int unk10;
     int unk14;
     char* m_18;
-    void FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, int flag, void* out);
+    void FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, const void* flag, void* out);
 };
 
 
@@ -459,12 +459,12 @@ void FUN_00bbbe30(void* this_ptr, int edx_unused, DummyVTable* param_1)
 
 // Calls FUN_00be1ff0 with arg unless DAT_011f91e4 falls within any of four excluded ranges.
 // @fnv 0x00bbc5c0
-void DispatchIfNotExcluded(int arg)
+void DispatchIfNotExcluded(::Input818* arg)
 {
     if ((DAT_011f91e4 < 0x1cc || DAT_011f91e4 > 0x1dc) && (DAT_011f91e4 < 0x1bd || DAT_011f91e4 > 0x1c3) &&
         (DAT_011f91e4 < 0x1e0 || DAT_011f91e4 > 0x1e1) && (DAT_011f91e4 < 0x2d8 || DAT_011f91e4 > 0x2ef))
     {
-        ::FUN_00be1ff0((::Input818 *)(arg));
+        ::FUN_00be1ff0(arg);
     }
 }
 
@@ -542,13 +542,8 @@ struct S
 // @fnv 0x00bbb7f0
 void S::ApplyToGlobalRange()
 {
-    int* p = &(*reinterpret_cast<int *>(&::DAT_01200ec0));
-    do
-    {
-        int v = *p;
-        (*(void(**)(S*, int))(*(int*)this + 0x128))(this, v);
-        ++p;
-    } while ((int)p < (int)&(*reinterpret_cast<int *>(&::DAT_01201080)));
+    for (int i = 0; i < 112; ++i)
+        (*reinterpret_cast<void (***)(S*, void*)>(this))[0x128 / 4](this, (*reinterpret_cast<void* (*)[112]>(&::DAT_01200ec0))[i]);
 }
 
 // Iterates entries from start to the count at p+0x18 and zeroes the int at offset 8 of each non-null entry from the array at p+0x24.
@@ -829,7 +824,7 @@ void FUN_00bbdcd0_shell::ApplyTextureStages(FUN_00bbdcd0_Arg1* pTextureSource, F
     if (textureObject->m_pBeamTexture)
         stage1->m_pBeamTexture = textureObject->m_pBeamTexture;
     else
-        stage1->m_pBeamTexture = reinterpret_cast<NiTexture*>((*reinterpret_cast<int *>(&::DAT_011f952c)));
+        stage1->m_pBeamTexture = (*reinterpret_cast<NiTexture * *>(&::DAT_011f952c));
     reinterpret_cast<::E7DE90Owner *>((stage1))->ApplyPairToState(3);
 
     for (unsigned int i = 2; i < pStageList->m_uCount; ++i)
@@ -866,7 +861,7 @@ class FUN_00bbb820_cls
 void FUN_00bbb820_cls::FUN_00bbb820(int param_1, int param_2)
 {
     ResultStandIn* pResult = this->SetupPass(param_1, param_2);
-    DAT_0126f74c = (int)pResult;
+    DAT_0126f74c = (std::intptr_t)pResult;
     reinterpret_cast<::Group00e7eed0 *>((pResult->m_pGroup))->ApplyGroupEntries();
 }
 
@@ -1005,7 +1000,7 @@ struct ShadowSceneOwner
 
 
 // @fnv 0x00bbde20
-void FUN_00bbde20(int bFog, ShadowSceneOwner* pOwner, int iUnused)
+void FUN_00bbde20(const void* bFog, ShadowSceneOwner* pOwner, const void* iUnused)
 {
     if (!pOwner)
         return;
@@ -1232,15 +1227,15 @@ void FUN_00bbdda0_cls::SetupTextureStages(FUN_00bbdcd0_Arg1* apTextureSource, FU
         return;
     }
 
-    unsigned int uiFirstTexture = *(unsigned int*)(pTextureObject + 0x6c);
+    NiTexture* pFirstTexture = *(NiTexture**)(pTextureObject + 0x6c);
     BeamStage* stage0 = apStageList->m_ppStages[0];
-    if (uiFirstTexture != 0)
+    if (pFirstTexture != 0)
     {
-        stage0->m_pBeamTexture = (NiTexture*)uiFirstTexture;
+        stage0->m_pBeamTexture = pFirstTexture;
     }
     else
     {
-        stage0->m_pBeamTexture = (NiTexture*)(*reinterpret_cast<int *>(&::DAT_011f952c));
+        stage0->m_pBeamTexture = (*reinterpret_cast<NiTexture * *>(&::DAT_011f952c));
     }
     reinterpret_cast<::E7DE90Owner *>((stage0))->ApplyPairToState(3);
 
@@ -1868,7 +1863,7 @@ extern FogColorA DAT_01201300, DAT_01201310, DAT_01201320;
 extern FogColorA DAT_01201330, DAT_01201340;
 
 // @fnv 0x00bbba00
-void UpdateShaderMatrices(int identity, const ShaderTransform* transform)
+void UpdateShaderMatrices(const void* identity, const ShaderTransform* transform)
 {
     if (!(*reinterpret_cast<::Lighting30PacketState * *>(&::ConstantMaps::DAT_012010b4))->dirty)
         return;
@@ -2053,16 +2048,16 @@ struct FUN_00bbd000_cls
     int m68;
     int m6c;
     Map* m70;
-    int RenderFrame(int a1, Parameters* params, Frame* frame, int a4, int a5, int a6, int extra, int a8);
+    int RenderFrame(void* a1, Parameters* params, Frame* frame, void* a4, void* a5, void* a6, ::Xf* extra, void* a8);
 };
 // If a frame is given and m38 is zero and a stage is active or m34 equals m70, submits params to the pipeline and draws the frame via the device.
 // @fnv 0x00bbd000
-int FUN_00bbd000_cls::RenderFrame(int aiUnused, Parameters* params, Frame* frame, int aiUnused4, int aiUnused5,
-                                  int aiUnused6, int extra, int aiUnused8)
+int FUN_00bbd000_cls::RenderFrame(void* aiUnused, Parameters* params, Frame* frame, void* aiUnused4, void* aiUnused5,
+                                  void* aiUnused6, ::Xf* extra, void* aiUnused8)
 {
     if (frame && m38 == 0 && (((*reinterpret_cast<::fnv_00bbd000::Stage * *>(&::ConstantMaps::DAT_01201090)) && (*reinterpret_cast<::fnv_00bbd000::Stage * *>(&::ConstantMaps::DAT_01201090))->active) || m34 == m70))
     {
-        reinterpret_cast<::BoneHost *>(((*reinterpret_cast<::fnv_00bbd000::Pipeline * *>(&::DAT_011f9508))))->FUN_00e6fe30((::SkinMatrixBlock *)(params), (::Xf *)(extra), 0, 3, 1);
+        reinterpret_cast<::BoneHost *>(((*reinterpret_cast<::fnv_00bbd000::Pipeline * *>(&::DAT_011f9508))))->FUN_00e6fe30((::SkinMatrixBlock *)(params), extra, 0, 3, 1);
         Map* resource = m70;
         int texture = params->m28;
         int address = params->m20;
@@ -2648,14 +2643,14 @@ struct LightingSource
 };
 struct EffectOp
 {
-    unsigned int unk00;
+    void* unk00;
     unsigned short opCode04;
     unsigned short unk06;
     unsigned char unk08;
     unsigned char count09;
     unsigned char unk0a;
     unsigned char unk0b;
-    int* indices0c;
+    void** indices0c;
 };
 struct OtherData
 {
@@ -2843,7 +2838,7 @@ struct ActorOrigin
 // Sets light colors and updates position/alpha entries in DAT_01201c90 using matrix transforms, actor origin, and scale adjustments.
 // @fnv 0x00bbc050
 void FUN_00bbc050(LightingSource* source, EffectOp* op, unsigned int type, OtherData* detail, Matrix* matrix,
-                            int adjustScale, SizeScale* size)
+                            const void* adjustScale, SizeScale* size)
 {
     LocalPoint3 vPoint, v;
     float amount = source->intensity6c;
@@ -3501,7 +3496,7 @@ ShaderPassEntry* RenderPassShader::SetupPass(int kind, RenderContext* context)
         reinterpret_cast<::FUN_00bbdda0_cls *>(this)->SetupTextureStages((::FUN_00bbdcd0_Arg1 *)(context), (::FUN_00bbdcd0_Arg2 *)(pass));
         break;
     case 376:
-        pass = (ShaderPassEntry*)(*reinterpret_cast<int *>(&::DAT_01200ec0));
+        pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::DAT_01200ec0));
         break;
     case 383:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200edc));
@@ -3671,11 +3666,11 @@ ShaderPassEntry* RenderPassShader::SetupPass(int kind, RenderContext* context)
         break;
     case 413:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f54));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 414:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f58));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 415:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f5c));
@@ -3685,29 +3680,29 @@ ShaderPassEntry* RenderPassShader::SetupPass(int kind, RenderContext* context)
         ::DAT_01201b5c = context->color90;
         pass->stages[4]->texture = (void*)::DAT_011f9530;
         pass->stages[5]->texture = *context->sourceB4;
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 416:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f60));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         reinterpret_cast<::ShaderUpdater *>(this)->UpdateShaderEntry((::ShaderEntryTable *)(pass), (::ShaderInterface *)(context), 4);
         break;
     case 417:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f64));
         (*reinterpret_cast<float *>(&::ConstantMaps::DAT_01201b90)) = context->scaleE8;
         ::DAT_01201b94 = context->scaleEC;
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         reinterpret_cast<::ShaderUpdater *>(this)->UpdateShaderEntry((::ShaderEntryTable *)(pass), (::ShaderInterface *)(context), 4);
         break;
     case 418:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f68));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         pass->stages[4]->texture = context->sourceAC->data;
         pass->stages[5]->texture = context->sourceB0->data;
         break;
     case 419:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f6c));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         pass->stages[4]->texture = context->sourceAC->data;
         pass->stages[5]->texture = context->sourceB0->data;
         {
@@ -3718,50 +3713,50 @@ ShaderPassEntry* RenderPassShader::SetupPass(int kind, RenderContext* context)
     case 420:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f70));
         pass->stages[6]->texture = *context->sourceB4;
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 421:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f74));
         pass->stages[6]->texture = *context->sourceB4;
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 422:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f78));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 423:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f7c));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 424:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f80));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         reinterpret_cast<::ShaderUpdater *>(this)->UpdateShaderEntry((::ShaderEntryTable *)(pass), (::ShaderInterface *)(context), 4);
         break;
     case 425:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f84));
         (*reinterpret_cast<float *>(&::ConstantMaps::DAT_01201b90)) = context->scaleE8;
         ::DAT_01201b94 = context->scaleEC;
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         reinterpret_cast<::ShaderUpdater *>(this)->UpdateShaderEntry((::ShaderEntryTable *)(pass), (::ShaderInterface *)(context), 4);
         break;
     case 426:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f88));
         pass->stages[6]->texture = *context->sourceB4;
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 427:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f8c));
         pass->stages[6]->texture = *context->sourceB4;
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 428:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f90));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 429:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f94));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 430:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f98));
@@ -3771,29 +3766,29 @@ ShaderPassEntry* RenderPassShader::SetupPass(int kind, RenderContext* context)
         ::DAT_01201b5c = context->color90;
         pass->stages[4]->texture = (void*)::DAT_011f9530;
         pass->stages[5]->texture = *context->sourceB4;
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 431:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200f9c));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         reinterpret_cast<::ShaderUpdater *>(this)->UpdateShaderEntry((::ShaderEntryTable *)(pass), (::ShaderInterface *)(context), 4);
         break;
     case 432:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fa0));
         (*reinterpret_cast<float *>(&::ConstantMaps::DAT_01201b90)) = context->scaleE8;
         ::DAT_01201b94 = context->scaleEC;
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         reinterpret_cast<::ShaderUpdater *>(this)->UpdateShaderEntry((::ShaderEntryTable *)(pass), (::ShaderInterface *)(context), 4);
         break;
     case 433:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fa4));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         pass->stages[4]->texture = context->sourceAC->data;
         pass->stages[5]->texture = context->sourceB0->data;
         break;
     case 434:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fa8));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         pass->stages[4]->texture = context->sourceAC->data;
         pass->stages[5]->texture = context->sourceB0->data;
         {
@@ -3804,82 +3799,82 @@ ShaderPassEntry* RenderPassShader::SetupPass(int kind, RenderContext* context)
     case 435:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fac));
         pass->stages[6]->texture = *context->sourceB4;
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 436:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fb0));
         pass->stages[6]->texture = *context->sourceB4;
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 437:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fb4));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 438:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fb8));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 439:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fbc));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         reinterpret_cast<::ShaderUpdater *>(this)->UpdateShaderEntry((::ShaderEntryTable *)(pass), (::ShaderInterface *)(context), 4);
         break;
     case 440:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fc0));
         (*reinterpret_cast<float *>(&::ConstantMaps::DAT_01201b90)) = context->scaleE8;
         ::DAT_01201b94 = context->scaleEC;
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         reinterpret_cast<::ShaderUpdater *>(this)->UpdateShaderEntry((::ShaderEntryTable *)(pass), (::ShaderInterface *)(context), 4);
         break;
     case 441:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fc4));
         pass->stages[6]->texture = *context->sourceB4;
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 442:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fc8));
         pass->stages[6]->texture = *context->sourceB4;
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(pass));
         break;
     case 445:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fd4));
-        ::SetNodeResultValue((::FNV_A1 *)this, (::FNV_Node *)(pass), (int)(context));
+        ::SetNodeResultValue((::FNV_A1 *)(pass), (::FNV_Node *)(context), kind);
         reinterpret_cast<::C0BC90Shader *>(this)->SetupPassTextureStage((::C0BC90Pass *)(pass), (::C0BC90Geometry *)(context));
         reinterpret_cast<::fnv_00c0bcf0::C0BCF0Shader *>(this)->ApplyTextureStage((::fnv_00c0bcf0::C0BCF0Pass *)(pass), (::fnv_00c0bcf0::C0BCF0Geometry *)(context), 0);
         break;
     case 446:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fd8));
-        ::SetNodeResultValue((::FNV_A1 *)this, (::FNV_Node *)(pass), (int)(context));
+        ::SetNodeResultValue((::FNV_A1 *)(pass), (::FNV_Node *)(context), kind);
         reinterpret_cast<::C0BC90Shader *>(this)->SetupPassTextureStage((::C0BC90Pass *)(pass), (::C0BC90Geometry *)(context));
         reinterpret_cast<::fnv_00c0bcf0::C0BCF0Shader *>(this)->ApplyTextureStage((::fnv_00c0bcf0::C0BCF0Pass *)(pass), (::fnv_00c0bcf0::C0BCF0Geometry *)(context), 0);
         break;
     case 447:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fdc));
-        ::SetNodeResultValue((::FNV_A1 *)this, (::FNV_Node *)(pass), (int)(context));
+        ::SetNodeResultValue((::FNV_A1 *)(pass), (::FNV_Node *)(context), kind);
         reinterpret_cast<::C0BC90Shader *>(this)->SetupPassTextureStage((::C0BC90Pass *)(pass), (::C0BC90Geometry *)(context));
         reinterpret_cast<::fnv_00c0bcf0::C0BCF0Shader *>(this)->ApplyTextureStage((::fnv_00c0bcf0::C0BCF0Pass *)(pass), (::fnv_00c0bcf0::C0BCF0Geometry *)(context), 0);
         break;
     case 448:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fe0));
-        ::SetNodeResultValue((::FNV_A1 *)this, (::FNV_Node *)(pass), (int)(context));
+        ::SetNodeResultValue((::FNV_A1 *)(pass), (::FNV_Node *)(context), kind);
         reinterpret_cast<::C0BC90Shader *>(this)->SetupPassTextureStage((::C0BC90Pass *)(pass), (::C0BC90Geometry *)(context));
         reinterpret_cast<::fnv_00c0bcf0::C0BCF0Shader *>(this)->ApplyTextureStage((::fnv_00c0bcf0::C0BCF0Pass *)(pass), (::fnv_00c0bcf0::C0BCF0Geometry *)(context), 0);
         break;
     case 449:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fe4));
-        ::SetNodeResultValue((::FNV_A1 *)this, (::FNV_Node *)(pass), (int)(context));
+        ::SetNodeResultValue((::FNV_A1 *)(pass), (::FNV_Node *)(context), kind);
         reinterpret_cast<::C0BC90Shader *>(this)->SetupPassTextureStage((::C0BC90Pass *)(pass), (::C0BC90Geometry *)(context));
         reinterpret_cast<::fnv_00c0bcf0::C0BCF0Shader *>(this)->ApplyTextureStage((::fnv_00c0bcf0::C0BCF0Pass *)(pass), (::fnv_00c0bcf0::C0BCF0Geometry *)(context), 0);
         break;
     case 450:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fe8));
-        ::SetNodeResultValue((::FNV_A1 *)this, (::FNV_Node *)(pass), (int)(context));
+        ::SetNodeResultValue((::FNV_A1 *)(pass), (::FNV_Node *)(context), kind);
         reinterpret_cast<::C0BC90Shader *>(this)->SetupPassTextureStage((::C0BC90Pass *)(pass), (::C0BC90Geometry *)(context));
         reinterpret_cast<::fnv_00c0bcf0::C0BCF0Shader *>(this)->ApplyTextureStage((::fnv_00c0bcf0::C0BCF0Pass *)(pass), (::fnv_00c0bcf0::C0BCF0Geometry *)(context), 0);
         break;
     case 451:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fec));
-        ::SetNodeResultValue((::FNV_A1 *)this, (::FNV_Node *)(pass), (int)(context));
+        ::SetNodeResultValue((::FNV_A1 *)(pass), (::FNV_Node *)(context), kind);
         reinterpret_cast<::C0BC90Shader *>(this)->SetupPassTextureStage((::C0BC90Pass *)(pass), (::C0BC90Geometry *)(context));
         reinterpret_cast<::fnv_00c0bcf0::C0BCF0Shader *>(this)->ApplyTextureStage((::fnv_00c0bcf0::C0BCF0Pass *)(pass), (::fnv_00c0bcf0::C0BCF0Geometry *)(context), 0);
         {
@@ -3950,12 +3945,12 @@ ShaderPassEntry* RenderPassShader::SetupPass(int kind, RenderContext* context)
     case 456:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01201000));
         pass->stages[0]->texture = *(void**)context->sourceAC;
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 1);
         break;
     case 458:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01201008));
         pass->stages[0]->texture = *(void**)context->sourceAC;
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 1);
         break;
     case 460:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01201010));
@@ -3965,7 +3960,7 @@ ShaderPassEntry* RenderPassShader::SetupPass(int kind, RenderContext* context)
                 texture = (*reinterpret_cast<void * *>(&::DAT_011f9510));
             pass->stages[0]->texture = texture;
         }
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 1);
         break;
     case 462:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01201014));
@@ -3975,7 +3970,7 @@ ShaderPassEntry* RenderPassShader::SetupPass(int kind, RenderContext* context)
                 texture = (*reinterpret_cast<void * *>(&::DAT_011f9510));
             pass->stages[0]->texture = texture;
         }
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 1);
         break;
     case 464:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01201018));
@@ -3985,45 +3980,45 @@ ShaderPassEntry* RenderPassShader::SetupPass(int kind, RenderContext* context)
                 texture = (*reinterpret_cast<void * *>(&::DAT_011f9510));
             pass->stages[0]->texture = texture;
         }
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 1);
         break;
     case 465:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_0120101c));
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 0);
         break;
     case 466:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01201020));
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 0);
         break;
     case 443:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fcc));
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 1);
         break;
     case 444:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01200fd0));
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 1);
         break;
     case 471:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01201034));
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 0);
         break;
     case 472:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01201038));
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 0);
         break;
     case 473:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_0120103c));
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 0);
         ::FUN_00b78a70();
         break;
     case 474:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01201040));
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 0);
         ::FUN_00b78a70();
         break;
     case 475:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01201044));
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 0);
         DAT_01201384 = reinterpret_cast<::FUN_00c02d40_cls *>(((*reinterpret_cast<::fnv_00c0bd40::ImageManager * *>(&::DAT_011f91ac))->root->effect))->FUN_00c02d40();
         DAT_01201388 = (*reinterpret_cast<::fnv_00c0bd40::ImageManager * *>(&::DAT_011f91ac))->root->effect->parameter58;
         DAT_0120138c = 0.0f;
@@ -4031,22 +4026,22 @@ ShaderPassEntry* RenderPassShader::SetupPass(int kind, RenderContext* context)
         break;
     case 476:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01201048));
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 0);
         DAT_01201384 = reinterpret_cast<::FUN_00c02d40_cls *>(((*reinterpret_cast<::fnv_00c0bd40::ImageManager * *>(&::DAT_011f91ac))->root->effect))->FUN_00c02d40();
         DAT_01201388 = (*reinterpret_cast<::fnv_00c0bd40::ImageManager * *>(&::DAT_011f91ac))->root->effect->parameter58;
         DAT_0120138c = 0.0f;
         break;
     case 477:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_0120104c));
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 0);
         break;
     case 478:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01201050));
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 0);
         break;
     case 479:
         pass = (*reinterpret_cast<::fnv_00c0bd40::ShaderPassEntry * *>(&::ShaderSelection::DAT_01201054));
-        ::FUN_00bbc610((void *)this, (unsigned int)(pass));
+        ::FUN_00bbc610(pass, 0);
         break;
     }
     return pass;
@@ -4194,7 +4189,7 @@ class FUN_00bbe020_cls
 // @fnv 0x00bbe020
 void FUN_00bbe020_cls::SetLighting(int a1)
 {
-    (*reinterpret_cast<unsigned int *>(&::DAT_0126f74c)) = ((unsigned int)(reinterpret_cast<::ShaderSelection::Shader *>((a1))->FUN_00c0abd0({})));
+    ::DAT_0126f74c = (std::intptr_t)(reinterpret_cast<::ShaderSelection::Shader *>(this)->FUN_00c0abd0(a1));
     DAT_01201b30 = (*reinterpret_cast<::Lighting30Packet4 *>(&::DAT_011a9bd0));
     (*reinterpret_cast<::Lighting30PacketState * *>(&::DAT_012010c4))->dirty = true;
     DAT_01200bf4 = true;
@@ -4377,12 +4372,12 @@ void SM3ShaderLoader::FUN_00bb96f0()
         if (i == 1 || i == 4 || i == 7 || i == 10)
         {
             if (::DAT_011f94a4)
-                (*reinterpret_cast<fnv_00bb96f0::BSVertexShaderPtr (*)[57]>(&::DAT_01200dd8))[i] = ((::fnv_00bb96f0::BSVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(shaderPath), (const char *)(macros), "vs_3_0")));
+                (*reinterpret_cast<fnv_00bb96f0::BSVertexShaderPtr (*)[57]>(&::DAT_01200dd8))[i] = ((::fnv_00bb96f0::BSVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(shaderPath, (::_D3DXMACRO *)(macros), "vs_3_0", name)));
             else
-                (*reinterpret_cast<fnv_00bb96f0::BSVertexShaderPtr (*)[57]>(&::DAT_01200dd8))[i] = ((::fnv_00bb96f0::BSVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(shaderPath), (const char *)(macros), shaderProfile)));
+                (*reinterpret_cast<fnv_00bb96f0::BSVertexShaderPtr (*)[57]>(&::DAT_01200dd8))[i] = ((::fnv_00bb96f0::BSVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(shaderPath, (::_D3DXMACRO *)(macros), shaderProfile, name)));
         }
         else
-            (*reinterpret_cast<fnv_00bb96f0::BSVertexShaderPtr (*)[57]>(&::DAT_01200dd8))[i] = ((::fnv_00bb96f0::BSVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(shaderPath), (const char *)(macros), shaderProfile)));
+            (*reinterpret_cast<fnv_00bb96f0::BSVertexShaderPtr (*)[57]>(&::DAT_01200dd8))[i] = ((::fnv_00bb96f0::BSVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(shaderPath, (::_D3DXMACRO *)(macros), shaderProfile, name)));
     }
 }
 }  // namespace fnv_00bb96f0
@@ -5152,7 +5147,7 @@ struct Arg
 {
     Geo* g0;
     int u4;
-    int p8;
+    void* p8;
     struct P0c* pc;
     Geo* g10;
 };
@@ -5284,7 +5279,7 @@ struct Obj
         int pad_030;
         int v;
     }* b8;
-    int bc;
+    void* bc;
 };
 struct GHold
 {
@@ -5406,13 +5401,13 @@ struct Glob
     int u38;
     int u3c;
     int u40;
-    int h44;
+    void* h44;
     Lst* l48;
     int u4c;
     int u50;
     int u54;
     int u58;
-    int h5c;
+    void* h5c;
 };
 struct Lst
 {
@@ -5446,7 +5441,7 @@ struct Lst
     virtual void w27();
     virtual void w28();
     virtual void w29();
-    virtual void vfn(int h, Obj* o, int b, int z, int a, Arg* arg, int z2, void* sub, const char* n2, int z3, int one);
+    virtual void vfn(void* h, Obj* o, void* b, int z, int a, Arg* arg, int z2, void* sub, const char* n2, int z3, int one);
 };
 struct Root
 {
@@ -5806,9 +5801,9 @@ void Shadow::FUN_00bbef90(Arg* apArgs)
     if (!name)
         name = (*reinterpret_cast<char (*)[]>(&::g_defaultBound));
     int a = obj->b8->v;
-    int b = obj->bc;
+    void* b = obj->bc;
     P0c* pc = apArgs->pc;
-    int p8 = apArgs->p8;
+    void* p8 = apArgs->p8;
     Mat mat;
     if ((unsigned)(mode - 0x1d3) <= 3 && (apArgs->g0->flags & 1))
         ::FUN_00b97e30(0, 1);
@@ -5817,30 +5812,30 @@ void Shadow::FUN_00bbef90(Arg* apArgs)
     if (mode == 0x1e0 || mode == 0x1e1)
     {
         reinterpret_cast<::FUN_00bbdcd0_shell *>(this)->ApplyTextureStages((::FUN_00bbdcd0_Arg1 *)(pc), (::FUN_00bbdcd0_Arg2 *)((*reinterpret_cast<::fnv_00bbef90::Glob * *>(&::DAT_0126f74c))));
-        ::FUN_00bbde20((int)this, (::ShadowSceneOwner *)(obj), (int)(pc));
-        ::UpdateTransformedPosition(*(const ::M_bbb890 *)this, (*(::Obj_bbb890 * *)&(const ::fnv_00bbef90::Mat &)(mat)));
+        ::FUN_00bbde20(obj, (::ShadowSceneOwner *)(pc), (*reinterpret_cast<::fnv_00bbef90::Glob * *>(&::DAT_0126f74c)));
+        ::UpdateTransformedPosition(*(const ::M_bbb890 *)(&mat), (::Obj_bbb890 *)(sub));
     }
     else
     {
         if (mode == 0xe || mode == 0xf)
             reinterpret_cast<::FUN_00bbdda0_cls *>(this)->SetupTextureStages((::FUN_00bbdcd0_Arg1 *)(pc), (::FUN_00bbdcd0_Arg2 *)((*reinterpret_cast<::fnv_00bbef90::Glob * *>(&::DAT_0126f74c))));
-        ::fnv_00bbc050::FUN_00bbc050((::fnv_00bbc050::LightingSource *)this, (::fnv_00bbc050::EffectOp *)(pc), (unsigned int)(root), (::fnv_00bbc050::OtherData *)(mode), (::fnv_00bbc050::Matrix *)(p8), (int)(&mat), (::fnv_00bbc050::SizeScale *)(b));
+        ::fnv_00bbc050::FUN_00bbc050((::fnv_00bbc050::LightingSource *)(pc), (::fnv_00bbc050::EffectOp *)(root), mode, (::fnv_00bbc050::OtherData *)(p8), (::fnv_00bbc050::Matrix *)(&mat), b, (::fnv_00bbc050::SizeScale *)(sub));
         reinterpret_cast<::S00bbe6b0_Renderer *>(this)->FUN_00bbe6b0((::S00bbe6b0_Src *)(root), mode, b, sub);
-        ::fnv_00bbba00::UpdateShaderMatrices((int)this, (const ::fnv_00bbba00::ShaderTransform *)(b));
+        ::fnv_00bbba00::UpdateShaderMatrices(b, (const ::fnv_00bbba00::ShaderTransform *)(sub));
         if ((*reinterpret_cast<::fnv_00bbef90::GHold * *>(&::ConstantMaps::DAT_012010ac))->b)
             (*reinterpret_cast<float *>(&::ConstantMaps::DAT_01201350)) = (float)(::DAT_011f940c / 3600.0 * 6.283180236816406 * pc->ie4);
-        ::UpdatePositionOffset(*(const ::NiPoint3 *)this);
-        ::UpdateTransformedPosition(*(const ::M_bbb890 *)this, (*(::Obj_bbb890 * *)&(const ::fnv_00bbef90::Mat &)(mat)));
-        ::FUN_00bbbda0((const char *)this);
-        ::fnv_00bbe9c0::FUN_00bbe9c0((const ::fnv_00bbe9c0::SolPosition *)this, (::fnv_00bbe9c0::S00bbe9c0_Obj *)(name), (::fnv_00bbe9c0::S00bbe9c0_Flags **)(pc), (unsigned int)(apArgs));
-        ::ApplyLightSource((::LightSource *)this, (::RenderContext *)(p8));
+        ::UpdatePositionOffset(*(const ::NiPoint3 *)(name));
+        ::UpdateTransformedPosition(*(const ::M_bbb890 *)(&mat), (::Obj_bbb890 *)(sub));
+        ::FUN_00bbbda0((const char *)(pc));
+        ::fnv_00bbe9c0::FUN_00bbe9c0((const ::fnv_00bbe9c0::SolPosition *)(name), (::fnv_00bbe9c0::S00bbe9c0_Obj *)(pc), (::fnv_00bbe9c0::S00bbe9c0_Flags **)(apArgs), mode);
+        ::ApplyLightSource((::LightSource *)(p8), (::RenderContext *)(pc));
         ::FUN_00bbbdf0((void *)this, 0, (char *)((pc)));
         if ((*reinterpret_cast<::fnv_00bbef90::GHold * *>(&::ConstantMaps::DAT_012010dc))->b)
         {
             (*reinterpret_cast<float *>(&::ConstantMaps::DAT_01201ba0)) = pc->fe8;
             DAT_01201ba4 = pc->fec;
         }
-        ::FUN_00bbbe30(pc, {}, {});
+        ::FUN_00bbbe30(this, 0, (::DummyVTable *)(pc));
         ::fnv_00bbbe80::UpdateFogPlanes();
         if ((unsigned)(mode - 0x1c4) <= 3)
         {
@@ -6302,7 +6297,7 @@ struct S00bbe6b0_Cam
 
 
 // @fnv 0x00bbe6b0
-void S00bbe6b0_Renderer::FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, int flag, void* out)
+void S00bbe6b0_Renderer::FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, const void* flag, void* out)
 {
     __declspec(align(16)) S00bbe6b0_Mat mat;
     __declspec(align(16)) S00bbe6b0_Mat world;

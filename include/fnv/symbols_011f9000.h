@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class B57FF0RefObject;
 class B58070AVObject;
 class BSTextureManager;
@@ -217,7 +219,7 @@ extern ::NiPointer< ::B57FF0RefObject> DAT_011f9528;
 // 0x011f952c
 extern ::NiPointer< ::B57FF0RefObject> DAT_011f952c;
 // 0x011f9530
-extern int DAT_011f9530;
+extern std::intptr_t DAT_011f9530;
 // 0x011f9534
 extern unsigned int DAT_011f9534;
 // 0x011f9538

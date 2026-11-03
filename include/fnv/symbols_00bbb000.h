@@ -12,7 +12,7 @@ void ApplyLighting30Packet(const ::Lighting30Packet4 *, bool);
 // 0x00bbb890
 void UpdateTransformedPosition(::M_bbb890, ::Obj_bbb890 *);
 // 0x00bbba00
-namespace fnv_00bbba00 { void UpdateShaderMatrices(int, const ::fnv_00bbba00::ShaderTransform *); }
+namespace fnv_00bbba00 { void UpdateShaderMatrices(const void *, const ::fnv_00bbba00::ShaderTransform *); }
 // 0x00bbbcf0
 void UpdatePositionOffset(const ::NiPoint3 &);
 // 0x00bbbda0

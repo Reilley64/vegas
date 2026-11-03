@@ -415,21 +415,16 @@ int FUN_00b7a6f0(unsigned char* _this, int, unsigned char* a1, unsigned char* pF
     return *reinterpret_cast<int*>(_this + 0x6c);
 }
 
-extern int DAT_011febd4;
+typedef void(* Fn128)(void*, void*);
 
-typedef void(* Fn128)(void*, int);
-
-// Calls the virtual function at offset 0x128 on self for each int in DAT_011fdff8 up to &DAT_011febd4.
+// Calls the virtual function at offset 0x128 on self for each of the 759 passes in DAT_011fdff8.
 // @fnv 0x00b78a40
 void FUN_00b78a40(void** self)
 {
-    int* p = (*reinterpret_cast<int (*)[]>(&::fnv_00b7a730::DAT_011fdff8));
-    do
-    {
-        reinterpret_cast<Fn128*>(*self)[0x128 / 4](self, *p);
-        ++p;
-    } while (p < &DAT_011febd4);
+    for (int i = 0; i < 759; ++i)
+        reinterpret_cast<Fn128*>(*self)[0x128 / 4](self, (*reinterpret_cast<void* (*)[759]>(&::fnv_00b7a730::DAT_011fdff8))[i]);
 }
+
 
 extern float DAT_011fd958;
 

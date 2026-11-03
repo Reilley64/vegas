@@ -377,7 +377,7 @@ FUN_00c1a660_holder* FUN_00c1a660_holder::FUN_00c1a660(unsigned int a)
     return this;
 }
 
-extern int DAT_011f9530;
+extern intptr_t DAT_011f9530;
 struct FUN_00c0bb20_class
 {
     void FUN_00c0bb20(int a, int b);

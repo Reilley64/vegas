@@ -1000,6 +1000,10 @@ void __cdecl SetDiagonal(S_00ced310_M* m)
     m->c2.z = d;
 }
 
+struct Geometry;
+struct MassPropertiesSV;
+void __cdecl FUN_00ced6b0(Geometry* geometry, float mass, MassPropertiesSV* result);
+
 namespace fnv_00cefb90 {
 
 // Same-file stand-ins as FUN_00cece50 (hkpMassProperties / hkVector4 / hkMatrix3).
@@ -1049,8 +1053,6 @@ struct CEFBAreas
     unsigned m_iCapacity;
 };
 
-int __cdecl FUN_00cee290(const CE50Vector* v0, const CE50Vector* v1, const CE50Vector* v2, float triMass,
-                         float thickness, CE50Body* out);
 extern "C" void _ReadWriteBarrier(void);
 
 __declspec(noinline) void __cdecl AddInertiaTensor(float* c, float m, float* I)
@@ -1064,77 +1066,6 @@ __declspec(noinline) void __cdecl AddInertiaTensor(float* c, float m, float* I)
     I[6] = I[9] = yz;
     float zx = I[8] - m * c[2] * c[0];
     I[8] = I[2] = zx;
-}
-void __cdecl FUN_00ced6b0(const CEFBGeom* geometry, float mass, CE50Body* out);
-__declspec(noinline) int __cdecl FUN_00cee290(const CE50Vector* a, const CE50Vector* b, const CE50Vector* c, float mass,
-                                              float thickness, CE50Body* out)
-{
-    if (mass <= 0.0f || thickness < 0.0f)
-        return 1;
-    __m128 ab = _mm_sub_ps(a->quad, b->quad);
-    __m128 cb = _mm_sub_ps(c->quad, b->quad);
-    __m128 cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(ab, ab, 0xd2), _mm_shuffle_ps(cb, cb, 0xc9)),
-                              _mm_mul_ps(_mm_shuffle_ps(ab, ab, 0xc9), _mm_shuffle_ps(cb, cb, 0xd2)));
-    __m128 sq = _mm_mul_ps(cross, cross);
-    __m128 len = _mm_sqrt_ss(_mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq)));
-    float length;
-    _mm_store_ss(&length, len);
-    CE50Vector center;
-    float thirdF = 1.0f / 3.0f;
-    __m128 thirdV = _mm_load_ss(&thirdF);
-    __m128 third = _mm_shuffle_ps(thirdV, thirdV, 0);
-    center.quad = _mm_mul_ps(_mm_add_ps(_mm_add_ps(a->quad, b->quad), c->quad), third);
-    CE50Matrix inertia;
-    if (thickness < 1e-5f)
-    {
-        float xx = (float)((a->x * a->x + b->x * b->x + c->x * c->x + 9.0 * center.x * center.x) * mass / 12.0);
-        float yy = (float)((a->y * a->y + b->y * b->y + c->y * c->y + 9.0 * center.y * center.y) * mass / 12.0);
-        float zz = (float)((a->z * a->z + b->z * b->z + c->z * c->z + 9.0 * center.z * center.z) * mass / 12.0);
-        inertia.row0.x = yy + zz;
-        inertia.row1.y = xx + zz;
-        inertia.row2.z = xx + yy;
-        inertia.row0.y = inertia.row1.x =
-            -(float)((a->x * a->y + b->x * b->y + c->x * c->y + 9.0 * center.x * center.y) * mass / 12.0);
-        inertia.row0.z = inertia.row2.x =
-            -(float)((a->x * a->z + b->x * b->z + c->x * c->z + 9.0 * center.x * center.z) * mass / 12.0);
-        inertia.row1.z = inertia.row2.y =
-            -(float)((a->y * a->z + b->y * b->z + c->y * c->z + 9.0 * center.y * center.z) * mass / 12.0);
-        FUN_00cebe80((FUN_00cebe80_Struct*)&center, mass, &inertia.row0.x);
-    }
-    else if (length <= 0.0f)
-    {
-        inertia.row0.x = mass * (center.y * center.y + center.z * center.z);
-        inertia.row1.y = mass * (center.x * center.x + center.z * center.z);
-        inertia.row2.z = mass * (center.x * center.x + center.y * center.y);
-        inertia.row0.y = inertia.row1.x = -mass * center.x * center.y;
-        inertia.row0.z = inertia.row2.x = -mass * center.x * center.z;
-        inertia.row1.z = inertia.row2.y = -mass * center.y * center.z;
-    }
-    else
-    {
-        float halfThickness = thickness * 0.5f;
-        __m128 inv = _mm_load_ss(&length);
-        inv = _mm_div_ss(_mm_load_ss(&halfThickness), inv);
-        __m128 delta = _mm_mul_ps(cross, _mm_shuffle_ps(inv, inv, 0));
-        CE50Vector points[6];
-        points[0].quad = _mm_add_ps(a->quad, delta);
-        points[1].quad = _mm_sub_ps(a->quad, delta);
-        points[2].quad = _mm_add_ps(b->quad, delta);
-        points[3].quad = _mm_sub_ps(b->quad, delta);
-        points[4].quad = _mm_add_ps(c->quad, delta);
-        points[5].quad = _mm_sub_ps(c->quad, delta);
-        CEFBTri faces[8] = {{0, 2, 4, -1}, {1, 5, 3, -1}, {0, 3, 2, -1}, {0, 1, 3, -1},
-                            {1, 0, 4, -1}, {1, 4, 5, -1}, {2, 5, 4, -1}, {2, 3, 5, -1}};
-        CEFBGeom prism = {points, 6, 0x80000006u, faces, 8, 0x80000008u};
-        FUN_00ced6b0(&prism, mass, out);
-        center = out->center;
-        inertia = out->inertia;
-    }
-    out->mass = mass;
-    out->volume = length * 0.5f * thickness;
-    out->center = center;
-    out->inertia = inertia;
-    return 0;
 }
 
 struct BoolFlag
@@ -3432,23 +3363,6 @@ struct hkGeometry
     }
 };
 
-__declspec(noinline) void __cdecl FUN_00cebe80(const hkVector4& shift, hkReal mass, hkMatrix3& inertia)
-{
-    inertia(0, 0) -= mass * (shift(1) * shift(1) + shift(2) * shift(2));
-    inertia(1, 1) -= mass * (shift(2) * shift(2) + shift(0) * shift(0));
-    inertia(2, 2) -= mass * (shift(0) * shift(0) + shift(1) * shift(1));
-    inertia(1, 0) += mass * shift(0) * shift(1);
-    inertia(0, 1) = inertia(1, 0);
-    inertia(2, 1) += mass * shift(1) * shift(2);
-    inertia(1, 2) = inertia(2, 1);
-    inertia(0, 2) += mass * shift(0) * shift(2);
-    inertia(2, 0) = inertia(0, 2);
-}
-__declspec(noinline) void __cdecl FUN_00ced6b0(const hkGeometry* geom, hkReal mass, hkpMassProperties& result)
-{
-    result.m_fViscosityFriction += mass;
-    result.m_iBufferSize += (hkReal)geom->m_kVertices.GetLogicalSize();
-}
 
 // @fnv 0x00cee290
 int __cdecl FUN_00cee290(const hkVector4& v0, const hkVector4& v1, const hkVector4& v2, hkReal mass,
@@ -3496,7 +3410,7 @@ int __cdecl FUN_00cee290(const hkVector4& v0, const hkVector4& v1, const hkVecto
         inertia(0, 1) = inertia(1, 0) = -xy;
         inertia(0, 2) = inertia(2, 0) = -xz;
         inertia(2, 1) = inertia(1, 2) = -yz;
-        FUN_00cebe80(com, mass, inertia);
+        ::FUN_00cebe80(reinterpret_cast<FUN_00cebe80_Struct*>(&com), mass, &inertia(0, 0));
     }
     else if (area < tolerance)
     {
@@ -3546,7 +3460,7 @@ int __cdecl FUN_00cee290(const hkVector4& v0, const hkVector4& v1, const hkVecto
             geom.m_uiTriangleCount.expandBy(1)->set(1, 4, 5);
             geom.m_uiTriangleCount.expandBy(1)->set(2, 5, 4);
             geom.m_uiTriangleCount.expandBy(1)->set(2, 3, 5);
-            FUN_00ced6b0(&geom, mass, massProperties);
+            ::FUN_00ced6b0(reinterpret_cast<Geometry*>(&geom), mass, reinterpret_cast<MassPropertiesSV*>(&massProperties));
         }
         com = massProperties.m_kCenterOfMass1;
         inertia = massProperties.m_kInertiaTensor;

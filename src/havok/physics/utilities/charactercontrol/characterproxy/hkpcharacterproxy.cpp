@@ -2220,9 +2220,6 @@ __declspec(noinline) static unsigned char FUN_00cadca0(ContactBuffer* buffer, un
     return 0;
 }
 
-volatile unsigned g_i; ContactBuffer* volatile g_b; volatile float g_d; const __m128* volatile g_p; volatile int g_o;
-void CallTarget_cadca0() { ContactBuffer* b=g_b; unsigned i=g_i; float d=g_d; const __m128* p=g_p; g_o=FUN_00cadca0(b,i,d,*p); g_o=FUN_00cadca0(b,i,d,*p); }
-
 static __forceinline __m128 CaccSplat(float value) { __m128 scalar = _mm_load_ss(&value); return _mm_shuffle_ps(scalar, scalar, 0); }
 
 __declspec(align(16)) struct S_V4 { float x, y, z, w; };
@@ -2972,20 +2969,6 @@ struct S00cae900_RootPoint {
 };
 
 
-static bool FUN_00cadca0(float maxSlopeCos, const S00cae900_Vec& up, int index, S00cae900_Array<S00cae900_ConstraintInfo>& surfaceConstraintsInOut)
-{
-    const float surfaceVerticalComponent = surfaceConstraintsInOut[index].m_kTriangleNormal.dot3(up);
-    if (surfaceVerticalComponent > 0.01f && surfaceVerticalComponent < maxSlopeCos)
-    {
-        S00cae900_ConstraintInfo& newConstraint = surfaceConstraintsInOut.AllocatePair();
-        newConstraint = surfaceConstraintsInOut[index];
-        newConstraint.m_kTriangleNormal.addMul4(-surfaceVerticalComponent, up);
-        newConstraint.m_kTriangleNormal.normalize3();
-        return true;
-    }
-    return false;
-}
-
 class S00cae900_PadPtr {
 public:
     __forceinline void operator=(char* e) { m_kStorage = e; }
@@ -3119,7 +3102,7 @@ void S00cae900_Proxy::FUN_00cae900(const S00cae900_Vec& direction, S00cae900_Sur
     for (int i = 0; i < m_kContactManifold.GetLogicalSize(); i++)
     {
         GetSurfaceConstraintInfo(m_kContactManifold[i], surfaceConstraints[i], 0.0f);
-        FUN_00cadca0(m_fMaximumSlopeAngle, m_vStart, i, surfaceConstraints);
+        FUN_00cadca0(reinterpret_cast<ContactBuffer*>(&surfaceConstraints), i, m_fMaximumSlopeAngle, reinterpret_cast<const __m128&>(m_vStart));
     }
     if (surfaceConstraints.getCapacity() - surfaceConstraints.GetLogicalSize() < m_uiUserPlanes)
     {
@@ -3472,20 +3455,6 @@ struct S00caefd0_RootPoint {
 };
 
 
-static bool FUN_00cadca0(float maxSlopeCos, const S00caefd0_Vec& up, int index, S00caefd0_Array<S00caefd0_ConstraintInfo>& surfaceConstraintsInOut)
-{
-    const float surfaceVerticalComponent = surfaceConstraintsInOut[index].m_kTriangleNormal.dot3(up);
-    if (surfaceVerticalComponent > 0.01f && surfaceVerticalComponent < maxSlopeCos)
-    {
-        S00caefd0_ConstraintInfo& newConstraint = surfaceConstraintsInOut.AllocatePair();
-        newConstraint = surfaceConstraintsInOut[index];
-        newConstraint.m_kTriangleNormal.addMul4(-surfaceVerticalComponent, up);
-        newConstraint.m_kTriangleNormal.normalize3();
-        return true;
-    }
-    return false;
-}
-
 class S00caefd0_PadPtr {
 public:
     __forceinline void operator=(char* e) { m_kStorage = e; }
@@ -3571,7 +3540,7 @@ void S00caefd0_Proxy::FUN_00caefd0(const S00caefd0_Vec& direction, S00caefd0_Sur
     for (int i = 0; i < m_kContactManifold.GetLogicalSize(); i++)
     {
         GetSurfaceConstraintInfo(m_kContactManifold[i], surfaceConstraints[i], 0.0f);
-        FUN_00cadca0(m_fMaximumSlopeAngle, m_vStart, i, surfaceConstraints);
+        FUN_00cadca0(reinterpret_cast<ContactBuffer*>(&surfaceConstraints), i, m_fMaximumSlopeAngle, reinterpret_cast<const __m128&>(m_vStart));
     }
     if (surfaceConstraints.getCapacity() - surfaceConstraints.GetLogicalSize() < m_uiUserPlanes)
     {
@@ -3775,7 +3744,6 @@ struct PStream {
 };
 __forceinline void timerPart(const char* tag) throw(){PStream& s=*static_cast<PStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=tag;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
 __forceinline void timerBegin() throw(){PStream& s=*static_cast<PStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));if(s.available()){PTimerList* p=reinterpret_cast<PTimerList*>(s.GetStreamEnd());p->tag=str_010c8508;p->first=str_010c8500;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
-static __declspec(noinline) bool FUN_00cadca0(int index,PArray<PPlane>& planes,float limit,const PVec& up) throw(){float d=planes[index].normal.dot(up);if(d>0.01f && d<limit){PPlane& out=planes.expand();out=planes[index];PVec correction;correction.mul(-d,up);out.normal.add(correction);out.normal.normalize();return true;}return false;}
 
 __forceinline PBody* getBody(BhkShape* s) throw(){return s->unk18==1?reinterpret_cast<PBody*>(reinterpret_cast<char*>(s)+s->unk10):0;}
 __forceinline POther* getOther(BhkShape* s) throw(){return s->unk18==2?reinterpret_cast<POther*>(reinterpret_cast<char*>(s)+s->unk10):0;}
@@ -3808,7 +3776,7 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,PCollector& cast
         planes.resizeUnchecked(manifold.count());
         for(int i=0;i<manifold.count();++i) {
             convert(manifold[i],planes[i],step.delta-remaining);
-            FUN_00cadca0(i,planes,slope,up);
+            FUN_00cadca0(reinterpret_cast<ContactBuffer*>(&planes), i, slope, reinterpret_cast<const __m128&>(up));
         }
         int used=planes.count();int extra=userPlanes;if(planes.room()-used<extra) planes.reserve(used+extra);
         {PStream& s=*static_cast<PStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84d0;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}

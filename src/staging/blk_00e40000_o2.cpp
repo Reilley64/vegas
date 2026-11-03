@@ -1688,28 +1688,28 @@ int __cdecl FUN_00e54930(float **apValues, int count)
     return minimumIndex;
 }
 
-void __cdecl FUN_00e535a0(int a, int b);
-
 struct FUN_00e54ad0_cls
 {
-    int unk00;
-    void FUN_00e54ad0();
+    float x;
+    float y;
+    float z;
+    float w;
+    float FUN_00e54ad0();
+    float GetHelperValueAsFloat();
 };
 
+// Returns the dot product of the vector with itself.
 // @fnv 0x00e54ad0
-void FUN_00e54ad0_cls::FUN_00e54ad0()
+float FUN_00e54ad0_cls::FUN_00e54ad0()
 {
-    FUN_00e535a0((const ::Vec4f *)this, (const ::Vec4f *)this);
+    return ::FUN_00e535a0((const ::Vec4f *)this, (const ::Vec4f *)this);
 }
 
-// The two callees below are unnamed in the binary's symbol table; they bind by position.
-extern double __cdecl helper_value();
-
+// Returns the vector's length: the square root of FUN_00e54ad0.
 // @fnv 0x00e54ae0
-float __cdecl GetHelperValueAsFloat()
+float FUN_00e54ad0_cls::GetHelperValueAsFloat()
 {
-    static_cast<::FUN_00e54ad0_cls *>(nullptr)->FUN_00e54ad0();
-    return (float)helper_value();
+    return (float)sqrt(FUN_00e54ad0());
 }
 
 class FUN_00e54b00_cls
@@ -1775,21 +1775,13 @@ float Vector4NormalizedDot(const E54B50Vector4& kA, const E54B50Vector4& kB)
     return (float)(E54B50Dot(kA, kB) / (kA.Length() * kB.Length()));
 }
 
-struct FUN_00e54ae0_class
-{
-    void GetHelperValueAsFloat();
-};
-
-struct FUN_00e532b0_class
-{
-    FUN_00e54ae0_class* FUN_00e532b0(void* buffer, void* value);
-};
-
+// Returns the distance between the two points: the length of b - a.
 // @fnv 0x00e54ba0
-void __cdecl FUN_00e54ba0(void* value, FUN_00e532b0_class* object)
+float __cdecl FUN_00e54ba0(const FUN_00e54ad0_cls& a, const FUN_00e54ad0_cls& b)
 {
-    void* buffer[4];
-    object->FUN_00e532b0(buffer, value)->GetHelperValueAsFloat();
+    FUN_00e54ad0_cls kDifference = b;
+    reinterpret_cast<FUN_00e531d0_cls*>(&kDifference)->FUN_00e531d0(&a.x);
+    return kDifference.GetHelperValueAsFloat();
 }
 
 bool* __cdecl IsSampleBoundary(bool* result, int index, float** samples, int endIndex);
@@ -7255,15 +7247,12 @@ bool* __cdecl IsSampleBoundary(bool* result, int index, float** samples, int end
 
 int __cdecl FUN_00e54930(float **apValues, int count);
 
-float __cdecl GetHelperValueAsFloat();
-
-
 void __cdecl LookupAndConsume(FUN_00e54b20_src* src, unsigned int key);
 
 float Vector4NormalizedDot(const E54B50Vector4& kA, const E54B50Vector4& kB);
 
 
-void __cdecl FUN_00e54ba0(void* value, FUN_00e532b0_class* object);
+float __cdecl FUN_00e54ba0(const FUN_00e54ad0_cls& a, const FUN_00e54ad0_cls& b);
 
 int __cdecl FindFirstNonZero(int aiStartIndex, intptr_t b, int c);
 

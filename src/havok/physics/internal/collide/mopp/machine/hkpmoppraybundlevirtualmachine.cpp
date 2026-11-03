@@ -70,7 +70,6 @@ RayBundleCopy& RayBundleCopy::FUN_00dd4a90(const RayBundleCopy& rhs)
 // byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
-#include "fnv/decl/RayBundleTraversalMachine.h"
 #include "fnv/symbols_simd.h"
 
 extern const double DAT_010d5198;
@@ -270,53 +269,6 @@ public:
     Vec4Comp FUN_00dd4870(const ShapeContainer* collection, const TreeCode* code, const RayBundleInput& input, RayBundleOutput& rayResult, const Vec4Comp& mask);
 };
 
-inline void BundleMachine::querySub(const TreeCode* code, const RayBundleInput& input, const Vec4Comp& mask)
-{
-    m_pMoppCode = code;
-    const unsigned char* programCounter = &m_pMoppCode->m_data[0];
-
-    MachineVectorIndexRecord query;
-    query.m_kVectorBeforeIndex.setZero4();
-
-    m_vRayDirectionVector.SetAllComponents(1.0f / m_pMoppCode->m_info.getScale());
-    query.m_kVectorAfterIndex.SetAllComponents(float(m_pMoppCode->m_info.getScale() * DAT_010d5198));
-
-    Vec4 offset;
-    PointBundlePairAndVector fQuery;
-
-    offset.setBroadcast(code->m_info.m_offset, 0);
-    fQuery.m_kPointBundles[0].m_vec[0].setSub4(m_vFrom.m_vec[0], offset);
-    fQuery.m_kPointBundles[1].m_vec[0].setSub4(m_vTo.m_vec[0], offset);
-    fQuery.m_kPointBundles[0].m_vec[0].mul4(query.m_kVectorAfterIndex);
-    fQuery.m_kPointBundles[1].m_vec[0].mul4(query.m_kVectorAfterIndex);
-
-    offset.setBroadcast(code->m_info.m_offset, 1);
-    fQuery.m_kPointBundles[0].m_vec[1].setSub4(m_vFrom.m_vec[1], offset);
-    fQuery.m_kPointBundles[1].m_vec[1].setSub4(m_vTo.m_vec[1], offset);
-    fQuery.m_kPointBundles[0].m_vec[1].mul4(query.m_kVectorAfterIndex);
-    fQuery.m_kPointBundles[1].m_vec[1].mul4(query.m_kVectorAfterIndex);
-
-    offset.setBroadcast(code->m_info.m_offset, 2);
-    fQuery.m_kPointBundles[0].m_vec[2].setSub4(m_vFrom.m_vec[2], offset);
-    fQuery.m_kPointBundles[1].m_vec[2].setSub4(m_vTo.m_vec[2], offset);
-    fQuery.m_kPointBundles[0].m_vec[2].mul4(query.m_kVectorAfterIndex);
-    fQuery.m_kPointBundles[1].m_vec[2].mul4(query.m_kVectorAfterIndex);
-
-    fQuery.m_kVectorComponent = mask;
-    m_kRays = &input;
-    m_vRayDelta.set(Vec4Comp::MASK_NONE);
-
-    query.m_uiPropertyCount = 0;
-    query.m_iIndex = 0;
-    for (int p = 0; p < 1; p++)
-    {
-        query.m_kProperties[p] = 0;
-    }
-
-    m_iCurrentChunkId = (programCounter[0] != 0x0d) - 1;
-
-    reinterpret_cast<::RayBundleTraversalMachine *>(this)->FUN_00dd3210((const ::QueryState *)(const ::BundleMachine::MachineVectorIndexRecord *)(&query), programCounter, (::RayQuerySet *)(::BundleMachine::PointBundlePairAndVector *)(&fQuery), 0);
-}
 
 // @fnv 0x00dd4870
 Vec4Comp BundleMachine::FUN_00dd4870(const ShapeContainer* collection, const TreeCode* code, const RayBundleInput& input, RayBundleOutput& rayResult, const Vec4Comp& mask)
@@ -368,7 +320,7 @@ class CompareValue;
 class PackedVector {
  __m128 value;
  public:
- __forceinline float& operator()(int i) {return value[i];}
+ __forceinline float& operator()(int i) {return reinterpret_cast<float*>(&value)[i];}
  __forceinline void operator=(const PackedVector& v) { value=v.value; }
  __forceinline void operator=(const __m128& v) { value=v; }
  __forceinline __m128 read() const {return value;}
@@ -804,6 +756,55 @@ __forceinline void UpdateNext(const QueryState* state,RayQuerySet* next);
                                 RayQuerySet* rays, unsigned int chunk);
 
 };
+
+inline void BundleMachine::querySub(const TreeCode* code, const RayBundleInput& input, const Vec4Comp& mask)
+{
+    m_pMoppCode = code;
+    const unsigned char* programCounter = &m_pMoppCode->m_data[0];
+
+    MachineVectorIndexRecord query;
+    query.m_kVectorBeforeIndex.setZero4();
+
+    m_vRayDirectionVector.SetAllComponents(1.0f / m_pMoppCode->m_info.getScale());
+    query.m_kVectorAfterIndex.SetAllComponents(float(m_pMoppCode->m_info.getScale() * DAT_010d5198));
+
+    Vec4 offset;
+    PointBundlePairAndVector fQuery;
+
+    offset.setBroadcast(code->m_info.m_offset, 0);
+    fQuery.m_kPointBundles[0].m_vec[0].setSub4(m_vFrom.m_vec[0], offset);
+    fQuery.m_kPointBundles[1].m_vec[0].setSub4(m_vTo.m_vec[0], offset);
+    fQuery.m_kPointBundles[0].m_vec[0].mul4(query.m_kVectorAfterIndex);
+    fQuery.m_kPointBundles[1].m_vec[0].mul4(query.m_kVectorAfterIndex);
+
+    offset.setBroadcast(code->m_info.m_offset, 1);
+    fQuery.m_kPointBundles[0].m_vec[1].setSub4(m_vFrom.m_vec[1], offset);
+    fQuery.m_kPointBundles[1].m_vec[1].setSub4(m_vTo.m_vec[1], offset);
+    fQuery.m_kPointBundles[0].m_vec[1].mul4(query.m_kVectorAfterIndex);
+    fQuery.m_kPointBundles[1].m_vec[1].mul4(query.m_kVectorAfterIndex);
+
+    offset.setBroadcast(code->m_info.m_offset, 2);
+    fQuery.m_kPointBundles[0].m_vec[2].setSub4(m_vFrom.m_vec[2], offset);
+    fQuery.m_kPointBundles[1].m_vec[2].setSub4(m_vTo.m_vec[2], offset);
+    fQuery.m_kPointBundles[0].m_vec[2].mul4(query.m_kVectorAfterIndex);
+    fQuery.m_kPointBundles[1].m_vec[2].mul4(query.m_kVectorAfterIndex);
+
+    fQuery.m_kVectorComponent = mask;
+    m_kRays = &input;
+    m_vRayDelta.set(Vec4Comp::MASK_NONE);
+
+    query.m_uiPropertyCount = 0;
+    query.m_iIndex = 0;
+    for (int p = 0; p < 1; p++)
+    {
+        query.m_kProperties[p] = 0;
+    }
+
+    m_iCurrentChunkId = (programCounter[0] != 0x0d) - 1;
+
+    reinterpret_cast<::RayBundleTraversalMachine *>(this)->FUN_00dd3210((const ::QueryState *)(const ::BundleMachine::MachineVectorIndexRecord *)(&query), programCounter, (::RayQuerySet *)(::BundleMachine::PointBundlePairAndVector *)(&fQuery), 0);
+}
+
 
 
 

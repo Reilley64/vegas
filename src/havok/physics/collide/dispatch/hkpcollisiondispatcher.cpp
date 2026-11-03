@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkMemoryRouter.h"
+#include "havok/hkpCollisionDispatcher.h"
 #include <cstring>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -41,87 +42,10 @@ struct hkBool
     }
 };
 
-// The agent2 functions of one agent type and its flipped/predictive flags (20 bytes in the 32-bit release).
-struct FUN_00cfbbe0_rec
-{
-    void* m_createFunc;
-    void* m_getPenetrationsFunc;
-    void* m_getClosestPointsFunc;
-    void* m_linearCastFunc;
-    unsigned char m_isFlipped;
-    unsigned char m_isPredictive;
-};
 
-// The agent3 functions of one agent type (hkpCollisionDispatcher::Agent3Funcs order) and its flags.
-struct SrcRec
-{
-    void* m_createFunc;
-    void* m_destroyFunc;
-    void* m_cleanupFunc;
-    void* m_removePointFunc;
-    void* m_commitPotentialFunc;
-    void* m_createZeroContactFunc;
-    void* m_processFunc;
-    void* m_sepNormalFunc;
-    void* m_invalidateTimFunc;
-    void* m_warpTimeFunc;
-    void* m_updateFilterFunc;
-    void* m_calcStatisticsFunc;
-    unsigned char b30;
-    unsigned char b31;
-    unsigned char b32;
-    unsigned char b33;
-    int unk34;
-    int unk38;
-    int unk3C;
-};
 
-// One agent3 table entry: the functions plus the symmetric tag.
-struct Ent
-{
-    SrcRec src;
-    int u40;
-    int u44;
-    int u48;
-    int u4C;
-};
 
 // Offsets are the 32-bit release's.
-struct hkpCollisionDispatcher
-{
-    const void* m_vtable;                                   // +0x0
-    unsigned short m_memSizeAndFlags;                       // +0x4
-    unsigned short m_referenceCount;                        // +0x6
-    void* m_08;                                             // +0x8
-    void* m_contactMgrFactory[8][8];                        // +0xc
-    int m_10c;                                              // +0x10c
-    unsigned int m_hasAlternateType[32];                    // +0x110
-    int m_numAgent2Types;                                   // +0x190
-    int m_194[3];
-    signed char m_agent2Types[32][32];                      // +0x1a0
-    signed char m_agent2TypesPred[32][32];                  // +0x5a0
-    FUN_00cfbbe0_rec m_agent2Func[64];                      // +0x9a0
-    int m_numAgent3Types;                                   // +0xea0
-    int m_ea4[3];
-    signed char m_agent3Types[32][32];                      // +0xeb0
-    signed char m_agent3TypesPred[32][32];                  // +0x12b0
-    Ent m_agent3Func[16];                                   // +0x16b0
-    char m_1bb0[0x1e20 - 0x1bb0];
-    hkBool m_bEnableDeprecatedFeature;                      // +0x1e20
-    char unk1e21;
-    char unk1e22;
-    hkBool m_debugWarnings;                                 // +0x1e23
-    IntegerPair* m_pShapeInheritance;                       // +0x1e24
-    int m_numShapeInheritance;                              // +0x1e28
-    int m_shapeInheritanceCapacity;                         // +0x1e2c
-    CollisionAgentEntry (*m_debugAgent2Table)[32];          // +0x1e30
-    CollisionAgentEntry (*m_debugAgent2TablePred)[32];      // +0x1e34
-    CollisionAgentEntry (*m_debugAgent3Table)[32];          // +0x1e38
-    CollisionAgentEntry (*m_debugAgent3TablePred)[32];      // +0x1e3c
-
-    void RegisterAgentType(signed char (*table)[32], signed char agentType, int typeA, int typeB, signed char origA,
-                           signed char origB, CollisionAgentEntry (*entries)[32], int depth);
-};
 
 struct FUN_00cfb1e0 : hkpCollisionDispatcher
 {
@@ -231,11 +155,11 @@ void hkpCollisionDispatcher::RegisterAgentType(signed char (*table)[32], signed 
                                                signed char origTypeA, signed char origTypeB,
                                                CollisionAgentEntry (*entries)[32], int depth)
 {
-    m_bEnableDeprecatedFeature = true;
+    m_enableDeprecatedFeature = true;
 
     for (int i = 0; i < m_numShapeInheritance; i++)
     {
-        IntegerPair& si = m_pShapeInheritance[i];
+        IntegerPair& si = m_shapeInheritance[i];
         if (si.m_iSecond == typeA)
         {
             RegisterAgentType(table, agentType, si.m_iFirst, typeB, origTypeA, origTypeB, entries, depth + 1);
@@ -305,7 +229,7 @@ void FUN_00cfb510_cls::MergeBitsRecursive(unsigned int uiDstIndex, unsigned int 
 
     for (int i = 0; i < m_numShapeInheritance; ++i)
     {
-        IntegerPair* e = &m_pShapeInheritance[i];
+        IntegerPair* e = &m_shapeInheritance[i];
         if ((unsigned int)e->m_iSecond == uiDstIndex)
         {
             this->MergeBitsRecursive(e->m_iFirst, e->m_iSecond, depth + 1);
@@ -317,12 +241,12 @@ void FUN_00cfb510_cls::MergeBitsRecursive(unsigned int uiDstIndex, unsigned int 
 class FUN_00cfbbe0_cls : public hkpCollisionDispatcher
 {
   public:
-    void FUN_00cfbbe0(FUN_00cfbbe0_rec* a1, int a2, int a3);
+    void FUN_00cfbbe0(hkpCollisionDispatcher::AgentFuncs* a1, int a2, int a3);
 };
 
 // Copies the agent2 functions into the table at the current index, registers the agent type in the agent2 and agent3 tables, and increments the index.
 // @fnv 0x00cfbbe0
-void FUN_00cfbbe0_cls::FUN_00cfbbe0(FUN_00cfbbe0_rec* pRecord, int a2, int a3)
+void FUN_00cfbbe0_cls::FUN_00cfbbe0(hkpCollisionDispatcher::AgentFuncs* pRecord, int a2, int a3)
 {
     int idx = m_numAgent2Types;
     m_agent2Func[idx] = *pRecord;
@@ -337,7 +261,7 @@ void FUN_00cfbbe0_cls::FUN_00cfbbe0(FUN_00cfbbe0_rec* pRecord, int a2, int a3)
     m_numAgent2Types++;
 }
 
-struct SpawnRequest : FUN_00cfbbe0_rec
+struct SpawnRequest : hkpCollisionDispatcher::AgentFuncs
 {
 };
 
@@ -366,30 +290,30 @@ void FUN_00cfbcc0_cls::AddSpawnEntry(SpawnRequest* pRequest, int a, int b)
 
 struct FUN_00cfbd60_cls : hkpCollisionDispatcher
 {
-    int AddEntry(SrcRec* a1, int a2, int a3);
+    int AddEntry(hkpCollisionDispatcher::Agent3Funcs* a1, int a2, int a3);
 };
 
 // @fnv 0x00cfbd60
-int FUN_00cfbd60_cls::AddEntry(SrcRec* pSrc, int a2, int a3)
+int FUN_00cfbd60_cls::AddEntry(hkpCollisionDispatcher::Agent3Funcs* pSrc, int a2, int a3)
 {
-    __declspec(align(16)) Ent e;
-    unk1e21 = 1;
-    e.src = *pSrc;
-    e.u40 = 0;
-    if (a2 != a3 && pSrc->b31 == 0)
+    hkpCollisionDispatcher::Agent3FuncsIntern e;
+    m_1e21 = 1;
+    static_cast<hkpCollisionDispatcher::Agent3Funcs&>(e) = *pSrc;
+    e.m_symmetric = IS_SYMMETRIC;
+    if (a2 != a3 && pSrc->m_ignoreSymmetricVersion == 0)
     {
-        e.u40 = 2;
+        e.m_symmetric = IS_NOT_SYMMETRIC_AND_FLIPPED;
         m_agent3Func[m_numAgent3Types] = e;
         RegisterAgentType(m_agent3Types, m_numAgent3Types, a3, a2, a3, a2, m_debugAgent3Table, 0);
-        if (e.src.b30 != 0)
+        if (e.m_isPredictive != 0)
         {
             RegisterAgentType(m_agent3TypesPred, m_numAgent3Types, a3, a2, a3, a2, m_debugAgent3TablePred, 0);
         }
         m_numAgent3Types++;
-        e.u40 = 1;
+        e.m_symmetric = IS_NOT_SYMMETRIC;
     }
     int idx;
-    if (pSrc->b32 == 0)
+    if (pSrc->m_reusePreviousEntry == 0)
     {
         idx = m_numAgent3Types;
         m_numAgent3Types = idx + 1;
@@ -400,7 +324,7 @@ int FUN_00cfbd60_cls::AddEntry(SrcRec* pSrc, int a2, int a3)
         idx = m_numAgent3Types - 1;
     }
     RegisterAgentType(m_agent3Types, idx, a2, a3, a2, a3, m_debugAgent3Table, 0);
-    if (e.src.b30 != 0)
+    if (e.m_isPredictive != 0)
     {
         RegisterAgentType(m_agent3TypesPred, idx, a2, a3, a2, a3, m_debugAgent3TablePred, 0);
     }
@@ -2320,7 +2244,7 @@ struct CFBED0Dispatcher
     int unk1E18;
     int unk1E1C;
     int unk1E20;
-    CFBED0InheritanceArray m_pShapeInheritance;
+    CFBED0InheritanceArray m_shapeInheritance;
 
     void CollectStatistics(CFBED0StatisticsCollector* collector, const void* cls) const;
 };
@@ -2329,7 +2253,7 @@ struct CFBED0Dispatcher
 // @fnv 0x00cfbed0
 void CFBED0Dispatcher::CollectStatistics(CFBED0StatisticsCollector* collector, const void* cls) const
 {
-    collector->addArray("shapeInheritanceArray", m_pShapeInheritance);
+    collector->addArray("shapeInheritanceArray", m_shapeInheritance);
     for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)
@@ -4322,7 +4246,7 @@ struct CFBF60Dispatcher
     int unk1E18;
     int unk1E1C;
     int unk1E20;
-    CFBF60InheritanceArray m_pShapeInheritance;
+    CFBF60InheritanceArray m_shapeInheritance;
 
     void FUN_00cfbf60(int primaryType, int alternateType);
 };
@@ -4331,17 +4255,17 @@ struct CFBF60Dispatcher
 // @fnv 0x00cfbf60
 void CFBF60Dispatcher::FUN_00cfbf60(int primaryType, int alternateType)
 {
-    for (int i = 0; i < m_pShapeInheritance.m_iElementCount; i++)
+    for (int i = 0; i < m_shapeInheritance.m_iElementCount; i++)
     {
-        const CFBF60ShapeInheritance& si = m_pShapeInheritance.m_data[i];
+        const CFBF60ShapeInheritance& si = m_shapeInheritance.m_data[i];
         if (si.m_iSecond == primaryType && si.m_iFirst == alternateType)
         {
-            m_pShapeInheritance.removeAtAndCopy(i);
+            m_shapeInheritance.removeAtAndCopy(i);
             i--;
         }
     }
     reinterpret_cast<::FUN_00cfb510_cls *>(this)->MergeBitsRecursive(primaryType, alternateType, false);
-    CFBF60ShapeInheritance& si = m_pShapeInheritance.AllocatePair();
+    CFBF60ShapeInheritance& si = m_shapeInheritance.AllocatePair();
     si.m_iFirst = alternateType;
     si.m_iSecond = primaryType;
 }
@@ -4372,8 +4296,8 @@ void Cleanup::Destroy()
     unsigned flags = m_shapeInheritanceCapacity;
     m_numShapeInheritance = 0;
     if (!(flags & 0x80000000u))
-        allocator.bufFree(m_pShapeInheritance, (flags & 0x3fffffffu) * 8u);
-    m_pShapeInheritance = 0;
+        allocator.bufFree(m_shapeInheritance, (flags & 0x3fffffffu) * 8u);
+    m_shapeInheritance = 0;
     m_shapeInheritanceCapacity = 0x80000000u;
     m_vtable = &::DAT_0102e388;
 }
@@ -5355,28 +5279,28 @@ FUN_00cfc030_cls* FUN_00cfc030_cls::FUN_00cfc030(void* a1, void* v)
 
     for (int m = 0; m < 16; ++m)
     {
-        SrcRec& funcs = m_agent3Func[m].src;
-        funcs.b30 = 0;
-        funcs.b31 = 0;
-        funcs.b32 = 0;
-        funcs.m_processFunc = 0;
-        funcs.m_sepNormalFunc = 0;
+        hkpCollisionDispatcher::Agent3Funcs& funcs = m_agent3Func[m];
+        funcs.m_isPredictive = 0;
+        funcs.m_ignoreSymmetricVersion = 0;
+        funcs.m_reusePreviousEntry = 0;
+        funcs.m_updateFilterFunc = 0;
+        funcs.m_calcStatisticsFunc = 0;
         funcs.m_invalidateTimFunc = 0;
         funcs.m_warpTimeFunc = 0;
-        funcs.m_updateFilterFunc = 0;
+        funcs.m_sepNormalFunc = 0;
     }
 
-    m_pShapeInheritance = 0;
+    m_shapeInheritance = 0;
     m_numShapeInheritance = 0;
     m_shapeInheritanceCapacity = 0x80000000;
     m_debugAgent2Table = 0;
     m_debugAgent2TablePred = 0;
     m_debugAgent3Table = 0;
     m_debugAgent3TablePred = 0;
-    m_bEnableDeprecatedFeature = false;
-    *(volatile char*)&m_debugWarnings.m_cBooleanValue = 1;
+    m_enableDeprecatedFeature = false;
+    *(volatile unsigned char*)&m_debugWarnings = 1;
     m_numAgent3Types = 0;
-    unk1e22 = 0;
+    m_1e22 = 0;
 
     for (int r = 0; r < 8; ++r)
     {
@@ -5400,7 +5324,7 @@ FUN_00cfc030_cls* FUN_00cfc030_cls::FUN_00cfc030(void* a1, void* v)
     }
 
     reinterpret_cast<::S00cfb080_State *>(this)->FUN_00cfb080();
-    unk1e21 = 0;
+    m_1e21 = 0;
     return this;
 }
 
@@ -6081,10 +6005,10 @@ struct DebugTableDispatcher : DispatcherReferencedObject
     DispatcherAgent3Funcs m_agent3Funcs[16];
     signed char m_aucByteGrid[10][10];
     DispatcherQualityInfo m_pCollisionQualityInfo[8];
-    hkBool m_bEnableDeprecatedFeature;
-    char m_cUnknownByte, unk1e22;
+    hkBool m_enableDeprecatedFeature;
+    char m_cUnknownByte, m_1e22;
     hkBool m_debugWarnings;
-    IntegerPair* m_pShapeInheritance;
+    IntegerPair* m_shapeInheritance;
     int m_numShapeInheritance;
     int m_shapeInheritanceCapacity;
     CollisionAgentEntry* m_tableDiscrete;

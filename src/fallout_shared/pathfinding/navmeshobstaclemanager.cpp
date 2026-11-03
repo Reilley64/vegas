@@ -197,28 +197,28 @@
 // @fnv 0x006c4f70
 void NavMeshObstacleManager::AddProcessedTask(ObstacleTaskData* task)
 {
-    reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)this + 0x160))))->FUN_0040fbf0((char *)("NavMeshObstacleManager::AddProcessedTask()"));
-    reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<NavMeshInfo*, 1024>*)((char*)this + 0x14c))))->FUN_007cb2e0((unsigned int *)&((NavMeshInfo*&)task));
-    ((RecursiveSpinLock*)((char*)this + 0x160))->FUN_0040fba0();
+    reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)(&this->m_kTaskLock))))->FUN_0040fbf0((char *)("NavMeshObstacleManager::AddProcessedTask()"));
+    reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<NavMeshInfo*, 1024>*)(&this->m_kProcessedTasks))))->FUN_007cb2e0((unsigned int *)&((NavMeshInfo*&)task));
+    ((RecursiveSpinLock*)(&this->m_kTaskLock))->FUN_0040fba0();
 }
 // @fnv 0x006c47e0
 void NavMeshObstacleManager::ClearObstacles()
 {
-    BSSimpleList<BGSPerkEntry*>* item = (BSSimpleList<BGSPerkEntry*>*)((char*)this + 0x34);
+    BSSimpleList<BGSPerkEntry*>* item = (BSSimpleList<BGSPerkEntry*>*)(&this->m_kPendingList);
     while (item && !((BSSimpleList<BGSCameraShot*>*)item)->IsEmpty())
     {
         unsigned int auiFormId = (unsigned int)(std::uintptr_t)(item->m_item);
         item = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((item))->FUN_00726070()));
         NiPointer<AnimIdle> spReference((AnimIdle*)0);
         if (((NiTMapBase<DFALL<NiTMapItem<bhkRigidBody*, NiPointer<ObstacleData> > >, bhkRigidBody*,
-                         NiPointer<ObstacleData> >*)((char*)this + 0x1c))
+                         NiPointer<ObstacleData> >*)(&this->m_kObstacleMap))
                 ->GetAt((bhkRigidBody*)(std::uintptr_t)auiFormId, (NiPointer<ObstacleData>&)spReference))
         {
             for (unsigned int i = 0;
                  i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<SandboxProcedureData, 1024>*)((char*)(AnimIdle*)spReference + 0xc))))->GetName()));
                  i++)
             {
-                reinterpret_cast<::ListReader *>((((BSSimpleList<NiPointer<ObstacleData> >*)((char*)this + 0x3c))))->FUN_00631620((const ::NodeValue &)((const NiPointer<
+                reinterpret_cast<::ListReader *>((((BSSimpleList<NiPointer<ObstacleData> >*)(&this->m_kActivatedObstacles))))->FUN_00631620((const ::NodeValue &)((const NiPointer<
                               ObstacleData>&)((NiTArray<TESObjectREFR*,
                                                         NiTNewInterface<TESObjectREFR*> >*)((char*)(AnimIdle*)
                                                                                                 spReference +
@@ -228,7 +228,7 @@ void NavMeshObstacleManager::ClearObstacles()
         }
         RemoveObstaclesForReference(auiFormId);
     }
-    reinterpret_cast<::FileMatchList *>((((BSSimpleList<ActorCause*>*)((char*)this + 0x34))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((((BSSimpleList<ActorCause*>*)(&this->m_kPendingList))))->RemoveAll();
 }
 
 struct S4ee810
@@ -1004,25 +1004,25 @@ struct FUN_006c4ec0_vt
 void ProcessObstacleTasks(NavMeshObstacleManager* pObstacleManager)
 {
     void* taskIt;
-    taskIt = ((BGSReconstructFormsInAllFilesMap*)((char*)pObstacleManager + 0x12c))->GetFirstPos();
+    taskIt = ((BGSReconstructFormsInAllFilesMap*)(&pObstacleManager->m_kTaskMap))->GetFirstPos();
     while (taskIt)
     {
         ObstacleTaskData* ptaskData;
         TESFile* formID;
-        reinterpret_cast<::C6b7f20_Map *>((((BGSReconstructFormsInAllFilesMap*)((char*)pObstacleManager + 0x12c))))->FUN_006b7f20((::C6b7f20_Node **)&(taskIt), (unsigned int *)&(formID), (void **)&((BGSReconstructFormsInFileMap*&)ptaskData));
+        reinterpret_cast<::C6b7f20_Map *>((((BGSReconstructFormsInAllFilesMap*)(&pObstacleManager->m_kTaskMap))))->FUN_006b7f20((::C6b7f20_Node **)&(taskIt), (unsigned int *)&(formID), (void **)&((BGSReconstructFormsInFileMap*&)ptaskData));
         if (*((ProcessLists*)&g_011d71a0)->GetLifeStateControlFlag())
         {
             pObstacleManager->ProcessObstacleTask(ptaskData);
         }
         else
         {
-            reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)pObstacleManager + 0x160))))->FUN_0040fbf0((char *)(0));
-            reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<void*, 1024>*)((char*)pObstacleManager + 0x13c))))->FUN_007cb2e0((unsigned int *)&((void*&)ptaskData));
-            ((RecursiveSpinLock*)((char*)pObstacleManager + 0x160))->FUN_0040fba0();
+            reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)(&pObstacleManager->m_kTaskLock))))->FUN_0040fbf0((char *)(0));
+            reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<void*, 1024>*)(&pObstacleManager->m_kBackgroundTasks))))->FUN_007cb2e0((unsigned int *)&((void*&)ptaskData));
+            ((RecursiveSpinLock*)(&pObstacleManager->m_kTaskLock))->FUN_0040fba0();
             ((FUN_006c4ec0_vt*)ptaskData)->v2();
         }
     }
-    reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<unsigned int, unsigned int>*)((char*)pObstacleManager + 0x12c))))->FUN_00438af0();
+    reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<unsigned int, unsigned int>*)(&pObstacleManager->m_kTaskMap))))->FUN_00438af0();
 }
 
 namespace fnv_006c5ef0 {

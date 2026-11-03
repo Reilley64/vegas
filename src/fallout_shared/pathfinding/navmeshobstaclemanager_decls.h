@@ -28,12 +28,24 @@ class NavMeshInfo;
 class RecursiveSpinLock
 {
   public:
+    volatile unsigned int m_uiOwningThreadID;
+    unsigned int m_uiRecursionCount;
 public:
     void FUN_0040fba0();
 };
 class NavMeshObstacleManager
 {
   public:
+    unsigned char layoutPadding0[0x1C];
+    NiTPointerMap<void*, NiPointer<ObstacleData> > m_kObstacleMap;     // +0x1C
+    unsigned char layoutPadding2C[0x8];
+    BSSimpleList<void*> m_kPendingList;                                 // +0x34
+    BSSimpleList<NiPointer<ObstacleData> > m_kActivatedObstacles;      // +0x3C
+    unsigned char layoutPadding44[0xE8];
+    NiTPointerMap<unsigned int, ObstacleTaskData*> m_kTaskMap;          // +0x12C
+    BSSimpleArray<ObstacleTaskData*, 1024> m_kBackgroundTasks;         // +0x13C
+    BSSimpleArray<ObstacleTaskData*, 1024> m_kProcessedTasks;          // +0x14C
+    FNV_ALIGN(32) RecursiveSpinLock m_kTaskLock;                       // +0x160
     void AddProcessedTask(ObstacleTaskData*);
     void ClearObstacles();
     void RemoveObstaclesForReference(unsigned int);

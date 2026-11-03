@@ -2,25 +2,10 @@
 // src/havok/physics/collide/agent/compoundagent/bvtree/hkpmoppagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtree/hkpmoppagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_0102e000.h"
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
 
 extern int DAT_010ce8f4;
@@ -42,13 +27,12 @@ struct FUN_00d2f380_cls
 void FUN_00d2f380_cls::DestroyArray()
 {
     m_vptr00 = &DAT_010ce8f4;
-    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    hkMemoryAllocator& allocator = hkMemoryRouter::getInstance().heap();
     unsigned int uCapBits = m_uCapBits;
     m_iArrayLength = 0;
     if ((uCapBits & 0x80000000u) == 0)
     {
-        pAllocator->FreeArray(m_pData, (uCapBits & 0x3fffffffu) * 12);
+        allocator.bufFree(m_pData, (uCapBits & 0x3fffffffu) * 12);
     }
     m_pData = 0;
     m_uCapBits = 0x80000000u;

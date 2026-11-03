@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -101,22 +102,7 @@ void __cdecl RegisterStaticCollisionAgent(D41FD0CollisionDispatcher* dispatcher)
 extern "C" const double DAT_010cf200;
 extern "C" char DAT_010cf1c4;
 
-class Allocator
-{
-  public:
-    virtual void* Get0(void);
-    virtual void* Alloc(unsigned int size);
-};
 
-class Holder
-{
-  public:
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    Allocator* m_pAllocator;
-};
 
 class SrcObj
 {
@@ -155,9 +141,7 @@ void* FUN_00d401d0(void* apFirst, void* apSecond, void* a3, void* a4)
     {
         goto callPath;
     }
-    Holder* pHolder = (Holder*)::FUN_00c85750();
-    Allocator* pAllocator = pHolder->m_pAllocator;
-    SpawnedObject* pSpawned = (SpawnedObject*)pAllocator->Alloc(0x50);
+    SpawnedObject* pSpawned = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x50));
     pSpawned->m_04 = 0x50;
     pSpawned->m_06 = 1;
     pSpawned->m_08 = a4;

@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -10,24 +11,7 @@
 #include "fnv/symbols_00d38000.h"
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_010ce000.h"
-struct S_00d37e60_Allocator
-{
-    virtual void v0();
-    virtual void* AllocateMemoryBlock(int nbytes);
-};
 
-struct S_00d37e60_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00d37e60_Allocator* m_pStreamAllocator;
-    S_00d37e60_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 struct S_00d37e60_RefObj
@@ -42,7 +26,7 @@ struct S_00d37e60_RefObj
     {}
     void* operator new(size_t nbytes)
     {
-        S_00d37e60_RefObj* b = static_cast<S_00d37e60_RefObj*>(static_cast<S_00d37e60_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
+        S_00d37e60_RefObj* b = static_cast<S_00d37e60_RefObj*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }

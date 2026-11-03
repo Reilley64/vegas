@@ -2,6 +2,7 @@
 // src/havok/physics/collide/query/collector/aabbtreecollector/hkpaabbtreecollidableraycaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/aabbtreecollector/hkpaabbtreecollidableraycaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 struct FnvRayInput
@@ -196,25 +197,7 @@ struct DerivedA : PrimaryBaseA, SecondaryBaseA
 DerivedA::DerivedA()
 {}
 
-struct S_00d9a270_Heap
-{
-    virtual void unk0();
-    virtual void unk4();
-    virtual void ReleaseBlock(void* p, int nbytes);
-};
 
-struct S_00d9a270_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00d9a270_Heap* m_pStreamAllocator;
-    S_00d9a270_Heap& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 struct S_00d9a270_Base
 {
@@ -222,7 +205,7 @@ struct S_00d9a270_Base
     {}
     void operator delete(void* p, size_t nbytes)
     {
-        static_cast<S_00d9a270_Router*>(::FUN_00c85750())->heap().ReleaseBlock(p, nbytes);
+        hkMemoryRouter::getInstance().heap().blockFree(p, nbytes);
     }
 };
 

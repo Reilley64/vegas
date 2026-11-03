@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <windows.h>
@@ -89,22 +90,7 @@ void FUN_00d3d200_cls::FUN_00d3d200(void* param)
     this->unk00(1);
 }
 
-struct hkMemory
-{
-    virtual void unk0();
-    virtual void* allocateChunk(int size);
-};
 
-struct hkThreadMemory
-{
-    char pad[0x10];
-    hkMemory* m_pMemoryAllocator;
-
-    void* allocateChunk(int size)
-    {
-        return m_pMemoryAllocator->allocateChunk(size);
-    }
-};
 
 extern "C" void __cdecl FUN_00cd7160(void* src, void* dst);
 extern "C" const void* DAT_010cf09c;
@@ -133,7 +119,7 @@ struct TargetAgent
 // @fnv 0x00d3d240
 void* __cdecl CreateTargetAgent(void* bodyA, void* bodyB, void* input, void* mgr)
 {
-    TargetAgent* agent = (TargetAgent*)static_cast<hkThreadMemory*>(::FUN_00c85750())->allocateChunk(0x20);
+    TargetAgent* agent = static_cast<TargetAgent*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x20));
     agent->TargetAgent::TargetAgent(bodyA, mgr);
     return agent;
 }

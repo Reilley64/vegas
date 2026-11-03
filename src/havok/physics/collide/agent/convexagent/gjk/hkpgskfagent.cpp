@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -258,26 +259,7 @@ void Drecv::FUN_00daccd0(Dsrc* a1, Dsrc* a2, Dsrc* a3, void* a4)
     ::ProcessCollision((::In *)(::Dtask *)(&res), &ctx.f0, (::Arg2 *)(int *)(&ctx.f1), (::Arg3 *)(int *)(&f0c), (::Arg4 *)(int *)(&f30), (::VecS *)(int *)(&f20), (::Arg6 *)(a4));
 }
 
-class hkMemoryAllocatorDACC
-{
-  public:
-    virtual ~hkMemoryAllocatorDACC() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterDACC
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorDACC* m_pStreamAllocator;
-    hkMemoryAllocatorDACC& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterDACC {
 }
@@ -290,7 +272,7 @@ struct hkAllocHeaderDACC
 
 inline void* allocateAgentDACC(int nbytes)
 {
-    void* b = static_cast<hkMemoryRouterDACC*>(::FUN_00c85750())->heap().AllocateMemoryBlock(nbytes);
+    void* b = hkMemoryRouter::getInstance().heap().blockAlloc(nbytes);
     static_cast<hkAllocHeaderDACC*>(b)->allocationSize = (unsigned short)nbytes;
     return b;
 }

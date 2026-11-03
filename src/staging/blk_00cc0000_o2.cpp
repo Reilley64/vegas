@@ -28711,7 +28711,7 @@ void Owner59::FUN_00cc59c0(FUN_00d4f0f0* node, Params59* params)
         node->v0.mul4f(f);
         node->v1.mul4f(f);
     }
-    reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(node), (int)(params));
+    reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(node), (intptr_t)(params));
 }
 
 struct Cc9Context

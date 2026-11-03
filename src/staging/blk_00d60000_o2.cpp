@@ -127,11 +127,11 @@ struct FUN_00d68770_cls
     int* m_pVtbl28;
 
     void BaseConstruct(int aParam, int aFlags);
-    FUN_00d68770_cls* Construct(int aParam);
+    FUN_00d68770_cls* Construct(intptr_t aParam);
 };
 
 // @fnv 0x00d68770
-FUN_00d68770_cls* FUN_00d68770_cls::Construct(int aParam)
+FUN_00d68770_cls* FUN_00d68770_cls::Construct(intptr_t aParam)
 {
     new ((void *)this) struct ::FUN_00de29b0((void *)(aParam), (void *)(0xff008000));
     m_pVtbl00 = &DAT_010d1fb0;
@@ -165,10 +165,10 @@ struct FnvCpu_FUN_00d687c0_CpuBlock
 {
     unsigned int unk00;
     unsigned short size;
-    FnvCpu_FUN_00d687c0_CpuBlock* Construct(unsigned int value);
+    FnvCpu_FUN_00d687c0_CpuBlock* Construct(uintptr_t value);
 };
 // @fnv 0x00d687c0
-void* __cdecl FUN_00d687c0(unsigned int value)
+void* __cdecl FUN_00d687c0(uintptr_t value)
 {
     FnvCpu_FUN_00d687c0_CpuHolder* holder = static_cast<FnvCpu_FUN_00d687c0_CpuHolder*>(FUN_00c85750());
     FnvCpu_FUN_00d687c0_CpuBlock* block = static_cast<FnvCpu_FUN_00d687c0_CpuBlock*>(holder->allocator->Invoke(52));
@@ -199,11 +199,11 @@ struct FUN_00d68840_cls
     int m_i24;
     void* m_p28;
 
-    void* Init(int a);
+    void* Init(intptr_t a);
 };
 
 // @fnv 0x00d68840
-void* FUN_00d68840_cls::Init(int aiValue)
+void* FUN_00d68840_cls::Init(intptr_t aiValue)
 {
     new ((void *)(aiValue)) struct ::FUN_00de29b0((void *)(0xff0000ff), {});
     m_p00 = (void*)&DAT_010d203c;
@@ -638,11 +638,11 @@ void FUN_00d60900(char* p)
 struct FUN_00d60600_class
 {
     void WriteSwapped(int a, int b, int c);
-    void FUN_00d60b20(int a, int b);
+    void FUN_00d60b20(intptr_t a, int b);
 };
 
 // @fnv 0x00d60b20
-void FUN_00d60600_class::FUN_00d60b20(int a, int aiValue)
+void FUN_00d60600_class::FUN_00d60b20(intptr_t a, int aiValue)
 {
     reinterpret_cast<::Archive *>(this)->WriteSwapped((const void *)(a), 8, aiValue);
 }
@@ -712,10 +712,10 @@ int hkStringD614::FindCaseInsensitive(const char* needle) const
 struct FUN_00d61520_cls
 {
     int unk00;
-    int FindOffset(int a, int b, int c);
+    int FindOffset(intptr_t a, int b, int c);
 };
 // @fnv 0x00d61520
-int FUN_00d61520_cls::FindOffset(int aiValue, int aiUnused1, int aiUnused2)
+int FUN_00d61520_cls::FindOffset(intptr_t aiValue, int aiUnused1, int aiUnused2)
 {
     int esi = -1;
     int r = ((int)(::fnv_00cb1130::FUN_00cb1130((const char *)(unk00), (const char *)(aiValue))));
@@ -1269,11 +1269,11 @@ struct D62080_Object
     int m_uiItemCount;
     unsigned int m_pRayCursor;
 
-    void FUN_00d62080(int param2, int param3);
+    void FUN_00d62080(intptr_t param2, int param3);
 };
 
 // @fnv 0x00d62080
-void D62080_Object::FUN_00d62080(int aData, int param3)
+void D62080_Object::FUN_00d62080(intptr_t aData, int param3)
 {
     if (param3 < 0)
         param3 = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(aData));
@@ -1313,7 +1313,7 @@ struct Router_d62100
 struct FUN_00d62100_Class
 {
     int FUN_00d62630(int context, int first, int second, int third);
-    int FUN_00d62100(int first, int second, int third);
+    int FUN_00d62100(int first, intptr_t second, int third);
 };
 struct SearchBase
 {
@@ -1382,12 +1382,12 @@ struct FUN_00d623d0
     void* m_p24;
 
     void AppendStrings(int a, int b, int c, int d, int e, int f);
-    FUN_00d623d0(int a, int b, int c, int d, int e, int f);
+    FUN_00d623d0(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e, intptr_t f);
 };
 
 // Sets up the object's internal pointer and counters, then forwards the six arguments to AppendStrings.
 // @fnv 0x00d623d0
-FUN_00d623d0::FUN_00d623d0(int a, int b, int c, int d, int e, int f)
+FUN_00d623d0::FUN_00d623d0(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e, intptr_t f)
 {
     m_p00 = (void*)&m_i0c;
     m_i04 = 0;
@@ -1399,14 +1399,14 @@ FUN_00d623d0::FUN_00d623d0(int a, int b, int c, int d, int e, int f)
 
 struct FUN_00d62100_Obj
 {
-    int FUN_00d62100(int a, int b, int c);
+    int FUN_00d62100(int a, intptr_t b, int c);
 };
 struct FUN_00d62580_Cls
 {
-    int FUN_00d62580(int a, int b);
+    int FUN_00d62580(intptr_t a, int b);
 };
 // @fnv 0x00d62580
-int FUN_00d62580_Cls::FUN_00d62580(int a, int b)
+int FUN_00d62580_Cls::FUN_00d62580(intptr_t a, int b)
 {
     return reinterpret_cast<::FUN_00d62100_Class *>((reinterpret_cast<FUN_00d62100_Obj*>(this)))->FUN_00d62100(0, a, b);
 }
@@ -1414,8 +1414,8 @@ int FUN_00d62580_Cls::FUN_00d62580(int a, int b)
 class hkObjectD626
 {
   public:
-    int ReplaceRange(int a, int b, int c, int d, int e);
-    int FUN_00d62630(int a, int b, int d, int e);
+    int ReplaceRange(intptr_t a, int b, int c, intptr_t d, int e);
+    int FUN_00d62630(intptr_t a, int b, intptr_t d, int e);
 };
 // Computes a value from arg, reads a record via FUN_00c85750, and calls FUN_00d62630 with rec[3], unk04-1, arg and that value; returns this.
 // @fnv 0x00d61df0
@@ -1428,7 +1428,7 @@ FUN_00d61df0_cls* FUN_00d61df0_cls::FUN_00d61df0(intptr_t arg)
     return this;
 }
 // @fnv 0x00d62100
-int FUN_00d62100_Class::FUN_00d62100(int first, int second, int third)
+int FUN_00d62100_Class::FUN_00d62100(int first, intptr_t second, int third)
 {
     if (third < 0)
         third = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(second));
@@ -1437,7 +1437,7 @@ int FUN_00d62100_Class::FUN_00d62100(int first, int second, int third)
 }
 
 // @fnv 0x00d62630
-int hkObjectD626::FUN_00d62630(int a, int b, int d, int e)
+int hkObjectD626::FUN_00d62630(intptr_t a, int b, intptr_t d, int e)
 {
     return ReplaceRange(a, b, 0, d, e);
 }
@@ -1461,7 +1461,7 @@ struct FUN_00d62ef0_cls
     int unk24;
     unsigned char unk28;
 
-    FUN_00d62ef0_cls* FUN_00d62ef0(int aParam, unsigned char aValue);
+    FUN_00d62ef0_cls* FUN_00d62ef0(intptr_t aParam, unsigned char aValue);
 };
 
 extern int DAT_010d1720;
@@ -1470,7 +1470,7 @@ extern int DAT_010d16f0;
 
 // Calls FUN_00ddccb0 with aParam, then stores three global addresses and aValue into the object's fields and returns this.
 // @fnv 0x00d62ef0
-FUN_00d62ef0_cls* FUN_00d62ef0_cls::FUN_00d62ef0(int aParam, unsigned char aValue)
+FUN_00d62ef0_cls* FUN_00d62ef0_cls::FUN_00d62ef0(intptr_t aParam, unsigned char aValue)
 {
     new ((void *)(((FUN_00ddccb0_Obj*)this))) ::FUN_00ddccb0_cls((*(const ::BDDCCB0Array< ::BDDCCB0ProcessContext *> *)(aParam)));
     unk00 = &DAT_010d1720;
@@ -1901,7 +1901,7 @@ struct FnvCpu_FUN_00d645f0_CpuBlock
     FnvCpu_FUN_00d645f0_CpuBlock* FUN_00d64260(unsigned int value);
 };
 // @fnv 0x00d645f0
-void* __cdecl FUN_00d645f0(unsigned int value)
+void* __cdecl FUN_00d645f0(uintptr_t value)
 {
     FnvCpu_FUN_00d645f0_CpuHolder* holder = static_cast<FnvCpu_FUN_00d645f0_CpuHolder*>(FUN_00c85750());
     FnvCpu_FUN_00d645f0_CpuBlock* block = static_cast<FnvCpu_FUN_00d645f0_CpuBlock*>(holder->allocator->Invoke(60));
@@ -2916,12 +2916,12 @@ struct FUN_00d76c20_cls
     int m_04;
     FUN_00d7e740_cls* m_target;
 
-    int ForwardToTarget(int iSelector, int iArg0, int iArg1, int iArg2);
+    int ForwardToTarget(int iSelector, intptr_t iArg0, intptr_t iArg1, intptr_t iArg2);
 };
 
 // Forwards a call to m_target->FUN_00d7e740, passing iSelector == 0 as the third argument.
 // @fnv 0x00d76c20
-int FUN_00d76c20_cls::ForwardToTarget(int iSelector, int iArg0, int iArg1, int iArg2)
+int FUN_00d76c20_cls::ForwardToTarget(int iSelector, intptr_t iArg0, intptr_t iArg1, intptr_t iArg2)
 {
     return reinterpret_cast<::fnv_00d7e740::ExportShape *>((m_target))->FUN_00d7e740((*(::fnv_00d7e740::ExportArray<unsigned char> *)(iArg0)), (*(::fnv_00d7e740::ExportArray<unsigned short> *)(iArg1)), iSelector == 0, iArg2);
 }
@@ -5216,7 +5216,7 @@ extern void* DAT_01269008;
 
 
 
-void* __cdecl FUN_00d687c0(unsigned int value);
+void* __cdecl FUN_00d687c0(uintptr_t value);
 
 void FUN_00de29b0(int a, int b);
 
@@ -5290,7 +5290,7 @@ Base2_d632c0* FUN_00d632c0(int a1);
 
 extern int DAT_01268fc8;
 
-void* __cdecl FUN_00d645f0(unsigned int value);
+void* __cdecl FUN_00d645f0(uintptr_t value);
 
 
 
@@ -5349,7 +5349,7 @@ struct StiffSpringAtomBF60
 
 // @fnv 0x00d6bf60
 static __declspec(noinline) void FUN_00d6bf60(StiffSpringBodyBF60* oa, StiffSpringBodyBF60* ob, StiffSpringAtomBF60* ps,
-                                              void* p4, int p5)
+                                              void* p4, intptr_t p5)
 {
     StiffSpringSegmentBF60 v;
     v.from = oa->v30;
@@ -5379,7 +5379,7 @@ static __declspec(noinline) void FUN_00d6bf60(StiffSpringBodyBF60* oa, StiffSpri
 }
 
 __declspec(noinline) void InvokeStiffSpringBF60(StiffSpringBodyBF60* a, StiffSpringBodyBF60* b, StiffSpringAtomBF60* s,
-                                                void* p4, int p5)
+                                                void* p4, intptr_t p5)
 {
     FUN_00d6bf60(a, b, s, p4, p5);
     FUN_00d6bf60(b, a, s, p4, p5);

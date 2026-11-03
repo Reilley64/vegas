@@ -532,7 +532,7 @@ void Cc6830Self::FUN_00cc6830(Cc6830Motion* dst, const Cc6830Src* src)
         reinterpret_cast<::hkReferencedObjectC905 *>((x))->FUN_00c905b0();
         dst->m_flagA2 = m->m_flagA2;
     }
-    reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(dst), (int)(src));
+    reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(dst), (intptr_t)(src));
 }
 }
 
@@ -5712,7 +5712,7 @@ void MotionOwner::FUN_00cc51e0(FUN_00d4edc0* output,MotionScale* scale) {
         output->state50.Mul(SimdReal(factor));
         output->state90.Mul(SimdReal(factor));
     }
-    reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(output),(int)(scale));
+    reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(output),(intptr_t)(scale));
 }
 
 struct BlockAllocator {
@@ -5808,7 +5808,7 @@ void CloneOwner513::FUN_00cc7600(FUN_00d4fe80* output, CloneData513* data) {
         reinterpret_cast<::hkReferencedObjectC905 *>((copy))->FUN_00c905b0();
         output->motorEnabled=input->motorEnabled;
     }
-    reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(output),(int)(data));
+    reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(output),(intptr_t)(data));
 }
 
 struct S00cc96b0_ScaleObject : ::hkReferencedObject {

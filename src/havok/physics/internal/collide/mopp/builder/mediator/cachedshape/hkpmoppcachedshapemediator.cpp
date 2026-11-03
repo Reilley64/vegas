@@ -14,15 +14,19 @@ int InitIntToZero(int, int* piValue)
     return 1;
 }
 
+struct FivePointerRecord
+{
+    void* m_values[5];
+};
+
 // Copies five pointer-sized values from src to dst at offsets 0, 4, 8, 0xc and 0x10.
 // @fnv 0x00dd5630
 void CopyFivePointers(const void* apSource, void* apUnused1, void* apUnused2, void* apUnused3, void* apDest)
 {
-    *(void**)apDest = *(void**)apSource;
-    *(void**)((char*)apDest + 4) = *(void**)((char*)apSource + 4);
-    *(void**)((char*)apDest + 8) = *(void**)((char*)apSource + 8);
-    *(void**)((char*)apDest + 0xc) = *(void**)((char*)apSource + 0xc);
-    *(void**)((char*)apDest + 0x10) = *(void**)((char*)apSource + 0x10);
+    const FivePointerRecord* source = static_cast<const FivePointerRecord*>(apSource);
+    FivePointerRecord* dest = static_cast<FivePointerRecord*>(apDest);
+    for (int i = 0; i < 5; ++i)
+        dest->m_values[i] = source->m_values[i];
 }
 
 struct S_00d54cd0_Base

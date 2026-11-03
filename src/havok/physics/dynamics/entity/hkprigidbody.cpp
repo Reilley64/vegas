@@ -28,20 +28,21 @@
 #include "fnv/symbols_01016000.h"
 #include "fnv/symbols_010c6000.h"
 #include "fnv/symbols_010c7000.h"
-struct FUN_00ca86c0_class
+#include "havok/hkpEntity.h"
+struct FUN_00ca86c0_class : hkpEntity
 {
     void* FUN_00ca86c0();
 };
 // @fnv 0x00ca86c0
 void* FUN_00ca86c0_class::FUN_00ca86c0()
 {
-    unsigned char m_0xe8 = *(unsigned char*)((char*)this + 0xe8);
-    if (m_0xe8 != 4 && m_0xe8 != 5)
+    unsigned char motionType = m_pMotionState.m_type;
+    if (motionType != 4 && motionType != 5)
         return 0;
-    return *(void**)((char*)this + 0x1f8);
+    return m_pMotionState.m_pSavedMotion;
 }
 
-struct FUN_00ca88c0_Class
+struct FUN_00ca88c0_Class : hkpEntity
 {
     void FUN_00ca88c0(float f);
 };
@@ -49,20 +50,21 @@ struct FUN_00ca88c0_Class
 // @fnv 0x00ca88c0
 void FUN_00ca88c0_Class::FUN_00ca88c0(float afValue)
 {
-    ((void(*)(void*, float))(*(void**)(*(char**)((char*)this + 0xe0) + 12)))((char*)this + 0xe0, afValue);
+    void* motion = &m_pMotionState;
+    ((void(*)(void*, float))((*(void***)motion)[3]))(motion, afValue);
 }
 
-struct FUN_00ca80c0_Class
+struct FUN_00ca80c0_Class : hkpEntity
 {
     int FUN_00ca80c0();
 };
 // @fnv 0x00ca80c0
 int FUN_00ca80c0_Class::FUN_00ca80c0()
 {
-    return *(unsigned char*)(this + 0xe9) != 0xff;
+    return m_pMotionState.m_ucDeactivationIntegrateCounter != 0xff;
 }
 
-struct FUN_00ca8900_Class
+struct FUN_00ca8900_Class : hkpEntity
 {
     void FUN_00ca8900(float f, int i);
 };
@@ -70,17 +72,17 @@ struct FUN_00ca8900_Class
 // @fnv 0x00ca8900
 void FUN_00ca8900_Class::FUN_00ca8900(float f, int i)
 {
-    *(float*)((char*)this + 0x90) = f;
+    m_iMaterialIndex.m_fSlipAngle = f;
 }
 
-struct FUN_00ca8910_class
+struct FUN_00ca8910_class : hkpEntity
 {
     void FUN_00ca8910(float v);
 };
 // @fnv 0x00ca8910
 void FUN_00ca8910_class::FUN_00ca8910(float v)
 {
-    *(float*)((char*)this + 0x94) = v;
+    m_iMaterialIndex.m_fElasticity = v;
 }
 
 struct FUN_00ca80b0_cls
@@ -1574,7 +1576,7 @@ struct FUN_00ca90c0_cls
     virtual void v04();
     virtual void v08();
     virtual void v0C();
-    virtual int v10();
+    virtual void* v10();
 };
 
 class hkBoolCA8B
@@ -1757,7 +1759,7 @@ static __declspec(noinline) void ComputeScaledMinimum(void* pvCollidable, const 
         fMin = pfExtent[1];
     if (pfExtent[2] < fMin)
         fMin = pfExtent[2];
-    float* pfDepth = (float*)((char*)pvCollidable + 0x4c);
+    float* pfDepth = &static_cast<hkpCollidable*>(pvCollidable)->m_fAllowedPenetrationDepth;
     if (fMin < 0.5f)
         *pfDepth = (float)(fMin * 0.2);
     else
@@ -2013,7 +2015,7 @@ void FUN_00ca8af0_cls::DispatchEvent(void* a1, void* a2)
             AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
             ev.m_pData = holder->m_pAllocator->Alloc(0x20);
             *(__m128*)ev.m_pData = *(__m128*)a2;
-            *(__m128*)((char*)ev.m_pData + 0x10) = *(__m128*)a1;
+            *((__m128*)ev.m_pData + 1) = *(__m128*)a1;
             reinterpret_cast<::WorldWithPending *>((m_08))->FUN_00c91160();
             return;
         }
@@ -2911,21 +2913,23 @@ FUN_00ca90c0_cls* FUN_00ca90c0_cls::Clone()
     FUN_00ca90c0_cls* pBlock = (FUN_00ca90c0_cls*)(*static_cast<CA92A0MemoryRouter*>(::FUN_00c85750())).heap().Alloc(0x220);
     *(unsigned short*)&pBlock->unk00 = 0x220;
     FUN_00ca90c0_cls* pCopy = ((::FUN_00ca90c0_cls *)(reinterpret_cast<::S00ca8c90_Body *>((pBlock))->FUN_00ca8c90((*(const ::CInfo181 *)(&cinfo)))));
-    memCpy16NonEmpty((char*)pCopy + 0xe0, (char*)this + 0xe0, 0x12);
-    if (*(char**)((char*)this + 0x1f8))
+    hkpEntity* self = reinterpret_cast<hkpEntity*>(this);
+    hkpEntity* copy = reinterpret_cast<hkpEntity*>(pCopy);
+    memCpy16NonEmpty((char*)&copy->m_pMotionState, (char*)&self->m_pMotionState, int(sizeof(hkpMaxSizeMotion) / 16));
+    if (self->m_pMotionState.m_pSavedMotion)
     {
-        char* pObj = (char*)(*static_cast<CA92A0MemoryRouter*>(::FUN_00c85750())).heap().Alloc(0x120);
-        *(unsigned short*)(pObj + 4) = 0x120;
-        *(int*)(pObj + 0x118) = 0;
-        *(void**)pObj = &::g_unk010c6c64;
-        *(char**)((char*)pCopy + 0x1f8) = pObj;
-        memCpy16NonEmpty(pObj, *(char**)((char*)this + 0x1f8), 0x12);
+        hkpMaxSizeMotion* pObj = (hkpMaxSizeMotion*)(*static_cast<CA92A0MemoryRouter*>(::FUN_00c85750())).heap().Alloc(int(sizeof(hkpMaxSizeMotion)));
+        pObj->m_usMemSizeAndFlags = (hkUint16)sizeof(hkpMaxSizeMotion);
+        pObj->m_pSavedMotion = 0;
+        *(const void**)pObj = &::g_unk010c6c64;
+        copy->m_pMotionState.m_pSavedMotion = pObj;
+        memCpy16NonEmpty((char*)pObj, (char*)self->m_pMotionState.m_pSavedMotion, int(sizeof(hkpMaxSizeMotion) / 16));
     }
-    *(int*)((char*)pCopy + 0x18) = pCopy->v10();
+    copy->m_kCollidable.m_pMotionState = pCopy->v10();
     reinterpret_cast<::CA92A0Object *>((pCopy))->CopyEntriesFrom((const ::CA92A0Object *)(::FUN_00ca90c0_cls *)(this));
-    reinterpret_cast<::SStringPtr *>((((FnvSubObj*)((char*)pCopy + 0x74))))->FUN_00cb0c10((const char *)(*(uintptr_t*)((char*)this + 0x74) & ~(uintptr_t)1));
+    reinterpret_cast<::SStringPtr *>(&copy->m_name)->FUN_00cb0c10((const char *)(*(uintptr_t*)&self->m_name & ~(uintptr_t)1));
     pCopy->unk08 = this->unk08;
-    if (*(void**)((char*)this + 0xa0))
-        *(void**)((char*)pCopy + 0xa0) = ((FnvThing*)*(void**)((char*)this + 0xa0))->v0C(pCopy);
+    if (self->m_pShape)
+        copy->m_pShape = ((FnvThing*)self->m_pShape)->v0C(pCopy);
     return pCopy;
 }

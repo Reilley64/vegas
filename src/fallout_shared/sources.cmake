@@ -90,6 +90,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/modelloader_h_unit.cpp
   src/fallout_shared/multiboundmarkerdata.cpp
   src/fallout_shared/niformarray.cpp
+  src/fallout_shared/package.cpp
   src/fallout_shared/packagedataambush.cpp
   src/fallout_shared/packagedatadialogue.cpp
   src/fallout_shared/packagedataeat.cpp
@@ -301,7 +302,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/mediaset.cpp
   src/fallout_shared/miscstats.cpp
   src/fallout_shared/modelloader.cpp
-  src/fallout_shared/package.cpp
   "src/fallout_shared/region system/tesregion.cpp"
   "src/fallout_shared/region system/tesregiondatalandscape.cpp"
   "src/fallout_shared/region system/tesregiondatamap.cpp"

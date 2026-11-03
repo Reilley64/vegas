@@ -5,7 +5,7 @@
 
 
 // Private PC declarations for this translation unit. Opaque storage represents
-// inherited fields that none of these three routines inspect.
+// inherited fields that none of its routines inspect.
 #include <windows.h>
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_0109b000.h"
@@ -120,7 +120,11 @@ class NiFixedString;
 class NiAVObject : public NiObjectNET
 {
   public:
-    unsigned char avObjectData[0x84];
+    unsigned char avObjectData[0x30 - 0x18];
+    unsigned int m_uiFlags;
+    unsigned char avTransformData[0x8c - 0x34];
+    float m_afWorldTranslate[3];
+    float m_fWorldScale;
 public:
     ::NiExtraData *GetExtraData(const ::NiFixedString &);
 };

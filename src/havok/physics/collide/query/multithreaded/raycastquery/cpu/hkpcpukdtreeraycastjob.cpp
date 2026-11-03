@@ -1,6 +1,7 @@
 // src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreeraycastjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreeraycastjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 struct InputStruct;
 struct LocalInput;
@@ -58,21 +59,7 @@ FUN_00e4dde0::FUN_00e4dde0()
     unk8C = 0;
 }
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize);
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
 
 struct FUN_00e4e3c0
@@ -121,9 +108,7 @@ struct FUN_00e4e3c0
 
     static void operator delete(void* apMemory)
     {
-        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(apMemory, sizeof(FUN_00e4e3c0));
+        hkMemoryRouter::getInstance().heap().blockFree(apMemory, sizeof(FUN_00e4e3c0));
     }
 };
 

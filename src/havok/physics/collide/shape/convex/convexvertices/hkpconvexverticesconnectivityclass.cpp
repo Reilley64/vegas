@@ -2,27 +2,9 @@
 // src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesconnectivityclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convexvertices/hkpconvexverticesconnectivityclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
-struct E00E40Allocator
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
 
-struct E00E40MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    E00E40Allocator* m_pStreamAllocator;
-
-    E00E40Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 struct FUN_00e00e40
@@ -36,7 +18,7 @@ struct FUN_00e00e40
     static void operator delete(void* p, size_t nbytes)
     {
         FUN_00e00e40* b = static_cast<FUN_00e00e40*>(p);
-        static_cast<E00E40MemoryRouter*>(::FUN_00c85750())->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, b->m_usMemSizeAndFlags);
     }
 };
 

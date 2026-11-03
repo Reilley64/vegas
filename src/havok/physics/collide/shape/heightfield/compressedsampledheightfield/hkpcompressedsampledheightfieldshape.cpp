@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/heightfield/compressedsampledheightfield/hkpcompressedsampledheightfieldshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/compressedsampledheightfield/hkpcompressedsampledheightfieldshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/symbols_00c90000.h"
@@ -271,12 +272,6 @@ class HfSrc_e499 : public hkpSampledHeightFieldShape
     virtual void IsTriangleWindingFlipped(hkBoolR_e499* out) const;
 };
 
-struct Alloc_e499;
-struct Holder_e499
-{
-    int pad[4];
-    Alloc_e499* m_alloc;
-};
 
 struct Arr16_e499
 {
@@ -287,7 +282,7 @@ struct Arr16_e499
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    void GrowArrayCapacity(Alloc_e499& a, int n)
+    void GrowArrayCapacity(hkMemoryAllocator& a, int n)
     {
         int cap = getCapacity();
         if (cap < n)
@@ -297,15 +292,14 @@ struct Arr16_e499
             ::FUN_00c908c0((::SpawnedObject *)(void *)(&a), (::SpawnedArray *)(void *)(this), newSize, sizeof(hkUint16));
         }
     }
-    void _setSize(Alloc_e499& a, int n)
+    void _setSize(hkMemoryAllocator& a, int n)
     {
         GrowArrayCapacity(a, n);
         m_iElementCount = n;
     }
     __forceinline void reserve(int n)
     {
-        Holder_e499* h = (Holder_e499*)::FUN_00c85750();
-        Alloc_e499* alloc = h->m_alloc;
+        hkMemoryAllocator* alloc = &hkMemoryRouter::getInstance().heap();
         int c = m_iCapacityState & 0x3fffffff;
         if (c < n)
         {

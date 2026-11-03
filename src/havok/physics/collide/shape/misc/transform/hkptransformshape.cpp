@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/misc/transform/hkptransformshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/misc/transform/hkptransformshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00cf5950_cls.h"
 #include "fnv/decl/FunctionContext.h"
@@ -93,26 +94,7 @@ char* FnvCpu_FUN_00cf58f0_CpuObject::FUN_00cf58f0()
     return reinterpret_cast<char*>(this) + 16;
 }
 
-class hkMemoryAllocatorCF5E
-{
-  public:
-    virtual ~hkMemoryAllocatorCF5E() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterCF5E
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorCF5E* m_pStreamAllocator;
-    hkMemoryAllocatorCF5E& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 struct FUN_00d1df70
 {
@@ -128,7 +110,7 @@ class hkReferencedObjectCF5E
 
     static void operator delete(void* p) throw()
     {
-        static_cast<hkMemoryRouterCF5E*>(::FUN_00c85750())->heap().ReleaseBlock(p, static_cast<hkReferencedObjectCF5E*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<hkReferencedObjectCF5E*>(p)->m_usMemSizeAndFlags);
     }
 };
 

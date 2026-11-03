@@ -2,6 +2,7 @@
 // src/havok/physics/collide/query/collector/raycollector/hkpallrayhitcollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/raycollector/hkpallrayhitcollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cf0000.h"
@@ -38,23 +39,7 @@ void FUN_00c855f0_cls::FUN_00c855f0()
 }
 
 #include <xmmintrin.h>
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize);
-    virtual void v0c();
-    virtual void FreeArray(void* apMemory, int aiSize);
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
 
 struct ChainNode
@@ -130,10 +115,10 @@ struct FUN_00c85520_cls
 void FUN_00c85520_cls::AddEntry(ChainOwner* apOwner, SourceEntry* apSource)
 {
     EntryListNode* pList = &m_kNode;
-    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
+    hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
     if (pList->m_uCount == (pList->m_uCapFlags & 0x3fffffffu))
     {
-        ::ResizeAudioStream(pHolder->m_pAllocator, (::AudioStream *)(pList), sizeof(SpawnedEntry));
+        ::ResizeAudioStream((::AudioAllocator *)(&heap), (::AudioStream *)(pList), sizeof(SpawnedEntry));
     }
 
     SpawnedEntry* pNew = pList->m_pData + pList->m_uCount;

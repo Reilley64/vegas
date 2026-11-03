@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/simplemesh/hkpsimplemeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/simplemesh/hkpsimplemeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -82,26 +83,7 @@ void CpuObject::FUN_00e3c260(unsigned char arg0)
     value = arg0;
 }
 
-class hkMemoryAllocatorDFCF
-{
-  public:
-    virtual ~hkMemoryAllocatorDFCF() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void unk08() throw();
-    virtual void unk0C() throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterDFCF
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorDFCF* m_pStreamAllocator;
-
-    hkMemoryAllocatorDFCF& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 template <class T> class hkArrayDFCF
@@ -113,10 +95,10 @@ template <class T> class hkArrayDFCF
 
     ~hkArrayDFCF() throw()
     {
-        hkMemoryAllocatorDFCF& kAlloc = static_cast<hkMemoryRouterDFCF*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }

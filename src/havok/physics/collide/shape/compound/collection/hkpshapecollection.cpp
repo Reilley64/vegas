@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/hkpshapecollection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/hkpshapecollection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <windows.h>
 #include "fnv/decl/FunctionContext.h"
@@ -31,20 +32,6 @@ void FUN_00d213f0(int, int)
 void FUN_00d21400(int a1)
 {}
 
-struct Allocator
-{
-    virtual void vfn0();
-    virtual void vfn4();
-    virtual void Free(void* pointer, unsigned short size);
-};
-struct MemorySystem
-{
-    unsigned int field00;
-    unsigned int field04;
-    unsigned int field08;
-    unsigned int field0c;
-    Allocator* allocator;
-};
 struct Holder
 {
     void* vtable;
@@ -63,8 +50,7 @@ Holder* Holder::Destroy(unsigned char flags)
     vtable = &(*reinterpret_cast<char *>(&::DAT_0102e388));
     if ((flags & 1) != 0)
     {
-        MemorySystem* memory = static_cast<MemorySystem*>(::FUN_00c85750());
-        memory->allocator->Free(this, memSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(this, memSizeAndFlags);
     }
     return this;
 }

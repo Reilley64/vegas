@@ -2,6 +2,7 @@
 // src/havok/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -276,26 +277,7 @@ int S00d97bf0_Obj::FUN_00d97bf0(int a0, int a1, int a2, int a3)
     return a0;
 }
 
-struct D98360Allocator
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
 
-struct D98360MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    D98360Allocator* m_pStreamAllocator;
-
-    D98360Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 struct D98360Base
@@ -317,7 +299,7 @@ struct FUN_00d98360 : D98360Base
 
     static void operator delete(void* p, size_t nbytes)
     {
-        static_cast<D98360MemoryRouter*>(::FUN_00c85750())->heap().ReleaseBlock(p, nbytes);
+        hkMemoryRouter::getInstance().heap().blockFree(p, nbytes);
     }
 };
 

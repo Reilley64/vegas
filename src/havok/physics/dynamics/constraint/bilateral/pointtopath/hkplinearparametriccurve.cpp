@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <new>
@@ -814,14 +815,6 @@ float __cdecl GetZeroFloat();
 
 
 
-struct S00e47e80_hkMemoryRouterE47E
-{
-    void* m_00;
-    void* m_04;
-    void* m_08;
-    void* m_0c;
-    void* m_pStreamAllocator;
-};
 
 struct __declspec(align(16)) hkVector4E47E
 {
@@ -874,8 +867,8 @@ template <class T> struct S00e47e80_hkArrayE47E
     }
     __forceinline T* AddBack(const T& t)
     {
-        S00e47e80_hkMemoryRouterE47E* pkRouter = (S00e47e80_hkMemoryRouterE47E*)::FUN_00c85750();
-        return _pushBack(pkRouter->m_pStreamAllocator, t);
+        hkMemoryRouter* pkRouter = &hkMemoryRouter::getInstance();
+        return _pushBack(pkRouter->m_heap, t);
     }
 };
 

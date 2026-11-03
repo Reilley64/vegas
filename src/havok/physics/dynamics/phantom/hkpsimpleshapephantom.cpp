@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/phantom/hkpsimpleshapephantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpsimpleshapephantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 
 #include <cstddef>
@@ -478,12 +479,6 @@ void hkObjD1F6::CollectStatistics(hkStatisticsCollectorD1F6* pkCollector, const 
     pkCollector->addArray("OverlapPtr", m_overlaps);
 }
 
-struct CollisionMemoryRouter
-{
-    int unk00, unk04, unk08, unk0c;
-    void* allocator;
-};
-
 
 struct FUN_00d1f690_Member : hkpSimpleShapePhantom
 {
@@ -499,10 +494,10 @@ void FUN_00d1f690_Member::AddCollisionDetail(void* object)
         if (reinterpret_cast<::FUN_00ca94c0_Class *>((object))->FUN_00ca94c0({}) == 0)
         {
             hkArray<hkpSimpleShapePhantomCollisionDetail>* details = &m_kCollisionDetails;
-            CollisionMemoryRouter* router = static_cast<CollisionMemoryRouter*>(::FUN_00c85750());
+            hkMemoryRouter* router = &hkMemoryRouter::getInstance();
             if (details->m_iElementCount == (details->m_iCapacityState & 0x3fffffff))
             {
-                ::ResizeAudioStream((::AudioAllocator *)(router->allocator), (::AudioStream *)(details), 4);
+                ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(details), 4);
             }
             void** slot = reinterpret_cast<void**>(details->m_data) + details->m_iElementCount;
             ++details->m_iElementCount;
@@ -1567,26 +1562,6 @@ struct FUN_00d1f450_Obj
 
 namespace fnv_00d1f960 {
 // @fnv 0x00d1f960
-struct Alloc
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void ReturnMemory(void*, unsigned);
-};
-struct Router
-{
-    void* a;
-    void* b;
-    void* c;
-    void* d;
-    Alloc* heap;
-    Alloc& getHeap()
-    {
-        return *heap;
-    }
-};
 
 struct C : hkpSimpleShapePhantom
 {
@@ -1596,12 +1571,12 @@ void C::FUN_00d1f960()
 {
     if (m_kCollisionDetails.m_iElementCount == 0)
     {
-        Alloc& allocator = static_cast<Router*>(::FUN_00c85750())->getHeap();
+        hkMemoryAllocator& allocator = hkMemoryRouter::getInstance().heap();
         int flags = m_kCollisionDetails.m_iCapacityState;
         m_kCollisionDetails.m_iElementCount = 0;
         if ((flags & 0x80000000) == 0)
         {
-            allocator.ReturnMemory(m_kCollisionDetails.m_data, (flags & 0x3fffffff) * 4);
+            allocator.bufFree(m_kCollisionDetails.m_data, (flags & 0x3fffffff) * 4);
         }
         m_kCollisionDetails.m_data = 0;
         m_kCollisionDetails.m_iCapacityState = 0x80000000;

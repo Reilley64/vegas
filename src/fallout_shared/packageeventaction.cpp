@@ -252,7 +252,7 @@ void FUN_0067dad0_shell::FUN_0067dad0(PackageEventActionData* apCopy)
 {
     reinterpret_cast<::FUN_00537e90 *>((reinterpret_cast<QuantityData*>(this)))->SetQuantity(reinterpret_cast<GO*>(apCopy)->operator unsigned int());
 
-    reinterpret_cast<::TESRegionGrassObject *>((reinterpret_cast<TESObjectREFR*>(this)))->AssignLandTexture((::TESLandTexture *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(apCopy)))->GetName()))));
+    reinterpret_cast<::TESRegionGrassObject *>((reinterpret_cast<TESObjectREFR*>(this)))->AssignLandTexture((::TESLandTexture *)(((reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(apCopy)))->GetName()))));
 
     reinterpret_cast<::FUN_0041fd00_shell *>((reinterpret_cast<MagicCaster*>(this)))->FUN_0041fd00(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(apCopy)))->FUN_0084e3a0())));
 

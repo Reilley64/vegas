@@ -4571,7 +4571,7 @@ TESObjectCELL* FUN_00461330_shell::FUN_00461330(const char* editorID, int x, int
                                "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESDataHandler.cpp", 0x7dd);
     TESObjectCELL* pCell = new TESObjectCELL;
     unsigned int uiID = 0;
-    uiID = ((unsigned int)(reinterpret_cast<::Own61 *>((((SaveLoadIDHelper*)::g_TESSaveLoadGame)))->RemoveCommand((const char *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((CellCoordHelper*)world)))->FUN_0084e3a0()))), {}, {})));
+    uiID = ((unsigned int)(reinterpret_cast<::Own61 *>((((SaveLoadIDHelper*)::g_TESSaveLoadGame)))->RemoveCommand((const char *)(((reinterpret_cast<::FUN_0084e3a0_Class *>((((CellCoordHelper*)world)))->FUN_0084e3a0()))), {}, {})));
     if (uiID)
         pCell->SetRefID(uiID, true);
     if (editorID)

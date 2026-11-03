@@ -3290,7 +3290,7 @@ struct S_004bac20
 void FUN_00455690_shell::FUN_00455690()
 {
     if (((int)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)this)))->GetPrevPath())))
-        reinterpret_cast<::fnv_005538e0::Cell5538 *>((((S_005538e0*)((int)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)this)))->GetPrevPath())))))->PlayCellSoundEffects();
+        reinterpret_cast<::fnv_005538e0::Cell5538 *>((((S_005538e0*)((reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)this)))->GetPrevPath())))))->PlayCellSoundEffects();
     else
         reinterpret_cast<::FUN_004bac20_shell *>((((S_004bac20*)m_pGridCells)))->FUN_004bac20();
 }
@@ -9818,7 +9818,7 @@ void AddonOwner::FUN_00459f10()
                 if (model)
                 {
                     AddonParticleNode* particle = static_cast<AddonParticleNode*>(model);
-                    reinterpret_cast<::AlchemyItem *>((particle))->SetSound((::TESSound *)(((unsigned int)(reinterpret_cast<::FUN_0068a830_shell *>((addon))->GetGrass()))));
+                    reinterpret_cast<::AlchemyItem *>((particle))->SetSound((::TESSound *)(((reinterpret_cast<::FUN_0068a830_shell *>((addon))->GetGrass()))));
                     reinterpret_cast<::FUN_00705b10_Dummy *>((particle))->Set(((int)(reinterpret_cast<::TESQuest *>((addon))->GetScriptLocalData())));
                     reinterpret_cast<::FUN_0045a140_Class *>((particle))->SetShortAtOffsetBC(reinterpret_cast<::FUN_0045a1a0_Class *>((addon))->GetShortAtOffset58());
                     reinterpret_cast<::FUN_0045a160_Cls *>((((::AddonParticleManager *)(::FUN_0045a190()))))->FUN_0045a160((int)(particle));

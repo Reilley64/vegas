@@ -5509,7 +5509,7 @@ bool OwnerInterp::FUN_0053f570(const float* xy, RgbaColor* out)
 {
     Buf50 data;
     new ((void *)&(data)) ::FUN_0053a510();
-    if (!reinterpret_cast<::xLand *>(this)->FUN_0053b550((*(::xCoordData *)(&data)), (*(const ::xPoint3 *)((int)xy)), 0))
+    if (!reinterpret_cast<::xLand *>(this)->FUN_0053b550((*(::xCoordData *)(&data)), (*(const ::xPoint3 *)(xy)), 0))
         return false;
 
     RgbaColor aVal(0.0f, 0.0f, 0.0f, 0.0f);

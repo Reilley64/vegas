@@ -6084,7 +6084,7 @@ bool __cdecl FUN_005d8570()
 {
     if (((int)(reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->GetTarget())))
     {
-        reinterpret_cast<::fnv_005578f0::FUN_005578f0_Class *>((((BSOcclusionPlane*)((int)(reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->GetTarget())))))->FUN_005578f0();
+        reinterpret_cast<::fnv_005578f0::FUN_005578f0_Class *>((((BSOcclusionPlane*)((reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->GetTarget())))))->FUN_005578f0();
     }
     return true;
 }
@@ -6529,7 +6529,7 @@ bool FUN_005c1fe0(const ScriptParameter* paramInfo, const char* scriptData, TESO
         MagicCaster* caster = ((FUN_005c1fe0_Ref*)thisObj)->GetMagicCaster();
         TESObjectREFR* targetVal = ((FUN_005c1fe0_Ref*)thisObj)->GetMagicTarget();
         caster->RemoveCastingArt();
-        TESObjectCELL* pCell8 = (TESObjectCELL*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)thisObj)))->GetTarget()));
+        TESObjectCELL* pCell8 = (TESObjectCELL*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)thisObj)))->GetTarget()));
         if (pCell8 && reinterpret_cast<::TESCallHelper *>((((TES*)g_TES)))->IsCellBuffered(pCell8, true) && reinterpret_cast<::TESCallHelper *>((((TES*)g_TES)))->IsCellBuffered(pCell8, false))
             caster->CastMagicItem((TESForm*)spell, false, targetVal, 1.0f, false);
     }
@@ -6705,7 +6705,7 @@ bool FUN_005cb8e0(const ScriptParameter* apParameters, const char* apCompiledPar
                     cRefName.PrintfString("%s (%08X) (carrying %s (%08X))", ((FUN_005cb8e0_FormVT*)ptargref)->GetName130(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)ptargref)))->FUN_0084e3a0())), ((FUN_005cb8e0_FormVT*)porigtargref)->GetName130(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)porigtargref)))->FUN_0084e3a0())));
             }
             TESObjectREFR* ptrackingRef = reinterpret_cast<::FUN_005cbb70_shell *>((pItem))->FUN_005cbb70();
-            if (ptrackingRef && ((TESForm*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)ptrackingRef)))->FUN_007af430())))->GetFormType() == 0x1c)
+            if (ptrackingRef && ((TESForm*)((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)ptrackingRef)))->FUN_007af430())))->GetFormType() == 0x1c)
                 cDoorName.PrintfString("%s (%08X)", ((FUN_005cb8e0_FormVT*)ptrackingRef)->GetName130(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)ptrackingRef)))->FUN_0084e3a0())));
             DebugLog("Target %d:  Reference: %s, load door: %s", iTargetCount, ((Flt*)&cRefName)->operator unsigned int(), ((Flt*)&cDoorName)->operator unsigned int());
             iTargetCount++;
@@ -6820,7 +6820,7 @@ bool __cdecl FUN_005d1920(const ScriptParameter* paramInfo, const char* scriptDa
         }
         else if (_FNV_GetFormType((void*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)thisObj)))->FUN_007af430()))) == 0x16)
         {
-            VBase* pBase = (VBase*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)thisObj)))->FUN_007af430()));
+            VBase* pBase = (VBase*)((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)thisObj)))->FUN_007af430()));
             reinterpret_cast<::TESFullName *>((((FullNameEx*)((char*)pBase + 0x30))))->SetFullName(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)((char*)pName + 0x18))))->FUN_00408da0())));
             pBase->MarkChanged(4);
         }
@@ -7669,7 +7669,7 @@ bool __cdecl FUN_005c65a0(const ScriptParameter* paramInfo, const char* scriptDa
     {
         if (((ActorV_S*)pTarget3)->GetSex() == iSex_2)
             return true;
-        TESNPC* pNpc7 = (TESNPC*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)pTarget3)))->FUN_007af430()));
+        TESNPC* pNpc7 = (TESNPC*)((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)pTarget3)))->FUN_007af430()));
         int aBFemale = 0;
         FaceNode_S* pFaceNodeTmp = pTarget3->V116();
         void* pHead7 = 0;
@@ -9032,11 +9032,11 @@ bool __cdecl FUN_005d9810(const ScriptParameter* apParameters, const char* apCom
             reinterpret_cast<::Fn575690 *>((((Fn575690*)pplacedref)))->FUN_00575690(pbase);
             if (reinterpret_cast<::FUN_0047cdb0_shell *>((((FUN_0047cdb0_shell*)((char*)pbase + 0x30))))->FUN_0047cdb0())
                 reinterpret_cast<::fnv_0047ce10::OwnerShell *>((((TESActorBaseDataX*)((char*)pbase + 0x30))))->FUN_0047ce10((::fnv_0047ce10::RefShell *)(::TESObjectREFR *)((TESObjectREFR*)pplacedref));
-            pint = (TESObjectCELL*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)apRefObject)))->GetTarget()));
+            pint = (TESObjectCELL*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)apRefObject)))->GetTarget()));
             if (pint && !reinterpret_cast<::TESObjectCELL *>((((TESObjectCELL_Ext*)pint)))->IsCellInterior())
                 pint = 0;
             pworld = ((::fnv_005d9810::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((((ActorS*)apRefObject)))->FUN_00575d70()));
-            reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::fnv_005d9810::DH * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(::fnv_005d9810::TESBoundObject *)((TESBoundObject*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)pplacedref)))->FUN_007af430()))), (::NiPoint3 *)&(*((RefVt*)apRefObject)->GetPos()),
+            reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::fnv_005d9810::DH * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(::fnv_005d9810::TESBoundObject *)((TESBoundObject*)((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)pplacedref)))->FUN_007af430()))), (::NiPoint3 *)&(*((RefVt*)apRefObject)->GetPos()),
                 (::NiPoint3 *)&(*(NiPoint3*)((::fnv_005d9810::RecipeCraftingInfo *)(reinterpret_cast<::TESRecipe *>((((TESRecipe*)apRefObject)))->GetData()))), pint, (::TESWorldSpace *)(pworld), (TESObjectREFR*)pplacedref, (const char *)(::fnv_005d9810::BGSPrimitive *)(0), (::TESForm *)(void *)(0));
             reinterpret_cast<::FUN_0046a010_shell *>((((FUN_0046a010_shell*)pplacedref)))->FUN_0046a010(false);
             iid = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESSound*)pplacedref)))->FUN_0084e3a0()));
@@ -9317,7 +9317,7 @@ bool FUN_005b5760(const ScriptParameter* a, const char* b, TESObjectREFR* c, TES
     if (!ExtractArgs(a, b, &h, c, d, e, f, &i))
         return false;
     if (!i)
-        i = (TESObjectREFR*)(unsigned int)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::fnv_005b5760::TESObject * *>(&::_g_thePlayer))))->FUN_007af430()));
+        i = (TESObjectREFR*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::fnv_005b5760::TESObject * *>(&::_g_thePlayer))))->FUN_007af430()));
     ::fnv_005a2e20::FUN_005a2e20(c, i, 0, (*(double *)(&g)));
     return true;
 }
@@ -9415,7 +9415,7 @@ bool FUN_005b7250()
 {
     if (((int)(reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::fnv_005b7250::BSOcclusionPlane * *>(&::_g_thePlayer))))->GetTarget())))
     {
-        ::fnv_00557dd0::FUN_00557dd0((::fnv_00557dd0::RenderCell *)(((int)(reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::fnv_005b7250::BSOcclusionPlane * *>(&::_g_thePlayer))))->GetTarget()))), (::fnv_00557dd0::render_test::FUN_00557da0 *)(0), 1);
+        ::fnv_00557dd0::FUN_00557dd0((::fnv_00557dd0::RenderCell *)(((reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::fnv_005b7250::BSOcclusionPlane * *>(&::_g_thePlayer))))->GetTarget()))), (::fnv_00557dd0::render_test::FUN_00557da0 *)(0), 1);
         _DebugLog("RenderTestCell complete. Check warnings file for more info.");
     }
     else
@@ -11281,7 +11281,7 @@ bool FUN_005b72a0(const ScriptParameter*, const char*, TESObjectREFR*, TESObject
 {
     if (((int)(reinterpret_cast<::LowProcess *>((void *)(((TESObjectREFR_GetCullResult*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->GetTarget())))
     {
-        ::fnv_00557dd0::FUN_00557dd0((::fnv_00557dd0::RenderCell *)(((int)(reinterpret_cast<::LowProcess *>((void *)(((TESObjectREFR_GetCullResult*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->GetTarget()))), (::fnv_00557dd0::render_test::FUN_00557da0 *)(0), 0);
+        ::fnv_00557dd0::FUN_00557dd0((::fnv_00557dd0::RenderCell *)(((reinterpret_cast<::LowProcess *>((void *)(((TESObjectREFR_GetCullResult*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->GetTarget()))), (::fnv_00557dd0::render_test::FUN_00557da0 *)(0), 0);
         _DebugLog("RenderTestCell complete. Check warnings file for more info.");
     }
     else
@@ -11376,7 +11376,7 @@ bool FUN_005b7520(const ScriptParameter* apParameters, const char* apCompiledPar
 {
     TESFile* pfile;
     TESWeather* m_pWeatherObject;
-    m_pWeatherObject = (TESWeather*)((int)(reinterpret_cast<::MagicCaster_shell *>((Sky::GetInstance()))->FUN_0044edb0()));
+    m_pWeatherObject = (TESWeather*)((reinterpret_cast<::MagicCaster_shell *>((Sky::GetInstance()))->FUN_0044edb0()));
     pfile = (TESFile*)((void *)(reinterpret_cast<::TESForm *>((((FUN_00485b60*)m_pWeatherObject)))->GetFile(-1)));
     if (pfile != 0)
     {
@@ -19282,7 +19282,7 @@ public:
 bool FUN_005ce9f0()
 {
     if ((*reinterpret_cast<::FNVHolderB5202 * *>(&::_g_thePlayer)) != 0) {
-        reinterpret_cast<::fnv_0047dfe0::TABStub *>((((FNVSubB5202*)((char*)((int)(reinterpret_cast<::Actor *>(((*reinterpret_cast<::FNVHolderB5202 * *>(&::_g_thePlayer))))->GetActorBase())) + 0x30))))->FUN_0047dfe0((int)reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::FNVHolderB5202 * *>(&::_g_thePlayer))))->FUN_0087f9f0() + 1);
+        reinterpret_cast<::fnv_0047dfe0::TABStub *>((((FNVSubB5202*)((char*)((reinterpret_cast<::Actor *>(((*reinterpret_cast<::FNVHolderB5202 * *>(&::_g_thePlayer))))->GetActorBase())) + 0x30))))->FUN_0047dfe0((int)reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::FNVHolderB5202 * *>(&::_g_thePlayer))))->FUN_0087f9f0() + 1);
         ::fnv_00706270::FUN_00706270();
     }
     return true;
@@ -35815,7 +35815,7 @@ if((*reinterpret_cast<::ScriptIdle::Manager * *>(&::_g_thePlayer))->FUN_0094df60
 Event* event=((::ScriptIdle::Event *)(reinterpret_cast<::FUN_0061b320_shell *>((idleSlot10))->FUN_0061b320((::TESObjectREFR *)(actor),(::TESObjectREFR *)(target),(::TESTopic *)(0),(void *)(0),1)));if(event){reinterpret_cast<::DialogueItem *>((event))->SelectDefaultResponseList();int old=((int)(reinterpret_cast<::DialogueItem *>((event))->GetActiveResponse()));reinterpret_cast<::FUN_0083c850 *>((event))->AppendTopicInfo(0);reinterpret_cast<::FUN_0083c850 *>((event))->AppendTopicInfo(1);FUN_005ac750(idleSlot10,reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0(),0x40000);delete event;}}
 else{reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((actor))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(target));((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Start(actor,idleSlot10,enabledSlot10,0,1,1);}
 }}
-else if(object && (object->Ready() || (object->IsReference() && ((::ScriptIdle::Actor *)(reinterpret_cast<::DialogueItem *>((object))->SelectDefaultResponseList()))->Ready()))){reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>((object))->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(idleSlot10));Event* event2Slot0=((::ScriptIdle::Event *)(reinterpret_cast<::FUN_0061b320_shell *>((idleSlot10))->FUN_0061b320((::TESObjectREFR *)(object),(::TESObjectREFR *)(::ScriptIdle::Actor *)(0),(::TESTopic *)(0),(void *)(0),0)));if(event2Slot0)reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((object))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((event2Slot0))->FUN_0084e3a0()))));Result outcomeSlot1=object->Play(idleSlot10,target,0,0,0,0,enabledSlot10);reinterpret_cast<::SoundPlaybackHandle *>(&(outcomeSlot1))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0),(void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((object))->FUN_0084e3a0()))));}
+else if(object && (object->Ready() || (object->IsReference() && ((::ScriptIdle::Actor *)(reinterpret_cast<::DialogueItem *>((object))->SelectDefaultResponseList()))->Ready()))){reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>((object))->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(idleSlot10));Event* event2Slot0=((::ScriptIdle::Event *)(reinterpret_cast<::FUN_0061b320_shell *>((idleSlot10))->FUN_0061b320((::TESObjectREFR *)(object),(::TESObjectREFR *)(::ScriptIdle::Actor *)(0),(::TESTopic *)(0),(void *)(0),0)));if(event2Slot0)reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((object))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(((reinterpret_cast<::FUN_0084e3a0_Class *>((event2Slot0))->FUN_0084e3a0()))));Result outcomeSlot1=object->Play(idleSlot10,target,0,0,0,0,enabledSlot10);reinterpret_cast<::SoundPlaybackHandle *>(&(outcomeSlot1))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0),(void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((object))->FUN_0084e3a0()))));}
 reinterpret_cast<::S0042fa20 *>(&((*reinterpret_cast<::ScriptIdle::Global *>(&::g_011cd378))))->FUN_0045ce80(savedSlot16);return true;
 }
 }
@@ -40106,7 +40106,7 @@ bool __cdecl FUN_005d1b80(const ScriptParameter* parameters, const char* scriptD
         return false;
     if (!reference)
         reference = (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer));
-    TESObjectCELL* cell = (TESObjectCELL*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)reference)))->GetTarget()));
+    TESObjectCELL* cell = (TESObjectCELL*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)reference)))->GetTarget()));
     if (!reinterpret_cast<::TESCallHelper *>((((TES*)g_TES)))->IsCellBuffered(cell, false))
         return true;
     if (!((ScriptRefPlaceholder*)reference)->V116())
@@ -44148,7 +44148,7 @@ bool __cdecl FUN_005dae10(const void* params, const char* text, WorkActor* objec
                 float scaled = count4 * aPercent;
                 float difference2 = scaled - reinterpret_cast<::FUN_004bcdb0_shell *>((item7))->FUN_004bcdb0(false);
                 if (difference2 > 0.0) {
-                    reinterpret_cast<::HealthItem *>((item7))->FUN_004bd030(::FUN_0040ebd0(scaled, (float)(count4 - 1.0)), (::HealthInventory *)(((int)(reinterpret_cast<::ExtraDataList *>((((::WorkContext *)(reinterpret_cast<::FUN_005d43c0_ *>((actor2))->FUN_005d43c0()))))->GetContainerChangeData()))), {}, {});
+                    reinterpret_cast<::HealthItem *>((item7))->FUN_004bd030(::FUN_0040ebd0(scaled, (float)(count4 - 1.0)), (::HealthInventory *)(((reinterpret_cast<::ExtraDataList *>((((::WorkContext *)(reinterpret_cast<::FUN_005d43c0_ *>((actor2))->FUN_005d43c0()))))->GetContainerChangeData()))), {}, {});
                 } else {
                     actor2->Adjust(item7, -difference2, true);
                 }
@@ -44528,7 +44528,7 @@ bool __cdecl FUN_005daf90(const ScriptParameter* paramInfo, const char* scriptDa
                 float fNewHealthCur = fMaxHealth4 * fNormalizedPosition;
                 float fDeltaCur = fNewHealthCur - reinterpret_cast<::FUN_004bcdb0_shell *>((pkEntry))->FUN_004bcdb0(false);
                 if (fDeltaCur > ::_DAT_01012060)
-                    reinterpret_cast<::HealthItem *>((pkEntry))->FUN_004bd030(fNewHealthCur, (::HealthInventory *)(((int)(reinterpret_cast<::ExtraDataList *>((((::HealthExtraList5da *)(reinterpret_cast<::FUN_005d43c0_ *>((pkActor))->FUN_005d43c0()))))->GetContainerChangeData()))), (::ExtraDataList *)(true), {});
+                    reinterpret_cast<::HealthItem *>((pkEntry))->FUN_004bd030(fNewHealthCur, (::HealthInventory *)(((reinterpret_cast<::ExtraDataList *>((((::HealthExtraList5da *)(reinterpret_cast<::FUN_005d43c0_ *>((pkActor))->FUN_005d43c0()))))->GetContainerChangeData()))), (::ExtraDataList *)(true), {});
                 else
                     pkActor->DamageItem(pkEntry, -fDeltaCur, true);
             }
@@ -51162,7 +51162,7 @@ bool FUN_005c09c0(const ScriptParameter* p1, const char* p2, TESObjectREFR* a3, 
     }
 
     if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005c09c0::DbgLog *>(&::g_011c3ea4)))))) > 1) {
-        (::FUN_0087a8b0)((::TaskQueueInterface *)(((int)(::TaskQueueInterface::GetSingleton()))), 0x1009, (::FormTaskRef *)(a3), b, f);
+        (::FUN_0087a8b0)((::TaskQueueInterface *)(((::TaskQueueInterface::GetSingleton()))), 0x1009, (::FormTaskRef *)(a3), b, f);
     } else {
         (::FUN_005c0b10)((::C0B10Ref *)(a3), (unsigned char)b, f);
     }
@@ -54450,7 +54450,7 @@ bool FUN_005d3e30(const ::ScriptParameter* apParameters, const char* apCompiledP
     if (!::ExtractArgs(apParameters, apCompiledParams, auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &iCount))
         return false;
     if (apRefObject) {
-        pItem = (::TESObject*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::TESObject*)apRefObject)))->FUN_007af430()));
+        pItem = (::TESObject*)((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::TESObject*)apRefObject)))->FUN_007af430()));
         if (pItem) {
             TESValueForm* pvalue = (TESValueForm*)::_FNV_DynamicCast(pItem, 0, &typeid(::TESObject), &typeid(TESValueForm), 0);
             if (pvalue) {

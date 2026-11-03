@@ -147,7 +147,7 @@ struct FUN_00807730_shell
 TESObjectREFR* FUN_00807730_shell::FUN_00807730(void* p)
 {
     TESObjectREFR* result = 0;
-    int blood = ::FUN_00c7fa90((::S_Obj *)((int)p));
+    int blood = ::FUN_00c7fa90((::S_Obj *)(p));
     if (blood)
         result = ::FUN_0056f930((::NiAVObject *)(void *)((void*)blood));
     return result;
@@ -184,7 +184,7 @@ struct BSXFlags
 // @fnv 0x00624b70
 unsigned int GetBSXFlags(unsigned int a, unsigned int uiFlags)
 {
-    BSXFlags* p = (BSXFlags*)((unsigned int)(::GetExtraDataChecked((::NiAVObjectX *)(a))));
+    BSXFlags* p = (BSXFlags*)((::GetExtraDataChecked((::NiAVObjectX *)(a))));
     return p ? reinterpret_cast<::FUN_00448a60_struct *>((p))->GetMaskedValue(uiFlags) : 0;
 }
 

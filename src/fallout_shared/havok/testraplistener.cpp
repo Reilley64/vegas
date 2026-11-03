@@ -223,7 +223,7 @@ BSSimpleList* BSSimpleList::FUN_006207a0(BSSimpleList* pHead)
             BSSimpleList* item = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
             if (this == item)
             {
-                reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)current)))->Initialize((::CombatController *)((unsigned int)((::BSSimpleList *)(reinterpret_cast<::Callees *>((item))->FUN_00726070()))));
+                reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)current)))->Initialize((::CombatController *)(((::BSSimpleList *)(reinterpret_cast<::Callees *>((item))->FUN_00726070()))));
                 break;
             }
             current = item;
@@ -1033,7 +1033,7 @@ void __cdecl FUN_0062d470(void* ap)
 {
     if (ap)
     {
-        Vt62d470* apTopic = (Vt62d470*)((int)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio*)_D1A0E0GetMemoryRouter())))->FUN_0044edb0()));
+        Vt62d470* apTopic = (Vt62d470*)((reinterpret_cast<::MagicCaster_shell *>((((BSAudio*)_D1A0E0GetMemoryRouter())))->FUN_0044edb0()));
         apTopic->vf2(ap, 0x114);
     }
 }

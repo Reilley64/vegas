@@ -7791,11 +7791,11 @@ void PackageCopy::CopyFromPackage(TESForm* form)
         return;
     reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(p);
     reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>(this)->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(((PackageAccessor*)p)->FUN_0055b980()));
-    reinterpret_cast<::FUN_00672fc0_shell *>(this)->FUN_00672fc0((::PackageTargetRecord *)(((int)(reinterpret_cast<::Script *>((((PackageAccessor*)p)))->GetData()))));
-    reinterpret_cast<::TESPackage *>(this)->CopyScheduleFrom((::DurationData *)(((int)(reinterpret_cast<::FUN_0041d8a0_shell *>((((PackageAccessor*)p)))->FUN_0041d8a0()))));
-    reinterpret_cast<::BGSDehydrationStage *>(this)->FUN_0050f9a0((::SpellItem *)(((int)(reinterpret_cast<::BGSTerrainManager *>((((PackageAccessor*)p)))->GetMinLevel()))));
+    reinterpret_cast<::FUN_00672fc0_shell *>(this)->FUN_00672fc0((::PackageTargetRecord *)(((reinterpret_cast<::Script *>((((PackageAccessor*)p)))->GetData()))));
+    reinterpret_cast<::TESPackage *>(this)->CopyScheduleFrom((::DurationData *)(((reinterpret_cast<::FUN_0041d8a0_shell *>((((PackageAccessor*)p)))->FUN_0041d8a0()))));
+    reinterpret_cast<::BGSDehydrationStage *>(this)->FUN_0050f9a0((::SpellItem *)(((reinterpret_cast<::BGSTerrainManager *>((((PackageAccessor*)p)))->GetMinLevel()))));
     f22 = p->f22;
-    reinterpret_cast<::fnv_00673200::FUN_00673200_shell *>(this)->FUN_00673200((::fnv_00673200::BGSIdleCollection *)(((int)(reinterpret_cast<::PackedByteIntRecord *>((((PackageAccessor*)p)))->Endian()))));
+    reinterpret_cast<::fnv_00673200::FUN_00673200_shell *>(this)->FUN_00673200((::fnv_00673200::BGSIdleCollection *)(((reinterpret_cast<::PackedByteIntRecord *>((((PackageAccessor*)p)))->Endian()))));
     reinterpret_cast<::fnv_006730a0::FUN_006730a0_shell *>(this)->CallOrResetObject((void *)(((int)(reinterpret_cast<::BGSCameraPath *>((((PackageAccessor*)p)))->GetPrevPath()))));
     reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(((PackageAccessor*)p)->FUN_006733e0()));
     reinterpret_cast<::PackageEx *>(this)->SetPackageType((*(int *)&(const ::PTYPE &)(p->GetPackType())));
@@ -12286,8 +12286,8 @@ V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)
             }
             else
             {
-                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_006780e0::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(((int)(reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)targetObj)))->GetTarget()))), (*(const ::NiPoint3 *)((int)targetObj->f07d())),
-                                            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)((int)targetObj->f07d())),
+                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_006780e0::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(((reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)targetObj)))->GetTarget()))), (*(const ::NiPoint3 *)(targetObj->f07d())),
+                                            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)(targetObj->f07d())),
                                             *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, long))(void (*)())(&((void (&)())::IsValidPickTarget)), (long)(&ctx));
                 secondary7 = DAT_011d6580;
                 DAT_011d6580 = 0;
@@ -12299,8 +12299,8 @@ V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)
             ctx3.ref = targetObj;
             ctx3.opt = option;
             targType2 = ((::fnv_006780e0::Data *)(reinterpret_cast<::Script *>((((Script*)this)))->GetData()))->FUN_00680080();
-            reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_006780e0::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(((int)(reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)targetObj)))->GetTarget()))), (*(const ::NiPoint3 *)((int)targetObj->f07d())),
-                                        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)((int)targetObj->f07d())),
+            reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_006780e0::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(((reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)targetObj)))->GetTarget()))), (*(const ::NiPoint3 *)(targetObj->f07d())),
+                                        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)(targetObj->f07d())),
                                         *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, long))(void (*)())(&((void (&)())::IsValidPickTarget)), (long)(&ctx3));
             secondary7 = DAT_011d6580;
             DAT_011d6580 = 0;

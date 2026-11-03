@@ -499,7 +499,7 @@ void C680590Target::SaveLoad()
         {
             uiResult = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pkForm))->FUN_0084e3a0()));
         }
-        reinterpret_cast<::C857A10Buffer *>((g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)((int)&uiResult), 4);
+        reinterpret_cast<::C857A10Buffer *>((g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)(&uiResult), 4);
     }
     break;
     case 2:

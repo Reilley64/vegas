@@ -271,9 +271,8 @@ struct NiAVObject
 {
 };
 
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 
 struct PropHelper
@@ -290,7 +289,7 @@ struct BSTreeNode
 // @fnv 0x0066be30
 bool BSTreeNode::FUN_0066be30(unsigned char acTest)
 {
-    if (!reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator unsigned int())
+    if (!reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator void*())
     {
         return false;
     }
@@ -298,17 +297,17 @@ bool BSTreeNode::FUN_0066be30(unsigned char acTest)
     {
         reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
             reinterpret_cast<char*>(
-                reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator unsigned int()))))->QueueActorDisarm(true);
+                reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator void*()))))->QueueActorDisarm(true);
     }
     else
     {
         reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
             reinterpret_cast<char*>(
-                reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator unsigned int()))))->QueueActorDisarm(false);
+                reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator void*()))))->QueueActorDisarm(false);
         NiAlphaProperty* pprop = reinterpret_cast<NiAlphaProperty*>(
             ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((reinterpret_cast<PropHelper*>(
                 reinterpret_cast<char*>(
-                    reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator unsigned int()))))->FUN_00a59d30(0))));
+                    reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator void*()))))->FUN_00a59d30(0))));
         if (pprop)
         {
             pprop->FUN_0094db80(acTest);
@@ -463,9 +462,8 @@ void FUN_0066d7a0_shell::RunInner()
     reinterpret_cast<::FUN_0066da50 *>(&(m1))->FUN_0066da50::~FUN_0066da50();
 }
 
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 
 struct NiTriBasedGeom;
@@ -478,7 +476,7 @@ struct FUN_0066b620_shell
 // @fnv 0x0066b620
 NiTriBasedGeom* FUN_0066b620_shell::GetTriBasedGeom()
 {
-    return (NiTriBasedGeom*)((Flt*)((char*)this + 0xf0))->operator unsigned int();
+    return (NiTriBasedGeom*)((Flt*)((char*)this + 0xf0))->operator void*();
 }
 
 
@@ -821,16 +819,16 @@ struct FUN_0066bec0_shell
 bool FUN_0066bec0_shell::AttachTexturingProperty(NiTexturingProperty* apProp)
 {
     NiTexturingProperty* pprop = 0;
-    if (!(unsigned int)(*(Flt*)((char*)this + 0xf0)) || !apProp)
+    if (!(void*)(void*)(*(Flt*)((char*)this + 0xf0)) || !apProp)
         return false;
-    pprop = (NiTexturingProperty*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)(unsigned int)(*(Flt*)((char*)this + 0xf0)))))->FUN_00a59d30(5)));
+    pprop = (NiTexturingProperty*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)(void*)(*(Flt*)((char*)this + 0xf0)))))->FUN_00a59d30(5)));
     if (pprop)
     {
         if (pprop == apProp)
             return false;
-        reinterpret_cast<::ExtraOwnerB *>((((NiAVObjectProp*)(unsigned int)(*(Flt*)((char*)this + 0xf0)))))->FUN_00a5b230(5);
+        reinterpret_cast<::ExtraOwnerB *>((((NiAVObjectProp*)(void*)(*(Flt*)((char*)this + 0xf0)))))->FUN_00a5b230(5);
     }
-    reinterpret_cast<::FUN_00439410_cls *>((((NiAVObjectProp*)(unsigned int)(*(Flt*)((char*)this + 0xf0)))))->FUN_00439410((::ArgObject *)(apProp));
+    reinterpret_cast<::FUN_00439410_cls *>((((NiAVObjectProp*)(void*)(*(Flt*)((char*)this + 0xf0)))))->FUN_00439410((::ArgObject *)(apProp));
     return true;
 }
 
@@ -9722,7 +9720,7 @@ void xEffect::FUN_0066c160(float afTime)
                 }
                 xBound BND2;
                 xP3 PT2;
-                xShapeX* PS = (xShapeX*)((void *)(::FUN_004a3a40((::TESObjectREFR *)(((unsigned int)(::FUN_00559450((int *)(((::fnv_0066c160::xForm *)(reinterpret_cast<::FUN_0062e150_cls *>((ARR))->FUN_0062e150(I)))->m_8))))))));
+                xShapeX* PS = (xShapeX*)((void *)(::FUN_004a3a40((::TESObjectREFR *)(((::FUN_00559450((int *)(((::fnv_0066c160::xForm *)(reinterpret_cast<::FUN_0062e150_cls *>((ARR))->FUN_0062e150(I)))->m_8))))))));
                 BND2.m_14 = 4;
                 BND2.m_15 = (unsigned char)(PS ? reinterpret_cast<::FUN_006205a0_Class *>((PS))->FUN_006205a0() : 0);
                 BND2.m_10 = 1.0f;

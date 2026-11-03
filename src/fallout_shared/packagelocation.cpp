@@ -1096,7 +1096,7 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
     Actor* ptarget =
         reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType() ? ((MagicTarget*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())->GetOwnerActor() : 0;
     Actor* pcaster =
-        ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())) ? ((MagicCaster*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())))->GetCasterActor() : 0;
+        ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())) ? ((MagicCaster*)((reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())))->GetCasterActor() : 0;
     if (!pcaster)
     {
         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(true);
@@ -1145,7 +1145,7 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
             hkQuaternion hkquat;
             hkquat.FUN_00cb2850(startRot, endRot, fLerp);
             reinterpret_cast<::KFRigidBody *>(((*(bhkRigidBody**)((char*)this + 0x48))))->FUN_00c8de20((const ::KFVector4 &)(hkpos), (const ::KFQuaternion &)(hkquat), 1.0f / afSecondsElapsed, 1.0f);
-            ptarget->Unk_B0(((MagicCaster*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())))->Unk_0B());
+            ptarget->Unk_B0(((MagicCaster*)((reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())))->Unk_0B());
         }
         else if (*(int*)((char*)this + 0x4c) == 20)
         {
@@ -1513,7 +1513,7 @@ void FUN_0067fa00_shell::FUN_0067fa00()
         unsigned int id = 0;
         if (pObject)
             id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pObject))->FUN_0084e3a0()));
-        reinterpret_cast<::C857A10Buffer *>((::g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)((int)&id), 4);
+        reinterpret_cast<::C857A10Buffer *>((::g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)(&id), 4);
         break;
     }
     case 5:

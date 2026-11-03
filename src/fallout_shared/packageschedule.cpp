@@ -108,7 +108,7 @@ void FUN_0067fd40_shell::FUN_0067fd40(DurationData* apCopy)
         reinterpret_cast<::FUN_005407b0_Class *>(this)->FUN_005407b0(reinterpret_cast<::DurationData *>((apCopy))->FUN_00678ca0());
         SetStartDate(reinterpret_cast<::FUN_00678ce0_shell *>((apCopy))->FUN_00678ce0());
         SetStartTime(reinterpret_cast<::Calendar *>((apCopy))->GetGameHour());
-        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((apCopy))->FUN_00726070()))));
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((apCopy))->FUN_00726070()))));
     }
 }
 }  // namespace fnv_0067fd40

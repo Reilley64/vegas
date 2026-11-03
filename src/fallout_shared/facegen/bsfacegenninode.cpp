@@ -1585,7 +1585,7 @@ void FUN_00662f70_cls::FUN_00662f70(FUN_00662f70_arg* a1)
         {
             if (a1->m_1c == 0)
             {
-                ::fnv_00653340::FUN_00653340((::fnv_00653340::NiAVObject *)(a1->m_00), (::fnv_00653340::NiPoint3 *)((int)&a1->m_04));
+                ::fnv_00653340::FUN_00653340((::fnv_00653340::NiAVObject *)(a1->m_00), (::fnv_00653340::NiPoint3 *)(&a1->m_04));
                 a1->m_1c = 1;
             }
             reinterpret_cast<::FUN_00662030_cls *>((a1->m_10))->FUN_00662030(3, i, a1->m_00, a1->m_14, f);

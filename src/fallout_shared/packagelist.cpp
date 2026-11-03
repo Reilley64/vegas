@@ -440,8 +440,8 @@ bool FUN_0067e4a0_cls::FUN_0067e4a0(FUN_0067e4a0_cls* other)
             {
                 return true;
             }
-            s = (FUN_0067e4a0_cls*)((int)(reinterpret_cast<::Callees *>((((DurationData*)s)))->FUN_00726070()));
-            p = (FUN_0067e4a0_cls*)((int)(reinterpret_cast<::Callees *>((((DurationData*)p)))->FUN_00726070()));
+            s = (FUN_0067e4a0_cls*)((reinterpret_cast<::Callees *>((((DurationData*)s)))->FUN_00726070()));
+            p = (FUN_0067e4a0_cls*)((reinterpret_cast<::Callees *>((((DurationData*)p)))->FUN_00726070()));
         }
         if (s != 0 || p != 0)
         {

@@ -1150,7 +1150,7 @@ struct MobileObject
 // @fnv 0x005a9290
 void FUN_005a9290_shell::SetScriptVariable(unsigned int auiID, double value)
 {
-    BSSimpleList<SCRIPT_LOCAL_s*>* pList = (BSSimpleList<SCRIPT_LOCAL_s*>*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0()));
+    BSSimpleList<SCRIPT_LOCAL_s*>* pList = (BSSimpleList<SCRIPT_LOCAL_s*>*)((reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0()));
     while (pList && *((::SCRIPT_LOCAL_s **)((void *)(((LocalListStub*)pList)))))
     {
         SCRIPT_LOCAL_s* pLocal = *((::SCRIPT_LOCAL_s **)((void *)(((LocalListStub*)pList))));

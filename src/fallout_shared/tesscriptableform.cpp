@@ -296,7 +296,7 @@ void FUN_0048cce0_shell::CopyFromScriptableForm(BaseFormComponent* apCopyFC)
     TESScriptableForm* pCopy = dynamic_cast<TESScriptableForm*>(apCopyFC);
     if (!pCopy)
         return;
-    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((unsigned int)(reinterpret_cast<::Callees *>((((Ref00726070*)pCopy)))->FUN_00726070()))));
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((((Ref00726070*)pCopy)))->FUN_00726070()))));
 }
 }  // namespace fnv_0048cce0
 

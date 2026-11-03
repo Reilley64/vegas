@@ -2257,13 +2257,13 @@ void FUN_0060b240_shell::SetRace(TESRace* race, FUN_008b78c0_shell* actor)
             fixHeight = true;
         if (m_pAssignedRace == race)
         {
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)((unsigned int)race));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(race));
             m_pAssignedRace = 0;
             MarkAsUnmodified(0x2000000);
         }
         else
         {
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)((unsigned int)race));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(race));
             MarkAsModified(0x2000000);
             if (m_pAssignedRace == 0)
                 m_pAssignedRace = current;
@@ -3134,7 +3134,7 @@ void FUN_00603280(int aiFirstValue, int aiSecondValue, int pCollector)
     bool flag = true;
     while (1)
     {
-        int pEntry = ((int)(reinterpret_cast<::Callees *>((((FUN_00603280_Api*)((int)(reinterpret_cast<::Callees *>((((FUN_00603280_Api*)(*reinterpret_cast<int *>(&::g_dataHandler)))))->FUN_00726070())))))->FUN_00726070()));
+        int pEntry = ((int)(reinterpret_cast<::Callees *>((((FUN_00603280_Api*)((reinterpret_cast<::Callees *>((((FUN_00603280_Api*)(*reinterpret_cast<int *>(&::g_dataHandler)))))->FUN_00726070())))))->FUN_00726070()));
         while (pEntry != 0)
         {
             if (((FUN_00603280_Api*)pEntry)->FUN_00401170() == 0x2a)
@@ -5242,13 +5242,13 @@ void CopyData::FUN_00604ba0(CopyPrefix* apSource)
             if (reinterpret_cast<::FUN_0047cd40_shell *>(this)->FUN_0047cd40(0))
             {
 
-                reinterpret_cast<::BGSDehydrationStage *>(this)->FUN_0050f9a0((::SpellItem *)(((int)(reinterpret_cast<::BGSTerrainManager *>((source9))->GetMinLevel()))));
+                reinterpret_cast<::BGSDehydrationStage *>(this)->FUN_0050f9a0((::SpellItem *)(((reinterpret_cast<::BGSTerrainManager *>((source9))->GetMinLevel()))));
 
                 reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>(this)->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(source9->GetData()));
 
                 reinterpret_cast<::FlagSet *>(this)->FUN_0047dd50(true, reinterpret_cast<::TESActorBaseData *>((source9))->GetFlag(true), {});
 
-                reinterpret_cast<::CombatProcedure *>(&(race))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>(&(source9->race))->FUN_00726070()))));
+                reinterpret_cast<::CombatProcedure *>(&(race))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>(&(source9->race))->FUN_00726070()))));
 
                 reinterpret_cast<::FUN_009442e0_class *>((reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))))->FUN_009442e0(reinterpret_cast<::FUN_00944300_class *>((source9))->FUN_00944300());
 
@@ -5893,7 +5893,7 @@ void FUN_00605e70_Owner::ProcessInventoryItems(EqRef* apRef, EqInventory* apInve
     unsigned int i4;
     int iItem7;
 
-    reinterpret_cast<::BipedAnim *>((apInventory))->UpdateRaceSex((::TESRace *)(((int)(reinterpret_cast<::Callees *>(&(kList))->FUN_00726070()))), (::SEX)((iFlags & 1) ? 1 : 0));
+    reinterpret_cast<::BipedAnim *>((apInventory))->UpdateRaceSex((::TESRace *)(((reinterpret_cast<::Callees *>(&(kList))->FUN_00726070()))), (::SEX)((iFlags & 1) ? 1 : 0));
     pActor6 = static_cast<EqActor*>(apRef);
     if (pActor6 && ((::EqProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor6))->GetBaseTexture())))
         ((::EqProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor6))->GetBaseTexture()))->SetPaused(true);

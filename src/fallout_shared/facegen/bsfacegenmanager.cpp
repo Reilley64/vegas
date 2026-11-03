@@ -350,7 +350,7 @@ struct FUN_006508e0_shell
 {
     char pad[0x18];
     int arr[4];
-    void FUN_00650ba0(int);
+    void FUN_00650ba0(void*);
     void SetArrayValue(int i, int v);
 };
 // Stores v into arr[i] and then calls FUN_00650ba0(0).
@@ -1234,9 +1234,8 @@ struct BSStringAppend
 {
     BSStringAppend& operator+=(const char*);
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct NiFixedStringConv
 {
@@ -1515,8 +1514,8 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
             if (reinterpret_cast<::FUN_00658930_class *>((((GlobalObject_004aff00*)&arNpcData->Accessories[0])))->GetShortAtOffsetA() == 0 ||
                 *(Flt*)((Arr*)&arNpcData->Accessories[0])->GetAt(ipart) == 0)
                 reinterpret_cast<::BSFaceGenModel *>((((BSFaceGenModel*)pmodelFG)))->ApplyTextureCoordinate((::FaceGenCoordinates *)(::fnv_00655fa0::FaceGenCoordinates *)((FaceGenCoordinates*)arNpcData), (::NiPointer< ::NiTexture> &)(sptexBaseMod), ::FUN_006151d0());
-            reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00655fa0::TES * *>(&::g_TES))))->FUN_004568c0((const char*)(unsigned int)*(Flt*)&fileDetail, (::TexPtr< ::NiSourceTexture> &)(sptexDetailMod), true, true);
-            TESTexture::NormalizeTextureFilePath(fileNormal, (const char*)(unsigned int)*(Flt*)&fileDetail);
+            reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00655fa0::TES * *>(&::g_TES))))->FUN_004568c0((const char*)(void*)*(Flt*)&fileDetail, (::TexPtr< ::NiSourceTexture> &)(sptexDetailMod), true, true);
+            TESTexture::NormalizeTextureFilePath(fileNormal, (const char*)(void*)*(Flt*)&fileDetail);
         }
         else
         {
@@ -1525,18 +1524,18 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
                 reinterpret_cast<::BSFaceGenModel *>((((BSFaceGenModel*)pmodelFG)))->ApplyTextureCoordinate((::FaceGenCoordinates *)(::fnv_00655fa0::FaceGenCoordinates *)((FaceGenCoordinates*)arNpcData), (::NiPointer< ::NiTexture> &)(sptexBaseMod), ::FUN_006151d0());
             BSS tempstr;
             ((ModelCalls*)*((Arr*)&arNpcData->m_kFaceGenTextures[0])->GetAt(ipart))->GetNormalName(&tempstr);
-            if ((unsigned int)*(Flt*)&tempstr)
+            if ((void*)*(Flt*)&tempstr)
             {
                 *(Str6a70*)&fileNormal = "Textures\\";
-                *(BSStringAppend*)&fileNormal += (const char*)(unsigned int)*(Flt*)&tempstr;
+                *(BSStringAppend*)&fileNormal += (const char*)(void*)*(Flt*)&tempstr;
             }
         }
-        if ((unsigned int)*(Flt*)&fileNormal)
-            reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00655fa0::TES * *>(&::g_TES))))->FUN_004568c0((const char*)(unsigned int)*(Flt*)&fileNormal, (::TexPtr< ::NiSourceTexture> &)(sptexNormal), true, true);
-        if ((unsigned int)*(Flt*)&sptexNormal)
+        if ((void*)*(Flt*)&fileNormal)
+            reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00655fa0::TES * *>(&::g_TES))))->FUN_004568c0((const char*)(void*)*(Flt*)&fileNormal, (::TexPtr< ::NiSourceTexture> &)(sptexNormal), true, true);
+        if ((void*)*(Flt*)&sptexNormal)
         {
-            pshaderpropLighting->SetTexture(0, (void*)(unsigned int)*(Flt*)&sptexNormal);
-            int eFormat = ((int)(reinterpret_cast<::Callees *>((((TextureFormatHelper*)((void *)(::GetObjectiveTargetList((::FUN_00656d80_this *)(void *)((void*)(unsigned int)*(Flt*)&sptexNormal)))))))->FUN_00726070()));
+            pshaderpropLighting->SetTexture(0, (void*)(void*)*(Flt*)&sptexNormal);
+            int eFormat = ((int)(reinterpret_cast<::Callees *>((((TextureFormatHelper*)((void *)(::GetObjectiveTargetList((::FUN_00656d80_this *)(void *)((void*)(void*)*(Flt*)&sptexNormal)))))))->FUN_00726070()));
             bspecular = (eFormat == 5 || eFormat == 6 || eFormat == 1);
             ((LightPropHelper*)pshaderpropLighting)->FUN_00441130(0, bspecular);
         }
@@ -1546,24 +1545,24 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
         }
         if (*((bool*)arNpcData + 0xd4) && ishaderindex == 0xe)
         {
-            pshaderpropLighting->SetTexture2(1, (void*)(unsigned int)*(Flt*)&sptexBaseMod);
+            pshaderpropLighting->SetTexture2(1, (void*)(void*)*(Flt*)&sptexBaseMod);
             pshaderpropLighting->SetTexture(
-                1, (unsigned int)*(Flt*)&sptexDetailMod ? (void*)(unsigned int)*(Flt*)&sptexDetailMod : ((void *)(::FUN_004af8a0())));
+                1, (void*)*(Flt*)&sptexDetailMod ? (void*)(void*)*(Flt*)&sptexDetailMod : ((void *)(::FUN_004af8a0())));
             ((LightPropHelper*)pshaderpropLighting)->FUN_00441130(0xa, true);
             void* pmatprop = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)pobj)))->FUN_00a59d30(2)));
             if (pmatprop && reinterpret_cast<::BGSImpactData *>((((CellLightingTemplate*)pmatprop)))->FUN_009a9350() < 1.0)
                 reinterpret_cast<::DecalStub *>((((LightPropHelper*)pmatprop)))->FUN_00654700(4.0f);
-            if ((unsigned int)*(Flt*)&fileNormal)
+            if ((void*)*(Flt*)&fileNormal)
             {
                 char pfilename[260];
                 char ptexfilename[260];
-                ::FUN_00406d00(ptexfilename, 0x104, ::DAT_01019f08, (const char*)(unsigned int)*(Flt*)&fileNormal);
+                ::FUN_00406d00(ptexfilename, 0x104, ::DAT_01019f08, (const char*)(void*)*(Flt*)&fileNormal);
                 ::BSShaderManager::BuildTexturePath(pfilename, ptexfilename, "_sk", true);
                 if (pfilename[0])
                 {
                     GO spTempSourceTexture(0);
                     reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00655fa0::TES * *>(&::g_TES))))->FUN_004568c0(pfilename, (::TexPtr< ::NiSourceTexture> &)(spTempSourceTexture), true, true);
-                    pshaderpropLighting->SetTexture3(2, 0, (void*)(unsigned int)*(Flt*)&spTempSourceTexture);
+                    pshaderpropLighting->SetTexture3(2, 0, (void*)(void*)*(Flt*)&spTempSourceTexture);
                 }
             }
         }
@@ -1652,9 +1651,8 @@ struct StrMem
 struct FNStub
 {
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct Arr
 {
@@ -1777,7 +1775,7 @@ void __cdecl QueueFaceGenAssets(TESActorBase* apNPC, int aePriority, QueuedFile*
             FUN_00653880(&fileDetail, faceGenData.m_eSex, cage,
                          ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)*faceGenData.pTexture.GetAt(ipart))))->FUN_00408da0()))))
         {
-            ::TaskQueueInterface::CopyStringToBuffer(ptextureName, 260, (const char*)(unsigned int)*(Flt*)&fileDetail);
+            ::TaskQueueInterface::CopyStringToBuffer(ptextureName, 260, (const char*)(void*)*(Flt*)&fileDetail);
             reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(ptextureName, (void *)(aePriority), apParent);
         }
         char pnormalFileName[260];
@@ -1850,7 +1848,7 @@ struct FGModelCache
     FGModelMap map;
     char pad2[0x1b];
     bool loaded;
-    void FUN_00650ba0(int);
+    void FUN_00650ba0(void*);
     bool FUN_00650200(void* key, Helper62d0* out);
 };
 
@@ -1864,7 +1862,7 @@ bool FGModelCache::FUN_00650200(void* key, Helper62d0* out)
     {
         static_cast<FGEntry*>(entry)->tick = ((unsigned int)(::FUN_00457fe0()));
         *out = static_cast<FGEntry*>(entry)->model;
-        FUN_00650ba0(reinterpret_cast<int>(static_cast<FGEntry*>(entry)));
+        FUN_00650ba0(static_cast<FGEntry*>(entry));
         reinterpret_cast<::fnv_0065bf80::FUN_0065bf80_shell *>((static_cast<ModelHelper*>(*out)))->EnsureMorphData();
         reinterpret_cast<::BSFaceGenModel *>((static_cast<ModelHelper*>(*out)))->LoadFaceGenTexture();
         loaded = true;
@@ -3373,9 +3371,8 @@ struct FourComponentNumericValue
 struct NiAVObject;
 struct NiExtraData;
 struct NiGeometryData;
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct NiGeometry
 {
@@ -3398,7 +3395,7 @@ void FUN_00653340(NiAVObject* apGeom, NiPoint3* apPoint)
     NiExtraData* base = GetExtraDataIfPresent(apGeom);
     if (!base)
         return;
-    if (!reinterpret_cast<Flt*>(apPoint)->operator unsigned int())
+    if (!reinterpret_cast<Flt*>(apPoint)->operator void*())
         return;
     NiPoint3 iter = *apPoint;
     unsigned int aI = 0;
@@ -3437,9 +3434,8 @@ struct NP
 {
     NP& operator=(void*);
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct SpObst
 {
@@ -3465,7 +3461,7 @@ struct MapH
 };
 struct FGModelCache
 {
-    void FUN_00650ba0(int);
+    void FUN_00650ba0(void*);
     void FUN_0064ffd0(const char* apcKey, void* apModel);
 };
 void FUN_00652140();
@@ -3483,10 +3479,10 @@ void FGModelCache::FUN_0064ffd0(const char* apcKey, void* apModel)
         return;
     }
     (NP&)spentry = new FUN_00650100();
-    *(NP*)((unsigned int)(Flt&)spentry + 8) = apModel;
-    *(unsigned int*)((unsigned int)(Flt&)spentry + 0xc) = ((unsigned int)(::FUN_00457fe0()));
+    *(NP*)((char*)(void*)(Flt&)spentry + 8) = apModel;
+    *(unsigned int*)((char*)(void*)(Flt&)spentry + 0xc) = ((unsigned int)(::FUN_00457fe0()));
     ((MapH*)((char*)this + 4))->InsertOrUpdate((unsigned int)apcKey, SpObst((unsigned int*)&spentry));
-    FUN_00650ba0((Flt&)spentry);
+    FUN_00650ba0((void*)(Flt&)spentry);
     FUN_00652190();
 }
 }  // namespace fnv_0064ffd0
@@ -3498,9 +3494,8 @@ struct GO
     GO(int);
     ~GO();
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct FGModelMap
 {
@@ -3549,16 +3544,18 @@ bool BSFaceGenModelMap_t::FUN_00650780(const char* apKey)
 }  // namespace fnv_00650780
 
 namespace fnv_00650ba0 {
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct Dummy_00650910
 {
 };
 void FUN_00652140();
 void FUN_00652190();
-unsigned int FUN_0065c490(unsigned int);
+struct UnusedModel
+{
+    unsigned int FUN_0065c490();
+};
 
 struct BSFaceGenModelMap_t : Dummy_00650910
 {
@@ -3587,7 +3584,7 @@ void BSFaceGenModelMap_t::FUN_00650ba0(void* aspNewEntry)
                 size = 10;
                 break;
             case 1:
-                if (FUN_0065c490(*(Flt*)((char*)aspNewEntry + 8)) > 0)
+                if (((UnusedModel*)(void*)*(Flt*)((char*)aspNewEntry + 8))->FUN_0065c490() > 0)
                     continue;
                 size = 10;
                 break;
@@ -3714,16 +3711,15 @@ template <class T> struct BSStringT;
 struct BSStr
 {
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct TaskQueueInterface
 {
 };
 
 // @fnv 0x00653620
-unsigned int GetModelNifFilename(BSStringT<char>& aOutFilename, const char* apModel)
+const char* GetModelNifFilename(BSStringT<char>& aOutFilename, const char* apModel)
 {
     char porigFilename[260];
     char ptemp[260];
@@ -3737,7 +3733,7 @@ unsigned int GetModelNifFilename(BSStringT<char>& aOutFilename, const char* apMo
     *pextension = 0;
     ::FUN_00406d00(ptemp, 260, "%s.nif", porigFilename);
     reinterpret_cast<::TextString *>(&(((BSStr&)aOutFilename)))->FUN_004037f0(ptemp, 0);
-    return (Flt&)aOutFilename;
+    return (const char*)(void*)(Flt&)aOutFilename;
 }
 }  // namespace fnv_00653620
 
@@ -3749,9 +3745,8 @@ template <class T> struct BSStringT
 struct BSStr
 {
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct TaskQueueInterface
 {
@@ -3773,7 +3768,7 @@ struct ArchiveManager
 };
 
 // @fnv 0x00653880
-unsigned int FUN_00653880(BSStringT<char>& aOutFilename, int aeSex, unsigned char acAge, const char* apModel)
+const char* FUN_00653880(BSStringT<char>& aOutFilename, int aeSex, unsigned char acAge, const char* apModel)
 {
     char porigFilename[260];
     int iage;
@@ -3793,19 +3788,19 @@ unsigned int FUN_00653880(BSStringT<char>& aOutFilename, int aeSex, unsigned cha
     ::FUN_00406f60((::FUN_00406f90_this *)&(aOutFilename), "Textures\\%s%c%d.ddx", porigFilename, cgender, iage);
     FileNameHash dirHash;
     FileNameHash fileHash;
-    ::HashPathComponents((const char*)(unsigned int)(Flt&)aOutFilename, (::FileNameHash *)&(dirHash), (::FileNameHash *)&(fileHash));
+    ::HashPathComponents((const char*)(void*)(Flt&)aOutFilename, (::FileNameHash *)&(dirHash), (::FileNameHash *)&(fileHash));
     BSFileEntry* pFile = ((::fnv_00653880::BSFileEntry *)(::fnv_00af6540::FindFileEntryInArchives((*(int *)&(const ::fnv_00653880::ArchiveType &)(ARCHIVE_TYPE_TEXTURES)), (::fnv_00af6540::FileNameHash &)(dirHash), (::fnv_00af6540::FileNameHash &)(fileHash),
-                                                       (const char*)(unsigned int)(Flt&)aOutFilename)));
+                                                       (const char*)(void*)(Flt&)aOutFilename)));
     if (pFile)
-        return (Flt&)aOutFilename;
+        return (const char*)(void*)(Flt&)aOutFilename;
     iage = iage / 10 * 10;
     do
     {
         ::FUN_00406f60((::FUN_00406f90_this *)&(aOutFilename), "Textures\\%s%c%d.dds", porigFilename, cgender, iage);
         pFile = ((::fnv_00653880::BSFileEntry *)(::fnv_00af6540::FindFileEntryInArchives((*(int *)&(const ::fnv_00653880::ArchiveType &)(ARCHIVE_TYPE_TEXTURES)), (::fnv_00af6540::FileNameHash &)(dirHash), (::fnv_00af6540::FileNameHash &)(fileHash),
-                                              (const char*)(unsigned int)(Flt&)aOutFilename)));
+                                              (const char*)(void*)(Flt&)aOutFilename)));
         if (pFile)
-            return (Flt&)aOutFilename;
+            return (const char*)(void*)(Flt&)aOutFilename;
     } while ((iage -= 10) >= 0);
     reinterpret_cast<::TextString *>(&(((BSStr&)aOutFilename)))->FUN_004037f0("", 0);
     return 0;
@@ -3817,16 +3812,15 @@ template <class T> struct BSStringT;
 struct BSStr
 {
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct TaskQueueInterface
 {
 };
 
 // @fnv 0x00653c40
-unsigned int BuildModelFilename(BSStringT<char>& aOutFilename, const char* apModel)
+const char* BuildModelFilename(BSStringT<char>& aOutFilename, const char* apModel)
 {
     char porigFilename[260];
     char ptemp[260];
@@ -3836,11 +3830,11 @@ unsigned int BuildModelFilename(BSStringT<char>& aOutFilename, const char* apMod
     ::TaskQueueInterface::CopyStringToBuffer(porigFilename, 260, apModel);
     pextension = ::FUN_0040ab30(porigFilename, '_');
     if (!pextension)
-        return (unsigned int)apModel;
+        return apModel;
     *pextension = 0;
     ::FUN_00406d00(ptemp, 260, "%s.nif", porigFilename);
     reinterpret_cast<::TextString *>(&(((BSStr&)aOutFilename)))->FUN_004037f0(ptemp, 0);
-    return (Flt&)aOutFilename;
+    return (const char*)(void*)(Flt&)aOutFilename;
 }
 }  // namespace fnv_00653c40
 
@@ -3855,9 +3849,8 @@ namespace fnv_006536d0 {
 struct TaskQueueInterface
 {
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct StrMem : Flt
 {
@@ -3865,7 +3858,7 @@ struct StrMem : Flt
 
 // Strips the extension from path, builds a .tri path (with a suffix for index 0 or 1), stores it in str and returns its value.
 // @fnv 0x006536d0
-unsigned int __cdecl BuildTriPathAndSet(StrMem* str, const char* path, int index)
+const char* __cdecl BuildTriPathAndSet(StrMem* str, const char* path, int index)
 {
     char szBase[260];
     char szFull[260];
@@ -3889,7 +3882,7 @@ unsigned int __cdecl BuildTriPathAndSet(StrMem* str, const char* path, int index
         break;
     }
     reinterpret_cast<::TextString *>((str))->FUN_004037f0(szFull, 0);
-    return *str;
+    return (const char*)(void*)*str;
 }
 }  // namespace fnv_006536d0
 

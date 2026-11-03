@@ -543,7 +543,7 @@ class FUN_00dcd410_C
 // @fnv 0x00dccd00
 void* Base1DCCD::FindValue(unsigned int uiKey)
 {
-    FUN_00dccd00_C* pkOwner = (FUN_00dccd00_C*)((char*)this - 0x10);
+    FUN_00dccd00_C* pkOwner = static_cast<FUN_00dccd00_C*>(this);
     int iIndex = reinterpret_cast<::FUN_00dcd410_C *>((pkOwner))->GetElement(uiKey);
     if (iIndex != -1)
     {

@@ -950,7 +950,7 @@ struct S00cfa430_Data {
 };
 
 struct MyObj : FUN_00cfa400_Obj {
-    void FUN_00cfa430(void* first, void* second, S00cfa430_Data* data, unsigned char flags);
+    void FUN_00cfa430(void* first, int second, S00cfa430_Data* data, unsigned char flags);
 };
 
 
@@ -2765,12 +2765,12 @@ void FUN_00cfa400_Obj::FUN_00cfa400(int a1, int a2, int a3, int a4) {
 }
 // If flags & 2, calls FUN_00cf9480 with first, second, data->unk78 and ForwardToGlobal; if flags & 4, calls InitArrayEntries(first, second).
 // @fnv 0x00cfa430
-void MyObj::FUN_00cfa430(void* first, void* second, S00cfa430_Data* data, unsigned char flags) {
+void MyObj::FUN_00cfa430(void* first, int second, S00cfa430_Data* data, unsigned char flags) {
     if (flags & 2) {
-        reinterpret_cast<::SimulationContext *>(this)->FUN_00cf9480((::Body **)((int)first), (int)second, (::CollisionInput *)(data->unk78), (void (*)(void *, Pair *, CollisionInput *, CollisionOutput *))(ForwardToGlobal), 0);
+        reinterpret_cast<::SimulationContext *>(this)->FUN_00cf9480((::Body **)(first), second, (::CollisionInput *)(data->unk78), (void (*)(void *, Pair *, CollisionInput *, CollisionOutput *))(ForwardToGlobal), 0);
     }
     if (flags & 4) {
-        ::InitArrayEntries((int **)(first), (int)(second));
+        ::InitArrayEntries((int **)(first), second);
     }
 }
 // Iterates over bodies, collects collision pairs, invokes callback for each, and applies corrective rotations when mode is 1 and a contact is found.

@@ -90,25 +90,8 @@ void FUN_00d06090_Class::ReleaseAllReferences()
 
 extern int DAT_010cce28;
 
-struct MemoryAllocator
-{
-    virtual void FUN_00() = 0;
-    virtual void FUN_01() = 0;
-    virtual void FUN_02() = 0;
-    virtual void FUN_03() = 0;
-    virtual void Free(void* data, unsigned int size) = 0;
-};
 
-struct MemoryRouter
-{
-    void* m_p00;
-    void* m_p04;
-    void* m_p08;
-    void* m_p0C;
-    MemoryAllocator* m_p10;
-};
 
-MemoryRouter* _D1A0E0GetMemoryRouter();
 
 struct S_00d49310_Lock
 {
@@ -141,39 +124,35 @@ void FUN_00d06640_class::Destroy()
     reinterpret_cast<::FUN_00d06090_Class *>(this)->ReleaseAllReferences();
     ::FUN_00cb0c00((intptr_t)&(m_lock));
 
-    MemoryRouter* router = _D1A0E0GetMemoryRouter();
-    MemoryAllocator* allocator = router->m_p10;
+    hkMemoryAllocator* allocator = hkMemoryRouter::getInstance().m_heap;
     unsigned int capacity = m_pWorkingSet[3].m_uCapacity;
     m_pWorkingSet[3].m_uCount = 0;
     if (!(capacity & highBit))
-        allocator->Free(m_pWorkingSet[3].m_pData, (capacity & 0x3FFFFFFFu) * 4u);
+        allocator->bufFree(m_pWorkingSet[3].m_pData, (capacity & 0x3FFFFFFFu) * 4u);
     m_pWorkingSet[3].m_pData = 0;
     m_pWorkingSet[3].m_uCapacity = highBit;
 
-    router = _D1A0E0GetMemoryRouter();
-    allocator = router->m_p10;
+    allocator = hkMemoryRouter::getInstance().m_heap;
     capacity = m_pWorkingSet[2].m_uCapacity;
     m_pWorkingSet[2].m_uCount = 0;
     if (!(capacity & highBit))
-        allocator->Free(m_pWorkingSet[2].m_pData, (capacity & 0x3FFFFFFFu) * 4u);
+        allocator->bufFree(m_pWorkingSet[2].m_pData, (capacity & 0x3FFFFFFFu) * 4u);
     m_pWorkingSet[2].m_pData = 0;
     m_pWorkingSet[2].m_uCapacity = highBit;
 
-    router = _D1A0E0GetMemoryRouter();
-    allocator = router->m_p10;
+    allocator = hkMemoryRouter::getInstance().m_heap;
     capacity = m_pWorkingSet[1].m_uCapacity;
     m_pWorkingSet[1].m_uCount = 0;
     if (!(capacity & highBit))
-        allocator->Free(m_pWorkingSet[1].m_pData, (capacity & 0x3FFFFFFFu) * 4u);
+        allocator->bufFree(m_pWorkingSet[1].m_pData, (capacity & 0x3FFFFFFFu) * 4u);
     m_pWorkingSet[1].m_pData = 0;
     m_pWorkingSet[1].m_uCapacity = highBit;
 
-    router = _D1A0E0GetMemoryRouter();
-    allocator = router->m_p10;
+    allocator = hkMemoryRouter::getInstance().m_heap;
     capacity = m_pWorkingSet[0].m_uCapacity;
     m_pWorkingSet[0].m_uCount = 0;
     if (!(capacity & highBit))
-        allocator->Free(m_pWorkingSet[0].m_pData, (capacity & 0x3FFFFFFFu) * 4u);
+        allocator->bufFree(m_pWorkingSet[0].m_pData, (capacity & 0x3FFFFFFFu) * 4u);
     m_pWorkingSet[0].m_pData = 0;
     m_pWorkingSet[0].m_uCapacity = highBit;
 

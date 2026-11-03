@@ -29,18 +29,28 @@ int FUN_009faba0(int, int, int)
     return 0x80004001;
 }
 
+struct GetValueFromOffset8_Obj
+{
+    char pad00[0x8];
+    int unk08;
+};
+
 // @fnv 0x009f9d90
 int GetValueFromOffset8(intptr_t a, int aiUnused, int* piOut)
 {
     if (!piOut)
         return 0x80004003;
-    *piOut = *(int*)((char*)a + 8);
+    *piOut = ((GetValueFromOffset8_Obj*)a)->unk08;
     return 0;
 }
 
 
 struct FUN_009f9a30_class
 {
+    char pad00[0x20];
+    int unk20;
+    char pad24[0x4];
+    int unk28;
     void FUN_009f9a30();
 };
 
@@ -48,8 +58,8 @@ struct FUN_009f9a30_class
 void FUN_009f9a30_class::FUN_009f9a30()
 {
     std::memset(this, 0, 0x48);
-    *(int*)((char*)this + 0x28) = 1;
-    *(int*)((char*)this + 0x20) = 1;
+    this->unk28 = 1;
+    this->unk20 = 1;
 }
 
 struct SpectatorPackage
@@ -110,12 +120,20 @@ struct FUN_009fa4e0_class
 {
     int FUN_009fa4e0(intptr_t a, int aiValue);
 };
+struct FUN_009fa4e0_Obj
+{
+    char pad00[0x10];
+    CRITICAL_SECTION* unk10;
+    char pad14[0x8];
+    int unk1c;
+};
+
 // @fnv 0x009fa4e0
 int FUN_009fa4e0_class::FUN_009fa4e0(intptr_t a, int aiValue)
 {
-    CRITICAL_SECTION* p = *(CRITICAL_SECTION**)((char*)a + 0x10);
+    CRITICAL_SECTION* p = ((FUN_009fa4e0_Obj*)a)->unk10;
     DAT_00fdf05c(p);
-    *(int*)((char*)a + 0x1c) = aiValue;
+    ((FUN_009fa4e0_Obj*)a)->unk1c = aiValue;
     DAT_00fdf100(p);
     return 0;
 }
@@ -137,26 +155,40 @@ int FUN_009fa840(int* pFlags, int bSet)
     return 0;
 }
 
+struct FUN_009fa8b0_Obj
+{
+    char pad00[0x10];
+    int unk10;
+    int unk14;
+};
+
 // @fnv 0x009fa8b0
 int FUN_009fa8b0(void* obj, int value)
 {
-    if (value > *(int*)((char*)obj + 0x14))
+    if (value > ((FUN_009fa8b0_Obj*)obj)->unk14)
         return 0x8004020d;
-    *(int*)((char*)obj + 0x10) = value;
+    ((FUN_009fa8b0_Obj*)obj)->unk10 = value;
     return 0;
 }
 
 struct FUN_009fb020_class
 {
+    char pad00[0x38];
+    int unk38;
+    char pad3c[0x4];
+    int unk40;
+    int unk44;
+    char pad48[0x4];
+    int unk4c;
     int FUN_009fb020();
 };
 
 // @fnv 0x009fb020
 int FUN_009fb020_class::FUN_009fb020()
 {
-    if (*(int*)((char*)this + 0x38) > 0 && *(int*)((char*)this + 0x40) > 0 && *(int*)((char*)this + 0x44) > 0)
+    if (this->unk38 > 0 && this->unk40 > 0 && this->unk44 > 0)
     {
-        return *(int*)((char*)this + 0x4C) == 0;
+        return this->unk4c == 0;
     }
     return 0x80040212;
 }
@@ -321,21 +353,37 @@ int FUN_009fa8d0(intptr_t p1, int* p2)
     return *p2 ? 0 : 0x8007000e;
 }
 
+// pSource points at the interface at +0xc of this object.
+struct FUN_009faca0_Outer
+{
+    char pad00[0xc];
+    char unk0c;
+    char pad0d[0x3];
+    CRITICAL_SECTION unk10;
+    char pad28[0x10];
+    int unk38;
+    char pad3c[0x4];
+    int unk40;
+    int unk44;
+    int unk48;
+};
+
 // @fnv 0x009faca0
 int FUN_009faca0(intptr_t pSource, int* pOutput)
 {
     if (!pOutput)
         return 0x80004003;
+    FUN_009faca0_Outer* outer = (FUN_009faca0_Outer*)(pSource - offsetof(FUN_009faca0_Outer, unk0c));
     CRITICAL_SECTION* d = 0;
-    if (pSource - 12)
-        d = (CRITICAL_SECTION*)((int*)(pSource - 12) + 4);
+    if (outer)
+        d = &outer->unk10;
     else
         d = 0;
     DAT_00fdf05c(d);
-    pOutput[1] = *(int*)((char*)pSource + 0x34);
-    pOutput[0] = *(int*)((char*)pSource + 0x2c);
-    pOutput[2] = *(int*)((char*)pSource + 0x38);
-    pOutput[3] = *(int*)((char*)pSource + 0x3c);
+    pOutput[1] = outer->unk40;
+    pOutput[0] = outer->unk38;
+    pOutput[2] = outer->unk44;
+    pOutput[3] = outer->unk48;
     DAT_00fdf100(d);
     return 0;
 }
@@ -345,6 +393,9 @@ struct FUN_009fce60_class
 };
 struct FUN_009fcee0_class
 {
+    char pad00[0x4];
+    intptr_t unk04;
+    int unk08;
     int* FUN_009fcee0(int a, intptr_t b);
 };
 namespace fnv_009fcf10 {
@@ -372,10 +423,16 @@ void FUN_009fcfe0(void** p)
         DAT_00fdf07c(*p);
 }
 
+struct FUN_009fd480_Obj
+{
+    char pad00[0xa0];
+    int unka0;
+};
+
 // @fnv 0x009fd480
 void FUN_009fd480(void* self)
 {
-    *(int*)((char*)self + 0xa0) = 0;
+    ((FUN_009fd480_Obj*)self)->unka0 = 0;
     ::FUN_00e7cd40();
 }
 
@@ -396,14 +453,18 @@ int FUN_009fd490(intptr_t pThis, intptr_t b, intptr_t c)
 
 struct FUN_009fd530_class
 {
+    char pad00[0x20];
+    _RTL_CRITICAL_SECTION* unk20;
+    char pad24[0x74];
+    int* unk98;
     int FUN_009fd530(intptr_t b);
 };
 // @fnv 0x009fd530
 int FUN_009fd530_class::FUN_009fd530(intptr_t b)
 {
-    CRITICAL_SECTION* lock = *(CRITICAL_SECTION**)((char*)this + 0x20);
+    CRITICAL_SECTION* lock = this->unk20;
     DAT_00fdf05c(lock);
-    char* base = (char*)*(int**)((char*)this + 0x98);
+    char* base = (char*)this->unk98;
     if (::FUN_009f9980((const void *)((intptr_t)(base + 0x1a0)), (const void *)(b)))
     {
         char* p = base + 0x1b0;
@@ -424,6 +485,9 @@ extern void(* DAT_00fdf07c)(int*);
 
 struct FUN_009fe0c0_class
 {
+    char pad00[0x7c];
+    int* unk7c;
+    int* unk80;
     int FUN_009fe0c0();
 };
 
@@ -431,13 +495,13 @@ struct FUN_009fe0c0_class
 // @fnv 0x009fe0c0
 int FUN_009fe0c0_class::FUN_009fe0c0()
 {
-    DAT_00fdf0d0((int*)*(int**)((char*)this + 0x7c));
-    int handle = *(int*)((char*)this + 0x80);
+    DAT_00fdf0d0((int*)this->unk7c);
+    int* handle = this->unk80;
     if (handle)
     {
-        DAT_00fdf1c8(handle, -1);
-        DAT_00fdf07c((int*)*(int**)((char*)this + 0x80));
-        *(int*)((char*)this + 0x80) = 0;
+        DAT_00fdf1c8((int)(intptr_t)handle, -1);
+        DAT_00fdf07c(this->unk80);
+        this->unk80 = nullptr;
     }
     return 0;
 }
@@ -540,12 +604,14 @@ struct FUN_009fdd70_class
 };
 struct FUN_009f9a50_class
 {
+    char pad00[0x2c];
+    char unk2c;
     int FUN_009f9a50();
 };
 // @fnv 0x009f9a50
 int FUN_009f9a50_class::FUN_009f9a50()
 {
-    if (::FUN_009f9980((const void *)((intptr_t)this), (const void *)((intptr_t)&DAT_01093f04)) || ::FUN_009f9980((const void *)((intptr_t)((char*)this + 0x2c)), (const void *)((intptr_t)&DAT_01093f04)))
+    if (::FUN_009f9980((const void *)((intptr_t)this), (const void *)((intptr_t)&DAT_01093f04)) || ::FUN_009f9980((const void *)((intptr_t)((char*)&this->unk2c)), (const void *)((intptr_t)&DAT_01093f04)))
         return 1;
     return 0;
 }
@@ -632,10 +698,29 @@ void FUN_009fa560_class::FUN_009fa560()
 
 extern void*(* DAT_00fdf1c4)(int*);
 
+struct FUN_009fa5f0_Allocator
+{
+    char pad00[0xc];
+    int unk0c;
+};
+
+struct FUN_009fa5f0_Sample
+{
+    void* vtbl;
+    int unk04;
+    int unk08;
+    char pad0c[0xc];
+    FUN_009fa5f0_Allocator* unk18;
+    char pad1c[0x24];
+    int unk40;
+    int unk44;
+};
+
 // @fnv 0x009fa5f0
 int FUN_009fa5f0(int* pObject)
 {
-    int* p = (int*)((char*)pObject + 0x44);
+    FUN_009fa5f0_Sample* sample = (FUN_009fa5f0_Sample*)pObject;
+    int* p = &sample->unk44;
     intptr_t result;
     if (*p == 1)
     {
@@ -649,16 +734,16 @@ int FUN_009fa5f0(int* pObject)
             return result;
     }
 
-    if ((*(unsigned char*)((char*)pObject + 4) & 8) != 0)
+    if ((sample->unk04 & 8) != 0)
     {
         void** vt = *(void***)pObject;
         ((void(*)(int*, int))vt[0x38 / 4])(pObject, 0);
     }
 
-    int* obj = (int*)(*(uintptr_t*)((char*)pObject + 0x18) + 0xc);
-    *(int*)((char*)pObject + 4) = 0;
-    *(int*)((char*)pObject + 8) = 0;
-    *(int*)((char*)pObject + 0x40) = 0;
+    int* obj = &sample->unk18->unk0c;
+    sample->unk04 = 0;
+    sample->unk08 = 0;
+    sample->unk40 = 0;
     void** vt2 = *(void***)obj;
     ((void(*)(int*, int*))vt2[0x20 / 4])(obj, pObject);
 
@@ -724,6 +809,10 @@ extern int DAT_01093cf8;
 extern int DAT_01093d28;
 struct FUN_009fcc20_class
 {
+    char pad00[0xc];
+    void* unk0c;
+    char pad10[0x50];
+    int unk60;
     intptr_t Initialize(int a, int b, int c);
 };
 namespace fnv_009fce80 {
@@ -793,16 +882,24 @@ struct FUN_009fa350_class
 };
 struct FUN_009fd450_class
 {
+    char pad00[0xa0];
+    int unka0;
     unsigned int FUN_009fd450(void** arg);
 };
 struct FUN_009fe690_class
 {
     int FUN_009fe690();
 };
+struct FUN_009fdbb0_Obj
+{
+    char pad00[0xa4];
+    FUN_009fe690_class* unka4;
+};
+
 // @fnv 0x009fdbb0
 int FUN_009fdbb0(intptr_t a)
 {
-    return ((FUN_009fe690_class*)*(int**)(a + 0xa4))->FUN_009fe690();
+    return ((FUN_009fdbb0_Obj*)a)->unka4->FUN_009fe690();
 }
 
 struct FUN_009fdcb0_class
@@ -814,14 +911,18 @@ struct FUN_009fdcb0_class
     virtual void v10();
     virtual void v14();
     virtual int v18();
+    char pad04[0xec];
+    char unkf0;
+    char padf1[0x7];
+    int unkf8;
     int* FUN_009fdcb0(int a);
 };
 // Returns a pointer to the slot at offset 0xf8 when v18() is positive and a is zero, otherwise returns null.
 // @fnv 0x009fdcb0
 int* FUN_009fdcb0_class::FUN_009fdcb0(int a)
 {
-    if (v18() > 0 && a == 0 && (char*)this + 0xf0 != 0)
-        return (int*)((char*)this + 0xf8);
+    if (v18() > 0 && a == 0 && &this->unkf0 != 0)
+        return &this->unkf8;
     return 0;
 }
 
@@ -1302,6 +1403,18 @@ class FUN_009fa4a0_cls
     virtual void v06();
     virtual void v07();
     virtual int v08(void* a);
+    int unk04;
+    int unk08;
+};
+
+// apObject points at the interface that follows the FUN_009fa4a0_cls part.
+struct FUN_009fa4a0_Iface
+{
+    void* vtbl;
+};
+
+struct FUN_009fa4a0_Full : FUN_009fa4a0_cls, FUN_009fa4a0_Iface
+{
 };
 
 // Returns E_POINTER for a null value, otherwise calls the virtual v08 on the object at p-0xc and maps a negative result to 1.
@@ -1312,7 +1425,7 @@ int FUN_009fa4a0(FUN_009fa4a0_cls* apObject, void* value)
     {
         return 0x80004003;
     }
-    FUN_009fa4a0_cls* self = (FUN_009fa4a0_cls*)((char*)apObject - 0xc);
+    FUN_009fa4a0_cls* self = static_cast<FUN_009fa4a0_Full*>(reinterpret_cast<FUN_009fa4a0_Iface*>(apObject));
     int r = self->v08(value);
     return r < 0 ? 1 : r;
 }
@@ -1399,15 +1512,24 @@ copyOne:
     return 0x40270;
 }
 
+struct FUN_009fa760_Sample
+{
+    void* vtbl;
+    unsigned char unk04;
+    char pad05[0x2b];
+    int unk30[2];
+    int unk38;
+};
+
 // @fnv 0x009fa760
 int FUN_009fa760(void* pObject, int* pStart, int* pEnd)
 {
-    if (!(((unsigned char*)pObject)[4] & 0x20))
+    FUN_009fa760_Sample* p = (FUN_009fa760_Sample*)pObject;
+    if (!(p->unk04 & 0x20))
         return 0x80040251;
 
-    int* p = (int*)pObject;
-    *(__int64*)pStart = *(__int64*)(p + 12);
-    *(__int64*)pEnd = (__int64)p[14] + *(__int64*)(p + 12);
+    *(__int64*)pStart = *(__int64*)p->unk30;
+    *(__int64*)pEnd = (__int64)p->unk38 + *(__int64*)p->unk30;
     return 0;
 }
 
@@ -1415,7 +1537,7 @@ int FUN_009fa760(void* pObject, int* pStart, int* pEnd)
 // @fnv 0x009fa7e0
 int IsFlagBit0Clear(int* pFlags)
 {
-    unsigned char flag = ((unsigned char*)pFlags)[4];
+    unsigned char flag = ((FUN_009fa760_Sample*)pFlags)->unk04;
     if ((flag & 1) == 0)
         return 1;
     return 0;
@@ -1777,11 +1899,17 @@ struct S_009fd3f0_Impl
 {
     void** m_vptr;
 };
+
+struct S_009fd3f0_Arg
+{
+    char pad00[0xc];
+    S_009fd3f0_Impl* unk0c;
+};
 typedef void(__cdecl* S_009fd3f0_fn)(void*);
 // @fnv 0x009fd3f0
 void __cdecl InvokeVirtualMethod(void* arg)
 {
-    S_009fd3f0_Impl* impl = *(S_009fd3f0_Impl**)((char*)arg + 0x0c);
+    S_009fd3f0_Impl* impl = ((S_009fd3f0_Arg*)arg)->unk0c;
     void** pVtable = impl->m_vptr;
     *(S_009fd3f0_Impl* volatile*)&arg = impl;
     S_009fd3f0_fn fn = (S_009fd3f0_fn)pVtable[0];
@@ -2781,7 +2909,13 @@ int FUN_009fa330_cls::FUN_009fa330(intptr_t a)
 struct S_009fa400_vtable
 {
     void* unk00;
-    void(* unk04)(int);
+    void(* unk04)(void*);
+};
+
+struct S_009fa400_Target
+{
+    char pad00[0xc];
+    S_009fa400_vtable* unk0c;
 };
 
 struct S_009fa400_source
@@ -2793,7 +2927,7 @@ struct S_009fa400_source
     int unk10;
     int unk14;
     int unk18;
-    intptr_t unk1c;
+    S_009fa400_Target* unk1c;
 };
 
 struct S_009fa400_output
@@ -2811,12 +2945,12 @@ int FUN_009fa400(S_009fa400_source* source, S_009fa400_output* output)
     if (output == 0)
         return 0x80004003;
 
-    output->unk00 = source->unk1c != 0 ? (void*)(source->unk1c + 0x0c) : 0;
+    output->unk00 = source->unk1c != 0 ? (void*)&source->unk1c->unk0c : 0;
 
     if (source->unk1c != 0)
     {
-        S_009fa400_vtable* vtable = *(S_009fa400_vtable**)((char*)source->unk1c + 0x0c);
-        vtable->unk04(source->unk1c + 0x0c);
+        S_009fa400_vtable* vtable = source->unk1c->unk0c;
+        vtable->unk04(&source->unk1c->unk0c);
     }
 
     if (source->unk08 != 0)
@@ -3166,11 +3300,23 @@ struct FUN_009fae30_Rec
     int m_2c;
     int m_30;
 };
+// r points at the FUN_009fae30_Rec part that follows a 0xc-byte head.
+struct FUN_009fae30_Head
+{
+    void* vtbl;
+    int unk04;
+    int unk08;
+};
+
+struct FUN_009fae30_Owner : FUN_009fae30_Head, FUN_009fae30_Rec
+{
+};
+
 // Under the critical section at r->m_cs, stores m_2c - m_30 + m_20 into *out and returns 0.
 // @fnv 0x009fae30
 int FUN_009fae30(FUN_009fae30_Rec* r, int* out)
 {
-    CRITICAL_SECTION* pLock = ((char*)r - 0xc) ? &r->m_cs : 0;
+    CRITICAL_SECTION* pLock = static_cast<FUN_009fae30_Owner*>(r) ? &r->m_cs : 0;
     EnterCriticalSection(pLock);
     *out = r->m_2c - r->m_30 + r->m_20;
     LeaveCriticalSection(pLock);
@@ -5315,6 +5461,7 @@ struct S_009fa520_obj
     int unk7c;
     int unk80;
     int unk84;
+    int unk88;
 };
 
 // Stores five values into the tail fields of S_009fa520_obj and returns 0.
@@ -5325,7 +5472,7 @@ int FUN_009fa520(S_009fa520_obj* obj, int a, int b, int c, int d, double e)
     obj->unk78 = b;
     obj->unk7c = c;
     obj->unk80 = d;
-    *(volatile double*)((char*)obj + 0x84) = e;
+    *(volatile double*)&obj->unk84 = e;
     return 0;
 }
 
@@ -5923,7 +6070,7 @@ struct TargetOwner
 // @fnv 0x009fd450
 unsigned int FUN_009fd450_class::FUN_009fd450(void** arg)
 {
-    *(int*)((char*)this + 0xa0) = 0;
+    this->unka0 = 0;
     return reinterpret_cast<::TargetOwner *>((((FUN_009fa350_class*)this)))->DispatchCall(arg);
 }
 // @fnv 0x009fa350
@@ -6281,6 +6428,8 @@ class TaskGroupW
     virtual void Vf14();
     virtual int GetTaskCount();
     virtual TaskW* GetTask(int iIndex);
+    int unk04;
+    int unk08;
 };
 
 struct TaskGroupInnerW
@@ -6299,6 +6448,10 @@ struct TaskGroupInnerW
     CRITICAL_SECTION* m_pkCriticalSection;
 };
 
+struct TaskGroupWOuter : TaskGroupW, TaskGroupInnerW
+{
+};
+
 // Under the critical section, if m_bPending calls Finish on each active task, returns the first negative result (else 0), and clears m_bPending.
 // @fnv 0x009fb6f0
 int FinishPendingTasks(TaskGroupInnerW* pkInner)
@@ -6307,7 +6460,7 @@ int FinishPendingTasks(TaskGroupInnerW* pkInner)
     int iResult = 0;
     if (pkInner->m_bPending)
     {
-        TaskGroupW* pkGroup = (TaskGroupW*)((char*)pkInner - 0xc);
+        TaskGroupW* pkGroup = static_cast<TaskGroupWOuter*>(pkInner);
         int iCount = pkGroup->GetTaskCount();
         for (int i = 0; i < iCount; i++)
         {
@@ -6352,6 +6505,8 @@ struct CBaseFilter
     virtual void v5();
     virtual int GetPinCount();
     virtual CBasePin* GetPin(int n);
+    int unk04;
+    int unk08;
 };
 
 struct FilterInterface
@@ -6385,6 +6540,10 @@ struct AutoLock
     }
 };
 
+struct CBaseFilterOuter : CBaseFilter, FilterInterface
+{
+};
+
 // @fnv 0x009fb7a0
 int FilterInterface::Activate()
 {
@@ -6392,7 +6551,7 @@ int FilterInterface::Activate()
 
     if (m_iValueAt14 == 0)
     {
-        CBaseFilter* filter = reinterpret_cast<CBaseFilter*>(reinterpret_cast<char*>(this) - 0xc);
+        CBaseFilter* filter = static_cast<CBaseFilterOuter*>(this);
         int count = filter->GetPinCount();
         for (int c = 0; c < count; ++c)
         {
@@ -7236,6 +7395,8 @@ struct Parent
     virtual int Operation0c();
     virtual int Operation10();
     virtual int Start();
+    int unk04;
+    int unk08;
 };
 class CriticalSectionGuard
 {
@@ -7251,12 +7412,16 @@ class CriticalSectionGuard
         LeaveCriticalSection(section);
     }
 };
+struct ParentOuter : Parent, Packet
+{
+};
+
 // Acquires the packet's critical section, marks it active, and either clears a delayed flag or starts the parent and invokes the onStart callback.
 // @fnv 0x009fae90
 int FUN_009fae90(Packet* packet)
 {
     CRITICAL_SECTION* section =
-        reinterpret_cast<Parent*>(reinterpret_cast<char*>(packet) - 12) ? &packet->criticalSection : 0;
+        static_cast<ParentOuter*>(packet) ? &packet->criticalSection : 0;
     CriticalSectionGuard guard(section);
     if (!packet->active)
     {
@@ -7267,7 +7432,7 @@ int FUN_009fae90(Packet* packet)
         }
         else
         {
-            int result = reinterpret_cast<Parent*>(reinterpret_cast<char*>(packet) - 12)->Start();
+            int result = static_cast<ParentOuter*>(packet)->Start();
             if (result < 0)
             {
                 packet->active = 0;
@@ -7471,7 +7636,7 @@ int FUN_009faf50(S009faf50_FUN_009faf50_rec* self)
 {
     int ok = 0;
     {
-        S009faf50_CSGuard5 guard(((char*)self - 0xc) != 0 ? &self->m_cs : 0);
+        S009faf50_CSGuard5 guard(static_cast<S009faf50_FUN_009faf50_owner*>(self) != 0 ? &self->m_cs : 0);
         if (self->m_44 == 0 && self->m_48 == 0)
         {
             return 0;
@@ -7485,7 +7650,7 @@ int FUN_009faf50(S009faf50_FUN_009faf50_rec* self)
         else
         {
             self->m_48 = 0;
-            ((S009faf50_FUN_009faf50_owner*)((char*)self - 0xc))->v4();
+            static_cast<S009faf50_FUN_009faf50_owner*>(self)->v4();
             ok = 1;
         }
         reinterpret_cast<::FUN_009fae70_class *>((((S009faf50_FUN_009faf50_owner*)self)))->FUN_009fae70();
@@ -7512,13 +7677,26 @@ struct S_009fba40_A
     virtual void v18();
     virtual void v1c();
     virtual intptr_t v20();
+    int unk04;
+    int unk08;
+    int unk0c;
+};
+
+// self points at the interface that follows the S_009fba40_A part.
+struct S_009fba40_Iface
+{
+    void* vtbl;
+};
+
+struct S_009fba40_Full : S_009fba40_A, S_009fba40_Iface
+{
 };
 
 // Calls virtual v20 on the object at self-0x10 and returns 1 if it gives 0; otherwise creates a COM object, passes it to WriteRecordSet, releases it, returns 0.
 // @fnv 0x009fba40
 int FUN_009fba40(void* self)
 {
-    S_009fba40_A* a = (S_009fba40_A*)((char*)self - 0x10);
+    S_009fba40_A* a = static_cast<S_009fba40_Full*>((S_009fba40_Iface*)self);
     intptr_t r = a->v20();
     if (r == 0)
         return r + 1;
@@ -7762,7 +7940,7 @@ int FUN_009fb650(FltMediaFilter* self, void** pClock)
     {
         return 0x80004003;
     }
-    FltBaseFilter* filter = (FltBaseFilter*)((char*)self - 0xc);
+    FltBaseFilter* filter = static_cast<FltBaseFilter*>(self);
     FltAutoLock lock(filter->m_pLock);
     if (filter->m_pClock != 0)
     {
@@ -7812,7 +7990,7 @@ int AsyncIoWait::FUN_009fe500()
 // @fnv 0x009fbab0
 int FUN_009fbab0(void* self)
 {
-    S_009fba40_A* a = (S_009fba40_A*)((char*)self - 0x10);
+    S_009fba40_A* a = static_cast<S_009fba40_Full*>((S_009fba40_Iface*)self);
     intptr_t r = a->v20();
     if (r == 0)
         return r + 1;
@@ -7889,6 +8067,8 @@ struct ReleaseWakeCall
 
 struct Lk_Outer
 {
+    int unk04;
+    int unk08;
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -7925,6 +8105,11 @@ struct Lk_Owner
     void* p4c;
 };
 
+// apOwner points at the Lk_Owner part that follows the Lk_Outer part.
+struct Lk_Full : Lk_Outer, Lk_Owner
+{
+};
+
 // Links b at the head of o's list under a critical section, increments count, and when flag48 is set and count equals p30 clears it and calls o's vtable slot 2.
 // @fnv 0x009fc480
 int FUN_009fc480(intptr_t apOwner, Lk_Item* apItem)
@@ -7933,18 +8118,18 @@ int FUN_009fc480(intptr_t apOwner, Lk_Item* apItem)
         return 0x80004003;
     Lk_Owner* o = (Lk_Owner*)apOwner;
     int notify = 0;
-    CRITICAL_SECTION* pCritSec = ((char*)o - 0xc) ? &o->cs00 : 0;
+    CRITICAL_SECTION* pCritSec = static_cast<Lk_Full*>(o) ? &o->cs00 : 0;
     {
         PinCritSecLock g(pCritSec);
         apItem->next = o->head;
         o->head = apItem;
         o->count += 1;
         if (o->p28)
-            reinterpret_cast<::FUN_009fae70_class *>((((ReleaseWakeCall*)((char*)o - 0xc))))->FUN_009fae70();
+            reinterpret_cast<::FUN_009fae70_class *>(static_cast<Lk_Full*>(o))->FUN_009fae70();
         int cnt = o->count;
         if (o->flag48 && cnt == o->p30)
         {
-            ((Lk_Outer*)((char*)o - 0xc))->v04();
+            static_cast<Lk_Full*>(o)->v04();
             o->flag48 = 0;
             notify = 1;
         }
@@ -7979,8 +8164,8 @@ intptr_t FUN_009fcc20_class::Initialize(int a, int b, int c)
 {
     reinterpret_cast<::AllocatorShell_9fcb90 *>(this)->FUN_009fcb90(a, b, c, 1, 1);
     *(uintptr_t*)this = (uintptr_t)&DAT_01093d28;
-    *(uintptr_t*)((char*)this + 0xc) = (uintptr_t)&DAT_01093cf8;
-    *(int*)((char*)this + 0x60) = 0;
+    this->unk0c = (void*)&DAT_01093cf8;
+    this->unk60 = 0;
     return (intptr_t)this;
 }
 
@@ -8032,9 +8217,9 @@ struct ObjectLifetime : FUN_009fce60_class
 // @fnv 0x009fcee0
 int* FUN_009fcee0_class::FUN_009fcee0(int aiValue, intptr_t apParent)
 {
-    reinterpret_cast<::ObjectLifetime *>((((FUN_009fce60_class*)((char*)this + 4))))->FUN_009fce60(aiValue);
-    *(intptr_t*)((char*)this + 4) = apParent ? apParent : (intptr_t)this;
-    *(int*)((char*)this + 8) = 0;
+    reinterpret_cast<::ObjectLifetime *>((((FUN_009fce60_class*)&this->unk04)))->FUN_009fce60(aiValue);
+    this->unk04 = apParent ? apParent : (intptr_t)this;
+    this->unk08 = 0;
     return (int*)this;
 }
 
@@ -8220,7 +8405,7 @@ FUN_009f9c70::FUN_009f9c70()
 
 static inline ::BasePinStub* PinOwnerFromInterface(::PinIface* pin)
 {
-    return reinterpret_cast< ::BasePinStub*>(reinterpret_cast<char*>(pin) - sizeof(::PinUnknownBase));
+    return static_cast< ::BasePinStub*>(pin);
 }
 
 // @fnv 0x009fc300

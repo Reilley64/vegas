@@ -153,7 +153,6 @@ struct OurPart
     virtual void o00();
 
     int m_i04;
-    void* m_notifyTargetVtable;  // NotifyTarget part at +8
 
     void RegisterAndNotify(struct Registry* apRegistry);
 };
@@ -195,12 +194,13 @@ struct Registry
 // @fnv 0x00d63520
 void OurPart::RegisterAndNotify(Registry* apRegistry)
 {
-    reinterpret_cast<::hkOwnerXc937a0 *>((apRegistry))->FUN_00c937a0((Container*)((char*)this - 0x20));
-    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((apRegistry))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(::SecondTarget *)((Container*)((char*)this - 0x20)));
+    Container* viewer = static_cast<Container*>(this);
+    reinterpret_cast<::hkOwnerXc937a0 *>((apRegistry))->FUN_00c937a0(viewer);
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((apRegistry))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(static_cast<SecondTarget*>(viewer)));
 
     ItemList* pItemList = ((::ItemList *)(reinterpret_cast<::FUN_00c929e0_ThisClass *>((apRegistry))->FUN_00c929e0()));
     for (int i = 0; i < pItemList->m_iArrayLength; i++)
-        reinterpret_cast<NotifyTarget*>(&m_notifyTargetVtable)->Notify(pItemList->m_ppItems[i]);
+        static_cast<NotifyTarget*>(viewer)->Notify(pItemList->m_ppItems[i]);
 
     reinterpret_cast<::hkReferencedObjectC905 *>((pItemList))->FUN_00c905b0();
 }

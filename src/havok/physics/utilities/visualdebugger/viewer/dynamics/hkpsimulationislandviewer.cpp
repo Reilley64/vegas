@@ -33,12 +33,12 @@ struct Derived : Base0, Base1, Base2
 {
 };
 
-// Computes the Derived pointer from this and passes the Base2 subobject (or null) to t->FUN_00c93920.
+// Passes the viewer's Base2 subobject to t->FUN_00c93920.
 // @fnv 0x00d649f0
 void Base1::PassSelfAsBase2ToTarget(Target* apTarget)
 {
-    Derived* d = (Derived*)((char*)this - 0x20);
-    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((apTarget))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(::Base2 *)(d ? (Base2*)((char*)this + 8) : 0));
+    Base2* listener = static_cast<Derived*>(this);
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((apTarget))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(listener));
 }
 
 

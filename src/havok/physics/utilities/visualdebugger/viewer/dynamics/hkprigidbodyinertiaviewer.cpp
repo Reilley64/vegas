@@ -98,7 +98,6 @@ void FUN_00d67020_class::VisitSubObjects(Arg* arg) {
     }
 }
 
-struct Handler {  };
 struct Collection {
     int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C;
     int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C;
@@ -107,20 +106,35 @@ struct Collection {
     void** items;
     int count;
 };
+// The rigid body inertia viewer: hkReferencedObject, then its hkProcess part (Owner) at +0x08 and its world
+// listener part (TargetClass) at +0x20.
+struct InertiaViewerRefObject {
+    void* m_vtbl;
+    int m_memSizeAndRefCount;
+};
 struct Owner {
-    int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18;
-    Collection* collection;
+    void* m_vtbl;
+    int unk04; int unk08; int unk0C; int unk10; int unk14;
     void ProcessCollectionItems();
 };
-// Iterates the collection's items and passes each to VisitSubObjects on the Handler at this-8, if the collection exists.
+struct TargetClass {
+    void* m_vtbl;
+    Collection* collection;
+    void FUN_00d67150(void* arg);
+};
+struct InertiaViewer : InertiaViewerRefObject, Owner, TargetClass {
+};
+// Iterates the collection's items and passes each to VisitSubObjects on the viewer, if the collection exists.
 // @fnv 0x00d67110
 void Owner::ProcessCollectionItems() {
+    InertiaViewer* viewer = static_cast<InertiaViewer*>(this);
+    Collection* collection = viewer->collection;
     if (collection != 0) {
         int n = collection->count;
         int i = 0;
         if (0 < n) {
             do {
-                reinterpret_cast<::FUN_00d67020_class *>((((Handler*)((char*)this - 8))))->VisitSubObjects((::Arg *)(collection->items[i]));
+                reinterpret_cast<::FUN_00d67020_class *>(viewer)->VisitSubObjects((::Arg *)(collection->items[i]));
                 i = i + 1;
             } while (i < n);
         }
@@ -291,16 +305,9 @@ void FUN_00d66f30_cls::FUN_00d66f30(FUN_00d66f30_params* apParams)
     }
 }
 
-struct Outer {
-};
-
-struct TargetClass {
-    void FUN_00d67150(void* arg);
-};
-
 // @fnv 0x00d67150
 void TargetClass::FUN_00d67150(void* arg) {
-    reinterpret_cast<::FUN_00d66f30_cls *>((((Outer*)((char*)this - 0x20))))->FUN_00d66f30((::FUN_00d66f30_params *)(arg));
+    reinterpret_cast<::FUN_00d66f30_cls *>(static_cast<InertiaViewer*>(this))->FUN_00d66f30((::FUN_00d66f30_params *)(arg));
 }
 
 class D671F0ListenerA {

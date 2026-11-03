@@ -312,10 +312,22 @@ struct Vec4
 };
 
 
-// For message 0x93/0x1f1-0x1f5 sets an object field from param_2[9]+2, then writes two Vec4 flag vectors into _DAT_011FA0C0 based on param_2[11].
+struct PassView_b79410
+{
+    void* p00;
+    unsigned short us04;
+    unsigned short us06;
+    unsigned char uc08;
+    unsigned char ucCount09;
+    unsigned char uc0a;
+    unsigned char ucMode0b;
+};
+
+// For message 0x93/0x1f1-0x1f5 sets an object field from the pass's ucCount09+2, then writes two Vec4 flag vectors into _DAT_011FA0C0 based on its ucMode0b.
 // @fnv 0x00b79410
 void FUN_00b79410(unsigned int uiMessageId, unsigned char* pucPayload)
 {
+    const PassView_b79410* pPass = reinterpret_cast<const PassView_b79410*>(pucPayload);
     int iSlotA;
     int iSlotB;
 
@@ -329,7 +341,7 @@ void FUN_00b79410(unsigned int uiMessageId, unsigned char* pucPayload)
     case 0x1f5: {
         iSlotA = 2;
         iSlotB = 3;
-        int iValue = pucPayload[9] + 2;
+        int iValue = pPass->ucCount09 + 2;
         if (iValue <= 3)
             iValue = 3;
         DAT_011fec38.m_pObject->value = iValue;
@@ -343,7 +355,7 @@ void FUN_00b79410(unsigned int uiMessageId, unsigned char* pucPayload)
         return;
     }
 
-    int c = pucPayload[11];
+    int c = pPass->ucMode0b;
     (*reinterpret_cast<Vec4 (*)[]>((void *)&::DAT_011FA0C0))[iSlotA] =
         Vec4(c == 1 ? 1.0f : 0.0f, c == 2 ? 1.0f : 0.0f, c == 3 ? 1.0f : 0.0f, c == 4 ? 1.0f : 0.0f);
     (*reinterpret_cast<Vec4 (*)[]>((void *)&::DAT_011FA0C0))[iSlotB] =

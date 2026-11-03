@@ -67,6 +67,7 @@ struct hkpConvexListAgent
     void FUN_00d33770(const void* a);
     void FUN_00d337f0(int a);
     void FUN_00d33810(int a);
+    void FUN_00d33830(int a);
     void FUN_00d33740(ConvexListAgentInput* a, int b);
     void FUN_00d33850(::S_00da40e0_ConstraintOwner* a);
 };
@@ -168,23 +169,12 @@ void hkpConvexListAgent::FUN_00d33810(int a)
         reinterpret_cast<::FUN_00dacb60_class *>(this)->AddPotential(a);
 }
 
-namespace fnv_00d33830 {
-struct FUN_00d33830_cls
-{
-    void FUN_00d33830(int a);
-};
-
-struct hkpGskfAgent
-{
-};
-
 // @fnv 0x00d33830
-void FUN_00d33830_cls::FUN_00d33830(int aiArg)
+void hkpConvexListAgent::FUN_00d33830(int aiArg)
 {
-    if (*(char*)((char*)this + 0x84))
-        reinterpret_cast<::hkObjDACB *>((((hkpGskfAgent*)this)))->ClearSlotById(aiArg);
+    if (m_inStreamModus)
+        reinterpret_cast<::hkObjDACB *>(this)->ClearSlotById(aiArg);
 }
-}  // namespace fnv_00d33830
 
 
 // If the agent is not in stream mode, calls FUN_00d97250 with its agent track, the input's +0x8 field and the input.
@@ -861,7 +851,7 @@ extern "C" void __cdecl FUN_00d33b90(void* a, void* b, void* c, void* d)
         _ReadWriteBarrier();
         tick = (DWORD)__rdtsc();
         pRec->m_iTick = tick;
-        pBuf->m_pCur = (char*)pRec + 0x10;
+        pBuf->m_pCur = (char*)(pRec + 1);
     }
 
     HitCollector col;

@@ -331,12 +331,12 @@ struct Flt
 
 struct FUN_006f5800_shell
 {
-    unsigned int GetSelectedValue(bool abFlag);
+    std::uintptr_t GetSelectedValue(bool abFlag);
 };
 
 // Returns the value at offset 0x10 when abFlag is set, otherwise the value at offset 8.
 // @fnv 0x006f5800
-unsigned int FUN_006f5800_shell::GetSelectedValue(bool abFlag)
+std::uintptr_t FUN_006f5800_shell::GetSelectedValue(bool abFlag)
 {
     Flt* pFlt = abFlag ? (Flt*)((char*)this + 0x10) : (Flt*)((char*)this + 8);
     return *pFlt;

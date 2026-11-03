@@ -9,6 +9,6 @@ float RandomFloat0To1();
 // 0x005c5a00
 void FUN_005c5a00(const char *);
 // 0x005c5a50
-int FUN_005c5a50();
+std::intptr_t FUN_005c5a50();
 // 0x005c5a60
 void FUN_005c5a60(std::intptr_t);

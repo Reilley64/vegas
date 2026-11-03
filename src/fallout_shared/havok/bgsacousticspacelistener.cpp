@@ -34,11 +34,11 @@ struct FUN_0061f6c0_shell
 {
     char pad[0xdec];
     Flt flt;
-    unsigned int FUN_0061f6c0();
+    std::uintptr_t FUN_0061f6c0();
 };
 
 // @fnv 0x0061f6c0
-unsigned int FUN_0061f6c0_shell::FUN_0061f6c0()
+std::uintptr_t FUN_0061f6c0_shell::FUN_0061f6c0()
 {
     return flt;
 }

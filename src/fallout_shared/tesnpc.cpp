@@ -1039,11 +1039,11 @@ void TESNPC::Revert(BGSLoadFormBuffer* buffer)
 
 struct FUN_004169d0_shell : public TESNPC
 {
-    unsigned int FUN_004169d0();
+    std::uintptr_t FUN_004169d0();
 };
 
 // @fnv 0x004169d0
-unsigned int FUN_004169d0_shell::FUN_004169d0()
+std::uintptr_t FUN_004169d0_shell::FUN_004169d0()
 {
     return this->iHairColor;
 }
@@ -2284,11 +2284,11 @@ struct S8
 void __cdecl FillRange(int, int, int, void*);
 struct Unk060b8a0
 {
-    int FUN_0060b8a0(std::intptr_t, int, int);
+    std::intptr_t FUN_0060b8a0(std::intptr_t, int, int);
 };
 // Calls FillRange with the three arguments and this+8, then returns a + b*4.
 // @fnv 0x0060b8a0
-int Unk060b8a0::FUN_0060b8a0(std::intptr_t aiFirst, int aiSecond, int aiThird)
+std::intptr_t Unk060b8a0::FUN_0060b8a0(std::intptr_t aiFirst, int aiSecond, int aiThird)
 {
     FillRange(aiFirst, aiSecond, aiThird, (char*)this + 8);
     return aiFirst + aiSecond * 4;
@@ -2309,11 +2309,11 @@ S8* S8::FUN_0060b820(S8* out, int arg)
 struct S_0060b980
 {
     int* p;
-    int FUN_0060b980();
+    std::intptr_t FUN_0060b980();
 };
 // Returns the result of FUN_00559450 on the stored pointer, or 0 when the pointer is null.
 // @fnv 0x0060b980
-int S_0060b980::FUN_0060b980()
+std::intptr_t S_0060b980::FUN_0060b980()
 {
     return p ? FUN_00559450(p) : 0;
 }

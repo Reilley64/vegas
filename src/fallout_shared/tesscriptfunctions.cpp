@@ -2660,7 +2660,7 @@ bool FUN_005ca4f0_shell::FUN_005ca4f0()
 }
 
 // @fnv 0x005cbb50
-int FUN_005cbb50(char* pThis)
+std::intptr_t FUN_005cbb50(char* pThis)
 {
     return *(int*)(pThis + 0x6b8);
 }
@@ -2950,7 +2950,7 @@ void FUN_005db4c0_struct::FUN_005db4c0(bool abRenderDecals)
 
 
 // @fnv 0x005dbe10
-unsigned int __cdecl FUN_005dbe10()
+std::uintptr_t __cdecl FUN_005dbe10()
 {
     if ((DAT_011b0808 = (DAT_011b0808 + 1) & 0xFFFF) == 0)
     {
@@ -4193,7 +4193,7 @@ char __cdecl FUN_005c5a20()
 extern int DAT_011f91f4;
 
 // @fnv 0x005c5a50
-int FUN_005c5a50()
+std::intptr_t FUN_005c5a50()
 {
     return DAT_011f91f4;
 }
@@ -4750,7 +4750,7 @@ const char* __cdecl FUN_005dd830(int index)
 extern int DAT_0119b458[];
 
 // @fnv 0x005dd840
-int FUN_005dd840(int param_1)
+std::intptr_t FUN_005dd840(int param_1)
 {
     return DAT_0119b458[param_1];
 }
@@ -4758,7 +4758,7 @@ int FUN_005dd840(int param_1)
 extern int DAT_0119b4a0[1];
 
 // @fnv 0x005dd850
-int __cdecl FUN_005dd850(int index)
+std::intptr_t __cdecl FUN_005dd850(int index)
 {
     return DAT_0119b4a0[index];
 }
@@ -5344,11 +5344,11 @@ class FUN_005da7d0_Class
 {
 public:
     unsigned int m_508;
-    unsigned int FUN_005da7d0();
+    std::uintptr_t FUN_005da7d0();
 };
 
 // @fnv 0x005da7d0
-unsigned int FUN_005da7d0_Class::FUN_005da7d0()
+std::uintptr_t FUN_005da7d0_Class::FUN_005da7d0()
 {
     return ((unsigned int*)this)[0x508 / 4];
 }
@@ -6136,11 +6136,11 @@ class FUN_005da7f0_Class
 public:
     char padding[0x504];
     unsigned int memberAt0x504;
-    unsigned int FUN_005da7f0();
+    std::uintptr_t FUN_005da7f0();
 };
 
 // @fnv 0x005da7f0
-unsigned int FUN_005da7f0_Class::FUN_005da7f0()
+std::uintptr_t FUN_005da7f0_Class::FUN_005da7f0()
 {
     return memberAt0x504;
 }

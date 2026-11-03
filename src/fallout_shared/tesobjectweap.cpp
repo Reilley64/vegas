@@ -743,12 +743,12 @@ BSFaceGenAnimationData* FUN_00524c90()
 
 struct FUN_00522440_shell
 {
-    int GetValueByFlag(bool bUse);
+    std::intptr_t GetValueByFlag(bool bUse);
 };
 
 // Returns the int at offset 0x244 when bUse is true, otherwise the int at offset 0x220.
 // @fnv 0x00522440
-int FUN_00522440_shell::GetValueByFlag(bool bUse)
+std::intptr_t FUN_00522440_shell::GetValueByFlag(bool bUse)
 {
     if (bUse)
     {
@@ -764,22 +764,22 @@ struct FUN_00522500_shell
 {
     char pad[0x234];
     unsigned int field234;
-    unsigned int GetField234();
+    std::uintptr_t GetField234();
 };
 
 // @fnv 0x00522500
-unsigned int FUN_00522500_shell::GetField234()
+std::uintptr_t FUN_00522500_shell::GetField234()
 {
     return field234;
 }
 
 struct FUN_00522520_shell
 {
-    int GetField238();
+    std::intptr_t GetField238();
 };
 
 // @fnv 0x00522520
-int FUN_00522520_shell::GetField238()
+std::intptr_t FUN_00522520_shell::GetField238()
 {
     return *(int*)((char*)this + 0x238);
 }
@@ -875,11 +875,11 @@ float FUN_00645c60_shell::GetField178Float() const
 
 struct FUN_008bffa0_shell
 {
-    int GetField228();
+    std::intptr_t GetField228();
 };
 
 // @fnv 0x008bffa0
-int FUN_008bffa0_shell::GetField228()
+std::intptr_t FUN_008bffa0_shell::GetField228()
 {
     return *(int*)((char*)this + 0x228);
 }
@@ -917,11 +917,11 @@ void FUN_00521580_shell::FUN_00521580(bool bVal)
 }
 
 struct FUN_00522540_shell {
-    int GetField23C();
+    std::intptr_t GetField23C();
 };
 
 // @fnv 0x00522540
-int FUN_00522540_shell::GetField23C()
+std::intptr_t FUN_00522540_shell::GetField23C()
 {
     return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x23c);
 }
@@ -1012,10 +1012,10 @@ struct FUN_0051dad0_This {
     void* FUN_0051dad0(unsigned int);
 };
 struct FUN_004fb7a0_obj {  };
-struct FUN_00522ba0_obj { int FUN_00522ba0(int); };
+struct FUN_00522ba0_obj { std::intptr_t FUN_00522ba0(int); };
 // If the object at offset 0x24C is non-null, forwards a1 to its FUN_004fb7a0 and returns the result; otherwise returns 0.
 // @fnv 0x00522ba0
-int FUN_00522ba0_obj::FUN_00522ba0(int a1)
+std::intptr_t FUN_00522ba0_obj::FUN_00522ba0(int a1)
 {
     std::intptr_t val = 0;
     if (*reinterpret_cast<FUN_004fb7a0_obj**>(reinterpret_cast<char*>(this) + 0x24C) != 0)

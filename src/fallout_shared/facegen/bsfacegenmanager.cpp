@@ -2393,7 +2393,7 @@ struct NPX
 
 // Returns the value stored at offset 0x1198 of DAT_011d59e8, or 0 when DAT_011d59e8 is null.
 // @fnv 0x00655270
-unsigned int __cdecl FUN_00655270()
+std::uintptr_t __cdecl FUN_00655270()
 {
     return (unsigned int)(DAT_011d59e8 ? *(NPX*)((char*)DAT_011d59e8 + 0x1198) : NPX(0));
 }
@@ -4008,7 +4008,7 @@ struct GO
 
 
 // @fnv 0x00656db0
-unsigned int FUN_00656db0()
+std::uintptr_t FUN_00656db0()
 {
     return (*reinterpret_cast<::fnv_00656db0::GO *>(&::DAT_011f9510)).operator unsigned int();
 }

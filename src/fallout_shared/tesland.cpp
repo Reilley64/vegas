@@ -1748,7 +1748,7 @@ void FUN_00535a60_Class::FUN_00535a60()
 }
 
 // @fnv 0x00535ae0
-int FUN_00535ae0()
+std::intptr_t FUN_00535ae0()
 {
     return DAT_011c9f04;
 }
@@ -2146,11 +2146,11 @@ struct Owner
 };
 
 struct FUN_0053df00_Class {
-    int FUN_0053df00();
+    std::intptr_t FUN_0053df00();
 };
 
 // @fnv 0x0053df00
-int FUN_0053df00_Class::FUN_0053df00()
+std::intptr_t FUN_0053df00_Class::FUN_0053df00()
 {
     return *(int*)((char*)this + 0x28) ? *(int*)((char*)*(int*)((char*)this + 0x28) + 8) : 0;
 }
@@ -2668,7 +2668,7 @@ FUN_00537d40::~FUN_00537d40()
 
 void __cdecl CompressSaveLoadRecord();
 
-int FUN_00535ae0();
+std::intptr_t FUN_00535ae0();
 
 struct FUN_0084e3a0_Class { int FUN_0084e3a0(); };
 

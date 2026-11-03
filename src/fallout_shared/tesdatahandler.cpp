@@ -945,7 +945,7 @@ void* FUN_00461150_shell::FUN_00461150()
 }
 
 // @fnv 0x00461190
-int FUN_00461190(std::intptr_t param_1)
+std::intptr_t FUN_00461190(std::intptr_t param_1)
 {
     return param_1 + 0xE8;
 }
@@ -1504,11 +1504,11 @@ ExteriorData* FUN_00540720(ExteriorData* pThis)
 
 struct FUN_00620b80_shell : public NavMeshCollection
 {
-    unsigned int GetReferenceFlags();
+    std::uintptr_t GetReferenceFlags();
 };
 
 // @fnv 0x00620b80
-unsigned int FUN_00620b80_shell::GetReferenceFlags()
+std::uintptr_t FUN_00620b80_shell::GetReferenceFlags()
 {
     return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR*>(this)))->GetName()));
 }
@@ -2585,11 +2585,11 @@ void* FUN_00461210_shell::GetOffset198()
 
 struct FUN_00461230_shell
 {
-    int GetOffsetPtr();
+    std::intptr_t GetOffsetPtr();
 };
 
 // @fnv 0x00461230
-int FUN_00461230_shell::GetOffsetPtr()
+std::intptr_t FUN_00461230_shell::GetOffsetPtr()
 {
     return reinterpret_cast<int>(this) + 0x190;
 }
@@ -3553,11 +3553,11 @@ struct Stub
 {
     char _pad[0x1DC];
     NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> > m_aiIndexedValues;
-    unsigned int GetCameraPathAt(unsigned int);
+    std::uintptr_t GetCameraPathAt(unsigned int);
 };
 // Compacts the camera path array, then returns the element at aiIndex.
 // @fnv 0x00461980
-unsigned int Stub::GetCameraPathAt(unsigned int aiIndex)
+std::uintptr_t Stub::GetCameraPathAt(unsigned int aiIndex)
 {
     ::CompactArray((::NiTArray_CombatGroup *)&(m_aiIndexedValues));
     return *m_aiIndexedValues.GetAt(aiIndex);
@@ -4156,12 +4156,12 @@ bool FUN_00470ca0_t::OpenFile(char* ppath, char* pfilename, int accessmode, bool
 
 struct FUN_0046a080_shell
 {
-    int CreateExplosion(TESObjectREFR*, NiPoint3*, NiPoint3*, TESObjectCELL*, TESWorldSpace*);
+    std::intptr_t CreateExplosion(TESObjectREFR*, NiPoint3*, NiPoint3*, TESObjectCELL*, TESWorldSpace*);
 };
 
 
 // @fnv 0x0046a080
-int FUN_0046a080_shell::CreateExplosion(TESObjectREFR* pProjectile, NiPoint3* pPosition, NiPoint3* pDirection,
+std::intptr_t FUN_0046a080_shell::CreateExplosion(TESObjectREFR* pProjectile, NiPoint3* pPosition, NiPoint3* pDirection,
                                         TESObjectCELL* pCellArg, TESWorldSpace* m_pContainingWorldspace)
 {
     std::intptr_t pCell = 0;

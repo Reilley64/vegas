@@ -175,17 +175,17 @@ void FUN_006fce00_shell::FUN_006fce00()
 
 struct BGSTerrainChunk
 {
-    int FUN_006fceb0(int);
+    std::intptr_t FUN_006fceb0(int);
 };
 
 struct FUN_006fce30_shell : BGSTerrainChunk
 {
-    int FUN_006fce30(int abSomething);
+    std::intptr_t FUN_006fce30(int abSomething);
 };
 
 // Looks up the terrain chunk for the given argument and, if found, returns the result of calling its method with 0; otherwise returns 0.
 // @fnv 0x006fce30
-int FUN_006fce30_shell::FUN_006fce30(int abSomething)
+std::intptr_t FUN_006fce30_shell::FUN_006fce30(int abSomething)
 {
     int result = 0;
     BGSTerrainChunk* obj = (BGSTerrainChunk*)FUN_006fceb0(abSomething);
@@ -275,10 +275,10 @@ void Holder006fcdb0::FUN_006fcdb0(std::intptr_t a1)
 
 struct FUN_006fce70_shell : BGSTerrainChunk
 {
-    int FUN_006fce70(int);
+    std::intptr_t FUN_006fce70(int);
 };
 // @fnv 0x006fce70
-int FUN_006fce70_shell::FUN_006fce70(int a1)
+std::intptr_t FUN_006fce70_shell::FUN_006fce70(int a1)
 {
     int result = 0;
     BGSTerrainChunk* chunk = (BGSTerrainChunk*)FUN_006fceb0(a1);
@@ -292,7 +292,7 @@ struct Unk006fec90
 };
 // If the object at offset 4 exists, forwards a1 to its GetActiveMenu and returns the result; otherwise returns 0.
 // @fnv 0x006fceb0
-int BGSTerrainChunk::FUN_006fceb0(int a1)
+std::intptr_t BGSTerrainChunk::FUN_006fceb0(int a1)
 {
     int unused = 0;
     if (*(Unk006fec90**)((char*)this + 4))
@@ -307,11 +307,11 @@ struct FUN_006fcef0_shell
 {
     int m_00;
     FUN_006fed30_Callee* m_04;
-    int ForwardToCallee(int);
+    std::intptr_t ForwardToCallee(int);
 };
 // If m_04 is set, forwards a to m_04's FUN_006fed30 and returns its result; otherwise returns 0.
 // @fnv 0x006fcef0
-int FUN_006fcef0_shell::ForwardToCallee(int a)
+std::intptr_t FUN_006fcef0_shell::ForwardToCallee(int a)
 {
     int unused = 0;
     if (m_04)

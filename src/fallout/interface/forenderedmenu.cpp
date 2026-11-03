@@ -2086,9 +2086,13 @@ struct Accumulator82
 };
 struct Scene82
 {
+    char pad[0xb4];
+    struct Accumulator82* unkB4;
 };
 struct Interface82
 {
+    char pad[0xa4];
+    struct Obj82* unkA4;
 };
 struct Target82
 {
@@ -2246,9 +2250,9 @@ void Rendered82::FUN_007fba00(void* pRenderArg1, void* pRenderArg2, Target82* pS
     Renderer82* renderer5 = ((::Renderer82 *)(::FUN_0043c4b0()));
     Interface82* interface23 = ((::Interface82 *)(::fnv_004b7210::FUN_004b7210()));
     if (reinterpret_cast<::FUN_00644640_shell *>((interface23))->FUN_00644640())
-        reinterpret_cast<::TaskQueueInterface *>((((::Obj82 *)(reinterpret_cast<::FUN_005e3fc0_shell *>((interface23))->Get()))))->QueueActorDisarm(true);
+        reinterpret_cast<::TaskQueueInterface *>((((::Obj82 *)(interface23->unkA4))))->QueueActorDisarm(true);
     Scene82* scene3 = ((::Scene82 *)(reinterpret_cast<::StrOwner *>((interface23))->FUN_007fa950()));
-    Accumulator82* render4 = ((::Accumulator82 *)(reinterpret_cast<::MiddleLowProcess *>((scene3))->GetProcessInteger()));
+    Accumulator82* render4 = ((::Accumulator82 *)(scene3->unkB4));
     reinterpret_cast<::FUN_004a0fd0_shell *>((render4))->FUN_004a0fd0((::NiNode *)(void *)(((::Obj82 *)(::FUN_00559450((int *)&(accumulator))))));
     Rect82 rect2(0.0f, 0.0f, 0.0f, 0.0f);
     renderer5->GetRect(rect2);
@@ -2315,7 +2319,7 @@ void Rendered82::FUN_007fba00(void* pRenderArg1, void* pRenderArg2, Target82* pS
         reinterpret_cast<::FUN_007fbeb0_shell *>((((::Partial82 *)(::ImageSpaceManager::FUN_004e3270()))))->SetValueAndAssign(0, (void *)(0));
     Finish();
     if (reinterpret_cast<::FUN_00644640_shell *>((interface23))->FUN_00644640())
-        reinterpret_cast<::TaskQueueInterface *>((((::Obj82 *)(reinterpret_cast<::FUN_005e3fc0_shell *>((interface23))->Get()))))->QueueActorDisarm(false);
+        reinterpret_cast<::TaskQueueInterface *>((((::Obj82 *)(interface23->unkA4))))->QueueActorDisarm(false);
 }
 
 struct FUN_00483710
@@ -2630,8 +2634,8 @@ bool RenderedMenu7fb7::FUN_007fb790(void* pkUnused, float* pfX, float* pfY)
     FUN_006815c0 kWorldPosition;
     GlobalObject_00e98f20 kPickObj(0, 8);
     Camera7fb7* pkCamera3D;
-    if (((::Camera7fb7 *)(reinterpret_cast<::fnv_008b6200::FUN_008b6200 *>(this)->GetFlt())))
-        pkCamera3D = ((::Camera7fb7 *)(reinterpret_cast<::fnv_008b6200::FUN_008b6200 *>(this)->GetFlt()));
+    if (((::Camera7fb7 *)(m_pMenuLightParameters.m_pObject)))
+        pkCamera3D = ((::Camera7fb7 *)(m_pMenuLightParameters.m_pObject));
     else
         pkCamera3D = ((::Camera7fb7 *)(reinterpret_cast<::BSFaceGenNiNode *>((((::View7fb7 *)(::FUN_0045c670()))))->GetAnimationData()));
     reinterpret_cast<::FUN_00458b30_class *>(&(kPickObj))->SetByteAtOffset17(1);

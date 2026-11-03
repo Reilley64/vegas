@@ -529,7 +529,7 @@ void SimplexProcessor::FUN_00d36d60(intptr_t a, intptr_t b, intptr_t c, Simplex*
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
-    reinterpret_cast<::S00d369a0_ListAgent *>(this)->FUN_00d369a0((::S00d369a0_Body *)(b), (::S00d369a0_Body *)(a), (::S00d369a0_Config *)(c), (int)(s));
+    reinterpret_cast<::S00d369a0_ListAgent *>(this)->FUN_00d369a0((::S00d369a0_Body *)(b), (::S00d369a0_Body *)(a), (::S00d369a0_Config *)(c), (intptr_t)(s));
     for (; v < s->m_kRayEnd; v++)
     {
         const __m128* pb = &v->m_kPointB;
@@ -953,11 +953,11 @@ void Agent::FUN_00d36e80(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const S
     if (startCollector)
     {
         hkpSymmetricAgentFlipCastCollector flippedStartCollector(input.m_path, *startCollector);
-        ::FUN_00d36960((int)this, (int)&(bodyB), (int)&(bodyA), (int)&(flippedInput), (int)&(flippedCollector));
+        ::FUN_00d36960((intptr_t)this, (intptr_t)&(bodyB), (intptr_t)&(bodyA), (intptr_t)&(flippedInput), (intptr_t)&(flippedCollector));
     }
     else
     {
-        ::FUN_00d36960((int)this, (int)&(bodyB), (int)&(bodyA), (int)&(flippedInput), (int)&(flippedCollector));
+        ::FUN_00d36960((intptr_t)this, (intptr_t)&(bodyB), (intptr_t)&(bodyA), (intptr_t)&(flippedInput), (intptr_t)&(flippedCollector));
     }
 }
 }

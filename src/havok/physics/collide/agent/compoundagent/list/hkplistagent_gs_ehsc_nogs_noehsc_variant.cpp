@@ -4,6 +4,8 @@
 
 // src/havok/physics/collide/agent/compoundagent/list/hkplistagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/list/hkplistagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
+
 extern "C" void __cdecl FUN_00da3510(void*, void*);
 struct hkAgent1nMachine
 {
@@ -28,7 +30,7 @@ struct Owner
 void __cdecl FUN_00d36920(void* a, void* b, void* c, void* d);
 void FUN_00d36940(void* apArg1, void* apArg2, void* apArg3, void* apArg4);
 void __cdecl FUN_00d36930(int a1, int a2, int a3, int a4, int a5);
-void FUN_00d36960(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5);
+void FUN_00d36960(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, intptr_t aiArg4, intptr_t aiArg5);
 extern "C" void __cdecl FUN_00da42b0(void* a, int b, int c, int d);
 struct FUN_00d36820_cls
 {

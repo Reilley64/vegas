@@ -31,7 +31,7 @@ extern "C" void FUN_00d36930();
 // 0x00d36940
 void FUN_00d36940(void *, void *, void *, void *);
 // 0x00d36960
-void FUN_00d36960(int, int, int, int, int);
+void FUN_00d36960(intptr_t, intptr_t, intptr_t, intptr_t, intptr_t);
 // 0x00d36990
 void FUN_00d36990();
 // 0x00d36b00

@@ -63,6 +63,16 @@
 #include "fnv/symbols_011de000.h"
 #include <xmmintrin.h>
 
+namespace {
+// Twelve bytes for a NiPoint3 result that a call writes through its hidden result pointer;
+// the temporary lives until the end of the full expression.
+struct PointResult
+{
+    float v[3];
+};
+template <class T> T& PointSlot(PointResult&& r) { return *reinterpret_cast<T*>(&r); }
+}  // namespace
+
 class NiPoint3
 {
   public:
@@ -280,7 +290,7 @@ void ImpactTask::FUN_004a2d50()
         {
             reinterpret_cast<::Owner623 *>((splatter))->FUN_006231a0((::NiNode623 *)(world));
             float distance = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting29))))));
-            NiPoint3 end = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)&(origin))->ProjectileLaunched((::NiPoint3 *)&(const ::NiPoint3 &)(direction.ApplyScaled(distance)), {})));
+            NiPoint3 end = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)&(origin))->ProjectileLaunched(&PointSlot<::NiPoint3>(PointResult{}), (::NiPoint3 *)&(const ::NiPoint3 &)(direction.ApplyScaled(distance)))));
             end.x += ::RandomFloat(DAT_0101e578, DAT_01017868);
             end.y += ::RandomFloat(DAT_0101e578, DAT_01017868);
             end.z += ::RandomFloat(DAT_0101e578, DAT_01017868);
@@ -322,8 +332,8 @@ void ImpactTask::FUN_004a2d50()
                     void* texture = impact ? impact->FUN_006733e0() : 0;
                     if (!texture)
                         continue;
-                    NiPoint3 position = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)&(origin))->ProjectileLaunched((::NiPoint3 *)&(const ::NiPoint3 &)(FUN_004a3760(
-                        ((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((intptr_t)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->fraction, (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(end))->FUN_00439ef0((::NiPoint3 *)&(origin), *(const ::NiPoint3 *)nullptr))))), {})));
+                    NiPoint3 position = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)&(origin))->ProjectileLaunched(&PointSlot<::NiPoint3>(PointResult{}), (::NiPoint3 *)&(const ::NiPoint3 &)(FUN_004a3760(
+                        ((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((intptr_t)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->fraction, (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(end))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(origin)))))))));
                     NiPoint3 normal;
                     ::FUN_004a3970((::NiPoint3_local &)(normal), (const ::hkVector4 &)(((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((intptr_t)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->normal));
                     bool landscape = reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::FUN_008c71b0 &)(FUN_008c71b0(::FUN_0043b540((char *)(body)))))->FUN_004a3a20() == 1;

@@ -183,6 +183,16 @@
 #include "fnv/symbols_006ff000.h"
 #include "fnv/symbols_00c85000.h"
 
+namespace {
+// Twelve bytes for a NiPoint3 result that a call writes through its hidden result pointer;
+// the temporary lives until the end of the full expression.
+struct PointResult
+{
+    float v[3];
+};
+template <class T> T& PointSlot(PointResult&& r) { return *reinterpret_cast<T*>(&r); }
+}  // namespace
+
 struct Interface
 {
 };
@@ -5262,11 +5272,11 @@ void PathSmoother::SmoothPathDirections()
 {
     for (unsigned int i = 1; i < ::GetObjectFlags((char *)(m_pOutputSolution)) - 1; i++)
     {
-        NiPoint3 kNextVal = (*(::fnv_006f1d30::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((((::fnv_006f1d30::PathLocStub *)(reinterpret_cast<::BaseProcess *>((((::fnv_006f1d30::PathNodeStub *)(reinterpret_cast<::FUN_006e7970_shell *>((m_pOutputSolution))->FUN_006e7970(i + 1)))))->GetCurrentProcessData()))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))) -
-                            (*(::fnv_006f1d30::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((((::fnv_006f1d30::PathLocStub *)(reinterpret_cast<::BaseProcess *>((((::fnv_006f1d30::PathNodeStub *)(reinterpret_cast<::FUN_006e7970_shell *>((m_pOutputSolution))->FUN_006e7970(i)))))->GetCurrentProcessData()))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+        NiPoint3 kNextVal = (*(::fnv_006f1d30::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((((::fnv_006f1d30::PathLocStub *)(reinterpret_cast<::BaseProcess *>((((::fnv_006f1d30::PathNodeStub *)(reinterpret_cast<::FUN_006e7970_shell *>((m_pOutputSolution))->FUN_006e7970(i + 1)))))->GetCurrentProcessData()))))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))) -
+                            (*(::fnv_006f1d30::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((((::fnv_006f1d30::PathLocStub *)(reinterpret_cast<::BaseProcess *>((((::fnv_006f1d30::PathNodeStub *)(reinterpret_cast<::FUN_006e7970_shell *>((m_pOutputSolution))->FUN_006e7970(i)))))->GetCurrentProcessData()))))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))));
         float fNextLenTmp = reinterpret_cast<::NiPoint3 *>((void *)&(kNextVal))->GetLengthSquared();
-        NiPoint3 kPrev_ = (*(::fnv_006f1d30::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((((::fnv_006f1d30::PathLocStub *)(reinterpret_cast<::BaseProcess *>((((::fnv_006f1d30::PathNodeStub *)(reinterpret_cast<::FUN_006e7970_shell *>((m_pOutputSolution))->FUN_006e7970(i)))))->GetCurrentProcessData()))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))) -
-                          (*(::fnv_006f1d30::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((((::fnv_006f1d30::PathLocStub *)(reinterpret_cast<::BaseProcess *>((((::fnv_006f1d30::PathNodeStub *)(reinterpret_cast<::FUN_006e7970_shell *>((m_pOutputSolution))->FUN_006e7970(i - 1)))))->GetCurrentProcessData()))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+        NiPoint3 kPrev_ = (*(::fnv_006f1d30::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((((::fnv_006f1d30::PathLocStub *)(reinterpret_cast<::BaseProcess *>((((::fnv_006f1d30::PathNodeStub *)(reinterpret_cast<::FUN_006e7970_shell *>((m_pOutputSolution))->FUN_006e7970(i)))))->GetCurrentProcessData()))))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))) -
+                          (*(::fnv_006f1d30::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((((::fnv_006f1d30::PathLocStub *)(reinterpret_cast<::BaseProcess *>((((::fnv_006f1d30::PathNodeStub *)(reinterpret_cast<::FUN_006e7970_shell *>((m_pOutputSolution))->FUN_006e7970(i - 1)))))->GetCurrentProcessData()))))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))));
         float fPrevLen = reinterpret_cast<::NiPoint3 *>((void *)&(kPrev_))->GetLengthSquared();
         float fLen = ::FUN_0040ebd0(fNextLenTmp, fPrevLen);
         reinterpret_cast<::FUN_006b0570_shell *>((((::fnv_006f1d30::PathNodeStub *)(reinterpret_cast<::FUN_006e7970_shell *>((m_pOutputSolution))->FUN_006e7970(i)))))->FUN_006b0570((::NiColor *)&(const ::fnv_006f1d30::NiPoint3 &)((kNextVal + kPrev_) * fLen * ::fnv_00c88020::DAT_01016248));
@@ -7619,8 +7629,8 @@ bool PathCheck::CheckPathClear(NiPoint3* start, NiPoint3* end)
 bool TraceOwner::TraceWithLiftAndExtension(const TraceVector& from, const TraceVector& to, TraceVector& output)
 {
     float lift2 = height;
-    TraceVector start3 = (*(::TraceVector *)(reinterpret_cast<::Point3Offset *>((void *)&(from))->ProjectileLaunched((::NiPoint3 *)&(const ::TraceVector &)((*reinterpret_cast<::TraceVector *>((void *)&::DAT_011a9484)).ApplyScaled(lift2)), {})));
-    TraceVector end3 = (*(::TraceVector *)(reinterpret_cast<::Point3Offset *>((void *)&(to))->ProjectileLaunched((::NiPoint3 *)&(const ::TraceVector &)((*reinterpret_cast<::TraceVector *>((void *)&::DAT_011a9484)).ApplyScaled(lift2)), {})));
+    TraceVector start3 = (*(::TraceVector *)(reinterpret_cast<::Point3Offset *>((void *)&(from))->ProjectileLaunched(&PointSlot<::NiPoint3>(PointResult{}), (::NiPoint3 *)&(const ::TraceVector &)((*reinterpret_cast<::TraceVector *>((void *)&::DAT_011a9484)).ApplyScaled(lift2)))));
+    TraceVector end3 = (*(::TraceVector *)(reinterpret_cast<::Point3Offset *>((void *)&(to))->ProjectileLaunched(&PointSlot<::NiPoint3>(PointResult{}), (::NiPoint3 *)&(const ::TraceVector &)((*reinterpret_cast<::TraceVector *>((void *)&::DAT_011a9484)).ApplyScaled(lift2)))));
     reinterpret_cast<::FUN_0062a2b0_Class *>(&(request->state))->FUN_0062a2b0();
     reinterpret_cast<::FUN_0062a290_Class *>((result))->FUN_0062a290();
     count++;
@@ -7633,7 +7643,7 @@ bool TraceOwner::TraceWithLiftAndExtension(const TraceVector& from, const TraceV
     else
     {
         count++;
-        TraceVector extended = (*(::TraceVector *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(end3))->FUN_00439ef0((::NiPoint3 *)&(const ::TraceVector &)((*reinterpret_cast<::TraceVector *>((void *)&::DAT_011a9484)).ApplyScaled(distance + height)), *(const ::NiPoint3 *)nullptr)));
+        TraceVector extended = (*(::TraceVector *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(end3))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)((::NiPoint3 *)&(const ::TraceVector &)((*reinterpret_cast<::TraceVector *>((void *)&::DAT_011a9484)).ApplyScaled(distance + height))))));
         reinterpret_cast<::FUN_0062a2b0_Class *>(&(request->state))->FUN_0062a2b0();
         reinterpret_cast<::FUN_0062a290_Class *>((result))->FUN_0062a290();
         reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>((request))->FUN_004a3da0((void *)&(end3));
@@ -7641,7 +7651,7 @@ bool TraceOwner::TraceWithLiftAndExtension(const TraceVector& from, const TraceV
         if (world->Trace(request))
         {
             TraceVector hit =
-                (*(::TraceVector *)(reinterpret_cast<::Point3Offset *>((void *)&(end3))->ProjectileLaunched((::NiPoint3 *)&(const ::TraceVector &)((*(::TraceVector *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(extended))->FUN_00439ef0((::NiPoint3 *)&(end3), *(const ::NiPoint3 *)nullptr))).ApplyScaled(((::TraceFraction *)(::FUN_00460140((intptr_t)(result))))->fraction)), {})));
+                (*(::TraceVector *)(reinterpret_cast<::Point3Offset *>((void *)&(end3))->ProjectileLaunched(&PointSlot<::NiPoint3>(PointResult{}), (::NiPoint3 *)&(const ::TraceVector &)((*(::TraceVector *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(extended))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(end3)))).ApplyScaled(((::TraceFraction *)(::FUN_00460140((intptr_t)(result))))->fraction)))));
             output = hit;
             return true;
         }
@@ -7726,12 +7736,12 @@ void Class_6e7230::ComputeBounds(FUN_006cee10_shell* pNodeList)
         max.z = ::FUN_00404010(((Node_6cee10*)reinterpret_cast<::FUN_006cee10_shell *>((pNodeList))->FUN_006cee10(i))->pt.z, max.z);
     }
 
-    min.x = ::FUN_0040ebd0((*(::fnv_006e7230::Point3_stub *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(m_loc))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))).x, min.x);
-    min.y = ::FUN_0040ebd0((*(::fnv_006e7230::Point3_stub *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(m_loc))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))).y, min.y);
-    min.z = ::FUN_0040ebd0((*(::fnv_006e7230::Point3_stub *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(m_loc))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))).z, min.z);
-    max.x = ::FUN_00404010((*(::fnv_006e7230::Point3_stub *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(m_loc))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))).x, max.x);
-    max.y = ::FUN_00404010((*(::fnv_006e7230::Point3_stub *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(m_loc))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))).y, max.y);
-    max.z = ::FUN_00404010((*(::fnv_006e7230::Point3_stub *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(m_loc))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))).z, max.z);
+    min.x = ::FUN_0040ebd0((*(::fnv_006e7230::Point3_stub *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(m_loc))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))).x, min.x);
+    min.y = ::FUN_0040ebd0((*(::fnv_006e7230::Point3_stub *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(m_loc))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))).y, min.y);
+    min.z = ::FUN_0040ebd0((*(::fnv_006e7230::Point3_stub *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(m_loc))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))).z, min.z);
+    max.x = ::FUN_00404010((*(::fnv_006e7230::Point3_stub *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(m_loc))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))).x, max.x);
+    max.y = ::FUN_00404010((*(::fnv_006e7230::Point3_stub *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(m_loc))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))).y, max.y);
+    max.z = ::FUN_00404010((*(::fnv_006e7230::Point3_stub *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(m_loc))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))).z, max.z);
 }
 }  // namespace fnv_006e7230
 
@@ -8583,7 +8593,7 @@ bool TargetHost::FUN_006f0050(const NiPoint3Ex& start, NiPoint3Ex& output, Targe
     }
     else
     {
-        output = (*(::NiPoint3Ex *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(hitLocation))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))) + offset;
+        output = (*(::NiPoint3Ex *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(hitLocation))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))) + offset;
         return true;
     }
     return false;
@@ -8937,20 +8947,20 @@ void AvoidPath::ClipPathAgainstObstacles()
         {
             for (unsigned int j = 0; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())) - 1; ++j)
             {
-                if (!FUN_006ba9e0((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j + 1)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))),
+                if (!FUN_006ba9e0((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))), (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j + 1)))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))),
                                   ((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->center, ((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->radius))
                     continue;
                 FUN_006815c0 entry29[2];
                 if (!ComputeCircleTangents(((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->center, ((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->radius,
-                                           (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), &entry29[0], &entry29[1]))
-                    entry29[0] = entry29[1] = (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+                                           (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))), &entry29[0], &entry29[1]))
+                    entry29[0] = entry29[1] = (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))));
                 bool entryValid2[2];
-                entryValid2[0] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((intptr_t)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (intptr_t)&(entry29[0]));
-                entryValid2[1] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((intptr_t)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (intptr_t)&(entry29[1]));
+                entryValid2[0] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((intptr_t)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))))), (intptr_t)&(entry29[0]));
+                entryValid2[1] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((intptr_t)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))))), (intptr_t)&(entry29[1]));
                 unsigned int end14 = j + 1;
                 while (end14 < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())))
                 {
-                    if (!reinterpret_cast<::C6F1BC0Sphere *>((((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))))->FUN_006f1bc0((const ::NiPoint3 &)((const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))))
+                    if (!reinterpret_cast<::C6F1BC0Sphere *>((((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))))->FUN_006f1bc0((const ::NiPoint3 &)((const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))))))))
                         break;
                     ++end14;
                 }
@@ -8958,11 +8968,11 @@ void AvoidPath::ClipPathAgainstObstacles()
                 {
                     FUN_006815c0 exit[2];
                     if (ComputeCircleTangents(((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->center, ((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->radius,
-                                              (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), &exit[0], &exit[1]))
+                                              (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))), &exit[0], &exit[1]))
                     {
                         bool exitValid21[2];
-                        exitValid21[0] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((intptr_t)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (intptr_t)&(exit[0]));
-                        exitValid21[1] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((intptr_t)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (intptr_t)&(exit[1]));
+                        exitValid21[0] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((intptr_t)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))))), (intptr_t)&(exit[0]));
+                        exitValid21[1] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((intptr_t)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))))), (intptr_t)&(exit[1]));
                         bool available2[2];
                         available2[0] = entryValid2[0] && exitValid21[1];
                         available2[1] = entryValid2[1] && exitValid21[0];
@@ -8982,8 +8992,8 @@ void AvoidPath::ClipPathAgainstObstacles()
                         }
                         else if (available2[0] && available2[1])
                         {
-                            float first = reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(entry29[0]))->FUN_00439ef0((::NiPoint3 *)&(exit[1]), *(const ::NiPoint3 *)nullptr)))))->UpdateCombatStyle();
-                            float second = reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(entry29[1]))->FUN_00439ef0((::NiPoint3 *)&(exit[0]), *(const ::NiPoint3 *)nullptr)))))->UpdateCombatStyle();
+                            float first = reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(entry29[0]))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(exit[1]))))))->UpdateCombatStyle();
+                            float second = reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(entry29[1]))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(exit[0]))))))->UpdateCombatStyle();
                             if (first < second)
                             {
                                 from8 = 0;

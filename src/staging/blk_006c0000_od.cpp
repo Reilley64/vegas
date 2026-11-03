@@ -130,6 +130,16 @@
 #include "fnv/symbols_01025000.h"
 #include "fnv/symbols_0106c000.h"
 #include "../../include/layout_support.h"
+
+namespace {
+// Twelve bytes for a NiPoint3 result that a call writes through its hidden result pointer;
+// the temporary lives until the end of the full expression.
+struct PointResult
+{
+    float v[3];
+};
+template <class T> T& PointSlot(PointResult&& r) { return *reinterpret_cast<T*>(&r); }
+}  // namespace
 #undef SearchPath
 
 
@@ -2946,14 +2956,14 @@ bool PathBuilder::FUN_006c9b20()
     {
         if (_result)
         {
-            if (!reinterpret_cast<::PathHandler *>(this)->FindPath(reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::GetOffsetC((intptr_t)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr), reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::FUN_006a9540((char *)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr),
+            if (!reinterpret_cast<::PathHandler *>(this)->FindPath(reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::GetOffsetC((intptr_t)(request))))))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})), reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::FUN_006a9540((char *)(request))))))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})),
                           (::PathingContext *)(void *)(dataB.edges.FUN_006a1440(0)), (int)(0)))
                 return false;
         }
     }
     else
     {
-        NiPoint3 end3 = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::GetOffsetC((intptr_t)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+        NiPoint3 end3 = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::GetOffsetC((intptr_t)(request))))))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}));
         NiPoint3 origin6 = *((::NiPoint3 *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((((::DoorStep *)(reinterpret_cast<::S006949d0 *>(&(dataB.doors))->GetFirst()))->door))->FUN_00568fa0()));
         if (!reinterpret_cast<::PathHandler *>(this)->FindPath(end3, origin6, (::PathingContext *)(void *)(((void *)(reinterpret_cast<::EdgeArr *>(&(dataB.edges))->FUN_006ced70()))), (intptr_t)(((::DoorStep *)(reinterpret_cast<::S006949d0 *>(&(dataB.doors))->GetFirst()))->door)))
             return false;
@@ -2968,7 +2978,7 @@ bool PathBuilder::FUN_006c9b20()
             }
         }
         end3 = dataB.doors.FUN_006cedb0().point;
-        origin6 = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::FUN_006a9540((char *)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+        origin6 = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::FUN_006a9540((char *)(request))))))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}));
         if (!reinterpret_cast<::PathHandler *>(this)->FindPath(end3, origin6, (::PathingContext *)(void *)(((void *)(reinterpret_cast<::FUN_006ced90_stand *>(&(dataB.edges))->GetLastEdge()))), (int)(0)))
         {
             reinterpret_cast<::FUN_006c9fa0_shell *>((solution))->SetByteAtOffset40(1);
@@ -3915,7 +3925,7 @@ bool __cdecl FUN_006d4570(LocationView* location, float radius, LocationView* re
             Point q;
             Point b;
             reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((((::Mesh *)(::FUN_00559450((int *)&(i))))))->FUN_0068f0c0(f, edge, (::NiPoint3 *)&(q), (::NiPoint3 *)&(b));
-            h.enabled[edge] = ::DistanceToSegment((::V006b9b10 *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (::V006b9b10 *)&(q), (::V006b9b10 *)&(b), (unsigned char *)(float *)(0)) < radius;
+            h.enabled[edge] = ::DistanceToSegment((::V006b9b10 *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))))), (::V006b9b10 *)&(q), (::V006b9b10 *)&(b), (unsigned char *)(float *)(0)) < radius;
         }
         reinterpret_cast<::FUN_006db4f0_Class *>(&(p))->FUN_006db4f0((intptr_t)(&h));
         bool s = false;
@@ -3955,7 +3965,7 @@ bool __cdecl FUN_006d4570(LocationView* location, float radius, LocationView* re
                                     Point q;
                                     Point b;
                                     reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((neighbor.mesh))->FUN_0068f0c0(neighbor.triangle, side, (::NiPoint3 *)&(q), (::NiPoint3 *)&(b));
-                                    next.enabled[side] = ::DistanceToSegment((::V006b9b10 *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (::V006b9b10 *)&(q), (::V006b9b10 *)&(b), (unsigned char *)(float *)(0)) < radius;
+                                    next.enabled[side] = ::DistanceToSegment((::V006b9b10 *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))))), (::V006b9b10 *)&(q), (::V006b9b10 *)&(b), (unsigned char *)(float *)(0)) < radius;
                                 }
                                 reinterpret_cast<::FUN_006db4f0_Class *>(&(p))->FUN_006db4f0((intptr_t)(&next));
                             }
@@ -3974,8 +3984,8 @@ bool __cdecl FUN_006d4570(LocationView* location, float radius, LocationView* re
                 Point i;
                 Point cf;
                 reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((a.FUN_006a1440(j)->mesh))->FUN_0068f0c0(a.FUN_006a1440(j)->triangle, a.FUN_006a1440(j)->edge, (::NiPoint3 *)&(i), (::NiPoint3 *)&(cf));
-                Point f = GetClosestPointOnSegment((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), i, cf);
-                float s = reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::Point &)((f - (*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))))))->UpdateCombatStyle();
+                Point f = GetClosestPointOnSegment((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))), i, cf);
+                float s = reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::Point &)((f - (*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))))))->UpdateCombatStyle();
                 if (s < p)
                 {
                     p = s;
@@ -4228,13 +4238,13 @@ float Falloff6dc::EvaluateFalloff(const Pt6dc& kPt)
     {
     case 0:
     case 2: {
-        Pt6dc kToPoint = (*(::Pt6dc *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(m_kStartPoint))->FUN_00439ef0((::NiPoint3 *)&(kPt), *(const ::NiPoint3 *)nullptr)));
+        Pt6dc kToPoint = (*(::Pt6dc *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(m_kStartPoint))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(kPt))));
         fDist = reinterpret_cast<::TESCombatStyle *>((void *)&(kToPoint))->UpdateCombatStyle();
         break;
     }
     case 1: {
-        Pt6dc kKSeg = (*(::Pt6dc *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(m_kEnd))->FUN_00439ef0((::NiPoint3 *)&(m_kStartPoint), *(const ::NiPoint3 *)nullptr)));
-        Pt6dc kPtRel = (*(::Pt6dc *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kPt))->FUN_00439ef0((::NiPoint3 *)&(m_kStartPoint), *(const ::NiPoint3 *)nullptr)));
+        Pt6dc kKSeg = (*(::Pt6dc *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(m_kEnd))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(m_kStartPoint))));
+        Pt6dc kPtRel = (*(::Pt6dc *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kPt))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(m_kStartPoint))));
         float fSegLen = reinterpret_cast<::TESCombatStyle *>((void *)&(kKSeg))->UpdateCombatStyle();
         float fDot2 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kPtRel))->DotProduct((void *)&(kKSeg));
         if (fDot2 < ::_DAT_01012060 || fDot2 > fSegLen)
@@ -5325,7 +5335,7 @@ bool PathHandler::FindPath(const NiPoint3& pt1, const NiPoint3& pt2, PathingCont
     FUN_006cf440 var4(0x14, 0, m_unk08);
     ::fnv_006b8c50::PathingActorData* var14 = nullptr;
 
-    bool retVal = reinterpret_cast<::fnv_006b8c50::FUN_006b8c50_shell *>(&(var20cc))->SetupNavMeshSearch(var14, (void *)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)&(loc1))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)), ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(loc1))->GetAssociatedNavMesh())), (void *)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)&(loc4))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)),
+    bool retVal = reinterpret_cast<::fnv_006b8c50::FUN_006b8c50_shell *>(&(var20cc))->SetupNavMeshSearch(var14, (void *)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)&(loc1))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))), ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(loc1))->GetAssociatedNavMesh())), (void *)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)&(loc4))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))),
                                              ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(loc4))->GetAssociatedNavMesh())), &var5, &var4, 0);
 
     if (!retVal)

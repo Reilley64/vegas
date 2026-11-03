@@ -119,6 +119,16 @@
 #include "fnv/symbols_011de000.h"
 #include "../../include/layout_support.h"
 
+namespace {
+// Twelve bytes for a NiPoint3 result that a call writes through its hidden result pointer;
+// the temporary lives until the end of the full expression.
+struct PointResult
+{
+    float v[3];
+};
+template <class T> T& PointSlot(PointResult&& r) { return *reinterpret_cast<T*>(&r); }
+}  // namespace
+
 struct FUN_00692290_class
 {
     virtual void v0();
@@ -5987,7 +5997,7 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
         {
             m_2078 = new Node();
             m_2078->m_00 = 3;
-            m_2078->m_v4 = (*(::fnv_0069f010::Vec3 *)&(reinterpret_cast<::TaskQueueInterface *>((apStart))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+            m_2078->m_v4 = (*(::fnv_0069f010::Vec3 *)&(reinterpret_cast<::TaskQueueInterface *>((apStart))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))));
             m_2078->m_10 = 0.0f;
             m_2078->m_34 = 0xffff;
             reinterpret_cast<::FUN_00438690 *>((((::fnv_0069f010::LinkT *)(reinterpret_cast<::S006949d0 *>(&(m_2068))->GetFirst()))))->FUN_007cb2e0((unsigned int *)(::fnv_0069f010::Node **)(&m_2078));
@@ -5995,7 +6005,7 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
         {
             m_207c = new Node();
             m_207c->m_00 = 4;
-            m_207c->m_v4 = (*(::fnv_0069f010::Vec3 *)&(reinterpret_cast<::TaskQueueInterface *>((apEnd))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+            m_207c->m_v4 = (*(::fnv_0069f010::Vec3 *)&(reinterpret_cast<::TaskQueueInterface *>((apEnd))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))));
             m_207c->m_10 = 0.0f;
             m_207c->m_34 = 0xffff;
             reinterpret_cast<::FUN_00438690 *>((((LinkT*)((void *)(reinterpret_cast<::FUN_00558dd0_class *>(&(m_2068))->FUN_00558dd0(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_2068))->GetName())) - 2))))))->FUN_007cb2e0((unsigned int *)(::fnv_0069f010::Node **)(&m_207c));

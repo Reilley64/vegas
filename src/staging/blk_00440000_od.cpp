@@ -167,6 +167,16 @@
 #include "fnv/symbols_01267000.h"
 #include "../../include/layout_support.h"
 
+namespace {
+// Twelve bytes for a NiPoint3 result that a call writes through its hidden result pointer;
+// the temporary lives until the end of the full expression.
+struct PointResult
+{
+    float v[3];
+};
+template <class T> T& PointSlot(PointResult&& r) { return *reinterpret_cast<T*>(&r); }
+}  // namespace
+
 struct FUN_004410d0_Class
 {
     void SetByteAtOffset38(unsigned char a);
@@ -5240,7 +5250,7 @@ void World::FUN_0045b070(View* view)
         View* active8 = 0;
         if (!active8)
             active8 = view;
-        Vec3 point3 = (*(::SceneUpdate::Vec3 *)(reinterpret_cast<::Point3Offset *>((void *)&(view->FUN_0045bb80()))->ProjectileLaunched((::NiPoint3 *)&(const ::SceneUpdate::Vec3 &)(view->FUN_0045bba0().ApplyScaled(((::SceneUpdate::Bound *)&(reinterpret_cast<::NiCamera *>((view))->GetViewFrustum()))->radius)), {})));
+        Vec3 point3 = (*(::SceneUpdate::Vec3 *)(reinterpret_cast<::Point3Offset *>((void *)&(view->FUN_0045bb80()))->ProjectileLaunched(&PointSlot<::NiPoint3>(PointResult{}), (::NiPoint3 *)&(const ::SceneUpdate::Vec3 &)(view->FUN_0045bba0().ApplyScaled(((::SceneUpdate::Bound *)&(reinterpret_cast<::NiCamera *>((view))->GetViewFrustum()))->radius)))));
         if (((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen)))))
         {
             if (!((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen))))->Contains(point3))

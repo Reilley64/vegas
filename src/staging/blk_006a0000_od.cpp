@@ -136,6 +136,16 @@
 #include "fnv/symbols_011d6000.h"
 #include "../../include/layout_support.h"
 
+namespace {
+// Twelve bytes for a NiPoint3 result that a call writes through its hidden result pointer;
+// the temporary lives until the end of the full expression.
+struct PointResult
+{
+    float v[3];
+};
+template <class T> T& PointSlot(PointResult&& r) { return *reinterpret_cast<T*>(&r); }
+}  // namespace
+
 struct S006949d0
 {
     void* GetAt(int);
@@ -9263,25 +9273,25 @@ void Processor74::SplitCrossingEdges()
                 bool splitFirst21 = false;
                 bool splitSecond20 = false;
                 Vertex74* intersection6;
-                if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pc21))->FUN_00439ef0((::NiPoint3 *)&(crossing2), *(const ::NiPoint3 *)nullptr)))))->GetSquaredXYLength() < tolerance8)
+                if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pc21))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(crossing2))))))->GetSquaredXYLength() < tolerance8)
                 {
                     intersection6 = c5;
                     splitFirst21 = true;
                     splitSecond20 = false;
                 }
-                else if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pd20))->FUN_00439ef0((::NiPoint3 *)&(crossing2), *(const ::NiPoint3 *)nullptr)))))->GetSquaredXYLength() < tolerance8)
+                else if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pd20))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(crossing2))))))->GetSquaredXYLength() < tolerance8)
                 {
                     intersection6 = d5;
                     splitFirst21 = true;
                     splitSecond20 = false;
                 }
-                else if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pa51))->FUN_00439ef0((::NiPoint3 *)&(crossing2), *(const ::NiPoint3 *)nullptr)))))->GetSquaredXYLength() < tolerance8)
+                else if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pa51))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(crossing2))))))->GetSquaredXYLength() < tolerance8)
                 {
                     intersection6 = a2;
                     splitFirst21 = false;
                     splitSecond20 = true;
                 }
-                else if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pb32))->FUN_00439ef0((::NiPoint3 *)&(crossing2), *(const ::NiPoint3 *)nullptr)))))->GetSquaredXYLength() < tolerance8)
+                else if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pb32))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(crossing2))))))->GetSquaredXYLength() < tolerance8)
                 {
                     intersection6 = b10;
                     splitFirst21 = false;
@@ -9835,12 +9845,12 @@ using ns6b::V3;
 // @fnv 0x006ba6e0
 bool __cdecl FUN_006ba6e0(const V3& aStart, const V3& aEnd, const V3& cStart, const V3& cEnd, V3* out)
 {
-    V3 es = (*(::ns6b::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(aEnd))->FUN_00439ef0((::NiPoint3 *)&(aStart), *(const ::NiPoint3 *)nullptr)));
-    V3 gt = (*(::ns6b::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cEnd))->FUN_00439ef0((::NiPoint3 *)&(cStart), *(const ::NiPoint3 *)nullptr)));
+    V3 es = (*(::ns6b::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(aEnd))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(aStart))));
+    V3 gt = (*(::ns6b::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cEnd))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(cStart))));
     float yx = es.x * gt.y - es.y * gt.x;
     if (yx == ::_DAT_01012060)
         return false;
-    V3 o1 = (*(::ns6b::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cStart))->FUN_00439ef0((::NiPoint3 *)&(aStart), *(const ::NiPoint3 *)nullptr)));
+    V3 o1 = (*(::ns6b::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cStart))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(aStart))));
     float k1 = o1.x * es.y - o1.y * es.x;
     float ox = k1 / yx;
     if (ox < ::_DAT_01012060 || ox > 1.0)
@@ -9848,7 +9858,7 @@ bool __cdecl FUN_006ba6e0(const V3& aStart, const V3& aEnd, const V3& cStart, co
     float nB = o1.x * gt.y - o1.y * gt.x;
     ox = nB / yx;
     if (out)
-        *out = (*(::ns6b::V3 *)(reinterpret_cast<::Point3Offset *>((void *)&(aStart))->ProjectileLaunched((::NiPoint3 *)&(const ::ns6b::V3 &)(ns6b::FUN_004a3760(ox, es)), {})));
+        *out = (*(::ns6b::V3 *)(reinterpret_cast<::Point3Offset *>((void *)&(aStart))->ProjectileLaunched(&PointSlot<::NiPoint3>(PointResult{}), (::NiPoint3 *)&(const ::ns6b::V3 &)(ns6b::FUN_004a3760(ox, es)))));
     return true;
 }
 
@@ -13155,7 +13165,9 @@ bool S006bede0_Obj::FUN_006bede0(unsigned short const* apIndexA, unsigned short 
     S006bede0_Vec t1;
     S006bede0_Vec t2;
     S006bede0_Vec t7;
-    reinterpret_cast<::FUN_0045bb20_cls *>(&((*(::S006bede0_Vec *)(reinterpret_cast<::Point3Offset *>(&((*(::S006bede0_Vec *)(reinterpret_cast<::Point3Offset *>(&(pa4))->ProjectileLaunched((::NiPoint3 *)(::S006bede0_Vec *)(&t2), (::NiPoint3 *)(::S006bede0_Vec *)(&pb4))))))->ProjectileLaunched({}, {})))))->ApplyScaled({}, {});
+    reinterpret_cast<::Point3Offset *>(&(pa4))->ProjectileLaunched((::NiPoint3 *)(&t2), (::NiPoint3 *)(&pb4));
+    reinterpret_cast<::Point3Offset *>(&(t2))->ProjectileLaunched((::NiPoint3 *)(&t1), (::NiPoint3 *)(&pc2));
+    reinterpret_cast<::FUN_0045bb20_cls *>(&(t1))->ApplyScaled((::FUN_0045bb20_target *)(&t7), ::DAT_0106c2e0);
     return reinterpret_cast<::FUN_006bf220_cls *>(this)->FUN_006bf220((void *)&(t7));
 }
 

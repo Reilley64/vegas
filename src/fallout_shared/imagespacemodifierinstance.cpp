@@ -34,6 +34,15 @@
 #include "imagespacemodifierinstance_calls.h"
 #include "NiObject.h"
 #include "TESForm.h"
+
+class NiNode;
+template <> class NiPointer<NiNode>
+{
+  public:
+    NiNode* m_pObject;
+    ~NiPointer();
+    NiPointer<NiNode>& operator=(NiNode*);
+};
 // Source unit: fallout_shared/imagespacemodifierinstance.cpp
 //
 // which are not canonical source. Only call-protocol member declarations
@@ -715,14 +724,6 @@ struct FUN_00529660_view : public ImageSpaceModifierInstanceForm
     void* Destroy(unsigned int flags);
 };
 
-class NiNode;
-template <> class NiPointer<NiNode>
-{
-  public:
-    NiNode* m_pObject;
-    ~NiPointer();
-    NiPointer<NiNode>& operator=(NiNode*);
-};
 
 struct FUN_00529690_dtor : public ImageSpaceModifierInstance
 {
@@ -866,7 +867,7 @@ void* FUN_0052a620_shell::FUN_0052a620(unsigned int flags)
 }  // namespace fnv_0052a620
 
 namespace fnv_0052a8f0 {
-extern "C" void* __cdecl _delete(void* ptr, unsigned int size);
+extern "C" void _delete(void* ptr, unsigned int size);
 
 struct ImageSpaceModifierInstanceTempDestructionView
 {

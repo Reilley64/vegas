@@ -218,9 +218,7 @@ void __cdecl FUN_005e5c70(void* apArg1, void* apArg2, unsigned char a3, float** 
     }
 }
 
-namespace std {
-float __cdecl abs(float);
-}
+#include <cmath>
 
 
 // Validates entry function arguments, then sets the first value in apapValues to its absolute value.

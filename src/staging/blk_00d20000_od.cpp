@@ -860,6 +860,7 @@ struct hkpAgent3FuncsD367
 class hkpCollisionDispatcherD367
 {
   public:
+    void AddEntry(const hkpAgent3FuncsD367& kFuncs, int iTypeA, int iTypeB);
 };
 
 // @fnv 0x00d367d0
@@ -872,7 +873,6 @@ void __cdecl FUN_00d367d0(hkpCollisionDispatcherD367* pkDispatcher)
 
 namespace fnv_00d36e80 {
 
-extern __m128 DAT_010c44d0;
 
 struct hkpCdBody;
 
@@ -1091,11 +1091,10 @@ struct hkpAgent3FuncsD398
 class hkpCollisionDispatcherD398
 {
   public:
+    void AddEntry(const hkpAgent3FuncsD398& kFuncs, int iTypeA, int iTypeB);
 };
 
 void FUN_00d39090();
-
-void FUN_00d39150();
 
 // @fnv 0x00d39840
 void __cdecl FUN_00d39840(hkpCollisionDispatcherD398* pkDispatcher)
@@ -1103,7 +1102,7 @@ void __cdecl FUN_00d39840(hkpCollisionDispatcherD398* pkDispatcher)
     __declspec(align(16)) hkpAgent3FuncsD398 kFuncs;
     kFuncs.m_pCreateFunc = ((void (&)())::InitOutputDefaults);
     kFuncs.m_setCollisionQualityFunc = ((void (&)())::FUN_00d39390);
-    kFuncs.m_pAgentFunction11 = FUN_00d39150;
+    kFuncs.m_pAgentFunction11 = (void*)&::FUN_00d39150;
     kFuncs.m_pAgentFunction3 = ((void (&)())::ReleaseHandles);
     kFuncs.m_pAgentFunction4 = ((void (&)())::RemoveKeyFromTable);
     kFuncs.m_pAgentFunction5 = ((void (&)())::InsertIntoSlotArray);
@@ -1427,7 +1426,6 @@ int FUN_00d231b0(const __m128* pa, const __m128* pb, const __m128* pc, const __m
     return result;
 }
 
-extern __m128 DAT_010c44d0;
 
 struct D2fVector4
 {
@@ -1659,16 +1657,6 @@ void __cdecl FUN_00d39150(BodyPair* bodies, void* unused, QueryInput* input, __m
     else
         *output = *reinterpret_cast<__m128*>(&result.second);
 }
-
-// VEGAS17-CONFLICT: D2fVector4 (variant definition below differs from the one above)
-struct D2fVector4
-{
-    __declspec(align(16)) float m_vComponents[4];
-    void setNeg4(const D2fVector4& v)
-    {
-        _mm_store_ps(m_vComponents, _mm_xor_ps(*(const __m128*)v.m_vComponents, ::DAT_010c44d0));
-    }
-};
 
 struct S00d2c960_Info
 {
@@ -1974,21 +1962,9 @@ const void* __cdecl FUN_00d2c8a0();
 
 void __cdecl FUN_00d367b0(hkpAgent3FuncsD367& kFuncs);
 
-// VEGAS17-CONFLICT: hkpCollisionDispatcherD367 (variant definition below differs from the one above)
-class hkpCollisionDispatcherD367
-{
-  public:
-    void AddEntry(const hkpAgent3FuncsD367& kFuncs, int iTypeA, int iTypeB);
-};
 
 void __cdecl FUN_00d367d0(hkpCollisionDispatcherD367* pkDispatcher);
 
-// VEGAS17-CONFLICT: hkpCollisionDispatcherD398 (variant definition below differs from the one above)
-class hkpCollisionDispatcherD398
-{
-  public:
-    void AddEntry(const hkpAgent3FuncsD398& kFuncs, int iTypeA, int iTypeB);
-};
 
 void InitOutputDefaults();
 

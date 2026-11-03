@@ -2,6 +2,7 @@
 // src/staging/blk_00ce0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -203,7 +204,7 @@ void __cdecl FUN_00ce2d10(const Transform* parents, PointerParam<const Transform
                 _mm_add_ps(_mm_mul_ps(cross, w), _mm_add_ps(_mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0), v),
                                                             _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q)));
             output[i].translation = _mm_add_ps(_mm_add_ps(rotated, rotated), p.translation);
-            ::fnv_00c66320::FUN_00c66320((__m128 *)&(output[i].rotation), (void *)(&p.rotation), (const __m128 *)(const ::QuaternionVector *)(&l.rotation), {});
+            ::fnv_00c66320::FUN_00c66320((__m128 *)&(output[i].rotation), nullptr, (const __m128 *)(&p.rotation), (const __m128 *)(const ::QuaternionVector *)(&l.rotation));
             output[i].scale = _mm_mul_ps(l.scale, p.scale);
         }
     }
@@ -235,7 +236,7 @@ void __cdecl FUN_00ce2d10(const Transform* parents, PointerParam<const Transform
                                             _mm_add_ps(_mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0), v),
                                                        _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q)));
                 output[index].translation = _mm_add_ps(_mm_add_ps(rotated, rotated), parent.translation);
-                ::fnv_00c66320::FUN_00c66320((__m128 *)&(output[index].rotation), (void *)(&parent.rotation), (const __m128 *)(const ::QuaternionVector *)(&source->rotation), {});
+                ::fnv_00c66320::FUN_00c66320((__m128 *)&(output[index].rotation), nullptr, (const __m128 *)(&parent.rotation), (const __m128 *)(const ::QuaternionVector *)(&source->rotation));
                 output[index].scale = _mm_mul_ps(source->scale, parent.scale);
                 ++source;
             }
@@ -324,7 +325,6 @@ namespace fnv_00cfac20 {
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern char DAT_010cc678[];
-void* __cdecl FUN_00c85750(void);
 struct S00cfac20_Vec
 {
     __m128 q;
@@ -563,7 +563,6 @@ struct NineIntegerRecord
     }
 };
 
-void* __cdecl FUN_00c85750();
 
 __forceinline hkMemoryAllocator& containerHeap()
 {
@@ -745,7 +744,7 @@ __declspec(align(16)) struct Vec4Pod
 void FUN_00ce2ca0(void* unused, __m128* dst, const __m128* a, const __m128* b)
 {
     dst[0] = _mm_add_ps(_mm_mul_ps(a[2], b[0]), a[0]);
-    ::fnv_00c66320::FUN_00c66320((__m128 *)(((Vec4Target*)(dst + 1))), (void *)(a + 1), (const __m128 *)(const __m128 *)(b + 1), {});
+    ::fnv_00c66320::FUN_00c66320((__m128 *)(dst + 1), nullptr, (const __m128 *)(a + 1), (const __m128 *)(b + 1));
     dst[2] = b[2];
 }
 

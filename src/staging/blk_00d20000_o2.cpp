@@ -62,6 +62,19 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+#include "fnv/decl/ShapeCollectionAgent.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/decl/hkpSphereCapsuleAgent.h"
+#include "fnv/symbols_00c74000.h"
+#include "fnv/symbols_00cd7000.h"
+#include "fnv/symbols_00d27000.h"
+#include "fnv/symbols_00d3c000.h"
+#include "fnv/decl/Triangle.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cd6000.h"
+#include "fnv/symbols_00d36000.h"
 
 
 struct FUN_00d2be30
@@ -103,13 +116,11 @@ void __cdecl FUN_00d367b0(int pObject)
     *(void (**)(void))(pObject + 0x2c) = &FUN_00d365d0;
 }
 
-extern "C" void __cdecl FUN_00d36b70();
-
 // Fills the four function pointers at p[0..3] and sets the bytes at offsets 0x10 and 0x11 to 0 and 1.
 // @fnv 0x00d36bb0
 void __cdecl FUN_00d36bb0(void** p)
 {
-    p[0] = (void*)&FUN_00d36b70;
+    p[0] = (void*)&::FUN_00d36b70;
     p[1] = (void*)&((void (&)())::FUN_00d34790);
     p[2] = (void*)&((void (&)())::QueryClosestPoints);
     p[3] = (void*)&((void (&)())::fnv_00d34810::FUN_00d34810);
@@ -355,7 +366,6 @@ int* values=*entries; int* current=*entries; int* end=current+count;while(curren
 struct IndexBuffer { int* data; int size; unsigned capacityFlags; };
 struct IndexStorage { int* data; };
 struct AllocationManager { int unk00; int unk04; int unk08; int unk0C; void* allocator; };
-AllocationManager* __cdecl FUN_00c85750();
 struct IndexRemapper { IndexStorage* entries; int length;  void RemapIndices(IndexBuffer*); };
 // @fnv 0x00d28120
 void IndexRemapper::RemapIndices(IndexBuffer* output) {
@@ -364,7 +374,7 @@ void IndexRemapper::RemapIndices(IndexBuffer* output) {
   int* values=entries->data; int value=values[i];
   if(value<0) {
    value=-value;
-   AllocationManager* manager=FUN_00c85750();
+   AllocationManager* manager=static_cast<AllocationManager*>(::FUN_00c85750());
    if(output->size == (output->capacityFlags & 0x3fffffffU)) ::ResizeAudioStream((::AudioAllocator *)(manager->allocator),(::AudioStream *)(output),4);
    int* slot = output->data + output->size; __assume(slot != 0); new (slot) int(value);
    ++output->size; entries->data[i]=nextIndex++;
@@ -482,7 +492,6 @@ struct D2F240MemoryRouter {
     D2F240Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" D2F240MemoryRouter& __cdecl FUN_00c85750();
 
 struct D2F240Shape {
     int unk00;
@@ -519,7 +528,7 @@ public:
     virtual ~D2F240Agent();
 
     static void* operator new(std::size_t uiSize) {
-        void* p = FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
+        void* p = (*static_cast<D2F240MemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock(uiSize);
         static_cast<D2F240Agent*>(p)->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
@@ -632,7 +641,6 @@ struct FnvCpu_FUN_00d2f430_CpuAllocatorHolder {
     unsigned int unk0c;
     FnvCpu_FUN_00d2f430_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00d2f430_CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00d2f430_CpuObject {
     unsigned int unk00;
     unsigned short size;
@@ -643,7 +651,7 @@ FnvCpu_FUN_00d2f430_CpuObject* FnvCpu_FUN_00d2f430_CpuObject::FUN_00d2f430(unsig
 {
     reinterpret_cast<::FUN_00d2f380_cls *>(this)->DestroyArray();
     if (flags & 1) {
-        FnvCpu_FUN_00d2f430_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00d2f430_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00d2f430_CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -683,7 +691,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00d327e0_cls {
     int m_vptr;
@@ -702,7 +709,7 @@ struct FUN_00d327e0_cls {
 FUN_00d327e0_cls* FUN_00d327e0_cls::Destroy(unsigned char acFlags)
 {
     m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_010ceaa8));
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     m_10 = 0;
     int count = m_uiItemCount;
@@ -713,7 +720,7 @@ FUN_00d327e0_cls* FUN_00d327e0_cls::Destroy(unsigned char acFlags)
     m_uiItemCount = 0x80000000;
     m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1) {
-        AudioHolder* pHolder2 = FUN_00c85750();
+        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
         pAllocator2->Free(this, m_uSize);
     }
@@ -782,12 +789,11 @@ struct Holder
     Allocator* m_pAllocator;
 };
 
-extern "C" Holder* __cdecl FUN_00c85750();
 
 // @fnv 0x00d36be0
 void* __cdecl FUN_00d36be0(int a1, int a2, int a3, int a4)
 {
-    Holder* pHolder = FUN_00c85750();
+    Holder* pHolder = static_cast<Holder*>(::FUN_00c85750());
     Allocator* pAlloc = pHolder->m_pAllocator;
     FUN_00d36be0_cls* pBlock = (FUN_00d36be0_cls*)pAlloc->v1(0x1c);
     pBlock->m_04 = 0x1c;
@@ -856,7 +862,6 @@ struct FUN_00d36f50_Obj
     FUN_00d36f50_Obj* FUN_00d36f50(unsigned char flag);
 };
 
-void* __cdecl FUN_00c85750();
 
 // @fnv 0x00d36f50
 FUN_00d36f50_Obj* FUN_00d36f50_Obj::FUN_00d36f50(unsigned char flag)
@@ -922,7 +927,6 @@ struct S_00d37da0_Router {
     S_00d37da0_Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-S_00d37da0_Router* FUN_00c85750();
 
 struct S_00d37da0_RefObj {
     unsigned short m_usMemSizeAndFlags;
@@ -931,7 +935,7 @@ struct S_00d37da0_RefObj {
     virtual ~S_00d37da0_RefObj() throw() {}
     void* operator new(std::size_t nbytes)
     {
-        S_00d37da0_RefObj* b = static_cast<S_00d37da0_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
+        S_00d37da0_RefObj* b = static_cast<S_00d37da0_RefObj*>(static_cast<S_00d37da0_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -989,7 +993,6 @@ void __cdecl FUN_00d39130(int a1, int a2, int a3, int a4, int a5)
 }
 
 namespace fnv_00d398c0 {
-extern "C" void* __cdecl FUN_00c85750();
 
 struct FUN_00d398c0_Vtable
 {
@@ -1052,7 +1055,7 @@ extern "C" void* __cdecl CreateObjectFromFactory(
     int aiValue)
 {
     FUN_00d398c0_Factory* factory =
-        reinterpret_cast<FUN_00d398c0_Factory*>(FUN_00c85750());
+        reinterpret_cast<FUN_00d398c0_Factory*>(static_cast<AllocationManager*>(::FUN_00c85750()));
 
     FUN_00d398c0_Object* object =
         reinterpret_cast<FUN_00d398c0_Object*>(
@@ -1107,14 +1110,13 @@ struct FUN_00d3b380_singleton
     FUN_00d3b380_allocator* unk10;
 };
 
-extern "C" FUN_00d3b380_singleton* __cdecl FUN_00c85750();
 
 // Allocates a 0x14-byte object from the singleton's allocator and initializes its fields, storing param_4 and a global pointer.
 // @fnv 0x00d3b380
 void __cdecl FUN_00d3b380(int aiUnused1, int aiUnused2, int aiUnused3,
                          unsigned int auiValue)
 {
-    FUN_00d3b380_singleton* singleton = FUN_00c85750();
+    FUN_00d3b380_singleton* singleton = static_cast<FUN_00d3b380_singleton*>(::FUN_00c85750());
     FUN_00d3b380_object* object = singleton->unk10->Allocate(0x14);
 
     object->unk04 = 0x14;
@@ -1139,7 +1141,7 @@ void FnvCpu_FUN_00d3f480_CpuObject::FUN_00d3f480(void* first, void* second, unsi
     data.value = fourth;
     data.bound = ::DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    ::FUN_00d3e850((const ::hkpCdBody &)this, (*(const ::hkpCdBody *)(second)), (*(const ::CollisionAgentContext *)(first)), (*(::hkpCdPointCollector *)(third)));
+    ::FUN_00d3e850(*(const ::hkpCdBody *)(second), *(const ::hkpCdBody *)(first), *(const ::CollisionAgentContext *)(std::uintptr_t)third, *(::hkpCdPointCollector *)&data);
 }
 
 
@@ -1170,14 +1172,13 @@ struct S_00d3f620_Router {
     S_00d3f620_Alloc* unk10;
     S_00d3f620_Alloc& heap() { return *unk10; }
 };
-S_00d3f620_Router* FUN_00c85750() throw();
 struct S_00d3f620_RefObj {
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
     S_00d3f620_RefObj() throw() { m_sReferenceCount = 1; }
     virtual ~S_00d3f620_RefObj() throw();
     void* operator new(std::size_t n) {
-        S_00d3f620_RefObj* b = static_cast<S_00d3f620_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(n));
+        S_00d3f620_RefObj* b = static_cast<S_00d3f620_RefObj*>(static_cast<S_00d3f620_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(n));
         b->m_usMemSizeAndFlags = (unsigned short)n;
         return b;
     }
@@ -1586,7 +1587,7 @@ FOUND:
     }
 
     int size = curr->m_usModifierAtomSize;
-    AllocationManager* mgr = FUN_00c85750();
+    AllocationManager* mgr = static_cast<AllocationManager*>(::FUN_00c85750());
     ((D27690_Allocator*)mgr->allocator)->ReleaseBlock(curr, size);
 }
 
@@ -2073,7 +2074,6 @@ struct hkMemoryRouterD262 {
 };
 
 namespace hkRouterD262 {
-    extern "C" hkMemoryRouterD262& __cdecl FUN_00c85750() throw();
 }
 
 class FUN_00d496d0 {
@@ -2085,7 +2085,7 @@ public:
 
     static void operator delete(void* p) throw()
     {
-        hkRouterD262::FUN_00c85750().heap().ReleaseBlock(p, static_cast<FUN_00d496d0*>(p)->m_usMemSizeAndFlags);
+        (*static_cast<hkMemoryRouterD262*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<FUN_00d496d0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00d496d0* FUN_00d262e0(unsigned int uiFlags) throw();
@@ -2149,7 +2149,7 @@ void __cdecl FUN_00d34970(int arg0, int arg1, int arg2, int aiOption) {
     context.pointer = &DAT_010ce7fc;
     context.maxDistance = ::DAT_0104da48;
     context.option = aiOption;
-    FUN_00d339d0(arg1, arg0, arg2, &context);
+    FUN_00d339d0(arg1, arg0, arg2, (int)(std::intptr_t)&context);
 }
 
 
@@ -2194,7 +2194,7 @@ extern unsigned int DAT_010cefdc;
 // @fnv 0x00d3c380
 D3C380_Obj* __cdecl CreateD3C380Obj(int aiUnused1, int aiUnused2, int aiUnused3, int aiValue)
 {
-    AllocationManager* mgr = FUN_00c85750();
+    AllocationManager* mgr = static_cast<AllocationManager*>(::FUN_00c85750());
     D3C380_Obj* o = (D3C380_Obj*)((D3C380_Allocator*)mgr->allocator)->alloc(0x10);
     o->w4 = 0x10;
     o->w6 = 1;
@@ -2240,7 +2240,7 @@ extern void __cdecl FUN_00cd7160(void* src, void* dst);
 void* __cdecl CreateRetObj(int a1, char** a2, int a3, int aiValue)
 {
     AllocMgr* o;
-    o = (AllocMgr*)FUN_00c85750();
+    o = (AllocMgr*)static_cast<AllocationManager*>(::FUN_00c85750());
     RetObj* mgr = (RetObj*)o->allocator->Alloc(0x20);
     mgr->f04 = 0x20;
     mgr->f06 = 1;
@@ -2276,7 +2276,7 @@ struct D3E270_mgr {
 // @fnv 0x00d3e270
 D3E270_obj* __cdecl FUN_00d3e270(int aiUnused1, int aiUnused2, int aiUnused3, int aiValue)
 {
-    D3E270_mgr* mgr = (D3E270_mgr*)FUN_00c85750();
+    D3E270_mgr* mgr = (D3E270_mgr*)static_cast<AllocationManager*>(::FUN_00c85750());
     D3E270_obj* o = mgr->r10->alloc(0x10);
     o->f04 = 0x10;
     o->f06 = 1;
@@ -2295,7 +2295,6 @@ D3FE10Entry* __cdecl FUN_00d3fe70(D3FE10Header* pkHeader, D3FE10Entry* pkEntry, 
     return ResetEntryAgents(pkHeader, pkEntry, pkManager, kInfo.pkInfo);
 }
 
-#include <xmmintrin.h>
 
 struct D212D0Seg {
     __m128 a;
@@ -2555,7 +2554,7 @@ int S00d281b0_Target::MoveLargestToFirst(S00d281b0_IntArray* values)
 
     int* mapping;
     volatile int capacity;
-    S00d281b0_Alloc& a = ((S00d281b0_Router*)FUN_00c85750())->heap();
+    S00d281b0_Alloc& a = ((S00d281b0_Router*)static_cast<AllocationManager*>(::FUN_00c85750()))->heap();
     int n;
     if (size) {
         n = size;
@@ -2579,7 +2578,7 @@ int S00d281b0_Target::MoveLargestToFirst(S00d281b0_IntArray* values)
         int& r = this->indices->data[i];
         r = mapping[r];
     }
-    S00d281b0_Alloc& b = ((S00d281b0_Router*)FUN_00c85750())->heap();
+    S00d281b0_Alloc& b = ((S00d281b0_Router*)static_cast<AllocationManager*>(::FUN_00c85750()))->heap();
     int c = capacity;
     if ((c & 0x80000000) == 0)
         b._bufFree<int>(mapping, c & 0x3fffffff);
@@ -2796,7 +2795,6 @@ struct hkMemoryRouterD2C9 {
 };
 
 struct RouterD2C9 {
-    static hkMemoryRouterD2C9& __cdecl FUN_00c85750() throw();
 };
 
 struct __declspec(align(16)) hkVector4D2C9 {
@@ -2810,14 +2808,14 @@ public:
 
     void* operator new(std::size_t nbytes)
     {
-        hkReferencedObjectD2C9* b = static_cast<hkReferencedObjectD2C9*>(RouterD2C9::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        hkReferencedObjectD2C9* b = static_cast<hkReferencedObjectD2C9*>((*static_cast<hkMemoryRouterD2C9*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
 
     void operator delete(void* p, std::size_t nbytes)
     {
-        RouterD2C9::FUN_00c85750().heap().ReleaseBlock(p, nbytes);
+        (*static_cast<hkMemoryRouterD2C9*>(::FUN_00c85750())).heap().ReleaseBlock(p, nbytes);
     }
 
     unsigned short m_usMemSizeAndFlags;
@@ -3522,7 +3520,7 @@ struct FUN_00d36b20
 
     static __forceinline void* operator new(std::size_t size) throw()
     {
-        AllocationManager* manager = FUN_00c85750();
+        AllocationManager* manager = static_cast<AllocationManager*>(::FUN_00c85750());
         FUN_00d36b20* object = static_cast<FUN_00d36b20*>(static_cast<D36B70_Heap*>(manager->allocator)->AllocateMemoryBlock(size));
         object->m_usMemSizeAndFlags = (unsigned short)size;
         return object;
@@ -3553,7 +3551,6 @@ struct D2DC10MemoryRouter {
     D2DC10Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" D2DC10MemoryRouter& __cdecl FUN_00c85750();
 
 class D2DC10BaseObject {
 public:
@@ -3569,7 +3566,7 @@ public:
 
     static void* operator new(std::size_t, void* p) { return p; }
     static void operator delete(void*, void*) {}
-    static void operator delete(void* p, std::size_t nbytes) { FUN_00c85750().heap().ReleaseBlock(p, nbytes); }
+    static void operator delete(void* p, std::size_t nbytes) { (*static_cast<D2DC10MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, nbytes); }
 
     int unk04;
     int unk08;
@@ -3609,7 +3606,6 @@ struct D37D30MemoryRouter {
     D37D30Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" D37D30MemoryRouter& __cdecl FUN_00c85750();
 
 class D37D30ReferencedObject {
 public:
@@ -3630,7 +3626,7 @@ public:
     int m_iCapacityState;
 
     ~D37D30Array() throw() {
-        D37D30Allocator& alloc = FUN_00c85750().heap();
+        D37D30Allocator& alloc = (*static_cast<D37D30MemoryRouter*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & DONT_DEALLOCATE_FLAG) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & CAPACITY_MASK) * sizeof(T));
@@ -3647,7 +3643,7 @@ public:
     FUN_00d37d30();
 
     static void operator delete(void* p) {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<D37D30ReferencedObject*>(p)->m_usMemSizeAndFlags);
+        (*static_cast<D37D30MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<D37D30ReferencedObject*>(p)->m_usMemSizeAndFlags);
     }
 };
 
@@ -3656,7 +3652,6 @@ FUN_00d37d30::FUN_00d37d30() {
 }
 }  // namespace fnv_00d37d30
 
-#include <xmmintrin.h>
 namespace fnv_00d22260 {
 
 struct D22260_Matrix
@@ -3751,19 +3746,6 @@ void D22260_Object::FUN_00d22260(
     vector2->m_uiFilterValue.add(cross2);
 }
 }  // namespace fnv_00d22260
-#include "fnv/symbols_simd.h"
-#include "fnv/decl/ShapeCollectionAgent.h"
-#include "fnv/decl/hkpEntityC9C.h"
-#include "fnv/decl/hkpSphereCapsuleAgent.h"
-#include "fnv/symbols_00c74000.h"
-#include "fnv/symbols_00cd7000.h"
-#include "fnv/symbols_00d27000.h"
-#include "fnv/symbols_00d3c000.h"
-#include "fnv/decl/Triangle.h"
-#include "fnv/decl/hkSmallArrayE.h"
-#include "fnv/symbols_00c85000.h"
-#include "fnv/symbols_00cd6000.h"
-#include "fnv/symbols_00d36000.h"
 
 // FUN_00d24650 - function, callee pops 4 bytes (1 stack parameter)
 // @fnv 0x00d24650
@@ -4087,7 +4069,7 @@ int FUN_00d365d0(A1Rec* a1, int a2, int a3, int a4, int a5)
     cb.z.unk04 = -1;
     result = ((int)(::hkpCollectionCollectionAgent3::FUN_00d35770((*(const ::AgentSubtypeMarker *)(&o1)), (::FourByteState *)(a2), (void *)(a3), (::hkVector4 *)(a4), (*(::WorldOperationEntry *)(a5)))));
     int* r18 = &shape->r18_00;
-    AllocationManager* q = FUN_00c85750();
+    AllocationManager* q = static_cast<AllocationManager*>(::FUN_00c85750());
     void* mgr = q->allocator;
     _ReadWriteBarrier();
     int masked = r18[2] & 0x3fffffff;
@@ -4155,20 +4137,10 @@ void FUN_00d3dc10(void* apObject);
 
 void* __cdecl InitAndGetOffset(void* apUnused1, void* apUnused2, void* apObject);
 
-// VEGAS17-CONFLICT: CallTarget_00d2f760 (variant definition below differs from the one above)
-struct CallTarget_00d2f760 {  };
 
 void __cdecl RegisterD3DAgents(DispatcherD3D* pkDispatcher);
 
 void* __cdecl FindSharedEntryValue(PairNode* pNodeA, PairNode* pNodeB);
-
-// VEGAS17-CONFLICT: FUN_00d61840_class (variant definition below differs from the one above)
-struct FUN_00d61840_class {
-    int m_iWordAt00;
-    int FUN_00d61c10(int a);
-};
-
-int __cdecl CallAndGetId(int a, FUN_00d61840_class* obj);
 
 const char* __cdecl FUN_00d2b360(const char* path, PathHelper* aPathHelper);
 
@@ -4217,8 +4189,8 @@ struct hkVecQ {
     __forceinline __m128& getQuad() { return data; }
     __forceinline const __m128& getQuad() const { return data; }
 
-    __forceinline float& operator()(int a) { return getQuad()[a]; }
-    __forceinline const float& operator()(int a) const { return getQuad()[a]; }
+    __forceinline float& operator()(int a) { return reinterpret_cast<float*>(&data)[a]; }
+    __forceinline const float& operator()(int a) const { return reinterpret_cast<const float*>(&data)[a]; }
 
     static __forceinline __m128 rotated(const hkVecQ& q, const hkVecQ& v)
     {
@@ -4672,16 +4644,6 @@ struct S_00d3dca0_Fns {
 struct S_00d3dca0_Obj {
 };
 
-__declspec(noinline) void FUN_00d3dbe0(void* storage) {
-    S_00d3dca0_Fns* f = static_cast<S_00d3dca0_Fns*>(storage);
-    f->fn0 = reinterpret_cast<void*>(static_cast<void (*)()>(&CreateRetObj));
-    f->fn4 = reinterpret_cast<void*>(static_cast<void (*)()>(&FUN_00d3d3e0));
-    f->fn8 = reinterpret_cast<void*>(static_cast<void (*)()>(&FUN_00d3d8c0));
-    f->fnC = reinterpret_cast<void*>(static_cast<void (*)()>(&((void (&)())::FUN_00daf8e0)));
-    f->b10 = 0;
-    f->b11 = 0;
-}
-
 // @fnv 0x00d3dca0
 void FUN_00d3dca0(S_00d3dca0_Obj* o)
 {
@@ -4704,14 +4666,7 @@ void FUN_00d3dc10(void* p);
 
 void* __cdecl InitAndGetOffset(void* a, void* b, void* c);
 
-// VEGAS17-CONFLICT: Agent (variant definition below differs from the one above)
-struct Agent {
-};
 
-// VEGAS17-CONFLICT: FnvCpu_FUN_00d36ce0_CpuObject (variant definition below differs from the one above)
-struct FnvCpu_FUN_00d36ce0_CpuObject {
-    void FUN_00d36ce0(void*, void*, unsigned int, unsigned int);
-};
 
 void* __cdecl FindSharedEntryValue(PairNode* a, PairNode* b);
 

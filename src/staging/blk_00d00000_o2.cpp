@@ -2,6 +2,7 @@
 // src/staging/blk_00d00000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <emmintrin.h>
 #include <cstdint>
@@ -27,6 +28,7 @@
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
+#include "fnv/symbols_simd.h"
 
 // @fnv 0x00d1a300
 void __cdecl InitArrayEntries(int** apEntries, int count)
@@ -136,7 +138,6 @@ struct AllocHolder
     SpawnedAllocator* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
 
 struct FUN_00d06c30_cls
 {
@@ -148,7 +149,7 @@ struct FUN_00d06c30_cls
 // @fnv 0x00d06c30
 extern "C" void __cdecl FUN_00d06c30(FUN_00d06c30_cls* self, unsigned int newCap, unsigned int elemSize)
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedAllocator* alloc = holder->m_pAllocator;
     char* newBuf = (char*)alloc->Alloc(newCap * elemSize);
     std::memmove(newBuf, self->m_pData, self->m_usElementCount * elemSize);
@@ -156,7 +157,7 @@ extern "C" void __cdecl FUN_00d06c30(FUN_00d06c30_cls* self, unsigned int newCap
     {
         unsigned int size = (self->m_usCap & 0x3fff) * elemSize;
         char* oldBuf = self->m_pData;
-        holder = FUN_00c85750();
+        holder = static_cast<AllocHolder*>(::FUN_00c85750());
         alloc = holder->m_pAllocator;
         alloc->Free(oldBuf, size);
     }
@@ -587,7 +588,7 @@ int FUN_00d07070_s::FUN_00d07070(unsigned char flag)
 
     if (flag & 1)
     {
-        AllocHolder* holder = FUN_00c85750();
+        AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
         unsigned short value = unk04;
         holder->m_pAllocator->Free(reinterpret_cast<void*>(this), value);
     }
@@ -950,7 +951,6 @@ FUN_00d107d0_t* FUN_00d107d0_t::FUN_00d107d0(int v)
     return this;
 }
 
-#include "fnv/symbols_simd.h"
 
 
 struct S00d1b7f0_Input
@@ -1314,7 +1314,6 @@ extern "C" void _ReadWriteBarrier(void);
 
 struct MemSource
 {
-    static void* FUN_00c85750();
 };
 
 struct KdNode
@@ -1486,7 +1485,7 @@ void __cdecl QueryKdTree(void* tree, KdNode* node, const Aabb16* prims, const fl
             _mm_and_ps(_mm_cmple_ps(lower, _mm_load_ps(query->max)), _mm_cmple_ps(_mm_load_ps(query->min), upper));
         if ((_mm_movemask_ps(cmp) & 7) == 7)
         {
-            AllocHolder* holder = (AllocHolder*)MemSource::FUN_00c85750();
+            AllocHolder* holder = (AllocHolder*)::FUN_00c85750();
             if (hits->size == (hits->capacity & 0x3fffffff))
                 ::ResizeAudioStream((::AudioAllocator *)(void *)((void*)holder->unk0C), (::AudioStream *)(hits), 4);
             int* dst = hits->data + hits->size;
@@ -1834,7 +1833,7 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
     S00d1b4d0_Id id;
     __declspec(align(16)) S00d1b4d0_NodeCopy n;
     n.set(cur);
-    AllocHolder* alloc = FUN_00c85750();
+    AllocHolder* alloc = static_cast<AllocHolder*>(::FUN_00c85750());
     S00d1b4d0_Node** base = (S00d1b4d0_Node**)alloc->unk00;
     S00d1b4d0_Node** top = base;
     int bytes = (capacity * 4 + 127) & ~127;
@@ -1923,7 +1922,7 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
                         }
                         else if (list)
                         {
-                            AllocHolder* grow = FUN_00c85750();
+                            AllocHolder* grow = static_cast<AllocHolder*>(::FUN_00c85750());
                             if (list->size == (int)(list->capacity & 0x3fffffff))
                                 ::ResizeAudioStream((::AudioAllocator *)(void *)((void*)grow->unk0C), (::AudioStream *)(list), 4);
                             copyResult(list->data + list->size, 1, *(unsigned*)&id);
@@ -1947,7 +1946,7 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
         n.set(cur);
     }
 done:
-    FUN_00c85750()->unk00 = (int)base;
+    static_cast<AllocHolder*>(::FUN_00c85750())->unk00 = (int)base;
     return found;
 }
 

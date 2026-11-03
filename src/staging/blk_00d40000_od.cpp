@@ -2,6 +2,7 @@
 // src/staging/blk_00d40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00c85000.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
 #include <new>
@@ -34,7 +35,6 @@ struct D51MemHolder
     D51Allocator* m_pThreadAllocator;
 };
 
-void* __cdecl FUN_00c85750();
 
 struct D51Vector4
 {
@@ -138,7 +138,6 @@ struct hkThreadMemory
     }
 };
 
-extern "C" hkThreadMemory* FUN_00c85750();
 
 struct hkVector4
 {
@@ -173,7 +172,7 @@ template <typename T> struct hkArray
 
     void AddBack(const T& t)
     {
-        hkMemoryAllocator& allocator = FUN_00c85750()->heap();
+        hkMemoryAllocator& allocator = static_cast<hkThreadMemory*>(::FUN_00c85750())->heap();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         {
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&allocator), (::AudioStream *)(void *)(this), sizeof(T));
@@ -867,7 +866,6 @@ struct HkRouterD51
     int unk0C;
     void* m_pStreamAllocator;
 };
-void* FUN_00c85750();
 
 struct HkVecD51
 {
@@ -948,7 +946,6 @@ struct HeapContext
     void* scratch;
     void* allocator;
 };
-HeapContext* __cdecl FUN_00c85750();
 template <typename T> inline void hkConstructWithCopy(T* p, int n, const T& t)
 {
     for (int i = 0; i < n; i++)
@@ -992,7 +989,7 @@ struct GeometryBuilder
 unsigned int GeometryBuilder::FUN_00d51d40(const __m128* vectors)
 {
     IndexArray* indexBuffer = &arrays->indices;
-    HeapContext* heap = FUN_00c85750();
+    HeapContext* heap = static_cast<HeapContext*>(::FUN_00c85750());
     if (indexBuffer->count == (indexBuffer->capacityFlags & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(heap->allocator), (::AudioStream *)(indexBuffer), 4);
     hkConstructWithCopy(indexBuffer->elements + indexBuffer->count, 1, 9u);
@@ -1000,21 +997,21 @@ unsigned int GeometryBuilder::FUN_00d51d40(const __m128* vectors)
 
     unsigned int previousCount = arrays->vertices.count;
     VectorArray* positions = &arrays->vertices;
-    heap = FUN_00c85750();
+    heap = static_cast<HeapContext*>(::FUN_00c85750());
     if (positions->count == (positions->capacityFlags & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(heap->allocator), (::AudioStream *)(positions), 16);
     positions->elements[positions->count] = vectors[0];
     ++positions->count;
 
     positions = &arrays->vertices;
-    heap = FUN_00c85750();
+    heap = static_cast<HeapContext*>(::FUN_00c85750());
     if (positions->count == (positions->capacityFlags & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(heap->allocator), (::AudioStream *)(positions), 16);
     positions->elements[positions->count] = vectors[1];
     ++positions->count;
 
     positions = &arrays->vertices;
-    heap = FUN_00c85750();
+    heap = static_cast<HeapContext*>(::FUN_00c85750());
     if (positions->count == (positions->capacityFlags & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(heap->allocator), (::AudioStream *)(positions), 16);
     positions->elements[positions->count] = vectors[2];
@@ -1033,7 +1030,6 @@ struct RouterD52
     int unk00, unk04, unk08, unk0c;
     void* m_pStreamAllocator;
 };
-RouterD52& FUN_00c85750();
 template <typename T> inline void D52ConstructWithCopy(T* p, int n, const T& t)
 {
     for (int i = 0; i < n; i++)
@@ -1063,7 +1059,7 @@ template <typename T> struct ArrayD52
     }
     void AddBack(const T& val)
     {
-        RouterD52& router = FUN_00c85750();
+        RouterD52& router = (*static_cast<RouterD52*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         D52ConstructWithCopy<T>(m_data + m_iElementCount, 1, val);
@@ -1469,7 +1465,6 @@ struct StubHeapHolder
     void* heap;
 };
 
-StubHeapHolder* FUN_00c85750();
 
 template <class T> struct StubArray
 {
@@ -1487,7 +1482,7 @@ template <class T> struct StubArray
     }
     void Add(const T& v)
     {
-        StubHeapHolder* h = FUN_00c85750();
+        StubHeapHolder* h = static_cast<StubHeapHolder*>(::FUN_00c85750());
         if (count == (int)(capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(h->heap), (::AudioStream *)(void *)(this), sizeof(T));
         Construct(data + count, 1, v);
@@ -1502,7 +1497,7 @@ struct StubVecArray
     unsigned int capacity;
     void Add(const __m128& v)
     {
-        StubHeapHolder* h = FUN_00c85750();
+        StubHeapHolder* h = static_cast<StubHeapHolder*>(::FUN_00c85750());
         if (count == (int)(capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(h->heap), (::AudioStream *)(void *)(this), sizeof(__m128));
         data[count] = v;

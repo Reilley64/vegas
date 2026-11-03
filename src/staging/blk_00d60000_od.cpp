@@ -510,11 +510,9 @@ void zz_call()
 
 void FUN_00d6c030(D6Owner* a, V16* b, D6Idx* c, void* d, void* e);
 
-volatile D6Owner* g_d6Owner;
-
 extern "C" void _ReadWriteBarrier();
 
-struct hkQuaternion;
+struct hkQuaternionD6B5;
 
 struct Vec
 {
@@ -527,8 +525,8 @@ struct Vec
     {
         return m_vComponents;
     }
-    __forceinline void SetRotatedDirection(const hkQuaternion& q, const Vec& d);
-    __forceinline void setRotatedTranslation(const hkQuaternion& q, const Vec& d);
+    __forceinline void SetRotatedDirection(const hkQuaternionD6B5& q, const Vec& d);
+    __forceinline void setRotatedTranslation(const hkQuaternionD6B5& q, const Vec& d);
     __forceinline void setAdd4(const Vec& a, const Vec& b)
     {
         m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
@@ -543,18 +541,16 @@ struct Vec
     }
 };
 
-// VEGAS17-CONFLICT: hkQuaternion (variant definition below differs from the one above)
-struct hkQuaternion
+struct hkQuaternionD6B5
 {
     __m128 m_vComponents;
-    void FUN_00c66320(const hkQuaternion&, const hkQuaternion&);
-    void FUN_00cb2850(const hkQuaternion&, const hkQuaternion&, float);
+    void FUN_00cb2850(const hkQuaternionD6B5&, const hkQuaternionD6B5&, float);
 };
 
 struct Transform
 {
     Vec position;
-    hkQuaternion rotation;
+    hkQuaternionD6B5 rotation;
     Vec scale;
     __forceinline void SetProduct(const Transform& a, const Transform& b);
 };
@@ -562,7 +558,7 @@ struct Transform
 struct Pose
 {
     Vec position;
-    hkQuaternion rotation;
+    hkQuaternionD6B5 rotation;
 };
 
 struct OutputPair
@@ -603,7 +599,7 @@ __forceinline __m128 rotate(__m128 q, __m128 v)
                           _mm_mul_ps(_mm_shuffle_ps(d, d, 0), q)));
     return _mm_add_ps(r, r);
 }
-__forceinline void Vec::SetRotatedDirection(const hkQuaternion& quat, const Vec& direction)
+__forceinline void Vec::SetRotatedDirection(const hkQuaternionD6B5& quat, const Vec& direction)
 {
     __m128 qreal = _mm_shuffle_ps(quat.m_vComponents, quat.m_vComponents, 0xff);
     __m128 p = _mm_mul_ps(quat.m_vComponents, direction.m_vComponents);
@@ -621,10 +617,10 @@ __forceinline void Vec::SetRotatedDirection(const hkQuaternion& quat, const Vec&
                           _mm_mul_ps(_mm_shuffle_ps(d, d, 0), quat.m_vComponents)));
     m_vComponents = _mm_add_ps(r, r);
 }
-__forceinline void Vec::setRotatedTranslation(const hkQuaternion& quat, const Vec& direction)
+__forceinline void Vec::setRotatedTranslation(const hkQuaternionD6B5& quat, const Vec& direction)
 {
     __m128 qreal = _mm_shuffle_ps(quat.m_vComponents, quat.m_vComponents, 0xff);
-    __m128 p = _mm_mul_ps(_mm_load_ps(&reinterpret_cast<float*>(&quat.m_vComponents).x), direction.m_vComponents);
+    __m128 p = _mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&quat.m_vComponents)), direction.m_vComponents);
     __m128 y = _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p);
     __m128 d = _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), y);
     __m128 cross = _mm_sub_ps(
@@ -644,7 +640,7 @@ __forceinline void Transform::SetProduct(const Transform& a, const Transform& b)
     Vec extra;
     extra.setRotatedTranslation(a.rotation, b.position);
     position.setAdd4(extra, a.position);
-    ::fnv_00c66320::FUN_00c66320((__m128 *)&(rotation), (void *)&(a.rotation), (const __m128 *)&(b.rotation), {});
+    ::fnv_00c66320::FUN_00c66320((__m128 *)&(rotation), nullptr, (const __m128 *)&(a.rotation), (const __m128 *)&(b.rotation));
     scale.setMul4(a.scale, b.scale);
 }
 __forceinline __m128 blendPosition(const Vec& position, const Vec& target, float weight)
@@ -653,28 +649,6 @@ __forceinline __m128 blendPosition(const Vec& position, const Vec& target, float
     __m128 t = _mm_shuffle_ps(scalar, scalar, 0);
     return _mm_add_ps(_mm_mul_ps(_mm_sub_ps((*reinterpret_cast<__m128 *>((void *)&::DAT_010ec7f0)), t), position.quad()),
                              _mm_mul_ps(t, target.quad()));
-}
-
-extern "C" void __security_check_cookie(unsigned int);
-
-__declspec(noinline) void hkQuaternion::FUN_00c66320(const hkQuaternion& a, const hkQuaternion& b)
-{
-    __m128 av = a.m_vComponents, bv = b.m_vComponents;
-    __m128 cross =
-        _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(bv, bv, 0xd2), _mm_shuffle_ps(av, av, 0xc9)),
-                          _mm_mul_ps(_mm_shuffle_ps(bv, bv, 0xc9), _mm_shuffle_ps(av, av, 0xd2)));
-    __m128 ar = _mm_shuffle_ps(av, av, 0xff);
-    ar = _mm_shuffle_ps(ar, ar, 0);
-    __m128 br = _mm_shuffle_ps(bv, bv, 0xff);
-    br = _mm_shuffle_ps(br, br, 0);
-    __m128 xyz =
-        _mm_add_ps(_mm_mul_ps(br, av), _mm_add_ps(_mm_mul_ps(ar, bv), cross));
-    __m128 p = _mm_mul_ps(bv, av);
-    __m128 dot =
-        _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p));
-    __m128 w = _mm_sub_ps(p, _mm_shuffle_ps(dot, dot, 0));
-    m_vComponents = _mm_shuffle_ps(xyz, _mm_unpackhi_ps(xyz, w), 0xc4);
-    __security_check_cookie(__security_cookie);
 }
 
 // @fnv 0x00d6b510
@@ -704,7 +678,7 @@ static __declspec(noinline) void FUN_00d6b510(Binding* binding, Weight* weights,
             Transform reference;
             reference.position = *reinterpret_cast<const Vec*>(&node->m_120);
             reference.scale.quad() = _mm_set_ps1(1.0f);
-            reference.rotation = *reinterpret_cast<const hkQuaternion*>(&node->m_160);
+            reference.rotation = *reinterpret_cast<const hkQuaternionD6B5*>(&node->m_160);
             Transform composed;
             composed.SetProduct(reference, input);
             local.rotation.FUN_00cb2850(local.rotation, composed.rotation, weight);

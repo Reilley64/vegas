@@ -2,6 +2,7 @@
 // src/staging/blk_00d80000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00c85000.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -390,13 +391,11 @@ struct hkMemoryAllocatorS
 
 struct hkMemoryRouterS;
 
-hkMemoryRouterS* FUN_00c85750();
 
 struct hkMemoryRouterS
 {
     static hkMemoryRouterS& GetMonitorStream()
     {
-        return *FUN_00c85750();
     }
     hkMemoryAllocatorS& heap()
     {
@@ -409,7 +408,6 @@ struct hkMemoryRouterS
     hkMemoryAllocatorS* m_pStreamAllocator;
 };
 
-hkMemoryRouterS* FUN_00c85750();
 
 template <class T> struct hkArrayS
 {
@@ -526,13 +524,12 @@ struct S00d9db60_Router
     }
 };
 
-S00d9db60_Router* __cdecl FUN_00c85750();
 
 struct S00d9db60_HeapAllocator
 {
     __forceinline S00d9db60_Allocator& get(const void*)
     {
-        return FUN_00c85750()->heap();
+        return static_cast<S00d9db60_Router*>(::FUN_00c85750())->heap();
     }
 };
 

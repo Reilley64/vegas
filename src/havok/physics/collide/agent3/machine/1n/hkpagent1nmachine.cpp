@@ -2008,73 +2008,6 @@ struct Da35Stream
     unsigned char m_data[512 - 0x10];  // +0x10
 };
 
-// Iterates through Da35Stream chunks, dispatching commands via function pointers and updating float fields based on fa and fb.
-// @fnv 0x00da35f0
-void __cdecl FUN_00da35f0(Da35Stream*** container, float fa, float fb, void** holder)
-{
-    Da35Stream* stream = **container;
-    unsigned char* p = stream->m_data;
-    unsigned char* end;
-    *(unsigned char* volatile*)&end = stream->m_data + stream->m_iElementCount;
-    int index = 4;
-    for (;;)
-    {
-        do
-        {
-            unsigned char* entry = p;
-            unsigned char cmd = p[0];
-            switch (cmd)
-            {
-            case 2:
-            case 3:
-            case 6:
-            case 10:
-            case 11:
-            case 14: {
-                unsigned char* payload = p + 0x10;
-                unsigned char idx = entry[1];
-                p += entry[3];
-                Da35FuncPtr pFunc = *(Da35FuncPtr*)((char*)*holder + idx * 80 + 0x16d4);
-                if (pFunc)
-                    pFunc(entry, payload, fa, fb, holder);
-                break;
-            }
-            case 4:
-            case 5:
-            case 12:
-            case 13: {
-                unsigned char* payload = p + 0x20;
-                if (*(float*)(p + 0xC) == fa)
-                    *(float*)(p + 0xC) = fb;
-                else
-                    *(float*)(p + 0xC) = -1.0f;
-                unsigned char idx = entry[1];
-                p += entry[3];
-                Da35FuncPtr pFunc = *(Da35FuncPtr*)((char*)*holder + idx * 80 + 0x16d4);
-                if (pFunc)
-                    pFunc(entry, payload, fa, fb, holder);
-                break;
-            }
-            case 0:
-                p += entry[3];
-                break;
-            case 1:
-                return;
-            case 7:
-            case 8:
-            case 9:
-                break;
-            default:
-                break;
-            }
-        } while (p < end);
-        stream = *(Da35Stream**)((char*)*container + index);
-        unsigned char* pNewEnd = stream->m_data + stream->m_iElementCount;
-        p = stream->m_data;
-        *(unsigned char* volatile*)&end = pNewEnd;
-        index += 4;
-    }
-}
 
 static void* __cdecl Da35Search(Da35Stream*** container, int key1, int key2, void** out)
 {
@@ -3433,4 +3366,72 @@ output.m_pAlignedPairData=output.m_pAlignedPairData-1;
 }
 }
 }
+}
+
+// Iterates through Da35Stream chunks, dispatching commands via function pointers and updating float fields based on fa and fb.
+// @fnv 0x00da35f0
+void __cdecl FUN_00da35f0(Da35Stream*** container, float fa, float fb, void** holder)
+{
+    Da35Stream* stream = **container;
+    unsigned char* p = stream->m_data;
+    unsigned char* end;
+    *(unsigned char* volatile*)&end = stream->m_data + stream->m_iElementCount;
+    int index = 4;
+    for (;;)
+    {
+        do
+        {
+            unsigned char* entry = p;
+            unsigned char cmd = p[0];
+            switch (cmd)
+            {
+            case 2:
+            case 3:
+            case 6:
+            case 10:
+            case 11:
+            case 14: {
+                unsigned char* payload = p + 0x10;
+                unsigned char idx = entry[1];
+                p += entry[3];
+                Da35FuncPtr pFunc = reinterpret_cast<Da35FuncPtr>(static_cast<const hkpCollisionDispatcher*>(*holder)->m_kAgent3FunctionTable[idx].m_pAgentFunction11);
+                if (pFunc)
+                    pFunc(entry, payload, fa, fb, holder);
+                break;
+            }
+            case 4:
+            case 5:
+            case 12:
+            case 13: {
+                unsigned char* payload = p + 0x20;
+                if (*(float*)(p + 0xC) == fa)
+                    *(float*)(p + 0xC) = fb;
+                else
+                    *(float*)(p + 0xC) = -1.0f;
+                unsigned char idx = entry[1];
+                p += entry[3];
+                Da35FuncPtr pFunc = reinterpret_cast<Da35FuncPtr>(static_cast<const hkpCollisionDispatcher*>(*holder)->m_kAgent3FunctionTable[idx].m_pAgentFunction11);
+                if (pFunc)
+                    pFunc(entry, payload, fa, fb, holder);
+                break;
+            }
+            case 0:
+                p += entry[3];
+                break;
+            case 1:
+                return;
+            case 7:
+            case 8:
+            case 9:
+                break;
+            default:
+                break;
+            }
+        } while (p < end);
+        stream = *(Da35Stream**)((char*)*container + index);
+        unsigned char* pNewEnd = stream->m_data + stream->m_iElementCount;
+        p = stream->m_data;
+        *(unsigned char* volatile*)&end = pNewEnd;
+        index += 4;
+    }
 }

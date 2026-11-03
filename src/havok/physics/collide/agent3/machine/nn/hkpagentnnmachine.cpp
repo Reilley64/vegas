@@ -2769,7 +2769,8 @@ void __cdecl FUN_00cff3c0(hkpConstraintOwnerCFT* owner, TrackSectors& track, con
             TrackCollidable* a = entry->getCollidableA();
             TrackCollidable* b = entry->getCollidableB();
             result.reset();
-            _mm_prefetch((const char*)entry + 128, 0);
+            const int prefetchAheadBytes = 128;  // a cache hint for the next entries, not a field
+            _mm_prefetch((const char*)entry + prefetchAheadBytes, 0);
             _mm_prefetch((const char*)entry->m_pContactManager, 0);
             processEntry(entry, context, skipped, result);
             if ((*reinterpret_cast<unsigned int *>(&::DAT_01269200)) == 1)

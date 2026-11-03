@@ -160,7 +160,8 @@ class TESWorldSpace
     {
         USE_LAND = 1
     };
-    char pad0[0x2c];
+    char pad0[0x20];
+    void* kFullName[3];  // +0x24, the TESFullName base
     NiTPointerMap<unsigned int, TESObjectREFR*>* cellMap;
     TESObjectCELL* m_pCell;
     char pad38[0x4];
@@ -191,6 +192,8 @@ class TESWorldSpace
     float fC8;
     float fCC;
     std::uintptr_t fieldD0;
+    unsigned char kUnkD4[0xC];  // +0xD4, an object with a vtable
+    unsigned char kUnkE0[0xC];  // +0xE0, an object with a vtable
     bool SetDateTimeText(const char*);
     BGSTerrainManager* GetWorldTerrainManager();
     TESWorldSpace* GetParentWorld(PARENT_USE_FLAG);

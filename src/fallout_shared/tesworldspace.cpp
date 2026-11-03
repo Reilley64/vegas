@@ -199,7 +199,7 @@ void TESWorldSpace::ClearWorldSpaceReferences()
     FUN_00584150(0.0f);
     FUN_00586110(DAT_01031920);
     FUN_00586130(0.0f);
-    ((TESFullName*)((char*)this + 0x24))->SetFullName(0);
+    ((TESFullName*)kFullName)->SetFullName(0);
     memset((&this->kMapData), 0, 16);
 }
 // Validates x and y are within -32768..32767, builds a key from them, and looks up the cell in cellMap, returning it or null.
@@ -485,7 +485,7 @@ void FUN_006698d0(char* pThis)
     ::FUN_00559450((int *)(void *)(pThis + 0x6c));
 }
 
-struct FUN_005832f0_shell : public TESForm
+struct FUN_005832f0_shell : public TESWorldSpace
 {
     char* FUN_005832f0();
 };
@@ -498,7 +498,7 @@ struct Flt
 // @fnv 0x005832f0
 char* FUN_005832f0_shell::FUN_005832f0()
 {
-    char* pString = *(char**)((char*)this + 0xc0);
+    char* pString = *(char**)&mapName;
     return pString ? pString : (char*)"";
 }
 
@@ -723,16 +723,15 @@ TESWorldSpace* FUN_00586020_shell::GetWorldSpaceOrParentWorld()
     return result;
 }
 
-struct FUN_00586210_shell
+struct FUN_00586210_shell : public TESWorldSpace
 {
-    unsigned char cFlags;
     bool HasFlag2();
 };
 
 // @fnv 0x00586210
 bool FUN_00586210_shell::HasFlag2()
 {
-    if (((unsigned char)(*((unsigned char*)this + 0x4c)) & 2))
+    if (flags4C & 2)
         return true;
     return false;
 }
@@ -751,7 +750,7 @@ char ArrSI::HasFlag80000()
     return 0;
 }
 
-struct FUN_00586260_shell
+struct FUN_00586260_shell : public TESWorldSpace
 {
     bool IsFlag8Set();
 };
@@ -759,14 +758,13 @@ struct FUN_00586260_shell
 // @fnv 0x00586260
 bool FUN_00586260_shell::IsFlag8Set()
 {
-    if (((unsigned char*)this)[0x4c] & 8)
+    if (flags4C & 8)
         return 1;
     return 0;
 }
 
-struct FUN_00586280_shell
+struct FUN_00586280_shell : public TESWorldSpace
 {
-    unsigned char bFlags;  // +0x4c
     void SetFlag8(bool bFlag);
 };
 // @fnv 0x004f1260
@@ -782,21 +780,20 @@ void TESRegion::AssignWorldSpace(TESWorldSpace* apWorldSpace)
 void FUN_00586280_shell::SetFlag8(bool bFlag)
 {
     if (bFlag)
-        ((unsigned char*)this)[0x4c] |= 8;
+        flags4C |= 8;
     else
-        ((unsigned char*)this)[0x4c] &= ~8;
+        flags4C &= ~8;
 }
 
-struct FUN_005862c0_shell
+struct FUN_005862c0_shell : public TESWorldSpace
 {
-    unsigned char cFlags;  // +0x4c
     bool IsFlagSet();
 };
 
 // @fnv 0x005862c0
 bool FUN_005862c0_shell::IsFlagSet()
 {
-    if (((unsigned char*)((char*)this + 0x4c))[0] & 0x10)
+    if (flags4C & 0x10)
         return 1;
     return 0;
 }
@@ -815,7 +812,7 @@ char FUN_00586300_shell::IsFlag80Set()
     return 0;
 }
 
-struct FUN_00586320_shell
+struct FUN_00586320_shell : public TESWorldSpace
 {
     bool FUN_00586320();
 };
@@ -823,7 +820,7 @@ struct FUN_00586320_shell
 // @fnv 0x00586320
 bool FUN_00586320_shell::FUN_00586320()
 {
-    if ((*(unsigned char*)((char*)this + 0x4c) & 0x40) != 0)
+    if ((flags4C & 0x40) != 0)
         return false;
     return true;
 }
@@ -844,10 +841,9 @@ const char* FUN_00586440_shell::FUN_00586440()
     if (this->GetParentWorld(static_cast<TESWorldSpace::PARENT_USE_FLAG>(2)))
     {
         return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(((reinterpret_cast<FNStub*>(
-                    reinterpret_cast<char*>(this->GetParentWorld(static_cast<TESWorldSpace::PARENT_USE_FLAG>(2))) +
-                    0x24))))->FUN_00408da0()));
+                    this->GetParentWorld(static_cast<TESWorldSpace::PARENT_USE_FLAG>(2))->kFullName))))->FUN_00408da0()));
     }
-    return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(((reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x24))))->FUN_00408da0()));
+    return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(((reinterpret_cast<FNStub*>(kFullName))))->FUN_00408da0()));
 }
 
 struct StartMenu
@@ -1076,7 +1072,7 @@ TESWaterForm* FUN_005860c0_shell::FUN_005860c0()
     return ::DAT_011ca53c;
 }
 
-struct Unk00586340
+struct Unk00586340 : public TESWorldSpace
 {
     bool FUN_00586340(int);
 };
@@ -1095,7 +1091,7 @@ bool Unk00586340::FUN_00586340(int aiIndex)
     if (aiIndex >= 0 && aiIndex < 6)
     {
         unsigned char mask = 1 << aiIndex;
-        if (*(unsigned short*)((char*)this + 0x4E) & mask)
+        if (field4E & mask)
             return true;
         return false;
     }
@@ -1547,7 +1543,7 @@ struct WorldSpaceVirtual
 void FUN_00583070_shell::FUN_00583070()
 {
     *reinterpret_cast<void**>(&this->parent) = 0;
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0xd0) = 0;
+    fieldD0 = 0;
     this->flags4C = 0;
     this->field4E = 0;
 
@@ -1572,8 +1568,8 @@ void FUN_00583070_shell::FUN_00583070()
 
     reinterpret_cast<GO*>((&this->pCellPointerMap))->operator=(0);
 
-    reinterpret_cast<WorldSpaceVirtual*>(reinterpret_cast<char*>(this) + 0xd4)->Call();
-    reinterpret_cast<WorldSpaceVirtual*>(reinterpret_cast<char*>(this) + 0xe0)->Call();
+    reinterpret_cast<WorldSpaceVirtual*>(kUnkD4)->Call();
+    reinterpret_cast<WorldSpaceVirtual*>(kUnkE0)->Call();
 }
 }  // namespace fnv_00583070
 

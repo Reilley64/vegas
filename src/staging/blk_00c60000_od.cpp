@@ -7499,7 +7499,6 @@ void GroundController::FUN_00c6e980(const GroundPoint* point)
 }
 
 namespace fnv_00c741e0 {
-extern "C" unsigned long __readfsdword(unsigned long);
 
 union T741_V
 {
@@ -14393,7 +14392,6 @@ void Controller::FUN_00c6f280(void*, ContactInput* contact, __m128* velocity)
     }
 }
 
-extern "C" unsigned long __readfsdword(unsigned long);
 
 struct Vec3C
 {

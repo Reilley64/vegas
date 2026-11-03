@@ -14155,7 +14155,6 @@ struct MemMgr
 
 extern MemMgr g_memMgr;
 
-extern "C" unsigned long __readfsdword(unsigned long);
 
 struct MapThreadData
 {

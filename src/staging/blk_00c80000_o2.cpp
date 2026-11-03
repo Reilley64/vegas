@@ -20035,7 +20035,6 @@ struct BlendLocal
     unsigned int unk28;
     void FUN_00c81e30();
 };
-extern "C" unsigned long __readfsdword(unsigned long);
 struct TlsModeLocal
 {
     int value;

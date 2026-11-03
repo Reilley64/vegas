@@ -19,9 +19,15 @@
 #include "fnv/symbols_010c9000.h"
 #include "fnv/symbols_010cb000.h"
 #include "fnv/symbols_010cc000.h"
+// hkpEntity::m_uiUniqueId.
+struct BorderUniqueIdFields
+{
+    char pad00[0xd4];
+    unsigned int m_uiUniqueId;  // +0xd4
+};
 int __cdecl CompareByOffsetD4(const void* apFirst, const void* apSecond)
 {
-    return *(const char**)((const char*)apFirst + 0xd4) < *(const char**)((const char*)apSecond + 0xd4);
+    return static_cast<const BorderUniqueIdFields*>(apFirst)->m_uiUniqueId < static_cast<const BorderUniqueIdFields*>(apSecond)->m_uiUniqueId;
 }
 
 struct hkReferencedObject
@@ -187,6 +193,8 @@ struct NodeHdr
 {
 };
 
+// The world-deletion listener base of hkpBroadPhaseBorder sits at +0x8, after hkReferencedObject.
+static const int kBorderListenerOffset = 0x8;
 struct FUN_00d0b530_cls
 {
     int unk00;
@@ -200,9 +208,10 @@ struct FUN_00d0b530_cls
 // @fnv 0x00d0b530
 void FUN_00d0b530_cls::FUN_00d0b530(int unused)
 {
-    reinterpret_cast<::hkWorldXc91a70 *>((m_0C))->FUN_00c91a70(((char*)this - 8) ? (void*)this : 0);
-    reinterpret_cast<::SearchArray *>((m_0C))->ClearValue((((char*)this - 8) ? (void*)((char*)&this->unk08) : 0));
-    reinterpret_cast<::hkReferencedObjectC905 *>((((NodeHdr*)((char*)this - 8))))->FUN_00c905b0();
+    NodeHdr* owner = reinterpret_cast<NodeHdr*>((char*)this - kBorderListenerOffset);
+    reinterpret_cast<::hkWorldXc91a70 *>((m_0C))->FUN_00c91a70(owner ? (void*)this : 0);
+    reinterpret_cast<::SearchArray *>((m_0C))->ClearValue((owner ? (void*)((char*)&this->unk08) : 0));
+    reinterpret_cast<::hkReferencedObjectC905 *>(owner)->FUN_00c905b0();
 }
 
 struct D0B630Entity;

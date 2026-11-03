@@ -1272,7 +1272,7 @@ void FUN_0079b8e0_shell::UpdateQuestObjectiveList()
                         (BGSQuestObjective*)*((int *)(&reinterpret_cast<::SimpleListNodeView*>(((S::RegionObjectEntry*)pobjectiveList))->m_item)),
                         reinterpret_cast<::FUN_005ec330_shell *>((((BGSQuestObjective*)*((int *)(&reinterpret_cast<::SimpleListNodeView*>(((S::RegionObjectEntry*)pobjectiveList))->m_item)))))->GetPromptText(),
                         0, 0);
-            reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_struct*)((char*)pTile + 4))))->AddEight((int)((::fnv_0079b8e0::S::BSSimpleList *)(reinterpret_cast<::Callees *>((((S::BSSimpleList*)((char*)pTile + 4))))->FUN_00726070()))))))->FUN_00a012d0(0xfba, DAT_01074ffc, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((reinterpret_cast<::TileChildNode *>(reinterpret_cast<::TileFields *>(pTile)->childTail)->tile))->FUN_00a012d0(0xfba, DAT_01074ffc, true);
             pTile->Set(Tile::GetTraitID("_ShowEmptyMarker"), 1);
             pTile->Set(Tile::GetTraitID("_enabled"), 0);
             if (reinterpret_cast<::BGSQuestObjective *>((void *)(((BGSQuestObjective*)*((int *)(&reinterpret_cast<::SimpleListNodeView*>(((S::RegionObjectEntry*)pobjectiveList))->m_item)))))->GetCompleted())
@@ -2793,6 +2793,8 @@ struct UIManager
 };
 struct Clock
 {
+    char pad[0x14];
+    WidgetTile* scrollBar;
 };
 struct Metrics
 {
@@ -4533,7 +4535,7 @@ bool Controller::HandleInputCommand(int command, int ignored)
             case 0x22:
             case 0x23: {
                 WidgetTile* item =
-                    mode == 0x22 ? (WidgetTile*)((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(clock))->FUN_00825c00())) : ((::WidgetTile *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((source))->FUN_00a03da0((char *)(DAT_01074ec8))));
+                    mode == 0x22 ? clock.scrollBar : ((::WidgetTile *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((source))->FUN_00a03da0((char *)(DAT_01074ec8))));
                 if (item && ((double)(reinterpret_cast<::TileListBoxCalls *>((item))->GetFloat(0xfa3))) != ::_DAT_01012060)
                 {
                     int direction = 0;
@@ -5167,7 +5169,7 @@ F7E0Ref* F7E0Picker::SelectTarget(F7E0Ref* pkRef, F7E0Data* pkData)
     else if (pkRef && reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>((pkRef))->FUN_00575d10())
     {
         bool bFound = false;
-        for (int i = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pkData))->GetName())) - 1; !bFound && i >= 0; i--)
+        for (int i = ((unsigned int)(pkData->unk08)) - 1; !bFound && i >= 0; i--)
         {
             if (pkData->GetAt(i)->m_bEnableState && (unsigned int)i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkData->m_kTargets))->GetName())))
             {
@@ -5194,8 +5196,9 @@ struct Ref053 : TESObjectREFR
 };
 struct PathArray053
 {
+    void* vtbl;
     TESObjectREFR** data;
-    unsigned int size, capacity, grow;
+    unsigned int size, capacity;
 };
 class PathingPath
 {
@@ -5244,8 +5247,8 @@ void Map053::FUN_0079f8d0(TESObjectREFR* start, TESObjectREFR* end, PathingPath*
     reinterpret_cast<::Callees *>(&(first))->FUN_00905820((void *)&(startPos));
     int waypoints = 0;
     float last;
-    int begin = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(path->refs))->GetName())) - 1;
-    for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(path->refs))->GetName())); i++)
+    int begin = ((unsigned int)((path->refs).size)) - 1;
+    for (unsigned int i = 0; i < ((std::uintptr_t)((path->refs).size)); i++)
     {
         if (((::TESObjectREFR *)(reinterpret_cast<::FUN_00558dd0_class *>(&(path->refs))->FUN_00558dd0(i))) == start ||
             ((::TESObjectREFR *)(::FUN_00559450((int *)(((::fnv_0079f8d0::RefHandle053 *)(reinterpret_cast<::TESObjectREFR *>((((Ref053*)((::TESObjectREFR *)(reinterpret_cast<::FUN_00558dd0_class *>(&(path->refs))->FUN_00558dd0(i))))))->GetExtraRadioData())))))) == start)

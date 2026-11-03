@@ -19,3 +19,11 @@ struct TileFields
     void* renderedNode;
     unsigned int flags;
 };
+
+// A node of a tile's child list (TileFields::childHead/childTail).
+struct TileChildNode
+{
+    TileChildNode* next;
+    TileChildNode* prev;
+    TileFields* tile;
+};

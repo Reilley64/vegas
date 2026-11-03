@@ -411,11 +411,11 @@ struct SweptViewer
 // @fnv 0x00d648c0
 void SweptViewer::Destroy()
 {
-    m_vptr00 = (int)&DAT_010d1918;
-    m_vptr08 = (int)&DAT_010d18f8;
-    m_vptr20 = (int)&DAT_010d18e8;
-    m_vptr28 = (int)&DAT_010d18cc;
-    m_vptr2c = (int)&DAT_010d18bc;
+    m_vptr00 = &::DAT_010d1918;
+    m_vptr08 = &::DAT_010d18f8;
+    m_vptr20 = &::DAT_010d18e8;
+    m_vptr28 = &::DAT_010d18cc;
+    m_vptr2c = &::DAT_010d18bc;
     int i = m_ppData.m_iArrayLength - 1;
     if (i >= 0)
     {
@@ -432,7 +432,7 @@ void SweptViewer::Destroy()
     if ((uiCapBits & 0x80000000u) == 0)
         a->FreeArray(m_ppData.m_pData, (uiCapBits & 0x3fffffffu) * 4);
     m_ppData.Reset();
-    m_vptr2c = (int)&(*reinterpret_cast<int *>(&::DAT_010ccf7c));
+    m_vptr2c = &::DAT_010ccf7c;
     m_vptr28 = (int)"pFU";
     return reinterpret_cast<struct ::FUN_00ddcc60 *>(this)->FUN_00ddcc60::~FUN_00ddcc60();
 }

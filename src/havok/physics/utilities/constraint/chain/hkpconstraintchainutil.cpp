@@ -438,7 +438,6 @@ template struct S_00e5c370_ArrayBase<S_00e5c370_Elem>;
 #include "fnv/decl/QuatResult.h"
 #include "fnv/decl/SinkOwner.h"
 #include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
-#include "fnv/decl/fnv_00e5c440__SearchObject.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00e5a000.h"
 #include "fnv/symbols_00e5b000.h"

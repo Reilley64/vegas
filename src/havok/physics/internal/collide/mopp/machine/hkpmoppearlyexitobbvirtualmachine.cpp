@@ -164,7 +164,6 @@ void BoundsWorker::FUN_00e645b0(const void* a, PointerArg b, const void* c, S_00
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppearlyexitobbvirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppearlyexitobbvirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <new>
-#include "fnv/decl/BoundsWorker.h"
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cc00e0.h"
 #include "fnv/decl/SinkOwner.h"

@@ -1150,7 +1150,6 @@ void hkpGravityGunEx::FUN_00e46080(GunTransform* a4, GunArg3* a3, DDCC60World* w
 // src/havok/physics/utilities/weapons/hkpgravitygun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpgravitygun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "fnv/decl/FUN_005616d0_Owner.h"
-#include "fnv/decl/GravityGun.h"
 #include "fnv/symbols_01011000.h"
 
 struct ObjE45

@@ -123,7 +123,7 @@ struct FUN_00ddfc30_cls
 // @fnv 0x00ddfc30
 HkDisplayConvexObj* FUN_00ddfc30_cls::FUN_00ddfc30(HkArrayRaw* apArray)
 {
-    int zero = 0;
+    void* zero = 0;
     if (m_pConvex == (HkDisplayConvexObj*)zero)
     {
         HkArrayPairBlock* pBlock = (HkArrayPairBlock*)zero;
@@ -133,11 +133,11 @@ HkDisplayConvexObj* FUN_00ddfc30_cls::FUN_00ddfc30(HkArrayRaw* apArray)
         {
             HkArrayPairBlock* p = (HkArrayPairBlock*)mem;
             *(void* volatile*)&p->m_arrA.m_pData = (void*)zero;
-            *(volatile int*)&p->m_arrA.m_iArrayLength = zero;
+            *(volatile int*)&p->m_arrA.m_iArrayLength = 0;
             unsigned int uiFlags = 0x80000000u;
             *(volatile unsigned int*)&p->m_arrA.m_uCapFlags = uiFlags;
             *(void* volatile*)&p->m_arrB.m_pData = (void*)zero;
-            *(volatile int*)&p->m_arrB.m_iArrayLength = zero;
+            *(volatile int*)&p->m_arrB.m_iArrayLength = 0;
             p->m_arrB.m_uCapFlags = uiFlags;
             pBlock = p;
         }
@@ -222,7 +222,6 @@ void Node::FUN_00de0f90(void* shape, XfResult* result)
 }
 
 // Moved from hkpshapedisplaybuilder_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
-#include "fnv/decl/FUN_00ddfc30_cls.h"
 #include "fnv/decl/hkMatrix4CD60.h"
 #include "fnv/decl/hkpCylinderShapeGetCylRadius.h"
 #include "fnv/symbols_00d5a000.h"

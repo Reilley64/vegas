@@ -3680,10 +3680,7 @@ void S00caefd0_Proxy::FUN_00caefd0(const S00caefd0_Vec& direction, S00caefd0_Sur
 
 // Moved from hkpcharacterproxy_ehsc_noehsc_variant.cpp (VEGAS-15).
 #include "fnv/decl/OwnerCD2A.h"
-#include "fnv/decl/S00cae900_Proxy.h"
-#include "fnv/decl/S_00cad500_This.h"
 #include "fnv/decl/SortableArray.h"
-#include "fnv/decl/fnv_00cacf80__ContactSolver.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_01076000.h"
 

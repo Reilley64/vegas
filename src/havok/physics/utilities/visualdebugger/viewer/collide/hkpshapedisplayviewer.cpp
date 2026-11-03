@@ -292,18 +292,18 @@ struct SpawnedBuf
 
 struct FUN_00d66080_cls
 {
-    int m_vptr00;
+    const void* m_vptr00;
     int unk04;
-    int m_vptr08;
+    const void* m_vptr08;
     int unk0c;
     int unk10;
     int unk14;
     int unk18;
     int unk1c;
-    int m_vptr20;
+    const void* m_vptr20;
     int unk24;
-    int m_vptr28;
-    int m_vptr2c;
+    const void* m_vptr28;
+    const void* m_vptr2c;
     int* m_pData;
     int m_iArrayLength;
     unsigned int m_uiObjectFlags;
@@ -885,11 +885,11 @@ struct Phantom_d65f : Base_d65f, Listener_d65f, Watch2_d65f
 // @fnv 0x00d66080
 void FUN_00d66080_cls::Destroy()
 {
-    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_010d1b04));
-    m_vptr08 = (int)&(*reinterpret_cast<int *>(&::DAT_010d1ae4));
-    m_vptr20 = (int)&(*reinterpret_cast<int *>(&::DAT_010d1ad4));
-    m_vptr28 = (int)&(*reinterpret_cast<int *>(&::DAT_010d1ab8));
-    m_vptr2c = (int)&(*reinterpret_cast<int *>(&::DAT_010d1aa8));
+    m_vptr00 = &::DAT_010d1b04;
+    m_vptr08 = &::DAT_010d1ae4;
+    m_vptr20 = &::DAT_010d1ad4;
+    m_vptr28 = &::DAT_010d1ab8;
+    m_vptr2c = &::DAT_010d1aa8;
 
     for (int i = m_iArrayLength - 1; i >= 0; --i)
     {
@@ -931,8 +931,8 @@ void FUN_00d66080_cls::Destroy()
         unsigned int& ruiFlags = m_uiObjectFlags;
         ruiFlags = 0x80000000u;
     }
-    m_vptr2c = (int)&(*reinterpret_cast<int *>(&::DAT_010ccf7c));
-    m_vptr28 = (int)&(*reinterpret_cast<int *>(&::str_0102f13c));
+    m_vptr2c = &::DAT_010ccf7c;
+    m_vptr28 = &::str_0102f13c;
     reinterpret_cast<struct ::FUN_00ddcc60 *>(this)->FUN_00ddcc60::~FUN_00ddcc60();
 }
 // Calls FindItemIndex on the owner object at this-0x20 and, if the result is non-negative, passes it to FUN_00d65fc0.
@@ -1901,9 +1901,7 @@ void S_00d65970_Obj::FUN_00d65970(S_00d65970_Arg* arg)
 #include "fnv/decl/FUN_00cc00e0.h"
 #include "fnv/decl/FUN_00ddfb70_cls.h"
 #include "fnv/decl/FUN_00de1d20.h"
-#include "fnv/decl/S_00d65970_Obj.h"
 #include "fnv/decl/SinkOwner.h"
-#include "fnv/decl/fnv_00d65750__Shell.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00ddf000.h"
 void* __cdecl FUN_00d65910(void* context);

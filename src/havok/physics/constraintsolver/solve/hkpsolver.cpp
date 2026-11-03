@@ -261,7 +261,6 @@ extern"C"HkBool32 __cdecl FUN_00d8d030(const SInfo&info,JSchema*schemas,SAccum*a
 // Moved from hkpsolver_gs_nogs_variant.cpp (VEGAS-15).
 #include <new>
 #include "fnv/decl/FUN_005609f0_shell.h"
-#include "fnv/decl/FUN_005dbf20.h"
 #include "fnv/symbols_00df0000.h"
 // src/havok/physics/constraintsolver/solve/hkpsolver.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/solve/hkpsolver.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.

@@ -4816,7 +4816,6 @@ void PulleyRow_use(PulleyRowQuery* in, PulleyRowSchema** cursor, PulleyRowGeomet
 // The .rdata double added to the first matrix element (0.25) lives in the
 // original image, so it is only declared here.
 // arg1: the six float vector
-#include "fnv/decl/FUN_00d71f90_cls.h"
 #include "fnv/symbols_00d6c000.h"
 static void WriteFloatRecord(WriterContext* object, float** cursor, WriterArgs args);
 void RecordWrite_use(WriterContext* object, float** cursor, WriterArgs args);

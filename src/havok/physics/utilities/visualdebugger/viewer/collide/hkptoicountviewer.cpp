@@ -1029,10 +1029,10 @@ void FUN_00d67c30_cls::FUN_00d67c30(ArgBlock* apBlock)
             {
                 uiHigh = 0xff;
             }
-            unsigned int uiLow = (uiFlags & (unsigned int)&(*reinterpret_cast<char *>(&::DAT_00ffffff))) + 1;
-            if (uiLow >= (unsigned int)&(*reinterpret_cast<char *>(&::DAT_00ffffff)))
+            unsigned int uiLow = (uiFlags & 0x00ffffffu) + 1;
+            if (uiLow >= 0x00ffffffu)
             {
-                uiLow = (unsigned int)&(*reinterpret_cast<char *>(&::DAT_00ffffff));
+                uiLow = 0x00ffffffu;
             }
             *pFlags = (uiHigh << 0x18) | uiLow;
         }

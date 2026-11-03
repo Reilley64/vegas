@@ -7463,7 +7463,6 @@ extern "C" DCEEntryInit* FUN_00dce930(void* storage, void*)
 // Moved from hkpsavecontactpointsutil_ehsc_noehsc_variant.cpp (VEGAS-15).
 #include "fnv/decl/ContainerD082.h"
 #include "fnv/decl/FUN_00cb18f0_t.h"
-#include "fnv/decl/fnv_00dce840__FUN_00dce840.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00d40000.h"
 void FUN_00dcdd80(void* a, S_00dcdd80_Item** items, int count, S_00dcdd80_Listener* listener);

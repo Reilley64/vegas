@@ -1437,7 +1437,7 @@ extern int DAT_010ea5dc;
 
 struct FUN_00e09450_cls
 {
-    int m_vptr00;
+    const void* m_vptr00;
     int unk04;
     int unk08;
     int unk0c;
@@ -1474,7 +1474,7 @@ FUN_00e09640_class* FUN_00e09640_class::FUN_00e09640(int flags)
 // @fnv 0x00e09450
 void FUN_00e09450_cls::DestroyAudioBuffer()
 {
-    m_vptr00 = (int)&DAT_010ea5dc;
+    m_vptr00 = &::DAT_010ea5dc;
     AudioHolder* pAudioHolder = (AudioHolder*)getMemoryRouter();
     AudioAllocator* pAudioAllocator = pAudioHolder->m_pAllocator;
     m_iArrayLength = 0;
@@ -1485,7 +1485,7 @@ void FUN_00e09450_cls::DestroyAudioBuffer()
     }
     m_pData = 0;
     m_uCapBits = 0x80000000u;
-    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr00 = &::DAT_0102e388;
 }
 
 int __cdecl FUN_00cbfe20(float v);
@@ -3558,8 +3558,6 @@ void Tree::FUN_00e08cc0(S_00e07da0_Node* node, int arg2, int arg3)
 }
 
 // Moved from hkpmoppdefaultassembler_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
-#include "fnv/decl/fnv_00e06db0__FUN_00e06db0_class.h"
-#include "fnv/decl/fnv_00e08470__S_00e08470_Class.h"
 void FUN_00e07b90(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vector* result);
 void __cdecl ResizeAudioStream(e083::Alloc* a, void* arr, int elemSize);
 static void FUN_00e08320(e083::PairArray* srcp, e083::PairArray* dst, int delta);
@@ -4116,8 +4114,6 @@ FUN_00e090c0::FUN_00e090c0(const MoppAssemblerSettings& ap, hkpMoppCodeGenerator
 }
 
 // Moved from hkpmoppdefaultassembler_rtm_variant.cpp (VEGAS-15).
-#include "fnv/decl/fnv_00e08040__TreeOptimizer.h"
-#include "fnv/decl/fnv_00e08240__FUN_00e08240_cls.h"
 static int FUN_00e08380(BvTree* tree, CodeCopySource* source, BvArray<int>* refs, FUN_00e065f0* destination);
 int copy_code_caller(BvTree* tree, CodeCopySource* source, BvArray<int>* refs, FUN_00e065f0* destination);
 

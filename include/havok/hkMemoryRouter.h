@@ -26,11 +26,13 @@ class hkMemoryAllocator
 // Offsets are the 32-bit release's.
 struct hkMemoryRouter
 {
-    char* m_stackCurrent;      // +0x0, next free byte of the thread's stack allocator
-    void* m_stack04;           // +0x4, rest of the stack allocator state
-    void* m_stack08;           // +0x8
-    hkMemoryAllocator* m_temp; // +0xc
-    hkMemoryAllocator* m_heap; // +0x10
+    char* m_stackCurrent;        // +0x0, next free byte of the thread's stack allocator
+    void* m_stack04;             // +0x4, rest of the stack allocator state
+    void* m_stack08;             // +0x8
+    hkMemoryAllocator* m_temp;   // +0xc
+    hkMemoryAllocator* m_heap;   // +0x10
+    hkMemoryAllocator* m_debug;  // +0x14
+    hkMemoryAllocator* m_solver; // +0x18
 
     hkMemoryAllocator& temp()
     {
@@ -40,6 +42,11 @@ struct hkMemoryRouter
     hkMemoryAllocator& heap()
     {
         return *m_heap;
+    }
+
+    hkMemoryAllocator& solver()
+    {
+        return *m_solver;
     }
 
     static hkMemoryRouter& getInstance()

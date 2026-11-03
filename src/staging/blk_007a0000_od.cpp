@@ -307,7 +307,7 @@ void* GlobalObject_007ab610::FUN_007ab640(unsigned int flags)
 
 
 // @fnv 0x007a1480
-int __cdecl FUN_007a1480()
+intptr_t __cdecl FUN_007a1480()
 {
     return DAT_011dea14;
 }

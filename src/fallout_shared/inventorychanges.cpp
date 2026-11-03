@@ -1422,6 +1422,17 @@ void VATS::FUN_009c8950(bool abForceQuit, bool abFinishCommandPlayback)
 
 struct FUN_004bd9d0_shell
 {
+    char pad000[0x180];
+    int m_eFirstWeaponModEffect;
+    int m_eSecondWeaponModEffect;
+    int m_eThirdWeaponModEffect;
+    float m_fModValueA1;
+    float m_fModValueA2;
+    float m_fModValueA3;
+    char pad198[0x14];
+    float m_fModValueB1;
+    float m_fModValueB2;
+    float m_fModValueB3;
     float FUN_004bd9d0(int a1, unsigned char a2);
 };
 
@@ -1433,33 +1444,33 @@ float FUN_004bd9d0_shell::FUN_004bd9d0(int a1, unsigned char auiSubIndex)
     {
         if (auiSubIndex == 0)
         {
-            return *(float*)((char*)this + 0x18c);
+            return m_fModValueA1;
         }
         else if (auiSubIndex == 1)
         {
-            return *(float*)((char*)this + 0x1ac);
+            return m_fModValueB1;
         }
     }
     else if (a1 == 2)
     {
         if (auiSubIndex == 0)
         {
-            return *(float*)((char*)this + 0x190);
+            return m_fModValueA2;
         }
         else if (auiSubIndex == 1)
         {
-            return *(float*)((char*)this + 0x1b0);
+            return m_fModValueB2;
         }
     }
     else if (a1 == 4)
     {
         if (auiSubIndex == 0)
         {
-            return *(float*)((char*)this + 0x194);
+            return m_fModValueA3;
         }
         else if (auiSubIndex == 1)
         {
-            return *(float*)((char*)this + 0x1b4);
+            return m_fModValueB3;
         }
     }
     return 0.0f;
@@ -1497,6 +1508,17 @@ struct FUN_004bcf00_stand
 };
 struct FUN_004bcf60_shell
 {
+    char pad000[0x180];
+    int m_eFirstWeaponModEffect;
+    int m_eSecondWeaponModEffect;
+    int m_eThirdWeaponModEffect;
+    float m_fModValueA1;
+    float m_fModValueA2;
+    float m_fModValueA3;
+    char pad198[0x14];
+    float m_fModValueB1;
+    float m_fModValueB2;
+    float m_fModValueB3;
     float GetEffectValue(int effect, unsigned char value);
 };
 // @fnv 0x004bcf00
@@ -1517,34 +1539,39 @@ int FUN_004bcf00_stand::GetModdedValue(bool abAddMod)
 // @fnv 0x004bcf60
 float FUN_004bcf60_shell::GetEffectValue(int effect, unsigned char value)
 {
-    if (*(int*)((char*)this + 0x180) == effect)
+    if (m_eFirstWeaponModEffect == effect)
     {
         if (!value)
-            return *(float*)((char*)this + 0x18c);
+            return m_fModValueA1;
         else if (value == 1)
-            return *(float*)((char*)this + 0x1ac);
+            return m_fModValueB1;
     }
-    else if (*(int*)((char*)this + 0x184) == effect)
+    else if (m_eSecondWeaponModEffect == effect)
     {
         if (!value)
-            return *(float*)((char*)this + 0x190);
+            return m_fModValueA2;
         else if (value == 1)
-            return *(float*)((char*)this + 0x1b0);
+            return m_fModValueB2;
     }
-    else if (*(int*)((char*)this + 0x188) == effect)
+    else if (m_eThirdWeaponModEffect == effect)
     {
         if (!value)
-            return *(float*)((char*)this + 0x194);
+            return m_fModValueA3;
         else if (value == 1)
-            return *(float*)((char*)this + 0x1b4);
+            return m_fModValueB3;
     }
     else
         return 0.0f;
     return 0.0f;
 }
 
+class TESObjectIMOD;
 struct FUN_004bd570_this
 {
+    char pad000[0x350];
+    TESObjectIMOD* m_pWeaponMod1;
+    TESObjectIMOD* m_pWeaponMod2;
+    TESObjectIMOD* m_pWeaponMod3;
     intptr_t FUN_004bd570(unsigned int);
 };
 // Returns the int stored at offset 0x350, 0x354 or 0x358 for slot 1, 2 or 4, otherwise 0.
@@ -1553,15 +1580,15 @@ intptr_t FUN_004bd570_this::FUN_004bd570(unsigned int slot)
 {
     if (slot == 1)
     {
-        return *(int*)((char*)this + 0x350);
+        return (std::intptr_t)m_pWeaponMod1;
     }
     else if (slot == 2)
     {
-        return *(int*)((char*)this + 0x354);
+        return (std::intptr_t)m_pWeaponMod2;
     }
     else if (slot == 4)
     {
-        return *(int*)((char*)this + 0x358);
+        return (std::intptr_t)m_pWeaponMod3;
     }
     else
     {

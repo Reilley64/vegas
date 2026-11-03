@@ -23,7 +23,28 @@ enum BS_FACEGEN_MORPH_TYPE
     MODIFIER = 2,
     CUSTOM = 3
 };
-template <class T> class NiTPointerList;
+template <class T> class NiTPointerList
+{
+  public:
+    void* m_pkHead;
+    void* m_pkTail;
+    unsigned int m_uiCount;
+};
+struct NiPoint3
+{
+    float x;
+    float y;
+    float z;
+    bool FUN_004390c0(const ::NiPoint3&);
+    static const ::NiPoint3 ZERO;
+};
+class RecursiveSpinLock
+{
+  public:
+    volatile unsigned int ownerThread;
+    volatile unsigned int lockCount;
+    void FUN_0040fba0();
+};
 class BSFaceGenKeyframe
 {
   public:
@@ -105,8 +126,8 @@ class BSFaceGenAnimationData
     virtual void vfn_ac();
     virtual void vfn_b0();
     virtual void vfn_b4(float, bool, bool, bool, bool, bool);
-    virtual void vfn_b8();
-    virtual void vfn_bc();
+    virtual void vfn_b8(float, bool, bool, bool, bool, bool);
+    virtual void vfn_bc(float, bool, bool, bool, bool);
     virtual void vfn_c0();
     virtual void vfn_c4();
     virtual void vfn_c8();
@@ -132,17 +153,49 @@ class BSFaceGenAnimationData
     virtual void vfn_118();
     virtual void vfn_11c();
     virtual void vfn_120();
-    char pad[8];
+    unsigned int refCount;
+    const char* name;
     BSFaceGenKeyframeMultiple* target;
-    void* unk10;
-    char pad14[0x80];
-    void* unk94;
-    char pad98[0x30];
-    void* unkc8;
-    char padcc[0x30];
-    void* unkfc;
-    char pad100[0x89];
+    BSFaceGenKeyframeMultiple expressionKeyframe;
+    BSFaceGenKeyframeMultiple expressionBase;
+    BSFaceGenKeyframeMultiple modifierBase;
+    BSFaceGenKeyframeMultiple phonemeBase;
+    BSFaceGenKeyframeMultiple customBase;
+    BSFaceGenKeyframeMultiple expressionValues;
+    NiTPointerList<BSFaceGenKeyframe*> modifierKeyframes;
+    BSFaceGenKeyframeMultiple modifierKeyframe;
+    BSFaceGenKeyframeMultiple modifierValues;
+    NiTPointerList<BSFaceGenKeyframe*> phonemeKeyframes;
+    BSFaceGenKeyframeMultiple phonemeKeyframe;
+    BSFaceGenKeyframeMultiple phonemeValues;
+    NiTPointerList<BSFaceGenKeyframe*> customKeyframes;
+    BSFaceGenKeyframeMultiple customKeyframe;
+    BSFaceGenKeyframeMultiple customValues;
+    NiPoint3 unk124;
+    float unk130;
+    float unk134;
+    float unk138;
+    float unk13c;
+    float eyeHeading;
+    float eyePitch;
+    int unk148;
+    bool unk14c, unk14d, unk14e, unk14f;
+    float unk150[9];
+    int unk174;
+    float unk178;
+    float unk17c;
+    int unk180;
+    int unk184;
+    bool unk188;
     bool changed, p18a, dirty, p18c, p18d, dead;
+    bool unk18f;
+    bool unk190;
+    bool unk191, unk192, unk193;
+    float unk194;
+    int unk198;
+    int unk19c;
+    RecursiveSpinLock lock;
+    char pad1a8[0x18];
     void AddModifierKeyframe(float*, float);
     void AddKeyframe(BS_FACEGEN_MORPH_TYPE, float, bool);
     void InsertPhonemeKeyframe(float*, float);

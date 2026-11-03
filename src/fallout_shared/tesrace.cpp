@@ -638,7 +638,7 @@ int __cdecl NormalizePartIndex(int aePart)
         return epart;
 }
 
-struct FUN_00610430_shell : public TESForm
+struct FUN_00610430_shell : ::TESRace
 {
     char* GetStringOrEmpty();
 };
@@ -650,7 +650,7 @@ struct Flt_00610430
 // @fnv 0x00610430
 char* FUN_00610430_shell::GetStringOrEmpty()
 {
-    return ((char *)(::FUN_00559450((int *)(((Flt_00610430*)((char*)this + 0x50c)))))) ? ((char *)(::FUN_00559450((int *)(((Flt_00610430*)((char*)this + 0x50c)))))) : (char *)"";
+    return ((char *)(::FUN_00559450((int *)(((Flt_00610430*)&this->strEditorID))))) ? ((char *)(::FUN_00559450((int *)(((Flt_00610430*)&this->strEditorID))))) : (char *)"";
 }
 
 struct FUN_00613100_shell
@@ -682,7 +682,7 @@ struct BSStringT_char
 {
 };
 
-struct FUN_00615330_shell
+struct FUN_00615330_shell : ::TESRace
 {
     bool SetWeaponName(char const* aWeapon);
 };
@@ -694,11 +694,11 @@ bool FUN_00615330_shell::SetWeaponName(char const* aWeapon)
     unsigned int len = ::FUN_0044a670(aWeapon) + 1;
     char* buf = (char*)_alloca(len);
     TaskQueueInterface::CopyStringToBuffer(buf, len, aWeapon);
-    if (reinterpret_cast<::B408A80String *>((void *)(((BSStringT_char*)((char*)this + 0x50c))))->FUN_00408a80(buf, true) == 0)
+    if (reinterpret_cast<::B408A80String *>((void *)(((BSStringT_char*)&this->strEditorID)))->FUN_00408a80(buf, true) == 0)
     {
         return false;
     }
-    reinterpret_cast<::TextString *>((((BSStr*)((char*)this + 0x50c))))->FUN_004037f0(buf, 0);
+    reinterpret_cast<::TextString *>((((BSStr*)&this->strEditorID)))->FUN_004037f0(buf, 0);
     return true;
 }
 

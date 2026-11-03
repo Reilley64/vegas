@@ -458,7 +458,7 @@ struct NiFormArray
     unsigned int GetIndexOfForm(TESForm* form);
 };
 
-struct FUN_005ff520_shell
+struct FUN_005ff520_shell : ::TESFaction
 {
     unsigned int FUN_005ff520(unsigned int flags);
 };
@@ -467,9 +467,9 @@ struct FUN_005ff520_shell
 unsigned int FUN_005ff520_shell::FUN_005ff520(unsigned int apForm)
 {
     unsigned int index = 0xffffffff;
-    if (*reinterpret_cast<NiFormArray**>(reinterpret_cast<char*>(this) + 0x40))
+    if (*reinterpret_cast<NiFormArray**>(&this->m_kRankDataList.m_pkNext))
     {
-        index = (*reinterpret_cast<NiFormArray**>(reinterpret_cast<char*>(this) + 0x40))
+        index = (*reinterpret_cast<NiFormArray**>(&this->m_kRankDataList.m_pkNext))
                     ->GetIndexOfForm(reinterpret_cast<TESForm*>(apForm));
     }
     return index;
@@ -506,7 +506,7 @@ struct S24
 {
     void WriteReactionList(unsigned int);
 };
-struct FUN_005fd5c0_shell
+struct FUN_005fd5c0_shell : ::TESFaction
 {
     void FUN_005fd5c0(unsigned int);
 };
@@ -514,9 +514,9 @@ struct FUN_005fd5c0_shell
 void FUN_005fd5c0_shell::FUN_005fd5c0(unsigned int aiFlags)
 {
     reinterpret_cast<::PC7d *>((((FUN_0051b070_shell*)this)))->FUN_00484c20(aiFlags);
-    ((S24*)((char*)this + 0x24))->WriteReactionList(aiFlags);
+    ((S24*)static_cast<TESReactionForm *>(this))->WriteReactionList(aiFlags);
     if (aiFlags & 2)
-        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((std::uintptr_t)((char*)this + 0x34)), 4);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((std::uintptr_t)((char*)&this->data)), 4);
 }
 
 struct TESFormStub
@@ -528,7 +528,7 @@ struct STR24
 struct STR00
 {
 };
-struct FUN_005fd610_shell
+struct FUN_005fd610_shell : ::TESFaction
 {
     void FUN_005fd610(unsigned int, std::uintptr_t);
 };
@@ -536,9 +536,9 @@ struct FUN_005fd610_shell
 void FUN_005fd610_shell::FUN_005fd610(unsigned int aiFlags, std::uintptr_t aiCurrentFlags)
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((((TESFormStub*)this)))->FUN_00484c50(aiFlags, aiCurrentFlags);
-    reinterpret_cast<::TESReactionFormLoad *>((((STR24*)((char*)this + 0x24))))->LoadReactions(aiFlags, (::BGSLoadFormBuffer *)(aiCurrentFlags));
+    reinterpret_cast<::TESReactionFormLoad *>((((STR24*)static_cast<TESReactionForm *>(this))))->LoadReactions(aiFlags, (::BGSLoadFormBuffer *)(aiCurrentFlags));
     if (aiFlags & 2)
-        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00((void*)((char*)this + 0x34), 4);
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00((void*)((char*)&this->data), 4);
 }
 
 struct Holder
@@ -769,7 +769,7 @@ struct BGSSaveFormBuffer
 {
     FormChangeMask GetChangeFlags(unsigned int);
 };
-struct FUN_005fd690_s
+struct FUN_005fd690_s : ::TESFaction
 {
     void FUN_005fd690(BGSSaveFormBuffer* buffer);
 };
@@ -777,13 +777,13 @@ struct FUN_005fd690_s
 void FUN_005fd690_s::FUN_005fd690(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<::FakeForm *>((((BGSSaveFormBuffer*)this)))->SaveIfChanged(buffer);
-    reinterpret_cast<::FUN_0048c9d0_Class *>((((BGSSaveFormBuffer*)((char*)this + 0x24))))->FUN_0048c9d0((::FUN_0048c9d0_SaveBuffer *)(buffer));
+    reinterpret_cast<::FUN_0048c9d0_Class *>((((BGSSaveFormBuffer*)static_cast<TESReactionForm *>(this))))->FUN_0048c9d0((::FUN_0048c9d0_SaveBuffer *)(buffer));
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0(2))
-        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x34, 4, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)&this->data, 4, 0);
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
-        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x44, 4, 0);
-        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x48, 4, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)&this->m_iFirstFactionValue, 4, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)&this->m_iSecondFactionValue, 4, 0);
     }
 }
 

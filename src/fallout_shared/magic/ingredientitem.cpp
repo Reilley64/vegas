@@ -51,7 +51,7 @@ void IngredientItem::InitItem()
     MagicItemObject::InitItem();
 }
 
-struct FUN_00409a30_shell
+struct FUN_00409a30_shell : ::IngredientItem
 {
     bool FUN_00409a30(unsigned int aFlag);
 };
@@ -60,7 +60,7 @@ struct FUN_00409a30_shell
 // @fnv 0x00409a30
 bool FUN_00409a30_shell::FUN_00409a30(unsigned int aFlag)
 {
-    return (reinterpret_cast<unsigned char*>(this)[0xa0] & aFlag) != 0;
+    return (this->data.m_ucEntryType & aFlag) != 0;
 }
 
 struct BipedModelForm
@@ -126,7 +126,7 @@ struct FUN_0048e370_obj
 {
 };
 
-struct FUN_00409c70_shell
+struct FUN_00409c70_shell : ::IngredientItem
 {
     void FUN_00409c70();
 };

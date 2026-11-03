@@ -518,7 +518,7 @@ struct FUN_00485e00_shell
     void FUN_00485e00(void);
 };
 
-struct FUN_00402f10_shell
+struct FUN_00402f10_shell : ::AlchemyItem
 {
     void FUN_00402f10();
 };

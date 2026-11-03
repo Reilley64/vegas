@@ -1564,7 +1564,7 @@ void FUN_004696f0_shell::FUN_004696f0(unsigned int value)
 template <int N> struct EndianSizeTag
 {
 };
-struct FUN_00470650_shell
+struct FUN_00470650_shell : ::FormRecordHeader
 {
     void FUN_00470650();
 };
@@ -1572,12 +1572,12 @@ struct FUN_00470650_shell
 void FUN_00470650_shell::FUN_00470650()
 {
     ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)((char*)this + 4)));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)((char*)this + 8)));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)((char*)this + 12)));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)((char*)this + 16)));
-    ::FUN_00407a90((short *)(unsigned short *)((unsigned short*)((char*)this + 20)));
-    ::FUN_00407a90((short *)(unsigned short *)((unsigned short*)((char*)this + 22)));
+    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)&this->length));
+    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)&this->flags));
+    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)&this->iFormID));
+    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)&this->m_uiVersionControlInfo));
+    ::FUN_00407a90((short *)(unsigned short *)(&this->m_usFormVersion));
+    ::FUN_00407a90((short *)(unsigned short *)(&this->m_usHeaderUnknown));
 }
 
 struct DummyPointerMap

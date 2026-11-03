@@ -157,7 +157,7 @@ struct DoorPart3c
 {
 };
 
-struct FUN_0050a8e0_shell
+struct FUN_0050a8e0_shell : ::TESLevCreature
 {
     void FUN_0050a8e0();
 };

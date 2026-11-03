@@ -211,7 +211,7 @@ struct Point3_12
     int a, b, c;
 };
 
-struct StandInShell
+struct StandInShell : PathingLocation
 {
     StandInShell* FUN_006dcc40(void* other);
 };
@@ -219,16 +219,16 @@ struct StandInShell
 // @fnv 0x006dcc40
 StandInShell* StandInShell::FUN_006dcc40(void* other)
 {
-    *(void**)this = (void*)&DAT_0102583c;
-    (void *)(((StandIn6815c0*)((char*)this + 4)));
-    *(Point3_12*)((char*)this + 4) = *(Point3_12*)((char*)other + 4);
-    *(int*)((char*)this + 0x10) = *(int*)((char*)other + 0x10);
-    *(int*)((char*)this + 0x14) = *(int*)((char*)other + 0x14);
-    *(int*)((char*)this + 0x18) = *(int*)((char*)other + 0x18);
-    *(int*)((char*)this + 0x1c) = *(int*)((char*)other + 0x1c);
-    *(int*)((char*)this + 0x20) = *(int*)((char*)other + 0x20);
-    *(short*)((char*)this + 0x24) = *(short*)((char*)other + 0x24);
-    *(char*)((char*)this + 0x26) = *(char*)((char*)other + 0x26);
+    const PathingLocation* source = (const PathingLocation*)other;
+    m_ppVirtualMethodTable = (void**)&DAT_0102583c;
+    *(Point3_12*)&Location = *(const Point3_12*)&source->Location;
+    m_pLocationNavMesh = source->m_pLocationNavMesh;
+    pNavMeshInfoArray = source->pNavMeshInfoArray;
+    pCell = source->pCell;
+    m_pContainingWorldspace = source->m_pContainingWorldspace;
+    m_uiPathingFlags = source->m_uiPathingFlags;
+    m_usTriangleID = source->m_usTriangleID;
+    uiFlags = source->uiFlags;
     return this;
 }
 
@@ -259,7 +259,7 @@ PathingLocation* FUN_006dcf20(PathingLocation* self, PtrLoc aLocation, PtrNav ap
     if (self->m_pContainingWorldspace)
     {
         self->pCell = 0;
-        self->m_uiPathingFlags = *(unsigned int*)((const char*)apNavMeshInfo.p + 0xc);
+        self->m_uiPathingFlags = apNavMeshInfo.p->uiUnk0C;
     }
     else
     {
@@ -369,7 +369,7 @@ void FUN_006dd3e0_shell::FUN_006dd3e0(const NavMeshInfo* mesh)
     if (m_pContainingWorldspace)
     {
         pCell = 0;
-        m_uiPathingFlags = *(unsigned int*)((char*)mesh + 0xc);
+        m_uiPathingFlags = mesh->uiUnk0C;
     }
     else
     {

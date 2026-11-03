@@ -197,28 +197,28 @@
 // @fnv 0x006c4f70
 void NavMeshObstacleManager::AddProcessedTask(ObstacleTaskData* task)
 {
-    reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)this + 0x160))))->FUN_0040fbf0((char *)("NavMeshObstacleManager::AddProcessedTask()"));
-    reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<NavMeshInfo*, 1024>*)((char*)this + 0x14c))))->FUN_007cb2e0((unsigned int *)&((NavMeshInfo*&)task));
-    ((RecursiveSpinLock*)((char*)this + 0x160))->FUN_0040fba0();
+    reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)(&this->m_kTaskLock))))->FUN_0040fbf0((char *)("NavMeshObstacleManager::AddProcessedTask()"));
+    reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<NavMeshInfo*, 1024>*)(&this->m_kProcessedTasks))))->FUN_007cb2e0((unsigned int *)&((NavMeshInfo*&)task));
+    ((RecursiveSpinLock*)(&this->m_kTaskLock))->FUN_0040fba0();
 }
 // @fnv 0x006c47e0
 void NavMeshObstacleManager::ClearObstacles()
 {
-    BSSimpleList<BGSPerkEntry*>* item = (BSSimpleList<BGSPerkEntry*>*)((char*)this + 0x34);
+    BSSimpleList<BGSPerkEntry*>* item = (BSSimpleList<BGSPerkEntry*>*)(&this->m_kPendingList);
     while (item && !((BSSimpleList<BGSCameraShot*>*)item)->IsEmpty())
     {
         unsigned int auiFormId = (unsigned int)(std::uintptr_t)(item->m_item);
         item = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((item))->FUN_00726070()));
         NiPointer<AnimIdle> spReference((AnimIdle*)0);
         if (((NiTMapBase<DFALL<NiTMapItem<bhkRigidBody*, NiPointer<ObstacleData> > >, bhkRigidBody*,
-                         NiPointer<ObstacleData> >*)((char*)this + 0x1c))
+                         NiPointer<ObstacleData> >*)(&this->m_kObstacleMap))
                 ->GetAt((bhkRigidBody*)(std::uintptr_t)auiFormId, (NiPointer<ObstacleData>&)spReference))
         {
             for (unsigned int i = 0;
                  i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<SandboxProcedureData, 1024>*)((char*)(AnimIdle*)spReference + 0xc))))->GetName()));
                  i++)
             {
-                reinterpret_cast<::ListReader *>((((BSSimpleList<NiPointer<ObstacleData> >*)((char*)this + 0x3c))))->FUN_00631620((const ::NodeValue &)((const NiPointer<
+                reinterpret_cast<::ListReader *>((((BSSimpleList<NiPointer<ObstacleData> >*)(&this->m_kActivatedObstacles))))->FUN_00631620((const ::NodeValue &)((const NiPointer<
                               ObstacleData>&)((NiTArray<TESObjectREFR*,
                                                         NiTNewInterface<TESObjectREFR*> >*)((char*)(AnimIdle*)
                                                                                                 spReference +
@@ -228,7 +228,7 @@ void NavMeshObstacleManager::ClearObstacles()
         }
         RemoveObstaclesForReference(auiFormId);
     }
-    reinterpret_cast<::FileMatchList *>((((BSSimpleList<ActorCause*>*)((char*)this + 0x34))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((((BSSimpleList<ActorCause*>*)(&this->m_kPendingList))))->RemoveAll();
 }
 
 struct S4ee810
@@ -300,12 +300,12 @@ struct Struct_124
 // @fnv 0x006c07d0
 bool FUN_006c07d0_shell::FUN_006c07d0()
 {
-    if (!::GetTaskletManager().GetTaskletValue((char*)this + 0x128))
+    if (!::GetTaskletManager().GetTaskletValue(&this->m_uiTasklet))
         return false;
-    if (!((Struct_128*)((char*)this + 0x128))->FUN_006c08e0())
+    if (!((Struct_128*)(&this->m_uiTasklet))->FUN_006c08e0())
         return false;
-    *(Struct_120**)((char*)this + 0x120) = new Struct_120;
-    *(Struct_124**)((char*)this + 0x124) = new Struct_124;
+    *(Struct_120**)(&this->m_pTaskList120) = new Struct_120;
+    *(Struct_124**)(&this->m_pTaskList124) = new Struct_124;
     return true;
 }
 
@@ -677,10 +677,10 @@ namespace fnv_006c44d0 {
 bool FUN_006c44d0_shell::FUN_006c44d0()
 {
     bool bNavmeshesUpdated = false;
-    unsigned int icount = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)((char*)this + 0x14c))))->GetName()));
+    unsigned int icount = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)(&this->m_kProcessedTasks))))->GetName()));
     for (unsigned int t = 0; t < icount; ++t)
     {
-        unsigned int ptask = ((BSSimpleArray<unsigned int, 1024>*)((char*)this + 0x14c))->GetAt(t);
+        unsigned int ptask = ((BSSimpleArray<unsigned int, 1024>*)(&this->m_kProcessedTasks))->GetAt(t);
         if (reinterpret_cast<::ObstacleTaskShell *>((ptask))->FUN_006c85e0())
         {
             bNavmeshesUpdated = true;
@@ -701,14 +701,14 @@ bool _ref_008256d0(void* pThis);
 // @fnv 0x006c4900
 bool FUN_006c4900_shell::FUN_006c4900()
 {
-    BSSimpleList<int>* pCurrentElementNext = reinterpret_cast<BSSimpleList<int>*>(reinterpret_cast<char*>(this) + 0x180);
+    BSSimpleList<int>* pCurrentElementNext = reinterpret_cast<BSSimpleList<int>*>((&this->m_kList180));
     while (pCurrentElementNext && !_ref_008256d0(pCurrentElementNext))
     {
         int meshID = pCurrentElementNext->m_item;
         ::FUN_00694500(meshID, 0);
         pCurrentElementNext = ((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
     }
-    reinterpret_cast<::FileMatchList *>((reinterpret_cast<BSSimpleList<int>*>(reinterpret_cast<char*>(this) + 0x180)))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((reinterpret_cast<BSSimpleList<int>*>((&this->m_kList180))))->RemoveAll();
     return true;
 }
 
@@ -835,21 +835,21 @@ void FUN_006c0f10_shell::UpdateDoorObstacle(TESObjectREFR* apDoorRef)
     }
 
     GlobalObject_00633c90 spdummy(0);
-    if (!reinterpret_cast<::Map62d0 *>((void *)(((DoorMapType*)((char*)this + 0x100))))->FUN_006c62d0((std::uintptr_t)(((::bhkRigidBody *)(reinterpret_cast<::FUN_0084e3a0_Class *>((apDoorRef))->FUN_0084e3a0()))), (void **)&(*(NiPointer<ObstacleData>*)&spdummy)))
+    if (!reinterpret_cast<::Map62d0 *>((void *)(((DoorMapType*)(&this->m_kDoorObstacles))))->FUN_006c62d0((std::uintptr_t)(((::bhkRigidBody *)(reinterpret_cast<::FUN_0084e3a0_Class *>((apDoorRef))->FUN_0084e3a0()))), (void **)&(*(NiPointer<ObstacleData>*)&spdummy)))
     {
         Actor* id1 = (Actor*)((::bhkRigidBody *)(reinterpret_cast<::FUN_0084e3a0_Class *>((apDoorRef))->FUN_0084e3a0()));
-        if (reinterpret_cast<::RefList *>((((BSSimpleList<Actor*>*)((char*)this + 0xf8))))->FUN_005f65d0((void **)&(id1)))
+        if (reinterpret_cast<::RefList *>((((BSSimpleList<Actor*>*)(&this->m_kChangedDoors))))->FUN_005f65d0((void **)&(id1)))
         {
             bhkRigidBody* id2 = ((::bhkRigidBody *)(reinterpret_cast<::FUN_0084e3a0_Class *>((apDoorRef))->FUN_0084e3a0()));
-            reinterpret_cast<::ItemChangeListNode *>((((Call_00905330*)((char*)this + 0xf8))))->FUN_00905330((*(::InventoryStackRecord *const *)(&id2)));
+            reinterpret_cast<::ItemChangeListNode *>((((Call_00905330*)(&this->m_kChangedDoors))))->FUN_00905330((*(::InventoryStackRecord *const *)(&id2)));
         }
     }
 
-    if (!reinterpret_cast<::Map62d0 *>((void *)(((DoorMapType*)((char*)this + 0x110))))->FUN_006c62d0((std::uintptr_t)(((::bhkRigidBody *)(reinterpret_cast<::FUN_0084e3a0_Class *>((apDoorRef))->FUN_0084e3a0()))), (void **)&(*(NiPointer<ObstacleData>*)&spdummy)))
+    if (!reinterpret_cast<::Map62d0 *>((void *)(((DoorMapType*)(&this->m_kDoorObstacleArrays))))->FUN_006c62d0((std::uintptr_t)(((::bhkRigidBody *)(reinterpret_cast<::FUN_0084e3a0_Class *>((apDoorRef))->FUN_0084e3a0()))), (void **)&(*(NiPointer<ObstacleData>*)&spdummy)))
     {
-        if (!reinterpret_cast<::RefList *>((((BSSimpleList<Actor*>*)((char*)this + 0xf0))))->FUN_005f65d0((void **)&(*(Actor**)&apDoorRef)))
+        if (!reinterpret_cast<::RefList *>((((BSSimpleList<Actor*>*)(&this->m_kOpenDoors))))->FUN_005f65d0((void **)&(*(Actor**)&apDoorRef)))
         {
-            ((BSSimpleList<char const*>*)((char*)this + 0xf0))->AddHead(*(char const**)&apDoorRef);
+            ((BSSimpleList<char const*>*)(&this->m_kOpenDoors))->AddHead(*(char const**)&apDoorRef);
         }
     }
 }
@@ -1004,25 +1004,25 @@ struct FUN_006c4ec0_vt
 void ProcessObstacleTasks(NavMeshObstacleManager* pObstacleManager)
 {
     void* taskIt;
-    taskIt = ((BGSReconstructFormsInAllFilesMap*)((char*)pObstacleManager + 0x12c))->GetFirstPos();
+    taskIt = ((BGSReconstructFormsInAllFilesMap*)(&pObstacleManager->m_kTaskMap))->GetFirstPos();
     while (taskIt)
     {
         ObstacleTaskData* ptaskData;
         TESFile* formID;
-        reinterpret_cast<::C6b7f20_Map *>((((BGSReconstructFormsInAllFilesMap*)((char*)pObstacleManager + 0x12c))))->FUN_006b7f20((::C6b7f20_Node **)&(taskIt), (unsigned int *)&(formID), (void **)&((BGSReconstructFormsInFileMap*&)ptaskData));
+        reinterpret_cast<::C6b7f20_Map *>((((BGSReconstructFormsInAllFilesMap*)(&pObstacleManager->m_kTaskMap))))->FUN_006b7f20((::C6b7f20_Node **)&(taskIt), (unsigned int *)&(formID), (void **)&((BGSReconstructFormsInFileMap*&)ptaskData));
         if (*((ProcessLists*)&g_011d71a0)->GetLifeStateControlFlag())
         {
             pObstacleManager->ProcessObstacleTask(ptaskData);
         }
         else
         {
-            reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)pObstacleManager + 0x160))))->FUN_0040fbf0((char *)(0));
-            reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<void*, 1024>*)((char*)pObstacleManager + 0x13c))))->FUN_007cb2e0((unsigned int *)&((void*&)ptaskData));
-            ((RecursiveSpinLock*)((char*)pObstacleManager + 0x160))->FUN_0040fba0();
+            reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)(&pObstacleManager->m_kTaskLock))))->FUN_0040fbf0((char *)(0));
+            reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<void*, 1024>*)(&pObstacleManager->m_kBackgroundTasks))))->FUN_007cb2e0((unsigned int *)&((void*&)ptaskData));
+            ((RecursiveSpinLock*)(&pObstacleManager->m_kTaskLock))->FUN_0040fba0();
             ((FUN_006c4ec0_vt*)ptaskData)->v2();
         }
     }
-    reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<unsigned int, unsigned int>*)((char*)pObstacleManager + 0x12c))))->FUN_00438af0();
+    reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<unsigned int, unsigned int>*)(&pObstacleManager->m_kTaskMap))))->FUN_00438af0();
 }
 
 namespace fnv_006c5ef0 {
@@ -1219,7 +1219,7 @@ struct G2
     void AddHead(int**);
 };
 
-struct FUN_006c1150_shell
+struct FUN_006c1150_shell : public NavMeshObstacleManager
 {
     void FUN_006c1150(int* apParam);
 };
@@ -1227,16 +1227,15 @@ struct FUN_006c1150_shell
 // @fnv 0x006c1150
 void FUN_006c1150_shell::FUN_006c1150(int* apParam)
 {
-    ((G2*)((char*)this + 0x188))->AddHead(&apParam);
+    ((G2*)(&this->m_kList188))->AddHead(&apParam);
 }
 
 struct FUN_006c5ff0_cls
 {
 };
 
-struct FUN_006c1c70_shell
+struct FUN_006c1c70_shell : public NavMeshObstacleManager
 {
-    char pad[0x60];
     void FUN_006c1c70(std::intptr_t arg);
 };
 
@@ -1247,13 +1246,13 @@ struct FUN_006c5ff0_shell
 // @fnv 0x006c1c70
 void FUN_006c1c70_shell::FUN_006c1c70(std::intptr_t arg)
 {
-    reinterpret_cast<::FUN_006c5ff0_shell *>((((FUN_006c5ff0_cls*)((char*)this + 0x60))))->FUN_006c5ff0(&arg);
+    reinterpret_cast<::FUN_006c5ff0_shell *>((((FUN_006c5ff0_cls*)(&this->m_kQueue60))))->FUN_006c5ff0(&arg);
 }
 
 void FUN_006c5ff0_shell::FUN_006c5ff0(void* apArg)
 {}
 
-struct FUN_006c1c90_shell
+struct FUN_006c1c90_shell : public NavMeshObstacleManager
 {
     void ForwardToSubObject(void* apArg);
 };
@@ -1261,7 +1260,7 @@ struct FUN_006c1c90_shell
 // @fnv 0x006c1c90
 void FUN_006c1c90_shell::ForwardToSubObject(void* apArg)
 {
-    ((FUN_006c5ff0_shell*)((char*)this + 0xa0))->FUN_006c5ff0(&apArg);
+    ((FUN_006c5ff0_shell*)(&this->m_kQueueA0))->FUN_006c5ff0(&apArg);
 }
 
 struct ScriptLocalsX
@@ -1523,7 +1522,7 @@ struct G2
 {
     void AddHead(int*);
 };
-struct Mgr006c0c30
+struct Mgr006c0c30 : public ::NavMeshObstacleManager
 {
     void FUN_006c0c30(Actor*);
 };
@@ -1533,8 +1532,8 @@ void Mgr006c0c30::FUN_006c0c30(Actor* apRef)
 {
     if (!*(unsigned char*)(((SettingT_GameSettingCollection_*)&::g_011d73e4)->Bool()))
         return;
-    if (!reinterpret_cast<::RefList *>((((LH*)((char*)this + 0x2c))))->FUN_005f65d0((void **)&(apRef)))
-        ((G2*)((char*)this + 0x2c))->AddHead((int*)&apRef);
+    if (!reinterpret_cast<::RefList *>((((LH*)(&this->m_kAddedReferences))))->FUN_005f65d0((void **)&(apRef)))
+        ((G2*)(&this->m_kAddedReferences))->AddHead((int*)&apRef);
 }
 }  // namespace fnv_006c0c30
 
@@ -1543,15 +1542,14 @@ struct G2
 {
     void AddHead(int**);
 };
-struct FUN_006c1130_shell
+struct FUN_006c1130_shell : public ::NavMeshObstacleManager
 {
-    G2 m;
     void FUN_006c1130(int* p);
 };
 // @fnv 0x006c1130
 void FUN_006c1130_shell::FUN_006c1130(int* pItem)
 {
-    ((G2*)((char*)this + 0x180))->AddHead(&pItem);
+    ((G2*)(&this->m_kList180))->AddHead(&pItem);
 }
 }  // namespace fnv_006c1130
 
@@ -1602,15 +1600,17 @@ struct C00449f80
 };
 struct C006c6030
 {
+    unsigned char layoutPadding0[0x20];
+    RecursiveSpinLock m_kLock;
     bool FUN_006c6030(void*);
 };
 // Locks the object at offset 0x20, calls FUN_00449f80 on a1 and FUN_006c6fe0 on the result, unlocks, and returns that bool.
 // @fnv 0x006c6030
 bool C006c6030::FUN_006c6030(void* apArg)
 {
-    reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)this + 0x20))))->FUN_0040fbf0((char *)(0));
+    reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)(&this->m_kLock))))->FUN_0040fbf0((char *)(0));
     bool b = reinterpret_cast<::QueueConsumer *>((((C00449f80*)this)->FUN_00449f80(apArg)))->FUN_006c6fe0({});
-    ((RecursiveSpinLock*)((char*)this + 0x20))->FUN_0040fba0();
+    ((RecursiveSpinLock*)(&this->m_kLock))->FUN_0040fba0();
     return b;
 }
 
@@ -1914,20 +1914,20 @@ struct List_009e03e0
 // @fnv 0x006c47e0
 void FUN_006c47e0_shell::FUN_006c47e0()
 {
-    UList* pNode = (UList*)((char*)this + 0x34);
+    UList* pNode = (UList*)(&this->m_kPendingList);
     while (pNode && !_ref_008256d0(pNode))
     {
         unsigned int prefID = *((unsigned int *)((void *)(pNode)));
         pNode = (UList*)((reinterpret_cast<::Callees *>((void *)(((GridArray*)pNode)))->FUN_00726070()));
         GO spArray(0);
-        if (reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 0x1c))))->FUN_006c62d0((std::uintptr_t)prefID, (void **)&(spArray)))
+        if (reinterpret_cast<::Map62d0 *>((((FGModelMap*)(&this->m_kObstacleMap))))->FUN_006c62d0((std::uintptr_t)prefID, (void **)&(spArray)))
         {
             for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((std::uintptr_t)*(void**)&spArray + 0xc))))->GetName())); i++)
-                reinterpret_cast<::ListReader *>((((BSSimpleList<NiPointer<BSTempEffect> >*)((char*)this + 0x3c))))->FUN_00631620((const ::NodeValue &)(*(NiPointer<BSTempEffect>*)((Arr*)((std::uintptr_t)*(void**)&spArray + 0xc))->GetAt(i)));
+                reinterpret_cast<::ListReader *>((((BSSimpleList<NiPointer<BSTempEffect> >*)(&this->m_kActivatedObstacles))))->FUN_00631620((const ::NodeValue &)(*(NiPointer<BSTempEffect>*)((Arr*)((std::uintptr_t)*(void**)&spArray + 0xc))->GetAt(i)));
         }
         RemoveObstaclesForReference(prefID);
     }
-    reinterpret_cast<::FileMatchList *>((((List_009e03e0*)((char*)this + 0x34))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((((List_009e03e0*)(&this->m_kPendingList))))->RemoveAll();
 }
 }  // namespace fnv_006c47e0
 
@@ -1991,15 +1991,15 @@ struct FUN_006c5ef0_shell
 bool FUN_006c4fb0_shell::ProcessDoorObstacles()
 {
     UNode* pCurrentElementNext;
-    if (_ref_008256d0((char*)this + 0xf8))
+    if (_ref_008256d0((void*)&this->m_kChangedDoors))
         return false;
-    pCurrentElementNext = (UNode*)((char*)this + 0xf8);
+    pCurrentElementNext = (UNode*)(&this->m_kChangedDoors);
     while (pCurrentElementNext)
     {
         unsigned int doorId = *((unsigned int *)((void *)(pCurrentElementNext)));
         pCurrentElementNext = ((::fnv_006c4fb0::UNode *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         GO spArray(0);
-        if (reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 0x110))))->FUN_006c62d0((std::uintptr_t)doorId, (void **)&(spArray)))
+        if (reinterpret_cast<::Map62d0 *>((((FGModelMap*)(&this->m_kDoorObstacleArrays))))->FUN_006c62d0((std::uintptr_t)doorId, (void **)&(spArray)))
         {
             unsigned int i;
             for (i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((std::uintptr_t)*(void**)&spArray + 0xc))))->GetName())); i++)
@@ -2015,11 +2015,11 @@ bool FUN_006c4fb0_shell::ProcessDoorObstacles()
                                  ->GetAt(j))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(*((Arr*)((std::uintptr_t)*(void**)&spArray + 0xc))->GetAt(i)), (::OBSTACLE_TASK_TYPE)(0x40));
                 }
             }
-            reinterpret_cast<::NiTMap_S *>((((MapH*)((char*)this + 0x110))))->RemoveKey(doorId);
-            reinterpret_cast<::Map6920 *>((((Map6920*)((char*)this + 0x100))))->FUN_006c6920(doorId, (*(::NiPointer< ::NiAVObject> *)&(const ::fnv_006c4fb0::SpObst &)((unsigned int*)&spArray)));
+            reinterpret_cast<::NiTMap_S *>((((MapH*)(&this->m_kDoorObstacleArrays))))->RemoveKey(doorId);
+            reinterpret_cast<::Map6920 *>((((Map6920*)(&this->m_kDoorObstacles))))->FUN_006c6920(doorId, (*(::NiPointer< ::NiAVObject> *)&(const ::fnv_006c4fb0::SpObst &)((unsigned int*)&spArray)));
         }
     }
-    reinterpret_cast<::FileMatchList *>((((List_009e03e0*)((char*)this + 0xf8))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((((List_009e03e0*)(&this->m_kChangedDoors))))->RemoveAll();
     return true;
 }
 }  // namespace fnv_006c4fb0
@@ -2059,22 +2059,22 @@ bool FUN_006c5ce0_shell::FUN_006c5ce0(ObstacleTaskData* apTaskData)
 {
     FUN_006c5e40::FUN_006c5e70 task;
     reinterpret_cast<::CombatProcedure *>((reinterpret_cast<TESRaceForm*>(&task)))->Initialize((::CombatController *)(apTaskData));
-    reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)this + 0x160))))->FUN_0040fbf0((char *)(0));
-    reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<void*, 1024>*)((char*)this + 0x13c))))->FUN_007cb2e0((unsigned int *)&((void*&)apTaskData));
-    ((RecursiveSpinLock*)((char*)this + 0x160))->FUN_0040fba0();
+    reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)(&this->m_kTaskLock))))->FUN_0040fbf0((char *)(0));
+    reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<void*, 1024>*)(&this->m_kBackgroundTasks))))->FUN_007cb2e0((unsigned int *)&((void*&)apTaskData));
+    ((RecursiveSpinLock*)(&this->m_kTaskLock))->FUN_0040fba0();
     const unsigned int iMaxAttachTaskAttempts = 100;
     unsigned int itryCount = 0;
-    while (!((FUN_006c5ec0_s*)((char*)this + 0x128))->FUN_006c5ec0(task, 0))
+    while (!((FUN_006c5ec0_s*)(&this->m_uiTasklet))->FUN_006c5ec0(task, 0))
     {
         itryCount++;
         if (itryCount >= iMaxAttachTaskAttempts)
         {
-            reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)this + 0x160))))->FUN_0040fbf0((char *)(0));
+            reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)(&this->m_kTaskLock))))->FUN_0040fbf0((char *)(0));
             unsigned int iremoveIndex =
-                ((LS3de0*)((char*)this + 0x13c))->Find((unsigned int&)apTaskData, 0, ::FUN_009a3830);
+                ((LS3de0*)(&this->m_kBackgroundTasks))->Find((unsigned int&)apTaskData, 0, ::FUN_009a3830);
             if (iremoveIndex != -1)
-                reinterpret_cast<::FUN_006bf8f0_Class *>((((GlobalObject_00869f00*)((char*)this + 0x13c))))->FUN_006bf8f0(iremoveIndex, true);
-            ((RecursiveSpinLock*)((char*)this + 0x160))->FUN_0040fba0();
+                reinterpret_cast<::FUN_006bf8f0_Class *>((((GlobalObject_00869f00*)(&this->m_kBackgroundTasks))))->FUN_006bf8f0(iremoveIndex, true);
+            ((RecursiveSpinLock*)(&this->m_kTaskLock))->FUN_0040fba0();
             return false;
         }
         ::FUN_0040fca0(0);
@@ -2169,8 +2169,8 @@ void FUN_006c39c0_shell::FUN_006c39c0()
     ((NMOM*)this)->MatchPortalEdges();
     reinterpret_cast<::fnv_006c44d0::FUN_006c44d0_shell *>((((NMOM*)this)))->FUN_006c44d0();
     ::ClearOwnedObjects((char*)this);
-    *(int*)((char*)this + 0x190) = 0;
-    *(float*)((char*)this + 0x194) = (*reinterpret_cast<float *>(&::fnv_006c3640::DAT_0106c398));
+    m_iUpdateCount = 0;
+    m_fUpdateTimer = (*reinterpret_cast<float *>(&::fnv_006c3640::DAT_0106c398));
     if (reinterpret_cast<::TESObjectCELL *>((((::fnv_006c39c0::CellX *)(::FUN_00552ba0()))))->FUN_00552bb0())
         reinterpret_cast<::fnv_006a5ca0::PaddedBooleanState *>((((::fnv_006c39c0::CellX *)(::FUN_00552ba0()))))->FUN_006a5ca0();
     reinterpret_cast<::FUN_006ebcd0_shell *>((((::fnv_006c39c0::PathManager *)(::GetPathManager()))))->FUN_006ebcd0();
@@ -2524,13 +2524,13 @@ struct FormIDView_006c45e0
 void FUN_006c45e0_shell::ProcessAddedRefs()
 {
     FUN_005e04c0::FUN_005e04f0 addedRefs;
-    ListStand* pCurrentElementNext = (ListStand*)((char*)this + 0x2c);
+    ListStand* pCurrentElementNext = (ListStand*)(&this->m_kAddedReferences);
     while (pCurrentElementNext && !((FUN_008256d0_s*)pCurrentElementNext)->FUN_008256d0())
     {
         TESObjectREFR* pref = *((::fnv_006c45e0::TESObjectREFR **)((void *)(((FUN_006815c0_s*)pCurrentElementNext))));
         pCurrentElementNext = ((::fnv_006c45e0::ListStand *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         GO spArray(0);
-        if (reinterpret_cast<::Map62d0 *>((((Map62d0*)((char*)this + 0x1c))))->FUN_006c62d0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDView_006c45e0*)pref)))->FUN_0084e3a0())), (void **)&(spArray)))
+        if (reinterpret_cast<::Map62d0 *>((((Map62d0*)(&this->m_kObstacleMap))))->FUN_006c62d0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDView_006c45e0*)pref)))->FUN_0084e3a0())), (void **)&(spArray)))
         {
             ((FUN_006c1920_s*)this)->RebuildRefObstacles(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDView_006c45e0*)pref)))->FUN_0084e3a0())), pref);
             reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<void*, 1024>*)&addedRefs)))->FUN_007cb2e0((unsigned int *)&((void*&)pref));
@@ -2549,7 +2549,7 @@ void FUN_006c45e0_shell::ProcessAddedRefs()
         }
     }
     for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&addedRefs)))->GetName())); i++)
-        reinterpret_cast<::ItemChangeListNode *>((((FUN_00905330_s*)((char*)this + 0x2c))))->FUN_00905330((*(::InventoryStackRecord *const *)(((Arr*)&addedRefs)->GetAt(i))));
+        reinterpret_cast<::ItemChangeListNode *>((((FUN_00905330_s*)(&this->m_kAddedReferences))))->FUN_00905330((*(::InventoryStackRecord *const *)(((Arr*)&addedRefs)->GetAt(i))));
 }
 }  // namespace fnv_006c45e0
 
@@ -2786,7 +2786,7 @@ struct ObstacleData
     ReferenceObstacleArray* m_pReferenceObstacleArray;
 };
 
-struct Call_006c0c80
+struct Call_006c0c80 : public ::NavMeshObstacleManager
 {
     void FUN_006c0c80(TESObjectREFR*);
     void HandleRigidBodyObstacle(bhkRigidBody*);
@@ -2821,7 +2821,7 @@ void Call_006c0c80::HandleRigidBodyObstacle(bhkRigidBody* apRigidBody)
     TESObjectREFR* pref;
     GO go(0);
 
-    if (reinterpret_cast<::Map62d0 *>((reinterpret_cast<FGModelMap*>(reinterpret_cast<char*>(this) + 0xe0)))->FUN_006c62d0((std::uintptr_t)(apRigidBody), (void **)&(go)))
+    if (reinterpret_cast<::Map62d0 *>((reinterpret_cast<FGModelMap*>((&this->m_kObstaclesByKind))))->FUN_006c62d0((std::uintptr_t)(apRigidBody), (void **)&(go)))
     {
         pref = ((::fnv_006c1cb0::TESObjectREFR *)(::FUN_004839c0(
             reinterpret_cast<ObstacleData*>(static_cast<unsigned int>(go))->m_pReferenceObstacleArray->formID)));
@@ -3220,12 +3220,12 @@ struct ObstacleMgrX
 // @fnv 0x006c4c30
 void FUN_006c4c30_shell::FUN_006c4c30()
 {
-    void* it = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)((char*)this + 0x1c))))->GetFirstPos();
+    void* it = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)(&this->m_kObstacleMap))))->GetFirstPos();
     while (it)
     {
         unsigned int formID;
         SpArr spArray(0);
-        reinterpret_cast<::Map62d0 *>((((MapX*)((char*)this + 0x1c))))->FUN_00559120((::MapItem62d0 *&)(it), (void *&)(formID), (::Helper62d0 &)(spArray));
+        reinterpret_cast<::Map62d0 *>((((MapX*)(&this->m_kObstacleMap))))->FUN_00559120((::MapItem62d0 *&)(it), (void *&)(formID), (::Helper62d0 &)(spArray));
         for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(static_cast<ObstArr*>(spArray)->arr))->GetName())); ++i)
         {
             SpObst m_spRegisteredObstacle(static_cast<ObstArr*>(spArray)->arr.GetAt(i));
@@ -4046,7 +4046,7 @@ struct ObsMap_c1190
 };
 void __cdecl FUN_006c34f0(Key_c1190* key, Ptr_c1190<Holder_c1190>& holder);
 void __cdecl FUN_006c3440(const Ptr_c1190<Obs_c1190>& obst);
-struct Mgr_c1190
+struct Mgr_c1190 : public NavMeshObstacleManager
 {
     void RegisterKey(Key_c1190* key);
 };
@@ -5288,23 +5288,23 @@ void ObstacleMgrX::FUN_006c1760(const ObstPtrX& apObstacle)
 void Mgr_c1190::RegisterKey(Key_c1190* key)
 {
     Ptr_c1190<Holder_c1190> spHolder(0);
-    if (!reinterpret_cast<::Map62d0 *>((((HolderMap_c1190*)((char*)this + 0x1c))))->FUN_006c62d0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((key))->FUN_0084e3a0())), (void **)(::Ptr_c1190< ::Holder_c1190> *)(&spHolder)))
+    if (!reinterpret_cast<::Map62d0 *>((((HolderMap_c1190*)(&this->m_kObstacleMap))))->FUN_006c62d0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((key))->FUN_0084e3a0())), (void **)(::Ptr_c1190< ::Holder_c1190> *)(&spHolder)))
     {
         spHolder = new Holder_c1190;
         FUN_006c34f0(key, spHolder);
-        reinterpret_cast<::Map6920 *>((((HolderMap_c1190*)((char*)this + 0x1c))))->FUN_006c6920(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((key))->FUN_0084e3a0())), (*(::NiPointer< ::NiAVObject> *)&(const ::Ptr_c1190< ::Holder_c1190> &)(spHolder)));
+        reinterpret_cast<::Map6920 *>((((HolderMap_c1190*)(&this->m_kObstacleMap))))->FUN_006c6920(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((key))->FUN_0084e3a0())), (*(::NiPointer< ::NiAVObject> *)&(const ::Ptr_c1190< ::Holder_c1190> &)(spHolder)));
     }
     for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(spHolder->kObstacles))->GetName())); i++)
     {
         Ptr_c1190<Obs_c1190> spObst(spHolder->kObstacles.FUN_00877a30(i));
-        reinterpret_cast<::Map6920 *>((((ObsMap_c1190*)((char*)this + 0xe0))))->FUN_006c6920((std::uintptr_t)(::Kind_c1190 *)(spObst->m_spKind), (*(::NiPointer< ::NiAVObject> *)&(const ::Ptr_c1190< ::Obs_c1190> &)(spObst)));
+        reinterpret_cast<::Map6920 *>((((ObsMap_c1190*)(&this->m_kObstaclesByKind))))->FUN_006c6920((std::uintptr_t)(::Kind_c1190 *)(spObst->m_spKind), (*(::NiPointer< ::NiAVObject> *)&(const ::Ptr_c1190< ::Obs_c1190> &)(spObst)));
         reinterpret_cast<::fnv_006c1d60::FUN_006c1d60_shell *>(this)->FUN_006c1d60((::fnv_006c1d60::ScriptLocalsX *)(::Kind_c1190 *)(spObst->m_spKind));
         if (reinterpret_cast<::fnv_005609b0::bhkRigidBody *>(((spObst->m_spKind).operator->()))->FUN_005609b0())
         {
             reinterpret_cast<::FUN_006c1c70_shell *>(this)->FUN_006c1c70((std::intptr_t)(::Kind_c1190 *)(spObst->m_spKind));
         }
         FUN_006c3440(spObst);
-        if (*((bool*)this + 0x198))
+        if (m_bEnabled)
         {
             reinterpret_cast<::ObstMgr6c5b20 *>(this)->FUN_006c5b20((::SPtr< ::Owner88> &)(spObst));
         }

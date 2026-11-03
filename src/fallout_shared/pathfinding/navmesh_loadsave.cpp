@@ -275,6 +275,7 @@ struct Item00694c50
 {
     Item00694c50* next;
     unsigned short key;
+    unsigned short aValue[2];
 };
 struct Map00694c50
 {
@@ -304,7 +305,7 @@ void Map00694c50::InsertOrUpdate(unsigned short key, unsigned int auiValue)
         uiDepth++;
         if (IsKeysEqual(key, pkItem->key))
         {
-            *(unsigned int*)((char*)pkItem + 6) = auiValue;
+            *(unsigned int*)pkItem->aValue = auiValue;
             return;
         }
         pkItem = pkItem->next;
@@ -324,6 +325,7 @@ struct Item00694d30
 {
     Item00694d30* next;
     unsigned short key;
+    unsigned short aValue[2];
 };
 struct Map00694d30
 {
@@ -339,7 +341,7 @@ void Map00694d30::FUN_00694d30(Item00694d30** pos, unsigned short* key, POV00694
 {
     Item00694d30* pkItem = *pos;
     *key = pkItem->key;
-    *val = *(POV00694d30*)((char*)pkItem + 6);
+    *val = *(POV00694d30*)pkItem->aValue;
     if (pkItem->next)
     {
         *pos = pkItem->next;
@@ -586,7 +588,14 @@ namespace fnv_00692950 {
 struct BSFile;
 struct FormRecordHeader;
 struct TESFileGroup;
-struct NavMeshInfo;
+struct NavMeshInfo
+{
+    unsigned int uiNavMeshID;
+    unsigned int uiDoorFormID;
+    char pad08[0x1c];
+    BSSimpleArray<NavMeshInfo*, 1024> kLinkedInfos;
+    BSSimpleArray<void*, 1024> kPortalNavMeshes;
+};
 struct TESBitArrayFile;
 struct _FILETIME;
 struct _SYSTEMTIME;
@@ -1021,11 +1030,11 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
                     saveStruct.GetTriangleTotal -= 0x10000000;
                     bbadNavMesh = true;
                 }
-                ((FUN_00694890_t*)((char*)this + 0x28))->FUN_00694890(saveStruct.VertexCount, 1);
-                ((FUN_006949d0_t*)((char*)this + 0x38))->FUN_006949d0(saveStruct.GetTriangleTotal, 1);
-                reinterpret_cast<::fnv_00694b10::FUN_00694b10_shell *>((((DA00694f20*)((char*)this + 0x48))))->FUN_00694b10(saveStruct.m_uiField3, 1);
-                ((DA00694f80*)((char*)this + 0x78))->SetSize(saveStruct.m_uiField4, true);
-                ((DA00695040*)((char*)this + 0x58))->FUN_006950f0(saveStruct.m_uiField5, 1);
+                ((FUN_00694890_t*)(&this->Vertices))->FUN_00694890(saveStruct.VertexCount, 1);
+                ((FUN_006949d0_t*)(&this->Triangles))->FUN_006949d0(saveStruct.GetTriangleTotal, 1);
+                reinterpret_cast<::fnv_00694b10::FUN_00694b10_shell *>((((DA00694f20*)(&this->m_kEdgeExtraInfo))))->FUN_00694b10(saveStruct.m_uiField3, 1);
+                ((DA00694f80*)(&this->m_kIndexList))->SetSize(saveStruct.m_uiField4, true);
+                ((DA00695040*)(&this->m_kDoorPortals))->FUN_006950f0(saveStruct.m_uiField5, 1);
                 ::ResolveFormID((unsigned int *)&(saveStruct.m_uiField0), (::TESFile*)apFile);
                 this->m_pOwningCell =
                     dynamic_cast<TESObjectCELL*>(::FUN_004839c0(saveStruct.m_uiField0));
@@ -1040,39 +1049,39 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
                 }
                 break;
             case 0x5856564e:  // NVVX
-                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(((VertArr*)((char*)this + 0x28))->FUN_006a1440(0)),
-                                     ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x28))))->GetName())) * 12);
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(((VertArr*)(&this->Vertices))->FUN_006a1440(0)),
+                                     ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->Vertices))))->GetName())) * 12);
                 if (reinterpret_cast<::TESFile *>((apFile))->IsEndianConversionRequired())
                 {
-                    unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x28))))->GetName()));
+                    unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->Vertices))))->GetName()));
                     for (unsigned int i = 0; i < isize; ++i)
-                        reinterpret_cast<::Class005a6b10 *>((((VertArr*)((char*)this + 0x28))->FUN_006a1440(i)))->FUN_005a6b10();
+                        reinterpret_cast<::Class005a6b10 *>((((VertArr*)(&this->Vertices))->FUN_006a1440(i)))->FUN_005a6b10();
                 }
                 break;
             case 0x4143564e:  // NVCA
-                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(&reinterpret_cast<::FUN_005eeda0_this *>((((DA00694f80*)((char*)this + 0x78))))->GetBufferEntry(0)),
-                                     ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x78))))->GetName())) * 2);
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(&reinterpret_cast<::FUN_005eeda0_this *>((((DA00694f80*)(&this->m_kIndexList))))->GetBufferEntry(0)),
+                                     ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->m_kIndexList))))->GetName())) * 2);
                 if (reinterpret_cast<::TESFile *>((apFile))->IsEndianConversionRequired())
                 {
-                    unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x78))))->GetName()));
+                    unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->m_kIndexList))))->GetName()));
                     for (unsigned int i = 0; i < isize; ++i)
-                        ::FUN_00407a90((short *)(unsigned short *)(&reinterpret_cast<::FUN_005eeda0_this *>((((DA00694f80*)((char*)this + 0x78))))->GetBufferEntry(i)));
+                        ::FUN_00407a90((short *)(unsigned short *)(&reinterpret_cast<::FUN_005eeda0_this *>((((DA00694f80*)(&this->m_kIndexList))))->GetBufferEntry(i)));
                 }
                 break;
             case 0x5044564e:  // NVDP
             {
-                int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x58))))->GetName()));
-                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(((::fnv_00692950::DoorS *)(reinterpret_cast<::S006950d0 *>((((DoorArr*)((char*)this + 0x58))))->GetElement(0)))), isize * 8);
+                int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->m_kDoorPortals))))->GetName()));
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(((::fnv_00692950::DoorS *)(reinterpret_cast<::S006950d0 *>((((DoorArr*)(&this->m_kDoorPortals))))->GetElement(0)))), isize * 8);
                 for (int i = 0; i < isize; ++i)
                 {
                     if (reinterpret_cast<::TESFile *>((apFile))->IsEndianConversionRequired())
-                        reinterpret_cast<::FUN_004141e0_class *>((((::fnv_00692950::DoorS *)(reinterpret_cast<::S006950d0 *>((((DoorArr*)((char*)this + 0x58))))->GetElement(i)))))->FUN_004141e0();
-                    unsigned int idoorID = (unsigned int)(std::uintptr_t)((::fnv_00692950::DoorS *)(reinterpret_cast<::S006950d0 *>((((DoorArr*)((char*)this + 0x58))))->GetElement(i)))->DoorRef;
+                        reinterpret_cast<::FUN_004141e0_class *>((((::fnv_00692950::DoorS *)(reinterpret_cast<::S006950d0 *>((((DoorArr*)(&this->m_kDoorPortals))))->GetElement(i)))))->FUN_004141e0();
+                    unsigned int idoorID = (unsigned int)(std::uintptr_t)((::fnv_00692950::DoorS *)(reinterpret_cast<::S006950d0 *>((((DoorArr*)(&this->m_kDoorPortals))))->GetElement(i)))->DoorRef;
                     ::ResolveFormID((unsigned int *)&(idoorID), (::TESFile*)apFile);
                     TESObjectREFR* pdoor = (TESObjectREFR*)::FUN_004839c0(idoorID);
                     if (pdoor)
                     {
-                        ((::fnv_00692950::DoorS *)(reinterpret_cast<::S006950d0 *>((((DoorArr*)((char*)this + 0x58))))->GetElement(i)))->DoorRef = pdoor;
+                        ((::fnv_00692950::DoorS *)(reinterpret_cast<::S006950d0 *>((((DoorArr*)(&this->m_kDoorPortals))))->GetElement(i)))->DoorRef = pdoor;
                     }
                     else
                     {
@@ -1081,10 +1090,10 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
                         ::FUN_005b5e40(
                             );
                         unsigned int itriIndex =
-                            ((::fnv_00692950::DoorS *)(reinterpret_cast<::S006950d0 *>((((DoorArr*)((char*)this + 0x58))))->GetElement(i)))->m_usTriangleIdentifier;
-                        if (itriIndex < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x38))))->GetName())))
-                            reinterpret_cast<::FUN_00519270_shell *>(&(((BSXFlags_shell&)((TriArr*)((char*)this + 0x38))->FUN_00558dd0(itriIndex))))->ClearFlags(0x400);
-                        reinterpret_cast<::fnv_00844c90::FUN_00844c90_shell *>((((DoorArr*)((char*)this + 0x58))))->FUN_00844c90(i, 1);
+                            ((::fnv_00692950::DoorS *)(reinterpret_cast<::S006950d0 *>((((DoorArr*)(&this->m_kDoorPortals))))->GetElement(i)))->m_usTriangleIdentifier;
+                        if (itriIndex < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->Triangles))))->GetName())))
+                            reinterpret_cast<::FUN_00519270_shell *>(&(((BSXFlags_shell&)((TriArr*)(&this->Triangles))->FUN_00558dd0(itriIndex))))->ClearFlags(0x400);
+                        reinterpret_cast<::fnv_00844c90::FUN_00844c90_shell *>((((DoorArr*)(&this->m_kDoorPortals))))->FUN_00844c90(i, 1);
                         --i;
                         --isize;
                     }
@@ -1093,14 +1102,14 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
             break;
             case 0x5254564e:  // NVTR
             {
-                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(&((TriArr*)((char*)this + 0x38))->FUN_00558dd0(0)),
-                                     ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x38))))->GetName())) * 16);
-                unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x38))))->GetName()));
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(&((TriArr*)(&this->Triangles))->FUN_00558dd0(0)),
+                                     ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->Triangles))))->GetName())) * 16);
+                unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->Triangles))))->GetName()));
                 for (unsigned int i = 0; i < isize; ++i)
                 {
                     if (reinterpret_cast<::TESFile *>((apFile))->IsEndianConversionRequired())
-                        reinterpret_cast<::FUN_00693c10_cls *>(&(((TriArr*)((char*)this + 0x38))->FUN_00558dd0(i)))->FUN_00693c10();
-                    reinterpret_cast<::FUN_00693bd0_class *>(&(((TriArr*)((char*)this + 0x38))->FUN_00558dd0(i)))->FUN_00693bd0(0);
+                        reinterpret_cast<::FUN_00693c10_cls *>(&(((TriArr*)(&this->Triangles))->FUN_00558dd0(i)))->FUN_00693c10();
+                    reinterpret_cast<::FUN_00693bd0_class *>(&(((TriArr*)(&this->Triangles))->FUN_00558dd0(i)))->FUN_00693bd0(0);
                 }
             }
             break;
@@ -1127,7 +1136,7 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
                 char* pchunkPointer = (char*)pchunkdata;
                 if (ifileVersionNumber < 5)
                 {
-                    unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x48))))->GetName()));
+                    unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->m_kEdgeExtraInfo))))->GetName()));
                     EdgeExtraInfoOLDNoPad oldFormat;
                     for (unsigned int i = 0; i < isize; ++i)
                     {
@@ -1139,26 +1148,26 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
                         *(NavMeshInfo**)pbufferLoc = oldFormat.m_pNavMeshInfo;
                         pbufferLoc += 4;
                         *(unsigned short*)pbufferLoc = oldFormat.m_usTriangleIdentifier;
-                        reinterpret_cast<::EdgeHolder *>((((EdgeArr*)((char*)this + 0x48))->FUN_006a1440(i)))->FUN_0069d240(apFile, newFormat);
+                        reinterpret_cast<::EdgeHolder *>((((EdgeArr*)(&this->m_kEdgeExtraInfo))->FUN_006a1440(i)))->FUN_0069d240(apFile, newFormat);
                         pchunkPointer += ((unsigned int)(::FUN_00693db0()));
                     }
                 }
                 else if (ifileVersionNumber < 9)
                 {
-                    unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x48))))->GetName()));
+                    unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->m_kEdgeExtraInfo))))->GetName()));
                     for (unsigned int i = 0; i < isize; ++i)
                     {
-                        reinterpret_cast<::EdgeHolder *>((((EdgeArr*)((char*)this + 0x48))->FUN_006a1440(i)))->FUN_0069d240(apFile, pchunkPointer);
-                        pchunkPointer += ((EdgeArr*)((char*)this + 0x48))->FUN_006a1440(i)->FUN_00693d10();
+                        reinterpret_cast<::EdgeHolder *>((((EdgeArr*)(&this->m_kEdgeExtraInfo))->FUN_006a1440(i)))->FUN_0069d240(apFile, pchunkPointer);
+                        pchunkPointer += ((EdgeArr*)(&this->m_kEdgeExtraInfo))->FUN_006a1440(i)->FUN_00693d10();
                     }
                 }
                 else
                 {
-                    unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x48))))->GetName()));
+                    unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->m_kEdgeExtraInfo))))->GetName()));
                     for (unsigned int i = 0; i < isize; ++i)
                     {
-                        reinterpret_cast<::FUN_0069d1d0_class *>((((EdgeArr*)((char*)this + 0x48))->FUN_006a1440(i)))->ReadFromFile((::TESFile *)(apFile), (unsigned int *)(pchunkPointer));
-                        pchunkPointer += ((unsigned int)(reinterpret_cast<::FUN_00693cd0_class *>((((EdgeArr*)((char*)this + 0x48))->FUN_006a1440(i)))->FUN_00693cd0()));
+                        reinterpret_cast<::FUN_0069d1d0_class *>((((EdgeArr*)(&this->m_kEdgeExtraInfo))->FUN_006a1440(i)))->ReadFromFile((::TESFile *)(apFile), (unsigned int *)(pchunkPointer));
+                        pchunkPointer += ((unsigned int)(reinterpret_cast<::FUN_00693cd0_class *>((((EdgeArr*)(&this->m_kEdgeExtraInfo))->FUN_006a1440(i)))->FUN_00693cd0()));
                     }
                 }
                 ::FUN_00401030(pchunkdata);
@@ -1208,7 +1217,7 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
         if (ifileVersionNumber < 6)
         {
             bool bcoverMessedUp = false;
-            unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x38))))->GetName()));
+            unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->Triangles))))->GetName()));
             for (unsigned int i = 0; i < isize; ++i)
             {
                 TriS* ptri = ((::fnv_00692950::TriS *)(reinterpret_cast<::NavMesh *>((((NavMeshS*)this)))->GetTriangle((unsigned short)i)));
@@ -1223,7 +1232,7 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
         }
         if (ifileVersionNumber < 8)
         {
-            unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x38))))->GetName()));
+            unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->Triangles))))->GetName()));
             for (unsigned int i = 0; i < isize; ++i)
             {
                 TriS* ptri = ((::fnv_00692950::TriS *)(reinterpret_cast<::NavMesh *>((((NavMeshS*)this)))->GetTriangle((unsigned short)i)));
@@ -1243,13 +1252,13 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
         else
         {
             if (!::FUN_00690830((const ::NavMeshInfo *)(*(NavMeshInfo**)&this->m_pNavigationMesh)))
-                *(unsigned int*)((char*)*(NavMeshInfo**)&this->m_pNavigationMesh + 4) =
+                (*(NavMeshInfo**)&this->m_pNavigationMesh)->uiDoorFormID =
                     ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<::NavMeshProxy *>((((NavMeshS*)this)))->GetDoorForm()))->FUN_0084e3a0()));
             reinterpret_cast<::FUN_005a8040_class *>((((TESRecipe*)*(NavMeshInfo**)&this->m_pNavigationMesh)))->SetField54((std::intptr_t)this);
         }
         if (ifileVersionNumber < 10)
         {
-            unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x38))))->GetName()));
+            unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->Triangles))))->GetName()));
             unsigned int ipreferredTris = 0;
             for (unsigned int i = 0; i < isize; ++i)
             {
@@ -1262,7 +1271,7 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
         }
         if (ifileVersionNumber < 11)
         {
-            unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x38))))->GetName()));
+            unsigned int isize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->Triangles))))->GetName()));
             for (unsigned int i = 0; i < isize; ++i)
             {
                 TriS* ptri = ((::fnv_00692950::TriS *)(reinterpret_cast<::NavMesh *>((((NavMeshS*)this)))->GetTriangle((unsigned short)i)));
@@ -1280,13 +1289,13 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
                         if (!*(NavMeshInfo**)&this->m_pNavigationMesh)
                             continue;
                         for (unsigned int j = 0;
-                             j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)*(NavMeshInfo**)&this->m_pNavigationMesh + 0x24))))->GetName())); ++j)
+                             j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&(*(NavMeshInfo**)&this->m_pNavigationMesh)->kLinkedInfos))))->GetName())); ++j)
                         {
-                            if (*((Arr*)((char*)*(NavMeshInfo**)&this->m_pNavigationMesh + 0x24))->GetAt(j) ==
+                            if (*((Arr*)(&(*(NavMeshInfo**)&this->m_pNavigationMesh)->kLinkedInfos))->GetAt(j) ==
                                 (std::uintptr_t)pinfo->Portal.m_pNavMeshInfo)
                             {
-                                reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>((((LS3de0*)((char*)*(NavMeshInfo**)&this->m_pNavigationMesh + 0x24))))->FUN_009a4320(j, 1);
-                                reinterpret_cast<::FUN_00438690 *>((((NavMeshPortalIndexArray*)((char*)*(NavMeshInfo**)&this->m_pNavigationMesh + 0x34))))->FUN_007cb2e0((unsigned int *)&((NavMesh* const&)pinfo->Portal.m_pNavMeshInfo));
+                                reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>((((LS3de0*)(&(*(NavMeshInfo**)&this->m_pNavigationMesh)->kLinkedInfos))))->FUN_009a4320(j, 1);
+                                reinterpret_cast<::FUN_00438690 *>((((NavMeshPortalIndexArray*)(&(*(NavMeshInfo**)&this->m_pNavigationMesh)->kPortalNavMeshes))))->FUN_007cb2e0((unsigned int *)&((NavMesh* const&)pinfo->Portal.m_pNavMeshInfo));
                                 break;
                             }
                         }
@@ -1934,6 +1943,7 @@ struct FUN_006947e0_node
     FUN_006947e0_node* pNext;
     unsigned short usKey;
     unsigned short unk06;
+    void* pValue;
 };
 
 class FUN_006947e0_owner
@@ -1958,7 +1968,7 @@ void FUN_006947e0_cls::FUN_006947e0(FUN_006947e0_node** ppNode, unsigned short* 
 {
     FUN_006947e0_node* node = *ppNode;
     *pKey = node->usKey;
-    pOwner->FUN_006e5cc0((char*)node + 8);
+    pOwner->FUN_006e5cc0((char*)&node->pValue);
     if (node->pNext != 0)
     {
         *ppNode = node->pNext;

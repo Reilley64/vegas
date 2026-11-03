@@ -64,7 +64,7 @@ void FUN_004f14a0_shell::FUN_004f14a0()
     value = &DAT_01023ac4;
 }
 
-struct FUN_004f15a0_shell : public TESForm
+struct FUN_004f15a0_shell : ::TESRegionData
 {
     void FUN_004f15a0(int);
 };
@@ -82,7 +82,7 @@ bool TESRegionData::ApplyEntry(RegionDataEntry* data)
 // @fnv 0x004f15a0
 void FUN_004f15a0_shell::FUN_004f15a0(int aType)
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<int*>(this) + 1) = static_cast<unsigned char>(aType);
+    *reinterpret_cast<unsigned char*>(&this->bOverride) = static_cast<unsigned char>(aType);
 }
 
 struct FUN_004f1460

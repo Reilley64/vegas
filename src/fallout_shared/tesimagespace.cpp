@@ -100,7 +100,7 @@ struct FUN_004855a0
 struct FUN_00485680
 {
 };
-struct FUN_0052b630_obj
+struct FUN_0052b630_obj : ::TESImageSpace
 {
     void FUN_004855a0();
     void FUN_00485680();
@@ -111,10 +111,10 @@ void FUN_0052b630_obj::FUN_0052b630()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::B8AD00Header *>((((ImageSpaceModifierParameterData*)((char*)this + 0x18))))->SwapEndian();
-    ::AppendChunk(0x4d414e44, (char*)this + 0x18, 0x98);
+        reinterpret_cast<::B8AD00Header *>(((&this->Data)))->SwapEndian();
+    ::AppendChunk(0x4d414e44, (char*)&this->Data, 0x98);
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::B8AD00Header *>((((ImageSpaceModifierParameterData*)((char*)this + 0x18))))->SwapEndian();
+        reinterpret_cast<::B8AD00Header *>(((&this->Data)))->SwapEndian();
     reinterpret_cast<::Holder *>(this)->FUN_00485680();
 }
 

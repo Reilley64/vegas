@@ -136,11 +136,9 @@ void FUN_0051b4b0_shell::FUN_0051b4b0()
     reinterpret_cast<::Holder *>((((FUN_00485680_shell*)this)))->FUN_00485680();
 }
 
-struct FUN_005e79a0_t
+struct FUN_005e79a0_t : ::TESObjectSTAT
 {
     bool FUN_0051b650(TESForm* form);
-    char m_cType;
-    TESSound* m_pSoundForm;
 };
 // Casts form to TESObjectSTAT and returns true if it is null, passes FUN_00485270, or differs in the byte at 0x50 or the TESSound pointer at 0x54.
 // @fnv 0x0051b650
@@ -151,9 +149,9 @@ bool FUN_005e79a0_t::FUN_0051b650(TESForm* form)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(other))
         return true;
-    if (*(char*)((char*)this + 0x50) != other->m_cType)
+    if (this->m_cType != other->m_cType)
         return true;
-    if (*(TESSound**)((char*)this + 0x54) != other->m_pSoundForm)
+    if (this->m_pSoundForm != other->m_pSoundForm)
         return true;
     return false;
 }
@@ -167,7 +165,7 @@ struct TESSound : public TESForm
 extern char str_0102bbb0[];
 
 
-struct TESObjectSTAT_shell : public TESForm
+struct TESObjectSTAT_shell : ::TESObjectSTAT
 {
     void FUN_0051b530();
 };
@@ -183,16 +181,16 @@ void TESObjectSTAT_shell::FUN_0051b530()
     reinterpret_cast<::TESModelTextureSwap *>((reinterpret_cast<TESObjectSTAT_shell*>(reinterpret_cast<unsigned char*>(this) + 0x30)))->InitItem(this);
 
     itempint =
-        reinterpret_cast<std::uintptr_t>(*reinterpret_cast<TESSound**>(reinterpret_cast<unsigned char*>(this) + 0x54));
+        reinterpret_cast<std::uintptr_t>(this->m_pSoundForm);
 
     if (itempint)
     {
         ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
 
-        reinterpret_cast<TESSound**>(reinterpret_cast<unsigned char*>(this) + 0x54)[0] =
+        (&this->m_pSoundForm)[0] =
             dynamic_cast<TESSound*>(::FUN_004839c0(itempint));
 
-        if (!reinterpret_cast<TESSound**>(reinterpret_cast<unsigned char*>(this) + 0x54)[0])
+        if (!(&this->m_pSoundForm)[0])
         {
             ::FUN_005b5e40();
         }

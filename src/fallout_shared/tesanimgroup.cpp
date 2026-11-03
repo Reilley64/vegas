@@ -398,7 +398,7 @@ ANIM_GROUP_MOVE_ENUM FUN_005f23a0_shell::GetMoveAnimGroup()
 }
 
 
-struct FUN_005f23e0_shell
+struct FUN_005f23e0_shell : ::TESAnimGroup
 {
     unsigned short FUN_005f23e0();
 };
@@ -406,7 +406,7 @@ struct FUN_005f23e0_shell
 // @fnv 0x005f23e0
 unsigned short FUN_005f23e0_shell::FUN_005f23e0()
 {
-    return ((unsigned short)(::fnv_005f2400::FUN_005f2400(*((unsigned short*)((char*)this + 0x10)))));
+    return ((unsigned short)(::fnv_005f2400::FUN_005f2400(this->sType)));
 }
 
 namespace fnv_005f2400 {

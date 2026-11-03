@@ -266,7 +266,7 @@ struct BSStr
 struct FNStub
 {
 };
-struct FUN_0048e4a0_shell
+struct FUN_0048e4a0_shell : ::TESTexture
 {
     void CopyTextureName(BaseFormComponent* apCopyFC);
 };
@@ -277,7 +277,7 @@ void FUN_0048e4a0_shell::CopyTextureName(BaseFormComponent* apCopyFC)
     TESTexture* pcopy = dynamic_cast<TESTexture*>(apCopyFC);
     if (!pcopy)
         return;
-    reinterpret_cast<::TextString *>((((BSStr*)((char*)this + 4))))->FUN_004037f0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)pcopy)))->FUN_00408da0())), 0);
+    reinterpret_cast<::TextString *>((((BSStr*)&this->FullNameComponent)))->FUN_004037f0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)pcopy)))->FUN_00408da0())), 0);
 }
 }  // namespace fnv_0048e4a0
 

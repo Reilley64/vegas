@@ -267,12 +267,12 @@ bool FUN_006b5d80_shell::LoadNavMeshInfoMap(TESFile* apFile)
         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Pathfinding\\NavMeshInfoMap.cpp", 0x5c);
     if (this->m_bKeepNavMeshLoaded)
     {
-        void* it = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((NavMeshVertexMap*)((char*)this + 0x1c))))->GetFirstPos();
+        void* it = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((NavMeshVertexMap*)&this->m_kNavMeshInfosByFormID)))->GetFirstPos();
         while (it)
         {
             unsigned int navmeshID;
             NavMeshInfo* pinfo;
-            reinterpret_cast<::C6b7f20_Map *>((((NiTPointerMap<unsigned int, void*>*)((char*)this + 0x1c))))->FUN_006b7f20((::C6b7f20_Node **)&(it), (unsigned int *)&(navmeshID), (void **)&((void*&)pinfo));
+            reinterpret_cast<::C6b7f20_Map *>((((NiTPointerMap<unsigned int, void*>*)&this->m_kNavMeshInfosByFormID)))->FUN_006b7f20((::C6b7f20_Node **)&(it), (unsigned int *)&(navmeshID), (void **)&((void*&)pinfo));
             for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&pinfo->doors)))->GetName())); i++)
                 *((Arr*)&pinfo->doors)->GetAt(i) = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*(TESForm**)((Arr*)&pinfo->doors)->GetAt(i))))->FUN_0084e3a0()));
         }
@@ -338,7 +338,7 @@ bool FUN_006b5d80_shell::LoadNavMeshInfoMap(TESFile* apFile)
             }
             else
             {
-                reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)((char*)this + 0x1c))))->FUN_00844700(((unsigned int)(::FUN_00559450((int *)(pnewInfo)))), (std::uintptr_t)pnewInfo);
+                reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)&this->m_kNavMeshInfosByFormID)))->FUN_00844700(((unsigned int)(::FUN_00559450((int *)(pnewInfo)))), (std::uintptr_t)pnewInfo);
             }
             break;
         }
@@ -358,7 +358,7 @@ bool FUN_006b5d80_shell::LoadNavMeshInfoMap(TESFile* apFile)
             ::ResolveFormID((unsigned int *)&(infoID), apFile);
             pchunkPointer += 4;
             NavMeshInfo* pinfo;
-            if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0x1c))))->FUN_00853130(infoID, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pinfo)))
+            if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)&this->m_kNavMeshInfosByFormID)))->FUN_00853130(infoID, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pinfo)))
                 return false;
             if (ifileVersionNumber >= 5)
                 pinfo->LoadSerializedData(pchunkPointer, apFile, ifileVersionNumber);
@@ -440,7 +440,7 @@ void* FUN_006b7850_shell::FUN_006b7850(TESWorldSpace* apWorldSpace, std::intptr_
 {
     DummyPointerMap* worldspaceMap;
     void* infoarray;
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(reinterpret_cast<DummyPointerMap*>(reinterpret_cast<char*>(this) + 0x2C)))->FUN_00853130(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(apWorldSpace)))->FUN_0084e3a0())),
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(reinterpret_cast<DummyPointerMap*>(&this->m_kNavMeshInfoArraysByWorldspace)))->FUN_00853130(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(apWorldSpace)))->FUN_0084e3a0())),
                      (::fnv_00853130::CombatThreatRecord *&)(reinterpret_cast<unsigned int&>(worldspaceMap))))
         return 0;
     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(worldspaceMap))->FUN_00853130(((unsigned int)(::FUN_00464f30(aiCellKey))), (::fnv_00853130::CombatThreatRecord *&)(reinterpret_cast<unsigned int&>(infoarray))))

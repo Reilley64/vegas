@@ -37028,7 +37028,9 @@
     "?HandlePackageLocationLoaded@LowProcess@@SA_NPAVTESObjectREFR@@H@Z": "0x0090d480",
     "?HandlePackageTargetLoaded@LowProcess@@SA_NPAVTESObjectREFR@@H@Z": "0x0090d570",
     "?FUN_0040fbe0@@YAXZZ": "0x0040fbe0",
-    "?GetReferencesInArea@TESDataHandler@@QAEXPAVTESObjectCELL@@ABUNiPoint3@@M1MP6A_NPAVTESObjectREFR@@H@ZH@Z": "0x0046f280"
+    "?GetReferencesInArea@TESDataHandler@@QAEXPAVTESObjectCELL@@ABUNiPoint3@@M1MP6A_NPAVTESObjectREFR@@H@ZH@Z": "0x0046f280",
+    "?FUN_0041d6d0@FUN_0041d6d0_shell@@QAEPAVRagDollData@@XZ": "0x0041d6d0",
+    "?FUN_0042ea20@FUN_0042ea20_Class@@QAEPAVTESCombatStyle@@XZ": "0x0042ea20"
    },
    "eh_tails": [
     {
@@ -38892,7 +38894,8 @@
     "?FUN_005e03d0@@YAXPAUNiTArray_Layout@@@Z": "0x005e03d0",
     "?GetOffsetC@@YAHH@Z": "0x0048d150",
     "?FUN_00450ff0@@YA_NPAX@Z": "0x00450ff0",
-    "?FUN_0040fbe0@@YAXZZ": "0x0040fbe0"
+    "?FUN_0040fbe0@@YAXZZ": "0x0040fbe0",
+    "?FUN_0041d6d0@FUN_0041d6d0_shell@@QAEPAVRagDollData@@XZ": "0x0041d6d0"
    }
   },
   {
@@ -66051,7 +66054,8 @@
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
     "?FUN_005c0880@@YAHPAD@Z": "0x005c0880",
     "?FUN_005d10f0@@YAMPBD@Z": "0x005d10f0",
-    "?FUN_009306b0@@YA_NPAUbhkCharacterController@@@Z": "0x009306b0"
+    "?FUN_009306b0@@YA_NPAUbhkCharacterController@@@Z": "0x009306b0",
+    "?FUN_0042ede0@FUN_0042ede0_shell@@QAEPAVExtraSayToTopicInfo@@XZ": "0x0042ede0"
    },
    "eh_tails": [
     {
@@ -146636,7 +146640,7 @@
     },
     {
      "address": "0x0041d6d0",
-     "symbol": "?FUN_0041d6d0@FUN_0041d6d0_shell@@QAEPAURagDollData@@XZ",
+     "symbol": "?FUN_0041d6d0@FUN_0041d6d0_shell@@QAEPAVRagDollData@@XZ",
      "size": 44
     },
     {
@@ -147916,7 +147920,7 @@
     },
     {
      "address": "0x0042ea20",
-     "symbol": "?FUN_0042ea20@FUN_0042ea20_Class@@QAEPAUTESCombatStyle@@XZ",
+     "symbol": "?FUN_0042ea20@FUN_0042ea20_Class@@QAEPAVTESCombatStyle@@XZ",
      "size": 42
     },
     {
@@ -147966,7 +147970,7 @@
     },
     {
      "address": "0x0042ede0",
-     "symbol": "?FUN_0042ede0@FUN_0042ede0_shell@@QAEPAUExtraSayToTopicInfo@@XZ",
+     "symbol": "?FUN_0042ede0@FUN_0042ede0_shell@@QAEPAVExtraSayToTopicInfo@@XZ",
      "size": 29
     },
     {
@@ -155700,7 +155704,7 @@
     },
     {
      "address": "0x00663ae0",
-     "symbol": "?CullWithBoundAccum@FUN_00663ae0_shell@@QAEXPAVNiCullingProcess@@@Z",
+     "symbol": "?CullWithBoundAccum@FUN_00663ae0_shell@@QAEXPAUNiCullingProcess@@@Z",
      "size": 95
     },
     {
@@ -155906,14 +155910,14 @@
     "?FUN_006633f0@@YAABUNiPoint3@@XZ": "0x006633f0",
     "?FUN_006639f0@@YADPAD@Z": "0x006639f0",
     "?GetByteAt1D@@YADPAD@Z": "0x00663a50",
-    "?CullWithBoundAccum@FUN_00663ae0_shell@@QAEXPAVNiCullingProcess@@@Z": "0x00663ae0",
     "?GetStringAtOffsetC4@@YAPBDPAX@Z": "0x00663b40",
     "?GetField19C@@YAIPAD@Z": "0x00663b60",
     "?FUN_0043fad0@fnv_0043fad0@@YAPBDPBD@Z": "0x0043fad0",
     "?FUN_005495f0@fnv_005495f0@@YAPBDPBD@Z": "0x005495f0",
     "?FUN_00559450@@YAHPAH@Z": "0x00559450",
     "?FUN_00534550@@YAPAXPAVPathingActorData@@@Z": "0x00534550",
-    "?FUN_005b5e40@@YAHZZ": "0x005b5e40"
+    "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
+    "?CullWithBoundAccum@FUN_00663ae0_shell@@QAEXPAUNiCullingProcess@@@Z": "0x00663ae0"
    },
    "eh_tails": [
     {
@@ -225788,7 +225792,6 @@
     "?FUN_005771f0@@YIPAXPAX@Z": "0x005771f0",
     "?FUN_005771d0@fnv_005771d0@@YAPAUbhkShape@1@PAX@Z": "0x005771d0",
     "?GetExtra@FUN_00577330_cls@@QBEPBUEDL@@XZ": "0x005d43c0",
-    "?FUN_0041d6d0@FUN_0041d6d0_shell@@QAEPAURagDollData@@XZ": "0x0041d6d0",
     "?FUN_004d9910@RagDollRefUpdater@@QAE_NPAVTESObjectREFR@@@Z": "0x004d9910",
     "?FUN_0041d5b0@FUN_0041d5b0_class@@QAEXPAX@Z": "0x0041d5b0",
     "?FUN_00ca86c0@FUN_00ca86c0_class@@QAEIXZ": "0x00ca86c0",
@@ -226039,7 +226042,6 @@
     "?FUN_004d2480@C004d2480@@QAE_NPAVTESObjectREFR@@@Z": "0x004d2480",
     "?GetExtra@XActor@fnv_00565870@@QBEPAUXEDL@2@XZ": "0x005d43c0",
     "?FUN_005ac1e0@FUN_005ac1e0_shell@@QAE_NPAVTESObjectREFR@@PAVScriptLocals@@0_N@Z": "0x005ac1e0",
-    "?FUN_0042ede0@FUN_0042ede0_shell@@QAEPAUExtraSayToTopicInfo@@XZ": "0x0042ede0",
     "__ehhandler$?FUN_00568020@FUN_00568020_shell@fnv_00568020@@QAEXI_N@Z": "0x00eeb0fb",
     "?_FNV_GetFormType@FNVFormStub@fnv_00568020@@QAEHXZ": "0x00401170",
     "?GetExtra@XActor@fnv_00568020@@QBEPAUBaseExtraList@2@XZ": "0x005d43c0",
@@ -227991,7 +227993,9 @@
     "?FUN_00457ba0@FUN_00457ba0_class@@QAEPAUNiAVObject@@PAU2@PAVCloningProcess@@@Z": "0x00457ba0",
     "?FUN_00476ec0@@YAXPAVNiAVObject@@H@Z": "0x00476ec0",
     "?FUN_005fbdd0@FUN_005fbdd0_cls@@QAEXPAUNiAVObject@@@Z": "0x005fbdd0",
-    "?FUN_0040fbe0@@YAXZZ": "0x0040fbe0"
+    "?FUN_0040fbe0@@YAXZZ": "0x0040fbe0",
+    "?FUN_0041d6d0@FUN_0041d6d0_shell@@QAEPAVRagDollData@@XZ": "0x0041d6d0",
+    "?FUN_0042ede0@FUN_0042ede0_shell@@QAEPAVExtraSayToTopicInfo@@XZ": "0x0042ede0"
    },
    "eh_tails": [
     {
@@ -248845,7 +248849,7 @@
     },
     {
      "address": "0x0057fed0",
-     "symbol": "?GetMember@FUN_0057fed0@@QAEIXZ",
+     "symbol": "?GetMember@FUN_0057fed0@@QAEPAVSpellItem@@XZ",
      "size": 20
     },
     {
@@ -248995,7 +248999,6 @@
     "?FUN_00485270@FUN_00509540_obj@@QAE_NPAVTESForm@@@Z": "0x00485270",
     "?_memcmp@@YAHPBX0I@Z": "0x00ec4835",
     "?GetRefCount@TESPackage@@QAEIXZ": "0x00407840",
-    "?GetMember@FUN_0057fed0@@QAEIXZ": "0x0057fed0",
     "??2@YAPAXI@Z": "0x00401000",
     "??0BGSPlaceableWater@@QAE@XZ": "0x004fc1b0",
     "?FUN_004fc450@FUN_004fc450_shell@fnv_004fc450@@QAEX_N@Z": "0x004fc450",
@@ -249072,7 +249075,8 @@
     "?GetNext@?$BSSimpleList@PAVInventoryStackRecord@@@@QAEPAV1@XZ": "0x00726070",
     "??0?$BSStringT@D@@QAE@XZ": "0x004037b0",
     "?Set@?$BSStringT@D@@QAE_NPBDI@Z": "0x004037f0",
-    "?FUN_005b5e40@@YAHZZ": "0x005b5e40"
+    "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
+    "?GetMember@FUN_0057fed0@@QAEPAVSpellItem@@XZ": "0x0057fed0"
    },
    "eh_tails": [
     {

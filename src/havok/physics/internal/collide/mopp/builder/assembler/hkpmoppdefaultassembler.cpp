@@ -48,8 +48,15 @@ struct KdQuantizer
 #include "fnv/symbols_0102e000.h"
 extern "C" void __cdecl GrowBuffer();
 
+// The MOPP code writer: the code is written backwards from the end of m_buf.
 struct FUN_00e06780_class
 {
+    int unk00;
+    int unk04;
+    int m_cap;
+    int m_uiItemCount;
+    char* m_buf;
+
     void AppendChar(char b);
 };
 
@@ -57,12 +64,10 @@ struct FUN_00e06780_class
 // @fnv 0x00e06780
 void FUN_00e06780_class::AppendChar(char acValue)
 {
-    char* p = *(char**)((char*)this + 0x10) - *(int*)((char*)this + 0xc);
-    int base = *(int*)((char*)this + 8);
-    *(p + base - 1) = acValue;
-    ++*(int*)((char*)this + 0xc);
-    if (*(int*)((char*)this + 0xc) >= *(int*)((char*)this + 8))
-        static_cast<::E06490Stack *>(nullptr)->GrowBuffer();
+    m_buf[m_cap - m_uiItemCount - 1] = acValue;
+    ++m_uiItemCount;
+    if (m_uiItemCount >= m_cap)
+        reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
 }
 
 struct S_00e066f0_Src

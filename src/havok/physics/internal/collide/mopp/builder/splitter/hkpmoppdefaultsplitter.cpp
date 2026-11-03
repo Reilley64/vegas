@@ -24,36 +24,44 @@
 #include "fnv/symbols_01073000.h"
 #include "fnv/symbols_010d5000.h"
 #include "fnv/symbols_010ea000.h"
+// A node handed to the visitor: list link, then a flag choosing the list.
+struct E0A070Node
+{
+    E0A070Node* m_next;
+    char m_flag;
+};
+
 struct FUN_00e0a070
 {
     void* m_00;
     void* m_04;
     void* m_08;
     void* m_0c;
-    int m_10;
-    void* m_14;
-    int m_18;
-    void* m_1c;
+    E0A070Node* m_10;
+    int m_14;
+    E0A070Node* m_18;
+    int m_1c;
     void VisitNode(void* node);
 };
 
-// Links node into one of two singly-linked lists on this, chosen by the byte at node+4, incrementing the matching count.
+// Links node into one of two singly-linked lists on this, chosen by the node's flag, incrementing the matching count.
 // @fnv 0x00e0a070
-void FUN_00e0a070::VisitNode(void* node)
+void FUN_00e0a070::VisitNode(void* pNode)
 {
+    E0A070Node* node = static_cast<E0A070Node*>(pNode);
     if (node)
     {
-        if (*reinterpret_cast<char*>(reinterpret_cast<unsigned char*>(node) + 4))
+        if (node->m_flag)
         {
-            *reinterpret_cast<void**>(node) = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x18);
-            ++*reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x1c);
-            *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x18) = node;
+            node->m_next = m_18;
+            ++m_1c;
+            m_18 = node;
         }
         else
         {
-            *reinterpret_cast<void**>(node) = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x10);
-            ++*reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x14);
-            *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x10) = node;
+            node->m_next = m_10;
+            ++m_14;
+            m_10 = node;
         }
     }
 }

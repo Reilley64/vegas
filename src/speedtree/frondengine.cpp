@@ -468,6 +468,7 @@ void FUN_00b1add0::Set(float a, float b, float c)
 
 struct FUN_00b39460_class
 {
+    void* m_pData;
     void FUN_00b39460();
 };
 
@@ -475,7 +476,7 @@ struct FUN_00b39460_class
 // @fnv 0x00b39460
 void FUN_00b39460_class::FUN_00b39460()
 {
-    void* v = *(void**)this;
+    void* v = m_pData;
     ::FUN_00401030(v);
 }
 
@@ -491,13 +492,14 @@ struct Date
 };
 struct FUN_0065d6e0_class : Date
 {
+    FUN_0064df10_helper allocator;
     ~FUN_0065d6e0_class();
 };
-// Destructor that calls deallocate on the helper at offset 4 with the stored pointer and size 1.
+// Destructor that calls deallocate on the allocator with the stored pointer and size 1.
 // @fnv 0x0065d6e0
 FUN_0065d6e0_class::~FUN_0065d6e0_class()
 {
-    ((FUN_0064df10_helper*)((char*)this + 4))->deallocate(p, 1);
+    allocator.deallocate(p, 1);
 }
 
 struct FUN_00b1db00_class
@@ -610,6 +612,7 @@ FUN_00b1ff50::FUN_00b1ff50(const FUN_00b1ff50& src)
 
 struct FUN_00b12af0_shell
 {
+    float m[9];
     void FUN_00b12af0();
 };
 struct FUN_00b18b20
@@ -629,8 +632,8 @@ FUN_00b18b20::FUN_00b18b20()
     f4 = 0.0f;
     f0 = 0.0f;
     ::FUN_00b12af0((::FUN_00b12af0_shell *)&(sub));
-    *(float*)((char*)this + 0x30) = 0.0f;
-    *(int*)((char*)this + 0x34) = 0;
+    f30 = 0.0f;
+    i34 = 0;
 }
 
 struct FUN_00b1fe80_helper
@@ -1033,15 +1036,15 @@ int* FUN_0044d670(unsigned int n)
 // @fnv 0x00b12af0
 FUN_00b12af0_shell* FUN_00b12af0(FUN_00b12af0_shell* apMatrix)
 {
-    *(float*)apMatrix = 1.0f;
-    *(float*)((char*)apMatrix + 4) = 0.0f;
-    *(float*)((char*)apMatrix + 8) = 0.0f;
-    *(float*)((char*)apMatrix + 12) = 0.0f;
-    *(float*)((char*)apMatrix + 16) = 1.0f;
-    *(float*)((char*)apMatrix + 20) = 0.0f;
-    *(float*)((char*)apMatrix + 24) = 0.0f;
-    *(float*)((char*)apMatrix + 28) = 0.0f;
-    *(float*)((char*)apMatrix + 32) = 1.0f;
+    apMatrix->m[0] = 1.0f;
+    apMatrix->m[1] = 0.0f;
+    apMatrix->m[2] = 0.0f;
+    apMatrix->m[3] = 0.0f;
+    apMatrix->m[4] = 1.0f;
+    apMatrix->m[5] = 0.0f;
+    apMatrix->m[6] = 0.0f;
+    apMatrix->m[7] = 0.0f;
+    apMatrix->m[8] = 1.0f;
     return apMatrix;
 }
 

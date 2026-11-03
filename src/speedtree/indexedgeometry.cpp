@@ -57,17 +57,18 @@ struct FloatVec
 struct FUN_00b30190_shell
 {
     char m_ucUnknownByte[0xb8];
+    FloatVec m_kValues;
     void FUN_00b30190(const float* p);
 };
 
-// Passes the first three floats of p to PushBack on the FloatVec at this+0xb8.
+// Passes the first three floats of p to PushBack on m_kValues.
 // @fnv 0x00b30190
 void FUN_00b30190_shell::FUN_00b30190(const float* afValues)
 {
     char stack[0x130];
-    ((FloatVec*)((char*)this + 0xb8))->PushBack(afValues[0]);
-    ((FloatVec*)((char*)this + 0xb8))->PushBack(afValues[1]);
-    ((FloatVec*)((char*)this + 0xb8))->PushBack(afValues[2]);
+    m_kValues.PushBack(afValues[0]);
+    m_kValues.PushBack(afValues[1]);
+    m_kValues.PushBack(afValues[2]);
 }
 
 struct Vec28

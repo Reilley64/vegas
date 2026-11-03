@@ -967,6 +967,8 @@ struct NodeB
     NodeB* f0;
     NodeB* f4;
     NodeB* f8;
+    char m_value[0x20];
+    char m_color;
     unsigned char f2d;
 };
 struct FUN_00b3b810_shell
@@ -981,7 +983,7 @@ struct FUN_00b3b810_shell
 void FUN_00b3b810_shell::InitNode()
 {
     f18 = ((::NodeB *)(reinterpret_cast<::fnv_00b3b880::Tree *>(this)->FUN_00b3b880()));
-    ((unsigned char*)f18)[0x2d] = 1;
+    f18->f2d = 1;
     f18->f4 = f18;
     NodeB* p = f18;
     p->f0 = f18;
@@ -1003,7 +1005,7 @@ void FUN_00b3b1d0_shell::FUN_00b3b1d0(NodeB* apNode)
     NodeB* pNode = apNode->f8;
 
     apNode->f8 = pNode->f0;
-    if (*(signed char*)((char*)pNode->f0 + 0x2D) == 0)
+    if ((signed char)pNode->f0->f2d == 0)
         pNode->f0->f4 = apNode;
 
     pNode->f4 = apNode->f4;

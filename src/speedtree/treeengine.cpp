@@ -138,17 +138,36 @@ struct OwnerB2BC70
     void FUN_00b2bc70(float fScale);
 };
 
-struct FUN_00b2bcf0_shell
+struct RandomNumberGenerator
+{
+    void SeedRandomGenerator(long);
+};
+
+// Fields of the tree engine that the accessors below use; the pads stand for members not named yet.
+struct TreeEngineFields
+{
+    char pad00[0x20];
+    RandomNumberGenerator m_kRandom;
+    char pad21[0x1f];
+    float m_f40;
+    float m_f44;
+    unsigned int m_uiSeed;
+    float m_fSize;
+    float m_fSizeVariance;
+    int m_i54;
+};
+
+struct FUN_00b2bcf0_shell : TreeEngineFields
 {
     void FUN_00b2bcf0(float* a, float* b);
 };
 
-// Reads two floats at offsets 0x4c and 0x50 from this and writes them to the two output pointers.
+// Writes the tree size and its variance to the two output pointers.
 // @fnv 0x00b2bcf0
 void FUN_00b2bcf0_shell::FUN_00b2bcf0(float* a, float* b)
 {
-    *a = *(float*)((char*)this + 0x4c);
-    *b = *(float*)((char*)this + 0x50);
+    *a = m_fSize;
+    *b = m_fSizeVariance;
 }
 
 struct CTreeEngine
@@ -161,11 +180,12 @@ struct CTreeEngine
 // @fnv 0x00b2bd20
 void CTreeEngine::FUN_00b2bd20(float afValue, float fVariance)
 {
-    *(float*)((char*)this + 0x4c) = afValue;
-    *(float*)((char*)this + 0x50) = fVariance;
+    TreeEngineFields* fields = (TreeEngineFields*)this;
+    fields->m_fSize = afValue;
+    fields->m_fSizeVariance = fVariance;
 }
 
-struct FUN_00b2bdc0_shell
+struct FUN_00b2bdc0_shell : TreeEngineFields
 {
     void FUN_00b2bdc0(float a, float b);
 };
@@ -173,8 +193,8 @@ struct FUN_00b2bdc0_shell
 // @fnv 0x00b2bdc0
 void FUN_00b2bdc0_shell::FUN_00b2bdc0(float afValue44, float afValue40)
 {
-    *(float*)(this + 0x44) = afValue44;
-    *(float*)(this + 0x40) = afValue40;
+    m_f44 = afValue44;
+    m_f40 = afValue40;
 }
 
 struct FUN_00b2ae60_shell
@@ -192,11 +212,7 @@ void* FUN_00b2ae60_shell::DestroyIfFlagged(unsigned int flags)
     return this;
 }
 
-struct RandomNumberGenerator
-{
-    void SeedRandomGenerator(long);
-};
-struct FUN_00b2c0c0_shell
+struct FUN_00b2c0c0_shell : TreeEngineFields
 {
     void InitSeed(unsigned int seed);
 };
@@ -206,14 +222,14 @@ void FUN_00b2c0c0_shell::InitSeed(unsigned int seed)
     if (seed == 0)
     {
         const int c_nMaxSeed = 1000000;
-        ((RandomNumberGenerator*)((char*)this + 0x20))->SeedRandomGenerator(-1);
-        *(unsigned int*)((char*)this + 0x48) = (unsigned int)(long)(reinterpret_cast<::FUN_00b3f130_shell *>((((RandomNumberGenerator*)((char*)this + 0x20))))->FUN_00b3f130(2.0f, DAT_0108cb00));
+        m_kRandom.SeedRandomGenerator(-1);
+        m_uiSeed = (unsigned int)(long)(reinterpret_cast<::FUN_00b3f130_shell *>(&m_kRandom)->FUN_00b3f130(2.0f, DAT_0108cb00));
     }
     else if (seed == 1)
     {
     }
     else
-        *(unsigned int*)((char*)this + 0x48) = seed;
+        m_uiSeed = seed;
 }
 
 struct ElementIterator
@@ -226,7 +242,7 @@ struct FUN_00b2daf0_shell : CTreeEngine
 // @fnv 0x00b2daf0
 void FUN_00b2daf0_shell::FUN_00b2daf0(ElementIterator* a)
 {
-    *(int*)((char*)this + 0x54) = reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement();
+    ((TreeEngineFields*)this)->m_i54 = reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement();
 }
 
 namespace std {

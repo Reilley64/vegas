@@ -16,7 +16,9 @@
 #include "fnv/symbols_011f8000.h"
 struct LeafLod
 {
-    char b[0x44];
+    char b[0x3c];
+    unsigned char m_bComputed;
+    char pad3d[0x7];
 };
 struct SpeedTreeLodData
 {
@@ -33,8 +35,7 @@ void SpeedTreeLodData::FUN_00b27820()
     {
         for (int i = 0; i < m_usValueAt28; ++i)
         {
-            char* pEntry = (char*)m_pLeafLod + i * 0x44;
-            *(unsigned char*)(pEntry + 0x3c) = 0;
+            m_pLeafLod[i].m_bComputed = 0;
         }
     }
 }

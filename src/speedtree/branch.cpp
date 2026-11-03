@@ -518,6 +518,7 @@ struct AngleState
 struct FacingTint
 {
     int unk00;
+    Vec m_kPosition;
     void FUN_00b40210(Vec* point, Vec* other, float t);
 };
 
@@ -532,7 +533,7 @@ void FacingTint::FUN_00b40210(Vec* point, Vec* other, float t)
     Vec scaled;
     Vec dest;
     AngleState basis;
-    ((Vec*)((char*)this + 4))->FUN_00b13040(&sample, point);
+    m_kPosition.FUN_00b13040(&sample, point);
     reinterpret_cast<::FUN_00b12790_class *>(&(sample))->FUN_00b12790();
     other->FUN_00b13040(&goal, point);
     reinterpret_cast<::FUN_00b12790_class *>(&(goal))->FUN_00b12790();

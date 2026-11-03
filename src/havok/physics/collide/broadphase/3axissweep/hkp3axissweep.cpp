@@ -734,21 +734,7 @@ void __cdecl CollectNodePairs(const void* unused, S_00d138a0_Node* node, int cou
 
 
 
-struct SpawnedObject {
-    int unk00;
-    unsigned short m_wSize;
 
-    SpawnedObject* Init(int a, int b, int c);
-};
-
-// Allocates a 0xe0-byte SpawnedObject from the holder's allocator, sets its size, and initializes it with the three arguments.
-// @fnv 0x00d182a0
-SpawnedObject* FUN_00d182a0(int a, int b, int c)
-{
-    SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0xe0));
-    obj->m_wSize = 0xe0;
-    return obj->Init(a, b, c);
-}
 
 // Writes the smallest of v[0], v[1], v[2] to out and returns its index (0, 1 or 2).
 // @fnv 0x00d19d10
@@ -1177,17 +1163,15 @@ __forceinline void addArray(hkStatisticsCollector* collector, const char* name, 
     }
 }
 
-struct hkp3AxisSweep {
-    int unk00; int unk04; int unk08; int unk0C;
-    int unk10; int unk14; int unk18; int unk1C;
-    int unk20; int unk24; int unk28; int unk2C;
-    int unk30; int unk34; int unk38; int unk3C;
-    int unk40; int unk44; int unk48; int unk4C;
-    int unk50; int unk54; int unk58; int unk5C;
-    int unk60; int unk64; int unk68; int unk6C;
-    int unk70; int unk74; int unk78; int unk7C;
-    int unk80; int unk84; int unk88; int unk8C;
-    int unk90; int unk94; int unk98; int unk9C;
+// 0xe0 bytes on 32-bit.
+struct __declspec(align(16)) hkp3AxisSweep {
+    const void* m_vtable;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+    unsigned int m_threadCheck[2];  // +0x08, hkMultiThreadCheck
+    void* m_criticalSection;        // +0x10
+    int unk14; int unk18; int unk1C;
+    __m128 m_quantization[8];       // +0x20, the world aabb and the quantization offsets and scales
 
     hkArray<FourIntegerBlock> m_kNodeCollection;
     hkArray<UnsignedShortPair> m_axis0;
@@ -1205,6 +1189,22 @@ struct hkp3AxisSweep {
 int hkp3AxisSweep::FUN_00d11630()
 {
     return 8 * (3 * (m_kNodeCollection.m_iElementCount - m_iMarkerCount)) + 0x24;
+}
+
+struct SpawnedObject {
+    const void* m_vtable;
+    unsigned short m_wSize;
+
+    SpawnedObject* Init(const void* a, const void* b, int c);
+};
+
+// Allocates a 3-axis sweep broad phase from the heap, sets its size, and initializes it with the three arguments.
+// @fnv 0x00d182a0
+SpawnedObject* FUN_00d182a0(const void* a, const void* b, int c)
+{
+    SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(hkp3AxisSweep)));
+    obj->m_wSize = sizeof(hkp3AxisSweep);
+    return obj->Init(a, b, c);
 }
 
 // Reports the sizes of the node, axis and marker arrays to the statistics collector, including each marker's overlapping markers.
@@ -3922,7 +3922,7 @@ void AssignedSweep::FUN_00d193e0(RemovedHandleList* apRemoved, void* arg2)
 #include "fnv/symbols_01267000.h"
 void ToggleBit(int a, void* b);
 void FUN_00d10af0(int index, unsigned int* bits);
-SpawnedObject* FUN_00d182a0(int a, int b, int c);
+SpawnedObject* FUN_00d182a0(const void* a, const void* b, int c);
 static int FUN_00d10b10(void* self, int index, unsigned int* bits);
 int IsBitmapBitSet(void* table, int index, unsigned int* bits);
 int __cdecl FUN_00d10ac0();

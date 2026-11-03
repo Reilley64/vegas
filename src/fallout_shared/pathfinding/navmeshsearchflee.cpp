@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv_result_slot.h"
 #include "fnv/decl/AvoidNodeList.h"
 #include "fnv/decl/DoorAccessData.h"
 #include "fnv/decl/FUN_00438690.h"
@@ -148,13 +149,13 @@ bool NavMeshSearchFlee::IsNodeValid(const AStarNode<NavMeshTriangleReference, Na
     if (apNode == ((const ::AStarNode< ::NavMeshTriangleReference, ::NavMeshTriangleEdgeReference> *)(reinterpret_cast<::FUN_009962d0_class *>(this)->GetFieldAt2050())))
         return false;
     NiPoint3 nodeCenter = (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)&(apNode->kNode))->FUN_006a6eb0({})));
-    float fsqrLength = reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::NiPoint3 &)((reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(pRequest))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - nodeCenter)))->GetSquaredXYLength();
+    float fsqrLength = reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::NiPoint3 &)((reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(pRequest))))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>()) - nodeCenter)))->GetSquaredXYLength();
     if (fsqrLength < reinterpret_cast<::FUN_006d2c20_Class *>((void *)(pRequest))->GetFloatAtOffsetB0() * reinterpret_cast<::FUN_006d2c20_Class *>((void *)(pRequest))->GetFloatAtOffsetB0())
         return false;
     if (bHasDestination)
     {
         NiPoint3 destinationVec = kDestination - nodeCenter;
-        NiPoint3 originDestinationVec = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(pRequest))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - kDestination;
+        NiPoint3 originDestinationVec = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(pRequest))))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>()) - kDestination;
         if (reinterpret_cast<::TESCombatStyle *>((void *)&(originDestinationVec))->UpdateCombatStyle() < reinterpret_cast<::TESCombatStyle *>((void *)&(destinationVec))->UpdateCombatStyle())
             return false;
     }
@@ -294,7 +295,7 @@ bool FleeSearch::StartFleeSearch(FleeRequest* request, const FleeStartNode* star
 {
     pRequest = request;
     reinterpret_cast<FleeStartNode&>(pad205c) = *start;
-    NiPoint3 a = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 a = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(request))))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
     reinterpret_cast<NiPoint3&>(kAvoidVector) = ::NiPoint3::ZERO;
     fFleeRange = reinterpret_cast<::FUN_006d2c20_Class *>((void *)(request))->GetFloatAtOffsetB0();
     if (((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(static_cast<FleeRequest*>(pRequest)))->GetString())))
@@ -305,7 +306,7 @@ bool FleeSearch::StartFleeSearch(FleeRequest* request, const FleeStartNode* star
     if (!reinterpret_cast<::FUN_006a9520_Class *>((static_cast<FleeLocation*>(((::PathingLocation *)(::FUN_006a9540((char *)(request)))))))->FUN_006a9520())
     {
         bHasDestination = true;
-        kDestination = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::FUN_006a9540((char *)(static_cast<FleeRequest*>(pRequest)))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+        kDestination = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::FUN_006a9540((char *)(static_cast<FleeRequest*>(pRequest)))))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
     }
     bool h = FUN_006a7d60(path, limit, ((bool)(reinterpret_cast<::FUN_006a9560_Class *>((static_cast<FleeRequest*>(pRequest)))->GetByteAtOffset9B())));
     if (!h && !reinterpret_cast<::FUN_0076b610_Class *>((path))->FUN_0076b610())

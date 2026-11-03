@@ -493,7 +493,7 @@ void UpdateRadioSignals(bool abUpdateSignals)
                 {
                     bmatch = true;
                     isignalPower = 100;
-                    ((RadioSignal*)((char*)pstation + 4))->FUN_00834210(false);
+                    ((RadioSignal*)&pstation->station)->FUN_00834210(false);
                     fdistance = (*((float *)(&reinterpret_cast<::SimpleListNodeView*>(pdistances)->m_item)));
                     fradioRadius = reinterpret_cast<::fnv_0056b190::FUN_0056b190_shell *>((((RadioStationRef*)pstation->form)))->FUN_0056b190();
                     if (reinterpret_cast<::fnv_0056b1d0::XActor *>((((RadioStationRef*)pstation->form)))->FUN_0056b1d0() != 0.0)
@@ -507,7 +507,7 @@ void UpdateRadioSignals(bool abUpdateSignals)
                             isignalPower = 100 - (unsigned char)((fstaticRatio - fstaticDistance) /
                                                                  (1.0f - fstaticDistance) * 100.0);
                     }
-                    reinterpret_cast<::FUN_00458b30_class *>((((RadioSignal*)((char*)pstation + 4))))->SetByteAtOffset17(isignalPower);
+                    reinterpret_cast<::FUN_00458b30_class *>((((RadioSignal*)&pstation->station)))->SetByteAtOffset17(isignalPower);
                     stations = 0;
                     pdistances = 0;
                 }
@@ -519,8 +519,8 @@ void UpdateRadioSignals(bool abUpdateSignals)
             }
             if (abUpdateSignals && !bmatch)
             {
-                ((RadioSignal*)((char*)pstation + 4))->FUN_00834210(true);
-                reinterpret_cast<::FUN_00458b30_class *>((((RadioSignal*)((char*)pstation + 4))))->SetByteAtOffset17(0);
+                ((RadioSignal*)&pstation->station)->FUN_00834210(true);
+                reinterpret_cast<::FUN_00458b30_class *>((((RadioSignal*)&pstation->station)))->SetByteAtOffset17(0);
             }
             if (bmatch && DAT_011dd430 == (std::uintptr_t)pstation)
             {
@@ -600,20 +600,21 @@ void FUN_008330b0_shell::SetFlag(bool a2)
 
 struct FUN_00833bc0_shell
 {
-    int mFlags;  // +0x14
     bool IsFlagSet();
+    unsigned int pad00[0x5];
+    int mFlags;
 };
 
 // @fnv 0x00833bc0
 bool FUN_00833bc0_shell::IsFlagSet()
 {
-    return (*(int*)((char*)this + 0x14) & 4) != 0;
+    return (this->mFlags & 4) != 0;
 }
 
 // @fnv 0x00833c00
 bool IsFlag80Set(void* thisPtr)
 {
-    return (((int*)thisPtr)[5] & 0x80) != 0;
+    return (static_cast<FUN_00833bc0_shell*>(thisPtr)->mFlags & 0x80) != 0;
 }
 
 // @fnv 0x00833ce0
@@ -633,12 +634,14 @@ struct FUN_00835650_shell
 {
     int m_uiSoundFlags;
     bool FUN_00835650();
+    unsigned int pad04[0x4];
+    int unk14;
 };
 
 // @fnv 0x00835650
 bool FUN_00835650_shell::FUN_00835650()
 {
-    return (*(int*)((char*)this + 0x14) & 1) != 0;
+    return (this->unk14 & 1) != 0;
 }
 
 struct FUN_00835670_shell
@@ -728,12 +731,14 @@ void FUN_00833100_shell::FUN_00833100(bool enabled)
 struct FUN_00833be0_shell
 {
     int FUN_00833be0();
+    unsigned int pad00[0x5];
+    int unk14;
 };
 
 // @fnv 0x00833be0
 int FUN_00833be0_shell::FUN_00833be0()
 {
-    return (reinterpret_cast<int*>(this)[5] & 0x10) != 0;
+    return (this->unk14 & 0x10) != 0;
 }
 
 struct FUN_00833c20_shell
@@ -742,11 +747,14 @@ struct FUN_00833c20_shell
     virtual ~FUN_00833c20_shell()
     {}
     unsigned char FUN_00833c20();
+    char pad04[0xc];
+    char unk10;
+    char pad11[0x3];
 };
 
 unsigned char FUN_00833c20_shell::FUN_00833c20()
 {
-    return ((char*)this)[0x10];
+    return this->unk10;
 }
 
 struct FUN_00834210_shell
@@ -949,7 +957,7 @@ bool FUN_00835b90(TESObjectREFR* apTargetStation)
     bretValue = false;
     pstation = FalloutRadio::GetRadioConversation(((::BGSTalkingActivator *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FNVHelper00835b90*)apTargetStation)))->FUN_007af430())));
     if (pstation)
-        bretValue = reinterpret_cast<::FUN_00833040_shell *>((((FUN_00833040_shell*)((char*)pstation + 4))))->IsFlag20Set();
+        bretValue = reinterpret_cast<::FUN_00833040_shell *>((((FUN_00833040_shell*)&pstation->unk04)))->IsFlag20Set();
     return bretValue;
 }
 }  // namespace fnv_00835b90
@@ -1223,12 +1231,14 @@ struct FUN_00836470_shell
 struct FUN_008366c0_shell
 {
     void FUN_008366c0(int a);
+    char pad00[0x4];
+    FUN_00836470_shell kSoundItems;
 };
 
 // @fnv 0x008366c0
 void FUN_008366c0_shell::FUN_008366c0(int a)
 {
-    reinterpret_cast<::S_00836470 *>((((FUN_00836470_shell*)((char*)this + 4))))->UpdateSoundItems(a);
+    reinterpret_cast<::S_00836470 *>(&kSoundItems)->UpdateSoundItems(a);
 }
 
 struct FUN_00832420_shell
@@ -2743,9 +2753,9 @@ FalloutRadio::RadioStationState* CreateRadioStationState(TESObjectREFR* a1, TESO
     ((StationData*)state3)->unk0C = ((::fnv_00832cb0::BSAudio *)(::FUN_00453a70()))->GetSynchTime() - ::GetRandomNumberInRange(0, 30000);
     ((StationData*)state3)->unk10 = 1;
 
-    reinterpret_cast<::FUN_00833100_shell *>((((FUN_00833100_shell*)((char*)state3 + 4))))->FUN_00833100(((MyForm*)((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((P01ObjA*)((StationData*)state3)->form)))->FUN_007af430())))->vfn_b4());
-    reinterpret_cast<::FUN_008330b0_shell *>((((FUN_008330b0_shell*)((char*)state3 + 4))))->SetFlag(reinterpret_cast<::FUN_00833040_shell *>((((FUN_00833040_shell*)((char*)state3 + 4))))->IsFlag20Set());
-    reinterpret_cast<::FUN_00833060_shell *>((((FUN_00833060_shell*)((char*)state3 + 4))))->FUN_00833060(true);
+    reinterpret_cast<::FUN_00833100_shell *>((((FUN_00833100_shell*)&state3->station)))->FUN_00833100(((MyForm*)((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((P01ObjA*)((StationData*)state3)->form)))->FUN_007af430())))->vfn_b4());
+    reinterpret_cast<::FUN_008330b0_shell *>((((FUN_008330b0_shell*)&state3->station)))->SetFlag(reinterpret_cast<::FUN_00833040_shell *>((((FUN_00833040_shell*)&state3->station)))->IsFlag20Set());
+    reinterpret_cast<::FUN_00833060_shell *>((((FUN_00833060_shell*)&state3->station)))->FUN_00833060(true);
 
     ((StationData*)state3)->unk14 = 0x64;
     ((StationData*)state3)->unk15 = 0x64;

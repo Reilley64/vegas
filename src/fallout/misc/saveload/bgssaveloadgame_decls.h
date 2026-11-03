@@ -68,7 +68,9 @@ class BGSReconstructFormsInAllFilesMap
   public:
     BGSReconstructFormsInAllFilesMap();
     virtual ~BGSReconstructFormsInAllFilesMap();
-    unsigned int data[12];
+    unsigned int data04[3];
+    unsigned int unk10[4];
+    unsigned int data20[5];
     void BuildMap();
     void* GetFirstPos();
     TESForm* FUN_00849ca0(unsigned int);
@@ -82,13 +84,22 @@ class BGSSaveLoadReferencesMap
 public:
     void Clear();
 };
+class LoadGameSubBufferQueue;
 class BGSSaveLoadGame
 {
   public:
     BGSSaveLoadChangesMap* m_pFormChangesMap;
-    unsigned int unused[3];
+    unsigned int unused04;
+    void* unk08;
+    unsigned int unused0c;
     BGSSaveLoadReferencesMap* m_pReferencesMap;
-    unsigned char pad14[0x248 - 0x14];
+    LoadGameSubBufferQueue* unk14;
+    unsigned int pad18[2];
+    void* unk20;
+    unsigned int pad24[4];
+    BGSReconstructFormsInAllFilesMap unk34;
+    unsigned char pad68[0x244 - 0x68];
+    unsigned int unk244;
     unsigned char m_ucSaveLoadState;
     unsigned char GetLoadState();
     bool ContainsReference(unsigned int);

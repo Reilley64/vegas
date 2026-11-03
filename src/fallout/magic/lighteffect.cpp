@@ -125,19 +125,21 @@ struct FUN_00b5b4a0_holder
 struct FUN_0080e8a0_holder
 {
     void FUN_0080e8a0(float afSecondsElapsed);
+    char pad00[0x48];
+    Flt unk48;
 };
 // @fnv 0x0080e8a0
 void FUN_0080e8a0_holder::FUN_0080e8a0(float afSecondsElapsed)
 {
     ShadowSceneNode* pnode;
-    if ((unsigned int)(*(Flt*)((char*)this + 0x48)))
+    if ((unsigned int)unk48)
     {
         pnode = NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0);
         if (pnode)
         {
-            if (!((::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(((FUN_00b5b4a0_holder*)pnode)), (unsigned int)(*(Flt*)((char*)this + 0x48)), {}))))
+            if (!((::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(((FUN_00b5b4a0_holder*)pnode)), (unsigned int)unk48, {}))))
             {
-                reinterpret_cast<::fnv_00b5c940::SSNode *>((pnode))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(::NiLight *)((NiLight*)(uintptr_t)(*(Flt*)((char*)this + 0x48))), true);
+                reinterpret_cast<::fnv_00b5c940::SSNode *>((pnode))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(::NiLight *)((NiLight*)(uintptr_t)unk48), true);
             }
         }
     }
@@ -251,6 +253,11 @@ struct FUN_0080e730_shell
     virtual void v17(ActiveEffect*);
 
     ActiveEffect* CreateActiveEffect();
+    unsigned int pad04[0x1];
+    void* unk08;
+    void* unk0c;
+    unsigned int pad10[0x6];
+    void* unk28;
 };
 
 // Allocates a new FUN_0080e610 ActiveEffect from three fields of this object, passes it to v17, and returns it.
@@ -258,7 +265,7 @@ struct FUN_0080e730_shell
 ActiveEffect* FUN_0080e730_shell::CreateActiveEffect()
 {
     ActiveEffect* presult =
-        new FUN_0080e610(*(void**)((char*)this + 0x28), *(void**)((char*)this + 0x8), *(void**)((char*)this + 0xc));
+        new FUN_0080e610(this->unk28, this->unk08, this->unk0c);
 
     this->v17(presult);
     return presult;
@@ -780,6 +787,12 @@ void FUN_0080e900_cls::FUN_0080e900()
         ::FUN_0080ee50((::MagicTarget *)(char *)(a != 0 ? a + 0x94 : 0));
     }
 }
+
+// The LightEffect member after ActiveEffect.
+struct LightEffectFields : ActiveEffectFields
+{
+    EdCallee spLight;
+};
 // @fnv 0x0080ed60
 void LightEffect::FUN_0080ed60()
 {
@@ -788,23 +801,23 @@ void LightEffect::FUN_0080ed60()
     void* pObj;
     pActor2 = ((void *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((void *)(reinterpret_cast<::MagicTarget *>((((EdCallee*)((void *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)))))->GetOwnerActor())) : 0;
 
-    if (((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48)))))) != 0)
+    if (((void *)(::FUN_00559450((int *)((&reinterpret_cast<LightEffectFields*>(this)->spLight))))) != 0)
     {
         pTmp = FUN_00450b80(0);
         if (pTmp != 0)
         {
-            reinterpret_cast<::B5Owner *>((((EdCallee*)pTmp)))->FUN_00b5eed0((uintptr_t)(((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48))))))));
+            reinterpret_cast<::B5Owner *>((((EdCallee*)pTmp)))->FUN_00b5eed0((uintptr_t)(((void *)(::FUN_00559450((int *)((&reinterpret_cast<LightEffectFields*>(this)->spLight)))))));
         }
-        pObj = ((void *)(reinterpret_cast<::FUN_009611e0_shell *>((((EdCallee*)((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48)))))))))->FUN_009611e0()));
+        pObj = ((void *)(reinterpret_cast<::FUN_009611e0_shell *>((((EdCallee*)((void *)(::FUN_00559450((int *)((&reinterpret_cast<LightEffectFields*>(this)->spLight))))))))->FUN_009611e0()));
         if (pObj != 0)
         {
-            ((EdVirtual)(*(void***)pObj)[58])(pObj, ((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48)))))));
+            ((EdVirtual)(*(void***)pObj)[58])(pObj, ((void *)(::FUN_00559450((int *)((&reinterpret_cast<LightEffectFields*>(this)->spLight))))));
         }
         if (pActor2 != 0)
         {
             ((EdCallee*)pActor2)->FUN_00572a50(1);
         }
-        ((EdCallee*)((char*)this + 0x48))->FUN_0066b0d0(0);
+        (&reinterpret_cast<LightEffectFields*>(this)->spLight)->FUN_0066b0d0(0);
         DAT_011dc304 = DAT_011dc304 - 1;
         if (DAT_011dc304 < 0)
         {

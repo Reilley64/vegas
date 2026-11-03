@@ -73,12 +73,15 @@ void FUN_00847db0_shell::FUN_00847db0()
 struct FUN_00853dc0_shell
 {
     int GetDifference();
+    char pad00[0xc];
+    int unk0c;
+    int unk10;
 };
 
 // @fnv 0x00853dc0
 int FUN_00853dc0_shell::GetDifference()
 {
-    return *(int*)((char*)this + 0xc) - *(int*)((char*)this + 0x10);
+    return this->unk0c - this->unk10;
 }
 
 struct FUN_008547f0_shell
@@ -99,12 +102,15 @@ int FUN_008547f0_shell::GetSum()
 struct FUN_00854810_shell
 {
     int GetSumOfFields();
+    unsigned int pad00[0x41];
+    int unk104;
+    int unk108;
 };
 
 // @fnv 0x00854810
 int FUN_00854810_shell::GetSumOfFields()
 {
-    return ((int*)this)[0x41] + ((int*)this)[0x42];
+    return this->unk104 + this->unk108;
 }
 
 struct FUN_00854880_shell
@@ -219,6 +225,10 @@ struct BGSSaveLoadGame;
 struct FUN_00853570_shell
 {
     void WriteFormIDBytes(unsigned int numericID);
+    unsigned char unk00;
+    unsigned char unk01;
+    unsigned char unk02;
+    char pad03[0x1];
 };
 // @fnv 0x00853570
 void FUN_00853570_shell::WriteFormIDBytes(unsigned int numericID)
@@ -228,9 +238,9 @@ void FUN_00853570_shell::WriteFormIDBytes(unsigned int numericID)
     unsigned int ifileIndex = iElementIndex >> 24;
     if (ifileIndex == 0xFF)
         iElementIndex |= 0x800000;
-    ((unsigned char*)this)[0] = (unsigned char)(iElementIndex >> 16);
-    ((unsigned char*)this)[1] = (unsigned char)(iElementIndex >> 8);
-    ((unsigned char*)this)[2] = (unsigned char)iElementIndex;
+    this->unk00 = (unsigned char)(iElementIndex >> 16);
+    this->unk01 = (unsigned char)(iElementIndex >> 8);
+    this->unk02 = (unsigned char)iElementIndex;
 }
 
 extern int DAT_011a2428[];

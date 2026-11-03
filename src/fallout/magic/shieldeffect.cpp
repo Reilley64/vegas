@@ -161,6 +161,11 @@ struct ValueModifierEffectUpdate
 struct ShieldEffectUpdate
 {
     void UpdateShieldEffect(float dt);
+    unsigned int pad00[0x7];
+    float unk1c;
+    float unk20;
+    unsigned int pad24[0x2];
+    unsigned int unk2c;
 };
 
 struct ShieldEffect;
@@ -546,8 +551,8 @@ void ShieldEffectUpdate::UpdateShieldEffect(float dt)
     {
         Actor* actor =
             reinterpret_cast<::ActiveEffectFields *>(this)->target ? ((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor() : 0;
-        if (*(float*)((char*)this + 0x20) > ::_DAT_01012060 || *(unsigned int*)((char*)this + 0x2c) == 4)
-            reinterpret_cast<::ActiveEffect828 *>((((ShieldEffectMod*)this)))->FUN_008282e0((::Actor828 *)(actor), *(float*)((char*)this + 0x1c) * dt);
+        if (this->unk20 > ::_DAT_01012060 || this->unk2c == 4)
+            reinterpret_cast<::ActiveEffect828 *>((((ShieldEffectMod*)this)))->FUN_008282e0((::Actor828 *)(actor), this->unk1c * dt);
     }
 }
 // Calls FUN_0082c000, then if a flag check or gModifierZero matches, resolves an Actor and calls FUN_008282e0 with it and pad6.

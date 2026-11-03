@@ -76,23 +76,23 @@ class TESSaveLoadGame
 
 struct FUN_00827510_shell : ActiveEffect
 {
-    unsigned int m_4c;
-    unsigned int m_50;
-    unsigned char m_54[12];
-    unsigned char m_60[16];
-
     void LoadGame(Actor* apActor);
+    unsigned int pad00[0x13];
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned char unk54[12];
+    unsigned char unk60[16];
 };
 
-// Loads the base ActiveEffect state, then reads four blocks (4, 4, 12 and 16 bytes) into this object at offsets 0x4c, 0x50, 0x54 and 0x60 via g_TESSaveLoadGame.
+// Loads the base ActiveEffect state, then reads the 4, 4, 12 and 16 byte members after it via g_TESSaveLoadGame.
 // @fnv 0x00827510
 void FUN_00827510_shell::LoadGame(Actor* apActor)
 {
     reinterpret_cast<::ActiveEffectLoader *>(this)->FUN_00805330(apActor);
-    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 0x4c), 4);
-    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 0x50), 4);
-    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 0x54), 12);
-    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 0x60), 16);
+    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0((void*)(&this->unk4c), 4);
+    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0((void*)(&this->unk50), 4);
+    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0(this->unk54, 12);
+    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0(this->unk60, 16);
 }
 
 struct TESForm
@@ -328,11 +328,11 @@ struct FUN_008265b0_shell
     unsigned int z;
     unsigned int aa;
     unsigned int ab;
-    FUN_008265b0_shell(int, int, int);
+    FUN_008265b0_shell(void*, void*, void*);
 };
 // Allocates and constructs a FUN_008265b0_shell from the three arguments, returning the new object.
 // @fnv 0x008273c0
-FUN_008265b0_shell* FUN_008273c0(int aiArg1, int aiArg2, int aiArg3)
+FUN_008265b0_shell* FUN_008273c0(void* aiArg1, void* aiArg2, void* aiArg3)
 {
     return new FUN_008265b0_shell(aiArg1, aiArg2, aiArg3);
 }
@@ -397,34 +397,38 @@ struct FUN_008266a0_copy60
     unsigned char data[16];
 };
 
+// The ReanimateEffect members after ActiveEffect, as its copy function (0x008266a0) reads them.
+struct ReanimateEffectCopyFields
+{
+    unsigned char pad00[0x48];
+    unsigned int m_48;
+    int m_4c;
+    float m_50;
+    FUN_008266a0_copy54 m_54;
+    FUN_008266a0_copy60 m_60;
+};
+
 struct FUN_008266a0_shell : ReanimateEffect
 {
     ActiveEffect* FUN_008266a0();
 };
 
-// Allocates a new effect from three fields of this, passes it to a17, copies fields at 0x48-0x6f into it and returns it.
+// Allocates a new effect from this effect's caster, spell and effect item, passes it to a17, copies the ReanimateEffect members into it and returns it.
 // @fnv 0x008266a0
 ActiveEffect* FUN_008266a0_shell::FUN_008266a0()
 {
     ActiveEffect* presult = reinterpret_cast<ActiveEffect*>(
-        new FUN_008265b0_shell(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x28),
-                               *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x08),
-                               *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x0c)));
+        new FUN_008265b0_shell(reinterpret_cast<ActiveEffectFields*>(this)->caster, reinterpret_cast<ActiveEffectFields*>(this)->spell, reinterpret_cast<ActiveEffectFields*>(this)->effect));
 
     reinterpret_cast<FUN_008266a0_virt*>(this)->a17(presult);
 
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(presult) + 0x48) =
-        *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(presult) + 0x4c) =
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x4c);
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(presult) + 0x50) =
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x50);
-
-    *reinterpret_cast<FUN_008266a0_copy54*>(reinterpret_cast<char*>(presult) + 0x54) =
-        *reinterpret_cast<FUN_008266a0_copy54*>(reinterpret_cast<char*>(this) + 0x54);
-
-    *reinterpret_cast<FUN_008266a0_copy60*>(reinterpret_cast<char*>(presult) + 0x60) =
-        *reinterpret_cast<FUN_008266a0_copy60*>(reinterpret_cast<char*>(this) + 0x60);
+    ReanimateEffectCopyFields* pDest = reinterpret_cast<ReanimateEffectCopyFields*>(presult);
+    ReanimateEffectCopyFields* pSource = reinterpret_cast<ReanimateEffectCopyFields*>(this);
+    pDest->m_48 = pSource->m_48;
+    pDest->m_4c = pSource->m_4c;
+    pDest->m_50 = pSource->m_50;
+    pDest->m_54 = pSource->m_54;
+    pDest->m_60 = pSource->m_60;
 
     return presult;
 }
@@ -1974,7 +1978,7 @@ struct EffBase
 {
     virtual void v0();
     unsigned char _pad[0x44];
-    EffBase(int, int, int);
+    EffBase(void*, void*, void*);
     ~EffBase();
 };
 struct FUN_008265b0 : EffBase
@@ -1985,11 +1989,11 @@ struct FUN_008265b0 : EffBase
     V12b m_54;
     V16b m_60;
     virtual void v0();
-    FUN_008265b0(int a, int b, int c);
+    FUN_008265b0(void* a, void* b, void* c);
 };
 // Initializes m_48, m_4c, and m_50 to zero, assigns m_54 from Make(0, 0, 0), and copies g_v to m_60.
 // @fnv 0x008265b0
-FUN_008265b0::FUN_008265b0(int a, int b, int c) : EffBase(a, b, c)
+FUN_008265b0::FUN_008265b0(void* a, void* b, void* c) : EffBase(a, b, c)
 {
     m_48 = 0;
     m_50 = 0.0f;

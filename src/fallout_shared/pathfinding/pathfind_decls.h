@@ -111,6 +111,7 @@ class PathingRequest
     virtual void vfn_8();
     virtual void vfn_c();
     virtual PATHING_REQUEST_TYPE GetType();
+    char layoutPadding4[0xAC];
 public:
     void SetDestination(::PathingLocation *);
 public:
@@ -132,6 +133,17 @@ class PathingRequestLOS : public PathingRequest
 };
 class PathingRequestOptimalLocation : public PathingRequest
 {
+  public:
+    float afTargetPoint[3];  // +0xB0
+    float fUnkBC;
+    float fUnkC0;
+    char padC4[8];
+    unsigned char ucUnkCC;
+    unsigned char ucUnkCD;
+    unsigned char ucUnkCE;
+    unsigned char ucUnkCF;
+    unsigned char ucUnkD0;
+    unsigned char ucUnkD1;
 };
 class PathingRequestUnknown : public PathingRequest
 {

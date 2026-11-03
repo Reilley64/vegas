@@ -312,7 +312,7 @@ void FUN_00845960_shell::SetCombatTargetQuantity(uintptr_t formID, unsigned int 
         reinterpret_cast<::FUN_00844700_Class *>((((BGSSaveLoadChangesMap*)this)))->FUN_00844700(formID, (uintptr_t)((FormChangeRecord*)array));
     }
     reinterpret_cast<::FUN_00537e90 *>((((QuantityData*)array)))->SetQuantity(FUN_00559450((int*)&quantity));
-    ((unsigned int*)((char*)array + 4))[0] = extra;
+    reinterpret_cast<FormChangeRecord*>(array)->flags.iFlags = extra;
 }
 
 extern int DAT_0107eda8;

@@ -48,17 +48,22 @@ struct FUN_0080bc70_base
 {
     FUN_0080bc70_base(MagicCaster*, MagicItem*, EffectItem*);
 };
+struct DemoralizeEffectFields : ActiveEffectFields
+{
+    unsigned char unk48;
+};
+
 struct FUN_0080c890 : FUN_0080bc70_base
 {
     FUN_0080c890(MagicCaster*, MagicItem*, EffectItem*);
 };
-// Initializes the object's vtable pointer and clears the byte at offset 0x48 after constructing the base with the caster, item and effect item.
+// Initializes the object's vtable pointer and clears the byte after the ActiveEffect members after constructing the base with the caster, item and effect item.
 // @fnv 0x0080c890
 FUN_0080c890::FUN_0080c890(MagicCaster* a, MagicItem* pItem, EffectItem* pEffectItem)
     : FUN_0080bc70_base(a, pItem, pEffectItem)
 {
     *(void**)this = (void*)&DAT_01079ddc;
-    *(unsigned char*)((char*)this + 0x48) = 0;
+    reinterpret_cast<DemoralizeEffectFields*>(this)->unk48 = 0;
 }
 
 struct TESSaveLoadGame
@@ -72,6 +77,9 @@ struct SaveGameHelper
 struct DemoralizeEffectShell : DemoralizeEffect
 {
     void FUN_0082b750(Actor* apActor);
+    char pad01[0x48];
+    unsigned char unk48;
+    char pad49[0x2];
 };
 
 // Saves the game for apActor, then calls FUN_008579b0 on this+0x48 with 1.
@@ -79,7 +87,7 @@ struct DemoralizeEffectShell : DemoralizeEffect
 void DemoralizeEffectShell::FUN_0082b750(Actor* apActor)
 {
     reinterpret_cast<::EffectSaveShell *>((reinterpret_cast<SaveGameHelper*>(this)))->FUN_008050d0(apActor);
-    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(reinterpret_cast<char*>(this) + 0x48, 1);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&this->unk48, 1);
 }
 
 struct Actor;

@@ -114,6 +114,8 @@ struct FUN_00806da0_shell
 struct FUN_00829720_shell : public SummonCreatureEffect
 {
     unsigned short FUN_00829720(Actor* actor);
+    unsigned int pad04[0x12];
+    void* unk4c;
 };
 // @fnv 0x00829720
 unsigned short FUN_00829720_shell::FUN_00829720(Actor* actor)
@@ -122,7 +124,7 @@ unsigned short FUN_00829720_shell::FUN_00829720(Actor* actor)
     isize += ((FUN_00806da0_shell*)this)->FUN_00806da0(actor);
     isize += 4;
     isize += 1;
-    if (!*(Actor**)((char*)this + 0x4c))
+    if (!*(Actor**)&this->unk4c)
     {
         isize += 4;
         isize += 0xc;
@@ -141,9 +143,15 @@ struct TESSaveLoadGame
 };
 struct FUN_00829850_shell : AssociatedItemEffect
 {
-    Actor* m_pActor;
-    bool m_bAssociatedItemLoaded;
     void LoadAssociatedItemEffect(Actor* actor);
+    char pad00[0x4c];
+    Actor* unk4c;
+    unsigned char unk50;
+    char pad51[0x3];
+    unsigned int unk54;
+    float unk58[3];
+    float unk64[3];
+    char unk70;
 };
 // Calls the base loader, reads a 4-byte id and a byte from the save stream, stores them, and reads further fields when the id is zero and not forced.
 // @fnv 0x00829850
@@ -153,18 +161,18 @@ void FUN_00829850_shell::LoadAssociatedItemEffect(Actor* actor)
     unsigned char bforcedToZero;
     FUN_00806e30(actor);
     bforcedToZero = ((unsigned char)(reinterpret_cast<::FUN_00857aa0 *>((g_TESSaveLoadGame))->ValidateFormIDArray(&id, 4)));
-    *(Actor**)((char*)this + 0x4c) = (Actor*)(uintptr_t)id;
-    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((char*)this + 0x50, 1);
+    this->unk4c = (Actor*)(uintptr_t)id;
+    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&this->unk50, 1);
     if (!id && !bforcedToZero)
     {
-        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((char*)this + 0x54, 4);
-        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((char*)this + 0x58, 0xc);
-        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((char*)this + 0x64, 0xc);
-        *(char*)((char*)this + 0x70) = 0;
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&this->unk54, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(this->unk58, 0xc);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(this->unk64, 0xc);
+        this->unk70 = 0;
     }
     else
     {
-        *(char*)((char*)this + 0x70) = 1;
+        this->unk70 = 1;
     }
 }
 

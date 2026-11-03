@@ -64,6 +64,8 @@
 #include "fnv/symbols_004a3000.h"
 struct FUN_006295a0_shell
 {
+    char pad[0x10];
+    char kUnk10[4];
     void FUN_006295a0();
 };
 
@@ -72,7 +74,7 @@ struct FUN_006295a0_shell
 void FUN_006295a0_shell::FUN_006295a0()
 {
     reinterpret_cast<::FUN_004589c0_cls *>(this)->FUN_004589c0(::DAT_0104da48);
-    reinterpret_cast<::FUN_004589c0_cls *>((((FUN_006295a0_shell*)((char*)this + 0x10))))->FUN_004589c0(::DAT_0104e148);
+    reinterpret_cast<::FUN_004589c0_cls *>(reinterpret_cast<FUN_006295a0_shell*>(kUnk10))->FUN_004589c0(::DAT_0104e148);
 }
 
 struct NiAVObject

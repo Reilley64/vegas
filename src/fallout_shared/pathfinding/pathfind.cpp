@@ -666,7 +666,7 @@ struct FUN_0099e040_shell : public PathingRequestOptimalLocation
 // @fnv 0x0099e040
 float FUN_0099e040_shell::FUN_0099e040()
 {
-    return *(float*)((char*)this + 0xbc);
+    return fUnkBC;
 }
 
 extern int DAT_0106c9e0;
@@ -729,7 +729,7 @@ void __cdecl FUN_006d1600()
     MersenneTwister::GetRandomGenerator()->FUN_006d1620();
 }
 
-struct FUN_006d6d60_shell
+struct FUN_006d6d60_shell : public PathingRequestOptimalLocation
 {
     NiPoint3& FUN_006d6d60(NiPoint3& akDest);
 };
@@ -738,24 +738,22 @@ struct FUN_006d6d60_shell
 // @fnv 0x006d6d60
 NiPoint3& FUN_006d6d60_shell::FUN_006d6d60(NiPoint3& akDest)
 {
-    akDest = *reinterpret_cast<const NiPoint3*>((char*)this + 0xb0);
+    akDest = *reinterpret_cast<const NiPoint3*>(afTargetPoint);
     return akDest;
 }
 
-struct FUN_006d6d90_shell
+struct FUN_006d6d90_shell : public PathingRequestOptimalLocation
 {
-    char pad_0xc0[0xc0];
-    float f_0xc0;
     float FUN_006d6d90();
 };
 
 // @fnv 0x006d6d90
 float FUN_006d6d90_shell::FUN_006d6d90()
 {
-    return f_0xc0;
+    return fUnkC0;
 }
 
-struct FUN_006d6db0_shell
+struct FUN_006d6db0_shell : public PathingRequestOptimalLocation
 {
     unsigned char GetByteAtOffsetCC();
 };
@@ -763,10 +761,10 @@ struct FUN_006d6db0_shell
 // @fnv 0x006d6db0
 unsigned char FUN_006d6db0_shell::GetByteAtOffsetCC()
 {
-    return *(unsigned char*)((char*)this + 0xcc);
+    return ucUnkCC;
 }
 
-struct FUN_006d6dd0_shell
+struct FUN_006d6dd0_shell : public PathingRequestOptimalLocation
 {
     unsigned char GetByteAtOffsetCD();
 };
@@ -774,22 +772,21 @@ struct FUN_006d6dd0_shell
 // @fnv 0x006d6dd0
 unsigned char FUN_006d6dd0_shell::GetByteAtOffsetCD()
 {
-    return ((unsigned char*)this)[0xcd];
+    return ucUnkCD;
 }
 
-struct FUN_006d6df0_shell
+struct FUN_006d6df0_shell : public PathingRequestOptimalLocation
 {
-    unsigned char m_ce;
     unsigned char FUN_006d6df0();
 };
 
 // @fnv 0x006d6df0
 unsigned char FUN_006d6df0_shell::FUN_006d6df0()
 {
-    return *(reinterpret_cast<unsigned char*>(this) + 0xce);
+    return ucUnkCE;
 }
 
-struct FUN_006d6e10_shell
+struct FUN_006d6e10_shell : public PathingRequestOptimalLocation
 {
     char GetByteAtOffsetCF();
 };
@@ -797,10 +794,10 @@ struct FUN_006d6e10_shell
 // @fnv 0x006d6e10
 char FUN_006d6e10_shell::GetByteAtOffsetCF()
 {
-    return reinterpret_cast<char*>(this)[0xcf];
+    return (char)ucUnkCF;
 }
 
-struct FUN_006d6e30_shell
+struct FUN_006d6e30_shell : public PathingRequestOptimalLocation
 {
     unsigned char GetByteAtOffsetD1();
 };
@@ -808,7 +805,7 @@ struct FUN_006d6e30_shell
 // @fnv 0x006d6e30
 unsigned char FUN_006d6e30_shell::GetByteAtOffsetD1()
 {
-    return reinterpret_cast<unsigned char*>(this)[0xd1];
+    return ucUnkD1;
 }
 
 struct FUN_006d8970_shell
@@ -1585,10 +1582,10 @@ TwoComponentVector* __cdecl FUN_006ba3d0(TwoComponentVector* result, TwoComponen
     intersection = (crossA + total) - crossB;
     float fraction = crossA / (crossA - intersection);
 
-    TwoComponentVector crossC = apPointC->FUN_004dfe30(FUN_00532fd0(fraction, (*(::TwoComponentVector *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)(apPointD))->Subtract((::NiPoint2 *)(apPointC), *(const ::NiPoint2 *)nullptr)))));
+    TwoComponentVector crossC = apPointC->FUN_004dfe30(FUN_00532fd0(fraction, (*(::TwoComponentVector *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)(apPointD))->Subtract((::NiPoint2 *)&::ResultSlot<::TwoComponentVector>(), *(const ::NiPoint2 *)((::NiPoint2 *)(apPointC)))))));
     if (crossB * total > ::_DAT_01012060)
     {
-        if (((double)(reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::TwoComponentVector &)((*(::TwoComponentVector *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(crossC))->Subtract((::NiPoint2 *)(apPointA), *(const ::NiPoint2 *)nullptr)))))->GetSquaredXYLength())) < ((double)(reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::TwoComponentVector &)((*(::TwoComponentVector *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(crossC))->Subtract((::NiPoint2 *)(apPointB), *(const ::NiPoint2 *)nullptr)))))->GetSquaredXYLength())))
+        if (((double)(reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::TwoComponentVector &)((*(::TwoComponentVector *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(crossC))->Subtract((::NiPoint2 *)&::ResultSlot<::TwoComponentVector>(), *(const ::NiPoint2 *)((::NiPoint2 *)(apPointA)))))))->GetSquaredXYLength())) < ((double)(reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::TwoComponentVector &)((*(::TwoComponentVector *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(crossC))->Subtract((::NiPoint2 *)&::ResultSlot<::TwoComponentVector>(), *(const ::NiPoint2 *)((::NiPoint2 *)(apPointB)))))))->GetSquaredXYLength())))
         {
             *result = *apPointA;
             return result;
@@ -5332,7 +5329,7 @@ bool __cdecl BuildPathNodeHolder(NiPointer<PathSource>& pSource, EntryListNode* 
     for (int iA = 0; iA < count; iA++)
     {
         PathEntry* entryB = entries->GetAt(iA);
-        float weight4 = weights ? ((float)(reinterpret_cast<::S3e60 *>((weights))->FUN_006a7ad0(iA))) : DAT_01012054;
+        float weight4 = weights ? (*(float*)(reinterpret_cast<::S3e60 *>((weights))->FUN_006a7ad0(iA))) : DAT_01012054;
         ::MarkReachableTriangles((::P110Location *)(entryB), (::P110DataPtr *)&(holder), 1, reinterpret_cast<::FUN_00639aa0_shell *>((((PathSource*)pSource)))->FUN_00639aa0(), weight4);
     }
     std::intptr_t pos2 = 0;
@@ -5437,7 +5434,7 @@ bool __cdecl MarkReachableTriangles(P110Location* location, P110DataPtr* data, b
     if (reset)
         reinterpret_cast<::fnv_006e2000::FUN_006e2000_shell *>((((::P110Data *)(::FUN_00559450((int *)(data))))))->ClampNonPositiveTextChars();
     NiPoint3 center = reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
-    NiPoint3 radius = (*(::NiPoint3 *)&(reinterpret_cast<::fnv_006ab380::FUN_006ab380_shell *>((((::P110Data *)(::FUN_00559450((int *)(data))))))->GetDest(*(::fnv_006ab380::NiPoint3 *)nullptr)));
+    NiPoint3 radius = (*(::NiPoint3 *)&(reinterpret_cast<::fnv_006ab380::FUN_006ab380_shell *>((((::P110Data *)(::FUN_00559450((int *)(data))))))->GetDest(*(::fnv_006ab380::NiPoint3 *)&::ResultSlot<::NiPoint3>())));
     float originMesh = reinterpret_cast<::FUN_00639aa0_shell *>((((::P110Data *)(::FUN_00559450((int *)(data))))))->FUN_00639aa0();
     originTriangle = originMesh * originMesh;
     NiPoint3 origin = NiPoint3::ZERO;
@@ -5842,7 +5839,7 @@ unsigned char __cdecl FUN_006d8a40(SearchObject* search, float radius, SearchOut
     for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((result))->GetName())); ++i)
     {
 
-        LocationBlock rootRef(((void *)(reinterpret_cast<::S3e60 *>((result))->FUN_006a7ad0(i))));
+        LocationBlock rootRef((*(void **)(reinterpret_cast<::S3e60 *>((result))->FUN_006a7ad0(i))));
 
         unsigned int countNear =
             ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::NodeVectors *)(reinterpret_cast<::FUN_0068efb0_shell *>((reinterpret_cast<SearchNode*>(((::CellResult *)(::FUN_00559450((int *)&(rootRef)))))))->FUN_0068efb0()))->nearNeighbors))->GetName()));

@@ -66,17 +66,18 @@ struct InitLoadGameHelper
 };
 struct AssociatedItemEffect : ActiveEffect
 {
+    unsigned char pad00[0x48];
     TESForm* m_pAssociatedForm;
     void FUN_00806e70(Actor* apActor);
 };
-// Calls InitLoadGame on this, then replaces the TESForm pointer at offset 0x48 with the result of _ref_004839c0 if it is non-null.
+// Calls InitLoadGame on this, then replaces m_pAssociatedForm with the result of _ref_004839c0 if it is non-null.
 // @fnv 0x00806e70
 void AssociatedItemEffect::FUN_00806e70(Actor* apActor)
 {
     reinterpret_cast<::ActiveEffect805670 *>((((InitLoadGameHelper*)this)))->FUN_00805670((::Actor *)(apActor));
-    TESForm* form = *(TESForm**)((char*)this + 0x48);
+    TESForm* form = m_pAssociatedForm;
     if (form)
-        *(TESForm**)((char*)this + 0x48) = ((::fnv_00806e70::TESForm *)(::FUN_004839c0((unsigned int)(std::uintptr_t)form)));
+        m_pAssociatedForm = ((::fnv_00806e70::TESForm *)(::FUN_004839c0((unsigned int)(std::uintptr_t)form)));
 }
 }  // namespace fnv_00806e70
 

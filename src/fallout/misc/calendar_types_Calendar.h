@@ -18,6 +18,14 @@ class Calendar
     TESGlobal* pHourGlobal;              // +0x14, 4 bytes
     unsigned int m_uiDaysPassed;         // +0x18, 4 bytes
     bool bUnknown1C;
+    unsigned char pad1d[0x7];
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int pad34[0x5];
+    unsigned int unk48;
+    unsigned int unk4c;
     char GetGameHour();
     float GetGameTimeScale();
     CALENDAR_MONTH GetCurrentMonth();

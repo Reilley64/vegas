@@ -135,12 +135,14 @@ void FUN_00811e00(int value)
 struct FUN_008133d0_shell
 {
     void FUN_008133d0(int value);
+    unsigned int pad00[0x2b];
+    int unkac;
 };
 
 // @fnv 0x008133d0
 void FUN_008133d0_shell::FUN_008133d0(int value)
 {
-    *(int*)((char*)this + 0xac) = value;
+    this->unkac = value;
 }
 
 struct FUN_00811950_shell
@@ -158,11 +160,15 @@ struct TESSaveLoadGame
 struct SinglyLinkedListNode
 {
     SinglyLinkedListNode* pNext;
+    unsigned int pad04[0x6];
+    void* unk1c;
 };
 struct FUN_00814590_shell
 {
     SinglyLinkedListNode* m_pListNode;
     unsigned short GetSaveSize(unsigned int flags);
+    unsigned int pad04[0x2b];
+    void* unkb0;
 };
 // @fnv 0x00814590
 unsigned short FUN_00814590_shell::GetSaveSize(unsigned int flags)
@@ -179,11 +185,11 @@ unsigned short FUN_00814590_shell::GetSaveSize(unsigned int flags)
     }
     size += 4;
     size += 2;
-    SinglyLinkedListNode* bolt = *(SinglyLinkedListNode**)((char*)this + 0xb0);
+    SinglyLinkedListNode* bolt = *(SinglyLinkedListNode**)&this->unkb0;
     while (bolt)
     {
         size += 4;
-        bolt = *(SinglyLinkedListNode**)((char*)bolt + 0x1c);
+        bolt = *(SinglyLinkedListNode**)&bolt->unk1c;
     }
     if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x71)
         size += 4;

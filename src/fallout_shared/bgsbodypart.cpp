@@ -99,7 +99,7 @@ void BGSBodyPart::InitItem(TESForm* form)
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
         Data.m_pRelatedObject2 = dynamic_cast<BGSExplosion*>(::FUN_004839c0(formID));
     }
-    formID = (unsigned int)(std::uintptr_t)((::TESEffectShader *)(reinterpret_cast<::TESPackage *>((((EffectSetting*)this)))->GetRefCount()));
+    formID = reinterpret_cast<::TESPackage *>((((EffectSetting*)this)))->GetRefCount();
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));

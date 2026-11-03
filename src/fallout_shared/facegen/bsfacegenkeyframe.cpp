@@ -649,6 +649,8 @@ struct KFXLoop
     virtual void d3c();
     virtual void d40();
     virtual bool v44();
+    char pad04[0x10 - 4];
+    unsigned int uiCount;
     bool BlendFrom(Vt0064eea0* o, float f, bool b1, bool b2);
 };
 
@@ -678,7 +680,7 @@ bool KFXLoop::BlendFrom(Vt0064eea0* pOther, float f, bool b1, bool b2)
         fClamped = f;
     }
 
-    for (unsigned int i = 0; i < *(unsigned int*)((char*)this + 0x10); ++i)
+    for (unsigned int i = 0; i < uiCount; ++i)
     {
         if (!b1 && ::FUN_0040eb10(reinterpret_cast<::Sd4e0 *>((((Sd4e0*)pfOther)))->FUN_005dd4e0(i), 0.0f, 0.001f))
         {

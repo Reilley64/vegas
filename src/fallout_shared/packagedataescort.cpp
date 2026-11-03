@@ -94,12 +94,13 @@ struct TESEscortPackageData
 {
     void* pBase;
     void* m_pPackageTarget;
+    int m_iValue;
     void FUN_0067bf40(BGSSaveFormBuffer* buffer);
 };
 // @fnv 0x0067bf40
 void TESEscortPackageData::FUN_0067bf40(BGSSaveFormBuffer* buffer)
 {
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 8, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<char*>(&m_iValue), 4, 0);
     bool hasLocation = (m_pPackageTarget != 0) ? true : false;
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<char*>(&hasLocation), 1, 0);
     if (hasLocation)
@@ -153,12 +154,13 @@ struct FUN_0067c330_shell
 {
     void* m_base;
     LocationDescriptor* m_pPackageTarget;
+    int m_iValue;
     void FUN_0067c330(BGSLoadFormBuffer* buffer);
 };
 // @fnv 0x0067c330
 void FUN_0067c330_shell::FUN_0067c330(BGSLoadFormBuffer* buffer)
 {
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 8)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iValue), 4);
     unsigned char hasLocation = 0;
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(bool *)((bool*)&hasLocation), 1);
     if (hasLocation)

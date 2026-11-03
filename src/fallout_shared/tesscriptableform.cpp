@@ -147,7 +147,7 @@ struct FUN_0048cc80_shell : public BGSMessageIcon
 // @fnv 0x0048cc80
 void FUN_0048cc80_shell::FUN_0048cc80()
 {
-    *(int*)((char*)this + 4) = 0;
+    *reinterpret_cast<int*>(Icon) = 0;
     this->Icon[4] = 0;
 }
 

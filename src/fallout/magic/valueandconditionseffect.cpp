@@ -2,6 +2,7 @@
 // src/fallout/magic/valueandconditionseffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/valueandconditionseffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActiveEffectLoader.h"
 #include "fnv/decl/FUN_008579e0_shell.h"
 #include "fnv/symbols_00401000.h"
@@ -21,13 +22,16 @@ struct TESSaveLoadGame
 struct FUN_0082b780_shell : ActiveEffect
 {
     void FUN_0082b780(void* buffer);
+    char pad01[0x48];
+    unsigned char unk48;
+    char pad49[0x2];
 };
 
 // @fnv 0x0082b780
 void FUN_0082b780_shell::FUN_0082b780(void* buffer)
 {
     reinterpret_cast<::ActiveEffectLoader *>(this)->FUN_00805330((::Actor *)(buffer));
-    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 0x48), 1);
+    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)(&this->unk48), 1);
 }
 
 class ActiveEffect;
@@ -42,16 +46,21 @@ public:
     void ApplyActorValueModifier(::Actor *, float, ::ActorValue::Index);
 };
 extern int DAT_0107c5dc;
+struct ValueAndConditionsEffectFields : ValueModifierEffectFields
+{
+    int unk4c;
+};
+
 struct FUN_0082b7b0 : ValueModifierEffect
 {
     FUN_0082b7b0(void*, void*, void*);
 };
-// Initialises a ValueModifierEffect via its base constructor, sets the vtable pointer to DAT_0107c5dc and stores -1 at offset 0x4c.
+// Initialises a ValueModifierEffect via its base constructor, sets the vtable pointer to DAT_0107c5dc and sets the int after the ValueModifierEffect members to -1.
 // @fnv 0x0082b7b0
 FUN_0082b7b0::FUN_0082b7b0(void* a, void* b, void* c) : ValueModifierEffect(a, b, c)
 {
     *(void**)this = (void*)&DAT_0107c5dc;
-    *(int*)((char*)this + 0x4c) = -1;
+    reinterpret_cast<ValueAndConditionsEffectFields*>(this)->unk4c = -1;
 }
 
 struct Actor;
@@ -73,16 +82,18 @@ struct FUN_0082b970_shell : ValueModifierEffect
 {
     ActorValue::Index m_eModifiedActorValue;
     void ApplyValueModifier(Actor* actor, float modifier, ActorValue::Index index);
+    unsigned int pad04[0x12];
+    int unk4c;
 };
 // Applies the modifier to the stored actor value (or none) and, scaled by a runtime setting, to kActorValueNone or actor values 25-31.
 // @fnv 0x0082b970
 void FUN_0082b970_shell::ApplyValueModifier(Actor* actor, float modifier, ActorValue::Index index)
 {
-    if (*reinterpret_cast<ActorValue::Index*>(reinterpret_cast<char*>(this) + 0x4c) != ActorValue::kActorValueNone)
+    if (*reinterpret_cast<ActorValue::Index*>(&this->unk4c) != ActorValue::kActorValueNone)
     {
         float fScaledMagnitude = modifier * ((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1213))))))[0];
         reinterpret_cast<::ValueModifierEffect *>((reinterpret_cast<ValueModifierEffectHelper*>(this)))->ApplyActorValueModifier(
-            actor, modifier, *reinterpret_cast<ActorValue::Index*>(reinterpret_cast<char*>(this) + 0x4c));
+            actor, modifier, *reinterpret_cast<ActorValue::Index*>(&this->unk4c));
         reinterpret_cast<::ValueModifierEffect *>((reinterpret_cast<ValueModifierEffectHelper*>(this)))->ApplyActorValueModifier(actor, fScaledMagnitude,
                                                                                     ActorValue::kActorValueNone);
     }

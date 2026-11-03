@@ -201,7 +201,7 @@ struct FUN_0083de40_shell : public TESTopicInfo
 // @fnv 0x0083de40
 bool FUN_0083de40_shell::FUN_0083de40()
 {
-    return ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<char*>(this) + 0x28))->FUN_004048e0())) > 0;
+    return ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&this->m_kPrompt)->FUN_004048e0())) > 0;
 }
 
 struct FUN_0083de60_shell : public TESTopic
@@ -235,7 +235,7 @@ void FUN_0083e230_shell::FUN_0083e230()
     bool bdeletegreeting;
     BSSimpleList<char const*>* pCurrentElementNext;
 
-    *(int*)((char*)this + 0xc) = 0;
+    this->m_pDialogueSpeaker = 0;
     while (!_ref_008256d0((char*)&this->m_kTopicListStack))
     {
         pCurrentElementNext = *((::BSSimpleList<const char *> **)(&reinterpret_cast<::SimpleListNodeView*>((char*)&this->m_kTopicListStack)->m_item));

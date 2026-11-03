@@ -281,11 +281,18 @@ class PathingSolution
   public:
     char base[0x30];
     BSSimpleArray<void*> Doors;
+    bool m_bHasValidPath;  // +0x40
     bool FUN_006b05d0();
 };
 class PathingRequest
 {
   public:
+    unsigned char layoutPadding0[0x8C];
+    float m_fPathingRadius;            // +0x8C
+    float m_fAvoidanceRadius;          // +0x90
+    void* m_pPathingAvoidNodeArray;    // +0x94
+    bool bCantOpenDoors;               // +0x98
+    bool bFaceTargetAtGoal;            // +0x99
     bool FUN_00505c00();
     float FUN_00507e10();
 };

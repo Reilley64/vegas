@@ -1602,13 +1602,16 @@ struct FUN_00418660_shell
 };
 struct FUN_004bd740_stand
 {
+    BSSimpleList<ExtraDataList*>* pExtendData;
+    int iCountDelta;
+    void* pObject;  // a TESBoundObject
     TESForm* GetExtraForm();
 };
 // Returns the form from the extra data list's first entry if the list and entry exist, otherwise returns null.
 // @fnv 0x004bd740
 TESForm* FUN_004bd740_stand::GetExtraForm()
 {
-    BSSimpleList<ExtraDataList*>* pkCurrentObject = *(BSSimpleList<ExtraDataList*>**)this;
+    BSSimpleList<ExtraDataList*>* pkCurrentObject = pExtendData;
     ExtraDataList* pextra;
     if (pkCurrentObject && *((::ExtraDataList **)((void *)(((_DummySimpleList*)pkCurrentObject)))))
     {
@@ -1823,7 +1826,7 @@ struct FUN_004bfb30_shell
 // @fnv 0x004bfb30
 uintptr_t FUN_004bfb30_shell::GetAtIfValid(int aiIndex)
 {
-    return (aiIndex >= 0 && aiIndex <= 8) ? ((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 400>*)((char*)this + 0xE3C))))->FUN_006a7ad0(aiIndex)))
+    return (aiIndex >= 0 && aiIndex <= 8) ? (*(unsigned int*)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 400>*)((char*)this + 0xE3C))))->FUN_006a7ad0(aiIndex)))
                                           : 0;
 }
 
@@ -2753,7 +2756,7 @@ const char* ItemChange_004be200::GetIconFilename(TESObjectREFR* apRef)
 {
     const char* piconFilename = 0;
     TESForm* powner = GetExtraForm();
-    TESBipedModelForm* pbipedModel = dynamic_cast<TESBipedModelForm*>((TESBoundObject*)*(void**)((char*)this + 8));
+    TESBipedModelForm* pbipedModel = dynamic_cast<TESBipedModelForm*>((TESBoundObject*)pObject);
     if (powner && pbipedModel)
     {
         TESNPC* pownerNPC = dynamic_cast<TESNPC*>(powner);
@@ -2762,7 +2765,7 @@ const char* ItemChange_004be200::GetIconFilename(TESObjectREFR* apRef)
     }
     if (!piconFilename || !piconFilename[0])
         piconFilename =
-            ::FUN_0048e730((TESForm*)(TESBoundObject*)*(void**)((char*)this + 8), (std::intptr_t)(apRef));
+            ::FUN_0048e730((TESForm*)(TESBoundObject*)pObject, (std::intptr_t)(apRef));
     if (!piconFilename || !piconFilename[0])
         return ::g_011d33f0.GetMenuTitle();
     return piconFilename;

@@ -450,7 +450,7 @@ struct FUN_0084e320_Class
 // @fnv 0x0084e320
 uintptr_t FUN_0084e320_Class::GetArrayElement(int index)
 {
-    return ((unsigned int)(reinterpret_cast<::S3e60 *>(&(m_Array))->FUN_006a7ad0(index)));
+    return (*(unsigned int*)(reinterpret_cast<::S3e60 *>(&(m_Array))->FUN_006a7ad0(index)));
 }
 
 struct FUN_0084e3a0_Class

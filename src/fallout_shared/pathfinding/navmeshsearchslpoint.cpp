@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv_result_slot.h"
 #include "fnv/decl/FUN_004b6190_shell.h"
 #include "fnv/decl/FUN_005582d0_shell.h"
 #include "fnv/decl/FUN_00595c80_shell.h"
@@ -2501,7 +2502,7 @@ bool Search::TestNode(Node* node)
 {
     Mesh* mesh7 = node->ref.mesh;
     unsigned short triangle = node->ref.triangle;
-    Vec position3 = (*(::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+    Vec position3 = (*(::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(location))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>())));
     Vec delta = position3;
     Vec center5;
     reinterpret_cast<::FUN_00697440_t *>((mesh7))->FUN_00697440(triangle, (::NiPoint3 *)(::Vec *)(&center5));

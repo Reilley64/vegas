@@ -289,6 +289,8 @@ struct DummyPointerMap
 struct Holder
 {
     void FUN_0085f010(TESForm*, unsigned short);
+    unsigned int pad00[0x16];
+    void* unk58;
 };
 // Looks up the parent form's ID in the map at offset 0x58; if present, uses 0 instead, then passes the ID and type to FUN_0085efc0.
 // @fnv 0x0085f010
@@ -296,9 +298,9 @@ void Holder::FUN_0085f010(TESForm* apParentForm, unsigned short aeType)
 {
     unsigned int uiExistingValue;
     unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apParentForm))->FUN_0084e3a0()));
-    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)((*(DummyPointerMap**)((char*)this + 0x58))))->FUN_00853130(formID, (::fnv_00853130::CombatThreatRecord *&)(uiExistingValue)))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)((*(DummyPointerMap**)&this->unk58)))->FUN_00853130(formID, (::fnv_00853130::CombatThreatRecord *&)(uiExistingValue)))
         formID = 0;
-    reinterpret_cast<::FUN_0085efc0_Class *>(this)->FUN_0085efc0(*(DummyPointerMap**)((char*)this + 0x58), formID, aeType);
+    reinterpret_cast<::FUN_0085efc0_Class *>(this)->FUN_0085efc0(*(DummyPointerMap**)&this->unk58, formID, aeType);
 }
 
 struct BGSSaveGameBuffer

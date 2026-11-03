@@ -116,6 +116,8 @@ struct FUN_00803ed0
 struct FUN_008277f0 : FUN_00803ed0
 {
     ~FUN_008277f0();
+    unsigned int pad04[0x12];
+    unsigned int unk4c;
 };
 // Calls FUN_008277f0, then deallocates this if bit 0 of flags is set, and returns this.
 // @fnv 0x008277c0
@@ -131,9 +133,9 @@ void* T8277c0::DestroyIfFlagged(unsigned int flags)
 FUN_008277f0::~FUN_008277f0()
 {
     if (reinterpret_cast<ScriptLocals*>(
-            *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0x4c)))
+            this->unk4c))
         delete reinterpret_cast<ScriptLocals*>(
-            *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0x4c));
+            this->unk4c);
 }
 
 struct MagicCaster;
@@ -162,6 +164,8 @@ struct FUN_005a94f0_shell
 struct FUN_00827c20_shell : ActiveEffect
 {
     unsigned short FUN_00827c20(Actor* apActor);
+    unsigned int pad48[0x1];
+    void* unk4c;
 };
 // @fnv 0x00827c20
 unsigned short FUN_00827c20_shell::FUN_00827c20(Actor* apActor)
@@ -170,8 +174,8 @@ unsigned short FUN_00827c20_shell::FUN_00827c20(Actor* apActor)
     usSaveSize += reinterpret_cast<::FUN_00804f80_shell *>((((ScriptEffect_GetSaveSize_Helper*)this)))->FUN_00804f80(apActor);
     if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x2a)
         usSaveSize += 2;
-    if (*(void**)((char*)this + 0x4c))
-        usSaveSize += ::GetScriptLocalsSerializedSize((::ScriptLocals *)(((FUN_005a94f0_shell*)*(void**)((char*)this + 0x4c))));
+    if (this->unk4c)
+        usSaveSize += ::GetScriptLocalsSerializedSize((::ScriptLocals *)(((FUN_005a94f0_shell*)this->unk4c)));
     return usSaveSize;
 }
 

@@ -98,6 +98,17 @@
 #include "fnv/tls.h"
 #include "tesscript_decls.h"
 #include "fnv/decl/TextString.h"
+
+// The compile data a script is initialised from: its name, compiled data and header.
+struct ScriptCompileDataView
+{
+    char pad[0x0c];
+    char kScriptName[8];
+    char pad14[0x20 - 0x14];
+    char* pScriptData;
+    char pad24[0x28 - 0x24];
+    char kHeader[0x14];
+};
 // @fnv 0x005ac740
 bool Script::IsConsolePlatform()
 {
@@ -259,7 +270,7 @@ void FUN_005a8ea0_shell::FUN_005a8ea0()
     void* pList = *(void**)&this->m_pLocalVariableList;
     while (pList && *((int *)((void *)(pList))))
     {
-        int* used = (int*)*((int *)((void *)(pList)));
+        int* used = *((int**)((void *)(pList)));
         pList = reinterpret_cast<::Callees *>((pList))->FUN_00726070();
         used[1] = 0;
     }
@@ -272,7 +283,7 @@ struct FUN_005a9140_shell : public ScriptLocals
 
 extern int DAT_011cae50;
 
-bool _ref_008256d0(unsigned int);
+bool _ref_008256d0(void*);
 
 // Looks up a script local variable by ID (using a TLS cache), returns its double value, or warns and returns 0.0 if not found.
 // @fnv 0x005a9140
@@ -286,7 +297,7 @@ double FUN_005a9140_shell::FUN_005a9140(uintptr_t auiID, Script* apScript)
     if (plocalvar == 0)
     {
         std::uintptr_t pCurrentElementNext = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0()));
-        while (pCurrentElementNext != 0 && !_ref_008256d0(pCurrentElementNext))
+        while (pCurrentElementNext != 0 && !_ref_008256d0((void*)pCurrentElementNext))
         {
             ScriptLocalVariable* pCandidate = *((::ScriptLocalVariable **)((void *)(pCurrentElementNext)));
             if (*(unsigned int*)pCandidate == auiID)
@@ -383,14 +394,14 @@ struct ATM
 };
 // Queries the performance counter, and if value is non-zero references it and adds it to a list unless FUN_005aa680 accepts it, then waits for rendering tasks.
 // @fnv 0x005aa580
-void FUN_005aa580(int value)
+void FUN_005aa580(std::intptr_t value)
 {
     reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::ATM *>(&::g_011cacf8))))->FUN_004538a0(0);
     if (value)
     {
         reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::G2 *>(&::g_011cac98))))->FUN_00905330((*(::InventoryStackRecord *const *)(&value)));
         if (!::fnv_005aa680::FUN_005aa680((::Actor *)(value)))
-            (*reinterpret_cast<::G2 *>(&::g_011caca8)).AddHead(&value);
+            (*reinterpret_cast<::G2 *>(&::g_011caca8)).AddHead((int*)&value);
     }
     reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::ATM *>(&::g_011cacf8))))->WaitForTasksDuringRendering();
 }
@@ -746,13 +757,15 @@ void __cdecl FUN_005acc90(unsigned int* aiID, const double* adVal)
 
 struct FUN_00792760_shell : public TESQuest
 {
+    char pad18[0x40 - 0x18];
+    float fUnk40;
     float FUN_00792760();
 };
 
 // @fnv 0x00792760
 float FUN_00792760_shell::FUN_00792760()
 {
-    return *(float*)((char*)this + 0x40);
+    return fUnk40;
 }
 
 namespace fnv_005a8d20 {
@@ -819,10 +832,10 @@ char* FUN_005abed0_shell::FUN_005abed0(unsigned int auiID)
     void* pList = ((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
     while (pList && *((int *)((void *)(pList))))
     {
-        VarX* pVar = (VarX*)*((int *)((void *)(pList)));
+        VarX* pVar = *((VarX**)((void *)(pList)));
         pList = reinterpret_cast<::Callees *>((pList))->FUN_00726070();
         if (pVar->id == auiID)
-            return (char*)(unsigned int)pVar->flt;
+            return (char*)(std::uintptr_t)pVar->flt;
     }
     ::FUN_005b5e40();
     return 0;
@@ -868,7 +881,7 @@ bool FUN_005ac1e0_shell::FUN_005ac1e0(TESObjectREFR* ownerObject, ScriptLocals* 
     return bretVal;
 }
 
-bool _ref_008256d0(unsigned int);
+bool _ref_008256d0(void*);
 struct RefObj
 {
     char pad[8];
@@ -882,9 +895,9 @@ void FUN_005ae2e0_shell::FUN_005ae2e0()
     if (g_tlsBlock.lastRefObjectScript == reinterpret_cast<Script*>(this))
         g_tlsBlock.lastRefObjectScript = 0;
     void* pCurrentElementNext = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)this)))->FUN_005d43c0()));
-    while (pCurrentElementNext && !_ref_008256d0((unsigned int)pCurrentElementNext))
+    while (pCurrentElementNext && !_ref_008256d0(pCurrentElementNext))
     {
-        RefObj* prefObject = (RefObj*)*((int *)((void *)(pCurrentElementNext)));
+        RefObj* prefObject = *((RefObj**)((void *)(pCurrentElementNext)));
         if (prefObject && prefObject->fc)
             prefObject->f8 = 0;
         pCurrentElementNext = reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070();
@@ -933,6 +946,7 @@ void* DelStandIn::FUN_005aa3f0(unsigned int flags)
 
 struct FUN_005a9460_This
 {
+    char pad[0x1c4];
     unsigned int field_1c4;
     unsigned int FUN_005a9460();
 };
@@ -940,7 +954,7 @@ struct FUN_005a9460_This
 // @fnv 0x005a9460
 unsigned int FUN_005a9460_This::FUN_005a9460()
 {
-    return reinterpret_cast<unsigned int*>(this)[0x1c4 / 4];
+    return field_1c4;
 }
 
 namespace fnv_005aae20 {
@@ -1088,11 +1102,11 @@ void FUN_00857ba0_class::ReadFromStream(int a, int b, int c)
 
 struct FUN_008586d0_class
 {
-    void FUN_008586d0(int a, int b, int c);
+    void FUN_008586d0(std::intptr_t a, std::intptr_t b, int c);
 };
 
 // @fnv 0x008586d0
-void FUN_008586d0_class::FUN_008586d0(int a, int b, int c)
+void FUN_008586d0_class::FUN_008586d0(std::intptr_t a, std::intptr_t b, int c)
 {
     reinterpret_cast<::FUN_00857ba0_shell *>((reinterpret_cast<FUN_00857ba0_class*>(this)))->ReadFromStream((::NiBinaryStream *)(a), (void *)(b), c);
 }
@@ -1446,7 +1460,7 @@ struct FUN_004855a0
 struct FUN_00485680
 {
 };
-struct FUN_005abd90 : TESForm
+struct FUN_005abd90 : Script
 {
     void Save();
 };
@@ -1456,10 +1470,10 @@ void FUN_005abd90::Save()
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
     TESForm::ClearData();
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_00414220_shell *>((reinterpret_cast<ScriptHeaderData*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00414220();
-    ::AppendChunk(0x52484353, reinterpret_cast<char*>(this) + 0x18, 0x14);
+        reinterpret_cast<::FUN_00414220_shell *>(&m_kHeader)->FUN_00414220();
+    ::AppendChunk(0x52484353, reinterpret_cast<char*>(&m_kHeader), 0x14);
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_00414220_shell *>((reinterpret_cast<ScriptHeaderData*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00414220();
+        reinterpret_cast<::FUN_00414220_shell *>(&m_kHeader)->FUN_00414220();
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
 
@@ -1480,7 +1494,7 @@ char FUN_005ac6a0::Method_005ac6a0(const char* pcName, unsigned int* puiID)
     {
         ScriptVariableInfo* variable = (node->m_item);
         node = ((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
-        if (::FUN_00404dc0((const char*)(unsigned int)*(Flt*)((char*)variable + 0x18), pcName) == 0)
+        if (::FUN_00404dc0(*reinterpret_cast<const char**>(&variable->m_kName), pcName) == 0)
         {
             *puiID = variable->data.uiID;
             if (variable->data.m_bIsString)
@@ -1515,7 +1529,7 @@ struct GlobalObject2_0096a2d0 : public G2
 
 
 // @fnv 0x005aa500
-void __cdecl FUN_005aa500(int aiTask, unsigned char abAlternate)
+void __cdecl FUN_005aa500(std::intptr_t aiTask, unsigned char abAlternate)
 {
     reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_005aa500::ATM *>(&::g_011cacf8))))->FUN_004538a0(0);
 
@@ -1526,12 +1540,12 @@ void __cdecl FUN_005aa500(int aiTask, unsigned char abAlternate)
         if (abAlternate == 0)
         {
             if (!::fnv_005aa630::FUN_005aa630((::Actor *)(aiTask)))
-                (*reinterpret_cast<::fnv_005aa500::G2 *>(&::g_011cac98)).AddHead(&aiTask);
+                (*reinterpret_cast<::fnv_005aa500::G2 *>(&::g_011cac98)).AddHead((int*)&aiTask);
         }
         else
         {
             if (!((bool)(::fnv_005aa6d0::FUN_005aa6d0((int *)(aiTask)))))
-                (*reinterpret_cast<::fnv_005aa500::GlobalObject2_0096a2d0 *>(&::g_011cace8)).AddHead(&aiTask);
+                (*reinterpret_cast<::fnv_005aa500::GlobalObject2_0096a2d0 *>(&::g_011cace8)).AddHead((int*)&aiTask);
         }
     }
 
@@ -1771,7 +1785,7 @@ bool FUN_005a9480_holder::FUN_005a9480(unsigned int formID)
     void* node = reinterpret_cast<::FUN_005d43c0_ *>((pHead))->FUN_005d43c0();
     while (node != 0 && *((int *)((void *)(node))) != 0)
     {
-        FUN_005a9480_ItemRef* item = (FUN_005a9480_ItemRef*)*((int *)((void *)(node)));
+        FUN_005a9480_ItemRef* item = *((FUN_005a9480_ItemRef**)((void *)(node)));
         if (item->formID == formID)
         {
             return true;
@@ -1847,7 +1861,7 @@ unsigned short GetScriptLocalsSerializedSize(ScriptLocals* pLocals)
         void* info = ((void *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (info)
         {
-            Formatter* formatter = ((::Formatter *)(::FUN_004839c0((unsigned int)(*(void**)info))));
+            Formatter* formatter = ((::Formatter *)(::FUN_004839c0((std::uintptr_t)(*(void**)info))));
             ::FUN_0040fbe0();
         }
         else
@@ -2041,17 +2055,17 @@ void ScriptInitOwner::InitFromCompileData(CStringArgument* apCompileData)
 {
     this->InitItem();
 
-    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)((char*)apCompileData + 0x0C))))->FUN_004048e0())) == 0)
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(reinterpret_cast<S7010*>(reinterpret_cast<::ScriptCompileDataView*>(apCompileData)->kScriptName))->FUN_004048e0())) == 0)
     {
         this->MarkForDeletion(true);
     }
     else if (reinterpret_cast<::ScriptCmpOwner *>((this))->IsDifferentFromCompileData((::CompileDataStub *)(apCompileData)))
     {
-        this->SetEditorID_AtRuntime((const char*)(((GO*)((char*)apCompileData + 0x0C))->operator unsigned int()));
+        this->SetEditorID_AtRuntime((const char*)(std::uintptr_t)(reinterpret_cast<GO*>(reinterpret_cast<::ScriptCompileDataView*>(apCompileData)->kScriptName)->operator unsigned int()));
 
-        ::__memcpy((char*)&this->m_kHeader, (char*)apCompileData + 0x28, 0x14);
+        ::__memcpy((char*)&this->m_kHeader, reinterpret_cast<::ScriptCompileDataView*>(apCompileData)->kHeader, 0x14);
 
-        reinterpret_cast<::FUN_005aae70_shell *>((this))->FUN_005aae70(this->m_kHeader.dataSize, *(char**)((char*)apCompileData + 0x20));
+        reinterpret_cast<::FUN_005aae70_shell *>((this))->FUN_005aae70(this->m_kHeader.dataSize, reinterpret_cast<::ScriptCompileDataView*>(apCompileData)->pScriptData);
 
         this->InitializeActionList();
         this->FUN_005aa2e0();
@@ -2207,18 +2221,18 @@ void ThisX::WriteScriptLocals()
     char* posB;
     numHdr = 0;
     posB = 0;
-    fromPos = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+    fromPos = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
     if (*(*reinterpret_cast<::FlagManager *>(&::g_011de4e8)).FUN_00408d60())
-        fromPos = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        fromPos = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         chunkTag = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&chunkTag), 4);
-        posB = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        posB = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
         reinterpret_cast<::FUN_008579b0_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&numHdr), 2);
     }
     written = 0;
-    posNum = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+    posNum = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
     reinterpret_cast<::FUN_008579b0_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&written), 2);
     pList = m_0c;
     while (pList)
@@ -2252,11 +2266,11 @@ void ThisX::WriteScriptLocals()
         reinterpret_cast<::FUN_008579b0_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(m_10), 8);
     if (*(*reinterpret_cast<::FlagManager *>(&::g_011de4e8)).FUN_00408d60())
     {
-        curPos = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        curPos = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
         formPtr = ((void *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (formPtr)
         {
-            pFmt = ((::Formatter *)(::FUN_004839c0((unsigned int)(*(void**)formPtr))));
+            pFmt = ((::Formatter *)(::FUN_004839c0((std::uintptr_t)(*(void**)formPtr))));
             typedef unsigned int(* GetItemFn)(Formatter*);
             ::FUN_0040fbe0();
         }
@@ -2267,7 +2281,7 @@ void ThisX::WriteScriptLocals()
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        endPos = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        endPos = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
         posTmp = posB;
         if (endPos > posTmp + 0xffff)
             ::FUN_005b5e40();
@@ -2334,7 +2348,7 @@ void __cdecl WriteReferenceLists(BGSSaveFormBuffer* buffer)
             while (list1 != 0)
             {
 
-                item9 = (TESObjectREFR*)*((int *)(&list1->m_item));
+                item9 = *((TESObjectREFR**)(&list1->m_item));
 
                 if (item9 != 0)
                 {
@@ -2358,7 +2372,7 @@ void __cdecl WriteReferenceLists(BGSSaveFormBuffer* buffer)
             while (listVal != 0)
             {
 
-                aItem2 = (TESObjectREFR*)*((int *)(&listVal->m_item));
+                aItem2 = *((TESObjectREFR**)(&listVal->m_item));
 
                 if (aItem2 != 0)
                 {
@@ -2382,7 +2396,7 @@ void __cdecl WriteReferenceLists(BGSSaveFormBuffer* buffer)
             while (list9 != 0)
             {
 
-                item8 = (TESObjectREFR*)*((int *)(&list9->m_item));
+                item8 = *((TESObjectREFR**)(&list9->m_item));
 
                 if (item8 != 0)
                 {
@@ -2406,7 +2420,7 @@ void __cdecl WriteReferenceLists(BGSSaveFormBuffer* buffer)
             while (list4 != 0)
             {
 
-                item6 = (TESObjectREFR*)*((int *)(&list4->m_item));
+                item6 = *((TESObjectREFR**)(&list4->m_item));
 
                 if (item6 != 0)
                 {
@@ -3550,7 +3564,7 @@ void Scr::FUN_005ab400(TESForm* form)
         if (form7)
         {
             ::ResolveFormID((unsigned int *)(::TESForm **)(&form7), pTemp);
-            refTmp->pForm = ::FUN_004839c0((unsigned int)(form7));
+            refTmp->pForm = ::FUN_004839c0((unsigned int)(std::uintptr_t)(form7));
             if (refTmp->pForm)
                 ok3 = true;
         }

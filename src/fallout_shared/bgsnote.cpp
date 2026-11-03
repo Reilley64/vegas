@@ -644,7 +644,7 @@ void BGSNoteSave::SaveNote()
     case 2: {
         SaveTexture* pNoteTexture = (SaveTexture*)reinterpret_cast<::BGSNote *>(this)->GetNoteTexture();
         if (pNoteTexture)
-            ::FUN_004856f0((void *)(0x4d414e58), (void *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((pNoteTexture))->FUN_00408da0()))), (void *)(pNoteTexture->GetNameLength() + 1));
+            ::FUN_004856f0((void *)(0x4d414e58), (void *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((pNoteTexture))->FUN_00408da0()))), (void *)(std::uintptr_t)(pNoteTexture->GetNameLength() + 1));
         break;
     }
     case 3: {

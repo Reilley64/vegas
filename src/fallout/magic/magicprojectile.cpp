@@ -119,6 +119,12 @@ extern int DAT_010795e4;
 struct FUN_00806eb0
 {
     FUN_00806eb0(intptr_t a1, int a2);
+    unsigned int pad00[0xf8];
+    void* unk3e0;
+    unsigned int pad3e4[0xb];
+    void* unk410;
+    unsigned int pad414[0x8f];
+    int unk650;
 };
 // Calls FUN_00c741e0 with a1, installs three vtable pointers at offsets 0x0, 0x3E0 and 0x410, and stores a2 at offset 0x650.
 // @fnv 0x00806eb0
@@ -126,9 +132,9 @@ FUN_00806eb0::FUN_00806eb0(intptr_t aiArg, int aiValue)
 {
     new ((void *)(((Call741e0*)this))) ::fnv_00c741e0::FUN_00c741e0((::fnv_00c741e0::T741_Src *)(aiArg));
     *(void**)this = (void*)&DAT_010795e4;
-    *(void**)((char*)this + 0x3E0) = (void*)&DAT_010795d4;
-    *(void**)((char*)this + 0x410) = (void*)&DAT_010795b8;
-    *(int*)((char*)this + 0x650) = aiValue;
+    this->unk3e0 = (void*)&DAT_010795d4;
+    this->unk410 = (void*)&DAT_010795b8;
+    this->unk650 = aiValue;
 }
 
 struct TESSaveLoadGame
@@ -176,26 +182,28 @@ struct FUN_0040a1e0_shell
 struct FUN_0081e8c0_shell : FUN_00932070_shell
 {
     void FUN_0081e8c0(unsigned int aiFlags);
+    char pad00[0x8c];
+    unsigned int unk8c;
+    unsigned int unk90;
+    FUN_00818be0_shell* caster;
+    FUN_0040a1e0_shell* spell;
+    unsigned int pad9c[0x2];
+    unsigned int unka4;
 };
 // @fnv 0x0081e8c0
 void FUN_0081e8c0_shell::FUN_0081e8c0(unsigned int aiFlags)
 {
     reinterpret_cast<::FUN_00932070_MobileObject *>(this)->SaveProcess(aiFlags);
     unsigned int icasterID =
-        ((unsigned int)(reinterpret_cast<::FUN_00818be0_cls *>((reinterpret_cast<FUN_00818be0_shell*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x94))))->FUN_00818be0()));
+        ((unsigned int)(reinterpret_cast<::FUN_00818be0_cls *>((caster))->FUN_00818be0()));
     reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<intptr_t>(&icasterID), 4);
-    unsigned int ispellID =
-        reinterpret_cast<FUN_0040a1e0_shell*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x98))
-            ->FUN_0040a1e0();
+    unsigned int ispellID = spell->FUN_0040a1e0();
     reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<intptr_t>(&ispellID), 4);
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-        (void *)(reinterpret_cast<uintptr_t>(reinterpret_cast<unsigned char*>(this) + 0xa4)), 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(&unka4, 4);
     if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x48)
-        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<uintptr_t>(reinterpret_cast<unsigned char*>(this) + 0x90)), 4);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(&unk90, 4);
     if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x64)
-        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<uintptr_t>(reinterpret_cast<unsigned char*>(this) + 0x8c)), 4);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(&unk8c, 4);
 }
 
 struct STR00
@@ -208,6 +216,13 @@ struct FUN_00484d40_Host
 struct FUN_0081e980_shell
 {
     void FUN_0081e980(uintptr_t, uintptr_t);
+    unsigned int pad00[0x23];
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int pad9c[0x2];
+    unsigned int unka4;
 };
 // @fnv 0x0081e980
 void FUN_0081e980_shell::FUN_0081e980(uintptr_t a, uintptr_t b)
@@ -215,15 +230,15 @@ void FUN_0081e980_shell::FUN_0081e980(uintptr_t a, uintptr_t b)
     reinterpret_cast<::fnv_009320e0::FUN_009320e0_class *>(this)->SetProcessLevel((void *)(a), (void *)(b));
     unsigned int icasterID;
     ((FUN_00484d40_Host*)this)->FUN_00484d40(&icasterID, 4);
-    *(unsigned int*)((char*)this + 0x94) = icasterID;
+    this->unk94 = icasterID;
     unsigned int ispellID;
     ((FUN_00484d40_Host*)this)->FUN_00484d40(&ispellID, 4);
-    *(unsigned int*)((char*)this + 0x98) = ispellID;
-    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00((char*)this + 0xa4, 4);
+    this->unk98 = ispellID;
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00(&this->unka4, 4);
     if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x48)
-        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00((char*)this + 0x90, 4);
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00(&this->unk90, 4);
     if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x64)
-        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00((char*)this + 0x8c, 4);
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00(&this->unk8c, 4);
 }
 
 struct Form

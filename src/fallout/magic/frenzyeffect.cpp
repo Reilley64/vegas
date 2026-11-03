@@ -61,17 +61,23 @@ extern int DAT_0107a16c;
 struct ValueModifierEffectCtor
 {
 };
+// The FrenzyEffect member after ValueModifierEffect.
+struct FrenzyEffectFields : ValueModifierEffectFields
+{
+    char unk4c;
+};
+
 struct FrenzyEffectShell : ValueModifierEffect
 {
     void* ConstructFrenzyEffect(void* a, void* b, void* c);
 };
-// Runs the ValueModifierEffect constructor, installs the vtable pointer at DAT_0107a16c, clears the byte at offset 0x4c, and returns this.
+// Runs the ValueModifierEffect constructor, installs the vtable pointer at DAT_0107a16c, clears the byte after the ValueModifierEffect members, and returns this.
 // @fnv 0x0080dbb0
 void* FrenzyEffectShell::ConstructFrenzyEffect(void* apArg1, void* apArg2, void* apArg3)
 {
     new ((void *)(((ValueModifierEffectCtor*)this))) ::FUN_0082ba60((::MagicCaster *)(apArg1), (::MagicItem *)(apArg2), (::EffectItem *)(apArg3));
     *reinterpret_cast<void**>(this) = &DAT_0107a16c;
-    *reinterpret_cast<char*>(this + 0x4c) = 0;
+    reinterpret_cast<FrenzyEffectFields*>(this)->unk4c = 0;
     return this;
 }
 
@@ -81,13 +87,16 @@ struct TESSaveLoadGame
 struct FUN_0080dfd0_shell : ValueModifierEffect
 {
     void FUN_0080dfd0(Actor* actor);
+    char pad01[0x4c];
+    unsigned char unk4c;
+    char pad4d[0x2];
 };
 // Calls FUN_00802db0 on the actor, then passes this+0x4c and 1 to TESSaveLoadGame::FUN_008579b0.
 // @fnv 0x0080dfd0
 void FUN_0080dfd0_shell::FUN_0080dfd0(Actor* actor)
 {
     reinterpret_cast<::ValueModifierEffect *>(this)->FUN_00802db0(actor);
-    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((char*)this + 0x4c, 1);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&this->unk4c, 1);
 }
 
 namespace fnv_0080e000 {
@@ -100,12 +109,15 @@ struct TESSaveLoadGame
 struct FUN_0080e000_shell : Base00802dd0
 {
     void FUN_0080e000(Actor* apActor);
+    char pad01[0x4c];
+    unsigned char unk4c;
+    char pad4d[0x2];
 };
 // @fnv 0x0080e000
 void FUN_0080e000_shell::FUN_0080e000(Actor* apActor)
 {
     reinterpret_cast<::ValueModifierEffect_LoadGame_Helper *>(this)->FUN_00802dd0(apActor);
-    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0080e000::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0((char*)this + 0x4c, 1);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0080e000::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&this->unk4c, 1);
 }
 }  // namespace fnv_0080e000
 
@@ -134,6 +146,9 @@ struct FUN_0080dd30_shell : ValueModifierEffect
     Actor* GetOwnerActor() const;
     Actor* GetCasterActor();
     void FUN_0080dd30();
+    char pad01[0x4c];
+    char unk4c;
+    char pad4d[0x2];
 };
 // Calls FUN_0082c000, resolves target and caster, and sets byte at offset 0x4c to 1 when both exist and the target check passes.
 // @fnv 0x0080dd30
@@ -143,7 +158,7 @@ void FUN_0080dd30_shell::FUN_0080dd30()
     Actor* target = reinterpret_cast<::ActiveEffectFields *>(this)->target ? ((MagicTarget*)(void*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor() : 0;
     Actor* caster = ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((Proc_S*)this)))->FUN_0045cd60())) ? ((MagicCaster*)((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((Proc_S*)this)))->FUN_0045cd60())))->GetCasterActor() : 0;
     if (target && caster && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)target)))->FUN_00493bb0())))
-        ((char*)this)[0x4c] = 1;
+        this->unk4c = 1;
 }
 
 struct FrenzyEffectCopy : FrenzyEffectShell

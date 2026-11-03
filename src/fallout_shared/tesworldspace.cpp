@@ -199,8 +199,8 @@ void TESWorldSpace::ClearWorldSpaceReferences()
     FUN_00584150(0.0f);
     FUN_00586110(DAT_01031920);
     FUN_00586130(0.0f);
-    ((TESFullName*)((char*)this + 0x24))->SetFullName(0);
-    memset((char*)this + 0x80, 0, 16);
+    ((TESFullName*)kFullName)->SetFullName(0);
+    memset((&this->kMapData), 0, 16);
 }
 // Validates x and y are within -32768..32767, builds a key from them, and looks up the cell in cellMap, returning it or null.
 // @fnv 0x005875a0
@@ -439,14 +439,14 @@ void* FUN_00588b00_shell::GetOrCreateCellOffsetData(TESFile* apFile)
     {
         pmainfile = pmainfile->GetThreadSafeRootFile();
     }
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00853130((std::uintptr_t)pmainfile, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pdata)) || !pdata)
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)(&this->kOffsetMapByFile))))->FUN_00853130((std::uintptr_t)pmainfile, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pdata)) || !pdata)
     {
         pdata = new OFFSET_DATA_24;
         pdata->pCellOffsets = 0;
         pdata->uiFileOffset = 0;
         pdata->m_kFirstPoint = NiPoint2(3.4028234663852886e+38f, 3.4028234663852886e+38f);
         pdata->m_kEndPoint = NiPoint2(::DAT_01015f5c, ::DAT_01015f5c);
-        reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00844700((std::uintptr_t)pmainfile, (std::uintptr_t)pdata);
+        reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)(&this->kOffsetMapByFile))))->FUN_00844700((std::uintptr_t)pmainfile, (std::uintptr_t)pdata);
     }
     return pdata;
 }
@@ -485,7 +485,7 @@ void FUN_006698d0(char* pThis)
     ::FUN_00559450((int *)(void *)(pThis + 0x6c));
 }
 
-struct FUN_005832f0_shell : public TESForm
+struct FUN_005832f0_shell : public TESWorldSpace
 {
     char* FUN_005832f0();
 };
@@ -498,7 +498,7 @@ struct Flt
 // @fnv 0x005832f0
 char* FUN_005832f0_shell::FUN_005832f0()
 {
-    char* pString = *(char**)((char*)this + 0xc0);
+    char* pString = *(char**)&mapName;
     return pString ? pString : (char*)"";
 }
 
@@ -577,21 +577,21 @@ void FUN_00587e40_shell::FUN_00587e40(TESObjectREFR* apRef)
         reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::ATM *>(&::g_011ca60c))))->FUN_004538a0(0);
         if (!FUN_00587c80(apRef))
         {
-            reinterpret_cast<::ItemChangeListNode *>((((ListH*)((char*)this + 0x60))))->FUN_00905330((*(::InventoryStackRecord *const *)(&apRef)));
+            reinterpret_cast<::ItemChangeListNode *>((((ListH*)(&this->kMobilePersistentRefs))))->FUN_00905330((*(::InventoryStackRecord *const *)(&apRef)));
         }
         else
         {
             ikey = ::FUN_00587440(
                 (const ::NiPoint3 *)&(*((NiPoint3 * (*)(TESObjectREFR*))(*(void***)apRef)[0x1f4 / 4])(apRef)));
             preflist = 0;
-            reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0x50))))->FUN_00853130(ikey, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)preflist));
+            reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)(&this->kFixedPersistentRefMap))))->FUN_00853130(ikey, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)preflist));
             if (preflist)
             {
                 reinterpret_cast<::ItemChangeListNode *>((((ListH*)preflist)))->FUN_00905330((*(::InventoryStackRecord *const *)(&apRef)));
                 if (((ListH*)preflist)->_ref_008256d0())
                 {
                     delete preflist;
-                    reinterpret_cast<::NiTMap_S *>((((MapH*)((char*)this + 0x50))))->RemoveKey(ikey);
+                    reinterpret_cast<::NiTMap_S *>((((MapH*)(&this->kFixedPersistentRefMap))))->RemoveKey(ikey);
                 }
             }
         }
@@ -723,16 +723,15 @@ TESWorldSpace* FUN_00586020_shell::GetWorldSpaceOrParentWorld()
     return result;
 }
 
-struct FUN_00586210_shell
+struct FUN_00586210_shell : public TESWorldSpace
 {
-    unsigned char cFlags;
     bool HasFlag2();
 };
 
 // @fnv 0x00586210
 bool FUN_00586210_shell::HasFlag2()
 {
-    if (((unsigned char)(*((unsigned char*)this + 0x4c)) & 2))
+    if (flags4C & 2)
         return true;
     return false;
 }
@@ -751,7 +750,7 @@ char ArrSI::HasFlag80000()
     return 0;
 }
 
-struct FUN_00586260_shell
+struct FUN_00586260_shell : public TESWorldSpace
 {
     bool IsFlag8Set();
 };
@@ -759,14 +758,13 @@ struct FUN_00586260_shell
 // @fnv 0x00586260
 bool FUN_00586260_shell::IsFlag8Set()
 {
-    if (((unsigned char*)this)[0x4c] & 8)
+    if (flags4C & 8)
         return 1;
     return 0;
 }
 
-struct FUN_00586280_shell
+struct FUN_00586280_shell : public TESWorldSpace
 {
-    unsigned char bFlags;  // +0x4c
     void SetFlag8(bool bFlag);
 };
 // @fnv 0x004f1260
@@ -782,21 +780,20 @@ void TESRegion::AssignWorldSpace(TESWorldSpace* apWorldSpace)
 void FUN_00586280_shell::SetFlag8(bool bFlag)
 {
     if (bFlag)
-        ((unsigned char*)this)[0x4c] |= 8;
+        flags4C |= 8;
     else
-        ((unsigned char*)this)[0x4c] &= ~8;
+        flags4C &= ~8;
 }
 
-struct FUN_005862c0_shell
+struct FUN_005862c0_shell : public TESWorldSpace
 {
-    unsigned char cFlags;  // +0x4c
     bool IsFlagSet();
 };
 
 // @fnv 0x005862c0
 bool FUN_005862c0_shell::IsFlagSet()
 {
-    if (((unsigned char*)((char*)this + 0x4c))[0] & 0x10)
+    if (flags4C & 0x10)
         return 1;
     return 0;
 }
@@ -815,7 +812,7 @@ char FUN_00586300_shell::IsFlag80Set()
     return 0;
 }
 
-struct FUN_00586320_shell
+struct FUN_00586320_shell : public TESWorldSpace
 {
     bool FUN_00586320();
 };
@@ -823,7 +820,7 @@ struct FUN_00586320_shell
 // @fnv 0x00586320
 bool FUN_00586320_shell::FUN_00586320()
 {
-    if ((*(unsigned char*)((char*)this + 0x4c) & 0x40) != 0)
+    if ((flags4C & 0x40) != 0)
         return false;
     return true;
 }
@@ -844,10 +841,9 @@ const char* FUN_00586440_shell::FUN_00586440()
     if (this->GetParentWorld(static_cast<TESWorldSpace::PARENT_USE_FLAG>(2)))
     {
         return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(((reinterpret_cast<FNStub*>(
-                    reinterpret_cast<char*>(this->GetParentWorld(static_cast<TESWorldSpace::PARENT_USE_FLAG>(2))) +
-                    0x24))))->FUN_00408da0()));
+                    this->GetParentWorld(static_cast<TESWorldSpace::PARENT_USE_FLAG>(2))->kFullName))))->FUN_00408da0()));
     }
-    return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(((reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x24))))->FUN_00408da0()));
+    return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(((reinterpret_cast<FNStub*>(kFullName))))->FUN_00408da0()));
 }
 
 struct StartMenu
@@ -1076,7 +1072,7 @@ TESWaterForm* FUN_005860c0_shell::FUN_005860c0()
     return ::DAT_011ca53c;
 }
 
-struct Unk00586340
+struct Unk00586340 : public TESWorldSpace
 {
     bool FUN_00586340(int);
 };
@@ -1095,7 +1091,7 @@ bool Unk00586340::FUN_00586340(int aiIndex)
     if (aiIndex >= 0 && aiIndex < 6)
     {
         unsigned char mask = 1 << aiIndex;
-        if (*(unsigned short*)((char*)this + 0x4E) & mask)
+        if (field4E & mask)
             return true;
         return false;
     }
@@ -1113,7 +1109,7 @@ PointerPairData* FUN_00586400_shell::FUN_00586400()
 {
     if (GetParentWorld((PARENT_USE_FLAG)2))
         return ((FUN_00586400_shell*)GetParentWorld((PARENT_USE_FLAG)2))->FUN_00586400();
-    return (PointerPairData*)((char*)this + 0x80);
+    return (PointerPairData*)(&this->kMapData);
 }
 
 namespace fnv_00587760 {
@@ -1231,7 +1227,7 @@ struct FormIDData
 {
     int dummy;
 };
-struct TESWorldSpace_shell
+struct TESWorldSpace_shell : public ::TESWorldSpace
 {
     FormIDData* FUN_00588a90(TESFile* file);
 };
@@ -1242,7 +1238,7 @@ FormIDData* TESWorldSpace_shell::FUN_00588a90(TESFile* file)
     TESFile* current = file;
     while (current && current->GetThreadSafeRootFile())
         current = current->GetThreadSafeRootFile();
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00853130((std::uintptr_t)current, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)result)))
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)(&this->kOffsetMapByFile))))->FUN_00853130((std::uintptr_t)current, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)result)))
         result = 0;
     return result;
 }
@@ -1458,7 +1454,7 @@ struct MyMap
 struct NiTMap
 {
 };
-struct FUN_00587bb0_shell
+struct FUN_00587bb0_shell : public TESWorldSpace
 {
     void DestroyMapEntries();
 };
@@ -1466,23 +1462,23 @@ struct FUN_00587bb0_shell
 // @fnv 0x00587bb0
 void FUN_00587bb0_shell::DestroyMapEntries()
 {
-    if (*(MapX**)((char*)this + 0x68))
+    if (*(MapX**)&pFileOffsetMap)
     {
-        void* pos = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)*(MapX**)((char*)this + 0x68))))->GetFirstPos();
+        void* pos = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)*(MapX**)&pFileOffsetMap)))->GetFirstPos();
         while (pos)
         {
             void* key = 0;
             void* val = 0;
-            reinterpret_cast<::C6b7f20_Map *>((((NiTMap*)*(MapX**)((char*)this + 0x68))))->FUN_006b7f20((::C6b7f20_Node **)&(pos), (unsigned int *)&((unsigned int&)key), (void **)&(val));
+            reinterpret_cast<::C6b7f20_Map *>((((NiTMap*)*(MapX**)&pFileOffsetMap)))->FUN_006b7f20((::C6b7f20_Node **)&(pos), (unsigned int *)&((unsigned int&)key), (void **)&(val));
             if (val)
             {
                 reinterpret_cast<::FileMatchList *>((((List_009e03e0*)val)))->RemoveAll();
                 delete (List_009e03e0*)val;
             }
         }
-        reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)*(MapX**)((char*)this + 0x68))))->FUN_00438af0();
-        delete (MyMap*)*(MapX**)((char*)this + 0x68);
-        *(MapX**)((char*)this + 0x68) = 0;
+        reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)*(MapX**)&pFileOffsetMap)))->FUN_00438af0();
+        delete (MyMap*)*(MapX**)&pFileOffsetMap;
+        *(MapX**)&pFileOffsetMap = 0;
     }
 }
 
@@ -1496,7 +1492,7 @@ struct MyMap
 struct NiTMap
 {
 };
-struct FUN_00588c80
+struct FUN_00588c80 : public ::TESWorldSpace
 {
     void PerformNoArgumentOperation();
 };
@@ -1504,18 +1500,18 @@ struct FUN_00588c80
 // @fnv 0x00588c80
 void FUN_00588c80::PerformNoArgumentOperation()
 {
-    void* iterA = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)((char*)this + 0xb0))))->GetFirstPos();
+    void* iterA = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)(&this->kOffsetMapByFile))))->GetFirstPos();
     while (iterA)
     {
         void* preflist9 = 0;
         unsigned int iignore5 = 0;
-        reinterpret_cast<::C6b7f20_Map *>((((NiTMap*)((char*)this + 0xb0))))->FUN_006b7f20((::C6b7f20_Node **)&(iterA), (unsigned int *)&(iignore5), (void **)&(preflist9));
+        reinterpret_cast<::C6b7f20_Map *>((((NiTMap*)(&this->kOffsetMapByFile))))->FUN_006b7f20((::C6b7f20_Node **)&(iterA), (unsigned int *)&(iignore5), (void **)&(preflist9));
         void* ref = *(void**)preflist9;
         ::FUN_00401030(ref);
         void* p2 = preflist9;
         ::FUN_00401030(p2);
     }
-    reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)((char*)this + 0xb0))))->FUN_00438af0();
+    reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)(&this->kOffsetMapByFile))))->FUN_00438af0();
 }
 }  // namespace fnv_00588c80
 
@@ -1547,7 +1543,7 @@ struct WorldSpaceVirtual
 void FUN_00583070_shell::FUN_00583070()
 {
     *reinterpret_cast<void**>(&this->parent) = 0;
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0xd0) = 0;
+    fieldD0 = 0;
     this->flags4C = 0;
     this->field4E = 0;
 
@@ -1570,10 +1566,10 @@ void FUN_00583070_shell::FUN_00583070()
     this->fC8 = DAT_01031920;
     this->fCC = 0.0f;
 
-    reinterpret_cast<GO*>(reinterpret_cast<char*>(this) + 0x6c)->operator=(0);
+    reinterpret_cast<GO*>((&this->pCellPointerMap))->operator=(0);
 
-    reinterpret_cast<WorldSpaceVirtual*>(reinterpret_cast<char*>(this) + 0xd4)->Call();
-    reinterpret_cast<WorldSpaceVirtual*>(reinterpret_cast<char*>(this) + 0xe0)->Call();
+    reinterpret_cast<WorldSpaceVirtual*>(kUnkD4)->Call();
+    reinterpret_cast<WorldSpaceVirtual*>(kUnkE0)->Call();
 }
 }  // namespace fnv_00583070
 
@@ -1793,7 +1789,7 @@ void FUN_00588150_shell::AddCellReferences(TESObjectCELL* cell)
         {
             TESObjectREFR* pref;
             pCurrentElementNext = 0;
-            reinterpret_cast<::fnv_00853130::NiTMapBase *>((reinterpret_cast<DummyPointerMap*>(reinterpret_cast<char*>(this) + 0x50)))->FUN_00853130(ikey, (::fnv_00853130::CombatThreatRecord *&)(reinterpret_cast<unsigned int&>(pCurrentElementNext)));
+            reinterpret_cast<::fnv_00853130::NiTMapBase *>((reinterpret_cast<DummyPointerMap*>((&this->kFixedPersistentRefMap))))->FUN_00853130(ikey, (::fnv_00853130::CombatThreatRecord *&)(reinterpret_cast<unsigned int&>(pCurrentElementNext)));
 
             while (pCurrentElementNext != 0 && !pCurrentElementNext->_ref_008256d0())
             {
@@ -1805,7 +1801,7 @@ void FUN_00588150_shell::AddCellReferences(TESObjectCELL* cell)
 
         {
             TESObjectREFR* pref;
-            pCurrentElementNext = reinterpret_cast<BSSimpleList*>(reinterpret_cast<char*>(this) + 0x60);
+            pCurrentElementNext = reinterpret_cast<BSSimpleList*>((&this->kMobilePersistentRefs));
 
             while (pCurrentElementNext != 0 && !pCurrentElementNext->_ref_008256d0())
             {
@@ -4781,17 +4777,17 @@ void WorldSpaceRefShell::FUN_00587d10(TESObjectREFR* apRef)
         reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::ATM *>(&::g_011ca60c))))->FUN_004538a0(0);
         if (!FUN_00587c80(apRef))
         {
-            ((RefList_587D10*)((char*)this + 0x60))->AddHead((int*)&apRef);
+            ((RefList_587D10*)(&this->kMobilePersistentRefs))->AddHead((int*)&apRef);
         }
         else
         {
             unsigned int ikey = ::FUN_00587440((const ::NiPoint3 *)&(*((RefV_587D10*)apRef)->GetPos()));
             RefListNode_587D10* preflist = 0;
-            reinterpret_cast<::fnv_00853130::NiTMapBase *>((((PtrMap_587D10*)((char*)this + 0x50))))->FUN_00853130(ikey, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)preflist));
+            reinterpret_cast<::fnv_00853130::NiTMapBase *>((((PtrMap_587D10*)(&this->kFixedPersistentRefMap))))->FUN_00853130(ikey, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)preflist));
             if (!preflist)
             {
                 preflist = new RefListNode_587D10;
-                reinterpret_cast<::FUN_00844700_Class *>((((SetAt_587D10*)((char*)this + 0x50))))->FUN_00844700(ikey, (std::uintptr_t)preflist);
+                reinterpret_cast<::FUN_00844700_Class *>((((SetAt_587D10*)(&this->kFixedPersistentRefMap))))->FUN_00844700(ikey, (std::uintptr_t)preflist);
             }
             preflist->AddHead((int*)&apRef);
         }

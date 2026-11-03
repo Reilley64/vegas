@@ -2,6 +2,7 @@
 // src/fallout/dialogue/dialogueresponse.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/dialogue/dialogueresponse.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/dialogue_response_fields.h"
 #include <cstdint>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Callees.h"
@@ -31,14 +32,15 @@ struct FUN_0083d890_shell : S7010
 {
     unsigned int FUN_0083d890();
 };
-// Sums the sizes returned by two FUN_0083d890 calls plus one each, then adds 8, and returns the total.
+// Returns the saved size: the text and voice file lengths plus one byte each, and 8 for the emotion type and value.
 // @fnv 0x0083d420
 unsigned short FUN_0083d420_shell::FUN_0083d420()
 {
+    DialogueResponseFields* pResponse = reinterpret_cast<DialogueResponseFields*>(this);
     unsigned short result = 0;
     unsigned char b2 = ((unsigned char)(reinterpret_cast<::FUN_0083d890_shell *>(this)->FUN_0083d890()));
     result += (unsigned short)b2 + 1;
-    unsigned char b1 = ((unsigned char)(reinterpret_cast<::FUN_0083d890_shell *>((((FUN_0083d420_shell*)((char*)this + 0x10))))->FUN_0083d890()));
+    unsigned char b1 = ((unsigned char)(reinterpret_cast<::FUN_0083d890_shell *>(&pResponse->voiceFile)->FUN_0083d890()));
     result += (unsigned short)b1 + 1;
     result += 4;
     result += 4;
@@ -65,20 +67,21 @@ struct FUN_0083d490_shell : FUN_0083d420_shell
     void SaveToGame();
 };
 
-// Writes two length-prefixed byte blocks from this and this+0x10, then the 4-byte values at offsets 8 and 0xc, to the save game stream.
+// Writes the text and the voice file as length-prefixed byte blocks, then the emotion type and value, to the save game stream.
 // @fnv 0x0083d490
 void FUN_0083d490_shell::SaveToGame()
 {
+    DialogueResponseFields* pResponse = reinterpret_cast<DialogueResponseFields*>(this);
     unsigned char c1 = ((unsigned char)(reinterpret_cast<::FUN_0083d890_shell *>(this)->FUN_0083d890()));
     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&c1, 1);
     if (c1)
-        reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((void*)(uintptr_t)((Flt*)this)->operator unsigned int(), c1);
-    unsigned char c2 = ((unsigned char)(reinterpret_cast<::FUN_0083d890_shell *>((((FUN_0083d420_shell*)((char*)this + 0x10))))->FUN_0083d890()));
+        reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(pResponse->text, c1);
+    unsigned char c2 = ((unsigned char)(reinterpret_cast<::FUN_0083d890_shell *>(&pResponse->voiceFile)->FUN_0083d890()));
     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&c2, 1);
     if (c2)
-        reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((void*)(uintptr_t)((Flt*)((char*)this + 0x10))->operator unsigned int(), c2);
-    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((char*)this + 8, 4);
-    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((char*)this + 0xc, 4);
+        reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(pResponse->voiceFile, c2);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&pResponse->emotionType, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&pResponse->emotionValue, 4);
 }
 
 struct FUN_0083d1e0_SubA

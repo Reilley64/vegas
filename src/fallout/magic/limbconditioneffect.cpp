@@ -1,5 +1,6 @@
 // fallout/magic/limbconditioneffect.cpp: LimbConditionEffect, MyEffect, LimbConditionEffectShell, ValueModifierEffect (11 functions)
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActiveEffectSaveShell.h"
 #include "fnv/decl/FUN_00802d90_shell.h"
 #include "fnv/decl/FUN_00806420_shell.h"
@@ -50,16 +51,21 @@ public:
     void ApplyActorValueModifier(::Actor *, float, ::ActorValue::Index);
 };
 extern int DAT_0107a3fc;
+struct LimbConditionEffectFields : ValueModifierEffectFields
+{
+    int unk4c;
+};
+
 struct FUN_0080f060 : ValueModifierEffect
 {
     FUN_0080f060(void*, void*, void*);
 };
-// Constructs the object by calling the ValueModifierEffect base constructor, setting the vtable to DAT_0107a3fc and initializing the field at offset 0x4C to -1.
+// Constructs the object by calling the ValueModifierEffect base constructor, setting the vtable to DAT_0107a3fc and sets the int after the ValueModifierEffect members to -1.
 // @fnv 0x0080f060
 FUN_0080f060::FUN_0080f060(void* a, void* b, void* c) : ValueModifierEffect(a, b, c)
 {
     *(void**)this = (void*)&DAT_0107a3fc;
-    *(int*)((char*)this + 0x4C) = -1;
+    reinterpret_cast<LimbConditionEffectFields*>(this)->unk4c = -1;
 }
 
 struct TESSaveLoadGame
@@ -108,6 +114,8 @@ struct ActiveEffect
 struct MyEffect : ActiveEffect
 {
     void FUN_0080f350(BGSLoadFormBuffer*);
+    unsigned int pad04[0x12];
+    unsigned int unk4c;
 };
 // Calls ActiveEffect::LoadGame, then for buffer version 8 or higher reads 4 bytes into the field at offset 0x4c.
 // @fnv 0x0080f350
@@ -116,7 +124,7 @@ void MyEffect::FUN_0080f350(BGSLoadFormBuffer* apBuffer)
     reinterpret_cast<::FUN_00806420_shell *>(this)->FUN_00806420(apBuffer);
     if (apBuffer->GetVersion() >= 8)
     {
-        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x4c), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&this->unk4c), 4);
     }
 }
 

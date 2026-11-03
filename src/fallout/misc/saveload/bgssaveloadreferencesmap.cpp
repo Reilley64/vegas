@@ -161,6 +161,8 @@ struct WsH
 struct FUN_00852cd0_shell
 {
     void RemoveReferenceFromCell(unsigned int aiCellID, unsigned int aiReferenceID, NiPoint3 const& arPos);
+    char pad00[0x20];
+    DummyPointerMap unk20;
 };
 // Looks up the numeric ID array for aiCellID and removes the reference keyed by the world coordinate of arPos.
 // @fnv 0x00852cd0
@@ -168,7 +170,7 @@ void FUN_00852cd0_shell::RemoveReferenceFromCell(unsigned int aiCellID, unsigned
                                                  NiPoint3 const& arPos)
 {
     BSSimpleArray<unsigned int, 1024>* pnumericIDArray = 0;
-    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0x20))))->FUN_00853130(aiCellID, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pnumericIDArray)))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(&unk20))->FUN_00853130(aiCellID, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pnumericIDArray)))
     {
         unsigned int uiCoordKey;
         uiCoordKey = ::FUN_00587440((const ::NiPoint3 *)&(arPos));
@@ -179,12 +181,11 @@ void FUN_00852cd0_shell::RemoveReferenceFromCell(unsigned int aiCellID, unsigned
 struct S00852950
 {
 };
-struct SetAtHelper
-{
-};
 struct FUN_00852c00_shell : FUN_00852840_shell
 {
     void AddReferenceToCell(unsigned int aiCellID, uintptr_t aiReferenceID, NiPoint3 const& arPos);
+    char pad00[0x20];
+    DummyPointerMap unk20;
 };
 struct PSM3
 {
@@ -204,10 +205,10 @@ struct FUN_00852950_shell : DummyPointerMap
 void FUN_00852c00_shell::AddReferenceToCell(unsigned int aiCellID, uintptr_t aiReferenceID, NiPoint3 const& arPos)
 {
     OL4B* pNumericIDArray = 0;
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0x20))))->FUN_00853130(aiCellID, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pNumericIDArray)))
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(&unk20))->FUN_00853130(aiCellID, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pNumericIDArray)))
     {
         pNumericIDArray = new OL4B;
-        reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)this + 0x20))))->FUN_00844700(aiCellID, (uintptr_t)pNumericIDArray);
+        reinterpret_cast<::FUN_00844700_Class *>(&unk20)->FUN_00844700(aiCellID, (uintptr_t)pNumericIDArray);
     }
     int key = ::FUN_00587440((const ::NiPoint3 *)&(arPos));
     reinterpret_cast<::FUN_00852950_shell *>((((S00852950*)pNumericIDArray)))->GetOrCreateEntryAdd(key, (void *)(aiReferenceID));

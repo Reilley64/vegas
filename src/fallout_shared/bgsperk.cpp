@@ -606,7 +606,7 @@ void FUN_005e9a70_t::FUN_005e9a70()
     reinterpret_cast<::FUN_005e9620_class *>(this)->FUN_005e9620(0);
     ptempQuest = Data.pQuest;
     if (Data.pQuest)
-        Data.pQuest = (TESForm*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((Data.pQuest))->FUN_0084e3a0()));
+        Data.pQuest = (TESForm*)(reinterpret_cast<::FUN_0084e3a0_Class *>((Data.pQuest))->FUN_0084e3a0());
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::fnv_00503210::Unk *>((reinterpret_cast<RegionDataEntry*>(&Data)))->FUN_00503210();
     AppendChunk(0x41544144, &Data, 8);

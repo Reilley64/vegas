@@ -130,12 +130,12 @@ void BGSReconstructFormsInAllFilesMap::Clear()
     reinterpret_cast<::S3240 *>(&(m_kFormChangeMap))->FUN_00843240();
     iCount = 0;
 }
-// Calls Resize(0, 1) on this and on the object at offset 0x10.
+// Calls Resize(0, 1) on both form change arrays.
 // @fnv 0x00843240
 void S3240::FUN_00843240()
 {
-    Resize(0, 1);
-    reinterpret_cast<S3240*>(reinterpret_cast<char*>(this) + 0x10)->Resize(0, 1);
+    reinterpret_cast<S3240*>(&reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges)->Resize(0, 1);
+    reinterpret_cast<S3240*>(&reinterpret_cast<::FormChangeMap *>(this)->m_kSpecialFormChanges)->Resize(0, 1);
 }
 
 struct FUN_00843bb0_shell : public FormChangeMap
@@ -246,12 +246,14 @@ OffsetData* FUN_006db9b0_s::AllocateOffsetData(unsigned int aiSizeInItem)
 struct FUN_00841320_shell
 {
     void FUN_00841320(int arg);
+    unsigned int pad00[0x4];
+    int unk10;
 };
 
 // @fnv 0x00841320
 void FUN_00841320_shell::FUN_00841320(int arg)
 {
-    *(int*)((char*)this + 0x10) |= arg;
+    this->unk10 |= arg;
 }
 
 struct FUN_00844070_standin
@@ -365,12 +367,14 @@ struct FUN_00845260_holder
 struct FUN_00844500_shell
 {
     void ForwardToHolder();
+    char pad00[0xc];
+    FUN_00845260_holder unk0c;
 };
 
 // @fnv 0x00844500
 void FUN_00844500_shell::ForwardToHolder()
 {
-    reinterpret_cast<::FUN_0069b8a0_cls *>((((FUN_00845260_holder*)((char*)this + 0xc))))->CreateObj_00845260();
+    reinterpret_cast<::FUN_0069b8a0_cls *>(&unk0c)->CreateObj_00845260();
 }
 
 namespace fnv_00844fa0 {
@@ -626,11 +630,11 @@ unsigned int FUN_008432e0_Host::FUN_008432e0(unsigned int auiIndex)
     unsigned int flags = reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges.iSize;
     if (auiIndex < flags)
     {
-        return reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_shell*)this)))->FUN_00844160(auiIndex);
+        return reinterpret_cast<::FUN_00844160_shell *>(&reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges)->FUN_00844160(auiIndex);
     }
     else
     {
-        return reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_shell*)((char*)this + 16))))->FUN_00844160(auiIndex - flags);
+        return reinterpret_cast<::FUN_00844160_shell *>(&reinterpret_cast<::FormChangeMap *>(this)->m_kSpecialFormChanges)->FUN_00844160(auiIndex - flags);
     }
 }
 }  // namespace fnv_008432e0
@@ -643,18 +647,18 @@ struct ArrSI
 struct FUN_00844160_shell
 {
 };
-// Returns the element at index from this array if index is below GetFlags(), otherwise from the array at offset 0x10 with index minus flags.
+// Returns the element at index from this array if index is below GetFlags(), otherwise from m_kSpecialFormChanges with index minus flags.
 // @fnv 0x00843330
 unsigned int ArrSI::GetElementAt(unsigned int index)
 {
     unsigned int flags = reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges.iSize;
     if (index < flags)
     {
-        return *(unsigned int*)reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_shell*)this)))->FUN_00844160(index);
+        return *(unsigned int*)reinterpret_cast<::FUN_00844160_shell *>(&reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges)->FUN_00844160(index);
     }
     else
     {
-        return *(unsigned int*)reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_shell*)((char*)this + 0x10))))->FUN_00844160(index - flags);
+        return *(unsigned int*)reinterpret_cast<::FUN_00844160_shell *>(&reinterpret_cast<::FormChangeMap *>(this)->m_kSpecialFormChanges)->FUN_00844160(index - flags);
     }
 }
 }  // namespace fnv_00843330
@@ -1077,6 +1081,10 @@ struct S5460
 struct FUN_00844c20_shell
 {
     void SetCount(unsigned int);
+    unsigned int pad00[0x1];
+    void* unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
 };
 // Calls SetCount on the base and on the sub object with the same argument.
 // @fnv 0x00843be0
@@ -1090,16 +1098,16 @@ void H00843be0::FUN_00843be0(unsigned int auiValue)
 // @fnv 0x00844c20
 void FUN_00844c20_shell::SetCount(unsigned int idx)
 {
-    if (idx == *(unsigned int*)((char*)this + 0xc))
+    if (idx == this->unk0c)
         return;
-    if (idx < *(unsigned int*)((char*)this + 8))
+    if (idx < this->unk08)
     {
         ((FUN_0072ba80_shell*)this)
-            ->FUN_0072ba80((char*)*(void**)((char*)this + 4) + idx * 8, *(unsigned int*)((char*)this + 8) - idx);
-        *(unsigned int*)((char*)this + 8) = idx;
+            ->FUN_0072ba80((char*)this->unk04 + idx * 8, this->unk08 - idx);
+        this->unk08 = idx;
     }
-    reinterpret_cast<::StandIn *>((((S5460*)this)))->FUN_006a2770(idx, *(unsigned int*)((char*)this + 8));
-    *(unsigned int*)((char*)this + 0xc) = idx;
+    reinterpret_cast<::StandIn *>((((S5460*)this)))->FUN_006a2770(idx, this->unk08);
+    this->unk0c = idx;
 }
 
 namespace fnv_00844ff0 {
@@ -1383,6 +1391,10 @@ struct FUN_00841fc0_standin
 struct FUN_00842600_shell
 {
     void ProcessCell(TESObjectCELL*, intptr_t, int, int);
+    unsigned int pad00[0x4];
+    void* unk10;
+    void* unk14;
+    int unk18;
 };
 
 // Dispatches the cell to an interior or exterior handler, lazily allocating it, then increments a counter at offset 0x18.
@@ -1391,29 +1403,29 @@ void FUN_00842600_shell::ProcessCell(TESObjectCELL* cell, intptr_t aiArg1, int a
 {
     if (reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior())
     {
-        if (!*reinterpret_cast<FUN_00841b20_standin**>(reinterpret_cast<char*>(this) + 0x10))
+        if (!*reinterpret_cast<FUN_00841b20_standin**>(&this->unk10))
         {
-            *reinterpret_cast<FUN_00841b20_standin**>(reinterpret_cast<char*>(this) + 0x10) =
+            *reinterpret_cast<FUN_00841b20_standin**>(&this->unk10) =
                 reinterpret_cast<FUN_00841b20_standin*>(new FUN_008419f0(false));
         }
 
         reinterpret_cast<FUN_00841b20_standin*>(
-            *reinterpret_cast<FUN_00841b20_standin**>(reinterpret_cast<char*>(this) + 0x10))
+            *reinterpret_cast<FUN_00841b20_standin**>(&this->unk10))
             ->ProcessEntry(cell, aiArg1, aiArg2, aiArg3);
     }
     else
     {
-        if (!*reinterpret_cast<FUN_00841fc0_standin**>(reinterpret_cast<char*>(this) + 0x14))
+        if (!*reinterpret_cast<FUN_00841fc0_standin**>(&this->unk14))
         {
-            *reinterpret_cast<FUN_00841fc0_standin**>(reinterpret_cast<char*>(this) + 0x14) =
+            *reinterpret_cast<FUN_00841fc0_standin**>(&this->unk14) =
                 reinterpret_cast<FUN_00841fc0_standin*>(new FUN_00841ea0());
         }
 
         reinterpret_cast<::fnv_00841fc0::FUN_00841fc0_class *>((reinterpret_cast<FUN_00841fc0_standin*>(
-            *reinterpret_cast<FUN_00841fc0_standin**>(reinterpret_cast<char*>(this) + 0x14))))->FUN_00841fc0((::fnv_00841fc0::DoorH *)(cell), aiArg1, aiArg2, aiArg3);
+            *reinterpret_cast<FUN_00841fc0_standin**>(&this->unk14))))->FUN_00841fc0((::fnv_00841fc0::DoorH *)(cell), aiArg1, aiArg2, aiArg3);
     }
 
-    ++*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18);
+    ++this->unk18;
 }
 }  // namespace fnv_00842600
 

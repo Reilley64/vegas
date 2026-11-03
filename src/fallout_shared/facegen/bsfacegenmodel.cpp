@@ -149,17 +149,29 @@ class StatisticalArray
     StatisticalEntry* FUN_00662890(unsigned int);
 };
 
+// The statistics array FaceGenTriData keeps after its data, and the value its entries carry.
+struct FaceGenTriStatisticsView
+{
+    char pad[0xd8];
+    char kStatistics[0x10];
+};
+struct StatisticalEntryView
+{
+    char pad[0x1c];
+    unsigned int uiValue;
+};
+
 // @fnv 0x0065a5a0
 unsigned int FaceGenTriData::FUN_0065a5a0()
 {
     unsigned int uiMinValue = ::FUN_0065c700((const ::_Vec12 *)this);
-    for (unsigned int uiIndex = 0; uiIndex < ((unsigned int)(reinterpret_cast<::FUN_0065cc30_class *>((((StatisticalArray*)((char*)this + 0xd8))))->FUN_0065cc30())); ++uiIndex)
+    for (unsigned int uiIndex = 0; uiIndex < ((unsigned int)(reinterpret_cast<::FUN_0065cc30_class *>(reinterpret_cast<StatisticalArray*>(reinterpret_cast<FaceGenTriStatisticsView*>(this)->kStatistics))->FUN_0065cc30())); ++uiIndex)
     {
-        if (*(unsigned int*)((char*)((StatisticalArray*)((char*)this + 0xd8))->FUN_00662890(uiIndex) + 0x1c) <
+        if (reinterpret_cast<StatisticalEntryView*>(reinterpret_cast<StatisticalArray*>(reinterpret_cast<FaceGenTriStatisticsView*>(this)->kStatistics)->FUN_00662890(uiIndex))->uiValue <
             uiMinValue)
         {
             uiMinValue =
-                *(unsigned int*)((char*)((StatisticalArray*)((char*)this + 0xd8))->FUN_00662890(uiIndex) + 0x1c);
+                reinterpret_cast<StatisticalEntryView*>(reinterpret_cast<StatisticalArray*>(reinterpret_cast<FaceGenTriStatisticsView*>(this)->kStatistics)->FUN_00662890(uiIndex))->uiValue;
         }
     }
     return uiMinValue;
@@ -235,7 +247,9 @@ struct NiGeometry : public NiAVObject
     unsigned int QMemContext();
     virtual void UpdateWorldBound();
     void __local_vftable_ctor_closure();
-    char _pad_4[188];
+    char _pad_4[0xb8 - 4];
+    void* spUnkB8;
+    char _pad_bc[0xc0 - 0xbc];
     char m_kPropertyState[28];
     char m_spGeometryData[4];
     char m_spSkinningInstance[4];
@@ -366,12 +380,12 @@ struct NiGeometryData_SetConsistency_View
     void SetDataConsistency(int);
 };
 
-// Forwards eConsistency to the consistency setter of the geometry data obtained from the object at offset 0xb8.
+// Forwards eConsistency to the consistency setter of the geometry data obtained from spUnkB8.
 // @fnv 0x0065a620
 void FUN_0065a620_shell::FUN_0065a620(int eConsistency)
 {
     reinterpret_cast<NiGeometryData_SetConsistency_View*>(
-        ((void *)(::FUN_00559450((int *)(reinterpret_cast<GeometryBufferView*>(reinterpret_cast<char*>(this) + 0xb8))))))
+        ((void *)(::FUN_00559450((int *)reinterpret_cast<GeometryBufferView*>(&spUnkB8)))))
         ->SetDataConsistency(eConsistency);
 }
 
@@ -993,6 +1007,9 @@ void FUN_0065c400_t::FUN_0065c400()
 
 struct FUN_00657c00_shell
 {
+    char pad[0xc];
+    char* pFirst;
+    char* pLast;
     int GetCount();
 };
 // Sums the size of the EGM data: base struct plus per-morph list and delta sizes for both morph lists, returning the total.
@@ -1022,7 +1039,7 @@ unsigned int FUN_0065c110_t::GetEGMSize()
 // @fnv 0x00657c00
 int FUN_00657c00_shell::GetCount()
 {
-    return (*(int*)((char*)this + 0x10) - *(int*)((char*)this + 0xc)) / 0x1c;
+    return (int)((pLast - pFirst) / 0x1c);
 }
 
 struct FUN_00659c10_shell

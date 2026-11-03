@@ -93,12 +93,22 @@ void SaveLoadChangeHistory::AddNote(const char* format, ...)
     va_end(arguments);
 }
 
-// Clears the field at offset 0xd68 and removes all entries from the BSSimpleList at offset 0x5fc.
+// The members Init (0x00848e10) reads beyond the declared SaveLoadChangeHistory layout.
+struct SaveLoadChangeHistoryInitView
+{
+    char pad00[0x5fc];
+    unsigned int unk5fc[2];
+    char pad604[0x764];
+    unsigned int unkd68;
+};
+
+// Clears unkd68 and removes all entries from the BSSimpleList at unk5fc.
 // @fnv 0x00848e10
 void SaveLoadChangeHistory::Init()
 {
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0xd68) = 0;
-    reinterpret_cast<::FileMatchList *>((reinterpret_cast<BSSimpleList<ActorCause*>*>(reinterpret_cast<char*>(this) + 0x5fc)))->RemoveAll();
+    SaveLoadChangeHistoryInitView* pview = reinterpret_cast<SaveLoadChangeHistoryInitView*>(this);
+    pview->unkd68 = 0;
+    reinterpret_cast<::FileMatchList *>(&pview->unk5fc)->RemoveAll();
 }
 
 // Calls FUN_0084c2a0 twice, with (0, 12) and (1000, 1001), passing flags through to each call.
@@ -231,7 +241,7 @@ void FUN_0084e250_shell::DeleteItemsFrom(unsigned int uiStartIndex)
         return;
     for (unsigned int i = uiStartIndex; i < (unsigned int)size; ++i)
     {
-        void* item = (void*)((uintptr_t)(reinterpret_cast<::S3e60 *>(this)->FUN_006a7ad0(i)));
+        void* item = *reinterpret_cast<::S3e60 *>(this)->FUN_006a7ad0(i);
         ::FUN_00401030(item);
     }
     reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>(this)->FUN_009a4320(uiStartIndex, (unsigned int)size - uiStartIndex);
@@ -272,7 +282,7 @@ void NavMeshInfoArray84E::SaveTo(SaveTarget84E* pkTarget)
     reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer6))->FUN_00865e50(&ItemUpdateArray, 4, 0);
     for (unsigned int uiIndex = 0; uiIndex < ItemUpdateArray; uiIndex++)
     {
-        NavMeshInfo84E* pkInfo = ((::NavMeshInfo84E *)(reinterpret_cast<::S3e60 *>(this)->FUN_006a7ad0(uiIndex)));
+        NavMeshInfo84E* pkInfo = *reinterpret_cast<::NavMeshInfo84E **>(reinterpret_cast<::S3e60 *>(this)->FUN_006a7ad0(uiIndex));
         reinterpret_cast<::FUN_00865e70_shell *>((pkBuffer6))->FUN_00865e70((const char *)(pkInfo), 0);
     }
 

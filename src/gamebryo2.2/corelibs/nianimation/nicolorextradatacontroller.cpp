@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/FUN_00a3bc60_shell.h"
 #include "fnv/decl/FUN_00a3bd80.h"
 #include "fnv/decl/FUN_00a55f80.h"
@@ -234,7 +235,7 @@ bool FUN_00a4faa0(NiInterpolator* pkInterpolator, unsigned short usIndex)
     return reinterpret_cast<InterpVT_00a4faa0*>(pkInterpolator)->IsCorrectType();
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern int DAT_0109947c;
 
 struct FUN_00a4fb80_obj

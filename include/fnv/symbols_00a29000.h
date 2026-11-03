@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct A290A0Key;
 struct A290A0Stream;
@@ -32,7 +33,7 @@ extern "C" unsigned char FUN_00a29470(float, const void *, int, unsigned int, un
 // 0x00a294f0
 int FUN_00a294f0();
 // 0x00a29550
-int FUN_00a29550(int, int);
+int FUN_00a29550(intptr_t, intptr_t);
 // 0x00a295f0
 void WriteEnabledFlag(::SStream *, ::SObj *);
 // 0x00a29660

@@ -14,6 +14,7 @@
 // bytes, with m_uiProgramCodeSize at offset 20.
 //
 
+#include <cstdint>
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_011f6000.h"
 typedef unsigned int NiUInt32;
@@ -113,9 +114,9 @@ S* FUN_00e9efb0(void* self)
 extern int g_fnv_00e9ecc0_value_anchor;
 
 // @fnv 0x00e9ecc0
-int FUN_00e9ecc0()
+intptr_t FUN_00e9ecc0()
 {
-    return (int)(&g_fnv_00e9ecc0_value_anchor) + 4;
+    return (intptr_t)(&g_fnv_00e9ecc0_value_anchor) + 4;
 }
 
 #pragma optimize("gty", on)

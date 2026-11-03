@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nisingleshadermaterial.cpp: NiDepthStencilBuffer, StandInUnload (8 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/Dummy_00cc0760.h"
@@ -274,8 +275,8 @@ struct FUN_00aa0870_cls
 // @fnv 0x00aa0870
 FUN_00aa0870_cls* FUN_00aa0870_cls::Destroy(unsigned char acFlags)
 {
-    long(* pfnRelease)(long volatile*) = InterlockedDecrement;
-    *(int volatile*)&m_vptr = (int)&DAT_010a21dc;
+    long(* pfnRelease)(long volatile*) = [](volatile long* p) { return InterlockedDecrement(p); };
+    *(intptr_t volatile*)&m_vptr = (intptr_t)&DAT_010a21dc;
     ShaderForUnload* sp = *(ShaderForUnload* volatile*)&m_sp;
     if (sp != 0)
     {
@@ -284,7 +285,7 @@ FUN_00aa0870_cls* FUN_00aa0870_cls::Destroy(unsigned char acFlags)
             sp->f1();
         }
     }
-    if ((int)m_pcString != (*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if ((intptr_t)m_pcString != (*reinterpret_cast<int *>(&::DAT_0109b220)))
     {
         pfnRelease((long volatile*)((char*)m_pcString - 8));
     }
@@ -296,7 +297,7 @@ FUN_00aa0870_cls* FUN_00aa0870_cls::Destroy(unsigned char acFlags)
     return this;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize) throw();
+
 
 class BSFixedString
 {
@@ -304,7 +305,7 @@ class BSFixedString
     BSFixedString(const char* pcString) throw()
     {
         if (pcString == 0)
-            m_kHandle = (char*)(*reinterpret_cast<int *>(&::DAT_0109b220));
+            m_kHandle = (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220));
         else
             m_kHandle = ::NiGlobalStringTable::AddString(pcString);
     }
@@ -314,14 +315,14 @@ class BSFixedString
     BSFixedString& operator=(const char* pcString) throw()
     {
         if (pcString == 0)
-            m_kHandle = (char*)(*reinterpret_cast<int *>(&::DAT_0109b220));
+            m_kHandle = (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220));
         else
             m_kHandle = ::NiGlobalStringTable::AddString(pcString);
         return *this;
     }
     ~BSFixedString() throw()
     {
-        if (m_kHandle != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if (m_kHandle != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
             InterlockedDecrement((long volatile*)(m_kHandle - 8));
     }
 

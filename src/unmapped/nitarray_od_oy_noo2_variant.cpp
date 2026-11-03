@@ -4,6 +4,7 @@
 // to their real unit once identified.
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/C89AC0_Owner.h"
 #include "fnv/decl/DummyStruct_00631820.h"
@@ -212,11 +213,11 @@ class NiTObjectArrayA47
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 
-    void FUN_0060bef0(unsigned int uiMaxSize);
+    void FUN_0060bef0(uintptr_t uiMaxSize);
 };
 
 // @fnv 0x0060bef0
-void NiTObjectArrayA47::FUN_0060bef0(unsigned int uiMaxSize)
+void NiTObjectArrayA47::FUN_0060bef0(uintptr_t uiMaxSize)
 {
     if (uiMaxSize == m_usMaxSize)
         return;

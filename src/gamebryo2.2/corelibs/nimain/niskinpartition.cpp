@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niskinpartition.cpp: NiAccumulator, Partition, Holder, MyCls and more (36 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include <cstring>
@@ -57,7 +58,7 @@ const void* __cdecl FUN_00a820d0()
 }
 
 // @fnv 0x00a82600
-void FUN_00a82600(int pTarget, int b, float c)
+void FUN_00a82600(intptr_t pTarget, int b, float c)
 {
     *(float*)(pTarget + 8) = c;
     *(int*)(pTarget + 4) = b;
@@ -285,13 +286,13 @@ struct MyCls
     int _40;
     int _44;
     void FUN_00a853c0(int);
-    MyCls* InitFromData(int, int, const Dummy13&, int);
+    MyCls* InitFromData(int, int, const Dummy13&, intptr_t);
 };
 extern int DAT_0109e574;
 int __cdecl FUN_00a853c0();
 // Initialises the object: sets the vtable, clears _08, copies a3 into _0c, stores a2 and a1, then calls FUN_00a853c0(a4) and returns this.
 // @fnv 0x00a854c0
-MyCls* MyCls::InitFromData(int a1, int a2, const Dummy13& aData, int a4)
+MyCls* MyCls::InitFromData(int a1, int a2, const Dummy13& aData, intptr_t a4)
 {
     new ((void *)this) struct ::FUN_00a5d3a0();
     vf = (void*)&DAT_0109e574;
@@ -385,13 +386,13 @@ struct S_00a82050_Class : S_00a82050_Base
     S_00a82050_Node** ppNodes;
     unsigned int uCount;
 
-    virtual int GetIndex(int);
-    virtual bool Compare(int, int);
-    virtual void Initialize(S_00a82050_Node*, int, float);
+    virtual int GetIndex(intptr_t);
+    virtual bool Compare(intptr_t, int);
+    virtual void Initialize(S_00a82050_Node*, intptr_t, float);
     virtual void Unknown();
     virtual S_00a82050_Node* GetNode();
 
-    void FUN_00a82050(int, float);
+    void FUN_00a82050(intptr_t, float);
 };
 
 S_00a82050_Base::~S_00a82050_Base()
@@ -399,7 +400,7 @@ S_00a82050_Base::~S_00a82050_Base()
 
 // Looks up the node matching iArg in the bucket at GetIndex(iArg) and sets its fValue to fArg, or inserts a new node at the bucket head and increments uCount.
 // @fnv 0x00a82050
-void S_00a82050_Class::FUN_00a82050(int aiKey, float afValue)
+void S_00a82050_Class::FUN_00a82050(intptr_t aiKey, float afValue)
 {
     int iIndex;
     S_00a82050_Node* pNode;
@@ -656,7 +657,7 @@ void MergeGroupWeights(WeightedMap* map, const unsigned short* groupIndices, Ent
                 }
                 node = node->next;
             }
-            reinterpret_cast<::S_00a82050_Class *>((map))->FUN_00a82050((int)(key), group->entries[itemIndex].weight);
+            reinterpret_cast<::S_00a82050_Class *>((map))->FUN_00a82050((intptr_t)(key), group->entries[itemIndex].weight);
         nextItem:;
         }
     }
@@ -752,10 +753,10 @@ bool FUN_00a81ff0_cls::Equals(const FUN_00a81ff0_cls* other)
     if (count > 0)
     {
         FUN_00a81ff0_elem* a = m_pElements;
-        int iOffset = (int)other->m_pElements - (int)m_pElements;
+        intptr_t iOffset = (intptr_t)other->m_pElements - (intptr_t)m_pElements;
         do
         {
-            if (!reinterpret_cast<::PartitionCompare *>((a))->FUN_00a81c90((const ::PartitionCompare *)(const ::FUN_00a81ff0_elem *)((FUN_00a81ff0_elem*)((int)a + iOffset))))
+            if (!reinterpret_cast<::PartitionCompare *>((a))->FUN_00a81c90((const ::PartitionCompare *)(const ::FUN_00a81ff0_elem *)((FUN_00a81ff0_elem*)((intptr_t)a + iOffset))))
                 return false;
             i++;
             a++;
@@ -1074,11 +1075,11 @@ struct SkinBuilder
     int unk00;
     int unk04;
     unsigned int count;
-    bool BuildTriangleSetMapping(SkinGeom*, void*, unsigned int, void*, SkinItems*, int**, int*) throw();
+    bool BuildTriangleSetMapping(SkinGeom*, void*, uintptr_t, void*, SkinItems*, int**, int*) throw();
 };
 // Builds a per-triangle set index mapping from group IDs or weights, compacts unused sets, and returns false if a triangle's vertices span three distinct groups.
 // @fnv 0x00a84310
-bool SkinBuilder::BuildTriangleSetMapping(SkinGeom* geom, void* unused, unsigned int input, void* weights,
+bool SkinBuilder::BuildTriangleSetMapping(SkinGeom* geom, void* unused, uintptr_t input, void* weights,
                                           SkinItems* sets, int** mapping, int* groupIDs) throw()
 {
     unsigned int triangles = geom->triangleCount;
@@ -1824,7 +1825,7 @@ class SaverA83C : public FUN_00a89af0_helper
 // @fnv 0x00a83ce0
 void SaverA83C::FUN_00a83ce0(NiStreamA83C& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     ReadBinaryValue(kStream, m_uiCount);
     for (unsigned int i = 0; i < m_uiCount; i++)
         reinterpret_cast<::PartitionSave *>(&(m_pkElems[i]))->WriteToStream((::NiStreamFake &)(kStream));

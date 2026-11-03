@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiPixelFormat;
 namespace fnv_00a8cc40 { struct NiBinaryStream; }
@@ -9,7 +10,7 @@ struct PixelDataView;
 struct ReadCtx;
 
 // 0x00a8c100
-bool IsValidBitDepth(int, int, int, int, unsigned int);
+bool IsValidBitDepth(intptr_t, int, int, int, unsigned int);
 // 0x00a8c120
 ::NiPixelFormat NormalizePixelFormat(::NiPixelFormat);
 // 0x00a8c6e0

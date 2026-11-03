@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiQuaternion;
 class NiStream;
@@ -9,9 +10,9 @@ struct TCAV;
 struct TCReg;
 
 // 0x00a6d0f0
-bool FUN_00a6d0f0(::TCReg *, int, ::NiStream &);
+bool FUN_00a6d0f0(::TCReg *, intptr_t, ::NiStream &);
 // 0x00a6d190
-char *FUN_00a6d190(const char *, int);
+char *FUN_00a6d190(const char *, intptr_t);
 // 0x00a6d2d0
 namespace fnv_00a6d2d0 { void FUN_00a6d2d0(::fnv_00a6d2d0::TCTimeNode *); }
 // 0x00a6d390

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct NiCameraStandIn;
 struct NiPoint3;
@@ -16,9 +17,9 @@ char *FUN_00a7d450(const char *, short);
 // 0x00a7d490
 char *FUN_00a7d490(const char *, unsigned short);
 // 0x00a7d4d0
-char *FUN_00a7d4d0(const char *, int);
+char *FUN_00a7d4d0(const char *, intptr_t);
 // 0x00a7d510
-char *FUN_00a7d510(const char *, unsigned int);
+char *FUN_00a7d510(const char *, uintptr_t);
 // 0x00a7d550
 char *FUN_00a7d550(const char *, float);
 // 0x00a7d5a0

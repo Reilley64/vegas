@@ -5,6 +5,7 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nipathinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nipathinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include <new>
 #include <windows.h>
 #include <cstring>
@@ -824,7 +825,7 @@ class ControllerE6F0
 // @fnv 0x00a3e6f0
 ControllerE6F0* ControllerE6F0::FUN_00a3e6f0(float fA, float fB)
 {
-    ControllerE6F0* pkCopy = ((::ControllerE6F0 *)(::FUN_00a57050((int)this, fA)));
+    ControllerE6F0* pkCopy = ((::ControllerE6F0 *)(::FUN_00a57050((intptr_t)this, fA)));
     if (m_spInterp.m_pObject)
     {
         NiPointerE6F0<InterpolatorE6F0> spInterp;

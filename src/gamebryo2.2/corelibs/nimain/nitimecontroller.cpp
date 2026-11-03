@@ -3,6 +3,7 @@
 // NiTimeController: base timing/update functionality for animation controllers.
 // FNV 2.2 branch revision (thread-local scale cache, legacy flag conversion,
 // geometry consistency fixup on attach/link).
+#include <cstdint>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -39,7 +40,7 @@
 // @fnv 0x00a6d0c0
 void NiTimeController::ProcessClone(CloningProcess& kCloning)
 {
-    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((unsigned int)&(kCloning));
+    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((uintptr_t)&(kCloning));
     NiTimeController* pkNext = ((::NiTimeController *)(::fnv_004a8a90::FUN_004a8a90((char *)this)));
     if (pkNext)
         pkNext->ProcessClone(kCloning);
@@ -784,7 +785,7 @@ struct FUN_00a6d730_shell : NiTimeController
 // @fnv 0x00a6d730
 void FUN_00a6d730_shell::FUN_00a6d730(Stream_a6d730& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     NiTimeController* next = m_spNextController.m_pObject;
     while (next && !((Probe_a6d730*)next)->IsGeometryController())
         next = next->m_spNextController.m_pObject;
@@ -1135,7 +1136,7 @@ class NiTimeControllerCM : public NiTimeController
 // @fnv 0x00a6cfe0
 void NiTimeControllerCM::FUN_00a6cfe0(NiTimeController* pkDest, CloningProcess& kCloning)
 {
-    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)(pkDest), (void *)&(kCloning));
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((uintptr_t)(pkDest), (void *)&(kCloning));
     pkDest->m_uiObjectFlags = m_uiObjectFlags;
     pkDest->m_fFrequency = m_fFrequency;
     pkDest->m_fPhase = m_fPhase;

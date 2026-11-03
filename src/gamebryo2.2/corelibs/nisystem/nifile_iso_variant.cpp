@@ -2,6 +2,7 @@
 // with VC9 SP1 and /MT /O2 /GS /EHsc /Gy (unit lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton.
 
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "runtime/crt.h"
@@ -90,7 +91,7 @@ struct ProgramCacheDirectoryState
 // @fnv 0x00ee8d20
 extern "C" bool FUN_00ee8d20(ProgramCacheDirectoryState* cache, int)
 {
-    if (cache->workingDirectory != reinterpret_cast<const char*>((*reinterpret_cast<int *>(&::DAT_0109b220))))
+    if (cache->workingDirectory != reinterpret_cast<const char*>((*reinterpret_cast<intptr_t *>(&::DAT_0109b220))))
     {
         if (FUN_00aa1ab0(cache->workingDirectory))
             return true;

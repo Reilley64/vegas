@@ -2,6 +2,7 @@
 // src/staging/blk_00e60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -3040,11 +3041,11 @@ struct FUN_00e68920_cls
     unsigned int unk70;
     unsigned int unk74;
     unsigned int m_78;
-    void FUN_00e68920(int a1);
+    void FUN_00e68920(intptr_t a1);
 };
 // Copies renderer data into each surface level of m_pTex from m_78 up to unk68, skipping null or type 4/5 textures and logging failed GetSurfaceLevel calls.
 // @fnv 0x00e68920
-void FUN_00e68920_cls::FUN_00e68920(int a1)
+void FUN_00e68920_cls::FUN_00e68920(intptr_t a1)
 {
     if (m_pTex == 0)
         return;
@@ -3908,12 +3909,12 @@ struct Base_e7bc90
 struct FUN_00e7bc90 : Base_e7bc90
 {
     NiArr_e7bc90 m_aiIndexedValues;
-    FUN_00e7bc90(int a, int b) throw();
+    FUN_00e7bc90(intptr_t a, intptr_t b) throw();
 };
 
 // Initializes the count to zero, constructs the array with max size 0 and grow-by 1, then calls BuildItemsFromSource with the two arguments.
 // @fnv 0x00e7bc90
-FUN_00e7bc90::FUN_00e7bc90(int a, int b) throw() : m_aiIndexedValues(0, 1)
+FUN_00e7bc90::FUN_00e7bc90(intptr_t a, intptr_t b) throw() : m_aiIndexedValues(0, 1)
 {
     m_uiCount = 0;
     reinterpret_cast<::FUN_00e7bbf0_cls *>(this)->BuildItemsFromSource((::BE7BBF0Source *)(a), (void *)(b));
@@ -4941,7 +4942,7 @@ void __cdecl DestroyGlobalQueues()
 
 
 // @fnv 0x00e7f7c0
-int __cdecl FUN_00e7f7c0()
+intptr_t __cdecl FUN_00e7f7c0()
 {
     return DAT_0126f728;
 }
@@ -6355,7 +6356,7 @@ class CE7C500PixelFormat
 
 // Allocates a CE7C500PixelFormat, converts the given format into it, and returns the new object.
 // @fnv 0x00e7c500
-CE7C500PixelFormat* __cdecl CreatePixelFormat(int eFormat)
+CE7C500PixelFormat* __cdecl CreatePixelFormat(intptr_t eFormat)
 {
     CE7C500PixelFormat* pkFormat = new CE7C500PixelFormat;
     ::GetPixelTemplateForFormat(eFormat, (*(::PixelTemplate *)(pkFormat)));
@@ -6392,7 +6393,7 @@ class AdditionalDepthData : public NiDX92DBufferDataStub
 extern char DAT_010ef028;
 // Creates AdditionalDepthData, acquires a depth surface from the device, queries its description, and creates or reuses the Ni2DBufferStub.
 // @fnv 0x00e7d390
-AdditionalDepthData* __cdecl CreateDepthBufferData(AdditionalDepthDevice* device, void* surfaceSource, int, int,
+AdditionalDepthData* __cdecl CreateDepthBufferData(AdditionalDepthDevice* device, void* surfaceSource, intptr_t, int,
                                                    Ni2DBufferStub** buffer)
 {
     AdditionalDepthData* result = new AdditionalDepthData;
@@ -9098,11 +9099,11 @@ class DepthStencilSearch
     int unk00;
     int unk04;
     SearchIndex m_08;
-    int FindBestFullscreenFormat(unsigned int p1, int p2, int p3);
+    intptr_t FindBestFullscreenFormat(unsigned int p1, int p2, int p3);
 };
 // Returns the DAT_011bf140 value of the enabled fullscreen entry whose two values from FUN_00e7a8b0 are closest to p2 and p3, or 0.
 // @fnv 0x00e7ade0
-int DepthStencilSearch::FindBestFullscreenFormat(unsigned int p1, int aiDepth, int aiStencil)
+intptr_t DepthStencilSearch::FindBestFullscreenFormat(unsigned int p1, int aiDepth, int aiStencil)
 {
     NiDX9RenderTargetInfo* pRenderTargetInfo = 0;
     int result = 0;

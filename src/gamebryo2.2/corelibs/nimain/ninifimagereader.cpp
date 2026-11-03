@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a8ad80
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/NiStream.h"
@@ -98,7 +99,7 @@ class A8AE50ImageReader
 
     A8AE50ImageReader()
     {
-        InitializeCriticalSection(&m_kCriticalSection);
+        InitializeCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCriticalSection));
     }
 };
 
@@ -278,7 +279,7 @@ struct FUN_00a8ae80_pool
 
 struct FUN_00a8ae80_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     int unk04;
     int unk08;
     int unk0C;
@@ -347,9 +348,9 @@ struct FUN_00a8ae80_cls
 FUN_00a8ae80_cls* FUN_00a8ae80_cls::FUN_00a8ae80(unsigned char acFlags)
 {
     FUN_00a8ae80_member* pMember = &m_100;
-    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0109f3e4));
+    m_vptr = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0109f3e4));
     ::FUN_00a65300((::FUN_00a65300_holder *)(pMember));
-    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0109f3d0));
+    m_vptr = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0109f3d0));
     DeleteCriticalSection(&m_cs);
     if (acFlags & 1)
     {

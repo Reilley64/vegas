@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nisystem/nipath.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nisystem/nipath.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <string.h>
 // Converts forward slashes to backslashes, removes repeated backslashes after the first two characters, and returns whether either change occurred.
 #include <cstring>
@@ -99,10 +100,10 @@ void __cdecl RemoveParentDirSegments(char* path)
                 found = 0;
             dst = path;
         }
-        int remaining = (int)end - (int)found;
+        intptr_t remaining = (intptr_t)end - (intptr_t)found;
         if (remaining > 0)
         {
-            int shift = (int)found - (int)dst;
+            intptr_t shift = (intptr_t)found - (intptr_t)dst;
             do
             {
                 *dst = dst[shift];

@@ -1,4 +1,5 @@
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -76,7 +77,7 @@ void NiTransformData::SetPositionKeys(PositionKeyInterpolator* keys, unsigned in
 void NiTransformData::SetScaleKeys(TimedAnimationKey* keys, unsigned int count, AnimationKey::KeyType type)
 {
     if (m_pkScaleKeyArray)
-        (*reinterpret_cast<void (**[6])(TimedAnimationKey *)>(&::DAT_011f38a0))[m_eScaleKeyType](m_pkScaleKeyArray);
+        (*reinterpret_cast<void (*(*)[6])(TimedAnimationKey *)>(&::DAT_011f38a0))[m_eScaleKeyType](m_pkScaleKeyArray);
     if (keys && count)
     {
         m_usNumScaleKeys = (unsigned short)count;
@@ -155,7 +156,7 @@ void FUN_00a4e270_shell::DestroyTransformData()
     if (pkScaleKeys)
     {
         void(__cdecl * pfnScaleDeleteFunc)(TimedAnimationKey*) =
-            (*reinterpret_cast<void (**[6])(TimedAnimationKey *)>(&::DAT_011f38a0))[*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18)];
+            (*reinterpret_cast<void (*(*)[6])(TimedAnimationKey *)>(&::DAT_011f38a0))[*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18)];
         pfnScaleDeleteFunc(pkScaleKeys);
     }
     reinterpret_cast<class ::FUN_00a5d3d0 *>((reinterpret_cast<NiObject_Helper*>(this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
@@ -265,11 +266,11 @@ void TimedRotationKey::ClearFloatKeys()
     int* p = (int*)((char*)this + 0x30);
     for (int i = 0; i < 3; ++i)
     {
-        int key = *p;
+        intptr_t key = *p;
         if (key != 0)
         {
             int iDeleteFuncIndex = *(p - 4);
-            NiFloatKeyDeleteFunction pDeleteFunc = (*reinterpret_cast<void (**[6])(TimedAnimationKey *)>(&::DAT_011f38a0))[iDeleteFuncIndex];
+            NiFloatKeyDeleteFunction pDeleteFunc = (*reinterpret_cast<void (*(*)[6])(TimedAnimationKey *)>(&::DAT_011f38a0))[iDeleteFuncIndex];
             pDeleteFunc((TimedAnimationKey*)key);
         }
         *p = 0;
@@ -305,11 +306,11 @@ void FUN_00a4e0b0_Holder::FUN_00a4e0b0(void* a1, int a2, char* a3)
 
 struct FUN_00a4e0f0_shell
 {
-    void InitFromParams(unsigned int, unsigned int, unsigned int);
+    void InitFromParams(unsigned int, unsigned int, uintptr_t);
 };
 
 // @fnv 0x00a4e0f0
-void FUN_00a4e0f0_shell::InitFromParams(unsigned int a, unsigned int b, unsigned int pSource)
+void FUN_00a4e0f0_shell::InitFromParams(unsigned int a, unsigned int b, uintptr_t pSource)
 {
     if (a && b)
     {
@@ -448,7 +449,7 @@ bool TransformDataEqual::FUN_00a4e130(NiObject* pkObject)
             return false;
     }
 
-    pfnKeyEqual = (*reinterpret_cast<bool (**[6])(void *, void *)>(&::DAT_011f3ae0))[m_eScaleKeyType];
+    pfnKeyEqual = (*reinterpret_cast<bool (*(*)[6])(void *, void *)>(&::DAT_011f3ae0))[m_eScaleKeyType];
     for (i = 0; i < m_usNumScaleKeys; i++)
     {
         char* pKeyB = (char*)pkData->m_pkScaleKeyArray + i * m_ucScaleKeySize;
@@ -555,17 +556,17 @@ void FUN_00a4e410_shell::FUN_00a4e410(float fA, float fB, PSysPtr4e4<PSysData4e4
     int iOutB = 0;
     if (m_usCount0 > 0)
     {
-        ::FUN_00a3d630(2, (int)(m_pvData0), m_pvExtra0, m_usCount0, fA, fB, (void **)(int *)(&iOutA), &iOutB);
+        ::FUN_00a3d630(2, (intptr_t)(m_pvData0), m_pvExtra0, m_usCount0, fA, fB, (void **)(int *)(&iOutA), &iOutB);
         pkResult->FUN_00a4e2e0(iOutA, iOutB, m_pvData0);
     }
     if (m_usCount1 > 0)
     {
-        ::FUN_00a3d630(1, (int)(m_pvData1), m_pvExtra1, m_usCount1, fA, fB, (void **)(int *)(&iOutA), &iOutB);
+        ::FUN_00a3d630(1, (intptr_t)(m_pvData1), m_pvExtra1, m_usCount1, fA, fB, (void **)(int *)(&iOutA), &iOutB);
         pkResult->FUN_00a4e350(iOutA, iOutB, m_pvData1);
     }
     if (m_usCount2 > 0)
     {
-        ::FUN_00a3d630(0, (int)(m_pvData2), m_pvExtra2, m_usCount2, fA, fB, (void **)(int *)(&iOutA), &iOutB);
+        ::FUN_00a3d630(0, (intptr_t)(m_pvData2), m_pvExtra2, m_usCount2, fA, fB, (void **)(int *)(&iOutA), &iOutB);
         pkResult->FUN_00a4e3b0(iOutA, iOutB, m_pvData2);
     }
     spOut = pkResult;
@@ -753,14 +754,14 @@ struct TransformSaveQuery : NiTransformData
 // @fnv 0x00a4e810
 void TransformSaveQuery::FUN_00a4e810(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     unsigned int count = m_usNumRotKeys;
     SaveAnimationValue(stream, count);
     if (m_usNumRotKeys > 0)
     {
         SaveAnimationValue(stream, m_eRotationKeyType);
         count = m_usNumRotKeys;
-        (*reinterpret_cast<void (**[])(NiStream &, TimedRotationKey *, unsigned int)>(&::DAT_011f3a80))[m_eRotationKeyType](stream, m_pkRotationKeys, count);
+        (*reinterpret_cast<void (*(*)[])(NiStream &, TimedRotationKey *, unsigned int)>(&::DAT_011f3a80))[m_eRotationKeyType](stream, m_pkRotationKeys, count);
     }
     count = m_usNumPosKeys;
     SaveAnimationValue(stream, count);
@@ -776,7 +777,7 @@ void TransformSaveQuery::FUN_00a4e810(NiStream& stream)
     {
         SaveAnimationValue(stream, m_eScaleKeyType);
         count = m_usNumScaleKeys;
-        (*reinterpret_cast<void (**[])(NiStream &, TimedAnimationKey *, unsigned int)>(&::g_apfnA29FE0Load))[m_eScaleKeyType](stream, m_pkScaleKeyArray, count);
+        (*reinterpret_cast<void (*(*)[])(NiStream &, TimedAnimationKey *, unsigned int)>(&::g_apfnA29FE0Load))[m_eScaleKeyType](stream, m_pkScaleKeyArray, count);
     }
 }
 
@@ -1013,11 +1014,11 @@ inline unsigned char GetScaleKeySize(AnimationKey::KeyType type)
 }
 inline ScaleCreateFunction GetScaleCreateFunction(AnimationKey::KeyType type)
 {
-    return (*reinterpret_cast<TimedAnimationKey *(**[])(NiStream &, unsigned int)>(&::DAT_011f3db0))[type];
+    return (*reinterpret_cast<TimedAnimationKey *(*(*)[])(NiStream &, unsigned int)>(&::DAT_011f3db0))[type];
 }
 inline ScaleLoadFunction GetScaleLoadFunction(AnimationKey::KeyType type)
 {
-    return (*reinterpret_cast<void (**[])(TimedAnimationKey *, unsigned int, unsigned char)>(&::DAT_011f3780))[type];
+    return (*reinterpret_cast<void (*(*)[])(TimedAnimationKey *, unsigned int, unsigned char)>(&::DAT_011f3780))[type];
 }
 class TransformDataLoader : public NiTransformData
 {

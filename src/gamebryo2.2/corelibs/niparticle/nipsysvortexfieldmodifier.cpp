@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c26810
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
@@ -180,12 +181,12 @@ struct CloneHost
 {
     char _pad_0[0x30];
     CloneVec3 m_30;
-    CloneItem* FUN_00c26940(int a);
+    CloneItem* FUN_00c26940(intptr_t a);
 };
 
 // Allocates a CloneItem, passes it with a to FUN_00c32020, copies m_30 into the item's m_30, and returns it.
 // @fnv 0x00c26940
-CloneItem* CloneHost::FUN_00c26940(int a)
+CloneItem* CloneHost::FUN_00c26940(intptr_t a)
 {
     CloneItem* pItem = new CloneItem;
     reinterpret_cast<::NiPSysParticle *>((this))->FUN_00c32020((::NiPSysParticle *)(pItem), (::CloningProcess *)(a));

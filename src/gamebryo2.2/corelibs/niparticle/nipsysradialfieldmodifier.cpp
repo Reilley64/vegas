@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c285c0
+#include <cstdint>
 #include "fnv/decl/C32060EmitterModifier.h"
 #include "fnv/decl/FUN_0063c8a0_shell.h"
 #include "fnv/decl/FUN_00c32120_cls.h"
@@ -99,7 +100,7 @@ struct FUN_00c31ff0 : NiPSysPositionModifier
 // @fnv 0x00c31ff0
 FUN_00c31ff0::FUN_00c31ff0() : _m18(0), _m1c(0.0f), _m20(0.0f), _m24(0), _m28(0.0f), _m2c(0.0f)
 {
-    *(int*)this = (int)&DAT_010c0b5c;
+    *(intptr_t*)this = (intptr_t)&DAT_010c0b5c;
 }
 
 

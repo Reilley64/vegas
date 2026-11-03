@@ -3,6 +3,7 @@
 
 
 // @fnv 0x00c2b460
+#include <cstdint>
 #include <new>
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
 #include "fnv/decl/ViewerStrings.h"
@@ -23,7 +24,7 @@ struct NiPSysEmitterPlanarAngleVarCtlr
 // @fnv 0x00c2b470
 void NiPSysEmitterPlanarAngleVarCtlr::FUN_00c2b470(float fValue)
 {
-    *(float*)(*(int*)(this + 0x3c) + 0x2c) = fValue;
+    *(float*)(*(intptr_t*)(this + 0x3c) + 0x2c) = fValue;
 }
 
 namespace fnv_00c2a8b0 {

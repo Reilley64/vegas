@@ -1124,12 +1124,12 @@ class EC2DF0Registry
     int unk3C;
     EC2DF0NameMap m_kNames;
 
-    bool GetNameByKey(unsigned int uiKey, char* pcPath);
+    bool GetNameByKey(uintptr_t uiKey, char* pcPath);
 };
 
 // Looks up uiKey in m_kNames and, if found, copies the name into pcPath with strcpy_s and returns true; otherwise returns false.
 // @fnv 0x00ec2df0
-bool EC2DF0Registry::GetNameByKey(unsigned int uiKey, char* pcPath)
+bool EC2DF0Registry::GetNameByKey(uintptr_t uiKey, char* pcPath)
 {
     const char* pcFile = 0;
     char* pcDest;             // declared but never used in this build

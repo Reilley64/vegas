@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nipointlight.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nipointlight.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00a71f50_cls.h"
 #include "fnv/decl/FUN_00a71f60_cls.h"
@@ -94,7 +95,7 @@ struct FUN_00a71ec0_helper
 };
 struct NiPointLightLayout
 {
-    unsigned int vtable;
+    uintptr_t vtable;
     int unk04;
     int unk08;
     int unk0C;
@@ -175,7 +176,7 @@ void* FUN_00a7d7c0_Class::ClonePointLight(void* process)
         new ((void *)(clone)) ::FUN_00a71f60_cls();
         float zero = 0.0f;
         clone->unkF0 = zero;
-        clone->vtable = (unsigned int)&(*reinterpret_cast<const unsigned int *>(&::DAT_0109dd0c));
+        clone->vtable = (uintptr_t)&(*reinterpret_cast<const unsigned int *>(&::DAT_0109dd0c));
         clone->unk9d = 2;
         float one = 1.0f;
         clone->unkF4 = one;
@@ -660,7 +661,7 @@ struct FUN_00a7d960_cls : S_00a7d960_base
 void FUN_00a7d960_cls::FUN_00a7d960(S_00a7d960_arg* pBuffer)
 {
     reinterpret_cast<::FUN_00a721e0_shell *>(this)->AppendEffectProperties((::StrArr *)(pBuffer));
-    S_Push(pBuffer, ::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_011f4a98)))));
+    S_Push(pBuffer, ::FUN_00a7d330((const char *)((*reinterpret_cast<uintptr_t *>(&::g_011f4a98)))));
     S_Push(pBuffer, FUN_00a7d550(str_0109de00, unkF0));
     S_Push(pBuffer, FUN_00a7d550(str_0109ddf4, unkF4));
     S_Push(pBuffer, FUN_00a7d550(str_0109dde8, unkF8));
@@ -675,7 +676,7 @@ void __cdecl FUN_00a9b360()
 
 
 // @fnv 0x00a9b370
-void __cdecl FUN_00a9b370(int param1, int param2)
+void __cdecl FUN_00a9b370(intptr_t param1, intptr_t param2)
 {
     reinterpret_cast<::FUN_00a720f0_shell *>((param1))->FUN_00a720f0((*(::NiStream *)(param2)));
 }

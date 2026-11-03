@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dshader.cpp: NiD3DShader, NiDX9AdditionalDepthStencilBufferData, ShaderStandIn, ShaderPrepQ (31 functions)
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BoneHost.h"
 #include "fnv/decl/D3DRenderStateGroup.h"
@@ -271,7 +273,7 @@ void* FUN_00e818a0_t::FUN_00e818a0()
     *(int*)((char*)this + 0x18) = 0;
     *(int*)((char*)this + 0x1c) = 0;
     *((char*)this + 0x20) = 0;
-    *(int*)this = (int)&DAT_010ef39c;
+    *(intptr_t*)this = (intptr_t)&DAT_010ef39c;
     return this;
 }
 
@@ -1744,7 +1746,7 @@ void __cdecl FUN_00e80a50(const ModelMatrix3* pkRot, const ModelPoint3* pkTrans,
                           const ModelRendererView* pkRenderer)
 {
     reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkState->m_pCurrentRenderState))->SetStageValue(0xb, (void *)(0x20000), bSave);
-    unsigned int uiValue = DAT_0126f0e4;
+    uintptr_t uiValue = DAT_0126f0e4;
     if (uiValue != 0 && uiValue != 0x100)
         pkState->m_bFlag5e = true;
     else
@@ -1769,7 +1771,7 @@ void __cdecl FUN_00e80a50(const ModelMatrix3* pkRot, const ModelPoint3* pkTrans,
     M._14 = M._24 = M._34 = M._44 = 0.0f;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 struct ConstantEntry
 {
     unsigned int unk00, unk04, unk08;
@@ -1852,7 +1854,7 @@ struct PassConstants
     unsigned int unk38, unk3c, unk40, unk44;
     NiD3DShaderConstantMap* vertexMap;
 };
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 // @fnv 0x00e81510
 extern "C" void __cdecl BindShaderConstants(NiD3DShader* shader, NiGeometry* geometry)
 {
@@ -2516,7 +2518,7 @@ GeomBufferDataQ* ShaderPrepQ::PrepareShaderAndStreams(GeometryQ* pkGeometry, Ski
         {
             void* pkDecl = pkAdd->m_pAdditionalData;
             ((RenderStateQ*)m_pRenderState)
-                ->SetShaderDeclaration(((void *)(::GetPacketSlot45((int)(((RendererQ*)m_pShaderObject))))));
+                ->SetShaderDeclaration(((void *)(::GetPacketSlot45((intptr_t)(((RendererQ*)m_pShaderObject))))));
         }
         else if (m_spShaderDeclaration)
             ((RenderStateQ*)m_pRenderState)

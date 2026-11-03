@@ -2337,7 +2337,7 @@ struct SceneList {
     unsigned int count;
     void WriteSceneList(OutputBuffer* dest, void* context);
 };
-void* FUN_00aa13e0(unsigned int size);
+
 
 struct ThreadHeapState
 {
@@ -2385,7 +2385,7 @@ void* FUN_00cc22a0_cls::CreateAndAttach(unsigned int uiValue)
     return obj;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct RefObject24_b9018 {
     char m00[0x18];
@@ -2855,7 +2855,7 @@ void* __cdecl FUN_00cc2b30()
 }
 
 namespace fnv_00cc2c60 {
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 extern unsigned int g_ctorCount1;
 extern unsigned int g_ctorCount2;
@@ -3250,7 +3250,7 @@ void CC3320Constraint::FUN_00cc3320(CC3320Info* pkInfo)
 }
 
 namespace fnv_00cc33a0 {
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 extern int DAT_01268154;
 extern int DAT_01268118;
 extern int DAT_012685b8;
@@ -4570,7 +4570,7 @@ void FUN_00cc4220_class::FUN_00cc4220(void* apOutput)
 }
 
 namespace fnv_00cc4340 {
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 extern unsigned int g_ctorCount1;
 extern unsigned int g_ctorCount2;
@@ -4949,7 +4949,7 @@ int* __cdecl FUN_00cc4860()
 extern int g_ctorCountA;
 extern int g_ctorCountD;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct OwnerBase {
     OwnerBase();
@@ -5417,7 +5417,7 @@ struct TlsGuard_t
     }
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 class OwnerBase_t
 {
@@ -5605,7 +5605,7 @@ int ObjectHolder::EnsureObjectAllocated() {
 }  // namespace fnv_00cc5340
 
 namespace fnv_00cc53f0 {
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+
 extern int DAT_01268188;
 extern int DAT_012685e8;
 
@@ -6114,7 +6114,7 @@ struct Helper2 {
     void* FUN_00c87c30();
 };
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 extern int DAT_01268188;
 extern int DAT_01268600;
@@ -6566,7 +6566,7 @@ void FUN_00cc75b0_cls::FUN_00cc75b0(int aiArg) {
 }
 
 namespace fnv_00cc7890 {
-void* FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnBase
 {
@@ -7062,7 +7062,7 @@ extern int g_ctorCountA;
 extern int g_ctorCountB;
 extern int g_ctorCountD;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct OwnerBase {
     OwnerBase();
@@ -8884,7 +8884,7 @@ struct S_00ccacf0_Ctx {
     __forceinline ~S_00ccacf0_Ctx() { (*reinterpret_cast<::fnv_00ccacf0::S_00ccacf0_Tls *>(&::g_tlsBlock)).ctx = saved; }
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int n);
+
 
 struct S_00ccacf0_Obj {
     int unk00; int unk04; int unk08; int unk0c; int unk10;
@@ -9710,7 +9710,7 @@ struct TlsGuard_t
     }
 };
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern "C" int DAT_012680f8;
 extern "C" int DAT_01268f8c;
 extern "C" int DAT_0126866c;
@@ -9905,7 +9905,7 @@ void* __cdecl FUN_00ccb990()
     return &DAT_01268684;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FunObjBase_b9645 {
     FunObjBase_b9645();
@@ -11132,7 +11132,7 @@ void FUN_00ccd1d0_cls::WriteLimitedHingeData(void* out) {
 }
 }  // namespace fnv_00ccd1d0
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct FUN_00ccd100 {
     void* vtable;
     unsigned int refCount;
@@ -11995,7 +11995,7 @@ FUN_00ccdc40::FUN_00ccdc40()
     ++g_iCDC40LevelDCount;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct RefObject20_b9084 {
     char m00[0x14];
@@ -13150,7 +13150,7 @@ void bhkConvexSweepShape::FUN_00ccf560(int arg) {
 }
 
 namespace fnv_00ccf5d0 {
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 extern "C" void __cdecl FUN_00c87c30();
 extern "C" char DAT_010caaf4[];
 extern "C" int DAT_012680f8;
@@ -13898,7 +13898,7 @@ struct TlsBlock_b9412 {
     unsigned int m_2b4;
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnedObj_b9412 {
     int unk00;
@@ -20070,7 +20070,7 @@ void __cdecl FUN_00cc7cf0()
     static_cast<::hkpD500Object *>(nullptr)->FUN_00d50010({});
 }
 
-void* FUN_00aa13e0(unsigned int);
+
 void FUN_00aa1460(void*,unsigned int);
 extern int DAT_01268188;
 extern int DAT_01268f74;
@@ -20946,7 +20946,7 @@ FUN_00cc1520::~FUN_00cc1520() {
 
 extern int DAT_01268188;
 extern int DAT_012685f4;
-extern void* __cdecl FUN_00aa13e0(unsigned int bytes);
+
 void __cdecl FUN_00aa4060(void* p);
 
 struct S_00cc5b90_Node
@@ -21089,7 +21089,7 @@ void SaveObject::FUN_00cc6ef0(SaveCtx* stream) {
  extern int DAT_010c9e5c; extern int DAT_010c9d7c;
 extern int DAT_01268188; extern int DAT_01268f74; extern int DAT_01268624;
  
-void* FUN_00aa13e0(unsigned int size);
+
 struct ThreadHeapContext { unsigned int m_allocationTag; };
 struct PhysicsNode {
     void* m_ppVirtualMethodTable; unsigned int m_sReferenceCount; unsigned int m_flags; unsigned int m_data;
@@ -21584,7 +21584,7 @@ void caller() { g_sink = FUN_00cc0e00(g_a, g_b); }
 
 extern int DAT_010c93fc;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct CC1290Object {
 
@@ -23655,7 +23655,7 @@ void FUN_00cd7d20_Class::FUN_00cd7d20(float* param1, float afScalar, float* apRe
     *reinterpret_cast<__m128*>(apResult + 4) = final_sum;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 void __cdecl FUN_00aa1460(void* p);
 namespace nd {
 struct Arr { void* p; unsigned int n; unsigned int cap; Arr() : p(0), n(0), cap(0x80000000) {} };

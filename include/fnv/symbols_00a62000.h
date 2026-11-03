@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiPixelData;
 class NiPixelFormat;
@@ -25,7 +26,7 @@ void ApplySettings(const ::Settings_a62 &);
 // 0x00a62330
 ::NiPixelData *CreateCheckerboardTexture(const ::CheckerColor &, const ::CheckerColor &, const ::NiPixelFormat &, unsigned int);
 // 0x00a62a10
-int DispatchIfHighBitSet(int, int, int);
+intptr_t DispatchIfHighBitSet(intptr_t, int, int);
 // 0x00a62a40
 void FUN_00a62a40(::FUN_00a62a40_this *, int, ::NiTArray< ::ActorCombatGroup *, ::NiTMallocInterface< ::ActorCombatGroup *>> *);
 // 0x00a62be0

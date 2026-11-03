@@ -2,6 +2,7 @@
 // src/staging/blk_00c80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -11738,7 +11739,7 @@ void C817D0Cls::UpdateNodeState(int)
 
 
 // @fnv 0x00c84cc0
-void __cdecl FUN_00c84cc0(int* param_1, unsigned int param_2)
+void __cdecl FUN_00c84cc0(int* param_1, uintptr_t param_2)
 {
     reinterpret_cast<::FUN_00c87670_Class *>((param_1))->FUN_00c87670((*(::NiStream *)(param_2)));
 }

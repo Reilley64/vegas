@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nibsplinecolorinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nibsplinecolorinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/A57E90Controller.h"
 #include "fnv/decl/BA58200Sequence.h"
 #include "fnv/decl/FUN_00a50110_obj.h"
@@ -47,7 +48,7 @@ struct BaseHolder
 extern int DAT_01099d3c;
 struct Obj34
 {
-    volatile int vtable;
+    volatile intptr_t vtable;
     char _pad[0x18];
     volatile float f1;
     volatile float f2;
@@ -63,7 +64,7 @@ void* FUN_00a51c60()
     if (p)
     {
         reinterpret_cast<::FUN_00a57f20_cls *>((((BaseHolder*)p)))->FUN_00a57f20((void *)(0), (void *)(0));
-        p->vtable = (int)&DAT_01099d3c;
+        p->vtable = (intptr_t)&DAT_01099d3c;
         p->f4 = p->f3 = p->f2 = p->f1 = 0.0f;
         p->unk2c = 0xffff;
         return p;
@@ -81,7 +82,7 @@ int S_a50a40::GetChannelResult(unsigned short usChannel)
     return 0 == usChannel ? 3 : 0;
 }
 
-typedef unsigned int A51BF0size_t;
+typedef size_t A51BF0size_t;
 
 struct A51BF0CloningProcess;
 
@@ -298,7 +299,7 @@ struct NiStream
     unsigned int unk240;
     unsigned int unk244;
     unsigned int unk248;
-    unsigned int unk24C;
+    uintptr_t unk24C;
     FNVStreamBuffer* buffer;
 };
 struct FUN_00a58160_shell
@@ -446,7 +447,7 @@ bool S_00a50610_Obj::FUN_00a50610(unsigned short flag)
 extern "C++" 
 
 // @fnv 0x00a50b10
-unsigned char FUN_00a50b10(int value)
+unsigned char FUN_00a50b10(intptr_t value)
 {
     return ((unsigned char)(reinterpret_cast<::FUN_00a57e50_shell *>((value))->LoadNiBSplineInterpolator(*(::NiStream *)nullptr))) != 0;
 }
@@ -508,7 +509,7 @@ struct FnvBSplineColorInterpolator
     float m_fKey0;              // +0x0c  the time stamp of the first key
     float m_fKey1;              // +0x10  the time stamp of the second key
     FnvSplineCurve* m_pCurve;   // +0x14  the curve that holds the keys
-    int m_nChannel;             // +0x18  the channel the curve is sampled in
+    intptr_t m_nChannel;             // +0x18  the channel the curve is sampled in
     FnvColor4 m_kDiffuseColor;  // +0x1c  the colour of the last evaluation
     int m_iKey;                 // +0x2c  the knot of the segment, 0xffff = none
     bool EvaluateColorAtTime(float fTime, float fUnused, FnvColor4* pOut);

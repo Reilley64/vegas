@@ -1,6 +1,8 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/A64330Obj.h"
 #include "fnv/decl/BlockAllocator.h"
 #include "fnv/decl/FUN_00a41520_cls.h"
@@ -37,7 +39,7 @@ struct NiVBSet
     unsigned int m_uiIndexCapacity;
     char _10[12];
     NiVBSetBlockArray m_kBlockArray;
-    void FUN_00e94490(unsigned int uiArrayIndex, unsigned int uiChipIndex);
+    void FUN_00e94490(unsigned int uiArrayIndex, uintptr_t uiChipIndex);
 };
 
 // InsertSortedNode: insert a block into a key-sorted doubly linked list owned by this set.
@@ -82,7 +84,7 @@ struct FUN_00e94220_cls
     void InsertSortedNode(FUN_00e94220_node* node);
 };
 // @fnv 0x00e94490
-void NiVBSet::FUN_00e94490(unsigned int uiArrayIndex, unsigned int uiChipIndex)
+void NiVBSet::FUN_00e94490(unsigned int uiArrayIndex, uintptr_t uiChipIndex)
 {
     unsigned int uiPreFreeSpace;
     NiVBBlock* pkVBBlock;
@@ -151,7 +153,7 @@ void FUN_00e94220_cls::InsertSortedNode(FUN_00e94220_node* node)
 
 extern unsigned int DAT_011c0cdc;
 extern int DAT_010f0f8c;
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 struct LinkedVBBlock
 {
     NiVBBlock block;
@@ -319,7 +321,7 @@ struct VBBlk
 {
     void* m_pSet;
     unsigned int m_uiPosition;
-    unsigned int m_uiVB;
+    uintptr_t m_uiVB;
     unsigned int m_uiSize;
     unsigned int m_u10;
     unsigned int m_u14;
@@ -421,7 +423,6 @@ VBBlk* VBSetX::FUN_00e94580(unsigned int uiSize)
     return p;
 }
 
-extern "C" void __cdecl FUN_00aa10f0(void*);
 struct VBReleaseInterface
 {
     virtual long QueryInterface(const void*, void**) = 0;

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niparticle/nipsyscollider.cpp: NiPSysCollider, NiPSysColliderStandin (9 functions)
 
+#include <cstdint>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -39,7 +40,7 @@ void NiPSysCollider::LoadBinary(NiStream& stream)
 // @fnv 0x00C32580
 void NiPSysCollider::ProcessClone(CloningProcess& cloning)
 {
-    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((unsigned int)&(cloning));
+    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((uintptr_t)&(cloning));
     NiObject* clone = 0;
     cloning.GetClone(this, clone);
     NiPSysCollider* collider = static_cast<NiPSysCollider*>(clone);
@@ -65,7 +66,7 @@ void NiPSysCollider::ProcessClone(CloningProcess& cloning)
 // @fnv 0x00C32610
 void NiPSysCollider::LinkObject(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     m_pSpawnModifier = reinterpret_cast<NiPSysSpawnModifier*>(stream.GetLoadedObject());
     m_pColliderManager = reinterpret_cast<NiPSysColliderManager*>(stream.GetLoadedObject());
     NiPSysCollider* next = static_cast<NiPSysCollider*>(stream.GetLoadedObject());
@@ -809,7 +810,7 @@ class C32900Controller : public C32900Base
 // @fnv 0x00c32900
 void C32900Controller::FUN_00c32900(C32900Stream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     C32900SaveBinary(kStream, m_iType);
     C32900SaveBinary(kStream, (unsigned char)m_bFirst);
     C32900SaveBinary(kStream, (unsigned char)m_bSecond);

@@ -1,6 +1,7 @@
 // src/gamebryo2.2/corelibs/nimain/nishaderdeclaration.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nishaderdeclaration.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00a5d3a0.h"
 #include "fnv/decl/FUN_00a5d3d0.h"
@@ -44,7 +45,7 @@ FUN_00ee8500::FUN_00ee8500()
 {
     new ((void *)(((BaseStub*)this))) struct ::FUN_00a5d3a0();
     this->unk08 = 0;
-    *(volatile unsigned int*)this = (unsigned int)&DAT_011010ec;
+    *(volatile uintptr_t*)this = (uintptr_t)&DAT_011010ec;
     *(volatile unsigned int*)((char*)this + 12) = 0;
     *(volatile unsigned int*)((char*)this + 16) = 0;
     *(volatile unsigned int*)((char*)this + 20) = 0;

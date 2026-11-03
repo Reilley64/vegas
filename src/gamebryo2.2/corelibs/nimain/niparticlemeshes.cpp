@@ -5,6 +5,7 @@
 // its constructor and vtable live in their own NiMain units.
 
 #include <new>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/AV59f.h"
 #include "fnv/decl/FUN_00a59f90_holder.h"
 #include "fnv/decl/FUN_00a5a040_Class.h"
@@ -473,7 +474,7 @@ void FUN_00a99070_shell::RenderTarget(NiRenderer* pkRenderer)
     m_pUserData->m_pkTarget->Render(pkRenderer);
 }
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct CreatedObj
 {

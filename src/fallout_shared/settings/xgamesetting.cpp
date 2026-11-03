@@ -1,5 +1,6 @@
 // fallout_shared/settings/xgamesetting.cpp: GameSettingCollection, StrArr (9 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -82,10 +83,10 @@ struct S_0060ba10
     char pad[0xa];
     unsigned short s;
     void FUN_0060bd90(unsigned short, int);
-    void FUN_0096a610(int a);
+    void FUN_0096a610(intptr_t a);
 };
 // @fnv 0x0096a610
-void S_0060ba10::FUN_0096a610(int a)
+void S_0060ba10::FUN_0096a610(intptr_t a)
 {
     FUN_0060bd90(s, a);
 }

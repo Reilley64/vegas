@@ -1,4 +1,6 @@
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -29,7 +31,7 @@
 // @fnv 0x00c32510
 void NiPSysPlanarCollider::CopyMemberData(NiPSysPlanarCollider* dest, CloningProcess& process)
 {
-    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)(dest), (void *)&(process));
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((uintptr_t)(dest), (void *)&(process));
 
     dest->m_fBounceFactor = m_fBounceFactor;
     dest->m_bSpawnOnCollision = m_bSpawnOnCollision;
@@ -130,7 +132,7 @@ struct BoundDataBlock
     unsigned int unk14;
     unsigned int unk18;
     unsigned int unk1c;
-    unsigned int unk20;
+    uintptr_t unk20;
     unsigned int unk24;
     unsigned int unk28;
     unsigned int unk2c;
@@ -406,7 +408,7 @@ struct Vec3f
 };
 
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 class SpawnedObject
 {
@@ -470,12 +472,12 @@ struct CollisionHelper
     int FUN_00c29900(float, unsigned int, unsigned int, unsigned int, unsigned int, float, float, Vector3f,
                                 Vector3f);
 };
-extern CollisionHelper* __cdecl FUN_00aa13e0(unsigned int);
+
 
 // @fnv 0x00c29af0
 int __cdecl FUN_00c29af0()
 {
-    CollisionHelper* helper = FUN_00aa13e0(0x100);
+    CollisionHelper* helper = static_cast<CollisionHelper*>(FUN_00aa13e0(0x100));
     if (helper)
     {
         return helper->FUN_00c29900(1.0f, 0, 0, 0, 0, 1.0f, 1.0f, (*reinterpret_cast<::fnv_00c29af0::Vector3f *>(&::DAT_011a946c)), (*reinterpret_cast<::fnv_00c29af0::Vector3f *>(&::DAT_011a9478)));
@@ -847,7 +849,7 @@ NiPSysCollider* PlanarColliderExt::FUN_00c28d10(float time, float* collisionTime
         }
     }
     NiPSysCollider* result;
-    result = ((::NiPSysCollider *)(reinterpret_cast<::FUN_00c32450_shell *>(this)->FUN_00c32450(time, (unsigned int)(collisionTime), (unsigned int)(data), particleId)));
+    result = ((::NiPSysCollider *)(reinterpret_cast<::FUN_00c32450_shell *>(this)->FUN_00c32450(time, (uintptr_t)(collisionTime), (uintptr_t)(data), particleId)));
     return result ? result : (bCollided ? this : 0);
 }
 

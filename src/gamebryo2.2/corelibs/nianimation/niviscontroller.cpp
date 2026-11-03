@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/niviscontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niviscontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00a38e00.h"
@@ -394,11 +395,11 @@ struct CtlA44 : FUN_00a57790_shell
 };
 struct OwnerA44
 {
-    CtlA44* CreateCtlA44(unsigned int uiArg);
+    CtlA44* CreateCtlA44(uintptr_t uiArg);
 };
 // Allocates a 0x38-byte CtlA44, constructs it in place, passes it with uiArg to FUN_00a57620, and returns it.
 // @fnv 0x00a44ec0
-CtlA44* OwnerA44::CreateCtlA44(unsigned int uiArg)
+CtlA44* OwnerA44::CreateCtlA44(uintptr_t uiArg)
 {
     void* pMem = ::operator new(0x38);
     CtlA44* pkCtl = pMem ? new (pMem) CtlA44 : 0;

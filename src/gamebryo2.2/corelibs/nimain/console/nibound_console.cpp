@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cmath>
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/NiAGDObject.h"
@@ -15,7 +16,7 @@ struct NiAGDDataBlock
 {
     void* m_pVtbl;
     unsigned int m_uiRef;
-    unsigned int m_uiSize;
+    uintptr_t m_uiSize;
     unsigned char m_bFlag;
     unsigned char m_bFlag2;
 };

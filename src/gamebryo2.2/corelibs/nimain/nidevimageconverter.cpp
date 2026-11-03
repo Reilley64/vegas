@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nidevimageconverter.cpp: NiDevImageConverter, Converter, NiDevImageConverterStandIn, ImageConverterBase and more (34 functions)
 
+#include <cstdint>
 #include <new>
 #include <windows.h>
 #include <cstring>
@@ -751,7 +752,7 @@ void Convert4BitPalettedTo24Bit(unsigned int width, unsigned int height, unsigne
             }
         }
     }
-    else if (fmt->mask0 == (unsigned int)&DAT_00ff0000)
+    else if (fmt->mask0 == (uintptr_t)&DAT_00ff0000)
     {
         for (unsigned int y = 0; y < height; y++)
         {
@@ -3711,7 +3712,7 @@ void __cdecl FUN_00a7a160(unsigned int uiWidth, unsigned int uiHeight, unsigned 
 {
     if (kSrcBits.m_uiGreenMask == 0xFF00u)
     {
-        if (kSrcBits.m_uiRedMask == (unsigned int)&DAT_00ff0000)
+        if (kSrcBits.m_uiRedMask == (uintptr_t)&DAT_00ff0000)
         {
             if (uiHeight <= 0)
                 return;
@@ -3755,7 +3756,7 @@ void __cdecl FUN_00a7a1f0(unsigned int width, unsigned int height, unsigned int 
     if (format->unk04 != 0xff00)
         return;
 
-    if (format->unk00 == reinterpret_cast<unsigned int>(&DAT_00ff0000))
+    if (format->unk00 == reinterpret_cast<uintptr_t>(&DAT_00ff0000))
     {
         for (unsigned int row = 0; row < height; ++row)
         {

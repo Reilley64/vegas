@@ -2334,7 +2334,7 @@ void ParticleShader::CompileParticleShaders()
     pixelProgram = ((::ShaderProgram *)(reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(sourcePath), &pixel.options, (char *)(profile), (char *)(binaryPath))));
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct Obj_b10008
 {
@@ -2755,7 +2755,7 @@ class FUN_00ba8560_cls
     void DispatchRefOp(ImgRef* p);
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnedObject
 {
@@ -4116,7 +4116,7 @@ struct SpawnedObject90
     unsigned int unk8C;
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int aiSize);
+
 
 struct SpawnFactory
 {
@@ -4173,7 +4173,7 @@ struct SpawnedObject90
     unsigned int unk8C;
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int aiSize);
+
 
 // Allocates and constructs a SpawnedObject90, returning the new object.
 // @fnv 0x00baee40
@@ -5254,7 +5254,7 @@ ShaderRenderCommand* ShaderRenderState::FUN_00bb0fc0(void* data, unsigned int ve
 
 namespace fnv_00bb1080 {
 extern "C" char DAT_010b9008[];
-extern "C" void* FUN_00aa13e0(unsigned int);
+
 struct FUN_00bb1080_tls
 {
     unsigned int unk0000;
@@ -6298,7 +6298,7 @@ GlobalObjectO2_00bb3130* __cdecl FUN_00bb3130()
     return &(*reinterpret_cast<::GlobalObjectO2_00bb3130 *>(&::g_01200788));
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct BaseObj_b9933
 {
@@ -6544,7 +6544,6 @@ void* FUN_00bb3210_cls::FUN_00bb3210()
     return m_104;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 struct ImageSpaceTextureDescriptor
 {
     unsigned int format;
@@ -7860,7 +7859,7 @@ void* FUN_00bb45c0()
     return &(*reinterpret_cast<int *>(&::g_012007b0));
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 class ObjectBase_b9105
 {
@@ -7889,7 +7888,7 @@ ObjectDerived_b9105* CreateObjectDerived()
     return new ObjectDerived_b9105();
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct ThreadState
 {
@@ -8467,7 +8466,7 @@ void* FUN_00bb7200()
     return &(*reinterpret_cast<int *>(&::g_012007c8));
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00bb7170_Node
 {
@@ -8566,7 +8565,7 @@ S_00bb7370_Obj* S_00bb7370_Obj::FUN_00bb7370(unsigned int flags)
 }
 }  // namespace fnv_00bb7370
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 class FUN_00bb7c30_Class
 {
   public:
@@ -8731,7 +8730,7 @@ void ShaderPassParameters::AppendShaderParameters(StrArr* array)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 void __cdecl FUN_00aa1460(void*, unsigned int);
 
 struct FogProp_bb8280

@@ -1,6 +1,8 @@
 
 // NiFloatInterpolator constructor and binary loading for
 // gamebryo2.2/corelibs/nianimation/nifloatinterpolator.cpp.
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/FORenderedMenu.h"
 #include "fnv/decl/FUN_00a3ce20_shell.h"
@@ -130,7 +132,7 @@ struct S_00a3c340_Class
     int unk14;
 
     void FUN_00a3ca10();
-    S_00a3c340_Class* Initialize(int arg);
+    S_00a3c340_Class* Initialize(intptr_t arg);
 };
 
 // NiFloatInterpolator::NiFloatInterpolator(float)
@@ -284,7 +286,7 @@ class A3C640Interpolator
 // @fnv 0x00a3c640
 A3C640Interpolator* A3C640Interpolator::FUN_00a3c640(float m_fStartTime, float m_fMaximumDistance) const
 {
-    A3C640Interpolator* pkSeqInterp = ((::A3C640Interpolator *)(::FUN_00a57050((int)this, m_fStartTime)));
+    A3C640Interpolator* pkSeqInterp = ((::A3C640Interpolator *)(::FUN_00a57050((intptr_t)this, m_fStartTime)));
     if (m_spFloatData && pkSeqInterp)
     {
         A3C640Pointer<A3C640FloatData> spNewFloatData;
@@ -624,7 +626,7 @@ void FUN_00a3c420_cls::CollapseConstantKeys()
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 class FUN_00a3ca10
 {
   public:
@@ -634,7 +636,7 @@ class FUN_00a3ca10
     FUN_00a3ca10() throw();
 };
 // @fnv 0x00a3c340
-S_00a3c340_Class* S_00a3c340_Class::Initialize(int arg)
+S_00a3c340_Class* S_00a3c340_Class::Initialize(intptr_t arg)
 {
     new ((void *)this) ::FUN_00a3ca10();
 

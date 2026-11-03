@@ -2,5 +2,5 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-int DAT_011ae754 = 0;
-int DAT_011ae758 = 0;
+intptr_t DAT_011ae754 = 0;
+intptr_t DAT_011ae758 = 0;

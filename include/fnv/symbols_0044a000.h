@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class MiddleHighProcess;
 namespace std { template <class, class, class> class basic_string; }
@@ -16,7 +17,7 @@ void FUN_0044a8c0(unsigned char *, const unsigned char *);
 // 0x0044ada0
 void FUN_0044ada0(unsigned char);
 // 0x0044adf0
-void FUN_0044adf0(::MiddleHighProcess *, int);
+void FUN_0044adf0(::MiddleHighProcess *, intptr_t);
 // 0x0044ae10
 namespace fnv_0044ae10 { unsigned char FUN_0044ae10(unsigned char); }
 // 0x0044ae20

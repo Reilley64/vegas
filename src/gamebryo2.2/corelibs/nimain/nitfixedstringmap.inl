@@ -1,4 +1,5 @@
 
+#include <cstdint>
 #include "fnv/symbols_00a6e000.h"
 #include "fnv/symbols_0109b000.h"
 #include "nitfixedstringmap_decls.h"
@@ -23,7 +24,7 @@ void NiAVObjectFixedStringMap::GetNext(void*& pos, NiFixedString& key, NiAVObjec
         pos = item->m_pkNext;
         return;
     }
-    unsigned int hash = reinterpret_cast<unsigned int>(item->m_key.m_kHandle) % m_uiHashSize;
+    uintptr_t hash = reinterpret_cast<uintptr_t>(item->m_key.m_kHandle) % m_uiHashSize;
     for (++hash; hash < m_uiHashSize; ++hash)
     {
         item = m_ppkHashTable[hash];
@@ -40,7 +41,7 @@ template<>
 // @fnv 0x00a6e980
 void NiCharFixedStringMap::SetAt(NiFixedString& key, const char* value)
 {
-    unsigned int hash = reinterpret_cast<unsigned int>(key.m_kHandle) % m_uiHashSize;
+    uintptr_t hash = reinterpret_cast<uintptr_t>(key.m_kHandle) % m_uiHashSize;
     Item* item = m_ppkHashTable[hash];
     while (item)
     {

@@ -4,6 +4,7 @@
 
 // src/gamebryo2.2/corelibs/nimain/nipalette.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nipalette.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include "fnv/decl/FUN_00aa42c0_class.h"
 #include "fnv/decl/FUN_00aa45a0_Class.h"
 #include "fnv/decl/FUN_00aa6c70_shell.h"
@@ -155,11 +156,11 @@ void FNV_MemoryManager::FUN_00aa4060(void* block)
         return;
     }
 
-    FNV_Pool* poolObj = (*reinterpret_cast<FNV_Pool * (*)[256]>(&::ms_pPoolAddressMap))[((unsigned int)block) >> 24];
+    FNV_Pool* poolObj = (*reinterpret_cast<FNV_Pool * (*)[256]>(&::ms_pPoolAddressMap))[((uintptr_t)block) >> 24];
     if (poolObj)
     {
-        if ((unsigned char)(((unsigned int)block >= poolObj->m_base) &&
-                                    ((unsigned int)block < (unsigned int)(poolObj->m_base + poolObj->m_iElementCount))
+        if ((unsigned char)(((uintptr_t)block >= poolObj->m_base) &&
+                                    ((uintptr_t)block < (unsigned int)(poolObj->m_base + poolObj->m_iElementCount))
                                 ? 1
                                 : 0))
         {
@@ -168,7 +169,7 @@ void FNV_MemoryManager::FUN_00aa4060(void* block)
         }
     }
 
-    FNV_Heap* owner = ((::FNV_Heap *)(reinterpret_cast<::FUN_00aa45a0_Class *>((this))->FindItemByArg((int)(block))));
+    FNV_Heap* owner = ((::FNV_Heap *)(reinterpret_cast<::FUN_00aa45a0_Class *>((this))->FindItemByArg((intptr_t)(block))));
     if (owner)
     {
         owner->FNV_heapRelease(block, 0);

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderinterface.cpp: NiD3DShaderInterface (11 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00a5d3a0.h"
@@ -69,10 +70,10 @@ void NiD3DShaderInterface::SetShaderObject(GraphicsRenderer* renderer)
 unsigned int NiD3DShaderInterface::InitializeShaderRenderer(GraphicsRenderer* renderer)
 {
     Direct3DDeviceInterface* device = renderer->m_pD3DDevice;
-    ::FUN_00e7f920((int)(renderer));
-    ::FUN_00e7e8d0((int)(renderer));
+    ::FUN_00e7f920((intptr_t)(renderer));
+    ::FUN_00e7e8d0((intptr_t)(renderer));
     (*reinterpret_cast<::Direct3DDeviceInterface * *>(&::DAT_0126f99c)) = device;
-    ::FUN_00e92f70((int)(renderer));
+    ::FUN_00e92f70((intptr_t)(renderer));
     ::FUN_00e93f50(renderer);
     NiD3DPass::SetActiveRenderer(renderer);
     device->vfn_100();

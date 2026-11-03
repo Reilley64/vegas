@@ -1,5 +1,6 @@
 // fallout/interface/interface.cpp: Interface, ConsoleManager, FileFinder, TESCreature and more (216 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdio>
@@ -1259,7 +1260,7 @@ struct TESNPC
 };
 // If FUN_004b7210() returns a Modifier whose GetKey() is true, returns the TESNPC result of FUN_00602170(); otherwise returns 0.
 // @fnv 0x00705910
-int FUN_00705910()
+intptr_t FUN_00705910()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey())
     {

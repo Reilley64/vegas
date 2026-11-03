@@ -1,3 +1,4 @@
+#include <cstdint>
 // gamebryo2.2/corelibs/niparticle/nipsyssphereemitter_decls.h: declares NiBinaryStream, NiStream, NiPSysVolumeEmitter, NiPSysSphereEmitter
 #ifndef NIPSYSSPHEREEMITTER_DECLS_H
 #define NIPSYSSPHEREEMITTER_DECLS_H
@@ -35,7 +36,7 @@ class NiPSysSphereEmitter : public NiPSysVolumeEmitter
 inline void ReadBinaryValue(NiStream& stream, float& value)
 {
     NiBinaryStream* input = stream.input;
-    unsigned int reader = reinterpret_cast<unsigned int>(input->read);
+    uintptr_t reader = reinterpret_cast<uintptr_t>(input->read);
     unsigned int size = 4;
     input->position +=
         reinterpret_cast<unsigned int(__cdecl*)(NiBinaryStream*, void*, unsigned int, unsigned int*, unsigned int)>(

@@ -78,42 +78,44 @@ extern int DAT_010a57fc;
 struct FUN_00b3c440_class
 {
     int* vtbl;
-    int FUN_00b3c440(int a);
+    FUN_00b3c440_class* FUN_00b3c440(int a);
 };
 
 // Calls FUN_0044a450 on this and a, installs the DAT_010a57fc vtable pointer, and returns this.
 // @fnv 0x00b3c440
-int FUN_00b3c440_class::FUN_00b3c440(int aiValue)
+FUN_00b3c440_class* FUN_00b3c440_class::FUN_00b3c440(int aiValue)
 {
     int pad[24];
     reinterpret_cast<void(*)(FUN_00b3c440_class*, int)>(FUN_0044a450)(this, aiValue);
     *reinterpret_cast<int**>(this) = &DAT_010a57fc;
-    return reinterpret_cast<int>(this);
+    return this;
 }
 
 
 struct FUN_00b3c910_class
 {
+    const void* vtable;
     void InitVTable();
 };
 
 // @fnv 0x00b3c910
 void FUN_00b3c910_class::InitVTable()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010a31fc);
+    vtable = &DAT_010a31fc;
 }
 
 extern int DAT_010a5890;
 
 struct FUN_00b3f0a0_Class
 {
+    const void* vtable;
     void FUN_00b3f0a0();
 };
 
 // @fnv 0x00b3f0a0
 void FUN_00b3f0a0_Class::FUN_00b3f0a0()
 {
-    *(int*)this = (int)&DAT_010a5890;
+    vtable = &DAT_010a5890;
 }
 
 struct NiPoint3
@@ -135,22 +137,31 @@ NiPoint3& NiPoint3::FUN_00b2a1c0(const NiPoint3& other)
 }
 
 
+struct VtblAndValue_b393b0
+{
+    int* vtbl;
+    int value;
+};
+
 struct FUN_00b393b0_Class
 {
     int* vtbl;
-    int GetVtblAndValue(int a);
+    char pad04[0x14];
+    int* valuePtr;
+    void* GetVtblAndValue(void* a);
 };
 
 // @fnv 0x00b393b0
-int FUN_00b393b0_Class::GetVtblAndValue(int pOut)
+void* FUN_00b393b0_Class::GetVtblAndValue(void* pOut)
 {
-    int* p = *(int**)((char*)this + 0x18);
+    VtblAndValue_b393b0* out = (VtblAndValue_b393b0*)pOut;
+    int* p = valuePtr;
     int v = *p;
-    *(int*)pOut = 0;
-    *(int*)((char*)pOut + 4) = v;
+    out->vtbl = 0;
+    out->value = v;
     if (!this)
         std::abort();
-    *(int*)pOut = *(int*)this;
+    out->vtbl = vtbl;
     return pOut;
 }
 
@@ -318,7 +329,7 @@ struct FUN_00b2e1b0_class
     unsigned char _unused[0x0c];
     unsigned char* m_data;
     unsigned char* m_kRayEnd;
-    int m_pRayCursor;
+    unsigned char* m_pRayCursor;
 
     void FreeBuffer();
 };
@@ -354,7 +365,7 @@ void FUN_00b2e1b0_class::FreeBuffer()
         {
         }
 
-        state.count = (m_pRayCursor - (int)m_data) >> 3;
+        state.count = (int)((m_pRayCursor - m_data) >> 3);
         state.h = m_data;
         ::FUN_00401030(state.h);
     }
@@ -573,12 +584,12 @@ class FUN_00b276f0_cls
     unsigned int m_0c;
     unsigned int unk10;
     unsigned int m_14;
-    unsigned int m_18;
+    void* m_18;
     unsigned int unk1c;
-    unsigned int m_20;
-    unsigned int m_24;
+    void* m_20;
+    void* m_24;
     unsigned int unk28;
-    unsigned int m_2c;
+    void* m_2c;
 
     void Reset();
 };
@@ -588,14 +599,14 @@ class FUN_00b276f0_cls
 // @fnv 0x00b276f0
 void FUN_00b276f0_cls::Reset()
 {
-    void* a = (void*)m_20;
+    void* a = m_20;
     FUN_00401030(a);
-    void* b = (void*)m_24;
+    void* b = m_24;
     FUN_00401030(b);
-    void* t = (void*)m_2c;
+    void* t = m_2c;
     FUN_00b276f0_sub* c = (FUN_00b276f0_sub*)t;
     c != 0 ? c->Destroy(3) : 0;
-    void* d7 = (void*)m_18;
+    void* d7 = m_18;
     FUN_00401030(d7);
     m_0c = 0;
     m_14 = 0;
@@ -645,12 +656,12 @@ void* FUN_00b277b0_cls::Destroy(unsigned int flags)
 
 struct FnvB2e080
 {
-    int f00;
-    int f04;
-    int f08;
-    int f0c;
-    int f10;
-    int f14;
+    intptr_t f00;
+    intptr_t f04;
+    intptr_t f08;
+    intptr_t f0c;
+    intptr_t f10;
+    intptr_t f14;
     bool InitBuffer(unsigned int count);
 };
 
@@ -659,7 +670,7 @@ struct FnvB2e080
 bool FnvB2e080::InitBuffer(unsigned int count)
 {
     int unused[34];
-    unsigned int n;
+    uintptr_t n;
     this->f0c = 0;
     this->f10 = 0;
     this->f14 = 0;
@@ -676,7 +687,7 @@ bool FnvB2e080::InitBuffer(unsigned int count)
         }
         else
         {
-            this->f0c = ((int)(::FUN_00b2e4a0(count)));
+            this->f0c = ((intptr_t)(::FUN_00b2e4a0(count)));
             this->f10 = this->f0c;
             this->f14 = count * 0x54 + this->f0c;
         }
@@ -686,18 +697,18 @@ bool FnvB2e080::InitBuffer(unsigned int count)
 
 struct SpanPair
 {
-    int a;
-    int b;
+    intptr_t a;
+    intptr_t b;
 };
 
 struct FUN_00b2e250_cls
 {
-    unsigned int m_00;
-    unsigned int m_04;
-    unsigned int m_08;
-    unsigned int m_0c;
-    unsigned int m_10;
-    SpanPair* FUN_00b2e250(SpanPair* out, int unk04, unsigned int idx1, int unk14, unsigned int idx2);
+    uintptr_t m_00;
+    uintptr_t m_04;
+    uintptr_t m_08;
+    uintptr_t m_0c;
+    uintptr_t m_10;
+    SpanPair* FUN_00b2e250(SpanPair* out, int unk04, uintptr_t idx1, int unk14, uintptr_t idx2);
 };
 
 
@@ -834,12 +845,12 @@ struct B2EVector
 };
 
 // @fnv 0x00b2e250
-SpanPair* FUN_00b2e250_cls::FUN_00b2e250(SpanPair* out, int iUnused, unsigned int uiIndex1, int iUnused2,
-                                         unsigned int uiIndex2)
+SpanPair* FUN_00b2e250_cls::FUN_00b2e250(SpanPair* out, int iUnused, uintptr_t uiIndex1, int iUnused2,
+                                         uintptr_t uiIndex2)
 {
     SpanPair a;
     SpanPair b;
-    int r;
+    uintptr_t r;
     int spare[0x16];
 
     a.a = 0;
@@ -858,7 +869,7 @@ SpanPair* FUN_00b2e250_cls::FUN_00b2e250(SpanPair* out, int iUnused, unsigned in
     b.b = uiIndex2;
     if (reinterpret_cast<::FUN_00b16830_Iterator *>(&(a))->FUN_00b16830((const ::_Vector_const_iteratorS< ::Elem6830> &)(b)))
     {
-        r = ((int)(::fnv_00b2e3f0::FUN_00b2e3f0((::fnv_00b2e3f0::record_model::FUN_00b2e680 *)(b.b), (::fnv_00b2e3f0::record_model::FUN_00b2e680 *)(m_10), (::fnv_00b2e3f0::record_model::FUN_00b2e680 *)(a.b))));
+        r = ((uintptr_t)(::fnv_00b2e3f0::FUN_00b2e3f0((::fnv_00b2e3f0::record_model::FUN_00b2e680 *)(b.b), (::fnv_00b2e3f0::record_model::FUN_00b2e680 *)(m_10), (::fnv_00b2e3f0::record_model::FUN_00b2e680 *)(a.b))));
         reinterpret_cast<::B2EVector *>(this)->FUN_00b2e140((::B2EElem *)(r), (::B2EElem *)(m_10));
         m_10 = r;
     }
@@ -868,8 +879,8 @@ SpanPair* FUN_00b2e250_cls::FUN_00b2e250(SpanPair* out, int iUnused, unsigned in
 
 struct ProbePair
 {
-    unsigned int m_00;
-    unsigned int m_04;
+    uintptr_t m_00;
+    uintptr_t m_04;
     bool FUN_00b16830(const ProbePair* key);
 };
 
@@ -893,22 +904,22 @@ struct FUN_00b335c0_tmp
 
 struct FUN_00b335c0_cls
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int m_0c;
-    unsigned int m_10;
-    ProbePair FUN_00b335c0(unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5);
+    uintptr_t unk00;
+    uintptr_t unk04;
+    uintptr_t unk08;
+    uintptr_t m_0c;
+    uintptr_t m_10;
+    ProbePair FUN_00b335c0(uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5);
 };
 
 // @fnv 0x00b335c0
-ProbePair FUN_00b335c0_cls::FUN_00b335c0(unsigned int auiUnused, unsigned int a3, unsigned int auiUnused2,
-                                         unsigned int a5)
+ProbePair FUN_00b335c0_cls::FUN_00b335c0(uintptr_t auiUnused, uintptr_t a3, uintptr_t auiUnused2,
+                                         uintptr_t a5)
 {
     ProbePair result;
     {
         ProbePair key;
-        unsigned int r;
+        uintptr_t r;
         result.m_00 = 0;
         if (this == 0 || this->m_0c > a3 || a3 > this->m_10)
         {
@@ -925,7 +936,7 @@ ProbePair FUN_00b335c0_cls::FUN_00b335c0(unsigned int auiUnused, unsigned int a3
         key.m_04 = a5;
         if (reinterpret_cast<::FUN_00b16830_Iterator *>(&(result))->FUN_00b16830((*(const ::_Vector_const_iteratorS< ::Elem6830> *)(&key))))
         {
-            r = ((unsigned int)(::FUN_00b42e50((int *)(key.m_04), (int *)(this->m_10), (int *)(result.m_04))));
+            r = ((uintptr_t)(::FUN_00b42e50((int *)(key.m_04), (int *)(this->m_10), (int *)(result.m_04))));
             {
                 FUN_00b335c0_tmp tmp;
                 tmp.unk00 = this->m_10;
@@ -941,8 +952,8 @@ ProbePair FUN_00b335c0_cls::FUN_00b335c0(unsigned int auiUnused, unsigned int a3
 
 struct FUN_00b33af0_pair
 {
-    unsigned int a;
-    unsigned int b;
+    uintptr_t a;
+    uintptr_t b;
 };
 
 struct FUN_00b33af0_iter
@@ -965,24 +976,24 @@ struct FUN_00b33af0_iter
 
 struct FUN_00b33af0_cls
 {
-    unsigned int m_00;
-    unsigned int m_04;
-    unsigned int m_08;
-    unsigned int m_0c;
-    unsigned int m_10;
-    unsigned int m_14;
-    FUN_00b33af0_pair* FUN_00b33af0(FUN_00b33af0_pair* out, unsigned int unk0c, unsigned int a, unsigned int unk14,
-                                    unsigned int b);
+    uintptr_t m_00;
+    uintptr_t m_04;
+    uintptr_t m_08;
+    uintptr_t m_0c;
+    uintptr_t m_10;
+    uintptr_t m_14;
+    FUN_00b33af0_pair* FUN_00b33af0(FUN_00b33af0_pair* out, uintptr_t unk0c, uintptr_t a, uintptr_t unk14,
+                                    uintptr_t b);
 };
 
 
 // @fnv 0x00b33af0
-FUN_00b33af0_pair* FUN_00b33af0_cls::FUN_00b33af0(FUN_00b33af0_pair* out, unsigned int unk0c, unsigned int a,
-                                                  unsigned int unk14, unsigned int b)
+FUN_00b33af0_pair* FUN_00b33af0_cls::FUN_00b33af0(FUN_00b33af0_pair* out, uintptr_t unk0c, uintptr_t a,
+                                                  uintptr_t unk14, uintptr_t b)
 {
     FUN_00b33af0_pair p9;
     FUN_00b33af0_pair p2;
-    unsigned int r;
+    uintptr_t r;
     FUN_00b33af0_iter it9;
 
     p9.a = 0;
@@ -1001,7 +1012,7 @@ FUN_00b33af0_pair* FUN_00b33af0_cls::FUN_00b33af0(FUN_00b33af0_pair* out, unsign
     p2.b = b;
     if (reinterpret_cast<::FUN_00b16830_Iterator *>(&(p9))->FUN_00b16830((*(const ::_Vector_const_iteratorS< ::Elem6830> *)(&p2))))
     {
-        r = ((unsigned int)(::FUN_00b35c30((unsigned short *)(p2.b), (unsigned short *)(this->m_10), (unsigned short *)(p9.b))));
+        r = ((uintptr_t)(::FUN_00b35c30((unsigned short *)(p2.b), (unsigned short *)(this->m_10), (unsigned short *)(p9.b))));
         it9.m_00 = this->m_10;
         it9.m_04 = it9.m_00;
         it9.m_08 = r;
@@ -1014,7 +1025,7 @@ FUN_00b33af0_pair* FUN_00b33af0_cls::FUN_00b33af0(FUN_00b33af0_pair* out, unsign
 
 struct Hldr0044
 {
-    int m_iWordAt00;
+    const void* m_iWordAt00;
     int m_iWordAt04;
     int m_8;
     void Init(unsigned int* p);
@@ -1037,7 +1048,7 @@ extern "C" void __cdecl FUN_00b35f00(unsigned int n)
         {
             tmp = 0;
             h.Init(&tmp);
-            h.m_iWordAt00 = (int)&DAT_010176f8;
+            h.m_iWordAt00 = &DAT_010176f8;
             throw h;
         }
     }
@@ -1430,8 +1441,8 @@ struct FNV_00b3efe0_Buffer
     int unk00;
     int unk04;
     int unk08;
-    unsigned int unk0c;  // base address
-    unsigned int unk10;  // end address
+    unsigned char* unk0c;  // base address
+    unsigned char* unk10;  // end address
 };
 
 struct FNV_00b3efe0_Obj
@@ -1447,7 +1458,7 @@ unsigned int FNV_00b3efe0_Obj::GetElementAtOffset()
 {
     unsigned int off = unk00;
     FNV_00b3efe0_Buffer* base = &unk04;
-    if (off >= (base->unk10 - base->unk0c))
+    if (off >= (uintptr_t)(base->unk10 - base->unk0c))
     {
         std::abort();
     }
@@ -1651,12 +1662,12 @@ void IntVector::FUN_00b32600(unsigned int ItemUpdateArray, const int& kVal)
 
 struct S_00b3db50
 {
-    int m0;
-    int m4;
-    int m8;
-    int mC;
-    int m10;
-    int m14;
+    intptr_t m0;
+    intptr_t m4;
+    intptr_t m8;
+    intptr_t mC;
+    intptr_t m10;
+    intptr_t m14;
     void FUN_00b3db50();
 };
 // Frees the mC buffer via _Deallocate after calling Update, then zeroes mC, m10, and m14.
@@ -1667,8 +1678,8 @@ void S_00b3db50::FUN_00b3db50()
     if (mC)
     {
         reinterpret_cast<::B2EVector *>((((FUN_00b2e250_cls*)this)))->FUN_00b2e140((::B2EElem *)(mC), (::B2EElem *)(m10));
-        int a = (m14 - mC) / 0x54;
-        int b5 = mC;
+        intptr_t a = (m14 - mC) / 0x54;
+        intptr_t b5 = mC;
         ::FUN_00401030((void*)b5);
     }
     mC = 0;
@@ -1725,10 +1736,10 @@ void Vec32780::FUN_00b32780(int n, const Item32780* value)
 
 struct S_B33030
 {
-    int unk00[3];
-    unsigned int m_pHeadNode;
-    unsigned int m_last;
-    unsigned int m_kRayEnd;
+    intptr_t unk00[3];
+    uintptr_t m_pHeadNode;
+    uintptr_t m_last;
+    uintptr_t m_kRayEnd;
 
 
     ProbePair FUN_00b33030(ProbePair first, ProbePair last);
@@ -1741,7 +1752,7 @@ ProbePair S_B33030::FUN_00b33030(ProbePair first, ProbePair last)
     ProbePair _First;
     ProbePair _Last;
     {
-        unsigned int new_last;
+        uintptr_t new_last;
         int j_pad0[12];
         int e_pad1[12];
 
@@ -1759,7 +1770,7 @@ ProbePair S_B33030::FUN_00b33030(ProbePair first, ProbePair last)
 
         if (reinterpret_cast<::FUN_00b16830_Iterator *>(&(_First))->FUN_00b16830((*(const ::_Vector_const_iteratorS< ::Elem6830> *)(&_Last))))
         {
-            new_last = (unsigned int)((void *)(::FUN_00b35b60((::V24 *)(_Last.m_04), (::V24 *)(this->m_last), (::V24 *)(_First.m_04))));
+            new_last = (uintptr_t)((void *)(::FUN_00b35b60((::V24 *)(_Last.m_04), (::V24 *)(this->m_last), (::V24 *)(_First.m_04))));
             reinterpret_cast<::Outer_b33110 *>((this))->FUN_00b33110((::Value *)(new_last), (::Value *)(this->m_last));
             this->m_last = new_last;
         }
@@ -10374,7 +10385,7 @@ void VecQ::FUN_00b3dbd0(CItQ _Where, unsigned _Count, const ElQ& _Val)
         _Capacity = max_size() - _Capacity / 2 < _Capacity ? 0 : _Capacity + _Capacity / 2;
         if (_Capacity < size() + _Count)
             _Capacity = size() + _Count;
-        ElQ* _Newvec = (ElQ*)((int)(::FUN_00b2e4a0(_Capacity)));
+        ElQ* _Newvec = (ElQ*)(::FUN_00b2e4a0(_Capacity));
         ElQ* _Ptr = _Newvec;
         try
         {

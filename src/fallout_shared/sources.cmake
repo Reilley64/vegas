@@ -9,6 +9,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/bgsacousticspace.cpp
   src/fallout_shared/bgsaddonnode.cpp
   src/fallout_shared/bgsammoform.cpp
+  src/fallout_shared/bgsautowater.cpp
   src/fallout_shared/bgsbipedmodellist.cpp
   src/fallout_shared/bgsbodypart.cpp
   src/fallout_shared/bgsbodypartdata.cpp
@@ -20,6 +21,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/bgsdecalmanager.cpp
   src/fallout_shared/bgsdecalnode.cpp
   src/fallout_shared/bgsdefaultobjectmanager.cpp
+  src/fallout_shared/bgsdehydration.cpp
   src/fallout_shared/bgsdestructibleobjectform.cpp
   src/fallout_shared/bgsentrypointfunction.cpp
   src/fallout_shared/bgsentrypointfunction_h_unit.cpp
@@ -47,6 +49,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/bgsquestobjective.cpp
   src/fallout_shared/bgsradiation.cpp
   src/fallout_shared/bgsrepairitemlist.cpp
+  src/fallout_shared/bgssceneinfo.cpp
   src/fallout_shared/bgssleepdeprevation.cpp
   src/fallout_shared/bgsstaticcollection.cpp
   src/fallout_shared/bgstalkingactivator.cpp
@@ -103,8 +106,10 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/havok/xblendsettings.cpp
   src/fallout_shared/imagespacemodifierinstance.cpp
   src/fallout_shared/lipsynchanim.cpp
+  src/fallout_shared/magic/alchemyitem.cpp
   src/fallout_shared/magic/alchemyitem_h_unit.cpp
   src/fallout_shared/magic/effectarchetype.cpp
+  src/fallout_shared/magic/effectitem.cpp
   src/fallout_shared/magic/effectitem_h_unit.cpp
   src/fallout_shared/magic/effectitemlist.cpp
   src/fallout_shared/magic/effectsettingcollection.cpp
@@ -112,6 +117,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/magic/ingredientitem.cpp
   src/fallout_shared/magic/ingredientitem_h_unit.cpp
   src/fallout_shared/magic/magicformulas.cpp
+  src/fallout_shared/magic/magicitem.cpp
   src/fallout_shared/magic/magicitemform.cpp
   src/fallout_shared/magic/magicitemobject.cpp
   src/fallout_shared/magic/magicitemobject_h_unit.cpp
@@ -206,6 +212,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   "src/fallout_shared/region system/tesregionobject.cpp"
   "src/fallout_shared/region system/tesregionpointlist.cpp"
   src/fallout_shared/region_system/tesregiongrassobject.cpp
+  src/fallout_shared/renderer.cpp
   src/fallout_shared/screencustomsplatter.cpp
   src/fallout_shared/screensplatter.cpp
   src/fallout_shared/script_commands.cpp
@@ -227,6 +234,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tempeffects/bstempeffect.cpp
   src/fallout_shared/tempeffects/bstempeffectdebris.cpp
   src/fallout_shared/tempeffects/bstempeffectdebris_copies_026.cpp
+  src/fallout_shared/tempeffects/bstempeffectparticle.cpp
   src/fallout_shared/tempeffects/bstempeffectsimpledecal.cpp
   src/fallout_shared/tes.cpp
   src/fallout_shared/tesactorbase.cpp
@@ -255,6 +263,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesenchantableform.cpp
   src/fallout_shared/tesenchantableform_h_unit.cpp
   src/fallout_shared/teseyes.cpp
+  src/fallout_shared/tesfaction.cpp
   src/fallout_shared/tesfile.cpp
   src/fallout_shared/tesflora.cpp
   src/fallout_shared/tesfullname.cpp
@@ -278,6 +287,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesleveledlist.cpp
   src/fallout_shared/teslevitem.cpp
   src/fallout_shared/teslevspell.cpp
+  src/fallout_shared/teslight.cpp
   src/fallout_shared/tesloadscreentype.cpp
   src/fallout_shared/tesmodel.cpp
   src/fallout_shared/tesmodellist.cpp
@@ -300,6 +310,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesobjectweap_h_unit.cpp
   src/fallout_shared/tesparameters.cpp
   src/fallout_shared/tesproduceform.cpp
+  src/fallout_shared/tesquest.cpp
   src/fallout_shared/tesqueststage.cpp
   src/fallout_shared/tesquesttarget.cpp
   src/fallout_shared/tesrace.cpp
@@ -336,33 +347,22 @@ set_source_files_properties(${VEGAS18_FALLOUT_SHARED_SOURCES} PROPERTIES
 # Units that still keep pointers in 32-bit integers build without the narrowing errors until they are clean.
 set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/animation.cpp
-  src/fallout_shared/bgsautowater.cpp
-  src/fallout_shared/bgsdehydration.cpp
   src/fallout_shared/bgsopencloseform.cpp
   src/fallout_shared/bgsragdoll.cpp
-  src/fallout_shared/bgssceneinfo.cpp
   src/fallout_shared/bipedanim.cpp
   src/fallout_shared/extradatalist.cpp
   src/fallout_shared/inventorychanges.cpp
-  src/fallout_shared/magic/alchemyitem.cpp
-  src/fallout_shared/magic/effectitem.cpp
-  src/fallout_shared/magic/magicitem.cpp
   src/fallout_shared/modelloader.cpp
-  src/fallout_shared/renderer.cpp
   src/fallout_shared/sky/moon.cpp
   src/fallout_shared/sky/sky.cpp
   src/fallout_shared/sky/sun.cpp
   src/fallout_shared/tempeffects/bstempeffectgeometrydecal.cpp
-  src/fallout_shared/tempeffects/bstempeffectparticle.cpp
   src/fallout_shared/tesactorbasedata.cpp
   src/fallout_shared/tesconditionfunctions.cpp
-  src/fallout_shared/tesfaction.cpp
   src/fallout_shared/tesform.cpp
-  src/fallout_shared/teslight.cpp
   src/fallout_shared/tesobject.cpp
   src/fallout_shared/tesobjectcell.cpp
   src/fallout_shared/tesobjectrefr.cpp
-  src/fallout_shared/tesquest.cpp
   src/fallout_shared/tessaveloadgame.cpp
   src/fallout_shared/testopic.cpp
   src/fallout_shared/testopicinfo.cpp

@@ -100,10 +100,10 @@ bool FUN_006a79a0_shell::FUN_006a79a0()
 struct S3e60
 {
     bool GetFlag(unsigned int) const;
-    bool FUN_006a7ad0(uintptr_t f);
+    bool FUN_006a7ad0(unsigned int f);
 };
 // @fnv 0x006a7ad0
-bool S3e60::FUN_006a7ad0(uintptr_t auiFlag)
+bool S3e60::FUN_006a7ad0(unsigned int auiFlag)
 {
     return GetFlag(auiFlag);
 }

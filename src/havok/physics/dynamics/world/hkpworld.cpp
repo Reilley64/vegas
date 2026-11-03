@@ -12642,13 +12642,6 @@ public:
 };
 
 
-struct hkStackDAD {
-    char* m_cur;
-};
-
-struct hkRouterDAD {
-    
-};
 
 __forceinline void transformLocalPoseToModelPoseDAD(int numTransforms, const short* parentIndices, const hkQsTransformDAD& worldFromModel, const hkQsTransformDAD* poseLocal, hkQsTransformDAD* poseModelOut)
 {
@@ -12669,21 +12662,15 @@ public:
 // @fnv 0x00c99d40
 void PoseUserDAD::FUN_00c99d40(int numBones, const short* parents, const hkQsTransformDAD* poseLocal, const void* a4, hkUlong a5, int a6, int a7, float a8, int a9)
 {
-    hkStackDAD* stack = static_cast<hkStackDAD*>(::FUN_00c85750());
-    hkQsTransformDAD* poseModel = (hkQsTransformDAD*)stack->m_cur;
-    stack->m_cur += (numBones * sizeof(hkQsTransformDAD) + 0x7f) & ~0x7f;
+    hkQsTransformDAD* poseModel = static_cast<hkQsTransformDAD*>(hkMemoryRouter::getInstance().allocateStack((numBones * int(sizeof(hkQsTransformDAD)) + 0x7f) & ~0x7f));
 
     transformLocalPoseToModelPoseDAD(numBones, parents, reinterpret_cast<const hkQsTransformDAD&>(::DAT_01268700), poseLocal, poseModel);
     reinterpret_cast<::hkDebugDisplay *>(this)->FUN_00c998b0(numBones, parents, (const ::hkQsTransform_S *)(poseModel), (*(const ::hkQsTransform_S *)(a4)), a5, a6, a7, a8, (::hkBool_S)(a9));
 
-    static_cast<hkStackDAD*>(::FUN_00c85750())->m_cur = (char*)poseModel;
+    hkMemoryRouter::getInstance().deallocateStack(poseModel);
 }
 
 namespace fnv_00caa3f0 {
-class hkMemoryAllocator {
-public: virtual ~hkMemoryAllocator(); virtual void* AllocateMemoryBlock(int); virtual void ReleaseBlock(void*,int);
-};
-struct Router { void* unk00;void* unk04;void* unk08;void* unk0c; hkMemoryAllocator* m_pStreamAllocator; hkMemoryAllocator& heap() {return *m_pStreamAllocator;} };
 
 struct ThreadMemoryContext {
  unsigned int unk000;
@@ -12881,8 +12868,8 @@ class hkpLimitedHingeConstraintData : public hkpConstraintData {
 public:
  HingeAtoms atoms;
  hkpLimitedHingeConstraintData();
- static void* operator new(size_t size) {void* p=static_cast<Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(size); static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags=(unsigned short)size;return p;}
- static void operator delete(void* p) {static_cast<Router*>(::FUN_00c85750())->heap().ReleaseBlock(p,0xe0);}
+ static void* operator new(size_t size) {void* p=hkMemoryRouter::getInstance().heap().blockAlloc(size); static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags=(unsigned short)size;return p;}
+ static void operator delete(void* p) {hkMemoryRouter::getInstance().heap().blockFree(p,0xe0);}
 };
 class LimitedHingeWrapper {
 public: unsigned int unk00;hkpLimitedHingeConstraintData* data;

@@ -496,7 +496,7 @@ __forceinline void Cls::interpret(P1* a1, unsigned char* p, F8* const& a3) {
       int buffer[128];
       new ((void *)&(high)) ::FUN_00cb1600((char*)buffer, 512);
       reinterpret_cast<::SinkOwner *>(&(high))->FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
-      if (((ErrorReporter*)(*reinterpret_cast<int *>(&::DAT_01268360)))->report(3, 0x1298fedd, (char*)buffer, "d:\\build\\20091222_000100_AiAnBeClDePh\\Source\\Physics/Internal/Collide/Mopp/Machine/hkpMoppUsingFloatAabbVirtualMachine.inl", 301)) __debugbreak();
+      if (((::DAT_01268360))->report(3, 0x1298fedd, (char*)buffer, "d:\\build\\20091222_000100_AiAnBeClDePh\\Source\\Physics/Internal/Collide/Mopp/Machine/hkpMoppUsingFloatAabbVirtualMachine.inl", 301)) __debugbreak();
       reinterpret_cast<struct ::FUN_00cc00e0 *>(&(high))->FUN_00cc00e0::~FUN_00cc00e0();
       break;
     }
@@ -677,7 +677,7 @@ void TreeDecoder::FUN_00e5e430(DecodeState* state, const unsigned char* code, Bo
         if ((unsigned)op > 0x6b) {
             new ((void *)&(stream)) ::FUN_00cb1600(buffer,512);
             reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d5100);
-            diagnosticResult=((ErrorReporter*)(*reinterpret_cast<int *>(&::DAT_01268360)))->report(3,0x1298fedd,(const char*)buffer,str_010ecd88,301);
+            diagnosticResult=((::DAT_01268360))->report(3,0x1298fedd,(const char*)buffer,str_010ecd88,301);
             goto DiagnosticTail;
         }
         switch (op) {
@@ -767,7 +767,7 @@ localBounds=*bounds; int r=code[1]+1; localBounds.minimum[op-0x20]=(state->origi
 
             new ((void *)&(stream)) ::FUN_00cb1600(buffer,512);
             reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d5100);
-            diagnosticResult=((ErrorReporter*)(*reinterpret_cast<int *>(&::DAT_01268360)))->report(3,0x1298fedd,(const char*)buffer,str_010ecd88,301);
+            diagnosticResult=((::DAT_01268360))->report(3,0x1298fedd,(const char*)buffer,str_010ecd88,301);
         DiagnosticTail:
             if(diagnosticResult) __debugbreak();
             reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0(); break;

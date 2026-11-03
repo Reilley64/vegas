@@ -344,7 +344,7 @@ struct FUN_00aa4060_Class
 struct FUN_00eb6b50_Class
 {
     void FUN_00eb8ab0();
-    int FUN_00eb6b50(unsigned char flags);
+    void* FUN_00eb6b50(unsigned char flags);
 };
 
 class EB8AB0Object
@@ -392,16 +392,16 @@ class FUN_00eb8ab0
     EB8AB0Object* m_pkPrimary;
     EB8AB0Object* m_pkSecondary;
 };
-// Calls FUN_00eb8ab0, and if bit 0 of flags is set passes this to DAT_011f6238.FUN_00aa4060; returns this as int.
+// Calls FUN_00eb8ab0, and if bit 0 of flags is set passes this to DAT_011f6238.FUN_00aa4060; returns this.
 // @fnv 0x00eb6b50
-int FUN_00eb6b50_Class::FUN_00eb6b50(unsigned char flags)
+void* FUN_00eb6b50_Class::FUN_00eb6b50(unsigned char flags)
 {
     reinterpret_cast<::FUN_00eb8ab0 *>((this))->FUN_00eb8ab0::~FUN_00eb8ab0();
     if ((flags & 1) != 0)
     {
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_Class *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
-    return reinterpret_cast<int>(this);
+    return this;
 }
 
 // Destructor that deletes m_pkPrimary and, if it was non-null, also deletes m_pkSecondary.

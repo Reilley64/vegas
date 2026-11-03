@@ -84,14 +84,14 @@ struct FUN_00e3f340_Class
 
 struct FUN_00e3f900_class
 {
-    int FUN_00e3f900(int a);
+    void* FUN_00e3f900(int a);
 };
 
 // @fnv 0x00e3f900
-int FUN_00e3f900_class::FUN_00e3f900(int a)
+void* FUN_00e3f900_class::FUN_00e3f900(int a)
 {
     reinterpret_cast<::FUN_00cb0a70_Class *>(this)->FUN_00cb0a70(a);
-    return (int)this;
+    return this;
 }
 
 // @fnv 0x00e30f40

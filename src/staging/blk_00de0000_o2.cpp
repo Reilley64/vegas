@@ -1369,7 +1369,7 @@ void __cdecl FUN_00dfdd50(S_00e3eaa0_Elem* p)
 
 struct FUN_00e3f900_class
 {
-    int FUN_00e3f900(int);
+    void* FUN_00e3f900(int);
 };
 // @fnv 0x00dfdd60
 void __cdecl FUN_00dfdd60(FUN_00e3f900_class* p, int a)

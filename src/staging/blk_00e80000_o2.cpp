@@ -206,17 +206,17 @@ extern int DAT_010efc34;
 void __cdecl FUN_00e68830();
 
 struct FUN_00e8aa40_Class {
-    int FUN_00e8aa40(bool flag);
+    void* FUN_00e8aa40(bool flag);
 };
 
 // @fnv 0x00e8aa40
-int FUN_00e8aa40_Class::FUN_00e8aa40(bool abFree)
+void* FUN_00e8aa40_Class::FUN_00e8aa40(bool abFree)
 {
     *(void**)this = (void*)&DAT_010efc34;
     FUN_00e68830();
     if (abFree & 1)
         operator delete(this, 0x88);
-    return (int)this;
+    return this;
 }
 
 // @fnv 0x00e8b490
@@ -981,16 +981,16 @@ struct FUN_00e88b00_Class {
     int m_auiShapeKeys[0x1100 / 4];
     virtual ~FUN_00e88b00_Class();
     int FUN_00e88b00();
-    int DestroyIfFlagged(bool flag);
+    void* DestroyIfFlagged(bool flag);
 };
 // Calls FUN_00e88b00, then deletes this with size 0x1100 if flag bit 0 is set, and returns this.
 // @fnv 0x00e88bf0
-int FUN_00e88b00_Class::DestroyIfFlagged(bool abDelete)
+void* FUN_00e88b00_Class::DestroyIfFlagged(bool abDelete)
 {
     FUN_00e88b00();
     if (abDelete & 1)
         operator delete(this, 0x1100);
-    return (int)this;
+    return this;
 }
 
 // @fnv 0x00e8a240

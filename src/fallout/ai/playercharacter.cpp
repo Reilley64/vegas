@@ -9433,7 +9433,7 @@ void LLD_PlayerCharacter::FUN_0093cce0(LLD_Point3 point, LLD_Point3 point2, W_00
     }
 
     if (cell)
-        reinterpret_cast<::fnv_0093c200::MatchPlayer *>(((*reinterpret_cast<::fnv_0093cce0::LLD_PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0093c200((*(::fnv_0093c200::MatchPoint *)&(const ::fnv_0093cce0::LLD_Point3 &)(point)), ((const float *)&(const ::fnv_0093cce0::LLD_Point3 &)(point2))[0], ((const float *)&(const ::fnv_0093cce0::LLD_Point3 &)(point2))[1], ((const float *)&(const ::fnv_0093cce0::LLD_Point3 &)(point2))[2], (::fnv_0093c200::MatchCell *)(void *)(cell), flag);
+        reinterpret_cast<::fnv_0093c200::MatchPlayer *>(((*reinterpret_cast<::fnv_0093cce0::LLD_PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0093c200((*(::fnv_0093c200::MatchPoint *)&(const ::fnv_0093cce0::LLD_Point3 &)(point)), ((const float *)&(const ::fnv_0093cce0::LLD_Point3 &)(point2))[0], (*(const float *)&(&(const ::fnv_0093cce0::LLD_Point3 &)(point2))->y), (*(const float *)&(&(const ::fnv_0093cce0::LLD_Point3 &)(point2))->z), (::fnv_0093c200::MatchCell *)(void *)(cell), flag);
 }
 }  // namespace fnv_0093cce0
 
@@ -11126,7 +11126,7 @@ void PlayerCenterOnCell::FUN_0093db60(const char* apCellName, CellS* apCell)
     {
         NiPoint3 rot = ::NiPoint3::ZERO;
         reinterpret_cast<::fnv_0054cfd0::TESObjectCELL_Ext *>((pCell))->FUN_0054cfd0((::fnv_0054cfd0::NiPoint3 *)(::fnv_0093db60::CellPos *)(&_pos), (::fnv_0054cfd0::NiPoint3 *)(::NiPoint3 *)(&rot));
-        reinterpret_cast<::fnv_0093c200::MatchPlayer *>(this)->FUN_0093c200((*(::fnv_0093c200::MatchPoint *)&(const ::fnv_0093db60::CellPos &)(_pos)), ((const float *)&(const ::NiPoint3 &)(rot))[0], ((const float *)&(const ::NiPoint3 &)(rot))[1], ((const float *)&(const ::NiPoint3 &)(rot))[2], (::fnv_0093c200::MatchCell *)(void *)(pCell), true);
+        reinterpret_cast<::fnv_0093c200::MatchPlayer *>(this)->FUN_0093c200((*(::fnv_0093c200::MatchPoint *)&(const ::fnv_0093db60::CellPos &)(_pos)), ((const float *)&(const ::NiPoint3 &)(rot))[0], (*(const float *)&(&(const ::NiPoint3 &)(rot))->y), (*(const float *)&(&(const ::NiPoint3 &)(rot))->z), (::fnv_0093c200::MatchCell *)(void *)(pCell), true);
         if (!reinterpret_cast<::TESObjectCELL *>((pCell))->IsCellInterior())
         {
             float height;
@@ -43329,7 +43329,7 @@ void FNVPlayerScanner::FUN_00962190()
 {
     FNVReferenceIterator* first = DAT_011e0e80.CollectActorsByPackage(DAT_011dea3c, 18, 0);
     FNVReferenceIterator* iterator = first;
-    reinterpret_cast<unsigned char*>(DAT_011dea3c)[0x7c4] = 0;
+    DAT_011dea3c->unk7c4 = 0;
     while (iterator != 0)
     {
         Actor* actor = 0;
@@ -43339,7 +43339,7 @@ void FNVPlayerScanner::FUN_00962190()
         }
         if (actor != 0 && reinterpret_cast<FNVVirtualActorPredicate>((*reinterpret_cast<void***>(actor))[0xc1])(actor))
         {
-            reinterpret_cast<unsigned char*>(DAT_011dea3c)[0x7c4] = 1;
+            DAT_011dea3c->unk7c4 = 1;
             break;
         }
         iterator = ((::fnv_00962190::FNVReferenceIterator *)(reinterpret_cast<::SimpleListNodeView *>((iterator))->m_pkNext));

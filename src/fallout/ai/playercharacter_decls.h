@@ -95,7 +95,9 @@ class PlayerCharacter : public Character
     unsigned char m_ucByteAtOffset7B8;  // +0x7B8
     unsigned char layoutPadding7B9[3];
     bool m_bHasPerks;  // +0x7BC
-    unsigned char layoutPadding7BD[191];
+    unsigned char layoutPadding7BD[0x7];
+    unsigned char unk7c4;
+    unsigned char pad7c5[0xb7];
     BSSimpleList<PerkForm*> Perks;                             // +0x87C
     BSSimpleList<BGSEntryPointPerkEntry*> m_kEntryPointPerks[74];  // +0x884
     BSSimpleList<PerkForm*> m_kCompanionPerks;                 // +0xAD4

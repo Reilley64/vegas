@@ -45704,7 +45704,7 @@ bool FUN_004387b0_shell::FUN_004387b0(ArrSI* other)
 {
     if (((unsigned int)(((other))->size)) != ((unsigned int)((reinterpret_cast<::fnv_004387b0::ArrSI *>(this)->size))))
         return false;
-    for (unsigned int i = 0; i < *(unsigned int*)((char*)this + 8); ++i)
+    for (unsigned int i = 0; i < this->size; ++i)
     {
         if (*(unsigned int*)&(SimpleArrayItem<unsigned int>((void *)other, i)) != *(unsigned int*)&(SimpleArrayItem<unsigned int>((void *)this, i)))
             return false;

@@ -2300,7 +2300,7 @@ struct FUN_00903e00_shell : public TESPackage
 // @fnv 0x00903e00
 TESTopic* FUN_00903e00_shell::FUN_00903e00()
 {
-    return (TESTopic*)((uintptr_t)((*reinterpret_cast<void **>((char *)this + 0x64))));
+    return (TESTopic*)((uintptr_t)((this->unk64)));
 }
 }  // namespace fnv_00903e00
 
@@ -54491,7 +54491,7 @@ void Engine_00902c80::FUN_00902c80(Actor_00902c80* actor, CurrentTarget_00902c80
                                                              0, 0, 1, 0))
                 {
                     CurrentTarget_00902c80* owner =
-                        (CurrentTarget_00902c80*)((intptr_t)((*reinterpret_cast<void **>(reinterpret_cast<char*>(this) + 8))));
+                        (CurrentTarget_00902c80*)((intptr_t)((*reinterpret_cast<void **>(&this->m_kProcessData.pData))));
                     if (owner == current)
                         reinterpret_cast<::CombatProcedure *>((current))->Initialize((::CombatController *)(false));
                 }

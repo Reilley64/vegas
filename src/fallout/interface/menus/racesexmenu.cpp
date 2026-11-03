@@ -1129,7 +1129,7 @@ Tile* __cdecl GetOrCreateMenuTile(int param)
             case 15:
                 DAT_011da638[i] = inventory->FUN_004c8c10(i, 0);
                 if (DAT_011da638[i])
-                    reinterpret_cast<::FUN_0088d7d0_shell *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_0088d7d0((::TESBoundObject *)(void *)((void*)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((DAT_011da638[i]))->GetName()))), 1, (::ExtraDataList *)(void *)(0), 0, 0, 1);
+                    reinterpret_cast<::FUN_0088d7d0_shell *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_0088d7d0((::TESBoundObject *)(void *)((void*)((std::uintptr_t)((DAT_011da638[i])->unk08))), 1, (::ExtraDataList *)(void *)(0), 0, 0, 1);
                 break;
             }
         }
@@ -1246,7 +1246,7 @@ struct RSOptionList
 struct RSMenu
 {
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0C;
     int unk10;
@@ -1330,7 +1330,7 @@ void __cdecl UpdateRaceSexMenu()
         else
         {
             ::fnv_007df4e0::UpdateStatsMenuLevelText();
-            reinterpret_cast<::Tile *>((((::RSTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::RSMenu * *>(&::DAT_011da634))))->FUN_00726070()))))->Set(0x1772, 1);
+            reinterpret_cast<::Tile *>((((::RSTile *)((*reinterpret_cast<::RSMenu * *>(&::DAT_011da634))->unk04))))->Set(0x1772, 1);
             reinterpret_cast<::fnv_00a1d9e0::FUN_00a1d9e0_shell *>(((*reinterpret_cast<::RSMenu * *>(&::DAT_011da634))))->FUN_00a1d9e0();
             (*reinterpret_cast<::RSMenu * *>(&::DAT_011da634)) = 0;
             if (::FUN_00705100())
@@ -2485,7 +2485,7 @@ bool HostB50::RebuildFaceGen(bool rebuild)
             {
                 ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(part), 0, 0);
                 PropertyB50* color = ((::fnv_007b2b50::PropertyB50 *)(reinterpret_cast<::FUN_00a59d30_C *>((part))->FUN_00a59d30(3)));
-                PropertyB50* typed = (!color ? false : ((int)(reinterpret_cast<::BGSTerrainManager *>((color))->GetMinLevel())) == 8) ? color : 0;
+                PropertyB50* typed = (!color ? false : ((int)(color->unk1c)) == 8) ? color : 0;
                 unsigned property = reinterpret_cast<::FUN_004169d0_shell *>((data))->FUN_004169d0();
                 if (typed)
                     typed->color = ColorB50((unsigned char)(property & 255) / 255.0,
@@ -2493,7 +2493,7 @@ bool HostB50::RebuildFaceGen(bool rebuild)
                                             (unsigned char)((property >> 16) & 255) / 255.0, 1);
                 else
                 {
-                    PropertyB50* otherTyped = (!color ? false : ((int)(reinterpret_cast<::BGSTerrainManager *>((color))->GetMinLevel())) == 12) ? color : 0;
+                    PropertyB50* otherTyped = (!color ? false : ((int)(color->unk1c)) == 12) ? color : 0;
                     if (otherTyped)
                         otherTyped->color = ColorB50((unsigned char)(property & 255) / 255.0,
                                                      (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
@@ -2520,7 +2520,7 @@ bool HostB50::RebuildFaceGen(bool rebuild)
                     if (hair)
                         ::fnv_00653470::FUN_00653470((::fnv_00653470::NiGeometry *)(::fnv_007b2b50::NodeB50 *)(eb), reinterpret_cast<::FUN_00602130_shell *>((data))->FUN_00602130());
                     PropertyB50* color = ((::fnv_007b2b50::PropertyB50 *)(reinterpret_cast<::FUN_00a59d30_C *>((((NodeB50*)eb)))->FUN_00a59d30(3)));
-                    PropertyB50* typed = (!color ? false : ((int)(reinterpret_cast<::BGSTerrainManager *>((color))->GetMinLevel())) == 8) ? color : 0;
+                    PropertyB50* typed = (!color ? false : ((int)(color->unk1c)) == 8) ? color : 0;
                     if (typed)
                     {
                         unsigned property = reinterpret_cast<::FUN_004169d0_shell *>((data))->FUN_004169d0();
@@ -2530,7 +2530,7 @@ bool HostB50::RebuildFaceGen(bool rebuild)
                     }
                     else
                     {
-                        PropertyB50* otherTyped = (!color ? false : ((int)(reinterpret_cast<::BGSTerrainManager *>((color))->GetMinLevel())) == 12) ? color : 0;
+                        PropertyB50* otherTyped = (!color ? false : ((int)(color->unk1c)) == 12) ? color : 0;
                         if (otherTyped)
                         {
                             unsigned property = reinterpret_cast<::FUN_004169d0_shell *>((data))->FUN_004169d0();
@@ -3667,7 +3667,7 @@ void Menu::UpdateZoomAndScroll()
     if (FUN_00702450(Id()))
     {
         for (unsigned int i = 0; i < 4; i++)
-            if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(sounds[i]))->GetName())) == 3)
+            if (((std::intptr_t)(sounds[i].unk8)) == 3)
                 reinterpret_cast<::FUN_00ad8830_shell *>(&(sounds[i]))->FUN_00ad8830(0);
         static unsigned int previous = ((unsigned int)(::FUN_00457fe0()));
         unsigned int time = ((unsigned int)(::FUN_00457fe0()));
@@ -3768,7 +3768,7 @@ void Menu::UpdateZoomAndScroll()
     else
     {
         for (unsigned int j = 0; j < 4; j++)
-            if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(sounds[j]))->GetName())) == 1)
+            if (((std::intptr_t)(sounds[j].unk8)) == 1)
                 reinterpret_cast<::FUN_00ad88b0_h *>(&(sounds[j]))->FUN_00ad88b0();
     }
 }
@@ -5995,8 +5995,8 @@ void InitRaceMenu::SetupRaceMenu(int mode)
     if (((double)(reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfa7))) == 6006.0 || ((double)(reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfa7))) == 102.0)
         reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(0xfad, ::Tile::GetInterfaceScale(), {});
     reinterpret_cast<::TutorialMessageGate718 *>(&(((InitRootManager*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->messages))->FUN_00718630(15, (unsigned int)(FUN_007ac9c0()), 0x200);
-    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::InitTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->FUN_00a01350(0x1005, (char *)(DAT_01063ab4), true);
-    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::InitTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->FUN_00a01350(0x1006, (char *)(DAT_010692d0), true);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::InitTile *)(this->tile))))->FUN_00a01350(0x1005, (char *)(DAT_01063ab4), true);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::InitTile *)(this->tile))))->FUN_00a01350(0x1006, (char *)(DAT_010692d0), true);
     npc = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::InitPlayer * *>(&::_g_thePlayer))))->FUN_007af430())));
     reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((display))->FUN_00a01350(0xfc4, (char *)(((const char *)(::FUN_00559450((int *)&((*reinterpret_cast<::InitString *>(&::g_011da6f4))))))), true);
     {

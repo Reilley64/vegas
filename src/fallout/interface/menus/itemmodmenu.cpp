@@ -1534,7 +1534,7 @@ struct Entry
     Entry(ModEntry*, int);
     int unk00;
     int unk04;
-    int unk08;
+    void* unk08;
 };
 struct EntryNode
 {
@@ -1645,20 +1645,20 @@ void __cdecl PopulateModListScreen()
     {
         Row* row = 0;
         Entry* entry = 0;
-        for (int index7 = 0; index7 < ((std::intptr_t)(reinterpret_cast<::Callees *>((((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(node6)->m_item))))->FUN_00726070())); ++index7)
+        for (int index7 = 0; index7 < ((std::intptr_t)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(node6)->m_item))->unk04)); ++index7)
         {
             entry = ((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(node6)->m_item));
             if (index7 == 0)
             {
-                if (((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) != mod4 && ((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) != kMod2_2 && ((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) != mod5)
+                if (((::ModEntry *)(entry->unk08)) != mod4 && ((::ModEntry *)(entry->unk08)) != kMod2_2 && ((::ModEntry *)(entry->unk08)) != mod5)
                 {
                     row = ((::Row *)(reinterpret_cast<::list71a::L71Menu *>(&(((Screen*)(*reinterpret_cast<int *>(&::DAT_011d9f54)))->rows))->FUN_0071a320((int)(entry), reinterpret_cast<::FUN_004be2d0_shell *>((entry))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
                     reinterpret_cast<::Tile *>((row))->Set(DAT_011d9f4c, 1);
                 }
             }
-            else if (((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) != mod4 && ((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) != kMod2_2 && ((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) != mod5)
+            else if (((::ModEntry *)(entry->unk08)) != mod4 && ((::ModEntry *)(entry->unk08)) != kMod2_2 && ((::ModEntry *)(entry->unk08)) != mod5)
             {
-                entry = new Entry(((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>((((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(node6)->m_item))))->GetName())), 1);
+                entry = new Entry(((::ModEntry *)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(node6)->m_item))->unk08)), 1);
                 for (ExtraNode* extra6 = (ExtraNode*)((::Extras *)(::FUN_00559450((int *)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(node6)->m_item)))))); extra6 && ((::Extras *)(reinterpret_cast<::SimpleListNodeView*>(extra6)->m_item));
                      extra6 = ((::ExtraNode *)(reinterpret_cast<::Callees *>((extra6))->FUN_00726070())))
                 {

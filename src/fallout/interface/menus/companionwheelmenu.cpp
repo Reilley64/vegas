@@ -670,7 +670,7 @@ TileOps* OpenCompanionMenu(ActorOps* actor)
         reinterpret_cast<::Menu *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))))->SetMenuVisibility(false);
         return h;
     }
-    else if ((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755)) && ((std::intptr_t)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))))->FUN_00726070())))
+    else if ((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755)) && ((std::intptr_t)((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->unk04)))
         delete (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755));
     return 0;
 }
@@ -2516,7 +2516,7 @@ class Menu755
   public:
 
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0C;
     int unk10;
@@ -2570,7 +2570,7 @@ void __cdecl CloseMenuAndRefresh(bool bFade)
             reinterpret_cast<::SoundPlaybackHandle *>(&(g_pkMenu755->m_kFader))->StopWithFade(0x64);
         if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::SaveLoad755 * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
             reinterpret_cast<::ProcessListsSub *>(&((*reinterpret_cast<::Manager755 *>(&::g_011e0e80))))->UpdateActor3D();
-        reinterpret_cast<::Tile *>((((::Tile755 *)(reinterpret_cast<::Callees *>((g_pkMenu755))->FUN_00726070()))))->Set(0x1772, 1);
+        reinterpret_cast<::Tile *>((((::Tile755 *)(g_pkMenu755->unk04))))->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>((g_pkMenu755))->FUN_00a1d910();
     }
 }

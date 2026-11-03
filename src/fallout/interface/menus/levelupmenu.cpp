@@ -1412,7 +1412,7 @@ struct OptionList
 struct Target
 {
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -2769,7 +2769,7 @@ void __cdecl fn_786200(TileStandIn* t);
 struct MenuStandIn
 {
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -2846,16 +2846,16 @@ struct ScrollBar
 // @fnv 0x00785830
 void Target::SetPage(int page)
 {
-    if (page > ((double)(reinterpret_cast<::TileListBoxCalls *>((((::RootTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(::FUN_00a01860("_EndPage")))))
+    if (page > ((double)(reinterpret_cast<::TileListBoxCalls *>((((::RootTile *)(this->unk04))))->GetFloat(::FUN_00a01860("_EndPage")))))
     {
         ::fnv_007851d0::UpdateLevelUpMenu();
     }
     else
     {
         unk28 = page;
-        reinterpret_cast<::Tile *>((((::RootTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(DAT_011d9fe8, page);
-        reinterpret_cast<::Tile *>((((::RootTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(DAT_011d9fd8, first[page]);
-        reinterpret_cast<::Tile *>((((::RootTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(DAT_011d9fd4, second[page]);
+        reinterpret_cast<::Tile *>((((::RootTile *)(this->unk04))))->Set(DAT_011d9fe8, page);
+        reinterpret_cast<::Tile *>((((::RootTile *)(this->unk04))))->Set(DAT_011d9fd8, first[page]);
+        reinterpret_cast<::Tile *>((((::RootTile *)(this->unk04))))->Set(DAT_011d9fd4, second[page]);
         reinterpret_cast<::fnv_00785990::FUN_00785990_shell *>(this)->FUN_00785990();
         switch (unk28)
         {
@@ -3063,7 +3063,7 @@ void MenuStandIn::OnButtonPressed(int aiButton, TileStandIn* tile)
             reinterpret_cast<::Holder *>(this)->UpdateTileEffects((::Tile *)(tile));
         }
         (&unk54)[unk28] = reinterpret_cast<::Counter_007878d0 *>(&(unk94))->FUN_007878d0();
-        reinterpret_cast<::Tile *>((((::TileStandIn *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(::DAT_011d9fd8, (&unk54)[unk28]);
+        reinterpret_cast<::Tile *>((((::TileStandIn *)(this->unk04))))->Set(::DAT_011d9fd8, (&unk54)[unk28]);
         reinterpret_cast<::fnv_00785990::FUN_00785990_shell *>(this)->FUN_00785990();
         break;
     case 13:
@@ -3073,7 +3073,7 @@ void MenuStandIn::OnButtonPressed(int aiButton, TileStandIn* tile)
             avTmp = ((int)(reinterpret_cast<::LBList *>(&(unk64))->FindItemData((::Tile *)(::TileStandIn *)(((::TileStandIn *)(reinterpret_cast<::FUN_0045cd60_shell *>((tile))->FUN_0045cd60()))))));
             delta = (aiButton == 13) ? -1 : 1;
             (&unk54)[unk28] += delta;
-            reinterpret_cast<::Tile *>((((::TileStandIn *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(::DAT_011d9fd8, (&unk54)[unk28]);
+            reinterpret_cast<::Tile *>((((::TileStandIn *)(this->unk04))))->Set(::DAT_011d9fd8, (&unk54)[unk28]);
             if (reinterpret_cast<::TESClass *>((((::ClassStandIn *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>(((*reinterpret_cast<::PlayerStandIn * *>(&::_g_thePlayer))))->FUN_00884350()))))->IsTagSkill((::ActorValue::Index)(avTmp)))
             {
                 delta *= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingStandIn *>(&::g_011cd6c0))))));
@@ -3099,7 +3099,7 @@ void MenuStandIn::OnButtonPressed(int aiButton, TileStandIn* tile)
             ::FUN_00706f30(1);
         }
         (&unk54)[unk28] = 0;
-        reinterpret_cast<::Tile *>((((::TileStandIn *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(::DAT_011d9fd8, (&unk54)[unk28]);
+        reinterpret_cast<::Tile *>((((::TileStandIn *)(this->unk04))))->Set(::DAT_011d9fd8, (&unk54)[unk28]);
         switch (unk28)
         {
         case 0:

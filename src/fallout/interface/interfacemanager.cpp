@@ -11166,7 +11166,7 @@ void PickOwner::UpdatePickObjects()
                 if (existing && ((void *)(reinterpret_cast<::SimpleListNodeView*>(existing)->m_item)) != object)
                     a = false;
                 else if (a && existing)
-                    existing = ((::GlobalObject2_0096a2d0 *)(reinterpret_cast<::Callees *>((existing))->FUN_00726070()));
+                    existing = ((::GlobalObject2_0096a2d0 *)(existing->next));
             }
         }
     }
@@ -11174,7 +11174,7 @@ void PickOwner::UpdatePickObjects()
     objectCount = 0;
     if (!a)
     {
-        for (GlobalObject2_0096a2d0* node = &b; node && ((void *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)); node = ((::GlobalObject2_0096a2d0 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+        for (GlobalObject2_0096a2d0* node = &b; node && ((void *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)); node = ((::GlobalObject2_0096a2d0 *)(node->next)))
             reinterpret_cast<::Callees *>(&(objects))->FUN_00905820(((void *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)));
     }
     reinterpret_cast<::FileMatchList *>(&(b))->RemoveAll();

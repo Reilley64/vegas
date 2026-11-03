@@ -15452,7 +15452,7 @@ class RouletteMenuX
     virtual void v12();
     virtual int GetID();
 
-    int unk0004;
+    void* unk0004;
     int unk0008;
     int unk000C;
     int unk0010;
@@ -15606,10 +15606,10 @@ void RouletteMenuX::FUN_007bd2a0()
     switch (m_iFadeIndex)
     {
     case 5:
-        if (((int)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) != 2)
+        if (((int)(this->unk0024)) != 2)
         {
             reinterpret_cast<::FUN_00a012d0_t *>((((::fnv_007bd2a0::TileX *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_007bd2a0::InterfaceMgr *)(::fnv_004b7210::FUN_004b7210()))))->FUN_0045cd60()))))->FUN_00a012d0(0xfa9, 255.0f, true);
-            reinterpret_cast<::Tile *>((((::fnv_007bd2a0::TileX *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x1772, 1);
+            reinterpret_cast<::Tile *>((((::fnv_007bd2a0::TileX *)(this->unk0004))))->Set(0x1772, 1);
             reinterpret_cast<::FUN_00a1d910_shell *>(this)->FUN_00a1d910();
             int iChipDiff;
             if ((iChipDiff = m_iChips - reinterpret_cast<::CombatState *>(((*reinterpret_cast<::fnv_007bd2a0::PlayerX * *>(&::_g_thePlayer))))->GetInventoryItemCount((::TESForm *)(::fnv_007bd2a0::FormX *)(((::fnv_007bd2a0::FormX *)(reinterpret_cast<::FUN_007316d0_Class *>(((*reinterpret_cast<::fnv_007bd2a0::CasinoX * *>(&::RouletteCleanup::DAT_011da880))))->FUN_007316d0()))))) < 0)
@@ -15722,7 +15722,7 @@ void RouletteMenuX::FUN_007bd2a0()
                         bWon = true;
                         break;
                     }
-                    pNode = (ListNode*)((::fnv_007bd2a0::TileX *)(reinterpret_cast<::Callees *>((((RouletteMenuX*)pNode)))->FUN_00726070()));
+                    pNode = (ListNode*)((::fnv_007bd2a0::TileX *)(((RouletteMenuX*)pNode)->unk0004));
                 }
             }
             else

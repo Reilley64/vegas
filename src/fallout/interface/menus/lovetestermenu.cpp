@@ -1250,13 +1250,13 @@ void __cdecl FUN_007917a0()
     ((ResetString*)&(*reinterpret_cast<::Flt *>(&::g_011da2f4)))->FUN_0066b0d0(0);
     for (menu = 0; menu < 9; menu++)
     {
-        for (k = 0; k < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].objects))->GetName())); k++)
+        for (k = 0; k < ((std::uintptr_t)((((ResetView*)DAT_011da2c8)->groups[menu].objects).data)); k++)
         {
             FUN_00791a80_shell* object = *((::FUN_00791a80_shell **)(SimpleArrayItem<void *>((void *)(&(((ResetView*)DAT_011da2c8)->groups[menu].objects)), k)));
             FUN_00791a80_shell* doomed = object;
             doomed ? doomed->FUN_00791a80(1) : 0;
         }
-        for (l = 0; l < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations))->GetName())); l++)
+        for (l = 0; l < ((std::uintptr_t)((((ResetView*)DAT_011da2c8)->groups[menu].allocations).data)); l++)
         {
             FUN_00791a80_shell* allocation = *((::FUN_00791a80_shell **)(SimpleArrayItem<void *>((void *)(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations)), l)));
             ::FUN_00401030(allocation);
@@ -1264,13 +1264,13 @@ void __cdecl FUN_007917a0()
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].objects))->Clear(1);
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations))->Clear(1);
     }
-    for (j = 0; j < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->list1a4))->GetName())); j++)
+    for (j = 0; j < ((std::uintptr_t)((((ResetView*)DAT_011da2c8)->list1a4).data)); j++)
     {
         FUN_00791a80_shell* object = *((::FUN_00791a80_shell **)(SimpleArrayItem<void *>((void *)(&(((ResetView*)DAT_011da2c8)->list1a4)), j)));
         FUN_00791a80_shell* doomed = object;
         doomed ? doomed->FUN_00791a80(1) : 0;
     }
-    for (m = 0; m < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->list1b4))->GetName())); m++)
+    for (m = 0; m < ((std::uintptr_t)((((ResetView*)DAT_011da2c8)->list1b4).data)); m++)
     {
         FUN_00791a80_shell* allocation = *((::FUN_00791a80_shell **)(SimpleArrayItem<void *>((void *)(&(((ResetView*)DAT_011da2c8)->list1b4)), m)));
         ::FUN_00401030(allocation);
@@ -2641,27 +2641,27 @@ void FUN_00795e20_cls::FUN_00795e20()
             iLevel = 0;
             if (a != -1)
                 iLevel = (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(reinterpret_cast<::FUN_00794d30_shell *>((((G_WM*)DAT_011da2c8)))->FUN_00794d30());
-            for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((G_WM*)DAT_011da2c8)->arr64))->GetName())); i++)
+            for (unsigned int i = 0; i < ((std::uintptr_t)((((G_WM*)DAT_011da2c8)->arr64).c)); i++)
             {
                 int x = ((::Lvl_WM *)(SimpleArrayItem<void *>((void *)(&(((G_WM*)DAT_011da2c8)->arr64)), i)))->u18;
             }
             if (0)
             {
             }
-            for (unsigned int j = 0; j < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((G_WM*)DAT_011da2c8)->arr74))->GetName())); j++)
+            for (unsigned int j = 0; j < ((std::uintptr_t)((((G_WM*)DAT_011da2c8)->arr74).c)); j++)
             {
                 int iRequiredLevel = ((::Lvl_WM *)(SimpleArrayItem<void *>((void *)(&(((G_WM*)DAT_011da2c8)->arr74)), j)))->level;
                 if (((::Lvl_WM *)(SimpleArrayItem<void *>((void *)(&(((G_WM*)DAT_011da2c8)->arr74)), j)))->obj)
                     reinterpret_cast<::TaskQueueInterface *>((((::Lvl_WM *)(SimpleArrayItem<void *>((void *)(&(((G_WM*)DAT_011da2c8)->arr74)), j)))->obj))->QueueActorDisarm(iLevel < iRequiredLevel);
             }
         }
-        for (unsigned int iIndex = 0; iIndex < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pairs[idx].b))->GetName())); iIndex++)
+        for (unsigned int iIndex = 0; iIndex < ((std::uintptr_t)(pairs[idx].b.c)); iIndex++)
             ((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(pairs[idx].b)), iIndex)))->pfn0(((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(pairs[idx].b)), iIndex))));
-        for (unsigned int k1 = 0; k1 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pairs[idx].a))->GetName())); k1++)
+        for (unsigned int k1 = 0; k1 < ((std::uintptr_t)(pairs[idx].a.c)); k1++)
             ((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(pairs[idx].a)), k1)))->pfn4(((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(pairs[idx].a)), k1))));
-        for (unsigned int k2 = 0; k2 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1b4))->GetName())); k2++)
+        for (unsigned int k2 = 0; k2 < ((std::uintptr_t)(arr1b4.c)); k2++)
             ((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(arr1b4)), k2)))->pfn0(((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(arr1b4)), k2))));
-        for (unsigned int k3 = 0; k3 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1a4))->GetName())); k3++)
+        for (unsigned int k3 = 0; k3 < ((std::uintptr_t)(arr1a4.c)); k3++)
             ((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(arr1a4)), k3)))->pfn4(((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(arr1a4)), k3))));
     }
 }
@@ -2930,7 +2930,7 @@ void InputMenu::HandleButton(int button, int unused)
             if (DAT_011f9426)
                 local866269 = (int)(local866269 * (DAT_011ad848 - DAT_011ad84c) +
                                     ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Render*)((::RendererHelper *)(::FUN_0043c4b0())))->GetBuffer()))->FUN_0084e3a0())) * (double)DAT_011ad84c);
-            for (unsigned int local610845 = 0; local610845 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups[mode].objects))->GetName())); local610845++)
+            for (unsigned int local610845 = 0; local610845 < ((std::uintptr_t)(groups[mode].objects.data)); local610845++)
             {
                 Vec3 local960365;
                 Vec3 local282417;
@@ -2953,7 +2953,7 @@ void InputMenu::HandleButton(int button, int unused)
                     }
                 }
             }
-            for (unsigned int local966572 = 0; local966572 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1a4))->GetName())); local966572++)
+            for (unsigned int local966572 = 0; local966572 < ((std::uintptr_t)(arr1a4.data)); local966572++)
             {
                 Vec3 local960365;
                 Vec3 local282417;

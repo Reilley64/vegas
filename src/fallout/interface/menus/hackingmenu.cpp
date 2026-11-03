@@ -1205,7 +1205,7 @@ void FUN_0076ad50_cls::BuildHackingGuessTemplate()
     reinterpret_cast<::FUN_004ed8c0_shell *>(&(m174))->FUN_004ed8c0((int *)(::FUN_00a1ddb0_res **)(&p));
     {
         FUN_004037b0_tmp nameBuf;
-        ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&nameBuf), "%s_%d", p->FUN_00700300(), ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m174))->GetName())));
+        ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&nameBuf), "%s_%d", p->FUN_00700300(), ((std::intptr_t)(m174.size)));
         reinterpret_cast<::Tile *>((p))->SetName((const char *)(::FUN_00559450((int *)&(nameBuf))));
     }
 }
@@ -1221,7 +1221,7 @@ struct FUN_0076ae90_cls
 unsigned int Context::FUN_00769520(FUN_007687d0* input)
 {
     unsigned char minimum = 255;
-    for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Callees *>((input))->FUN_00726070())); ++i)
+    for (unsigned int i = 0; i < ((std::uintptr_t)(input->count)); ++i)
     {
         unsigned char current = ((int)(reinterpret_cast<::FUN_0076ae90_cls *>(&(((::Entry *)(::FUN_00559450((int *)(input))))[i]))->FUN_0076ae90()));
         if (current < minimum)
@@ -1945,7 +1945,7 @@ struct ConstructorTile : FUN_00a1ddb0_res
 struct ConstructorMenu : FUN_00a1ddb0_owner
 {
     unsigned int unk000;
-    unsigned int unk004;
+    void* unk004;
     unsigned int unk008;
     unsigned int unk00c;
     unsigned int unk010;
@@ -2050,7 +2050,7 @@ FUN_0076b300::FUN_0076b300(const char* name, char* parent, const char* path, int
             {
                 reinterpret_cast<::Tile *>((tile))->Set(0xfa2, value);
                 int width =
-                    static_cast<int>(reinterpret_cast<::TileListBoxCalls *>((((::TileValue *)(reinterpret_cast<::Callees *>((static_cast<ConstructorMenu*>((*reinterpret_cast<::FUN_00a1ddb0_owner * *>(&::g_pkD766AA0Menu)))))->FUN_00726070()))))->GetFloat(0x1007));
+                    static_cast<int>(reinterpret_cast<::TileListBoxCalls *>((((::TileValue *)((static_cast<ConstructorMenu*>((*reinterpret_cast<::FUN_00a1ddb0_owner * *>(&::g_pkD766AA0Menu))))->unk004))))->GetFloat(0x1007));
                 if (label)
                 {
                     reinterpret_cast<::Tile *>((label))->Set(0xfa1, width);
@@ -4265,7 +4265,7 @@ Tile84* FUN_00765b80(Ref84* reference)
         reinterpret_cast<::Menu *>((menu24))->SetMenuVisibility(0);
         return tile4;
     }
-    else if (menu24 && reinterpret_cast<::Callees *>((menu24))->FUN_00726070())
+    else if (menu24 && menu24->unk04)
         delete menu24;
     return 0;
 }
@@ -4732,7 +4732,7 @@ void HackMenu::FUN_00766b80(int aiButtonIndex, HackTile* tile)
                     attempts = maxAttempts;
                     special = true;
                     reinterpret_cast<::ScriptList *>(&(used))->FUN_0076b660((unsigned int *)&(const unsigned int &)(12 * (unsigned int)(reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0x1004) * 17.0 + reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfac)) + ((unsigned int)(reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue())) - 7));
-                    while (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())) < maxAttempts)
+                    while (((std::uintptr_t)(list.c)) < maxAttempts)
                         reinterpret_cast<::FUN_0076ad50_cls *>(this)->BuildHackingGuessTemplate();
                     j = 3;
                 }

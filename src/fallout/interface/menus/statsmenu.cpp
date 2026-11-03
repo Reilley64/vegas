@@ -1796,7 +1796,7 @@ FUN_007e0c50_item* FUN_007e0c50_list::FUN_007e0c50(unsigned int formID)
     FUN_007e0c50_item* pEffect = 0;
     for (pNode = this ? &xList : 0; !pEffect && pNode && ((::FUN_007e0c50_item *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)); pNode = ((::FUN_007e0c50_node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))
     {
-        if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FUN_007e0c50_item *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))->pForm))->FUN_0084e3a0())) == formID)
+        if (((unsigned int)((((::FUN_007e0c50_item *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))->pForm)->iFormID)) == formID)
             pEffect = ((::FUN_007e0c50_item *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item));
     }
     return pEffect;
@@ -2447,7 +2447,7 @@ void StatsMenuSI::FUN_007ddd10()
     float adjustment;
     float currentValue;
     float unusedResult;
-    scale = reinterpret_cast<::TileListBoxCalls *>((((::fnv_007ddd10::TraitSI *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat({}) * ::DAT_01017b70;
+    scale = reinterpret_cast<::TileListBoxCalls *>((((::fnv_007ddd10::TraitSI *)(this->unk04))))->GetFloat({}) * ::DAT_01017b70;
     adjustment = (-scale / ::DAT_01011590) + (((double)(::RandomFloat0To1())) * scale);
     currentValue =
         ::FUN_00404010(0.0f, (reinterpret_cast<ActivitySI*>(reinterpret_cast<char*>((*reinterpret_cast<::fnv_007ddd10::ActivitySI * *>(&::_g_thePlayer))) + 0xa4))->v3(0x4a));
@@ -3061,7 +3061,7 @@ void StatsMenuFunction007dc7e0::UpdateStatsDisplay(void* actor)
 // @fnv 0x007ddc20
 void MenuItem::FUN_007ddc20()
 {
-    float a = reinterpret_cast<::TileListBoxCalls *>((((::TileValue *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat({}) * ::DAT_01017b70;
+    float a = reinterpret_cast<::TileListBoxCalls *>((((::TileValue *)(this->value))))->GetFloat({}) * ::DAT_01017b70;
     float c = (-a / ::DAT_01011590) + ::RandomFloat0To1() * a;
     float d = FUN_00404010(0.0f, ((TraitValues*)((char*)(*reinterpret_cast<void * *>(&::_g_thePlayer)) + 0xa4))->GetValue(0x49));
     float e = ::DAT_01064f50 - (d + c) / ::DAT_01017b70 * ::DAT_0101ff40;
@@ -3074,7 +3074,7 @@ void MenuItem::FUN_007ddc20()
 // @fnv 0x007dde00
 void B7DDE00Menu::UpdateModifierTile()
 {
-    float fRange5 = reinterpret_cast<::TileListBoxCalls *>((((::B7DDE00Tile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(0x1008) * 1000.0;
+    float fRange5 = reinterpret_cast<::TileListBoxCalls *>((((::B7DDE00Tile *)(this->m_pkTile))))->GetFloat(0x1008) * 1000.0;
     float fOffset5 = -fRange5 / 2.0 + ::RandomFloat0To1() * fRange5;
     float fValue = FUN_00404010(0.0f, reinterpret_cast<B7DDE00Player*>(::_g_thePlayer)->m_kAVOwner.GetActorValue(0x4b));
     float fAngle2 = 1.5707963267948966 - (fValue + fOffset5) / 1000.0 * 3.1415927410125732;
@@ -4616,7 +4616,7 @@ class FUN_007e09d0_cls
 void FUN_007e08a0_shell::AddEffectToGroup(ActiveCalls* effect)
 {
     TESForm* group = dynamic_cast<TESForm*>(((::MagicItem *)(reinterpret_cast<::Twin_0044ddc0 *>((effect))->GetName())));
-    EffectGroup* pGroup = ((::EffectGroup *)(reinterpret_cast<::FUN_007e0c50_list *>(this)->FUN_007e0c50(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((group))->FUN_0084e3a0())))));
+    EffectGroup* pGroup = ((::EffectGroup *)(reinterpret_cast<::FUN_007e0c50_list *>(this)->FUN_007e0c50(((unsigned int)(group->iFormID)))));
     if (!pGroup)
     {
         pGroup = new EffectGroup(group);

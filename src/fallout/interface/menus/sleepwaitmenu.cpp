@@ -172,7 +172,9 @@ struct Tile
 };
 struct MenuState
 {
-    int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
+    int unk00;
+    void* unk04;
+    int unk08, unk0C, unk10, unk14, unk18, unk1C;
     int unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
     int unk40;
     char unk44;
@@ -188,7 +190,7 @@ void FUN_007c01b0()
             reinterpret_cast<::ProcessListsSub *>(&((*reinterpret_cast<::fnv_007c01b0::ProcessLists *>(&::g_011e0e80))))->UpdateActor3D();
         if ((*reinterpret_cast<::fnv_007c01b0::MenuState * *>(&::DAT_011da920))->active)
             reinterpret_cast<::FaderManager *>(((*reinterpret_cast<::fnv_007c01b0::Interface * *>(&::DAT_011d8804))))->StopFader((::FADER_ENUM)(0), 0);
-        reinterpret_cast<::Tile *>((((::fnv_007c01b0::Tile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_007c01b0::MenuState * *>(&::DAT_011da920))))->FUN_00726070()))))->Set(0x1772, 1);
+        reinterpret_cast<::Tile *>((((::fnv_007c01b0::Tile *)((*reinterpret_cast<::fnv_007c01b0::MenuState * *>(&::DAT_011da920))->unk04))))->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>(((*reinterpret_cast<::fnv_007c01b0::MenuState * *>(&::DAT_011da920))))->FUN_00a1d910();
     }
 }

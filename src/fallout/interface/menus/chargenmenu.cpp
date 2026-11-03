@@ -1199,7 +1199,7 @@ struct Menu753
     virtual void v11();
     virtual void v12();
     virtual int Type();
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -1253,15 +1253,15 @@ Tile753* __cdecl FUN_00753420(int kind, int points, bool onlyAdd, bool flag)
         (*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk28 = kind;
         (*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->flag = flag;
         (*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->onlyAdd = onlyAdd;
-        reinterpret_cast<::Tile *>((((::Tile753 *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))))->FUN_00726070()))))->Set(FUN_00a01860(str_01071bfc), onlyAdd);
+        reinterpret_cast<::Tile *>((((::Tile753 *)((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk04))))->Set(FUN_00a01860(str_01071bfc), onlyAdd);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk40))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::Setting753 *>(&::g_011d33d8)).Text()), true);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk44))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::Setting753 *>(&::g_011d35c4)).Text()), true);
         if (kind == 0)
             reinterpret_cast<::fnv_007539a0::Context *>(((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))))->InitMenu();
         else
             (*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->Second();
-        reinterpret_cast<::Tile *>((((::Tile753 *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))))->FUN_00726070()))))->Set(DAT_011d9218, (*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk48);
-        reinterpret_cast<::Tile *>((((::Tile753 *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))))->FUN_00726070()))))->Set(DAT_011d921c, (*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk4c);
+        reinterpret_cast<::Tile *>((((::Tile753 *)((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk04))))->Set(DAT_011d9218, (*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk48);
+        reinterpret_cast<::Tile *>((((::Tile753 *)((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk04))))->Set(DAT_011d921c, (*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk4c);
         reinterpret_cast<::FUN_00753d20_shell *>(((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))))->UpdatePointsDisplay();
         int iSelectedValue = ((int)(reinterpret_cast<::LBList *>(&((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->list))->FindItemData((::Tile *)(::Tile753 *)(((::Tile753 *)(::CallVirtualZero((::fnv_anon_startmenu::Dummy7d6e90 *)&((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->list))))))));
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk34))->FUN_00a01350(0xfcc, (char *)(::FUN_0066e9f0((::ActorValue::Index)(iSelectedValue))), true);
@@ -1274,7 +1274,7 @@ Tile753* __cdecl FUN_00753420(int kind, int points, bool onlyAdd, bool flag)
             return aTile;
         }
     }
-    else if ((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c)) && ((::Tile753 *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))))->FUN_00726070())))
+    else if ((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c)) && ((::Tile753 *)((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk04)))
         delete (*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c));
     return 0;
 }
@@ -1919,7 +1919,7 @@ void __cdecl UpdateTagSkillTile(SkTile*);
 struct SkillMenu
 {
     virtual void V0();
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0C;
     int unk10;
@@ -1965,7 +1965,7 @@ void SkillMenu::HandleSkillMenuCommand(int aiID, SkTile* apTile)
                                  1);
             FUN_00706f30(3);
             m_iPointsUsed += selected ? -1 : 1;
-            reinterpret_cast<::Tile *>((((::SkCounter *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set({}, {});
+            reinterpret_cast<::Tile *>((((::SkCounter *)(this->unk04))))->Set({}, {});
             reinterpret_cast<::FUN_007545a0_shell *>(this)->UpdateValueString((::Tile *)(apTile));
             reinterpret_cast<::FUN_00753d20_shell *>(this)->UpdatePointsDisplay();
         }
@@ -1976,7 +1976,7 @@ void SkillMenu::HandleSkillMenuCommand(int aiID, SkTile* apTile)
         void* pEntry = reinterpret_cast<::LBList *>(&(list))->FindItemData((::Tile *)(::SkTile *)(((::SkTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((apTile))->FUN_0045cd60()))));
         int delta = aiID != 10 ? 1 : -1;
         m_iPointsUsed += delta;
-        reinterpret_cast<::Tile *>((((::SkCounter *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set({}, {});
+        reinterpret_cast<::Tile *>((((::SkCounter *)(this->unk04))))->Set({}, {});
         reinterpret_cast<::FUN_00a012d0_t *>((((::SkTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((apTile))->FUN_0045cd60()))))->FUN_00a012d0(DAT_011d9224, reinterpret_cast<::TileListBoxCalls *>((((::SkTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((apTile))->FUN_0045cd60()))))->GetFloat(DAT_011d9224) + delta,
                                              1);
         reinterpret_cast<::FUN_007545a0_shell *>(this)->UpdateValueString((::Tile *)(::SkTile *)(((::SkTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((apTile))->FUN_0045cd60()))));
@@ -1993,7 +1993,7 @@ void SkillMenu::HandleSkillMenuCommand(int aiID, SkTile* apTile)
             reinterpret_cast<::LBList_7314c0 *>(&(list))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(void (*)(SkTile *))((void(__cdecl*)(SkTile*))FUN_00754330), 0, 0x7fffffff);
         if (eMode == 1)
             reinterpret_cast<::LBList_7314c0 *>(&(list))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(UpdateTagSkillTile), 0, 0x7fffffff);
-        reinterpret_cast<::Tile *>((((::SkCounter *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set({}, {});
+        reinterpret_cast<::Tile *>((((::SkCounter *)(this->unk04))))->Set({}, {});
         reinterpret_cast<::FUN_00753d20_shell *>(this)->UpdatePointsDisplay();
         if (m_iPointsUsed != iOldPointsUsed)
             FUN_00706f30(1);

@@ -4302,7 +4302,7 @@ void Menu::FUN_0079dbb0()
                 Origin origin((*reinterpret_cast<::MapMarkerUpdate::Reference * *>(&::_g_thePlayer)));
                 if (::FUN_006d4d20((::LocS *)&(const ::MapMarkerUpdate::Query &)(Query((*reinterpret_cast<::MapMarkerUpdate::Reference * *>(&::_g_thePlayer)))), (::LocS *)&(const ::MapMarkerUpdate::Query &)(Query()), &results, 3, 0.0f, (::PathingActorData *)(&origin), 2))
                 {
-                    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(results.hits))->GetName())) > 0)
+                    if (((std::uintptr_t)(results.hits.unk08)) > 0)
                         target = ((::MapMarkerUpdate::Reference *)(::FUN_00559450((int *)(((::MapMarkerUpdate::TargetPtr *)(reinterpret_cast<::TESObjectREFR *>(((*results.hits.FUN_006cedb0())))->GetExtraRadioData()))))));
                     if (!target)
                         target = (*reinterpret_cast<::MapMarkerUpdate::Reference * *>(&::_g_thePlayer));
@@ -5161,7 +5161,7 @@ void QuestMapMenu::UpdateQuestMarker()
 F7E0Ref* F7E0Picker::SelectTarget(F7E0Ref* pkRef, F7E0Data* pkData)
 {
     F7E0Ref* pkResult = 0;
-    if (!pkData || (!((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pkData))->GetName())) && !((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkData->m_kTargets))->GetName()))))
+    if (!pkData || (!((std::uintptr_t)(pkData->unk08)) && !((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkData->m_kTargets))->GetName()))))
     {
         pkResult = 0;
     }
@@ -6523,7 +6523,7 @@ void FUN_007a3d20_cls::FUN_007a3d20(bool (*pfnFilter)(int))
     this->unk20 = 0.0f;
 
     for (FUN_007a3d20_node* node = this ? &this->list : 0; node != 0 && *((::FUN_007a3d20_item **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)) != 0;
-         node = ((::FUN_007a3d20_node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+         node = ((::FUN_007a3d20_node *)(node->next)))
     {
         (*((::FUN_007a3d20_item **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->isFilteredOut = (pfnFilter != 0 && pfnFilter((*((::FUN_007a3d20_item **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->object)) ? 1 : 0;
 

@@ -771,7 +771,7 @@ bool KeyMenu::HandleKeyInput(int key)
         else if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(((KeyBinding*)GetCurrentArrayElement())->text))->FUN_004048e0())) > 0)
         {
             KeyString text(((const char *)(::FUN_00559450((int *)&(((KeyBinding*)GetCurrentArrayElement())->text)))));
-            for (unsigned int index = 0; index < reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(text))->FUN_00825c00(); index++)
+            for (unsigned int index = 0; index < text.length; index++)
             {
                 if (toupper(((char)(reinterpret_cast<::FUN_007aafb0_Class *>(&(text))->FUN_007aafb0(index)))) == toupper(key))
                 {

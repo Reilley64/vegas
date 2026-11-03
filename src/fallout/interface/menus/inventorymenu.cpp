@@ -1205,7 +1205,7 @@ void FUN_00406d50(char*, unsigned int, const char*);
 struct Menu
 {
     unsigned int unk0;
-    unsigned int unk4;
+    void* unk4;
     unsigned int unk8;
     unsigned int unkc;
     unsigned int unk10;
@@ -1291,7 +1291,7 @@ void Menu::UpdateItemDisplay(int action, Tile* changed)
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((label))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventorySelection::Setting *>(&::g_011d1f2c))))->GetMenuTitle()))), 1);
             ::FUN_00707e30((::DisplayItem *)((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))), (::DisplayTile *)(stats));
             reinterpret_cast<::Tile *>((stats))->Set(0xfa3, 1);
-            reinterpret_cast<::Tile *>((((::InventorySelection::Tile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(DAT_011d9ebc, reinterpret_cast<::fnv_00967b70::Cls *>(((*reinterpret_cast<::InventorySelection::Player * *>(&::_g_thePlayer))))->FUN_00967b70((::fnv_00967b70::ArgObj *)((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource)))));
+            reinterpret_cast<::Tile *>((((::InventorySelection::Tile *)(this->unk4))))->Set(DAT_011d9ebc, reinterpret_cast<::fnv_00967b70::Cls *>(((*reinterpret_cast<::InventorySelection::Player * *>(&::_g_thePlayer))))->FUN_00967b70((::fnv_00967b70::ArgObj *)((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource)))));
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((description))->FUN_00a01350(0xfcc, (char *)(reinterpret_cast<::ItemChange_004be200 *>(((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))))->GetIconFilename((::TESObjectREFR *)(0))), 1);
             Form* ammo = 0;
             if (((::InventorySelection::Form *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject))->FUN_00401170() == 40)

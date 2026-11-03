@@ -941,7 +941,7 @@ extern PlayerX* playerX;
 struct MenuX
 {
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -1480,7 +1480,7 @@ extern int g_011dad9c;
 struct SurgeryView
 {
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -1854,12 +1854,12 @@ void MenuX::FUN_007e23c0()
     char text[256];
     if (!IsMenu(0x41e))
     {
-        reinterpret_cast<::Tile *>((((::UiTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(FUN_00a01860("_IsTopMenu"), 0);
+        reinterpret_cast<::Tile *>((((::UiTile *)(this->unk04))))->Set(FUN_00a01860("_IsTopMenu"), 0);
         return;
     }
     else
     {
-        reinterpret_cast<::Tile *>((((::UiTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(FUN_00a01860("_IsTopMenu"), 1);
+        reinterpret_cast<::Tile *>((((::UiTile *)(this->unk04))))->Set(FUN_00a01860("_IsTopMenu"), 1);
     }
     reinterpret_cast<::AnimOwner *>(this)->UpdateAnimation();
     bool idle3 = false;
@@ -1916,8 +1916,8 @@ void MenuX::FUN_007e23c0()
     {
         float rate = ScaleByConstant(1.0f);
         valueac -= ((reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ClockX *>(&::g_timeGlobal))))->FUN_00825c00() - lastTime) / 1000.0) * rate;
-        if (ScaleLimbWoundPercent(reinterpret_cast<::TileListBoxCalls *>((((::UiTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(DAT_011dad9c) / 100.0) * 100.0 > valueac)
-            valueac = ScaleLimbWoundPercent(reinterpret_cast<::TileListBoxCalls *>((((::UiTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(DAT_011dad9c) / 100.0) * 100.0;
+        if (ScaleLimbWoundPercent(reinterpret_cast<::TileListBoxCalls *>((((::UiTile *)(this->unk04))))->GetFloat(DAT_011dad9c) / 100.0) * 100.0 > valueac)
+            valueac = ScaleLimbWoundPercent(reinterpret_cast<::TileListBoxCalls *>((((::UiTile *)(this->unk04))))->GetFloat(DAT_011dad9c) / 100.0) * 100.0;
         lastTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ClockX *>(&::g_timeGlobal))))->FUN_00825c00();
         unk8c = lastTime;
         Active(false);
@@ -3847,7 +3847,7 @@ float SurgeryView::UpdateWoundInteraction()
     if (true)
     {
         float l, e, j;
-        ComputeInjuryEffectScalars(&l, &e, &j, reinterpret_cast<::TileListBoxCalls *>((((::SurgeryView::ValueOwner *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(g_011dad9c) / 100.0f, amount / 100.0f,
+        ComputeInjuryEffectScalars(&l, &e, &j, reinterpret_cast<::TileListBoxCalls *>((((::SurgeryView::ValueOwner *)(this->unk04))))->GetFloat(g_011dad9c) / 100.0f, amount / 100.0f,
                                    ((PlayerView*)_g_thePlayer)->values.Get(37));
         ScreenPoint c;
         c.x = ApplyNoise((float)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(((ClockValue&)(*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal)))))->FUN_00825c00() * 0.0002500000118743628));

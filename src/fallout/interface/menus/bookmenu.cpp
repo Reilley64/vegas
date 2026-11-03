@@ -1029,7 +1029,7 @@ struct BookMenu_Shell
     virtual void v4();
     virtual void v5(int, int);
 
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -1048,7 +1048,7 @@ struct BookMenu_Shell
 void BookMenu_Shell::HandleScrollInput(int a1, int a2)
 {
     InterfaceManager* interfaceManager6 = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
-    if (!reinterpret_cast<::FUN_00a01230_shell *>((((::MyTile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))))->IsTraitNonZero(0x1004))
+    if (!reinterpret_cast<::FUN_00a01230_shell *>((((::MyTile *)(this->unk04))))->IsTraitNonZero(0x1004))
     {
         int iVar1 = (int)reinterpret_cast<::TileListBoxCalls *>((this->m_pHighlightedTile))->GetFloat(0x100b);
         int iVar6 = ((int)(reinterpret_cast<::FUN_0070ec70_class *>((interfaceManager6))->FUN_0070ec70())) / 120;
@@ -1062,19 +1062,19 @@ void BookMenu_Shell::HandleScrollInput(int a1, int a2)
     }
     else
     {
-        int iVar3 = (int)reinterpret_cast<::TileListBoxCalls *>((((::MyTile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))))->GetFloat(0x100d);
+        int iVar3 = (int)reinterpret_cast<::TileListBoxCalls *>((((::MyTile *)(this->unk04))))->GetFloat(0x100d);
         if (((int)(reinterpret_cast<::FUN_0070ec70_class *>((interfaceManager6))->FUN_0070ec70())) > 0)
         {
-            reinterpret_cast<::Tile *>((((::MyTile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))))->Set(0x100a, -2);
+            reinterpret_cast<::Tile *>((((::MyTile *)(this->unk04))))->Set(0x100a, -2);
         }
         else
         {
-            reinterpret_cast<::Tile *>((((::MyTile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))))->Set(0x100a, 2);
+            reinterpret_cast<::Tile *>((((::MyTile *)(this->unk04))))->Set(0x100a, 2);
         }
-        reinterpret_cast<::Tile *>((((::MyTile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))))->Set(0x100a, 0);
-        if (reinterpret_cast<::TileListBoxCalls *>((((::MyTile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))))->GetFloat(0x100d) != iVar3)
+        reinterpret_cast<::Tile *>((((::MyTile *)(this->unk04))))->Set(0x100a, 0);
+        if (reinterpret_cast<::TileListBoxCalls *>((((::MyTile *)(this->unk04))))->GetFloat(0x100d) != iVar3)
         {
-            int iVar5 = (int)reinterpret_cast<::TileListBoxCalls *>((((::MyTile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))))->GetFloat(0x100c);
+            int iVar5 = (int)reinterpret_cast<::TileListBoxCalls *>((((::MyTile *)(this->unk04))))->GetFloat(0x100c);
             if (iVar5 != 0)
             {
                 ::fnv_004b7210::FUN_004b7210();
@@ -1233,7 +1233,7 @@ Tile* __cdecl FUN_0073ad50(TESObjectBOOK* apBook, TESObjectREFR* apRef)
         reinterpret_cast<::Menu *>((((MenuH*)pmenu)))->SetMenuVisibility(false);
         return ptile;
     }
-    else if (pmenu && reinterpret_cast<::Callees *>((pmenu))->FUN_00726070())
+    else if (pmenu && pmenu->m_kPointA)
     {
         delete (MenuH*)pmenu;
     }

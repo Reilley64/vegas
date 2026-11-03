@@ -959,7 +959,7 @@ struct Casino
     virtual const char* GetName();
     int unk04;
     int unk08;
-    int unk0c;
+    void* unk0c;
     int unk10;
     int unk14;
     StringField name;
@@ -1031,7 +1031,7 @@ struct GameMenu
     virtual void vf2c();
     virtual void vf30();
     virtual int Type();
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -1127,7 +1127,7 @@ GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
             ::DispatchMessageToSink((const char *)(DAT_01076694), 0, (const char *)(::DAT_01049638), 0, ::DAT_010162c0, 0);
             return 0;
         }
-        if (((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Casino*)DAT_011da9ac)))->FUN_0084e3a0())) == (*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner)
+        if (((void *)(((Casino*)DAT_011da9ac)->unk0c)) == (*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner)
         {
             DAT_011da9a8 = (int*)*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
             break;
@@ -1139,7 +1139,7 @@ GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
     if (!DAT_011da9a8)
     {
         Record* pNewRecord = new Record;
-        pNewRecord->owner = ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Casino*)DAT_011da9ac)))->FUN_0084e3a0()));
+        pNewRecord->owner = ((void *)(((Casino*)DAT_011da9ac)->unk0c));
         pNewRecord->count = 0;
         node = ((::fnv_007c0a40::RecordList *)(::FUN_005a6260((char *)((*reinterpret_cast<::fnv_007c0a40::Player * *>(&::_g_thePlayer))))));
         if (!node || node->FUN_008256d0())
@@ -1230,7 +1230,7 @@ GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
         reinterpret_cast<::Menu *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))))->SetMenuVisibility(0);
         return manager;
     }
-    else if ((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4)) && ((::fnv_007c0a40::GameTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))))->FUN_00726070())))
+    else if ((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4)) && ((::fnv_007c0a40::GameTile *)((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->unk04)))
         delete (*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4));
     return 0;
 }
@@ -1518,7 +1518,7 @@ struct SlotMenu
     virtual void v2C();
     virtual void v30();
     virtual void* GetTile();
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0C;
     int unk10;
@@ -1642,10 +1642,10 @@ void SlotMenu::Update()
     switch (m_uiContentCount)
     {
     case 7:
-        if (((int)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) != 2)
+        if (((int)(this->unk24)) != 2)
         {
             reinterpret_cast<::FUN_00a012d0_t *>((((::fnv_007c2c70::MenuTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_007c2c70::TileHolder *)(::fnv_004b7210::FUN_004b7210()))))->FUN_0045cd60()))))->FUN_00a012d0(255.0f, 1, {});
-            reinterpret_cast<::Tile *>((((::fnv_007c2c70::MenuTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x1772, 1);
+            reinterpret_cast<::Tile *>((((::fnv_007c2c70::MenuTile *)(this->unk04))))->Set(0x1772, 1);
             reinterpret_cast<::FUN_00a1d910_shell *>(this)->FUN_00a1d910();
             int diff;
             if ((diff = m_caps - reinterpret_cast<::CombatState *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->GetInventoryItemCount((::TESForm *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))))) < 0)

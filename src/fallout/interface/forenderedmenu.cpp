@@ -1759,7 +1759,7 @@ struct FUN_007fd6c0_Class
     int unk00C;
     int unk010;
     int unk014;
-    int unk018;
+    void* unk018;
     int unk01C;
     int unk020;
     int unk024;
@@ -1865,7 +1865,7 @@ void FUN_007fd6c0_Class::UpdatePlayerFaceScene()
     NiAVObject* frustum = ((::NiAVObject *)(reinterpret_cast<::TESRegionDataMap *>(this)->GetRegionMapName()));
     NiUpdateData viewport(0.0f, false, false);
     reinterpret_cast<::FUN_00a59c60_cls *>((frustum))->FUN_00a59c60((std::intptr_t)&(viewport));
-    MenuView* radius = ((::MenuView *)(reinterpret_cast<::FUN_00a03c90_shell *>((((::TileView *)(reinterpret_cast<::FUN_009611e0_shell *>(this)->FUN_009611e0()))))->FUN_00a03c90()));
+    MenuView* radius = ((::MenuView *)(reinterpret_cast<::FUN_00a03c90_shell *>((((::TileView *)(this->unk018))))->FUN_00a03c90()));
     if (((::NiAVObject *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>(this)->FUN_006838b0())))
         reinterpret_cast<::TaskQueueInterface *>((((::NiAVObject *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>(this)->FUN_006838b0()))))->QueueActorDisarm(false);
     reinterpret_cast<::fnv_007fb040::FUN_007fb040_shell *>(this)->FUN_007fb040();

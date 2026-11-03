@@ -2830,7 +2830,7 @@ OpenTile* CreateComputerMenu(Ref* reference)
     }
     else
     {
-        if (menu && reinterpret_cast<::Callees *>((menu))->FUN_00726070())
+        if (menu && menu->unk04)
         {
             delete menu;
         }

@@ -1599,7 +1599,7 @@ struct MenuTileHolder
 struct PerkSelectMenu : MenuTileHolder
 {
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0C;
     int unk10;
@@ -1642,7 +1642,7 @@ void PerkSelectMenu::HandleTileAction(int aiTileID, Tile* apTile)
             reinterpret_cast<::PerkMenuX *>(this)->UpdateEffectChanges((::ValueTile *)(apTile));
         }
         iNumSelected = reinterpret_cast<::Counter_007878d0 *>(&(kList))->FUN_007878d0();
-        reinterpret_cast<::Tile *>((((::fnv_007e7280::TileValues *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(::DAT_011daf64, iNumSelected);
+        reinterpret_cast<::Tile *>((((::fnv_007e7280::TileValues *)(this->unk04))))->Set(::DAT_011daf64, iNumSelected);
         reinterpret_cast<::TraitMenu_007e71b0 *>(this)->UpdateValueDifferenceMessage();
         break;
     case 6:
@@ -1651,7 +1651,7 @@ void PerkSelectMenu::HandleTileAction(int aiTileID, Tile* apTile)
     case 5:
         ::FUN_00706f30(1);
         iNumSelected = 0;
-        reinterpret_cast<::Tile *>((((::fnv_007e7280::TileValues *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(::DAT_011daf64, iNumSelected);
+        reinterpret_cast<::Tile *>((((::fnv_007e7280::TileValues *)(this->unk04))))->Set(::DAT_011daf64, iNumSelected);
         reinterpret_cast<::LBList_7314c0 *>(&(kList))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(((void (&)(fnv_007e7280::Tile *))::FUN_007e7630)), 0, 0x7fffffff);
         reinterpret_cast<::TraitMenu_007e71b0 *>(this)->UpdateValueDifferenceMessage();
         break;

@@ -3796,9 +3796,9 @@ bool UpdateActivatePrompt(RefX* apRef, int aiUnused, bool abForce)
             ::TaskQueueInterface::CopyStringToBuffer(xszValue, 8, s_lit11);
         }
         float fWeight = 0.0f;
-        if (((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>(&(qsSDDgz))->GetName()))->GetFormType() == 0x28)
+        if (((::TESForm *)(qsSDDgz.pType))->GetFormType() == 0x28)
         {
-            WeaponX* pType = (WeaponX*)((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>(&(qsSDDgz))->GetName()));
+            WeaponX* pType = (WeaponX*)((::TESForm *)(qsSDDgz.pType));
             fWeight = reinterpret_cast<::TESObjectWEAP *>((pType))->GetWeightForForm(((unsigned char)(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>(&(qsSDDgz))->HasEffect(4))));
             if (fWeight >= 10.0)
             {
@@ -3809,7 +3809,7 @@ bool UpdateActivatePrompt(RefX* apRef, int aiUnused, bool abForce)
         }
         else
         {
-            fWeight = ::TESWeightForm::GetWeightForForm(((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>(&(qsSDDgz))->GetName())), ::FUN_004d1360((char *)((*reinterpret_cast<::RefX * *>(&::_g_thePlayer)))));
+            fWeight = ::TESWeightForm::GetWeightForForm(((::TESForm *)(qsSDDgz.pType)), ::FUN_004d1360((char *)((*reinterpret_cast<::RefX * *>(&::_g_thePlayer)))));
         }
         if (fWeight > 0.0)
             ::FUN_00406d00(xszWeight, 8, s_lit10, fWeight);
@@ -9930,7 +9930,7 @@ struct VATSCreateVATSTargetX
 };
 struct VATSCreateVATSMenuX : public VATSCreateMenuX
 {
-    unsigned int unk004;
+    void* unk004;
     unsigned int unk008;
     unsigned int unk00c;
     unsigned int unk010;
@@ -11024,7 +11024,7 @@ bool FUN_007e9200()
             VATSCreateDAT_011db0b0 = 0;
         }
         (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTargetChance = 0;
-        reinterpret_cast<::Callees *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))))->FUN_00726070();
+        (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->unk004;
         ::fnv_00a04200::FUN_00a04200(0);
         reinterpret_cast<::ItemChangeList *>(&((*reinterpret_cast<::VATSCreateListX< ::VATSCreateVATSTargetX *> *>(&::g_011db150))))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(((int (&)(void *, void *))::CompareByHeadingToPlayer)));
         qOHwfb = &(*reinterpret_cast<::VATSCreateListX< ::VATSCreateVATSTargetX *> *>(&::g_011db150));
@@ -11285,7 +11285,7 @@ bool FUN_007e9200()
         }
         reinterpret_cast<::FUN_00a012d0_t *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[23]))->FUN_00a012d0(0xfb1, reinterpret_cast<::TileListBoxCalls *>((qoPB))->GetFloat(0xfb1), 1);
         reinterpret_cast<::FUN_00a012d0_t *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[23]))->FUN_00a012d0(0xfb0, (float)(reinterpret_cast<::TileListBoxCalls *>((qoPB))->GetFloat(0xfb0) + ::DAT_01020998), 1);
-        reinterpret_cast<::Callees *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))))->FUN_00726070();
+        (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->unk004;
         ::fnv_00a04200::FUN_00a04200(0);
         (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[24] = ((::VATSCreateTileX *)(::FUN_007f4830((::Tile *)(qoPB), "template_enemy_health_bracket")));
         if (!(*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[24])
@@ -11392,15 +11392,15 @@ bool FUN_007e9200()
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[3]))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011d26f4))))->GetMenuTitle()))), 1);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[4]))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011d21c0))))->GetMenuTitle()))), 1);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[5]))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011d2b74))))->GetMenuTitle()))), 1);
-            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::VATSCreateTileX *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::VATSCreateTileX *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))))->FUN_00726070()))))->FUN_00a03da0((char *)("Target_button"))))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011d4d38))))->GetMenuTitle()))), 1);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::VATSCreateTileX *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::VATSCreateTileX *)((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->unk004))))->FUN_00a03da0((char *)("Target_button"))))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011d4d38))))->GetMenuTitle()))), 1);
         }
-        qIpA = ((::VATSCreateTileX *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::VATSCreateTileX *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))))->FUN_00726070()))))->FUN_00a03da0((char *)("BodyPart_button"))));
+        qIpA = ((::VATSCreateTileX *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::VATSCreateTileX *)((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->unk004))))->FUN_00a03da0((char *)("BodyPart_button"))));
         if (qIpA)
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((qIpA))->FUN_00a01350(::FUN_00a01860("_xbox_button"), (char *)("&xbuttonls;"), 1);
             reinterpret_cast<::Tile *>((qIpA))->Set(::FUN_00a01860("_xbox_button"), 0x11);
         }
-        qIpA = ((::VATSCreateTileX *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::VATSCreateTileX *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))))->FUN_00726070()))))->FUN_00a03da0((char *)("Target_button"))));
+        qIpA = ((::VATSCreateTileX *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::VATSCreateTileX *)((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->unk004))))->FUN_00a03da0((char *)("Target_button"))));
         if (qIpA)
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((qIpA))->FUN_00a01350(::FUN_00a01860("_xbox_button"), (char *)("&xbuttonrs;"), 1);
@@ -12997,7 +12997,7 @@ bool SubtitleHUD::FUN_00774fd0(const char* text, BSSoundHandleEx sound, Subtitle
             record->visibility = 2;
         else
             record->visibility = 1;
-        record->timestamp = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(timer))->FUN_00825c00();
+        record->timestamp = timer.timestamp;
         reinterpret_cast<::FUN_00438690 *>(&(subtitles))->FUN_007cb2e0((unsigned int *)&(record));
         added = true;
     }

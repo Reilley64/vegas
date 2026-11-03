@@ -1261,7 +1261,7 @@ struct Item
 {
     int unk00;
     int unk04;
-    int unk08;
+    void* unk08;
     Item(void*, int);
 };
 struct ItemNode
@@ -1286,7 +1286,7 @@ struct Box
 struct RepairView
 {
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -1326,7 +1326,7 @@ void __cdecl PopulateRepairMenu()
     {
         Changes* c;
         c = ((::fnv_007b6aa0::Changes *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<void * *>(&::_g_thePlayer))))));
-        reinterpret_cast<::fnv_004d4bd0::InventoryChangeFilterHost *>((c))->FilterInventoryChanges(((void *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::fnv_007b6aa0::Item * *>(&::fnv_007b6fb0::DAT_011da760))))->GetName())), (::fnv_004d4bd0::MatchedChanges *)(::fnv_007b6aa0::ItemNode *)(&selectedExtra));
+        reinterpret_cast<::fnv_004d4bd0::InventoryChangeFilterHost *>((c))->FilterInventoryChanges(((void *)((*reinterpret_cast<::fnv_007b6aa0::Item * *>(&::fnv_007b6fb0::DAT_011da760))->unk08)), (::fnv_004d4bd0::MatchedChanges *)(::fnv_007b6aa0::ItemNode *)(&selectedExtra));
     }
     for (ItemNode* node = &selectedExtra; node && ((::fnv_007b6aa0::Item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)); node = ((::fnv_007b6aa0::ItemNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
@@ -1334,7 +1334,7 @@ void __cdecl PopulateRepairMenu()
         n = 0;
         Item* item;
         item = 0;
-        for (int index = 0; index < ((std::intptr_t)(reinterpret_cast<::Callees *>((((::fnv_007b6aa0::Item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))))->FUN_00726070())); ++index)
+        for (int index = 0; index < ((std::intptr_t)(((::fnv_007b6aa0::Item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))->unk04)); ++index)
         {
             float rawHealth;
             float extra;
@@ -1346,13 +1346,13 @@ void __cdecl PopulateRepairMenu()
             special = ((::fnv_007b6aa0::ExtraNode *)(::FUN_00559450((int *)(((::fnv_007b6aa0::Item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))) ? ((::fnv_007b6aa0::Extra *)(reinterpret_cast<::SimpleListNodeView*>(((::fnv_007b6aa0::ExtraNode *)(::FUN_00559450((int *)(((::fnv_007b6aa0::Item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))))->m_item)) : 0;
             if (special && reinterpret_cast<::FUN_00418ba0_shell *>((special))->FUN_00418ba0())
                 tmp = true;
-            if (extra < 100.0 || ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_007b6aa0::Item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))))->GetName())) != ((void *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::fnv_007b6aa0::Item * *>(&::fnv_007b6fb0::DAT_011da760))))->GetName())))
+            if (extra < 100.0 || ((void *)(((::fnv_007b6aa0::Item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))->unk08)) != ((void *)((*reinterpret_cast<::fnv_007b6aa0::Item * *>(&::fnv_007b6fb0::DAT_011da760))->unk08)))
             {
                 if (!index)
                 {
                     item = ((::fnv_007b6aa0::Item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
                     n = ((::fnv_007b6aa0::UITile *)(reinterpret_cast<::list71a::L71Menu *>(&((*reinterpret_cast<::fnv_007b6aa0::RepairView * *>(&::DAT_011da75c))->box))->FUN_0071a320((int)(item), reinterpret_cast<::FUN_004be2d0_shell *>((item))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
-                    if (n && ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())) == ((void *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::fnv_007b6aa0::Item * *>(&::fnv_007b6fb0::DAT_011da760))))->GetName())))
+                    if (n && ((void *)(item->unk08)) == ((void *)((*reinterpret_cast<::fnv_007b6aa0::Item * *>(&::fnv_007b6fb0::DAT_011da760))->unk08)))
                     {
                         Extra* x;
                         x = ((::fnv_007b6aa0::ExtraNode *)(::FUN_00559450((int *)(item)))) ? ((::fnv_007b6aa0::Extra *)(reinterpret_cast<::SimpleListNodeView*>(((::fnv_007b6aa0::ExtraNode *)(::FUN_00559450((int *)(item)))))->m_item)) : 0;
@@ -1380,7 +1380,7 @@ void __cdecl PopulateRepairMenu()
                 }
                 else
                 {
-                    item = new Item(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_007b6aa0::Item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))))->GetName())), 1);
+                    item = new Item(((void *)(((::fnv_007b6aa0::Item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))->unk08)), 1);
                     for (ExtraNode* extraNode = ((::fnv_007b6aa0::ExtraNode *)(::FUN_00559450((int *)(((::fnv_007b6aa0::Item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))); extraNode && ((::fnv_007b6aa0::Extra *)(reinterpret_cast<::SimpleListNodeView*>(extraNode)->m_item));
                          extraNode = ((::fnv_007b6aa0::ExtraNode *)(reinterpret_cast<::Callees *>((extraNode))->FUN_00726070())))
                         ((ExtraList*)((::fnv_007b6aa0::ExtraNode *)(::FUN_00559450((int *)(item)))))->AddHead(*((::fnv_007b6aa0::Extra **)(&reinterpret_cast<::SimpleListNodeView*>(extraNode)->m_item)));
@@ -1391,7 +1391,7 @@ void __cdecl PopulateRepairMenu()
     }
     if (::FUN_00408b20(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007b6aa0::Setting *>(&::g_011c3cb4))))->GetMenuTitle())), "ENGLISH"))
     {
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::fnv_007b6aa0::UITile *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::fnv_007b6aa0::UITile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_007b6aa0::RepairView * *>(&::DAT_011da75c))))->FUN_00726070()))))->FUN_00a03da0((char *)("RM_Headline_Title"))))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007b6aa0::Setting *>(&::g_011d4378))))->GetMenuTitle()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::fnv_007b6aa0::UITile *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::fnv_007b6aa0::UITile *)((*reinterpret_cast<::fnv_007b6aa0::RepairView * *>(&::DAT_011da75c))->unk04))))->FUN_00a03da0((char *)("RM_Headline_Title"))))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007b6aa0::Setting *>(&::g_011d4378))))->GetMenuTitle()))), true);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_007b6aa0::RepairView * *>(&::DAT_011da75c))->tile28))->FUN_00a01350(::DAT_011da74c, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007b6aa0::Setting *>(&::g_011d4030))))->GetMenuTitle()))), true);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_007b6aa0::RepairView * *>(&::DAT_011da75c))->tile38))->FUN_00a01350(::DAT_011da74c, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007b6aa0::Setting *>(&::g_011d4da4))))->GetMenuTitle()))), true);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_007b6aa0::RepairView * *>(&::DAT_011da75c))->tile4c))->FUN_00a01350(::DAT_011da74c, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007b6aa0::Setting *>(&::g_011d4da4))))->GetMenuTitle()))), true);

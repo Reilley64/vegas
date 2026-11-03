@@ -1410,14 +1410,14 @@ void S_0072e370::UpdateTileState(int aiIndex, Tile* pTile)
     case 0:
         this->vfn14(0x17, 0);
         this->subD8.vfn0(0);
-        ((::Tile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))->Set(DAT_011d8fb8, 0);
+        ((::Tile *)(this->tile04))->Set(DAT_011d8fb8, 0);
         this->unk108 = &this->subA8;
         break;
 
     case 1:
         this->vfn14(0x17, 0);
         this->subA8.vfn0(0);
-        ((::Tile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))->Set(DAT_011d8fb8, 1);
+        ((::Tile *)(this->tile04))->Set(DAT_011d8fb8, 1);
         this->unk108 = &this->subD8;
         break;
 
@@ -1970,7 +1970,7 @@ void __cdecl UpdateBarterQuantity(int iCount)
     {
         char acBufferTmp[0x10];
         int iCaps_2 = ::FUN_00406d90(::FUN_00406ce0((*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))->m_fBarterTotal));
-        reinterpret_cast<::Tile *>((((::fnv_0072f6f0::QtyTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))))->FUN_00726070()))))->Set(g_iTileIDState_011d8fbc,
+        reinterpret_cast<::Tile *>((((::fnv_0072f6f0::QtyTile *)((*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))->unk04))))->Set(g_iTileIDState_011d8fbc,
                                                               (*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))->m_fBarterTotal > 0.0 ? 2 : 1);
         ::FUN_00406d00(acBufferTmp, 0x10, s_szIntFormat, FUN_0072fa60(::MinInt(iCaps_2, (*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))->unk90)));
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))->unk58))->FUN_00a01350(::fnv_0072f210::g_iTileIDValue_011d8fb0, (char *)(acBufferTmp), true);

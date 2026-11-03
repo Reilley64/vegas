@@ -597,7 +597,7 @@ RSMTile* __cdecl CreateRepairServicesMenu(RSMActor* apVendor)
         reinterpret_cast<::Menu *>(((*reinterpret_cast<::RSMMenu * *>(&::fnv_007b82c0::DAT_011da7f0))))->SetMenuVisibility(0);
         return pTile;
     }
-    else if ((*reinterpret_cast<::RSMMenu * *>(&::fnv_007b82c0::DAT_011da7f0)) && ((std::intptr_t)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::RSMMenu * *>(&::fnv_007b82c0::DAT_011da7f0))))->FUN_00726070())))
+    else if ((*reinterpret_cast<::RSMMenu * *>(&::fnv_007b82c0::DAT_011da7f0)) && ((std::intptr_t)((*reinterpret_cast<::RSMMenu * *>(&::fnv_007b82c0::DAT_011da7f0))->unk04)))
     {
         delete (*reinterpret_cast<::RSMMenu * *>(&::fnv_007b82c0::DAT_011da7f0));
     }

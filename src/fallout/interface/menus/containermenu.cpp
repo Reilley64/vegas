@@ -1334,7 +1334,7 @@ struct MenuList
 struct MenuData
 {
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -1419,7 +1419,7 @@ MenuTile* FUN_0075b310(TESObjectREFR* reference, int mode)
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((MenuData*)DAT_011d93f8)->tile2c))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d4378))))->GetMenuTitle()))), true);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((MenuData*)DAT_011d93f8)->tile50))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d2d0c))))->GetMenuTitle()))), true);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((MenuData*)DAT_011d93f8)->tile54))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d33fc))))->GetMenuTitle()))), true);
-        MenuTile* title = ((::MenuTile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::MenuTile *)(((::MenuTile *)(reinterpret_cast<::Callees *>((((MenuData*)DAT_011d93f8)))->FUN_00726070()))), "CM_Subtitle")));
+        MenuTile* title = ((::MenuTile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::MenuTile *)(((::MenuTile *)(((MenuData*)DAT_011d93f8)->unk04))), "CM_Subtitle")));
         if (title)
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((title))->FUN_00a01350(4036, (char *)(""), true);
         ((MenuData*)DAT_011d93f8)->reference = reference;
@@ -1440,7 +1440,7 @@ MenuTile* FUN_0075b310(TESObjectREFR* reference, int mode)
         ((MenuData*)DAT_011d93f8)->FUN_0075c280(0);
         return manager;
     }
-    else if (DAT_011d93f8 && ((::MenuTile *)(reinterpret_cast<::Callees *>((((MenuData*)DAT_011d93f8)))->FUN_00726070())))
+    else if (DAT_011d93f8 && ((::MenuTile *)(((MenuData*)DAT_011d93f8)->unk04)))
     {
         delete (ContainerVirtual*)DAT_011d93f8;
     }

@@ -6653,7 +6653,7 @@ bool LBThis::RemoveItemNode(FUN_004ee7d0_node* pNodeToRemove, FUN_004ee7d0_node*
         ListBoxItem_t* itemB;
         if ((*((::fnv_007d9ac0::ListBoxItem_t **)(&reinterpret_cast<::SimpleListNodeView*>(pNodeToRemove)->m_item)))->f0 == selected)
         {
-            selected = ((::fnv_007d9ac0::FUN_004ee7d0_node *)(reinterpret_cast<::Callees *>((pNodeToRemove))->FUN_00726070())) ? (*((::fnv_007d9ac0::ListBoxItem_t **)(&reinterpret_cast<::SimpleListNodeView*>(((::fnv_007d9ac0::FUN_004ee7d0_node *)(reinterpret_cast<::Callees *>((pNodeToRemove))->FUN_00726070())))->m_item)))->f0
+            selected = ((::fnv_007d9ac0::FUN_004ee7d0_node *)(pNodeToRemove->next)) ? (*((::fnv_007d9ac0::ListBoxItem_t **)(&reinterpret_cast<::SimpleListNodeView*>(((::fnv_007d9ac0::FUN_004ee7d0_node *)(pNodeToRemove->next)))->m_item)))->f0
                                                      : ((p2 && p2 != pNodeToRemove) ? (*((::fnv_007d9ac0::ListBoxItem_t **)(&reinterpret_cast<::SimpleListNodeView*>(p2)->m_item)))->f0 : 0);
             if (selected)
             {
@@ -6681,7 +6681,7 @@ bool LBThis::RemoveItemNode(FUN_004ee7d0_node* pNodeToRemove, FUN_004ee7d0_node*
             if (head.next)
             {
                 p2 = head.next;
-                head.next = ((::fnv_007d9ac0::FUN_004ee7d0_node *)(reinterpret_cast<::Callees *>((p2))->FUN_00726070()));
+                head.next = ((::fnv_007d9ac0::FUN_004ee7d0_node *)(p2->next));
                 head.item = *((::fnv_007d9ac0::ListBoxItem_t **)(&reinterpret_cast<::SimpleListNodeView*>(p2)->m_item));
                 reinterpret_cast<::CombatProcedure *>((p2))->Initialize((::CombatController *)(0));
                 FUN_004ee7d0_node* node2 = p2;
@@ -6695,7 +6695,7 @@ bool LBThis::RemoveItemNode(FUN_004ee7d0_node* pNodeToRemove, FUN_004ee7d0_node*
         }
         else
         {
-            reinterpret_cast<::CombatProcedure *>((p2))->Initialize((::CombatController *)((std::uintptr_t)((::fnv_007d9ac0::FUN_004ee7d0_node *)(reinterpret_cast<::Callees *>((pNodeToRemove))->FUN_00726070()))));
+            reinterpret_cast<::CombatProcedure *>((p2))->Initialize((::CombatController *)((std::uintptr_t)((::fnv_007d9ac0::FUN_004ee7d0_node *)(pNodeToRemove->next))));
             reinterpret_cast<::CombatProcedure *>((pNodeToRemove))->Initialize((::CombatController *)(0));
             FUN_004ee7d0_node* nodeBTmp = pNodeToRemove;
             FUN_004ee7d0_node* nodeB = nodeBTmp;
@@ -7019,7 +7019,7 @@ void InventoryListBox::PopulateInventoryList(InventoryOwner* owner, bool(__cdecl
                 int h = ((int)(entry->count));
                 do
                 {
-                    s = dynamic_cast<TESFullName*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())));
+                    s = dynamic_cast<TESFullName*>(((::TESBoundObject *)(entry->extra)));
                     i = ::FUN_0044a670(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((s))->FUN_00408da0())));
                     char name[128];
                     ::TaskQueueInterface::CopyStringToBuffer(name, i + 1, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((s))->FUN_00408da0())));

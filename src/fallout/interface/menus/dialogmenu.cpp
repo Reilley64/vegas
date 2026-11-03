@@ -155,7 +155,7 @@ DialogMenu::DialogState DialogMenu::BeginDialogueResponse(bool usePrefix)
     if (topic)
         ::FUN_00406d00(m_cCurrentTopicLabel, 128, "%s (%d)",
                   reinterpret_cast<TESTopic*>(((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<TESResponse*>(topic)))->FUN_0045cd60())))->GetName(),
-                  ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<TESResponse*>(topic)))->FUN_0045cd60())))))->FUN_0084e3a0())));
+                  ((unsigned int)((reinterpret_cast<TESForm*>(((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<TESResponse*>(topic)))->FUN_0045cd60()))))->iFormID)));
     else
         TaskQueueInterface::CopyStringToBuffer(m_cCurrentTopicLabel, 128, "----");
     if (response)

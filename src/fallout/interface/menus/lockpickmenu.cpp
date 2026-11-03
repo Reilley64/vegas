@@ -1360,7 +1360,9 @@ struct PickRandom
 
 struct PickMenu
 {
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38;
+    int unk00;
+    void* unk04;
+    int unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38;
     PickTile* unk3c;
     int unk40, unk44;
     PickTile* unk48;
@@ -1403,7 +1405,7 @@ void PickMenu::UpdateSweetSpot()
     range = (int)(unk84 - g_iPickAngle_011da208 / 2);
     for (int i = 0; i < 6; i++)
     {
-        PickTile* tile = ((::PickTile *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((::PickTemplate *)(reinterpret_cast<::Twin_00639b40 *>((((::PickWrapper *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetEntryPoint()))))->FUN_00a1ddb0({}, {}, {})));
+        PickTile* tile = ((::PickTile *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((::PickTemplate *)(reinterpret_cast<::Twin_00639b40 *>((((::PickWrapper *)(this->unk04))))->GetEntryPoint()))))->FUN_00a1ddb0({}, {}, {})));
         reinterpret_cast<::Tile *>((tile))->Set(0xfaa, i + 17);
         reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(0xfb1, (unk84 - range) * 2.0f, true);
         reinterpret_cast<::Tile *>((tile))->Set(0xfa1, range);
@@ -1466,7 +1468,7 @@ class LKMenu
     virtual void v02c();
     virtual void v030();
     virtual int GetID();  // +0x34
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -1541,7 +1543,7 @@ LKTile* CreateLockpickMenu(LockRef* pkLockRef, int aiLockLevel, bool bDebug)
             reinterpret_cast<::FUN_00a012d0_t *>((pkMenuTileNew))->FUN_00a012d0(0xfad, ::Tile::GetInterfaceScale(), 1);
         (*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->m_pkLockRef = pkLockRef;
         (*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->m_iLockLevel = iLockLevelNum;
-        reinterpret_cast<::Tile *>((((::LKTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))))->FUN_00726070()))))->Set(FUN_00a01860("_DebugMode"), bDebug);
+        reinterpret_cast<::Tile *>((((::LKTile *)((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->unk04))))->Set(FUN_00a01860("_DebugMode"), bDebug);
         ::FUN_00406d00(acLabel, 0x40, "%d", (*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->m_iPickCount);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->m_pkSkillTile))->FUN_00a01350(DAT_011da1f8, (char *)(acLabel), 1);
         ::FUN_00406d00(acLabel, 0x40, "%s [%d", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting *>(&::g_011d345c))))->GetMenuTitle())),
@@ -1569,7 +1571,7 @@ LKTile* CreateLockpickMenu(LockRef* pkLockRef, int aiLockLevel, bool bDebug)
     }
     else
     {
-        if ((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204)) && ((::LKTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))))->FUN_00726070())))
+        if ((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204)) && ((::LKTile *)((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->unk04)))
             delete (*reinterpret_cast<::LKMenu * *>(&::DAT_011da204));
     }
     return 0;

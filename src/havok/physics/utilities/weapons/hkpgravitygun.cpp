@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/weapons/hkpgravitygun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpgravitygun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c7f640_cls.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
@@ -1398,14 +1399,6 @@ struct hkVector4Ex : public hkVector4
         *(__m128*)this = *(__m128*)&a;
         return *this;
     }
-    __declspec(noinline) void FUN_00c7f640(const hkTransform& t, const hkVector4& in)
-    {
-        __m128 v = *(__m128*)&in;
-        __m128 y = _mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), *(__m128*)&t.m_rotation.m_kColumn1);
-        __m128 x = _mm_mul_ps(_mm_shuffle_ps(v, v, 0), *(__m128*)&t.m_rotation.m_kColumn0);
-        __m128 z = _mm_mul_ps(_mm_shuffle_ps(v, v, 0xaa), *(__m128*)&t.m_rotation.m_kColumn2);
-        *(__m128*)this = _mm_add_ps(_mm_add_ps(y, x), _mm_add_ps(z, *(__m128*)&t.m_vTranslation));
-    }
     void setAddMul4(const hkVector4& a, const hkVector4& b, const hkSimdRealEx& s)
     {
         __m128 sv = s.broadcast();
@@ -1500,7 +1493,7 @@ __declspec(noinline) void hkpGravityGunEx::FUN_00e45c90(float dTime, const hkTra
         hkVector4Ex localPos;
         localPos.setAddMul4(m_kGrabPosition, m_kTargetPosition, (float)i);
         hkVector4Ex targetPos;
-        targetPos.FUN_00c7f640(transform, localPos);
+        reinterpret_cast<::FUN_00c7f640_cls*>(&targetPos)->FUN_00c7f640(reinterpret_cast<const ::SpawnedMatrix*>(&transform), reinterpret_cast<const __m128*>(&localPos));
         hkpRigidBody* rb = (hkpRigidBody*)m_kPickedBodies.m_data[i];
         hkVector4Ex newLinearVelocity = rb->m_pMotionState.m_kTranslationalVelocity;
         newLinearVelocity.setInterpolate4(rb->m_pMotionState.m_kTranslationalVelocity,

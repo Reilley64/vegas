@@ -10,6 +10,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c7f640_cls.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -28,7 +29,6 @@ struct hkVector4
     float z;
     float w;
 
-    void FUN_00c7f640(const hkTransform& t, const hkVector4& v);
 };
 
 template <typename T> struct hkArray
@@ -174,7 +174,7 @@ static __declspec(noinline) hkpShape* FUN_00de3360(const VertexSource* src, cons
     vertices.SetSizeAndGrow(numVertices);
     for (int i = 0; i < numVertices; i++)
     {
-        vertices[i].FUN_00c7f640(transform, localVertices[i]);
+        reinterpret_cast<::FUN_00c7f640_cls*>(&vertices[i])->FUN_00c7f640(reinterpret_cast<const ::SpawnedMatrix*>(&transform), reinterpret_cast<const __m128*>(&localVertices[i]));
     }
 
     hkGeometry* geom = new hkGeometry;
@@ -543,16 +543,7 @@ struct Transform
 struct VectorResult
 {
     __m128 value;
-    __declspec(noalias) void FUN_00c7f640(const Transform*, const __m128*);
 };
-__declspec(noinline) void VectorResult::FUN_00c7f640(const Transform* transform, const __m128* point)
-{
-    __m128 p = *point;
-    value =
-        _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(p, p, 0x55), transform->rotation1),
-                              _mm_mul_ps(_mm_shuffle_ps(p, p, 0), transform->rotation0)),
-                   _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(p, p, 0xaa), transform->rotation2), transform->translation));
-}
 struct OutputShape
 {
     int field00;
@@ -816,7 +807,7 @@ static __declspec(noinline) OutputShape* FUN_00de3360(PlaneArray* planes, const 
     transformed.reserve(count);
     transformed.size = count;
     for (int i = 0; i < count; ++i)
-        reinterpret_cast<VectorResult*>(&transformed.data[i])->FUN_00c7f640(transform, &vertices.data[i].quad);
+        reinterpret_cast<::FUN_00c7f640_cls*>(&transformed.data[i])->FUN_00c7f640(reinterpret_cast<const ::SpawnedMatrix*>(transform), &vertices.data[i].quad);
     Geometry* geometry = static_cast<Geometry*>(hkMemoryRouter::getInstance().m_heap->blockAlloc(0x18));
     if (geometry)
     {
@@ -939,8 +930,8 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
             return;
         VectorResult end;
         VectorResult start;
-        end.FUN_00c7f640(transform, &shape->point30);
-        start.FUN_00c7f640(transform, &shape->point20);
+        reinterpret_cast<::FUN_00c7f640_cls*>(&end)->FUN_00c7f640(reinterpret_cast<const ::SpawnedMatrix*>(transform), &shape->point30);
+        reinterpret_cast<::FUN_00c7f640_cls*>(&start)->FUN_00c7f640(reinterpret_cast<const ::SpawnedMatrix*>(transform), &shape->point20);
         __m128 ev = end.value;
         __m128 sv = start.value;
         __m128 dv = _mm_sub_ps(ev, sv);

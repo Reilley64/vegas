@@ -192,7 +192,7 @@ struct GO {
 
 struct Member0C {
     char pad[0x28];
-    int member_28;
+    intptr_t member_28;
     GO member_2c;
 };
 
@@ -5250,8 +5250,8 @@ public:
     virtual ~ExtraObject();
     virtual void DeleteThis();
     unsigned int m_uiRefCount;
-    int unk08;
-    int m_iValue;
+    void* unk08;
+    intptr_t m_iValue;
     void IncRefCount() { InterlockedIncrement((volatile long*)&m_uiRefCount); }
     void DecRefCount() { if (!InterlockedDecrement((volatile long*)&m_uiRefCount)) DeleteThis(); }
 };
@@ -5280,10 +5280,10 @@ struct ExtraNode {
 };
 
 // @fnv 0x00a01630
-int FUN_00a01630(ExtraNode* pkNode)
+intptr_t FUN_00a01630(ExtraNode* pkNode)
 {
     TileListLock kLock;
-    int iValue = 0;
+    intptr_t iValue = 0;
     if (pkNode)
     {
         NiPointer<ExtraObject> spExtra = ((::tileext::ExtraObject *)(reinterpret_cast<::NiAVObject *>((pkNode))->GetExtraData((*(const ::NiFixedString *)(ExtraNode::GetKey())))));

@@ -3,6 +3,7 @@
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_010c7000.h"
 #include "fnv/symbols_01272000.h"
+#include "fnv/tls.h"
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 struct ThreadStateGuard
@@ -10,12 +11,12 @@ struct ThreadStateGuard
     int m_iSaved;
     ThreadStateGuard()
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
+        m_iSaved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = 0x10;
     }
     ~ThreadStateGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 

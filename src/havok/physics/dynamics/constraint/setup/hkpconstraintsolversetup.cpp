@@ -166,7 +166,7 @@ D88310Bool __cdecl CheckTotalsWithinLimits(D88470Obj* obj, D88470Elem** begin, i
     unsigned int uiSum1 = 0;
     unsigned int uiSum2 = 0;
     D88470Elem** end = begin + count;
-    int iCount = ((char*)end - (char*)begin + 3) / 4;
+    int iCount = (int)(end - begin);
     D88470Elem** p = begin;
     if (iCount >= 2)
     {
@@ -1276,9 +1276,10 @@ struct S88b50_BreachedHeader
     int unk04;
     int unk08;
     int unk0C;
+    unsigned char m_elements[1];  // +0x10, 32-byte entries
     void* getElem(int index)
     {
-        return (char*)this + 16 + index * 32;
+        return m_elements + index * 32;
     }
 };
 

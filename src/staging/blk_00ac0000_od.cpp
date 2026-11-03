@@ -300,15 +300,18 @@ void* FUN_00ac9c30_class::FUN_00ac9c30(int flags)
 
 struct FUN_00acad30_class
 {
+    char pad00[0xc];
+    char* unk0c;
+    char* unk10;
     void* GetElementAt(int a);
 };
 // Returns a pointer to the element at index a, calling FUN_00ec7c56 if a is out of range.
 // @fnv 0x00acad30
 void* FUN_00acad30_class::GetElementAt(int aiIndex)
 {
-    if (aiIndex >= (unsigned int)(*(int*)((char*)this + 0x10) - *(int*)((char*)this + 0xc)))
+    if (aiIndex >= (unsigned int)(this->unk10 - this->unk0c))
         std::abort();
-    return *(char**)((char*)this + 0xc) + aiIndex;
+    return this->unk0c + aiIndex;
 }
 
 struct FUN_00ace030_class
@@ -345,6 +348,8 @@ intptr_t FUN_00ace9c0_Class::AdvanceCounter()
 
 struct FUN_00ad1a50_class
 {
+    char pad00[0x4];
+    int unk04;
     FUN_00ad1a50_class* FUN_00ad1a50(int a, int b);
 };
 // Stores 0 then a at offsets 0 and 4, calls FUN_00ec7c56 if b is null, then copies the int at b into offset 0 and returns this.
@@ -352,7 +357,7 @@ struct FUN_00ad1a50_class
 FUN_00ad1a50_class* FUN_00ad1a50_class::FUN_00ad1a50(int aiFirst, int piSource)
 {
     *reinterpret_cast<int*>(this) = 0;
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 4) = aiFirst;
+    this->unk04 = aiFirst;
     if (piSource == 0)
         std::abort();
     *reinterpret_cast<int*>(this) = *reinterpret_cast<int*>(piSource);
@@ -378,6 +383,8 @@ extern "C" char __cdecl FUN_00ec379c(char, char*);
 
 struct FUN_00ad3f50_class
 {
+    char pad00[0x8];
+    char unk08;
     char* FUN_00ad3f50(char* p, char* end);
 };
 
@@ -386,22 +393,25 @@ struct FUN_00ad3f50_class
 char* FUN_00ad3f50_class::FUN_00ad3f50(char* pBegin, char* end)
 {
     for (; pBegin != end; ++pBegin)
-        *pBegin = FUN_00ec379c(*pBegin, (char*)this + 8);
+        *pBegin = FUN_00ec379c(*pBegin, (char*)&this->unk08);
     return pBegin;
 }
 
 struct FUN_00ad41c0_Class
 {
+    char pad00[0x10];
+    void* unk10;
+    int unk14;
     void FUN_00ad41c0();
 };
 // @fnv 0x00ad41c0
 void FUN_00ad41c0_Class::FUN_00ad41c0()
 {
-    if (((int*)this)[5] > 0)
-        free(*(void**)((char*)this + 0x10));
-    else if (((int*)this)[5] < 0)
+    if (this->unk14 > 0)
+        free(this->unk10);
+    else if (this->unk14 < 0)
     {
-        void* p = *(void**)((char*)this + 0x10);
+        void* p = this->unk10;
         ::FUN_00401030(p);
     }
 }
@@ -440,6 +450,13 @@ void* FUN_00ad5730_Class::FUN_00ad5730(int flags)
 
 struct FUN_00ad87d0_Class
 {
+    char pad00[0x158];
+    float unk158;
+    float unk15c;
+    float unk160;
+    float unk164;
+    float unk168;
+    float unk16c;
     void FUN_00ad87d0();
 };
 
@@ -447,12 +464,12 @@ struct FUN_00ad87d0_Class
 // @fnv 0x00ad87d0
 void FUN_00ad87d0_Class::FUN_00ad87d0()
 {
-    *(float*)((char*)this + 0x158) = 1.0f;
-    *(float*)((char*)this + 0x15c) = 1.0f;
-    *(float*)((char*)this + 0x160) = 1.0f;
-    *(float*)((char*)this + 0x164) = 1.0f;
-    *(float*)((char*)this + 0x168) = 1.0f;
-    *(float*)((char*)this + 0x16c) = 1.0f;
+    this->unk158 = 1.0f;
+    this->unk15c = 1.0f;
+    this->unk160 = 1.0f;
+    this->unk164 = 1.0f;
+    this->unk168 = 1.0f;
+    this->unk16c = 1.0f;
     reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((this))->FUN_00adc160();
 }
 
@@ -503,6 +520,8 @@ extern "C" char __cdecl FUN_00ec3909(char, char*);
 
 struct FUN_00ad3fc0_Class
 {
+    char pad00[0x8];
+    char unk08;
     char* FUN_00ad3fc0(char* p, char* pEnd);
 };
 
@@ -510,7 +529,7 @@ struct FUN_00ad3fc0_Class
 char* FUN_00ad3fc0_Class::FUN_00ad3fc0(char* pBegin, char* pEnd)
 {
     for (; pBegin != pEnd; ++pBegin)
-        *pBegin = FUN_00ec3909(*pBegin, (char*)this + 8);
+        *pBegin = FUN_00ec3909(*pBegin, (char*)&this->unk08);
     return pBegin;
 }
 
@@ -617,15 +636,17 @@ void FUN_00ec3205(void*);
 
 struct FUN_00ace330_class
 {
+    char pad00[0x8];
+    void* unk08;
     void FUN_00ace330();
 };
 
 // @fnv 0x00ace330
 void FUN_00ace330_class::FUN_00ace330()
 {
-    void** p = (void**)((char*)this + 8);
+    void** p = &this->unk08;
     *(void**)((char*)p + *(int*)(*(uintptr_t*)((char*)p - 8) + 4) - 8) = &DAT_010a30a8;
-    void** q = (void**)((char*)this + 8);
+    void** q = &this->unk08;
     *q = &DAT_010a2fa4;
     *q = &DAT_010a2f9c;
     FUN_00ec3205(q);

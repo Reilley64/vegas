@@ -205,7 +205,7 @@ void LogScriptCompileError(ScriptRunner* scriptRunner, Script* apScript, char* a
     }
     else
     {
-        ::FUN_005b5e40(::FUN_00464f30(buffer));
+        ::FUN_005b5e40();
     }
 
     ((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>((apScript))->GetConditions()))->dataSize = 0;
@@ -471,7 +471,7 @@ bool ScriptRunner::ParseBlock(Script* script, const SCRIPT_OUTPUT output, TESObj
                 if (::GetThreadLocalValue())
                     ::FUN_00703c00(((const char *)(::FUN_00464f30((int)(((const char *)(::FUN_00559450((int *)&(message)))))))), {});
                 else
-                    ::FUN_005b5e40(::FUN_00464f30(message))));
+                    ::FUN_005b5e40();
                 return false;
             }
             else
@@ -485,7 +485,7 @@ bool ScriptRunner::ParseBlock(Script* script, const SCRIPT_OUTPUT output, TESObj
                     if (::GetThreadLocalValue())
                         ::FUN_00703c00(((const char *)(::FUN_00464f30((int)(((const char *)(::FUN_00559450((int *)&(message)))))))), {});
                     else
-                        ::FUN_005b5e40(::FUN_00464f30(message))));
+                        ::FUN_005b5e40();
                     return false;
                 }
                 if (skip)

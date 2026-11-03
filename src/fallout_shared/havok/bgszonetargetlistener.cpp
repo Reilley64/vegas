@@ -359,8 +359,6 @@ S_0061fba0_Obj* S_0061fba0_Obj::FUN_0061fba0(unsigned int a, unsigned int b)
 {
     reinterpret_cast<::FUN_00620720_shell *>(&(m_10))->FUN_00620720((void *)(a), (void *)(b));
     vtbl = (const void*)&DAT_0104d9c4;
-    new ((void *)&(m_20)) ::Vec3();
-    new ((void *)&(m_30)) ::Vec3();
     reinterpret_cast<::S_00538f40 *>(&(m_20))->FUN_00538f40();
     reinterpret_cast<::S_00538f40 *>(&(m_30))->FUN_00538f40();
     unk40 = 0x24;

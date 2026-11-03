@@ -2729,8 +2729,8 @@ bool __cdecl FUN_005cf490(const ScriptParameter* apParameters, const char* apCom
         *afReturnValue = 0.0;
         if (region) {
             char* rlist = ((char *)(reinterpret_cast<::FUN_004f2770_Class *>(((*reinterpret_cast<::fnv_005cf490::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_004f2770()));
-            while (rlist && *((::fnv_005cf490::TESSound **)(new ((void *)(rlist + 4)) ::Vec3()))) {
-                if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::fnv_005cf490::TESSound **)(new ((void *)(rlist + 4)) ::Vec3())))))->FUN_0084e3a0())) == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((region))->FUN_0084e3a0()))) {
+            while (rlist && *((::fnv_005cf490::TESSound **)((void *)(rlist + 4)))) {
+                if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::fnv_005cf490::TESSound **)((void *)(rlist + 4))))))->FUN_0084e3a0())) == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((region))->FUN_0084e3a0()))) {
                     *afReturnValue = 1.0;
                     if (::bConditionFunctionDebug)
                         DebugLog("IsPlayerInRegion >> %0.f", *afReturnValue);
@@ -6687,9 +6687,9 @@ bool FUN_005cb8e0(const ScriptParameter* apParameters, const char* apCompiledPar
         else
             DebugLog("%d current targets", pActiveTargetList->GetSize());
         int iTargetCount = 1;
-        while (pActiveTargetList && *((::fnv_005cb8e0::RegionObjectEntry **)(new ((void *)(pActiveTargetList)) ::Vec3())))
+        while (pActiveTargetList && *((::fnv_005cb8e0::RegionObjectEntry **)((void *)(pActiveTargetList))))
         {
-            RegionObjectEntry* pItem = *((::fnv_005cb8e0::RegionObjectEntry **)(new ((void *)(pActiveTargetList)) ::Vec3()));
+            RegionObjectEntry* pItem = *((::fnv_005cb8e0::RegionObjectEntry **)((void *)(pActiveTargetList)));
             pActiveTargetList = ((::fnv_005cb8e0::BSSimpleListTESRaceSize *)(reinterpret_cast<::Callees *>((pActiveTargetList))->FUN_00726070()));
             BSStringT<char> cRefName;
             BSStringT<char> cDoorName;
@@ -7769,7 +7769,7 @@ bool Script::OnHitWithFunction(const ScriptParameter* parameters, const char* sc
                 TESForm* object;
                 TESForm* item;
             } current;
-            current.item = ((::TESForm *)(new ((void *)(list)) ::Vec3()));
+            current.item = (list->m_item);
             list = ((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
             current.object = 0;
             if (current.item->IsActor_InEditor())
@@ -8792,7 +8792,7 @@ bool FUN_005d41f0(const ScriptParameter* apParameters, const char* apCompiledPar
     TESQuestList* pList = ((::fnv_005d41f0::TESQuestList *)(reinterpret_cast<::fnv_00455600::FUN_00455600_shell *>(((*reinterpret_cast<::fnv_005d41f0::DH * *>(&::g_dataHandler))))->FUN_00455600()));
     while (pList && !pList->IsEmpty())
     {
-        TESQuest* pQuest = *((::TESQuest **)(new ((void *)(pList)) ::Vec3()));
+        TESQuest* pQuest = *((::TESQuest **)((void *)(pList)));
         pQuest->SetEnabled(true);
         pList = ((::fnv_005d41f0::TESQuestList *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
     }
@@ -9256,7 +9256,7 @@ bool FUN_005dfa20(const ScriptParameter* apParameters, const char* apCompiledPar
     _sprintf_s(tmp, 200, "Checking for DLC package '%s'", pName);
     while (list)
     {
-        ContentMountRecord* package = *((::fnv_005dfa20::ContentMountRecord **)(new ((void *)(((PkgListStub*)list))) ::Vec3()));
+        ContentMountRecord* package = *((::fnv_005dfa20::ContentMountRecord **)((void *)(((PkgListStub*)list))));
         if (package)
         {
             _sprintf_s(tmp, 200, "     Examining '%S' [%s]", ((const wchar_t *)(reinterpret_cast<::FUN_00b008d0_StandIn *>((((FUN_00b008d0_StandIn*)package)))->FUN_00b008d0())), ((const char *)(reinterpret_cast<::FUN_00b008e0_class *>((((FUN_00b008e0_class*)package)))->FUN_00b008e0())));
@@ -15215,11 +15215,11 @@ bool FUN_005b5bb0()
     SpellList* list = ((::fnv_005b5bb0::SpellList *)(reinterpret_cast<::PackedByteIntRecord *>(((*reinterpret_cast<::fnv_005b5bb0::SpellDataHandler * *>(&::g_dataHandler))))->Endian()));
     int count = 0;
     while (list && list->FUN_005ae380()) {
-        if (*((::fnv_005b5bb0::SpellItem **)(new ((void *)(list)) ::Vec3())) &&
-            ((*((::fnv_005b5bb0::SpellItem **)(new ((void *)(list)) ::Vec3())))->GetSpellType() == 0 ||
-             (*((::fnv_005b5bb0::SpellItem **)(new ((void *)(list)) ::Vec3())))->GetSpellType() == 2 ||
-             (*((::fnv_005b5bb0::SpellItem **)(new ((void *)(list)) ::Vec3())))->GetSpellType() == 3) &&
-            (*reinterpret_cast<::fnv_005b5bb0::SpellPlayer * *>(&::_g_thePlayer))->AddSpell(*((::fnv_005b5bb0::SpellItem **)(new ((void *)(list)) ::Vec3())))) {
+        if (*((::fnv_005b5bb0::SpellItem **)((void *)(list))) &&
+            ((*((::fnv_005b5bb0::SpellItem **)((void *)(list))))->GetSpellType() == 0 ||
+             (*((::fnv_005b5bb0::SpellItem **)((void *)(list))))->GetSpellType() == 2 ||
+             (*((::fnv_005b5bb0::SpellItem **)((void *)(list))))->GetSpellType() == 3) &&
+            (*reinterpret_cast<::fnv_005b5bb0::SpellPlayer * *>(&::_g_thePlayer))->AddSpell(*((::fnv_005b5bb0::SpellItem **)((void *)(list))))) {
             ++count;
         }
         list = ((::fnv_005b5bb0::SpellList *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
@@ -16250,7 +16250,7 @@ bool FUN_005bd660(const ScriptParameter* parameters, const char* scriptData, TES
         return false;
     WorldSpaceStandIn* worldSpace = ((::WorldSpaceStandIn *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::TESStandIn5bd * *>(&::g_TES))))->GetHitSound()));
     if (!worldSpace)
-        worldSpace = ((::WorldSpaceNode *)(new ((void *)(((::WorldSpaceListStandIn *)(::FUN_00460140((int)((*reinterpret_cast<::DataHandlerStandIn * *>(&::g_dataHandler)))))))) ::Vec3()))->item;
+        worldSpace = ((::WorldSpaceNode *)((void *)(((::WorldSpaceListStandIn *)(::FUN_00460140((int)((*reinterpret_cast<::DataHandlerStandIn * *>(&::g_dataHandler)))))))))->item;
     if (!worldSpace)
         return false;
     if ((*reinterpret_cast<::QueuedCellManagerStandIn * *>(&::DAT_011c9618)))
@@ -23176,7 +23176,7 @@ bool __cdecl FUN_005d8930()
     bool bFoundA_2 = false;
     bool bFoundBTmp = false;
     for (CellNode* pNode = ((::fnv_005d8930::CellNode *)(reinterpret_cast<::FUN_004612e0_shell *>(((*reinterpret_cast<::fnv_005d8930::DataHandlerStub * *>(&::g_dataHandler))))->FUN_004612e0())); pNode; pNode = ((::fnv_005d8930::CellNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()))) {
-        CellStub* pCell_ = *((::fnv_005d8930::CellStub **)(new ((void *)(pNode)) ::Vec3()));
+        CellStub* pCell_ = *((::fnv_005d8930::CellStub **)((void *)(pNode)));
         if (!pCell_)
             continue;
         if (pCell_ == pCellA_2)
@@ -23185,7 +23185,7 @@ bool __cdecl FUN_005d8930()
             bFoundBTmp = true;
         RefNode* pChild;
         for (pChild = ((::fnv_005d8930::RefNode *)(reinterpret_cast<::TESRegion *>((pCell_))->GetDiffuseColor())); pChild; pChild = ((::fnv_005d8930::RefNode *)(reinterpret_cast<::Callees *>((pChild))->FUN_00726070()))) {
-            RefStub* aPRef = *((::fnv_005d8930::RefStub **)(new ((void *)(pChild)) ::Vec3()));
+            RefStub* aPRef = *((::fnv_005d8930::RefStub **)((void *)(pChild)));
             if (!aPRef)
                 continue;
             FormArrayStub* pArray_ = ((::fnv_005d8930::FormArrayStub *)(reinterpret_cast<::BaseProcess *>((aPRef))->GetCurrentProcessData()));
@@ -24132,7 +24132,7 @@ bool __cdecl FUN_005ddae0(const ScriptParameter* param, const char* name, S_005d
     if (ref1->vfn_100() && slot > 0 && slot <= 3) {
         S_005ddae0_Ref* actor = ref1;
         S_005ddae0_List* list = ((::S_005ddae0_Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->vfn_148();
-        S_005ddae0_Target* target = *((::S_005ddae0_Target **)(new ((void *)(((::S_005ddae0_Node *)(::FUN_00559450((int *)(list)))))) ::Vec3()));
+        S_005ddae0_Target* target = *((::S_005ddae0_Target **)((void *)(((::S_005ddae0_Node *)(::FUN_00559450((int *)(list)))))));
         reinterpret_cast<::fnv_0042e380::FUN_0042e380_Class *>((target))->FUN_0042e380(1 << (slot - 1));
     }
     return true;
@@ -24378,7 +24378,7 @@ bool __cdecl FUN_005de4a0(
 
     IdleNode* node = ((::fnv_005de4a0::IdleNode *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_005de4a0::IdleManager * *>(&::g_TES))))->GetData()));
     while (node != 0) {
-        IdleHandle handle(((void *)(new ((void *)(node)) ::Vec3())));
+        IdleHandle handle(((void *)((void *)(node))));
         if (((::fnv_005de4a0::IdleAnimation *)(::FUN_00559450((int *)&(handle))))) {
             IdleAnimation* pCurrentAnimation = ((::fnv_005de4a0::IdleAnimation *)(::FUN_00559450((int *)&(handle))));
             IdleForm* pBaseIdleForm = pCurrentAnimation->GetBase();
@@ -24792,11 +24792,11 @@ bool __cdecl FUN_005dec30(unsigned int p1, unsigned int p2,
     FUN_005accb0(p1,p2,p8,p3,p4,p5,p6,&parsed);
     if (parsed.script != 0) {
         FNV_ListNode* node = DAT_011dea3c->FUN_005a6260();
-        while (node != 0 && ((::fnv_005dec30::FNV_ObjectRef *)(new ((void *)(node)) ::Vec3()))->object != 0) {
-            if (((::fnv_005dec30::FNV_ObjectRef *)(new ((void *)(node)) ::Vec3()))->object->formID == reinterpret_cast<::FUN_0084e3a0_Class *>((static_cast<FNV_ScriptResult*>(parsed.script)))->FUN_0084e3a0()) {
+        while (node != 0 && ((::fnv_005dec30::FNV_ObjectRef *)((void *)(node)))->object != 0) {
+            if (((::fnv_005dec30::FNV_ObjectRef *)((void *)(node)))->object->formID == reinterpret_cast<::FUN_0084e3a0_Class *>((static_cast<FNV_ScriptResult*>(parsed.script)))->FUN_0084e3a0()) {
                 int amount;
                 int factor = *reinterpret_cast<int*>(reinterpret_cast<char*>(((void *)(reinterpret_cast<::FUN_00504e60_shell *>((static_cast<FNV_ScriptResult*>(parsed.script)))->FUN_00504e60()))) + 0x28);
-                amount = ((::fnv_005dec30::FNV_ObjectRef *)(new ((void *)(node)) ::Vec3()))->object->value;
+                amount = ((::fnv_005dec30::FNV_ObjectRef *)((void *)(node)))->object->value;
                 *result = 0.0;
                 for (int i = 0; i < 4; ++i) {
                     if ((double)factor * ((double)(i + 1) * ::DAT_010290b0) <= (double)amount) {
@@ -25073,10 +25073,10 @@ bool __cdecl FUN_005b4630(const ScriptParameter* parameters, const char* compile
     bool f = true; // no visible buttons
     const char* a[10]; // button labels
     memset(a, 0, sizeof(a));
-    while (eb && *((::MessageButton **)(new ((void *)(eb)) ::Vec3())) && h < 10) {
+    while (eb && *((::MessageButton **)((void *)(eb))) && h < 10) {
         bool conditionResult;
-        if (reinterpret_cast<::PerkEntryConditionSet *>(&((*((::MessageButton **)(new ((void *)(eb)) ::Vec3())))->conditions))->ContainsTrait((::TESObjectREFR *)((*reinterpret_cast<void * *>(&::_g_thePlayer))), (::TESObjectREFR *)(0), (*(bool *)(&conditionResult)), 0)) {
-            a[h] = ((const char *)(::FUN_00559450((int *)&((*((::MessageButton **)(new ((void *)(eb)) ::Vec3())))->text))));
+        if (reinterpret_cast<::PerkEntryConditionSet *>(&((*((::MessageButton **)((void *)(eb))))->conditions))->ContainsTrait((::TESObjectREFR *)((*reinterpret_cast<void * *>(&::_g_thePlayer))), (::TESObjectREFR *)(0), (*(bool *)(&conditionResult)), 0)) {
+            a[h] = ((const char *)(::FUN_00559450((int *)&((*((::MessageButton **)((void *)(eb))))->text))));
             f = false;
         } else {
             a[h] = DAT_01020770;
@@ -25177,7 +25177,7 @@ bool HelpersB::FUN_005b4be0(void* a, void* b, ObjB* c, unsigned* d, ObjB* e, voi
         } else if (listform && count) {
             ListB* node6 = ((::fnv_005b4be0::ListB *)(reinterpret_cast<::BGSCameraPath *>((listform))->GetConditions()));
             while (node6 && !node6->FUN_008256d0()) {
-                ObjB* entry4 = *((::fnv_005b4be0::ObjB **)(new ((void *)(node6)) ::Vec3()));
+                ObjB* entry4 = *((::fnv_005b4be0::ObjB **)((void *)(node6)));
                 node6 = ((::fnv_005b4be0::ListB *)(reinterpret_cast<::Callees *>((node6))->FUN_00726070()));
                 if (entry4->v57()) reinterpret_cast<::fnv_004818e0::FUN_004818e0_t *>(&(container))->FUN_004818e0((::TESObject *)(entry4),count,(::ContainerItemExtra *)(void *)(0));
             }
@@ -26024,12 +26024,12 @@ bool __cdecl FUN_005b6d40(const ScriptParameter* apParameters, const char* apCom
 
     MarkerList<MarkerWorld*>* pWorldIterA = ((::MarkerList< ::MarkerWorld *> *)(::FUN_00460140((int)(((MarkerDataHandler*)(*reinterpret_cast<::DataHandler * *>(&::g_dataHandler)))))));
     while (pWorldIterA && !pWorldIterA->IsEmpty()) {
-        MarkerWorld* pWorld6 = ((::MarkerWorld *)(new ((void *)(pWorldIterA)) ::Vec3()));
+        MarkerWorld* pWorld6 = ((::MarkerWorld *)((void *)(pWorldIterA)));
         pWorldIterA = ((::MarkerList< ::MarkerWorld *> *)(reinterpret_cast<::Callees *>((pWorldIterA))->FUN_00726070()));
         MarkerList<MarkerRef*>* pMarkers4 = ((::MarkerList< ::MarkerRef *> *)(reinterpret_cast<::FNVEmitter *>((pWorld6))->GetOrCreateElement(false)));
         if (pMarkers4) {
             while (!pMarkers4->IsEmpty()) {
-                MarkerRef* pRef = ((::MarkerRef *)(new ((void *)(pMarkers4)) ::Vec3()));
+                MarkerRef* pRef = ((::MarkerRef *)((void *)(pMarkers4)));
                 pMarkers4->RemoveHead();
                 MapMarkerData* pData3 = reinterpret_cast<::FUN_00569060_shell *>((pRef))->FUN_00569060();
                 if (!iSkipHiddenTmp || !reinterpret_cast<::FUN_00438f10_Class *>((pData3))->FUN_00438f10()) {
@@ -30913,9 +30913,7 @@ bool FUN_005c0bf0(void* unusedA,void* unusedB,ScriptReference* reference) {
   ScriptSceneObject* object = reference->SceneObject();
   if (object) {
    ScriptMatrix rotation;
-   new ((void *)&(rotation)) ::Vec3();
    ScriptMatrix combined;
-   new ((void *)&(combined)) ::Vec3();
    combined = (*reinterpret_cast<::ScriptMatrix *>(&::DAT_011a9448));
    reference->SetAngles((*reinterpret_cast<::Vec3f *>((void *)&::NiPoint3::ZERO)));
    reinterpret_cast<::FUN_00524ac0_shell *>(&(rotation))->FUN_00524ac0(reference->Angles().x);
@@ -32686,8 +32684,8 @@ bool __cdecl FUN_005c3450(const ScriptParameter* paramInfo, const char* scriptDa
                 _DebugLog("No variables in script %s", script->GetEditorID());
             } else {
                 NodeS* node = (NodeS*)reinterpret_cast<::FUN_005d43e0_shell *>((script))->FUN_005d43e0();
-                while (locals != 0 && node != 0 && *((void **)(new ((void *)(node)) ::Vec3())) != 0) {
-                    VarT* ip = (VarT*)*((void **)(new ((void *)(node)) ::Vec3()));
+                while (locals != 0 && node != 0 && *((void **)((void *)(node))) != 0) {
+                    VarT* ip = (VarT*)*((void **)((void *)(node)));
                     node = ((::NodeS *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
                     if (reinterpret_cast<::FUN_005a9480_holder *>((((FUN_005a9140_shell*)locals)))->FUN_005a9480(ip->unk00)) {
                         unsigned int varId = 0;
@@ -32717,8 +32715,8 @@ bool __cdecl FUN_005c3450(const ScriptParameter* paramInfo, const char* scriptDa
                         _DebugLog("No variables in script %s", script->GetEditorID());
                     } else {
                         NodeS* node2 = (NodeS*)reinterpret_cast<::FUN_005d43e0_shell *>((script))->FUN_005d43e0();
-                        while (locals != 0 && node2 != 0 && *((void **)(new ((void *)(node2)) ::Vec3())) != 0) {
-                            VarT* ip2 = (VarT*)*((void **)(new ((void *)(node2)) ::Vec3()));
+                        while (locals != 0 && node2 != 0 && *((void **)((void *)(node2))) != 0) {
+                            VarT* ip2 = (VarT*)*((void **)((void *)(node2)));
                             node2 = ((::NodeS *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
                             if (reinterpret_cast<::FUN_005a9480_holder *>((((FUN_005a9140_shell*)locals)))->FUN_005a9480(ip2->unk00)) {
                                 unsigned int varId = 0;
@@ -32743,7 +32741,7 @@ bool __cdecl FUN_005c3450(const ScriptParameter* paramInfo, const char* scriptDa
             if (!list->_ref_008256d0()) {
                 _DebugLog("--- Global Variables -----------------------------");
                 while (list != 0) {
-                    GlobalT* g = (GlobalT*)*((void **)(new ((void *)(list)) ::Vec3()));
+                    GlobalT* g = (GlobalT*)*((void **)((void *)(list)));
                     if (g != 0) {
                         switch (((FUN_00529ea0_shell*)g)->FUN_00529ea0()) {
                         case 0x73:
@@ -32955,8 +32953,8 @@ bool __cdecl FUN_005c3960(int a0,int a1,int a2,int a3,int a4,int a5,int a6,int a
                 DebugLog("No script variables on quest %s", quest->EditorName());
             } else {
                 VarNode* node = ((::VarNode *)(reinterpret_cast<::FUN_005d43e0_shell *>((script))->FUN_005d43e0()));
-                while (locals && node && *((::VarView **)(new ((void *)(node)) ::Vec3()))) {
-                    VarView* var = *((::VarView **)(new ((void *)(node)) ::Vec3()));
+                while (locals && node && *((::VarView **)((void *)(node)))) {
+                    VarView* var = *((::VarView **)((void *)(node)));
                     node = ((::VarNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
                     if (reinterpret_cast<::FUN_005a9480_holder *>((locals))->FUN_005a9480(var->id)) {
                         unsigned int reference = 0;
@@ -33002,8 +33000,8 @@ void FUN_00703c00(const char* fmt, ...);
 bool FUN_005c3bf0()
 {
     ListNode5c3bf0* node = ((::ListNode5c3bf0 *)(reinterpret_cast<::fnv_00455600::FUN_00455600_shell *>(((*reinterpret_cast<::List5c3bf0 * *>(&::g_dataHandler))))->FUN_00455600()));
-    while (node && *((::Obj5c3bf0 **)(new ((void *)(node)) ::Vec3()))) {
-        Obj5c3bf0* obj = *((::Obj5c3bf0 **)(new ((void *)(node)) ::Vec3()));
+    while (node && *((::Obj5c3bf0 **)((void *)(node)))) {
+        Obj5c3bf0* obj = *((::Obj5c3bf0 **)((void *)(node)));
         node = ((::ListNode5c3bf0 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         if (obj) {
             FUN_00703c00("%s (%s) -- Stage %d", obj->GetName(), reinterpret_cast<::TESFaction_RankDataView *>((obj))->FUN_00455620() ? "On" : "Off", ((int)(reinterpret_cast<::TESQuest *>((obj))->GetStageMask())));
@@ -38053,9 +38051,9 @@ bool __cdecl FUN_005cbbb0(const ScriptParameter* paramInfo, const char* scriptDa
     BSSimpleList<const char*> kListValue;
     ::FUN_0060d8f0((::BSSimpleList< ::QuestEntryStandIn *> *)(::BSSimpleList<const char *> *)(&kListValue), (::TESQuest *)(0), bAll, 0, 0);
     ChalNode5cb* pkNodeX = (ChalNode5cb*)&kListValue;
-    while (pkNodeX && ((::Challenge5cb *)(new ((void *)(pkNodeX)) ::Vec3())))
+    while (pkNodeX && ((::Challenge5cb *)((void *)(pkNodeX))))
     {
-        Challenge5cb* pkChallengeTmp = ((::Challenge5cb *)(new ((void *)(pkNodeX)) ::Vec3()));
+        Challenge5cb* pkChallengeTmp = ((::Challenge5cb *)((void *)(pkNodeX)));
         ChalTarget5cb* pkTargetVal = ((::ChalTarget5cb *)(reinterpret_cast<::DialogueItem *>((pkChallengeTmp))->SelectDefaultResponseList()));
         pkNodeX = ((::ChalNode5cb *)(reinterpret_cast<::Callees *>((pkNodeX))->FUN_00726070()));
         char acText[260];
@@ -38098,8 +38096,8 @@ bool __cdecl FUN_005cbdb0(const ScriptParameter* param,const char* text,TESObjec
  InventoryList list;
  ::FUN_0060d8f0((::BSSimpleList< ::QuestEntryStandIn *> *)(::fnv_005cbdb0::InventoryList *)(&list),(::TESQuest *)(info),0,0,0);
  InventoryList* base=&list;
- while(base && *((::fnv_005cbdb0::InventoryEntry **)(new ((void *)(base)) ::Vec3()))) {
-  node=*((::fnv_005cbdb0::InventoryEntry **)(new ((void *)(base)) ::Vec3()));
+ while(base && *((::fnv_005cbdb0::InventoryEntry **)((void *)(base)))) {
+  node=*((::fnv_005cbdb0::InventoryEntry **)((void *)(base)));
   item=((::fnv_005cbdb0::BaseItem *)(reinterpret_cast<::DialogueItem *>((node))->SelectDefaultResponseList()));
   base=((::fnv_005cbdb0::InventoryList *)(reinterpret_cast<::Callees *>((base))->FUN_00726070()));
   char buffer[260];
@@ -39362,8 +39360,8 @@ bool __cdecl FUN_005cd330(const ScriptParameter* paramInfo, const char* scriptDa
         if (!pNode)
             DebugLog("No current targets");
         int i = 0;
-        while (pNode && ((::RegionObjectEntry *)(new ((void *)(pNode)) ::Vec3())) && i < iTarget) {
-            RegionObjectEntry* pTarget = ((::RegionObjectEntry *)(new ((void *)(pNode)) ::Vec3()));
+        while (pNode && (pNode->m_item) && i < iTarget) {
+            RegionObjectEntry* pTarget = (pNode->m_item);
             pNode = ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
             pRef = pTarget->GetReference(true);
             i++;
@@ -40917,16 +40915,16 @@ bool FUN_005d4280(const ScriptParameter* paramInfo, const char* scriptData, TESO
     FUN_005ac730(false);
     BSSimpleList<TESQuest*>* pQuestIter5 = ((::BSSimpleList< ::TESQuest *> *)(reinterpret_cast<::fnv_00455600::FUN_00455600_shell *>((((DH*)(*reinterpret_cast<::DataHandler * *>(&::g_dataHandler)))))->FUN_00455600()));
     while (pQuestIter5 && !pQuestIter5->IsEmpty()) {
-        TESQuest* pkQuest = ((::TESQuest *)(new ((void *)(pQuestIter5)) ::Vec3()));
+        TESQuest* pkQuest = (pQuestIter5->m_item);
         BSSimpleList<QuestStageItem*>* pStageIter = ((::BSSimpleList< ::QuestStageItem *> *)(reinterpret_cast<::FUN_005d43c0_ *>((((QuestListsStub*)pkQuest)))->FUN_005d43c0()));
         while (pStageIter && !pStageIter->IsEmpty()) {
-            QuestStageItem* pStage = ((::QuestStageItem *)(new ((void *)(pStageIter)) ::Vec3()));
+            QuestStageItem* pStage = (pStageIter->m_item);
             reinterpret_cast<::StageHolder *>((pStage))->FUN_0060f4a0(pkQuest, true);
             pStageIter = ((::BSSimpleList< ::QuestStageItem *> *)(reinterpret_cast<::Callees *>((pStageIter))->FUN_00726070()));
         }
         BSSimpleList<QuestObjectiveItem*>* pObjIter = ((::BSSimpleList< ::QuestObjectiveItem *> *)(reinterpret_cast<::FUN_005d43e0_shell *>((((QuestListsStub*)pkQuest)))->FUN_005d43e0()));
         while (pObjIter && !pObjIter->IsEmpty()) {
-            QuestObjectiveItem* pObjective = ((::QuestObjectiveItem *)(new ((void *)(pObjIter)) ::Vec3()));
+            QuestObjectiveItem* pObjective = (pObjIter->m_item);
             reinterpret_cast<::fnv_005ec5d0::FUN_005ec5d0_shell *>((pObjective))->FUN_005ec5d0((::fnv_005ec5d0::QUEST_OBJECTIVE_STATE)(1));
             reinterpret_cast<::fnv_005ec5d0::FUN_005ec5d0_shell *>((pObjective))->FUN_005ec5d0((::fnv_005ec5d0::QUEST_OBJECTIVE_STATE)(3));
             pObjIter = ((::BSSimpleList< ::QuestObjectiveItem *> *)(reinterpret_cast<::Callees *>((pObjIter))->FUN_00726070()));
@@ -42136,7 +42134,7 @@ bool FUN_005d6d40(const ScriptParameter* parameters,const char* data,InventoryDi
                             InventoryDiagnosticList* list=((::InventoryDiagnosticList *)(reinterpret_cast<::BGSCameraPath *>((effect))->GetConditions()));
                             FUN_00703c00(DAT_0103cbe8,((void *)(reinterpret_cast<::BGSCameraPath *>((effect))->HasNameForWarning()))?effect->GetName():::FUN_00482720((::TESForm *)(effect)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((effect))->FUN_0084e3a0())));
                             while(list) {
-                                InventoryDiagnosticForm* detail=*((::InventoryDiagnosticForm **)(new ((void *)(list)) ::Vec3()));
+                                InventoryDiagnosticForm* detail=*((::InventoryDiagnosticForm **)((void *)(list)));
                                 FUN_00703c00(DAT_0103cbd4,((void *)(reinterpret_cast<::BGSCameraPath *>((detail))->HasNameForWarning()))?detail->GetName():::FUN_00482720((::TESForm *)(detail)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((detail))->FUN_0084e3a0())));
                                 list=((::InventoryDiagnosticList *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                             }
@@ -42965,7 +42963,7 @@ bool __cdecl FUN_005d8e80(const ScriptParameter* parameters, const char* compile
         } else if (list && count) {
             BSSimpleList<TESForm*>* node = ((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::BGSCameraPath *>((list))->GetConditions()));
             while (node && !node->IsEmpty()) {
-                TESForm* entry = ((::TESForm *)(new ((void *)(node)) ::Vec3()));
+                TESForm* entry = (node->m_item);
                 node = ((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
                 if (entry->IsActor_InEditor())
                     reinterpret_cast<::fnv_004818e0::FUN_004818e0_t *>(&(items))->FUN_004818e0((::TESObject *)(entry), count, 0);
@@ -44639,15 +44637,15 @@ bool __cdecl FUN_005dc730(int p0,int p1,int p2,int p3,int p4,int p5,int p6,int p
  char buffer2[32];
  if((*reinterpret_cast<::ThreadFlags *>(&::g_tlsBlock)).bLogScripts) {
  DebugRecordNode* nodeB=((::fnv_005dc730::DebugRecordNode *)(reinterpret_cast<::FUN_005d43c0_ *>((((DebugReference*)found)))->FUN_005d43c0()));
- while(nodeB && *((::fnv_005dc730::DebugRecord **)(new ((void *)(nodeB)) ::Vec3()))) {
- DebugRecord* record=*((::fnv_005dc730::DebugRecord **)(new ((void *)(nodeB)) ::Vec3()));
+ while(nodeB && *((::fnv_005dc730::DebugRecord **)((void *)(nodeB)))) {
+ DebugRecord* record=*((::fnv_005dc730::DebugRecord **)((void *)(nodeB)));
  FUN_00406d00(buffer2,31,DAT_0103d08c,reinterpret_cast<::FUN_009373f0_shell *>((record))->FUN_009373f0(),reinterpret_cast<::FUN_005dc960_shell *>((record))->FUN_005dc960()?1:0);
  ((DebugStringOps*)&line5)->FUN_00438390(buffer2);
  if(((::fnv_005dc730::DebugMemberNode *)(reinterpret_cast<::BaseProcess *>((record))->GetCurrentProcessData())) && ((::fnv_005dc730::DebugMemberNode *)(reinterpret_cast<::Callees *>((((::fnv_005dc730::DebugMemberNode *)(reinterpret_cast<::BaseProcess *>((record))->GetCurrentProcessData()))))->FUN_00726070()))) {
  ((DebugStringOps*)&line5)->FUN_00404820(DAT_0103d088);
  DebugMemberNode* members=((::fnv_005dc730::DebugMemberNode *)(reinterpret_cast<::BaseProcess *>((record))->GetCurrentProcessData()));
- while(members && *((::fnv_005dc730::DebugMember **)(new ((void *)(members)) ::Vec3()))) {
- DebugMember* member=*((::fnv_005dc730::DebugMember **)(new ((void *)(members)) ::Vec3()));
+ while(members && *((::fnv_005dc730::DebugMember **)((void *)(members)))) {
+ DebugMember* member=*((::fnv_005dc730::DebugMember **)((void *)(members)));
  FUN_00406d00(buffer2,31,DAT_0103d07c,((bool)(::FUN_005dc980((const char *)(member)))),((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((member))->GetBaseTexture()))?1:0);
  ((DebugStringOps*)&line5)->FUN_00404820(buffer2);
  if(((::fnv_005dc730::DebugMemberNode *)(reinterpret_cast<::Callees *>((members))->FUN_00726070())))((DebugStringOps*)&line5)->FUN_00404820(::DAT_01012630);
@@ -45299,13 +45297,13 @@ bool FUN_005ded40(const ScriptParameter* paramInfo, const char* scriptData, TESO
     if (pForm)
     {
         Node5de* pNode = ((::fnv_005ded40::Node5de *)(::FUN_005a6260((char *)((*reinterpret_cast<::fnv_005ded40::Player5de * *>(&::_g_thePlayer))))));
-        while (pNode && *((::fnv_005ded40::Data5de **)(new ((void *)(pNode)) ::Vec3())))
+        while (pNode && *((::fnv_005ded40::Data5de **)((void *)(pNode))))
         {
-            if ((*((::fnv_005ded40::Data5de **)(new ((void *)(pNode)) ::Vec3())))->uiKey == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pForm))->FUN_0084e3a0())) && iLevel >= 0 && iLevel <= 4)
+            if ((*((::fnv_005ded40::Data5de **)((void *)(pNode))))->uiKey == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pForm))->FUN_0084e3a0())) && iLevel >= 0 && iLevel <= 4)
             {
                 int iBase = ((::fnv_005ded40::Info5de *)(reinterpret_cast<::FUN_00504e60_shell *>((pForm))->FUN_00504e60()))->iBase;
-                (*((::fnv_005ded40::Data5de **)(new ((void *)(pNode)) ::Vec3())))->sLevel = iLevel;
-                (*((::fnv_005ded40::Data5de **)(new ((void *)(pNode)) ::Vec3())))->iAmount = iLevel * ::DAT_010290b0 * iBase;
+                (*((::fnv_005ded40::Data5de **)((void *)(pNode))))->sLevel = iLevel;
+                (*((::fnv_005ded40::Data5de **)((void *)(pNode))))->iAmount = iLevel * ::DAT_010290b0 * iBase;
             }
             pNode = ((::fnv_005ded40::Node5de *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         }
@@ -48728,8 +48726,8 @@ bool FUN_005d0060(
                     _pEntry = ((::fnv_005d0060::EntryData *)(reinterpret_cast<::Rebuild004d0650::Inventory *>((pChanges))->FUN_004d0650((::Rebuild004d0650::Object *)(pItem_2), 0)));
                     if (_pEntry) {
                         BSSimpleList<ExtraDataList*>* nodeB = ((::BSSimpleList< ::fnv_005d0060::ExtraDataList *> *)(::FUN_00559450((int *)(_pEntry))));
-                        while (nodeB && ((::fnv_005d0060::ExtraDataList *)(new ((void *)(nodeB)) ::Vec3()))) {
-                            ExtraDataList* xData2 = ((::fnv_005d0060::ExtraDataList *)(new ((void *)(nodeB)) ::Vec3()));
+                        while (nodeB && (nodeB->m_item)) {
+                            ExtraDataList* xData2 = (nodeB->m_item);
                             if (xData2 && reinterpret_cast<::FUN_00418ab0_shell *>((xData2))->FUN_00418ab0(0)) {
                                 reinterpret_cast<::FUN_0041ab70_shell *>((xData2))->FUN_0041ab70(bNoUnequipA);
                                 bDoEquipVal = false;
@@ -56128,9 +56126,9 @@ bool FUN_005d0300(const ScriptParameter* param, const char* desc, TESObjectREFR_
                 {
                     if (((::BSSimpleList< ::ExtraDataList_ctx *> *)(::FUN_00559450((int *)(pHolder)))))
                     {
-                        if (((::ExtraDataList_ctx *)(new ((void *)(((::BSSimpleList< ::ExtraDataList_ctx *> *)(::FUN_00559450((int *)(pHolder)))))) ::Vec3())))
+                        if (((((::BSSimpleList< ::ExtraDataList_ctx *> *)(::FUN_00559450((int *)(pHolder)))))->m_item))
                         {
-                            reinterpret_cast<::FUN_0041ab70_shell *>((((::ExtraDataList_ctx *)(new ((void *)(((::BSSimpleList< ::ExtraDataList_ctx *> *)(::FUN_00559450((int *)(pHolder)))))) ::Vec3()))))->FUN_0041ab70(bSet);
+                            reinterpret_cast<::FUN_0041ab70_shell *>((((((::BSSimpleList< ::ExtraDataList_ctx *> *)(::FUN_00559450((int *)(pHolder)))))->m_item)))->FUN_0041ab70(bSet);
                         }
                         else
                         {
@@ -57436,7 +57434,7 @@ RefC4* __cdecl FUN_005c4b30(RefC4* pkRef, FormC4* pkForm, int iCount, int iDista
             LevNodeC4* pkIter = ((::LevNodeC4 *)(reinterpret_cast<::BaseProcess *>(&(kResult))->GetCurrentProcessData()));
             while (pkIter && !pkIter->IsEmpty())
             {
-                LevEntryC4* pkEntry = *((::LevEntryC4 **)(new ((void *)(pkIter)) ::Vec3()));
+                LevEntryC4* pkEntry = *((::LevEntryC4 **)((void *)(pkIter)));
                 if (pkEntry && pkEntry->m_pkForm)
                 {
                     while (pkEntry->m_iArrayLength > 0)
@@ -58996,7 +58994,6 @@ bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR_o2_od
     void* tmpEC = ((void *)(reinterpret_cast<::BSFaceGenNiNode *>((((AnimS*)FUN_0045c670())))->GetAnimationData()));
     S36 s36 = *((::S36 *)(::FUN_00461130((int)(((NodeS_o2_od_oy_noo2*)tmpEC)))));
     MatrixS p134;
-    new ((void *)&(p134)) ::Vec3();
     NiPoint3_o2_od_oy_noo2 p140;
     reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(0, &p140.y, &p140.z, &p140.x);
     reinterpret_cast<::FUN_005df510_shell *>(&(p134))->FUN_005df510(0, (float *)(::NiPoint3_o2_od_oy_noo2 *)(&p140));
@@ -59186,7 +59183,6 @@ bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR_o2_od
     void* tmpEC = ((void *)(reinterpret_cast<::BSFaceGenNiNode *>((((AnimS*)FUN_0045c670())))->GetAnimationData()));
     S36 s36 = *((::S36 *)(::FUN_00461130((int)(((NodeS_o2_od_oy_noo2*)tmpEC)))));
     MatrixS p134;
-    new ((void *)&(p134)) ::Vec3();
     NiPoint3_o2_od_oy_noo2 p140;
     reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(0, &p140.y, &p140.z, &p140.x);
     reinterpret_cast<::FUN_005df510_shell *>(&(p134))->FUN_005df510(0, (float *)(::NiPoint3_o2_od_oy_noo2 *)(&p140));

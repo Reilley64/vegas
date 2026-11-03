@@ -9,7 +9,7 @@ struct Target004a4d40;
 // 0x004a4040
 char IsStartMenuFlag1Set();
 // 0x004a4240
-void *FUN_004a4240();
+float FUN_004a4240();
 // 0x004a4650
 void FUN_004a4650(::FUN_004a4650_ListBase *);
 // 0x004a4d40

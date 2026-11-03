@@ -371,7 +371,7 @@ void __cdecl FUN_006f5840(void)
     GlobalObject2_0096a2d0* pEntry = &::g_011d8524;
     while (pEntry)
     {
-        TESObjectCELL* cell = *((::TESObjectCELL **)(new ((void *)(pEntry)) ::Vec3()));
+        TESObjectCELL* cell = *((::TESObjectCELL **)((void *)(pEntry)));
         if (cell && !cell->GetField24())
         {
             NiNode* obj = ((::NiNode *)(reinterpret_cast<::FUN_006f5800_shell *>((cell))->GetSelectedValue(0)));
@@ -459,7 +459,7 @@ bool FUN_006f6100_shell::IsInCellList()
     GlobalObject2_0096a2d0* iter = &::g_011d8524;
     while (iter)
     {
-        TESObjectCELL* cell = *((::TESObjectCELL **)(new ((void *)(iter)) ::Vec3()));
+        TESObjectCELL* cell = *((::TESObjectCELL **)((void *)(iter)));
         if (cell && (FUN_006f6100_shell*)cell == this)
             return true;
         iter = ((::GlobalObject2_0096a2d0 *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));

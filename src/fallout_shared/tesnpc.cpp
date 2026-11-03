@@ -897,7 +897,7 @@ bool TESNPC::InitWornObject(TESObjectREFR* refr, BipedAnim* biped, TESBoundObjec
             BSSimpleList<TESForm*>* node = ((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::BGSCameraPath *>((((::BGSListForm *)(reinterpret_cast<::Callees *>((models.list))->FUN_00726070()))))->GetConditions()));
             while (node && !node->IsEmpty())
             {
-                TESBoundObject* part = static_cast<TESBoundObject*>(((::TESForm *)(new ((void *)(node)) ::Vec3())));
+                TESBoundObject* part = static_cast<TESBoundObject*>((node->m_item));
                 models.model = ::TESBipedModelForm::GetFormAsBipedModel(part);
                 if (models.model)
                     models.model->SetBipedModel(biped, (SEX)((actorData.m_uiActorFlags & 1) != 0), (::BIPED_OBJECT)(-1));
@@ -1151,7 +1151,7 @@ void TESNPC::CopyActorBaseData(TESNPC* source)
     BSSimpleList<BGSHeadPart*>* node = ((::BSSimpleList< ::BGSHeadPart *> *)(reinterpret_cast<::FUN_00602170_shell *>((source))->FUN_00602170()));
     while (node && !node->IsEmpty())
     {
-        reinterpret_cast<::Callees *>((((::BSSimpleList< ::BGSHeadPart *> *)(reinterpret_cast<::FUN_00602170_shell *>(this)->FUN_00602170()))))->FUN_00905820((void *)&(((::BGSHeadPart *)(new ((void *)(node)) ::Vec3()))));
+        reinterpret_cast<::Callees *>((((::BSSimpleList< ::BGSHeadPart *> *)(reinterpret_cast<::FUN_00602170_shell *>(this)->FUN_00602170()))))->FUN_00905820((void *)&((node->m_item)));
         node = ((::BSSimpleList< ::BGSHeadPart *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     ::fnv_006529a0::FUN_006529a0((FaceGenCoordArray (*)[2])(FaceGenMatrix<float> (*)[2])(((FaceGenMatrix<float> (*)[2])(reinterpret_cast<::FUN_00601800_shell *>((source))->FUN_00601800()))), (FaceGenCoordArray (*)[2])(FaceGenMatrix<float> (*)[2])(((FaceGenMatrix<float> (*)[2])(reinterpret_cast<::FUN_00601800_shell *>(this)->FUN_00601800()))), 0, 0);
@@ -1536,7 +1536,7 @@ bool FUN_006061b0_shell::FUN_006061b0(TESObjectREFR* apRef, BipedAnim* apBipedAn
             ((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<BGSListForm*>(((::TESRace *)(reinterpret_cast<::Callees *>((void *)(reinterpret_cast<TESRaceForm*>(pformList)))->FUN_00726070())))))->GetConditions()));
         while (pCurrentElementNext && !_ref_008256d0(pCurrentElementNext))
         {
-            TESForm* plistItem = *((::TESForm **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            TESForm* plistItem = pCurrentElementNext->m_item;
             pbipedModel = ::TESBipedModelForm::GetFormAsBipedModel(plistItem);
             if (pbipedModel)
             {
@@ -2683,7 +2683,7 @@ void NPCSerializer::WriteToStream()
     HeadPartNode* head = ((::HeadPartNode *)(reinterpret_cast<::FUN_00602170_shell *>(this)->FUN_00602170()));
     while (head && !head->FUN_008256d0())
     {
-        GameForm* item = *((::GameForm **)(new ((void *)(head)) ::Vec3()));
+        GameForm* item = *((::GameForm **)((void *)(head)));
         ::FUN_00485910(0x4d414e50, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((item))->FUN_0084e3a0())));
         head = ((::HeadPartNode *)(reinterpret_cast<::Callees *>((head))->FUN_00726070()));
     }
@@ -4230,7 +4230,7 @@ bool NPCCompare::IsDifferentFrom(TESForm* form)
     HeadPartNode* node = reinterpret_cast<HeadPartNode*>(((::BSSimpleList< ::BGSHeadPart *> *)(reinterpret_cast<::FUN_00602170_shell *>(this)->FUN_00602170())));
     while (node && !node->FUN_008256d0())
     {
-        if (!reinterpret_cast<::RefList *>((reinterpret_cast<HeadPartCompare*>(((::BSSimpleList< ::BGSHeadPart *> *)(reinterpret_cast<::FUN_00602170_shell *>((npc))->FUN_00602170())))))->FUN_005f65d0((void **)&(*((::GameForm **)(new ((void *)(node)) ::Vec3())))))
+        if (!reinterpret_cast<::RefList *>((reinterpret_cast<HeadPartCompare*>(((::BSSimpleList< ::BGSHeadPart *> *)(reinterpret_cast<::FUN_00602170_shell *>((npc))->FUN_00602170())))))->FUN_005f65d0((void **)&(*((::GameForm **)((void *)(node))))))
             return true;
         node = ((::HeadPartNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
@@ -4440,7 +4440,7 @@ void TESNPC::UpdateModel3D(TESObjectREFR* refr, bool armor, bool weapon, bool up
                 !reinterpret_cast<::Thing575 *>((refr))->FUN_00575400((int)(pItemObject)))
             {
                 if (((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(equipment.pArmorItem)))))
-                    equipment.pExtraData = ((::ExtraDataList *)(new ((void *)(((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(equipment.pArmorItem)))))) ::Vec3()));
+                    equipment.pExtraData = ((((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(equipment.pArmorItem)))))->m_item);
                 else
                     equipment.pExtraData = 0;
                 if (iBipedObject == 2)
@@ -4470,7 +4470,7 @@ void TESNPC::UpdateModel3D(TESObjectREFR* refr, bool armor, bool weapon, bool up
                 ExtraDataList* pExtraData = 0;
                 if (((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(pArmorItem)))))
                 {
-                    pExtraData = ((::ExtraDataList *)(new ((void *)(((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(pArmorItem)))))) ::Vec3()));
+                    pExtraData = ((((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(pArmorItem)))))->m_item);
                     bDeleteItem = false;
                 }
                 else
@@ -5196,9 +5196,9 @@ void CopyData::FUN_00604ba0(CopyPrefix* apSource)
 
                 source9 = reinterpret_cast<CopyNpc*>(&fallback);
 
-                reinterpret_cast<::CombatProcedure *>(&(source9->race))->Initialize((::CombatController *)(*((int *)(new ((void *)(((::DefaultNpcValue *)(::FUN_004ea950((int)((*reinterpret_cast<::DefaultNpcManager * *>(&::g_dataHandler)))))))) ::Vec3()))));
+                reinterpret_cast<::CombatProcedure *>(&(source9->race))->Initialize((::CombatController *)(*((int *)((void *)(((::DefaultNpcValue *)(::FUN_004ea950((int)((*reinterpret_cast<::DefaultNpcManager * *>(&::g_dataHandler)))))))))));
 
-                reinterpret_cast<::FUN_00601c70_shell *>((source9))->FUN_00601c70(*((int *)(new ((void *)(((::DefaultNpcValue *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::DefaultNpcManager * *>(&::g_dataHandler))))->GetTESClassList())))) ::Vec3())));
+                reinterpret_cast<::FUN_00601c70_shell *>((source9))->FUN_00601c70(*((int *)((void *)(((::DefaultNpcValue *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::DefaultNpcManager * *>(&::g_dataHandler))))->GetTESClassList()))))));
             }
             else if (((::CopyNpc *)(reinterpret_cast<::ActorMover *>((source9))->GetCurrentMoveModeType())) && !reinterpret_cast<::TABStub *>((source9))->FUN_0047cca0())
                 source9->Reset(0);
@@ -7685,7 +7685,7 @@ void NPC75::FUN_00609220(Buffer75* buffer)
 
             while (node17)
             {
-                BGSHeadPart* part = ((::BGSHeadPart *)(new ((void *)(node17)) ::Vec3()));
+                BGSHeadPart* part = ((::BGSHeadPart *)((void *)(node17)));
                 if (part)
                     reinterpret_cast<::FUN_00438690 *>(&(saved14))->FUN_007cb2e0((unsigned int *)&(part));
                 node17 = ((::Node75 *)(reinterpret_cast<::Callees *>((node17))->FUN_00726070()));
@@ -7710,7 +7710,7 @@ void NPC75::FUN_00609220(Buffer75* buffer)
                 while (node17)
                 {
 
-                    BGSHeadPart* part = ((::BGSHeadPart *)(new ((void *)(node17)) ::Vec3()));
+                    BGSHeadPart* part = ((::BGSHeadPart *)((void *)(node17)));
 
                     if (part)
                     {
@@ -7859,7 +7859,7 @@ void Shell_00608f00_NPC::FUN_00608f00(BGSSaveFormBuffer* apFile)
             while (pIter)
             {
                 BGSHeadPart* pHeadPart =
-                    *(BGSHeadPart**)&new ((void *)(((Shell_00608f00_Item*)pIter))) ::Vec3();
+                    *(BGSHeadPart**)&(void *)(((Shell_00608f00_Item*)pIter));
                 if (pHeadPart)
                 {
                     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((Shell_00608f00_Buf*)apFile)))->FUN_00865df0((::fnv_00865df0::TESForm *)(pHeadPart), 0);
@@ -9040,7 +9040,7 @@ void TESNPC::FUN_006047c0(TESObjectREFR* a2, bool a3, bool a4, bool a5, bool a6)
             {
                 if (((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(item)))))
                 {
-                    pExtra = ((::ExtraDataList *)(new ((void *)(((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(item)))))) ::Vec3()));
+                    pExtra = ((((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(item)))))->m_item);
                 }
                 else
                 {
@@ -9083,7 +9083,7 @@ void TESNPC::FUN_006047c0(TESObjectREFR* a2, bool a3, bool a4, bool a5, bool a6)
                 fWeight = NULL;
                 if (((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(pWeaponExtra)))))
                 {
-                    fWeight = ((::ExtraDataList *)(new ((void *)(((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(pWeaponExtra)))))) ::Vec3()));
+                    fWeight = ((((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(pWeaponExtra)))))->m_item);
                     pItem = false;
                 }
                 else

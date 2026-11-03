@@ -63,7 +63,6 @@ struct FUN_00621290_shell
 // @fnv 0x00621290
 void* FUN_00621290_shell::InitFloats()
 {
-    new ((void *)this) ::Vec3();
     *(float*)((char*)this + 0x10) = ::DAT_0104da4c;
     *(float*)((char*)this + 0x14) = ::DAT_0104da4c;
     return this;
@@ -564,7 +563,7 @@ bool xCaster::FUN_00620bc0(const xP3& akFrom, xP3& akTo, xOutHit* apOut)
             if (FOUND)
             {
                 reinterpret_cast<::FUN_006212c0_shell *>((apOut))->FUN_006212c0(((::xHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::xHitList *)(::FUN_00460140((int)&(COL))))))->FUN_00807770(I))));
-                ::SetNiPoint3FromHkVector4((::NiPoint3 &)(akTo), (*(const ::hkVector4 *)(((::xVec4 *)(new ((void *)(apOut)) ::Vec3())))));
+                ::SetNiPoint3FromHkVector4((::NiPoint3 &)(akTo), (*(const ::hkVector4 *)(((::xVec4 *)((void *)(apOut))))));
             }
             else
                 RESULT = false;

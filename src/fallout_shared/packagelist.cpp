@@ -72,7 +72,7 @@ class TESAIForm
 // @fnv 0x0067e400
 void PackageList::ClearPackageList()
 {
-    reinterpret_cast<::FileMatchList *>((((::BSSimpleList< ::TESPackage *> *)(new ((void *)this) ::Vec3()))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((((::BSSimpleList< ::TESPackage *> *)(this))))->RemoveAll();
 }
 
 // Copies the package list from src into this form's package list.
@@ -94,7 +94,7 @@ TESPackage* PackageList::GetPackageForActor(Actor* actor)
         BSSimpleList<TESPackage*>* list;
     } selection;
     char message[300];
-    selection.list = ((::BSSimpleList< ::TESPackage *> *)(new ((void *)this) ::Vec3()));
+    selection.list = ((::BSSimpleList< ::TESPackage *> *)(this));
     selection.current = 0;
     if (actor)
         selection.current = reinterpret_cast<::FUN_009344a0_shell *>((actor))->FUN_009344a0();
@@ -102,7 +102,7 @@ TESPackage* PackageList::GetPackageForActor(Actor* actor)
     {
         selection.package = 0;
         selection.schedule = 0;
-        while (selection.list && (selection.package = ((::TESPackage *)(new ((void *)(selection.list)) ::Vec3()))))
+        while (selection.list && (selection.package = (selection.list->m_item)))
         {
             if ((selection.package->vfn_138(actor) && !selection.package->IsFlag10000Set() &&
                  !selection.package->IsMustReachLocation()) ||
@@ -199,7 +199,7 @@ void PackageList::InitItem(TESForm* form)
         BSSimpleList<TESPackage*>* previous;
         TESFile* file;
     } cursor;
-    cursor.list = ((::BSSimpleList< ::TESPackage *> *)(new ((void *)this) ::Vec3()));
+    cursor.list = ((::BSSimpleList< ::TESPackage *> *)(this));
     cursor.previous = 0;
     cursor.file = form ? form->GetFile(-1) : 0;
     while (cursor.list && !cursor.list->IsEmpty())
@@ -209,7 +209,7 @@ void PackageList::InitItem(TESForm* form)
             unsigned int formID;
             TESPackage* package;
         } packageEntry;
-        packageEntry.formID = reinterpret_cast<unsigned int>(((::TESPackage *)(new ((void *)(cursor.list)) ::Vec3())));
+        packageEntry.formID = reinterpret_cast<unsigned int>((cursor.list->m_item));
         if (form)
             ::ResolveFormID((unsigned int *)&(packageEntry.formID), cursor.file);
         packageEntry.package = dynamic_cast<TESPackage*>(::FUN_004839c0(packageEntry.formID));
@@ -274,12 +274,12 @@ void PackageList::Copy(const PackageList* src)
         BSSimpleList<TESPackage*>* list;
     } cursor;
     ClearPackageList();
-    cursor.list = ((::BSSimpleList< ::TESPackage *> *)(new ((void *)(src)) ::Vec3()));
+    cursor.list = ((::BSSimpleList< ::TESPackage *> *)((void *)(src)));
     if (!cursor.list->IsEmpty())
     {
         while (cursor.list)
         {
-            cursor.package = ((::TESPackage *)(new ((void *)(cursor.list)) ::Vec3()));
+            cursor.package = (cursor.list->m_item);
             AddPackage(cursor.package);
             cursor.list = ((::BSSimpleList< ::TESPackage *> *)(reinterpret_cast<::Callees *>((cursor.list))->FUN_00726070()));
         }
@@ -290,7 +290,7 @@ void PackageList::Copy(const PackageList* src)
 // @fnv 0x0067e420
 void PackageList::AddPackage(TESPackage* package)
 {
-    reinterpret_cast<::Callees *>((((::BSSimpleList< ::TESPackage *> *)(new ((void *)this) ::Vec3()))))->FUN_00905820((void *)&(package));
+    reinterpret_cast<::Callees *>((((::BSSimpleList< ::TESPackage *> *)(this))))->FUN_00905820((void *)&(package));
 }
 
 struct FUN_0067efd0_shell : public TESPackage
@@ -325,14 +325,14 @@ void PackageList::CollectEligiblePackages(Actor* actor, BSSimpleList<TESPackage*
     scan.currentMonth = (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetCurrentMonth();
     while (scan.day)
     {
-        BSSimpleList<TESPackage*>* pList = ((::BSSimpleList< ::TESPackage *> *)(new ((void *)this) ::Vec3()));
+        BSSimpleList<TESPackage*>* pList = ((::BSSimpleList< ::TESPackage *> *)(this));
         if (actor)
             sortCtx.current = reinterpret_cast<::FUN_009344a0_shell *>((actor))->FUN_009344a0();
         if (!pList->IsEmpty())
         {
             TESPackage* pPackage = 0;
             DurationData* pSchedule = 0;
-            while (pList && (pPackage = ((::TESPackage *)(new ((void *)(pList)) ::Vec3()))))
+            while (pList && (pPackage = (pList->m_item)))
             {
                 if (reinterpret_cast<::FUN_0067efd0_shell *>((pPackage))->FUN_0067efd0() && reinterpret_cast<::FUN_00677760_shell *>((pPackage))->FUN_00677760(actor))
                 {
@@ -387,8 +387,8 @@ void PackageList::CollectEligiblePackages(Actor* actor, BSSimpleList<TESPackage*
             pNext = sortCtx.cursor;
             while (pNext)
             {
-                TESPackage* pPackage1 = ((::TESPackage *)(new ((void *)(sortCtx.cursor)) ::Vec3()));
-                TESPackage* pPackage2 = ((::TESPackage *)(new ((void *)(pNext)) ::Vec3()));
+                TESPackage* pPackage1 = (sortCtx.cursor->m_item);
+                TESPackage* pPackage2 = (pNext->m_item);
                 if (reinterpret_cast<::ComparisonOwner *>((pPackage1))->CompareTo((::ComparisonEntry *)(::DurationData *)(reinterpret_cast<::FUN_0041d8a0_shell *>((pPackage2))->FUN_0041d8a0())) == 1)
                 {
                     sortCtx.cursor->SetItem(pPackage2);
@@ -425,14 +425,14 @@ bool FUN_0067e4a0_cls::FUN_0067e4a0(FUN_0067e4a0_cls* other)
     FUN_0067e4a0_cls* p;
     FUN_0067e4a0_cls* s;
 
-    s = (FUN_0067e4a0_cls*)((unsigned int *)(new ((void *)this) ::Vec3()));
-    p = (FUN_0067e4a0_cls*)((unsigned int *)(new ((void *)(other)) ::Vec3()));
+    s = (FUN_0067e4a0_cls*)((unsigned int *)(this));
+    p = (FUN_0067e4a0_cls*)((unsigned int *)((void *)(other)));
     if (!s->FUN_008256d0())
     {
-        while (s != 0 && *((unsigned int *)(new ((void *)(s)) ::Vec3())) != 0 && p != 0 && *((unsigned int *)(new ((void *)(p)) ::Vec3())) != 0)
+        while (s != 0 && *((unsigned int *)((void *)(s))) != 0 && p != 0 && *((unsigned int *)((void *)(p))) != 0)
         {
-            r = *((unsigned int *)(new ((void *)(s)) ::Vec3()));
-            q = *((unsigned int *)(new ((void *)(p)) ::Vec3()));
+            r = *((unsigned int *)((void *)(s)));
+            q = *((unsigned int *)((void *)(p)));
             if (r != q)
             {
                 return true;

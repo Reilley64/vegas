@@ -2269,7 +2269,7 @@ unsigned short FUN_005f8d70_shell::FUN_005f8d70()
     {
         FUN_005f8d70_record* record = static_cast<FUN_005f8d70_record*>(((void *)(reinterpret_cast<::IdleAnimationManager *>(((*reinterpret_cast<::FUN_005f8d70_runtime * *>(&::DAT_011cb6a0))))->FindIdleArrayEntry(
             (const char *)(void *)(reinterpret_cast<FUN_005f8d70_virtual*>(reinterpret_cast<char*>(this) - 0x30)->v5(1)), {}))));
-        if (record == 0 || *((int *)(new ((void *)(record)) ::Vec3())) == 0)
+        if (record == 0 || *((int *)((void *)(record))) == 0)
             reinterpret_cast<signed char*>(this)[0x50] = 0;
         else
             reinterpret_cast<signed char*>(this)[0x50] = 1;
@@ -2555,7 +2555,7 @@ void CreatureEquipment::FUN_005f9e00(TESObjectREFR* reference, int unused, bool 
         {
             ExtraDataList* extra = 0;
             if (((::ExtraDataNode *)(::FUN_00559450((int *)(aWeapon)))))
-                extra = ((::ExtraDataList *)(new ((void *)(((::ExtraDataNode *)(::FUN_00559450((int *)(aWeapon)))))) ::Vec3()));
+                extra = ((::ExtraDataList *)((void *)(((::ExtraDataNode *)(::FUN_00559450((int *)(aWeapon)))))));
             reference->EquipItem(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((aWeapon))->GetName())), ((int)(reinterpret_cast<::Callees *>((aWeapon))->FUN_00726070())), extra, false);
         }
     }

@@ -4268,18 +4268,15 @@ void ThisObj::FUN_00524db0(Param* param)
     dword4 = ((::fnv_00524db0::SubA *)(reinterpret_cast<::FUN_004600d0_shell *>((this))->FUN_004600d0()))->vfn_14();
     point1 = *((::fnv_00524db0::P12 *)(::FUN_0045bb80((int)(node3))));
     matTmp = *(Mat36*)((::fnv_00524db0::Sub461130 *)(::FUN_00461130((int)(node3))));
-    new ((void *)&(obj34)) ::Vec3();
     reinterpret_cast<::FUN_00439f50_class *>((((::fnv_00524db0::Sub461130 *)(::FUN_00461130((int)(node3))))))->FUN_00439f50(2, (::NiPoint3 *)(::fnv_00524db0::P12 *)(&obj34));
     f7c5 = -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting638))))));
     f9 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting638))))));
     reinterpret_cast<::FUN_0063c8a0_shell *>(&(obj34))->FUN_0063c8a0(((::fnv_00524db0::P12 *)(reinterpret_cast<::FUN_00416870_t *>(&(tempBCz))->FUN_00416870(::RandomFloat(f7c5, f9), ::RandomFloat(f7c5, f9), ::RandomFloat(f7c5, f9)))));
     reinterpret_cast<::MyPoint439180 *>(&(obj34))->FUN_00439180(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting636)))))));
     if (((int)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((paramHome8))->FUN_009306d0()))) {
-        new ((void *)&(ob88)) ::Vec3();
         ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&ob88)), (*(const ::hkVector4 *)(((int)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((paramHome8))->FUN_009306d0())) + 0x4f0)));
         reinterpret_cast<::FUN_0063c8a0_shell *>(&(obj34))->FUN_0063c8a0(&ob88);
     }
-    new ((void *)&(obj14)) ::Vec3();
     vecA0 = (*reinterpret_cast<::fnv_00524db0::P12 *>(&::DAT_011a946c));
     _fa8 = -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting639))))));
     f8c2 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting639))))));

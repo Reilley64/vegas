@@ -246,7 +246,7 @@ void FUN_0062a510_cls::FUN_0062a510(int a1)
 // @fnv 0x0062a670
 void* Owner_0062a670::GetNodeItem()
 {
-    return *((void **)(new ((void *)&(node)) ::Vec3()));
+    return *((void **)&(node));
 }
 
 namespace fnv_0062a690 {

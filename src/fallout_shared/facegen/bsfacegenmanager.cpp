@@ -1804,7 +1804,7 @@ void __cdecl QueueFaceGenAssets(TESActorBase* apNPC, int aePriority, QueuedFile*
     HPList* pheadPartList = &faceGenData.Accessories;
     while (pheadPartList)
     {
-        BGSHeadPart* pheadPart = *((::BGSHeadPart **)(new ((void *)(pheadPartList)) ::Vec3()));
+        BGSHeadPart* pheadPart = *((::BGSHeadPart **)((void *)(pheadPartList)));
         if (pheadPart && ((FUN_0048cee0_shell*)((char*)pheadPart + 0x24))->FUN_0048cee0())
         {
             reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((int)(pheadPart ? (TESModel*)((char*)pheadPart + 0x24) : 0), aePriority,
@@ -5152,8 +5152,8 @@ const char* __cdecl FUN_00653a10(BSStr* aStr, const char* apModel)
     ::FUN_00406d00(buf2, 0x104, "%s_50.NIF", buf5);
     reinterpret_cast<::TextString *>((aStr))->FUN_004037f0(buf2, 0);
     FUN_00406f60((FUN_00406f90_this*)&iter, "Meshes\\%s", (const char*)*aStr);
-    new ((void *)(&hashA)) ::Vec3();
-    new ((void *)((HPList*)&hashB)) ::Vec3();
+    (void *)(&hashA);
+    (void *)((HPList*)&hashB);
     ::HashPathComponents(((const char *)(::FUN_00559450((int *)((const BSStringT<char>*)&iter)))), (::FileNameHash *)(::HPList *)(&hashA), (::FileNameHash *)(::HPList *)((HPList*)&hashB));
     r6 = ((int)(::fnv_00af6540::FindFileEntryInArchives(0, (*(::fnv_00af6540::FileNameHash *)(&hashA)), (*(::fnv_00af6540::FileNameHash *)((HPList*)&hashB)), ((const char *)(::FUN_00559450((int *)((const BSStringT<char>*)&iter)))))));
     if (r6 == 0)
@@ -5606,9 +5606,9 @@ bool __cdecl BuildCharacterParts(FG547Node** root, FG547Node** alternate, FG547D
     if (data->leftEye && data->rightEye)
         ::fnv_006558b0::CreateEyeGeometry((::fnv_006558b0::BSFaceGenNiNode **)(root), (::fnv_006558b0::BSFaceGenNiNode **)(alternate), (::fnv_006558b0::FaceGenData *)(data), firstPerson);
     FG547List* node = &data->accessories;
-    while (node && *((::fnv_00654720::FG547Part **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::fnv_00654720::FG547Part **)((void *)(node))))
     {
-        ::FUN_00406f60((::FUN_00406f90_this *)(::StrMem *)(&model), DAT_01019710, (*((::fnv_00654720::FG547Part **)(new ((void *)(node)) ::Vec3())))->model.Path());
+        ::FUN_00406f60((::FUN_00406f90_this *)(::StrMem *)(&model), DAT_01019710, (*((::fnv_00654720::FG547Part **)((void *)(node))))->model.Path());
         unusedPath = GetOrCreateFaceGenModel(BuildEgmFilename(&texture, (const char*)*(BSStringT<char>*)&model, -1),
                                              (const char*)*(BSStringT<char>*)&model,
                                              BuildTriPathAndSet(&primary, (const char*)*(BSStringT<char>*)&model, -1),
@@ -5617,7 +5617,7 @@ bool __cdecl BuildCharacterParts(FG547Node** root, FG547Node** alternate, FG547D
         {
             reinterpret_cast<::FUN_0043fa80_s *>((((FG547Node*)(FGEntry*)accessory)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(hair));
             (*root)->Attach((FG547Node*)(FGEntry*)accessory, 1);
-            reinterpret_cast<::TESModelTextureSwap *>(&((*((::fnv_00654720::FG547Part **)(new ((void *)(node)) ::Vec3())))->model))->ApplyTextureSwaps((::NiAVObject *)(::fnv_00654720::FG547Node *)((FG547Node*)(FGEntry*)accessory));
+            reinterpret_cast<::TESModelTextureSwap *>(&((*((::fnv_00654720::FG547Part **)((void *)(node))))->model))->ApplyTextureSwaps((::NiAVObject *)(::fnv_00654720::FG547Node *)((FG547Node*)(FGEntry*)accessory));
             ::AssignFixedString((char *)(((FG547Node*)(FGEntry*)accessory)), (int)&(const ::fnv_00654720::NiFixedString &)(NiFixedString(DAT_010657e4)), {});
         }
         node = ((::fnv_00654720::FG547List *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));

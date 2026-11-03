@@ -95,7 +95,7 @@ struct TopicH
 // @fnv 0x00624ad0
 NiTransform* FUN_00624ad0(NiTransform* arNiTran, TopicH* arTopicH)
 {
-    ::FUN_00624b10((::FUN_004769c0_shell *)(arNiTran), (::FUN_004b4cf0_shell *)(::NiPoint3 *)(&(*(::NiPoint3 *)(new ((void *)(arTopicH)) ::Vec3()))));
+    ::FUN_00624b10((::FUN_004769c0_shell *)(arNiTran), (::FUN_004b4cf0_shell *)(::NiPoint3 *)(&(*(::NiPoint3 *)((void *)(arTopicH)))));
     SetNiPoint3FromHkVector4(*(NiPoint3*)((char*)arNiTran + 0x24), *(const hkVector4*)((::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>((arTopicH))->GetAddTopicList())));
     return arNiTran;
 }

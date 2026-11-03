@@ -1089,7 +1089,7 @@ void __cdecl FUN_0062eb50(float a1, NiPoint3 aPosition)
             !reinterpret_cast<::FUN_00580060_shell *>((reinterpret_cast<::FUN_00547770_shell *>((((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((_g_thePlayer))->GetTarget()))))->FUN_00547770()))->FUN_00580060())
         {
             ThreeByThreeMatrix kMat;
-            reinterpret_cast<::FUN_004a0c90_shell *>(&(kMat))->FUN_004a0c90(((float)(::FUN_004a4240())));
+            reinterpret_cast<::FUN_004a0c90_shell *>(&(kMat))->FUN_004a0c90(::FUN_004a4240());
             FUN_00689210(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((_g_thePlayer))->GetTarget())), 1.0f, ((const char *)(reinterpret_cast<::StartMenu *>(&(g_011d12c0))->GetMenuTitle())), kMat, aPosition, fMult, 1, 0);
         }
     }
@@ -2342,11 +2342,9 @@ int PhysicsController_o2_od_noo2::FUN_00630170(PhysicsReference* reference, floa
                 }
                 strength = -strength;
                 PhysicsVector force;
-                new ((void *)&(force)) ::Vec3();
                 FUN_005dbf20 multiplier(strength * mass);
                 reinterpret_cast<::S00630ae0_Result *>(&(force))->FUN_00630ae0((const ::S00630ae0_Source *)(const ::PhysicsVector *)(&multiplier), (const ::S00630ae0_Vector *)(const ::PhysicsVector *)(&direction));
                 PhysicsVector torque;
-                new ((void *)&(torque)) ::Vec3();
                 if (!::FUN_00c9c380((void *)(reference), {}))
                 {
                     PhysicsBounds inertiaBounds;
@@ -2355,7 +2353,6 @@ int PhysicsController_o2_od_noo2::FUN_00630170(PhysicsReference* reference, floa
                     PhysicsVector localTorque;
                     reinterpret_cast<::FUN_005532a0_cls *>(&(localTorque))->FUN_005532a0(0, 0, 0, 0);
                     PhysicsVector sizes;
-                    new ((void *)&(sizes)) ::Vec3();
                     reinterpret_cast<::S00458a10_Vector *>(&(sizes))->FUN_00458a10((const ::S00458a10_Vector *)(const ::PhysicsVector *)(&inertiaBounds.maximum), (const ::S00458a10_Vector *)(const ::PhysicsVector *)(&inertiaBounds.minimum));
                     int smallest = reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(0) < reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(1)
                                        ? (reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(1) < reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(2) ? 2 : 1)
@@ -2381,7 +2378,6 @@ int PhysicsController_o2_od_noo2::FUN_00630170(PhysicsReference* reference, floa
                 reinterpret_cast<::TESForm *>((state))->ClearData();
                 reinterpret_cast<::FUN_00631140_shell *>((reference))->FUN_00631140(deltaTime, (int)(&force), (int)(&torque));
                 PhysicsVector secondForce;
-                new ((void *)&(secondForce)) ::Vec3();
                 FUN_005dbf20 secondMultiplier(mass * -1.0);
                 reinterpret_cast<::S00630ae0_Result *>(&(secondForce))->FUN_00630ae0((const ::S00630ae0_Source *)(const ::PhysicsVector *)(&secondMultiplier), (const ::S00630ae0_Vector *)(const ::PhysicsVector *)(&direction));
                 reinterpret_cast<::FUN_00631100_shell *>((reference))->FUN_00631100(deltaTime, (int)(&secondForce));
@@ -2833,7 +2829,7 @@ void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
         reinterpret_cast<::FUN_00438af0_Class *>(&((*reinterpret_cast<::LockE *>(&::g_011cc584))))->FUN_00438af0();
         while (!*(*reinterpret_cast<::FlagE *>(&::g_011cc5a8)).Get() && pkNode && !reinterpret_cast<::ObsList *>((pkNode))->FUN_004a4460())
         {
-            RefE* pkRef = ((::RefPtrE *)(new ((void *)(pkNode)) ::Vec3()))->operator->();
+            RefE* pkRef = ((::RefPtrE *)((void *)(pkNode)))->operator->();
             RefE* pkRef2 = pkRef;
             BodyE* pkBody = ((::BodyE *)(reinterpret_cast<::FUN_00620b80_shell *>((pkRef2))->GetReferenceFlags()));
             int iResult = 0;
@@ -2919,11 +2915,13 @@ bool HeightGridW::FUN_0062ff10(TESObjectREFRW* pkRef, const hkVector4W& kTarget,
         hkVector4W kPos(pkRef->GetHavokPosition());
         hkVector4W kDiff;
         reinterpret_cast<::S00458a10_Vector *>(&(kDiff))->FUN_00458a10((const ::S00458a10_Vector *)&(kPos), (const ::S00458a10_Vector *)&(kTarget));
-        if (reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkSimdRealW &)((*(::hkSimdRealW *)(reinterpret_cast<::FUN_00630100_shell *>((void *)&(kDiff))->FUN_00630100({})))))->FUN_004586d0() > fRadius)
+        ::hkSimdRealW kLength;
+        if (reinterpret_cast<::S004586d0_Obj *>(reinterpret_cast<::FUN_00630100_shell *>(&kDiff)->FUN_00630100(&kLength))->FUN_004586d0() > fRadius)
         {
             if (pkCharacter->IsNonZero(0x88))
             {
-                if ((*(::hkBoolW *)(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(reinterpret_cast<::FUN_00c9bff0_Class *>((void *)(pkRef))->FUN_00c9bff0({})))->FUN_005609f0())))
+                unsigned char bInactive;
+                if (reinterpret_cast<::FUN_005609f0_shell *>(reinterpret_cast<::FUN_00c9bff0_Class *>(pkRef)->FUN_00c9bff0(&bInactive))->FUN_005609f0())
                     reinterpret_cast<::FUN_00c9c240_holder *>((((CharacterW*)pkCharacter)))->FUN_00c9d600();
             }
             return false;
@@ -2975,7 +2973,9 @@ struct S00630ae0_Result_o2_od_oy_noo2
 // @fnv 0x00630ae0
 void S00630ae0_Result_o2_od_oy_noo2::FUN_00630ae0(const S00630ae0_Source* a, const S00630ae0_Vector* b)
 {
-    m_vComponents = _mm_mul_ps((*(::S00630ae0_Vector *)(reinterpret_cast<::S00561240_Vector *>((void *)(a))->FUN_00561240({}))).m_vComponents, b->m_vComponents);
+    ::S00630ae0_Vector kA;
+    reinterpret_cast<const ::S00561240_Vector *>(a)->FUN_00561240((::S00561240_Vector *)&kA);
+    m_vComponents = _mm_mul_ps(kA.m_vComponents, b->m_vComponents);
 }
 
 class S00630b40_SimdReal
@@ -2997,7 +2997,7 @@ class S00630b40_Vector
 // @fnv 0x00630b40
 S00630b40_SimdReal S00630b40_Vector::FUN_00630b40() const
 {
-    return S00630b40_SimdReal(_mm_sqrt_ss((*(const ::__m128 *)(new ((void *)&(dot3(*this))) ::Vec3()))));
+    return S00630b40_SimdReal(_mm_sqrt_ss(dot3(*this).m_vValue));
 }
 
 class FUN_006815c0
@@ -3095,7 +3095,7 @@ struct VectorStandIn
 void FUN_00630bb0_shell_o2_od_oy_noo2::FUN_00630bb0(Source630* pkSource, void* pvParam)
 {
     FUN_006815c0 kA;
-    (*(::__m128 *)(new ((void *)&(kA)) ::Vec3())) = DAT_010c71e0;
+    kA.m_vComponents = DAT_010c71e0;
     FUN_006815c0 kB;
     reinterpret_cast<::VectorStandIn *>(&(kB))->FUN_00630fa0((*(const ::VectorStandIn *)(pkSource)), 3);
     FUN_006815c0 kC;
@@ -3103,11 +3103,11 @@ void FUN_00630bb0_shell_o2_od_oy_noo2::FUN_00630bb0(Source630* pkSource, void* p
     FUN_006815c0 kD;
     reinterpret_cast<::S00630ce0_Vector *>(&(kD))->FUN_00630ce0((const ::S00630ce0_Vector *)(pvParam), (const ::S00630ce0_Vector *)(class ::FUN_006815c0 *)(&kC));
     FUN_006815c0 kE;
-    (*(::__m128 *)(new ((void *)&(kE)) ::Vec3())) = (*(::__m128 *)(new ((void *)&(((::Transform630 *)(new ((void *)(pkSource)) ::Vec3()))->FUN_0062b0a0(pvParam))) ::Vec3()));
+    kE.m_vComponents = ((::Transform630 *)pkSource)->FUN_0062b0a0(pvParam).m_vComponents;
     reinterpret_cast<::S00630ed0_Vector *>(&(kE))->FUN_00630ed0(0);
-    kD.FUN_00630d30(&kE, (FUN_006815c0*)((::Transform630 *)(new ((void *)(pkSource)) ::Vec3())));
+    kD.FUN_00630d30(&kE, (FUN_006815c0*)((::Transform630 *)pkSource));
     FUN_006815c0 kF;
-    reinterpret_cast<::hkVector4 *>(&(kF))->FUN_00630df0((*(const ::hkVector4 *)((FUN_006815c0*)((::Transform630 *)(new ((void *)(pkSource)) ::Vec3())))), (*(const ::hkVector4 *)(pvParam)));
+    reinterpret_cast<::hkVector4 *>(&(kF))->FUN_00630df0((*(const ::hkVector4 *)((FUN_006815c0*)((::Transform630 *)pkSource))), (*(const ::hkVector4 *)(pvParam)));
     kD.FUN_00630d30(&kB, &kF);
     FUN_00458880(&kD, &kD);
 }

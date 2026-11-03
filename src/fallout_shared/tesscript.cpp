@@ -198,9 +198,9 @@ void FUN_005a8c90_shell::FUN_005a8c90()
 {
     if (this->m_pVariableList)
     {
-        while (((::ScriptLocalVariable *)(new ((void *)((this->m_pVariableList))) ::Vec3())))
+        while ((((this->m_pVariableList))->m_item))
         {
-            ScriptLocalVariable* local = ((::ScriptLocalVariable *)(new ((void *)((this->m_pVariableList))) ::Vec3()));
+            ScriptLocalVariable* local = (((this->m_pVariableList))->m_item);
             (this->m_pVariableList)->RemoveHead();
             delete local;
         }
@@ -255,9 +255,9 @@ struct FUN_005a8ea0_shell : public ScriptLocals
 void FUN_005a8ea0_shell::FUN_005a8ea0()
 {
     void* pList = *(void**)&this->m_pLocalVariableList;
-    while (pList && *((int *)(new ((void *)(pList)) ::Vec3())))
+    while (pList && *((int *)((void *)(pList))))
     {
-        int* used = (int*)*((int *)(new ((void *)(pList)) ::Vec3()));
+        int* used = (int*)*((int *)((void *)(pList)));
         pList = reinterpret_cast<::Callees *>((pList))->FUN_00726070();
         used[1] = 0;
     }
@@ -296,7 +296,7 @@ double FUN_005a9140_shell::FUN_005a9140(unsigned int auiID, Script* apScript)
         unsigned int pCurrentElementNext = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0()));
         while (pCurrentElementNext != 0 && !_ref_008256d0(pCurrentElementNext))
         {
-            ScriptLocalVariable* pCandidate = *((::ScriptLocalVariable **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            ScriptLocalVariable* pCandidate = *((::ScriptLocalVariable **)((void *)(pCurrentElementNext)));
             if (*(unsigned int*)pCandidate == auiID)
             {
                 plocalvar = pCandidate;
@@ -374,7 +374,7 @@ void Script::FUN_005aa2e0()
     BSSimpleList<ScriptVariableInfo*>* pList = ((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
     while (pList && !pList->IsEmpty())
     {
-        delete ((::ScriptVariableInfo *)(new ((void *)(pList)) ::Vec3()));
+        delete (pList->m_item);
         pList->RemoveHead();
     }
 }
@@ -484,13 +484,13 @@ void FUN_005aa720()
     reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_005aa720::ActorTaskManager *>(&::g_011cacf8))))->FUN_004538a0(0);
     while (!(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011caca8)).IsEmpty())
     {
-        TESObjectREFR* pref = ((::TESObjectREFR *)(new ((void *)&((*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011caca8)))) ::Vec3()));
+        TESObjectREFR* pref = (*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011caca8)).m_item;
         (*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011caca8)).RemoveHead();
         reinterpret_cast<::fnv_00573f40::R *>((pref))->FUN_00573f40();
     }
     while (!(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cac98)).IsEmpty())
     {
-        TESObjectREFR* pref = ((::TESObjectREFR *)(new ((void *)&((*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cac98)))) ::Vec3()));
+        TESObjectREFR* pref = (*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cac98)).m_item;
         (*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cac98)).RemoveHead();
         reinterpret_cast<::Ref *>((pref))->FUN_00574400();
     }
@@ -500,7 +500,7 @@ void FUN_005aa720()
         TESObjectREFR* pref;
         NiNode* pav;
         BSSimpleList<TESObjectREFR*>* m_pActionSuccessor = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
-        pref = ((::TESObjectREFR *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        pref = (pCurrentElementNext->m_item);
         pav = pref->GetNiNode_v();
         BSFadeNode* pfade = pav ? pav->GetFadeNode() : 0;
         if (!pfade || !FUN_005aa8c0(pfade))
@@ -514,7 +514,7 @@ void FUN_005aa720()
     }
     while (!(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cacb8)).IsEmpty())
     {
-        TESObjectREFR* pref = ((::TESObjectREFR *)(new ((void *)&((*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cacb8)))) ::Vec3()));
+        TESObjectREFR* pref = (*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cacb8)).m_item;
         (*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cacb8)).RemoveHead();
         delete pref;
     }
@@ -582,7 +582,7 @@ void __cdecl CopyListToTail(void* pSourceList, SoundListView* pCopyToList)
 
     while (pSourceList && !_ref_008256d0(pSourceList))
     {
-        SoundListEntry* pNewRefObject = (SoundListEntry*)new FUN_005ab8b0(*((int *)(new ((void *)(pSourceList)) ::Vec3())));
+        SoundListEntry* pNewRefObject = (SoundListEntry*)new FUN_005ab8b0(*((int *)((void *)(pSourceList))));
         reinterpret_cast<::Callees *>((pCopyToList))->FUN_00905820((void *)&(pNewRefObject));
         pSourceList = reinterpret_cast<::Callees *>((pSourceList))->FUN_00726070();
     }
@@ -725,7 +725,7 @@ ScriptReferencedObject* FUN_005ac4f0_shell::GetNthRefByIndex(unsigned int aiInde
     if (!pList)
         return 0;
 
-    pExtraDataEntry = *((::ScriptReferencedObject **)(new ((void *)(pList)) ::Vec3()));
+    pExtraDataEntry = *((::ScriptReferencedObject **)((void *)(pList)));
     if (pExtraDataEntry->m_uiFormID != 0 && apScriptLocals != 0)
     {
         double dtemp =
@@ -838,9 +838,9 @@ typedef char*(* NameFn)(void*);
 char* FUN_005abed0_shell::FUN_005abed0(unsigned int auiID)
 {
     void* pList = ((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
-    while (pList && *((int *)(new ((void *)(pList)) ::Vec3())))
+    while (pList && *((int *)((void *)(pList))))
     {
-        VarX* pVar = (VarX*)*((int *)(new ((void *)(pList)) ::Vec3()));
+        VarX* pVar = (VarX*)*((int *)((void *)(pList)));
         pList = reinterpret_cast<::Callees *>((pList))->FUN_00726070();
         if (pVar->id == auiID)
             return (char*)(unsigned int)pVar->flt;
@@ -906,7 +906,7 @@ void FUN_005ae2e0_shell::FUN_005ae2e0()
     void* pCurrentElementNext = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)this)))->FUN_005d43c0()));
     while (pCurrentElementNext && !_ref_008256d0((unsigned int)pCurrentElementNext))
     {
-        RefObj* prefObject = (RefObj*)*((int *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        RefObj* prefObject = (RefObj*)*((int *)((void *)(pCurrentElementNext)));
         if (prefObject && prefObject->fc)
             prefObject->f8 = 0;
         pCurrentElementNext = reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070();
@@ -1151,9 +1151,9 @@ struct MobileObject
 void FUN_005a9290_shell::SetScriptVariable(unsigned int auiID, double value)
 {
     BSSimpleList<SCRIPT_LOCAL_s*>* pList = (BSSimpleList<SCRIPT_LOCAL_s*>*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0()));
-    while (pList && *((::SCRIPT_LOCAL_s **)(new ((void *)(((LocalListStub*)pList))) ::Vec3())))
+    while (pList && *((::SCRIPT_LOCAL_s **)((void *)(((LocalListStub*)pList)))))
     {
-        SCRIPT_LOCAL_s* pLocal = *((::SCRIPT_LOCAL_s **)(new ((void *)(((LocalListStub*)pList))) ::Vec3()));
+        SCRIPT_LOCAL_s* pLocal = *((::SCRIPT_LOCAL_s **)((void *)(((LocalListStub*)pList))));
         pList = ((::BSSimpleList< ::SCRIPT_LOCAL_s *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         if (pLocal->uiID == auiID)
         {
@@ -1377,11 +1377,11 @@ void* FUN_005ac020_shell::CopyVariableList()
 
     pNewList = (SoundListView*)new SL;
     pList = (S006815c0*)((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
-    while (pList && *((::ScriptVariableInfo **)(new ((void *)(pList)) ::Vec3())))
+    while (pList && *((::ScriptVariableInfo **)((void *)(pList))))
     {
         char* pLocal;
         ScriptVariableInfo* pVar;
-        pVar = *((::ScriptVariableInfo **)(new ((void *)(pList)) ::Vec3()));
+        pVar = *((::ScriptVariableInfo **)((void *)(pList)));
         pList = ((::fnv_005ac020::S006815c0 *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         pLocal = (char*)new FUN_005ac150(pVar);
         reinterpret_cast<::Callees *>((pNewList))->FUN_00905820((void *)&(pLocal));
@@ -1427,7 +1427,7 @@ void CopyListToView(FUN_008256d0* pSourceList, SoundListView* pTargetView)
     while (pSourceList && !pSourceList->FUN_008256d1())
     {
         FUN_005e2910* const pNewItem =
-            (FUN_005e2910*)new FUN_005e2910Big(((::fnv_005ab930::FUN_005e2910 *)(new ((void *)(pSourceList)) ::Vec3()))->m_pInventoryEntryData);
+            (FUN_005e2910*)new FUN_005e2910Big(((::fnv_005ab930::FUN_005e2910 *)((void *)(pSourceList)))->m_pInventoryEntryData);
         reinterpret_cast<::Callees *>((pTargetView))->FUN_00905820((void *)&(pNewItem));
         pSourceList = ((::fnv_005ab930::FUN_008256d0 *)(reinterpret_cast<::Callees *>((pSourceList))->FUN_00726070()));
     }
@@ -1504,9 +1504,9 @@ struct FUN_005ac6a0 : Script
 char FUN_005ac6a0::Method_005ac6a0(const char* pcName, unsigned int* puiID)
 {
     BSSimpleList<ScriptVariableInfo*>* node = ((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
-    while (node && ((::ScriptVariableInfo *)(new ((void *)(node)) ::Vec3())))
+    while (node && (node->m_item))
     {
-        ScriptVariableInfo* variable = ((::ScriptVariableInfo *)(new ((void *)(node)) ::Vec3()));
+        ScriptVariableInfo* variable = (node->m_item);
         node = ((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         if (::FUN_00404dc0((const char*)(unsigned int)*(Flt*)((char*)variable + 0x18), pcName) == 0)
         {
@@ -1798,9 +1798,9 @@ bool FUN_005a9480_holder::FUN_005a9480(unsigned int formID)
         return false;
     }
     void* node = reinterpret_cast<::FUN_005d43c0_ *>((pHead))->FUN_005d43c0();
-    while (node != 0 && *((int *)(new ((void *)(node)) ::Vec3())) != 0)
+    while (node != 0 && *((int *)((void *)(node))) != 0)
     {
-        FUN_005a9480_ItemRef* item = (FUN_005a9480_ItemRef*)*((int *)(new ((void *)(node)) ::Vec3()));
+        FUN_005a9480_ItemRef* item = (FUN_005a9480_ItemRef*)*((int *)((void *)(node)));
         if (item->formID == formID)
         {
             return true;
@@ -1858,7 +1858,7 @@ unsigned short GetScriptLocalsSerializedSize(ScriptLocals* pLocals)
     ScriptLocalList* entry = (ScriptLocalList*)pLocals->m_pVariableList;
     while (entry)
     {
-        ScriptVariableValue* value = *((::ScriptVariableValue **)(new ((void *)(entry)) ::Vec3()));
+        ScriptVariableValue* value = *((::ScriptVariableValue **)((void *)(entry)));
         if (value && value->value != 0.0)
         {
             if (reinterpret_cast<::FUN_005a9480_holder *>((((ScriptLocalsExt*)pLocals)))->FUN_005a9480(value->id))
@@ -1926,7 +1926,7 @@ void SaveLocals9db0::FUN_005a9db0(BGSSaveFormBuffer* buffer)
     BSSimpleList<ScriptLocalVariable*>* node3 = m_pVariableList;
     while (node3)
     {
-        ScriptLocalVariable* local_ = ((::ScriptLocalVariable *)(new ((void *)(node3)) ::Vec3()));
+        ScriptLocalVariable* local_ = (node3->m_item);
         if (local_ && local_->fValue != 0.0)
         {
             if (reinterpret_cast<::FUN_005a9480_holder *>(this)->FUN_005a9480(local_->uiID))
@@ -2141,8 +2141,8 @@ bool ScriptCmpOwner::IsDifferentFromCompileData(CompileDataStub* apData)
         return true;
     while (newVars && oldVars)
     {
-        oldVar4 = *((::ScrVarStub **)(new ((void *)(oldVars)) ::Vec3()));
-        newVar4 = *((::ScrVarStub **)(new ((void *)(newVars)) ::Vec3()));
+        oldVar4 = *((::ScrVarStub **)((void *)(oldVars)));
+        newVar4 = *((::ScrVarStub **)((void *)(newVars)));
         if (newVar4 && oldVar4 && reinterpret_cast<::FUN_005e29a0_shell *>((newVar4))->FUN_005e29a0((::FUN_005e29a0_shell *)(oldVar4)))
             return true;
         newVars = ((::VarListStub *)(reinterpret_cast<::Callees *>((newVars))->FUN_00726070()));
@@ -2155,8 +2155,8 @@ bool ScriptCmpOwner::IsDifferentFromCompileData(CompileDataStub* apData)
         return true;
     while (newRefs3 && oldRefs4)
     {
-        oldRef = *((::RefObjStub **)(new ((void *)(oldRefs4)) ::Vec3()));
-        newRef = *((::RefObjStub **)(new ((void *)(newRefs3)) ::Vec3()));
+        oldRef = *((::RefObjStub **)((void *)(oldRefs4)));
+        newRef = *((::RefObjStub **)((void *)(newRefs3)));
         if (newRef && oldRef && newRef->form != oldRef->form)
             return true;
         newRefs3 = ((::RefListStub *)(reinterpret_cast<::Callees *>((newRefs3))->FUN_00726070()));
@@ -2186,9 +2186,9 @@ void FUN_005a8c00(void* pThis)
     void* l;
     if (((FUN_005a8c00_cls*)pThis)->m_08 != 0)
     {
-        while (*((int *)(new ((void *)(((FUN_005a8c00_cls*)pThis)->m_08)) ::Vec3())) != 0)
+        while (*((int *)((void *)(((FUN_005a8c00_cls*)pThis)->m_08))) != 0)
         {
-            v = *(unsigned int*)((int *)(new ((void *)(((FUN_005a8c00_cls*)pThis)->m_08)) ::Vec3()));
+            v = *(unsigned int*)((int *)((void *)(((FUN_005a8c00_cls*)pThis)->m_08)));
             ((FUN_005a8c00_list*)((FUN_005a8c00_cls*)pThis)->m_08)->_ref_0063f7b0();
             arg = (void*)v;
             ::FUN_00401030(arg);
@@ -2252,7 +2252,7 @@ void ThisX::WriteScriptLocals()
     pList = m_0c;
     while (pList)
     {
-        pCur = *((::ScriptVariableValue **)(new ((void *)(pList)) ::Vec3()));
+        pCur = *((::ScriptVariableValue **)((void *)(pList)));
         if (pCur && pCur->value != 0.0)
         {
             if (reinterpret_cast<::FUN_005a9480_holder *>(this)->FUN_005a9480(pCur->id))
@@ -2363,7 +2363,7 @@ void __cdecl WriteReferenceLists(BGSSaveFormBuffer* buffer)
             while (list1 != 0)
             {
 
-                item9 = (TESObjectREFR*)*((int *)(new ((void *)(list1)) ::Vec3()));
+                item9 = (TESObjectREFR*)*((int *)(&list1->m_item));
 
                 if (item9 != 0)
                 {
@@ -2387,7 +2387,7 @@ void __cdecl WriteReferenceLists(BGSSaveFormBuffer* buffer)
             while (listVal != 0)
             {
 
-                aItem2 = (TESObjectREFR*)*((int *)(new ((void *)(listVal)) ::Vec3()));
+                aItem2 = (TESObjectREFR*)*((int *)(&listVal->m_item));
 
                 if (aItem2 != 0)
                 {
@@ -2411,7 +2411,7 @@ void __cdecl WriteReferenceLists(BGSSaveFormBuffer* buffer)
             while (list9 != 0)
             {
 
-                item8 = (TESObjectREFR*)*((int *)(new ((void *)(list9)) ::Vec3()));
+                item8 = (TESObjectREFR*)*((int *)(&list9->m_item));
 
                 if (item8 != 0)
                 {
@@ -2435,7 +2435,7 @@ void __cdecl WriteReferenceLists(BGSSaveFormBuffer* buffer)
             while (list4 != 0)
             {
 
-                item6 = (TESObjectREFR*)*((int *)(new ((void *)(list4)) ::Vec3()));
+                item6 = (TESObjectREFR*)*((int *)(&list4->m_item));
 
                 if (item6 != 0)
                 {
@@ -2498,8 +2498,8 @@ bool ScriptCompareOwner::IsDifferentFrom(Script* apOther)
     kPIter = ((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     while (pOtherIter7 && kPIter)
     {
-        pRef = ((::ScriptReferencedObject *)(new ((void *)(kPIter)) ::Vec3()));
-        pOtherRef8 = ((::ScriptReferencedObject *)(new ((void *)(pOtherIter7)) ::Vec3()));
+        pRef = (kPIter->m_item);
+        pOtherRef8 = (pOtherIter7->m_item);
         if (pOtherRef8 && pRef && pOtherRef8->pForm != pRef->pForm)
             return true;
         pOtherIter7 = ((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::Callees *>((pOtherIter7))->FUN_00726070()));
@@ -3572,7 +3572,7 @@ void Scr::FUN_005ab400(TESForm* form)
     TESFile* pTemp = form ? form->GetFile(-1) : 0;
     while (iter && !iter->FUN_008256d0())
     {
-        ScriptReferencedObject* refTmp = *((::ScriptReferencedObject **)(new ((void *)(iter)) ::Vec3()));
+        ScriptReferencedObject* refTmp = *((::ScriptReferencedObject **)((void *)(iter)));
         TESForm* form7 = refTmp->pForm;
         unsigned int idB = refTmp->m_uiFormID;
         bool ok3 = false;
@@ -3596,7 +3596,7 @@ void Scr::FUN_005ab400(TESForm* form)
         {
             if (pPrev)
             {
-                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((*(::InventoryStackRecord *const *)(((::ScriptReferencedObject **)(new ((void *)(iter)) ::Vec3())))));
+                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((*(::InventoryStackRecord *const *)(((::ScriptReferencedObject **)((void *)(iter))))));
                 iter = ((::S4eb0_list *)(reinterpret_cast<::Callees *>((pPrev))->FUN_00726070()));
             }
             else
@@ -3798,7 +3798,7 @@ void ClsX::FUN_005aa350()
     ListX* pList = ((::fnv_005aa350::ListX *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     while (pList != 0 && !pList->FUN_008256d0())
     {
-        ItemX* b = *((::fnv_005aa350::ItemX **)(new ((void *)(pList)) ::Vec3()));
+        ItemX* b = *((::fnv_005aa350::ItemX **)((void *)(pList)));
         ItemX* pItem = b;
         // the result is discarded but stays in an implicit temp (VM /Od slot layout)
         (void)(pItem ? reinterpret_cast<::fnv_005aa3f0::p07::DelStandIn *>((pItem))->FUN_005aa3f0(1) : 0);

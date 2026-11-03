@@ -6018,9 +6018,9 @@ bool FUN_00962720_shell::HasExtraFollowerForm(char* apForm)
     if (pkFollower && *(char**)((char*)pkFollower + 0xc))
     {
         _ref_006815c0* pkNode = *(_ref_006815c0**)((char*)pkFollower + 0xc);
-        while (pkNode && *((char **)(new ((void *)(pkNode)) ::Vec3())))
+        while (pkNode && *((char **)((void *)(pkNode))))
         {
-            char* pkEntry = *((char **)(new ((void *)(pkNode)) ::Vec3()));
+            char* pkEntry = *((char **)((void *)(pkNode)));
             if (pkEntry == apForm)
                 return true;
             pkNode = (_ref_006815c0*)((char *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));

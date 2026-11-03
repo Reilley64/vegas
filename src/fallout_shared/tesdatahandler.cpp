@@ -625,12 +625,12 @@ void TESDataHandler::MarkGameSettingsLoaded()
     for (int i = 0; i < nCount - 1; ++i)
     {
         BSSimpleList<TESClass*>* node = pClassList;
-        while (node && ((::TESClass *)(new ((void *)(node)) ::Vec3())))
+        while (node && (node->m_item))
         {
             if (((::BSSimpleList< ::TESClass *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             {
-                TESClass* first = ((::TESClass *)(new ((void *)(node)) ::Vec3()));
-                TESClass* second = ((::TESClass *)(new ((void *)(((::BSSimpleList< ::TESClass *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))) ::Vec3()));
+                TESClass* first = (node->m_item);
+                TESClass* second = ((((::BSSimpleList< ::TESClass *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))->m_item);
                 if (first && second &&
                     _mbsicmp((const unsigned char*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(first->fullName))->FUN_00408da0())),
                              (const unsigned char*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(second->fullName))->FUN_00408da0()))) > 0)
@@ -647,12 +647,12 @@ void TESDataHandler::MarkGameSettingsLoaded()
     for (int i = 0; i < nCount - 1; ++i)
     {
         BSSimpleList<TESRace*>* node = pRaceList;
-        while (node && ((::TESRace *)(new ((void *)(node)) ::Vec3())))
+        while (node && (node->m_item))
         {
             if (((::BSSimpleList< ::TESRace *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             {
-                TESRace* pRace = ((::TESRace *)(new ((void *)(node)) ::Vec3()));
-                TESRace* second = ((::TESRace *)(new ((void *)(((::BSSimpleList< ::TESRace *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))) ::Vec3()));
+                TESRace* pRace = (node->m_item);
+                TESRace* second = ((((::BSSimpleList< ::TESRace *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))->m_item);
                 if (pRace && second &&
                     _mbsicmp((const unsigned char*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pRace->fullName))->FUN_00408da0())),
                              (const unsigned char*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(second->fullName))->FUN_00408da0()))) > 0)
@@ -1763,9 +1763,9 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
         reinterpret_cast<::fnv_00471400::FUN_00471400_shell *>((((LC3_DH*)this)->m_pActiveFile))->FUN_00471400();
         reinterpret_cast<::FUN_00471870_shell *>((((LC3_DH*)this)->m_pActiveFile))->MatchMasterFiles(GetFileList(), true);
     }
-    while (pheadpartList && *((void **)(new ((void *)(pheadpartList)) ::Vec3())))
+    while (pheadpartList && *((void **)((void *)(pheadpartList))))
     {
-        pfile = (TESFile*)*((void **)(new ((void *)(pheadpartList)) ::Vec3()));
+        pfile = (TESFile*)*((void **)((void *)(pheadpartList)));
         if (pfile->GetIsChecked())
         {
             reinterpret_cast<::fnv_00471400::FUN_00471400_shell *>((pfile))->FUN_00471400();
@@ -1805,9 +1805,9 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
     FUN_0043b2b0(true);
     pheadpartList = (LC3_Node*)GetFileList();
     plastList = 0;
-    while (pheadpartList && *((void **)(new ((void *)(pheadpartList)) ::Vec3())))
+    while (pheadpartList && *((void **)((void *)(pheadpartList))))
     {
-        pfile = (TESFile*)*((void **)(new ((void *)(pheadpartList)) ::Vec3()));
+        pfile = (TESFile*)*((void **)((void *)(pheadpartList)));
         bool bremove = false;
         if (pfile->GetIsChecked())
         {
@@ -1836,7 +1836,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
             delete pfile;
             if (plastList)
             {
-                reinterpret_cast<::ItemChangeListNode *>((plastList))->FUN_00905330((*(::InventoryStackRecord *const *)(((void **)(new ((void *)(pheadpartList)) ::Vec3())))));
+                reinterpret_cast<::ItemChangeListNode *>((plastList))->FUN_00905330((*(::InventoryStackRecord *const *)(((void **)((void *)(pheadpartList))))));
                 pheadpartList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((plastList))->FUN_00726070()));
             }
             else
@@ -1923,202 +1923,202 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
     reinterpret_cast<::FUN_00464d30_shell *>(this)->FUN_00464d30(false);
 
     pweatherlist = (LC3_Node*)((::BSSimpleList< ::TESWeather *> *)(reinterpret_cast<::TESTopicInfo *>(this)->GetAddTopicList()));
-    while (pweatherlist && (pweather = (TESForm*)*((void **)(new ((void *)(pweatherlist)) ::Vec3()))) != 0)
+    while (pweatherlist && (pweather = (TESForm*)*((void **)((void *)(pweatherlist)))) != 0)
     {
         pweather->InitItem();
         pweatherlist = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pweatherlist))->FUN_00726070()));
     }
     pcamshotlist = (LC3_Node*)((::BSSimpleList< ::BGSCameraShot *> *)(::FUN_00461110((int)this)));
-    while (pcamshotlist && (pcamshot = (TESForm*)*((void **)(new ((void *)(pcamshotlist)) ::Vec3()))) != 0)
+    while (pcamshotlist && (pcamshot = (TESForm*)*((void **)((void *)(pcamshotlist)))) != 0)
     {
         pcamshot->InitItem();
         pcamshotlist = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pcamshotlist))->FUN_00726070()));
     }
     pRaceList = (LC3_Node*)((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((int)this)));
-    while (pRaceList && (pRace = (TESForm*)*((void **)(new ((void *)(pRaceList)) ::Vec3()))) != 0)
+    while (pRaceList && (pRace = (TESForm*)*((void **)((void *)(pRaceList)))) != 0)
     {
         pRace->InitItem();
         pRaceList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pRaceList))->FUN_00726070()));
     }
     pimpdatasetlist = (LC3_Node*)((::BSSimpleList< ::BGSHeadPart *> *)(reinterpret_cast<::FUN_00624700_shell *>(this)->FUN_00624700()));
-    while (pimpdatasetlist && (pheadpart = (TESForm*)*((void **)(new ((void *)(pimpdatasetlist)) ::Vec3()))) != 0)
+    while (pimpdatasetlist && (pheadpart = (TESForm*)*((void **)((void *)(pimpdatasetlist)))) != 0)
     {
         pheadpart->InitItem();
         pimpdatasetlist = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pimpdatasetlist))->FUN_00726070()));
     }
     pzone = (LC3_Node*)((::BSSimpleList< ::BGSEncounterZone *> *)(::FUN_00461130((int)this)));
-    while (pzone && (n = (TESForm*)*((void **)(new ((void *)(pzone)) ::Vec3()))) != 0)
+    while (pzone && (n = (TESForm*)*((void **)((void *)(pzone)))) != 0)
     {
         n->InitItem();
         pzone = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pzone))->FUN_00726070()));
     }
     pFactList = (LC3_Node*)((::BSSimpleList< ::TESDataHandlerTypes::TESFaction *> *)(::FUN_00871a30((int)this)));
-    while (pFactList && (pFaction = (TESForm*)*((void **)(new ((void *)(pFactList)) ::Vec3()))) != 0)
+    while (pFactList && (pFaction = (TESForm*)*((void **)((void *)(pFactList)))) != 0)
     {
         pFaction->InitItem();
         pFactList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pFactList))->FUN_00726070()));
     }
     pRepList = (LC3_Node*)((::BSSimpleList< ::TESReputation *> *)(reinterpret_cast<::FUN_009c1a50_shell *>(this)->FUN_009c1a50()));
-    while (pRepList && (pReputationData = (TESForm*)*((void **)(new ((void *)(pRepList)) ::Vec3()))) != 0)
+    while (pRepList && (pReputationData = (TESForm*)*((void **)((void *)(pRepList)))) != 0)
     {
         pReputationData->InitItem();
         pRepList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pRepList))->FUN_00726070()));
     }
     ppackageList = (LC3_Node*)((::BSSimpleList< ::BGSRecipe *> *)(reinterpret_cast<::FUN_004077e0_shell *>(this)->FUN_004077e0()));
-    while (ppackageList && (pRecipe = (TESForm*)*((void **)(new ((void *)(ppackageList)) ::Vec3()))) != 0)
+    while (ppackageList && (pRecipe = (TESForm*)*((void **)((void *)(ppackageList)))) != 0)
     {
         pRecipe->InitItem();
         ppackageList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((ppackageList))->FUN_00726070()));
     }
     w = (LC3_Node*)((::BSSimpleList< ::TESChallenge *> *)(reinterpret_cast<::FUN_00461150_shell *>(this)->FUN_00461150()));
-    while (w && (pChallenge = (TESForm*)*((void **)(new ((void *)(w)) ::Vec3()))) != 0)
+    while (w && (pChallenge = (TESForm*)*((void **)((void *)(w)))) != 0)
     {
         pChallenge->InitItem();
         w = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((w))->FUN_00726070()));
     }
     pRecipeCatList = (LC3_Node*)((::BSSimpleList< ::BGSRecipeCategory *> *)(reinterpret_cast<::FUN_00503650_shell *>(this)->FUN_00503650()));
-    while (pRecipeCatList && (plight = (TESForm*)*((void **)(new ((void *)(pRecipeCatList)) ::Vec3()))) != 0)
+    while (pRecipeCatList && (plight = (TESForm*)*((void **)((void *)(pRecipeCatList)))) != 0)
     {
         plight->InitItem();
         pRecipeCatList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pRecipeCatList))->FUN_00726070()));
     }
     pCasinoList = (LC3_Node*)GetTESCasinoList();
-    while (pCasinoList && (pCasinoObjectCur = (TESForm*)*((void **)(new ((void *)(pCasinoList)) ::Vec3()))) != 0)
+    while (pCasinoList && (pCasinoObjectCur = (TESForm*)*((void **)((void *)(pCasinoList)))) != 0)
     {
         pCasinoObjectCur->InitItem();
         pCasinoList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pCasinoList))->FUN_00726070()));
     }
     pltex = (LC3_Node*)((::BSSimpleList< ::TESCaravanDeck *> *)(::FUN_00514f30((int)this)));
-    while (pltex && (m_pCardListHeadCur = (TESForm*)*((void **)(new ((void *)(pltex)) ::Vec3()))) != 0)
+    while (pltex && (m_pCardListHeadCur = (TESForm*)*((void **)((void *)(pltex)))) != 0)
     {
         m_pCardListHeadCur->InitItem();
         pltex = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pltex))->FUN_00726070()));
     }
     pSleepDeprevation = (LC3_Node*)((::BSSimpleList< ::TESQuest *> *)(reinterpret_cast<::fnv_00455600::FUN_00455600_shell *>(this)->FUN_00455600()));
-    while (pSleepDeprevation && (pQuest = (TESForm*)*((void **)(new ((void *)(pSleepDeprevation)) ::Vec3()))) != 0)
+    while (pSleepDeprevation && (pQuest = (TESForm*)*((void **)((void *)(pSleepDeprevation)))) != 0)
     {
         pQuest->InitItem();
         pSleepDeprevation = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pSleepDeprevation))->FUN_00726070()));
     }
     pCasinoEntries = (LC3_Node*)GetTESCombatStyleList();
-    while (pCasinoEntries && (pCS = (TESForm*)*((void **)(new ((void *)(pCasinoEntries)) ::Vec3()))) != 0)
+    while (pCasinoEntries && (pCS = (TESForm*)*((void **)((void *)(pCasinoEntries)))) != 0)
     {
         pCS->InitItem();
         pCasinoEntries = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pCasinoEntries))->FUN_00726070()));
     }
     p = (LC3_Node*)((::BSSimpleList< ::TESEffectShader *> *)(::FUN_00874670((char *)this)));
-    while (p && (pexplosionList = (TESForm*)*((void **)(new ((void *)(p)) ::Vec3()))) != 0)
+    while (p && (pexplosionList = (TESForm*)*((void **)((void *)(p)))) != 0)
     {
         pexplosionList->InitItem();
         p = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
     }
     g = (LC3_Node*)GetBGSProjectileList();
-    while (g && (h = (TESForm*)*((void **)(new ((void *)(g)) ::Vec3()))) != 0)
+    while (g && (h = (TESForm*)*((void **)((void *)(g)))) != 0)
     {
         h->InitItem();
         g = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((g))->FUN_00726070()));
     }
     pnoteList = (LC3_Node*)GetBGSNoteList();
-    while (pnoteList && (pNote = (TESForm*)*((void **)(new ((void *)(pnoteList)) ::Vec3()))) != 0)
+    while (pnoteList && (pNote = (TESForm*)*((void **)((void *)(pnoteList)))) != 0)
     {
         pNote->InitItem();
         pnoteList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pnoteList))->FUN_00726070()));
     }
     plistformList = (LC3_Node*)((::BSSimpleList< ::BGSExplosion *> *)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFurnitureMarkerData()));
-    while (plistformList && (y = (TESForm*)*((void **)(new ((void *)(plistformList)) ::Vec3()))) != 0)
+    while (plistformList && (y = (TESForm*)*((void **)((void *)(plistformList)))) != 0)
     {
         y->InitItem();
         plistformList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((plistformList))->FUN_00726070()));
     }
     pRadiationList = (LC3_Node*)GetBGSRadiationStageList();
-    while (pRadiationList && (pRadiation = (TESForm*)*((void **)(new ((void *)(pRadiationList)) ::Vec3()))) != 0)
+    while (pRadiationList && (pRadiation = (TESForm*)*((void **)((void *)(pRadiationList)))) != 0)
     {
         pRadiation->InitItem();
         pRadiationList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pRadiationList))->FUN_00726070()));
     }
     pDehydrationList = (LC3_Node*)((::BSSimpleList< ::BGSDehydrationStage *> *)(reinterpret_cast<::FUN_00506390Class *>(this)->GetFieldAt158()));
-    while (pDehydrationList && (pLS = (TESForm*)*((void **)(new ((void *)(pDehydrationList)) ::Vec3()))) != 0)
+    while (pDehydrationList && (pLS = (TESForm*)*((void **)((void *)(pDehydrationList)))) != 0)
     {
         pLS->InitItem();
         pDehydrationList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pDehydrationList))->FUN_00726070()));
     }
     pmessageList = (LC3_Node*)((::BSSimpleList< ::BGSHungerStage *> *)(reinterpret_cast<::FUN_0062d2f0_shell *>(this)->GetOffset160()));
-    while (pmessageList && (x = (TESForm*)*((void **)(new ((void *)(pmessageList)) ::Vec3()))) != 0)
+    while (pmessageList && (x = (TESForm*)*((void **)((void *)(pmessageList)))) != 0)
     {
         x->InitItem();
         pmessageList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pmessageList))->FUN_00726070()));
     }
     pSleepDeprevationList = (LC3_Node*)GetBGSSleepDeprivationStageList();
-    while (pSleepDeprevationList && (a = (TESForm*)*((void **)(new ((void *)(pSleepDeprevationList)) ::Vec3()))) != 0)
+    while (pSleepDeprevationList && (a = (TESForm*)*((void **)((void *)(pSleepDeprevationList)))) != 0)
     {
         a->InitItem();
         pSleepDeprevationList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pSleepDeprevationList))->FUN_00726070()));
     }
     pperkList = (LC3_Node*)((::BSSimpleList< ::BGSPerk *> *)(reinterpret_cast<::FUN_00460fb0_class *>(this)->FUN_00460fb0()));
-    while (pperkList && (pperk = (TESForm*)*((void **)(new ((void *)(pperkList)) ::Vec3()))) != 0)
+    while (pperkList && (pperk = (TESForm*)*((void **)((void *)(pperkList)))) != 0)
     {
         pperk->InitItem();
         pperkList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pperkList))->FUN_00726070()));
     }
     pLSList = (LC3_Node*)((::BSSimpleList< ::TESLoadScreen *> *)(reinterpret_cast<::FUN_00461070_shell *>(this)->GetSomethingAtOffset128()));
-    while (pLSList && (pltexList = (TESForm*)*((void **)(new ((void *)(pLSList)) ::Vec3()))) != 0)
+    while (pLSList && (pltexList = (TESForm*)*((void **)((void *)(pLSList)))) != 0)
     {
         pltexList->InitItem();
         pLSList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pLSList))->FUN_00726070()));
     }
     pragdollList = (LC3_Node*)GetTESLoadScreenTypeList();
-    while (pragdollList && (pimpdata = (TESForm*)*((void **)(new ((void *)(pragdollList)) ::Vec3()))) != 0)
+    while (pragdollList && (pimpdata = (TESForm*)*((void **)((void *)(pragdollList)))) != 0)
     {
         pimpdata->InitItem();
         pragdollList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pragdollList))->FUN_00726070()));
     }
     paoList = (LC3_Node*)GetTESObjectANIOList();
-    while (paoList && (pimpdataset = (TESForm*)*((void **)(new ((void *)(paoList)) ::Vec3()))) != 0)
+    while (paoList && (pimpdataset = (TESForm*)*((void **)((void *)(paoList)))) != 0)
     {
         pimpdataset->InitItem();
         paoList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((paoList))->FUN_00726070()));
     }
     pHunger = (LC3_Node*)((::BSSimpleList< ::TESWaterForm *> *)(reinterpret_cast<::FUN_0045a730_shell *>(this)->FUN_0045a730()));
-    while (pHunger && (b = (TESForm*)*((void **)(new ((void *)(pHunger)) ::Vec3()))) != 0)
+    while (pHunger && (b = (TESForm*)*((void **)((void *)(pHunger)))) != 0)
     {
         b->InitItem();
         pHunger = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pHunger))->FUN_00726070()));
     }
     pwaterList = (LC3_Node*)((::BSSimpleList< ::TESLandTexture *> *)(reinterpret_cast<::FUN_004610f0_Class *>(this)->GetOffset70Ptr()));
-    while (pwaterList && (pmediasetList = (TESForm*)*((void **)(new ((void *)(pwaterList)) ::Vec3()))) != 0)
+    while (pwaterList && (pmediasetList = (TESForm*)*((void **)((void *)(pwaterList)))) != 0)
     {
         pmediasetList->InitItem();
         pwaterList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pwaterList))->FUN_00726070()));
     }
     H = 0;
     pshader = (LC3_Node*)GetBGSListFormList();
-    while (pshader && (H = (TESForm*)*((void **)(new ((void *)(pshader)) ::Vec3()))) != 0)
+    while (pshader && (H = (TESForm*)*((void **)((void *)(pshader)))) != 0)
     {
         H->InitItem();
         pshader = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pshader))->FUN_00726070()));
     }
     ppartData = 0;
     plistform = (LC3_Node*)((::BSSimpleList< ::BGSBodyPartData *> *)(reinterpret_cast<::MessageHandler *>(this)->GetWarningFileName()));
-    while (plistform && (ppartData = (TESForm*)*((void **)(new ((void *)(plistform)) ::Vec3()))) != 0)
+    while (plistform && (ppartData = (TESForm*)*((void **)((void *)(plistform)))) != 0)
     {
         ppartData->InitItem();
         plistform = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((plistform))->FUN_00726070()));
     }
     pimpdatalist = (LC3_Node*)GetBGSImpactDataList();
-    while (pimpdatalist && (pHungerList = (TESForm*)*((void **)(new ((void *)(pimpdatalist)) ::Vec3()))) != 0)
+    while (pimpdatalist && (pHungerList = (TESForm*)*((void **)((void *)(pimpdatalist)))) != 0)
     {
         pHungerList->InitItem();
         pimpdatalist = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pimpdatalist))->FUN_00726070()));
     }
     pzoneList = (LC3_Node*)((::BSSimpleList< ::BGSImpactDataSet *> *)(::FUN_004a0d10((char *)this)));
-    while (pzoneList && (pform = (TESForm*)*((void **)(new ((void *)(pzoneList)) ::Vec3()))) != 0)
+    while (pzoneList && (pform = (TESForm*)*((void **)((void *)(pzoneList)))) != 0)
     {
         pform->InitItem();
         pzoneList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pzoneList))->FUN_00726070()));
     }
     reinterpret_cast<::FUN_00867890_shell *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->FUN_00867890();
     pmaster = (LC3_Node*)((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::FUN_004612e0_shell *>(this)->FUN_004612e0()));
-    while (pmaster && (pwater = (TESForm*)*((void **)(new ((void *)(pmaster)) ::Vec3()))) != 0)
+    while (pmaster && (pwater = (TESForm*)*((void **)((void *)(pmaster)))) != 0)
     {
         pwater->InitItem();
         pmaster = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pmaster))->FUN_00726070()));
@@ -2148,14 +2148,14 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
     preglist = (LC3_RegionList*)((::TESRegionList *)(reinterpret_cast<::FUN_004169d0_shell *>(this)->FUN_004169d0()));
     while (preglist && !preglist->_ref_008256d0())
     {
-        TESForm* pregion = (TESForm*)*((void **)(new ((void *)(preglist)) ::Vec3()));
+        TESForm* pregion = (TESForm*)*((void **)((void *)(preglist)));
         pregion->InitItem();
         preglist = (LC3_RegionList*)(LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((preglist))->FUN_00726070()));
     }
     pWorldList = (LC3_Node*)((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)));
     while (pWorldList)
     {
-        TESForm* pworld = (TESForm*)*((void **)(new ((void *)(pWorldList)) ::Vec3()));
+        TESForm* pworld = (TESForm*)*((void **)((void *)(pWorldList)));
         pWorldList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pWorldList))->FUN_00726070()));
     }
     if (((::TESForm *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00())))
@@ -2170,14 +2170,14 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
     pWorldList = (LC3_Node*)((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)));
     while (pWorldList)
     {
-        TESForm* pworldspace = (TESForm*)*((void **)(new ((void *)(pWorldList)) ::Vec3()));
+        TESForm* pworldspace = (TESForm*)*((void **)((void *)(pWorldList)));
         if (pworldspace)
             pworldspace->InitItem();
         pWorldList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pWorldList))->FUN_00726070()));
     }
     pmessage = 0;
     pragdoll = (LC3_Node*)GetBGSMessageList();
-    while (pragdoll && (pmessage = (TESForm*)*((void **)(new ((void *)(pragdoll)) ::Vec3()))) != 0)
+    while (pragdoll && (pmessage = (TESForm*)*((void **)((void *)(pragdoll)))) != 0)
     {
         pmessage->InitItem();
         pragdoll = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pragdoll))->FUN_00726070()));
@@ -2203,13 +2203,13 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
         ((FUN_00464d90_shell*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))->SetField638(pshaderList);
     }
     pRecipeList = (LC3_Node*)((::BSSimpleList< ::BGSRagdoll *> *)(reinterpret_cast<::FUN_009d9f40_Class *>(this)->FUN_009d9f40()));
-    while (pRecipeList && (ppartDataList = (TESForm*)*((void **)(new ((void *)(pRecipeList)) ::Vec3()))) != 0)
+    while (pRecipeList && (ppartDataList = (TESForm*)*((void **)((void *)(pRecipeList)))) != 0)
     {
         ppartDataList->InitItem();
         pRecipeList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pRecipeList))->FUN_00726070()));
     }
     pLSTypeList = (LC3_Node*)GetBGSLightingTemplateList();
-    while (pLSTypeList && (pLSType = (TESForm*)*((void **)(new ((void *)(pLSTypeList)) ::Vec3()))) != 0)
+    while (pLSTypeList && (pLSType = (TESForm*)*((void **)((void *)(pLSTypeList)))) != 0)
     {
         pLSType->InitItem();
         pLSTypeList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pLSTypeList))->FUN_00726070()));
@@ -2220,7 +2220,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
     penchantList = (LC3_Node*)((::BSSimpleList< ::EnchantmentItem *> *)(reinterpret_cast<::FUN_0041d8a0_shell *>(this)->FUN_0041d8a0()));
     while (penchantList)
     {
-        TESForm* penchant = (TESForm*)*((void **)(new ((void *)(penchantList)) ::Vec3()));
+        TESForm* penchant = (TESForm*)*((void **)((void *)(penchantList)));
         if (penchant)
             penchant->InitItem();
         penchantList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((penchantList))->FUN_00726070()));
@@ -2228,7 +2228,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
     pspellList = (LC3_Node*)((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::PackedByteIntRecord *>(this)->Endian()));
     while (pspellList)
     {
-        TESForm* pspell = (TESForm*)*((void **)(new ((void *)(pspellList)) ::Vec3()));
+        TESForm* pspell = (TESForm*)*((void **)((void *)(pspellList)));
         if (pspell)
             pspell->InitItem();
         pspellList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pspellList))->FUN_00726070()));
@@ -2236,7 +2236,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
     pacousticSpaceList = (LC3_Node*)GetBGSAcousticSpaceList();
     while (pacousticSpaceList)
     {
-        TESForm* pacoustic = (TESForm*)*((void **)(new ((void *)(pacousticSpaceList)) ::Vec3()));
+        TESForm* pacoustic = (TESForm*)*((void **)((void *)(pacousticSpaceList)));
         if (pacoustic)
             pacoustic->InitItem();
         pacousticSpaceList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pacousticSpaceList))->FUN_00726070()));
@@ -2244,7 +2244,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
     pDehydration = (LC3_Node*)((::BSSimpleList< ::TESImageSpaceModifier *> *)(reinterpret_cast<::FUN_004610d0_shell *>(this)->GetExtraDataList()));
     while (pDehydration)
     {
-        TESForm* pimod = (TESForm*)*((void **)(new ((void *)(pDehydration)) ::Vec3()));
+        TESForm* pimod = (TESForm*)*((void **)((void *)(pDehydration)));
         if (pimod)
             pimod->InitItem();
         pDehydration = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pDehydration))->FUN_00726070()));
@@ -2252,7 +2252,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
     pmusicList = (LC3_Node*)((::BSSimpleList< ::BGSMusicType *> *)(reinterpret_cast<::FUN_00460090_shell *>(this)->FUN_00460090()));
     while (pmusicList)
     {
-        TESForm* pmusic = (TESForm*)*((void **)(new ((void *)(pmusicList)) ::Vec3()));
+        TESForm* pmusic = (TESForm*)*((void **)((void *)(pmusicList)));
         if (pmusic)
             pmusic->InitItem();
         pmusicList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pmusicList))->FUN_00726070()));
@@ -2260,7 +2260,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
     m_pRegionObjectListObj = (LC3_Node*)((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::FUN_004600b0_shell *>(this)->FUN_004600b0()));
     while (m_pRegionObjectListObj)
     {
-        TESForm* pmediaset = (TESForm*)*((void **)(new ((void *)(m_pRegionObjectListObj)) ::Vec3()));
+        TESForm* pmediaset = (TESForm*)*((void **)((void *)(m_pRegionObjectListObj)));
         if (pmediaset)
             pmediaset->InitItem();
         m_pRegionObjectListObj = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((m_pRegionObjectListObj))->FUN_00726070()));
@@ -2268,7 +2268,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
     pChallengeList = (LC3_Node*)((::BSSimpleList< ::MediaLocationController *> *)(reinterpret_cast<::FUN_004600d0_shell *>(this)->FUN_004600d0()));
     while (pChallengeList)
     {
-        TESForm* pmediaLoc = (TESForm*)*((void **)(new ((void *)(pChallengeList)) ::Vec3()));
+        TESForm* pmediaLoc = (TESForm*)*((void **)((void *)(pChallengeList)));
         if (pmediaLoc)
             pmediaLoc->InitItem();
         pChallengeList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pChallengeList))->FUN_00726070()));
@@ -2276,7 +2276,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
     pprojList = (LC3_Node*)((::BSSimpleList< ::TESPackage *> *)(reinterpret_cast<::TESTopicInfoData *>(this)->GetLinkToList()));
     while (pprojList)
     {
-        TESForm* ppackage = (TESForm*)*((void **)(new ((void *)(pprojList)) ::Vec3()));
+        TESForm* ppackage = (TESForm*)*((void **)((void *)(pprojList)));
         if (ppackage)
             ppackage->InitItem();
         pprojList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pprojList))->FUN_00726070()));
@@ -2314,7 +2314,7 @@ void FUN_00465040_shell::InitAllScripts()
 {
     BSSimpleList<Script*>* pList = ((::BSSimpleList< ::Script *> *)(::FUN_006377e0((int)this)));
     Script* pScript;
-    while (pList && (pScript = ((::Script *)(new ((void *)(pList)) ::Vec3()))) != 0)
+    while (pList && (pScript = (pList->m_item)) != 0)
     {
         pScript->InitItem();
         pList = (BSSimpleList<Script*>*)((::TESObject *)(reinterpret_cast<::Callees *>((((TESFormList*)pList)))->FUN_00726070()));
@@ -2338,7 +2338,7 @@ void FUN_00462fb0_shell::FUN_00462fb0()
     pWorldNode = (TESFormList*)((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)));
     while (pWorldNode)
     {
-        BGSCameraPath* world = (BGSCameraPath*)*((void **)(new ((void *)(((ListNodeHelper*)pWorldNode))) ::Vec3()));
+        BGSCameraPath* world = (BGSCameraPath*)*((void **)((void *)(((ListNodeHelper*)pWorldNode))));
         if (world)
         {
             pObj8 = reinterpret_cast<::BGSCameraPath *>((((PrevHelper*)world)))->GetPrevPath();
@@ -2433,9 +2433,9 @@ TESFile* TESDataHandler::LookupTESFile(const char* name)
     BSSimpleList<TESFile*>* list = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::FUN_0045dfc0_shell *>(this)->FUN_0045dfc0()));
     if (name)
     {
-        while (list && ((::TESFile *)(new ((void *)(list)) ::Vec3())))
+        while (list && (list->m_item))
         {
-            TESFile* file = ((::TESFile *)(new ((void *)(list)) ::Vec3()));
+            TESFile* file = (list->m_item);
             if (!FUN_00404dc0(name, ((const char *)(reinterpret_cast<::BGSCameraPath *>((file))->GetShotList()))))
                 return file;
             list = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
@@ -2448,9 +2448,9 @@ void TESDataHandler::SetSaveLoadGameState(int size)
 {
     BSSimpleList<TESFile*>* pList = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::FUN_0045dfc0_shell *>(this)->FUN_0045dfc0()));
     TESFile* file = 0;
-    while (pList && ((::TESFile *)(new ((void *)(pList)) ::Vec3())))
+    while (pList && (pList->m_item))
     {
-        file = ((::TESFile *)(new ((void *)(pList)) ::Vec3()));
+        file = (pList->m_item);
         if (file->IsMasterFile())
             ::fnv_00473ce0::SetField22C((char *)(file), size);
         pList = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
@@ -2462,7 +2462,7 @@ void TESDataHandler::BuildCompiledFileList()
     BSSimpleList<TESFile*>* list = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::FUN_0045dfc0_shell *>(this)->FUN_0045dfc0()));
     while (list && !list->IsEmpty())
     {
-        TESFile* file = ((::TESFile *)(new ((void *)(list)) ::Vec3()));
+        TESFile* file = (list->m_item);
         if (file->GetIsChecked())
             file->GetParentTESFile();
         list = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
@@ -2473,9 +2473,9 @@ void TESDataHandler::BuildCompiledFileList()
 void FUN_00460360_shell::ProcessAllFiles()
 {
     BSSimpleList<TESFile*>* pList = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::FUN_0045dfc0_shell *>(this)->FUN_0045dfc0()));
-    while (pList && ((::TESFile *)(new ((void *)(pList)) ::Vec3())))
+    while (pList && (pList->m_item))
     {
-        TESFile* pfile = ((::TESFile *)(new ((void *)(pList)) ::Vec3()));
+        TESFile* pfile = (pList->m_item);
         reinterpret_cast<::FUN_00471130_shell *>((pfile))->FUN_00471130();
         pList = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
     }
@@ -2947,7 +2947,7 @@ void TESDataHandler::InitializeMagicSystem()
     if (!pDefaultWorld)
     {
     }
-    else if (((::TESWorldSpace *)(new ((void *)(((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this))))) ::Vec3())) != pDefaultWorld)
+    else if (((((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this))))->m_item) != pDefaultWorld)
     {
         reinterpret_cast<::ItemChangeListNode *>((((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)))))->FUN_00905330((::InventoryStackRecord *const &)(pDefaultWorld));
         ((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)))->AddHead(pDefaultWorld);
@@ -3601,7 +3601,7 @@ TESObjectCELL* FUN_00461ae0_shell::FUN_00461ae0(const char* pcEditorID)
     BSSimpleList<TESWorldSpace*>* pWorldList = ((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)));
     while (pWorldList)
     {
-        TESWorldSpace* pspace = ((::TESWorldSpace *)(new ((void *)(pWorldList)) ::Vec3()));
+        TESWorldSpace* pspace = (pWorldList->m_item);
         if (pspace)
         {
             TESObjectCELL* pCell = ((::TESObjectCELL *)(reinterpret_cast<::fnv_00588560::FUN_00588560_shell *>((((TESWorldSpaceCell*)pspace)))->FindEntryByName(pcEditorID)));
@@ -4609,7 +4609,7 @@ TESForm* FUN_00461700_shell::FindFormByEditorID(const char* editorID)
         void* node = (char*)this + 0xe8;
         while (node != 0)
         {
-            form = *((::TESForm **)(new ((void *)(node)) ::Vec3()));
+            form = *((::TESForm **)((void *)(node)));
             if (form != 0)
             {
                 if (FUN_00404dc0(form->GetEditorID(), editorID) == 0)
@@ -4822,129 +4822,129 @@ bool DataHandlerX::FUN_0045dfe0()
     ::FUN_00593210();
     ::DestroyDefaultObjectManager();
     ::FUN_00460190();
-    while ((pzegc = ((::FormX *)(new ((void *)&(kList0c8)) ::Vec3()))) != 0)
+    while ((pzegc = kList0c8.item) != 0)
     {
         kList0c8.RemoveHead();
         delete pzegc;
     }
-    while ((pkLN = ((::FormX *)(new ((void *)&(kList190)) ::Vec3()))) != 0)
+    while ((pkLN = kList190.item) != 0)
     {
         kList190.RemoveHead();
         delete pkLN;
     }
-    while ((pMor = ((::FormX *)(new ((void *)&(kList198)) ::Vec3()))) != 0)
+    while ((pMor = kList198.item) != 0)
     {
         kList198.RemoveHead();
         delete pMor;
     }
-    while ((pPNgxiF = ((::FormX *)(new ((void *)&(kList048)) ::Vec3()))) != 0)
+    while ((pPNgxiF = kList048.item) != 0)
     {
         kList048.RemoveHead();
         delete pPNgxiF;
     }
-    while ((pXXq = ((::FormX *)(new ((void *)&(kList050)) ::Vec3()))) != 0)
+    while ((pXXq = kList050.item) != 0)
     {
         kList050.RemoveHead();
         delete pXXq;
     }
-    while ((pZIPgRV = ((::FormX *)(new ((void *)&(kList058)) ::Vec3()))) != 0)
+    while ((pZIPgRV = kList058.item) != 0)
     {
         kList058.RemoveHead();
         delete pZIPgRV;
     }
-    while ((pBXZ = ((::FormX *)(new ((void *)&(kList060)) ::Vec3()))) != 0)
+    while ((pBXZ = kList060.item) != 0)
     {
         kList060.RemoveHead();
         delete pBXZ;
     }
     (*reinterpret_cast<void * *>(&::DAT_011cb96c)) = 0;
-    while ((pPYty = ((::FormX *)(new ((void *)&(kList068)) ::Vec3()))) != 0)
+    while ((pPYty = kList068.item) != 0)
     {
         kList068.RemoveHead();
         delete pPYty;
     }
-    while ((pVTzq = ((::FormX *)(new ((void *)&(kList018)) ::Vec3()))) != 0)
+    while ((pVTzq = kList018.item) != 0)
     {
         kList018.RemoveHead();
         delete pVTzq;
     }
-    while ((phIHOr = ((::FormX *)(new ((void *)&(kList030)) ::Vec3()))) != 0)
+    while ((phIHOr = kList030.item) != 0)
     {
         kList030.RemoveHead();
         delete phIHOr;
     }
-    while ((pZAxL = ((::FormX *)(new ((void *)&(kList080)) ::Vec3()))) != 0)
+    while ((pZAxL = kList080.item) != 0)
     {
         kList080.RemoveHead();
         delete pZAxL;
     }
-    while ((pkksu = ((::FormX *)(new ((void *)&(kList088)) ::Vec3()))) != 0)
+    while ((pkksu = kList088.item) != 0)
     {
         kList088.RemoveHead();
         delete pkksu;
     }
-    while ((peIDA = ((::FormX *)(new ((void *)&(kList098)) ::Vec3()))) != 0)
+    while ((peIDA = kList098.item) != 0)
     {
         kList098.RemoveHead();
         delete peIDA;
     }
-    while ((piUewsi = ((::FormX *)(new ((void *)&(kList090)) ::Vec3()))) != 0)
+    while ((piUewsi = kList090.item) != 0)
     {
         kList090.RemoveHead();
         delete piUewsi;
     }
-    while ((pKMmGLv = ((::FormX *)(new ((void *)&(kList0a0)) ::Vec3()))) != 0)
+    while ((pKMmGLv = kList0a0.item) != 0)
     {
         kList0a0.RemoveHead();
         delete pKMmGLv;
     }
-    while ((pykMMqV = ((::FormX *)(new ((void *)&(kList0b8)) ::Vec3()))) != 0)
+    while ((pykMMqV = kList0b8.item) != 0)
     {
         kList0b8.RemoveHead();
         delete pykMMqV;
     }
-    while ((pkPfU = ((::FormX *)(new ((void *)&(kList0a8)) ::Vec3()))) != 0)
+    while ((pkPfU = kList0a8.item) != 0)
     {
         kList0a8.RemoveHead();
         delete pkPfU;
     }
-    while ((pZZy = ((::FormX *)(new ((void *)&(kList0b0)) ::Vec3()))) != 0)
+    while ((pZZy = kList0b0.item) != 0)
     {
         kList0b0.RemoveHead();
         delete pZZy;
     }
-    while ((pFEHUlW = ((::FormX *)(new ((void *)&(kList0e8)) ::Vec3()))) != 0)
+    while ((pFEHUlW = kList0e8.item) != 0)
     {
         kList0e8.RemoveHead();
         delete pFEHUlW;
     }
-    while ((pWgu = ((::FormX *)(new ((void *)&(kList0f0)) ::Vec3()))) != 0)
+    while ((pWgu = kList0f0.item) != 0)
     {
         kList0f0.RemoveHead();
         delete pWgu;
     }
-    while ((pctYxA = ((::FormX *)(new ((void *)&(kList0f8)) ::Vec3()))) != 0)
+    while ((pctYxA = kList0f8.item) != 0)
     {
         kList0f8.RemoveHead();
         delete pctYxA;
     }
-    while ((pJFMx = ((::FormX *)(new ((void *)&(kList100)) ::Vec3()))) != 0)
+    while ((pJFMx = kList100.item) != 0)
     {
         kList100.RemoveHead();
         delete pJFMx;
     }
-    while ((psseb = ((::FormX *)(new ((void *)&(kList118)) ::Vec3()))) != 0)
+    while ((psseb = kList118.item) != 0)
     {
         kList118.RemoveHead();
         delete psseb;
     }
-    while ((pvXnjs = ((::FormX *)(new ((void *)&(kList108)) ::Vec3()))) != 0)
+    while ((pvXnjs = kList108.item) != 0)
     {
         kList108.RemoveHead();
         delete pvXnjs;
     }
     ::fnv_0061a270::ClearTableEntries();
-    while ((ppgnst = ((::FormX *)(new ((void *)&(kList110)) ::Vec3()))) != 0)
+    while ((ppgnst = kList110.item) != 0)
     {
         kList110.RemoveHead();
     }
@@ -4958,148 +4958,148 @@ bool DataHandlerX::FUN_0045dfe0()
         }
     }
     reinterpret_cast<::ViewerStrings *>(&(kArray1dc))->SetSize(0);
-    while ((pemFB = ((::FormX *)(new ((void *)&(kList010)) ::Vec3()))) != 0)
+    while ((pemFB = kList010.item) != 0)
     {
         kList010.RemoveHead();
         delete pemFB;
     }
     ::FUN_00868d70(0);
-    while ((pqTbwG = ((::FormX *)(new ((void *)&(kList0d0)) ::Vec3()))) != 0)
+    while ((pqTbwG = kList0d0.item) != 0)
     {
         kList0d0.RemoveHead();
         delete pqTbwG;
     }
-    while ((pQPLnsU = ((::FormX *)(new ((void *)(((::ListX< ::FormX *> *)(reinterpret_cast<::FUN_00460090_shell *>(this)->FUN_00460090())))) ::Vec3()))) != 0)
+    while ((pQPLnsU = ((::FormX *)((void *)(((::ListX< ::FormX *> *)(reinterpret_cast<::FUN_00460090_shell *>(this)->FUN_00460090())))))) != 0)
     {
         ((::ListX< ::FormX *> *)(reinterpret_cast<::FUN_00460090_shell *>(this)->FUN_00460090()))->RemoveHead();
         delete pQPLnsU;
     }
-    while ((pYvOhy = ((::FormX *)(new ((void *)(((::ListX< ::FormX *> *)(reinterpret_cast<::FUN_004600b0_shell *>(this)->FUN_004600b0())))) ::Vec3()))) != 0)
+    while ((pYvOhy = ((::FormX *)((void *)(((::ListX< ::FormX *> *)(reinterpret_cast<::FUN_004600b0_shell *>(this)->FUN_004600b0())))))) != 0)
     {
         ((::ListX< ::FormX *> *)(reinterpret_cast<::FUN_004600b0_shell *>(this)->FUN_004600b0()))->RemoveHead();
         delete pYvOhy;
     }
-    while ((pqZjhC = ((::FormX *)(new ((void *)(((::ListX< ::FormX *> *)(reinterpret_cast<::FUN_004600d0_shell *>(this)->FUN_004600d0())))) ::Vec3()))) != 0)
+    while ((pqZjhC = ((::FormX *)((void *)(((::ListX< ::FormX *> *)(reinterpret_cast<::FUN_004600d0_shell *>(this)->FUN_004600d0())))))) != 0)
     {
         ((::ListX< ::FormX *> *)(reinterpret_cast<::FUN_004600d0_shell *>(this)->FUN_004600d0()))->RemoveHead();
         delete pqZjhC;
     }
-    while ((pLeVG = ((::FormX *)(new ((void *)&(kList0d8)) ::Vec3()))) != 0)
+    while ((pLeVG = kList0d8.item) != 0)
     {
         kList0d8.RemoveHead();
         delete pLeVG;
     }
-    while ((ptJDiU = ((::FormX *)(new ((void *)&(kList070)) ::Vec3()))) != 0)
+    while ((ptJDiU = kList070.item) != 0)
     {
         kList070.RemoveHead();
         delete ptJDiU;
     }
-    while ((pnbA = ((::FormX *)(new ((void *)&(kList1a8)) ::Vec3()))) != 0)
+    while ((pnbA = kList1a8.item) != 0)
     {
         kList1a8.RemoveHead();
         delete pnbA;
     }
     delete (*reinterpret_cast<::FormX * *>(&::_g_thePlayer));
     (*reinterpret_cast<::FormX * *>(&::_g_thePlayer)) = 0;
-    while ((pcovY = ((::FormX *)(new ((void *)&(kList020)) ::Vec3()))) != 0)
+    while ((pcovY = kList020.item) != 0)
     {
         kList020.RemoveHead();
         delete pcovY;
     }
-    while ((pFSN = ((::FormX *)(new ((void *)&(kList028)) ::Vec3()))) != 0)
+    while ((pFSN = kList028.item) != 0)
     {
         kList028.RemoveHead();
         delete pFSN;
     }
     reinterpret_cast<::S_5102e0_List *>((p004))->FUN_005102e0();
     ::FUN_005e03d0((::NiTArray_Layout *)&(k1ec));
-    while ((pBCl = ((::FormX *)(new ((void *)&(kList040)) ::Vec3()))) != 0)
+    while ((pBCl = kList040.item) != 0)
     {
         kList040.RemoveHead();
         delete pBCl;
     }
-    while ((poxDbc = ((::FormX *)(new ((void *)&(kList038)) ::Vec3()))) != 0)
+    while ((poxDbc = kList038.item) != 0)
     {
         kList038.RemoveHead();
         delete poxDbc;
     }
-    while ((phJJslb = ((::FormX *)(new ((void *)&(kList008)) ::Vec3()))) != 0)
+    while ((phJJslb = kList008.item) != 0)
     {
         kList008.RemoveHead();
         delete phJJslb;
     }
-    while ((pjmlhnl = ((::FormX *)(new ((void *)&(kList120)) ::Vec3()))) != 0)
+    while ((pjmlhnl = kList120.item) != 0)
     {
         kList120.RemoveHead();
         delete pjmlhnl;
     }
-    while ((pTLMyy = ((::FormX *)(new ((void *)&(kList128)) ::Vec3()))) != 0)
+    while ((pTLMyy = kList128.item) != 0)
     {
         kList128.RemoveHead();
         delete pTLMyy;
     }
-    while ((pjBd = ((::FormX *)(new ((void *)&(kList1c0)) ::Vec3()))) != 0)
+    while ((pjBd = kList1c0.item) != 0)
     {
         kList1c0.RemoveHead();
         delete pjBd;
     }
-    while ((pdVf = ((::FormX *)(new ((void *)&(kList130)) ::Vec3()))) != 0)
+    while ((pdVf = kList130.item) != 0)
     {
         kList130.RemoveHead();
         delete pdVf;
     }
     (*reinterpret_cast<void * *>(&::DAT_011ca53c)) = 0;
-    while ((pXHB = ((::FormX *)(new ((void *)&(kList1a0)) ::Vec3()))) != 0)
+    while ((pXHB = kList1a0.item) != 0)
     {
         kList1a0.RemoveHead();
         delete pXHB;
     }
-    while ((plOvUXq = ((::FormX *)(new ((void *)&(kList138)) ::Vec3()))) != 0)
+    while ((plOvUXq = kList138.item) != 0)
     {
         kList138.RemoveHead();
         delete plOvUXq;
     }
-    while ((pEHugmA = ((::FormX *)(new ((void *)&(kList140)) ::Vec3()))) != 0)
+    while ((pEHugmA = kList140.item) != 0)
     {
         kList140.RemoveHead();
         delete pEHugmA;
     }
-    while ((pFqAbu = ((::FormX *)(new ((void *)&(kList148)) ::Vec3()))) != 0)
+    while ((pFqAbu = kList148.item) != 0)
     {
         kList148.RemoveHead();
         delete pFqAbu;
     }
-    while ((pbhd = ((::FormX *)(new ((void *)&(kList170)) ::Vec3()))) != 0)
+    while ((pbhd = kList170.item) != 0)
     {
         kList170.RemoveHead();
         delete pbhd;
     }
-    while ((pFsjEb = ((::FormX *)(new ((void *)&(kList178)) ::Vec3()))) != 0)
+    while ((pFsjEb = kList178.item) != 0)
     {
         kList178.RemoveHead();
         delete pFsjEb;
     }
-    while ((pitd = ((::FormX *)(new ((void *)&(kList150)) ::Vec3()))) != 0)
+    while ((pitd = kList150.item) != 0)
     {
         kList150.RemoveHead();
         delete pitd;
     }
-    while ((paBfu = ((::FormX *)(new ((void *)&(kList158)) ::Vec3()))) != 0)
+    while ((paBfu = kList158.item) != 0)
     {
         kList158.RemoveHead();
         delete paBfu;
     }
-    while ((ptPYKb = ((::FormX *)(new ((void *)&(kList160)) ::Vec3()))) != 0)
+    while ((ptPYKb = kList160.item) != 0)
     {
         kList160.RemoveHead();
         delete ptPYKb;
     }
-    while ((ptkE = ((::FormX *)(new ((void *)&(kList168)) ::Vec3()))) != 0)
+    while ((ptkE = kList168.item) != 0)
     {
         kList168.RemoveHead();
         delete ptkE;
     }
-    while ((pIkqW = ((::FormX *)(new ((void *)&(kList180)) ::Vec3()))) != 0)
+    while ((pIkqW = kList180.item) != 0)
     {
         kList180.RemoveHead();
         delete pIkqW;
@@ -5119,29 +5119,29 @@ bool DataHandlerX::FUN_0045dfe0()
         reinterpret_cast<::FUN_00600030_cls *>(((*reinterpret_cast<::SubX * *>(&::DAT_011cb6a0))))->FUN_00600030();
     }
     reinterpret_cast<::FUN_0058ba40_shell *>(((*reinterpret_cast<::SubX * *>(&::DAT_011ca700))))->DestroyCameraPaths();
-    while ((pzgs = ((::FormX *)(new ((void *)&(kList078)) ::Vec3()))) != 0)
+    while ((pzgs = kList078.item) != 0)
     {
         kList078.RemoveHead();
         delete pzgs;
     }
-    while ((pSdMost = ((::FormX *)(new ((void *)&(kList1b0)) ::Vec3()))) != 0)
+    while ((pSdMost = kList1b0.item) != 0)
     {
         kList1b0.RemoveHead();
         delete pSdMost;
     }
     ::FUN_00408de0();
     ::ClearActorValueSlots();
-    while ((pMlL = ((::FormX *)(new ((void *)&(kList188)) ::Vec3()))) != 0)
+    while ((pMlL = kList188.item) != 0)
     {
         kList188.RemoveHead();
         delete pMlL;
     }
-    while ((pmCJJ = ((::FormX *)(new ((void *)&(kList0e0)) ::Vec3()))) != 0)
+    while ((pmCJJ = kList0e0.item) != 0)
     {
         kList0e0.RemoveHead();
         delete pmCJJ;
     }
-    while ((pXDu = ((::FormX *)(new ((void *)&(kList0c0)) ::Vec3()))) != 0)
+    while ((pXDu = kList0c0.item) != 0)
     {
         kList0c0.RemoveHead();
         delete pXDu;
@@ -5448,7 +5448,7 @@ bool TESDataHandler::ConstructObject(TESFile* file, bool skipExisting, TESForm* 
             else
             {
                 if (!DAT_011c3f34)
-                    DAT_011c3f34 = ((::TESWorldSpace *)(new ((void *)(((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this))))) ::Vec3()));
+                    DAT_011c3f34 = ((((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this))))->m_item);
                 if (!reinterpret_cast<::FUN_00587670_shell *>((DAT_011c3f34))->FUN_00587670(cell))
                 {
                     TESObjectCELL* existingCell =
@@ -5824,7 +5824,7 @@ TESObjectCELL* FUN_00461c20_Holder::GetOrCreateCell(int x, int y, TESWorldSpace*
 {
     if (!world)
     {
-        world = (TESWorldSpace*)*(((void **)(new ((void *)(((::ListNodeHelper *)(::FUN_00460140((int)(((HandlerOperations*)this))))))) ::Vec3())));
+        world = (TESWorldSpace*)*(((void **)((void *)(((::ListNodeHelper *)(::FUN_00460140((int)(((HandlerOperations*)this)))))))));
         if (!world)
             return 0;
     }
@@ -6575,7 +6575,6 @@ RefA* SelfA::FUN_0046a190(TESForm* form, NiPoint3* pos, NiPoint3* angles, TESObj
         else
             placedObject = suppliedCell;
         MatrixA rotation;
-        new ((void *)&(rotation)) ::Vec3();
         reinterpret_cast<::ThreeByThreeMatrix *>(&(rotation))->FUN_00a59780(angles->z, angles->y, angles->x);
         RefA* parent = 0;
         switch (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())))
@@ -6892,18 +6891,18 @@ void InventoryHandler::UpdateInventoryForReference(TESObjectREFR* reference)
         TESObjectREFR* entry = reference;
         ChangeEntry* actor = 0;
         ChangeNode* node = inventory->entries;
-        while (node && ((::ChangeEntry *)(new ((void *)(node)) ::Vec3())))
+        while (node && ((::ChangeEntry *)((void *)(node))))
         {
-            actor = ((::ChangeEntry *)(new ((void *)(node)) ::Vec3()));
+            actor = ((::ChangeEntry *)((void *)(node)));
             TESForm* object = ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((actor))->GetName()));
             if (object->GetFormType() == 0x29 && ((::WeaponInventoryView *)(reinterpret_cast<::FUN_008a1710_shell *>((((ActorInventoryView*)entry)))->FUN_008a1710())) &&
                 ((::TESForm *)(reinterpret_cast<::AmmoOwner *>((((::WeaponInventoryView *)(reinterpret_cast<::FUN_008a1710_shell *>((((ActorInventoryView*)entry)))->FUN_008a1710()))))->FUN_00525980((::AmmoActor *)(entry)))) == object)
             {
                 ExtraNode* count = ((::ExtraNode *)(::FUN_00559450((int *)(actor))));
                 int iExtraCount = 0;
-                while (count && ((::ChangeExtra *)(new ((void *)(count)) ::Vec3())))
+                while (count && ((::ChangeExtra *)((void *)(count))))
                 {
-                    ChangeExtra* extra = ((::ChangeExtra *)(new ((void *)(count)) ::Vec3()));
+                    ChangeExtra* extra = ((::ChangeExtra *)((void *)(count)));
                     if (((::TESObjectREFR *)(reinterpret_cast<::FUN_00418630_Class *>((extra))->FUN_00418630())) && ((::TESObjectREFR *)(reinterpret_cast<::FUN_00418630_Class *>((extra))->FUN_00418630())) == entry)
                     {
                         iExtraCount = reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770();
@@ -7692,7 +7691,7 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
 
     FNVListNode* node = ((::FNVListNode *)(::FUN_00559450((int *)(group))));
     if (node)
-        current = *((::FNVObject **)(new ((void *)(node)) ::Vec3()));
+        current = *((::FNVObject **)((void *)(node)));
 
     retrying = false;
     while (remaining)
@@ -7705,7 +7704,7 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
 
         if (node)
         {
-            current = *((::FNVObject **)(new ((void *)(node)) ::Vec3()));
+            current = *((::FNVObject **)((void *)(node)));
             node = ((::FNVListNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
             if (current)
             {
@@ -7745,9 +7744,9 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
                         if (matching && ((::FNVListNode *)(::FUN_00559450((int *)(matching)))))
                         {
                             FNVListNode* scan = ((::FNVListNode *)(::FUN_00559450((int *)(matching))));
-                            while (scan && *((::FNVObject **)(new ((void *)(scan)) ::Vec3())) && unique)
+                            while (scan && *((::FNVObject **)((void *)(scan))) && unique)
                             {
-                                if (*((::FNVObject **)(new ((void *)(scan)) ::Vec3())) == current)
+                                if (*((::FNVObject **)((void *)(scan))) == current)
                                     unique = false;
                                 else
                                     scan = ((::FNVListNode *)(reinterpret_cast<::Callees *>((scan))->FUN_00726070()));
@@ -7761,9 +7760,9 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
                         if (matching && ((::FNVListNode *)(::FUN_00559450((int *)(matching)))))
                         {
                             FNVListNode* scan = ((::FNVListNode *)(::FUN_00559450((int *)(matching))));
-                            while (scan && *((::FNVObject **)(new ((void *)(scan)) ::Vec3())) && unique)
+                            while (scan && *((::FNVObject **)((void *)(scan))) && unique)
                             {
-                                if (*((::FNVObject **)(new ((void *)(scan)) ::Vec3())) == current)
+                                if (*((::FNVObject **)((void *)(scan))) == current)
                                     unique = false;
                                 else
                                     scan = ((::FNVListNode *)(reinterpret_cast<::Callees *>((scan))->FUN_00726070()));
@@ -7799,7 +7798,7 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
                 }
                 remaining -= count;
                 if (node)
-                    current = *((::FNVObject **)(new ((void *)(node)) ::Vec3()));
+                    current = *((::FNVObject **)((void *)(node)));
                 else
                     current = 0;
             }
@@ -7808,7 +7807,7 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
                 if (!node)
                     remaining = 0;
                 else
-                    current = *((::FNVObject **)(new ((void *)(node)) ::Vec3()));
+                    current = *((::FNVObject **)((void *)(node)));
             }
         }
         else
@@ -7822,7 +7821,7 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
                 return;
             node = ((::FNVListNode *)(::FUN_00559450((int *)(group))));
             if (node)
-                current = *((::FNVObject **)(new ((void *)(node)) ::Vec3()));
+                current = *((::FNVObject **)((void *)(node)));
         }
     }
 }

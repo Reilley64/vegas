@@ -276,7 +276,7 @@ void TESDataHandler::ClearHairList()
     List* pList = ((::List *)(reinterpret_cast<::FUN_00613790_shell *>(this)->FUN_00613790()));
     while (pList && !pList->_ref_008256d0())
     {
-        void* item = ((void *)(new ((void *)(pList)) ::Vec3()));
+        void* item = ((void *)((void *)(pList)));
         ::FUN_00401030(item);
         pList->_ref_0063f7b0();
     }
@@ -667,7 +667,7 @@ void* Cls_5afe30::GetNodeValue(unsigned int uiIndex)
         ++uiPos;
         p = ((::Node_5afe30 *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
     }
-    return *((void **)(new ((void *)(p)) ::Vec3()));
+    return *((void **)((void *)(p)));
 }
 
 struct ScriptCommandView
@@ -792,7 +792,7 @@ void FUN_005ae730_shell::FUN_005ae730()
     while (list && !list->_ref_008256d0())
     {
         HairObject* object;
-        void* item = ((void *)(new ((void *)(list)) ::Vec3()));
+        void* item = ((void *)((void *)(list)));
         object = static_cast<HairObject*>(item);
         object ? reinterpret_cast<::p07::DelStandIn *>((object))->DestroyAndFree_0061cb30(1) : 0;
         list->_ref_0063f7b0();
@@ -917,9 +917,9 @@ bool CompilerCtx::ResolveReference(ScriptRefHolder* apRef)
 
     cur = ((::ListNode *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()));
     apRef->m_20c = 0;
-    while (cur != 0 && ((void *)(new ((void *)(cur)) ::Vec3())) != 0)
+    while (cur != 0 && ((void *)((void *)(cur))) != 0)
     {
-        item = (Item*)((void *)(new ((void *)(cur)) ::Vec3()));
+        item = (Item*)((void *)((void *)(cur)));
         if (fnv::crt::strnicmp(((char *)(::FUN_00559450((int *)&(item->m_18)))), (const char *)(apRef), idx) == 0)
         {
             cA = ((char *)(::FUN_00559450((int *)&(item->m_18))))[idx];
@@ -1162,7 +1162,7 @@ int ScriptBlockScanner::ScanBlockLines(CStringArgument* apData, unsigned int* ap
     pNodeX = (LineListNode*)reinterpret_cast<::FUN_00613790_shell *>((apData))->FUN_00613790();
     while (pNodeX && !pNodeX->IsEmpty() && !bFound)
     {
-        pLine = ((::ScriptLineBuffer *)(new ((void *)(pNodeX)) ::Vec3()));
+        pLine = ((::ScriptLineBuffer *)((void *)(pNodeX)));
         if (pLine->m_uiValueBeforeData > *apStartLine)
         {
             eType4 = pLine->unk410;
@@ -1403,7 +1403,7 @@ bool ScriptCompiler::FUN_005aeb90(Script* script, FUN_00613790_shell* pSource)
                 ::ReportScriptError((::CStringArgument *)(::ScriptSource *)((ScriptSource*)pSource), scriptNameError);
                 return false;
             }
-            ScriptLineBuffer* first = (ScriptLineBuffer*)*((void **)(new ((void *)(buffer)) ::Vec3()));
+            ScriptLineBuffer* first = (ScriptLineBuffer*)*((void **)((void *)(buffer)));
             opcode = first->unk410;
             if (opcode == 0xffff)
             {
@@ -1422,7 +1422,7 @@ bool ScriptCompiler::FUN_005aeb90(Script* script, FUN_00613790_shell* pSource)
     ScriptLineBuffer* currentLine = 0;
     while (buffer && !buffer->_ref_008256d0())
     {
-        currentLine = (ScriptLineBuffer*)*((void **)(new ((void *)(buffer)) ::Vec3()));
+        currentLine = (ScriptLineBuffer*)*((void **)((void *)(buffer)));
         opcode = currentLine->unk410;
         pSource->m_uiLastLineNumber = currentLine->m_uiValueBeforeData;
         if (!reinterpret_cast<::LineCompiler *>(this)->FUN_005aff40((::CompileScript *)(script), (::CompileState *)(pSource), (::CompileLine *)(currentLine)))
@@ -1445,7 +1445,7 @@ bool FUN_005b1180_shell::FUN_005b1180(ScriptBufferS* pkBuffer)
     ScriptLineNode* pIterCur = ((::ScriptLineNode *)(reinterpret_cast<::FUN_00613790_shell *>((pkBuffer))->FUN_00613790()));
     while (pIterCur && !FUN_008256d0(pIterCur))
     {
-        ScriptLineS* pkLine = ((::ScriptLineS *)(new ((void *)(pIterCur)) ::Vec3()));
+        ScriptLineS* pkLine = ((::ScriptLineS *)((void *)(pIterCur)));
         uiType5 = pkLine->m_uiType;
         switch (uiType5)
         {
@@ -1784,7 +1784,7 @@ int FUN_005b12c0_owner::CountLinesInBeginBlock(CStringArgument* apData, unsigned
     ScriptLine* line6;
     while (node5 && !node5->FUN_008256d0() && !done)
     {
-        line6 = *((::fnv_005b12c0::ScriptLine **)(new ((void *)(node5)) ::Vec3()));
+        line6 = *((::fnv_005b12c0::ScriptLine **)((void *)(node5)));
         if (line6->m_uiValueBeforeData > *apLineNumber)
         {
             type = line6->unk410;
@@ -1846,7 +1846,7 @@ void Owner5AE6C0::ClearList()
     List5AE6C0* pkList = ((::List5AE6C0 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     while (pkList && !pkList->IsEmpty())
     {
-        delete ((::Item5AE6C0 *)(new ((void *)(pkList)) ::Vec3()));
+        delete ((::Item5AE6C0 *)((void *)(pkList)));
         pkList->RemoveHead();
     }
 }
@@ -2033,9 +2033,9 @@ struct FUN_005afa50_obj
 bool FUN_005afa50_shell::FUN_005afa50()
 {
     FUN_005afa50_list* list = &m_kReferencedObjectList;
-    while (list != 0 && ((void *)(new ((void *)(list)) ::Vec3())) != 0)
+    while (list != 0 && ((void *)((void *)(list))) != 0)
     {
-        FUN_005afa50_obj* item = (FUN_005afa50_obj*)((void *)(new ((void *)(list)) ::Vec3()));
+        FUN_005afa50_obj* item = (FUN_005afa50_obj*)((void *)((void *)(list)));
         list = ((::fnv_005afa50::FUN_005afa50_list *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
         if (item->m_08 == 0 && item->m_0c == 0)
         {
@@ -2398,16 +2398,16 @@ bool CStringArgument_ctx::FUN_005afad0(ScriptToken* token, bool variable, bool a
     bool result = false;
     unsigned int index = 1;
     BSSimpleList<ScriptReferencedObject*>* entry = &refVars;
-    while (entry && ((::ScriptReferencedObject *)(new ((void *)(entry)) ::Vec3())))
+    while (entry && (entry->m_item))
     {
-        if (!reinterpret_cast<::B408A80String *>((void *)&(((::ScriptReferencedObject *)(new ((void *)(entry)) ::Vec3()))->name))->FUN_00408a80(token->name, true))
+        if (!reinterpret_cast<::B408A80String *>((void *)&((entry->m_item)->name))->FUN_00408a80(token->name, true))
         {
             token->refIndex = index;
-            token->form = ((::ScriptReferencedObject *)(new ((void *)(entry)) ::Vec3()))->form;
+            token->form = (entry->m_item)->form;
             if (variable)
-                ((::ScriptReferencedObject *)(new ((void *)(entry)) ::Vec3()))->variableID = token->variableID;
+                (entry->m_item)->variableID = token->variableID;
             else
-                token->variableID = ((::ScriptReferencedObject *)(new ((void *)(entry)) ::Vec3()))->variableID;
+                token->variableID = (entry->m_item)->variableID;
             result = true;
             break;
         }

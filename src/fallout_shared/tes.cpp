@@ -352,8 +352,6 @@ struct BSTempNodeManager
     void* FUN_00450630(unsigned int flags);
 };
 
-extern "C" void __cdecl FUN_00c44e20(BSTempNodeManager*);
-
 // @fnv 0x00450630
 void* BSTempNodeManager::FUN_00450630(unsigned int flags)
 {
@@ -4080,9 +4078,9 @@ struct TES
 short TES::FindActorBaseValue(TESActorBase* apObject)
 {
     FakeList* pCurrentElementNext = &m_kLeveledActorEntries;
-    while (pCurrentElementNext != 0 && *((::fnv_00459000::LeveledActorEntry **)(new ((void *)(pCurrentElementNext)) ::Vec3())) != 0)
+    while (pCurrentElementNext != 0 && *((::fnv_00459000::LeveledActorEntry **)((void *)(pCurrentElementNext))) != 0)
     {
-        LeveledActorEntry* pEntry = *((::fnv_00459000::LeveledActorEntry **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        LeveledActorEntry* pEntry = *((::fnv_00459000::LeveledActorEntry **)((void *)(pCurrentElementNext)));
         if (pEntry->m_pActorBaseFormItem == apObject)
             return pEntry->m_sLevel;
         pCurrentElementNext = ((::fnv_00459000::FakeList *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
@@ -4986,9 +4984,9 @@ void FUN_00459060_shell::AddOrAccumulateItem(unsigned int key, short sValue)
 {
     G2* node = reinterpret_cast<G2*>(reinterpret_cast<char*>(this) + 0x9c);
 
-    while (node && *((int **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((int **)((void *)(node))))
     {
-        FUN_00459060_item* item = reinterpret_cast<FUN_00459060_item*>(*((int **)(new ((void *)(node)) ::Vec3())));
+        FUN_00459060_item* item = reinterpret_cast<FUN_00459060_item*>(*((int **)((void *)(node))));
 
         if (item->key == key)
         {
@@ -5872,9 +5870,9 @@ struct G2List : G2
 void FUN_00458f90_shell::FUN_00458f90()
 {
     G2* entry = (G2*)((char*)this + 0x9c);
-    while (entry != 0 && *((int **)(new ((void *)(entry)) ::Vec3())) != 0)
+    while (entry != 0 && *((int **)((void *)(entry))) != 0)
     {
-        int* object = *((int **)(new ((void *)(entry)) ::Vec3()));
+        int* object = *((int **)((void *)(entry)));
         delete object;
         entry = (G2*)reinterpret_cast<::Callees *>((entry))->FUN_00726070();
     }
@@ -9012,7 +9010,7 @@ void Q455490TES::FUN_00455490()
         pIter6 = ((::fnv_00455490::Q455490List *)(reinterpret_cast<::fnv_00455600::FUN_00455600_shell *>(((*reinterpret_cast<::fnv_00455490::Q455490DataHandler * *>(&::g_dataHandler))))->FUN_00455600()));
         while (pIter6)
         {
-            kPQuest = *((::fnv_00455490::Q455490Quest **)(new ((void *)(pIter6)) ::Vec3()));
+            kPQuest = *((::fnv_00455490::Q455490Quest **)((void *)(pIter6)));
             pIter6 = ((::fnv_00455490::Q455490List *)(reinterpret_cast<::Callees *>((pIter6))->FUN_00726070()));
             if (kPQuest && reinterpret_cast<::TESFaction_RankDataView *>((kPQuest))->FUN_00455620())
                 reinterpret_cast<::TESQuest *>((kPQuest))->RunScript();
@@ -9096,7 +9094,7 @@ void WaterTextureLoader::LoadWaterTextures()
     WaterFormNode* pNode = ((::WaterFormNode *)(reinterpret_cast<::FUN_0045a730_shell *>((((WaterDataHandler*)g_dataHandler)))->FUN_0045a730()));
     while (pNode && !pNode->IsEmpty())
     {
-        TESWaterForm* m_pWaterForm = *((::TESWaterForm **)(new ((void *)(pNode)) ::Vec3()));
+        TESWaterForm* m_pWaterForm = *((::TESWaterForm **)((void *)(pNode)));
         if (reinterpret_cast<::FUN_00580080_shell *>((m_pWaterForm))->FUN_00580080())
         {
             NiPointer<NiSourceTexture> spTexture(0);
@@ -9545,7 +9543,7 @@ void SaveBlockOwner::WriteSaveBlock()
     reinterpret_cast<::FUN_008579b0_shell *>((static_cast<SaveWriter*>((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&blockSize, 4);
     while (node)
     {
-        ValueReferencePair* entry = *((::ValueReferencePair **)(new ((void *)(node)) ::Vec3()));
+        ValueReferencePair* entry = *((::ValueReferencePair **)((void *)(node)));
         if (entry)
         {
             unsigned int formId = 0;
@@ -9720,7 +9718,7 @@ void CellTest::FUN_00459ae0(unsigned int flags)
     TestWorldList* worlds5 = ((::TestWorldList *)(::FUN_00460140((int)((*reinterpret_cast<::TestDataHandler * *>(&::g_dataHandler))))));
     while (worlds5 && !worlds5->FUN_008256d0())
     {
-        TestWorld* world = *((::TestWorld **)(new ((void *)(worlds5)) ::Vec3()));
+        TestWorld* world = *((::TestWorld **)((void *)(worlds5)));
         if (world)
         {
             reinterpret_cast<::WS458200_Shell *>(this)->FUN_00458200((::WS458200_World *)(world));
@@ -9958,7 +9956,7 @@ void Target45::QueueLoadForAll()
     List45* memory = ((::fnv_0045a1e0::List45 *)(reinterpret_cast<::MessageHandler *>(((*reinterpret_cast<::fnv_0045a1e0::DataHandler45 * *>(&::g_dataHandler))))->GetWarningFileName()));
     while (memory && !memory->FUN_008256d0())
     {
-        Body45* body = *((::fnv_0045a1e0::Body45 **)(new ((void *)(memory)) ::Vec3()));
+        Body45* body = *((::fnv_0045a1e0::Body45 **)((void *)(memory)));
         memory = ((::fnv_0045a1e0::List45 *)(reinterpret_cast<::Callees *>((memory))->FUN_00726070()));
         if (body)
             body->component.Queue(5, ((::fnv_0045a1e0::QueuedFile *)(::FUN_00559450((int *)&(queued)))));
@@ -11151,12 +11149,12 @@ void BatchTES::FUN_004556d0(int mode)
         }
         else if (mode == 3)
         {
-            if (!batchWorlds || *((::BatchWorld **)(new ((void *)(batchWorlds)) ::Vec3())) != currentWorld)
+            if (!batchWorlds || *((::BatchWorld **)((void *)(batchWorlds))) != currentWorld)
             {
                 batchWorlds = ((::BatchWorldNode *)(::FUN_00460140((int)((*reinterpret_cast<::BatchHandler * *>(&::g_dataHandler))))));
                 while (batchWorlds)
                 {
-                    BatchWorld* world = *((::BatchWorld **)(new ((void *)(batchWorlds)) ::Vec3()));
+                    BatchWorld* world = *((::BatchWorld **)((void *)(batchWorlds)));
                     if (world && world == currentWorld)
                         break;
                     batchWorlds = ((::BatchWorldNode *)(reinterpret_cast<::Callees *>((batchWorlds))->FUN_00726070()));
@@ -11223,12 +11221,12 @@ void BatchTES::FUN_004556d0(int mode)
             {
                 if (batchWorlds)
                 {
-                    BatchWorld* world = *((::BatchWorld **)(new ((void *)(batchWorlds)) ::Vec3()));
+                    BatchWorld* world = *((::BatchWorld **)((void *)(batchWorlds)));
                     while (world && !BatchCompare(((BatchCell*)world)->Name(), "test", 4))
                     {
                         batchWorlds = ((::BatchWorldNode *)(reinterpret_cast<::Callees *>((batchWorlds))->FUN_00726070()));
                         if (batchWorlds)
-                            world = *((::BatchWorld **)(new ((void *)(batchWorlds)) ::Vec3()));
+                            world = *((::BatchWorld **)((void *)(batchWorlds)));
                         else
                             world = 0;
                     }
@@ -11941,7 +11939,7 @@ void ActorSpellView::UpdateSpells(bool equipped)
         node = ((::SpellNode *)(reinterpret_cast<::BaseProcess *>(&(((::ActorBaseView *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->spells))->GetCurrentProcessData()));
         while (node)
         {
-            pSpell = *((::SpellItem **)(new ((void *)(node)) ::Vec3()));
+            pSpell = *((::SpellItem **)((void *)(node)));
             if (pSpell)
             {
                 AddSpell(pSpell, true);
@@ -11952,7 +11950,7 @@ void ActorSpellView::UpdateSpells(bool equipped)
         node = GetRace() ? ((::SpellNode *)(reinterpret_cast<::BaseProcess *>(&(GetRace()->spells))->GetCurrentProcessData())) : 0;
         while (node)
         {
-            spell4 = *((::SpellItem **)(new ((void *)(node)) ::Vec3()));
+            spell4 = *((::SpellItem **)((void *)(node)));
             if (spell4)
             {
                 AddSpell(spell4, true);

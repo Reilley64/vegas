@@ -315,7 +315,6 @@ struct MyCollector
 void* MyCollector::FUN_0062d3c0()
 {
     __vftable = (void*)&DAT_0104e328;
-    new ((void *)&(m_04)) ::Vec3();
     FUN_0062d330();
     return this;
 }

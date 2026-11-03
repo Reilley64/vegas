@@ -804,7 +804,6 @@ void __cdecl SetCollisionScale(SceneNode* node, unsigned int operation, float si
                 }
                 float scale = size * coefficient;
                 PhysicsTransform transform;
-                new ((void *)&(transform)) ::Vec3();
                 body->UpdateTransform(&transform);
                 reinterpret_cast<::V *>(&(transform))->FUN_00961190((*(const ::V *)(operation)));
                 reinterpret_cast<::S0062aea0_Vector *>(&(transform))->FUN_0062aea0();
@@ -1111,10 +1110,8 @@ Point3* FUN_0062bfb0(Point3* out, Node* node)
             new ((void *)&(bounds)) ::fnv_00437c10::FUN_00437c10();
             reinterpret_cast<::WorldObject_c8d3 *>((body))->GetAabb((*(::Aabb_c8d3 *)(&bounds)));
             Point3 minimum;
-            new ((void *)&(minimum)) ::Vec3();
             ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&minimum)), (*(const ::hkVector4 *)(&bounds.minimum)));
             Point3 maximum;
-            new ((void *)&(maximum)) ::Vec3();
             ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&maximum)), (*(const ::hkVector4 *)(&bounds.maximum)));
             Point3 lower, upper, minTermA, maxTermA, minTermB, maxTermB;
             reinterpret_cast<::Point3Offset *>((void *)(((::Point3 *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::Point3 *)(&maxTermA), .55f, (const ::NiPoint3 *)(const ::Point3 *)(&maximum))))))->ProjectileLaunched((::NiPoint3 *)(::Point3 *)(&upper), (::NiPoint3 *)(((::Point3 *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::Point3 *)(&minTermA), .45f, (const ::NiPoint3 *)(const ::Point3 *)(&minimum))))));

@@ -549,7 +549,7 @@ void UpdateSoundListItems()
         GO* go;
         while (current != 0 && !current->_ref_008256d0())
         {
-            go = ((::GO **)(new ((void *)(current)) ::Vec3()))[0];
+            go = ((::GO **)((void *)(current)))[0];
             if (((FUN_006fb150_shell*)go->operator unsigned int())->GetByteAtOffset5C() &&
                 ((FUN_006fa840_shell*)go->operator unsigned int())->GetByteAt5D() && ((unsigned char)(reinterpret_cast<::FUN_006fe920_Class *>((go->f0))->FUN_006fe920(false))))
             {
@@ -852,7 +852,7 @@ void __cdecl UpdateListItems()
     B5D0List* node = reinterpret_cast<B5D0List*>(&(*reinterpret_cast<::SoundListView *>(&::g_011d8624)));
     while (node && !node->FUN_008256d0())
     {
-        B5D0Item* item = *((::B5D0Item **)(new ((void *)(node)) ::Vec3()));
+        B5D0Item* item = *((::B5D0Item **)((void *)(node)));
         if (reinterpret_cast<::FUN_006fb150_shell *>((((::B5D0Status *)(::FUN_00559450((int *)(item))))))->GetByteAtOffset5C())
         {
             reinterpret_cast<::FUN_006fb760_shell *>((item))->FUN_006fb760();

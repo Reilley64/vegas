@@ -375,7 +375,7 @@ struct blob12
 // @fnv 0x00537b30
 CellMopp* GetCellMopp(char* pThis)
 {
-    return ((::CellMopp *)(reinterpret_cast<::fnv_0041bb10::FUN_0041bb10_Class *>((pThis + 0x28))->FUN_0041bb10()));
+    return ((::CellMopp *)(std::uintptr_t)(reinterpret_cast<::fnv_0041bb10::FUN_0041bb10_Class *>((pThis + 0x28))->FUN_0041bb10()));
 }
 
 
@@ -387,7 +387,7 @@ struct FUN_00538e30_class
 // @fnv 0x00538e30
 void SetVtable(FUN_00538e30_class* this_ptr)
 {
-    this_ptr->vtable = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    this_ptr->vtable = (std::intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 struct NiPoint3
@@ -1324,7 +1324,7 @@ void Mgr_e74120_iso::FUN_00e74120()
                             bool fl2 = arr->unk14;
                             std::uintptr_t prev = arr->unk34;
                             arr->unk34 =
-                                ((unsigned int)(reinterpret_cast<::IndexBufferManager *>((helper8c0))->PackBuffer((const unsigned short *)(data), a, b, (::COMBaseInterface *)(prev), (*(unsigned int *)(&tmp)), DAT_0126f0d0 == 0, fl2 ? 0x10 : 0)));
+                                ((std::uintptr_t)(reinterpret_cast<::IndexBufferManager *>((helper8c0))->PackBuffer((const unsigned short *)(data), a, b, (::COMBaseInterface *)(prev), (*(unsigned int *)(&tmp)), DAT_0126f0d0 == 0, fl2 ? 0x10 : 0)));
                             arr->unk2c = a;
                             arr->unk30 = tmp;
                         }
@@ -1366,7 +1366,7 @@ void Mgr_e74120_iso::FUN_00e74120()
         {
             UploadBatchHeader* h2 = delList->unk00;
             h2->ClearOwnership();
-            ::ApplyPacketUpdate((::PacketObj *)this, (::PacketTarget *)(h), (int)(delList->unk04));
+            ::ApplyPacketUpdate((::PacketObj *)this, (::PacketTarget *)(h), (std::intptr_t)(delList->unk04));
         }
         FUN_00aa1460(delList, sizeof(UploadBatchItem));
         delList = nx;
@@ -2516,11 +2516,11 @@ struct FUN_0053a700_Mid {
 struct FUN_0053a700_Holder {
     unsigned char pad[0x28];
     FUN_0053a700_Mid* p;
-    int FUN_0053a700(unsigned char, unsigned short);
+    std::intptr_t FUN_0053a700(unsigned char, unsigned short);
 };
 
 // @fnv 0x0053a700
-int FUN_0053a700_Holder::FUN_0053a700(unsigned char a1, unsigned short a2)
+std::intptr_t FUN_0053a700_Holder::FUN_0053a700(unsigned char a1, unsigned short a2)
 {
     int result = 0;
     if (a1 < 4 && a2 < 6 && p && p->arr[a1]) {
@@ -2547,7 +2547,7 @@ struct FUN_00537d60 : A51BF0Base {
 };
 
 // @fnv 0x00537d60
-void* FUN_00537d60_Create(unsigned int a, uintptr_t b, unsigned int c, int d, int e)
+void* FUN_00537d60_Create(std::uintptr_t a, uintptr_t b, unsigned int c, int d, int e)
 {
     FUN_00537d60* obj = new FUN_00537d60;
     if (obj) {
@@ -2751,7 +2751,7 @@ struct Data538110 {
     int m_14;
     int m_18;
     int m_1c;
-    int m_20arr[4];
+    void* m_20arr[4];
     int* m_30arr[4];
     int m_40arr[4];
 };
@@ -3764,8 +3764,8 @@ void Surface::FUN_005400e0()
    ShaderProperty* q=((::ShaderProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((::QuadNode *)(reinterpret_cast<::S_FUN_0045bc00 *>((data->nodes[j]))->FUN_0045bc00(0)))))->FUN_00a59d30(3)));
    ShaderProperty* b=(!q ? 0 : (((int)(reinterpret_cast<::BGSTerrainManager *>((q))->GetMinLevel()))>=8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((q))->GetMinLevel()))<=12)) ? q : 0;
    if(b && (!((void *)(reinterpret_cast<::S *>((b))->GetElement(9))) || !((void *)(reinterpret_cast<::fnv_00540570::FUN_00540570_Owner *>((b))->GetFltValue(9))))) {
-    e=((void *)(reinterpret_cast<::FUN_006fce30_shell *>((ba))->FUN_006fce30((int)&(c))));
-    l=((void *)(reinterpret_cast<::FUN_006fce70_shell *>((ba))->FUN_006fce70((int)&(c))));
+    e=((void *)(reinterpret_cast<::FUN_006fce30_shell *>((ba))->FUN_006fce30((std::intptr_t)&(c))));
+    l=((void *)(reinterpret_cast<::FUN_006fce70_shell *>((ba))->FUN_006fce70((std::intptr_t)&(c))));
     b->setFirst(9,e);
     b->setSecond(9,l);
     UVBounds cf=DAT_011a9bd0;
@@ -3775,7 +3775,7 @@ void Surface::FUN_005400e0()
      case 2:k=NiPoint2(0.0f,0.5f);break;
      case 3:k=NiPoint2(0.5f,0.5f);break;
     }
-    TexturePointer* eb=((::TexturePointer *)(reinterpret_cast<::BGSTerrainChunk *>((ba))->FUN_006fceb0((int)&(c))));
+    TexturePointer* eb=((::TexturePointer *)(reinterpret_cast<::BGSTerrainChunk *>((ba))->FUN_006fceb0((std::intptr_t)&(c))));
     if(eb) {
      short i=((short)(reinterpret_cast<::TESActorBaseData *>((((::TextureSample *)(::FUN_00559450((int *)(eb))))))->GetFatigue()));
      short a=((short)(reinterpret_cast<::BSShaderPPLightingProperty *>((((::TextureSample *)(::FUN_00559450((int *)(eb))))))->GetDiffuseTextureIndex()));
@@ -3974,8 +3974,8 @@ void VertOwner::FUN_00534390(unsigned int index, unsigned int vert, VertPt& out)
         found = true;
     } else if (tables->nodes && tables->nodes[index]) {
         VertGeom* geom = ((::VertGeom *)(reinterpret_cast<::NiNode *>((tables->nodes[index]))->GetAt(0)));
-        if (((::VertPt *)(reinterpret_cast<::FUN_004a8030_shell *>((geom))->FUN_004a8030()))) {
-            out = ((::VertPt *)(reinterpret_cast<::FUN_004a8030_shell *>((geom))->FUN_004a8030()))[vert];
+        if (((::VertPt *)(std::uintptr_t)(reinterpret_cast<::FUN_004a8030_shell *>((geom))->FUN_004a8030()))) {
+            out = ((::VertPt *)(std::uintptr_t)(reinterpret_cast<::FUN_004a8030_shell *>((geom))->FUN_004a8030()))[vert];
             found = true;
         } else {
             VertGeomData* data = ((::VertGeomData *)(::fnv_005495f0::FUN_005495f0((const char *)(geom))));
@@ -4078,7 +4078,7 @@ struct RgbaColor {
 };
 
 struct FUN_00534780_Class {
-    int m_00;
+    char* m_00;
     int m_04;
     unsigned char m_08;
     void FUN_00534780(int index, RgbaColor* out);
@@ -4874,7 +4874,7 @@ struct Worker53 {
 void Worker53::FUN_0053a090(bool update, int unused) {
  if (config->enabled) {
  for (int i=0; i<4; ++i) {
- Node53* node=((::Node53 *)(reinterpret_cast<::GuardedSubHolder *>(this)->FUN_00535af0(i)));
+ Node53* node=((::Node53 *)(std::uintptr_t)(reinterpret_cast<::GuardedSubHolder *>(this)->FUN_00535af0(i)));
  if (node) {
  if (update) {
  Mesh53* mesh=((::Mesh53 *)(reinterpret_cast<::S_FUN_0045bc00 *>((node))->FUN_0045bc00(0)));
@@ -4887,7 +4887,7 @@ void Worker53::FUN_0053a090(bool update, int unused) {
  NiTimeController* count=((::NiTimeController *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(3)));
  NiTimeController* vertices=(count == 0 ? false : (((int)(reinterpret_cast<::BGSTerrainManager *>((count))->GetMinLevel()))>=8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((count))->GetMinLevel()))<=12)) ? count : 0;
  if(vertices) {
- void* dest=((void *)(reinterpret_cast<::ActorMover *>((((::GeoData53 *)(::fnv_005495f0::FUN_005495f0((const char *)(object))))))->GetCurrentMoveModeType()));
+ void* dest=((void *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((::GeoData53 *)(::fnv_005495f0::FUN_005495f0((const char *)(object))))))->GetCurrentMoveModeType()));
  ::__memcpy(dest,config->sources[i],0xd8c);
  reinterpret_cast<::fnv_00a66a60::GeometryDataA66A *>((((::GeoData53 *)(::fnv_005495f0::FUN_005495f0((const char *)(object))))))->FUN_00a66a60(0);
  vertices->SetGeometry(object);
@@ -5532,7 +5532,8 @@ NiPoint2 FUN_0053f440_shell::FUN_0053f440()
         {
             for (int i = 0; i < 4; i++)
             {
-                NiPoint2 kQuad = (*(::NiPoint2 *)(reinterpret_cast<::FUN_0053f390_cls *>(this)->FUN_0053f390((::FUN_0053f390_v2 *)(i), {})));
+                ::FUN_0053f390_v2 kQuadResult;
+                NiPoint2 kQuad = (*(::NiPoint2 *)(reinterpret_cast<::FUN_0053f390_cls *>(this)->FUN_0053f390(&kQuadResult, i)));
                 if (kQuad.x < pkData->kHeight.x)
                     pkData->kHeight.x = kQuad.x;
                 if (kQuad.y > pkData->kHeight.y)
@@ -6776,7 +6777,7 @@ if (!data->nodes) {
  Shape* shapesB[4]; FUN_00403d30(shapesB,0,16);
  NiPoint2 total(DAT_01016970,DAT_01015f5c);
  for(int quad=0;quad<4;quad++) {
-  data->nodes[quad]=((::Scene *)(reinterpret_cast<::GuardedSubHolder *>(this)->FUN_00535af0(quad)));
+  data->nodes[quad]=((::Scene *)(std::uintptr_t)(reinterpret_cast<::GuardedSubHolder *>(this)->FUN_00535af0(quad)));
   if(data->nodes[quad]) {
    savedA[quad]=reinterpret_cast<::FUN_00456630_helper *>((data->nodes[quad]))->FUN_00456610();
    reinterpret_cast<::TaskQueueInterface *>((data->nodes[quad]))->QueueActorDisarm(true);
@@ -6855,11 +6856,11 @@ Geometry5371* Land5371_od::FUN_005371b0(unsigned char index)
                                  data->texcoords[index], a, 1, 0,
                                  *f - 2, 1, f, s);
         NiPoint3_od h;
-        reinterpret_cast<::fnv_00535b30::FUN_00535b30_class_od *>(this)->FUN_00535b30((int)(&h));
+        reinterpret_cast<::fnv_00535b30::FUN_00535b30_class_od *>(this)->FUN_00535b30((std::intptr_t)(&h));
         reinterpret_cast<::FUN_00440460_S *>((p))->FUN_00440460((const ::V3 *)&(h));
         char i[260];
         FUN_00406d00(i, 260, "Block (%i, %i)", index % 4, index / 4);
-        ::AssignFixedString((char *)(p), (int)&(const ::NiFixedString &)(NiFixedString(i)), {});
+        ::AssignFixedString((char *)(p), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(i)), {});
     }
     return p;
 }
@@ -7006,7 +7007,7 @@ void This538110::FUN_00538110()
         int w;
         reinterpret_cast<::LayerOwner53a940 *>((((FUN_0053a940_Class*)this)))->FUN_0053a940();
         for (w = 0; w < 4; w++) {
-            if (m_28->m_20arr[w] != 0 && m_28->m_20arr[w] != FUN_00535ae0()) {
+            if (m_28->m_20arr[w] != 0 && m_28->m_20arr[w] != (void*)FUN_00535ae0()) {
                 X538110 v;
                 v.m_04 = (unsigned char)w;
                 v.m_06 = 0xffff;
@@ -7328,7 +7329,7 @@ struct Data538110_od_ctx {
     int m_14;
     int m_18;
     int m_1c;
-    int m_20arr[4];
+    void* m_20arr[4];
     int* m_30arr[4];
     int m_40arr[4];
 };
@@ -7762,8 +7763,8 @@ bool GeometryOwner_od_ctx::FUN_00539500(GeometryOwner_od_ctx* source)
         return false;
 
     geometry = new FUN_005405a0;
-    geometry->initialValue98 = ((void *)(reinterpret_cast<::TESObjectCELL *>((resource))->GetCellGridX()));
-    geometry->initialValue9c = ((void *)(reinterpret_cast<::TESObjectCELL *>((resource))->GetCellGridY()));
+    geometry->initialValue98 = ((void *)(std::uintptr_t)(reinterpret_cast<::TESObjectCELL *>((resource))->GetCellGridX()));
+    geometry->initialValue9c = ((void *)(std::uintptr_t)(reinterpret_cast<::TESObjectCELL *>((resource))->GetCellGridY()));
 
     geometry->positions = new FUN_006815c0*[4];
     geometry->transforms = new FUN_004a7800*[4];
@@ -7854,7 +7855,7 @@ struct Data538110_od_decl {
     int m_14;
     int m_18;
     int m_1c;
-    int m_20arr[4];
+    void* m_20arr[4];
     int* m_30arr[4];
     int m_40arr[4];
 };
@@ -8609,7 +8610,7 @@ struct Data538110_od_rtti
     int m_14;
     int m_18;
     int m_1c;
-    int m_20arr[4];
+    void* m_20arr[4];
     int* m_30arr[4];
     int m_40arr[4];
 };

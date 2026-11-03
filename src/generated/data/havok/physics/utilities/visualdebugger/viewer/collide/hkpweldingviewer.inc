@@ -2,4 +2,6 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
+const double DAT_010d1640 = -0.9800000190734863;
+const float DAT_010d1648 = 0.48f;
 int DAT_01268fbc;

@@ -2,34 +2,17 @@
 // src/havok/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
+#include <xmmintrin.h>
 #include "generated/data/vtables.h"
-#include "fnv/decl/SphereTriangleAgent.h"
-#include "fnv/decl/SphereTriangleProcessReceiver.h"
 #include "fnv/symbols_00cd7000.h"
 #include "fnv/symbols_00d38000.h"
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_010ce000.h"
-struct S_00d37e60_Allocator
-{
-    virtual void v0();
-    virtual void* AllocateMemoryBlock(int nbytes);
-};
 
-struct S_00d37e60_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00d37e60_Allocator* m_pStreamAllocator;
-    S_00d37e60_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
-S_00d37e60_Router* FUN_00c85750();
 
 struct S_00d37e60_RefObj
 {
@@ -41,9 +24,9 @@ struct S_00d37e60_RefObj
     }
     virtual ~S_00d37e60_RefObj() throw()
     {}
-    void* operator new(std::size_t nbytes)
+    void* operator new(size_t nbytes)
     {
-        S_00d37e60_RefObj* b = static_cast<S_00d37e60_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
+        S_00d37e60_RefObj* b = static_cast<S_00d37e60_RefObj*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -59,14 +42,61 @@ struct S_00d37e60_Agent : S_00d37e60_RefObj
     virtual void getPenetrations();
 };
 
-struct S_00d37e60_Shape
+struct hkVector4f
 {
-    int unk0[8];
+    float x;
+    float y;
+    float z;
+    float w;
+};
+struct hkVector4
+{
+    __m128 m_vComponents;
+    float getW() const
+    {
+        return m_vComponents[3];
+    }
+};
+union hkQuadVector
+{
+    hkVector4f v;
+    __m128 q;
 };
 
+struct hkTransformf
+{
+    hkVector4f m_kColumn0;
+    hkVector4f m_kColumn1;
+    hkVector4f m_kColumn2;
+    hkVector4f m_vTranslation;
+};
+
+struct hkpConvexShapeHeader
+{
+    void* m_ppVirtualMethodTable;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+    void* m_ulUserData;  // +0x08
+    int m_type;          // +0x0c
+};
+struct hkpTriangleShape : hkpConvexShapeHeader
+{
+    float m_fSphereRadius;     // +0x10
+    unsigned short m_weldingInfo;  // +0x14
+    hkVector4 m_kVertices[3];  // +0x20
+    float getRadius() const
+    {
+        return m_fSphereRadius;
+    }
+};
+struct hkpMultiSphereShape : hkpConvexShapeHeader
+{
+    int m_iSphereCount;       // +0x10
+    hkVector4 m_kSpheres[8];  // +0x20
+};
 struct S_00d37e60_CdBody
 {
-    char* m_pCollisionShape;
+    const hkpTriangleShape* m_pCollisionShape;
 };
 
 struct S_00d37e60_Plane
@@ -88,7 +118,7 @@ struct S_00d37e60_TriAgent : S_00d37e60_Agent
     {
         for (int i = 0; i < 8; i++)
             m_ids[i] = 0xffff;
-        FUN_00cd7160(bodyA.m_pCollisionShape + 0x20, &m_kTriangleNormal);
+        FUN_00cd7160(bodyA.m_pCollisionShape->m_kVertices, &m_kTriangleNormal);
     }
 };
 
@@ -114,10 +144,10 @@ struct D38AC0Data
     char unk05;
     char unk06;
     char unk07;
-    int unk08;
+    void* unk08;
 };
 // @fnv 0x00d38ac0
-void __cdecl FUN_00d38ac0(void* first, void* second, void* third, int fourth)
+void __cdecl FUN_00d38ac0(void* first, void* second, void* third, void* fourth)
 {
     D38AC0Data data;
     data.unk08 = fourth;
@@ -126,26 +156,6 @@ void __cdecl FUN_00d38ac0(void* first, void* second, void* third, int fourth)
     ::FUN_00d38130((*(const ::hkpCdBody *)(second)), (*(const ::hkpCdBody *)(first)), third, (*(::hkpCdBodyPairCollector *)(&data)));
 }
 
-struct CpuCallData
-{
-    void* descriptor;
-    float bound;
-    unsigned int value;
-};
-struct CpuObject
-{
-    void FUN_00d38e90(void*, void*, unsigned int, unsigned int);
-};
-// Builds a CpuCallData from fourth, DAT_0104da48 and DAT_010ce7fc, then forwards second, first and third to FUN_00d38390.
-// @fnv 0x00d38e90
-void CpuObject::FUN_00d38e90(void* first, void* second, unsigned int third, unsigned int fourth)
-{
-    CpuCallData data;
-    data.value = fourth;
-    data.bound = ::DAT_0104da48;
-    data.descriptor = &DAT_010ce7fc;
-    reinterpret_cast<::SphereTriangleAgent *>(this)->FUN_00d38390((const ::CollisionBody *)(second), (const ::CollisionBody *)(first), (const ::CollisionInput *)(third), (::ContactCollector *)(::CpuCallData *)(&data));
-}
 
 struct FUN_00d37e10_sub
 {
@@ -199,13 +209,13 @@ struct CallbackState
 {
     const void* type;
     bool completed;
-    unsigned context;
+    void* context;
 };
 
 
 struct Operation
 {
-    void FUN_00d38a80(unsigned first, unsigned second, unsigned third, unsigned context);
+    void FUN_00d38a80(const void* first, const void* second, const void* third, void* context);
 };
 
 // Stand-in for the 12-byte record the callee receives by pointer.
@@ -215,7 +225,7 @@ struct FUN_00d38ed0_Local
 {
     const char* unk00;
     float unk04;
-    int unk08;
+    void* unk08;
 };
 
 // Global float loaded with `fld dword ptr [0x104da48]`.
@@ -226,7 +236,7 @@ struct FUN_00d38ed0_Local
 // the last one being a pointer to the record built on the stack.
 
 // @fnv 0x00d38ed0
-void __cdecl FUN_00d38ed0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void __cdecl FUN_00d38ed0(const void* aiArg1, const void* aiArg2, const void* aiArg3, void* aiArg4)
 {
     FUN_00d38ed0_Local local;
 
@@ -234,22 +244,10 @@ void __cdecl FUN_00d38ed0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
     local.unk08 = aiArg4;
     local.unk00 = (*reinterpret_cast<char (*)[]>(&::DAT_010ce7fc));
 
-    ::FUN_00d386c0((*(const ::S00d386c0_CdBody *)(aiArg2)), (*(const ::S00d386c0_CdBody *)(aiArg1)), (*(const ::S00d386c0_CollisionInput *)(aiArg3)), (*(::S00d386c0_CdPointCollector *)(&local)));
+    ::FUN_00d386c0((*static_cast<const ::S00d386c0_CdBody *>(aiArg2)), (*static_cast<const ::S00d386c0_CdBody *>(aiArg1)), (*static_cast<const ::S00d386c0_CollisionInput *>(aiArg3)), (*(::S00d386c0_CdPointCollector *)(&local)));
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 
 struct SimplexVertex
@@ -290,111 +288,7 @@ struct Simplex
     DimNibbles m_dims;
 };
 
-struct AgentBase
-{
-};
 
-struct Agent : AgentBase
-{
-    void FUN_00d38f10(int a, int b, int c, Simplex* s);
-};
-
-// @fnv 0x00d38f10
-void Agent::FUN_00d38f10(int a, int b, int c, Simplex* s)
-{
-    SimplexVertex* v = s->m_kRayEnd;
-    float oldDistance = s->m_fClosestPointDistanceSquared;
-    reinterpret_cast<::SphereTriangleProcessReceiver *>(this)->FUN_00d38b00((*(const ::ProcessBody *)(b)), (*(const ::ProcessBody *)(a)), (*(const struct struct ::ProcessInput *)(c)), (*(::ProcessOutput *)(s)));
-    for (; v < s->m_kRayEnd; v++)
-    {
-        const __m128* pb = &v->m_kPointB;
-        __m128 w = _mm_shuffle_ps(*pb, *pb, 0xff);
-        v->m_kPointA = _mm_add_ps(_mm_mul_ps(w, v->m_kPointB), v->m_kPointA);
-        v->m_kPointB = _mm_xor_ps(v->m_kPointB, DAT_010c4c00);
-    }
-    if (oldDistance != s->m_fClosestPointDistanceSquared)
-    {
-        __m128* n = &s->m_vHitNormal;
-        *n = _mm_xor_ps(*n, DAT_010c4c00);
-        {
-            unsigned char t = s->m_dims.m_ucLowNibble;
-            s->m_dims.m_ucLowNibble = s->m_dims.m_ucHighNibble;
-            s->m_dims.m_ucHighNibble = t;
-        }
-        {
-            unsigned char t = s->m_ucDimensionA;
-            s->m_ucDimensionA = s->m_ucDimensionB;
-            s->m_ucDimensionB = t;
-        }
-        int last = s->m_ucDimensionA + s->m_ucDimensionB - 1;
-        unsigned short t0 = s->m_ids[0];
-        s->m_ids[0] = s->m_ids[last];
-        s->m_ids[last] = t0;
-        if ((s->m_ucDimensionA & s->m_ucDimensionB) == 2)
-        {
-            unsigned short t1 = s->m_ids[1];
-            s->m_ids[1] = s->m_ids[2];
-            s->m_ids[2] = t1;
-        }
-    }
-}
-
-struct hkVector4f
-{
-    float x;
-    float y;
-    float z;
-    float w;
-};
-struct hkVector4
-{
-    __m128 m_vComponents;
-    float getW() const
-    {
-        return m_vComponents.m128_f32[3];
-    }
-};
-union hkQuadVector
-{
-    hkVector4f v;
-    __m128 q;
-};
-
-struct hkTransformf
-{
-    hkVector4f m_kColumn0;
-    hkVector4f m_kColumn1;
-    hkVector4f m_kColumn2;
-    hkVector4f m_vTranslation;
-};
-
-struct hkpConvexShapeHeader
-{
-    void* m_ppVirtualMethodTable;
-    int m_ulUserData;
-    int m_type;
-    int unk0C;
-};
-struct hkpTriangleShape : hkpConvexShapeHeader
-{
-    float m_fSphereRadius;
-    int unk14;
-    int unk18;
-    int unk1C;
-    hkVector4 m_kVertices[3];
-    float getRadius() const
-    {
-        return m_fSphereRadius;
-    }
-};
-struct hkpMultiSphereShape : hkpConvexShapeHeader
-{
-    int m_iSphereCount;
-    int unk14;
-    int unk18;
-    int unk1C;
-    hkVector4 m_kSpheres[8];
-};
 struct hkpCdBody
 {
     const void* m_pCollisionShape;
@@ -453,13 +347,13 @@ struct hkpMultiSphereTriangleAgent : S_00d37e60_TriAgent
 };
 // Initialises a CallbackState with the given context and vtable, then calls FUN_00d37ed0 with the reordered arguments and the callback.
 // @fnv 0x00d38a80
-void Operation::FUN_00d38a80(unsigned first, unsigned second, unsigned third, unsigned context)
+void Operation::FUN_00d38a80(const void* first, const void* second, const void* third, void* context)
 {
     CallbackState callback;
     callback.context = context;
     callback.completed = false;
     callback.type = (*reinterpret_cast<const unsigned int (*)[]>(&::DAT_010ce81c));
-    reinterpret_cast<::hkpMultiSphereTriangleAgent *>(this)->FUN_00d37ed0((*(const ::hkpCdBody *)(second)), (*(const ::hkpCdBody *)(first)), (const void *)(third), (*(::hkpCdBodyPairCollector *)(&callback)));
+    reinterpret_cast<::hkpMultiSphereTriangleAgent *>(this)->FUN_00d37ed0((*static_cast<const ::hkpCdBody *>(second)), (*static_cast<const ::hkpCdBody *>(first)), third, (*(::hkpCdBodyPairCollector *)(&callback)));
 }
 
 // @fnv 0x00d37ed0
@@ -480,7 +374,7 @@ void hkpMultiSphereTriangleAgent::FUN_00d37ed0(const hkpCdBody& bodyA, const hkp
 
     for (int i = 0; i < nsphere; ++i)
     {
-        float radiusSum = triB->getRadius() + localSpheres[i].m_vComponents.m128_f32[3];
+        float radiusSum = triB->getRadius() + localSpheres[i].m_vComponents[3];
         CollisionDistanceInfo cpr;
         ::FUN_00cd7850((const ::S_00cd7850_Vec &)(worldSpheres[i]), (const ::S_00cd7850_Vec *)(const ::hkVector4 *)(&triVertices[0]), (const ::S_00cd7850_Cache &)(m_kTriangleNormal), (::S_00cd7850_Result &)(cpr), (::S_00cd7850_Features *)(void *)(0));
         if (cpr.distance < radiusSum)
@@ -512,13 +406,426 @@ void __cdecl FUN_00d38130(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const 
 
     for (int i = 0; i < nsphere; ++i)
     {
-        float radiusSum = triB->m_fSphereRadius + localSpheres[i].m_vComponents.m128_f32[3];
+        float radiusSum = triB->m_fSphereRadius + localSpheres[i].m_vComponents[3];
         CollisionDistanceInfo cpr;
         ::FUN_00cd7850((const ::S_00cd7850_Vec &)(worldSpheres[i]), (const ::S_00cd7850_Vec *)(const ::hkVector4 *)(&triVertices[0]), (const ::S_00cd7850_Cache &)(cache), (::S_00cd7850_Result &)(cpr), (::S_00cd7850_Features *)(void *)(0));
         if (cpr.distance < radiusSum)
         {
             collector.AddCdBodyPair(bodyA, bodyB);
             break;
+        }
+    }
+}
+
+// Moved from hkpmultispheretriangleagent_rtm_variant.cpp (VEGAS-15).
+#include <intrin.h>
+#include <windows.h>
+#include "fnv/symbols_00d37000.h"
+#include "fnv/symbols_01268000.h"
+void __cdecl FUN_00cd7850(const hkVector4& position, const hkVector4* triangle, const S_00d37e60_Plane& cache,
+                          CollisionDistanceInfo& result, void* featureOut);
+
+extern "C" {
+void _ReadWriteBarrier(void);
+unsigned __int64 __rdtsc(void);
+}
+struct VectorWords { unsigned int x, y, z, w; };
+struct FloatWords { float x, y, z, w; };
+union FourFloatVector { __m128 q; VectorWords bits; FloatWords values; };
+struct TransformStorage { VectorWords x, y, z, translation; };
+struct Shape {
+    virtual ~Shape();
+    unsigned short allocationSize;
+    short referenceCount;
+    unsigned int userData, type;
+};
+struct TriangleShape : Shape {
+    float radius;
+    unsigned int unknown14, unknown18, unknown1C;
+    FourFloatVector vertices[3];
+};
+struct MultiSphereShape : Shape {
+    int count;
+    unsigned int unknown14, unknown18, unknown1C;
+    FourFloatVector spheres[8];
+};
+struct CollisionBody { void* shape; unsigned int key; const TransformStorage* transform; const CollisionBody* parent; };
+struct CollisionInput { unsigned int flags, quality; float tolerance; };
+struct TriangleCache { float edge0, edge1, edge2, inverseArea; };
+struct ClosestPointUtilities { FourFloatVector normal; float distance; };
+struct Contact {
+    FourFloatVector position, normal;
+    const CollisionBody* bodyA;
+    const CollisionBody* bodyB;
+};
+struct ContactCollector {
+    virtual void destructor();
+    virtual void AddContact(const Contact&);
+};
+struct TimerRecord { const char* name; unsigned int ticks; unsigned int extra; };
+struct Monitor { TimerRecord* start; TimerRecord* next; TimerRecord* capacity; TimerRecord* limit; };
+void __cdecl FUN_00cd7850(const FourFloatVector*, const FourFloatVector*, TriangleCache*, ClosestPointUtilities*, unsigned char*);
+static __forceinline __m128 TransformPoint(const __m128& tx, const __m128& ty, const __m128& tz, const __m128& tt, const __m128& v)
+{
+    return _mm_add_ps(
+        _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0), tx),
+                   _mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), ty)),
+        _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0xaa), tz),
+                   tt));
+}
+static __forceinline VectorWords CopyWords(const VectorWords& from) {return from;}
+static __forceinline VectorWords CopyOther(const VectorWords& from) { VectorWords r = {from.x,from.y,from.z,from.w}; return r; }
+struct SphereTriangleAgent {
+    unsigned int state, flags, key;
+    TriangleCache plane;
+    void FUN_00d38390(const CollisionBody*, const CollisionBody*, const CollisionInput*, ContactCollector*);
+};
+// @fnv 0x00d38390
+void SphereTriangleAgent::FUN_00d38390(const CollisionBody* bodyA, const CollisionBody* bodyB, const CollisionInput* input, ContactCollector* collector)
+{
+    volatile unsigned int timerTicks;
+    ClosestPointUtilities closest;
+    {
+        Monitor* timerMonitor = static_cast<Monitor*>(TlsGetValue(DAT_0126835c));
+        TimerRecord* timerRecord = timerMonitor->next;
+        if (timerRecord < timerMonitor->limit) {
+            timerRecord->name = "TtMultiSphereTriangle";
+            _ReadWriteBarrier();
+            timerTicks = static_cast<unsigned int>(__rdtsc());
+            timerRecord->ticks = timerTicks;
+            timerMonitor->next = timerRecord + 1;
+        }
+    }
+    MultiSphereShape* __restrict spheres = static_cast<MultiSphereShape*>(bodyA->shape);
+    TriangleShape* triangle = static_cast<TriangleShape*>(bodyB->shape);
+    FourFloatVector triangleWorld[3];
+    {
+    const TransformStorage* __restrict tb = bodyB->transform;
+    FourFloatVector bxv; bxv.bits = CopyOther(tb->x); __m128 bx = bxv.q;
+    FourFloatVector byv; byv.bits = CopyWords(tb->y); __m128 by = byv.q;
+    FourFloatVector bzv; bzv.bits = CopyOther(tb->z); __m128 bz = bzv.q;
+    closest.normal.bits = CopyWords(tb->translation); __m128 bt = closest.normal.q;
+    const FourFloatVector* triVerts = triangle->vertices;
+    for (int i = 2; i >= 0; --i) {
+        triangleWorld[i].q = TransformPoint(bx, by, bz, bt, triVerts[i].q);
+    }
+    }
+    FourFloatVector spheresWorld[8];
+    const FourFloatVector* sourceSphere = spheres->spheres;
+    const int count = spheres->count;
+    {
+    const TransformStorage* __restrict ta = bodyA->transform;
+    closest.normal.bits = CopyWords(ta->x); __m128 ax = closest.normal.q;
+    FourFloatVector ayv; ayv.bits = CopyWords(ta->y); __m128 ay = ayv.q;
+    FourFloatVector azv; azv.bits = CopyWords(ta->z); __m128 az = azv.q;
+    FourFloatVector atv; atv.bits = CopyWords(ta->translation); __m128 at = atv.q;
+    int sphereIndex = count - 1;
+    do {
+        spheresWorld[sphereIndex].q = TransformPoint(ax, ay, az, at, sourceSphere[sphereIndex].q);
+    } while (--sphereIndex >= 0);
+    }
+    const FourFloatVector* originalSource=sourceSphere;
+    Contact contact;
+    contact.bodyA = bodyA;
+    contact.bodyB = bodyB;
+    {
+        for (int index = 0; index < count; ++index) {
+        TriangleCache* triPlane = &plane;
+            const FourFloatVector* current = &spheresWorld[index];
+            float radiusSum=*static_cast<const volatile float*>(&triangle->radius)+sourceSphere[index].values.w;
+            FUN_00cd7850(current, triangleWorld, triPlane, &closest, 0);
+const float& distance = closest.distance;
+float threshold = input->tolerance + radiusSum;
+            if (distance < threshold) {
+                float offset = triangle->radius - distance;
+                __m128 off = _mm_load_ss(&offset);
+                contact.position.q = _mm_add_ps(current->q, _mm_mul_ps(_mm_shuffle_ps(off, off, 0), closest.normal.q));
+                contact.normal.q = closest.normal.q;
+                contact.normal.values.w = distance - radiusSum;
+                collector->AddContact(contact);
+            }
+
+
+        }
+    }
+    {
+        Monitor* timerMonitor = static_cast<Monitor*>(TlsGetValue(DAT_0126835c));
+        TimerRecord* timerRecord = timerMonitor->next;
+        if (timerRecord < timerMonitor->limit) {
+            timerRecord->name = "Et";
+            _ReadWriteBarrier();
+            timerTicks = static_cast<unsigned int>(__rdtsc());
+            timerRecord->ticks = timerTicks;
+            timerMonitor->next = timerRecord + 1;
+        }
+    }
+}
+
+struct CpuCallData
+{
+    void* descriptor;
+    float bound;
+    void* value;
+};
+struct CpuObject
+{
+    void FUN_00d38e90(void*, void*, const void*, void*);
+};
+// Builds a CpuCallData from fourth, DAT_0104da48 and DAT_010ce7fc, then forwards second, first and third to FUN_00d38390.
+// @fnv 0x00d38e90
+void CpuObject::FUN_00d38e90(void* first, void* second, const void* third, void* fourth)
+{
+    CpuCallData data;
+    data.value = fourth;
+    data.bound = ::DAT_0104da48;
+    data.descriptor = &DAT_010ce7fc;
+    reinterpret_cast<::SphereTriangleAgent *>(this)->FUN_00d38390((const ::CollisionBody *)(second), (const ::CollisionBody *)(first), static_cast<const ::CollisionInput *>(third), (::ContactCollector *)(::CpuCallData *)(&data));
+}
+
+
+template<class T> class ProcessValue {
+    T value;
+public:
+    __forceinline ProcessValue() {}
+    __forceinline ProcessValue(T x) : value(x) {}
+    __forceinline operator T() const { return value; }
+    __forceinline T val() const { return value; }
+};
+
+class ProcessTransform;
+class ProcessScalar {
+    __m128 value;
+public:
+    ProcessScalar(float x) { value = _mm_load_ss(&x); }
+    __forceinline __m128 broadcast() const { return _mm_shuffle_ps(value, value, 0); }
+};
+class ProcessVector {
+    __m128 value;
+public:
+    __forceinline void operator=(const ProcessVector& x) { value = x.value; }
+    __forceinline float& operator()(int i) { return reinterpret_cast<float*>(&value)[i]; }
+    __forceinline const float& operator()(int i) const { return reinterpret_cast<const float*>(&value)[i]; }
+    __forceinline void addScaled(const ProcessVector& a, const ProcessVector& b, const ProcessScalar& scale) {
+        value = _mm_add_ps(a.value, _mm_mul_ps(scale.broadcast(), b.value));
+    }
+    __forceinline void transform(const ProcessTransform&, const ProcessVector&);
+};
+class ProcessMatrix {
+    ProcessVector x, y, z;
+public:
+    __forceinline ProcessVector& column(int i) { return (&x)[i]; }
+    __forceinline const ProcessVector& column(int i) const { return (&x)[i]; }
+};
+class __declspec(align(16)) ProcessRotation : public ProcessMatrix {};
+class ProcessTransform {
+    ProcessRotation rotation;
+    ProcessVector translation;
+public:
+    __forceinline ProcessTransform(const ProcessTransform& t) {
+        const ProcessVector x = t.rotation.column(0);
+        const ProcessVector y = t.rotation.column(1);
+        const ProcessVector z = t.rotation.column(2);
+        const ProcessVector w = t.rotation.column(3);
+        rotation.column(0) = x;
+        rotation.column(1) = y;
+        rotation.column(2) = z;
+        rotation.column(3) = w;
+    }
+    __forceinline const ProcessRotation& getRotation() const { return rotation; }
+    __forceinline const ProcessVector& getTranslation() const { return translation; }
+};
+void ProcessVector::transform(const ProcessTransform& t, const ProcessVector& b) {
+    const ProcessRotation& r = t.getRotation();
+    __m128 x = _mm_shuffle_ps(b.value, b.value, 0);
+    __m128 rx = _mm_mul_ps(r.column(0).value, x);
+    __m128 y = _mm_shuffle_ps(b.value, b.value, 0x55);
+    __m128 ry = _mm_mul_ps(r.column(1).value, y);
+    __m128 z = _mm_shuffle_ps(b.value, b.value, 0xaa);
+    __m128 rz = _mm_mul_ps(r.column(2).value, z);
+    value = _mm_add_ps(_mm_add_ps(rx, ry), _mm_add_ps(rz, t.getTranslation().value));
+}
+static __forceinline void processPoints(const ProcessTransform& t, const ProcessVector* src, int count, ProcessVector* dst) {
+    ProcessTransform copy = t;
+    int i = count - 1;
+    do { dst[i].transform(copy, src[i]); } while (--i >= 0);
+}
+
+struct ProcessTimerRecord {
+    const char* name;
+    unsigned ticks, extra;
+    __forceinline void setTime() {
+        unsigned ticks;
+        ticks = static_cast<unsigned int>(__rdtsc());
+        this->ticks = ticks;
+    }
+};
+struct ProcessMonitor {
+    ProcessValue<char*> start, end, capacity, limit;
+    static __forceinline ProcessMonitor& instance() {
+        return *static_cast<ProcessMonitor*>(TlsGetValue(DAT_0126835c));
+    }
+    __forceinline bool available() { return end.val() < limit.val(); }
+};
+struct ProcessBody : hkpCdBody {
+    __forceinline const void* getShape() const { return m_pCollisionShape; }
+    __forceinline const ProcessTransform& getTransform() const { return reinterpret_cast<const ProcessTransform&>(*m_pMotionState); }
+};
+struct ProcessTriangle : hkpTriangleShape {
+    __forceinline const ProcessVector* GetIndexedVertices() const { return reinterpret_cast<const ProcessVector*>(m_kVertices); }
+};
+struct ProcessSpheres : hkpMultiSphereShape {
+    __forceinline const ProcessVector* getSpheres() const { return reinterpret_cast<const ProcessVector*>(m_kSpheres); }
+    __forceinline int getNumSpheres() const { return m_iSphereCount; }
+};
+struct ProcessContact {
+    ProcessVector position, normal;
+    __forceinline ProcessVector& getPosition() { return position; }
+    __forceinline void setNormal(const ProcessVector& v) { normal = v; }
+    __forceinline void setDistance(float distance) { normal(3) = distance; }
+};
+struct ProcessPoint {
+    ProcessContact contact;
+    ProcessValue<unsigned> id;
+};
+struct ProcessOutput {
+    ProcessValue<ProcessPoint*> first;
+    ProcessValue<void*> owner;
+    ProcessPoint* reserve(int = 1) { return first; }
+    void commit(int count = 1) { first = first + count; }
+    void abort(int = 1) {}
+};
+struct ProcessInput {
+    ProcessValue<void*> dispatcher;
+    ProcessValue<int> weld;
+    ProcessValue<float> tolerance;
+    float getTolerance() const { return tolerance; }
+};
+struct ProcessClosest {
+    ProcessVector direction;
+    ProcessValue<float> distance;
+};
+struct ProcessManager {
+    virtual void destroy();
+    virtual void classType();
+    virtual void statistics();
+    virtual unsigned short addImpl(const ProcessBody&, const ProcessBody&, const ProcessInput&, ProcessOutput&, const void*, ProcessContact&) = 0;
+    virtual int reserveImpl(int) = 0;
+    virtual void removeImpl(unsigned short, void*) = 0;
+    __forceinline unsigned short add(const ProcessBody& a, const ProcessBody& b, const ProcessInput& i, ProcessOutput& o, const void* cache, ProcessContact& p) {
+        return addImpl(a, b, i, o, cache, p);
+    }
+    __forceinline void remove(unsigned short id, void* owner) { removeImpl(id, owner); }
+};
+extern "C" int __cdecl FUN_00cd7850(const ProcessVector&, const ProcessVector*, const S_00d37e60_Plane&, ProcessClosest&, void* = 0);
+struct SphereTriangleProcessReceiver : hkpMultiSphereTriangleAgent {
+    void FUN_00d38b00(const ProcessBody&, const ProcessBody&, const ProcessInput&, ProcessOutput&);
+};
+// @fnv 0x00d38b00
+void SphereTriangleProcessReceiver::FUN_00d38b00(const ProcessBody& a, const ProcessBody& b, const ProcessInput& input, ProcessOutput& output) {
+    {
+        ProcessMonitor& monitor = ProcessMonitor::instance();
+        if (monitor.available()) {
+            ProcessTimerRecord* record = reinterpret_cast<ProcessTimerRecord*>(monitor.end.val());
+            record->name = "TtMultiSphereTri";
+            record->setTime();
+            monitor.end = reinterpret_cast<char*>(record + 1);
+        }
+    }
+    const ProcessSpheres* spheres = static_cast<const ProcessSpheres*>(a.getShape());
+    const ProcessTriangle* triangle = static_cast<const ProcessTriangle*>(b.getShape());
+    const ProcessVector* vertices = triangle->GetIndexedVertices();
+    ProcessVector triangleWorld[3];
+    processPoints(b.getTransform(), vertices, 3, triangleWorld);
+    const ProcessVector* localSpheres = spheres->getSpheres();
+    const int count = spheres->getNumSpheres();
+    ProcessVector sphereWorld[8];
+    processPoints(a.getTransform(), localSpheres, count, sphereWorld);
+    const ProcessVector* current = sphereWorld;
+    const ProcessVector* local = localSpheres;
+    for (int j = count - 1; j >= 0; ++current, ++local, --j) {
+        const float sphereRadius = (*local)(3);
+        const float radiusSum = sphereRadius + triangle->getRadius();
+        {
+            ProcessClosest closest;
+            FUN_00cd7850(*current, triangleWorld, m_kTriangleNormal, closest);
+            if (closest.distance < radiusSum + input.getTolerance()) {
+                ProcessPoint* point = output.reserve(1);
+                point->contact.getPosition().addScaled(*current, closest.direction, triangle->getRadius() - closest.distance);
+                point->contact.setNormal(closest.direction);
+                point->contact.setDistance(closest.distance - radiusSum);
+                if (m_ids[j] == 0xffff) {
+                    m_ids[j] = static_cast<ProcessManager*>(m_pContactManager)->add(a, b, input, output, 0, point->contact);
+                }
+                if (m_ids[j] != 0xffff) {
+                    output.commit(1);
+                    point->id = m_ids[j];
+                } else {
+                    output.abort(1);
+                }
+                continue;
+            }
+        }
+        if (m_ids[j] != 0xffff) {
+            static_cast<ProcessManager*>(m_pContactManager)->remove(m_ids[j], output.owner.val());
+            m_ids[j] = 0xffff;
+        }
+    }
+    {
+        ProcessMonitor& monitor = ProcessMonitor::instance();
+        if (monitor.available()) {
+            ProcessTimerRecord* record = reinterpret_cast<ProcessTimerRecord*>(monitor.end.val());
+            record->name = "Et";
+            record->setTime();
+            monitor.end = reinterpret_cast<char*>(record + 1);
+        }
+    }
+}
+
+struct AgentBase
+{
+};
+
+struct Agent : AgentBase
+{
+    void FUN_00d38f10(const void* a, const void* b, const void* c, Simplex* s);
+};
+
+// @fnv 0x00d38f10
+void Agent::FUN_00d38f10(const void* a, const void* b, const void* c, Simplex* s)
+{
+    SimplexVertex* v = s->m_kRayEnd;
+    float oldDistance = s->m_fClosestPointDistanceSquared;
+    reinterpret_cast<::SphereTriangleProcessReceiver *>(this)->FUN_00d38b00((*static_cast<const ::ProcessBody *>(b)), (*static_cast<const ::ProcessBody *>(a)), (*static_cast<const ::ProcessInput *>(c)), (*(::ProcessOutput *)(s)));
+    for (; v < s->m_kRayEnd; v++)
+    {
+        const __m128* pb = &v->m_kPointB;
+        __m128 w = _mm_shuffle_ps(*pb, *pb, 0xff);
+        v->m_kPointA = _mm_add_ps(_mm_mul_ps(w, v->m_kPointB), v->m_kPointA);
+        v->m_kPointB = _mm_xor_ps(v->m_kPointB, DAT_010c4c00);
+    }
+    if (oldDistance != s->m_fClosestPointDistanceSquared)
+    {
+        __m128* n = &s->m_vHitNormal;
+        *n = _mm_xor_ps(*n, DAT_010c4c00);
+        {
+            unsigned char t = s->m_dims.m_ucLowNibble;
+            s->m_dims.m_ucLowNibble = s->m_dims.m_ucHighNibble;
+            s->m_dims.m_ucHighNibble = t;
+        }
+        {
+            unsigned char t = s->m_ucDimensionA;
+            s->m_ucDimensionA = s->m_ucDimensionB;
+            s->m_ucDimensionB = t;
+        }
+        int last = s->m_ucDimensionA + s->m_ucDimensionB - 1;
+        unsigned short t0 = s->m_ids[0];
+        s->m_ids[0] = s->m_ids[last];
+        s->m_ids[last] = t0;
+        if ((s->m_ucDimensionA & s->m_ucDimensionB) == 2)
+        {
+            unsigned short t1 = s->m_ids[1];
+            s->m_ids[1] = s->m_ids[2];
+            s->m_ids[2] = t1;
         }
     }
 }

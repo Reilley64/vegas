@@ -8,15 +8,15 @@
 #include "havok/hkpRagdollLimitsData.h"
 
 
-struct FUN_00d4f130_StandIn
+struct FUN_00d4f130_StandIn : public hkpRagdollLimitsData
 {
-    void FUN_00d4f130(unsigned int a);
+    void FUN_00d4f130(::GenericConstraintAtomScheme* a) const;
 };
 
 // @fnv 0x00d4f130
-void FUN_00d4f130_StandIn::FUN_00d4f130(unsigned int auiValue)
+void FUN_00d4f130_StandIn::FUN_00d4f130(::GenericConstraintAtomScheme* auiValue) const
 {
-    ::FUN_00d21a60((const ::hkpConstraintAtom *)(void *)((char*)this + 0x10), 0xac, (::GenericConstraintAtomScheme *)(auiValue));
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0xac, auiValue);
 }
 
 // @fnv 0x00d4f150
@@ -26,7 +26,7 @@ void FUN_00d4f150(int aiUnused, int* b)
     b[0] = 0x1c;
 }
 
-struct hkPragdollLimitsData
+struct hkPragdollLimitsData : hkpRagdollLimitsData
 {
     void FUN_00d4f270(bool value);
 };
@@ -34,7 +34,7 @@ struct hkPragdollLimitsData
 // @fnv 0x00d4f270
 void hkPragdollLimitsData::FUN_00d4f270(bool value)
 {
-    ((char*)this)[0x9a] = (unsigned char)((value ? 1 : 0) << 4);
+    m_kBridgeAtoms.m_kConeLimit.m_ucAngleMeasurementMode = (unsigned char)((value ? 1 : 0) << 4);
 }
 
 // @fnv 0x00d4f290

@@ -16,8 +16,8 @@ extern "C" void FUN_00d315d0(void *, void *, void *, void *);
 // 0x00d315f0
 void FUN_00d315f0(void *, void *, void *, void *);
 // 0x00d317d0
-void FUN_00d317d0(int, int, int, void *);
+void FUN_00d317d0(const void *, const void *, const void *, void *);
 // 0x00d319e0
-void FUN_00d319e0(int, int, int, ::D323B0CollectorBase *);
+void FUN_00d319e0(const void *, const void *, const void *, ::D323B0CollectorBase *);
 // 0x00d31d30
 extern "C" void FUN_00d31d30(void *, void *, void *, void *, void *);

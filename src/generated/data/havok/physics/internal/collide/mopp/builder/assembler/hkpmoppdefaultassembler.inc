@@ -3,3 +3,4 @@
 // Definitions of the globals this unit refers to that no unit defines.
 
 const double g_thresholdB = -0.10000000149011612;
+const double DAT_010ea5c0 = 1.7320507764816284;

@@ -2,6 +2,8 @@
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppspherevirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppspherevirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cc00e0.h"
@@ -12,18 +14,16 @@
 extern "C" void __debugbreak();
 struct MoppState { int axis[3]; int radius; int origin[3]; int offset; int shift; int properties[1]; };
 struct HitArray { int* data; int size; unsigned capacity; };
-struct MemoryManager { int unk00,unk04,unk08,unk0c; void* allocator; };
-MemoryManager* __cdecl FUN_00c85750();
 extern unsigned char DAT_0126efbb;
 struct FmtObj {
     int unk00, unk04, unk08;
-    void FUN_00cc01c0(void* s);
+    void FUN_00cc01c0(const char* s);
 };
 struct Reporter {
     virtual void v0();
     virtual void v4();
     virtual void v8();
-    virtual int Report(int a, unsigned int b, char* c, void* d, int e);
+    virtual int Report(int a, unsigned int b, char* c, const char* d, int e);
 };
 
 __forceinline void reportCorruption() {
@@ -243,8 +243,8 @@ void MoppMachine::FUN_00e64870(MoppState* state, const unsigned char* code) {
         add_hit: {
             hit+=state->offset;
             HitArray* output=hits;
-            MemoryManager* manager=FUN_00c85750();
-            if(output->size==(output->capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(manager->allocator),(::AudioStream *)(output),4);
+            hkMemoryRouter* manager=&hkMemoryRouter::getInstance();
+            if(output->size==(output->capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(manager->m_heap),(::AudioStream *)(output),4);
             int* p = &output->data[output->size++];
             *p = hit;
             return;

@@ -3394,7 +3394,7 @@ struct S_00dd1180_Hdr
 
 // Writes a type 0x1d header and n triples of floats into the buffer at *pp, copies n+1 pointers, and advances *pp by the block size.
 // @fnv 0x00dd1180
-void FUN_00dd1180(int n, float a, float b, float c, char** src, int stride, int u1, int u2, char** pp)
+void FUN_00dd1180(int n, float a, float b, float c, char** src, intptr_t stride, void* u1, const void* u2, char** pp)
 {
     char** s = src;
     char* cmd = *pp;

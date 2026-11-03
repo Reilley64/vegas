@@ -1,6 +1,7 @@
 #pragma once
 
 struct EventMeta;
+struct _RTL_CRITICAL_SECTION;
 
 struct FUN_00d02e70_cls {
 public:

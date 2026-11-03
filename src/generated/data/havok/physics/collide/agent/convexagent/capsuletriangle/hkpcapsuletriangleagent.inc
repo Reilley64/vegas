@@ -2,7 +2,4 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-extern "C" void fnv_fn_00cb9cb0() __asm__("?FUN_00cb9cb0@fnv_00cb9cb0@@YAXXZ");
-
-void (*DAT_010c4dc0)(TempArray *, unsigned int) = reinterpret_cast< void (*)(TempArray *, unsigned int)>(&fnv_fn_00cb9cb0);
 char DAT_010cef80[20] = {84, 116, 67, 97, 112, 115, 84, 114, 105, 97, 110, 103, 108, 101};

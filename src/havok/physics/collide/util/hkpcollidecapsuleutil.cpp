@@ -2,6 +2,7 @@
 // src/havok/physics/collide/util/hkpcollidecapsuleutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/hkpcollidecapsuleutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <cmath>
 #include "fnv/symbols_00cd5000.h"
 #include "fnv/symbols_00d22000.h"
@@ -11,30 +12,8 @@
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_010c9000.h"
 #include "fnv/symbols_01267000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
 #include "fnv/symbols_simd.h"
 
-extern "C"
-{
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_sub_ss(__m128 a, __m128 b);
-    __m128 _mm_mul_ss(__m128 a, __m128 b);
-    __m128 _mm_rsqrt_ss(__m128 a);
-    __m128 _mm_cmpeq_ss(__m128 a, __m128 b);
-    __m128 _mm_andnot_ps(__m128 a, __m128 b);
-    __m128 _mm_xor_ps(__m128 a, __m128 b);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_set_ss(float a);
-    __m128 _mm_load_ss(float const* p);
-    void _mm_store_ss(float* p, __m128 a);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-}
 
 
 struct hkVector4
@@ -47,11 +26,11 @@ struct hkVector4
     }
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
     const float& operator()(int i) const
     {
-        return m_vComponents.m128_f32[i];
+        return reinterpret_cast<const float*>(&m_vComponents)[i];
     }
 
     __forceinline void setSub4(const hkVector4& a, const hkVector4& b)
@@ -291,7 +270,6 @@ void dummy_caller()
 }
 
 extern const double DAT_010cb420;
-extern "C" __m128 _mm_sqrt_ss(__m128);
 
 inline float capsuleAbs(float value)
 {
@@ -358,11 +336,11 @@ class ManifoldVector
     }
     __forceinline float& operator()(int index)
     {
-        return value.m128_f32[index];
+        return reinterpret_cast<float*>(&value)[index];
     }
     __forceinline const float& operator()(int index) const
     {
-        return value.m128_f32[index];
+        return reinterpret_cast<const float*>(&value)[index];
     }
     __forceinline void setSub4(const ManifoldVector& a, const ManifoldVector& b)
     {
@@ -787,14 +765,6 @@ closestReady:
     return features;
 }
 
-extern "C"
-{
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_set_ps1(float);
-}
 extern const signed char DAT_010cb440[3], DAT_010cb442[3];
 
 class ContactScalar
@@ -940,7 +910,7 @@ class ContactVector
     }
     __forceinline static const ContactVector& getZero()
     {
-        return reinterpret_cast<const ContactVector&>((*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)));
+        return reinterpret_cast<const ContactVector&>((*reinterpret_cast<const __m128 *>(&::DAT_01267e30)));
     }
     __forceinline ContactScalar dot3(const ContactVector& b) const
     {

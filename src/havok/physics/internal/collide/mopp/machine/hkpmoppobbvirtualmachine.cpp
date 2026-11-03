@@ -2,6 +2,8 @@
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cc00e0.h"
@@ -51,7 +53,7 @@ struct __declspec(align(16)) GridScratch {
 };
 
 struct GridCell {
-    int m00;
+    void* m00;
     int unk04;
     int unk08;
     int unk0c;
@@ -96,7 +98,7 @@ struct GridCell {
     void* m30;
     int m34;
 
-    void FUN_00dd1da0(GridSource* a1, GridBounds* a2, int a3);
+    void FUN_00dd1da0(GridSource* a1, GridBounds* a2, void* a3);
 };
 
 extern "C" void _ReadWriteBarrier();
@@ -115,8 +117,6 @@ struct CodeData {
  union {unsigned char* code;unsigned char* p20;};
 };
 struct HitArray { int* data; int size; unsigned capacity; };
-struct AllocatorContext { int field00, field04, field08, field0c; void* allocator; };
-extern AllocatorContext* __cdecl FUN_00c85750();
 extern unsigned char DAT_01269cbc;
 struct ErrorText { char* data; int length; int capacity;    };
 struct ErrorReporter { virtual void ReportDiagnostic(); virtual void unused1(); virtual void unused2(); virtual int report(int,unsigned,const char*,const char*,int); };
@@ -138,12 +138,12 @@ struct VirtualMachine {
  union {int primitiveMask;int m34;};
  void Execute(const QueryState*,unsigned char*,int);
  __forceinline void AddHit(int value) {
-  HitArray* out=hits;AllocatorContext* context=FUN_00c85750();
-  if(out->size==(out->capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(context->allocator),(::AudioStream *)(out),4);
+  HitArray* out=hits;hkMemoryRouter* context=&hkMemoryRouter::getInstance();
+  if(out->size==(out->capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(context->m_heap),(::AudioStream *)(out),4);
   int* destination=&out->data[out->size]; ++out->size; *destination=value; }
 };
 // @fnv 0x00dd1da0
-void GridCell::FUN_00dd1da0(GridSource* a1, GridBounds* a2, int a3) {
+void GridCell::FUN_00dd1da0(GridSource* a1, GridBounds* a2, void* a3) {
     m30 = a1;
     m00 = a3;
     float s = a1->f1c;
@@ -298,4 +298,113 @@ void VirtualMachine::Execute(const QueryState* apQueryState,unsigned char* __res
     }
 }
 
+// Moved from hkpmoppobbvirtualmachine_rtm_variant.cpp (VEGAS-15).
+// src/havok/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/havok/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.cpp that match byte for byte only
+// with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
+
+
+// src/havok/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
+
+#ifndef _INCLUDED_MM2
+#include "fnv/symbols_simd.h"
+
+
+#endif
+
+
+namespace ObbQueryDetail {
+struct LowScalar { __m128 low; __forceinline LowScalar(float v):low(_mm_load_ss(&v)) {} __forceinline __m128 broadcast() const { return _mm_shuffle_ps(low,low,0); } };
+
+struct ObbVector {
+
+    __forceinline void add(const ObbVector& b) { m_vComponents=_mm_add_ps(m_vComponents,b.m_vComponents); }
+    __forceinline void setAdd(const ObbVector& a,const ObbVector& b) { m_vComponents=_mm_add_ps(a.m_vComponents,b.m_vComponents); }
+    __forceinline void setSub(const ObbVector& a,const ObbVector& b) { m_vComponents=_mm_sub_ps(a.m_vComponents,b.m_vComponents); }
+    __forceinline void neg(const ObbVector& a) { m_vComponents=_mm_xor_ps(a.m_vComponents,::DAT_010c44d0); }
+    __forceinline void abs() { m_vComponents=_mm_and_ps(m_vComponents,::DAT_01017d10); }
+    __forceinline void times(const ObbVector& b) { m_vComponents=_mm_mul_ps(m_vComponents,b.m_vComponents); }
+    __forceinline void scaleBy(const LowScalar& f) { m_vComponents=_mm_mul_ps(f.broadcast(),m_vComponents); }
+    template<int i> __forceinline void splat(const ObbVector& a) { m_vComponents=_mm_shuffle_ps(a.m_vComponents,a.m_vComponents,i); }
+    __forceinline void setFloat(float f) { m_vComponents=_mm_set_ps1(f); }
+    __m128 m_vComponents;
+    __forceinline float getComponent(int i) const { return m_vComponents[i]; }
+};
+
+struct ObbTransform {
+    ObbVector m_kColumn0;
+    ObbVector m_kColumn1;
+    ObbVector m_kColumn2;
+    ObbVector m_vTranslation;
+};
+
+struct ObbProgram {
+    unsigned char m_type;
+};
+
+struct ObbCodeView {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    ObbVector m_offset;   // w = scale
+    const ObbProgram* m_pCollisionShape;
+    __forceinline float getScale() const { return m_offset.m_vComponents[3]; }
+};
+
+
+struct ObbMachine : GridCell {
+    void FUN_00dd1bf0(const ObbCodeView* src, const ObbTransform* t, const ObbVector* halfExtents, float radius, void* key);
+};
+
+// @fnv 0x00dd1bf0
+void ObbMachine::FUN_00dd1bf0(const ObbCodeView* src, const ObbTransform* t, const ObbVector* halfExtents, float radius, void* key)
+{
+    m00 = key;
+    m30 = (void*)src;
+
+    float scale = src->getScale();
+
+    ObbVector x,y,z,extra,center,hi,lo;
+    x.splat<0>(*halfExtents); y.splat<0x55>(*halfExtents); z.splat<0xaa>(*halfExtents);
+    x.times(t->m_kColumn0); y.times(t->m_kColumn1); z.times(t->m_kColumn2);
+    x.abs(); y.abs(); z.abs();
+    hi.setAdd(y,x); hi.add(z);
+    extra.setFloat(radius); hi.add(extra);
+    lo.neg(hi);
+    center.setSub(t->m_vTranslation,src->m_offset);
+    hi.add(center);
+    lo.add(center);
+    LowScalar factor(scale);
+    hi.scaleBy(factor);
+    lo.scaleBy(factor);
+
+    m20 = fnv_FloatToInt(lo.getComponent(0)) - 1;
+    m10 = fnv_FloatToInt(hi.getComponent(0)) + 1;
+    m24 = fnv_FloatToInt(lo.getComponent(1)) - 1;
+    m14 = fnv_FloatToInt(hi.getComponent(1)) + 1;
+    m28 = fnv_FloatToInt(lo.getComponent(2)) - 1;
+    m18 = fnv_FloatToInt(hi.getComponent(2)) + 1;
+
+    GridScratch box;
+    box.f10 = m20 >> 16;
+    box.f00 = (m10 >> 16) + 1;
+    box.f14 = m24 >> 16;
+    box.f04 = (m14 >> 16) + 1;
+    box.f18 = m28 >> 16;
+    box.f08 = (m18 >> 16) + 1;
+    box.f20 = 0;
+    box.f24 = 0;
+    box.f28 = 0;
+    box.f2c = 0;
+    box.f30 = 0;
+    box.f34 = 0;
+
+    const ObbProgram* shape = ((const ObbCodeView*)m30)->m_pCollisionShape;
+    m34 = (shape->m_type == 13) ? -1 : 0;
+    reinterpret_cast<::VirtualMachine *>(this)->Execute((const ::QueryState *)(::GridScratch *)(&box), (unsigned char *__restrict)((unsigned char*)shape), 0);
+}
+
+}
 #include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.inc"

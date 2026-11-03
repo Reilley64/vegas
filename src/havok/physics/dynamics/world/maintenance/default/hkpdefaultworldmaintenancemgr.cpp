@@ -71,14 +71,14 @@ struct TraceBuffer
 };
 struct TraceEntry16
 {
-    volatile unsigned int type;
+    const char* volatile type;
     volatile unsigned int timestamp;
     unsigned int unk08;
-    volatile unsigned int detail;
+    const char* volatile detail;
 };
 struct TraceEntry12
 {
-    volatile unsigned int type;
+    const char* volatile type;
     volatile unsigned int timestamp;
     unsigned int unk08;
 };
@@ -407,8 +407,8 @@ void FUN_00d0b280_cls::FUN_00d0b280(float* first, float* second)
     if (current < buffer->end)
     {
         volatile TraceEntry16* entry = (volatile TraceEntry16*)current;
-        entry->type = (unsigned int)str_010cd380;
-        entry->detail = (unsigned int)str_010cd378;
+        entry->type = str_010cd380;
+        entry->detail = str_010cd378;
         _ReadWriteBarrier();
         volatile unsigned int timestamp = (unsigned int)__rdtsc();
         entry->timestamp = timestamp;
@@ -423,7 +423,7 @@ void FUN_00d0b280_cls::FUN_00d0b280(float* first, float* second)
         if (current < buffer->end)
         {
             volatile TraceEntry12* entry = (volatile TraceEntry12*)current;
-            entry->type = (unsigned int)str_010cd36c;
+            entry->type = str_010cd36c;
             _ReadWriteBarrier();
             volatile unsigned int timestamp = (unsigned int)__rdtsc();
             entry->timestamp = timestamp;
@@ -437,7 +437,7 @@ void FUN_00d0b280_cls::FUN_00d0b280(float* first, float* second)
     if (current < buffer->end)
     {
         volatile TraceEntry12* entry = (volatile TraceEntry12*)current;
-        entry->type = (unsigned int)str_01076f38;
+        entry->type = str_01076f38;
         _ReadWriteBarrier();
         volatile unsigned int timestamp = (unsigned int)__rdtsc();
         entry->timestamp = timestamp;
@@ -454,8 +454,8 @@ void FUN_00d0b350_cls::TraceConditionalCall(float* first, float* second)
     if (current < buffer->end)
     {
         volatile TraceEntry16* entry = (volatile TraceEntry16*)current;
-        entry->type = (unsigned int)str_010cd380;
-        entry->detail = (unsigned int)str_010cd36c;
+        entry->type = str_010cd380;
+        entry->detail = str_010cd36c;
         _ReadWriteBarrier();
         volatile unsigned int timestamp = (unsigned int)__rdtsc();
         entry->timestamp = timestamp;
@@ -469,7 +469,7 @@ void FUN_00d0b350_cls::TraceConditionalCall(float* first, float* second)
     if (current < buffer->end)
     {
         volatile TraceEntry12* entry = (volatile TraceEntry12*)current;
-        entry->type = (unsigned int)str_01076f38;
+        entry->type = str_01076f38;
         _ReadWriteBarrier();
         volatile unsigned int timestamp = (unsigned int)__rdtsc();
         entry->timestamp = timestamp;
@@ -505,7 +505,7 @@ void TimeRebaser::FUN_00d0b3e0(hkpWorld* world, hkStepInfo& stepInfo)
         {
             island->m_kActorEntries[iActor]->m_uiCommandId += shift;
         }
-        ::ProcessBlocks((::S_00cc0ed0_Blocks *)(island), stepInfo.m_fEndTime, world->m_pStepInfo.m_fEndTime, (int)(world->m_pCollisionInput));
+        ::ProcessBlocks((::S_00cc0ed0_Blocks *)(island), stepInfo.m_fEndTime, world->m_pStepInfo.m_fEndTime, world->m_pCollisionInput);
     }
 
     world->m_pSimulation->shiftTime(shift);

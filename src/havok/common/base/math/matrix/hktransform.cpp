@@ -241,7 +241,7 @@ struct Matrix
 
 struct Obj : Matrix
 {
-    void FUN_00cb2240(Matrix* m, intptr_t a);
+    void FUN_00cb2240(Matrix* m, int a);
     void FUN_00cb23e0(intptr_t a);
 };
 

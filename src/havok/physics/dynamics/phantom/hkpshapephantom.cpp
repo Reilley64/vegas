@@ -71,7 +71,7 @@ struct CpuObject
 // @fnv 0x00c9e810
 char* CpuObject::FUN_00c9e810()
 {
-    return reinterpret_cast<char*>(this) + 176;
+    return reinterpret_cast<char*>(&reinterpret_cast<hkpShapePhantom*>(this)->m_kMotionState);
 }
 
 // @fnv 0x00c9e820
@@ -178,7 +178,7 @@ struct S00c9e830_Operation
 {
     unsigned char type;
     void* object;
-    unsigned int parameter;
+    void* parameter;
 };
 
 struct S00c9e830_Owner
@@ -274,7 +274,7 @@ unsigned int S00c9e830_Obj::FUN_00c9e830(S00c9e830_Shape* apShape)
     {
         operation.type = 5;
         operation.object = this;
-        operation.parameter = reinterpret_cast<unsigned int>(apShape);
+        operation.parameter = apShape;
         reinterpret_cast<::WorldWithPending *>((unk08))->FUN_00c91160();
         return 0;
     }

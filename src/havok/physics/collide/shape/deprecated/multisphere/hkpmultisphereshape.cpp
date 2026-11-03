@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/deprecated/multisphere/hkpmultisphereshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/multisphere/hkpmultisphereshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_0104d000.h"
@@ -9,6 +10,7 @@
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpMultiSphereShape.h"
+#include "fnv/symbols_simd.h"
 
 class FnvShapeGetter : public hkpSphereRepShape
 {
@@ -50,10 +52,6 @@ void hkObjectD2A6::FUN_00d2a600(hkStatisticsCollectorD2A6* pkCollector, const Gl
 
 extern int DAT_010ce4bc;
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
 
 struct FUN_00d2a760
 {
@@ -83,29 +81,17 @@ FUN_00d2a760::FUN_00d2a760(const hkVector4* spheres, int count)
     m_iSphereCount = count;
 }
 
-extern "C" __m128 _mm_set_ps(float, float, float, float);
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
-extern "C" __m128 _mm_load_ps1(const float*);
 
-extern "C" __m128 _mm_move_ss(__m128, __m128);
 
-extern "C" __m128 _mm_load_ss(const float*);
 
-extern "C" __m128 _mm_set_ps1(float);
 
-extern "C" __m128 _mm_set_ss(float);
 
-extern "C" __m128 _mm_load_ps(const float*);
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
 
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 
 extern "C" void _ReadWriteBarrier();
 
@@ -287,7 +273,7 @@ static __declspec(noinline) void* FUN_00d2a960(RayCtx* outB, RayCtx* in, hkVecto
     return outB;
 }
 
-static __declspec(noinline) int FUN_00d2a610(hkVector4* spheres, RayCtx* keyB, RayCtx* keyA, void* r, RayCtx* in,
+static __declspec(noinline) void* FUN_00d2a610(hkVector4* spheres, RayCtx* keyB, RayCtx* keyA, void* r, RayCtx* in,
                                              void* extra)
 {
     s00d2ab90_addr[4] = (void*)&spheres;
@@ -300,7 +286,7 @@ static __declspec(noinline) int FUN_00d2a610(hkVector4* spheres, RayCtx* keyB, R
         D2abExternCall();
         ((int*)extra)[i] = i;
     }
-    return (int)r;
+    return r;
 }
 
 // Performs a raycast against m_kSpheres using in and p3, storing whether a hit was found in *ok and returning ok.
@@ -309,23 +295,17 @@ char* S00d2ab90_Shape::FUN_00d2ab90(char* ok, RayCtx* in, void* p3)
 {
     RayCtx keys[2];
     void* r = FUN_00d2a960(&keys[0], in, m_kSpheres, m_disp, &keys[1]);
-    int v = FUN_00d2a610(m_kSpheres, &keys[1], &keys[0], r, in, p3);
-    *ok = (v != -1);
+    void* v = FUN_00d2a610(m_kSpheres, &keys[1], &keys[0], r, in, p3);
+    *ok = (v != reinterpret_cast<void*>(-1));
     return ok;
 }
 
 #include <math.h>
-#include "fnv/symbols_simd.h"
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 extern const char str_010ce4f0[];
 
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 
 struct Sph_Mon
 {
@@ -544,8 +524,6 @@ void DummyMultiSphere::FUN_00d2abe0(const ShapeRayCastQuery& input, const hkpCdB
     } while (numHits != 0);
 }
 
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 
 struct Vec4
 {

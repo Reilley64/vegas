@@ -2,30 +2,13 @@
 // src/havok/physics/dynamics/constraint/motor/velocity/hkpvelocityconstraintmotor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/motor/velocity/hkpvelocityconstraintmotor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
 #include "havok/hkpVelocityConstraintMotor.h"
 
-struct hkMemory_d861c0
-{
-    virtual void v00();
-    virtual void* allocateChunk(int nbytes) throw();
-};
-struct hkThreadMemoryHolder_d861c0
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemory_d861c0* m_pBuffer;
-    hkMemory_d861c0& heap()
-    {
-        return *m_pBuffer;
-    }
-};
-struct Router_d861
-{
-    static hkThreadMemoryHolder_d861c0& __cdecl FUN_00c85750() throw();
-};
+
 
 
 class hkReferencedObject_d861
@@ -86,7 +69,7 @@ class hkpVelocityConstraintMotor_d861 : public hkpLimitedForceConstraintMotor_d8
 // @fnv 0x00d861c0
 hkpVelocityConstraintMotor_d861* hkpVelocityConstraintMotor_d861::FUN_00d861c0() const
 {
-    void* mem = Router_d861::FUN_00c85750().heap().allocateChunk(sizeof(hkpVelocityConstraintMotor_d861));
+    void* mem = hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(hkpVelocityConstraintMotor_d861));
     __assume(mem != 0);
     return new (mem) hkpVelocityConstraintMotor_d861(*this);
 }

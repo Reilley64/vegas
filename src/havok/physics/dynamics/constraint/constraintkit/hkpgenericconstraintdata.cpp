@@ -2,6 +2,9 @@
 // src/havok/physics/dynamics/constraint/constraintkit/hkpgenericconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/constraintkit/hkpgenericconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00d21ce0_cls.h"
 #include "fnv/decl/FUN_00d50c50.h"
 #include "fnv/decl/MProduct.h"
@@ -753,18 +756,30 @@ struct FUN_00d50520_s
     void FUN_00d50520(int* o);
 };
 // @fnv 0x00d50520
+// hkpConstraintData::ConstraintInfo: the hkpConstraintInfo counts, then the atoms and their size.
+struct GenericConstraintInfoOut
+{
+    int m_maxSizeOfSchema;
+    int m_sizeOfSchemas;
+    int m_numSolverResults;
+    int m_numSolverElemTemps;
+    void* m_atoms;
+    int m_sizeOfAllAtoms;
+};
+
 void FUN_00d50520_s::FUN_00d50520(int* aiOut)
 {
-    aiOut[4] = (int)((char*)&this->d);
-    aiOut[0] = 0;
-    aiOut[1] = 0;
-    aiOut[2] = 0;
-    aiOut[3] = 0;
-    aiOut[5] = 0xc;
-    aiOut[0] = this->g;
-    aiOut[1] = this->h;
-    aiOut[2] = this->i;
-    aiOut[3] = this->j;
+    GenericConstraintInfoOut* out = reinterpret_cast<GenericConstraintInfoOut*>(aiOut);
+    out->m_atoms = &this->d;
+    out->m_maxSizeOfSchema = 0;
+    out->m_sizeOfSchemas = 0;
+    out->m_numSolverResults = 0;
+    out->m_numSolverElemTemps = 0;
+    out->m_sizeOfAllAtoms = 0xc;
+    out->m_maxSizeOfSchema = this->g;
+    out->m_sizeOfSchemas = this->h;
+    out->m_numSolverResults = this->i;
+    out->m_numSolverElemTemps = this->j;
 }
 
 struct FUN_00d50560_class
@@ -792,7 +807,7 @@ int FUN_00d50510()
     return 10;
 }
 
-class CFoo
+class CFoo : public hkpGenericConstraintData
 {
   public:
     void* FUN_00d504f0();
@@ -801,13 +816,9 @@ class CFoo
 // @fnv 0x00d504f0
 void* CFoo::FUN_00d504f0()
 {
-    return (void*)((char*)this + 0x18);
+    return &m_kConstraintDataScheme;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 #include "fnv/symbols_simd.h"
 struct FUN_00d50570_class
 {
@@ -839,7 +850,8 @@ struct SolverItem
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
-    int unk60, unk64;
+    int unk60;
+    void* unk64;
 };
 
 
@@ -849,28 +861,9 @@ struct FUN_00d50bd0_owner
     hkpBridgeAtoms m_kBridgeAtoms;
     hkpGenericConstraintDataScheme m_kConstraintDataScheme;
 
-    void FUN_00d50bd0(SolverItem* item, int index);
+    void FUN_00d50bd0(SolverItem* item, void* index);
 };
 
-struct FUN_00d51620_Alloc
-{
-    virtual void a();
-    virtual void b();
-    virtual void c();
-    virtual void d();
-    virtual void free(void* p, unsigned int n);
-};
-
-struct FUN_00d51620_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    FUN_00d51620_Alloc* m_pThreadAllocator;
-};
-
-FUN_00d51620_Router* FUN_00c85750();
 
 struct FUN_00d51620_class
 {
@@ -897,56 +890,42 @@ struct FUN_00d51620_class
 // @fnv 0x00d51620
 void FUN_00d51620_class::FreeArrays()
 {
-    FUN_00d51620_Router* m = FUN_00c85750();
-    FUN_00d51620_Alloc* alloc = m->m_pThreadAllocator;
+    hkMemoryRouter* m = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* alloc = m->m_heap;
     int c = m_3c;
     m_38 = 0;
     if (!(c & 0x80000000))
-        alloc->free(m_34, (c & 0x3fffffff) * 4);
+        alloc->bufFree(m_34, (c & 0x3fffffff) * 4);
     m_34 = 0;
     m_3c = 0x80000000;
-    m = FUN_00c85750();
-    alloc = m->m_pThreadAllocator;
+    m = &hkMemoryRouter::getInstance();
+    alloc = m->m_heap;
     c = m_30;
     m_2c = 0;
     if (!(c & 0x80000000))
-        alloc->free(m_28, (c & 0x3fffffff) * 4);
+        alloc->bufFree(m_28, (c & 0x3fffffff) * 4);
     m_28 = 0;
     m_30 = 0x80000000;
-    m = FUN_00c85750();
-    alloc = m->m_pThreadAllocator;
+    m = &hkMemoryRouter::getInstance();
+    alloc = m->m_heap;
     c = m_24;
     m_20 = 0;
     if (!(c & 0x80000000))
-        alloc->free(m_1c, (c & 0x3fffffff) * 4);
+        alloc->bufFree(m_1c, (c & 0x3fffffff) * 4);
     m_1c = 0;
     m_24 = 0x80000000;
-    m = FUN_00c85750();
-    alloc = m->m_pThreadAllocator;
+    m = &hkMemoryRouter::getInstance();
+    alloc = m->m_heap;
     c = m_a18;
     m_a14 = 0;
     if (!(c & 0x80000000))
-        alloc->free(m_a10, (c & 0x3fffffff) * 16);
+        alloc->bufFree(m_a10, (c & 0x3fffffff) * 16);
     m_a10 = 0;
     m_a18 = 0x80000000;
 }
 
 namespace fnv_00d516f0 {
-struct FnvCpu_FUN_00d516f0_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00d516f0_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00d516f0_CpuAllocator* allocator;
-};
-FnvCpu_FUN_00d516f0_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00d516f0_CpuObject
 {
     unsigned int unk00;
@@ -959,8 +938,8 @@ FnvCpu_FUN_00d516f0_CpuObject* FnvCpu_FUN_00d516f0_CpuObject::FUN_00d516f0(unsig
     reinterpret_cast<::FUN_00d50c50 *>(this)->FUN_00d50c50::~FUN_00d50c50();
     if (flags & 1)
     {
-        FnvCpu_FUN_00d516f0_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }
@@ -989,11 +968,10 @@ struct FUN_00d503c0_src
     int unkA0, unkA4, unkA8, unkAc, unkB0, unkB4, unkB8;
 };
 
-extern "C" __m128 __cdecl _mm_setzero_ps(void);
 
 // Copies two vectors from src, sets a third to each unit axis in turn calling FUN_00dcf280 each time, then adds 3 to src->unkB8.
 // @fnv 0x00d503c0
-void FUN_00d503c0(int a, int b, int c, FUN_00d503c0_src* src, void* obj, void* out)
+void FUN_00d503c0(int** a, void* b, const void* c, FUN_00d503c0_src* src, void* obj, void* out)
 {
     FUN_00d503c0_m m;
     m.r0.v = src->r0.v;
@@ -1065,6 +1043,19 @@ FUN_00d50c90::FUN_00d50c90()
     reinterpret_cast<::FUN_00d21ce0_cls *>(&(atom))->FUN_00d21ce0(this);
 }
 
+// The generic constraint scratch FUN_00d50e10 reads: three axis pairs for bodies A and B, then a row count.
+struct D50E10_BasisPair
+{
+    __m128 m_bodyA;
+    __m128 m_bodyB;
+};
+struct D50E10_Scratch
+{
+    char pad00[0x50];
+    D50E10_BasisPair m_basis[3];  // +0x50
+    char padB0[0x8];
+    int m_iRowCount;              // +0xb8
+};
 struct S00d50e10_Rows
 {
     __m128 v0;
@@ -1073,30 +1064,30 @@ struct S00d50e10_Rows
 };
 
 
-// Builds three S00d50e10_Rows from vectors in p, calls FUN_00dcee80 on each with d and e, and adds 3 to the int at p+0xB8.
+// Builds three S00d50e10_Rows from vectors in p, calls FUN_00dcee80 on each with d and e, and adds 3 to its row count.
 // @fnv 0x00d50e10
-void FUN_00d50e10(int a0, int a1, int a2, void* p, int d, int e)
+void FUN_00d50e10(int** a0, void* a1, const void* a2, void* p, const void* d, void* e)
 {
-    float* base = reinterpret_cast<float*>(p);
+    D50E10_Scratch* base = static_cast<D50E10_Scratch*>(p);
     S00d50e10_Rows out1;
     S00d50e10_Rows out;
 
-    out1.v0 = (*reinterpret_cast<const __m128*>(base + 0x14));
-    out1.v2 = (*reinterpret_cast<const __m128*>(base + 0x24));
-    out1.v1 = (*reinterpret_cast<const __m128*>(base + 0x1C));
+    out1.v0 = base->m_basis[0].m_bodyA;
+    out1.v2 = base->m_basis[2].m_bodyA;
+    out1.v1 = base->m_basis[1].m_bodyA;
     ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&out1)), (*(const ::S_00dcee80_QueryIn *)(d)), (*(::S_00dcee80_QueryOut *)(e)));
 
-    out.v0 = (*reinterpret_cast<const __m128*>(base + 0x18));
-    out.v2 = (*reinterpret_cast<const __m128*>(base + 0x28));
+    out.v0 = base->m_basis[0].m_bodyB;
+    out.v2 = base->m_basis[2].m_bodyB;
     out.v1 = out1.v0;
     ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&out)), (*(const ::S_00dcee80_QueryIn *)(d)), (*(::S_00dcee80_QueryOut *)(e)));
 
-    out.v2 = (*reinterpret_cast<const __m128*>(base + 0x20));
+    out.v2 = base->m_basis[1].m_bodyB;
     out.v1 = out.v0;
     out.v0 = out1.v1;
     ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&out)), (*(const ::S_00dcee80_QueryIn *)(d)), (*(::S_00dcee80_QueryOut *)(e)));
 
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(p) + 0xB8) += 3;
+    base->m_iRowCount += 3;
 }
 
 struct __declspec(align(16)) hkVector4D510
@@ -1244,7 +1235,7 @@ struct d51390_item
 
 // Advances the stream, builds an item from a pool record and the cursor value with a destination offset by pool->unkB8, calls DAT_00dcefb0, and increments unkB8.
 // @fnv 0x00d51390
-void FUN_00d51390(int** stream, float** cursor, int a3, d51390_pool* pool, d51390_ctx* ctx, void* a6)
+void FUN_00d51390(int** stream, float** cursor, const void* a3, d51390_pool* pool, d51390_ctx* ctx, void* a6)
 {
     int destBase = ctx->unk64;
     (*stream) += 1;
@@ -1260,13 +1251,6 @@ void FUN_00d51390(int** stream, float** cursor, int a3, d51390_pool* pool, d5139
     pool->unkB8 += 1;
 }
 
-extern "C"
-{
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-    void _mm_store_ss(float* p, __m128 a);
-}
 
 struct VectorComponentValue
 {
@@ -1339,7 +1323,6 @@ float calcAngleForAxis(const AngularFrames* frames, int axis)
     return FUN_00d50450(frames, axis);
 }
 
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 
 struct S00d505c0_Blk
 {
@@ -1352,7 +1335,7 @@ struct S00d505c0_Blk
 
 // Builds an S00d505c0_Blk from vectors in c, a float read via b and a destination offset, calls FUN_00dcf100 with basePtr and index, and increments c[0xb8/4].
 // @fnv 0x00d505c0
-void FUN_00d505c0(int** a, int* b, void* unused, int* c, int* basePtr, int index)
+void FUN_00d505c0(int** a, int* b, void* unused, int* c, int* basePtr, void* index)
 {
     int idxBase = basePtr[0x64 / 4];
 
@@ -1376,9 +1359,6 @@ void FUN_00d505c0(int** a, int* b, void* unused, int* c, int* basePtr, int index
 }
 
 namespace fnv_00d50d60 {
-extern "C" __m128 __cdecl _mm_load_ps(const float*);
-extern "C" void __cdecl _mm_store_ps(float*, __m128);
-extern "C" __m128 __cdecl _mm_xor_ps(__m128, __m128);
 
 union D50D60_Vec
 {
@@ -1410,7 +1390,7 @@ extern unsigned int DAT_011b5a90;
 
 // Loads three vectors into out, calls FUN_00dcee80, sets a to old b XORed with a constant and b to old a, calls it again, and adds 2 to data->numDecoded.
 // @fnv 0x00d50d60
-void FUN_00d50d60(unsigned int** a0, int aiUnused1, int aiUnused2, D50D60_Stream* apStream, int a4, int a5)
+void FUN_00d50d60(unsigned int** a0, const void* aiUnused1, const void* aiUnused2, D50D60_Stream* apStream, const void* a4, void* a5)
 {
     D50D60_Out out;
     ++*a0;
@@ -1428,22 +1408,6 @@ void FUN_00d50d60(unsigned int** a0, int aiUnused1, int aiUnused2, D50D60_Stream
 }
 }  // namespace fnv_00d50d60
 
-extern "C"
-{
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_load_ps(const float*);
-    void _mm_store_ps(float*, __m128);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_set_ss(float);
-}
 
 struct __declspec(align(16)) hkVec4A
 {
@@ -1490,7 +1454,7 @@ static inline __m128 hkLenSq3(__m128 v)
 
 // Builds a normalized cross product and dot of m_colsA[idx] and m_colsB[idx] with two floats from data and calls FUN_00d6cb30, unless the cross is near zero.
 // @fnv 0x00d50ec0
-void FUN_00d50ec0(int** cmds, hkVector4** data, int unused, hkSchemeVecs* apSchemeVecs, int p5, int p6)
+void FUN_00d50ec0(int** cmds, hkVector4** data, const void* unused, hkSchemeVecs* apSchemeVecs, const void* p5, void* p6)
 {
     float lenSq;
     int idx = *++*cmds;
@@ -1533,7 +1497,7 @@ struct S00d51100_Blk
 
 
 // @fnv 0x00d51100
-void FUN_00d51100(int** a, int* b, void* unused, int* c, int* basePtr, int index)
+void FUN_00d51100(int** a, int* b, void* unused, int* c, int* basePtr, void* index)
 {
     (*a)++;
     int val = **a;
@@ -1559,10 +1523,6 @@ struct AnglePool
     __m128 vectors[11];
     int unkB0, unkB4, unkB8;
 };
-extern "C" __m128 __cdecl _mm_mul_ps(__m128, __m128);
-extern "C" __m128 __cdecl _mm_add_ss(__m128, __m128);
-extern "C" __m128 __cdecl _mm_shuffle_ps(__m128, __m128, int);
-extern "C" void __cdecl _mm_store_ss(float*, __m128);
 extern int DAT_011b5a90[];
 extern float Atan2(float, float);
 extern float dotAngle(__m128, __m128);
@@ -1581,7 +1541,7 @@ struct AngleRecord
 
 // Reads an index from stream, computes an angle via pool and FUN_00d50450, adjusts it to stay within ±π of the previous angle, stores it, and calls FUN_00d6cb30.
 // @fnv 0x00d51170
-void FUN_00d51170(int** __restrict stream, AngleRecord** cursor, int unused, AnglePool* pool, void* a,
+void FUN_00d51170(int** __restrict stream, AngleRecord** cursor, const void* unused, AnglePool* pool, void* a,
                             void* b)
 {
     SolverInfoD510 info;
@@ -1612,15 +1572,6 @@ void FUN_00d51170(int** __restrict stream, AngleRecord** cursor, int unused, Ang
 }
 }  // namespace fnv_00d51170
 
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-    __m128 _mm_load_ps(float const* p);
-    void _mm_store_ss(float* p, __m128 a);
-}
 
 struct ContactImpulseInfo
 {
@@ -1747,9 +1698,6 @@ void FUN_00d51270(const int** commands, const hkVector4** data, hkpGenericConstr
     runtime->m_solverResultIndex += 1;
 }
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_load_ss(float const*);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
 
 struct Motor;
 
@@ -1922,7 +1870,7 @@ void FUN_00d51410(int** cmdPtr, Vec** dataPtr, Scheme* scheme, Runtime* runtime,
         MotorStuff packet;
         packet.last0f = 0.0f;
         packet.last1f = 0.0f;
-        ::FUN_00d6cd70((*(const ::__m128 *)(axisVec)), (*(const ::Pair409 *)(apQuery)), (*(::Jacobian409 *)(schema)), (*(float *)(&packet)));
+        ::FUN_00d6cd70((*(const __m128 *)(axisVec)), (*(const ::Pair409 *)(apQuery)), (*(::Jacobian409 *)(schema)), (*(float *)(&packet)));
         packet.query = apQuery;
         int index = runtime->m_iFirstInteger;
         Pair* pSolverResults = *static_cast<Pair* volatile*>(&v.sr);
@@ -1936,8 +1884,6 @@ void FUN_00d51410(int** cmdPtr, Vec** dataPtr, Scheme* scheme, Runtime* runtime,
     runtime->m_iFirstInteger++;
 }
 
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 
 struct VecD506
 {
@@ -2000,10 +1946,10 @@ struct InterpreterD506
     void FUN_00d51410(int**, VecD506**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
 };
 // @fnv 0x00d50bd0
-void FUN_00d50bd0_owner::FUN_00d50bd0(SolverItem* item, int index)
+void FUN_00d50bd0_owner::FUN_00d50bd0(SolverItem* item, void* index)
 {
     ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)(item), (::fnv_00d6f2b0::EventRecord **)(index), item->unk64, 8);
-    reinterpret_cast<::InterpreterD506 *>(this)->FUN_00d50640(&m_kConstraintDataScheme, (const ::InputD506 *)(item), (void *)(index));
+    reinterpret_cast<::InterpreterD506 *>(this)->FUN_00d50640(&m_kConstraintDataScheme, (const ::InputD506 *)(item), index);
 }
 typedef void(* HandlerD506)(InterpreterD506*, int**, VecD506**, hkpGenericConstraintDataScheme*, StateD506*,
                                       InputD506*, void*);
@@ -2080,21 +2026,21 @@ void InterpreterD506::FUN_00d50640(hkpGenericConstraintDataScheme* scheme, const
             break;
         }
         case 6:
-            ::FUN_00d50d00((int **)this, (int)(&command), (int)(&data), (::Runtime *)(scheme), &state, &localInput);
+            ::FUN_00d50d00(&command, &data, scheme, (::Runtime *)(void *)(&state), &localInput, output);
             break;
         case 7:
-            ::FUN_00d503c0((int)this, (int)(&command), (int)(&data), (::FUN_00d503c0_src *)(scheme), &state, &localInput);
+            ::FUN_00d503c0(&command, &data, scheme, (::FUN_00d503c0_src *)(void *)(&state), &localInput, output);
             break;
         case 8: {
             FUN_00cdf250_class* m = (FUN_00cdf250_class*)data;
             data += 3;
-            reinterpret_cast<::MProduct *>(&(state.basisA))->FUN_00cd55b0((*(const ::MProduct *)((int*)state.transformA)), (*(const ::MProduct *)((int)m)));
+            reinterpret_cast<::MProduct *>(&(state.basisA))->FUN_00cd55b0((*(const ::MProduct *)((int*)state.transformA)), (*(const ::MProduct *)(m)));
             break;
         }
         case 9: {
             FUN_00cdf250_class* m = (FUN_00cdf250_class*)data;
             data += 3;
-            reinterpret_cast<::MProduct *>(&(state.basisB))->FUN_00cd55b0((*(const ::MProduct *)((int*)state.transformB)), (*(const ::MProduct *)((int)m)));
+            reinterpret_cast<::MProduct *>(&(state.basisB))->FUN_00cd55b0((*(const ::MProduct *)((int*)state.transformB)), (*(const ::MProduct *)(m)));
             break;
         }
         case 10:
@@ -2104,34 +2050,34 @@ void InterpreterD506::FUN_00d50640(hkpGenericConstraintDataScheme* scheme, const
             state.basisB = *state.transformB;
             break;
         case 12:
-            ::fnv_00d50d60::FUN_00d50d60((unsigned int **)this, (int)(&command), (int)(&data), (::fnv_00d50d60::D50D60_Stream *)(scheme), (int)(&state), (int)(&localInput));
+            ::fnv_00d50d60::FUN_00d50d60((unsigned int **)(&command), &data, scheme, (::fnv_00d50d60::D50D60_Stream *)(void *)(&state), &localInput, output);
             break;
         case 13:
-            ::FUN_00d50e10((int)this, (int)(&command), (int)(&data), scheme, (int)(&state), (int)(&localInput));
+            ::FUN_00d50e10(&command, &data, scheme, &state, &localInput, output);
             break;
         case 16:
-            ::FUN_00d51100((int **)this, (int *)(int **)(&command), &data, (int *)(scheme), (int *)(::StateD506 *)(&state), (int)(&localInput));
+            ::FUN_00d51100(&command, (int *)(void *)(&data), scheme, (int *)(void *)(&state), (int *)(void *)(&localInput), output);
             break;
         case 17:
-            ::fnv_00d51170::FUN_00d51170((int **__restrict)this, (::fnv_00d51170::AngleRecord **)(int **)(&command), (int)(&data), (::fnv_00d51170::AnglePool *)(scheme), &state, &localInput);
+            ::fnv_00d51170::FUN_00d51170(&command, (::fnv_00d51170::AngleRecord **)(void *)(&data), scheme, (::fnv_00d51170::AnglePool *)(void *)(&state), &localInput, output);
             break;
         case 18:
-            ::FUN_00d50ec0((int **)this, (::hkVector4 **)(int **)(&command), (int)(&data), (::hkSchemeVecs *)(scheme), (int)(&state), (int)(&localInput));
+            ::FUN_00d50ec0(&command, (::hkVector4 **)(void *)(&data), scheme, (::hkSchemeVecs *)(void *)(&state), &localInput, output);
             break;
         case 19:
-            ::FUN_00d51060((const char **)this, (const float **)(int **)(&command), &data, (::SolverStateD510 *)(scheme), &state, &localInput);
+            ::FUN_00d51060((const char **)(void *)(&command), (const float **)(void *)(&data), scheme, (::SolverStateD510 *)(void *)(&state), &localInput, output);
             break;
         case 14:
             FUN_00d51410(&command, &data, scheme, &state, &localInput, output);
             break;
         case 15:
-            ::FUN_00d51270((const int **)this, (const ::hkVector4 **)(int **)(&command), (::hkpGenericConstraintDataScheme *)(::VecD506 **)(&data), (::GenericConstraintRuntime *)(scheme), (::SixteenWordFloatRecord *)(::StateD506 *)(&state), (void **)(::InputD506 *)(&localInput));
+            ::FUN_00d51270((const int **)(void *)(&command), (const ::hkVector4 **)(void *)(&data), scheme, (::GenericConstraintRuntime *)(void *)(&state), (::SixteenWordFloatRecord *)(void *)(&localInput), (void **)(output));
             break;
         case 20:
-            ::FUN_00d51390((int **)this, (float **)(int **)(&command), (int)(&data), (::d51390_pool *)(scheme), (::d51390_ctx *)(::StateD506 *)(&state), &localInput);
+            ::FUN_00d51390(&command, (float **)(void *)(&data), scheme, (::d51390_pool *)(void *)(&state), (::d51390_ctx *)(void *)(&localInput), output);
             break;
         case 21:
-            ::FUN_00d505c0((int **)this, (int *)(int **)(&command), &data, (int *)(scheme), (int *)(::StateD506 *)(&state), (int)(&localInput));
+            ::FUN_00d505c0(&command, (int *)(void *)(&data), scheme, (int *)(void *)(&state), (int *)(void *)(&localInput), output);
             break;
         case 1:
             state.pivotA.FUN_00c7f640(state.transformA, data);
@@ -2163,7 +2109,7 @@ void InterpreterD506::FUN_00d50640(hkpGenericConstraintDataScheme* scheme, const
 }
 
 // @fnv 0x00d50d00
-void FUN_00d50d00(int** commands, int unusedData, int unusedScheme, Runtime* runtime, void* input,
+void FUN_00d50d00(int** commands, const void* unusedData, const void* unusedScheme, Runtime* runtime, void* input,
                             void* output)
 {
     ++*commands;

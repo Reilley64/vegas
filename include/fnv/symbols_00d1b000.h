@@ -25,11 +25,11 @@ void QueryKdTree(void *, ::KdNode *, const ::Aabb16 *, const float *, const floa
 // 0x00d1b4d0
 int FUN_00d1b4d0(::S00d1b4d0_Node *, ::S00d1b4d0_Entry *, const ::RealVec &, const ::RealVec &, ::S00d1b4d0_Bounds *, int, ::S00d1b4d0_List *, ::S00d1b4d0_Callback *, unsigned int **, int);
 // 0x00d1b850
-void FUN_00d1b850(::QueryObj *, intptr_t, intptr_t);
+void FUN_00d1b850(::QueryObj *, void *, void *);
 // 0x00d1b930
 int FUN_00d1b930(::S00d1b7f0_Input *, intptr_t, intptr_t, int);
 // 0x00d1b9b0
-void FUN_00d1b9b0(::QueryObj *, intptr_t, intptr_t);
+void FUN_00d1b9b0(::QueryObj *, const void *, void *);
 // 0x00d1bad0
 float FUN_00d1bad0(float *, float *);
 // 0x00d1bb50

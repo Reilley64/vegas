@@ -2,7 +2,10 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodycentreofmassviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodycentreofmassviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/MotionMassView.h"
 #include "fnv/decl/S_00dd9380.h"
@@ -49,28 +52,38 @@ struct Entries
     void** items;
     int count;
 };
-struct Owner
+// The centre-of-mass viewer: hkReferencedObject, then its hkProcess part (View) at +0x08 and its world listener
+// part (FUN_00d69fb0_cls) at +0x20.
+struct CentreOfMassViewerHead
 {
+    void* m_vtbl;
+    int m_memSizeAndRefCount;
 };
 struct View
 {
-    int unk00;
+    void* m_vtbl;
     int unk04;
     int unk08;
     int unk0c;
     int unk10;
     int unk14;
-    int unk18;
-    Entries* entries;
     void FUN_00d69f60();
 };
-struct Target
-{
-};
+struct CentreOfMassViewer;
 struct FUN_00d69fb0_cls
 {
+    void* m_vtbl;
+    Entries* entries;
     void CallTargetMethod();
+    CentreOfMassViewer* viewer();
 };
+struct CentreOfMassViewer : CentreOfMassViewerHead, View, FUN_00d69fb0_cls
+{
+};
+inline CentreOfMassViewer* FUN_00d69fb0_cls::viewer()
+{
+    return static_cast<CentreOfMassViewer*>(this);
+}
 template <class T> struct S_00d69fc0_Array
 {
     T* m_data;
@@ -112,35 +125,16 @@ void S_00d69fc0::RemoveItem(S_00d69fc0_Item* item)
         m_items.removeAt(index);
 }
 
-struct D6A140Allocator
-{
-    virtual void unk00();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
 
-struct D6A140MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    D6A140Allocator* m_pStreamAllocator;
 
-    D6A140Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-extern "C" D6A140MemoryRouter& __cdecl FUN_00c85750();
 
 class D6A140ReferencedObject
 {
   public:
-    static void* operator new(std::size_t nbytes)
+    static void* operator new(size_t nbytes)
     {
         D6A140ReferencedObject* b =
-            static_cast<D6A140ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+            static_cast<D6A140ReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -181,18 +175,6 @@ void* __cdecl FUN_00d6a1a0()
 }
 
 namespace fnv_00d6a1f0 {
-struct Allocator
-{
-    virtual void A();
-    virtual void B();
-    virtual void Free(void*, unsigned short);
-};
-struct Manager
-{
-    int unk00, unk04, unk08, unk0C;
-    Allocator* unk10;
-};
-extern Manager* __cdecl FUN_00c85750();
 struct Owner
 {
     __declspec(noinline) virtual ~Owner();
@@ -209,10 +191,10 @@ void* Owner::DestroyOwner(unsigned int flags)
     this->Owner::~Owner();
     if (flags & 1)
     {
-        Manager* manager = FUN_00c85750();
-        Allocator* allocator = manager->unk10;
+        hkMemoryRouter* manager = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* allocator = manager->m_heap;
         unsigned short size = unk04;
-        allocator->Free(this, size);
+        allocator->blockFree(this, size);
     }
     return this;
 }
@@ -300,7 +282,7 @@ struct FUN_00d69b20_cls
 void FUN_00d69b20_cls::AttachAndDispatch(ArgOwner* apOwner)
 {
     reinterpret_cast<::hkWorldC917 *>((apOwner))->FUN_00c917a0(this != 0 ? (void*)&m_28 : 0);
-    reinterpret_cast<::SearchArray *>((apOwner))->ClearValue((int)(this != 0 ? (void*)&m_2c : 0));
+    reinterpret_cast<::SearchArray *>((apOwner))->ClearValue((this != 0 ? (void*)&m_2c : 0));
 
     for (int i = 0; i < apOwner->m_2c; ++i)
     {
@@ -338,7 +320,8 @@ class FUN_00d69b20_cls
   public:
 };
 
-class FUN_00d69fa0_cls
+// The viewer's world listener part, as ::FUN_00d69fb0_cls.
+class FUN_00d69fa0_cls : public ::FUN_00d69fb0_cls
 {
   public:
     void FUN_00d69fa0();
@@ -347,7 +330,7 @@ class FUN_00d69fa0_cls
 // @fnv 0x00d69fa0
 void FUN_00d69fa0_cls::FUN_00d69fa0()
 {
-    reinterpret_cast<::FUN_00d69b20_cls *>((((FUN_00d69b20_cls*)((char*)this - 0x20))))->AttachAndDispatch({});
+    reinterpret_cast<::FUN_00d69b20_cls *>(viewer())->AttachAndDispatch({});
 }
 }  // namespace fnv_00d69fa0
 
@@ -405,7 +388,7 @@ extern void* DAT_01269020;
 // @fnv 0x00d6a180
 void RegisterCenterOfMass()
 {
-    DAT_01269020 = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::RegistryOwner * *>(&::DAT_01269cd0))))->FUN_00dd9380("Center of Mass", (int)(((void (&)())::FUN_00d6a140)))));
+    DAT_01269020 = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::RegistryOwner * *>(&::DAT_01269cd0))))->FUN_00dd9380("Center of Mass", reinterpret_cast<intptr_t>(((void (&)())::FUN_00d6a140)))));
 }
 
 struct DwordList
@@ -415,17 +398,8 @@ struct DwordList
     unsigned int m_uCapFlags;
 };
 
-struct GlobalHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* m_pAllocator;
-};
 
 namespace fnvc_adapt {
-GlobalHolder* __cdecl FUN_00c85750();
 }
 extern "C" void _ReadWriteBarrier(void);
 
@@ -443,40 +417,20 @@ struct FUN_00d6a000_cls
 void FUN_00d6a000_cls::AppendDword(unsigned int aValue)
 {
     DwordList* list = &m_kNode;
-    GlobalHolder* pAllocHolder = fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* pAllocHolder = &hkMemoryRouter::getInstance();
     if (list->m_iArrayLength == (int)(list->m_uCapFlags & 0x3fffffffu))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(pAllocHolder->m_pAllocator), (::AudioStream *)(list), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(pAllocHolder->m_heap), (::AudioStream *)(list), 4);
     }
 
-    unsigned int count = (unsigned int)list->m_iArrayLength;
-    unsigned int data = (unsigned int)list->m_pData;
-    unsigned int pSlot = data + count * 4u;
-    *(unsigned int*)pSlot = *(volatile unsigned int*)&aValue;
+    list->m_pData[list->m_iArrayLength] = *(volatile unsigned int*)&aValue;
     list->m_iArrayLength++;
 }
 
 namespace fnv_00d6a0a0 {
-struct Allocator
-{
-    virtual void Vfn00();
-    virtual void Vfn04();
-    virtual void Vfn08();
-    virtual void Vfn0C();
-    virtual void Free(void* data, unsigned int size) throw();
-};
 
-struct Manager
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    Allocator* unk10;
-};
 
 namespace fnvc_adapt {
-void* FUN_00c85750() throw();
 }
 
 struct Array
@@ -486,11 +440,11 @@ struct Array
     unsigned int capacity;
     ~Array() throw()
     {
-        Manager* mgr = (Manager*)fnvc_adapt::FUN_00c85750();
-        Allocator* alloc = mgr->unk10;
+        hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* alloc = mgr->m_heap;
         count = 0;
         if (!(capacity & 0x80000000))
-            alloc->Free(data, (capacity & 0x3fffffff) * 4);
+            alloc->bufFree(data, (capacity & 0x3fffffff) * (int)sizeof(void*));
         data = 0;
         capacity = 0x80000000;
     }
@@ -581,19 +535,7 @@ FUN_00d6a0a0::~FUN_00d6a0a0()
 }
 }  // namespace fnv_00d6a0a0
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    } lanes;
-} __m128;
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" unsigned __int64 __rdtsc(void);
 
 extern "C" void*(* DAT_00fdf044)(unsigned long);
@@ -603,12 +545,6 @@ extern char DAT_010d2224[];
 extern char DAT_010d2210[];
 extern char DAT_010d2200[];
 
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_load_ps1(const float*);
-extern "C" __m128 _mm_move_ss(__m128, __m128);
-extern "C" __m128 _mm_setzero_ps();
-extern "C" float _mm_cvtss_f32(__m128);
 
 struct MonRec
 {
@@ -890,8 +826,6 @@ Parent::Parent()
 {}
 
 #include <math.h>
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
 
 struct Vec4Clamp
 {
@@ -994,18 +928,21 @@ struct CenterOfMassRemovalDispatcher
 // @fnv 0x00d69f60
 void View::FUN_00d69f60()
 {
+    CentreOfMassViewer* viewer = static_cast<CentreOfMassViewer*>(this);
+    Entries* entries = viewer->entries;
     if (entries)
     {
         for (int i = 0; i < entries->count; ++i)
-            reinterpret_cast<::CenterOfMassRemovalDispatcher *>((reinterpret_cast<Owner*>(reinterpret_cast<char*>(this) - 8)))->FUN_00d69c10((::Context *)(entries->items[i]));
+            reinterpret_cast<::CenterOfMassRemovalDispatcher *>(viewer)->FUN_00d69c10((::Context *)(entries->items[i]));
     }
 }
-// Calls FUN_00d69c10 on the Target object located 0x20 bytes before this.
+// Calls FUN_00d69c10 on the viewer.
 // @fnv 0x00d69fb0
 void FUN_00d69fb0_cls::CallTargetMethod()
 {
-    reinterpret_cast<::CenterOfMassRemovalDispatcher *>((((Target*)((char*)this - 0x20))))->FUN_00d69c10({});
+    reinterpret_cast<::CenterOfMassRemovalDispatcher *>(viewer())->FUN_00d69c10({});
 }
+
 // Passes callback28 and data2c to context, then calls callback28.deliver for each entry in the data48 lists of list28, list34 and special20.
 // @fnv 0x00d69c10
 void CenterOfMassRemovalDispatcher::FUN_00d69c10(Context* context)

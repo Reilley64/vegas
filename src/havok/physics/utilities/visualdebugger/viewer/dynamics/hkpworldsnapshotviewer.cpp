@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00ddccb0_cls.h"
 #include "fnv/decl/FUN_00ddf170_cls.h"
@@ -14,32 +16,49 @@ extern int DAT_010d1700;
 extern int DAT_010d1720;
 extern void __cdecl FUN_00ddcc60();
 
-struct FUN_00d62fe0_cls
+struct FUN_00d62fe0_RefObject
 {
+    const void* m_vtbl;
+    int m4;
+};
+
+// The viewer's hkProcess part.
+struct FUN_00d63210_class
+{
+    const void* m_processVtbl;
+    char m0C[0x14];
+    int GetValueByFlag();
+};
+
+struct FUN_00d62fe0_WorldListener
+{
+    const void* m_listenerVtbl;
+    void* m_context;
+};
+
+// hkpWorldSnapshotViewer.
+struct FUN_00d62fe0_cls : FUN_00d62fe0_RefObject, FUN_00d63210_class, FUN_00d62fe0_WorldListener
+{
+    bool m_convertToXml;
     void FUN_00d62fe0();
 };
 
 // @fnv 0x00d62fe0
 void FUN_00d62fe0_cls::FUN_00d62fe0()
 {
-    *(int*)this = (int)&DAT_010d1720;
-    *(int*)((char*)this + 8) = (int)&DAT_010d1700;
-    *(int*)((char*)this + 0x20) = (int)&DAT_010d16f0;
+    m_vtbl = &DAT_010d1720;
+    m_processVtbl = &DAT_010d1700;
+    m_listenerVtbl = &DAT_010d16f0;
     FUN_00ddcc60();
 }
 
 extern int DAT_01268fc0;
 extern int DAT_01268fc4;
 
-struct FUN_00d63210_class
-{
-    int GetValueByFlag();
-};
-
 // @fnv 0x00d63210
 int FUN_00d63210_class::GetValueByFlag()
 {
-    if (*(char*)((char*)this + 0x20))
+    if (static_cast<FUN_00d62fe0_cls*>(this)->m_convertToXml)
         return DAT_01268fc0;
     return DAT_01268fc4;
 }
@@ -58,20 +77,12 @@ extern int DAT_01268fc0;
 // @fnv 0x00d63000
 void __cdecl RegisterSnapshotCommands()
 {
-    DAT_01268fc4 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::ProfileRegistry * *>(&::DAT_01269cd0))))->FUN_00dd9380("* Grab World Snapshot Native", (int)(((void (&)())::FUN_00d62f20)));
-    DAT_01268fc0 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::ProfileRegistry * *>(&::DAT_01269cd0))))->FUN_00dd9380("* Grab World Snapshot PC", (int)(((void (&)())::AllocateRecordWithData)));
+    DAT_01268fc4 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::ProfileRegistry * *>(&::DAT_01269cd0))))->FUN_00dd9380("* Grab World Snapshot Native", reinterpret_cast<intptr_t>(((void (&)())::FUN_00d62f20)));
+    DAT_01268fc0 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::ProfileRegistry * *>(&::DAT_01269cd0))))->FUN_00dd9380("* Grab World Snapshot PC", reinterpret_cast<intptr_t>(((void (&)())::AllocateRecordWithData)));
 }
 
 struct FUN_00c7be20_cls;
 
-struct FUN_00c7be20_holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pAllocator;
-};
 
 struct FUN_00c7be20_src
 {
@@ -88,7 +99,6 @@ struct FUN_00c7be20_arr
     unsigned int m_capFlags;
 };
 
-void* __cdecl FUN_00c85750() throw();
 
 struct FUN_00c7be20_cls
 {
@@ -123,8 +133,8 @@ void FUN_00c7be20_cls::CopySourceArray(FUN_00c7be20_arr* out)
     if (pSource != 0)
     {
         int iCount = pSource->m_0c;
-        FUN_00c7be20_holder* pAllocHolder = reinterpret_cast<FUN_00c7be20_holder*>(FUN_00c85750());
-        void* allocator = pAllocHolder->m_pAllocator;
+        hkMemoryRouter* pAllocHolder = &hkMemoryRouter::getInstance();
+        void* allocator = pAllocHolder->m_heap;
         unsigned int uiCapacity = out->m_capFlags & 0x3fffffffu;
         if ((int)uiCapacity < iCount)
         {
@@ -141,7 +151,7 @@ void FUN_00c7be20_cls::CopySourceArray(FUN_00c7be20_arr* out)
         int* pDstData = *(int* volatile*)&out->m_data;
         if (iRemaining > 0)
         {
-            int iByteDelta = (int)pSrcData - (int)pDstData;
+            intptr_t iByteDelta = reinterpret_cast<char*>(pSrcData) - reinterpret_cast<char*>(pDstData);
             do
             {
                 *pDstData = *(int*)((char*)pDstData + iByteDelta);
@@ -186,23 +196,8 @@ void FUN_00d62fa0_class::ProcessContainerItems()
 }
 
 namespace fnv_00d63250 {
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00d63250_cls
 {
@@ -221,9 +216,9 @@ FUN_00d63250_cls* FUN_00d63250_cls::Destroy(unsigned char acFlags)
     reinterpret_cast<::FUN_00d62fe0_cls *>(this)->FUN_00d62fe0();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, m_uSize);
+        hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* pAllocator = pHolder->m_heap;
+        pAllocator->blockFree(this, m_uSize);
     }
     return this;
 }
@@ -251,13 +246,13 @@ struct FUN_00d63280_cls
     int unk24;
     SubObject m_sub28;
 
-    FUN_00d63280_cls* FUN_00d63280(int a, int b);
+    FUN_00d63280_cls* FUN_00d63280(int a, const void* b);
 };
 
 // @fnv 0x00d63280
-FUN_00d63280_cls* FUN_00d63280_cls::FUN_00d63280(int a, int b)
+FUN_00d63280_cls* FUN_00d63280_cls::FUN_00d63280(int a, const void* b)
 {
-    new ((void *)this) ::FUN_00ddccb0_cls((*(const ::BDDCCB0Array< ::BDDCCB0ProcessContext *> *)(b)));
+    new ((void *)this) ::FUN_00ddccb0_cls(*static_cast<const ::BDDCCB0Array< ::BDDCCB0ProcessContext *> *>(b));
     m_vtbl0 = (void*)&DAT_010d1794;
     m_vtbl8 = (void*)&DAT_010d1774;
     m_vtbl20 = (void*)&DAT_010d1764;
@@ -317,4 +312,220 @@ struct D63240Object : D63240Primary, D63240Secondary
 D63240Object::D63240Object()
 {}
 
+// Moved from hkpworldsnapshotviewer_ehsc_noehsc_variant.cpp (VEGAS-15).
+
+// src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer_ehsc_noehsc_variant.cpp - flag-variant unit created 2026-10-27 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS /EHs-c- /Gy (unit src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00d605d0_class.h"
+#include "fnv/decl/FUN_00d607b0_class.h"
+#include "fnv/decl/FUN_00ddcc60.h"
+#include "fnv/decl/hkOArchive_2.h"
+#include "fnv/symbols_00d60000.h"
+#include "fnv/symbols_010d6000.h"
+#include "fnv/symbols_011b7000.h"
+void __cdecl RegisterSnapshotCommands();
+
+class hkBool
+{
+  public:
+    hkBool()
+    {}
+    hkBool(bool b)
+    {
+        m_cBooleanValue = (char)b;
+    }
+    char m_cBooleanValue;
+};
+
+
+
+struct FUN_00c7be20_arr;
+
+inline hkMemoryAllocator& containerHeap()
+{
+    return hkMemoryRouter::getInstance().heap();
+}
+
+struct hkCharArray
+{
+    char* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    hkCharArray() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    ~hkCharArray()
+    {
+        hkMemoryAllocator& alloc = containerHeap();
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+        {
+            alloc.bufFree(m_data, m_iCapacityState & 0x3fffffff);
+        }
+    }
+    int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    char* begin()
+    {
+        return m_data;
+    }
+    void reserve(int n)
+    {
+        hkMemoryAllocator& alloc = containerHeap();
+        const int capacity = getCapacity();
+        if (capacity < n)
+        {
+            int cap2 = 2 * capacity;
+            int newSize = (n < cap2) ? cap2 : n;
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc), (::SpawnedArray *)(::FUN_00c7be20_arr *)((FUN_00c7be20_arr*)this), newSize, 1);
+        }
+    }
+    void SetSizeAndGrow(int n)
+    {
+        reserve(n);
+        m_iElementCount = n;
+    }
+};
+
+struct hkArrayStreamWriter
+{
+    void* m_vtbl;
+    int m_usMemSizeAndFlags;
+    hkCharArray* m_aiIndexedValues;
+    int m_offset;
+    int m_ownership;
+
+    hkArrayStreamWriter(hkCharArray* arr, int ownership);
+    ~hkArrayStreamWriter();
+};
+
+struct StructureLayoutRules
+{
+    unsigned char m_ucBytesInPointer;
+    unsigned char m_bLittleEndian;
+    unsigned char m_bReusePaddingOptimization;
+    unsigned char m_bEmptyBaseClassOptimization;
+};
+
+struct hkpWorld;
+
+hkBool __cdecl FUN_00cc0d60(hkpWorld* world, hkArrayStreamWriter* writer, hkBool binary,
+                            const StructureLayoutRules* rules, int aiFlags);
+
+struct hkDisplaySerializeOStream
+{
+};
+
+struct hkProcessHandler
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void deleteProcess(int tag);
+};
+
+struct hkpPhysicsContext
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    hkpWorld** m_ppWorlds;
+    int m_numWorlds;
+
+    int getNumWorlds() const
+    {
+        return m_numWorlds;
+    }
+    hkpWorld* getWorld(int i) const
+    {
+        return m_ppWorlds[i];
+    }
+};
+
+struct FUN_00d63040_cls
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    hkDisplaySerializeOStream* m_pDisplayStream;
+    int unk10;
+    hkProcessHandler* m_pProcessHandler;
+    int unk18;
+    hkpPhysicsContext* m_iValueAtOffset0C;
+    hkBool m_convertToPC;
+
+    void FUN_00d63040(float frameTimeInMs);
+};
+
+// @fnv 0x00d63040
+void FUN_00d63040_cls::FUN_00d63040(float frameTimeInMs)
+{
+    if (m_pDisplayStream)
+    {
+        hkCharArray storage;
+        storage.reserve(100 * 1024);
+        hkArrayStreamWriter sw(&storage, 1);
+
+        const StructureLayoutRules& rules = m_convertToPC.m_cBooleanValue ? (*reinterpret_cast<::StructureLayoutRules *>(&::DAT_010d6ae8)) : (*reinterpret_cast<::StructureLayoutRules *>(&::DAT_011b7b88));
+        for (int wi = 0; wi < m_iValueAtOffset0C->getNumWorlds(); ++wi)
+        {
+            storage.SetSizeAndGrow(0);
+            FUN_00cc0d60(m_iValueAtOffset0C->getWorld(wi), &sw, true, &rules, 0);
+            int length = storage.GetLogicalSize();
+            if (length >= 1)
+            {
+                ::FUN_00d60960((const float *)(m_pDisplayStream));
+                reinterpret_cast<::FUN_00d605d0_class *>((m_pDisplayStream))->FUN_00d605d0(0xd0);
+                reinterpret_cast<::FUN_00d605d0_class *>((m_pDisplayStream))->FUN_00d605d0(rules.m_ucBytesInPointer);
+                reinterpret_cast<::FUN_00d605d0_class *>((m_pDisplayStream))->FUN_00d605d0(rules.m_bLittleEndian);
+                reinterpret_cast<::FUN_00d605d0_class *>((m_pDisplayStream))->FUN_00d605d0(rules.m_bReusePaddingOptimization);
+                reinterpret_cast<::FUN_00d605d0_class *>((m_pDisplayStream))->FUN_00d605d0(rules.m_bEmptyBaseClassOptimization);
+                reinterpret_cast<::hkOArchive_2 *>((m_pDisplayStream))->WriteInt(length);
+                reinterpret_cast<::FUN_00d607b0_class *>((m_pDisplayStream))->FUN_00d607b0(reinterpret_cast<intptr_t>(storage.begin()));
+            }
+        }
+    }
+
+    if (m_pProcessHandler)
+    {
+        m_pProcessHandler->deleteProcess(m_convertToPC.m_cBooleanValue ? DAT_01268fc0 : DAT_01268fc4);
+    }
+}
 #include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.inc"

@@ -2,7 +2,10 @@
 // src/havok/physics/utilities/visualdebugger/viewer/utilities/hkpmousepickingviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/utilities/hkpmousepickingviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/DD8FE0_Stream.h"
 #include "fnv/decl/FUN_00c7f690_cls.h"
@@ -25,44 +28,72 @@ void FUN_00d66bd0(void** pOut, void** pCount)
     *pCount = (void*)3;
 }
 
+class hkpWorldD66C;
+class hkpEntityD66C;
+struct FUN_00d66b90;
+
 struct FUN_00d66c10_class
 {
 };
 
+// The mouse picking viewer (FUN_00d66b90): hkReferencedObject, its hkProcess part (Base2) at +0x08 and its
+// world deletion listener part (FUN_00d66cb0_class) at +0x20.
+struct MousePickingRefObject
+{
+    const void* m_vtbl;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+};
+
+struct Stream
+{
+    char* GetStreamResult(char* buf);
+};
+
+struct Base2
+{
+    const void* m_processVtbl;
+    int unk04;
+    Stream* stream;
+    char m14[0xc];
+    FUN_00d66b90* getDerived();
+    void FUN_00d66e10(unsigned char type);
+};
+
 struct FUN_00d66cb0_class
 {
-    int m0;
-    int m4;
-    int m8;
-    void FUN_00d66cb0(int a);
+    const void* m0;
+    int m24;
+    hkpWorldD66C* m8;
+    void FUN_00d66cb0(hkpWorldD66C* world);
 };
 
 extern int DAT_010d1cb4;
 extern int DAT_010d1cc4;
 extern int DAT_010d1ce4;
-struct D698B0Base
+struct D698B0Base : MousePickingRefObject, Base2
 {
-    char m0[0x20];
     D698B0Base(void*);
 };
-struct FUN_00d66b90 : D698B0Base
+struct FUN_00d66b90 : D698B0Base, FUN_00d66cb0_class
 {
-    int m20;
-    int m24;
-    int m28;
-    int m2c;
+    hkpEntityD66C* m2c;
     float m30;
-    FUN_00d66b90(int);
+    FUN_00d66b90(void*);
 };
+inline FUN_00d66b90* Base2::getDerived()
+{
+    return static_cast<FUN_00d66b90*>(this);
+}
 // @fnv 0x00d66b90
-FUN_00d66b90::FUN_00d66b90(int a) : D698B0Base((void*)a)
+FUN_00d66b90::FUN_00d66b90(void* a) : D698B0Base(a)
 {
     m30 = 1000.0f;
-    m28 = 0;
+    m8 = 0;
     m2c = 0;
-    *(int*)this = (int)&DAT_010d1ce4;
-    *(int*)((char*)this + 8) = (int)&DAT_010d1cc4;
-    m20 = (int)&DAT_010d1cb4;
+    m_vtbl = &DAT_010d1ce4;
+    m_processVtbl = &DAT_010d1cc4;
+    m0 = &DAT_010d1cb4;
 }
 
 struct Registry_00dd9380
@@ -70,10 +101,10 @@ struct Registry_00dd9380
 };
 extern int DAT_01268ff8;
 // @fnv 0x00d66c90
-void* __cdecl RegisterMousePicking()
+int __cdecl RegisterMousePicking()
 {
-    DAT_01268ff8 = (int)((void *)(reinterpret_cast<::S_00dd9380 *>((((Registry_00dd9380*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9380("Mouse Picking", (int)(((void (&)())::FUN_00d66c50)))));
-    return (void*)DAT_01268ff8;
+    DAT_01268ff8 = (int)(reinterpret_cast<::S_00dd9380 *>((((Registry_00dd9380*)(::DAT_01269cd0))))->FUN_00dd9380("Mouse Picking", reinterpret_cast<intptr_t>(((void (&)())::FUN_00d66c50))));
+    return DAT_01268ff8;
 }
 
 extern int DAT_01268ff8;
@@ -84,37 +115,14 @@ int __cdecl FUN_00d66ed0()
     return DAT_01268ff8;
 }
 
-struct FnvCpu_FUN_00d66c50_CpuBlock;
-struct FnvCpu_FUN_00d66c50_CpuAllocator
-{
-    virtual void slot00();
-    virtual void* Invoke(unsigned int size);
-};
-struct FnvCpu_FUN_00d66c50_CpuHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00d66c50_CpuAllocator* allocator;
-};
-void* __cdecl FUN_00c85750();
-struct FnvCpu_FUN_00d66c50_CpuBlock
-{
-    unsigned int unk00;
-    unsigned short size;
-    FnvCpu_FUN_00d66c50_CpuBlock* FUN_00d66b90(unsigned int value);
-};
 // @fnv 0x00d66c50
-void* __cdecl FUN_00d66c50(unsigned int value)
+void* __cdecl FUN_00d66c50(void* value)
 {
-    FnvCpu_FUN_00d66c50_CpuHolder* holder = static_cast<FnvCpu_FUN_00d66c50_CpuHolder*>(FUN_00c85750());
-    FnvCpu_FUN_00d66c50_CpuBlock* block = static_cast<FnvCpu_FUN_00d66c50_CpuBlock*>(holder->allocator->Invoke(52));
-    block->size = 52;
-    block = ((::FnvCpu_FUN_00d66c50_CpuBlock *)(new ((void *)(block)) ::FUN_00d66b90(value)));
-    if (block)
-        return reinterpret_cast<char*>(block) + 8;
-    return 0;
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    void* block = holder->m_heap->blockAlloc(sizeof(FUN_00d66b90));
+    static_cast<MousePickingRefObject*>(block)->m_memSizeAndFlags = sizeof(FUN_00d66b90);
+    FUN_00d66b90* viewer = new (block) ::FUN_00d66b90(value);
+    return static_cast<Base2*>(viewer);
 }
 
 namespace fnv_00d66d00 {
@@ -134,32 +142,24 @@ __declspec(align(16)) struct hkVector4D66D
     float x, y, z, w;
 };
 
-struct hkAllocatorD66D
-{
-    virtual void V0();
-    virtual void* AllocateMemoryBlock(int iNumBytes);
-};
 
-struct hkMemoryRouterD66D
-{
-    char m_acUnk00[0x10];
-    hkAllocatorD66D* m_pkHeap;
-    hkAllocatorD66D& heap()
-    {
-        return *m_pkHeap;
-    }
-};
-extern "C" hkMemoryRouterD66D* __cdecl FUN_00c85750();
 
 struct hkpEntityD66D;
 
-struct FUN_00cbb560
+struct FUN_00cbb560_RefObject
 {
-    char m_acUnk00[0x60];
-    static __forceinline void* operator new(std::size_t uiSize)
+    void* m_vtbl;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+};
+
+struct FUN_00cbb560 : FUN_00cbb560_RefObject
+{
+    char m_acUnk08[0x58];
+    static __forceinline void* operator new(size_t uiSize)
     {
-        void* p = FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
-        ((unsigned short*)p)[2] = (unsigned short)uiSize;
+        void* p = hkMemoryRouter::getInstance().heap().blockAlloc(uiSize);
+        static_cast<FUN_00cbb560_RefObject*>(p)->m_memSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
     FUN_00cbb560(const hkVector4D66D& kPositionInRbLocal, const hkVector4D66D& kMousePositionInWorld,
@@ -207,7 +207,7 @@ hkBoolD66D MousePickD66D::PickEntity(hkUint64D66D uiCollidableUserData, const hk
         uiCollidableUserData &= ~(hkUint64D66D)3;
     else if (uiUserDataTag != 0)
         return false;
-    hkpCollidableD66D* pkCollidable = (hkpCollidableD66D*)(unsigned int)uiCollidableUserData;
+    hkpCollidableD66D* pkCollidable = reinterpret_cast<hkpCollidableD66D*>(static_cast<uintptr_t>(uiCollidableUserData));
     if (pkCollidable->m_cType == 1)
     {
         hkpEntityD66D* pkEntity = (hkpEntityD66D*)((char*)pkCollidable + pkCollidable->m_cOwnerOffset);
@@ -229,35 +229,8 @@ hkBoolD66D MousePickD66D::PickEntity(hkUint64D66D uiCollidableUserData, const hk
 }
 }  // namespace fnv_00d66d00
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float x, y, z, w;
-} __m128;
 
 typedef __m128 FourFloatVector;
-
-struct Derived;
-
-struct Stream
-{
-    char* GetStreamResult(char* buf);
-};
-
-struct Base2
-{
-    void* vptr;
-    int unk04;
-    Stream* stream;
-    Derived* getDerived()
-    {
-        return (Derived*)((char*)this - 8);
-    }
-    void FUN_00d66e10(unsigned char type);
-};
-
-struct Derived
-{
-};
 
 struct Buf4
 {
@@ -265,21 +238,6 @@ struct Buf4
 };
 
 namespace fnv_00d66f00 {
-struct FnvCpu_FUN_00d66f00_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00d66f00_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00d66f00_CpuAllocator* allocator;
-};
-FnvCpu_FUN_00d66f00_CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00d66f00_CpuObject
 {
     unsigned int unk00;
@@ -294,8 +252,8 @@ FnvCpu_FUN_00d66f00_CpuObject* FnvCpu_FUN_00d66f00_CpuObject::FUN_00d66f00(unsig
     FUN_00d66cd0();
     if (flags & 1)
     {
-        FnvCpu_FUN_00d66f00_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }
@@ -336,10 +294,10 @@ class FUN_00d66c10_cls
     void FUN_00d66c10();
 };
 // @fnv 0x00d66cb0
-void FUN_00d66cb0_class::FUN_00d66cb0(int aiValue)
+void FUN_00d66cb0_class::FUN_00d66cb0(hkpWorldD66C* world)
 {
-    if (aiValue == this->m8)
-        reinterpret_cast<::FUN_00d66c10_cls *>((((FUN_00d66c10_class*)((char*)this - 0x20))))->FUN_00d66c10();
+    if (world == this->m8)
+        reinterpret_cast<::FUN_00d66c10_cls *>(static_cast<FUN_00d66b90*>(this))->FUN_00d66c10();
 }
 // @fnv 0x00d66e10
 void Base2::FUN_00d66e10(unsigned char type)
@@ -365,7 +323,7 @@ void Base2::FUN_00d66e10(unsigned char type)
         ::FUN_00ddac60((::FUN_00ddac60_Obj *)(stream));
         if (stream->GetStreamResult(&buf.b1)[0])
         {
-            reinterpret_cast<::FUN_00d66bf0_cls *>((getDerived()))->DispatchToChild((int)(&u.b1_vec));
+            reinterpret_cast<::FUN_00d66bf0_cls *>((getDerived()))->DispatchToChild(&u.b1_vec);
         }
         return;
     }
@@ -374,7 +332,7 @@ void Base2::FUN_00d66e10(unsigned char type)
         reinterpret_cast<::DD8FE0_Stream *>((stream))->FUN_00dd8fe0(&u.b0.pair0, 8, 1);
         if (stream->GetStreamResult(&buf.b2)[0])
         {
-            reinterpret_cast<::fnv_00d66d00::MousePickD66D *>((getDerived()))->PickEntity((unsigned long long)(&buf.b3), (*(const ::fnv_00d66d00::hkVector4D66D *)(u.b0.pair0)));
+            reinterpret_cast<::fnv_00d66d00::MousePickD66D *>((getDerived()))->PickEntity(*reinterpret_cast<unsigned long long*>(&u.b0.pair0), *reinterpret_cast<const ::fnv_00d66d00::hkVector4D66D *>(&u.b0.vec));
         }
         break;
     }

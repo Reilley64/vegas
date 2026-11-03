@@ -1088,7 +1088,7 @@ static __declspec(noinline) int FUN_00ce9880(const hkQsXform& t, Body* body)
             new ((void *)&(a)) ::FUN_00d733e0();
             MassB b;
             new ((void *)&(b)) ::FUN_00d73410();
-            ::FUN_00d748d0((::hkpEntityD748 *)(body), (intptr_t)(&a), (intptr_t)(&b));
+            ::FUN_00d748d0((::hkpEntityD748 *)(body), &a, reinterpret_cast<::hkShapeOutputD748 *>(&b));
         }
         GetError()->SetErrorCodeEnabled(0x2ff8c16f, bErrorEnabled);
         reinterpret_cast<::FUN_00ce50b0_cls *>((void *)&(combined))->FUN_00ce50b0((::CB2FC0Object *)(void *)(&kXform));

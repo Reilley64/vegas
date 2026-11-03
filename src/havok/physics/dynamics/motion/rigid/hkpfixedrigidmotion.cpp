@@ -8,20 +8,17 @@
 #include "havok/hkpFixedRigidMotion.h"
 
 extern int DAT_010c6cdc;
-struct FUN_00d1e160_t
+struct FUN_00d1e160_t : hkpFixedRigidMotion
 {
-    int* vtbl;
-    unsigned char m_auiShapeKeys[7];
-    unsigned char m_type;
-    void* InitFixedRigidMotion(intptr_t a, intptr_t b);
+    void* InitFixedRigidMotion(const ::hkVector4D1DF& a, const ::hkQuaternionD1DF& b);
 };
-// Calls FUN_00d1dfa0, sets vtbl to &DAT_010c6cdc, writes 5 to byte offset 8, and returns this.
+// Calls FUN_00d1dfa0, sets the vtable to &DAT_010c6cdc, sets the motion type to 5, and returns this.
 // @fnv 0x00d1e160
-void* FUN_00d1e160_t::InitFixedRigidMotion(intptr_t a, intptr_t b)
+void* FUN_00d1e160_t::InitFixedRigidMotion(const ::hkVector4D1DF& a, const ::hkQuaternionD1DF& b)
 {
-    new ((void *)this) ::FUN_00d1dfa0((*(const ::hkVector4D1DF *)(a)), (*(const ::hkQuaternionD1DF *)(b)));
-    vtbl = &DAT_010c6cdc;
-    this->m_auiShapeKeys[4] = 5;
+    new ((void *)this) ::FUN_00d1dfa0(a, b);
+    *(void**)this = &DAT_010c6cdc;
+    m_type = 5;
     return this;
 }
 
@@ -49,18 +46,19 @@ struct FUN_00c86660_Obj
 {
 };
 
-struct FUN_00d1e190_Obj
+struct FUN_00d1e190_Obj : hkpMotion
 {
     void FUN_00d1e190(int* motion);
 };
 
-// Calls FUN_00c86660 on motion's sub-object at offset 0x10 with this+0x10, then zeroes two 16-byte vectors at float offsets 0x34 and 0x38 of motion.
+// Copies this motion state into motion's via FUN_00c86660, then zeroes motion's linear and angular velocity.
 // @fnv 0x00d1e190
 void FUN_00d1e190_Obj::FUN_00d1e190(int* motion)
 {
-    reinterpret_cast<::FUN_00c86660_cls *>((reinterpret_cast<FUN_00c86660_Obj*>(reinterpret_cast<char*>(motion) + 0x10)))->FUN_00c86660((const ::FUN_00c86660_cls *)(int *)(reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x10)));
+    hkpMotion* dst = reinterpret_cast<hkpMotion*>(motion);
+    reinterpret_cast<::FUN_00c86660_cls *>(&dst->m_kMotionState)->FUN_00c86660((const ::FUN_00c86660_cls *)(const void *)(&m_kMotionState));
 
     __m128 zero = _mm_setzero_ps();
-    _mm_store_ps(reinterpret_cast<float*>(motion) + 0x34, zero);
-    _mm_store_ps(reinterpret_cast<float*>(motion) + 0x38, zero);
+    _mm_store_ps(reinterpret_cast<float*>(&dst->m_kTranslationalVelocity), zero);
+    _mm_store_ps(reinterpret_cast<float*>(&dst->m_kAngularVelocity), zero);
 }

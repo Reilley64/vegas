@@ -3,10 +3,19 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dd51f0
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00dd51d0_class.h"
-int ReadIntField(const void* a, int* piValue)
+// hkpMoppCompilerPrimitive: the two ids of a primitive; the property is the second id.
+struct MoppCompilerPrimitive
 {
-    *piValue = *(const int*)((const char*)a + 4);
+    int m_primitiveID;
+    int m_primitiveID2;
+};
+int ReadIntField(const MoppCompilerPrimitive* a, int* piValue)
+{
+    *piValue = a->m_primitiveID2;
     return 1;
 }
 
@@ -105,21 +114,6 @@ FUN_00dd52a0_cls* FUN_00dd52a0_cls::InitFromSource(SpawnedSource* pSource)
     return this;
 }
 
-struct CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    CpuAllocator* allocator;
-};
-CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct CpuObject
 {
     unsigned int unk00;
@@ -132,8 +126,8 @@ CpuObject* CpuObject::FUN_00dd55a0(unsigned int flags)
     reinterpret_cast<::FUN_00dd51d0_class *>(this)->FUN_00dd51d0();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }
@@ -156,16 +150,7 @@ int FnvCpu_FUN_00dd5290_CpuObject::FUN_00dd5290()
     return value;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 
 typedef float hkReal;
@@ -285,3 +270,122 @@ void ProjectionShape::ComputeProjectionRange(const hkVector4& direction, int unu
     *minOut = minProj;
     *maxOut = maxProj;
 }
+
+// Moved from hkpmoppshapemediator_gs_nogs_variant.cpp (VEGAS-15).
+#include "fnv/symbols_00c85000.h"
+int ReadIntField(const MoppCompilerPrimitive* a, int* b);
+void FUN_00dd5260(FUN_00dd5260_T* pSrc, int a1, int a2, int a3, FUN_00dd5260_T* pDst);
+void FUN_00dd51e0(int, int);
+
+
+namespace fnv_00dd5440 {
+
+
+struct hkVector4
+{
+    __m128 m_vComponents;
+    __forceinline void setNeg4(const hkVector4& v)
+    {
+        m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c44d0);
+    }
+};
+
+struct hkpShapeBuffer
+{
+    char m_data[512];
+};
+
+struct hkpConvexShape
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual float getSupport(const hkVector4& direction) const;
+};
+
+struct hkpShapeContainer
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual const hkpConvexShape* GetShapeForKey(unsigned int key, hkpShapeBuffer& buffer) const;
+};
+
+struct hkpChildKey
+{
+    unsigned int m_key;
+    int m_unk04;
+    int m_unk08;
+    int m_unk0c;
+    int m_unk10;
+};
+
+struct ExtentCalculator
+{
+    int m_unk00;
+    int m_unk04;
+    const hkpShapeContainer* m_container;
+
+    void FUN_00dd5440(const hkVector4& direction, int unused, const hkpChildKey* keys, int numKeys, float* minOut,
+                      float* maxOut) const;
+};
+
+// @fnv 0x00dd5440
+void ExtentCalculator::FUN_00dd5440(const hkVector4& direction, int unused, const hkpChildKey* keys, int numKeys,
+                                    float* minOut, float* maxOut) const
+{
+    hkpShapeBuffer buffer;
+    float lo;
+    float hi;
+
+    unsigned int key = keys[0].m_key;
+    const hkpConvexShape* shape = m_container->GetShapeForKey(key, buffer);
+    if (shape)
+    {
+        hi = shape->getSupport(direction);
+        hkVector4 negDir;
+        negDir.setNeg4(direction);
+        lo = -shape->getSupport(negDir);
+    }
+    else
+    {
+        lo = 0.0f;
+        hi = 0.0f;
+    }
+
+    float fTargetUpperBound = lo;
+    float fMinimumInputValue = hi;
+
+    for (int i = 1; i < numKeys; i++)
+    {
+        key = keys[i].m_key;
+        shape = m_container->GetShapeForKey(key, buffer);
+        if (shape)
+        {
+            hi = shape->getSupport(direction);
+            hkVector4 negDir;
+            negDir.setNeg4(direction);
+            lo = -shape->getSupport(negDir);
+        }
+        else
+        {
+            lo = 0.0f;
+            hi = 0.0f;
+        }
+
+        if (lo < fTargetUpperBound)
+        {
+            fTargetUpperBound = lo;
+        }
+        if (hi > fMinimumInputValue)
+        {
+            fMinimumInputValue = hi;
+        }
+    }
+
+    *minOut = fTargetUpperBound;
+    *maxOut = fMinimumInputValue;
+}
+}  // namespace fnv_00dd5440

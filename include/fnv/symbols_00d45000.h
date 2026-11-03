@@ -17,6 +17,6 @@ void FUN_00d45af0(::CdBody *, ::CdBody *, ::CollisionInput *, void *);
 // 0x00d45dd0
 void FUN_00d45dd0(const ::S_00d45dd0_CdBody &, const ::S_00d45dd0_CdBody &, const ::S_00d45dd0_Input &, ::S_00d45dd0_CollectorBase &);
 // 0x00d45f30
-namespace fnv_00d45f30 { void *FUN_00d45f30(int, int, int, int); }
+namespace fnv_00d45f30 { void *FUN_00d45f30(void *, void *, void *, void *); }
 // 0x00d45f80
 void ConfigureVtblHandlers(::FUN_00cfbbe0 *);

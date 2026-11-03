@@ -10,24 +10,27 @@
 #include "havok/hkpNullCollisionFilter.h"
 
 
+// hkpCollisionFilter's 32-bit layout: hkReferencedObject, then the vtable pointers of its four filter interface bases.
 struct FUN_00cfa860
 {
-    int a;
-    int b;
-    int c;
-    int d;
-    int e;
+    const void* m_vtable;                          // +0x0
+    unsigned short m_memSizeAndFlags;              // +0x4
+    short m_referenceCount;                        // +0x6
+    const void* m_collidableCollidableFilterVtable;  // +0x8
+    const void* m_shapeCollectionFilterVtable;     // +0xc
+    const void* m_rayShapeCollectionFilterVtable;  // +0x10
+    const void* m_rayCollidableFilterVtable;       // +0x14
     ~FUN_00cfa860();
 };
 
 // @fnv 0x00cfa860
 FUN_00cfa860::~FUN_00cfa860()
 {
-    *(void**)((char*)this + 0x14) = &DAT_010c3b8c;
-    *(void**)((char*)this + 0x10) = &DAT_010c3bac;
-    *(void**)((char*)this + 0x0c) = &DAT_010c3b98;
-    *(void**)((char*)this + 0x08) = &DAT_010c3b80;
-    *(void**)((char*)this + 0x00) = &(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_rayCollidableFilterVtable = &DAT_010c3b8c;
+    m_rayShapeCollectionFilterVtable = &DAT_010c3bac;
+    m_shapeCollectionFilterVtable = &DAT_010c3b98;
+    m_collidableCollidableFilterVtable = &DAT_010c3b80;
+    m_vtable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 extern "C" unsigned __int64 __rdtsc(void);
@@ -154,12 +157,12 @@ void S_00cfab30_this::RecordAndDispatch(S_00cfab30_object* apTarget, S_00cfab30_
     unk04 = arg0c;
     unk0c = arg18;
 
-    unk08 = context ? (char*)context + 0x14 : 0;
+    unk08 = context ? (void*)&static_cast<FUN_00cfa860*>(context)->m_rayCollidableFilterVtable : 0;
     _ReadWriteBarrier();
 
     if (arg0c->unk20)
     {
-        void* pContextOffset10 = context ? (char*)context + 0x10 : 0;
+        void* pContextOffset10 = context ? (void*)&static_cast<FUN_00cfa860*>(context)->m_rayShapeCollectionFilterVtable : 0;
         (void* volatile&)unk34 = pContextOffset10;
     }
     else

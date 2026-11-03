@@ -2,7 +2,6 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?DAT_010c44d0@@3PAMA=?DAT_010c44d0@@3T__m128@@B")
 #pragma comment(linker, "/alternatename:?g_brSignMask@@3T__m128@@B=?DAT_010c44d0@@3T__m128@@B")
 
 const __m128 DAT_010c7030[8] = {{1.0f, 1.0f, 1.0f, 1.0f}, {-1.0f, 1.0f, 1.0f, 1.0f}, {1.0f, -1.0f, 1.0f, 1.0f}, {-1.0f, -1.0f, 1.0f, 1.0f}, {1.0f, 1.0f, -1.0f, 1.0f}, {-1.0f, 1.0f, -1.0f, 1.0f}, {1.0f, -1.0f, -1.0f, 1.0f}, {-1.0f, -1.0f, -1.0f, 1.0f}};

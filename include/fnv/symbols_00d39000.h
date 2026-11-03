@@ -31,4 +31,4 @@ void FUN_00d39840(::hkpCollisionDispatcherD398 *);
 // 0x00d398c0
 namespace fnv_00d398c0 { extern "C" void *CreateObjectFromFactory(int, int *, int, int); }
 // 0x00d39980
-::FUN_00d39980_cls *CreateAllocatedObject(int, int, int, int);
+::FUN_00d39980_cls *CreateAllocatedObject(const void *, const void *, const void *, void *);

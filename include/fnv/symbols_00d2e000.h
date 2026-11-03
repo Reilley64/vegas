@@ -17,10 +17,10 @@ namespace fnv_00d2e6d0 { void FUN_00d2e6d0(::fnv_00d2e6d0::TargetClass *); }
 // 0x00d2e760
 void FUN_00d2e760(::Registry *);
 // 0x00d2e7f0
-::Header *FUN_00d2e7f0(void *, void *, ::StreamDispatchInput *, unsigned int);
+::Header *FUN_00d2e7f0(void *, void *, ::StreamDispatchInput *, void *);
 // 0x00d2e970
 void FUN_00d2e970(void *, void *, void *, void *);
 // 0x00d2e9b0
-void FUN_00d2e9b0(int, int, int, int);
+void FUN_00d2e9b0(void *, void *, void *, void *);
 // 0x00d2e9f0
-void FUN_00d2e9f0(int, int, const ::Input_d2e9 *, int, int);
+void FUN_00d2e9f0(void *, void *, const ::Input_d2e9 *, void *, void *);

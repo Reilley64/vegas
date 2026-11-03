@@ -2,8 +2,12 @@
 // src/havok/physics/collide/shape/convex/triangle/hkptriangleshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/triangle/hkptriangleshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include <cstddef>
+#include <xmmintrin.h>
+#include <bit>
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/decl/FunctionContext.h"
@@ -50,12 +54,6 @@ int __cdecl ExtractEdge(unsigned short weldingInfo, int edge)
     return FUN_00d1fef0(weldingInfo, edge);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 class FUN_00d1ff40_cls {
 public:
@@ -80,25 +78,17 @@ void FUN_00d1ff40_cls::FUN_00d1ff40(hkVector4* out)
     _mm_store_ps(&out->x, _mm_mul_ps(half, total));
 }
 
-struct FUN_00d1ff20_s {
+struct FUN_00d1ff20_s : public ::hkpTriangleShape {
     void CopyVector(float* dst);
 };
 
 // @fnv 0x00d1ff20
 void FUN_00d1ff20_s::CopyVector(float* dst)
 {
-    __m128 v = *(__m128*)((char*)this + 0x20);
+    __m128 v = *(const __m128*)&m_kVertexA;
     *(__m128*)dst = v;
 }
 
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_set_ss(float);
 
 // Computes the normalized cross product of two edge vectors and writes the result to out.
 // @fnv 0x00d1ff80
@@ -133,10 +123,6 @@ const __m128* volatile inputC;
 __m128* volatile outputV;
 void invokeTriangleNormal() { FUN_00d1ff80(inputA, inputB, inputC, outputV); }
 
-extern "C" __m128 _mm_max_ps(__m128, __m128);
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 
 struct SimdVector {
     union { __m128 value; float component[4]; };
@@ -209,13 +195,6 @@ hkVector4* Cls_00d20110::GetVertices(hkVector4* apVertices)
     return apVertices;
 }
 
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
 
 __forceinline int rootSelect48(const float* sv)
 {
@@ -273,7 +252,7 @@ void TriangleSupport::FUN_00d20270(float const* pf, float* out)
         idx += 3;
         reinterpret_cast<SupportVector*>(out)->add(*reinterpret_cast<const SupportVector*>(&m_kVertexTransform));
     }
-    ((int*)out)[3] = idx | 0x3f000000;
+    out[3] = std::bit_cast<float>(idx | 0x3f000000);
 }
 
 #include <math.h>
@@ -281,12 +260,6 @@ void TriangleSupport::FUN_00d20270(float const* pf, float* out)
 
 
 
-extern "C" __m128 _mm_load_ps1(const float*);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 
 extern int DAT_011b3b50[];
 extern float DAT_011b3b38[];
@@ -458,8 +431,8 @@ int TriangleWelding::FUN_00d203f0(unsigned short* indices, unsigned char* count,
 typedef unsigned char hkUint8_S;
 typedef unsigned short hkUint16_S;
 typedef unsigned int hkUint32_S;
-typedef unsigned long __w64 hkUlong_S;
-typedef unsigned __w64 hk_size_t;class FinishingFlag
+typedef uintptr_t hkUlong_S;
+typedef size_t hk_size_t;class FinishingFlag
 {
 public:
 FinishingFlag():m_bFinishing(0){}
@@ -507,8 +480,6 @@ return m_kStorage;
 }
 private:
 TYPE m_kStorage;};
-extern "C"{
-}
 template<typename T>
 class hkThreadLocalData
 {
@@ -522,28 +493,11 @@ __forceinline T getData()const
 return(T)(hkUlong_S)TlsGetValue(m_slotID);
 }
 unsigned long m_slotID;};
-class hkMemoryAllocator
-{
-public:
-virtual void*AllocateMemoryBlock(int numBytes)=0;
-virtual void ReleaseBlock(void*p,int numBytes)=0;public:
-enum MemoryState
-{
-MEMORY_STATE_OK,
-MEMORY_STATE_OUT_OF_MEMORY
-};};struct StringPointerTriple
+struct StringPointerTriple
 {
 public:
 __forceinline StringPointerTriple();protected:
 ValueWrapper<void*>m_next;};
-class NineIntegerRecord
-{
-public:
-typedef hkMemoryAllocator Allocator;
-static NineIntegerRecord&__cdecl GetMonitorStream();inline Allocator&heap(){return*m_pStreamAllocator;}
-protected:
-StringPointerTriple m_aiEntries;
-Allocator*m_pStreamAllocator;};
 class hkBaseObject_S
 {
 public:
@@ -554,7 +508,7 @@ class hkStatisticsCollector;
 class hkReferencedObject_S:public hkBaseObject_S
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}
 public:
 enum
 {
@@ -565,28 +519,6 @@ public:
 hkReferencedObject_S(class FinishingFlag flag){}
 };typedef float hkReal_S;
 
-extern "C"{
-
-
-
-
-
-
-extern __m128 _mm_rcp_ps(__m128 _A);
-
-extern __m128 _mm_and_ps(__m128 _A,__m128 _B);
-
-extern __m128 _mm_or_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_xor_ps(__m128 _A,__m128 _B);
-
-extern __m128 _mm_cmpeq_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_cmplt_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_cmple_ps(__m128 _A,__m128 _B);
-
-extern int _mm_movemask_ps(__m128 _A);
-
-extern __m128 _mm_setr_ps(float _A,float _B,float _C,float _D);
-extern __m128 _mm_setzero_ps(void);};
 typedef __m128 hkQuadReal;
 class hkVector4_S;
 typedef const hkVector4_S&hkVector4Parameter;
@@ -653,7 +585,7 @@ class hkTransform_S;
 class hkVector4_S
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 __forceinline void operator=(const hkVector4_S&v);
 __forceinline void set(hkReal_S x,hkReal_S y,hkReal_S z,hkReal_S w=0);
 __forceinline void SetAllComponents(hkSimdRealParameter x);
@@ -843,7 +775,7 @@ return a.compareLessThanEqual4(*this);
 class StringCursor
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
 return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
@@ -867,12 +799,12 @@ hkBool_S m_bFlag;
 public:
 struct Command
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(StringCursor::Command));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(StringCursor::Command));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 const char*m_pCommandName;
 };
 struct CommandTimingEntry:public StringCursor::Command
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(StringCursor::CommandTimingEntry));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(StringCursor::CommandTimingEntry));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 hkUint32_S m_uiStartTicks;
 hkUint32_S m_uiEndTicks;
 __forceinline void setTime();
@@ -880,10 +812,7 @@ __forceinline void setTime();
 void StringCursor::CommandTimingEntry::setTime()
 {
 hkUint32_S ticks;
-__asm{
-rdtsc
-mov dword ptr[ticks],eax
-}
+ticks = static_cast<unsigned int>(__rdtsc());
 m_uiStartTicks=ticks;
 }
 class ScopedTimer
@@ -893,12 +822,12 @@ __forceinline ~ScopedTimer(){{StringCursor&mStream=StringCursor::GetMonitorStrea
 };class hkAabb
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 public:
 hkVector4_S m_kMinimumCorner;};class Vector4WithInt24W:public hkVector4_S
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}};
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}};
 enum CollisionShapeType
 {
 HK_SHAPE_INVALID=0,
@@ -959,7 +888,7 @@ class hkpShape_S:public hkReferencedObject_S
 {
 public:
 static const struct ClassMemberDescriptor Members[];static const hkClass_S&__cdecl staticClass();struct DefaultStruct;
-__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}__forceinline void __cdecl operator delete(void*p){hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(p);;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,b->m_usMemSizeAndFlags);}__forceinline void*__cdecl operator new(std::size_t,void*p){return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}__forceinline void __cdecl operator delete(void*p){hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(p);;hkMemoryRouter::getInstance().heap().blockFree(p,b->m_usMemSizeAndFlags);}__forceinline void*__cdecl operator new(std::size_t,void*p){return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 __forceinline hkpShape_S(CollisionShapeType type);
 __forceinline CollisionShapeType getType()const;
 __forceinline void getAabb(const hkTransform_S&localToWorld,hkReal_S tolerance,hkAabb&out)const;
@@ -974,7 +903,7 @@ virtual const hkpShapeContainer*GetShapeContainer()const{return 0;}
 virtual bool isConvex()const{return false;}
 struct PhysicsShape
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(hkpShape_S::PhysicsShape));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(hkpShape_S::PhysicsShape));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 bool m_bIsConvex;
 bool m_bIsConvexPiece;
 bool m_bIsComposite;
@@ -1002,7 +931,7 @@ typedef const hkpShape_S*(__cdecl*GetChildShapeFunc)(const void*thisObj,hkpShape
 typedef hkUint32_S(__cdecl*GetCollisionFilterInfoFunc)(const void*thisObj,hkpShapeKey key);
 struct ShapeCallbackDispatchTable
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(hkpShape_S::ShapeCallbackDispatchTable));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(hkpShape_S::ShapeCallbackDispatchTable));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 ValueWrapper<GetSupportingVertexFunc>m_kGetSupportingVertexFunction;
 ValueWrapper<ConvertVertexIdsToVerticesFunc>m_kConvertVertexIdsToVerticesFunction;
 ValueWrapper<WeldContactPointFunc>m_kWeldContactPointFunction;
@@ -1019,7 +948,7 @@ void reset();
 };
 struct AlignedShapeCallbackTable
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(hkpShape_S::AlignedShapeCallbackTable));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(hkpShape_S::AlignedShapeCallbackTable));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 __declspec(align(64))GetSupportingVertexFunc m_kGetSupportingVertexFunction;
 ConvertVertexIdsToVerticesFunc m_kConvertVertexIdsToVerticesFunction;
 WeldContactPointFunc m_kWeldContactPointFunction;
@@ -1056,7 +985,7 @@ hkReal_S m_fHitFraction;};struct ShapeRayCastOutput:public RayCastHitResult
 public:
 enum{MAX_HIERARCHY_DEPTH=8};
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 __forceinline void setKey(hkpShapeKey key);
 private:
 __forceinline void _reset();
@@ -1107,7 +1036,7 @@ WELDING_TYPE_NONE=6
 public:
 struct FloatArray6
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(hkpWeldingUtility::FloatArray6));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(hkpWeldingUtility::FloatArray6));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 hkReal_S m_fValue0;
 hkReal_S m_fValue1;
 hkReal_S m_fValue2;
@@ -1279,7 +1208,6 @@ results.m_akRayOutputs[i].setKey(0xffffffff);
 return kComparisonMask;
 }
 
-extern "C" __m128 _mm_setzero_ps();
 
 class LaneScalar {
     __m128 value;
@@ -1346,7 +1274,6 @@ extern const LaneVector* obtainVector();
 extern LaneVector* obtainOutput();
 void keepEdgeTest() { FUN_00d201a0(*obtainVector(),*obtainVector(),obtainVector(),*obtainVector(),*obtainOutput()); }
 
-extern "C" void _mm_store_ss(float*, __m128);
 struct ShapeRayCastQuery {
     hkVector4_S m_vFrom;
     hkVector4_S m_vTo;
@@ -1438,4 +1365,39 @@ return true;
 return false;
 }
 
+// Moved from hkptriangleshape_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
+void __cdecl FUN_00d1fee0(char const* arg1, char const* const* arg2);
+static int __cdecl FUN_00d1fef0(unsigned short weldingInfo, int edge);
+int __cdecl ExtractEdge(unsigned short weldingInfo, int edge);
+
+extern "C" float DAT_011b3b20[];
+
+struct FUN_00d20370_Triangle
+{
+    __m128 unknown00;
+    __m128 unknown10;
+    __m128 vertices[3];
+    __m128 extrusion;
+
+    void FUN_00d20370(const unsigned short* indexes, int count, __m128* output);
+};
+
+// @fnv 0x00d20370
+void FUN_00d20370_Triangle::FUN_00d20370(const unsigned short* indexes, int count, __m128* output)
+{
+    for (int remaining = count - 1; remaining >= 0; --remaining)
+    {
+        const __m128* src = &vertices[DAT_011b3b4c[*indexes]];
+        __m128 original = *src;
+        *output = original;
+
+        __m128 a = _mm_load_ss(&DAT_011b3b20[*indexes]);
+        __m128 b = _mm_shuffle_ps(a, a, 0);
+        *output = _mm_add_ps(_mm_mul_ps(b, extrusion), original);
+        (*output)[3] = std::bit_cast<float>((unsigned int)(*indexes) | 0x3f000000u);
+
+        output += 1;
+        indexes += 1;
+    }
+}
 #include "generated/data/havok/physics/collide/shape/convex/triangle/hkptriangleshape.inc"

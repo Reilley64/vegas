@@ -2,5 +2,4 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-const char str_010ce7d4[9] = "StNarrow";
 const char str_010ce7ec[16] = {76, 116, 66, 118, 84, 114, 101, 101, 51};

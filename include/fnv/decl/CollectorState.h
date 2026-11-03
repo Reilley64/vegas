@@ -8,5 +8,5 @@ struct Vertex;
 struct CollectorState {
 public:
     // 0x00d984b0
-    void FUN_00d984b0(int, ::Obj *, ::Vertex *, void *, ::MatrixData *, ::FloatPtr, void *volatile, void *volatile);
+    void FUN_00d984b0(void *, ::Obj *, ::Vertex *, void *, ::MatrixData *, ::FloatPtr, void *volatile, void *volatile);
 };

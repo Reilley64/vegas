@@ -1,6 +1,8 @@
 // src/havok/physics/collide/query/collector/bodypaircollector/hkpflagcdbodypaircollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/bodypaircollector/hkpflagcdbodypaircollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 struct DAFc80
 {
     int unk00;
@@ -13,23 +15,8 @@ void DAFc80::FUN_00dafc80(int a, int b)
     unk04 = 1;
 }
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize);
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-AudioHolder* __cdecl FUN_00c85750();
 
 struct FUN_00d34900
 {
@@ -43,9 +30,7 @@ struct FUN_00d34900
 
     static void operator delete(void* apMemory)
     {
-        AudioHolder* pHolder = FUN_00c85750();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(apMemory, sizeof(FUN_00d34900));
+        hkMemoryRouter::getInstance().heap().blockFree(apMemory, sizeof(FUN_00d34900));
     }
 };
 

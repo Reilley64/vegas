@@ -2,6 +2,10 @@
 // src/havok/physics/dynamics/constraint/contact/hkpsimplecontactconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/contact/hkpsimplecontactconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 #include "fnv/decl/ComChangerAtom.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/Stats.h"
@@ -21,16 +25,6 @@
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_0109c000.h"
 #include "fnv/symbols_010c7000.h"
-struct FUN_00d927b0_class
-{
-    void FUN_00d927b0(unsigned int arg);
-};
-// @fnv 0x00d927b0
-void FUN_00d927b0_class::FUN_00d927b0(unsigned int arg)
-{
-    void* atom = *(void**)((char*)this + 0x28);
-    ::FUN_00d21a60((const ::hkpConstraintAtom *)(atom), *(unsigned short*)((char*)atom + 2), (::GenericConstraintAtomScheme *)(arg));
-}
 
 // @fnv 0x00d927d0
 void FUN_00d927d0(int, int* paiValues)
@@ -39,24 +33,7 @@ void FUN_00d927d0(int, int* paiValues)
     paiValues[1] = 0;
 }
 
-struct S_00d92690_Alloc
-{
-    virtual void* Alloc(int size);
-    virtual void* Alloc2(int size);
-    virtual void Free(void* p, int size);
-};
-struct S_00d92690_Mgr
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00d92690_Alloc* unk10;
-    S_00d92690_Alloc* GetAllocator()
-    {
-        return unk10;
-    }
-};
+
 struct S_00d92690
 {
     unsigned short unk0;
@@ -69,7 +46,7 @@ struct S_00d92690
     unsigned char unkB;
     unsigned short maxCapacity;
 };
-S_00d92690_Mgr* FUN_00c85750();
+
 
 // @fnv 0x00d92690
 S_00d92690* FUN_00d92690(S_00d92690* apContainer, bool* grew)
@@ -86,7 +63,7 @@ S_00d92690* FUN_00d92690(S_00d92690* apContainer, bool* grew)
         result = ((::S_00d92690 *)(::AllocateBlock(iNewCapacity, apContainer->unk8, apContainer->unk9, apContainer->maxCapacity)));
         ::fnv_00d925b0::FUN_00d925b0((::fnv_00d925b0::hkpSimpleContactConstraintAtom *)(result), (const ::fnv_00d925b0::hkpSimpleContactConstraintAtom *)(apContainer));
         int size = RoundUpToBucketSize(apContainer->unk2);
-        FUN_00c85750()->GetAllocator()->Free(apContainer, size);
+        hkMemoryRouter::getInstance().m_heap->blockFree(apContainer, size);
         pContainer = result;
         *grew = true;
     }
@@ -187,13 +164,8 @@ struct S_00d92fd0_Atom
     unsigned short unk02;
     int unk04, unk08, unk0c, unk10;
     S_00d92fd0_Atom* next;
-    void FUN_00d21d10(int a, float b, int c, int d, int e, int f);
-    void FUN_00d21fc0(int a, float b, int c, int d, int e, int f);
-};
-struct S_00d92fd0_Alloc : S_00d92690_Alloc
-{
-    virtual void v3();
-    virtual void Free2(void* p, int size);
+    void FUN_00d21d10(const void* a, float b, void* c, void* d, void* e, void* f);
+    void FUN_00d21fc0(const void* a, float b, void* c, void* d, void* e, void* f);
 };
 struct S_00d92fd0_Arr
 {
@@ -218,12 +190,12 @@ struct S_00d92fd0_This
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
     S_00d92fd0_Holder* holder;
-    void DispatchAtomHandlers(int p1, float p2, int p3, int p4, int p5, int p6);
+    void DispatchAtomHandlers(const void* p1, float p2, void* p3, void* p4, void* p5, void* p6);
 };
 
 // Collects atoms from holder->head with type >= 0x17 into a temporary array, then dispatches each in reverse order to a handler chosen by type.
 // @fnv 0x00d92fd0
-void S_00d92fd0_This::DispatchAtomHandlers(int aiArg1, float afArg2, int aiArg3, int aiArg4, int aiArg5, int aiArg6)
+void S_00d92fd0_This::DispatchAtomHandlers(const void* aiArg1, float afArg2, void* aiArg3, void* aiArg4, void* aiArg5, void* aiArg6)
 {
     if (!holder->head)
         return;
@@ -231,9 +203,9 @@ void S_00d92fd0_This::DispatchAtomHandlers(int aiArg1, float afArg2, int aiArg3,
     S_00d92fd0_Atom* a = holder->head;
     while (a->type >= 0x17)
     {
-        S_00d92690_Mgr* pMgr = FUN_00c85750();
+        hkMemoryRouter* pMgr = &hkMemoryRouter::getInstance();
         if (arr.size == (arr.cap & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(::S_00d92690_Alloc *)(pMgr->GetAllocator()), (::AudioStream *)(::S_00d92fd0_Arr *)(&arr), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(hkMemoryAllocator *)(pMgr->m_heap), (::AudioStream *)(::S_00d92fd0_Arr *)(&arr), 4);
         arr.data[arr.size] = a;
         arr.size++;
         a = a->next;
@@ -244,7 +216,7 @@ void S_00d92fd0_This::DispatchAtomHandlers(int aiArg1, float afArg2, int aiArg3,
         switch (x->type)
         {
         case 0x18:
-            ::FUN_00d21d00((int)(x), aiArg1, afArg2, aiArg3, aiArg4, aiArg5);
+            ::FUN_00d21d00(x, aiArg1, afArg2, aiArg3, aiArg4, aiArg5);
             break;
         case 0x17:
             x->FUN_00d21d10(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
@@ -257,10 +229,10 @@ void S_00d92fd0_This::DispatchAtomHandlers(int aiArg1, float afArg2, int aiArg3,
             break;
         }
     }
-    S_00d92fd0_Alloc* pAlloc = (S_00d92fd0_Alloc*)FUN_00c85750()->GetAllocator();
+    hkMemoryAllocator* pAlloc = hkMemoryRouter::getInstance().m_heap;
     arr.size = 0;
     if ((arr.cap & 0x80000000) == 0)
-        pAlloc->Free2(arr.data, (arr.cap & 0x3fffffff) * 4);
+        pAlloc->bufFree(arr.data, (arr.cap & 0x3fffffff) * 4);
 }
 
 extern "C" void _ReadWriteBarrier(void);
@@ -286,10 +258,10 @@ unsigned int FUN_00d93140_cls::ReplaceOrAppendByte(unsigned char value)
         }
         i--;
     }
-    S_00d92690_Mgr* mgr = FUN_00c85750();
+    hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
     if (m_len == (m_cap & 0x3fffffff))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(mgr->unk10), (::AudioStream *)(void *)(this), 1);
+        ::ResizeAudioStream((::AudioAllocator *)(mgr->m_heap), (::AudioStream *)(void *)(this), 1);
     }
     unsigned char* slot = m_data + m_len;
     _ReadWriteBarrier();
@@ -304,6 +276,8 @@ int FUN_00d927f0(int arg)
     return 0;
 }
 
+// hkpSimpleConstraintContactMgr::m_contactConstraintData sits at +0x14 (x86 layout); the data's owner is that far before it.
+static const int kContactConstraintDataOffset = 0x14;
 struct FUN_00d92820_cls
 {
     int unk00;
@@ -313,7 +287,7 @@ struct FUN_00d92820_cls
 // @fnv 0x00d92820
 char* FUN_00d92820_cls::FUN_00d92820()
 {
-    return (char*)this - 0x14;
+    return (char*)this - kContactConstraintDataOffset;
 }
 
 struct hkNodeX
@@ -350,12 +324,12 @@ struct hkClsX
     int unk20;
     hkHolderX* unk24;
 
-    void DispatchNodeCallbacks(int a1, int a2, int a3, int a4, int a5);
+    void DispatchNodeCallbacks(const void* a1, void* a2, void* a3, void* a4, void* a5);
 };
 
 // Walks the hkNodeX list from the holder's unk10 while type is at least 0x17, calling a type-specific function for types 0x17, 0x18, 0x1A and 0x1C.
 // @fnv 0x00d92830
-void hkClsX::DispatchNodeCallbacks(int a1, int a2, int a3, int a4, int a5)
+void hkClsX::DispatchNodeCallbacks(const void* a1, void* a2, void* a3, void* a4, void* a5)
 {
     hkHolderX* pHolder = unk24;
     if (pHolder->unk10 == 0)
@@ -369,7 +343,7 @@ void hkClsX::DispatchNodeCallbacks(int a1, int a2, int a3, int a4, int a5)
             reinterpret_cast<::hkpMassChangerModifierConstraintAtomq *>((node))->ScaleInverseInertia((const void *)(a1), (*(::hkpSimpleConstraintInfoInitInputq *)(a2)), (void *)(a3), (*(::hkpSimpleConstraintInfoInitInputq *)(a4)), (void *)(a5));
             break;
         case 0x17:
-            ::SetGlobalVectors((int)(node), a1, (const ::__m128 *)(a2), a3, (const ::__m128 *)(a4));
+            ::SetGlobalVectors(node, a1, (const __m128 *)(a2), a3, (const __m128 *)(a4));
             break;
         case 0x1A:
             reinterpret_cast<::fnv_00d21f50::hkpMovingSurfaceModifierConstraintAtomD21F *>((node))->FUN_00d21f50((*(const ::fnv_00d21f50::hkContactPointD21F *)(a1)), (void *)(a2), (void *)(a3), (void *)(a4), (*(::fnv_00d21f50::hkVector4D21F *)(a5)));
@@ -506,6 +480,16 @@ struct hkpSimpleContactConstraintData
     int FUN_00d92df0(hkpConstraintOwner& constraintOwner, hkContactPoint** cpOut, PhysicsMaterial** cpPropsOut);
 };
 
+struct FUN_00d927b0_class : hkpSimpleContactConstraintData
+{
+    void FUN_00d927b0(::GenericConstraintAtomScheme* arg);
+};
+// @fnv 0x00d927b0
+void FUN_00d927b0_class::FUN_00d927b0(::GenericConstraintAtomScheme* arg)
+{
+    ::FUN_00d21a60((const ::hkpConstraintAtom *)(m_pAtom), m_pAtom->m_usSizeOfAllAtoms, arg);
+}
+
 // Adds a contact point at index size, initializes its properties, updates constraint stats, and reallocates the atom if needed.
 // @fnv 0x00d92df0
 int hkpSimpleContactConstraintData::FUN_00d92df0(hkpConstraintOwner& constraintOwner, hkContactPoint** cpOut,
@@ -564,16 +548,7 @@ int hkpSimpleContactConstraintData::FUN_00d92df0(hkpConstraintOwner& constraintO
 }
 
 // Dispatch contact callbacks and prepare new contact solver state.
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float f0;
-    float f1;
-    float f2;
-    float f3;
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
    // 0.3f
    // HK_REAL_MAX
@@ -1011,7 +986,7 @@ struct S00d92900_Data
 };
 __declspec(noinline) S00d92900_Mgr* S00d92900_Data::FUN_00d92820()
 {
-    return (S00d92900_Mgr*)((char*)this - 0x14);
+    return (S00d92900_Mgr*)((char*)this - kContactConstraintDataOffset);
 }
 
 struct S00d92900_CollisionEvent
@@ -1178,7 +1153,7 @@ static __forceinline void dispatchContacts(S00d92900_Data* constraintData, const
                     {
                         S00d92900_BreachInfo bi;
                         bi.set(in->m_pConstraintChainInstance, props, cp, false);
-                        ::FUN_00d01700((::hkpWorld *)(world), (void *)(&bi), (void *)(1));
+                        ::FUN_00d01700((::hkpWorld *)(world), (void *)(&bi), 1);
                     }
                     cpp->asProperties()->m_fAccumulatedImpulse = 0.0f;
                     cpp->asProperties()->m_uiUserData = 0.0f;

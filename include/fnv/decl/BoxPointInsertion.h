@@ -3,5 +3,5 @@
 class BoxPointInsertion {
 public:
     // 0x00db0960
-    int FUN_00db0960(unsigned int, unsigned int, const unsigned char *);
+    int FUN_00db0960(const void *, const void *, const unsigned char *);
 };

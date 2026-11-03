@@ -2,4 +2,6 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
+#pragma comment(linker, "/alternatename:?DAT_01011d78@@3MA=?DAT_01011d78@@3MB")
+
 VertexBlock DAT_0126ec10[8];

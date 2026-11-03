@@ -13,7 +13,7 @@ struct hkpSolverInfoQ;
 // 0x00d892d0
 void FUN_00d892d0();
 // 0x00d893a0
-void FUN_00d893a0(unsigned int, void *, unsigned int, ::ProbeHeader *, float *);
+void FUN_00d893a0(const void *, void *, void *, ::ProbeHeader *, float *);
 // 0x00d89690
 void FUN_00d89690(const ::hkpSolverInfoQ &, const ::hkSolverQ::SolverStepInfo &, ::hkpVelocityAccumulatorQ *, ::hkpJacobianBallSocketChainSchemaQ *, ::hkpSolverElemTempQ *);
 // 0x00d89ed0

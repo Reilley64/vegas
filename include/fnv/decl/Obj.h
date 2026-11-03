@@ -1,4 +1,6 @@
 #pragma once
+#include "havok/hkUlong.h"
+#include <cstdint>
 
 #include <cstdint>
 
@@ -30,19 +32,19 @@ public:
     // 0x00cb23e0
     void FUN_00cb23e0(intptr_t);
     // 0x00d05190
-    int ForwardWithZero(int, int);
+    int ForwardWithZero(intptr_t, int);
     // 0x00dbe790
     void WriteVarint(long long);
     // 0x00de6390
-    void FireChainConstraints(::ChainInstance *, ::Listener *, int, int);
+    void FireChainConstraints(::ChainInstance *, ::Listener *, hkUlong, int);
     // 0x00de8090
-    void FireMotionEvent(::Body *, ::Listener *, int, int);
+    void FireMotionEvent(::Body *, ::Listener *, hkUlong, int);
     // 0x00dfaf80
     void SetEntries(const ::hkVector4 *, const ::hkVector4 *, const ::hkVector4 *);
     // 0x00e09970
     void FUN_00e09970(::Node *, int *, float *);
     // 0x00e42b00
-    void ComputeBufferLayout(char *, int, ::Buffers *) const;
+    void ComputeBufferLayout(char *, intptr_t, ::Buffers *) const;
     // 0x00ee82b0
     void FUN_00ee82b0();
 };

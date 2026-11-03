@@ -2,6 +2,9 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include <new>
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/S_00dd9380.h"
 #include "fnv/decl/SearchArray.h"
@@ -30,34 +33,16 @@ struct Derived : Base0, Base1, Base2
 {
 };
 
-// Computes the Derived pointer from this and passes the Base2 subobject (or null) to t->FUN_00c93920.
+// Passes the viewer's Base2 subobject to t->FUN_00c93920.
 // @fnv 0x00d649f0
 void Base1::PassSelfAsBase2ToTarget(Target* apTarget)
 {
-    Derived* d = (Derived*)((char*)this - 0x20);
-    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((apTarget))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(::Base2 *)(d ? (Base2*)((char*)this + 8) : 0));
+    Base2* listener = static_cast<Derived*>(this);
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((apTarget))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(listener));
 }
 
-struct S_00d65180_Allocator
-{
-    virtual void v0();
-    virtual void* AllocateMemoryBlock(int nbytes);
-};
 
-struct S_00d65180_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00d65180_Allocator* m_pStreamAllocator;
-    S_00d65180_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
-S_00d65180_Router* FUN_00c85750();
 
 struct S_00d65180_RefObj
 {
@@ -65,9 +50,9 @@ struct S_00d65180_RefObj
     short m_sReferenceCount;
     virtual ~S_00d65180_RefObj() throw()
     {}
-    void* operator new(std::size_t nbytes)
+    void* operator new(size_t nbytes)
     {
-        S_00d65180_RefObj* b = static_cast<S_00d65180_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
+        S_00d65180_RefObj* b = static_cast<S_00d65180_RefObj*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -115,21 +100,6 @@ int __cdecl FUN_00d651e0()
 }
 
 namespace fnv_00d65220 {
-struct FUN_00d65220_Interface
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void notify(void*, unsigned short);
-};
-struct FUN_00d65220_Service
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    FUN_00d65220_Interface* unk10;
-};
-FUN_00d65220_Service* __cdecl FUN_00c85750();
 struct FUN_00d65220_Class
 {
     void* vtable;
@@ -144,8 +114,8 @@ FUN_00d65220_Class* FUN_00d65220_Class::FUN_00d65220(char flags)
     FUN_00d64ae0();
     if (flags & 1)
     {
-        FUN_00d65220_Service* service = FUN_00c85750();
-        service->unk10->notify(this, unk04);
+        hkMemoryRouter* service = &hkMemoryRouter::getInstance();
+        service->m_heap->blockFree(this, unk04);
     }
     return this;
 }
@@ -185,22 +155,6 @@ struct S_P
     int unk68;
     S_Elem2** m6c;
     int m70;
-};
-struct S_Heap
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void ReturnMemory(void* p, int n) throw();
-};
-struct S_Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S_Heap* m10;
 };
 struct S_B0
 {
@@ -273,14 +227,14 @@ struct S_Arr
     int m_cap;
     __forceinline void clear() throw()
     {
-        S_Heap* heap = ((S_Holder*)FUN_00c85750())->m10;
+        hkMemoryAllocator* heap = hkMemoryRouter::getInstance().m_heap;
         int n = m_iElementCount;
         S_Elem* d = m_data;
         for (int i = 0; i < n; i++)
             d[i].~S_Elem();
         m_iElementCount = 0;
         if ((m_cap & 0x80000000) == 0)
-            heap->ReturnMemory(m_data, (m_cap & 0x3fffffff) * (int)sizeof(S_Elem));
+            heap->bufFree(m_data, (m_cap & 0x3fffffff) * (int)sizeof(S_Elem));
         m_data = 0;
         m_cap = 0x80000000;
     }
@@ -298,7 +252,7 @@ FUN_00d64ae0::~FUN_00d64ae0() throw()
     if (m24)
     {
         for (int i = 0; i < m24->m70; i++)
-            reinterpret_cast<::SearchArray *>((m24->m6c[i]))->ClearValue((int)((S_D*)this));
+            reinterpret_cast<::SearchArray *>((m24->m6c[i]))->ClearValue(((S_D*)this));
     }
     m3c.clear();
     m30.clear();
@@ -315,7 +269,7 @@ extern const char str_010d19d0[];
 // @fnv 0x00d651c0
 void FUN_00d651c0()
 {
-    (*reinterpret_cast<void * *>(&::g_D651E0Value)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::RegistryOwner * *>(&::DAT_01269cd0))))->FUN_00dd9380(str_010d19d0, (int)(((void (&)())::FUN_00d65180)))));
+    ::g_D651E0Value = (int)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::RegistryOwner * *>(&::DAT_01269cd0))))->FUN_00dd9380(str_010d19d0, reinterpret_cast<intptr_t>(((void (&)())::FUN_00d65180))));
 }
 
 template <typename T> struct hkArrayD64A
@@ -491,7 +445,508 @@ struct IslandWorldRemoval : IslandRemovalParent, hkListenerD64A
 // @fnv 0x00d64a20
 void IslandWorldRemoval::FUN_00d64a20(S_Elem2* world)
 {
-    reinterpret_cast<::SearchArray *>((world))->ClearValue((int)(static_cast<hkListenerD64A*>(this)));
+    reinterpret_cast<::SearchArray *>((world))->ClearValue((static_cast<hkListenerD64A*>(this)));
 }
 
+// Moved from hkpsimulationislandviewer_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/FnvCpu_FUN_00de1170_CpuObject.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_010c4000.h"
+int __cdecl FUN_00d651e0();
+void FUN_00d651c0();
+
+#include <xmmintrin.h>
+#include <windows.h>
+extern "C" void _ReadWriteBarrier(void);
+unsigned __int64 __cdecl __rdtsc(void);
+
+struct TraceRecord
+{
+    const char* m_pTag;
+    DWORD m_dwTime;
+    DWORD unk08;
+};
+struct TraceBuffer
+{
+    DWORD unk00;
+    TraceRecord* m_pCurrent;
+    DWORD unk08;
+    TraceRecord* m_pRecordEnd;
+};
+
+struct Count
+{
+    int value;
+    Count(int n) : value(n)
+    {}
+    ~Count()
+    {}
+    operator int() const
+    {
+        return value;
+    }
+    int operator--()
+    {
+        return --value;
+    }
+};
+struct Vec;
+
+
+struct Vec
+{
+    void* m_pData;
+    int m_iArrayLength;
+    int m_iCapacity;
+};
+
+static __forceinline void GrowVec(hkMemoryAllocator* allocator, Vec* v, int need, int elemSize)
+{
+    _ReadWriteBarrier();
+    int cap = v->m_iCapacity & 0x3fffffff;
+    if (cap < need)
+    {
+        int g = cap + cap;
+        if (need >= g)
+            g = need;
+        ::FUN_00c908c0((::SpawnedObject *)allocator, (::SpawnedArray *)(v), g, elemSize);
+    }
+}
+inline void GrowVec10(Vec* v, int need, int elemSize)
+{
+    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* ctx = router->m_heap;
+    _ReadWriteBarrier();
+    GrowVec(ctx, v, need, elemSize);
+}
+inline void GrowVec0c(Vec* v, int need, int elemSize)
+{
+    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* ctx = router->m_temp;
+    _ReadWriteBarrier();
+    GrowVec(ctx, v, need, elemSize);
+}
+
+struct Vec4
+{
+    union
+    {
+        __m128 v;
+        float elements[4];
+    };
+};
+
+struct FUN_00de1210
+{
+    virtual ~FUN_00de1210();
+    FUN_00de1210();
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+};
+
+typedef FUN_00de1210 Elem;
+
+__forceinline void ConstructRange(Elem* first, int total)
+{
+    for (int n = 0; n < total; ++n)
+    {
+        if (first + n)
+            new (first + n) Elem;
+    }
+}
+
+struct Cont
+{
+    Elem* m_pData;
+    int m_iArrayLength;
+    int m_iCapacity;
+    __forceinline void Resize(int need);
+};
+
+__forceinline void Cont::Resize(int need)
+{
+    Cont* cont = this;
+    GrowVec10((Vec*)cont, need, 0x80);
+    int n = cont->m_iArrayLength - need;
+    Elem* e = cont->m_pData + need;
+    for (int k = 0; k < n; ++k)
+    {
+        e->~Elem();
+        ++e;
+    }
+    ConstructRange(cont->m_pData + cont->m_iArrayLength, need - cont->m_iArrayLength);
+    cont->m_iArrayLength = need;
+}
+
+struct VecI
+{
+    void** m_pData;
+    int m_iArrayLength;
+    int m_iCapacity;
+};
+
+struct Elem20
+{
+    Vec4 m_ucLowNibble;
+    Vec4 m_ucHighNibble;
+};
+struct Vec20
+{
+    Elem20* m_pData;
+    int m_iArrayLength;
+    int m_iCapacity;
+};
+
+struct Obj58
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15(void* pElem, void* pOut);
+};
+
+struct ItemHeader;
+struct Src
+{
+    ItemHeader** m_pItems;
+    int m_iArrayLength;
+};
+
+struct SrcOwner
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    Src items;
+};
+
+struct WorldList
+{
+    SrcOwner** data;
+    int count;
+    int capacity;
+    __forceinline int size() const
+    {
+        return count;
+    }
+    __forceinline SrcOwner*& operator[](int i) const
+    {
+        return data[i];
+    }
+};
+
+struct Param
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    WorldList active;
+    WorldList inactive;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    Obj58* m_58;
+    __forceinline const WorldList& Active() const
+    {
+        return active;
+    }
+    __forceinline const WorldList& Inactive() const
+    {
+        return inactive;
+    }
+    __forceinline Obj58* Helper() const
+    {
+        return m_58;
+    }
+};
+
+struct EmitObj
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14(VecI* pVec, int iColor, int iZero, int iGlob);
+};
+
+struct Parent
+{
+    EmitObj* m_00;
+    int unk04, unk08, unk0c;
+};
+
+struct Item
+{
+    int m_00;
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+};
+
+struct ItemHeader
+{
+    int unk00, unk04, unk08, unk0c;
+    Item item;
+};
+
+struct OutPair
+{
+    Vec4 m_ucLowNibble;
+    Vec4 m_ucHighNibble;
+};
+
+struct ParentObject;
+struct ParamArg
+{
+    Param* volatile p;
+    ParamArg(Param* arg) : p(arg)
+    {}
+    ~ParamArg()
+    {}
+};
+
+struct ThisCls
+{
+    int m_00;
+    char m_04;
+    char m_05;
+    unsigned short unk06;
+    Cont m_contB;
+    Cont m_contA;
+    void FUN_00d64c00(Param* pParam);
+};
+
+struct ParentObject : Parent, ThisCls
+{
+};
+
+// @fnv 0x00d64c00
+void ThisCls::FUN_00d64c00(Param* pParam)
+{
+    TraceBuffer* pForm = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+    if (pForm->m_pCurrent < pForm->m_pRecordEnd)
+    {
+        TraceRecord* acc = pForm->m_pCurrent;
+        acc->m_pTag = "TthkpSimulationIslandViewer";
+        _ReadWriteBarrier();
+        volatile DWORD tick = (DWORD)__rdtsc();
+        acc->m_dwTime = tick;
+        pForm->m_pCurrent = acc + 1;
+    }
+    Vec4 currentLo, currentHi;
+    OutPair out;
+    __m128 seedLo;
+    __m128 seedHi;
+    VecI offsets;
+    int eo;
+    if (m_04)
+    {
+        eo = 0;
+        int freeBounds = pParam->active.count;
+        if (freeBounds > m_contA.m_iArrayLength)
+            m_contA.Resize(freeBounds);
+        int pRec = pParam->active.count;
+        offsets.m_pData = 0;
+        offsets.m_iArrayLength = 0;
+        offsets.m_iCapacity = (int)0x80000000;
+        GrowVec0c((Vec*)&offsets, pRec, sizeof(void*));
+        offsets.m_iArrayLength = pRec;
+        int boundsCount = pParam->active.count;
+        Vec20 item;
+        item.m_pData = 0;
+        item.m_iArrayLength = 0;
+        item.m_iCapacity = (int)0x80000000;
+        GrowVec0c((Vec*)&item, boundsCount, 0x20);
+        item.m_iArrayLength = boundsCount;
+        int z = 0;
+        if (z < pParam->active.count)
+        {
+            seedHi = _mm_set1_ps(::DAT_0104e148);
+            seedLo = _mm_set1_ps(::DAT_0104da48);
+            int off = 0;
+            do
+            {
+                Src* src = &pParam->active.data[z]->items;
+                item.m_pData[off].m_ucHighNibble.v = seedHi;
+                item.m_pData[off].m_ucLowNibble.v = seedLo;
+                currentHi.v = seedHi;
+                currentLo.v = seedLo;
+                for (int j = 0; j < src->m_iArrayLength; ++j)
+                {
+                    Item* boundsVec = &src->m_pItems[j]->item;
+                    if (!boundsVec->m_00)
+                    {
+                        continue;
+                    }
+                    pParam->m_58->v15(&boundsVec->m_14, &out);
+                    currentHi.v = _mm_max_ps(currentHi.v, out.m_ucHighNibble.v);
+                    currentLo.v = _mm_min_ps(currentLo.v, out.m_ucLowNibble.v);
+                }
+                Elem* a = m_contA.m_pData + eo;
+                reinterpret_cast<::FnvCpu_FUN_00de1170_CpuObject *>((a))->FUN_00de1170((::FnvCpu_FUN_00de1170_CpuData0 *)(::Vec4 *)(&currentLo), (::FnvCpu_FUN_00de1170_CpuData1 *)(::Vec4 *)(&currentHi));
+                offsets.m_pData[z] = m_contA.m_pData + eo;
+                eo += 1;
+                off++;
+            } while (++z < pParam->active.count);
+        }
+        EmitObj* i = static_cast<ParentObject*>(this)->Parent::m_00;
+        i->v14(&offsets, (int)0xff0000ff, 0, ::g_D651E0Value);
+        hkMemoryRouter* freeBoundsRouter;
+        freeBoundsRouter = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* need = freeBoundsRouter->m_temp;
+        item.m_iArrayLength = 0;
+        if ((item.m_iCapacity & 0x80000000) == 0)
+        {
+            need->bufFree(item.m_pData, (item.m_iCapacity & 0x3fffffff) * 32);
+        }
+        item.m_pData = 0;
+        item.m_iCapacity = (int)0x80000000;
+        hkMemoryRouter* offsetCount = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* val = offsetCount->m_temp;
+        offsets.m_iArrayLength = 0;
+        if ((offsets.m_iCapacity & 0x80000000) == 0)
+        {
+            val->bufFree(offsets.m_pData, (offsets.m_iCapacity & 0x3fffffff) * (int)sizeof(void*));
+        }
+    }
+    if (m_05)
+    {
+        const WorldList& islandsB = pParam->Inactive();
+        int freeBounds = islandsB.size();
+        if (freeBounds > m_contB.m_iArrayLength)
+            m_contB.Resize(freeBounds);
+        int pRec;
+        pRec = islandsB.size();
+        offsets.m_pData = 0;
+        offsets.m_iArrayLength = 0;
+        offsets.m_iCapacity = (int)0x80000000;
+        GrowVec10((Vec*)&offsets, pRec, sizeof(void*));
+        offsets.m_iArrayLength = pRec;
+        int z = 0;
+        if (z < islandsB.size())
+        {
+            eo = 0;
+            do
+            {
+                Src* src = &islandsB[z]->items;
+                currentLo.v = _mm_set1_ps(-3.402820018375656e+38f);
+                currentHi.v = _mm_set1_ps(3.402820018375656e+38f);
+                for (int j = 0; j < src->m_iArrayLength; ++j)
+                {
+                    Item* boundsVec = &src->m_pItems[j]->item;
+                    if (!boundsVec->m_00)
+                    {
+                        continue;
+                    }
+                    pParam->m_58->v15(&boundsVec->m_14, &out);
+                    currentLo.v = _mm_max_ps(currentLo.v, out.m_ucHighNibble.v);
+                    currentHi.v = _mm_min_ps(currentHi.v, out.m_ucLowNibble.v);
+                }
+                Elem* a = m_contB.m_pData + eo;
+                reinterpret_cast<::FnvCpu_FUN_00de1170_CpuObject *>((a))->FUN_00de1170((::FnvCpu_FUN_00de1170_CpuData0 *)(::Vec4 *)(&currentHi), (::FnvCpu_FUN_00de1170_CpuData1 *)(::Vec4 *)(&currentLo));
+                offsets.m_pData[z] = m_contB.m_pData + eo;
+                ++eo;
+            } while (++z < islandsB.size());
+        }
+        EmitObj* i = static_cast<ParentObject*>(this)->Parent::m_00;
+        i->v14(&offsets, (int)0xff008000, 0, ::g_D651E0Value);
+        hkMemoryRouter* offsetCount = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* val = offsetCount->m_heap;
+        offsets.m_iArrayLength = 0;
+        if ((offsets.m_iCapacity & 0x80000000) == 0)
+        {
+            val->bufFree(offsets.m_pData, (offsets.m_iCapacity & 0x3fffffff) * (int)sizeof(void*));
+        }
+    }
+    TraceBuffer* pBuf2 = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+    if (pBuf2->m_pCurrent < pBuf2->m_pRecordEnd)
+    {
+        TraceRecord* acc = pBuf2->m_pCurrent;
+        acc->m_pTag = ::DAT_010c41f8;
+        _ReadWriteBarrier();
+        volatile DWORD tick = (DWORD)__rdtsc();
+        acc->m_dwTime = tick;
+        pBuf2->m_pCurrent = acc + 1;
+    }
+}
 #include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.inc"

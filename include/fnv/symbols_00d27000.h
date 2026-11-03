@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class hkpConstraintInstance;
 class hkpModifierConstraintAtom;
 namespace fnv_00d27ac0 { struct Constraint; }

@@ -2,7 +2,9 @@
 // src/havok/physics/dynamics/entity/hkpentity.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/hkpentity.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/FNVWorldObject.h"
 #include "fnv/decl/FUN_00d01ae0_shell.h"
@@ -16,7 +18,10 @@
 #include "fnv/symbols_00c9d000.h"
 #include "fnv/symbols_00cb5000.h"
 #include "fnv/symbols_00cb6000.h"
-#include "fnv/symbols_00cf6000.h"
+struct Meta64;
+struct Writer64;
+// symbols_00cf6000.h forward-declares hkBool as a struct, which clashes with hkBase.h's typedef.
+void WriteReflectedMembers(void *, ::Meta64 *, ::Writer64 *);
 #include "fnv/symbols_00cff000.h"
 #include "fnv/symbols_00d06000.h"
 #include "fnv/symbols_00d1a000.h"
@@ -25,79 +30,39 @@
 #include "fnv/symbols_010c6000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpEntity.h"
+#include "havok/hkpWorld.h"
+#include "havok/hkpConstraintInstance.h"
 
 // @fnv 0x00c9c380
 int FUN_00c9c380(void* self, int)
 {
-    return *(int*)((char*)self + 0xb8) + *(unsigned short*)((char*)self + 0xb0);
+    const hkpEntity* entity = static_cast<const hkpEntity*>(self);
+    return entity->m_kSlaveConstraints.m_iElementCount + entity->m_eSmallArraySerializeOverrideType.m_iElementCount;
 }
 
-struct FUN_00c9c3c0_Class
+// The first fields of Havok's hkConstraintInternal (0x30 bytes in the 32-bit build).
+struct hkConstraintInternalC9C
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2c;
-    int m_30;
-    int m_34;
-    int m_38;
-    int m_3c;
-    int m_40;
-    int m_44;
-    int m_48;
-    int m_4c;
-    int m_50;
-    int m_54;
-    int m_58;
-    int m_5c;
-    int m_60;
-    int m_64;
-    int m_68;
-    int m_6c;
-    int m_70;
-    int m_74;
-    int m_78;
-    int m_7c;
-    int m_80;
-    int m_84;
-    int m_88;
-    int m_8c;
-    int m_90;
-    int m_94;
-    int m_98;
-    int m_9c;
-    int m_a0;
-    int m_a4;
-    int m_a8;
-    int m_ac;
-    int m_b0;
-    int m_b4;
-    int GetEntryAt(int index);
+    hkpConstraintInstance* m_constraint;
+    hkpEntity* m_entities[2];
+    void* m_atoms;
+    unsigned char m_pad10[0x12];
+    unsigned short m_slaveIndex;
+    unsigned char m_pad24[0xc];
 };
 
-// Returns the entry at index from the first array if index is below the count at offset 0xb0, otherwise from the second array.
-// @fnv 0x00c9c3c0
-int FUN_00c9c3c0_Class::GetEntryAt(int index)
+struct FUN_00c9c3c0_Class : hkpEntity
 {
-    if (index < *(unsigned short*)&this->m_b0)
-    {
-        int offset = index * 3;
-        offset <<= 4;
-        return *(int*)(this->m_ac + offset);
-    }
-    else
-    {
-        int offset = index - *(unsigned short*)&this->m_b0;
-        return *(int*)(this->m_b4 + offset * 4);
-    }
+    hkpConstraintInstance* GetEntryAt(int index);
+};
+
+// Returns the constraint at index from the master constraints if index is below their count, otherwise from the slave constraints.
+// @fnv 0x00c9c3c0
+hkpConstraintInstance* FUN_00c9c3c0_Class::GetEntryAt(int index)
+{
+    if (index < m_eSmallArraySerializeOverrideType.m_iElementCount)
+        return static_cast<hkConstraintInternalC9C*>(m_eSmallArraySerializeOverrideType.m_data)[index].m_constraint;
+    return m_kSlaveConstraints.m_data[index - m_eSmallArraySerializeOverrideType.m_iElementCount];
 }
 
 struct FUN_00c9c1a0_Value
@@ -142,23 +107,8 @@ int FUN_00c9c1a0_Class::FindValueByKey(int value)
     return 0;
 }
 
-struct FUN_00c9d490_Allocator
-{
-    virtual void m_00() = 0;
-    virtual void m_04() = 0;
-    virtual void m_08(void* object, unsigned short type) = 0;
-};
 
-struct FUN_00c9d490_Router
-{
-    void* m_00;
-    void* m_04;
-    void* m_08;
-    void* m_0c;
-    FUN_00c9d490_Allocator* m_10;
-};
 
-extern FUN_00c9d490_Router* __cdecl _D1A0E0GetMemoryRouter();
 
 struct FUN_00c9d490_Class
 {
@@ -176,18 +126,16 @@ void* FUN_00c9d490_Class::FUN_00c9d490(int flags)
 
     if (flags & 1)
     {
-        FUN_00c9d490_Router* router = _D1A0E0GetMemoryRouter();
-        FUN_00c9d490_Allocator* allocator = router->m_10;
-        allocator->m_08(this, m_04);
+        hkMemoryRouter::getInstance().heap().blockFree(this, m_04);
     }
 
     return this;
 }
 
 // @fnv 0x00c9c020
-int FUN_00c9c020(int param_1)
+void* FUN_00c9c020(hkpEntity* entity)
 {
-    return param_1 + 0xac;
+    return &entity->m_eSmallArraySerializeOverrideType;
 }
 
 struct CpuObject
@@ -197,7 +145,7 @@ struct CpuObject
 // @fnv 0x00c9c030
 char* CpuObject::FUN_00c9c030()
 {
-    return reinterpret_cast<char*>(this) + 172;
+    return reinterpret_cast<char*>(&reinterpret_cast<hkpEntity*>(this)->m_eSmallArraySerializeOverrideType);
 }
 
 namespace fnv_00c9c3f0 {
@@ -208,64 +156,25 @@ struct CpuObject
 // @fnv 0x00c9c3f0
 char* CpuObject::FUN_00c9c3f0()
 {
-    return reinterpret_cast<char*>(this) + 180;
+    return reinterpret_cast<char*>(&reinterpret_cast<hkpEntity*>(this)->m_kSlaveConstraints);
 }
 }  // namespace fnv_00c9c3f0
 
-struct FUN_00c9bfa0_Inner
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1C;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2C;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3C;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4C;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5C;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    unsigned int unk6C;
-    unsigned int unk70;
-    unsigned int unk74;
-    int m_78;
-};
 
-struct FUN_00c9bfa0_Class
+struct FUN_00c9bfa0_Class : hkpEntity
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    FUN_00c9bfa0_Inner* m_08;
-    unsigned int unk0C;
-    int m_10;
     void FUN_00c9bfa0();
 };
 
 
-// If m_08 and m_10 are set, calls FUN_00d1a330 with m_08->m_78, a pointer to this, and 1.
+// If the entity is in a world and has a shape, calls FUN_00d1a330 with the world's collision input, a pointer to this, and 1.
 // @fnv 0x00c9bfa0
 void FUN_00c9bfa0_Class::FUN_00c9bfa0()
 {
-    if (m_08 && m_10)
+    if (m_pOwningWorld && m_kCollidable.m_pCollisionShape)
     {
-        FUN_00c9bfa0_Class* self = this;
-        ::FUN_00d1a330((const ::CollisionContext *)(m_08->m_78), (::EntityNode *const *)(int *)((int*)&self), 1);
+        hkpEntity* self = this;
+        ::FUN_00d1a330((const ::CollisionContext *)(static_cast<hkpWorld*>(m_pOwningWorld)->m_pCollisionInput), (::EntityNode *const *)&self, 1);
     }
 }
 
@@ -350,7 +259,7 @@ struct WorldOp
     void* m_pEntity;
 };
 
-struct World_Class : public FUN_00c9c3c0_Class
+struct World_Class : public hkpWorld
 {
 };
 
@@ -364,7 +273,7 @@ struct FUN_00c9c240_holder : public hkpEntity
 void FUN_00c9c240_holder::FUN_00c9c340()
 {
     World_Class* world = (World_Class*)m_pOwningWorld;
-    if (world && world->m_94)
+    if (world && world->m_iCriticalOperationsLockCount)
     {
         WorldOp op;
         op.m_pEntity = this;
@@ -375,21 +284,17 @@ void FUN_00c9c240_holder::FUN_00c9c340()
     FUN_00c9c240();
 }
 
-struct FUN_00c9c390_Class
+struct FUN_00c9c390_Class : hkpEntity
 {
-    char m_auiShapeKeys[0xac];
-    int m_ac;
-    unsigned short m_b0;
-    int* m_b4;
-    int GetEntry(int index);
+    hkpConstraintInstance* GetEntry(int index);
 };
-// Returns the entry at index from the inline array when index is below m_b0, otherwise from the m_b4 array offset by m_b0.
+// Returns the constraint at index from the master constraints if index is below their count, otherwise from the slave constraints.
 // @fnv 0x00c9c390
-int FUN_00c9c390_Class::GetEntry(int index)
+hkpConstraintInstance* FUN_00c9c390_Class::GetEntry(int index)
 {
-    if (index < m_b0)
-        return ((int*)m_ac)[(index + index * 2) * 4];
-    return m_b4[index - m_b0];
+    if (index < m_eSmallArraySerializeOverrideType.m_iElementCount)
+        return static_cast<hkConstraintInternalC9C*>(m_eSmallArraySerializeOverrideType.m_data)[index].m_constraint;
+    return m_kSlaveConstraints.m_data[index - m_eSmallArraySerializeOverrideType.m_iElementCount];
 }
 
 class GlobalObjectO2_00d472a0;
@@ -453,7 +358,7 @@ void hkpEntityStats::CollectStats(hkStatisticsCollector* collector, const hkClas
         }
     }
     collector->addChildObject("SavedMotion", m_pMotionState.m_pSavedMotion, 0);
-    reinterpret_cast<::FNVWorldObject *>((void *)this)->WriteToStream((::hkStreamWriter *)(collector), (int)(&g_01268808));
+    reinterpret_cast<::FNVWorldObject *>((void *)this)->WriteToStream((::hkStreamWriter *)(collector), &g_01268808);
 }
 
 
@@ -505,116 +410,67 @@ void hkOwnerC9C5::AddSlot(void* apSlot)
         m_slots.AddBack(apSlot);
 }
 
-struct FUN_00c9c860_Node
+struct hkpLinkedCollidableD250 : hkpEntity
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
 };
-struct FUN_00c9c860_Slot
+
+struct hkpAgentEntryD250 : hkpConstraintInstance
 {
-    FUN_00c9c860_Node* m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    unsigned short m_20;
-    unsigned short m_22;
-    int m_24;
-    int m_28;
-    int m_2c;
 };
-struct FUN_00c9c860_Shell
+
+struct hkEntryLessD250
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2c;
-    int m_30;
-    int m_34;
-    int m_38;
-    int m_3c;
-    int m_40;
-    int m_44;
-    int m_48;
-    int m_4c;
-    int m_50;
-    int m_54;
-    int m_58;
-    int m_5c;
-    int m_60;
-    int m_64;
-    int m_68;
-    int m_6c;
-    int m_70;
-    int m_74;
-    int m_78;
-    int m_7c;
-    int m_80;
-    int m_84;
-    int m_88;
-    int m_8c;
-    int m_90;
-    int m_94;
-    int m_98;
-    int m_9c;
-    int m_a0;
-    int m_a4;
-    int m_a8;
-    FUN_00c9c860_Slot* m_ac;
-    unsigned short m_b0;
-    FUN_00c9c860_Node** m_b4;
-    int m_b8;
-    int m_bc;
-    int m_c0;
-    int m_c4;
-    int m_c8;
-    int m_cc;
-    int m_d0;
-    int m_d4;
-    int m_d8;
-    int m_dc;
-    int m_e0;
-    int m_e4;
-    unsigned char m_e8;
+    const hkpEntity* m_key;
+
+    const hkpLinkedCollidableD250* getPartner(const hkpAgentEntryD250* pkEntry) const
+    {
+        return reinterpret_cast<const hkpLinkedCollidableD250*>(reinterpret_cast<uintptr_t>(pkEntry->m_kActorEntries[1]) ^
+                                                                reinterpret_cast<uintptr_t>(pkEntry->m_kActorEntries[0]) ^
+                                                                reinterpret_cast<uintptr_t>(m_key));
+    }
+
+    bool operator()(const hkpAgentEntryD250* pkA, const hkpAgentEntryD250* pkB) const
+    {
+        if (pkA->m_uiUniqueId < pkB->m_uiUniqueId)
+        {
+            return true;
+        }
+        if (pkA->m_uiUniqueId > pkB->m_uiUniqueId)
+        {
+            return false;
+        }
+        return getPartner(pkA)->m_uiUniqueId < getPartner(pkB)->m_uiUniqueId;
+    }
+};
+
+struct FUN_00c9c860_Shell : hkpEntity
+{
     void UpdateNodeSlotIndices();
 };
 // @fnv 0x00c9c860
 void FUN_00c9c860_Shell::UpdateNodeSlotIndices()
 {
-    if (m_e8 != 5)
+    if (m_pMotionState.m_type != 5)
     {
         return;
     }
-    if (m_b8 > 1)
+    if (m_kSlaveConstraints.m_iElementCount > 1)
     {
-        ::FUN_00c9d250((::hkpAgentEntryD250 **)(m_b4), 0, m_b8 - 1, (::hkEntryLessD250)(this));
+        ::FUN_00c9d250(reinterpret_cast<::hkpAgentEntryD250 **>(m_kSlaveConstraints.m_data), 0, m_kSlaveConstraints.m_iElementCount - 1,
+                       ::hkEntryLessD250{this});
     }
-    for (int i = 0; i < m_b8; ++i)
+    for (int i = 0; i < m_kSlaveConstraints.m_iElementCount; ++i)
     {
-        FUN_00c9c860_Node* node = m_b4[i];
-        FUN_00c9c860_Shell* owner =
-            reinterpret_cast<FUN_00c9c860_Shell*>(node->m_18 ^ node->m_14 ^ reinterpret_cast<unsigned int>(this));
-        for (int k = 0; k < owner->m_b0; ++k)
+        hkpConstraintInstance* node = m_kSlaveConstraints.m_data[i];
+        FUN_00c9c860_Shell* owner = reinterpret_cast<FUN_00c9c860_Shell*>(reinterpret_cast<uintptr_t>(node->m_kActorEntries[1]) ^
+                                                                          reinterpret_cast<uintptr_t>(node->m_kActorEntries[0]) ^
+                                                                          reinterpret_cast<uintptr_t>(this));
+        hkConstraintInternalC9C* internals = static_cast<hkConstraintInternalC9C*>(owner->m_eSmallArraySerializeOverrideType.m_data);
+        for (int k = 0; k < owner->m_eSmallArraySerializeOverrideType.m_iElementCount; ++k)
         {
-            if (owner->m_ac[k].m_00 == node)
+            if (internals[k].m_constraint == node)
             {
-                owner->m_ac[k].m_22 = (unsigned short)i;
+                internals[k].m_slaveIndex = (unsigned short)i;
                 break;
             }
         }
@@ -758,28 +614,14 @@ MotionStateObject* MotionStateObject::FUN_00c9d100(int enabled)
     if (enabled != 0)
     {
         *reinterpret_cast<volatile float*>(&enabled) = 1.0f;
-        *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x11e) =
-            static_cast<unsigned short>(enabled >> 16);
+        reinterpret_cast<hkpMotion*>(this)->m_fGravityFactor =
+            static_cast<hkHalf>(enabled >> 16);
     }
     m_ppVirtualMethodTable = &DAT_010c6bec;
     return this;
 }
 
-struct FnvCpu_FUN_00c9d160_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00c9d160_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00c9d160_CpuAllocator* allocator;
-};
-FnvCpu_FUN_00c9d160_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00c9d160_CpuObject
 {
     unsigned int unk00;
@@ -793,8 +635,7 @@ FnvCpu_FUN_00c9d160_CpuObject* FnvCpu_FUN_00c9d160_CpuObject::FUN_00c9d160(unsig
     reinterpret_cast<::FUN_00d1dff0 *>(this)->setMotion();
     if (flags & 1)
     {
-        FnvCpu_FUN_00c9d160_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter::getInstance().heap().blockFree(this, size);
     }
     return this;
 }
@@ -919,34 +760,15 @@ KeyframedMotionReset* KeyframedMotionReset::FUN_00c9d1c0(int initialize)
     return this;
 }
 
-class hkMemoryAllocatorC9D3
-{
-  public:
-    virtual ~hkMemoryAllocatorC9D3() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterC9D3
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorC9D3* m_pStreamAllocator;
-    hkMemoryAllocatorC9D3& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterC9D3 {
-extern "C" hkMemoryRouterC9D3& __cdecl FUN_00c85750() throw();
+
 }
 
 template <typename T> inline void hkDeallocateChunkC9D3(T* p, int n)
 {
-    hkRouterC9D3::FUN_00c85750().heap().ReleaseBlock(p, n * sizeof(T));
+    hkMemoryRouter::getInstance().heap().blockFree(p, n * sizeof(T));
 }
 
 template <typename T> class hkSmallArrayC9D3
@@ -978,21 +800,7 @@ FUN_00c9d340::~FUN_00c9d340() throw()
 {}
 
 namespace fnv_00c9d460 {
-struct FnvCpu_FUN_00c9d460_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00c9d460_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00c9d460_CpuAllocator* allocator;
-};
-FnvCpu_FUN_00c9d460_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00c9d460_CpuObject
 {
     unsigned int unk00;
@@ -1006,37 +814,15 @@ FnvCpu_FUN_00c9d460_CpuObject* FnvCpu_FUN_00c9d460_CpuObject::FUN_00c9d460(unsig
     FUN_00c9d3b0();
     if (flags & 1)
     {
-        FnvCpu_FUN_00c9d460_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter::getInstance().heap().blockFree(this, size);
     }
     return this;
 }
 }  // namespace fnv_00c9d460
 
 namespace fnv_00d1f780 {
-class hkMemoryAllocatorD1F7
-{
-  public:
-    virtual ~hkMemoryAllocatorD1F7() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iNumBytes) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD1F7
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD1F7* m_pStreamAllocator;
-    hkMemoryAllocatorD1F7& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterD1F7& __cdecl FUN_00c85750() throw();
+
 
 template <class T> class hkArrayD1F7
 {
@@ -1047,10 +833,10 @@ template <class T> class hkArrayD1F7
 
     void ClearAndRelease() throw()
     {
-        hkMemoryAllocatorD1F7& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -1176,6 +962,8 @@ struct S00c92a80_Obj
     virtual void v14();
     virtual void v18();
     virtual void v1c(int a, int b, void* c, void* d, int n);
+    int unk04[5];
+    float m_f18;  // +0x18
 };
 
 struct __declspec(align(16)) S00c92a80_Range
@@ -1205,8 +993,8 @@ struct S00c92a80_cls
 // @fnv 0x00c92a80
 void S00c92a80_cls::FUN_00c92a80(int a0, int a1)
 {
-    float b = *(float*)((char*)obj + 0x18);
-    float a = *(float*)((char*)obj + 0x18);
+    float b = obj->m_f18;
+    float a = obj->m_f18;
     S00c92a80_Range r(b, a);
     obj->v1c(a0, a1, this, &r, 1);
 }
@@ -1247,6 +1035,15 @@ void c9bfd0_caller(c9bfd0_base* self)
     (void)FUN_00c9bfd0(self, c9bfd0_out_val());
 }
 
+// hkpSimulationIsland bit fields in the byte at +0x26.
+struct IslandActivationBits
+{
+    char pad00[0x26];
+    unsigned char m_isInActiveIslandsArray : 2;
+    unsigned char m_activeMark : 2;
+    unsigned char m_tmpActiveMark : 2;
+    unsigned char m_inIntegrateJob : 2;
+};
 struct FUN_00c9bff0_Class
 {
     int unk00;
@@ -1314,7 +1111,7 @@ unsigned char* FUN_00c9bff0_Class::FUN_00c9bff0(unsigned char* out)
         *out = 0;
         return out;
     }
-    *out = (((unsigned char*)m_cc)[0x26] >> 2) & 3;
+    *out = static_cast<IslandActivationBits*>(m_cc)->m_activeMark;
     return out;
 }
 
@@ -1843,28 +1640,9 @@ void hkpEntityC9C::FUN_00c9c1d0()
     }
 }
 
-class hkMemoryAllocatorC9C6
-{
-  public:
-    virtual ~hkMemoryAllocatorC9C6() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-};
-
-struct hkMemoryRouterC9C6
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorC9C6* m_pStreamAllocator;
-    hkMemoryAllocatorC9C6& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterC9C6& __cdecl FUN_00c85750() throw();
+
 }
 
 template <class T> class hkSmallArrayC9C6
@@ -1894,9 +1672,9 @@ template <class T> class hkSmallArrayC9C6
 
 struct ListenersC9C6
 {
-    static void* operator new(std::size_t nbytes)
+    static void* operator new(size_t nbytes)
     {
-        return fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(nbytes);
+        return hkMemoryRouter::getInstance().heap().blockAlloc(nbytes);
     }
 
     hkSmallArrayC9C6<void*> m_pHeadNode;
@@ -1934,20 +1712,10 @@ void HostC9C6::FUN_00c9c670(void* pvListener)
 }
 
 namespace fnv_00c9c7c0 {
-class hkMemoryAllocatorC9C7;
 
-struct hkMemoryRouterC9C7
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorC9C7* m_pStreamAllocator;
-    hkMemoryAllocatorC9C7& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterC9C7& __cdecl FUN_00c85750() throw();
+
 }
 
 template <class T> class hkArrayC9C7
@@ -1961,7 +1729,7 @@ template <class T> class hkArrayC9C7
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    __forceinline void reserve(hkMemoryAllocatorC9C7& kAlloc, int n)
+    __forceinline void reserve(hkMemoryAllocator& kAlloc, int n)
     {
         const int iCap = getCapacity();
         if (iCap < n)
@@ -1973,7 +1741,7 @@ template <class T> class hkArrayC9C7
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        reserve(fnvc_adapt::FUN_00c85750().heap(), n);
+        reserve(hkMemoryRouter::getInstance().heap(), n);
         m_iElementCount = n;
     }
     T& operator[](int i)
@@ -2180,7 +1948,7 @@ class FinishableBase
     {
         if (flag.m_bFinishing)
         {
-            PackedHalf* scale = (PackedHalf*)((char*)this + 0x11e);
+            PackedHalf* scale = reinterpret_cast<PackedHalf*>(&reinterpret_cast<hkpMotion*>(this)->m_fGravityFactor);
             *scale = 1.0f;
         }
     }
@@ -2222,44 +1990,6 @@ struct FUN_00c9d220 : public MotionCtorBase
 FUN_00c9d220::FUN_00c9d220(int flag) : MotionCtorBase(flag)
 {}
 }  // namespace fnv_00c9d220
-
-struct hkpLinkedCollidableD250
-{
-    unsigned int unk00[53];
-    unsigned int m_uiUniqueId;
-};
-
-struct hkpAgentEntryD250
-{
-    unsigned int unk00, unk04, unk08, unk0C, unk10;
-    unsigned int m_kCollidable[2];
-    unsigned int unk1C, unk20, unk24, unk28, unk2C, unk30;
-    unsigned int m_priority;
-};
-
-struct hkEntryLessD250
-{
-    unsigned int m_key;
-
-    hkpLinkedCollidableD250* getPartner(const hkpAgentEntryD250* pkEntry) const
-    {
-        return reinterpret_cast<hkpLinkedCollidableD250*>(pkEntry->m_kCollidable[1] ^ pkEntry->m_kCollidable[0] ^
-                                                          m_key);
-    }
-
-    bool operator()(const hkpAgentEntryD250* pkA, const hkpAgentEntryD250* pkB) const
-    {
-        if (pkA->m_priority < pkB->m_priority)
-        {
-            return true;
-        }
-        if (pkA->m_priority > pkB->m_priority)
-        {
-            return false;
-        }
-        return getPartner(pkA)->m_uiUniqueId < getPartner(pkB)->m_uiUniqueId;
-    }
-};
 
 // Recursively sorts the hkpAgentEntryD250 array in place using the quicksort algorithm with the hkEntryLessD250 comparator.
 // @fnv 0x00c9d250
@@ -2312,11 +2042,6 @@ struct FUN_00c9c700_Array
     unsigned short unk0E;
 };
 
-struct FUN_00c9c700_Allocator
-{
-    virtual void slot00();
-    virtual void* slot04(int size);
-};
 
 struct FUN_00c9c700_Class
 {
@@ -2464,9 +2189,7 @@ void FUN_00c9c700_Class::FUN_00c9c700(int value)
 {
     if (unk214 == 0)
     {
-        FnvCpu_FUN_00c9d160_CpuAllocatorHolder* holder = FUN_00c85750();
-        FUN_00c9c700_Allocator* allocator = (FUN_00c9c700_Allocator*)holder->allocator;
-        FUN_00c9c700_Array* array = (FUN_00c9c700_Array*)allocator->slot04(0x10);
+        FUN_00c9c700_Array* array = static_cast<FUN_00c9c700_Array*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x10));
 
         if (array != 0)
         {
@@ -2592,14 +2315,14 @@ void FUN_00c9c240_holder::FUN_00c9c240()
         {
             if (island->m_bSplitCheckRequested || island->m_bSparseEnabled)
             {
-                FUN_00c9c3c0_Class* world = (FUN_00c9c3c0_Class*)m_pOwningWorld;
-                int minIslandSize = world->m_b4;
-                world->m_b4 = 0;
+                hkpWorld* world = (hkpWorld*)m_pOwningWorld;
+                hkUint32 minIslandSize = world->m_uiMinDesiredIslandSize;
+                world->m_uiMinDesiredIslandSize = 0;
                 ((hkpSimulationIslandQ*)m_pSimulationIsland)->m_bSparseEnabled = 0;
                 ((hkpSimulationIslandQ*)m_pSimulationIsland)->m_bSplitCheckRequested = 1;
-                ::PropagateStateToChildren((::Object *)(::FUN_00c9c3c0_Class *)((FUN_00c9c3c0_Class*)m_pOwningWorld),
+                ::PropagateStateToChildren((::Object *)(m_pOwningWorld),
                                          (int *)(::hkpSimulationIslandQ *)((hkpSimulationIslandQ*)m_pSimulationIsland));
-                ((FUN_00c9c3c0_Class*)m_pOwningWorld)->m_b4 = minIslandSize;
+                ((hkpWorld*)m_pOwningWorld)->m_uiMinDesiredIslandSize = minIslandSize;
             }
             island = (hkpSimulationIslandQ*)m_pSimulationIsland;
             int i = 0;
@@ -2613,7 +2336,7 @@ void FUN_00c9c240_holder::FUN_00c9c240()
                     entity->m_pMotionState.m_akDeactivationReferencePositions[1].w = 3.40282e+38f;
                 } while (++i < island->m_kActorEntries.GetLogicalSize());
             }
-            ::fnv_00cb5420::AddItemToContainer((::fnv_00cb5420::S_00cb5420_Container *)(::FUN_00c9c3c0_Class *)((FUN_00c9c3c0_Class*)m_pOwningWorld), (::fnv_00cb5420::S_00cb5420_Item *)(island));
+            ::fnv_00cb5420::AddItemToContainer((::fnv_00cb5420::S_00cb5420_Container *)(m_pOwningWorld), (::fnv_00cb5420::S_00cb5420_Item *)(island));
         }
     }
 }
@@ -2749,23 +2472,6 @@ hkpThinBoxMotion::hkpThinBoxMotion(hkC9D1::FinishingFlag flag) : hkC9D1::hkpMoti
 }  // namespace fnv_00c9d1f0
 
 namespace fnv_00c9c8f0 {
-struct FnvMem
-{
-    virtual void f00() = 0;
-    virtual void f04() = 0;
-    virtual void freeArray(void*, unsigned int) = 0;
-    virtual void f0c() = 0;
-    virtual void freeBlock(void*, unsigned int) = 0;
-};
-struct FnvRouter
-{
-    void* a;
-    void* b;
-    void* c;
-    void* d;
-    FnvMem* heap;
-};
-extern FnvRouter* __cdecl FUN_00c85750();
 
 struct FnvRA
 {
@@ -2791,9 +2497,9 @@ struct FnvSmall
         {
             unsigned c = flags & 0x3fff;
             void* d = data;
-            FnvRouter* router = FUN_00c85750();
-            FnvMem* mem = router->heap;
-            mem->freeArray(d, c * elem);
+            hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+            hkMemoryAllocator* mem = router->m_heap;
+            mem->blockFree(d, c * elem);
         }
     }
     __forceinline void clearAndDealloc(int elem)
@@ -2843,9 +2549,9 @@ struct FnvTwo
     {
         two.releaseMem(4);
         one.releaseMem(4);
-        FnvRouter* router = FUN_00c85750();
-        FnvMem* mem = router->heap;
-        mem->freeArray(this, 16);
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* mem = router->m_heap;
+        mem->blockFree(this, 16);
     }
 };
 struct EntityRebuild
@@ -2992,12 +2698,12 @@ void EntityRebuild::FUN_00c9c8f0()
     }
     if (n64 == 0)
     {
-        FnvRouter* router = FUN_00c85750();
-        FnvMem* mem = router->heap;
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* mem = router->m_heap;
         int f = f68;
         n64 = 0;
         if (!(f & 0x80000000))
-            mem->freeBlock(p60, (f & 0x3fffffff) * 8);
+            mem->bufFree(p60, (f & 0x3fffffff) * 8);
         p60 = 0;
         f68 = 0x80000000;
     }
@@ -3005,23 +2711,23 @@ void EntityRebuild::FUN_00c9c8f0()
         master.clearAndDealloc(48);
     if (slave.size == 0)
     {
-        FnvRouter* router = FUN_00c85750();
-        FnvMem* mem = router->heap;
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* mem = router->m_heap;
         int f = slave.flags;
         slave.size = 0;
         if (!(f & 0x80000000))
-            mem->freeBlock(slave.data, (f & 0x3fffffff) * 4);
+            mem->bufFree(slave.data, (f & 0x3fffffff) * 4);
         slave.data = 0;
         slave.flags = 0x80000000;
     }
     if (runtime.size == 0)
     {
-        FnvRouter* router = FUN_00c85750();
-        FnvMem* mem = router->heap;
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* mem = router->m_heap;
         int f = runtime.flags;
         runtime.size = 0;
         if (!(f & 0x80000000))
-            mem->freeBlock(runtime.data, f & 0x3fffffff);
+            mem->bufFree(runtime.data, f & 0x3fffffff);
         runtime.data = 0;
         runtime.flags = 0x80000000;
     }
@@ -3051,28 +2757,9 @@ void EntityRebuild::FUN_00c9c8f0()
 }  // namespace fnv_00c9c8f0
 
 namespace fnv_00c9cf60 {
-class hkMemoryAllocatorC9CF
-{
-  public:
-    virtual ~hkMemoryAllocatorC9CF() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void unk0C() throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterC9CF
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorC9CF* m_pStreamAllocator;
 
-    hkMemoryAllocatorC9CF& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
-hkMemoryRouterC9CF* __cdecl FUN_00c85750();
 
 template <class T> class hkArrayC9CF
 {
@@ -3083,10 +2770,10 @@ template <class T> class hkArrayC9CF
 
     ~hkArrayC9CF() throw()
     {
-        hkMemoryAllocatorC9CF& kAlloc = FUN_00c85750()->heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -3105,7 +2792,7 @@ template <class T> class hkSmallArrayC9CF
         {
             int iCapacity = m_iCapacityState & 0x3fff;
             T* pData = m_data;
-            FUN_00c85750()->heap().ReleaseBlock(pData, iCapacity * sizeof(T));
+            hkMemoryRouter::getInstance().heap().blockFree(pData, iCapacity * sizeof(T));
         }
     }
 };
@@ -3148,9 +2835,9 @@ class FUN_00c9d340
 {
   public:
     ~FUN_00c9d340() throw();
-    static void operator delete(void* p, std::size_t uiNumBytes)
+    static void operator delete(void* p, size_t uiNumBytes)
     {
-        FUN_00c85750()->heap().ReleaseBlock(p, uiNumBytes);
+        hkMemoryRouter::getInstance().heap().blockFree(p, uiNumBytes);
     }
 
     int unk00, unk04, unk08, unk0C;
@@ -3234,28 +2921,9 @@ FUN_00c9cf60::~FUN_00c9cf60() throw()
 }  // namespace fnv_00c9cf60
 
 namespace fnv_00c9d3b0 {
-class hkMemoryAllocatorC9D3
-{
-  public:
-    virtual ~hkMemoryAllocatorC9D3() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void unk08() throw();
-    virtual void unk0C() throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterC9D3
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorC9D3* m_pStreamAllocator;
 
-    hkMemoryAllocatorC9D3& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
-extern "C" hkMemoryRouterC9D3& __cdecl FUN_00c85750() throw();
 
 template <class T> class hkArrayC9D3
 {
@@ -3266,10 +2934,10 @@ template <class T> class hkArrayC9D3
 
     ~hkArrayC9D3() throw()
     {
-        hkMemoryAllocatorC9D3& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }

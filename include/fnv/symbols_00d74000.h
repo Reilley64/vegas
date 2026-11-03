@@ -14,7 +14,7 @@ struct hkShapeOutputD748;
 // 0x00d74850
 int RemapCollisionShapes(::hkShapeEntryArrayD748 *, void *, ::hkShapeOutputD748 *);
 // 0x00d748d0
-int FUN_00d748d0(::hkpEntityD748 *, intptr_t, intptr_t);
+int FUN_00d748d0(::hkpEntityD748 *, void *, ::hkShapeOutputD748 *);
 // 0x00d74b70
 void AssignNodeFlags(::Node **, int, unsigned int);
 // 0x00d74ed0

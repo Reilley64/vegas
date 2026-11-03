@@ -13,195 +13,18 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01272000.h"
-struct AudioTlsState
-{
-    unsigned unk0;
-    unsigned unk4;
-    unsigned unk8;
-    unsigned unkC;
-    unsigned unk10;
-    unsigned unk14;
-    unsigned unk18;
-    unsigned unk1C;
-    unsigned unk20;
-    unsigned unk24;
-    unsigned unk28;
-    unsigned unk2C;
-    unsigned unk30;
-    unsigned unk34;
-    unsigned unk38;
-    unsigned unk3C;
-    unsigned unk40;
-    unsigned unk44;
-    unsigned unk48;
-    unsigned unk4C;
-    unsigned unk50;
-    unsigned unk54;
-    unsigned unk58;
-    unsigned unk5C;
-    unsigned unk60;
-    unsigned unk64;
-    unsigned unk68;
-    unsigned unk6C;
-    unsigned unk70;
-    unsigned unk74;
-    unsigned unk78;
-    unsigned unk7C;
-    unsigned unk80;
-    unsigned unk84;
-    unsigned unk88;
-    unsigned unk8C;
-    unsigned unk90;
-    unsigned unk94;
-    unsigned unk98;
-    unsigned unk9C;
-    unsigned unkA0;
-    unsigned unkA4;
-    unsigned unkA8;
-    unsigned unkAC;
-    unsigned unkB0;
-    unsigned unkB4;
-    unsigned unkB8;
-    unsigned unkBC;
-    unsigned unkC0;
-    unsigned unkC4;
-    unsigned unkC8;
-    unsigned unkCC;
-    unsigned unkD0;
-    unsigned unkD4;
-    unsigned unkD8;
-    unsigned unkDC;
-    unsigned unkE0;
-    unsigned unkE4;
-    unsigned unkE8;
-    unsigned unkEC;
-    unsigned unkF0;
-    unsigned unkF4;
-    unsigned unkF8;
-    unsigned unkFC;
-    unsigned unk100;
-    unsigned unk104;
-    unsigned unk108;
-    unsigned unk10C;
-    unsigned unk110;
-    unsigned unk114;
-    unsigned unk118;
-    unsigned unk11C;
-    unsigned unk120;
-    unsigned unk124;
-    unsigned unk128;
-    unsigned unk12C;
-    unsigned unk130;
-    unsigned unk134;
-    unsigned unk138;
-    unsigned unk13C;
-    unsigned unk140;
-    unsigned unk144;
-    unsigned unk148;
-    unsigned unk14C;
-    unsigned unk150;
-    unsigned unk154;
-    unsigned unk158;
-    unsigned unk15C;
-    unsigned unk160;
-    unsigned unk164;
-    unsigned unk168;
-    unsigned unk16C;
-    unsigned unk170;
-    unsigned unk174;
-    unsigned unk178;
-    unsigned unk17C;
-    unsigned unk180;
-    unsigned unk184;
-    unsigned unk188;
-    unsigned unk18C;
-    unsigned unk190;
-    unsigned unk194;
-    unsigned unk198;
-    unsigned unk19C;
-    unsigned unk1A0;
-    unsigned unk1A4;
-    unsigned unk1A8;
-    unsigned unk1AC;
-    unsigned unk1B0;
-    unsigned unk1B4;
-    unsigned unk1B8;
-    unsigned unk1BC;
-    unsigned unk1C0;
-    unsigned unk1C4;
-    unsigned unk1C8;
-    unsigned unk1CC;
-    unsigned unk1D0;
-    unsigned unk1D4;
-    unsigned unk1D8;
-    unsigned unk1DC;
-    unsigned unk1E0;
-    unsigned unk1E4;
-    unsigned unk1E8;
-    unsigned unk1EC;
-    unsigned unk1F0;
-    unsigned unk1F4;
-    unsigned unk1F8;
-    unsigned unk1FC;
-    unsigned unk200;
-    unsigned unk204;
-    unsigned unk208;
-    unsigned unk20C;
-    unsigned unk210;
-    unsigned unk214;
-    unsigned unk218;
-    unsigned unk21C;
-    unsigned unk220;
-    unsigned unk224;
-    unsigned unk228;
-    unsigned unk22C;
-    unsigned unk230;
-    unsigned unk234;
-    unsigned unk238;
-    unsigned unk23C;
-    unsigned unk240;
-    unsigned unk244;
-    unsigned unk248;
-    unsigned unk24C;
-    unsigned unk250;
-    unsigned unk254;
-    unsigned unk258;
-    unsigned unk25C;
-    unsigned unk260;
-    unsigned unk264;
-    unsigned unk268;
-    unsigned unk26C;
-    unsigned unk270;
-    unsigned unk274;
-    unsigned unk278;
-    unsigned unk27C;
-    unsigned unk280;
-    unsigned unk284;
-    unsigned unk288;
-    unsigned unk28C;
-    unsigned unk290;
-    unsigned unk294;
-    unsigned unk298;
-    unsigned unk29C;
-    unsigned unk2A0;
-    unsigned unk2A4;
-    unsigned unk2A8;
-    unsigned unk2AC;
-    unsigned unk2B0;
-    unsigned m_uiMemoryContext;
-};
-__declspec(thread) AudioTlsState threadData;
+#include "fnv/tls.h"
 struct ScopedContext
 {
     unsigned previous;
     __forceinline ScopedContext(unsigned value)
     {
-        previous = (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).m_uiMemoryContext;
-        (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).m_uiMemoryContext = value;
+        previous = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = value;
     }
     __forceinline ~ScopedContext()
     {
-        (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).m_uiMemoryContext = previous;
+        g_tlsBlock.memoryContext = previous;
     }
 };
 struct Metadata
@@ -341,7 +164,7 @@ void D00370CleanupBoth(D00370Array* a, D00370Array* b)
 
 struct FNV_SmallArray_00d00320
 {
-    int* m_pItems;
+    void** m_pItems;
     unsigned short m_uiItemCount;
 };
 
@@ -1166,7 +989,7 @@ __forceinline void D00CA0TimerBegin(const char* name, volatile unsigned int& tic
         D00CA0TimerCommand* h = (D00CA0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -1560,7 +1383,7 @@ __forceinline void D00DE0TimerBegin(const char* name, volatile unsigned int& tic
         D00DE0TimerCommand* h = (D00DE0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -1765,7 +1588,7 @@ __forceinline void D00E80TimerBegin(const char* name, volatile unsigned int& tic
         D00E80TimerCommand* h = (D00E80TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -2489,7 +2312,7 @@ __forceinline void D014F0TimerBegin(const char* name, volatile unsigned int& tic
         D014F0TimerCommand* h = (D014F0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -2690,7 +2513,7 @@ __forceinline void D015A0TimerBegin(const char* name, volatile unsigned int& tic
         D015A0TimerCommand* h = (D015A0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -2888,7 +2711,7 @@ __forceinline void D01650TimerBegin(const char* name, volatile unsigned int& tic
         D01650TimerCommand* h = (D01650TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3047,12 +2870,11 @@ void __cdecl FUN_00d01650(D01650World* world, void* pvEvent, void* pvContext)
     D01650CleanupNullPointers(listeners);
 }
 
-extern "C" unsigned long DAT_0126835c;
 
 struct Listener
 {
     virtual void vfunc0();
-    virtual void vfunc1(void* a1, void* a2);
+    virtual void vfunc1(void* a1, int a2);
 };
 
 struct ListenerArray
@@ -3102,7 +2924,7 @@ static __forceinline void writeTimestamp(char* cur, const char* tag, volatile un
 
 // Iterates hkpWorld listener array, writes start/end timestamps to TLS buffer, invokes each listener, then compacts the array.
 // @fnv 0x00d01700
-void __cdecl FUN_00d01700(hkpWorld* world, void* a1, void* a2)
+void __cdecl FUN_00d01700(hkpWorld* world, void* a1, int a2)
 {
     volatile unsigned int uiStartTsc;
     volatile unsigned int t1;
@@ -3172,7 +2994,7 @@ __forceinline void D017B0TimerBegin(const char* name, volatile unsigned int& tic
         D017B0TimerCommand* h = (D017B0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3362,7 +3184,7 @@ __forceinline void D019B0TimerBegin(const char* name, volatile unsigned int& tic
         D019B0TimerCommand* h = (D019B0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3565,7 +3387,7 @@ static inline void TimerWriteV(const char* name, volatile unsigned int& t)
         _ReadWriteBarrier();
         t = (unsigned int)__rdtsc();
         h->m_uiCommandId = t;
-        s->m_cur = (char*)(h + 1);
+        s->m_cur = reinterpret_cast<char*>(h + 1);
     }
 }
 struct ActionListener
@@ -3647,7 +3469,7 @@ __forceinline void D005A0TimerBegin(const char* name, volatile unsigned int& tic
         D005A0TimerCommand* h = (D005A0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3822,7 +3644,7 @@ __forceinline void D00640TimerBegin(const char* name, volatile unsigned int& tic
         D00640TimerCommand* h = (D00640TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3997,7 +3819,7 @@ __forceinline void D00820TimerBegin(const char* name, volatile unsigned int& tic
         D00820TimerCommand* h = (D00820TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -4175,7 +3997,7 @@ __forceinline void D008C0TimerBegin(const char* name, volatile unsigned int& tic
         D008C0TimerCommand* h = (D008C0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -4333,7 +4155,7 @@ class ProfTarget
   public:
     virtual void v0();
     virtual void v1();
-    virtual void v2(unsigned a1);
+    virtual void v2(void* a1);
     virtual void v3();
     virtual void v4();
 };
@@ -4362,7 +4184,7 @@ __forceinline void ProfMark(const char* name, volatile DWORD& outTick)
 }
 // Iterates m_kTargets in reverse, calling v2 on each non-null ProfTarget with a2, then calls FUN_00d00370 on the array.
 // @fnv 0x00d00a00
-void __cdecl NotifyTargets(ProfOwner* pOwner, DWORD a2)
+void __cdecl NotifyTargets(ProfOwner* pOwner, void* a2)
 {
     volatile DWORD beginTick, endTick;
     D00370Array& targets = pOwner->m_kTargets;
@@ -4392,7 +4214,7 @@ struct Phantom
     virtual void v04();
     virtual void v08();
     virtual void v0c();
-    virtual void v10(int a);
+    virtual void v10(const void* a);
 };
 struct OwnerD
 {
@@ -4410,7 +4232,7 @@ struct OwnerD
 };
 // Iterates owner's m_kListeners in reverse, calling v10 with a2 on each non-null listener between timer samples, then calls FUN_00d00370 on the array.
 // @fnv 0x00d00aa0
-void __cdecl FUN_00d00aa0(OwnerD* owner, int a2)
+void __cdecl FUN_00d00aa0(OwnerD* owner, const void* a2)
 {
     D00370Array& listen = owner->m_kListeners;
     for (int i = listen.m_iElementCount - 1; i >= 0; i--)
@@ -4428,7 +4250,6 @@ void __cdecl FUN_00d00aa0(OwnerD* owner, int a2)
 }
 
 extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned long DAT_0126835c;
 extern "C" char str_010ccaf8;
 extern "C" char str_010ccaec;
 struct Scene;
@@ -4694,12 +4515,20 @@ struct Scene
     Entity** field48;
     int field4c;
 };
+// One hkMonitorStream timer record: the command name and the low 32 bits of the time-stamp counter.
+struct LogRecord
+{
+    const char* name;
+    unsigned int tick;
+    unsigned int unused;
+};
+
 struct LogBuffer
 {
     int ReportDiagnostic;
-    unsigned int* current;
+    LogRecord* current;
     int unused8;
-    unsigned int* limit;
+    LogRecord* limit;
 };
 static __declspec(noinline) void RemoveZeroEntries(CallbackList* list)
 {
@@ -4734,27 +4563,27 @@ void __cdecl ProcessSceneCallbacks(Game* game, Scene* scene)
         {
             {
                 LogBuffer* log = (LogBuffer*)TlsGetValue(DAT_0126835c);
-                unsigned int* current = log->current;
+                LogRecord* current = log->current;
                 if (current < log->limit)
                 {
-                    current[0] = (unsigned int)&str_010ccaf8;
+                    current->name = (const char*)&str_010ccaf8;
                     _ReadWriteBarrier();
                     timer.tick1 = (unsigned int)__rdtsc();
-                    current[1] = timer.tick1;
-                    log->current = current + 3;
+                    current->tick = timer.tick1;
+                    log->current = current + 1;
                 }
             }
             ((Callback*)pSlots->m_data[i])->invoke(scene);
             {
                 LogBuffer* log = (LogBuffer*)TlsGetValue(DAT_0126835c);
-                unsigned int* current = log->current;
+                LogRecord* current = log->current;
                 if (current < log->limit)
                 {
-                    current[0] = (unsigned int)&(*reinterpret_cast<char *>(&::DAT_010c41f8));
+                    current->name = (const char*)&(*reinterpret_cast<char *>(&::DAT_010c41f8));
                     _ReadWriteBarrier();
                     timer.tick2 = (unsigned int)__rdtsc();
-                    current[1] = timer.tick2;
-                    log->current = current + 3;
+                    current->tick = timer.tick2;
+                    log->current = current + 1;
                 }
             }
         }
@@ -4772,27 +4601,27 @@ void __cdecl ProcessSceneCallbacks(Game* game, Scene* scene)
                 {
                     {
                         LogBuffer* log = (LogBuffer*)TlsGetValue(DAT_0126835c);
-                        unsigned int* current = log->current;
+                        LogRecord* current = log->current;
                         if (current < log->limit)
                         {
-                            current[0] = (unsigned int)&str_010ccaec;
+                            current->name = (const char*)&str_010ccaec;
                             _ReadWriteBarrier();
                             timer.tick2 = (unsigned int)__rdtsc();
-                            current[1] = timer.tick2;
-                            log->current = current + 3;
+                            current->tick = timer.tick2;
+                            log->current = current + 1;
                         }
                     }
                     callbacks->slots[j]->execute(scene->field48[i]);
                     {
                         LogBuffer* log = (LogBuffer*)TlsGetValue(DAT_0126835c);
-                        unsigned int* current = log->current;
+                        LogRecord* current = log->current;
                         if (current < log->limit)
                         {
-                            current[0] = (unsigned int)&(*reinterpret_cast<char *>(&::DAT_010c41f8));
+                            current->name = (const char*)&(*reinterpret_cast<char *>(&::DAT_010c41f8));
                             _ReadWriteBarrier();
                             timer.tick1 = (unsigned int)__rdtsc();
-                            current[1] = timer.tick1;
-                            log->current = current + 3;
+                            current->tick = timer.tick1;
+                            log->current = current + 1;
                         }
                     }
                 }
@@ -4886,7 +4715,7 @@ class ListenerObjQ
     virtual void v02(void);
     virtual void v03(void);
     virtual void v04(void);
-    virtual void v05(unsigned long a1);
+    virtual void v05(void* a1);
 };
 struct ListenerArrayQ
 {
@@ -4909,7 +4738,7 @@ struct ListenerOwnerQ
 };
 // Iterates pOwner's listener array, profiling each call to v05(a2), then calls FUN_00d00370 on the array.
 // @fnv 0x00d00b40
-void __cdecl FUN_00d00b40(ListenerOwnerQ* pOwner, unsigned long a2)
+void __cdecl FUN_00d00b40(ListenerOwnerQ* pOwner, void* a2)
 {
     volatile unsigned long tick1;
     struct ProfileState

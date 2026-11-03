@@ -2,6 +2,10 @@
 // src/havok/physics/dynamics/constraint/bilateral/prismatic/hkpprismaticconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/prismatic/hkpprismaticconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/decl/FUN_00d51620_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -9,24 +13,30 @@
 #include "fnv/symbols_0102e000.h"
 #include "havok/hkpPrismaticConstraintData.h"
 
-extern "C" void* __cdecl FUN_00d21a60(void* self, int a, void* b);
 
-struct FUN_00d4f880_class
+struct FUN_00d4f880_class : public hkpPrismaticConstraintData
 {
-    void* FUN_00d4f880(int a);
+    void FUN_00d4f880(::GenericConstraintAtomScheme* a) const;
 };
 
 // @fnv 0x00d4f880
-void* FUN_00d4f880_class::FUN_00d4f880(int a)
+void FUN_00d4f880_class::FUN_00d4f880(::GenericConstraintAtomScheme* a) const
 {
-    return FUN_00d21a60((char*)this + 0x10, 0xc0, (void*)a);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0xc0, a);
 }
 
 // @fnv 0x00d4f8a0
+// hkpConstraintData::RuntimeInfo as this function fills it.
+struct PrismaticRuntimeInfo
+{
+    int m_sizeOfExternalRuntime;
+    int m_numSolverResults;
+};
 void FUN_00d4f8a0(int aiUnused, hkpPrismaticConstraintData* apConstraintData)
 {
-    *(int*)((char*)apConstraintData + 4) = 8;
-    *(int*)((char*)apConstraintData + 0) = 0x48;
+    PrismaticRuntimeInfo* info = reinterpret_cast<PrismaticRuntimeInfo*>(apConstraintData);
+    info->m_numSolverResults = 8;
+    info->m_sizeOfExternalRuntime = 0x48;
 }
 
 extern int DAT_010d0b3c;
@@ -36,13 +46,15 @@ struct DDCC60World
 struct FUN_00d4f8d0_class
 {
     int* vtbl;
+    char pad04[0xa8];
+    DDCC60World* m_linMotorMotor;  // +0xac, m_atoms.m_motor.m_motor
     void FUN_00d4f8d0();
 };
-// Sets the vtable to DAT_010d0b3c, releases the DDCC60World reference at offset 0xac if present, then sets the vtable to DAT_0102e388.
+// Sets the vtable to DAT_010d0b3c, releases the linear motor reference if present, then sets the vtable to DAT_0102e388.
 // @fnv 0x00d4f8d0
 void FUN_00d4f8d0_class::FUN_00d4f8d0()
 {
-    DDCC60World* p = *reinterpret_cast<DDCC60World**>(reinterpret_cast<unsigned char*>(this) + 0xac);
+    DDCC60World* p = m_linMotorMotor;
     vtbl = &DAT_010d0b3c;
     if (p)
         reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
@@ -97,27 +109,6 @@ hkBoolD4FD hkObjD4FD::IsValid() const
     return m_kPointA.IsOrthonormal(::AngularDashpotApplyD4DCB0::DAT_01017d00) && m_kPointB.IsOrthonormal(::AngularDashpotApplyD4DCB0::DAT_01017d00) && m_kMinimumCorner <= m_kMaximumCorner;
 }
 
-class hkMemoryAllocatorD4FF
-{
-  public:
-    virtual ~hkMemoryAllocatorD4FF() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterD4FF
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD4FF* m_pStreamAllocator;
-    hkMemoryAllocatorD4FF& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterD4FF& __cdecl FUN_00c85750();
 
 class FUN_00d4f8d0
 {
@@ -128,7 +119,7 @@ class FUN_00d4f8d0
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<FUN_00d4f8d0*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<FUN_00d4f8d0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00d4f8d0* FUN_00d4ffd0(unsigned int uiFlags) throw();
@@ -193,30 +184,6 @@ FUN_00d50c50::~FUN_00d50c50()
     vtbl = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-}
 
 union hkVector4q
 {

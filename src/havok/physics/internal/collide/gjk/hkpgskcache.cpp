@@ -2,26 +2,8 @@
 // src/havok/physics/internal/collide/gjk/hkpgskcache.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/hkpgskcache.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+#include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_load_ps(float const*);
-    void _mm_store_ps(float*, __m128);
-}
 
 
 struct Vec4Q
@@ -242,11 +224,6 @@ class FUN_00dafe70_cls
     void FUN_00dafe70(Iface* a1, Src* a2, const unsigned int* a3);
 };
 
-extern "C"
-{
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-}
 
 static __m128 Xf(__m128 v, const __m128& r0, const __m128& r1, const __m128& r2, const __m128& r3)
 {

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct Context;
 struct Input;

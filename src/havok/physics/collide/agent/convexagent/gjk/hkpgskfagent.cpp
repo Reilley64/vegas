@@ -3,9 +3,12 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/FUN_00dabf10_cls.h"
+#include "havok/hkpGskfAgent.h"
 #include "fnv/decl/hkTransformCB22.h"
 #include "fnv/decl/hkpGskBaseAgent_S.h"
 #include "fnv/symbols_00dac000.h"
@@ -60,61 +63,32 @@ void FUN_00dacaf0::cleanup(void* arg)
 }
 
 
-struct hkpGskfAgent
-{
-    void FUN_00dacb20(unsigned short id);
-};
-
-// Scans up to count entries at this+0x36 for a matching id and, if found, calls FUN_00dae340 with this+0x30 and the entry index.
+// Looks for the contact point with a matching id and, if found, calls FUN_00dae340 with the manifold and its index.
 // @fnv 0x00dacb20
 void hkpGskfAgent::FUN_00dacb20(unsigned short id)
 {
-    int count = *(unsigned char*)((char*)this + 0x32);
-    int i = 0;
-    if (count > 0)
+    int count = m_manifold.m_numContactPoints;
+    for (int i = 0; i < count; ++i)
     {
-        char* p = (char*)this + 0x36;
-        do
+        if (m_manifold.m_contactPoints[i].m_id == id)
         {
-            if (*(unsigned short*)p == id)
-            {
-                ::FUN_00dae340((::S_00dad640_Set *)(void *)((char*)this + 0x30), i);
-                return;
-            }
-            ++i;
-            p += 8;
-        } while (i < count);
+            ::FUN_00dae340((::S_00dad640_Set *)(void *)&m_manifold, i);
+            return;
+        }
     }
 }
 
-struct FUN_00dacb60_class
-{
-    unsigned char m_pad00[0x32];
-    unsigned char m_uiItemCount;
-    unsigned char m_pad01[3];
-
-    struct Potential
-    {
-        unsigned short m_uiFilterValue;
-        unsigned char m_auiShapeKeys[6];
-    };
-
-    Potential m_potentials[256];
-
-    void AddPotential(unsigned short value);
-};
-
 // @fnv 0x00dacb60
-void FUN_00dacb60_class::AddPotential(unsigned short value)
+void hkpGskfAgent::AddPotential(unsigned short value)
 {
-    int count = m_uiItemCount;
+    int count = m_manifold.m_numContactPoints;
     int i;
 
     for (i = 0; i < count; ++i)
     {
-        if (m_potentials[i].m_uiFilterValue == 0xffff)
+        if (m_manifold.m_contactPoints[i].m_id == 0xffff)
         {
-            m_potentials[i].m_uiFilterValue = value;
+            m_manifold.m_contactPoints[i].m_id = value;
             return;
         }
     }
@@ -122,28 +96,18 @@ void FUN_00dacb60_class::AddPotential(unsigned short value)
 
 extern int DAT_010d5224;
 
-struct FUN_00dabf10
-{
-    void* m_pVtbl;
-    char m_b0[44];
-    int m_i0;
-    FUN_00dabf10(intptr_t, intptr_t, intptr_t);
-    ~FUN_00dabf10();
-};
-
-struct FUN_00dacbd0 : FUN_00dabf10
-{
-    FUN_00dacbd0(intptr_t a, intptr_t b, intptr_t c);
-    ~FUN_00dacbd0();
-};
-
-// Initializes the derived object: sets its vtable pointer to DAT_010d5224 and clears m_i0 after the base constructor runs.
+// Runs the base agent's constructor, then sets the gskf vtable and clears the manifold's counts.
 // @fnv 0x00dacbd0
-FUN_00dacbd0::FUN_00dacbd0(intptr_t a, intptr_t b, intptr_t c) : FUN_00dabf10(a, b, c)
+hkpGskfAgent::hkpGskfAgent(GskNode* a, GskNode* b, void* c)
 {
-    m_pVtbl = &DAT_010d5224;
-    m_i0 = 0;
+    reinterpret_cast<::FUN_00dabf10_cls*>(this)->FUN_00dabf10(a, b, c);
+    m_vtable = &DAT_010d5224;
+    m_manifold.m_numVertsA = 0;
+    m_manifold.m_numVertsB = 0;
+    m_manifold.m_numContactPoints = 0;
+    m_manifold.m_reserved = 0;
 }
+
 
 struct hkSlotDACB
 {
@@ -236,13 +200,13 @@ struct Drecv
     int unk2c;
     int f30;
 
-    void FUN_00daccd0(Dsrc* a1, Dsrc* a2, Dsrc* a3, int a4);
+    void FUN_00daccd0(Dsrc* a1, Dsrc* a2, Dsrc* a3, void* a4);
 };
 
 
 // Fills a Dtask from a1, a2, a3 and f08, calls FUN_00cb22f0 on its sub with a1->f08 and a2->f08, then ProcessCollision with the task, tmp, f0c, f30, f20 and a4.
 // @fnv 0x00daccd0
-void Drecv::FUN_00daccd0(Dsrc* a1, Dsrc* a2, Dsrc* a3, int a4)
+void Drecv::FUN_00daccd0(Dsrc* a1, Dsrc* a2, Dsrc* a3, void* a4)
 {
     Dctx ctx;
     Dtask res;
@@ -255,29 +219,9 @@ void Drecv::FUN_00daccd0(Dsrc* a1, Dsrc* a2, Dsrc* a3, int a4)
     ::ProcessCollision((::In *)(::Dtask *)(&res), &ctx.f0, (::Arg2 *)(int *)(&ctx.f1), (::Arg3 *)(int *)(&f0c), (::Arg4 *)(int *)(&f30), (::VecS *)(int *)(&f20), (::Arg6 *)(a4));
 }
 
-class hkMemoryAllocatorDACC
-{
-  public:
-    virtual ~hkMemoryAllocatorDACC() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterDACC
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorDACC* m_pStreamAllocator;
-    hkMemoryAllocatorDACC& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterDACC {
-extern "C" hkMemoryRouterDACC& __cdecl FUN_00c85750() throw();
 }
 
 struct hkAllocHeaderDACC
@@ -288,25 +232,22 @@ struct hkAllocHeaderDACC
 
 inline void* allocateAgentDACC(int nbytes)
 {
-    void* b = hkRouterDACC::FUN_00c85750().heap().AllocateMemoryBlock(nbytes);
+    void* b = hkMemoryRouter::getInstance().heap().blockAlloc(nbytes);
     static_cast<hkAllocHeaderDACC*>(b)->allocationSize = (unsigned short)nbytes;
     return b;
 }
 
-struct GskInitDACC : FUN_00dacbd0
-{
-    FUN_00dabf10* FUN_00dacbd0(intptr_t, intptr_t, intptr_t);
-    FUN_00dabf10* FUN_00dabf10(intptr_t, intptr_t, intptr_t);
-};
-
-// If c is nonzero, allocates 0x80 bytes and calls FUN_00dacbd0; otherwise allocates 0x30 bytes and calls FUN_00dabf10; returns the constructed object.
+// If c is nonzero, builds a gskf agent; otherwise builds a gsk base agent; returns the constructed object.
 // @fnv 0x00dacc00
-FUN_00dabf10* __cdecl FUN_00dacc00(intptr_t a, intptr_t b, intptr_t unused, intptr_t c)
+hkpGskBaseAgent* __cdecl FUN_00dacc00(GskNode* a, GskNode* b, const void* unused, void* c)
 {
     if (c)
-        return ((::FUN_00dabf10 *)(new ((void *)(static_cast<GskInitDACC*>(allocateAgentDACC(0x80)))) ::FUN_00dacbd0(a, b, c)));
-    return ((::FUN_00dabf10 *)(reinterpret_cast<::FUN_00dabf10_cls *>((static_cast<GskInitDACC*>(allocateAgentDACC(0x30))))->FUN_00dabf10((::GskNode *)(a), (::GskNode *)(b), 0)));
+        return new (allocateAgentDACC(sizeof(hkpGskfAgent))) hkpGskfAgent(a, b, c);
+    void* agent = allocateAgentDACC(sizeof(hkpGskBaseAgent));
+    reinterpret_cast<::FUN_00dabf10_cls*>(agent)->FUN_00dabf10(a, b, 0);
+    return static_cast<hkpGskBaseAgent*>(agent);
 }
+
 
 __declspec(noinline) void __cdecl InitVtable(FUN_00dacc70_vt* p);
 
@@ -326,3 +267,260 @@ void __cdecl FUN_00dacca0(D41FD0CollisionDispatcher* dispatcher)
     InitVtable(&funcs);
     reinterpret_cast<::FUN_00cfbbe0_cls *>((dispatcher))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(funcs), 0x12, 0x12);
 }
+
+// Moved from hkpgskfagent_rtm_variant.cpp (VEGAS-15).
+// src/havok/physics/collide/agent/convexagent/gjk/hkpgskfagent_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/havok/physics/collide/agent/convexagent/gjk/hkpgskfagent.cpp that match byte for byte only
+// with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
+
+
+// src/havok/physics/collide/agent/convexagent/gjk/hkpgskfagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/gjk/hkpgskfagent.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
+#include <windows.h>
+#include "fnv/symbols_01268000.h"
+void __cdecl InitVtable(FUN_00dacc70_vt* p);
+
+extern "C"
+{
+    unsigned __int64 __rdtsc();
+    void _ReadWriteBarrier();
+}
+
+typedef unsigned long DWORD;
+
+extern const char str_010ceca0[];
+
+struct hkMonitorStreamS
+{
+    char* m_kRayStart;
+    char* m_kRayEnd;
+    char* m_pRayCursor;
+    char* m_pCurrentCommand;
+    static hkMonitorStreamS& GetMonitorStream()
+    {
+        return *(hkMonitorStreamS*)TlsGetValue(DAT_0126835c);
+    }
+    bool memoryAvailable() const
+    {
+        return m_kRayEnd < m_pCurrentCommand;
+    }
+    char* GetStreamEnd()
+    {
+        return m_kRayEnd;
+    }
+    void setEnd(char* e)
+    {
+        m_kRayEnd = e;
+    }
+};
+struct SweepFactors
+{
+    union
+    {
+        volatile unsigned int ticks;
+        float a;
+    };
+    union
+    {
+        volatile unsigned int laterTicks;
+        float b;
+    };
+};
+struct CommandTimingEntry
+{
+    const char* m_pCommandName;
+    unsigned int m_uiStartTicks;
+    unsigned int m_uiEndTicks;
+    void setTime()
+    {
+        _ReadWriteBarrier();
+        volatile unsigned int t = (unsigned int)__rdtsc();
+        _ReadWriteBarrier();
+        m_uiStartTicks = t;
+    }
+};
+struct TimedNameRecord : CommandTimingEntry
+{
+    const char* m_pFirst;
+};
+
+struct hkVector4S
+{
+    __m128 m_vComponents;
+    __forceinline void setSub4(const hkVector4S& a, const hkVector4S& b)
+    {
+        m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void mul4(float r)
+    {
+        m_vComponents = _mm_mul_ps(m_vComponents, _mm_set_ps1(r));
+    }
+    __forceinline void add4(const hkVector4S& a)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents);
+    }
+    float& operator()(int i)
+    {
+        return ((float*)&m_vComponents)[i];
+    }
+    const float& operator()(int i) const
+    {
+        return ((const float*)&m_vComponents)[i];
+    }
+    __forceinline void setMul4(float r, const hkVector4S& a)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, _mm_set_ps1(r));
+    }
+    __forceinline void addMul4(float r, const hkVector4S& a)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(a.m_vComponents, _mm_set_ps1(r)));
+    }
+};
+
+struct hkMotionStateS
+{
+    __m128 unk00;
+    __m128 unk10;
+    __m128 unk20;
+    __m128 unk30;
+    hkVector4S m_vCenterOfMass0;
+    hkVector4S m_vCenterOfMass1;
+    __m128 unk60;
+    __m128 unk70;
+    __m128 unk80;
+    hkVector4S m_kDeltaAngle;
+    float m_fObjectRadius;
+};
+
+struct hkCdBodyS
+{
+    int unk00;
+    int unk04;
+    hkMotionStateS* m_pMotionState;
+};
+
+struct hkInputS
+{
+    int unk00;
+    int unk04;
+    float m_fScalar;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    float m_uiStartTime;
+    float m_fEndTime;
+    float m_fTimeStep;
+    float m_fInverseDeltaTime;
+};
+
+static __forceinline void calcTimInfo(const hkMotionStateS& ms0, const hkMotionStateS& ms1, float deltaTime,
+                                      hkVector4S& timInfo, SweepFactors& work)
+{
+    work.b = deltaTime;
+    work.a = work.b * (*(const volatile float*)&(ms0.m_vCenterOfMass1(3)));
+    work.b *= ms1.m_vCenterOfMass1(3);
+    __m128 r0 = _mm_load_ss(&work.a);
+    __m128 s0 = _mm_shuffle_ps(r0, r0, 0);
+    timInfo.m_vComponents = (_mm_add_ps(
+        (_mm_mul_ps((_mm_sub_ps((ms0.m_vCenterOfMass0.m_vComponents), (ms0.m_vCenterOfMass1.m_vComponents))), s0)),
+        (_mm_mul_ps((_mm_shuffle_ps((_mm_load_ss(&work.b)), (_mm_load_ss(&work.b)), 0)),
+                    (_mm_sub_ps((ms1.m_vCenterOfMass1.m_vComponents), (ms1.m_vCenterOfMass0.m_vComponents)))))));
+    timInfo(3) =
+        (*(const volatile float*)&(ms0.m_kDeltaAngle(3))) * work.a * (*(const volatile float*)&(ms0.m_fObjectRadius)) +
+        (*(const volatile float*)&(ms1.m_kDeltaAngle(3))) * work.b * (*(const volatile float*)&(ms1.m_fObjectRadius));
+}
+
+struct hkGskAgentS
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    float m_fFloatValue;
+    int unk1c;
+    hkVector4S m_vSeparatingNormal;
+    void FUN_00dacd50(const hkCdBodyS& a, const hkCdBodyS& b, const hkInputS& input, void* result);
+};
+
+// @fnv 0x00dacd50
+void hkGskAgentS::FUN_00dacd50(const hkCdBodyS& a, const hkCdBodyS& b, const hkInputS& input, void* result)
+{
+    SweepFactors work;
+    {
+        hkMonitorStreamS& s = hkMonitorStreamS::GetMonitorStream();
+        if (s.memoryAvailable())
+        {
+            TimedNameRecord* h = (TimedNameRecord*)s.GetStreamEnd();
+            h->m_pCommandName = "LtGskAgent";
+            h->m_pFirst = "StTim";
+            _ReadWriteBarrier();
+            work.ticks = (unsigned int)__rdtsc();
+            _ReadWriteBarrier();
+            h->m_uiStartTicks = work.ticks;
+            s.setEnd((char*)(h + 1));
+        }
+    }
+    if (m_fFloatValue != input.m_uiStartTime)
+    {
+        hkVector4S timInfo;
+        calcTimInfo(*a.m_pMotionState, *b.m_pMotionState, input.m_fTimeStep, timInfo, work);
+        if (m_vSeparatingNormal(3) > input.m_fScalar)
+        {
+            __m128 p = _mm_mul_ps(m_vSeparatingNormal.m_vComponents, timInfo.m_vComponents);
+            __m128 w = _mm_shuffle_ps(timInfo.m_vComponents, timInfo.m_vComponents, 0xff);
+            __m128 z = _mm_shuffle_ps(p, p, 0xaa);
+            __m128 y = _mm_shuffle_ps(p, p, 0x55);
+            __m128 d = _mm_add_ps(_mm_add_ss(z, w), _mm_add_ss(y, p));
+            _mm_store_ss(&work.b, d);
+            m_vSeparatingNormal(3) -= work.b;
+            if (m_vSeparatingNormal(3) > input.m_fScalar)
+                goto END;
+        }
+    }
+    {
+        hkMonitorStreamS& s = hkMonitorStreamS::GetMonitorStream();
+        if (s.memoryAvailable())
+        {
+            CommandTimingEntry* h = (CommandTimingEntry*)s.GetStreamEnd();
+            h->m_pCommandName = str_010ceca0;
+            _ReadWriteBarrier();
+            work.laterTicks = (unsigned int)__rdtsc();
+            _ReadWriteBarrier();
+            h->m_uiStartTicks = work.laterTicks;
+            s.setEnd((char*)(h + 1));
+        }
+    }
+    m_fFloatValue = input.m_fEndTime;
+    reinterpret_cast<::Drecv *>(this)->FUN_00daccd0((::Dsrc *)&(a), (::Dsrc *)&(b), (::Dsrc *)&(input), result);
+END: {
+    hkMonitorStreamS& s = hkMonitorStreamS::GetMonitorStream();
+    if (s.memoryAvailable())
+    {
+        CommandTimingEntry* h = (CommandTimingEntry*)s.GetStreamEnd();
+        h->m_pCommandName = "lt";
+        _ReadWriteBarrier();
+        work.laterTicks = (unsigned int)__rdtsc();
+        _ReadWriteBarrier();
+        h->m_uiStartTicks = work.laterTicks;
+        s.setEnd((char*)(h + 1));
+    }
+}
+}
+
+#include "generated/data/havok/physics/collide/agent/convexagent/gjk/hkpgskfagent.inc"

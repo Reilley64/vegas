@@ -425,14 +425,15 @@ struct FUN_00c036e0_class
 {
     char pad[0x5];
     unsigned char unk05;
-    char pad06[0x56];
+    char pad06[0x52];
+    int unk58;
     void FUN_00c036e0(int a);
 };
 // @fnv 0x00c036e0
 void FUN_00c036e0_class::FUN_00c036e0(int a)
 {
     this->unk05 = 1;
-    *(int*)((char*)this + 0x58) = a;
+    this->unk58 = a;
 }
 
 // @fnv 0x00c06dc0
@@ -1511,7 +1512,10 @@ struct FUN_00c033c0
     unsigned char unk58;
     unsigned char unk59;
     unsigned char unk5a;
-    char pad5b[0xd];
+    char pad5b[0x1];
+    int unk5c;
+    int unk60;
+    int unk64;
     FUN_00c033c0();
 };
 
@@ -1523,9 +1527,9 @@ FUN_00c033c0::FUN_00c033c0()
     this->unk58 = 0;
     this->unk59 = 0;
     this->unk5a = 0;
-    *(volatile int*)((char*)this + 0x5c) = 0;
-    *(volatile int*)((char*)this + 0x60) = 0;
-    *(volatile int*)((char*)this + 0x64) = 0;
+    this->unk5c = 0;
+    this->unk60 = 0;
+    this->unk64 = 0;
 }
 
 struct DestroyableReference

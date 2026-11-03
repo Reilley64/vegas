@@ -335,7 +335,8 @@ void* FUN_00baa220_Class::FUN_00baa220(int flag)
 
 struct FUN_00baa640_Class
 {
-    char pad[0x124];
+    char pad00[0x120];
+    int unk120;
     char unk124;
     void FUN_00baa640(int a, char b);
 };
@@ -343,7 +344,7 @@ struct FUN_00baa640_Class
 // @fnv 0x00baa640
 void FUN_00baa640_Class::FUN_00baa640(int aiValue, char b)
 {
-    *(int*)((char*)this + 0x120) = aiValue;
+    this->unk120 = aiValue;
     this->unk124 = b;
 }
 
@@ -744,7 +745,8 @@ struct FUN_00bad4f0_Class
 {
     char pad[0x5];
     char unk05;
-    char pad06[0x6a];
+    char pad06[0x66];
+    int unk6c;
     void FUN_00bad4f0(int a);
 };
 
@@ -752,7 +754,7 @@ struct FUN_00bad4f0_Class
 void FUN_00bad4f0_Class::FUN_00bad4f0(int a)
 {
     this->unk05 = 1;
-    *(int*)((char*)this + 0x6c) = a;
+    this->unk6c = a;
 }
 
 struct NiObjectNET_stub

@@ -282,14 +282,15 @@ struct FUN_00bc4980_class
 {
     char pad[0x64];
     char unk64;
-    char pad65[0xb];
+    char pad65[0x7];
+    void* unk6c;
     void FUN_00bc4980(void* p, char c);
 };
 
 // @fnv 0x00bc4980
 void FUN_00bc4980_class::FUN_00bc4980(void* p, char c)
 {
-    *(void**)((char*)this + 0x6c) = p;
+    this->unk6c = p;
     this->unk64 = c;
 }
 
@@ -421,7 +422,11 @@ extern int DAT_010ba730;
 
 struct FUN_00bc2bd0_class
 {
-    char pad[0xbc];
+    char pad00[0xac];
+    int unkac;
+    int unkb0;
+    int unkb4;
+    float unkb8;
     char unkbc;
     int* FUN_00bc2bd0();
 };
@@ -3148,10 +3153,10 @@ int* FUN_00bc2bd0_class::FUN_00bc2bd0()
 {
     FUN_00c5f570();
     *(int**)(char*)this = &DAT_010ba730;
-    *(int*)((char*)this + 0xac) = *(int*)&(*reinterpret_cast<float *>((void *)&::NiPoint3::ZERO));
-    *(int*)((char*)this + 0xb0) = _DAT_011f4270;
-    *(int*)((char*)this + 0xb4) = _DAT_011f4274;
-    *(float*)((char*)this + 0xb8) = 0.0f;
+    this->unkac = *(int*)&(*reinterpret_cast<float *>((void *)&::NiPoint3::ZERO));
+    this->unkb0 = _DAT_011f4270;
+    this->unkb4 = _DAT_011f4274;
+    this->unkb8 = 0.0f;
     this->unkbc = 0;
     return (int*)this;
 }

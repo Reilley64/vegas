@@ -727,7 +727,9 @@ struct NiTPrimitiveArray_ImageSpaceTexture___
 };
 struct FUN_00b8f930 : public ImageSpaceEffectShader
 {
-    char pad[0x94];
+    char pad00[0x6c];
+    void * unk6c;
+    char pad70[0x24];
     NiTPrimitiveArray_ImageSpaceTexture___ arr;
     FUN_00b8f930();
 };
@@ -735,7 +737,7 @@ struct FUN_00b8f930 : public ImageSpaceEffectShader
 FUN_00b8f930::FUN_00b8f930()
 {
     *(void**)this = (void*)&::DAT_010b2db0;
-    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b2d8c;
+    this->unk6c = (void*)&::DAT_010b2d8c;
     reinterpret_cast<::FUN_00a41520_cls *>(&(arr))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b8f930
@@ -2646,7 +2648,9 @@ extern int _data_011c16bc;
 
 struct FUN_00b92500_class : ImageSpaceEffectShader
 {
-    char pad[0x94 - sizeof(ImageSpaceEffectShader) + 1];
+    char pad00[0x6c];
+    void* unk6c;
+    char pad70[0x24];
     NiTPrimitiveArray_ImageSpaceTexture___ m_ppData;  // +0x94
     FUN_00b92500_class();
 };
@@ -2655,7 +2659,7 @@ struct FUN_00b92500_class : ImageSpaceEffectShader
 FUN_00b92500_class::FUN_00b92500_class()
 {
     *(void**)this = (void*)&DAT_010b5b10;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b5af0;
+    this->unk6c = (void*)&DAT_010b5af0;
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_ppData))->FUN_00a90180(5);
 }
 
@@ -2700,7 +2704,9 @@ FUN_00b932d0_class::FUN_00b932d0_class()
 
 struct FUN_00b93600_class : ImageSpaceEffectShader
 {
-    char pad[0x94 - sizeof(ImageSpaceEffectShader) + 1];
+    char pad00[0x6c];
+    void* unk6c;
+    char pad70[0x24];
     NiTPrimitiveArray_ImageSpaceTexture___ m_ppData;  // +0x94
     FUN_00b93600_class();
 };
@@ -2709,7 +2715,7 @@ struct FUN_00b93600_class : ImageSpaceEffectShader
 FUN_00b93600_class::FUN_00b93600_class()
 {
     *(void**)this = (void*)&DAT_010b6d90;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b6d70;
+    this->unk6c = (void*)&DAT_010b6d70;
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_ppData))->FUN_00a90180(4);
 }
 
@@ -2757,7 +2763,9 @@ extern int _data_011c16bc;
 
 struct FUN_00b94130_class : ImageSpaceEffectShader
 {
-    char pad[0x94 - sizeof(ImageSpaceEffectShader) + 1];
+    char pad00[0x6c];
+    void* unk6c;
+    char pad70[0x24];
     NiTPrimitiveArray_ImageSpaceTexture___ m_ppData;  // +0x94
     FUN_00b94130_class();
 };
@@ -2767,7 +2775,7 @@ struct FUN_00b94130_class : ImageSpaceEffectShader
 FUN_00b94130_class::FUN_00b94130_class()
 {
     *(void**)this = (void*)&DAT_010b78b8;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b7898;
+    this->unk6c = (void*)&DAT_010b7898;
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_ppData))->FUN_00a90180(2);
 }
 

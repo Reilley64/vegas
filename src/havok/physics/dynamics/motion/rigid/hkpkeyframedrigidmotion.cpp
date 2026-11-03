@@ -8,7 +8,7 @@
 #include "fnv/symbols_0102e000.h"
 #include "havok/hkpKeyframedRigidMotion.h"
 
-struct FUN_00d1df70
+struct FUN_00d1df70 : hkpMotion
 {
     void SetAndAddReference(hkReferencedObject* obj);
 };
@@ -17,26 +17,26 @@ void FUN_00d1df70::SetAndAddReference(hkReferencedObject* apObject)
 {
     if (apObject)
         reinterpret_cast<::FUN_00c90510_class *>((((FUN_00d1df70*)apObject)))->FUN_00c90510();
-    if (*(hkReferencedObject**)((char*)this + 0x118))
-        reinterpret_cast<::hkReferencedObjectC905 *>((((FUN_00d1df70*)*(hkReferencedObject**)((char*)this + 0x118))))->FUN_00c905b0();
-    *(hkReferencedObject**)((char*)this + 0x118) = apObject;
+    if (m_pSavedMotion)
+        reinterpret_cast<::hkReferencedObjectC905 *>(m_pSavedMotion)->FUN_00c905b0();
+    m_pSavedMotion = reinterpret_cast<hkpMaxSizeMotion*>(apObject);
 }
 
 struct DDCC60World
 {
 };
 extern int DAT_010c6bec;
-struct FUN_00d1dff0
+struct FUN_00d1dff0 : hkpMotion
 {
     void setMotion();
 };
-// Sets the vtable to DAT_010c6bec, releases the reference at offset 0x118 if present, then sets the vtable to _DAT_0102e388.
+// Sets the vtable to DAT_010c6bec, releases m_savedMotion if present, then sets the vtable to _DAT_0102e388.
 // @fnv 0x00d1dff0
 void FUN_00d1dff0::setMotion()
 {
     *reinterpret_cast<void**>(this) = (void*)&DAT_010c6bec;
-    if (*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x118))
-        reinterpret_cast<::hkReferencedObjectC905 *>((reinterpret_cast<DDCC60World*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x118))))->FUN_00c905b0();
+    if (m_pSavedMotion)
+        reinterpret_cast<::hkReferencedObjectC905 *>(m_pSavedMotion)->FUN_00c905b0();
     *reinterpret_cast<void**>(this) = (void*)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 

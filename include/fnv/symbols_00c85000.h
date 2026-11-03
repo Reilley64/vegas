@@ -21,7 +21,7 @@ void FUN_00c856c0(::FNV_Dispatch *, char *);
 // 0x00c85730
 void SetThreadLocalValue(void *);
 // 0x00c85750
-void FUN_00c85750();
+void *FUN_00c85750();
 // 0x00c85760
 namespace fnv_00c85760 { void *FUN_00c85760(); }
 // 0x00c85800

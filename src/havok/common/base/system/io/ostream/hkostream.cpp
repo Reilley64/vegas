@@ -17,9 +17,9 @@
 
 
 // @fnv 0x00c85750
-void __cdecl FUN_00c85750()
+void* __cdecl FUN_00c85750()
 {
-    TlsGetValue((void*)DAT_01268108);
+    return TlsGetValue(DAT_01268108);
 }
 
 struct Old

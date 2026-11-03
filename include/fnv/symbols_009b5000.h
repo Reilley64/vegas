@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace fnv_009b5650 { struct BooleanFloatQuery; }
 namespace n9b { struct Ctx; }
 namespace n9b { struct Info; }
@@ -16,7 +18,7 @@ struct Thing9b58d0;
 // 0x009b5050
 void SetContextInfo(::n9b::Ctx *, ::n9b::Info *);
 // 0x009b5120
-void FUN_009b5120(int, int, int, int, unsigned char, int, int);
+void FUN_009b5120(std::intptr_t, std::intptr_t, std::intptr_t, std::intptr_t, unsigned char, std::intptr_t, int);
 // 0x009b5170
 void InitHitData(::BooleanFloatQuery *, ::ActorHit *, ::ActorHit *, ::RefHit *, unsigned char);
 // 0x009b5650

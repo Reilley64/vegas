@@ -51,7 +51,7 @@ struct FUN_00905670_Class
 // @fnv 0x00905670
 void FUN_00905670_Class::SetVTable()
 {
-    *(int*)this = (int)&DAT_01088438;
+    *(const void**)this = &DAT_01088438;
 }
 
 extern int DAT_010159d4;
@@ -440,7 +440,7 @@ extern void* DAT_01088418;
 // @fnv 0x00905650
 void FUN_00905690_Class::FUN_00905650()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01088418);
+    *reinterpret_cast<void**>(this) = &DAT_01088418;
     reinterpret_cast<FUN_00905670_Class*>(this)->SetVTable();
 }
 
@@ -809,7 +809,7 @@ void FUN_00906050_Class::FUN_00906050(int value)
     if (v2(value, &guard))
     {
         reinterpret_cast<::FUN_009060f0_shell *>(this)->CallVirtual5(value);
-        reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::FUN_0044ac40_Service * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)(((unsigned int)(::FUN_00559450((int *)&(guard))))), {});
+        reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::FUN_0044ac40_Service * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)(::FUN_00559450((int *)&(guard))), {});
     }
 }
 

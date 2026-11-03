@@ -403,7 +403,7 @@ struct xActor
 void xActor::FUN_0081eba0()
 {
     void* EFFECT = FUN_1d0();
-    if ((((::xShooterV *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) && ((::xShooterV *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->FUN_2c() != (*reinterpret_cast<::xActor * *>(&::_g_thePlayer))) || !EFFECT)
+    if ((((::xShooterV *)(std::uintptr_t)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) && ((::xShooterV *)(std::uintptr_t)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->FUN_2c() != (*reinterpret_cast<::xActor * *>(&::_g_thePlayer))) || !EFFECT)
         return;
     xPick PICK;
     xP3 PLPOS;
@@ -666,7 +666,7 @@ xProj::xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* ap
     reinterpret_cast<::TESObjectREFR *>(this)->ResetProjectileIdleAnimation();
     reinterpret_cast<::Actor80F *>(this)->FUN_0080feb0();
     xVec4 V(-::DAT_0107a510, 0.0f, 0.0f, 0.0f);
-    reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((((::fnv_0080f810::xCtl *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_0080fb00((int)(&V));
+    reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((((::fnv_0080f810::xCtl *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_0080fb00((std::intptr_t)(&V));
     reinterpret_cast<::CellView *>((((::fnv_0080f810::xCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00548230((::RefView *)(void *)(this), false);
     if (((::fnv_0080f810::xSndForm *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::fnv_0080f810::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))))
     {
@@ -681,7 +681,7 @@ xProj::xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* ap
         m_c0 = apOwner;
     }
     reinterpret_cast<::xActor *>(this)->FUN_0081eba0();
-    void* SHOOTER = ((::fnv_0080f810::xActorV *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) ? ((::fnv_0080f810::xActorV *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->FUN_2c() : 0;
+    void* SHOOTER = ((::fnv_0080f810::xActorV *)(std::uintptr_t)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) ? ((::fnv_0080f810::xActorV *)(std::uintptr_t)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->FUN_2c() : 0;
     if (SHOOTER != (*reinterpret_cast<void * *>(&::_g_thePlayer)))
         ::FUN_0080fae0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0080f810::xFltSetting *>(&::g_011d1c28)))))));
     FUN_00484b60(0x10000000);

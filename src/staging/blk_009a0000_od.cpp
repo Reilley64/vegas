@@ -279,7 +279,7 @@ struct AX
 // @fnv 0x009a3750
 AX* AX::FUN_009a3750(unsigned int a, unsigned int b)
 {
-    *(int*)this = (int)&DAT_0108b4c8;
+    *(const void**)this = &DAT_0108b4c8;
     FUN_006b3eb0(a, b);
     return this;
 }
@@ -345,7 +345,7 @@ void AX::FUN_006b3eb0(unsigned int a, unsigned int b)
 // @fnv 0x009a42f0
 AX* AX::FUN_009a42f0(unsigned int a, unsigned int b)
 {
-    *(int*)this = (int)&::DAT_01084fec;
+    *(const void**)this = &::DAT_01084fec;
     FUN_006b3eb0(a, b);
     return this;
 }
@@ -399,13 +399,13 @@ CombatStateArray* CombatStateArray::FUN_009aa490(CombatStateArray* pArg)
 struct FUN_009b2c90_class
 {
     char m_data[6];
-    int FUN_009b2c90();
+    char* FUN_009b2c90();
 };
 
 // @fnv 0x009b2c90
-int FUN_009b2c90_class::FUN_009b2c90()
+char* FUN_009b2c90_class::FUN_009b2c90()
 {
-    return reinterpret_cast<int>(this) + static_cast<signed char>(m_data[5]);
+    return reinterpret_cast<char*>(this) + static_cast<signed char>(m_data[5]);
 }
 
 // Returns the larger of the two integer arguments.
@@ -805,7 +805,7 @@ void FUN_009aae10_Class::FUN_009aae10(int aiIndex, unsigned int auiBit)
 {
     if ((*reinterpret_cast<unsigned char (*)[256]>(&::DAT_011a55b4))[aiIndex * 8])
     {
-        int flags = ((int)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((DummyFontManager*)this)))->FUN_005bd5c0(aiIndex)));
+        int flags = ((int)(std::uintptr_t)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((DummyFontManager*)this)))->FUN_005bd5c0(aiIndex)));
         ((FUN_009aad00Class*)this)->FUN_009aad00(aiIndex, (1 << auiBit) | flags);
     }
     else
@@ -930,7 +930,7 @@ void* FUN_009b3130_class::DestroyIfFlagged(unsigned int flags)
 
 // Calls InitFromObjects with a6 when a6 is nonzero, otherwise calls InitHitData with a5, forwarding a1-a4.
 // @fnv 0x009b5120
-void __cdecl FUN_009b5120(int aiArg1, int aiArg2, int aiArg3, int aiArg4, unsigned char a5, int a6, int a7)
+void __cdecl FUN_009b5120(std::intptr_t aiArg1, std::intptr_t aiArg2, std::intptr_t aiArg3, std::intptr_t aiArg4, unsigned char a5, std::intptr_t a6, int a7)
 {
     if (a6)
         ::fnv_009b5650::InitFromObjects((::fnv_009b5650::BooleanFloatQuery *)(aiArg1), (void *)(aiArg2), (void *)(aiArg3), (void *)(aiArg4), (void *)(a6));
@@ -1775,7 +1775,7 @@ void NegateCharacterControllerValue()
 {
     ::DAT_011f1c00 =
         -FUN_004587d0(reinterpret_cast<bhkCharacterController*>(
-                          reinterpret_cast<FUN_009a6080_Class*>(((void *)(::FUN_00451010())))->FUN_009a6080())
+                          reinterpret_cast<FUN_009a6080_Class*>(((void *)(std::uintptr_t)(::FUN_00451010())))->FUN_009a6080())
                           ->GetVectorElement(2));
 }
 
@@ -3481,10 +3481,10 @@ float FUN_009b0f80_Actor::GetCachedValue()
         return value100;
     }
     value100 = ::FUN_006479e0((::FloatSource *)(void *)(((void *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))));
-    if (((::FUN_009b0f80_Item *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8())) && ((::FUN_009b0f80_Item *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()))->vf_100() && ((::FUN_009b0f80_Skill *)(reinterpret_cast<::FUN_009b0900_shell *>(this)->GetFieldE0())))
+    if (((::FUN_009b0f80_Item *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8())) && ((::FUN_009b0f80_Item *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()))->vf_100() && ((::FUN_009b0f80_Skill *)(std::uintptr_t)(reinterpret_cast<::FUN_009b0900_shell *>(this)->GetFieldE0())))
     {
-        FUN_009b0f80_Item* item = ((::FUN_009b0f80_Item *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()));
-        float skill = item->owner.GetValue(((int)(reinterpret_cast<::FUN_008d85e0_Class *>((((::FUN_009b0f80_Skill *)(reinterpret_cast<::FUN_009b0900_shell *>(this)->GetFieldE0()))))->GetUnk15C())));
+        FUN_009b0f80_Item* item = ((::FUN_009b0f80_Item *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()));
+        float skill = item->owner.GetValue(((int)(reinterpret_cast<::FUN_008d85e0_Class *>((((::FUN_009b0f80_Skill *)(std::uintptr_t)(reinterpret_cast<::FUN_009b0900_shell *>(this)->GetFieldE0()))))->GetUnk15C())));
         float mult9 = ::FUN_00403e20((float *)&(originalRuntimeFloatSetting505)) + ::FUN_00403e20((float *)&(originalRuntimeFloatSetting506)) * (skill * 0.01f);
         value100 = value100 * mult9;
     }
@@ -3566,9 +3566,9 @@ void ActorX::FUN_009b1090()
         unsigned int boltSoundFormID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::SoundForm *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::ActorBaseX *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))))))->FUN_0084e3a0()));
         reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::SoundHandleX &)(soundAC))->operator=((const ::SoundPlaybackHandle &)((const ::SoundHandleX &)(PlaySoundByFormID(boltSoundFormID, 0, 0x40000182, 1))));
     }
-    if (((::SoundForm *)(reinterpret_cast<::PlayerMover *>((((::ActorBaseX *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetActorStateFlags())))
+    if (((::SoundForm *)(std::uintptr_t)(reinterpret_cast<::PlayerMover *>((((::ActorBaseX *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetActorStateFlags())))
     {
-        unsigned int secondSoundFormID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::SoundForm *)(reinterpret_cast<::PlayerMover *>((((::ActorBaseX *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetActorStateFlags()))))->FUN_0084e3a0()));
+        unsigned int secondSoundFormID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::SoundForm *)(std::uintptr_t)(reinterpret_cast<::PlayerMover *>((((::ActorBaseX *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetActorStateFlags()))))->FUN_0084e3a0()));
         reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::SoundHandleX &)(soundB8))->operator=((const ::SoundPlaybackHandle &)((const ::SoundHandleX &)(PlaySoundByFormID(secondSoundFormID, 0, 0x40000182, 1))));
     }
 }
@@ -4036,9 +4036,9 @@ void InitCombatThing(CombatThing* thing, int iValueA, int iValueB, ActorStub* ac
         ActorStub* pActor = actor;
         thing->unk30 = reinterpret_cast<::FUN_009b0900_shell *>((pActor))->GetFieldE0();
         thing->unk34 = 1.0f;
-        if (((::ItemStub *)(reinterpret_cast<::FUN_009acce0_shell *>((pActor))->GetFieldC8())) && ((::ItemStub *)(reinterpret_cast<::FUN_009acce0_shell *>((pActor))->GetFieldC8()))->IsOk())
+        if (((::ItemStub *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>((pActor))->GetFieldC8())) && ((::ItemStub *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>((pActor))->GetFieldC8()))->IsOk())
         {
-            ItemStub* item = ((::ItemStub *)(reinterpret_cast<::FUN_009acce0_shell *>((pActor))->GetFieldC8()));
+            ItemStub* item = ((::ItemStub *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>((pActor))->GetFieldC8()));
             if ((uintptr_t)((::WeapStub *)(reinterpret_cast<::FUN_008a1710_shell *>((item))->FUN_008a1710())) == thing->unk30)
             {
                 FactorStub* pFactor = ((::ProcStub *)(reinterpret_cast<::BSShaderNoLightingProperty *>((item))->GetBaseTexture())) ? (FactorStub*)((::ProcStub *)(reinterpret_cast<::BSShaderNoLightingProperty *>((item))->GetBaseTexture()))->GetThing() : 0;
@@ -4593,7 +4593,7 @@ void PRef::UpdateNodePlacement()
             node7->Update(updateData3);
             ::FUN_00c6a040((int)(node7), 1, 1, 1);
             PPoint3 pt;
-            reinterpret_cast<::FUN_00439f50_class *>((((::PTransformHolder *)(::FUN_00461130((int)(node7))))))->FUN_00439f50(1, (::NiPoint3 *)&(pt));
+            reinterpret_cast<::FUN_00439f50_class *>((((::PTransformHolder *)(::FUN_00461130((std::intptr_t)(node7))))))->FUN_00439f50(1, (::NiPoint3 *)&(pt));
             reinterpret_cast<::MyPoint439180 *>((void *)&(const ::PPoint3 &)(pt))->FUN_00439180(reinterpret_cast<::FUN_009669c0_Class *>(this)->FUN_009669c0());
             ::FUN_0062b8d0(node7, &pt, 1);
             SetFlagV(4);
@@ -5815,7 +5815,7 @@ TargetRef* __cdecl CreateProjectileRef(void* form, TargetRef* source, TargetRef*
         else if (source && source == (*reinterpret_cast<::TargetRef * *>(&::_g_thePlayer)))
         {
             TargetRef* weaponFlags = ((::TargetRef *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::TargetRef * *>(&::_g_thePlayer))))->GetBaseTexture())) ? ((::TargetRef *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::TargetRef * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetLoadedForm() : 0;
-            unsigned int weapon = weaponFlags ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((weaponFlags))->GetName())) : 0;
+            unsigned int weapon = weaponFlags ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((weaponFlags))->GetName())) : 0;
             ::ApplyPerkModifiers(0x48, (::Actor *)((*reinterpret_cast<::TargetRef * *>(&::_g_thePlayer))), weapon, &scale);
         }
         result = new FUN_009ac200(form, owner, flags, position, rotation);
@@ -5823,16 +5823,16 @@ TargetRef* __cdecl CreateProjectileRef(void* form, TargetRef* source, TargetRef*
     }
     if (result)
     {
-        if (((::TargetRef *)(reinterpret_cast<::FUN_009acce0_shell *>((result))->GetFieldC8())))
+        if (((::TargetRef *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>((result))->GetFieldC8())))
         {
             TargetExtra* extra = 0;
-            if (((::TargetRef *)(reinterpret_cast<::FUN_009acce0_shell *>((result))->GetFieldC8()))->NeedsExtra())
+            if (((::TargetRef *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>((result))->GetFieldC8()))->NeedsExtra())
             {
-                extra = new FUN_0066e010(((::TargetRef *)(reinterpret_cast<::FUN_009acce0_shell *>((result))->GetFieldC8())));
+                extra = new FUN_0066e010(((::TargetRef *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>((result))->GetFieldC8())));
             }
             else
             {
-                extra = ((::TargetRef *)(reinterpret_cast<::FUN_009acce0_shell *>((result))->GetFieldC8()))->GetExtra();
+                extra = ((::TargetRef *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>((result))->GetFieldC8()))->GetExtra();
             }
             result->SetExtra(extra);
         }
@@ -6352,7 +6352,7 @@ void Actor9af::FUN_009afef0()
             if (bFlag || iLayerB == 0x1d)
             {
                 Ref9af* pRef = ((::Ref9af *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(pObj2))));
-                unsigned int uiIDA = pRef ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pRef))->GetName())) : 0;
+                unsigned int uiIDA = pRef ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pRef))->GetName())) : 0;
                 Form9af* pForm5 = ((::Form9af *)(::FUN_0056f930((::NiAVObject *)(uiIDA))));
                 if (bFlag && pForm5 != unkcc)
                     continue;
@@ -6677,12 +6677,12 @@ void Obj082::ProcessHits()
                 if (amount)
                     reinterpret_cast<::MyActor008A5300 *>((amount))->CallProcessAt778();
                 ::FUN_005ac750((::TESForm *)(void *)(GetSource() ? (void*)::FUN_00559450((int *)(GetSource())) : 0), (::ExtraDataList *)(((intptr_t)(reinterpret_cast<::FUN_005d43c0_ *>((entry->object))->FUN_005d43c0()))), 0x80);
-                if (((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::FUN_009b0900_shell *>(this)->GetFieldE0())))
-                    ::FUN_005ac750((::TESForm *)(void *)(((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::FUN_009b0900_shell *>(this)->GetFieldE0()))), (::ExtraDataList *)(((intptr_t)(reinterpret_cast<::FUN_005d43c0_ *>((entry->object))->FUN_005d43c0()))), 0x100);
+                if (((::fnv_009b00a0::Obj082 *)(std::uintptr_t)(reinterpret_cast<::FUN_009b0900_shell *>(this)->GetFieldE0())))
+                    ::FUN_005ac750((::TESForm *)(void *)(((::fnv_009b00a0::Obj082 *)(std::uintptr_t)(reinterpret_cast<::FUN_009b0900_shell *>(this)->GetFieldE0()))), (::ExtraDataList *)(((intptr_t)(reinterpret_cast<::FUN_005d43c0_ *>((entry->object))->FUN_005d43c0()))), 0x100);
                 else
                     ::FUN_005ac750((::TESForm *)(void *)(((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))), (::ExtraDataList *)(((intptr_t)(reinterpret_cast<::FUN_005d43c0_ *>((entry->object))->FUN_005d43c0()))), 0x100);
                 actor = reinterpret_cast<::FUN_009b0f80_Actor *>(this)->GetCachedValue() * distance;
-                if (reinterpret_cast<::FUN_00477ba0_shell *>((entry->object))->FUN_00477ba0() && ((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8())) == (*reinterpret_cast<::fnv_009b00a0::Obj082 * *>(&::_g_thePlayer)))
+                if (reinterpret_cast<::FUN_00477ba0_shell *>((entry->object))->FUN_00477ba0() && ((::fnv_009b00a0::Obj082 *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8())) == (*reinterpret_cast<::fnv_009b00a0::Obj082 * *>(&::_g_thePlayer)))
                     reinterpret_cast<::fnv_00963eb0::PlayerView *>(((*reinterpret_cast<::fnv_009b00a0::Obj082 * *>(&::_g_thePlayer))))->SetEffectValue((void *)(10), ::DAT_0102918c, (::fnv_00963eb0::EffectSource *)(0));
                 if (amount)
                 {
@@ -6701,13 +6701,13 @@ void Obj082::ProcessHits()
                             reinterpret_cast<::FUN_007f78f0_Class *>((((::fnv_009b00a0::Obj082 *)(::FUN_00705950()))))->InitFromPoints((const ::NiPoint2 *)&(const ::fnv_009b00a0::Pair082 &)(FUN_00532fd0(distance, &c)), (const ::NiPoint2 *)&(const ::fnv_009b00a0::Pair082 &)(FUN_00532fd0(distance, &b)), (const ::NiPoint2 *)&(a));
                         }
                         List082* data = ((::fnv_009b00a0::List082 *)(reinterpret_cast<::Callees *>((((List082*)&((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->unk54)))->FUN_00726070()));
-                        if (data && ((((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8())) && ((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()))->IsActor()) || effect))
+                        if (data && ((((::fnv_009b00a0::Obj082 *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8())) && ((::fnv_009b00a0::Obj082 *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()))->IsActor()) || effect))
                         {
                             if (effect)
                                 effect->curve.Apply(data ? &((Obj082*)data)->unk18 : 0, 0, amount ? &amount->unk94 : 0,
                                                     1.0f, 0);
                             else
-                                ((Curve082*)&((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()))->unk88)
+                                ((Curve082*)&((::fnv_009b00a0::Obj082 *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()))->unk88)
                                     ->Apply(data ? &((Obj082*)data)->unk18 : 0, 0, amount ? &amount->unk94 : 0, 1.0f,
                                             0);
                         }

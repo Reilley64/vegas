@@ -1949,7 +1949,7 @@ void DialogueCameraX::FUN_009c7240()
                                 }
                                 if (!qfpzU)
                                 {
-                                    qoqcoe = ((::Obj3DX *)(reinterpret_cast<::FUN_005e50f0_Obj *>((qgqKr))->GetValueByIndex(0)));
+                                    qoqcoe = ((::Obj3DX *)(std::uintptr_t)(reinterpret_cast<::FUN_005e50f0_Obj *>((qgqKr))->GetValueByIndex(0)));
                                     if (qoqcoe)
                                         qfpzU = ((void *)(::FUN_004aae30((::NiAVObject *)(qhQRuW), (::NiFixedString *)(void *)(((void *)(::fnv_0043b230::FUN_0043b230((const char *)(qoqcoe))))))));
                                 }
@@ -2575,7 +2575,7 @@ bool FUN_009d4f50_cls::FUN_009d4f50()
         return false;
     }
     local18 = *((::FUN_009d4f50_vt *)(reinterpret_cast<::AlchemyItem *>((m_04))->FUN_004030b0()))->v125();
-    local0c = *((::FUN_009d4f50_vt *)(::GetFieldBC((::FUN_0097ae90_Class *)(m_04))))->v125();
+    local0c = *((::FUN_009d4f50_vt *)(std::uintptr_t)(::GetFieldBC((::FUN_0097ae90_Class *)(m_04))))->v125();
     reinterpret_cast<::FUN_00439ef0_class *>(&(local18))->FUN_00439ef0((::NiPoint3 *)(::FUN_009d4f50_vec *)(&local24), (*(const ::NiPoint3 *)(&local0c)));
     if (reinterpret_cast<::TESCombatStyle *>(&(local24))->UpdateCombatStyle() < DAT_0108e058)
     {
@@ -3346,7 +3346,7 @@ struct ImpProjectile
 void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* apNormal, int a4, int aiMaterial)
 {
     bool bSplatterTmp = true;
-    ImpPoint kDelta = (*(::ProjectileImpact::ImpPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(apPos))->FUN_00439ef0((::NiPoint3 *)&(*((::ProjectileImpact::ImpPoint *)(::FUN_0045bb80((int)(((::ProjectileImpact::ImpCamera *)(::FUN_00524c90()))))))), *(const ::NiPoint3 *)nullptr)));
+    ImpPoint kDelta = (*(::ProjectileImpact::ImpPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(apPos))->FUN_00439ef0((::NiPoint3 *)&(*((::ProjectileImpact::ImpPoint *)(::FUN_0045bb80((std::intptr_t)(((::ProjectileImpact::ImpCamera *)(::FUN_00524c90()))))))), *(const ::NiPoint3 *)nullptr)));
     if (((bool)(::FUN_00525420())) || reinterpret_cast<::NiPoint3 *>((void *)&(kDelta))->ComputeMagnitude() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ProjectileImpact::ImpFloatSetting *>(&::originalRuntimeFloatSetting642)))))) ||
         !::FUN_004b61d0((*(::NiPoint3 *)&(const ::ProjectileImpact::ImpPoint &)(*apPos)), (::NiCamera *)(::ProjectileImpact::ImpCamera *)(((::ProjectileImpact::ImpCamera *)(::FUN_00524c90()))), 32.0f))
         bSplatterTmp = false;

@@ -167,7 +167,7 @@ struct PAVActor
 // @fnv 0x008c1c00
 AX* PAVActor::FUN_008c1c00()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_01084fec;
+    *reinterpret_cast<const void**>(this) = &DAT_01084fec;
     ((AX*)this)->FUN_006b3eb0(0, 0);
     return (AX*)this;
 }
@@ -391,8 +391,8 @@ struct FUN_008d0240_Class
 // @fnv 0x008d0240
 void FUN_008d0240_Class::FUN_008d0240()
 {
-    if (*(int*)((char*)this + 0x88))
-        *(int*)((char*)*(int*)((char*)this + 0x88) + 0x28) = 0;
+    if (*(char**)((char*)this + 0x88))
+        *(int*)(*(char**)((char*)this + 0x88) + 0x28) = 0;
 }
 
 struct FUN_008d1160_Class
@@ -472,7 +472,7 @@ void FUN_008d50e0_shell::FUN_008d50e0()
 
 struct FUN_008d5660_class
 {
-    void ForwardToInner(int a);
+    void ForwardToInner(std::intptr_t a);
 };
 struct ActorValueUtility
 {
@@ -558,7 +558,7 @@ extern int DAT_0108583c;
 
 struct FUN_008ca800_Class
 {
-    int a;
+    const void* a;
     int b;
     int c;
     FUN_008ca800_Class* FUN_008ca800();
@@ -568,7 +568,7 @@ struct FUN_008ca800_Class
 // @fnv 0x008ca800
 FUN_008ca800_Class* FUN_008ca800_Class::FUN_008ca800()
 {
-    a = (int)&DAT_0108583c;
+    a = &DAT_0108583c;
     b = 0;
     c = 0;
     return this;
@@ -692,8 +692,8 @@ void FUN_008c7990_Class::FUN_008c7990()
 
 struct FUN_008ca7c0_shell
 {
-    void Reinitialize(int b);
-    bool FUN_008ca7c0(int a, int b);
+    void Reinitialize(std::intptr_t b);
+    bool FUN_008ca7c0(std::intptr_t a, std::intptr_t b);
 };
 struct FUN_008_Struct
 {
@@ -802,7 +802,7 @@ struct FUN_008d15d0_Class
 void* FUN_008d15d0_Class::FUN_008d15d0()
 {
     new ((void *)(this)) class ::FUN_00a6d220();
-    *(int*)this = (int)&DAT_010867fc;
+    *(const void**)this = &DAT_010867fc;
     *(float*)((char*)this + 0x34) = 0.0f;
     *(int*)((char*)this + 0x38) = 0;
     return this;
@@ -853,16 +853,16 @@ struct BGSSaveFormBuffer
 };
 struct FUN_008d56c0_class
 {
-    void SaveToBuffer(int a);
+    void SaveToBuffer(std::intptr_t a);
 };
 // @fnv 0x008d5660
-void FUN_008d5660_class::ForwardToInner(int aiValue)
+void FUN_008d5660_class::ForwardToInner(std::intptr_t aiValue)
 {
     reinterpret_cast<::FUN_008d56c0_class *>((((FUN_008d5660_class*)*(void**)this)))->SaveToBuffer(aiValue);
 }
 // Writes this object's first byte and the 4 bytes at offset 4 into the BGSSaveFormBuffer passed in.
 // @fnv 0x008d56c0
-void FUN_008d56c0_class::SaveToBuffer(int pBuffer)
+void FUN_008d56c0_class::SaveToBuffer(std::intptr_t pBuffer)
 {
     reinterpret_cast<::FUN_00865e50_shell *>((((BGSSaveFormBuffer*)pBuffer)))->FUN_00865e50(this, 1, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((((BGSSaveFormBuffer*)pBuffer)))->FUN_00865e50((char*)this + 4, 4, 0);
@@ -929,7 +929,7 @@ struct ProcessLists
 
 struct FUN_008d6f50_Class
 {
-    void FUN_008d6f50(int arg);
+    void FUN_008d6f50(std::intptr_t arg);
 };
 
 
@@ -993,8 +993,8 @@ struct FUN_008da1a0_Class
 // @fnv 0x008da1a0
 void FUN_008da1a0_Class::FUN_008da1a0(FUN_00571550_shell* actor)
 {
-    *(int*)((char*)this + 0x2e4) = 0;
-    int id = ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((actor))->FUN_0043fcd0()));
+    *(NiTimeController**)((char*)this + 0x2e4) = 0;
+    void* id = reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((actor))->FUN_0043fcd0();
     if (!id)
         return;
     Model* model = ((::Model *)(reinterpret_cast<::fnv_00571530::FUN_00571530_shell *>((actor))->FUN_00571530((::fnv_00571530::NiAVObject *)(id), (::fnv_00571530::NiFixedString *)(((intptr_t)(::FUN_00571550()))))));
@@ -1005,7 +1005,7 @@ void FUN_008da1a0_Class::FUN_008da1a0(FUN_00571550_shell* actor)
     {
         if (::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)&(::g_012031b8), (const ::fnv_0045bad0::NiObject *)(controller)))
         {
-            *(int*)((char*)this + 0x2e4) = (int)controller;
+            *(NiTimeController**)((char*)this + 0x2e4) = controller;
             return;
         }
         controller = ((::NiTimeController *)(::fnv_004a8a90::FUN_004a8a90((char *)(controller))));
@@ -1034,10 +1034,10 @@ extern int DAT_01086674;
 extern int DAT_01086684;
 struct FUN_008d10e0_Class : Call741e0
 {
-    void* FUN_008d10e0(int a, int b);
+    void* FUN_008d10e0(void* a, int b);
 };
 // @fnv 0x008d10e0
-void* FUN_008d10e0_Class::FUN_008d10e0(int aiArg, int aiValue)
+void* FUN_008d10e0_Class::FUN_008d10e0(void* aiArg, int aiValue)
 {
     new ((void *)this) ::fnv_00c741e0::FUN_00c741e0((::fnv_00c741e0::T741_Src *)(aiArg));
     *reinterpret_cast<int**>(this) = &DAT_01086684;
@@ -1893,7 +1893,7 @@ struct S_8c4f10_Item
     virtual void v11();
     virtual void v12();
     virtual void v13();
-    virtual void v14(int a);
+    virtual void v14(std::intptr_t a);
 };
 struct S_8c4f10_Node
 {
@@ -1945,7 +1945,7 @@ struct S_8c4f10_Cls
     int unk8c;
     int unk90;
     S_8c4f10_List list;
-    void FUN_008c4f10(int a);
+    void FUN_008c4f10(std::intptr_t a);
 };
 
 struct SpawnedElemB
@@ -2103,7 +2103,7 @@ class FUN_008ca940_cls
     bool PopNode(FUN_008ca940_node** out);
 };
 // @fnv 0x008ca7c0
-bool FUN_008ca7c0_shell::FUN_008ca7c0(int a, int b)
+bool FUN_008ca7c0_shell::FUN_008ca7c0(std::intptr_t a, std::intptr_t b)
 {
     if (reinterpret_cast<::FUN_008ca940_cls *>(this)->PopNode((::FUN_008ca940_node **)(a)))
     {
@@ -2942,10 +2942,10 @@ struct Player
     unsigned int unknown80;
     unsigned int unknown84;
     State* state;
-    unsigned char RenderActiveAction(int unused);
+    unsigned char RenderActiveAction(void* unused);
 };
 // @fnv 0x008cd390
-unsigned char Player::RenderActiveAction(int unused)
+unsigned char Player::RenderActiveAction(void* unused)
 {
     Renderer* renderer = currentRenderer();
     resetRenderer();
@@ -3122,14 +3122,14 @@ struct Object
     virtual void v113();
     virtual void v114();
     virtual void v115();
-    virtual int GetSource();
+    virtual void* GetSource();
     void FUN_008cfad0(float weight, int a, int b, int c, int offset, unsigned char enabled);
 };
 // If the object's source resolves to a resource with metadata, builds an EventRecord from the arguments and passes it to FUN_00837550.
 // @fnv 0x008cfad0
 void Object::FUN_008cfad0(float weight, int aiParam1, int aiParam2, int aiParam3, int offset, unsigned char enabled)
 {
-    int source = GetSource();
+    void* source = GetSource();
     if (source != 0 && *reinterpret_cast<int**>(reinterpret_cast<unsigned char*>(this) + 0x88) != 0 &&
         **reinterpret_cast<int**>(reinterpret_cast<unsigned char*>(this) + 0x88) == 1)
     {
@@ -3211,7 +3211,7 @@ struct Arg_cls
     int unk003C;
     int unk0040;
     int unk0044;
-    int unk0048;
+    void* unk0048;
 };
 struct FUN_008d14e0_cls
 {
@@ -4920,7 +4920,7 @@ struct FUN_008d6bb0_owner
     void CreateMultiBoundNode(SceneArg* arg);
 };
 // @fnv 0x008d6f50
-void FUN_008d6f50_Class::FUN_008d6f50(int pCamera)
+void FUN_008d6f50_Class::FUN_008d6f50(std::intptr_t pCamera)
 {
     if (reinterpret_cast<::_FUN_00822510_Class *>((void *)(((NiPointer<NiNode>*)((char*)this + 0xa0))))->operator==(0))
     {
@@ -4928,7 +4928,7 @@ void FUN_008d6f50_Class::FUN_008d6f50(int pCamera)
     }
     else
     {
-        reinterpret_cast<::FUN_0041fd00_shell *>((((MagicCaster*)((char*)this + 8))))->FUN_0041fd00(pCamera);
+        reinterpret_cast<::FUN_0041fd00_shell *>((((MagicCaster*)((char*)this + 8))))->FUN_0041fd00((int)(NiCamera*)pCamera);
         ((S694a0*)((char*)this + 8))->FUN_00a694a0((void*)&((NiCamera*)pCamera)->GetViewFrustum());
     }
     reinterpret_cast<::FUN_0096bbc0_cls *>(&((*reinterpret_cast<::ProcessLists *>(&::g_011e0e80))))->ProcessMobileObjects((::FUN_0096bbc0_list *)(void *)(this));
@@ -5088,11 +5088,11 @@ struct Handle
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
-    void Reinitialize(int b);
+    void Reinitialize(std::intptr_t b);
 };
 // Destroys the current HandleBase state and reconstructs the object in place as a FUN_008caa70 from the given value.
 // @fnv 0x008ca9e0
-void Handle::Reinitialize(int b)
+void Handle::Reinitialize(std::intptr_t b)
 {
     ((HandleBase*)this)->HandleBase::~HandleBase();
     new (this) FUN_008caa70((void*)b);
@@ -5266,7 +5266,7 @@ void* FUN_008cc6f0_Class::FUN_008cc6f0()
 }
 // If a is nonzero, walks the list nodes while FUN_005ae380 is true and calls v14(a) on the first item of each node.
 // @fnv 0x008c4f10
-void S_8c4f10_Cls::FUN_008c4f10(int a)
+void S_8c4f10_Cls::FUN_008c4f10(std::intptr_t a)
 {
     S_8c4f10_Node* pNode;
     if (a)
@@ -5292,7 +5292,7 @@ void FUN_008d14e0_cls::FUN_008d14e0(Arg_cls* apArg)
     }
     else
     {
-        ::FUN_008d12e0((::TargetOwner *)(p), (::SourceData *)(apArg->unk0048), ((int)(((::Vec3 *)(void *)(apArg)))), ::FUN_00460140((int)(apArg)));
+        ::FUN_008d12e0((::TargetOwner *)(p), (::SourceData *)(apArg->unk0048), ((std::intptr_t)(((::Vec3 *)(void *)(apArg)))), ::FUN_00460140((std::intptr_t)(apArg)));
     }
 }
 // Calls Handle with the ref's base form and the owner's value, or 0 when there is no owner.
@@ -5513,7 +5513,7 @@ class TopicInfoArray
 };
 // Removes up to maximum ArrowProjectiles matching owner, target and filter: the first pass deletes or calls FUN_008cc6d0(3), the second pass always deletes.
 // @fnv 0x008ce180
-void FUN_008ce180(void* target, int maximum, int owner, bool destroy, bool filter)
+void FUN_008ce180(void* target, int maximum, std::intptr_t owner, bool destroy, bool filter)
 {
     int list = 0;
     TopicInfoArray* count = (TopicInfoArray*)((::AttachedArrowTimer *)(reinterpret_cast<::BaseProcess *>((((AttachedArrowProcesses*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))))->GetCurrentProcessData()));
@@ -5929,11 +5929,11 @@ extern LiveCallback* FUN_008d8520(LiveCallback*);
 extern LiveCallback* __cdecl FUN_00ec43fb(void*, int, const void*, const void*, int);
 
 // @fnv 0x008d12e0
-void __cdecl FUN_008d12e0(TargetOwner* target, SourceData* source, int arg0, int arg1)
+void __cdecl FUN_008d12e0(TargetOwner* target, SourceData* source, std::intptr_t arg0, std::intptr_t arg1)
 {
     void* owner = ((void *)(::GetReferenceFromObject((::NiAVObject *)(source))));
     LiveCallback* active = FUN_00ec43fb(owner, 0, &(*reinterpret_cast<int *>(&::DAT_011841cc)), &(*reinterpret_cast<int *>(&::DAT_011846d4)), 0);
-    int action = ((int)(::FUN_004b5950(source)));
+    void* action = ::FUN_004b5950(source);
     if (action)
     {
         if (!active)
@@ -5984,8 +5984,8 @@ void __cdecl FUN_008d12e0(TargetOwner* target, SourceData* source, int arg0, int
         }
         if (!active)
         {
-            int identifier = ((int)(::FUN_004b5a80((const void *)(((int)(::FUN_004b59f0(source)))))));
-            reinterpret_cast<::FUN_008cc730_s *>((target))->FUN_008cc730((::MobileObject *)(::ArgumentData *)(&first), 0.0f, 0.0f, identifier);
+            ::FUN_004b5a80(::FUN_004b59f0(source));
+            reinterpret_cast<::FUN_008cc730_s *>((target))->FUN_008cc730((::MobileObject *)(::ArgumentData *)(&first), 0.0f, 0.0f, 0.0f);
         }
     }
 }
@@ -6254,7 +6254,7 @@ bool ArrowProjectile::ProcessImpact()
     switch (impact->type)
     {
     case 0:
-        bResult = ((bool)(reinterpret_cast<::Player *>(this)->RenderActiveAction((int)(obj))));
+        bResult = ((bool)(reinterpret_cast<::Player *>(this)->RenderActiveAction(obj)));
         break;
     case 1:
         bResult = reinterpret_cast<::Projectile8CD *>(this)->FUN_008cd520((::Caster8CD *)(obj));

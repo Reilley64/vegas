@@ -3,5 +3,5 @@
 struct FUN_0096a640_Class {
 public:
     // 0x0096a640
-    int InitVtable(int, int);
+    void *InitVtable(int, int);
 };

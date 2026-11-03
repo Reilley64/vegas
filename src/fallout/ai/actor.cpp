@@ -102675,7 +102675,7 @@ void This899::SpawnProjectile(Actor* apActor, unsigned char arg2, void* apSource
         reinterpret_cast<::HitDataEx *>(((obj1).operator->()))->FUN_009b4ec0((*(const ::BooleanFloatQuery *)(((Ptr2Obj*)ptrTable)->m_14)));
         {
             Node9b nodeCur;
-            ::FUN_009b5120((int)(&nodeCur), (int)(this), (int)(apActor), (int)(proc3), arg2, (int)(apSource), {});
+            ::FUN_009b5120((std::intptr_t)(&nodeCur), (std::intptr_t)(this), (std::intptr_t)(apActor), (std::intptr_t)(proc3), arg2, (std::intptr_t)(apSource), {});
             obj1->m_44 = nodeCur.m_44;
             obj1->m_38 = nodeCur.m_38;
             if (!((Ptr2Obj*)ptrTable)->m_04_byte)
@@ -102734,7 +102734,7 @@ void This899::SpawnProjectile(Actor* apActor, unsigned char arg2, void* apSource
     }
     else
     {
-        ::FUN_009b5120((int)(obj1), (int)(this), (int)(apActor), (int)(proc3), arg2, (int)(apSource), {});
+        ::FUN_009b5120((std::intptr_t)(obj1), (std::intptr_t)(this), (std::intptr_t)(apActor), (std::intptr_t)(proc3), arg2, (std::intptr_t)(apSource), {});
     }
 
     ((ThisV*)this)->V202(((ThisV*)this)->V203() + 1);

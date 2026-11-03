@@ -280,13 +280,13 @@ struct FUN_00968630_stub
     int m_6;
     int m_7;
     int m_8;
-    int FUN_00968630(int a);
+    void* FUN_00968630(int a);
 };
 
 // @fnv 0x00968630
-int FUN_00968630_stub::FUN_00968630(int a)
+void* FUN_00968630_stub::FUN_00968630(int a)
 {
-    return *((FUN_0096a2b0_stub*)&this->m_cByteAtOffset2)->FUN_0096a2b0(a);
+    return *(void**)((FUN_0096a2b0_stub*)&this->m_cByteAtOffset2)->FUN_0096a2b0(a);
 }
 
 struct Arr
@@ -321,7 +321,7 @@ extern "C" void* __cdecl DAT_0108b474;
 struct FUN_0096a280_class
 {
     void* m_ppVirtualMethodTable;
-    void* FUN_0096a280(void* p);
+    void* FUN_0096a280(unsigned int p);
 };
 struct FUN_0096a350_class
 {
@@ -430,7 +430,7 @@ struct GlobalObject_00869f00
 // @fnv 0x0096a5f0
 void GlobalObject_00869f00::FUN_0096a5f0()
 {
-    *(int*)this = (int)&DAT_0108b4c8;
+    *(const void**)this = &DAT_0108b4c8;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 
@@ -438,7 +438,7 @@ extern int DAT_0108b4dc;
 
 struct FUN_0096a640_Class
 {
-    int InitVtable(int a, int b);
+    void* InitVtable(int a, int b);
 };
 
 struct FUN_0096a730_class
@@ -580,7 +580,7 @@ struct Dummy_0061bf20
 // @fnv 0x00978ea0
 Dummy_0061bf20* Dummy_0061bf20::FUN_00978ea0()
 {
-    *(int*)this = (int)&DAT_0108c278;
+    *(const void**)this = &DAT_0108c278;
     reinterpret_cast<::FUN_006b3f40_Class *>(this)->FUN_006b3f40(0, 0);
     return this;
 }
@@ -705,7 +705,7 @@ void FUN_009627a0_Class::ShowStartMenuMessageOnce()
     if (!(*((unsigned char*)this + 0x86c)))
     {
         *((char*)this + 0x86c) = 1;
-        ::DispatchMessageToSink((int)(((StartMenu*)&::g_011d3048)->GetMenuTitle()), 0, (int)(0), (int)(0), ::DAT_010162c0, false);
+        ::DispatchMessageToSink((std::intptr_t)(((StartMenu*)&::g_011d3048)->GetMenuTitle()), 0, (std::intptr_t)(0), (std::intptr_t)(0), ::DAT_010162c0, false);
     }
 }
 
@@ -725,7 +725,7 @@ struct FUN_00962850_Class
 void FUN_00962850_Class::FUN_00962850(TESSound* sound, bool flag)
 {
     if (sound)
-        reinterpret_cast<::FUN_0084d310_class *>((((FUN_0056aac0_map*)((char*)this + 0x854))))->FUN_0084d310((int)((TESObjectREFR*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound))->FUN_0084e3a0()))), flag);
+        reinterpret_cast<::FUN_0084d310_class *>((((FUN_0056aac0_map*)((char*)this + 0x854))))->FUN_0084d310((int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound))->FUN_0084e3a0()), flag);
 }
 
 struct IntegerPairPointerRecord
@@ -742,17 +742,17 @@ struct PlayerActionObjectList
 struct FUN_009640b0_Class
 {
     int m_60c;
-    unsigned int FUN_009640b0();
+    void* FUN_009640b0();
 };
 // @fnv 0x009640b0
-unsigned int FUN_009640b0_Class::FUN_009640b0()
+void* FUN_009640b0_Class::FUN_009640b0()
 {
-    unsigned int result = 0;
+    void* result = 0;
     if (*(void**)((char*)this + 0x60c))
     {
         if (((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)*(void**)((char*)this + 0x60c))))))->item)
         {
-            result = (unsigned int)((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)*(void**)((char*)this + 0x60c))))))->item->m_8;
+            result = ((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)*(void**)((char*)this + 0x60c))))))->item->m_8;
         }
     }
     return result;
@@ -780,9 +780,9 @@ struct FUN_0096a390_Class
     void* Init(unsigned int n);
 };
 // @fnv 0x0096a280
-void* FUN_0096a280_class::FUN_0096a280(void* p)
+void* FUN_0096a280_class::FUN_0096a280(unsigned int p)
 {
-    reinterpret_cast<::FUN_0096a390_Class *>(this)->Init((unsigned int)(p));
+    reinterpret_cast<::FUN_0096a390_Class *>(this)->Init(p);
     m_ppVirtualMethodTable = &DAT_0108b474;
     return this;
 }
@@ -1038,11 +1038,11 @@ struct FUN_0096a7b0_Class
 };
 // Calls Initialize with the two arguments, then stores the address of DAT_0108b4dc into this and returns this.
 // @fnv 0x0096a640
-int FUN_0096a640_Class::InitVtable(int a, int b)
+void* FUN_0096a640_Class::InitVtable(int a, int b)
 {
     reinterpret_cast<::FUN_0096a7b0_Class *>(this)->Initialize(a, b);
     *(int**)this = &DAT_0108b4dc;
-    return (int)this;
+    return this;
 }
 // @fnv 0x0096a7b0
 void* FUN_0096a7b0_Class::Initialize(unsigned short ausCapacity, unsigned short b)
@@ -1069,10 +1069,10 @@ struct FUN_00964060_Class
 int FUN_00964060_Class::GetActionObjectItemId()
 {
     int result = 0;
-    if (*(int*)((char*)this + 0x60c))
+    if (*(void**)((char*)this + 0x60c))
     {
-        if (((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)*(int*)((char*)this + 0x60c))))))->item)
-            result = ((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)*(int*)((char*)this + 0x60c))))))->item->m_iWordAt00;
+        if (((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)*(void**)((char*)this + 0x60c))))))->item)
+            result = ((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)*(void**)((char*)this + 0x60c))))))->item->m_iWordAt00;
     }
     return result;
 }
@@ -1106,7 +1106,7 @@ struct FUN_0096afe0
 FUN_0096af30* FUN_0096af30::init(int aiArg1, int aiArg2)
 {
     new ((void *)this) ::FUN_0096afe0(aiArg1, aiArg2);
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0108c0d0);
+    *reinterpret_cast<const void**>(this) = &DAT_0108c0d0;
     return this;
 }
 // Sets the vtable, stores x and y, zeroes b and d, and allocates an array of a elements into m (or null when a is 0).
@@ -1248,7 +1248,7 @@ struct FUN_00962590_Class : public TES
 void FUN_00962590_Class::FUN_00962590()
 {
     LogDate* pLogDate;
-    unsigned int flags;
+    const void* flags;
     ArrSI* pArrSI;
     int limit;
 
@@ -1260,12 +1260,12 @@ void FUN_00962590_Class::FUN_00962590()
             if (pLogDate->GetArrSI() != 0)
             {
                 pArrSI = pLogDate->GetArrSI();
-                flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pArrSI))->GetName()));
+                flags = reinterpret_cast<::Twin_0044ddc0 *>((pArrSI))->GetName();
                 limit = 0x7fffffff;
                 if (flags != 0)
                 {
                     if (limit != 0)
-                        ::FUN_008ce180((void *)(flags), limit, (int)(this), 1, 1);
+                        ::FUN_008ce180((void *)(flags), limit, (std::intptr_t)(this), 1, 1);
                 }
             }
         }
@@ -1325,14 +1325,14 @@ float FUN_00966a40()
 struct FUN_0096a330_Class
 {
     int m_iWordAt00;
-    int m_iWordAt04;
+    char* m_iWordAt04;
     char* GetEntryAt(int index);
 };
 
 // @fnv 0x0096a330
 char* FUN_0096a330_Class::GetEntryAt(int index)
 {
-    return (char*)m_iWordAt04 + index * 0x68;
+    return m_iWordAt04 + index * 0x68;
 }
 
 struct FUN_0096a670_Class
@@ -1935,7 +1935,7 @@ struct Global_00aa42e0
 
 struct FUN_00978c50 : FUN_00978ea0
 {
-    unsigned int m_resource;
+    void* m_resource;
     FUN_00978c50();
     virtual ~FUN_00978c50();
 };
@@ -1943,7 +1943,7 @@ struct FUN_00978c50 : FUN_00978ea0
 // @fnv 0x00978c50
 FUN_00978c50::FUN_00978c50() : FUN_00978ea0()
 {
-    m_resource = ((unsigned int)(reinterpret_cast<::MemoryManager *>((((::fnv_00978c50::Global_00aa42e0 *)(::FUN_00401020()))))->GetGeneralAllocator()));
+    m_resource = reinterpret_cast<::MemoryManager *>((((::fnv_00978c50::Global_00aa42e0 *)(::FUN_00401020()))))->GetGeneralAllocator();
     reinterpret_cast<::FUN_006b3f40_Class *>(this)->FUN_006b3f40(0, 0);
 }
 }  // namespace fnv_00978c50
@@ -5818,7 +5818,7 @@ void CombatController97::UpdateCombatEquipment(int first, int second)
             }
             else if (!entry && current)
             {
-                reinterpret_cast<::FUN_0088d7d0_shell *>((actor))->FUN_0088d7d0((::TESBoundObject *)(current), ((int)(reinterpret_cast<::Callees *>((pEquippedEntry))->FUN_00726070())), (::ExtraDataList *)(void *)(0), false, false, true);
+                reinterpret_cast<::FUN_0088d7d0_shell *>((actor))->FUN_0088d7d0((::TESBoundObject *)(current), ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pEquippedEntry))->FUN_00726070())), (::ExtraDataList *)(void *)(0), false, false, true);
             }
         }
         else
@@ -7827,7 +7827,7 @@ int CombatController::FUN_00967da0()
                 CombatActor* old = ((::fnv_00967da0::CombatActor *)(reinterpret_cast<::Target *>((eb))->GetIntAt(index)));
                 if (ba || ((unsigned char)(reinterpret_cast<::MiddleHighProcess *>((old))->IsActorInCombat())) || old == reinterpret_cast<CombatActor*>((*reinterpret_cast<::EngineRoot * *>(&::_g_thePlayer))))
                 {
-                    reinterpret_cast<::FUN_00986500_shell *>((a))->RemoveByTarget((int)(old));
+                    reinterpret_cast<::FUN_00986500_shell *>((a))->RemoveByTarget((std::intptr_t)(old));
                 }
                 else if (!ba && cf)
                 {
@@ -7837,7 +7837,7 @@ int CombatController::FUN_00967da0()
         }
         else
         {
-            reinterpret_cast<::FUN_00986500_shell *>((a))->RemoveByTarget((int)(reinterpret_cast<CombatActor*>(this)));
+            reinterpret_cast<::FUN_00986500_shell *>((a))->RemoveByTarget((std::intptr_t)(reinterpret_cast<CombatActor*>(this)));
         }
 
         for (unsigned int index = 0; index < ::FUN_005a4320((char *)(a)); index++)
@@ -7845,7 +7845,7 @@ int CombatController::FUN_00967da0()
             CombatActor* old = ((::fnv_00967da0::CombatActor *)(reinterpret_cast<::FUN_00968630_stub *>((a))->FUN_00968630(index)));
             if (old && ((unsigned char)(reinterpret_cast<::MiddleHighProcess *>((old))->IsActorInCombat())) && !((unsigned char)(reinterpret_cast<::fnv_008bffc0::FUN_008bffc0_shell *>((old))->FUN_008bffc0())))
             {
-                reinterpret_cast<::FUN_00986500_shell *>((a))->RemoveByTarget((int)(old));
+                reinterpret_cast<::FUN_00986500_shell *>((a))->RemoveByTarget((std::intptr_t)(old));
                 index--;
                 old->vtable->Remove(old, 0);
             }
@@ -7857,9 +7857,9 @@ int CombatController::FUN_00967da0()
             CombatActor* b = ((::fnv_00967da0::CombatActor *)(reinterpret_cast<::Target *>((a))->GetIntAt(index)));
             q++;
             if (eb)
-                reinterpret_cast<::FUN_00986500_shell *>((eb))->RemoveByTarget((int)(b));
+                reinterpret_cast<::FUN_00986500_shell *>((eb))->RemoveByTarget((std::intptr_t)(b));
             if (ba && cf)
-                reinterpret_cast<::FUN_00986500_shell *>((cf))->RemoveByTarget((int)(b));
+                reinterpret_cast<::FUN_00986500_shell *>((cf))->RemoveByTarget((std::intptr_t)(b));
 
             Vec3 p;
             reinterpret_cast<::FUN_00439ef0_class *>(&(k))->FUN_00439ef0((::NiPoint3 *)(::fnv_00967da0::Vec3 *)(&p), (*(const ::NiPoint3 *)(b->vtable->GetPosition(b))));
@@ -7922,7 +7922,7 @@ int CombatController::FUN_00967da0()
         }
         while (::FUN_005a4320((char *)(eb)) > 0)
         {
-            reinterpret_cast<::FUN_00986500_shell *>((eb))->RemoveByTarget((int)(((::fnv_00967da0::CombatActor *)(reinterpret_cast<::FUN_00968630_stub *>((eb))->FUN_00968630(0)))));
+            reinterpret_cast<::FUN_00986500_shell *>((eb))->RemoveByTarget((std::intptr_t)(((::fnv_00967da0::CombatActor *)(reinterpret_cast<::FUN_00968630_stub *>((eb))->FUN_00968630(0)))));
         }
     }
 
@@ -8778,47 +8778,47 @@ void WTActor::FUN_00969fa0()
 {
     if (v448())
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d4474)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
-                       (int)(0), ::DAT_010162c0, false);
+        ::DispatchMessageToSink((std::intptr_t)((*reinterpret_cast<::WTSetting *>(&::g_011d4474)).String()), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
+                       (std::intptr_t)(0), ::DAT_010162c0, false);
     }
     else if (reinterpret_cast<::C953C80Form *>(this)->HasActorsByPackage())
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d28b0)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((std::intptr_t)((*reinterpret_cast<::WTSetting *>(&::g_011d28b0)).String()), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (std::intptr_t)(0),
                        ::DAT_010162c0, false);
     }
     else if (reinterpret_cast<::A_00885520 *>(this)->FUN_00885520((const ::P3_00885520 *)(::WTWorld *)(GetWorld()), (::TESObjectCELL *)(::WTCell *)(((::WTCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), ::DAT_01084d20))
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d4948)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((std::intptr_t)((*reinterpret_cast<::WTSetting *>(&::g_011d4948)).String()), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (std::intptr_t)(0),
                        ::DAT_010162c0, false);
     }
     else if (reinterpret_cast<::DetectionList *>(&((*reinterpret_cast<::WTProcessLists *>(&::g_011e0e80))))->HasNearbyDetectedActor(reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>(((*reinterpret_cast<::WTPlayer * *>(&::_g_thePlayer))))->FUN_00575d10()))
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d2e50)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((std::intptr_t)((*reinterpret_cast<::WTSetting *>(&::g_011d2e50)).String()), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (std::intptr_t)(0),
                        ::DAT_010162c0, false);
     }
     else if (::FUN_005c0880((char *)(((::WTController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(((*reinterpret_cast<::WTPlayer * *>(&::_g_thePlayer))))->FUN_009306d0())))) == 1 || ::FUN_005c0880((char *)(((::WTController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(((*reinterpret_cast<::WTPlayer * *>(&::_g_thePlayer))))->FUN_009306d0())))) == 2)
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d3e20)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((std::intptr_t)((*reinterpret_cast<::WTSetting *>(&::g_011d3e20)).String()), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (std::intptr_t)(0),
                        ::DAT_010162c0, false);
     }
     else if (::FUN_005444c0((::TESObjectCELL *)(((::WTHighProcess *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::WTPlayer * *>(&::_g_thePlayer))))->GetTarget())))) || !reinterpret_cast<::FUN_00944360_Class *>(((*reinterpret_cast<::WTPlayer * *>(&::_g_thePlayer))))->GetByteAt66E())
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d20ac)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((std::intptr_t)((*reinterpret_cast<::WTSetting *>(&::g_011d20ac)).String()), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (std::intptr_t)(0),
                        ::DAT_010162c0, false);
     }
     else if (reinterpret_cast<::FUN_005098e0_Object *>(&((*reinterpret_cast<::WTProcessLists *>(&::g_011e0e80))))->IsFlagged())
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d4b10)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((std::intptr_t)((*reinterpret_cast<::WTSetting *>(&::g_011d4b10)).String()), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (std::intptr_t)(0),
                        ::DAT_010162c0, false);
     }
     else if (((::WTProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())) && ((::WTProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v764() != ::_DAT_01012060)
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d4b10)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((std::intptr_t)((*reinterpret_cast<::WTSetting *>(&::g_011d4b10)).String()), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (std::intptr_t)(0),
                        ::DAT_010162c0, false);
     }
     else if (reinterpret_cast<::FUN_00822e00_shell *>((((WTPlayerBounds*)((char*)(*reinterpret_cast<::WTPlayer * *>(&::_g_thePlayer)) + 0x94))))->FUN_00822e00())
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d47d4)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((std::intptr_t)((*reinterpret_cast<::WTSetting *>(&::g_011d47d4)).String()), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (std::intptr_t)(0),
                        ::DAT_010162c0, false);
     }
     else

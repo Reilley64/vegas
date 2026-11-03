@@ -122,7 +122,7 @@ struct FUN_008a1a40_shell : Actor
 // @fnv 0x008a1a40
 void FUN_008a1a40_shell::FUN_008a1a40(Actor* apActor)
 {
-    ((int*)this)[0x10c / 4] = (int)apActor;
+    *(Actor**)((char*)this + 0x10c) = apActor;
     reinterpret_cast<::FUN_008a1a70_shell *>(this)->FUN_008a1a70();
 }
 
@@ -2494,7 +2494,7 @@ ResObj* ThisC::CreateNodeFromTransform(void* pLookupKey, A2* pTransformSource, A
         if (((intptr_t)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) != 0)
         {
             P2* p4;
-            p4 = ((::P2 *)(reinterpret_cast<::FUN_005e50f0_Obj *>((p9))->GetValueByIndex((int)(pLookupKey))));
+            p4 = ((::P2 *)(std::uintptr_t)(reinterpret_cast<::FUN_005e50f0_Obj *>((p9))->GetValueByIndex((int)(pLookupKey))));
             if (p4 != 0)
             {
                 if (reinterpret_cast<::FUN_008b4360_Class *>((p4))->FUN_008b4360())
@@ -2504,7 +2504,7 @@ ResObj* ThisC::CreateNodeFromTransform(void* pLookupKey, A2* pTransformSource, A
                         if (((intptr_t)(reinterpret_cast<::DialogueItem *>((p4))->SelectDefaultResponseList())) != 0)
                         {
                             CreateProjectileRef(((int)(reinterpret_cast<::DialogueItem *>((p4))->SelectDefaultResponseList())), 0, 0, ((int)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), pPlacement->m_24,
-                                                ((::NiTransform *)(::FUN_00461130((int)(pTransformSource))))->m_kOrientation);
+                                                ((::NiTransform *)(::FUN_00461130((std::intptr_t)(pTransformSource))))->m_kOrientation);
                         }
                         if (((::MidObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p4))->GetBaseTexture())) != 0)
                         {
@@ -2527,8 +2527,8 @@ ResObj* ThisC::CreateNodeFromTransform(void* pLookupKey, A2* pTransformSource, A
                                 retValA = ((::ResObj *)(reinterpret_cast<::A5D2C0Object *>((u))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&x_)))));
                                 NiTransform t1;
                                 NiTransform t2;
-                                reinterpret_cast<::FUN_008b42e0_shell *>((((::NiTransform *)(::FUN_00461130((int)(GetR116(&t1)))))))->InvertTransform({});
-                                t2 = t1 * *((::NiTransform *)(::FUN_00461130((int)(pTransformSource))));
+                                reinterpret_cast<::FUN_008b42e0_shell *>((((::NiTransform *)(::FUN_00461130((std::intptr_t)(GetR116(&t1)))))))->InvertTransform({});
+                                t2 = t1 * *((::NiTransform *)(::FUN_00461130((std::intptr_t)(pTransformSource))));
                                 reinterpret_cast<::FUN_00440460_S *>((retValA))->FUN_00440460((const ::V3 *)&(t2.m_kTranslation));
                                 reinterpret_cast<::FUN_0043fa80_s *>((retValA))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&t2)));
                                 reinterpret_cast<::FUN_00440490_shell *>((retValA))->FUN_00440490(reinterpret_cast<::Getter_9b8 *>((p4))->FUN_009b88c0());
@@ -3027,7 +3027,7 @@ struct ProcV
     virtual void v166();
     virtual void v167();
     virtual void v168();
-    virtual void p169(RefObj*, int, int, int, int, int);
+    virtual void p169(RefObj*, const char*, int, int, int, int);
     virtual void v170();
     virtual void v171();
     virtual void v172();
@@ -3200,7 +3200,7 @@ void ActorX::FUN_008bfa40(RefObj* apSource, int a2, int aiArg3, int aiArg4, TESF
     int b;          /* -0x34  n      bucket  6 */
     char ak;        /* -0x35  c35    bucket  5 */
     NewObj* k;      /* -0x3c  pNew   bucket  4 */
-    int l;          /* -0x40  t40    bucket  3 */
+    const char* l;  /* -0x40  t40    bucket  3 */
     bool c;         /* -0x41  bOk    bucket  2 */
     int e;          /* -0x48  mask   bucket  1 */
 
@@ -3296,8 +3296,8 @@ void ActorX::FUN_008bfa40(RefObj* apSource, int a2, int aiArg3, int aiArg4, TESF
             return;
         }
         SetTlsInt((int)s);
-        reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((this))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((k))->FUN_0084e3a0()))));
-        l = ((int)(::fnv_0061a2d0::GetTopicSubTypeName(2, 9)));
+        reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((this))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(void *)((reinterpret_cast<::FUN_0084e3a0_Class *>((k))->FUN_0084e3a0())));
+        l = ::fnv_0061a2d0::GetTopicSubTypeName(2, 9);
         ((::ProcV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p))->GetBaseTexture()))->p169(p, l, 0, 0, 1, 0);
         SetTlsInt(0);
     }

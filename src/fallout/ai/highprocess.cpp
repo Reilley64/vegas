@@ -9863,7 +9863,7 @@ struct Target
     unsigned char padding[0x18];
     MyArr mArr;
 
-    int GetIntAt(unsigned int index);
+    std::intptr_t GetIntAt(unsigned int index);
 };
 // @fnv 0x009031b0
 void HighProcess::ProcessActorGroupState(Actor* actor)
@@ -9952,9 +9952,9 @@ void HighProcess::ProcessActorGroupState(Actor* actor)
 }
 
 // @fnv 0x00903600
-int Target::GetIntAt(unsigned int index)
+std::intptr_t Target::GetIntAt(unsigned int index)
 {
-    return *reinterpret_cast<int*>(mArr.FUN_006dad90(index));
+    return *reinterpret_cast<std::intptr_t*>(mArr.FUN_006dad90(index));
 }
 
 struct FUN_008a5e40_shell

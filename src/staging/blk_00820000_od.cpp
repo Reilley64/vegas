@@ -315,13 +315,13 @@ int FUN_00831e00_class::IsFlagSet()
 
 struct FUN_00831f40_Class
 {
-    void FUN_00831f40(int a, int b);
+    void FUN_00831f40(void* a, void* b);
 };
 
 // @fnv 0x00831f40
-void FUN_00831f40_Class::FUN_00831f40(int aiArg1, int aiArg2)
+void FUN_00831f40_Class::FUN_00831f40(void* aiArg1, void* aiArg2)
 {
-    reinterpret_cast<::BasePinStub *>(((intptr_t)this + 0x104))->ReceiveConnection((void *)(aiArg1), (void *)(aiArg2));
+    reinterpret_cast<::BasePinStub *>(((intptr_t)this + 0x104))->ReceiveConnection(aiArg1, aiArg2);
 }
 
 struct FUN_008321c0_Class
@@ -349,11 +349,11 @@ void FUN_00836630::LoadGame(BGSLoadFormBuffer* buffer)
     reinterpret_cast<::Radio652 *>((reinterpret_cast<FUN_00836240*>(reinterpret_cast<char*>(this) + 4)))->FUN_00836240((::Buffer652 *)(buffer));
 }
 
-extern int DAT_011a1888[];
+extern const char* DAT_011a1888[];
 
 // Returns the entry at index from DAT_011dd87c if non-zero, otherwise the entry at index from DAT_011a1888.
 // @fnv 0x008374b0
-int __cdecl FUN_008374b0(int index)
+const char* __cdecl FUN_008374b0(int index)
 {
     if (DAT_011dd87c[index])
         return DAT_011dd87c[index];
@@ -365,7 +365,7 @@ namespace fnv_008374e0 {
 // @fnv 0x008374e0
 void __cdecl SetGlobalPointerAtOffset(int aiOffset, const char* apValue)
 {
-    *(int*)(&(*reinterpret_cast<int *>(&::DAT_011dd87c)) + aiOffset) = (int)apValue;
+    ::DAT_011dd87c[aiOffset] = apValue;
 }
 }  // namespace fnv_008374e0
 
@@ -510,7 +510,7 @@ void* FUN_0082eee0_class::InitArray(int aiCount)
     ((int*)this)[1] = aiCount;
     ((int*)this)[3] = 0;
     unsigned int len = ((int*)this)[1] << 2;
-    ((int*)this)[2] = (int)::FUN_00aa1070(len);
+    *(void**)((int*)this + 2) = ::FUN_00aa1070(len);
     ::FUN_00403d30(*(void**)((int*)this + 2), 0, ((int*)this)[1] << 2);
     return this;
 }
@@ -527,8 +527,8 @@ struct FUN_00831fb0_class
     void* vtbl;
     int a;
     int b;
-    int c;
-    int d;
+    const void* c;
+    const void* d;
     void FUN_00831fb0();
 };
 // Calls FUN_00831fb0, then frees this with Deallocate if flags has bit 0 set, and returns this.
@@ -545,8 +545,8 @@ void* FUN_00831f80_class::FUN_00831f80(unsigned int flags)
 void FUN_00831fb0_class::FUN_00831fb0()
 {
     vtbl = &DAT_0107cdac;
-    c = (int)&DAT_0107cd6c;
-    d = (int)&DAT_0107cd54;
+    c = &DAT_0107cd6c;
+    d = &DAT_0107cd54;
     reinterpret_cast<class ::FUN_009fdc10 *>((this))->FUN_009fdc10::~FUN_009fdc10();
 }
 
@@ -670,7 +670,7 @@ void FUN_0083d0d0_Class::RefreshObjectRef(int a)
 {
     *(TESObjectREFR**)((char*)this + 0x18) =
         *(TESObjectREFR**)((char*)this + 0x18)
-            ? (TESObjectREFR*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(*(TESForm**)((char*)this + 0x18))))
+            ? (TESObjectREFR*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(*(TESForm**)((char*)this + 0x18))))
             : 0;
 }
 
@@ -1840,20 +1840,20 @@ struct FUN_0082f9c0_obj
 // @fnv 0x0082f9c0
 void __cdecl FUN_0082f9c0()
 {
-    unsigned int a = DAT_011dd1f4;
-    unsigned int b_2 = a;
-    unsigned int c7 = b_2;
+    char* a = *reinterpret_cast<char**>(&DAT_011dd1f4);
+    char* b_2 = a;
+    char* c7 = b_2;
     unsigned int r_2;
     unsigned int s;
     if (c7 != 0)
     {
-        if (*(unsigned int*)(c7 - 4) != 0)
+        if (*(std::size_t*)(c7 - sizeof(std::size_t)) != 0)
         {
             r_2 = (unsigned int)((FUN_0082f9c0_obj*)b_2)->unk00(3);
         }
         else
         {
-            ::FUN_00401030((void *)(c7 - 4));
+            ::FUN_00401030((void *)(c7 - sizeof(std::size_t)));
             r_2 = 0;
         }
         s = r_2;
@@ -2260,11 +2260,11 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
         }
         if (!a3 && apListObj != 0)
         {
-            jvec = *((::Vec3 *)(::FUN_0045bb80((int)(apListObj))));
+            jvec = *((::Vec3 *)(::FUN_0045bb80((std::intptr_t)(apListObj))));
         }
         else if (apSource->VCall1d0() != 0)
         {
-            jvec = *((::Vec3 *)(::FUN_0045bb80((int)(((ListObj*)apSource->VCall1d0())))));
+            jvec = *((::Vec3 *)(::FUN_0045bb80((std::intptr_t)(((ListObj*)apSource->VCall1d0())))));
         }
         if (reinterpret_cast<::FUN_005215a0_shell *>((apWeapon))->FUN_005215a0(b83d) != 0)
         {
@@ -2471,15 +2471,15 @@ void S_0083d130_Class::ProcessNodeChain()
 
 struct FUN_0083da30_cls
 {
-    int m_00;
+    char* m_00;
 
-    int ApplyMaskedOffset(int aValue);
+    char* ApplyMaskedOffset(int aValue);
 };
 
 // @fnv 0x0083da30
-int FUN_0083da30_cls::ApplyMaskedOffset(int aValue)
+char* FUN_0083da30_cls::ApplyMaskedOffset(int aValue)
 {
-    return (((m_00 != 0) ? -1 : 0) & aValue) + (unsigned int)m_00;
+    return m_00 ? m_00 + aValue : 0;
 }
 
 struct EffectTime
@@ -2779,7 +2779,7 @@ void CasterUpdate::UpdateCasters()
         object =
             pMobileObject && pMobileObject->IsMagicProjectile() ? dynamic_cast<MagicProjectile*>(pMobileObject) : 0;
         if (actor)
-            reinterpret_cast<::S_8c4f10_Cls *>((actor))->FUN_008c4f10((int)(this));
+            reinterpret_cast<::S_8c4f10_Cls *>((actor))->FUN_008c4f10((std::intptr_t)(this));
         else if (object)
             object->UpdateCaster(this);
     }
@@ -2790,12 +2790,12 @@ void CasterUpdate::UpdateCasters()
         MagicProjectile* pMagicProjectile2 =
             pMobileObject2 && pMobileObject2->IsMagicProjectile() ? dynamic_cast<MagicProjectile*>(pMobileObject2) : 0;
         if (actor2)
-            reinterpret_cast<::S_8c4f10_Cls *>((actor2))->FUN_008c4f10((int)(this));
+            reinterpret_cast<::S_8c4f10_Cls *>((actor2))->FUN_008c4f10((std::intptr_t)(this));
         else if (pMagicProjectile2)
             pMagicProjectile2->UpdateCaster(this);
     }
     if ((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
-        reinterpret_cast<::S_8c4f10_Cls *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_008c4f10((int)(this));
+        reinterpret_cast<::S_8c4f10_Cls *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_008c4f10((std::intptr_t)(this));
 }
 
 namespace fnv_0082cf80 {

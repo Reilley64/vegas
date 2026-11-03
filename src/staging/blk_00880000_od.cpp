@@ -1593,7 +1593,7 @@ void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target
     bool invalid3 = alternateVal ? reinterpret_cast<::FUN_008ba470_shell *>((((TargetView*)target)))->FUN_008ba470() : reinterpret_cast<::FUN_008ba410_shell *>((((TargetView*)target)))->FUN_008ba410();
     int type = invalid3 ? 4 : reinterpret_cast<::Actor *>((target))->GetActorBase()->attributes.get();
     EquipmentView* equipment3 = target ? ((::BaseData *)(reinterpret_cast<::Actor *>((((TargetView*)target)))->GetActorBase()))->equipment() : 0;
-    InventoryView* item = equipment3 ? ((::InventoryView *)(reinterpret_cast<::FUN_005e50f0_Obj *>((equipment3))->GetValueByIndex(hit->kind))) : 0;
+    InventoryView* item = equipment3 ? ((::InventoryView *)(std::uintptr_t)(reinterpret_cast<::FUN_005e50f0_Obj *>((equipment3))->GetValueByIndex(hit->kind))) : 0;
     EffectList* effects2 = item ? ((::EffectList *)(reinterpret_cast<::MagicProjectile *>((item))->FUN_004fd400())) : 0;
     ProjectileView* _projectile = effects2 ? ((::ProjectileView *)(reinterpret_cast<::BGSImpactDataSet *>((effects2))->GetImpactDataForMaterial(type))) : 0;
     EffectView* effect = _projectile ? _projectile->FUN_006733e0() : 0;

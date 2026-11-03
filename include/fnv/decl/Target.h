@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class NiPoint3;
 class Task;
 struct ActorStand;
@@ -35,7 +37,7 @@ public:
     // 0x00800ac0
     void FUN_00800ac0(::TargetActor *, int, bool);
     // 0x00903600
-    int GetIntAt(unsigned int);
+    std::intptr_t GetIntAt(unsigned int);
     // 0x00994050
     bool AdvanceActions(::Context *);
     // 0x00a87020

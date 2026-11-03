@@ -164,13 +164,13 @@ float FUN_00944300_class::FUN_00944300()
 
 struct FUN_00944320_Class
 {
-    unsigned int GetField688();
+    void* GetField688();
 };
 
 // @fnv 0x00944320
-unsigned int FUN_00944320_Class::GetField688()
+void* FUN_00944320_Class::GetField688()
 {
-    return *(unsigned int*)((char*)this + 0x688);
+    return *(void**)((char*)this + 0x688);
 }
 
 struct FUN_00944340_Class
@@ -625,8 +625,7 @@ class FUN_00952f90_cls
 // @fnv 0x00952f90
 void FUN_00952f90_cls::ClearHelper()
 {
-    unsigned int tmp = (unsigned int)m_6f4;
-    FUN_00952f90_helper* p = (FUN_00952f90_helper*)tmp;
+    FUN_00952f90_helper* p = m_6f4;
     p != 0 ? p->v10(1) : 0;
     m_6f4 = 0;
     reinterpret_cast<::FUN_006f4990_shell *>(&(m_6f8))->ClearTeleportPath();
@@ -2185,7 +2184,7 @@ void RestorePlayer::RestorePlayerLocation(bool travel)
     {
         if (travel)
         {
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::RestoreSetting *>(&::g_011d50bc))))->GetMenuTitle()))), 0, (int)(restoreIcon), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::RestoreSetting *>(&::g_011d50bc))))->GetMenuTitle()))), 0, (std::intptr_t)(restoreIcon), (std::intptr_t)(0), 2.0f, false);
             SavedForm* cellB = 0;
             SavedForm* world7 = 0;
             if (savedDestination)
@@ -2212,7 +2211,7 @@ void RestorePlayer::RestorePlayerLocation(bool travel)
         else
         {
             RestorePlayer* player3 = this;
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::RestoreSetting *>(&::g_011d50bc))))->GetMenuTitle()))), 0, (int)(restoreIcon), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::RestoreSetting *>(&::g_011d50bc))))->GetMenuTitle()))), 0, (std::intptr_t)(restoreIcon), (std::intptr_t)(0), 2.0f, false);
             RestoreController* controller7 = ((::RestoreController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((player3))->FUN_009306d0()));
             if (controller7 && !((bool)(reinterpret_cast<::DummyFlags *>((controller7))->FUN_0088b0c0())))
                 savedPosition.z = ((::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>((player3))->GetAddTopicList()))->z;
@@ -3466,7 +3465,7 @@ void Update97::UpdateScopeZoom(float elapsed)
                                             float h;
                                             b = (*reinterpret_cast<::Actor97 * *>(&::DAT_011f21cc))->getRoot();
                                             a = ((::Node97 *)(reinterpret_cast<::FUN_0043d450_Owner *>((b))->FUN_0043d450()));
-                                            reinterpret_cast<::FUN_00439ef0_class *>((((::Vec97 *)(::FUN_0045bb80((int)((*reinterpret_cast<::World97 * *>(&::DAT_011e07d0))))))))->FUN_00439ef0({}, *(const ::NiPoint3 *)nullptr);
+                                            reinterpret_cast<::FUN_00439ef0_class *>((((::Vec97 *)(::FUN_0045bb80((std::intptr_t)((*reinterpret_cast<::World97 * *>(&::DAT_011e07d0))))))))->FUN_00439ef0({}, *(const ::NiPoint3 *)nullptr);
                                             e = reinterpret_cast<::NiPoint3 *>(&(g))->ComputeMagnitude();
                                             d = reinterpret_cast<::Twin_0084d030 *>((a))->GetStoredFloatValue() * ((double)(reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::Setting97 *>(&::g_011e0b84))))->FUN_00450410())) / e;
                                             c = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting661)))) - ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting660))));
@@ -4230,7 +4229,7 @@ struct Virtual
     virtual void vf08();
     virtual void vf0c();
     virtual void vf10();
-    virtual void vf14(void* data, int obj, int val);
+    virtual void vf14(void* data, void* obj, int val);
 };
 extern "C" void* __cdecl FUN_00ec43fb(void*, int, const void*, const void*, int);
 struct Obj
@@ -4253,7 +4252,7 @@ void Obj::ApplyFormPayload(Form* form, int unused)
     Node* node = result ? ((::Node *)(reinterpret_cast<::Callees *>((result))->FUN_00726070())) : 0;
     if (node)
     {
-        unk88.vf14(node ? &node->payload18 : 0, (int)form, 0);
+        unk88.vf14(node ? &node->payload18 : 0, form, 0);
         reinterpret_cast<::MagicTargetUpd *>(&(unk94))->UpdateEffectsByFlags((unsigned int)(node ? &node->payload18 : 0));
     }
 }

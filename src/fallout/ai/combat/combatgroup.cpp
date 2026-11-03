@@ -1918,7 +1918,7 @@ struct FUN_0098f040_shell
 
 struct FUN_00986500_shell : ActorCombatGroup
 {
-    void RemoveByTarget(int target);
+    void RemoveByTarget(std::intptr_t target);
 };
 struct FUN_0096a2b0_stub2
 {
@@ -1926,12 +1926,12 @@ struct FUN_0096a2b0_stub2
 };
 // Scans the array at this+8 for a CombatTarget whose first int equals target, then calls FUN_00986560 with that index and returns.
 // @fnv 0x00986500
-void FUN_00986500_shell::RemoveByTarget(int target)
+void FUN_00986500_shell::RemoveByTarget(std::intptr_t target)
 {
     for (int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 8))))->GetName())); ++i)
     {
         CombatTarget* combatTarget = ((FUN_0096a2b0_stub2*)((char*)this + 8))->FUN_0096a2b0(i);
-        if (*(int*)combatTarget == target)
+        if (*(std::intptr_t*)combatTarget == target)
         {
             reinterpret_cast<::FUN_00986560_shell *>(this)->FUN_00986560(i);
             return;

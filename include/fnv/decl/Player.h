@@ -5,5 +5,5 @@ public:
     // 0x008a7760
     void OpenDialogMenu();
     // 0x008cd390
-    unsigned char RenderActiveAction(int);
+    unsigned char RenderActiveAction(void *);
 };

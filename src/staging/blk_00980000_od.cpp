@@ -484,7 +484,7 @@ struct FUN_0098f2d0 : GlobalObject_00869f00
 // @fnv 0x0098f2d0
 void FUN_0098f2d0::Init()
 {
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_0108d71c));
+    *(const void**)this = &::DAT_0108d71c;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 }  // namespace fnv_0098f2d0
@@ -519,7 +519,7 @@ struct FUN_0098f4f0_class
 // @fnv 0x0098f4f0
 void FUN_0098f4f0_class::FUN_0098f4f0()
 {
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_0108d730));
+    *(const void**)this = &::DAT_0108d730;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
 }
 }  // namespace fnv_0098f4f0
@@ -538,7 +538,7 @@ struct FUN_0098f510 : AX
 // @fnv 0x0098f510
 AX* FUN_0098f510::Set()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0108d744);
+    *reinterpret_cast<const void**>(this) = &DAT_0108d744;
     this->FUN_006b3eb0(0, 0);
     return this;
 }
@@ -561,7 +561,7 @@ struct FUN_0098f540
 // @fnv 0x0098f540
 void FUN_0098f540::Init()
 {
-    *(int*)this = (int)&::DAT_0108d744;
+    *(const void**)this = &::DAT_0108d744;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
 }
 }  // namespace fnv_0098f540
@@ -741,7 +741,7 @@ extern int DAT_0108db2c;
 
 struct FUN_00993820_class
 {
-    int m_vfn;
+    const void* m_vfn;
     void FUN_00993990(int arg);
     FUN_00993820_class* FUN_00993820(int arg);
 };
@@ -778,12 +778,12 @@ void* FUN_00993cd0::GetPtr()
 
 struct FUN_009948b0
 {
-    int** m_p;
-    int GetItem(int index);
+    void*** m_p;
+    void* GetItem(int index);
 };
 
 // @fnv 0x009948b0
-int FUN_009948b0::GetItem(int index)
+void* FUN_009948b0::GetItem(int index)
 {
     return *m_p[index];
 }
@@ -920,7 +920,7 @@ void FUN_009966f0_Class::FUN_009966f0()
 
 struct FUN_00996ba0
 {
-    int vtable;
+    const void* vtable;
     void FUN_006b3eb0(unsigned int, unsigned int);
     FUN_00996ba0* DeserializeFromFile();
 };
@@ -929,7 +929,7 @@ struct FUN_00996ba0
 // @fnv 0x00996ba0
 FUN_00996ba0* FUN_00996ba0::DeserializeFromFile()
 {
-    vtable = (int)&DAT_0108dc80;
+    vtable = &DAT_0108dc80;
     FUN_006b3eb0(0, 0);
     return this;
 }
@@ -1016,7 +1016,7 @@ void NiTPointerMap_00983880::FUN_00983880()
 struct CombatSearchDoor;
 struct FUN_0098c590_shell
 {
-    CombatSearchDoor* FindParentSpaceNode(int);
+    CombatSearchDoor* FindParentSpaceNode(std::intptr_t);
 };
 struct FUN_0098c6e0_class
 {
@@ -1123,8 +1123,8 @@ void* FUN_00983670_v::FUN_009837b0(int arg)
     ((int*)this)[1] = arg;
     ((int*)this)[3] = 0;
     int size = ((int*)this)[1] << 2;
-    ((int*)this)[2] = (int)::FUN_00aa1070(size);
-    ::FUN_00403d30((void*)((int*)this)[2], 0, ((int*)this)[1] << 2);
+    *(void**)((int*)this + 2) = ::FUN_00aa1070(size);
+    ::FUN_00403d30(*(void**)((int*)this + 2), 0, ((int*)this)[1] << 2);
     return this;
 }
 
@@ -1165,8 +1165,8 @@ char FUN_0098ad70_Class::FUN_0098ad70()
 
 struct ParentSpaceNode
 {
-    int a;
-    int b;
+    std::intptr_t a;
+    std::intptr_t b;
 };
 struct BSSimpleArray_ParentSpaceNode
 {
@@ -1180,7 +1180,7 @@ struct CombatSearchDoor
 
 // Scans the array at offset 0x120 for a node whose a or b equals formID and returns it, otherwise returns 0.
 // @fnv 0x0098c590
-CombatSearchDoor* FUN_0098c590_shell::FindParentSpaceNode(int formID)
+CombatSearchDoor* FUN_0098c590_shell::FindParentSpaceNode(std::intptr_t formID)
 {
     for (unsigned int i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray_ParentSpaceNode*)((char*)this + 0x120))))->GetName())); ++i)
     {
@@ -1301,7 +1301,7 @@ struct FUN_0098fa00_shell
 struct FUN_0098f7b0_Class
 {
     void* vtbl;
-    int m_04;
+    void* m_04;
     int m_08;
     int m_0c;
     unsigned int FUN_0098f7b0();
@@ -1500,11 +1500,11 @@ void FUN_00995980_class::SetEntry(int index, int value, float amount)
 
 struct FUN_00996320_Class
 {
-    unsigned int m_aiIndexedValues[2039];
-    unsigned int FindFirstNonZero();
+    char* m_aiIndexedValues[2039];
+    char* FindFirstNonZero();
 };
 // @fnv 0x00996320
-unsigned int FUN_00996320_Class::FindFirstNonZero()
+char* FUN_00996320_Class::FindFirstNonZero()
 {
     for (unsigned int i = 0; i < 2039; ++i)
         if (m_aiIndexedValues[i] != 0)
@@ -1533,7 +1533,7 @@ struct FUN_00996420_class
     unsigned char m_2054;
     int FindPath();
     int ExtractNodeValues(int a, int b, int c);
-    unsigned char SetThreadTasklet(int a, int b, int c);
+    unsigned char SetThreadTasklet(void* a, void* b, int c);
 };
 extern int DAT_0108dc6c;
 struct FUN_00996540
@@ -1758,32 +1758,32 @@ struct FUN_00996840_shell
 
 struct FUN_00996370_class
 {
-    unsigned char AdvanceToNextEntry(unsigned int* ai, unsigned int* ai2, unsigned int* ai3);
+    unsigned char AdvanceToNextEntry(char** ai, unsigned int* ai2, char** ai3);
 };
 
 // @fnv 0x00996370
-unsigned char FUN_00996370_class::AdvanceToNextEntry(unsigned int* puiCurrent, unsigned int* puiValue,
-                                                     unsigned int* puiNode)
+unsigned char FUN_00996370_class::AdvanceToNextEntry(char** puiCurrent, unsigned int* puiValue,
+                                                     char** puiNode)
 {
-    unsigned int p = *puiCurrent;
+    char* p = *puiCurrent;
     if (!p)
         return 0;
-    *puiValue = *(unsigned int*)((char*)p + 0x1c);
+    *puiValue = *(unsigned int*)(p + 0x1c);
     *puiNode = p;
-    if (*(unsigned int*)((char*)p + 0x20))
+    if (*(char**)(p + 0x20))
     {
-        *puiCurrent = *(unsigned int*)((char*)p + 0x20);
+        *puiCurrent = *(char**)(p + 0x20);
         return 1;
     }
     else
     {
-        unsigned int i = ((FUN_00996840_shell*)this)->FUN_00996840(*(unsigned int*)((char*)p + 0x1c));
+        unsigned int i = ((FUN_00996840_shell*)this)->FUN_00996840(*(unsigned int*)(p + 0x1c));
         unsigned int uiNextIndex = i + 1;
         for (; uiNextIndex < 0x7f7; uiNextIndex++)
         {
-            if (*(unsigned int*)((char*)this + uiNextIndex * 4))
+            if (((char**)this)[uiNextIndex])
             {
-                *puiCurrent = *(unsigned int*)((char*)this + uiNextIndex * 4);
+                *puiCurrent = ((char**)this)[uiNextIndex];
                 return 1;
             }
         }
@@ -1827,7 +1827,7 @@ struct ArrSI
 };
 struct FUN_00844160_shell
 {
-    unsigned int FUN_00844160(unsigned int);
+    std::uintptr_t FUN_00844160(unsigned int);
 };
 class TESSound;
 struct EffectSetting
@@ -1847,20 +1847,20 @@ struct ActorCombatGroup
 
 struct FUN_00982df0_class
 {
-    bool FUN_00982df0(unsigned int arg);
+    bool FUN_00982df0(std::uintptr_t arg);
 };
 
 // @fnv 0x00982df0
-bool FUN_00982df0_class::FUN_00982df0(unsigned int arg)
+bool FUN_00982df0_class::FUN_00982df0(std::uintptr_t arg)
 {
     if (arg)
     {
         for (unsigned int i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())); ++i)
         {
-            unsigned int e = ((FUN_00844160_shell*)this)->FUN_00844160(i);
-            if (*(unsigned int*)e == arg)
+            std::uintptr_t e = ((FUN_00844160_shell*)this)->FUN_00844160(i);
+            if (*(std::uintptr_t*)e == arg)
                 return false;
-            if (reinterpret_cast<::FUN_009865b0_shell *>((((ActorCombatGroup*)((::EffectSetting *)(reinterpret_cast<::EffectSetting *>((void *)(((EffectSetting*)arg)))->GetCastSound())))))->FUN_009865b0((int)((Actor*)((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)*(void**)e))))))))
+            if (reinterpret_cast<::FUN_009865b0_shell *>((((ActorCombatGroup*)((::EffectSetting *)(reinterpret_cast<::EffectSetting *>((void *)(((EffectSetting*)arg)))->GetCastSound())))))->FUN_009865b0((int)((Actor*)(std::uintptr_t)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)*(void**)e)))))))
                 return false;
         }
     }
@@ -1924,7 +1924,7 @@ struct FUN_00993990
 FUN_00993820_class* FUN_00993820_class::FUN_00993820(int arg)
 {
     new ((void *)this) ::FUN_00993990(arg);
-    m_vfn = (int)&DAT_0108db2c;
+    m_vfn = &DAT_0108db2c;
     return this;
 }
 // Sets the vtable, stores the count, allocates count*4 bytes, and zeroes the allocated buffer.
@@ -1946,8 +1946,8 @@ struct FUN_00996ce0_Node
     int m_08;
     int m_0c;
     int m_10;
-    int m_14;
-    int m_18;
+    void* m_14;
+    void* m_18;
 };
 struct FUN_00996ce0_Slot
 {
@@ -1972,7 +1972,7 @@ FUN_00996ce0_Node* FUN_00996ce0_Class::PopNode()
             result = slot->pNode;
             if (slot->pNode->m_18)
             {
-                ((FUN_00996ce0_Node*)slot->pNode->m_18)->m_14 = (int)slot;
+                ((FUN_00996ce0_Node*)slot->pNode->m_18)->m_14 = slot;
                 slot->pNode = (FUN_00996ce0_Node*)slot->pNode->m_18;
             }
             else
@@ -2248,7 +2248,7 @@ public:
 
 struct EdgeRecord
 {
-    int m_0000;
+    std::intptr_t m_0000;
     int m_0004;
     unsigned char m_0008;
     unsigned char m_0009;
@@ -2272,7 +2272,7 @@ struct FUN_0098c600_class
 // @fnv 0x0098c600
 void FUN_0098c600_class::AddRadioReference(TESObjectREFR* pRef)
 {
-    if (reinterpret_cast<FUN_0098c590_shell*>(this)->FindParentSpaceNode(reinterpret_cast<int>(pRef)) != 0)
+    if (reinterpret_cast<FUN_0098c590_shell*>(this)->FindParentSpaceNode(reinterpret_cast<std::intptr_t>(pRef)) != 0)
     {
         return;
     }
@@ -2288,7 +2288,7 @@ void FUN_0098c600_class::AddRadioReference(TESObjectREFR* pRef)
 
     reinterpret_cast<EdgeRecord*>(
         &reinterpret_cast<EdgeArr*>(reinterpret_cast<unsigned char*>(this) + 0x120)->FUN_006a1440(index))
-        ->m_0000 = reinterpret_cast<int>(pRef);
+        ->m_0000 = reinterpret_cast<std::intptr_t>(pRef);
 
     reinterpret_cast<EdgeRecord*>(
         &reinterpret_cast<EdgeArr*>(reinterpret_cast<unsigned char*>(this) + 0x120)->FUN_006a1440(index))
@@ -2564,7 +2564,7 @@ struct ActorVTableHelper : ActorVTableLevel<265>
 
 struct FUN_00993bc0_class
 {
-    int m_vtbl;
+    const void* m_vtbl;
     int m_04;
     void* m_08;
     void FUN_00993cd0();
@@ -2583,7 +2583,7 @@ void* FUN_00993ca0_class::FUN_00993ca0(unsigned int flags)
 // @fnv 0x00993bc0
 void FUN_00993bc0_class::FUN_00993bc0()
 {
-    m_vtbl = (int)&DAT_0108db5c;
+    m_vtbl = &DAT_0108db5c;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
     ::FUN_00aa10f0(m_08);
 }
@@ -3544,7 +3544,7 @@ class FUN_00982ff0_cls
 // @fnv 0x00982ff0
 bool FUN_00982ff0_cls::FUN_00982ff0(unsigned int id, void* arg)
 {
-    unsigned int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int count = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
     for (unsigned int i = 0; i < count; i++)
     {
         FUN_00982ff0_Item* item = ((::FUN_00982ff0_Item *)(reinterpret_cast<::FUN_00844160_shell *>(this)->FUN_00844160(i)));
@@ -4691,13 +4691,13 @@ void FUN_0098f580_class::CopyItemsTo(FUN_0096a330_class* destination)
 
 struct FUN_0098fa00_cls
 {
-    int m_04;
+    char* m_04;
     int unk08;
     int m_0c;
     virtual int v0();
-    virtual int v1(int a);
+    virtual char* v1(int a);
     virtual int v2();
-    virtual int v3(int a, int b);
+    virtual char* v3(char* a, int b);
     void FUN_0098fa00(int a1, int a2);
 };
 // @fnv 0x0098f7b0
@@ -4708,7 +4708,7 @@ unsigned int FUN_0098f7b0_Class::FUN_0098f7b0()
         if (m_0c == 0)
         {
             int v = 4;
-            m_04 = ((int(*)(void*, int))((int*)vtbl)[1])(this, v);
+            m_04 = ((void*(*)(void*, int))((void**)vtbl)[1])(this, v);
             m_0c = v;
         }
         else
@@ -4733,8 +4733,8 @@ void FUN_0098fa00_cls::FUN_0098fa00(int a1, int a2)
         }
         else
         {
-            int t = v1(a1);
-            reinterpret_cast<::FUN_0098f960_class *>(this)->FUN_0098f960((char *)(t), (char *)(m_04), a2);
+            char* t = v1(a1);
+            reinterpret_cast<::FUN_0098f960_class *>(this)->FUN_0098f960(t, m_04, a2);
             ::FUN_006a8500((::DummyClass_006a8500 *)this);
             m_04 = t;
         }
@@ -4823,8 +4823,8 @@ class FUN_0098fd10_cls
 {
   public:
     virtual void v00();
-    virtual int v01(int a);
-    int m_04;
+    virtual void* v01(int a);
+    void* m_04;
     int m_08;
     int m_0c;
 };
@@ -4846,7 +4846,7 @@ void FUN_0098f2a0::FUN_0098fd10(int a, int b)
     }
     if ((unsigned int)b > 0)
     {
-        reinterpret_cast<::FUN_0098fc70_cls *>((((FUN_0098fd10_cls*)this)))->FUN_0098fc70((void *)(((FUN_0098fd10_cls*)this)->m_04), b);
+        reinterpret_cast<::FUN_0098fc70_cls *>((((FUN_0098fd10_cls*)this)))->FUN_0098fc70(((FUN_0098fd10_cls*)this)->m_04, b);
         ((FUN_0098fd10_cls*)this)->m_08 = b;
     }
 }
@@ -5014,7 +5014,7 @@ extern int DAT_0108db4c;
 // @fnv 0x00993880
 void FUN_00991130_class::FUN_00993880()
 {
-    *(int*)this = (int)&DAT_0108db4c;
+    *(const void**)this = &DAT_0108db4c;
     FUN_004ede70(*(void**)((char*)this + 4));
 }
 
@@ -5070,7 +5070,7 @@ struct Target
     unsigned int m_08;
     bool AdvanceActions(Context* context);
 public:
-    int GetIntAt(unsigned int);
+    std::intptr_t GetIntAt(unsigned int);
 };
 // Iterates the combat group's actors, reads each one's challenge progress and keeps the smallest value in m_00c and m_010.
 // @fnv 0x009905a0
@@ -5087,7 +5087,7 @@ void FUN_009905a0_shell::UpdateMinProgress()
 
         if (actor)
         {
-            int progress = ((int)(reinterpret_cast<::DialogueItem *>((((::CombatState *)(reinterpret_cast<::InterfaceManager *>((actor))->FUN_00586150()))))->SelectDefaultResponseList()));
+            int progress = ((int)(std::intptr_t)(reinterpret_cast<::DialogueItem *>((((::CombatState *)(reinterpret_cast<::InterfaceManager *>((actor))->FUN_00586150()))))->SelectDefaultResponseList()));
 
             if (progress < reinterpret_cast<FUN_009905a0_fields*>(this)->m_00c)
                 reinterpret_cast<FUN_009905a0_fields*>(this)->m_00c = progress;
@@ -5182,7 +5182,7 @@ class C9942D0List
     C9942D0Item** m_ppGeometries;
     unsigned int m_uiCount;
 
-    void UpdateAllItems(int iArg);
+    void UpdateAllItems(std::intptr_t iArg);
 };
 
 struct Elem;
@@ -5210,7 +5210,7 @@ struct Arr994350
     Elem** m_items;
     int m_uiItemCount;
     unsigned int FUN_00994270(unsigned int key);
-    bool InsertSortedEntry(int p0, KeyObj* p1, int p2, CtxObj* p3);
+    bool InsertSortedEntry(int p0, KeyObj* p1, void* p2, CtxObj* p3);
 };
 // FUN_009947f0 - 62 bytes at 0x009947f0
 //
@@ -5237,18 +5237,18 @@ struct FUN_009947f0_Class : public FUN_00984470_Class
 };
 // Iterates over the list, calling UpdateItem for each entry and re-checking the same index when UpdateItem returns false.
 // @fnv 0x009942d0
-void C9942D0List::UpdateAllItems(int iArg)
+void C9942D0List::UpdateAllItems(std::intptr_t iArg)
 {
     for (unsigned int i = 0; i < m_uiCount; i++)
     {
         void* pvOwner = m_ppGeometries[i]->m_pvOwner;
         void* pvTarget = m_ppGeometries[i]->m_pvTarget;
-        if (!reinterpret_cast<::Arr994350 *>(this)->InsertSortedEntry(i, (::KeyObj *)(pvOwner), (int)(pvTarget), (::CtxObj *)(iArg)))
+        if (!reinterpret_cast<::Arr994350 *>(this)->InsertSortedEntry(i, (::KeyObj *)(pvOwner), pvTarget, (::CtxObj *)(iArg)))
             i--;
     }
 }
 // @fnv 0x00994350
-bool Arr994350::InsertSortedEntry(int aiStartIndex, KeyObj* apKey, int aiValue, CtxObj* apCtx)
+bool Arr994350::InsertSortedEntry(int aiStartIndex, KeyObj* apKey, void* aiValue, CtxObj* apCtx)
 {
     unsigned int i;
     for (i = aiStartIndex + 1; i < (unsigned int)m_uiItemCount; i++)
@@ -5300,14 +5300,14 @@ bool Arr994350::InsertSortedEntry(int aiStartIndex, KeyObj* apKey, int aiValue, 
             while (lstA && *((::ItemObj **)(((::Vec3 *)(void *)(lstA)))) != 0)
             {
                 ItemObj* head1 = *((::ItemObj **)(((::Vec3 *)(void *)(lstA))));
-                int res1 = reinterpret_cast<::FUN_009947f0_Class *>((apCtx))->FUN_009947f0(((int)(reinterpret_cast<::Callees *>((head1))->FUN_00726070())), {});
+                int res1 = reinterpret_cast<::FUN_009947f0_Class *>((apCtx))->FUN_009947f0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((head1))->FUN_00726070())), {});
                 ListObj* obj34 = ((::ListObj *)(::GetOffsetC((int)(v0))));
                 while (obj34 && *((::ItemObj **)(((::Vec3 *)(void *)(obj34)))) != 0)
                 {
                     ItemObj* item34 = *((::ItemObj **)(((::Vec3 *)(void *)(obj34))));
                     if (::FUN_00559450((int *)(head1)) == ::FUN_00559450((int *)(item34)))
                     {
-                        int resC = reinterpret_cast<::FUN_009947f0_Class *>((apCtx))->FUN_009947f0(((int)(reinterpret_cast<::Callees *>((item34))->FUN_00726070())), {});
+                        int resC = reinterpret_cast<::FUN_009947f0_Class *>((apCtx))->FUN_009947f0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((item34))->FUN_00726070())), {});
                         if (resC != -1 && res1 != resC)
                         {
                             bool found = 0;
@@ -5448,13 +5448,13 @@ unsigned int CombatStateHash::ComputeHash()
         return hash;
     hash = 0x811c9dc5;
     for (unsigned int i = 0; i < 20; ++i)
-        hash = FUN_00994bb0(((unsigned int)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>(this)->FUN_005bd5c0(i))), hash);
+        hash = FUN_00994bb0(((unsigned int)(std::uintptr_t)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>(this)->FUN_005bd5c0(i))), hash);
     hash = FUN_00994bb0(count, hash);
     for (unsigned int j = 0; j < count; ++j)
     {
         CombatStateObject* object = entries[j].object;
         hash = FUN_00994bb0(((unsigned int)(::FUN_00559450((int *)(object)))), hash);
-        hash = FUN_00994bb0(((unsigned int)(reinterpret_cast<::Callees *>((object))->FUN_00726070())), hash);
+        hash = FUN_00994bb0(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((object))->FUN_00726070())), hash);
     }
     return hash;
 }
@@ -5553,19 +5553,19 @@ struct SearchOwner
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14;
     unsigned int unk18, unk1c, unk20, unk24, unk28, unk2c;
     SearchContainer* container;
-    void FindAndDispatchById(int id, SearchDestination* destination);
+    void FindAndDispatchById(std::intptr_t id, SearchDestination* destination);
 };
 // Iterates the container's entries and passes each entry whose FUN_0044edb0 equals id to destination->FUN_007cb2e0.
 // @fnv 0x00995dd0
-void SearchOwner::FindAndDispatchById(int id, SearchDestination* destination)
+void SearchOwner::FindAndDispatchById(std::intptr_t id, SearchDestination* destination)
 {
     SearchIterator* cursor = ((::SearchIterator *)(reinterpret_cast<::NonActorMagicTarget *>((container))->GetActiveEffectList()));
-    unsigned int currentIndex = reinterpret_cast<::FUN_00996320_Class *>((cursor))->FindFirstNonZero();
+    char* currentIndex = reinterpret_cast<::FUN_00996320_Class *>((cursor))->FindFirstNonZero();
     unsigned int auxiliary;
     SearchItem* entry;
     while (currentIndex != 0)
     {
-        reinterpret_cast<::FUN_00996370_class *>((cursor))->AdvanceToNextEntry(&currentIndex, &auxiliary, (unsigned int *)(::SearchItem **)(&entry));
+        reinterpret_cast<::FUN_00996370_class *>((cursor))->AdvanceToNextEntry(&currentIndex, &auxiliary, (char **)(::SearchItem **)(&entry));
         if (((intptr_t)(reinterpret_cast<::MagicCaster_shell *>((entry))->FUN_0044edb0())) == id)
         {
             reinterpret_cast<::FUN_00438690 *>((destination))->FUN_007cb2e0((unsigned int *)(::SearchItem **)(&entry));
@@ -5594,7 +5594,7 @@ struct FUN_00995e30_cls
 int FUN_00995e30_cls::FUN_00995e30(FUN_00995e30_item_cls* node)
 {
     FUN_00995e30_arr_cls list(0x10, 0);
-    reinterpret_cast<::SearchOwner *>(this)->FindAndDispatchById((int)node, (::SearchDestination *)(::FUN_00995e30_arr_cls *)(&list));
+    reinterpret_cast<::SearchOwner *>(this)->FindAndDispatchById((std::intptr_t)node, (::SearchDestination *)(::FUN_00995e30_arr_cls *)(&list));
     int total = (int)((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName()));
 
     for (unsigned int i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())); i++)
@@ -5678,11 +5678,11 @@ struct PathSearch
     PathNode* FindPath();
 };
 // @fnv 0x00996420
-unsigned char FUN_00996420_class::SetThreadTasklet(int a, int b, int abUseStored)
+unsigned char FUN_00996420_class::SetThreadTasklet(void* a, void* b, int abUseStored)
 {
     ((unsigned char*)this)[0x2054] = (unsigned char)::GetTaskletManager().SetThreadTasklet((int)gm_GetCurrentThreadId());
-    int d = ((int)(reinterpret_cast<::PathSearch *>(this)->FindPath()));
-    int e;
+    void* d = reinterpret_cast<::PathSearch *>(this)->FindPath();
+    void* e;
     unsigned char f;
     if (d)
     {
@@ -5692,7 +5692,7 @@ unsigned char FUN_00996420_class::SetThreadTasklet(int a, int b, int abUseStored
     else if ((unsigned char)abUseStored)
     {
         f = 0;
-        e = *(int*)((char*)this + 0x2048);
+        e = *(void**)((char*)this + 0x2048);
     }
     else
     {
@@ -6048,7 +6048,7 @@ bool P029Manager::TryStartDialogue(P029Actor* apSpeaker, void* other, int type, 
                 {
                     reinterpret_cast<::FUN_00967ac0_Class *>(((*reinterpret_cast<::P029Actor * *>(&::_g_thePlayer))))->FUN_00967ac0(1);
                     P029Sound sound = ((::P029Actor *)(reinterpret_cast<::BSShaderNoLightingProperty *>((a))->GetBaseTexture()))->GetSoundByEditorID(0);
-                    a->Play(((void *)(::FUN_00559450((int *)(void *)(((void *)(::FUN_00460140((int)(ref)))))))), &sound, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((ref))->GetName())), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((ref))->FUN_0084e3a0())),
+                    a->Play(((void *)(::FUN_00559450((int *)(void *)(((void *)(::FUN_00460140((std::intptr_t)(ref)))))))), &sound, ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((ref))->GetName())), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((ref))->FUN_0084e3a0())),
                             ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((void *)(((::Vec3 *)(void *)(ref))))))->FUN_004048e0())), 0, 0, 0, 0, 0, 0, 0, 1);
                     reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->SetCompletionCallback((void (*)(void *, bool))(void *)((void*)FUN_00967aa0), 0);
                     reinterpret_cast<::FUN_0083c850 *>((item))->AppendTopicInfo(0);
@@ -6250,13 +6250,13 @@ void Center::UpdateCenter()
                 total += value;
             }
             reinterpret_cast<::FUN_004941c0_shell *>(&(weightedSlot17))->ScaleByInverse(total);
-            reinterpret_cast<::StandIn_00989010 *>(&(center))->SetTripleAndValue((::ThreeInts_00989010 *)&(weightedSlot17), (int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((strongestSlot10))->FUN_0084e3a0()))));
+            reinterpret_cast<::StandIn_00989010 *>(&(center))->SetTripleAndValue((::ThreeInts_00989010 *)&(weightedSlot17), (int)((reinterpret_cast<::FUN_0084e3a0_Class *>((strongestSlot10))->FUN_0084e3a0())));
             origin = (*(::CombatCenter::Vec *)(((::Vec3 *)(void *)(strongestSlot10))));
             float farthestSlot1 = 0.0f;
             for (unsigned int k = 0; k < countSlot11; k++)
             {
                 Threat* other = ForwardToMember(k);
-                if (((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((other))->FUN_0084e3a0())) != ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(center))->FUN_0084e3a0())))
+                if ((reinterpret_cast<::FUN_0084e3a0_Class *>((other))->FUN_0084e3a0()) != (reinterpret_cast<::FUN_0084e3a0_Class *>(&(center))->FUN_0084e3a0()))
                     continue;
                 float distance = center.FUN_00527a40(*other);
                 if (distance > farthestSlot1)
@@ -6287,7 +6287,7 @@ void Center::UpdateCenter()
     }
     else
     {
-        if (((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(center))->FUN_0084e3a0())))
+        if ((reinterpret_cast<::FUN_0084e3a0_Class *>(&(center))->FUN_0084e3a0()))
             return;
         unsigned int actors = reinterpret_cast<::FUN_00990890_shell *>(this)->FUN_00990890();
         if (actors > 1)
@@ -6318,14 +6318,14 @@ void Center::UpdateCenter()
                 includedSlot1++;
             }
             reinterpret_cast<::FUN_004941c0_shell *>(&(sumSlot20))->ScaleByInverse((float)includedSlot1);
-            reinterpret_cast<::StandIn_00989010 *>(&(center))->SetTripleAndValue((::ThreeInts_00989010 *)&(sumSlot20), (int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(seedSlot0))->FUN_0084e3a0()))));
+            reinterpret_cast<::StandIn_00989010 *>(&(center))->SetTripleAndValue((::ThreeInts_00989010 *)&(sumSlot20), (int)((reinterpret_cast<::FUN_0084e3a0_Class *>(&(seedSlot0))->FUN_0084e3a0())));
             origin = (*(::CombatCenter::Vec *)(((::Vec3 *)(void *)&(seedSlot0))));
             float extentSlot1 = 0.0f;
             for (unsigned int c = 0; c < actors; c++)
             {
                 Actor* subjectCSlot0 = ((::CombatCenter::Actor *)(reinterpret_cast<::Target *>(this)->GetIntAt(c)));
                 Position positionCSlot0 = (*(::CombatCenter::Position *)(reinterpret_cast<::FUN_00575650_Class *>((subjectCSlot0))->FUN_00575650({})));
-                if (((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(positionCSlot0))->FUN_0084e3a0())) != ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(center))->FUN_0084e3a0())))
+                if ((reinterpret_cast<::FUN_0084e3a0_Class *>(&(positionCSlot0))->FUN_0084e3a0()) != (reinterpret_cast<::FUN_0084e3a0_Class *>(&(center))->FUN_0084e3a0()))
                     continue;
                 float distanceCSlot0 = center.FUN_00527a40(positionCSlot0);
                 if (distanceCSlot0 > extentSlot1)
@@ -7179,7 +7179,7 @@ struct SavedCombatState
 void SavedCombatState::WriteToStream(CombatWriter* writer)
 {
     {
-        unsigned int count = &tasks ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(tasks))->GetName())) : 0;
+        unsigned int count = &tasks ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(tasks))->GetName())) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((writer))->FUN_00865f60(count);
         for (unsigned int i = 0; i < count; ++i)
         {
@@ -7188,7 +7188,7 @@ void SavedCombatState::WriteToStream(CombatWriter* writer)
         }
     }
     {
-        unsigned int count = &targets ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(targets))->GetName())) : 0;
+        unsigned int count = &targets ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(targets))->GetName())) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((writer))->FUN_00865f60(count);
         for (unsigned int i = 0; i < count; ++i)
         {
@@ -7197,7 +7197,7 @@ void SavedCombatState::WriteToStream(CombatWriter* writer)
         }
     }
     {
-        unsigned int count = &actions ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(actions))->GetName())) : 0;
+        unsigned int count = &actions ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(actions))->GetName())) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((writer))->FUN_00865f60(count);
         for (unsigned int i = 0; i < count; ++i)
         {
@@ -7228,7 +7228,7 @@ void SavedCombatState::WriteToStream(CombatWriter* writer)
         reinterpret_cast<::FUN_00527b70_shell *>(&(record))->FUN_00527b70((::BGSSaveGameBuffer *)(writer));
         reinterpret_cast<::FUN_00865e50_shell *>((writer))->FUN_00865e50((void *)(&field10c), 4, 0);
         {
-            unsigned int count = &items ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(items))->GetName())) : 0;
+            unsigned int count = &items ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(items))->GetName())) : 0;
             reinterpret_cast<::BGSSaveGameBuffer *>((writer))->FUN_00865f60(count);
             for (unsigned int i = 0; i < count; ++i)
             {
@@ -7240,7 +7240,7 @@ void SavedCombatState::WriteToStream(CombatWriter* writer)
             }
         }
         {
-            unsigned int count = &edges ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())) : 0;
+            unsigned int count = &edges ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())) : 0;
             reinterpret_cast<::BGSSaveGameBuffer *>((writer))->FUN_00865f60(count);
             for (unsigned int i = 0; i < count; ++i)
             {
@@ -7516,7 +7516,7 @@ CM993List* CM993List::InitFromSources(int a1, int a2, CM993DstArray* keys, CM993
     m_0c = a2;
     m_10 = -1;
     m_14 = a1;
-    reinterpret_cast<::FUN_00993fd0_class *>(this)->AllocateItemArray(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((srcs))->GetName())));
+    reinterpret_cast<::FUN_00993fd0_class *>(this)->AllocateItemArray(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((srcs))->GetName())));
     for (unsigned int i = 0; i < m_uiItemCount; i++)
     {
         CM993Src* src = ((::CM993Src *)(reinterpret_cast<::S3e60 *>((srcs))->FUN_006a7ad0(m_uiItemCount - i - 1)));
@@ -8180,7 +8180,7 @@ BuildResult* BuildOwner::BuildResultForInput(int first, int second, BuildInput* 
     reinterpret_cast<::FUN_006b8ec0_cls *>(this)->FUN_006b8ec0(FUN_009950a0(&input), (int *)(::BuildInput **)(&input), 0.0f);
     BuildFirst entries;
     BuildSecond objects4;
-    reinterpret_cast<::FUN_00996420_class *>(this)->SetThreadTasklet((int)(&entries), (int)(&objects4), 0);
+    reinterpret_cast<::FUN_00996420_class *>(this)->SetThreadTasklet(&entries, &objects4, 0);
     BuildResult* result3 = 0;
     if (((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(objects4))->GetName())) > 0)
     {
@@ -9090,7 +9090,7 @@ struct Self99
 // @fnv 0x0099ebe0
 bool Self99::FUN_0099ebe0(void* arg, Out99* output, int mode)
 {
-    Ref99* actor15 = ((::Ref99 *)(::GetFieldBC((::FUN_0097ae90_Class *)(context))));
+    Ref99* actor15 = ((::Ref99 *)(std::uintptr_t)(::GetFieldBC((::FUN_0097ae90_Class *)(context))));
     Ref99* target0 = ((::Ref99 *)(reinterpret_cast<::AlchemyItem *>((context))->FUN_004030b0()));
     Loc99 origin13 = (*(::Loc99 *)(reinterpret_cast<::FUN_00575650_Class *>((actor15))->FUN_00575650({})));
     if (target0)
@@ -9532,7 +9532,7 @@ extern unsigned int _data_011c16bc;
 // @fnv 0x009959f0
 FUN_009959f0_class::FUN_009959f0_class(int arg1, int arg2, int arg3)
     : FUN_004d61b0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESSound*>((*reinterpret_cast<::BSAudio * *>(&::g_osGlobals)))))->FUN_0084e3a0())),
-                   ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>((*reinterpret_cast<::BSAudio * *>(&::g_osGlobals)))))->GetName())), 0, "Combat Plan", 0x80000000, 0x80000000, 0x320,
+                   ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>((*reinterpret_cast<::BSAudio * *>(&::g_osGlobals)))))->GetName())), 0, "Combat Plan", 0x80000000, 0x80000000, 0x320,
                    0x258),
       m_30(arg1), m_34(arg2), m_38(arg3)
 {
@@ -9700,7 +9700,7 @@ void DebugTree::FUN_00995ef0(int parent, DebugNode* node)
             }
         }
         FUN_00995e30_arr_cls children(16, 0);
-        reinterpret_cast<::SearchOwner *>(this)->FindAndDispatchById((int)(node), (::SearchDestination *)(::FUN_00995e30_arr_cls *)(&children));
+        reinterpret_cast<::SearchOwner *>(this)->FindAndDispatchById((std::intptr_t)(node), (::SearchDestination *)(::FUN_00995e30_arr_cls *)(&children));
         for (unsigned int j = 0; j < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(children))->GetName())); j++)
         {
             FUN_00995ef0(parent, (DebugNode*)*((::FUN_00995e30_item_cls **)(reinterpret_cast<::S3e60 *>(&(children))->FUN_006a7ad0(j))));

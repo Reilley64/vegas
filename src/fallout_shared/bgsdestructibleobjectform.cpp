@@ -313,13 +313,13 @@ void BGSDestructibleObjectForm::InitItem(TESForm* owner)
 }
 
 // @fnv 0x0045bb80
-int FUN_0045bb80(int param_1)
+std::intptr_t FUN_0045bb80(std::intptr_t param_1)
 {
     return param_1 + 0x8C;
 }
 
 // @fnv 0x00461130
-int FUN_00461130(int pThis)
+std::intptr_t FUN_00461130(std::intptr_t pThis)
 {
     return pThis + 0x68;
 }

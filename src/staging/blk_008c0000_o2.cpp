@@ -590,7 +590,7 @@ struct Ref8
     virtual void v184();
     virtual void v188();
     virtual void v18c();
-    virtual void v190(int, int, int);
+    virtual void v190(void*, int, int);
     virtual void v194();
     virtual void v198();
     virtual void v19c();
@@ -1379,7 +1379,7 @@ struct xData
     xP3 m_iWordAt04;
     xP3 m_10;
     xP3 m_1c;
-    int m_28;
+    void* m_28;
     int m_2c;
     xMat m_30;
 };
@@ -1552,7 +1552,7 @@ struct xData
     xP3 m_iWordAt04;
     xP3 m_10;
     xP3 m_1c;
-    int m_28;
+    void* m_28;
     int m_2c;
     xMat m_30;
 };
@@ -1691,11 +1691,11 @@ struct xActor
     int m_8c;
     int m_90, m_94;
     float m_98;
-    void FUN_008ccfb0(int aiValue);
+    void FUN_008ccfb0(void* aiValue);
 };
 
 // @fnv 0x008ccfb0
-void xActor::FUN_008ccfb0(int aiValue)
+void xActor::FUN_008ccfb0(void* aiValue)
 {
     if (m_88)
         m_88->m_iWordAt00 = 4;
@@ -1715,7 +1715,7 @@ void xActor::FUN_008ccfb0(int aiValue)
             if (reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::fnv_008ccfb0::xVec4 &)((*(::fnv_008ccfb0::xVec4 *)(reinterpret_cast<::Holder *>((void *)&(V))->FUN_00458700((::Holder *)(0), {})))))->FUN_004586d0() == -::DAT_01085910)
             {
                 if (FUN_1d0())
-                    m_88->m_1c = ((::fnv_008ccfb0::xDH *)(::FUN_00461130((int)(FUN_1d0()))))->FUN_004b4500((*reinterpret_cast<::fnv_008ccfb0::xP3 *>(&::DAT_011a9478)) * m_98);
+                    m_88->m_1c = ((::fnv_008ccfb0::xDH *)(::FUN_00461130((std::intptr_t)(FUN_1d0()))))->FUN_004b4500((*reinterpret_cast<::fnv_008ccfb0::xP3 *>(&::DAT_011a9478)) * m_98);
             }
             else
                 ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&m_88->m_1c)), (*(const ::hkVector4 *)(&V)));
@@ -2291,7 +2291,7 @@ struct Node08
 
 struct FUN_00807770_Class
 {
-    int FUN_00807770(int);
+    char* FUN_00807770(int);
 };
 
 struct GlobalObject_008c71b0
@@ -2331,7 +2331,7 @@ void Owner_8cc740::FUN_008cc740(const NiPoint3& kPos, const NiPoint3& kWorldPosi
         if (reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::Rotation_8cc740 &)((*(::Rotation_8cc740 *)(reinterpret_cast<::Holder *>((void *)&(kRot))->FUN_00458700((::Holder *)(0), {})))))->FUN_004586d0() == -DAT_01085910)
         {
             if (GetNode())
-                m_pUserData->m_kValue = ((::Transform_8cc740 *)(::FUN_00461130((int)(GetNode()))))->FUN_004b4500(DAT_011a9478 * m_fScale);
+                m_pUserData->m_kValue = ((::Transform_8cc740 *)(::FUN_00461130((std::intptr_t)(GetNode()))))->FUN_004b4500(DAT_011a9478 * m_fScale);
         }
         else
             ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&m_pUserData->m_kValue)), (*(const ::hkVector4 *)(&kRot)));
@@ -2405,7 +2405,7 @@ void xActor::FUN_008ccce0(const xP3& akA, const xP3& akB)
         if (reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::xVec4 &)((*(::xVec4 *)(reinterpret_cast<::Holder *>((void *)&(V))->FUN_00458700((::Holder *)(0), {})))))->FUN_004586d0() == -::DAT_01085910)
         {
             if (FUN_1d0())
-                m_88->m_1c = ((::xDH *)(::FUN_00461130((int)(FUN_1d0()))))->FUN_004b4500((*reinterpret_cast<::xP3 *>(&::DAT_011a9478)) * m_98);
+                m_88->m_1c = ((::xDH *)(::FUN_00461130((std::intptr_t)(FUN_1d0()))))->FUN_004b4500((*reinterpret_cast<::xP3 *>(&::DAT_011a9478)) * m_98);
         }
         else
             ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&m_88->m_1c)), (*(const ::hkVector4 *)(&V)));
@@ -2470,7 +2470,7 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
         if (reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::FUN_004a3c90 &)((*(::FUN_004a3c90 *)(reinterpret_cast<::Holder *>((void *)&(direction))->FUN_00458700((::Holder *)(0), {})))))->FUN_004586d0() == -DAT_01085910)
         {
             if (v1d0())
-                state->direction = ((::Node8 *)(::FUN_00461130((int)(v1d0()))))->FUN_004b4500(DAT_011a9478 * angle);
+                state->direction = ((::Node8 *)(::FUN_00461130((std::intptr_t)(v1d0()))))->FUN_004b4500(DAT_011a9478 * angle);
         }
         else
             ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&state->direction)), (*(const ::hkVector4 *)(&direction)));
@@ -2500,7 +2500,7 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
                     ::FUN_00c6a350((::NiAVObject *)(scene), 1, 1, 0, 1);
                     NiUpdateData zero(0.0f, false, false);
                     reinterpret_cast<::FUN_00a59c60_cls *>((scene))->FUN_00a59c60((std::intptr_t)&(zero));
-                    NiPoint3 offset = ((::Node8 *)(::FUN_00461130((int)(root))))->FUN_004b4500(DAT_011a9478);
+                    NiPoint3 offset = ((::Node8 *)(::FUN_00461130((std::intptr_t)(root))))->FUN_004b4500(DAT_011a9478);
                     reinterpret_cast<::FUN_004a0c10_s *>(&(offset))->FUN_004a0c10();
                     offset = *v1f4() + (offset * DAT_01085c58);
                     hkVector4 position;
@@ -2532,11 +2532,11 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
         {
             NiPoint3 scaled = direction * (float)(range + DAT_010356f0);
             NiTransform transform;
-            reinterpret_cast<::NiTransform *>((((::Node8 *)(::FUN_00461130((int)(hit))))))->CalculateInverse((*(::NiTransform *)(&transform)));
+            reinterpret_cast<::NiTransform *>((((::Node8 *)(::FUN_00461130((std::intptr_t)(hit))))))->CalculateInverse((*(::NiTransform *)(&transform)));
             state->target = transform.FUN_00524c40(ray + scaled);
             ThreeByThreeMatrix inverse;
-            reinterpret_cast<::ThreeByThreeMatrix *>((((::Node8 *)(::FUN_00461130((int)(hit))))))->Inverse((*(::ThreeByThreeMatrix *)(&inverse)));
-            state->rotation = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(inverse))->operator+(*reinterpret_cast<ThreeByThreeMatrix*>(((::Node8 *)(::FUN_00461130((int)(root))))));
+            reinterpret_cast<::ThreeByThreeMatrix *>((((::Node8 *)(::FUN_00461130((std::intptr_t)(hit))))))->Inverse((*(::ThreeByThreeMatrix *)(&inverse)));
+            state->rotation = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(inverse))->operator+(*reinterpret_cast<ThreeByThreeMatrix*>(((::Node8 *)(::FUN_00461130((std::intptr_t)(root))))));
             state->node = hit;
             Form8* form = ((::Form8 *)(::fnv_004b5260::FUN_004b5260((::NiAVObject *)(hit))));
             if (form)
@@ -2572,22 +2572,22 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
                     hit = ((::Node8 *)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName()));
                     NiPoint3 scaled = direction * DAT_01047224;
                     NiTransform transform;
-                    reinterpret_cast<::NiTransform *>((((::Node8 *)(::FUN_00461130((int)(hit))))))->CalculateInverse((*(::NiTransform *)(&transform)));
-                    state->target = transform.FUN_00524c40(*((::NiPoint3 *)(::FUN_0045bb80((int)(hit)))) + scaled);
+                    reinterpret_cast<::NiTransform *>((((::Node8 *)(::FUN_00461130((std::intptr_t)(hit))))))->CalculateInverse((*(::NiTransform *)(&transform)));
+                    state->target = transform.FUN_00524c40(*((::NiPoint3 *)(::FUN_0045bb80((std::intptr_t)(hit)))) + scaled);
                     ThreeByThreeMatrix inverse;
-                    reinterpret_cast<::ThreeByThreeMatrix *>((((::Node8 *)(::FUN_00461130((int)(hit))))))->Inverse((*(::ThreeByThreeMatrix *)(&inverse)));
-                    state->rotation = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(inverse))->operator+(*reinterpret_cast<ThreeByThreeMatrix*>(((::Node8 *)(::FUN_00461130((int)(root))))));
+                    reinterpret_cast<::ThreeByThreeMatrix *>((((::Node8 *)(::FUN_00461130((std::intptr_t)(hit))))))->Inverse((*(::ThreeByThreeMatrix *)(&inverse)));
+                    state->rotation = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(inverse))->operator+(*reinterpret_cast<ThreeByThreeMatrix*>(((::Node8 *)(::FUN_00461130((std::intptr_t)(root))))));
                     state->node = hit;
                 }
             }
             if (!state->node)
             {
-                reinterpret_cast<::fnv_008ccfb0::xActor *>(this)->FUN_008ccfb0((int)(victim));
+                reinterpret_cast<::fnv_008ccfb0::xActor *>(this)->FUN_008ccfb0(victim);
                 return;
             }
         }
         if (linked)
-            FUN_008d0020(*start, ((::Node8 *)(::FUN_00461130((int)(root))))->FUN_004b4500(DAT_011a9478), linked);
+            FUN_008d0020(*start, ((::Node8 *)(::FUN_00461130((std::intptr_t)(root))))->FUN_004b4500(DAT_011a9478), linked);
         if (state->node)
         {
             Form8* form = ((::Form8 *)(::bhkCollisionObject::GetFromNiAVObject((::NiAVObject *)(state->node))));
@@ -2613,7 +2613,7 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
         }
         if (victim->v21c() && !victim->v38c())
         {
-            reinterpret_cast<::fnv_008ccfb0::xActor *>(this)->FUN_008ccfb0((int)(victim));
+            reinterpret_cast<::fnv_008ccfb0::xActor *>(this)->FUN_008ccfb0(victim);
             reinterpret_cast<::FUN_008cc6d0_class *>(this)->FUN_008cc6d0(3);
             return;
         }
@@ -2621,7 +2621,7 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
         {
             if (!((intptr_t)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(this)->FUN_008cdd90())) && ::DialogueRandom() % 100 < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting8 *>(&::g_011cf510)))))))
             {
-                victim->v190(((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())), 0, 1);
+                victim->v190(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430(), 0, 1);
                 requested = true;
             }
         }

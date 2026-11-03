@@ -3,5 +3,5 @@
 class FUN_008641d0 {
 public:
     // 0x008641d0
-    FUN_008641d0(unsigned int, void *);
+    FUN_008641d0(unsigned int, unsigned int);
 };

@@ -1425,9 +1425,7 @@ bool BGSPlaceableWater::FUN_004ea910()
 }
 }  // namespace fnv_004ea910
 
-namespace std {
-float abs(float);
-}
+#include <cmath>
 // Returns whether the absolute difference between afA and afB is less than or equal to afEpsilon.
 // @fnv 0x0049e390
 bool IsApproximatelyEqual(float afA, float afB, float afEpsilon)
@@ -4426,7 +4424,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
                 if (!*(*reinterpret_cast<::fnv_004e21b0::WSetting *>(&::g_011c7bbc)).Get())
                 {
                     if (((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b68)))))))
-                        reinterpret_cast<::Manager *>((((::fnv_004e21b0::WObj2 *)(::FUN_004a0ea0((*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b68)))))))))->FUN_00b6da10({});
+                        reinterpret_cast<::Manager *>(((::fnv_004e21b0::WObj2 *)(::FUN_004a0ea0())))->FUN_00b6da10((::Item *)((*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b68)).m_p));
                     (*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b68)).Set(0);
                 }
             }
@@ -4601,9 +4599,9 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
     else
     {
         if (((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b68)))))))
-            reinterpret_cast<::Manager *>((((::fnv_004e21b0::WObj2 *)(::FUN_004a0ea0((*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b68)))))))))->FUN_00b6da10({});
+            reinterpret_cast<::Manager *>(((::fnv_004e21b0::WObj2 *)(::FUN_004a0ea0())))->FUN_00b6da10((::Item *)((*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b68)).m_p));
         if (((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b64)))))))
-            reinterpret_cast<::Manager *>((((::fnv_004e21b0::WObj2 *)(::FUN_004a0ea0((*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b64)))))))))->FUN_00b6da10({});
+            reinterpret_cast<::Manager *>(((::fnv_004e21b0::WObj2 *)(::FUN_004a0ea0())))->FUN_00b6da10((::Item *)((*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b64)).m_p));
         aPos3 = ((::fnv_004e21b0::WListPos *)(::FUN_00559450((int *)&(groups))));
         next = 0;
         while (aPos3)
@@ -7459,7 +7457,7 @@ void FUN_004e8ec0_cls::UpdateWaterObjects()
         }
         if (((::fnv_004e8ec0::WObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e8ec0::WObjPtr *>(&::g_011c7b64)))))))
         {
-            reinterpret_cast<::Manager *>((((::fnv_004e8ec0::WRenderer2 *)(::FUN_004a0ea0((*reinterpret_cast<::fnv_004e8ec0::WObjPtr *>(&::g_011c7b64)))))))))->FUN_00b6da10({});
+            reinterpret_cast<::Manager *>(((::fnv_004e8ec0::WRenderer2 *)(::FUN_004a0ea0())))->FUN_00b6da10((::Item *)((*reinterpret_cast<::fnv_004e8ec0::WObjPtr *>(&::g_011c7b64)).m_p));
             (*reinterpret_cast<::fnv_004e8ec0::WObjPtr *>(&::g_011c7b64)).Set(0);
         }
         DAT_01200000 = false;
@@ -7876,7 +7874,7 @@ void WSystem::UpdateRegions()
     reinterpret_cast<::FUN_00440460_S *>(&(c))->FUN_00440460((const ::V3 *)&(const ::NiPoint3 &)(NiPoint3((*reinterpret_cast<::fnv_004e9550::WPlayer * *>(&::_g_thePlayer))->GetPosition().x, (*reinterpret_cast<::fnv_004e9550::WPlayer * *>(&::_g_thePlayer))->GetPosition().y, b + 50.0)));
     reinterpret_cast<::NiCamera *>(&(c))->UpdateViewFrustum((const ::NiFrustum &)(ba));
     WUpdate l(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(&(c))->FUN_00a59c60((std::intptr_t)&(l));
+    reinterpret_cast<::FUN_00a59c60_cls *>(&(c))->FUN_00a59c60((::std::intptr_t)&(l));
     NiPoint3 e((*reinterpret_cast<::fnv_004e9550::WPlayer * *>(&::_g_thePlayer))->GetPosition().x, (*reinterpret_cast<::fnv_004e9550::WPlayer * *>(&::_g_thePlayer))->GetPosition().y, b);
     reinterpret_cast<::CamLook *>(&(c))->SetLookAt((const ::CamPoint &)(e), (const ::CamPoint &)(::DAT_011a9478));
     reinterpret_cast<::FUN_004a0dd0_cls *>((((WRenderer*)::FUN_0043c4b0())))->FUN_004a0dd0((int)(::FUN_004a0d10((char *)&(c))));
@@ -9781,7 +9779,7 @@ void WaterPassOwner::FUN_004eb220(WaterPass* pass)
     ::FUN_00b6b8d0(7, reinterpret_cast<::BSRenderedTexture *>((static_cast<WaterPassTexture*>(pass->texture)))->GetGroup());
     reinterpret_cast<::FUN_004a0dd0_cls *>((static_cast<WaterPassRenderer*>(::FUN_0043c4b0())))->FUN_004a0dd0((int)(::FUN_004a0d10((char *)(static_cast<WaterPassTexture*>(pass->target)))));
     ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((::fnv_004eb220::WaterPassThread *)(::TaskThreadManager::GetSingleton()))), (void *)(1), pass->index + 1, {});
-    reinterpret_cast<::CameraState4E9 *>((static_cast<WaterPassRenderer*>(::FUN_0043c4b0())))->SetFromCamera((*(const ::Camera4E9 *)(pass->target)));
+    reinterpret_cast<::CameraState4E9 *>((static_cast<WaterPassRenderer*>(::FUN_0043c4b0())))->SetFromCamera((*(const ::Camera4E9 *)(pass->target.object)));
     reinterpret_cast<::WaterPlaneHost *>(this)->FUN_004ecef0((*(float *)&(const ::WaterColorParam &)(WaterColorParam((*(const ::NiPoint3 *)((void *)&(pass->plane))).x, (*(const ::NiPoint3 *)((void *)&(pass->plane))).y,
                                  (*(const ::NiPoint3 *)((void *)&(pass->plane))).z, -reinterpret_cast<::Twin_0084d030 *>((void *)&(pass->plane))->GetStoredFloatValue()))), {}, {}, {}, {});
     ::UpdateSpawnedObjectFlags(1, 0, 0, 0, 0, 0, 0);
@@ -10891,7 +10889,7 @@ void Owner074::RenderWaterRefs(Camera074* camera, State074* state)
                 ((::fnv_004ebef0::BSShaderAccumulator *)(::FUN_00559450((int *)&(state->accumulator))))->Attach(((::fnv_004ebef0::FUN_00a712f0 *)(::FUN_00559450((int *)&(state->camera)))));
                 reinterpret_cast<::_Dummy_004bc4a0 *>((((::fnv_004ebef0::BSShaderAccumulator *)(::FUN_00559450((int *)&(state->accumulator))))))->SetAccumulate(true);
                 if (!((::fnv_004ebef0::FUN_00a712f0 *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004ebef0::PtrFUN_00a712f0 *>(&::g_011c7b68)))))))
-                    (*reinterpret_cast<::fnv_004ebef0::PtrFUN_00a712f0 *>(&::g_011c7b68)).FUN_0066b0d0(((::fnv_004ebef0::FUN_00a712f0 *)(reinterpret_cast<::Pool *>((((::fnv_004ebef0::Texture074 *)(::FUN_004a0ea0(::FUN_004a0e90())))))->FUN_00b6e110(17, 0, 0, 0, {}))));
+                    (*reinterpret_cast<::fnv_004ebef0::PtrFUN_00a712f0 *>(&::g_011c7b68)).FUN_0066b0d0(((::fnv_004ebef0::FUN_00a712f0 *)(reinterpret_cast<::Pool *>((((::fnv_004ebef0::Texture074 *)(::FUN_004a0ea0()))))->FUN_00b6e110(::FUN_004a0e90(), 17, 0, 0, 0))));
                 didActors = false;
                 didGrid = false;
                 position = ((void *)(::FUN_00559450((int *)&(state->refs))));
@@ -11142,14 +11140,14 @@ void WaterSetup::FUN_004ec800(WaterPass* pass, unsigned short flags)
         return;
     reinterpret_cast<::FUN_004a0dd0_cls *>((((::fnv_004ec800::Renderer *)(::FUN_0043c4b0()))))->FUN_004a0dd0((int)(::FUN_004a0d10((char *)(((Texture*)pass->target)))));
     ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((::fnv_004ec800::RenderHelper *)(::TaskThreadManager::GetSingleton()))), (void *)(1), pass->count + 1, {});
-    reinterpret_cast<::CameraState4E9 *>((((::fnv_004ec800::Renderer *)(::FUN_0043c4b0()))))->SetFromCamera((*(const ::Camera4E9 *)(pass->target)));
+    reinterpret_cast<::CameraState4E9 *>((((::fnv_004ec800::Renderer *)(::FUN_0043c4b0()))))->SetFromCamera((*(const ::Camera4E9 *)(pass->target.object)));
     DAT_011f9614 = NiPoint2(reinterpret_cast<::FUN_00812870_t *>((pass->camera))->GetUnka4(), reinterpret_cast<::LowProcess *>((pass->camera))->GetCurrentDetectionAmount());
     reinterpret_cast<::FUN_004a1040_Helper *>((((Accum*)pass->accumulator)))->Set(14);
     ::UpdateRendererStateCount(1, 1);
     ::FUN_00b98180(2, 255, flags, 1);
     ::FUN_00b980c0(0, 0, 0, 1);
     ::AddToSlot((void *)(0), 1);
-    reinterpret_cast<::CameraState4E9 *>((((::fnv_004ec800::Renderer *)(::FUN_0043c4b0()))))->SetFromCamera((*(const ::Camera4E9 *)(pass->target)));
+    reinterpret_cast<::CameraState4E9 *>((((::fnv_004ec800::Renderer *)(::FUN_0043c4b0()))))->SetFromCamera((*(const ::Camera4E9 *)(pass->target.object)));
     (*reinterpret_cast<::fnv_004ec800::Plane *>(&::DAT_011f9604)) = pass->reflect;
     reinterpret_cast<::WaterPlaneHost *>(this)->FUN_004ecef0((*(float *)&(const ::WaterColorParam &)(WaterColorParam((*(const ::fnv_004ec800::Vec *)((void *)&(pass->refract))).x, (*(const ::fnv_004ec800::Vec *)((void *)&(pass->refract))).y, (*(const ::fnv_004ec800::Vec *)((void *)&(pass->refract))).z,
                           -reinterpret_cast<::Twin_0084d030 *>((void *)&(pass->refract))->GetStoredFloatValue() + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_004ec800::Setting *>(&::g_011c7c10))))))))),
@@ -11886,7 +11884,8 @@ void WaterSound098::UpdateWaterSound()
                     range = 0.0f;
                     samples.x += -1.0 * count + y * x;
                     samples.y += -1.0 * count + pos * x;
-                    if (!terrain || !reinterpret_cast<::fnv_00550200::FUN_00550200 *>((terrain))->IsPointInCell((*(const ::fnv_00550200::NiPoint3 *)(&NiPoint3(samples.x, samples.y, 0.0f)))))
+                    NiPoint3 kTemp11887_8(samples.x, samples.y, 0.0f);
+                    if (!terrain || !reinterpret_cast<::fnv_00550200::FUN_00550200 *>((terrain))->IsPointInCell((*(const ::fnv_00550200::NiPoint3 *)(&kTemp11887_8))))
                         terrain = ((::WaterCell098 *)(reinterpret_cast<::fnv_00587550::FUN_00587550_shell *>((((::World098 *)(reinterpret_cast<::EffectSetting *>((((TES098*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetHitSound()))))->FUN_00587550(*(const ::fnv_00587550::NiPoint3 *)nullptr)));
                     float water = terrain ? reinterpret_cast<::FUN_005471e0_shell *>((terrain))->FUN_005471e0() : DAT_01015f5c;
                     if (reinterpret_cast<::FUN_004572e0_shell *>((((TES098*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetLandHeightAt((*(const ::NiPoint3 *)(&samples)), (*(float *)(&range))) && range < water)
@@ -11896,17 +11895,21 @@ void WaterSound098::UpdateWaterSound()
                         amount.y += samples.y;
                         if (DAT_011c7a64)
                         {
-                            DebugNode098* node = ((::DebugNode098 *)(::CreateOctahedron(10.0f, (const struct ::FUN_004a7800 *)(const ::Color098 *)(&Color098(0, 1, 0, 0)), true)));
+                            Color098 kTemp11897_7(0, 1, 0, 0);
+                            DebugNode098* node = ((::DebugNode098 *)(::CreateOctahedron(10.0f, (const struct ::FUN_004a7800 *)(const ::Color098 *)(&kTemp11897_7), true)));
+                            NiPoint3 kTemp11899_6(samples.x, samples.y, FUN_00404010(reinterpret_cast<::FUN_005471e0_shell *>((cell))->FUN_005471e0(), range) + 10.0);
                             reinterpret_cast<::FUN_00440460_S *>((node))->FUN_00440460(
-                                (const ::V3 *)(const ::NiPoint3 *)(&NiPoint3(samples.x, samples.y, FUN_00404010(reinterpret_cast<::FUN_005471e0_shell *>((cell))->FUN_005471e0(), range) + 10.0)));
+                                (const ::V3 *)(const ::NiPoint3 *)(&kTemp11899_6));
                             reinterpret_cast<::FUN_00458e20_shell *>((((TES098*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->FUN_00458e20((::NiAVObject *)(node), 10.0f);
                         }
                     }
                     else if (DAT_011c7a64)
                     {
-                        DebugNode098* node = ((::DebugNode098 *)(::CreateOctahedron(10.0f, (const struct ::FUN_004a7800 *)(const ::Color098 *)(&Color098(0, 0, 1, 0)), true)));
+                        Color098 kTemp11905_5(0, 0, 1, 0);
+                        DebugNode098* node = ((::DebugNode098 *)(::CreateOctahedron(10.0f, (const struct ::FUN_004a7800 *)(const ::Color098 *)(&kTemp11905_5), true)));
+                        NiPoint3 kTemp11907_4(samples.x, samples.y, FUN_00404010(reinterpret_cast<::FUN_005471e0_shell *>((cell))->FUN_005471e0(), range) + 10.0);
                         reinterpret_cast<::FUN_00440460_S *>((node))->FUN_00440460(
-                            (const ::V3 *)(const ::NiPoint3 *)(&NiPoint3(samples.x, samples.y, FUN_00404010(reinterpret_cast<::FUN_005471e0_shell *>((cell))->FUN_005471e0(), range) + 10.0)));
+                            (const ::V3 *)(const ::NiPoint3 *)(&kTemp11907_4));
                         reinterpret_cast<::FUN_00458e20_shell *>((((TES098*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->FUN_00458e20((::NiAVObject *)(node), 10.0f);
                     }
                 }
@@ -11925,7 +11928,8 @@ void WaterSound098::UpdateWaterSound()
         if (height > 1.0)
             height = 1.0f;
         reinterpret_cast<::FUN_004e7560_shell *>(&(amount))->NormalizeXY();
-        amount = reinterpret_cast<::NiPoint2 *>((void *)&(const ::Point2098 &)(amount))->operator*((float)((1.0 - height) * ((unsigned int)(reinterpret_cast<::FUN_004e7600_shell *>(this)->GetIntValue()))));
+        ::NiPoint2 kScaledAmount = reinterpret_cast<::NiPoint2 *>((void *)&(amount))->operator*((float)((1.0 - height) * ((unsigned int)(reinterpret_cast<::FUN_004e7600_shell *>(this)->GetIntValue()))));
+        amount = *(Point2098 *)(void *)&kScaledAmount;
         amount.x += ((::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>((((Player098*)::_g_thePlayer)))->GetAddTopicList()))->x;
         amount.y += ((::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>((((Player098*)::_g_thePlayer)))->GetAddTopicList()))->y;
         if (reinterpret_cast<::SoundPlaybackHandle *>(&(handle))->IsValid())
@@ -11935,10 +11939,13 @@ void WaterSound098::UpdateWaterSound()
                 NiPoint3 line = ::_g_thePlayer->GetPos();
                 line.z += 10.0;
                 NiPoint3 node(amount.x, amount.y, line.z);
-                DebugNode098* point = ((::DebugNode098 *)(::CreateOctahedron(10.0f, (const struct ::FUN_004a7800 *)(const ::Color098 *)(&Color098(1, 0, 0, 0)), true)));
+                Color098 kTemp11937_3(1, 0, 0, 0);
+                DebugNode098* point = ((::DebugNode098 *)(::CreateOctahedron(10.0f, (const struct ::FUN_004a7800 *)(const ::Color098 *)(&kTemp11937_3), true)));
                 reinterpret_cast<::FUN_00440460_S *>((point))->FUN_00440460((const ::V3 *)(const ::NiPoint3 *)(&node));
                 reinterpret_cast<::FUN_00458e20_shell *>((((TES098*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->FUN_00458e20((::NiAVObject *)(point), 10.0f);
-                DebugNode098* range = ((::DebugNode098 *)(::fnv_004b3890::FUN_004b3890((*(const class class ::FUN_006815c0 *)(&line)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&Color098(1, 1, 0, 0))), (*(const class class ::FUN_006815c0 *)(&node)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&Color098(1, 1, 0, 0))), true)));
+                Color098 kTemp11940_2(1, 1, 0, 0);
+                Color098 kTemp11940_1(1, 1, 0, 0);
+                DebugNode098* range = ((::DebugNode098 *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&line)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&kTemp11940_2)), (*(const class ::FUN_006815c0 *)(&node)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&kTemp11940_1)), true)));
                 reinterpret_cast<::FUN_00458e20_shell *>((((TES098*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->FUN_00458e20((::NiAVObject *)(range), 10.0f);
             }
             reinterpret_cast<::FUN_00ad8b60_h *>(&(handle))->FUN_00ad8b60(amount.x, amount.y, reinterpret_cast<::FUN_005471e0_shell *>((cell))->FUN_005471e0());
@@ -11962,8 +11969,9 @@ void WaterSound098::UpdateWaterSound()
             Sound098* flags = ((::Sound098 *)(reinterpret_cast<::TESPackage *>((((::WaterForm098 *)(reinterpret_cast<::FUN_00547770_shell *>((((::CellWater098 *)(reinterpret_cast<::LowProcess *>((((Player098*)::_g_thePlayer)))->GetTarget()))))->FUN_00547770()))))->GetRefCount()));
             sound = ((unsigned int)(::GetFlagMask((*(::SoundData098 *)(reinterpret_cast<::Holder *>((flags))->CopyBig({}))).flags)));
             sound |= ((*(::SoundData098 *)(reinterpret_cast<::Holder *>((flags))->CopyBig({}))).flags & 0x40) ? 0x8000001 : 2;
-            reinterpret_cast<::SoundPlaybackHandle *>(&(handle))->operator=((*(const ::SoundPlaybackHandle *)(&((::Audio098 *)(::FUN_00453a70()))->FUN_00ad73b0(
-                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::Sound098 *)(reinterpret_cast<::TESPackage *>((((::WaterForm098 *)(reinterpret_cast<::FUN_00547770_shell *>((((::CellWater098 *)(reinterpret_cast<::LowProcess *>((((Player098*)::_g_thePlayer)))->GetTarget()))))->FUN_00547770()))))->GetRefCount()))))->FUN_0084e3a0())), sound))));
+            BSSoundHandleEx kWaterSound = ((::Audio098 *)(::FUN_00453a70()))->FUN_00ad73b0(
+                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::Sound098 *)(reinterpret_cast<::TESPackage *>((((::WaterForm098 *)(reinterpret_cast<::FUN_00547770_shell *>((((::CellWater098 *)(reinterpret_cast<::LowProcess *>((((Player098*)::_g_thePlayer)))->GetTarget()))))->FUN_00547770()))))->GetRefCount()))))->FUN_0084e3a0())), sound);
+            reinterpret_cast<::SoundPlaybackHandle *>(&(handle))->operator=((*(const ::SoundPlaybackHandle *)(&kWaterSound)));
         }
     }
     else if (DAT_011c7cfc && reinterpret_cast<::SoundPlaybackHandle *>(&(handle))->IsValid())

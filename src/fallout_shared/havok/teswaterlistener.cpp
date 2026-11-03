@@ -493,7 +493,7 @@ struct LS3de0
 };
 struct FUN_0057b700_class
 {
-    int FUN_0057b730(int);
+    std::intptr_t FUN_0057b730(int);
 };
 struct FUN_0062e500_shell : FUN_0057b700_class
 {
@@ -554,7 +554,7 @@ void FUN_006312d0_shell::FUN_006312d0(void* apWaterRef)
     void* pzone = FUN_0062fe80((BSOcclusionPlane*)apWaterRef);
     if (pzone)
     {
-        GameTimerRecord* pentry = (GameTimerRecord*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(((GameTimerRecord*)pzone)))->FUN_00825c00();
+        GameTimerRecord* pentry = (GameTimerRecord*)(std::uintptr_t)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(((GameTimerRecord*)pzone)))->FUN_00825c00();
         while (pentry)
         {
             XActor* pActor = (XActor*)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(reinterpret_cast<ref_0084e3a0_shell*>(reinterpret_cast<::RecordField10View*>(pentry)->kField10))->FUN_0084e3a0()));
@@ -595,7 +595,7 @@ struct FUN_00631180_shell
 FUN_00631230_shell* FUN_00631180_shell::FUN_00631180(TESObjectREFR* apRef, void* apCol)
 {
     FUN_00631230_shell* apWZone = new FUN_00631230_shell(apRef, apCol);
-    apWZone->pGroup = ((WaterZoneManager*)(void*)((int)(::FUN_0070ec90((char *)(((EffectSetting*)g_TES))))))
+    apWZone->pGroup = ((WaterZoneManager*)(void*)(std::uintptr_t)(::FUN_0070ec90((char *)(((EffectSetting*)g_TES)))))
                           ->GetWaterZone(apRef, (TESObjectREFR*)0, 0.0f);
     return apWZone;
 }
@@ -868,12 +868,12 @@ struct FUN_0062f630_cls
     unsigned int unk08;
     MemberObj m_0c;
 
-    bool ApplyToMember(int a, int unused);
+    bool ApplyToMember(std::intptr_t a, int unused);
 };
 
 // Builds a LocalObj from FUN_004b59f0(a), passes it to m_0c.FUN_00631620, then returns true.
 // @fnv 0x0062f630
-bool FUN_0062f630_cls::ApplyToMember(int a, int unused)
+bool FUN_0062f630_cls::ApplyToMember(std::intptr_t a, int unused)
 {
     bool done = false;
     {
@@ -1081,7 +1081,7 @@ void WaterSplash_62e970::SpawnWaterSplash(Body_62e970* apBody, float afWaterZ)
     else
         reinterpret_cast<::FUN_0087b700_shell *>((((::TaskQueue_62e970 *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b700(fScale, (::NiPoint3 *)(::Vec3_62e970 *)(&_pos));
     if (!FUN_008c7aa0())
-        reinterpret_cast<::fnv_004e8510::OwnerW *>((((::Splash_62e970 *)(::FUN_0070ec90((char *)(((TES_62e970*)g_TES)))))))->SpawnGroupNodeNearPlayer((*(float *)&(const ::Vec3_62e970 &)(_pos)), ::DAT_01013ea4, {}, {});
+        reinterpret_cast<::fnv_004e8510::OwnerW *>((((::Splash_62e970 *)(std::uintptr_t)(::FUN_0070ec90((char *)(((TES_62e970*)g_TES)))))))->SpawnGroupNodeNearPlayer((*(float *)&(const ::Vec3_62e970 &)(_pos)), ::DAT_01013ea4, {}, {});
     else
         reinterpret_cast<::Holder *>((((::TaskQueue_62e970 *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b760(::DAT_01013ea4, (::NiPoint3 *)(::Vec3_62e970 *)(&_pos));
     fCooldown = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting_62e970 *>(&::originalRuntimeFloatSetting984))))));
@@ -1122,7 +1122,7 @@ void __cdecl FUN_0062eb50(float a1, NiPoint3 aPosition)
     }
     if (!FUN_008c7aa0())
     {
-        reinterpret_cast<::fnv_004e8510::OwnerW *>((((::TESWaterSystemMgr *)(::FUN_0070ec90((char *)(((TES_Ext*)g_TES)))))))->SpawnGroupNodeNearPlayer((*(float *)&(const ::NiPoint3 &)(aPosition)), 0.01f, {}, {});
+        reinterpret_cast<::fnv_004e8510::OwnerW *>((((::TESWaterSystemMgr *)(std::uintptr_t)(::FUN_0070ec90((char *)(((TES_Ext*)g_TES)))))))->SpawnGroupNodeNearPlayer((*(float *)&(const ::NiPoint3 &)(aPosition)), 0.01f, {}, {});
     }
     else
     {
@@ -1516,7 +1516,7 @@ struct SettingWater
 };
 void FUN_0062f8f0(float);
 void FUN_0062f8e0(unsigned char);
-void FUN_0062f310(int);
+void FUN_0062f310(std::intptr_t);
 struct WaterRecord
 {
     TESObjectREFR* reference;
@@ -1810,7 +1810,7 @@ bool WaterOwner::FUN_0062f6b0(WaterRequest* request)
     }
     else
     {
-        WaterContactManager* h = ((::WaterContactManager *)(::FUN_0070ec90((char *)(((TESWaterAccess*)g_TES)))));
+        WaterContactManager* h = ((::WaterContactManager *)(std::uintptr_t)(::FUN_0070ec90((char *)(((TESWaterAccess*)g_TES)))));
         reinterpret_cast<::Target5c80 *>((h))->AddObjectToEntry(b, (::Object5c80 *)(d), 0.0f);
     }
     reinterpret_cast<::fnv_00631370::WorkOwner *>(this)->FUN_00631370((::fnv_00631370::WorkActor *)(d), 0, 1);
@@ -2126,7 +2126,7 @@ void WaterZoneRemoval::FUN_0062fc70(ParamStruct* apParams)
     {
         if (((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((_g_thePlayer))->GetTarget())))
         {
-            FUN_0062f310((int)reinterpret_cast<::FUN_00547770_shell *>((((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((_g_thePlayer))->GetTarget()))))->FUN_00547770());
+            FUN_0062f310((std::intptr_t)reinterpret_cast<::FUN_00547770_shell *>((((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((_g_thePlayer))->GetTarget()))))->FUN_00547770());
         }
     }
 
@@ -2134,7 +2134,7 @@ void WaterZoneRemoval::FUN_0062fc70(ParamStruct* apParams)
     if (apParams->unk0c)
     {
         reinterpret_cast<::FUN_0062e500_shell *>((apParams->unk0c))->FUN_0062e500((std::intptr_t)(apParams->unk00), apParams->unk10);
-        if (!((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((apParams->unk0c))->FUN_00825c00())))
+        if (!((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((apParams->unk0c))->FUN_00825c00())))
         {
             b9 = true;
         }
@@ -2182,7 +2182,7 @@ void WaterZoneRemoval::FUN_0062fc70(ParamStruct* apParams)
         }
         else
         {
-            WaterGroupRemovalCall* pWaterSystem7 = (WaterGroupRemovalCall*)FUN_0070ec90((char*)g_TES);
+            WaterGroupRemovalCall* pWaterSystem7 = (WaterGroupRemovalCall*)(std::uintptr_t)FUN_0070ec90((char*)g_TES);
             reinterpret_cast<::WaterZoneManager *>((pWaterSystem7))->UpdateWaterZone((TESObjectREFR*)apParams->unk08, (TESObjectREFR*)apParams->unk00, 0.0f);
         }
     }
@@ -2206,7 +2206,7 @@ struct FUN_00c9a460_shell
 // @fnv 0x00c9a600
 void FUN_00c9a460_shell::FUN_00c9a600(int a)
 {
-    int r = ((int(*)(void*, int))(*reinterpret_cast<void***>(this))[9])(this, a);
+    std::intptr_t r = ((std::intptr_t(*)(void*, int))(*reinterpret_cast<void***>(this))[9])(this, a);
     reinterpret_cast<::OwnerC9Body *>(this)->AddObject((::RefObjectC9 *)(r));
 }
 
@@ -2342,7 +2342,7 @@ int PhysicsController_o2_od_noo2::FUN_00630170(PhysicsReference* reference, floa
                 PhysicsVector direction;
                 new ((void *)&(direction)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(::FUN_00460140((std::intptr_t)(state)))))));
                 PhysicsVector velocity;
-                new ((void *)&(velocity)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(::FUN_00560dc0((::TESDataHandler *)(reference)))))));
+                new ((void *)&(velocity)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(std::uintptr_t)(::FUN_00560dc0((::TESDataHandler *)(reference)))))));
                 float mass = reinterpret_cast<::fnv_004b4ea0::TESDataHandler *>((reference))->FUN_004b4ea0();
                 float extent = reinterpret_cast<::bhkCharacterController *>(&(bounds.maximum))->GetVectorElement(2) - reinterpret_cast<::bhkCharacterController *>(&(bounds.minimum))->GetVectorElement(2);
                 float lower = extent * 0.25 + reinterpret_cast<::bhkCharacterController *>(&(bounds.minimum))->GetVectorElement(2);
@@ -2410,7 +2410,7 @@ int PhysicsController_o2_od_noo2::FUN_00630170(PhysicsReference* reference, floa
                 reinterpret_cast<::FUN_00631100_shell *>((reference))->FUN_00631100(deltaTime, (std::intptr_t)(&secondForce));
                 reinterpret_cast<::TESForm *>((state))->ClearData();
                 PhysicsVector linear;
-                new ((void *)&(linear)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(::FUN_00560dc0((::TESDataHandler *)(reference)))))));
+                new ((void *)&(linear)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(std::uintptr_t)(::FUN_00560dc0((::TESDataHandler *)(reference)))))));
                 float vertical = reinterpret_cast<::bhkCharacterController *>(&(linear))->GetVectorElement(2);
                 reinterpret_cast<::bhkCharacterController *>(&(linear))->GetVectorElement(2) = 0;
                 if (dampVertical)
@@ -2875,7 +2875,7 @@ void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
                             if (FUN_008c7aa0() && ((::AudioE *)(::TaskQueueInterface::GetSingleton())))
                                 reinterpret_cast<::FakeTaskQueue *>((((::AudioE *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b4a0(0, (void *)(pkObj), fFoundHeight);
                             else
-                                reinterpret_cast<::Target5c80 *>((((::AudioMgrE *)(::FUN_0070ec90((char *)((*reinterpret_cast<::InterfaceE * *>(&::g_TES))))))))->AddObjectToEntry((void *)(0), (::Object5c80 *)(pkObj), fFoundHeight);
+                                reinterpret_cast<::Target5c80 *>((((::AudioMgrE *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::InterfaceE * *>(&::g_TES))))))))->AddObjectToEntry((void *)(0), (::Object5c80 *)(pkObj), fFoundHeight);
                         }
                         reinterpret_cast<::Ref57b240 *>((pkObj))->FUN_0057b240(true);
                     }
@@ -2887,7 +2887,7 @@ void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
                             if (FUN_008c7aa0() && ((::AudioE *)(::TaskQueueInterface::GetSingleton())))
                                 reinterpret_cast<::Holder0087b4f0 *>((((::AudioE *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b4f0(0, (void *)(pkObj), fFoundHeight);
                             else
-                                reinterpret_cast<::WaterZoneManager *>((((::AudioMgrE *)(::FUN_0070ec90((char *)((*reinterpret_cast<::InterfaceE * *>(&::g_TES))))))))->UpdateWaterZone((::TESObjectREFR *)(0), (::TESObjectREFR *)(pkObj), fFoundHeight);
+                                reinterpret_cast<::WaterZoneManager *>((((::AudioMgrE *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::InterfaceE * *>(&::g_TES))))))))->UpdateWaterZone((::TESObjectREFR *)(0), (::TESObjectREFR *)(pkObj), fFoundHeight);
                         }
                     }
                 }
@@ -2898,7 +2898,7 @@ void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
         SpawnCellE* pkCell = m_pkCells;
         while (pkCell)
         {
-            SpawnListE* pkList = ((::SpawnListE *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pkCell))->FUN_00825c00()));
+            SpawnListE* pkList = ((::SpawnListE *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pkCell))->FUN_00825c00()));
             while (pkList)
             {
                 bool bSkip = false;

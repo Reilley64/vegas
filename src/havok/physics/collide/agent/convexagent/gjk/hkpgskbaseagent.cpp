@@ -38,6 +38,7 @@ class FUN_00dabeb0_cls
     int unk14;
     float m_f18;
     int unk1C;
+    __m128 m_separatingNormal;  // +0x20
 
     void Reset(bool flag);
 };
@@ -46,7 +47,7 @@ class FUN_00dabeb0_cls
 void FUN_00dabeb0_cls::Reset(bool flag)
 {
     m_f18 = ::DAT_01012054;
-    *(__m128*)((char*)this + 0x20) = _mm_setzero_ps();
+    m_separatingNormal = _mm_setzero_ps();
 }
 
 

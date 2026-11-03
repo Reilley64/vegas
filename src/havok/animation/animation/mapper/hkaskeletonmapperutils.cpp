@@ -37,6 +37,7 @@ void __cdecl FUN_00ce5f90(CE5F90QsTransform* out, const CE5F90QsTransform* poseA
 }
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 
 struct __declspec(align(16)) VertexRecord
 {
@@ -169,7 +170,6 @@ void __cdecl FUN_00ce55d0(const ScaleParams* params, int unused, const hkQsTrans
 }  // namespace fnv_00ce55d0
 
 #include <math.h>
-#include "fnv/symbols_simd.h"
 struct ThresholdState
 {
     int unk00;
@@ -403,7 +403,6 @@ void FUN_00ce5fe0(const void* data, const hkaSkeleton* skelA, const hkQsTransfor
 }
 }  // namespace fnv_00ce5fe0
 
-typedef unsigned int size_t;
 
 
 struct hkMemoryAllocator;
@@ -680,12 +679,6 @@ void __cdecl FUN_00ce5a70(CE5F90QsTransform* out, const CE5F90QsTransform* a, co
                           float weightA, float weightB);
 void __cdecl FUN_00ce5f90(CE5F90QsTransform* out, const CE5F90QsTransform* poseA, short boneA,
                           const CE5F90QsTransform* poseB, short boneB, intptr_t mode, float weightA, float weightB);
-extern const __m128 DAT_010c71e0;
-extern const __m128 DAT_010c71b0;
-extern const __m128 DAT_010c7170;
-extern const __m128 DAT_010c44d0;
-extern const __m128 DAT_010c4c00;
-extern const __m128 DAT_010c4c10;
 
 __forceinline __m128 hkQuadRecip(__m128 r)
 {
@@ -1734,6 +1727,13 @@ __declspec(nothrow) void __cdecl FUN_00ce5f90(HkMappingType type, const HkQs* po
 __declspec(nothrow) void __cdecl FUN_00ce5fe0(HkMappingType type, const HkSkeleton* skeletonA, const HkQs* poseA,
                                               short startA, short endA, const HkSkeleton* skeletonB, const HkQs* poseB,
                                               short startB, short endB, HkChainMapping& mapAFromBOut) throw();
+__forceinline HkBoolean __cdecl HkGetBoneChain(const HkSkeleton& skeleton, short startBone, short endBone,
+                                               HkArr<short>& bonesOut)
+{
+    HkBoolean result;
+    ::WalkChainUntilLimit((unsigned char*)&result, (::ScanRec*)&skeleton, startBone, endBone, (::ScanObj*)&bonesOut);
+    return result;
+}
 
 __forceinline bool __cdecl checkRotation(const HkMapperParams& params, short boneA, short boneB,
                                          const HkQs& aToBTransform, const HkQs& bToATransform)
@@ -1828,7 +1828,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 {
                     char assertBuf[512];
                     FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                    reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't find bones for mapping (")))))->FUN_00cc01c0(mapping.m_pBoneNameA)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(mapping.m_pBoneNameB)))))->FUN_00cc01c0(")");
+                    reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't find bones for mapping (")))))->FUN_00cc01c0(mapping.m_pBoneNameA)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(mapping.m_pBoneNameB)))))->FUN_00cc01c0(")");
                     hkErrorInstance().message(1, 0xabba1c64, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 127);
                 }
                 else
@@ -1864,7 +1864,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 {
                     char assertBuf[512];
                     FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                    reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't find bones for mapping (")))))->FUN_00cc01c0(mapping.m_pBoneNameA)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(mapping.m_pBoneNameB)))))->FUN_00cc01c0(")");
+                    reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't find bones for mapping (")))))->FUN_00cc01c0(mapping.m_pBoneNameA)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(mapping.m_pBoneNameB)))))->FUN_00cc01c0(")");
                     hkErrorInstance().message(1, 0xabba1c64, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 158);
                 }
                 else
@@ -1892,7 +1892,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 {
                     char assertBuf[512];
                     FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                    reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chain.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chain.m_kRayEnd)))))->FUN_00cc01c0("). Start bone not found in either skeleton.");
+                    reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chain.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chain.m_kRayEnd)))))->FUN_00cc01c0("). Start bone not found in either skeleton.");
                     hkErrorInstance().message(1, 0x38521c64, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 185);
                 }
                 else
@@ -1906,7 +1906,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 {
                     char assertBuf[512];
                     FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                    reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chain.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chain.m_kRayEnd)))))->FUN_00cc01c0("). End bone not found in either skeleton.");
+                    reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chain.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chain.m_kRayEnd)))))->FUN_00cc01c0("). End bone not found in either skeleton.");
                     hkErrorInstance().message(1, 0x38521c64, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 191);
                 }
                 else
@@ -1925,8 +1925,8 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
 
             HkArr<short> chainA;
             HkArr<short> chainB;
-            const HkBoolean chainAok = (*(::HkBoolean *)(::WalkChainUntilLimit((unsigned char *)&(*params.m_pSkeletonA), (::ScanRec *)(startChainA), endChainA, (short)&(chainA), {})));
-            const HkBoolean chainBok = (*(::HkBoolean *)(::WalkChainUntilLimit((unsigned char *)&(*params.m_pSkeletonB), (::ScanRec *)(startChainB), endChainB, (short)&(chainB), {})));
+            const HkBoolean chainAok = HkGetBoneChain(*params.m_pSkeletonA, startChainA, endChainA, chainA);
+            const HkBoolean chainBok = HkGetBoneChain(*params.m_pSkeletonB, startChainB, endChainB, chainB);
 
             if (!chainAok || !chainBok)
             {
@@ -1934,7 +1934,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 {
                     char assertBuf[512];
                     FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                    reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chain.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chain.m_kRayEnd)))))->FUN_00cc01c0(")");
+                    reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chain.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chain.m_kRayEnd)))))->FUN_00cc01c0(")");
                     hkErrorInstance().message(1, 0xabba1c63, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 210);
                 }
                 else
@@ -1951,7 +1951,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 {
                     char assertBuf[512];
                     FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                    reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chain.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chain.m_kRayEnd)))))->FUN_00cc01c0(")");
+                    reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chain.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chain.m_kRayEnd)))))->FUN_00cc01c0(")");
                     hkErrorInstance().message(1, 0xabba1c64, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 220);
                 }
                 else
@@ -1967,7 +1967,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                     {
                         char assertBuf[512];
                         FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                        reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chain.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chain.m_kRayEnd)))))->FUN_00cc01c0(")");
+                        reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chain.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chain.m_kRayEnd)))))->FUN_00cc01c0(")");
                         hkErrorInstance().message(1, 0xabba1c65, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp",
                                                   230);
                     }
@@ -1985,7 +1985,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                     {
                         char assertBuf[512];
                         FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                        reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chain.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chain.m_kRayEnd)))))->FUN_00cc01c0(")");
+                        reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chain.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chain.m_kRayEnd)))))->FUN_00cc01c0(")");
                         hkErrorInstance().message(1, 0xabba1c66, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp",
                                                   239);
                     }
@@ -2000,7 +2000,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 {
                     char reportBuf[512];
                     FUN_00cb1600 ostr(reportBuf, sizeof(reportBuf));
-                    reinterpret_cast<::AttributeFormatter *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::AttributeFormatter *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Creating chain ")))))->WriteName((::NameReference *)&(params.m_pSkeletonA->m_kBones[startChainA].m_name))))))->FUN_00cc01c0(" - ")))))->WriteName((::NameReference *)&(params.m_pSkeletonA->m_kBones[endChainA].m_name));
+                    reinterpret_cast<::AttributeFormatter *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::AttributeFormatter *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Creating chain ")))))->WriteName((::NameReference *)&(params.m_pSkeletonA->m_kBones[startChainA].m_name))))))->FUN_00cc01c0(" - ")))))->WriteName((::NameReference *)&(params.m_pSkeletonA->m_kBones[endChainA].m_name));
                     hkErrorInstance().message(0, -1, reportBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 249);
                 }
                 else
@@ -2069,7 +2069,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 {
                     char assertBuf[512];
                     FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                    reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainA.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainA.m_kRayEnd)))))->FUN_00cc01c0("). Start or end bone not found.");
+                    reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainA.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainA.m_kRayEnd)))))->FUN_00cc01c0("). Start or end bone not found.");
                     hkErrorInstance().message(1, 0xabbaa938, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 325);
                 }
                 else
@@ -2083,7 +2083,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 {
                     char assertBuf[512];
                     FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                    reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainB.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainB.m_kRayEnd)))))->FUN_00cc01c0("). Start or end bone not found.");
+                    reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainB.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainB.m_kRayEnd)))))->FUN_00cc01c0("). Start or end bone not found.");
                     hkErrorInstance().message(1, 0xabbaa938, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 331);
                 }
                 else
@@ -2093,8 +2093,8 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
 
             HkArr<short> chainABones;
             HkArr<short> chainBBones;
-            const HkBoolean chainAok = (*(::HkBoolean *)(::WalkChainUntilLimit((unsigned char *)&(*params.m_pSkeletonA), (::ScanRec *)(startChainA), endChainA, (short)&(chainABones), {})));
-            const HkBoolean chainBok = (*(::HkBoolean *)(::WalkChainUntilLimit((unsigned char *)&(*params.m_pSkeletonB), (::ScanRec *)(startChainB), endChainB, (short)&(chainBBones), {})));
+            const HkBoolean chainAok = HkGetBoneChain(*params.m_pSkeletonA, startChainA, endChainA, chainABones);
+            const HkBoolean chainBok = HkGetBoneChain(*params.m_pSkeletonB, startChainB, endChainB, chainBBones);
 
             if (!chainAok)
             {
@@ -2102,7 +2102,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 {
                     char assertBuf[512];
                     FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                    reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainA.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainA.m_kRayEnd)))))->FUN_00cc01c0(")");
+                    reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainA.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainA.m_kRayEnd)))))->FUN_00cc01c0(")");
                     hkErrorInstance().message(1, 0xabba1c63, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 343);
                 }
                 else
@@ -2116,7 +2116,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 {
                     char assertBuf[512];
                     FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                    reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainB.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainB.m_kRayEnd)))))->FUN_00cc01c0(")");
+                    reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainB.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainB.m_kRayEnd)))))->FUN_00cc01c0(")");
                     hkErrorInstance().message(1, 0xabba1c63, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 349);
                 }
                 else
@@ -2133,7 +2133,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 {
                     char assertBuf[512];
                     FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                    reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainA.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainA.m_kRayEnd)))))->FUN_00cc01c0(")");
+                    reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainA.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainA.m_kRayEnd)))))->FUN_00cc01c0(")");
                     hkErrorInstance().message(1, 0xabba1d64, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 359);
                 }
                 else
@@ -2147,7 +2147,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 {
                     char assertBuf[512];
                     FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                    reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainB.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainB.m_kRayEnd)))))->FUN_00cc01c0(")");
+                    reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainB.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainB.m_kRayEnd)))))->FUN_00cc01c0(")");
                     hkErrorInstance().message(1, 0xabba1d64, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 366);
                 }
                 else
@@ -2163,7 +2163,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                     {
                         char assertBuf[512];
                         FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                        reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainA.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainA.m_kRayEnd)))))->FUN_00cc01c0(")  Perhaps a bone is mapped twice?");
+                        reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainA.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainA.m_kRayEnd)))))->FUN_00cc01c0(")  Perhaps a bone is mapped twice?");
                         hkErrorInstance().message(1, 0xabba1d65, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp",
                                                   376);
                     }
@@ -2181,7 +2181,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                     {
                         char assertBuf[512];
                         FUN_00cb1600 ostr(assertBuf, sizeof(assertBuf));
-                        reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainB.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainB.m_kRayEnd)))))->FUN_00cc01c0(")  Perhaps a bone is mapped twice?");
+                        reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Couldn't make a chain (")))))->FUN_00cc01c0(chainB.m_kRayStart)))))->FUN_00cc01c0(" - ")))))->FUN_00cc01c0(chainB.m_kRayEnd)))))->FUN_00cc01c0(")  Perhaps a bone is mapped twice?");
                         hkErrorInstance().message(1, 0xabba1d66, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp",
                                                   385);
                     }
@@ -2196,7 +2196,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 {
                     char reportBuf[512];
                     FUN_00cb1600 ostr(reportBuf, sizeof(reportBuf));
-                    reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Creating chains: ")))))->FUN_00cc01c0("( ")))))->FUN_00cc01c0(chainA.m_kRayStart)))))->FUN_00cc01c0(", ")))))->FUN_00cc01c0(chainA.m_kRayEnd)))))->FUN_00cc01c0(" )   ( ")))))->FUN_00cc01c0(chainB.m_kRayStart)))))->FUN_00cc01c0(", ")))))->FUN_00cc01c0(chainB.m_kRayEnd)))))->FUN_00cc01c0(" )");
+                    reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Creating chains: ")))))->FUN_00cc01c0("( ")))))->FUN_00cc01c0(chainA.m_kRayStart)))))->FUN_00cc01c0(", ")))))->FUN_00cc01c0(chainA.m_kRayEnd)))))->FUN_00cc01c0(" )   ( ")))))->FUN_00cc01c0(chainB.m_kRayStart)))))->FUN_00cc01c0(", ")))))->FUN_00cc01c0(chainB.m_kRayEnd)))))->FUN_00cc01c0(" )");
                     hkErrorInstance().message(0, -1, reportBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 397);
                 }
                 else
@@ -2343,7 +2343,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
             {
                 char reportBuf[512];
                 FUN_00cb1600 ostr(reportBuf, sizeof(reportBuf));
-                reinterpret_cast<::AttributeFormatter *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Matching ")))))->WriteName((::NameReference *)&(params.m_pSkeletonA->m_kBones[boneA].m_name));
+                reinterpret_cast<::AttributeFormatter *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Matching ")))))->WriteName((::NameReference *)&(params.m_pSkeletonA->m_kBones[boneA].m_name));
                 hkErrorInstance().message(0, -1, reportBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 561);
             }
             else
@@ -2379,8 +2379,8 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
 
             HkArr<short> chainA;
             HkArr<short> chainB;
-            const HkBoolean chainAok = (*(::HkBoolean *)(::WalkChainUntilLimit((unsigned char *)&(*params.m_pSkeletonA), (::ScanRec *)(startChainA), endChainA, (short)&(chainA), {})));
-            const HkBoolean chainBok = (*(::HkBoolean *)(::WalkChainUntilLimit((unsigned char *)&(*params.m_pSkeletonB), (::ScanRec *)(startChainB), endChainB, (short)&(chainB), {})));
+            const HkBoolean chainAok = HkGetBoneChain(*params.m_pSkeletonA, startChainA, endChainA, chainA);
+            const HkBoolean chainBok = HkGetBoneChain(*params.m_pSkeletonB, startChainB, endChainB, chainB);
 
             if (!chainAok || !chainBok)
             {
@@ -2416,7 +2416,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 {
                     char reportBuf[512];
                     FUN_00cb1600 ostr(reportBuf, sizeof(reportBuf));
-                    reinterpret_cast<::AttributeFormatter *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::AttributeFormatter *>(&((*(class class ::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Creating chain ")))))->WriteName((::NameReference *)&(params.m_pSkeletonA->m_kBones[startChainA].m_name))))))->FUN_00cc01c0(" - ")))))->WriteName((::NameReference *)&(params.m_pSkeletonA->m_kBones[endChainA].m_name));
+                    reinterpret_cast<::AttributeFormatter *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::AttributeFormatter *>(&((*(::FUN_00cc00e0 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Creating chain ")))))->WriteName((::NameReference *)&(params.m_pSkeletonA->m_kBones[startChainA].m_name))))))->FUN_00cc01c0(" - ")))))->WriteName((::NameReference *)&(params.m_pSkeletonA->m_kBones[endChainA].m_name));
                     hkErrorInstance().message(0, -1, reportBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 637);
                 }
                 else

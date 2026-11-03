@@ -1625,8 +1625,8 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
     case 20: {
         out->unk04 = apArray->FUN_00dbac00();
         out->unk00 = AllocElems<void*>(out->unk04);
-        elemSize = 4;
-        FUN_00cb1280(out->unk00, 0, out->unk04 * 4);
+        elemSize = sizeof(void*);
+        FUN_00cb1280(out->unk00, 0, out->unk04 * sizeof(void*));
         for (int i = 0; i < apArray->FUN_00dbac00(); i++)
         {
             DObj o = (*(::DObj *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)&(const ::DValue &)(apArray->FUN_00dbabb0(i)))->CreateValueInto({})));
@@ -1648,8 +1648,8 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
     case 28: {
         out->unk04 = apArray->FUN_00dbac00();
         out->unk00 = AllocElems<DVariant>(out->unk04);
-        elemSize = 8;
-        FUN_00cb1280(out->unk00, 0, out->unk04 * 8);
+        elemSize = sizeof(DVariant);
+        FUN_00cb1280(out->unk00, 0, out->unk04 * sizeof(DVariant));
         for (int i = 0; i < apArray->FUN_00dbac00(); i++)
         {
             DObj o = (*(::DObj *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)&(const ::DValue &)(apArray->FUN_00dbabb0(i)))->CreateValueInto({})));
@@ -1679,13 +1679,14 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
             }
             int subtype = member->unk0D;
             char** destination = &((char**)out->unk00)[i];
-            result = ReadValue(destination, subtype, apArray->FUN_00dbabb0(i), 0, flag);
+            DValue value = apArray->FUN_00dbabb0(i);
+            result = ReadValue(destination, subtype, value, 0, flag);
         }
     }
     case 33: {
         out->unk04 = apArray->FUN_00dbac00();
         out->unk00 = AllocElems<char*>(out->unk04);
-        elemSize = 4;
+        elemSize = sizeof(char*);
         for (int i = 0; i < apArray->FUN_00dbac00(); i++)
         {
             if (result != 0)
@@ -1694,7 +1695,8 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
             }
             int subtype = member->unk0D;
             char** destination = &((char**)out->unk00)[i];
-            result = ReadValue(destination, subtype, apArray->FUN_00dbabb0(i), 0, flag);
+            DValue value = apArray->FUN_00dbabb0(i);
+            result = ReadValue(destination, subtype, value, 0, flag);
         }
         break;
     }
@@ -2179,7 +2181,7 @@ S_00dc5970_ClassImpl* S_00dc5970_Cloner::FUN_00dc5440(S_00dc5970_ClassImpl* srcC
         {
             struct Member
             {
-                int x[5];
+                intptr_t x[5];
             } member = {0, 0, 0, 0, 0};
             pClass->member(i, &member);
             if (member.x[3])
@@ -3283,7 +3285,7 @@ struct DataValue
 struct DataObject
 {
     void* m_pClassImpl;
-    FUN_00dba660 GetObjectValue() const throw();
+    struct FUN_00dba660 GetObjectValue() const throw();
     DataValue* FUN_00dba890(DataValue* out, const char* name) const throw();
     DataValue FUN_00dba890(const char* name) const throw();
 };
@@ -3883,7 +3885,8 @@ int Reader355::ReadObject(char* destination, Object355* object) throw()
                     for (int i = 0; i < array.FUN_00dbac00() && !result; ++i, output += stride)
                     {
 
-                        result = reinterpret_cast<::S_00dc4a80 *>(this)->ReadValue(output, kind, (::S_00dc4a80_Reader *)(::Value355 *)(&array.FUN_00dbab90(i)), (intptr_t)(((void *)(reinterpret_cast<::Struct_d86920 *>((member))->FUN_00d86920()))), owned);
+                        Value355 element = array.FUN_00dbab90(i);
+                        result = reinterpret_cast<::S_00dc4a80 *>(this)->ReadValue(output, kind, (::S_00dc4a80_Reader *)(::Value355 *)(&element), (intptr_t)(((void *)(reinterpret_cast<::Struct_d86920 *>((member))->FUN_00d86920()))), owned);
                     }
                 }
                 break;
@@ -3891,7 +3894,8 @@ int Reader355::ReadObject(char* destination, Object355* object) throw()
             case 26: {
                 if (restricted && ((unsigned char)kind == 26 || member->subtype == 28 || member->subtype == 29))
                     goto failed;
-                result = reinterpret_cast<::DReader *>(this)->ReadArray((::DOutArray *)(output), (::DMember *)(member), (::DArray *)(::Array355 *)(&value.GetResult()));
+                Array355 values = value.GetResult();
+                result = reinterpret_cast<::DReader *>(this)->ReadArray((::DOutArray *)(output), (::DMember *)(member), (::DArray *)(::Array355 *)(&values));
                 break;
             }
             case 20:
@@ -3905,7 +3909,8 @@ int Reader355::ReadObject(char* destination, Object355* object) throw()
                         for (int i = 0; i < array.FUN_00dbac00() && !result; ++i)
                         {
 
-                            result = reinterpret_cast<::S_00dc4a80 *>(this)->ReadValue(output, 29, (::S_00dc4a80_Reader *)(::Value355 *)(&array.FUN_00dbab90(i)), (int)(0), owned);
+                            Value355 element = array.FUN_00dbab90(i);
+                            result = reinterpret_cast<::S_00dc4a80 *>(this)->ReadValue(output, 29, (::S_00dc4a80_Reader *)(::Value355 *)(&element), (int)(0), owned);
                             output += stride;
                         }
                     }
@@ -3923,7 +3928,8 @@ int Reader355::ReadObject(char* destination, Object355* object) throw()
                         for (int i = 0; i < array.FUN_00dbac00() && !result; ++i, output += stride)
                         {
 
-                            result = reinterpret_cast<::S_00dc4a80 *>(this)->ReadValue(output, kind, (::S_00dc4a80_Reader *)(::Value355 *)(&array.FUN_00dbab90(i)),
+                            Value355 element = array.FUN_00dbab90(i);
+                            result = reinterpret_cast<::S_00dc4a80 *>(this)->ReadValue(output, kind, (::S_00dc4a80_Reader *)(::Value355 *)(&element),
                                                (intptr_t)(((::Class355 *)(reinterpret_cast<::DReader_dc3a80 *>(this)->FUN_00dc3a80((const ::DMember_dc3a80 *)(member), (*(const ::DObj_dc3a80 *)(&(*(::Object355 *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)&(const ::Value355 &)(array.FUN_00dbab90(i)))->CreateValueInto({}))))))))), owned);
                         }
                     }

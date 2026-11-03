@@ -9,7 +9,6 @@
 #include "fnv/decl/FUN_00c86490_Class.h"
 #include "fnv/decl/Quat74.h"
 #include "fnv/decl/S_00ce5070_QsTransform.h"
-#include "fnv/decl/fnv_00ce2600__FUN_00ce2600.h"
 #include "fnv/symbols_00ce0000.h"
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_01016000.h"
@@ -35,7 +34,8 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkaRagdollInstance.h"
 
-void FUN_00ce18d0(intptr_t a);
+class hkQsTransformC17;
+void FUN_00ce18d0(intptr_t a, hkQsTransformC17* pkPoseOut);
 
 
 struct FUN_00ce2430_Transform
@@ -288,14 +288,14 @@ void FUN_00ce26f0_Class::FUN_00ce26f0(FUN_00ce2430_Transform* apTransform)
 
     if (target == 0)
     {
-        ::FUN_00ce18d0((intptr_t)(this));
+        ::FUN_00ce18d0((intptr_t)(this), (::hkQsTransformC17 *)(apTransform));
         return;
     }
 
     reinterpret_cast<::FUN_00ce2430_Class *>((this))->ApplyValueToTransforms(reinterpret_cast<::CpuObject *>((target))->FUN_00c91020(), apTransform);
 }
 
-typedef unsigned int hk_size_tR;
+typedef std::size_t hk_size_tR;
 class hkMemoryAllocatorR
 {
   public:
@@ -881,7 +881,6 @@ template <class T> struct InitArray : ObjectArray<T>
         this->m_iCapacityState = 0x80000000;
     }
 };
-extern "C" int DAT_010cb830;
 
 struct FUN_00ce2510
 {
@@ -2055,7 +2054,7 @@ class RagdollMapperC18
 // @fnv 0x00ce18f0
 void RagdollMapperC18::FUN_00ce18f0(hkQsTransformC18* pkPoseOut, const hkQsTransformC18& kWorldFromModel)
 {
-    ::FUN_00ce18d0((intptr_t)this);
+    ::FUN_00ce18d0((intptr_t)this, (::hkQsTransformC17 *)(pkPoseOut));
     int iNumBones = m_pkSkeleton->m_iBoneCount;
     hkQsTransformC18 kModelFromWorld;
     kModelFromWorld.SetConjugate(kWorldFromModel);
@@ -2854,7 +2853,6 @@ void RagInstance::FUN_00ce1ad0(const RagQsTransform* pose, const RagQsTransform&
 }
 }
 extern float DAT_01017d00;
-extern float DAT_01017d10;
 
 namespace PoseVelocityDetails {
 
@@ -3209,9 +3207,9 @@ void PoseVelocity_RagdollPoseUpdater::FUN_00ce1ca0(const PoseVelocity_MyQsTransf
 
 
 // @fnv 0x00ce18d0
-void FUN_00ce18d0(intptr_t a)
+void FUN_00ce18d0(intptr_t a, hkQsTransformC17* pkPoseOut)
 {
-    reinterpret_cast<::Ragdoll4 *>((a))->FUN_00ce1760((::hkQsTransformC17 *)((int)&DAT_01268700), (*(const ::hkQsTransformC17 *)(0)), {});
+    reinterpret_cast<::Ragdoll4 *>((a))->FUN_00ce1760(pkPoseOut, *(const ::hkQsTransformC17 *)(&DAT_01268700), nullptr);
 }
 
 // Iterates over data->count entries, calling FUN_00ce2150 with each index, value and successive transform.

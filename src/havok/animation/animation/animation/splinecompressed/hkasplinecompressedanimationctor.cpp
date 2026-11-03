@@ -18,7 +18,6 @@
 #include "fnv/symbols_00e58000.h"
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_simd.h"
-#include "fnv/decl/Se31d50_Anim.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00e30000.h"
 #include "fnv/symbols_00e31000.h"
@@ -256,61 +255,6 @@ void __cdecl WriteFloatToMemWriter(float value, MemWriter* writer)
     *(float*)(writer->data + writer->used - 4) = value;
 }
 
-struct E32C80Array
-{
-    void* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    E32C80Array() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
-    {}
-};
-
-class E32C80Base
-{
-  public:
-    E32C80Base(void* info);
-    virtual void unk00();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-};
-
-class FUN_00e32c80 : public E32C80Base
-{
-  public:
-    FUN_00e32c80(void* info, void* arg1, void* arg2);
-    virtual void unk00();
-
-
-    E32C80Array m_array44;
-    E32C80Array m_array50;
-    E32C80Array m_array5C;
-    E32C80Array m_array68;
-    E32C80Array m_array74;
-};
-
-// Constructs the object by forwarding info, arg1 and arg2 to init after initializing the E32C80Base base with info.
-// @fnv 0x00e32c80
-FUN_00e32c80::FUN_00e32c80(void* info, void* arg1, void* arg2) : E32C80Base(info)
-{
-    reinterpret_cast<::Se31d50_Anim *>(this)->FUN_00e31d50((*(const ::Se31d50_Raw *)(info)), (*(const ::Se31d50_PerTrack *)(arg1)), (*(const ::Se31d50_AnimParams *)(arg2)));
-}
-
 struct hkMemory
 {
     virtual void v0() throw();
@@ -396,11 +340,11 @@ struct e319Cls
     char padCur[0x14];
     int m_2c;
     char kad[4];
-    char* m_34;
+    int m_34;
     char pNewad[0xc];
     int* m_44;
     char pTmpad[0x2c];
-    int m_74;
+    unsigned char* m_74;
     char pad78[8];
     int m_80;
     void FUN_00e31900();
@@ -413,8 +357,8 @@ void e319Cls::FUN_00e31900()
         return;
     for (int i = 0; i < m_2c; i++)
     {
-        unsigned char* pSrc = (unsigned char*)(m_44[i] + m_74);
-        char* p = m_34 + (uintptr_t)pSrc;
+        unsigned char* pSrc = m_74 + m_44[i];
+        char* p = (char*)pSrc + m_34;
         for (int n = 0; n < m_10; n++)
         {
             e319Rec rec;
@@ -429,124 +373,6 @@ void e319Cls::FUN_00e31900()
             ::FUN_00e31740((unsigned char)(ucTail & 0xf9), (ucTail >> 1) & 3, (unsigned int *)(char **)(&p));
         }
     }
-}
-
-// Havok-style constructor: base init from a1, five empty hkArray members, then a temporary set of
-// arrays (one 28-byte element from a2, two int arrays sized from a1 and zero-filled) handed to a
-// member initialiser together with a3.
-struct HeapL;
-struct RouterL
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    HeapL* m_pStreamAllocator;
-    HeapL& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-RouterL* GetRouterL() throw();
-
-
-template <class T> struct ArrL
-{
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    ArrL() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
-    {}
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-    void _pushBack(HeapL& alloc, const T& t)
-    {
-        if (m_iElementCount == getCapacity())
-            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(T));
-        new (&m_data[m_iElementCount]) T(t);
-        m_iElementCount++;
-    }
-    void AddBack(const T& t)
-    {
-        _pushBack(GetRouterL()->heap(), t);
-    }
-    void GrowArrayCapacity(HeapL& alloc, int n)
-    {
-        int cap = getCapacity();
-        if (cap < n)
-        {
-            int cap2 = 2 * cap;
-            int newSize = (n < cap2) ? cap2 : n;
-            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
-        }
-    }
-    void _setSize(HeapL& alloc, int n)
-    {
-        GrowArrayCapacity(alloc, n);
-        m_iElementCount = n;
-    }
-    void SetSizeAndGrow(int n)
-    {
-        _setSize(GetRouterL()->heap(), n);
-    }
-    T& operator[](int i)
-    {
-        return m_data[i];
-    }
-};
-
-struct SrcL
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int m_numA;
-    int m_numB;
-};
-struct Elem28L
-{
-    int v00, v04, v08, v0c, v10, v14, v18;
-};
-struct LocalArraysL
-{
-    ArrL<Elem28L> m_pElements;
-    ArrL<int> m_kPointA;
-    ArrL<int> m_kPointB;
-    ~LocalArraysL() throw();
-};
-struct BaseL
-{
-    BaseL(SrcL* src) throw();
-    virtual void vf0();
-    int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
-    int unk24, unk28, unk2c, unk30, unk34, unk38, unk3c, unk40;
-};
-struct FUN_00e32af0 : BaseL
-{
-    ArrL<int> m_arr44;
-    ArrL<int> m_arr50;
-    ArrL<int> m_arr5c;
-    ArrL<int> m_arr68;
-    ArrL<int> m_arr74;
-    FUN_00e32af0(SrcL* src, const Elem28L* elem, void* arg3) throw();
-};
-
-// Builds temporary arrays from src counts and elem, zero-fills them, then calls InitL to initialize the object.
-// @fnv 0x00e32af0
-FUN_00e32af0::FUN_00e32af0(SrcL* pSource, const Elem28L* elem, void* arg3) throw() : BaseL(pSource)
-{
-    LocalArraysL arrays;
-    arrays.m_pElements.AddBack(*elem);
-    arrays.m_kPointA.SetSizeAndGrow(pSource->m_numA);
-    arrays.m_kPointB.SetSizeAndGrow(pSource->m_numB);
-    for (int i = 0; i < pSource->m_numA; i++)
-        arrays.m_kPointA[i] = 0;
-    for (int i = 0; i < pSource->m_numB; i++)
-        arrays.m_kPointB[i] = 0;
-    reinterpret_cast<::Se31d50_Anim *>(this)->FUN_00e31d50((*(const ::Se31d50_Raw *)(pSource)), (*(const ::Se31d50_PerTrack *)(&arrays)), (*(const ::Se31d50_AnimParams *)(arg3)));
 }
 
 #include <stdlib.h>
@@ -1489,6 +1315,179 @@ void Se31d50_Anim::FUN_00e31d50(const Se31d50_Raw& raw, const Se31d50_PerTrack& 
         (*reinterpret_cast<::Se31d50_Error * *>(&::DAT_01268360))->message(0, -1, reportBuf, str_010eb470, 373);
     }
     (*reinterpret_cast<::Se31d50_Error * *>(&::DAT_01268360))->EndSection();
+}
+
+struct E32C80Array
+{
+    void* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    E32C80Array() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+};
+
+class E32C80Base
+{
+  public:
+    E32C80Base(void* info);
+    virtual void unk00();
+
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+};
+
+class FUN_00e32c80 : public E32C80Base
+{
+  public:
+    FUN_00e32c80(void* info, void* arg1, void* arg2);
+    virtual void unk00();
+
+
+    E32C80Array m_array44;
+    E32C80Array m_array50;
+    E32C80Array m_array5C;
+    E32C80Array m_array68;
+    E32C80Array m_array74;
+};
+
+// Constructs the object by forwarding info, arg1 and arg2 to init after initializing the E32C80Base base with info.
+// @fnv 0x00e32c80
+FUN_00e32c80::FUN_00e32c80(void* info, void* arg1, void* arg2) : E32C80Base(info)
+{
+    reinterpret_cast<::Se31d50_Anim *>(this)->FUN_00e31d50((*(const ::Se31d50_Raw *)(info)), (*(const ::Se31d50_PerTrack *)(arg1)), (*(const ::Se31d50_AnimParams *)(arg2)));
+}
+
+// Havok-style constructor: base init from a1, five empty hkArray members, then a temporary set of
+// arrays (one 28-byte element from a2, two int arrays sized from a1 and zero-filled) handed to a
+// member initialiser together with a3.
+struct HeapL;
+struct RouterL
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    HeapL* m_pStreamAllocator;
+    HeapL& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+};
+RouterL* GetRouterL() throw();
+
+
+template <class T> struct ArrL
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    ArrL() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    void _pushBack(HeapL& alloc, const T& t)
+    {
+        if (m_iElementCount == getCapacity())
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(T));
+        new (&m_data[m_iElementCount]) T(t);
+        m_iElementCount++;
+    }
+    void AddBack(const T& t)
+    {
+        _pushBack(GetRouterL()->heap(), t);
+    }
+    void GrowArrayCapacity(HeapL& alloc, int n)
+    {
+        int cap = getCapacity();
+        if (cap < n)
+        {
+            int cap2 = 2 * cap;
+            int newSize = (n < cap2) ? cap2 : n;
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
+        }
+    }
+    void _setSize(HeapL& alloc, int n)
+    {
+        GrowArrayCapacity(alloc, n);
+        m_iElementCount = n;
+    }
+    void SetSizeAndGrow(int n)
+    {
+        _setSize(GetRouterL()->heap(), n);
+    }
+    T& operator[](int i)
+    {
+        return m_data[i];
+    }
+};
+
+struct SrcL
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int m_numA;
+    int m_numB;
+};
+struct Elem28L
+{
+    int v00, v04, v08, v0c, v10, v14, v18;
+};
+struct LocalArraysL
+{
+    ArrL<Elem28L> m_pElements;
+    ArrL<int> m_kPointA;
+    ArrL<int> m_kPointB;
+    ~LocalArraysL() throw();
+};
+struct BaseL
+{
+    BaseL(SrcL* src) throw();
+    virtual void vf0();
+    int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
+    int unk24, unk28, unk2c, unk30, unk34, unk38, unk3c, unk40;
+};
+struct FUN_00e32af0 : BaseL
+{
+    ArrL<int> m_arr44;
+    ArrL<int> m_arr50;
+    ArrL<int> m_arr5c;
+    ArrL<int> m_arr68;
+    ArrL<int> m_arr74;
+    FUN_00e32af0(SrcL* src, const Elem28L* elem, void* arg3) throw();
+};
+
+// Builds temporary arrays from src counts and elem, zero-fills them, then calls InitL to initialize the object.
+// @fnv 0x00e32af0
+FUN_00e32af0::FUN_00e32af0(SrcL* pSource, const Elem28L* elem, void* arg3) throw() : BaseL(pSource)
+{
+    LocalArraysL arrays;
+    arrays.m_pElements.AddBack(*elem);
+    arrays.m_kPointA.SetSizeAndGrow(pSource->m_numA);
+    arrays.m_kPointB.SetSizeAndGrow(pSource->m_numB);
+    for (int i = 0; i < pSource->m_numA; i++)
+        arrays.m_kPointA[i] = 0;
+    for (int i = 0; i < pSource->m_numB; i++)
+        arrays.m_kPointB[i] = 0;
+    reinterpret_cast<::Se31d50_Anim *>(this)->FUN_00e31d50((*(const ::Se31d50_Raw *)(pSource)), (*(const ::Se31d50_PerTrack *)(&arrays)), (*(const ::Se31d50_AnimParams *)(arg3)));
 }
 
 #include "generated/data/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.inc"

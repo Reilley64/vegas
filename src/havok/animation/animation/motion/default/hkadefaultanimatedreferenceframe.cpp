@@ -225,6 +225,12 @@ struct VectorComponentValue
     {
         return value;
     }
+    float getReal() const
+    {
+        float f;
+        _mm_store_ss(&f, value);
+        return f;
+    }
 };
 struct hkQuaternion;
 struct hkVector4
@@ -572,25 +578,6 @@ void S00e41100_LinearKeyTrack::FUN_00e41100(float time, S00e41100_hkQsTransform&
     out.m_vScale.setQuad(_mm_set_ps1(1.0f));
 }
 
-__declspec(noinline) void hkQuaternion::FUN_00c74ac0(const void* pa, const void* pb) throw()
-{
-    const __m128 a = ((const hkQuaternion*)pa)->v;
-    const __m128 b = ((const hkQuaternion*)pb)->v;
-    __m128 xyz = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(b, b, 0xc9), _mm_shuffle_ps(a, a, 0xd2)),
-                            _mm_mul_ps(_mm_shuffle_ps(b, b, 0xd2), _mm_shuffle_ps(a, a, 0xc9)));
-    __m128 aw = _mm_shuffle_ps(a, a, 0xff);
-    aw = _mm_shuffle_ps(aw, aw, 0);
-    xyz = _mm_sub_ps(xyz, _mm_mul_ps(aw, b));
-    __m128 bw = _mm_shuffle_ps(b, b, 0xff);
-    bw = _mm_shuffle_ps(bw, bw, 0);
-    xyz = _mm_add_ps(xyz, _mm_mul_ps(bw, a));
-    __m128 prod = _mm_mul_ps(a, b);
-    __m128 half = _mm_add_ps(_mm_shuffle_ps(prod, prod, 0x4e), prod);
-    __m128 dot = _mm_add_ps(_mm_shuffle_ps(half, half, 0xb1), half);
-    dot = _mm_shuffle_ps(dot, dot, 0);
-    __m128 upper = _mm_unpackhi_ps(xyz, dot);
-    v = _mm_shuffle_ps(xyz, upper, 0xc4);
-}
 struct hkMemoryAllocator
 {
     int unk00;
@@ -743,7 +730,7 @@ FUN_00e41830::FUN_00e41830(const Config& config) throw() : m_ppVirtualMethodTabl
     hkVector4 tempV0;
     hkTransform startTransform;
     startTransform.m_vTranslation.v = config.m_kTransforms[0].m_vTranslation.v;
-    startTransform.m_rotation.v = config.m_kTransforms[0].m_rotation.v;
+    startTransform.m_rotation.m_vec.v = config.m_kTransforms[0].m_rotation.m_vec.v;
     startTransform.m_vScale.v = config.m_kTransforms[0].m_vScale.v;
     {
         hkVector4 outV0;

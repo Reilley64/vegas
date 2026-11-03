@@ -327,16 +327,16 @@ class hkaSplineAnimE33
     float m_fBlockInverseDuration;
     float m_fPerFrameDuration;
 
-    void ExtractFrame(float time, int quantization, int numItems, void* out, const unsigned char*& dataInOut,
-                      intptr_t stride);
+    void ExtractFrame(float time, int quantization, int numItems, int quantType, const unsigned char*& dataInOut,
+                      void* out);
 };
 
 // Passes the inputs to DecodeSplineFrame, then aligns dataInOut to a 4-byte boundary.
 // @fnv 0x00e33dc0
-void hkaSplineAnimE33::ExtractFrame(float time, int quantization, int numItems, void* out,
-                                    const unsigned char*& dataInOut, intptr_t stride)
+void hkaSplineAnimE33::ExtractFrame(float time, int quantization, int numItems, int quantType,
+                                    const unsigned char*& dataInOut, void* out)
 {
-    ::fnv_00e33960::DecodeSplineFrame((const unsigned char **)&(dataInOut), quantization, m_fPerFrameDuration, time, numItems, (intptr_t)(out), (::hkVector4 *)(stride));
+    ::fnv_00e33960::DecodeSplineFrame((const unsigned char **)&(dataInOut), quantization, m_fPerFrameDuration, time, numItems, quantType, (::hkVector4 *)(out));
     dataInOut = (const unsigned char*)(((uintptr_t)dataInOut + 3) & ~3);
 }
 
@@ -429,24 +429,24 @@ struct ResultArg
 };
 struct FUN_00e33e10_Class : hkaSplineCompressedAnimation
 {
-    void EvaluateSpline(float time, int track, int enabled, int block, unsigned int* cursor, ResultArg result);
+    void EvaluateSpline(float time, int track, int enabled, int block, const unsigned char** cursor, ResultArg result);
 };
 // Writes a constant vector when enabled is zero; otherwise calls FUN_00e33a30, then aligns cursor to a 4-byte boundary.
 // @fnv 0x00e33e10
-void FUN_00e33e10_Class::EvaluateSpline(float time, int track, int enabled, int block, unsigned int* cursor,
+void FUN_00e33e10_Class::EvaluateSpline(float time, int track, int enabled, int block, const unsigned char** cursor,
                                         ResultArg result)
 {
     __m128 constant = _mm_load_ps(&(*reinterpret_cast<const ::AlignedVector4 *>(&::DAT_01268700)).x);
     if ((unsigned char)enabled == 0)
     {
         _mm_store_ps(&result.get()->x, constant);
-        *cursor = (*cursor + 3) & ~3u;
+        *cursor = (const unsigned char*)(((uintptr_t)*cursor + 3) & ~(uintptr_t)3);
         return;
     }
     AlignedVector4 vDefaults;
     _mm_store_ps(&vDefaults.x, constant);
-    ::FUN_00e33a30((*(const unsigned char * *)(cursor)), track, m_fPerFrameDuration, time, enabled, block, (::Point4 *)(&vDefaults), (intptr_t)(result.get()));
-    *cursor = (*cursor + 3) & ~3u;
+    ::FUN_00e33a30(*cursor, track, m_fPerFrameDuration, time, enabled, block, (::Point4 *)(&vDefaults), (intptr_t)(result.get()));
+    *cursor = (const unsigned char*)(((uintptr_t)*cursor + 3) & ~(uintptr_t)3);
 }
 
 namespace fnv_00e33e90 {
@@ -525,10 +525,10 @@ void FUN_00e33f90(unsigned int frameIndex, float delta, unsigned int maxNumTrans
         for (unsigned int i = 0; i < maxNumTransformTracks; i++)
         {
             unsigned char quantizationTypes = *mask++;
-            reinterpret_cast<::FUN_00e33e10_Class *>((void *)(anim))->EvaluateSpline(blockTime, quantizedTime, *mask++, quantizationTypes & 3, (unsigned int *)(&dataPtr),
-                                 (::ResultArg)(&transformsOut[i].m_vTranslation));
-            reinterpret_cast<::hkaSplineAnimE33 *>((void *)(anim))->ExtractFrame(blockTime, quantizedTime, *mask++, (void *)((quantizationTypes >> 2) & 15), (*(const unsigned char * *)(&dataPtr)),
-                               (intptr_t)(&transformsOut[i].m_rotation));
+            reinterpret_cast<::FUN_00e33e10_Class *>((void *)(anim))->EvaluateSpline(blockTime, quantizedTime, *mask++, quantizationTypes & 3, &dataPtr,
+                                 ::ResultArg{(::AlignedVector4 *)&transformsOut[i].m_vTranslation});
+            reinterpret_cast<::hkaSplineAnimE33 *>((void *)(anim))->ExtractFrame(blockTime, quantizedTime, *mask++, (quantizationTypes >> 2) & 15, dataPtr,
+                               &transformsOut[i].m_rotation);
             reinterpret_cast<::fnv_00e33e90::hkaSplineCompressedAnimationE33E *>((void *)(anim))->FUN_00e33e90(blockTime, quantizedTime, *mask++, quantizationTypes >> 6, (*(const unsigned char * *)(&dataPtr)),
                                (*(::fnv_00e33e90::hkVector4E33E *)(&transformsOut[i].m_vScale)));
         }
@@ -599,10 +599,10 @@ void hkaSplineCompressedAnimationE343::FUN_00e34310(hkReal time, const hkInt16* 
             const hkUint8* mask = ((const unsigned char *)(::GetIndexedValueWithOffset((intptr_t)(&hkArrayAtE343(m_data, 0)),
                                                             (const int *)(const unsigned int *)(&hkArrayAtE343(m_kFirstUInt32Array, 0)), block, 4 * track)));
             const hkUint8 quantizationTypes = mask[0];
-            reinterpret_cast<::FUN_00e33e10_Class *>((void *)this)->EvaluateSpline(blockTime, quantizedTime, mask[1], quantizationTypes & 3, (unsigned int *)&(dataStream),
-                           (*(::ResultArg *)&(transformTracksOut[i].m_vTranslation)));
-            reinterpret_cast<::hkaSplineAnimE33 *>((void *)this)->ExtractFrame(blockTime, quantizedTime, mask[2], (void *)((quantizationTypes >> 2) & 0xf), dataStream,
-                         (intptr_t)&(transformTracksOut[i].m_rotation));
+            reinterpret_cast<::FUN_00e33e10_Class *>((void *)this)->EvaluateSpline(blockTime, quantizedTime, mask[1], quantizationTypes & 3, &dataStream,
+                           ::ResultArg{(::AlignedVector4 *)&transformTracksOut[i].m_vTranslation});
+            reinterpret_cast<::hkaSplineAnimE33 *>((void *)this)->ExtractFrame(blockTime, quantizedTime, mask[2], (quantizationTypes >> 2) & 0xf, dataStream,
+                         &transformTracksOut[i].m_rotation);
             reinterpret_cast<::fnv_00e33e90::hkaSplineCompressedAnimationE33E *>((void *)this)->FUN_00e33e90(blockTime, quantizedTime, mask[3], quantizationTypes >> 6, dataStream,
                          (::fnv_00e33e90::hkVector4E33E &)(transformTracksOut[i].m_vScale));
         }
@@ -845,7 +845,7 @@ void __cdecl DecodeSplineFrame(const unsigned char** data, int a2, float a3, flo
         int result = FUN_00e32f10(data, &b, &a, a2, a3, &knots);
         int a_val = a;
         ::DecodeSplineFrames((int *)(data), type, b, a_val, result, controlPoints);
-        (*reinterpret_cast<void (**const[])(float, int, const void *, const void *, hkVector4 *)>(&::DAT_011be4d0))[a_val](a4, a_val, &knots, controlPoints, out);
+        reinterpret_cast<SplineEvalFunc*>(::DAT_011be4d0)[a_val](a4, a_val, &knots, controlPoints, out);
         return;
     }
 
@@ -853,9 +853,9 @@ void __cdecl DecodeSplineFrame(const unsigned char** data, int a2, float a3, flo
     {
         unsigned int align = (*reinterpret_cast<const unsigned int (*)[]>(&::DAT_010eb3b8))[type];
         const unsigned char* cur = *data;
-        const unsigned char* ptr = (const unsigned char*)(((uintptr_t)cur + align - 1) & ~(align - 1));
+        const unsigned char* ptr = (const unsigned char*)(((uintptr_t)cur + align - 1) & ~(uintptr_t)(align - 1));
         *data = ptr;
-        (*reinterpret_cast<void (**const[])(const void *, hkVector4 *)>(&::DAT_011be4b8))[type](ptr, out);
+        reinterpret_cast<UnpackFunc*>(::DAT_011be4b8)[type](ptr, out);
         *data += (*reinterpret_cast<const unsigned int (*)[]>(&::DAT_010eb3d0))[type];
         return;
     }
@@ -978,8 +978,8 @@ void S00e340e0_Anim::FUN_00e340e0(float time, unsigned int maxNumTransformTracks
     for (unsigned int i = 0; i < maxNumTransformTracks; i++)
     {
         unsigned char mask = *maskPtr++;
-        reinterpret_cast<::FUN_00e33e10_Class *>((void *)this)->EvaluateSpline(blockTime, quantizedTime, *maskPtr++, mask & 3, (unsigned int *)&(transformData), (*(::ResultArg *)&(transformTracksOut[i].m_vTranslation)));
-        reinterpret_cast<::hkaSplineAnimE33 *>((void *)this)->ExtractFrame(blockTime, quantizedTime, *maskPtr++, (void *)((mask >> 2) & 0xf), transformData, (intptr_t)&(transformTracksOut[i].m_rotation));
+        reinterpret_cast<::FUN_00e33e10_Class *>((void *)this)->EvaluateSpline(blockTime, quantizedTime, *maskPtr++, mask & 3, &transformData, ::ResultArg{(::AlignedVector4 *)&transformTracksOut[i].m_vTranslation});
+        reinterpret_cast<::hkaSplineAnimE33 *>((void *)this)->ExtractFrame(blockTime, quantizedTime, *maskPtr++, (mask >> 2) & 0xf, transformData, &transformTracksOut[i].m_rotation);
         reinterpret_cast<::fnv_00e33e90::hkaSplineCompressedAnimationE33E *>((void *)this)->FUN_00e33e90(blockTime, quantizedTime, *maskPtr++, mask >> 6, transformData, (::fnv_00e33e90::hkVector4E33E &)(transformTracksOut[i].m_vScale));
     }
     const unsigned char* floatData = m_data + m_kFloatBlockOffsets[block] + m_kFirstUInt32Array[block];

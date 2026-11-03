@@ -1113,10 +1113,6 @@ void CallTarget_ce9880()
 static bool IsSupportedRagdollConstraint(Obj* obj, bool reportError) throw();
 
 
-struct Vec4
-{
-    float x, y, z, w;
-};
 struct PivotVec;
 struct __declspec(align(16)) V4A
 {
@@ -1135,18 +1131,23 @@ struct Shape
     virtual int v1();
 };
 
+struct RagdollConstraint : Obj
+{
+    int unk10;
+    Body* shape;
+    Body* owner;
+};
+
 struct List
 {
-    Body** items;
+    RagdollConstraint** items;
     int count;
 };
 
-static __declspec(noinline) Vec4* FUN_00ce9c40(Obj* obj) throw()
-{
-    Inner* inner = obj->inner;
-    int t = inner->getSomething();
-    return (Vec4*)((char*)inner + (t <= 8 ? 0x20 : 0x50));
-}
+struct ShapeOwner;
+struct Owner390;
+static __declspec(noinline) void* FUN_00ce9c40(ShapeOwner* owner);
+static __declspec(noinline) void* FUN_00ce9cf0(Owner390* owner);
 
 struct A1W
 {
@@ -1197,21 +1198,21 @@ int __cdecl FUN_00ce9db0(A1W constraints, void* warnOnAlignment)
     int result = 0;
     for (int c = 0; c < numConstraints; c++)
     {
-        Body* constraint = constraints.p->items[c];
+        RagdollConstraint* constraint = constraints.p->items[c];
         if (!IsSupportedRagdollConstraint(constraint, true))
         {
             result = 1;
             continue;
         }
-        PivotVec pivotInA = *(const PivotVec*)FUN_00ce9c40(constraint);
-        Shape* shape = constraint->shape;
+        PivotVec pivotInA = *(const PivotVec*)FUN_00ce9c40((ShapeOwner*)constraint);
+        Body* shape = constraint->shape;
         PivotXform childFromConstraint;
         childFromConstraint.m_rotation = *(const PivotVec*)&DAT_010c71b0;
         childFromConstraint.m_vScale.SetAllComponents(::DAT_01012068);
         childFromConstraint.m_vTranslation = pivotInA;
         if (childFromConstraint.m_vTranslation.lengthSquared3() > DAT_010959f4)
         {
-            if (FUN_00ce9880((Qs*)&childFromConstraint, shape) != 0)
+            if (FUN_00ce9880(*(const hkQsXform*)&childFromConstraint, shape) != 0)
                 result = 1;
         }
     }
@@ -1701,18 +1702,6 @@ static __declspec(noinline) void* FUN_00ce9cf0(Owner390* owner)
     int w;
 };
 
-struct Target
-{
-};
-
-static __declspec(noinline) Target* FUN_00ce9cf0(Obj* obj) throw()
-{
-    Inner* inner = obj->inner;
-    int t = inner->getSomething();
-    if (t <= 8)
-        return (Target*)((char*)inner + 0x30);
-    return 0;
-}
 
 // @fnv 0x00ce9e90
 extern "C" int __cdecl FUN_00ce9e90(void* p)
@@ -1721,16 +1710,16 @@ extern "C" int __cdecl FUN_00ce9e90(void* p)
     int count = list->count;
     for (int i = 0; i < count; i++)
     {
-        Body* b = list->items[i];
+        RagdollConstraint* b = list->items[i];
         if (IsSupportedRagdollConstraint(b, true))
         {
-            char* shape = b->shape;
-            char* owner = b->owner;
-            Vec4 v = *(Vec4*)(shape + 0x120);
-            Vec4* vel = FUN_00ce9c40(b);
+            Body* shape = b->shape;
+            Body* owner = b->owner;
+            Vec4 v = *(Vec4*)&shape->m_kMotionTransform.m_vTranslation;
+            void* vel = FUN_00ce9c40((ShapeOwner*)b);
             *(__m128*)vel = _mm_setzero_ps();
-            Target* target = FUN_00ce9cf0(b);
-            reinterpret_cast<::FUN_00c7f690_cls *>((target))->FUN_00c7f690((const ::S_00c7f690_M *)(void *)(owner + 0xf0), (const ::S_00c7f690_V *)(::Vec4 *)(&v));
+            void* target = FUN_00ce9cf0((Owner390*)b);
+            reinterpret_cast<::FUN_00c7f690_cls *>((target))->FUN_00c7f690((const ::S_00c7f690_M *)&owner->m_kMotionTransform, (const ::S_00c7f690_V *)&v);
         }
         if (b->inner->getSomething() == 8)
         {

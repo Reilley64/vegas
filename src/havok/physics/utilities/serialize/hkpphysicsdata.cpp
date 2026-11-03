@@ -28,6 +28,8 @@
 #include "havok/hkpPhysicsData.h"
 #include "havok/hkpWorldObject.h"
 #include "havok/hkpWorld.h"
+#include "havok/hkpWorldCinfo.h"
+#include "fnv/decl/FUN_00553540.h"
 
 
 struct BoolResult
@@ -152,83 +154,10 @@ template <typename T> struct ReferenceCountedPointer
 
 
 
-class __declspec(align(16)) FUN_00553540
-{
-  public:
-    void* vtable;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    ReferenceCountedPointer<void> m_pCollisionFilter;  // 0x58
-    ReferenceCountedPointer<void> m_pConvexListCollisionFilter;  // 0x5c
-    int unk60;
-    int unk64;
-    int unk68;
-    ReferenceCountedPointer<void> m_pMemoryWatchDog;  // 0x6c
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    int unka4;
-    int unka8;
-    int unkac;
-    int unkb0;
-    int unkb4;
-    int unkb8;
-    int unkbc;
-    int unkc0;
-    int unkc4;
-    int unkc8;
-    int unkcc;
-    int unkd0;
-    int unkd4;
-    int unkd8;
-    int unkdc;
-    int unke0;
-    int unke4;
-    int unke8;
-    int unkec;
-
-    __forceinline FUN_00553540() throw()
-    {
-        new ((void *)this) ::FUN_00c90b80();
-    }
-    __forceinline ~FUN_00553540() throw()
-    {
-        vtable = &DAT_0102f0ec;
-    }
-};
 
 
 // Allocates a world the size of hkpWorld and runs the world constructor (0x00c95a80) on it.
-static __forceinline hkpWorld* NewWorld(const FUN_00553540* info)
+static __forceinline hkpWorld* NewWorld(const hkpWorldCinfo* info)
 {
     void* p = ((hkThreadMemory*)&hkMemoryRouter::getInstance())->allocateChunk(sizeof(hkpWorld));
     static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags = (unsigned short)sizeof(hkpWorld);
@@ -256,15 +185,16 @@ struct PhysicsDataExt : public hkpPhysicsData
 // @fnv 0x00d4c0c0
 hkpWorld* PhysicsDataExt::CreateWorld(char bRegisterWithMemoryManager) throw()
 {
-    FUN_00553540 defaultCinfo;
+    alignas(hkpWorldCinfo) unsigned char defaultCinfoStorage[sizeof(hkpWorldCinfo)];
+    hkpWorldCinfo* defaultCinfo = reinterpret_cast<hkpWorldCinfo*>(new ((void*)defaultCinfoStorage) ::FUN_00c90b80());
     hkpWorld* world;
     if (this->m_pWorldCinfo == 0)
     {
-        world = NewWorld(&defaultCinfo);
+        world = NewWorld(defaultCinfo);
     }
     else
     {
-        world = NewWorld((FUN_00553540*)this->m_pWorldCinfo);
+        world = NewWorld(this->m_pWorldCinfo);
     }
 
     if (bRegisterWithMemoryManager)
@@ -288,11 +218,12 @@ hkpWorld* PhysicsDataExt::CreateWorld(char bRegisterWithMemoryManager) throw()
         }
     }
 
-    if (this->m_pWorldCinfo && ((FUN_00553540*)this->m_pWorldCinfo)->m_pCollisionFilter.m_pRetainedObject)
+    if (this->m_pWorldCinfo && this->m_pWorldCinfo->m_pCollisionFilter)
     {
         reinterpret_cast<::S96_WorldShell *>((world))->FUN_00c96ff0(0, 1);
     }
 
+    reinterpret_cast<::FUN_00553540*>(defaultCinfo)->~FUN_00553540();
     return world;
 }
 

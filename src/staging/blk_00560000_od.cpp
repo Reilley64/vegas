@@ -895,10 +895,10 @@ struct FUN_00c9e910_Class
 };
 struct FUN_0056e050_Class
 {
-    void FUN_0056e050(int a);
+    void FUN_0056e050(intptr_t a);
 };
 // @fnv 0x0056e050
-void FUN_0056e050_Class::FUN_0056e050(int a)
+void FUN_0056e050_Class::FUN_0056e050(intptr_t a)
 {
     void* p = ((void *)(::FUN_004ae750((void *)(((ScriptLocalsX*)this)))));
     if (p)
@@ -1147,7 +1147,7 @@ struct FUN_0057cc10_Cls
     {}
     virtual void F4(int, int)
     {}
-    void FUN_0057cc10(int, int);
+    void FUN_0057cc10(intptr_t, intptr_t);
 };
 // @fnv 0x0057cb20
 void FUN_0057cb20_Class::FUN_0057cb20(int pTarget)
@@ -1155,14 +1155,14 @@ void FUN_0057cb20_Class::FUN_0057cb20(int pTarget)
     reinterpret_cast<::FUN_00621c90_Class *>((this))->FUN_00626870();
     if (!(m_8 & 0x80000000))
     {
-        reinterpret_cast<::FUN_0057cc10_Cls *>((((FUN_0057cc10_Class*)pTarget)))->FUN_0057cc10((int)(m_iWordAt00), (int)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
+        reinterpret_cast<::FUN_0057cc10_Cls *>((((FUN_0057cc10_Class*)pTarget)))->FUN_0057cc10((intptr_t)(m_iWordAt00), (intptr_t)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
     }
     m_iWordAt00 = 0;
     m_8 = 0x80000000;
 }
 // Calls F4 with a and b shifted left by 3, using a local x initialized to 8.
 // @fnv 0x0057cc10
-void FUN_0057cc10_Cls::FUN_0057cc10(int a, int b)
+void FUN_0057cc10_Cls::FUN_0057cc10(intptr_t a, intptr_t b)
 {
     int x = 8;
     F4(a, b << 3);

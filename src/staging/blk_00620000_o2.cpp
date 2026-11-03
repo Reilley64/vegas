@@ -1820,12 +1820,12 @@ void Owner::FUN_006271b0(Cell* next, int flag)
             {
                 Node* a = ((::fnv_006271b0::Node *)(::FUN_004b59f0(((::fnv_006271b0::Node *)&(reinterpret_cast<::FUN_00629ab0_shell *>((list))->FUN_00629ab0(j))))));
                 if (a)
-                    reinterpret_cast<::FUN_006299c0_cls *>(&(second))->FUN_006299c0((int)(&a));
+                    reinterpret_cast<::FUN_006299c0_cls *>(&(second))->FUN_006299c0((intptr_t)(&a));
                 else
                 {
                     Node* b = ((::fnv_006271b0::Node *)(::FUN_004b5950(((::fnv_006271b0::Node *)&(reinterpret_cast<::FUN_00629ab0_shell *>((list))->FUN_00629ab0(j))))));
                     if (b)
-                        reinterpret_cast<::FUN_006299c0_cls *>(&(first))->FUN_006299c0((int)(&b));
+                        reinterpret_cast<::FUN_006299c0_cls *>(&(first))->FUN_006299c0((intptr_t)(&b));
                 }
             }
             for (int j = 0; j < ((int)(uintptr_t)(reinterpret_cast<::Callees *>(&(first))->FUN_00726070())); j++)
@@ -1854,7 +1854,7 @@ void Owner::FUN_006271b0(Cell* next, int flag)
                         if (!interior)
                         {
                             unsigned short old;
-                            bool found = reinterpret_cast<::FUN_00629cf0_cls *>(&(map))->LookupValue((int)(other), &old);
+                            bool found = reinterpret_cast<::FUN_00629cf0_cls *>(&(map))->LookupValue((intptr_t)(other), &old);
                             if (!found || !(old & mask))
                             {
                                 FUN_004a3c90 box(((::fnv_006271b0::FUN_005dbf20 *)&(::fnv_00560d80::FUN_00560d80((void *)(other)))));
@@ -1866,16 +1866,16 @@ void Owner::FUN_006271b0(Cell* next, int flag)
                                 reinterpret_cast<::S *>((other))->FUN_00561690((std::intptr_t)(&box));
                             }
                             unsigned short bits = mask;
-                            if (reinterpret_cast<::FUN_00629cf0_cls *>(&(fresh))->LookupValue((int)(other), &bits))
+                            if (reinterpret_cast<::FUN_00629cf0_cls *>(&(fresh))->LookupValue((intptr_t)(other), &bits))
                                 bits |= mask;
-                            reinterpret_cast<::S_00629c10_Map *>(&(fresh))->SetKeyValue((int)(other), bits);
+                            reinterpret_cast<::S_00629c10_Map *>(&(fresh))->SetKeyValue((intptr_t)(other), bits);
                         }
                         else
                         {
                             ObjArray more;
                             reinterpret_cast<::Mover628 *>(this)->MoveToDestination((::Body628 *)(other), (::Group628 *)(::fnv_006271b0::ObjArray *)(&more));
                             for (int k = 0; k < ((int)(uintptr_t)(reinterpret_cast<::Callees *>(&(more))->FUN_00726070())); k++)
-                                reinterpret_cast<::FUN_006299c0_cls *>(&(seen))->FUN_006299c0((int)(&(reinterpret_cast<::FUN_00629ab0_shell *>(&(more))->FUN_00629ab0(k))));
+                                reinterpret_cast<::FUN_006299c0_cls *>(&(seen))->FUN_006299c0((intptr_t)(&(reinterpret_cast<::FUN_00629ab0_shell *>(&(more))->FUN_00629ab0(k))));
                         }
                     }
                 }
@@ -1888,14 +1888,14 @@ void Owner::FUN_006271b0(Cell* next, int flag)
     while (pos)
     {
         reinterpret_cast<::FUN_00629d70_cls *>(&(fresh))->GetNextEntry((::FUN_00629d70_entry **)(void **)(&pos), (unsigned int *)(::fnv_006271b0::Node **)(&key), &bits);
-        reinterpret_cast<::S_00629c10_Map *>(&(map))->SetKeyValue((int)(key), bits);
+        reinterpret_cast<::S_00629c10_Map *>(&(map))->SetKeyValue((intptr_t)(key), bits);
     }
     Scrap removals;
     pos = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(map))->GetFirstPos();
     while (pos)
     {
         reinterpret_cast<::FUN_00629d70_cls *>(&(map))->GetNextEntry((::FUN_00629d70_entry **)(void **)(&pos), (unsigned int *)(::fnv_006271b0::Node **)(&key), &bits);
-        if (!reinterpret_cast<::FUN_00629cf0_cls *>(&(fresh))->LookupValue((int)(key), &bits))
+        if (!reinterpret_cast<::FUN_00629cf0_cls *>(&(fresh))->LookupValue((intptr_t)(key), &bits))
             reinterpret_cast<::FUN_00438690 *>(&(removals))->FUN_007cb2e0((unsigned int *)(::fnv_006271b0::Node **)(&key));
     }
     for (unsigned i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(removals))->GetName())); i++)
@@ -2275,7 +2275,7 @@ void Owner628980::FUN_00628980(Filter628980* filter, List628980* input)
                 {
                     void* item = ((::TESObjectREFR620 *)(::FUN_004b59f0(voice)));
                     if (item && ::FUN_00517670((::TESDataHandler *)(item)) != 4 && ::FUN_00517670((::TESDataHandler *)(item)) != 5 && ::FUN_00517670((::TESDataHandler *)(item)) != 7)
-                        reinterpret_cast<::FUN_006299c0_cls *>(&(collected))->FUN_006299c0((int)(&item));
+                        reinterpret_cast<::FUN_006299c0_cls *>(&(collected))->FUN_006299c0((intptr_t)(&item));
                 }
             }
         }
@@ -2289,7 +2289,7 @@ void Owner628980::FUN_00628980(Filter628980* filter, List628980* input)
             List628980 expanded;
             reinterpret_cast<::Mover628 *>(this)->MoveToDestination((::Body628 *)(item), (::Group628 *)(::List628980 *)(&expanded));
             for (int n = 0; n < ((int)(uintptr_t)(reinterpret_cast<::Callees *>(&(expanded))->FUN_00726070())); ++n)
-                reinterpret_cast<::FUN_006299c0_cls *>(&(visited))->FUN_006299c0((int)(&(reinterpret_cast<::FUN_00629ab0_shell *>(&(expanded))->FUN_00629ab0(n))));
+                reinterpret_cast<::FUN_006299c0_cls *>(&(visited))->FUN_006299c0((intptr_t)(&(reinterpret_cast<::FUN_00629ab0_shell *>(&(expanded))->FUN_00629ab0(n))));
         }
     }
 }
@@ -2618,8 +2618,8 @@ void SpawnPlacerP::FUN_006296d0(TESObjectREFRP* pkRef, const NiPoint3P* pkPos, N
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kFrom)), (*(const ::fnv_004a3e00::NiPoint3 *)(pkOut)));
         ShapeCastP kCast;
         reinterpret_cast<::FUN_006295a0_shell *>(&(kCast))->FUN_006295a0();
-        reinterpret_cast<::FUN_00629560_Class *>(&(kCast))->FUN_00629560((int)(&((::ShapeP *)(::FUN_00984230((char *)(((::NodeP *)(reinterpret_cast<::FUN_00620b80_shell *>(((m_spBodyA).operator->()))->GetReferenceFlags()))))))->m_kTransform));
-        reinterpret_cast<::FUN_00629560_Class *>(&(kCast))->FUN_00629560((int)(((::ShapeP *)(::FUN_00984230((char *)(((::NodeP *)(reinterpret_cast<::FUN_00620b80_shell *>(((m_spBodyB).operator->()))->GetReferenceFlags()))))))));
+        reinterpret_cast<::FUN_00629560_Class *>(&(kCast))->FUN_00629560((intptr_t)(&((::ShapeP *)(::FUN_00984230((char *)(((::NodeP *)(reinterpret_cast<::FUN_00620b80_shell *>(((m_spBodyA).operator->()))->GetReferenceFlags()))))))->m_kTransform));
+        reinterpret_cast<::FUN_00629560_Class *>(&(kCast))->FUN_00629560((intptr_t)(((::ShapeP *)(::FUN_00984230((char *)(((::NodeP *)(reinterpret_cast<::FUN_00620b80_shell *>(((m_spBodyB).operator->()))->GetReferenceFlags()))))))));
         bFound = ((int)(reinterpret_cast<::S00629930_Box *>(&(kCast))->FUN_00629930((const ::S00629930_Box *)(::hkVector4P *)(&kFrom))));
     }
     if (!bFound)
@@ -3269,7 +3269,7 @@ bool xCaster::FUN_006214d0(xRef* apRef, const xP3& akPos, float afA, float afB)
             reinterpret_cast<::FUN_006219f0_Class *>((BODY))->FUN_006219f0((::hkpRigidBody *)(::xVec4 *)(&POSV));
             xMotion* MOTION = ((::xMotion *)(::GetStringCStr((::Dummy_004ae6c0 *)(BODY))));
             xCastFn FN =
-                ((void (*)(xModelPtr *, xModelPtr *, xEvent *, xCollector *))(reinterpret_cast<::FUN_006218f0_Owner *>((EFF))->GetIndexedValue((int)(((::xNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((::xModel *)(::FUN_00559450((int *)(WMODEL))))))))), (int)(((::xNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((::xModel *)(::FUN_00559450((int *)(SMODEL))))))))))));
+                ((void (*)(xModelPtr *, xModelPtr *, xEvent *, xCollector *))(reinterpret_cast<::FUN_006218f0_Owner *>((EFF))->GetIndexedValue((intptr_t)(((::xNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((::xModel *)(::FUN_00559450((int *)(WMODEL))))))))), (intptr_t)(((::xNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((::xModel *)(::FUN_00559450((int *)(SMODEL))))))))))));
             if (FN)
             {
                 float SAVED = reinterpret_cast<::FUN_00621b00_shell *>((MOTION))->FUN_00621b00();

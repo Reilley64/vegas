@@ -181,7 +181,7 @@ void __cdecl FUN_0060bed0(void* apArg1, void* apArg2, void* apArg3)
 
 
 // @fnv 0x0060c270
-void __cdecl FUN_0060c270(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void __cdecl FUN_0060c270(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, intptr_t aiArg4)
 {
     ::UninitCopyChecked((int *)(aiArg1), (int *)(aiArg2), (int *)(aiArg3), aiArg4);
 }
@@ -1158,7 +1158,7 @@ C60BE00Element* C60BE00Unchecked(C60BE00Element** ppIter);
 // @fnv 0x0060be00
 void FUN_0060be00(C60BE00Element* _First, C60BE00Element* _Last, C60BE00Element* _Dest, C60BE00Allocator* _Al)
 {
-    ::FUN_0060c270((int)(C60BE00Unchecked(&_First)), (int)(C60BE00Unchecked(&_Last)), (int)(_Dest), (int)(_Al));
+    ::FUN_0060c270((intptr_t)(C60BE00Unchecked(&_First)), (intptr_t)(C60BE00Unchecked(&_Last)), (intptr_t)(_Dest), (intptr_t)(_Al));
 }
 
 // A one-byte class.  Under /Od an empty brace initialiser zero-initialises the
@@ -1199,7 +1199,7 @@ extern "C" S_0060c2e0_Ret __cdecl FUN_0065fd70(void* value);
 // @fnv 0x0060c2e0
 void __cdecl CallWithFlagValues(void* a1, void* a2, void* a3)
 {
-    ::ProcessFloatRange((float *)(a1), (unsigned int)(a2), (float *)(a3));
+    ::ProcessFloatRange((float *)(a1), (uintptr_t)(a2), (float *)(a3));
 }
 
 class B616A20Meter
@@ -1600,7 +1600,7 @@ struct C380Tag
 float* C380Unwrap(float** ppfFirst);
 
 // @fnv 0x0060c380
-void ProcessFloatRange(float* pfFirst, unsigned int ItemUpdateArray, float* pfOut)
+void ProcessFloatRange(float* pfFirst, uintptr_t ItemUpdateArray, float* pfOut)
 {
     float* pfLast = pfFirst + ItemUpdateArray;
     ::FUN_0060c410(C380Unwrap(&pfFirst), ItemUpdateArray, pfOut);

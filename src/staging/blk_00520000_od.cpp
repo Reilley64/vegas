@@ -408,12 +408,12 @@ struct FUN_005271b0_Class
     char m_auiShapeKeys[0x48];
     char m_field48;
     char m_field70;
-    char* GetFieldByType(unsigned int type);
+    char* GetFieldByType(uintptr_t type);
 };
 
 // Returns a pointer to the member at offset 0x48 for type 0x29 or at offset 0x30 for type 0x28, otherwise null.
 // @fnv 0x005271b0
-char* FUN_005271b0_Class::GetFieldByType(unsigned int type)
+char* FUN_005271b0_Class::GetFieldByType(uintptr_t type)
 {
     switch (type)
     {
@@ -484,7 +484,7 @@ void FUN_00527350::FUN_00527350_Init()
     f10 = 0;
     f14 = 0;
     f34 = 0;
-    fc = (int)((void *)(reinterpret_cast<::FUN_005271b0_Class *>((((FUN_005271b0_Class*)(*reinterpret_cast<::fnv_00527350::BGSLoadedReferenceCollection * *>(&::DAT_011c95c8)))))->GetFieldByType((unsigned int)(vtbl))));
+    fc = (int)((void *)(reinterpret_cast<::FUN_005271b0_Class *>((((FUN_005271b0_Class*)(*reinterpret_cast<::fnv_00527350::BGSLoadedReferenceCollection * *>(&::DAT_011c95c8)))))->GetFieldByType((uintptr_t)(vtbl))));
     if (!fc)
         fc = (int)((void *)(reinterpret_cast<::BGSCameraPath *>((((ScriptS*)(*reinterpret_cast<::fnv_00527350::BGSLoadedReferenceCollection * *>(&::DAT_011c95c8)))))->GetConditions()));
     f18 = (int)reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)fc)))->GetFirstPos();

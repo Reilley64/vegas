@@ -1037,19 +1037,19 @@ struct FUN_0042fe10_class
     unsigned int m_uiCount;
     void* m_pData;
     unsigned int m_uiSize;
-    void* FUN_0042fe10(unsigned int count);
+    void* FUN_0042fe10(uintptr_t count);
 };
 // Calls FUN_0042fe10 on arg, sets m_vtbl to &DAT_010159e8, and returns this.
 // @fnv 0x0042f4e0
 void* FUN_0042f4e0_class::FUN_0042f4e0(void* arg)
 {
-    reinterpret_cast<::FUN_0042fe10_class *>(this)->FUN_0042fe10((unsigned int)(arg));
+    reinterpret_cast<::FUN_0042fe10_class *>(this)->FUN_0042fe10((uintptr_t)(arg));
     m_vtbl = &DAT_010159e8;
     return this;
 }
 
 // @fnv 0x0042fe10
-void* FUN_0042fe10_class::FUN_0042fe10(unsigned int count)
+void* FUN_0042fe10_class::FUN_0042fe10(uintptr_t count)
 {
     m_pName = &DAT_01015a1c;
     m_uiCount = count;
@@ -1975,11 +1975,11 @@ struct FUN_00436b20
 };
 struct FUN_0042e060_class
 {
-    void FUN_0042e060(unsigned int a, unsigned int b);
+    void FUN_0042e060(uintptr_t a, uintptr_t b);
 };
 // Removes the existing 0x55-type entry, allocates a new FUN_00436b20 from a and b, and installs it via FUN_0040ff60.
 // @fnv 0x0042e060
-void FUN_0042e060_class::FUN_0042e060(unsigned int a, unsigned int b)
+void FUN_0042e060_class::FUN_0042e060(uintptr_t a, uintptr_t b)
 {
     void* pEntry = ((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x55)));
     if (pEntry)

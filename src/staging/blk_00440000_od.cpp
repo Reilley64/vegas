@@ -496,14 +496,14 @@ void FUN_0044df20::Call()
 // @fnv 0x0044e420
 void __cdecl FUN_0044e420(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
 {
-    ::FUN_0044e440(apArg1, (unsigned int)(apArg2), apArg3, (unsigned int)(apArg4));
+    ::FUN_0044e440(apArg1, (uintptr_t)(apArg2), apArg3, (uintptr_t)(apArg4));
 }
 
 extern "C" void* __cdecl FUN_00ec7c66(void*, unsigned int, void*, unsigned int);
 
 // Calls FUN_00ec7c66 with the given arguments and returns the first argument.
 // @fnv 0x0044e440
-void* __cdecl FUN_0044e440(void* a, unsigned int b, void* c, unsigned int d)
+void* __cdecl FUN_0044e440(void* a, uintptr_t b, void* c, uintptr_t d)
 {
     FUN_00ec7c66(a, b, c, d);
     return a;
@@ -1919,11 +1919,11 @@ struct FUN_0044d000
     int h;
     int i;
     int j;
-    FUN_0044d000(int p1, int p2, int p3, int p4);
+    FUN_0044d000(intptr_t p1, intptr_t p2, intptr_t p3, int p4);
 };
 // Initializes the four given values into a-d and zeroes e, h and i.
 // @fnv 0x0044d000
-FUN_0044d000::FUN_0044d000(int aiA, int aiB, int aiC, int aiD)
+FUN_0044d000::FUN_0044d000(intptr_t aiA, intptr_t aiB, intptr_t aiC, int aiD)
 {
     a = aiA;
     b = aiB;
@@ -2592,8 +2592,8 @@ std::uintptr_t S_FUN_0045bc00::FUN_0045bc00(unsigned int uiIndex)
 struct FUN_0045c4e0_This
 {
     unsigned char pad[0xCC];
-    int fieldCC;
-    void SetFieldCC(int);
+    void* fieldCC;
+    void SetFieldCC(void*);
 };
 namespace fnv_0045d0e0 {
 struct GlobalObject_0045d060
@@ -5331,11 +5331,11 @@ struct S_0045c520
 };
 // If fieldCC is set and differs from a, calls FUN_0045c520, then stores a into fieldCC.
 // @fnv 0x0045c4e0
-void FUN_0045c4e0_This::SetFieldCC(int aiValue)
+void FUN_0045c4e0_This::SetFieldCC(void* apValue)
 {
-    if (fieldCC != 0 && fieldCC != aiValue)
+    if (fieldCC != 0 && fieldCC != apValue)
         reinterpret_cast<::S_0045c520 *>(this)->FUN_0045c520();
-    fieldCC = aiValue;
+    fieldCC = apValue;
 }
 
 // Calls FUN_0045c5f0(1) on unkCC if it is non-null, then sets unkCC to 0.

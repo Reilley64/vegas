@@ -1800,17 +1800,17 @@ struct FUN_005103d0_cls
     unsigned int unk0C;
     unsigned int unk10;
     unsigned int m_14;
-    unsigned int FindSubstring(char* a1, unsigned int start, unsigned int count);
+    unsigned int FindSubstring(char* a1, uintptr_t start, unsigned int count);
 };
 // @fnv 0x005103a0
 void FUN_005103a0_class::FUN_005103a0(const char* a, const char* b)
 {
-    reinterpret_cast<::FUN_005103d0_cls *>(this)->FindSubstring((char *)(a), (unsigned int)(b), ((int)(::FUN_0044a670(a))));
+    reinterpret_cast<::FUN_005103d0_cls *>(this)->FindSubstring((char *)(a), (uintptr_t)(b), ((int)(::FUN_0044a670(a))));
 }
 
 // Searches the buffer from start for a match of a1 of length count, returning its offset from the base or g_010173f0 if not found.
 // @fnv 0x005103d0
-unsigned int FUN_005103d0_cls::FindSubstring(char* pPattern, unsigned int start, unsigned int count)
+unsigned int FUN_005103d0_cls::FindSubstring(char* pPattern, uintptr_t start, unsigned int count)
 {
     unsigned int remaining;
     unsigned int pos;

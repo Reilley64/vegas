@@ -482,7 +482,7 @@ int* FUN_0069ad40_class::InitializeWithGlobal(int param)
 
 struct FUN_0069aeb0_class
 {
-    void FUN_0069aeb0(int a);
+    void FUN_0069aeb0(intptr_t a);
     int f0;
     int f4;
     int f8;
@@ -490,7 +490,7 @@ struct FUN_0069aeb0_class
 
 // Calls FUN_00ec6f20 with f4, f8, 2 and a.
 // @fnv 0x0069aeb0
-void FUN_0069aeb0_class::FUN_0069aeb0(int a)
+void FUN_0069aeb0_class::FUN_0069aeb0(intptr_t a)
 {
     std::qsort((void *)(f4), f8, 2, (int (*)(const void *, const void *))(a));
 }
@@ -3424,7 +3424,7 @@ void Sub0069d4b0::FUN_0069d4b0(Pt_0069d4b0* a1, Pt_0069d4b0* a2, Out_0069d4b0* a
     }
     if (reinterpret_cast<::FUN_0076b610_Class *>((apOut))->FUN_0076b610())
         return;
-    reinterpret_cast<::FUN_0069aeb0_class *>((apOut))->FUN_0069aeb0((int)(FUN_0069ae60));
+    reinterpret_cast<::FUN_0069aeb0_class *>((apOut))->FUN_0069aeb0((intptr_t)(FUN_0069ae60));
     Dups_0069d4b0 dups_;
     for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apOut))->GetName())) - 1; i++)
     {

@@ -602,7 +602,7 @@ struct FUN_00540c20_Holder
     {}
     virtual void vf(int, int)
     {}
-    void CallVirtualWithArgs(int, int);
+    void CallVirtualWithArgs(intptr_t, intptr_t);
 };
 // @fnv 0x00540b70
 void FUN_00540b70_Class::FUN_00540b70(void* a)
@@ -610,14 +610,14 @@ void FUN_00540b70_Class::FUN_00540b70(void* a)
     reinterpret_cast<::Range62A *>(this)->DestroyRange();
     if (!(m1 & 0x80000000))
     {
-        reinterpret_cast<::FUN_00540c20_Holder *>((((FUN_00540c20_Class*)a)))->CallVirtualWithArgs((int)(m0), (int)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
+        reinterpret_cast<::FUN_00540c20_Holder *>((((FUN_00540c20_Class*)a)))->CallVirtualWithArgs((intptr_t)(m0), (intptr_t)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
     }
     m0 = 0;
     m1 = 0x80000000;
 }
 // Calls the virtual function vf with the two arguments and returns.
 // @fnv 0x00540c20
-void FUN_00540c20_Holder::CallVirtualWithArgs(int aiArg1, int aiArg2)
+void FUN_00540c20_Holder::CallVirtualWithArgs(intptr_t aiArg1, intptr_t aiArg2)
 {
     int v = 1;
     vf(aiArg1, aiArg2);
@@ -2615,7 +2615,7 @@ struct Sweep540
 void FUN_00540750_Class::FUN_00540750(int aiValue)
 {
     FUN_004a4840_Class local = {};
-    reinterpret_cast<::Sweep540 *>((this))->SetSize(local.FUN_004a4840((int)this), aiValue);
+    reinterpret_cast<::Sweep540 *>((this))->SetSize(local.FUN_004a4840((intptr_t)this), aiValue);
 }
 struct Tag540
 {

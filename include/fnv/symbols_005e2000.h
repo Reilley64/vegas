@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class Script;
 class ScriptLocalVariable;
@@ -14,4 +15,4 @@ void LogScriptCompileError(::ScriptRunner *, ::Script *, char *, ...);
 // 0x005e2a70
 ::TESSound *GetBrushSound(const char *);
 // 0x005e2b50
-const char *GetStringByIndex(int);
+const char *GetStringByIndex(intptr_t);

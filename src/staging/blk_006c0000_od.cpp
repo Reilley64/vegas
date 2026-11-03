@@ -414,11 +414,11 @@ void FUN_006d2c60_Class::FUN_006d2c60(float value)
 
 struct FUN_006d30e0_Class
 {
-    void FUN_006d30e0(int value);
+    void FUN_006d30e0(intptr_t value);
 };
 
 // @fnv 0x006d30e0
-void FUN_006d30e0_Class::FUN_006d30e0(int value)
+void FUN_006d30e0_Class::FUN_006d30e0(intptr_t value)
 {
     *(int*)((char*)this + 0x108) = value;
 }
@@ -1902,10 +1902,10 @@ struct FUN_006db4f0_Class
 {
     int m_auiShapeKeys;
     char* m_data;
-    unsigned int FUN_006db4f0(int value);
+    unsigned int FUN_006db4f0(intptr_t value);
 };
 // @fnv 0x006db4f0
-unsigned int FUN_006db4f0_Class::FUN_006db4f0(int value)
+unsigned int FUN_006db4f0_Class::FUN_006db4f0(intptr_t value)
 {
     unsigned int idx = reinterpret_cast<::S5460 *>((((FUN_0069b310_S*)this)))->FUN_00978bc0();
     reinterpret_cast<::PlacementRange *>((((FUN_0069b310_S*)this)))->ConstructBounds((::NiBound *)(void *)(m_data + idx * 0xc), 1);
@@ -3917,7 +3917,7 @@ bool __cdecl FUN_006d4570(LocationView* location, float radius, LocationView* re
             reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((((::Mesh *)(::FUN_00559450((int *)&(i))))))->FUN_0068f0c0(f, edge, (::NiPoint3 *)&(q), (::NiPoint3 *)&(b));
             h.enabled[edge] = ::DistanceToSegment((::V006b9b10 *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (::V006b9b10 *)&(q), (::V006b9b10 *)&(b), (unsigned char *)(float *)(0)) < radius;
         }
-        reinterpret_cast<::FUN_006db4f0_Class *>(&(p))->FUN_006db4f0((int)(&h));
+        reinterpret_cast<::FUN_006db4f0_Class *>(&(p))->FUN_006db4f0((intptr_t)(&h));
         bool s = false;
         for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(p))->GetName())); ++i)
         {
@@ -3957,7 +3957,7 @@ bool __cdecl FUN_006d4570(LocationView* location, float radius, LocationView* re
                                     reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((neighbor.mesh))->FUN_0068f0c0(neighbor.triangle, side, (::NiPoint3 *)&(q), (::NiPoint3 *)&(b));
                                     next.enabled[side] = ::DistanceToSegment((::V006b9b10 *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (::V006b9b10 *)&(q), (::V006b9b10 *)&(b), (unsigned char *)(float *)(0)) < radius;
                                 }
-                                reinterpret_cast<::FUN_006db4f0_Class *>(&(p))->FUN_006db4f0((int)(&next));
+                                reinterpret_cast<::FUN_006db4f0_Class *>(&(p))->FUN_006db4f0((intptr_t)(&next));
                             }
                         }
                     }
@@ -4886,9 +4886,9 @@ bool __cdecl FUN_006d2c80(NavMeshContext* context, NavMeshRoute* route)
     NavMeshTriangleVertexIndices* edgeTmp = new NavMeshTriangleVertexIndices;
     NavMeshContext currentVal(context);
     reinterpret_cast<::HX *>(&(currentVal))->FUN_006d3100((::CombatCoverPointData *)(plan));
-    reinterpret_cast<::FUN_006d30e0_Class *>(&(currentVal))->FUN_006d30e0((int)(edgeTmp));
+    reinterpret_cast<::FUN_006d30e0_Class *>(&(currentVal))->FUN_006d30e0((intptr_t)(edgeTmp));
     reinterpret_cast<::HX *>((context))->FUN_006d3100((::CombatCoverPointData *)(plan));
-    reinterpret_cast<::FUN_006d30e0_Class *>((context))->FUN_006d30e0((int)(edgeTmp));
+    reinterpret_cast<::FUN_006d30e0_Class *>((context))->FUN_006d30e0((intptr_t)(edgeTmp));
     unsigned int index = 1;
     while (::GetObjectFlags((char *)(route)) > index)
     {

@@ -121,11 +121,11 @@ extern "C" void __cdecl CopyConstructElement(int, int);
 
 struct FUN_00660320_Class
 {
-    void FUN_00660320(int a, int b);
+    void FUN_00660320(intptr_t a, intptr_t b);
 };
 
 // @fnv 0x00660320
-void FUN_00660320_Class::FUN_00660320(int aiFirst, int aiSecond)
+void FUN_00660320_Class::FUN_00660320(intptr_t aiFirst, intptr_t aiSecond)
 {
     CopyConstructElement(aiFirst, aiSecond);
 }
@@ -534,20 +534,20 @@ struct FUN_0066db70_Class
     {}
     virtual void v4(int, int)
     {}
-    void FUN_0066db70(int a, int b);
+    void FUN_0066db70(intptr_t a, intptr_t b);
 };
 // @fnv 0x0066dae0
 void FUN_0066dae0_Class::FUN_0066dae0(void* pTarget)
 {
     reinterpret_cast<::Range62A *>(this)->DestroyRange();
     if (!(state & 0x80000000))
-        reinterpret_cast<::FUN_0066db70_Class *>((((H_6db70*)pTarget)))->FUN_0066db70((int)(p), (int)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
+        reinterpret_cast<::FUN_0066db70_Class *>((((H_6db70*)pTarget)))->FUN_0066db70((intptr_t)(p), (intptr_t)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
     p = 0;
     state = 0x80000000;
 }
 // Calls the virtual v4 with a and b shifted left by 4 bits; the local t is set to 0x10 and unused.
 // @fnv 0x0066db70
-void FUN_0066db70_Class::FUN_0066db70(int a, int b)
+void FUN_0066db70_Class::FUN_0066db70(intptr_t a, intptr_t b)
 {
     int t = 0x10;
     this->v4(a, b << 4);
@@ -946,7 +946,7 @@ struct FUN_00665e30_Class
 FUN_0044d000* FUN_00665e30_Class::FUN_00665e30(int index)
 {
     AutoMemHelper helper(6, true, "..\\BSMain\\ThreadSafeStructures.h", 398);
-    return new FUN_0044d000((int)this, (int)(data + index * 3), (int)(data + index * 3 + 1),
+    return new FUN_0044d000((intptr_t)this, (intptr_t)(data + index * 3), (intptr_t)(data + index * 3 + 1),
                             (int)(data + index * 3 + 2));
 }
 
@@ -1752,7 +1752,7 @@ Elem6605* __cdecl CopyConstructRange(Elem6605* _First, Elem6605* _Last, Elem6605
     try
     {
         for (; _First != _Last; ++_Dest, ++_First)
-            reinterpret_cast<::FUN_00660320_Class *>(&(_Al))->FUN_00660320((int)(_Dest), (int)&(*_First));
+            reinterpret_cast<::FUN_00660320_Class *>(&(_Al))->FUN_00660320((intptr_t)(_Dest), (intptr_t)&(*_First));
     }
     catch (...)
     {
@@ -1893,7 +1893,7 @@ struct FUN_004a4840_class
 void FUN_0066da50::FUN_0066dab0()
 {
     FUN_004a4840_class obj = {};
-    ((FUN_0066dae0_Class*)this)->FUN_0066dae0(obj.FUN_004a4840((int)this));
+    ((FUN_0066dae0_Class*)this)->FUN_0066dae0(obj.FUN_004a4840((intptr_t)this));
 }
 
 struct FUN_00660070_cls

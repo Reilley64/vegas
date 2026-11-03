@@ -243,11 +243,11 @@ void* NavMeshPtr::FUN_005e05b0(int index)
 
 struct QuantityData
 {
-    void FUN_005e0b80(unsigned int quantity);
+    void FUN_005e0b80(uintptr_t quantity);
 };
 
 // @fnv 0x005e0b80
-void QuantityData::FUN_005e0b80(unsigned int quantity)
+void QuantityData::FUN_005e0b80(uintptr_t quantity)
 {
     reinterpret_cast<::FUN_00537e90 *>(this)->SetQuantity(quantity);
 }
@@ -298,17 +298,17 @@ bool TESFaction_RankDataView::HasFlag20()
 
 struct FUN_005ec8f0_class
 {
-    bool FUN_005ec8f0(int a);
+    bool FUN_005ec8f0(intptr_t a);
 };
 
 struct FUN_005ecd10_cls
 {
-    bool FUN_005ece20(int a);
+    bool FUN_005ece20(intptr_t a);
 };
 
 struct FUN_005ed1b0_Class
 {
-    bool FUN_005ed1b0(int arg);
+    bool FUN_005ed1b0(intptr_t arg);
 };
 
 extern int DAT_010472e4;
@@ -773,7 +773,7 @@ struct FUN_005e0830
 // @fnv 0x005e0830
 void FUN_005e0830::Open(const char* apFileName, bool abWrite)
 {
-    reinterpret_cast<::FUN_004f8a60_class *>(this)->FUN_004f8ac0((int)(apFileName));
+    reinterpret_cast<::FUN_004f8a60_class *>(this)->FUN_004f8ac0((intptr_t)(apFileName));
     ((void(*)(void*, bool))(*reinterpret_cast<void***>(this))[6])(this, abWrite);
 }
 
@@ -1078,7 +1078,7 @@ struct FUN_005ed160_Class
 };
 // Returns the logical negation of Equals(arg).
 // @fnv 0x005ed1b0
-bool FUN_005ed1b0_Class::FUN_005ed1b0(int arg)
+bool FUN_005ed1b0_Class::FUN_005ed1b0(intptr_t arg)
 {
     return !reinterpret_cast<::FUN_005ed160_Class *>(this)->Equals(arg);
 }
@@ -1737,11 +1737,11 @@ void FUN_005efe70_shell::FUN_005efe70(char* pDest, char* pSrc, unsigned int c)
 
 struct FUN_005eff10_class
 {
-    void FUN_005eff10(char* dst, const char* src, unsigned int count);
+    void FUN_005eff10(char* dst, const char* src, uintptr_t count);
 };
 // Copies count 6-byte elements from src to dst, iterating forward when dst<src and backward when dst>src to handle overlap.
 // @fnv 0x005eff10
-void FUN_005eff10_class::FUN_005eff10(char* dst, const char* src, unsigned int count)
+void FUN_005eff10_class::FUN_005eff10(char* dst, const char* src, uintptr_t count)
 {
     if (count <= 0)
         return;
@@ -2002,7 +2002,7 @@ void FUN_005efc90_class::FUN_005efc90(void* a, void* b)
         else
         {
             void* t = v1(a);
-            ((FUN_005eff10_class*)this)->FUN_005eff10((char*)t, (char const*)m4, (unsigned int)b);
+            ((FUN_005eff10_class*)this)->FUN_005eff10((char*)t, (char const*)m4, (uintptr_t)b);
             ::FUN_006a8500((::DummyClass_006a8500 *)(((FUN_006c8a30_Class*)this)));
             m4 = t;
         }
@@ -2038,7 +2038,7 @@ struct BSSimpleList_005e0b60
 void FUN_005e0b60(void* p)
 {
     reinterpret_cast<QuantityData*>(((::BSSimpleList_005e0b60 *)(new ((void *)(reinterpret_cast<BSSimpleList_005e0b60*>(FUN_00885750()))) ::Vec3())))
-        ->FUN_005e0b80((unsigned int)p);
+        ->FUN_005e0b80((uintptr_t)p);
 }
 
 struct FUN_005e3fe0_class
@@ -2318,7 +2318,7 @@ struct LightingDataCmp
 };
 // Returns the logical negation of FUN_005ec760(a).
 // @fnv 0x005ec8f0
-bool FUN_005ec8f0_class::FUN_005ec8f0(int a)
+bool FUN_005ec8f0_class::FUN_005ec8f0(intptr_t a)
 {
     return !reinterpret_cast<::LightingDataCmp *>(this)->FUN_005ec760((const ::LightingDataCmp *)(a));
 }
@@ -3677,7 +3677,7 @@ bool CompareData::FUN_005ec920(CompareData* other)
     if (!different)
     {
         for (unsigned int index = 0; index < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())) && !different; ++index)
-            different = different || reinterpret_cast<::FUN_005ec8f0_class *>((((::CompareEntry *)(reinterpret_cast<::FUN_005eedc0_cls *>(&(entries))->FUN_005eedc0(index)))))->FUN_005ec8f0((int)(((::CompareEntry *)(reinterpret_cast<::FUN_005eedc0_cls *>(&(other->entries))->FUN_005eedc0(index)))));
+            different = different || reinterpret_cast<::FUN_005ec8f0_class *>((((::CompareEntry *)(reinterpret_cast<::FUN_005eedc0_cls *>(&(entries))->FUN_005eedc0(index)))))->FUN_005ec8f0((intptr_t)(((::CompareEntry *)(reinterpret_cast<::FUN_005eedc0_cls *>(&(other->entries))->FUN_005eedc0(index)))));
     }
     if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())) != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())))
         different = true;
@@ -3728,7 +3728,7 @@ bool Target005ed1e0::FUN_005ed1e0(Target005ed1e0* other)
     if (!different)
     {
         for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries_14))->GetName())) && !different; ++i)
-            different = different || reinterpret_cast<::FUN_005ed1b0_Class *>((((::Entry005ed1e0 *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(entries_14))->FUN_0069ccf0(i)))))->FUN_005ed1b0((int)(((::Entry005ed1e0 *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(other->entries_14))->FUN_0069ccf0(i)))));
+            different = different || reinterpret_cast<::FUN_005ed1b0_Class *>((((::Entry005ed1e0 *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(entries_14))->FUN_0069ccf0(i)))))->FUN_005ed1b0((intptr_t)(((::Entry005ed1e0 *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(other->entries_14))->FUN_0069ccf0(i)))));
     }
     if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings_04))->GetName())) != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings_04))->GetName())))
         different = true;
@@ -3976,7 +3976,7 @@ unsigned char FUN_005ece50_class::FUN_005ece50(FUN_005ece50_class* other)
             {
                 bStack_5 =
                     (bStack_5 == 0 &&
-                     m14.FUN_00691750((int)uStack_18)->FUN_005ece20((int)other->m14.FUN_00691750((int)uStack_18)) == 0)
+                     m14.FUN_00691750((int)uStack_18)->FUN_005ece20((intptr_t)other->m14.FUN_00691750((int)uStack_18)) == 0)
                         ? 0
                         : 1;
             }
@@ -4026,12 +4026,12 @@ TESSound* GetBrushSound(const char* apPrefix)
                 pcRegularMotion = "Walk";
             pcMotion = pcRegularMotion;
         }
-        ::FUN_00406d00(soundName, 40, "BRUSH%s%s", ::GetStringByIndex((int)(apPrefix)), pcMotion);
+        ::FUN_00406d00(soundName, 40, "BRUSH%s%s", ::GetStringByIndex((intptr_t)(apPrefix)), pcMotion);
         return reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::SoundDataHandler * *>(&::g_dataHandler))))->GetSoundByEditorID(soundName);
     }
     else
     {
-        ::FUN_00406d00(fallbackName, 40, "BRUSH%sWalk", ::GetStringByIndex((int)(apPrefix)));
+        ::FUN_00406d00(fallbackName, 40, "BRUSH%sWalk", ::GetStringByIndex((intptr_t)(apPrefix)));
         return reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::SoundDataHandler * *>(&::g_dataHandler))))->GetSoundByEditorID(fallbackName);
     }
     return 0;
@@ -4040,7 +4040,7 @@ TESSound* GetBrushSound(const char* apPrefix)
 extern const char* DAT_01196d40[10];
 
 // @fnv 0x005e2b50
-const char* __cdecl GetStringByIndex(int index)
+const char* __cdecl GetStringByIndex(intptr_t index)
 {
     if (index >= 0 && index < 10)
     {
@@ -5312,7 +5312,7 @@ struct EquivData_5ecd10
 };
 // Returns true when IsEqual returns zero for the given index.
 // @fnv 0x005ece20
-bool FUN_005ecd10_cls::FUN_005ece20(int a)
+bool FUN_005ecd10_cls::FUN_005ece20(intptr_t a)
 {
     return !((unsigned char)(reinterpret_cast<::EquivData_5ecd10 *>(this)->IsEqual((*(const ::EquivData_5ecd10 *)(a)))));
 }

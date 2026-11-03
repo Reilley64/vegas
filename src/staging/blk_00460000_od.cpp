@@ -2039,11 +2039,11 @@ struct ChildRange
 void __cdecl CreateProjectileRef(int, OutputRenderer*, OutputRenderer*, unsigned int, InstanceData12, InstanceData36);
 struct ActorProcessor
 {
-    int ProcessCollectionTree(CollectionItem*, int, unsigned int, OutputRenderer*);
+    int ProcessCollectionTree(CollectionItem*, intptr_t, unsigned int, OutputRenderer*);
 };
 // Recursively processes item and its children, calling CreateProjectileRef on matching items and returning the count processed.
 // @fnv 0x00476cb0
-int ActorProcessor::ProcessCollectionTree(CollectionItem* item, int arg, unsigned int options, OutputRenderer* output)
+int ActorProcessor::ProcessCollectionTree(CollectionItem* item, intptr_t arg, unsigned int options, OutputRenderer* output)
 {
     if (item == 0)
         return 0;
@@ -4125,7 +4125,7 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
         }
         if (stage->explosion)
         {
-            int threshold = reinterpret_cast<::ActorProcessor *>(this)->ProcessCollectionTree((::CollectionItem *)(::DNode *)(root), (int)(stage->explosion), ptr, (::OutputRenderer *)(ref));
+            int threshold = reinterpret_cast<::ActorProcessor *>(this)->ProcessCollectionTree((::CollectionItem *)(::DNode *)(root), (intptr_t)(stage->explosion), ptr, (::OutputRenderer *)(ref));
             if (0 == threshold)
             {
                 DMatrix oldPercent = ref->GetRotation();
@@ -4783,7 +4783,7 @@ bool LoadHandler::FUN_00467780(LoadFile* file, bool mode)
                     default: {
                         const char* editorID2 = form5->GetEditorID();
                         if (editorID2 && *editorID2)
-                            reinterpret_cast<::TMapStandIn *>(((*reinterpret_cast<::LoadMap * *>(&::DAT_011c54c8))))->InsertOrUpdate((unsigned int)(editorID2), form5);
+                            reinterpret_cast<::TMapStandIn *>(((*reinterpret_cast<::LoadMap * *>(&::DAT_011c54c8))))->InsertOrUpdate((uintptr_t)(editorID2), form5);
                     }
                     }
                 }

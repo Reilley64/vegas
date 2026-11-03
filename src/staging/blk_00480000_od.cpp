@@ -609,19 +609,19 @@ void* S_486eb0::FUN_00486eb0(unsigned int flags)
 extern int DAT_0101cad8;
 struct S486f40 : FUN_00486f70_class
 {
-    void* FUN_00486f40(int a, bool b);
+    void* FUN_00486f40(intptr_t a, bool b);
 };
 // Calls Call with the given arguments, then stores the address of DAT_0101cb38 in this object and returns this.
 // @fnv 0x00486ee0
 void* FUN_00486ee0::Init(void* apArg, bool abFlag)
 {
-    reinterpret_cast<::S486f40 *>((((FUN_00486f40*)this)))->FUN_00486f40((int)(apArg), abFlag);
+    reinterpret_cast<::S486f40 *>((((FUN_00486f40*)this)))->FUN_00486f40((intptr_t)(apArg), abFlag);
     *(void**)this = &DAT_0101cb38;
     return this;
 }
 // Calls the base constructor, installs DAT_0101cad8 as the vtable pointer, stores b at offset 0x10, and returns this.
 // @fnv 0x00486f40
-void* S486f40::FUN_00486f40(int aiArg, bool abFlag)
+void* S486f40::FUN_00486f40(intptr_t aiArg, bool abFlag)
 {
     InitializeWithGlobal(aiArg);
     *(void**)this = (void*)&DAT_0101cad8;
@@ -803,11 +803,11 @@ struct BGSSaveFormBuffer
 };
 struct FUN_00497bc0_Class
 {
-    void FUN_00497bc0(BGSSaveFormBuffer* buffer, int a);
+    void FUN_00497bc0(BGSSaveFormBuffer* buffer, intptr_t a);
 };
 // Saves three 4-byte fields at offsets 8, 0xc and 0x14 of this object into the given BGSSaveFormBuffer.
 // @fnv 0x00497bc0
-void FUN_00497bc0_Class::FUN_00497bc0(BGSSaveFormBuffer* buffer, int aiUnused)
+void FUN_00497bc0_Class::FUN_00497bc0(BGSSaveFormBuffer* buffer, intptr_t aiUnused)
 {
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this + 8, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this + 0xc, 4, 0);
@@ -1953,18 +1953,18 @@ class FUN_0049f7d0_cls
     FUN_0049f7d0_elem* m_04;
     unsigned int m_08;
 
-    int FindIndexIf(int a1, unsigned int start, bool(__cdecl* pred)(FUN_0049f7d0_elem*, int));
+    int FindIndexIf(intptr_t a1, unsigned int start, bool(__cdecl* pred)(FUN_0049f7d0_elem*, int));
 };
 // Returns whether the plane is found by searching with FindIndexIf using FUN_0049f830, i.e. the result is not -1.
 // @fnv 0x0049f190
 bool FUN_0049f190_Class::ContainsPlane(const NiPlane& aPlane)
 {
-    return reinterpret_cast<::FUN_0049f7d0_cls *>(this)->FindIndexIf((int)&(aPlane), 0, (bool (*)(FUN_0049f7d0_elem *, int))(FUN_0049f830)) != -1;
+    return reinterpret_cast<::FUN_0049f7d0_cls *>(this)->FindIndexIf((intptr_t)&(aPlane), 0, (bool (*)(FUN_0049f7d0_elem *, int))(FUN_0049f830)) != -1;
 }
 
 // Scans the element array from start, returning the first index whose element satisfies pred, or -1 if none match.
 // @fnv 0x0049f7d0
-int FUN_0049f7d0_cls::FindIndexIf(int a1, unsigned int start, bool(__cdecl* pred)(FUN_0049f7d0_elem*, int))
+int FUN_0049f7d0_cls::FindIndexIf(intptr_t a1, unsigned int start, bool(__cdecl* pred)(FUN_0049f7d0_elem*, int))
 {
     unsigned int i;
     for (i = start; i < m_08; i++)
@@ -3491,7 +3491,7 @@ void AnimDataN::SaveAnimData(SaveBufN* pBuffer)
     {
         unsigned int uiPosition = reinterpret_cast<::FUN_00865f20_shell *>((pBuffer))->FUN_00865f20();
         unsigned int uiStartSize = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pBuffer))->FUN_0084e3a0()));
-        reinterpret_cast<::FUN_00497bc0_Class *>((pSequence))->FUN_00497bc0((::BGSSaveFormBuffer *)(pBuffer), (int)(this));
+        reinterpret_cast<::FUN_00497bc0_Class *>((pSequence))->FUN_00497bc0((::BGSSaveFormBuffer *)(pBuffer), (intptr_t)(this));
         unsigned int uiEnd = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pBuffer))->FUN_0084e3a0()));
         reinterpret_cast<::FUN_00865ff0_shell *>((pBuffer))->FUN_00865ff0(uiEnd - uiStartSize, uiPosition);
     }

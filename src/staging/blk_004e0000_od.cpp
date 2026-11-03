@@ -537,7 +537,7 @@ FUN_004f6fc0_shell* FUN_004f6fc0_shell::FUN_004f87e0()
 
 struct FUN_004f8a60_class
 {
-    void FUN_004f8ac0(int);
+    void FUN_004f8ac0(intptr_t);
     void SetField108(int);
 };
 
@@ -987,10 +987,10 @@ void* FUN_004f7070_shell::SetValues(float afFirst, float afSecond)
 struct FUN_004f71f0_Class
 {
     float SquaredDistanceTo(int);
-    float FUN_004f71f0(int);
+    float FUN_004f71f0(intptr_t);
 };
 // @fnv 0x004f71f0
-float FUN_004f71f0_Class::FUN_004f71f0(int a)
+float FUN_004f71f0_Class::FUN_004f71f0(intptr_t a)
 {
     if (a == 0)
         return -1.0f;
@@ -1024,7 +1024,7 @@ struct TaskQueueAttachHelper
 {
 };
 // @fnv 0x004f8ac0
-void FUN_004f8a60_class::FUN_004f8ac0(int apSource)
+void FUN_004f8a60_class::FUN_004f8ac0(intptr_t apSource)
 {
     if (apSource)
         ::TaskQueueInterface::CopyStringToBuffer((char*)this + 4, 0x104, (const char*)apSource);
@@ -3603,7 +3603,7 @@ float RegionMatch::ComputeRegionValue(RegionPointMatch* point, float range)
         }
         j = reinterpret_cast<::fnv_004f7230::FUN_004f7230_Class *>((point))->SquaredDistanceTo((::fnv_004f7230::RegionPoint *)(*((::RegionPointMatch **)(new ((void *)(g)) ::Vec3()))));
         a = reinterpret_cast<::fnv_004f7230::FUN_004f7230_Class *>((point))->SquaredDistanceTo((::fnv_004f7230::RegionPoint *)(*((::RegionPointMatch **)(new ((void *)(l)) ::Vec3()))));
-        c = reinterpret_cast<::FUN_004f71f0_Class *>(((*((::RegionPointMatch **)(new ((void *)(g)) ::Vec3())))))->FUN_004f71f0((int)(*((::RegionPointMatch **)(new ((void *)(l)) ::Vec3()))));
+        c = reinterpret_cast<::FUN_004f71f0_Class *>(((*((::RegionPointMatch **)(new ((void *)(g)) ::Vec3())))))->FUN_004f71f0((intptr_t)(*((::RegionPointMatch **)(new ((void *)(l)) ::Vec3()))));
         b = reinterpret_cast<::fnv_004f7230::FUN_004f7230_Class *>(((*((::RegionPointMatch **)(new ((void *)(g)) ::Vec3())))))->SquaredDistanceTo((::fnv_004f7230::RegionPoint *)(*((::RegionPointMatch **)(new ((void *)(l)) ::Vec3()))));
         e = b - a + j;
         e /= (2.0 * c);
@@ -3682,7 +3682,7 @@ class Owner4FF
 int Owner4FF::FUN_004ff070(Ref4FF* pkRef)
 {
     int iResult = 0;
-    reinterpret_cast<::FUN_0042e060_class *>((((::ExtraList4FF *)(reinterpret_cast<::FUN_005d43c0_ *>((pkRef))->FUN_005d43c0()))))->FUN_0042e060((unsigned int)(this), (unsigned int)(pkRef));
+    reinterpret_cast<::FUN_0042e060_class *>((((::ExtraList4FF *)(reinterpret_cast<::FUN_005d43c0_ *>((pkRef))->FUN_005d43c0()))))->FUN_0042e060((uintptr_t)(this), (uintptr_t)(pkRef));
     pkRef->SetFlag(0x80000000);
     if (((::ExtraOwner4FF *)(reinterpret_cast<::fnv_0042e110::FUN_0042e110 *>((((::ExtraList4FF *)(reinterpret_cast<::FUN_005d43c0_ *>((pkRef))->FUN_005d43c0()))))->GetExtraData())))
         iResult = ((::ExtraOwner4FF *)(reinterpret_cast<::fnv_0042e110::FUN_0042e110 *>((((::ExtraList4FF *)(reinterpret_cast<::FUN_005d43c0_ *>((pkRef))->FUN_005d43c0()))))->GetExtraData()))->m_iValue;

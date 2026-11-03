@@ -1003,11 +1003,11 @@ struct NiBinaryStream
 
 struct FUN_006fc950_Class : NiBinaryStream
 {
-    void* FUN_006fc950(int a1);
+    void* FUN_006fc950(intptr_t a1);
 };
 
 // @fnv 0x006fc950
-void* FUN_006fc950_Class::FUN_006fc950(int pBuffer)
+void* FUN_006fc950_Class::FUN_006fc950(intptr_t pBuffer)
 {
     *(int*)((char*)this + 0x148) = reinterpret_cast<::FUN_00462d80_shell *>(this)->ReadBytes((void*)pBuffer, 4);
     return this;
@@ -1551,10 +1551,10 @@ Holder_6ec340* Holder_6ec340::FUN_006ec340()
 
 struct FUN_006ec390_Class
 {
-    bool FUN_006ec390(int a1);
+    bool FUN_006ec390(intptr_t a1);
 };
 // @fnv 0x006ec390
-bool FUN_006ec390_Class::FUN_006ec390(int aiArg)
+bool FUN_006ec390_Class::FUN_006ec390(intptr_t aiArg)
 {
     bool result;
     if (FUN_0043b460((long volatile*)this + 1, 0, 1) == 0)
@@ -1816,7 +1816,7 @@ FUN_006efd50::FUN_006efd50()
 
 struct S006F1E90
 {
-    bool FUN_006f1e90(int, int);
+    bool FUN_006f1e90(intptr_t, intptr_t);
 };
 extern int DAT_0106d814;
 struct FUN_006f26d0_Class
@@ -3200,7 +3200,7 @@ struct FUN_006fa180_StandIn
     int m_pos;
     int m_len;
     virtual int v04(unsigned int);
-    void FUN_006f9ff0(int, unsigned int);
+    void FUN_006f9ff0(intptr_t, unsigned int);
     void FUN_006fa180(unsigned int requested, unsigned int savedSize);
 };
 // @fnv 0x006fa100
@@ -5118,10 +5118,10 @@ struct IndexCollection
 };
 struct FUN_006eecc0_Owner
 {
-    void AssignRecordIndices(unsigned int first, unsigned int last);
+    void AssignRecordIndices(unsigned int first, uintptr_t last);
 };
 // @fnv 0x006eecc0
-void FUN_006eecc0_Owner::AssignRecordIndices(unsigned int first, unsigned int last)
+void FUN_006eecc0_Owner::AssignRecordIndices(unsigned int first, uintptr_t last)
 {
     reinterpret_cast<::FUN_006f23d0_Class *>((reinterpret_cast<IndexCollection*>(reinterpret_cast<char*>(this) + 0x90)))->FUN_006f23d0(first, (*(void * *)(&last)));
     for (unsigned int index = first;
@@ -6344,7 +6344,7 @@ struct S_006f9c20
 int S_006f9c20::AddElement(const S_006f9c20_Elem* pElem)
 {
     int iIndex = reinterpret_cast<::FUN_006b4060_class *>(this)->GetNextIndex();
-    reinterpret_cast<::FUN_006fa180_StandIn *>(this)->FUN_006f9ff0((int)(&unk04[iIndex]), 1);
+    reinterpret_cast<::FUN_006fa180_StandIn *>(this)->FUN_006f9ff0((intptr_t)(&unk04[iIndex]), 1);
     reinterpret_cast<::FUN_006f9d90_S *>(&(unk04[iIndex]))->operator=((*(const ::FUN_006f9d90_S *)(pElem)));
     return iIndex;
 }
@@ -8946,8 +8946,8 @@ void AvoidPath::ClipPathAgainstObstacles()
                                            (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), &entry29[0], &entry29[1]))
                     entry29[0] = entry29[1] = (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
                 bool entryValid2[2];
-                entryValid2[0] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((int)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (int)&(entry29[0]));
-                entryValid2[1] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((int)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (int)&(entry29[1]));
+                entryValid2[0] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((intptr_t)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (intptr_t)&(entry29[0]));
+                entryValid2[1] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((intptr_t)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (intptr_t)&(entry29[1]));
                 unsigned int end14 = j + 1;
                 while (end14 < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())))
                 {
@@ -8962,8 +8962,8 @@ void AvoidPath::ClipPathAgainstObstacles()
                                               (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), &exit[0], &exit[1]))
                     {
                         bool exitValid21[2];
-                        exitValid21[0] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((int)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (int)&(exit[0]));
-                        exitValid21[1] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((int)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (int)&(exit[1]));
+                        exitValid21[0] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((intptr_t)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (intptr_t)&(exit[0]));
+                        exitValid21[1] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((intptr_t)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (intptr_t)&(exit[1]));
                         bool available2[2];
                         available2[0] = entryValid2[0] && exitValid21[1];
                         available2[1] = entryValid2[1] && exitValid21[0];
@@ -9249,7 +9249,7 @@ struct Host1fc0
 };
 // Returns true when the second argument passes FUN_006f1fc0 and the pair passes IsSegmentClear; otherwise false.
 // @fnv 0x006f1e90
-bool S006F1E90::FUN_006f1e90(int aiFirst, int aiSecond)
+bool S006F1E90::FUN_006f1e90(intptr_t aiFirst, intptr_t aiSecond)
 {
     if (reinterpret_cast<::Host1fc0 *>(this)->FUN_006f1fc0(aiSecond) && reinterpret_cast<::F1ED0Area *>(this)->IsSegmentClear((*(const ::F1ED0Point3 *)(aiFirst)), (*(const ::F1ED0Point3 *)(aiSecond))))
         return true;
@@ -9860,7 +9860,7 @@ struct FUN_006f9060
 
 // Placement-constructs auiCount FUN_006f9060 objects in the buffer at apBuffer.
 // @fnv 0x006f9ff0
-void FUN_006fa180_StandIn::FUN_006f9ff0(int apBuffer, unsigned int auiCount)
+void FUN_006fa180_StandIn::FUN_006f9ff0(intptr_t apBuffer, unsigned int auiCount)
 {
     for (unsigned int i = 0; i < auiCount; i++)
         new ((FUN_006f9060*)apBuffer + i) FUN_006f9060;
@@ -10415,10 +10415,10 @@ void HeightPath::FlattenPathPoints()
             flags9.GetAt(index4) = reinterpret_cast<::FUN_006a5ec0_shell *>((((::HeightTriangle *)(reinterpret_cast<::NavMesh *>((((HeightMesh*)mesh6)))->GetTriangle(points.GetAt(index4)->triangle)))))->FUN_006a5ec0();
         points.GetAt(index4)->boundary = 0;
     }
-    unsigned firstB = ((unsigned int)(reinterpret_cast<::FUN_006cf700_cls *>(&(flags9))->FindIndexIf((int)&(const bool &)(true), 0, (bool (*)(int, int))(AreBytesEqual))));
+    unsigned firstB = ((unsigned int)(reinterpret_cast<::FUN_006cf700_cls *>(&(flags9))->FindIndexIf((intptr_t)&(const bool &)(true), 0, (bool (*)(int, int))(AreBytesEqual))));
     while (firstB != -1)
     {
-        unsigned last5 = ((unsigned int)(reinterpret_cast<::FUN_006cf700_cls *>(&(flags9))->FindIndexIf((int)&(const bool &)(false), firstB + 1, (bool (*)(int, int))(AreBytesEqual))));
+        unsigned last5 = ((unsigned int)(reinterpret_cast<::FUN_006cf700_cls *>(&(flags9))->FindIndexIf((intptr_t)&(const bool &)(false), firstB + 1, (bool (*)(int, int))(AreBytesEqual))));
         if (last5 == -1)
             last5 = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(flags9))->GetName())) - 1;
         else
@@ -10440,7 +10440,7 @@ void HeightPath::FlattenPathPoints()
         }
         if (last5 != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(flags9))->GetName())) - 1)
         {
-            firstB = ((unsigned int)(reinterpret_cast<::FUN_006cf700_cls *>(&(flags9))->FindIndexIf((int)&(const bool &)(true), last5 + 1, (bool (*)(int, int))(AreBytesEqual))));
+            firstB = ((unsigned int)(reinterpret_cast<::FUN_006cf700_cls *>(&(flags9))->FindIndexIf((intptr_t)&(const bool &)(true), last5 + 1, (bool (*)(int, int))(AreBytesEqual))));
         }
         else
             firstB = -1;
@@ -10745,7 +10745,7 @@ Node* FUN_006ee740_Class::SplitNode(unsigned index, bool side, const NiPoint3& s
     split = ((::Edge *)&(::GetFirstForm((::NiFormArray *)&(added->edges))))->index;
     reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::EH &)(edgeIndex->bound))->CopyFromNavMeshEdge((void *)&(edgesC.FUN_00877a30(split)->bound));
     edgeIndex->weight = 1.0f;
-    reinterpret_cast<::FUN_006eecc0_Owner *>(this)->AssignRecordIndices(split, (unsigned int)(edgeIndex));
+    reinterpret_cast<::FUN_006eecc0_Owner *>(this)->AssignRecordIndices(split, (uintptr_t)(edgeIndex));
     return added;
 }
 // Creates an entry from the source location's nav mesh info and triangle, copies the builder's point, and adds it to both the all and open arrays.
@@ -10879,9 +10879,9 @@ NodeS* HostS::SplitEdge(unsigned int index, bool side)
         e9->right = e6;
     }
     if (reinterpret_cast<::FUN_0076b610_Class *>(&(first7->edges))->FUN_0076b610())
-        reinterpret_cast<::FUN_006eecc0_Owner *>(this)->AssignRecordIndices(((::EdgeS *)&(::GetFirstForm((::NiFormArray *)&(second6->edges))))->index, (unsigned int)(e9));
+        reinterpret_cast<::FUN_006eecc0_Owner *>(this)->AssignRecordIndices(((::EdgeS *)&(::GetFirstForm((::NiFormArray *)&(second6->edges))))->index, (uintptr_t)(e9));
     else
-        reinterpret_cast<::FUN_006eecc0_Owner *>(this)->AssignRecordIndices(((::EdgeS *)(reinterpret_cast<::FUN_006f2270 *>(&(first7->edges))->GetLast()))->index + 1, (unsigned int)(e9));
+        reinterpret_cast<::FUN_006eecc0_Owner *>(this)->AssignRecordIndices(((::EdgeS *)(reinterpret_cast<::FUN_006f2270 *>(&(first7->edges))->GetLast()))->index + 1, (uintptr_t)(e9));
     return nn;
 }
 
@@ -11234,7 +11234,7 @@ void* FUN_006ec130_Class::FUN_006eca80(unsigned int flags)
 FUN_006ec130::~FUN_006ec130()
 {
     FUN_006ec130_Local item;
-    while (reinterpret_cast<::FUN_006ec390_Class *>(this)->FUN_006ec390((int)(&item)))
+    while (reinterpret_cast<::FUN_006ec390_Class *>(this)->FUN_006ec390((intptr_t)(&item)))
     {
     }
 }
@@ -11727,7 +11727,7 @@ FUN_006fc490::FUN_006fc490(Source490* apSource) : first(0), second(0)
                     .ReadFromStream(value10)
                     .ReadFromStream(value12)
                     .ReadFromStream(value14)
-                    .ReadFromStream(value16)))->FUN_006fc950((int)&(value24));
+                    .ReadFromStream(value16)))->FUN_006fc950((intptr_t)&(value24));
                 delete stream;
                 root = new TerrainNode490(this, 0, value10, value12, value20, false);
                 flag29 = true;

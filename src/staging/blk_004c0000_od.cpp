@@ -1499,7 +1499,7 @@ struct FUN_004d74c0_Item
 
 // Walks the tree items from startingItem, and for each item whose node value passes FUN_00453470, expands it with expandFlags and recurses into its children.
 // @fnv 0x004d74c0
-void __cdecl ExpandTreeItemsRecursively(void* tree, int startingItem, int expandFlags)
+void __cdecl ExpandTreeItemsRecursively(void* tree, intptr_t startingItem, int expandFlags)
 {
     FUN_004d74c0_Node* node;
     FUN_004d74c0_Value* pNodeValue;
@@ -1716,7 +1716,7 @@ struct HostClass
     int unk04;
     int unk08;
     void* unk0C;
-    void SendModifierMessages(int a1, NiObject* a2);
+    void SendModifierMessages(intptr_t a1, NiObject* a2);
 };
 
 extern "C" char DAT_01020ebc;
@@ -3256,7 +3256,7 @@ class Owner
 };
 // Resolves a2 to an ObjClass, then sends script messages for each item's name and each of its holders via DAT_00fdf28c.
 // @fnv 0x004d7ab0
-void HostClass::SendModifierMessages(int a1, NiObject* apObject)
+void HostClass::SendModifierMessages(intptr_t a1, NiObject* apObject)
 {
     MsgStruct n3;
     char i4[64];
@@ -4637,7 +4637,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
                                 }
                             }
                         }
-                        reinterpret_cast<::HostClass *>(this)->SendModifierMessages((int)(parent), (::NiObject *)(object));
+                        reinterpret_cast<::HostClass *>(this)->SendModifierMessages((intptr_t)(parent), (::NiObject *)(object));
                         if (!reinterpret_cast<::FUN_0076b610_Class *>((void *)&((*(::fnv_004d66d0::PropertyList *)(reinterpret_cast<::TESRecipe *>((object))->GetData()))))->FUN_0076b610())
                         {
                             treeItem.item.text = ((const char *)(::FUN_00464f30((intptr_t)("Properties"))));
@@ -4825,12 +4825,12 @@ LRESULT FUN_004d75b0(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
                 SendMessageA(pHeader->hwndFrom, 0x110b, 9, (LPARAM)treeItem.hItem);
                 if (treeItem.state & 0x20)
                 {
-                    ::ExpandTreeItemsRecursively(pHeader->hwndFrom, (int)(treeItem.hItem), 1);
+                    ::ExpandTreeItemsRecursively(pHeader->hwndFrom, (intptr_t)(treeItem.hItem), 1);
                     SendMessageA(pHeader->hwndFrom, 0x1102, 1, (LPARAM)treeItem.hItem);
                 }
                 else
                 {
-                    ::ExpandTreeItemsRecursively(pHeader->hwndFrom, (int)(treeItem.hItem), 2);
+                    ::ExpandTreeItemsRecursively(pHeader->hwndFrom, (intptr_t)(treeItem.hItem), 2);
                     SendMessageA(pHeader->hwndFrom, 0x1102, 2, (LPARAM)treeItem.hItem);
                 }
                 return 1;

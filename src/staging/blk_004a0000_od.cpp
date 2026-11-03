@@ -303,10 +303,10 @@ struct BSAudio
 extern "C" BSAudio* __cdecl FUN_00c85750();
 struct FUN_004a4840_class
 {
-    void FUN_004a4840(int unused);
+    void FUN_004a4840(intptr_t unused);
 };
 // @fnv 0x004a4840
-void FUN_004a4840_class::FUN_004a4840(int unused)
+void FUN_004a4840_class::FUN_004a4840(intptr_t unused)
 {
     reinterpret_cast<::MagicCaster_shell *>((FUN_00c85750()))->FUN_0044edb0();
 }
@@ -563,7 +563,7 @@ float __cdecl FUN_004b1500(float a, float b)
 
 
 // @fnv 0x004b4a10
-int __cdecl FUN_004b4a10(unsigned short a1, int a2, int a3, int a4)
+int __cdecl FUN_004b4a10(unsigned short a1, int a2, intptr_t a3, int a4)
 {
     return ((int(__cdecl*)(unsigned short, int, int, int)) * (&(*reinterpret_cast<int *>(&::DAT_011aa050))))(a1, a2, a3, a4);
 }
@@ -1095,7 +1095,7 @@ struct FUN_004a4990_s
     void* p;
     int a;
     int b;
-    void FUN_004a4990(int arg);
+    void FUN_004a4990(intptr_t arg);
 };
 struct FUN_004a4a10_Holder
 {
@@ -1104,20 +1104,20 @@ struct FUN_004a4a10_Holder
     virtual void v2();
     virtual void v3();
     virtual void vf10(int, int);
-    void FUN_004a4a10(int, int);
+    void FUN_004a4a10(intptr_t, intptr_t);
 };
 // @fnv 0x004a4990
-void FUN_004a4990_s::FUN_004a4990(int pTarget)
+void FUN_004a4990_s::FUN_004a4990(intptr_t pTarget)
 {
     reinterpret_cast<::FUN_00621c90_Class *>(this)->FUN_00626870();
     if (!(b & 0x80000000))
-        reinterpret_cast<::FUN_004a4a10_Holder *>((((H_004a4a10*)pTarget)))->FUN_004a4a10((int)(p), (int)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
+        reinterpret_cast<::FUN_004a4a10_Holder *>((((H_004a4a10*)pTarget)))->FUN_004a4a10((intptr_t)(p), (intptr_t)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
     p = 0;
     b = 0x80000000;
 }
 // Calls vf10 with a1 and a2 multiplied by 0x60.
 // @fnv 0x004a4a10
-void FUN_004a4a10_Holder::FUN_004a4a10(int aiArg1, int aiArg2)
+void FUN_004a4a10_Holder::FUN_004a4a10(intptr_t aiArg1, intptr_t aiArg2)
 {
     int v = 0x60;
     vf10(aiArg1, aiArg2 * 0x60);
@@ -1727,7 +1727,7 @@ struct FUN_004a5280
 
 // Allocates a FUN_004a5280, applies ui via vfn_08, sets fValue and fAdd to half of af[0] and af[1], fMult to 1.0 and type to 3, then returns it.
 // @fnv 0x004a4f80
-FUN_004a5280* FUN_004a4f80(const float* afValues, unsigned int ui)
+FUN_004a5280* FUN_004a4f80(const float* afValues, uintptr_t ui)
 {
     FUN_004a5280* p = new FUN_004a5280;
     p->vfn_08(ui);
@@ -1940,13 +1940,13 @@ struct FUN_004b06b0_Class
 {
     char pad[8];
     Arr arr;
-    int FindPairIndex(int a, int b);
+    int FindPairIndex(intptr_t a, intptr_t b);
 };
 // @fnv 0x004b05d0
 char FUN_004b05d0_Class::AddPairIfMissing(float* pfFirst, float* pfSecond)
 {
     char r = 0;
-    if (reinterpret_cast<::FUN_004b06b0_Class *>(this)->FindPairIndex((int)(pfFirst), (int)(pfSecond)) == -1)
+    if (reinterpret_cast<::FUN_004b06b0_Class *>(this)->FindPairIndex((intptr_t)(pfFirst), (intptr_t)(pfSecond)) == -1)
     {
         reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)((char*)this + 8))))->FUN_0096a610((int)&(const unsigned int &)((unsigned int)new Struct_004b0680(pfFirst, pfSecond)));
     }
@@ -1954,7 +1954,7 @@ char FUN_004b05d0_Class::AddPairIfMissing(float* pfFirst, float* pfSecond)
 }
 // Scans arr for the last entry whose two leading ints equal a and b, returning its index or -1 if none match.
 // @fnv 0x004b06b0
-int FUN_004b06b0_Class::FindPairIndex(int aiFirst, int aiSecond)
+int FUN_004b06b0_Class::FindPairIndex(intptr_t aiFirst, intptr_t aiSecond)
 {
     int result = -1;
     for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>(&(arr))->GetShortAtOffsetA(); ++i)
@@ -2059,7 +2059,7 @@ struct BGSPrimitiveBox
 
 // Allocates a BGSPrimitiveBox, sets its size and position to half of point, enables it, and returns it.
 // @fnv 0x004a5040
-BGSPrimitiveBox* __cdecl CreatePrimitiveBox(Point3* point, int iSize)
+BGSPrimitiveBox* __cdecl CreatePrimitiveBox(Point3* point, intptr_t iSize)
 {
     BGSPrimitiveBox* box = new BGSPrimitiveBox;
     box->SetSize(iSize);
@@ -2321,7 +2321,7 @@ FUN_004a46d0::~FUN_004a46d0()
 void AudioOwner::FUN_004a4810()
 {
     AudioSource source = {};
-    reinterpret_cast<::FUN_004a4990_s *>(this)->FUN_004a4990((int)(source.FUN_004a4840(this)));
+    reinterpret_cast<::FUN_004a4990_s *>(this)->FUN_004a4990((intptr_t)(source.FUN_004a4840(this)));
 }
 
 class TESObjectREFR;
@@ -2429,7 +2429,7 @@ struct FUN_004a9ab0_cls
 {
     int unk00;
 
-    void ConstructScanItems(int base, unsigned int count);
+    void ConstructScanItems(intptr_t base, unsigned int count);
 };
 // Sets the vtable to DAT_0101edac, calls FUN_004a9e00 with 0, 0, and returns this.
 // @fnv 0x004a9d80
@@ -2463,14 +2463,14 @@ void FUN_004a9e00_Class::FUN_004a9e00(unsigned int requested, unsigned int saved
 int C4A9A60Array::AddEntry(const C4A9A60Entry& kEntry)
 {
     int iIndex = ((int)(reinterpret_cast<::FUN_006b3fd0_cls *>(this)->FUN_006b3fd0()));
-    reinterpret_cast<::FUN_004a9ab0_cls *>(this)->ConstructScanItems((int)(&m_pUserData[iIndex]), 1);
+    reinterpret_cast<::FUN_004a9ab0_cls *>(this)->ConstructScanItems((intptr_t)(&m_pUserData[iIndex]), 1);
     m_pUserData[iIndex] = kEntry;
     return iIndex;
 }
 
 // Placement-constructs count ScanItem64 objects at base, each 64 bytes apart.
 // @fnv 0x004a9ab0
-void FUN_004a9ab0_cls::ConstructScanItems(int base, unsigned int count)
+void FUN_004a9ab0_cls::ConstructScanItems(intptr_t base, unsigned int count)
 {
 
     for (unsigned int i = 0; i < count; ++i)
@@ -2934,7 +2934,7 @@ FUN_006815c0* __cdecl CreateElementArray(FUN_004b4910_Source* source)
         return 0;
     }
     elements = new FUN_006815c0[reinterpret_cast<::FUN_00456650_shell *>((source))->FUN_00456650()];
-    FUN_004b4a10(reinterpret_cast<::FUN_00456650_shell *>((source))->FUN_00456650(), ((int)(reinterpret_cast<::FUN_0049ec60 *>((source))->GetNext())), (int)elements, ::FUN_00461130((int)(source)));
+    FUN_004b4a10(reinterpret_cast<::FUN_00456650_shell *>((source))->FUN_00456650(), ((int)(reinterpret_cast<::FUN_0049ec60 *>((source))->GetNext())), (intptr_t)elements, ::FUN_00461130((int)(source)));
     return elements;
 }
 
@@ -3984,7 +3984,7 @@ void* __cdecl FUN_004a4d40(Target004a4d40* pTarget)
             {
                 NiPoint2_004a4d40 point(pTarget->FUN_00413fc0().x * 2.0, pTarget->FUN_00413fc0().z * 2.0f);
                 reinterpret_cast<::FUN_00413f90_cls *>((pTarget))->FUN_00413f90((::FUN_00413f90_vec *)(::NiColorA004a4d40 *)(&kIter));
-                bResult = FUN_004a4f80((const float*)&point, (unsigned int)&kIter);
+                bResult = FUN_004a4f80((const float*)&point, (uintptr_t)&kIter);
             }
         }
 
@@ -3994,7 +3994,7 @@ void* __cdecl FUN_004a4d40(Target004a4d40* pTarget)
             {
                 Point3 point = pTarget->FUN_00413fc0() * 2.0f;
                 reinterpret_cast<::FUN_00413f90_cls *>((pTarget))->FUN_00413f90((::FUN_00413f90_vec *)(::NiColorA004a4d40 *)(&colorA));
-                bResult = CreatePrimitiveBox(&point, (int)&colorA);
+                bResult = CreatePrimitiveBox(&point, (intptr_t)&colorA);
             }
         }
 

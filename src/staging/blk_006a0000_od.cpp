@@ -1327,10 +1327,10 @@ FUN_006a8700_Class* FUN_006a8700_Class::FUN_006a8700()
 
 struct FUN_006a8a30_class
 {
-    void FUN_006a8a30(int base, unsigned int count);
+    void FUN_006a8a30(intptr_t base, unsigned int count);
 };
 // @fnv 0x006a8a30
-void FUN_006a8a30_class::FUN_006a8a30(int base, unsigned int count)
+void FUN_006a8a30_class::FUN_006a8a30(intptr_t base, unsigned int count)
 {
     for (int i = 0; i < count; ++i)
     {
@@ -2307,7 +2307,7 @@ struct FUN_006a2470_class
 {
     virtual int Dummy();
     virtual int Write(unsigned int size);
-    void ConstructPendingItems(int a, int b);
+    void ConstructPendingItems(intptr_t a, int b);
     int iSize;
     int iPosition;
     int iDataLength;
@@ -2983,12 +2983,12 @@ struct FUN_006a8a80 : public FUN_006a7b10
 
 struct FUN_006b9540_class
 {
-    void UnlinkFromNeighbors(int param_1);
+    void UnlinkFromNeighbors(intptr_t param_1);
 };
 
 // Unlinks the node at param_1 from its previous and next neighbours, then clears both neighbour pointers.
 // @fnv 0x006b9540
-void FUN_006b9540_class::UnlinkFromNeighbors(int pNode)
+void FUN_006b9540_class::UnlinkFromNeighbors(intptr_t pNode)
 {
     if (*(int*)(pNode + 0x14) != 0)
     {
@@ -3506,7 +3506,7 @@ struct FUN_006a1a50_cls
 int FUN_006a1a50_cls::FUN_006a1a50(const FUN_006a1a50_pair* src)
 {
     unsigned int idx = ((int)(reinterpret_cast<::S5460 *>(this)->FUN_00845460()));
-    reinterpret_cast<::FUN_006a2470_class *>(this)->ConstructPendingItems((int)(m_04 + idx), 1);
+    reinterpret_cast<::FUN_006a2470_class *>(this)->ConstructPendingItems((intptr_t)(m_04 + idx), 1);
     m_04[idx] = *src;
     return idx;
 }
@@ -3522,7 +3522,7 @@ struct FUN_006a21c0_class
     int m_8;
     int m_iThirdValue;
 
-    void FUN_006a21c0(int value, int flag);
+    void FUN_006a21c0(intptr_t value, int flag);
 };
 // @fnv 0x006a1920
 int FUN_006a1920_cls::FUN_006a1920()
@@ -3538,7 +3538,7 @@ int FUN_006a1920_cls::FUN_006a1920()
         else
         {
             void* p = (void*)((reinterpret_cast<::FUN_009a3910_cls *>((reinterpret_cast<S5460*>(this)))->FUN_009a3910()));
-            reinterpret_cast<::FUN_006a21c0_class *>((reinterpret_cast<S6a21c0_helper*>(this)))->FUN_006a21c0((int)(p), m_8);
+            reinterpret_cast<::FUN_006a21c0_class *>((reinterpret_cast<S6a21c0_helper*>(this)))->FUN_006a21c0((intptr_t)(p), m_8);
             m_iThirdValue = p;
         }
     }
@@ -3547,7 +3547,7 @@ int FUN_006a1920_cls::FUN_006a1920()
 }
 
 // @fnv 0x006a21c0
-void FUN_006a21c0_class::FUN_006a21c0(int value, int flag)
+void FUN_006a21c0_class::FUN_006a21c0(intptr_t value, int flag)
 {
     if (m_iWordAt04 != 0)
     {
@@ -3584,7 +3584,7 @@ PendingItem::PendingItem()
 
 // Constructs b PendingItem objects in place in the array at a.
 // @fnv 0x006a23a0
-void FUN_006a2470_class::ConstructPendingItems(int apItems, int aiCount)
+void FUN_006a2470_class::ConstructPendingItems(intptr_t apItems, int aiCount)
 {
     for (unsigned int i = 0; i < (unsigned int)aiCount; i++)
     {
@@ -7769,7 +7769,7 @@ void WorkerArray::FUN_006a8750(unsigned int requested, bool shrink)
             reinterpret_cast<::FUN_009a3c50_cls *>(this)->UpdateThreat(requested, size);
             capacity = requested;
         }
-        reinterpret_cast<::FUN_006a8a30_class *>(this)->FUN_006a8a30((int)(data + size), requested - size);
+        reinterpret_cast<::FUN_006a8a30_class *>(this)->FUN_006a8a30((intptr_t)(data + size), requested - size);
         size = requested;
     }
     else if (requested < size)
@@ -7784,7 +7784,7 @@ void WorkerArray::FUN_006a8750(unsigned int requested, bool shrink)
     }
     else
     {
-        reinterpret_cast<::FUN_006a8a30_class *>(this)->FUN_006a8a30((int)(data + size), requested - size);
+        reinterpret_cast<::FUN_006a8a30_class *>(this)->FUN_006a8a30((intptr_t)(data + size), requested - size);
         size = requested;
     }
 }
@@ -8062,7 +8062,7 @@ SearchNode9180* Search9180::FindPathStep()
         for (unsigned i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(connections))->GetName())); ++i)
         {
             SearchNode9180* node = connections.FUN_00877a30(i);
-            reinterpret_cast<::FUN_006b9540_class *>((((OpenNodes9180*)&m_1ff4)))->UnlinkFromNeighbors((int)(node));
+            reinterpret_cast<::FUN_006b9540_class *>((((OpenNodes9180*)&m_1ff4)))->UnlinkFromNeighbors((intptr_t)(node));
             if (((SearchNode9180*)m_204c)->parent == node)
                 return 0;
             node->parent = (SearchNode9180*)m_204c;
@@ -8676,7 +8676,7 @@ bool BuildProcess::Build(BuildOutput* pOutput, BuildInput* pInput, BuildCatalog*
                 reinterpret_cast<::FUN_006bc870_shell *>((((BuildName*)&bounds.mC)))->CopyFromNavMeshEdge((void *)(((::FUN_006bc8b0 *)(reinterpret_cast<::FUN_006bf670_Class *>(&(input->annotationCollection))->FUN_006bf670(i)))));
                 reinterpret_cast<::FUN_006bc870_shell *>((((BuildName*)&bounds.m0)))->CopyFromNavMeshEdge((void *)(&((::FUN_006bc8b0 *)(reinterpret_cast<::FUN_006bf670_Class *>(&(input->annotationCollection))->FUN_006bf670(i)))->mC));
                 bounds.processed = false;
-                entry = reinterpret_cast<::FUN_0049f7d0_cls *>(&(catalog->primary))->FindIndexIf((int)((BuildName*)&bounds.m0), 0, (bool (*)(FUN_0049f7d0_elem *, int))(((void (&)(void *, int))::CallWithInt)));
+                entry = reinterpret_cast<::FUN_0049f7d0_cls *>(&(catalog->primary))->FindIndexIf((intptr_t)((BuildName*)&bounds.m0), 0, (bool (*)(FUN_0049f7d0_elem *, int))(((void (&)(void *, int))::CallWithInt)));
                 if (entry != -1)
                 {
                     if (names.FUN_00719b20(&entry, 0, ((void (&)())::FUN_009a3830)) == -1)
@@ -8686,12 +8686,12 @@ bool BuildProcess::Build(BuildOutput* pOutput, BuildInput* pInput, BuildCatalog*
                 }
                 else
                 {
-                    if (reinterpret_cast<::FUN_0049f7d0_cls *>(&(catalog->alternate))->FindIndexIf((int)((BuildName*)&bounds.m0), 0, (bool (*)(FUN_0049f7d0_elem *, int))(((void (&)(void *, int))::CallWithInt))) == -1)
+                    if (reinterpret_cast<::FUN_0049f7d0_cls *>(&(catalog->alternate))->FindIndexIf((intptr_t)((BuildName*)&bounds.m0), 0, (bool (*)(FUN_0049f7d0_elem *, int))(((void (&)(void *, int))::CallWithInt))) == -1)
                     {
                         reinterpret_cast<::FUN_0069b310_S *>(&(catalog->alternate))->AppendElement((const ::EH *)(const ::BuildName *)((BuildName*)&bounds.m0));
                     }
                 }
-                if (reinterpret_cast<::FUN_0049f7d0_cls *>(&(catalog->primary))->FindIndexIf((int)((BuildName*)&bounds.mC), 0, (bool (*)(FUN_0049f7d0_elem *, int))(((void (&)(void *, int))::CallWithInt))) == -1)
+                if (reinterpret_cast<::FUN_0049f7d0_cls *>(&(catalog->primary))->FindIndexIf((intptr_t)((BuildName*)&bounds.mC), 0, (bool (*)(FUN_0049f7d0_elem *, int))(((void (&)(void *, int))::CallWithInt))) == -1)
                 {
                     reinterpret_cast<::FUN_0069b310_S *>(&(catalog->primary))->AppendElement((const ::EH *)(const ::BuildName *)((BuildName*)&bounds.mC));
                 }
@@ -9585,7 +9585,7 @@ void EdgeUpdater120::UpdateEdgeRecords(RecordArray120* arrays)
             reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::EH &)(record.first))->CopyFromNavMeshEdge((void *)&((*edges.FUN_00877a30(i))->second));
             record.active = true;
             reinterpret_cast<::S006bf730 *>(&(owner->records))->FUN_006bf730((*(const ::S006bfc40 *)(&record)));
-            unsigned int index = reinterpret_cast<::FUN_0049f7d0_cls *>((arrays))->FindIndexIf((int)(&record), 0, (bool (*)(FUN_0049f7d0_elem *, int))(CallWithInt));
+            unsigned int index = reinterpret_cast<::FUN_0049f7d0_cls *>((arrays))->FindIndexIf((intptr_t)(&record), 0, (bool (*)(FUN_0049f7d0_elem *, int))(CallWithInt));
             if (index != -1)
             {
                 if (removed.FUN_00719b20(&index, 0, ((unsigned int (&)(const int *, const int *))::FUN_009a3830)) == -1)
@@ -9593,10 +9593,10 @@ void EdgeUpdater120::UpdateEdgeRecords(RecordArray120* arrays)
             }
             else
             {
-                if (reinterpret_cast<::FUN_0049f7d0_cls *>(&(arrays[1]))->FindIndexIf((int)(&record), 0, (bool (*)(FUN_0049f7d0_elem *, int))(CallWithInt)) == -1)
+                if (reinterpret_cast<::FUN_0049f7d0_cls *>(&(arrays[1]))->FindIndexIf((intptr_t)(&record), 0, (bool (*)(FUN_0049f7d0_elem *, int))(CallWithInt)) == -1)
                     reinterpret_cast<::FUN_0069b310_S *>(&(arrays[1]))->AppendElement((const ::EH *)(::EdgeRecord120 *)(&record));
             }
-            if (reinterpret_cast<::FUN_0049f7d0_cls *>((arrays))->FindIndexIf((int)(reinterpret_cast<EdgeRecord120*>(&record.second)), 0, (bool (*)(FUN_0049f7d0_elem *, int))(CallWithInt)) == -1)
+            if (reinterpret_cast<::FUN_0049f7d0_cls *>((arrays))->FindIndexIf((intptr_t)(reinterpret_cast<EdgeRecord120*>(&record.second)), 0, (bool (*)(FUN_0049f7d0_elem *, int))(CallWithInt)) == -1)
                 reinterpret_cast<::FUN_0069b310_S *>((arrays))->AppendElement((const ::EH *)(::EdgeRecord120 *)(reinterpret_cast<EdgeRecord120*>(&record.second)));
         }
     }

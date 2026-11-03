@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiPoint3;
 class RgbaColor;
@@ -17,4 +18,4 @@ void *FUN_004a4d40(::Target004a4d40 *);
 // 0x004a4e90
 void *FUN_004a4e90(int, ::NiPoint3 *, ::RgbaColor *);
 // 0x004a4f80
-::FUN_004a5280 *FUN_004a4f80(const float *, unsigned int);
+::FUN_004a5280 *FUN_004a4f80(const float *, uintptr_t);

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct B65E760Item;
 struct FUN_0065e9a0;
@@ -15,15 +16,15 @@ void FUN_0065e1f0(int, int, int);
 // 0x0065e260
 void UninitializedCopy(int *, int *, int *);
 // 0x0065e2d0
-namespace fnv_0065e2d0 { void FUN_0065e2d0(int, int, int); }
+namespace fnv_0065e2d0 { void FUN_0065e2d0(int, int, intptr_t); }
 // 0x0065e310
 namespace fnv_0065e310 { extern "C" void FUN_0065e310(int, int); }
 // 0x0065e360
-namespace fnv_0065e360 { void FUN_0065e360(int, int, int); }
+namespace fnv_0065e360 { void FUN_0065e360(int, int, intptr_t); }
 // 0x0065e3a0
 extern "C" void FUN_0065e3a0(int, int);
 // 0x0065e3f0
-namespace fnv_0065e3f0 { void FUN_0065e3f0(int, int, int); }
+namespace fnv_0065e3f0 { void FUN_0065e3f0(int, int, intptr_t); }
 // 0x0065e430
 namespace fnv_0065e430 { void *FUN_0065e430(unsigned int); }
 // 0x0065e480
@@ -39,7 +40,7 @@ namespace fnv_0065e630 { void FUN_0065e630(void *, void *, void *); }
 // 0x0065e670
 namespace fnv_0065e670 { void FUN_0065e670(unsigned int, int); }
 // 0x0065e6c0
-namespace fnv_0065e6c0 { void CallWithByteResult(int, int, int); }
+namespace fnv_0065e6c0 { void CallWithByteResult(int, int, intptr_t); }
 // 0x0065e700
 void *FUN_0065e700(unsigned int);
 // 0x0065e750

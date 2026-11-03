@@ -99,7 +99,7 @@ struct FUN_0056df20_Class
 void FUN_0056df20_Class::FUN_0056df20(const NiTransform& src)
 {
     FUN_0056ded0 local;
-    reinterpret_cast<::FUN_0056e050_Class *>(this)->FUN_0056e050((int)(&(*(::FUN_0056ded0 *)&(::FromHK((::hkTransform &)(local), src)))));
+    reinterpret_cast<::FUN_0056e050_Class *>(this)->FUN_0056e050((intptr_t)(&(*(::FUN_0056ded0 *)&(::FromHK((::hkTransform &)(local), src)))));
 }
 
 class hkVector4_56D

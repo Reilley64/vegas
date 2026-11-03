@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct C44E4A0RangeTag;
 struct C44E4A0ScalarTag;
@@ -13,7 +14,7 @@ void FUN_0044e360(unsigned long);
 // 0x0044e420
 void FUN_0044e420(void *, void *, void *, void *);
 // 0x0044e440
-void *FUN_0044e440(void *, unsigned int, void *, unsigned int);
+void *FUN_0044e440(void *, uintptr_t, void *, uintptr_t);
 // 0x0044e460
 void FUN_0044e460(int, int, int, int);
 // 0x0044e480

@@ -1419,7 +1419,7 @@ class FUN_00719160_cls
     virtual void Unk00();
     StrHolderSub m_04;
 
-    FUN_00719160_cls(const char* a1, int a2);
+    FUN_00719160_cls(const char* a1, intptr_t a2);
 };
 // Calls FUN_00719160 with p2 and p4, sets vtbl to DAT_0106f430 and c to p3, then returns this.
 // @fnv 0x00719250
@@ -1434,14 +1434,14 @@ FUN_00719250_class* FUN_00719250_class::Construct(int aiArg1, int aiValue, int a
 // @fnv 0x007192e0
 FUN_007192e0_Class::FUN_007192e0_Class(void* a, void* b, void* c)
 {
-    new ((void *)this) ::FUN_00719160_cls((const char *)((int)a), (int)c);
+    new ((void *)this) ::FUN_00719160_cls((const char *)((int)a), (intptr_t)c);
     vtbl = &DAT_0106f448;
     m_0c = b;
 }
 
 // Formats "&%s;" into m_04, resets it, then calls ReleaseWith with m_04.Get() and a2.
 // @fnv 0x00719160
-FUN_00719160_cls::FUN_00719160_cls(const char* a1, int a2)
+FUN_00719160_cls::FUN_00719160_cls(const char* a1, intptr_t a2)
 {
     ::FUN_00406f60((::FUN_00406f90_this *)(::StrHolderSub *)(&m_04), "&%s;", a1);
     ::FUN_004afad0((::BSStringT_layout *)&(m_04));
@@ -1553,12 +1553,12 @@ struct FUN_00501c10_Class
 struct FUN_0071df60_Class
 {
     void* FUN_0071e0d0();
-    void FUN_0071df60(int value);
+    void FUN_0071df60(intptr_t value);
 };
 
 // Retrieves an object via FUN_0071e0d0, passes value to the object at offset 8, then forwards the object to FUN_00559a70.
 // @fnv 0x0071df60
-void FUN_0071df60_Class::FUN_0071df60(int value)
+void FUN_0071df60_Class::FUN_0071df60(intptr_t value)
 {
     void* result = this->FUN_0071e0d0();
 
@@ -2642,7 +2642,7 @@ void ConsoleText::FUN_0071d0a0(const char* format, char* arguments)
             j = true;
         BSStringT<char> l;
         l = f;
-        reinterpret_cast<::FUN_0071df60_Class *>(&(lines))->FUN_0071df60((int)&(l));
+        reinterpret_cast<::FUN_0071df60_Class *>(&(lines))->FUN_0071df60((intptr_t)&(l));
         if (j)
             currentLine = ((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(lines))->GetName()));
         while (((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(lines))->GetName())) > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ConsoleSetting *>(&::g_011d8cf0)))))))

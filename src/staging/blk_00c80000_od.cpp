@@ -330,7 +330,7 @@ union __declspec(align(16)) ResultBuffer
 void* FUN_00c806b0(void* first, const void* second, bool option)
 {
     ResultBuffer result;
-    ::FUN_00c7fcc0((::S00c7fcc0_Obj *)(first), (int)(second), (::S00c7fcc0_Out *)(void *)(&result), option);
+    ::FUN_00c7fcc0((::S00c7fcc0_Obj *)(first), (intptr_t)(second), (::S00c7fcc0_Out *)(void *)(&result), option);
     return result.hit;
 }
 
@@ -438,7 +438,7 @@ struct FUN_00c99ff0_cls : FUN_00c99ff0_base
 FUN_00c99ff0_cls* FUN_00c99ff0_cls::FUN_00c99ff0(void* a1, __m128* a2, __m128* a3)
 {
     new ((void *)(((FUN_00c99ff0_base*)this))) ::fnv_00c69010::FUN_00c69010((::fnv_00c69010::ConstructorArgument *)(a1));
-    *(int*)this = (int)&DAT_010c69f4;
+    *(void**)this = (void*)&DAT_010c69f4;
     m_a0 = *a2;
     m_b0 = *a3;
     m_c0 = *(__m128*)((char*)a1 + 0x40);
@@ -1269,7 +1269,7 @@ struct Backend
 
     unsigned int unk008;
 
-    unsigned int unk00c;
+    void* unk00c;
 
     unsigned int unk010;
 
@@ -2374,7 +2374,7 @@ void __cdecl FUN_00c9b670(NiAVObject* object, const NiPoint3& velocity, unsigned
                         NiInterpControllerTriple* p = values;
                         do
                         {
-                            reinterpret_cast<::fnv_00c9b1a0::FUN_00c9b1a0_cls *>((controller))->FUN_00c9b1a0((unsigned int)&(*p));
+                            reinterpret_cast<::fnv_00c9b1a0::FUN_00c9b1a0_cls *>((controller))->FUN_00c9b1a0((uintptr_t)&(*p));
                             ++p;
                         } while (--count != 0);
                         controller->startTime = time;

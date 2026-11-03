@@ -273,7 +273,7 @@ extern unsigned int DAT_010c74ec;
 class FUN_00ca39a0
 {
   public:
-    unsigned int m_vtbl;   // 0x00
+    const void* m_vtbl;   // 0x00
     unsigned short unk04;  // 0x04 (untouched half)
     unsigned short m_w06;  // 0x06
     unsigned int m_d08;    // 0x08
@@ -298,7 +298,7 @@ FUN_00ca39a0::FUN_00ca39a0(float x)
     m_b16 = 6;
     m_quad50 = _mm_setzero_ps();
     m_b17 = 0;
-    m_vtbl = (unsigned int)&DAT_010c74ec;
+    m_vtbl = &DAT_010c74ec;
 }
 
 struct Ca39f0Vector4
@@ -1294,7 +1294,7 @@ void F7_Clone::FUN_00cbdb70(F7_Shape* dest, F7_Params* params)
     float scale = params->scale;
     if (scale != 1.0f)
         FUN_00cbd9e0(scale, dest);
-    reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(dest), (int)(params));
+    reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(dest), (intptr_t)(params));
 }
 
 namespace fnv_00cbeaf0 {
@@ -1755,7 +1755,7 @@ struct CbfOwner
 {
     int unk00;
     CbfSrc* m_04;
-    int m_08;
+    intptr_t m_08;
     int m_0C;
     int m_10;
     int unk14;
@@ -1770,20 +1770,20 @@ struct CbfOwner
     int unk38;
     int unk3C;
     int unk40;
-    int m_44;
-    void FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, int p4, int p5);
+    intptr_t m_44;
+    void FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, intptr_t p4, intptr_t p5);
 };
 
 // @fnv 0x00cbf860
-void CbfOwner::FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, int p4, int p5)
+void CbfOwner::FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, intptr_t p4, intptr_t p5)
 {
     cbfTimer(DAT_010c9268);
     m_04 = src;
     m_0C = p5;
     m_10 = 0;
-    m_08 = p3 != 0 ? (int)p3 + 0x14 : 0;
+    m_08 = p3 != 0 ? (intptr_t)p3 + 0x14 : 0;
     if (src->unk20 != 0)
-        m_44 = p3 != 0 ? (int)p3 + 0x10 : 0;
+        m_44 = p3 != 0 ? (intptr_t)p3 + 0x10 : 0;
     else
         m_44 = 0;
     CbfRayIn local;

@@ -180,7 +180,7 @@ void* FUN_00c66170(unsigned int uiSize)
 {
     unsigned char n = 0x10;
     unsigned char* p = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize + n);
-    n -= (unsigned char)((unsigned int)p & 0xf);
+    n -= (unsigned char)((uintptr_t)p & 0xf);
     p += n;
     p[-1] = n;
     return p;
@@ -293,9 +293,9 @@ struct FUN_00c66540_class
 // @fnv 0x00c66540
 int FUN_00c66540_class::InitVtableAndCall(int aiUnused)
 {
-    *(int*)this = (int)&DAT_010c3af8;
+    *(void**)this = (void*)&DAT_010c3af8;
     static_cast<::FUN_00cbf1a0_cls *>(nullptr)->FUN_00cbf1a0();
-    return (int)this;
+    return (intptr_t)this;
 }
 
 namespace fnv_00c66600 {
@@ -348,7 +348,7 @@ char* FUN_00c66fd0(struct BhkPickData* self)
 
 struct FUN_005533f0_cls
 {
-    void FUN_005533f0(unsigned int);
+    void FUN_005533f0(uintptr_t);
 };
 struct FUN_00c6a620_cls
 {
@@ -359,7 +359,7 @@ struct FUN_00c6a620_cls
 // @fnv 0x00c6a620
 void FUN_00c6a620_cls::SetField(void* pValue)
 {
-    ((FUN_005533f0_cls*)this)->FUN_005533f0((unsigned int)pValue);
+    ((FUN_005533f0_cls*)this)->FUN_005533f0((uintptr_t)pValue);
     m_field = pValue;
 }
 
@@ -594,7 +594,7 @@ struct FUN_00c75e00
 // @fnv 0x00c75e00
 void FUN_00c75e00::Init()
 {
-    m_iWordAt00 = (int)&::DAT_010c4ca4;
+    m_iWordAt00 = (intptr_t)&::DAT_010c4ca4;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
     ::FUN_00aa10f0(m_8);
 }
@@ -1060,7 +1060,7 @@ int FUN_00c66420::Init(int aiFlags)
     vtbl = &DAT_010c3b80;
     if (aiFlags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
-    return (int)this;
+    return (intptr_t)this;
 }
 
 
@@ -1400,7 +1400,7 @@ struct FUN_00c6b950 : NiCollisionObject
 // @fnv 0x00c6b950
 FUN_00c6b950::FUN_00c6b950(void* a) : NiCollisionObject(a)
 {
-    *(int*)this = (int)&DAT_010c4314;
+    *(void**)this = (void*)&DAT_010c4314;
     m_10 = 0;
     ++DAT_01267b60;
     m_iThirdValue = 0x41;
@@ -1884,7 +1884,7 @@ struct FUN_00c66510_cls
 // @fnv 0x00c66510
 FUN_00c66510_cls* FUN_00c66510_cls::FUN_00c66510(unsigned char acFlags)
 {
-    m_vptr = (int)&DAT_010c3bc4;
+    m_vptr = (intptr_t)&DAT_010c3bc4;
     reinterpret_cast<::FUN_00c93e50 *>(this)->FUN_00c93e50::~FUN_00c93e50();
     if (acFlags & 1)
     {
@@ -1940,7 +1940,7 @@ struct FUN_00c665f0_cls
 // @fnv 0x00c665f0
 void FUN_00c665f0_cls::FUN_00c665f0()
 {
-    m_vptr00 = (int)&DAT_010c3bb8;
+    m_vptr00 = (intptr_t)&DAT_010c3bb8;
 }
 
 class FUN_00c66de0_cls;
@@ -5705,7 +5705,7 @@ struct FUN_00c6c830_cls
 // @fnv 0x00c6c830
 void FUN_00c6c830_cls::FUN_00c6c830()
 {
-    m_vptr00 = (int)&DAT_010c446c;
+    m_vptr00 = (intptr_t)&DAT_010c446c;
 }
 
 struct S_00c6c840_Param
@@ -7146,7 +7146,7 @@ FUN_00c6d010_Class* FUN_00c6d010_Class::FUN_00c6d010(unsigned char flags)
 // @fnv 0x00c6d0e0
 int __cdecl FUN_00c6d0e0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_012685a4)));
+    return reinterpret_cast<intptr_t>(&(*reinterpret_cast<int *>(&::g_012685a4)));
 }
 
 // @fnv 0x00c6d0f0
@@ -10504,7 +10504,7 @@ struct FUN_00c760b0_cls
 // @fnv 0x00c760b0
 FUN_00c760b0_cls* FUN_00c760b0_cls::FUN_00c760b0(unsigned int acFlags)
 {
-    m_vptr = (int)&::fnv_00c75f80::DAT_010c4cf8;
+    m_vptr = (intptr_t)&::fnv_00c75f80::DAT_010c4cf8;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     ::FUN_00aa10f0((void *)(m_08));
     if (acFlags & 1)
@@ -11794,8 +11794,8 @@ void __cdecl EnableBehaviorsByKind(InputMap* input)
             behavior->valueAC = 0.0f;
             break;
         case 7:
-            reinterpret_cast<::FUN_00cdf290_cls *>((behavior))->SetFlagAndClearFloats((int)(item), (*(char *)&(const ::StateFlag &)(true)));
-            reinterpret_cast<::FUN_00cdf230_cls *>((behavior))->FUN_00cdf230((int)(&DAT_01268370));
+            reinterpret_cast<::FUN_00cdf290_cls *>((behavior))->SetFlagAndClearFloats((intptr_t)(item), (*(char *)&(const ::StateFlag &)(true)));
+            reinterpret_cast<::FUN_00cdf230_cls *>((behavior))->FUN_00cdf230((intptr_t)(&DAT_01268370));
             break;
         }
     }
@@ -11882,7 +11882,7 @@ void __cdecl UpdateEntriesByKind(ObjectContext* context)
                         ::FUN_00cb8fe0((char *)(view), (int)(entry), (*(int *)&(const ::UpdateOptions &)(false)), {});
                         break;
                     case 7:
-                        reinterpret_cast<::FUN_00cdf290_cls *>((view))->SetFlagAndClearFloats((int)(entry), (*(char *)&(const ::UpdateOptions &)(false)));
+                        reinterpret_cast<::FUN_00cdf290_cls *>((view))->SetFlagAndClearFloats((intptr_t)(entry), (*(char *)&(const ::UpdateOptions &)(false)));
                         break;
                     }
                 }
@@ -14193,7 +14193,7 @@ BC6DF60Phantom* BC6DF60Wrapper::GetOrCreatePhantom(bool* pbCreated)
     {
         m_pkPhantom = new BC6DF60Phantom(true);
         if (m_pkWorld)
-            reinterpret_cast<::FUN_00cabfd0_Obj *>(this)->FUN_00cabfd0((int)(m_pkPhantom));
+            reinterpret_cast<::FUN_00cabfd0_Obj *>(this)->FUN_00cabfd0((intptr_t)(m_pkPhantom));
     }
     return m_pkPhantom;
 }
@@ -16956,7 +16956,7 @@ struct S00c6d040_A : public bhkRefInitBase
     {
         m_0c = 0;
         m_10 = 0;
-        m_vft = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_01030394));
+        m_vft = (uintptr_t)&(*reinterpret_cast<unsigned int *>(&::DAT_01030394));
         (*reinterpret_cast<unsigned int *>(&::DAT_0126810c)) += 1;
     }
 };
@@ -16965,7 +16965,7 @@ struct S00c6d040_B : public S00c6d040_A
 {
     S00c6d040_B()
     {
-        m_vft = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_0103078c));
+        m_vft = (uintptr_t)&(*reinterpret_cast<unsigned int *>(&::DAT_0103078c));
         DAT_01268238 += 1;
     }
 };
@@ -16975,7 +16975,7 @@ struct S00c6d040_C : public S00c6d040_B
     unsigned char m_14;
     S00c6d040_C()
     {
-        m_vft = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_010306b4));
+        m_vft = (uintptr_t)&(*reinterpret_cast<unsigned int *>(&::DAT_010306b4));
         (*reinterpret_cast<unsigned int *>(&::DAT_01268208)) += 1;
         m_14 = 0;
     }
@@ -16990,7 +16990,7 @@ struct FUN_00c6d040 : public S00c6d040_C
 // @fnv 0x00c6d040
 FUN_00c6d040::FUN_00c6d040(unsigned int a)
 {
-    m_vft = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_010c4694));
+    m_vft = (uintptr_t)&(*reinterpret_cast<unsigned int *>(&::DAT_010c4694));
     reinterpret_cast<::S00cc2530_Owner306 *>(this)->FUN_00cc2530((::S00cc2530_Source306 *)(a));
     (*reinterpret_cast<unsigned int *>(&::DAT_012685a0)) += 1;
     m_14 = 0;
@@ -19506,7 +19506,7 @@ struct Controller047
 void Controller047::AttachSceneNode(Scene047* node)
 {
     ThreadMemoryScope memoryScope;
-    if (((int)(reinterpret_cast<::FUN_00c6e0b0_Class *>(this)->FUN_00c6e0b0())))
+    if (((intptr_t)(reinterpret_cast<::FUN_00c6e0b0_Class *>(this)->FUN_00c6e0b0())))
         return;
     if (!node)
     {
@@ -19533,7 +19533,7 @@ void Controller047::AttachSceneNode(Scene047* node)
     {
         FUN_00a5ecb0* created = new FUN_00a5ecb0(0);
         node->clone(created, 1);
-        ::AssignFixedString((char *)(created), (int)&(const ::fnv_00c6fd80::NiFixedString &)(NiFixedString(&(*reinterpret_cast<char *>((void *)&::DAT_010c43d8)))), {});
+        ::AssignFixedString((char *)(created), (intptr_t)&(const ::fnv_00c6fd80::NiFixedString &)(NiFixedString(&(*reinterpret_cast<char *>((void *)&::DAT_010c43d8)))), {});
         float inverse = 1.0f / node->scale;
         NiPoint3 buffer;
         const NiPoint3* result = ((::NiPoint3 *)&(::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&buffer)), (*(const ::hkVector4 *)(&offset)))));
@@ -20117,7 +20117,7 @@ int FUN_00c74780_StandIn::FUN_00c74780(unsigned char param_2)
     if (param_2 & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_cls *>(&::g_memoryManager))))->FUN_00aa4060(reinterpret_cast<FUN_00c68f50_cls*>(this));
 
-    return reinterpret_cast<int>(this);
+    return reinterpret_cast<intptr_t>(this);
 }
 
 struct QuatResult
@@ -24254,7 +24254,7 @@ void ControllerC73::FUN_00c73ed0(InputC73* pkInput)
     fValue54c = pkInput->fValue90;
     iValue604 = pkInput->iValueb4;
     pkInput->pvHandle = kPrimary.m_pObject ? kPrimary.m_pObject->pvHandle : 0;
-    reinterpret_cast<::CAC300Owner *>(this)->FUN_00cac300((int)(pkInput));
+    reinterpret_cast<::CAC300Owner *>(this)->FUN_00cac300((intptr_t)(pkInput));
     if (pkNode->m_bDecalsEnabled)
         pkNode->m_bDecalsEnabled = true;
     else
@@ -27519,7 +27519,7 @@ void bhkCollisionProxy::FUN_00c6bd60(bool bEnable)
             }
 
             NiNodeV* fScale = new NiNodeV(0);
-            ::AssignFixedString((char *)(fScale), (int)&(const ::NiFixedString &)(NiFixedString("bhkColDisp")), {});
+            ::AssignFixedString((char *)(fScale), (intptr_t)&(const ::NiFixedString &)(NiFixedString("bhkColDisp")), {});
 
             if (a)
             {
@@ -27578,7 +27578,7 @@ void bhkCollisionProxy::FUN_00c6bd60(bool bEnable)
             {
                 NiAVObjV* b = a->m_ppChildren[i];
                 NiAVObjV* pkColDisp =
-                    b ? ((::NiAVObjV *)(reinterpret_cast<::fnv_00a59e20::NiAVObject *>((b))->FUN_00a59e20((int)&(const ::NiFixedString &)(NiFixedString(NiGlobalStringTable::AddString("bhkColDisp"), 0))))) : 0;
+                    b ? ((::NiAVObjV *)(reinterpret_cast<::fnv_00a59e20::NiAVObject *>((b))->FUN_00a59e20((intptr_t)&(const ::NiFixedString &)(NiFixedString(NiGlobalStringTable::AddString("bhkColDisp"), 0))))) : 0;
                 if (pkColDisp)
                 {
                     NiPointer<NiAVObjV> spOld;
@@ -28967,7 +28967,7 @@ bool Host::FUN_00c69960(C69960Arg* apSource, C69960Arg* apTarget)
                                 ::FromHK((*(::hkTransform *)(&matTransform)), (*(const ::NiTransform *)(&apSource->m_34)));
                                 Rotate(vTemp.q, work->m_20.q, work->m_30.q);
                                 objAC.FUN_00c7f640(&matTransform, &vTemp);
-                                reinterpret_cast<::FUN_00827200_class *>(&(obj60))->FUN_00cb26e0((int)(&matTransform));
+                                reinterpret_cast<::FUN_00827200_class *>(&(obj60))->FUN_00cb26e0((intptr_t)(&matTransform));
                                 ::fnv_00c66320::FUN_00c66320((__m128 *)&(obj74), &work->m_20, (const __m128 *)(void *)(&obj60), {});
                                 RotateInverse(vTemp.q, work->m_20.q, objAC.m_00.q);
                                 work->m_30.q = vTemp.q;
@@ -29002,7 +29002,7 @@ bool Host::FUN_00c69960(C69960Arg* apSource, C69960Arg* apTarget)
             ctx.m_10 = 0;
             ctx.m_14 = 0;
             ctx.m_18 = 1;
-            int cb = (int)(*reinterpret_cast<void (**)(NiCollisionObject *, CollisionObjectCountContext *)>(&::DAT_011afe88));
+            int cb = (intptr_t)(*reinterpret_cast<void (**)(NiCollisionObject *, CollisionObjectCountContext *)>(&::DAT_011afe88));
             if (cb)
                 ::FUN_00c68900((::S_00c68900_Node *)(apTarget), (::S_00c68900_Context *)(void *)(&ctx), (void (*)(void *, S_00c68900_Context *))(cb));
         }

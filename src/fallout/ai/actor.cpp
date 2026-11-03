@@ -1,5 +1,6 @@
 // fallout/ai/actor.cpp: ActorValue, ActorX, Holder, ActorStub and more (806 functions)
 
+#include "fnv/tls.h"
 #include "fnv/simple_array_item.h"
 #include "fnv/result_slot.h"
 #include <intrin.h>
@@ -35194,7 +35195,7 @@ char FUN_008bbbd0_Class::GetByteAt650()
     return ((char*)this)[0x650];
 }
 
-int __declspec(thread) DAT_008bff30_tls;
+thread_local int DAT_008bff30_tls;
 
 // @fnv 0x008bff30
 void __cdecl SetTlsInt(int arg)
@@ -155132,12 +155133,12 @@ struct BCB9810AllocTagScope
 
     BCB9810AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~BCB9810AllocTagScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 

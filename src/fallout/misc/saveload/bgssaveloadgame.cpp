@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadgame.cpp: BGSSaveLoadGame, DelStandIn, BGSSaveLoadGameImpl, FakeGame and more (59 functions)
 
+#include "fnv/tls.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/B45CDA0TES.h"
@@ -427,21 +428,14 @@ struct FUN_00849c00_shell : public BGSSaveLoadGame
     void FUN_00849c00(bool);
 };
 
-struct TLSData_00849c00
-{
-    char pad[0x294];
-    unsigned int uiFlags;
-};
-
-static __declspec(thread) TLSData_00849c00 g_tlsData_00849c00;
 
 // @fnv 0x00849c00
 void FUN_00849c00_shell::FUN_00849c00(bool abValue)
 {
     if (abValue)
-        g_tlsData_00849c00.uiFlags |= 2;
+        ::g_tlsBlock.threadFlags |= 2;
     else
-        g_tlsData_00849c00.uiFlags &= ~2;
+        ::g_tlsBlock.threadFlags &= ~2;
 }
 
 struct FUN_00849c80_shell : public BGSReconstructFormsInAllFilesMap

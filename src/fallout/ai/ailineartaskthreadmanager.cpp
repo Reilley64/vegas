@@ -1,5 +1,6 @@
 // fallout/ai/ailineartaskthreadmanager.cpp: AIThreadManager (21 functions)
 
+#include "fnv/tls.h"
 #include <windows.h>
 #include <new>
 #include "fnv/decl/BGSDestructibleObjectForm.h"
@@ -335,9 +336,9 @@ bool __cdecl FUN_008c7aa0()
 
 __declspec(thread) int DAT_tls_0264;
 // @fnv 0x0047b200
-int FUN_0047b200()
+::TESObjectREFR* FUN_0047b200()
 {
-    return DAT_tls_0264;
+    return g_tlsBlock.loading3DRef;
 }
 
 struct FUN_0086c600_shell

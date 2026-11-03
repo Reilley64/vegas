@@ -1,5 +1,6 @@
 // fallout/ai/combat/projectile.cpp: Projectile, BGSProjectile, Holder, PlayerCharacter and more (71 functions)
 
+#include "fnv/tls.h"
 #include "fnv/result_slot.h"
 #include <new>
 #include <cmath>
@@ -12515,11 +12516,11 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float
 
 inline int GetMemContext()
 {
-    return (*reinterpret_cast<int *>(&::currentAllocationContext));
+    return ::g_tlsBlock.memoryContext;
 }
 inline void SetMemContext(int aiMemoryContext)
 {
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+    ::g_tlsBlock.memoryContext = aiMemoryContext;
 }
 
 struct MemContextGuard

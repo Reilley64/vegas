@@ -1,5 +1,6 @@
 // fallout/misc/garbagecollector.cpp: GarbageCollector (22 functions)
 
+#include "fnv/tls.h"
 #include <cstdint>
 #include "fnv/decl/Animation.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -109,7 +110,7 @@ void __cdecl AddNavMeshToGarbageCollector(NavMeshPtr& apNavMesh)
 {
     TwoPointerRecord tempAutoEvent(0x20, "GarbageCollector::Add(NavMeshPtr)");
     reinterpret_cast<::FUN_0040f6e0_class *>(&(((NavMesh*)apNavMesh)->debug))->FUN_0040f6e0();
-    if (::g_tls_0298)
+    if (::g_tlsBlock.flag298)
     {
         NavMesh* mesh = apNavMesh.FUN_00458b50();
         reinterpret_cast<::FUN_00438690 *>(&(g_011de924))->FUN_007cb2e0((unsigned int *)&(mesh));
@@ -143,8 +144,8 @@ void FUN_00868d70(bool abTryLock)
     if (bLocked)
     {
         DAT_011de958 = true;
-        bool bWasCollecting = ::g_tls_0298;
-        ::g_tls_0298 = false;
+        bool bWasCollecting = ::g_tlsBlock.flag298;
+        ::g_tlsBlock.flag298 = false;
         if (!HasFlags(0x10) && BSSpinLockGlobalTryLock())
         {
             reinterpret_cast<::fnv_00c5ac00::ArrObj *>(&(g_011de828))->FUN_004dffa0();
@@ -197,8 +198,8 @@ void FUN_00868d70(bool abTryLock)
                 g_011de924.GetAt(i)->debug.FUN_00401970();
             reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(g_011de924))->Clear(true);
         }
-        ::g_tls_0298 = bWasCollecting;
-        if (::g_tls_0298)
+        ::g_tlsBlock.flag298 = bWasCollecting;
+        if (::g_tlsBlock.flag298)
         {
             ::ForEachNavMesh((::GlobalObject_004aff00 *)(void *)(&(*reinterpret_cast<::NiTObjectArray< ::TESObjectREFR *> *>(&::g_011de8bc))), (::Caller008693c0 *)(void *)(&(*reinterpret_cast<::NiTObjectArray< ::TESObjectREFR *> *>(&::g_011de874))));
             ::FUN_005e03d0((::NiTArray_Layout *)(((NiTPrimitiveArray_unsigned_int_*)&(*reinterpret_cast<::NiTObjectArray< ::TESObjectREFR *> *>(&::g_011de8bc)))));
@@ -532,7 +533,7 @@ struct FUN_008693f0_Class
 void __cdecl FUN_00868490(int aiEffect)
 {
     TwoPointerRecord e(0x10, "GarbageCollector::Add(BSTempEffect)");
-    if (::g_tls_0298)
+    if (::g_tlsBlock.flag298)
     {
         GO p(aiEffect);
         ((FUN_008693f0_Class*)&g_011de828)->FUN_008693f0((int)&p);
@@ -554,7 +555,7 @@ void __cdecl FUN_00868560(GarbageCollectorDeleteB* apObject)
 {
     TwoPointerRecord autoEvent(4, "GarbageCollector::Add(BipedAnim)");
 
-    if (!::g_tls_0298 || (g_BGSSaveLoadGame != 0 && reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((g_BGSSaveLoadGame))->FUN_0042ce10()))
+    if (!::g_tlsBlock.flag298 || (g_BGSSaveLoadGame != 0 && reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((g_BGSSaveLoadGame))->FUN_0042ce10()))
     {
         if (g_modelLoader->FUN_00868250())
         {
@@ -592,7 +593,7 @@ void FUN_00868660(NiAVObject* apObject)
         reinterpret_cast<FUN_00868740_shell*>(apObject)->FUN_00868740();
     }
 
-    if (::g_tls_0298)
+    if (::g_tlsBlock.flag298)
     {
         GO object(reinterpret_cast<int>(apObject));
         reinterpret_cast<NiTArray<NiPointer<NiAVObject>, NiTNewInterface<NiPointer<NiAVObject> > >*>(&g_011de888)
@@ -642,7 +643,7 @@ void AddAnimationToGarbageCollector(AnimationObject* object)
             reinterpret_cast<::ControllerOwner *>((pRoot))->FUN_00a5c480((::NiTimeController *)(controller));
     }
     reinterpret_cast<::FUN_00445430_cls *>((((AnimationLoader*)g_modelLoader)))->FUN_00445430((unsigned int)(object));
-    if (!::g_tls_0298 || (g_BGSSaveLoadGame && reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((g_BGSSaveLoadGame))->FUN_0042ce10()))
+    if (!::g_tlsBlock.flag298 || (g_BGSSaveLoadGame && reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((g_BGSSaveLoadGame))->FUN_0042ce10()))
     {
         delete (GarbageCollectorDeleteA*)object;
     }

@@ -1,4 +1,5 @@
 
+#include "fnv/tls.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/Actor.h"
@@ -1026,7 +1027,6 @@ bool FUN_00841e20_shell::HasFlagInAnyFile(unsigned int flags)
 }
 }  // namespace fnv_00841e20
 
-__declspec(thread) unsigned int DAT_00843c10_tls;
 
 struct FUN_00843c10_shell
 {
@@ -1037,9 +1037,9 @@ struct FUN_00843c10_shell
 void FUN_00843c10_shell::SetFlag4(bool bSet)
 {
     if (bSet)
-        DAT_00843c10_tls |= 4;
+        ::g_tlsBlock.threadFlags |= 4;
     else
-        DAT_00843c10_tls &= 0xfffffffb;
+        ::g_tlsBlock.threadFlags &= 0xfffffffb;
 }
 
 extern int DAT_0107ec08;

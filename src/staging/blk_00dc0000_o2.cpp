@@ -51,6 +51,9 @@
 
 struct FUN_00dd4b10_struct
 {
+    int unk00;
+    int unk04;
+    unsigned int m_auiValues[6];
     void AssignFromSource(const void* p);
 };
 
@@ -59,12 +62,12 @@ struct FUN_00dd4b10_struct
 void FUN_00dd4b10_struct::AssignFromSource(const void* pSource)
 {
     const unsigned int* src = (const unsigned int*)pSource;
-    *(unsigned int*)((char*)this + 8) = src[0];
-    *(unsigned int*)((char*)this + 12) = src[1];
-    *(unsigned int*)((char*)this + 16) = src[2];
-    *(unsigned int*)((char*)this + 20) = src[3];
-    *(unsigned int*)((char*)this + 24) = src[4];
-    *(unsigned int*)((char*)this + 28) = src[5];
+    m_auiValues[0] = src[0];
+    m_auiValues[1] = src[1];
+    m_auiValues[2] = src[2];
+    m_auiValues[3] = src[3];
+    m_auiValues[4] = src[4];
+    m_auiValues[5] = src[5];
 }
 
 struct FUN_00dd4b40_Class
@@ -125,9 +128,21 @@ void FUN_00dd5170_class::CopySixInts(const int* pSource)
     h = pSource[5];
 }
 
+struct DD8C20Node;
+struct DD8C20Link
+{
+    DD8C20Node* m_pPrev;
+    DD8C20Node* m_pNext;
+};
+struct DD8C20Node : DD8C20Link
+{
+    int unk08;
+    int m_iValue;
+};
 struct FUN_00dd8c20_class
 {
-    int m_field;
+    char m_pad00[0xa4];
+    DD8C20Link m_kSentinel;
     int SumListValues();
 };
 
@@ -135,12 +150,12 @@ struct FUN_00dd8c20_class
 int FUN_00dd8c20_class::SumListValues()
 {
     int total = 0;
-    void* current = *(void**)((char*)this + 0xa8);
-    void* end = (char*)this + 0xa4;
+    DD8C20Node* current = m_kSentinel.m_pNext;
+    DD8C20Node* end = static_cast<DD8C20Node*>(&m_kSentinel);
     while (current != end)
     {
-        total += *(int*)((char*)current + 0xc);
-        current = *(void**)((char*)current + 4);
+        total += current->m_iValue;
+        current = current->m_pNext;
     }
     return total;
 }
@@ -156,14 +171,18 @@ template <class K> struct KeyMarker
 
 struct FUN_00ddf050_cls
 {
+    char m_pad00[0x18];
+    unsigned long m_ulCount;
+    int unk1c;
+    HashEntryTable<unsigned long, unsigned long, KeyMarker<unsigned long> > m_kTable;
     void ClearContainer();
 };
 
 // @fnv 0x00ddf050
 void FUN_00ddf050_cls::ClearContainer()
 {
-    reinterpret_cast<::FUN_00cb1a60_t *>((((HashEntryTable<unsigned long, unsigned long, KeyMarker<unsigned long> >*)((char*)this + 0x20))))->ResetEntries();
-    *(unsigned long*)((char*)this + 0x18) = 0;
+    reinterpret_cast<::FUN_00cb1a60_t *>(&m_kTable)->ResetEntries();
+    m_ulCount = 0;
 }
 
 struct FUN_00dd0420_Class
@@ -262,6 +281,14 @@ struct CountArray
 };
 
 void* __cdecl _D1A0E0GetMemoryRouter();
+struct DCMemoryRouter
+{
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* m_pStreamAllocator;
+};
 
 struct FUN_00dc9e70_Class
 {
@@ -287,7 +314,7 @@ FUN_00dc9e70_Class* FUN_00dc9e70_Class::FUN_00dc9e70()
     p->m_04 = 0;
     p->m_08 = 0xffffffff;
     void* router = _D1A0E0GetMemoryRouter();
-    reinterpret_cast<::FUN_00cb1fe0_t *>((p))->EnsureCapacity((intptr_t)(*(void**)((char*)router + 0x10)), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>((p))->EnsureCapacity((intptr_t)(static_cast<DCMemoryRouter*>(router)->m_pStreamAllocator), 0);
     m_18 = 0xffffffff;
     return this;
 }
@@ -318,11 +345,16 @@ struct FUN_00cb0a70
 {
     void m(int);
 };
+struct DCCAE0Object
+{
+    int unk00;
+    FUN_00cb0a70 m_kMember;
+};
 // @fnv 0x00dccae0
 void __cdecl FUN_00dccae0(void* a, void* iValue)
 {
     if (a)
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)a + 4))))->FUN_00cb0a70((intptr_t)iValue);
+        reinterpret_cast<::FUN_00cb0a70_Class *>(&static_cast<DCCAE0Object*>(a)->m_kMember)->FUN_00cb0a70((intptr_t)iValue);
 }
 
 struct S_00d49310_Lock
@@ -379,12 +411,14 @@ struct D2B3D0Map
 };
 struct FUN_00ddf030_Class
 {
+    char m_pad00[0x20];
+    D2B3D0Map m_kMap;
     void FUN_00ddf030(int arg);
 };
 // @fnv 0x00ddf030
 void FUN_00ddf030_Class::FUN_00ddf030(int arg)
 {
-    reinterpret_cast<::FUN_00cb1a60_t *>((((D2B3D0Map*)((char*)this + 0x20))))->ResetEntries();
+    reinterpret_cast<::FUN_00cb1a60_t *>(&m_kMap)->ResetEntries();
 }
 
 namespace fnv_00ddf040 {
@@ -406,10 +440,14 @@ struct FUN_00ddfb80_s
     void* m_vt;
     unsigned short m_02;
     unsigned short m_04;
-    unsigned short m_06;
-    unsigned short m_08;
+    void* m_08;
     void* m_0c;
-    void* m_10;
+    unsigned int m_10;
+};
+struct DDFB80Source
+{
+    void* m_00;
+    void* m_04;
 };
 
 // Initialises the object: sets field at offset 6 to 1, assigns the vtable, copies two pointers from src, and zeroes the field at offset 16.
@@ -418,9 +456,10 @@ FUN_00ddfb80_s* FUN_00ddfb80(FUN_00ddfb80_s* self, intptr_t, const void* src)
 {
     self->m_04 = 1;
     self->m_vt = &DAT_010d8094;
-    *(void**)((char*)self + 8) = *(void**)((char*)src + 0);
-    self->m_0c = *(void**)((char*)src + 4);
-    *(unsigned int*)((char*)self + 16) = 0;
+    const DDFB80Source* pkSource = static_cast<const DDFB80Source*>(src);
+    self->m_08 = pkSource->m_00;
+    self->m_0c = pkSource->m_04;
+    self->m_10 = 0;
     return self;
 }
 
@@ -2972,7 +3011,7 @@ void FUN_00dd9d20_Object::FUN_00dd9d20()
         DeleteCriticalSection(static_cast<LPCRITICAL_SECTION>(criticalSection));
 
         void* audio = FUN_00c85750();
-        FUN_00dd9d20_Target* target = *reinterpret_cast<FUN_00dd9d20_Target**>(reinterpret_cast<char*>(audio) + 0x10);
+        FUN_00dd9d20_Target* target = static_cast<FUN_00dd9d20_Target*>(static_cast<::DCMemoryRouter*>(audio)->m_pStreamAllocator);
 
         target->vf08(criticalSection, 0x18);
     }

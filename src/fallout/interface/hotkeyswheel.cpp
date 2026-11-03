@@ -931,12 +931,12 @@ void HotkeyWheelUpdate::FUN_007017b0()
             {
                 reinterpret_cast<HotkeyStringCalls&>(str3).FUN_00438390(str_InterfaceIcons);
                 reinterpret_cast<HotkeyStringCalls&>(str3).FUN_00404820(
-                    ::fnv_00479540::GetMenuIconName(BGSEquipType::GetEquipType(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item3))->GetName())))));
+                    ::fnv_00479540::GetMenuIconName(BGSEquipType::GetEquipType(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((item3))->m_pItemObject)))));
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((this->m_ppHotkeySlotTiles[i]))->FUN_00a01350(FUN_00a01860(str_HotKeyIcon), (char *)(((const char *)(::FUN_00559450((int *)&(str3))))), true);
                 this->m_ppHotkeySlotTiles[i]->Set(FUN_00a01860(str_HotKeyAssigned), 1);
-                if (((std::intptr_t)(reinterpret_cast<::Callees *>((item3))->FUN_00726070())) > 1)
+                if (((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item3))->m_iCountChange)) > 1)
                 {
-                    ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&str3), str_FormatCount, reinterpret_cast<::FUN_004be2d0_shell *>((item3))->GetTargetFullName(), ((std::intptr_t)(reinterpret_cast<::Callees *>((item3))->FUN_00726070())));
+                    ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&str3), str_FormatCount, reinterpret_cast<::FUN_004be2d0_shell *>((item3))->GetTargetFullName(), ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item3))->m_iCountChange)));
                 }
                 else
                 {

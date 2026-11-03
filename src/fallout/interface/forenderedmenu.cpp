@@ -1,5 +1,6 @@
 // fallout/interface/forenderedmenu.cpp: FORenderedMenu, MenuStub, FOPipboyManager, HOLDER and more (44 functions)
 
+#include "fallout/interface/av_object_fields.h"
 #include "fallout/interface/tile_fields.h"
 #include <cstdint>
 #include <new>
@@ -270,7 +271,7 @@ bool FORenderedMenu::CreateMenuLight(const char* nodeName, ShadowSceneNode* shad
             reinterpret_cast<::FUN_00440460_S *>(((m_pMenuLight).operator->()))->FUN_00440460((const ::V3 *)&(kTranslate));
             reinterpret_cast<::fnv_00b5c940::SSNode *>((pResolvedShadowNode))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(::NiLight *)((NiLight*)(NiPointLight*)m_pMenuLight), true);
             m_pSecondaryMenuObject = pResolvedShadowNode;
-            ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((pNode))->FUN_009611e0()))->AddObject(m_pMenuLight, true);
+            ((::NiNode *)(reinterpret_cast<::AVObjectFields *>((pNode))->m_pkParent))->AddObject(m_pMenuLight, true);
             NiUpdateData kData(0.0f, false, false);
             reinterpret_cast<::FUN_00a59c60_cls *>(((m_pMenuBackgroundScreenGeometry).operator->()))->FUN_00a59c60((std::intptr_t)&(kData));
             reinterpret_cast<::TaskQueueInterface *>(((m_pMenuLight).operator->()))->QueueActorDisarm(true);
@@ -607,8 +608,8 @@ struct FUN_007fb040_shell : public MenuStub
 // @fnv 0x007fb040
 void FUN_007fb040_shell::FUN_007fb040()
 {
-    if (((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(this)))->FUN_009611e0())))
-        ::FUN_00867a20((void *)(reinterpret_cast<Menu*>(((::fnv_007fb040::Menu *)(reinterpret_cast<::FUN_00a03c90_shell *>((reinterpret_cast<Tile*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(this)))->FUN_009611e0())))))->FUN_00a03c90())))));
+    if (((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(this)))->m_pkParent)))
+        ::FUN_00867a20((void *)(reinterpret_cast<Menu*>(((::fnv_007fb040::Menu *)(reinterpret_cast<::FUN_00a03c90_shell *>((reinterpret_cast<Tile*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(this)))->m_pkParent)))))->FUN_00a03c90())))));
     reinterpret_cast<::FUN_00a079d0_shell *>((((FUN_00a079d0_shell*)((::fnv_007fb040::Tile *)(::Interface::GetPrimaryInterfaceTile())))))->UpdateTileChildren();
     if (unk1c.operator unsigned int())
         reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(unk1c.operator unsigned int())))->QueueActorDisarm(false);

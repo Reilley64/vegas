@@ -503,7 +503,7 @@ void __cdecl FUN_007b7020(int target)
         float percent = reinterpret_cast<::FUN_004bcdb0_shell *>(((*reinterpret_cast<::fnv_007b7020::RepairInventory * *>(&::fnv_007b6fb0::DAT_011da760))))->FUN_004bcdb0(1) / ::g_d100;
         reinterpret_cast<::FUN_00a012d0_t *>((reinterpret_cast<RepairTile*>(DAT_011da75c->m_pTiles[4])))->FUN_00a012d0(0x1004, percent, 1);
         reinterpret_cast<::Tile *>((reinterpret_cast<RepairTile*>(DAT_011da75c->m_pTiles[4])))->Set(0xfa3, 1);
-        RepairForm* form = ((::fnv_007b7020::RepairForm *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::fnv_007b7020::RepairInventory * *>(&::fnv_007b6fb0::DAT_011da760))))->GetName()));
+        RepairForm* form = ((::fnv_007b7020::RepairForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_007b7020::RepairInventory * *>(&::fnv_007b6fb0::DAT_011da760))))->m_pItemObject));
         int type = form->FUN_00401170();
         if (type == 0x28)
         {
@@ -1013,13 +1013,13 @@ void RepairAction::ApplyRepair(HealthOwner* source)
                                     reinterpret_cast<::FUN_004bcdb0_shell *>((source))->FUN_004bcdb0(true), 0) /
                 100.0;
     repairVal = FUN_0040ebd0(repairVal, 1.0f);
-    TESObjectWEAP* bound = dynamic_cast<TESObjectWEAP*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((RepairInventoryItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))))->GetName())));
+    TESObjectWEAP* bound = dynamic_cast<TESObjectWEAP*>(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((((RepairInventoryItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))))->m_pItemObject)));
     if (bound)
         repairVal *= reinterpret_cast<::FUN_004bcf00_stand *>((bound))->GetModdedValue(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((((RepairInventoryItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))))->HasEffect(10));
     else
-        repairVal *= ::TESHealthForm::GetBaseHealth((::TESForm *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((RepairInventoryItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))))->GetName()))));
+        repairVal *= ::TESHealthForm::GetBaseHealth((::TESForm *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((((RepairInventoryItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))))->m_pItemObject))));
     RepairInventoryItem* entryTmp =
-        ((::RepairInventoryItem *)(reinterpret_cast<::FUN_004bfba0_shell *>((((::RepairInventoryChanges *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::PlayerStub * *>(&::_g_thePlayer))))))))->FUN_004bfba0(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((RepairInventoryItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))))->GetName())), true, false)));
+        ((::RepairInventoryItem *)(reinterpret_cast<::FUN_004bfba0_shell *>((((::RepairInventoryChanges *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::PlayerStub * *>(&::_g_thePlayer))))))))->FUN_004bfba0(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((((RepairInventoryItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))))->m_pItemObject)), true, false)));
     ExtraDataList* extra7 = ((::RepairExtraNode *)(::FUN_00559450((int *)(((RepairInventoryItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))))))
                                 ? ((::ExtraDataList *)(reinterpret_cast<::SimpleListNodeView*>(((::RepairExtraNode *)(::FUN_00559450((int *)(((RepairInventoryItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760))))))))->m_item))
                                 : 0;
@@ -1144,7 +1144,7 @@ void PreviewMenu::UpdatePreviewComparison(int event, PreviewTile* target)
         if (item7 && (*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))
         {
             float limitX = 75.0f;
-            if (((::PreviewForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item7))->GetName()))->Type() == 24)
+            if (((::PreviewForm *)(reinterpret_cast<::InventoryEntryFields *>((item7))->m_pItemObject))->Type() == 24)
                 limitX = 50.0f;
             if (limitX <= reinterpret_cast<::FUN_004bcdb0_shell *>((item7))->FUN_004bcdb0(true))
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((PreviewMenu*)DAT_011da75c)->tile54))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::PreviewSetting *>(&::g_011d3dcc))))->GetMenuTitle()))), true);
@@ -1178,19 +1178,19 @@ void PreviewMenu::UpdatePreviewComparison(int event, PreviewTile* target)
                     reinterpret_cast<::FUN_00a012d0_t *>((tile4c))->FUN_00a012d0(0x1004, health4, true);
                     reinterpret_cast<::Tile *>((tile4c))->Set(0xfa3, 1);
                     reinterpret_cast<::Tile *>((tile48))->Set(0xfa3, 0);
-                    if (((::PreviewForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((PreviewItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))))->GetName()))->Type() == 40)
+                    if (((::PreviewForm *)(reinterpret_cast<::InventoryEntryFields *>((((PreviewItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))))->m_pItemObject))->Type() == 40)
                     {
                         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile50))->FUN_00a01350(::DAT_011da74c, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::PreviewSetting *>(&::g_011d2c7c))))->GetMenuTitle()))), true);
                         reinterpret_cast<::Tile *>((tile50))->Set(::DAT_011da754,
-                                       (int)::InventoryStackRecord::RoundToNearestStep(::GetWeaponDamage((::TESObjectWEAP *)(::PreviewForm *)(((::PreviewForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((PreviewItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))))->GetName()))), health4,
+                                       (int)::InventoryStackRecord::RoundToNearestStep(::GetWeaponDamage((::TESObjectWEAP *)(::PreviewForm *)(((::PreviewForm *)(reinterpret_cast<::InventoryEntryFields *>((((PreviewItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))))->m_pItemObject))), health4,
                                                                      (::DamageExtra *)(::PreviewItem *)((PreviewItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760))), (::TESAmmo *)(0)),
                                                          1.0f));
                     }
-                    else if (((::PreviewForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item7))->GetName()))->Type() == 24)
+                    else if (((::PreviewForm *)(reinterpret_cast<::InventoryEntryFields *>((item7))->m_pItemObject))->Type() == 24)
                     {
                         char empty[128];
                         {
-                            PreviewForm* armor = ((::PreviewForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((PreviewItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))))->GetName()));
+                            PreviewForm* armor = ((::PreviewForm *)(reinterpret_cast<::InventoryEntryFields *>((((PreviewItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))))->m_pItemObject));
                             float oldhealth5 = reinterpret_cast<::FUN_004bcdb0_shell *>((((PreviewItem*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))))->FUN_004bcdb0(true) / 100.0;
                             float oldarmor = ((double)(::CombatDamageCalculator::CalculateArmorDamageThreshold((int)((float)(::FUN_004be060((void *)(armor)))), oldhealth5)));
                             float oldthreshold3 = ((double)(::CombatDamageCalculator::CalculateArmorDamageThreshold((int)::FUN_004be180((char *)(armor)), oldhealth5)));

@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/av_object_fields.h"
 #include <new>
 #include "fnv/decl/B61F2B0Object.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -139,7 +140,7 @@ void DialogMenu::SetCurrentTopic(MenuTopic* topic)
 {
     // The MenuTopic info/original-topic accessors share the canonical +18/+1C
     // getters; the first predicate shares TESTopic's flag predicate.
-    if (reinterpret_cast<::FUN_00619df0_shell *>((void *)(reinterpret_cast<TESTopic*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(topic)))->FUN_009611e0())))))->FUN_00619df0())
+    if (reinterpret_cast<::FUN_00619df0_shell *>((void *)(reinterpret_cast<TESTopic*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(topic)))->m_pkParent)))))->FUN_00619df0())
         m_eGoodbyeState = eForceGoodbye;
     else if (reinterpret_cast<TESTopic*>(((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<TESResponse*>(topic)))->FUN_0045cd60()))) ==
              ((::TESTopic *)(::fnv_0061a2d0::GetTopicSubTypeName((*(int *)&(const ::DIALOGUE_TYPE &)(DIALOGUE_TYPE_DT_CONVERSATION)), 2))))
@@ -235,7 +236,7 @@ DialogMenu::DialogState DialogMenu::BeginDialogueResponse(bool usePrefix)
                 reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<MediaSet*>*>(pNewTopicList)))->FUN_00905820((void *)&(reinterpret_cast<MediaSet* const&>(pNextTopic)));
                 reinterpret_cast<::Owner83F1A0 *>((pDialogueItem))->AddHeadIfNotNull((int *)(pNewTopicList));
                 pDialogueItem->SelectTopic(true);
-                if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->FUN_009611e0())))
+                if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->m_pkParent)))
                         ->IsChallengeFlagSet())
                 {
                     if (reinterpret_cast<::Mgr *>((pDialogueItem))->CheckTopicInfoChance(pNextTopic))
@@ -251,13 +252,13 @@ DialogMenu::DialogState DialogMenu::BeginDialogueResponse(bool usePrefix)
                             TopicMenuController::IncrementMiscStat(12);
                     }
                 }
-                else if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->FUN_009611e0())))
+                else if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->m_pkParent)))
                              ->GetActorValue() ||
-                         reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->FUN_009611e0())))
+                         reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->m_pkParent)))
                              ->GetPerk())
                 {
                     PerkEntryConditionSet* pConditions =
-                        reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->FUN_009611e0())))))->GetConditions();
+                        reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->m_pkParent)))))->GetConditions();
                     BSSimpleList<TESConditionItem*>* pConditionItem =
                         reinterpret_cast<BSSimpleList<TESConditionItem*>*>(
                             ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pConditions))->m_item)));
@@ -283,7 +284,7 @@ DialogMenu::DialogState DialogMenu::BeginDialogueResponse(bool usePrefix)
                 SetCurrentTopic(pNextTopic);
                 pDialogueItem->RunTopicResultScript();
                 m_bResponseStarted = false;
-                DAT_011d9518 = reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->FUN_009611e0())));
+                DAT_011d9518 = reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->m_pkParent)));
                 return BeginDialogueResponse(usePrefix);
             }
             DAT_011d9518 = 0;
@@ -520,7 +521,7 @@ void DialogMenu::HandleSelection(int id, Tile* tile)
         MenuTopic* pTopic = pDialogueItem->GetSelectedTopic();
         bool wasNew = pTopic->m_bInfoHasBeenRead;
         pTopic->m_bInfoHasBeenRead = false;
-        if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pTopic)))->FUN_009611e0())))->IsChallengeFlagSet())
+        if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))->IsChallengeFlagSet())
         {
             bSpeechChallenge = true;
             if (reinterpret_cast<::Mgr *>((pDialogueItem))->CheckTopicInfoChance(pTopic))
@@ -536,11 +537,11 @@ void DialogMenu::HandleSelection(int id, Tile* tile)
                     TopicMenuController::IncrementMiscStat(12);
             }
         }
-        else if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pTopic)))->FUN_009611e0())))->GetActorValue() ||
-                 reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pTopic)))->FUN_009611e0())))->GetPerk())
+        else if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))->GetActorValue() ||
+                 reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))->GetPerk())
         {
             PerkEntryConditionSet* pConditions =
-                reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pTopic)))->FUN_009611e0())))))->GetConditions();
+                reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))))->GetConditions();
             BSSimpleList<TESConditionItem*>* pConditionItem = reinterpret_cast<BSSimpleList<TESConditionItem*>*>(
                 ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pConditions))->m_item)));
             while (pConditionItem && ((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(pConditionItem)->m_item)))
@@ -568,7 +569,7 @@ void DialogMenu::HandleSelection(int id, Tile* tile)
         SetCurrentTopic(pTopic);
         pDialogueItem->RunTopicResultScript();
         m_bResponseStarted = false;
-        DAT_011d9518 = reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pTopic)))->FUN_009611e0())));
+        DAT_011d9518 = reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)));
         m_eDialogState = BeginDialogueResponse(bSpeechChallenge);
     }
     else if (reinterpret_cast<::FUN_00a01230_shell *>((reinterpret_cast<Tile*>(((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>(this)))->FUN_00726070())))))->IsTraitNonZero(ms_iDialogMenuValue) &&
@@ -661,7 +662,7 @@ Tile* DialogMenu::Create(MobileObject* speaker, TESTopic* topic, MobileObject* a
             (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->SetCurrentTopic((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->pDialogueItem->GetFirstTopic());
         if ((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->pDialogueItem->GetFirstTopic())
             DAT_011d9518 = reinterpret_cast<TESTopicInfo*>(
-                ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->pDialogueItem->GetFirstTopic())))->FUN_009611e0())));
+                ((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->pDialogueItem->GetFirstTopic())))->m_pkParent)));
         ::_g_thePlayer->vfn_278(true);
         if (speaker->IsActor())
         {
@@ -744,19 +745,19 @@ void DialogMenu::LoadTopicsList()
         MenuTopic* pTopic = pDialogueItem->GetSelectedTopic();
         bool bDisabled = false;
         TESFullName* pFullName = 0;
-        if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pTopic)))->FUN_009611e0())))->GetActorValue())
+        if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))->GetActorValue())
         {
             pFullName =
-                reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pTopic)))->FUN_009611e0())))->GetActorValue();
+                reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))->GetActorValue();
         }
         else
         {
-            pFullName = reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pTopic)))->FUN_009611e0())))->GetPerk();
+            pFullName = reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))->GetPerk();
         }
         if (pFullName)
         {
             ::FUN_00406d00(text, 512, "[%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(reinterpret_cast<TESSoundFile*>(pFullName)))->FUN_00408da0())));
-            if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pTopic)))->FUN_009611e0())))
+            if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))
                     ->IsChallengeFlagSet())
             {
                 MobileObject* actor = 0;
@@ -772,13 +773,13 @@ void DialogMenu::LoadTopicsList()
                         ::_g_thePlayer->actorValueOwner.GetActorValueFloatByIndex(ActorValue::ActorValue__Index_SPEECH),
                         m_pDialogueSpeaker->IsActor() ? (float)m_pDialogueSpeaker->CalculateDisposition(::_g_thePlayer, 0)
                                                       : ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1109))))))->f,
-                        reinterpret_cast<::B61F2B0Object *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pTopic)))->FUN_009611e0())))))->FUN_0061f2b0()));
+                        reinterpret_cast<::B61F2B0Object *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))))->FUN_0061f2b0()));
                 strcat_s(text, 512, "%");
             }
             else
             {
                 PerkEntryConditionSet* pConditions =
-                    reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pTopic)))->FUN_009611e0())))))->GetConditions();
+                    reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))))->GetConditions();
                 BSSimpleList<TESConditionItem*>* cursor = reinterpret_cast<BSSimpleList<TESConditionItem*>*>(
                     ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pConditions))->m_item)));
                 while (cursor && ((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(cursor)->m_item)))
@@ -827,7 +828,7 @@ void DialogMenu::LoadTopicsList()
         pItemTile->Set(
             ::FUN_00a01860("_line_alpha"),
             pTopic->m_bInfoHasBeenRead &&
-                    !reinterpret_cast<::FUN_00763fd0_shell *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pTopic)))->FUN_009611e0())))))->IsFlagSet()
+                    !reinterpret_cast<::FUN_00763fd0_shell *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))))->IsFlagSet()
                 ? 255
                 : 128);
         if (bDisabled)

@@ -543,7 +543,7 @@ bool IsRefBaseObjectUnplayable(RefEx* apRef)
     bool bResult = false;
     if (DAT_011d93f8)
     {
-        TESBoundObject* pObject = apRef ? ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName())) : 0;
+        TESBoundObject* pObject = apRef ? ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apRef))->m_pItemObject)) : 0;
         if (DAT_011d93f8->m_eContainerMenuMode == 4)
         {
             bResult =
@@ -555,8 +555,8 @@ bool IsRefBaseObjectUnplayable(RefEx* apRef)
             TESBipedModelForm* pBiped = ::TESBipedModelForm::GetFormAsBipedModel(pObject);
             TESFullName* pFullName = dynamic_cast<TESFullName*>(pObject);
             TESObjectWEAP* pWeapon =
-                ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName()))->GetFormType() == 0x28 ? (TESObjectWEAP*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName())) : 0;
-            TESAmmo* pAmmo = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName()))->GetFormType() == 0x29 ? (TESAmmo*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName())) : 0;
+                ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apRef))->m_pItemObject))->GetFormType() == 0x28 ? (TESObjectWEAP*)((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apRef))->m_pItemObject)) : 0;
+            TESAmmo* pAmmo = ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apRef))->m_pItemObject))->GetFormType() == 0x29 ? (TESAmmo*)((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apRef))->m_pItemObject)) : 0;
             if (!pObject || (pBiped && !reinterpret_cast<::FUN_00480d90_shell *>((pBiped))->FUN_00480d90()) || !pFullName || !pFullName->GetLength() ||
                 (pWeapon && !reinterpret_cast<::FUN_0047bcf0_class *>((pWeapon))->IsFlag80Clear()) || (pAmmo && !reinterpret_cast<::FUN_004c94d0_shell *>((void *)(pAmmo))->GetFlag()))
             {
@@ -921,7 +921,7 @@ bool MenuLogic::FUN_0075d510(InventoryEntry* entry, ExpectedReference* reference
     if (m_eContainerMenuMode == 2 &&
         *reinterpret_cast<void**>(otherData + 0x70) == static_cast<void*>(otherData + 0x10) &&
         reference == (*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)) && reinterpret_cast<::Actor *>(((*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer))))->IsSneaking() && actor->IsActor() && !actor->IsDisabled(0) &&
-        !actor->CanInteract(0) && ((::SourceForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()))->FUN_00401170() == 0x28 &&
+        !actor->CanInteract(0) && ((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject))->FUN_00401170() == 0x28 &&
         reinterpret_cast<ActiveList*>(&m_kContainerItems)->FUN_008256d0())
     {
         ActorView* a = 0;
@@ -936,7 +936,7 @@ bool MenuLogic::FUN_0075d510(InventoryEntry* entry, ExpectedReference* reference
                     return false;
             }
         }
-        SourceForm* b = ((::SourceForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()));
+        SourceForm* b = ((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject));
         if (::FUN_004c0bf0((::TESObjectWEAP *)(b)))
         {
             if (((::CurrentItem *)(reinterpret_cast<::Thing *>((b))->GetOrFallback((int)(a)))))
@@ -1794,7 +1794,7 @@ struct Ref_0075d6b0
     virtual void v184();
     virtual void v188();
     virtual void v18c();
-    virtual void FUN_190(SourceForm* item, XList_0075d6b0* extra, Node_0075d6b0* next);
+    virtual void FUN_190(SourceForm* item, XList_0075d6b0* extra, int count);
     virtual void v194();
     virtual void v198();
     virtual void v19c();
@@ -1986,9 +1986,9 @@ void Menu_0075d6b0::TransferItem(void* a1, Entry_0075d6b0* entry, int count)
             {
                 Entry_0075d6b0* movedB = ((::Entry_0075d6b0 *)(reinterpret_cast<::IRContainer *>((((Ref_0075d6b0*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->FUN_00968be0((::IRForm *)(::SourceForm *)(((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject))), (::IRExtraList *)(x4), n7, 1)));
                 ((Ref_0075d6b0*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))
-                    ->FUN_190(((::SourceForm *)(reinterpret_cast<::Twin_0044ddc0 *>((movedB))->GetName())),
+                    ->FUN_190(((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((movedB))->m_pItemObject)),
                               ((::Node_0075d6b0 *)(::FUN_00559450((int *)(movedB)))) ? *((::XList_0075d6b0 **)(&reinterpret_cast<::SimpleListNodeView*>(((::Node_0075d6b0 *)(::FUN_00559450((int *)(movedB)))))->m_item)) : 0,
-                              ((::Node_0075d6b0 *)(reinterpret_cast<::Callees *>((movedB))->FUN_00726070())));
+                              reinterpret_cast<::InventoryEntryFields *>(movedB)->m_iCountChange);
                 delete movedB;
                 nodeB = ((::Node_0075d6b0 *)(::FUN_00559450((int *)(entry))));
             }

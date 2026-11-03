@@ -10893,7 +10893,7 @@ bool FUN_007e9200()
     if ((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer)) && ((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture())))
     {
         qdqWL = ((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetEquippedWeapon()
-                    ? ((::VATSCreateWeaponX *)(reinterpret_cast<::Twin_0044ddc0 *>((((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetEquippedWeapon()))->GetName()))
+                    ? ((::VATSCreateWeaponX *)(reinterpret_cast<::InventoryEntryFields *>((((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetEquippedWeapon()))->m_pItemObject))
                     : 0;
         if (((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->IsInDialogue())
         {
@@ -11374,7 +11374,7 @@ bool FUN_007e9200()
         (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_bStateFlag3 = 0;
         (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_uiTargetCount = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::VATSCreateTimerX *>(&::g_timeGlobal))))->FUN_00825c00()));
         qMBds = ((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetEquippedWeapon();
-        qYvz = qMBds ? ((::VATSCreateWeaponX *)(reinterpret_cast<::Twin_0044ddc0 *>((qMBds))->GetName())) : 0;
+        qYvz = qMBds ? ((::VATSCreateWeaponX *)(reinterpret_cast<::InventoryEntryFields *>((qMBds))->m_pItemObject)) : 0;
         if (!qYvz || ::FUN_006450c0((::TESObjectWEAP *)(qYvz)) || qYvz->GetWeaponType() == 10)
         {
             reinterpret_cast<::Tile *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[5]))->Set(0xfa3, 0);

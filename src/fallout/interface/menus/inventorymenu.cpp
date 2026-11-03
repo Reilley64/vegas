@@ -1499,29 +1499,29 @@ void __cdecl UpdateItemLabel(ItemLabelTile* tile, ItemLabelSource* item)
     char label[128];
     if (item)
     {
-        if (((std::intptr_t)(reinterpret_cast<::Callees *>((item))->FUN_00726070())) > 1)
+        if (((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->m_iCountChange)) > 1)
         {
             if (reinterpret_cast<::FUN_004bd820_stand *>((item))->FUN_004bd820())
-                ::FUN_00406d00(label, 128, "%s+ (%d)", reinterpret_cast<::FUN_004be2d0_shell *>((item))->GetTargetFullName(), ((std::intptr_t)(reinterpret_cast<::Callees *>((item))->FUN_00726070())));
+                ::FUN_00406d00(label, 128, "%s+ (%d)", reinterpret_cast<::FUN_004be2d0_shell *>((item))->GetTargetFullName(), ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->m_iCountChange)));
             else
-                ::FUN_00406d00(label, 128, "%s (%d)", reinterpret_cast<::FUN_004be2d0_shell *>((item))->GetTargetFullName(), ((std::intptr_t)(reinterpret_cast<::Callees *>((item))->FUN_00726070())));
+                ::FUN_00406d00(label, 128, "%s (%d)", reinterpret_cast<::FUN_004be2d0_shell *>((item))->GetTargetFullName(), ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->m_iCountChange)));
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile))->FUN_00a01350(0xfc4, (char *)(label), true);
         }
         tile->Set(0xfaa, 29);
-        if (((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))->GetFormType() == 41 || ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))->GetFormType() == 24 ||
-            ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))->GetFormType() == 40)
+        if (((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))->GetFormType() == 41 || ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))->GetFormType() == 24 ||
+            ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))->GetFormType() == 40)
         {
             if (!reinterpret_cast<::fnv_00967b70::Cls *>((reinterpret_cast<ItemLabelPlayer*>(::_g_thePlayer)))->FUN_00967b70((::fnv_00967b70::ArgObj *)(item)))
                 (*((::Tile **)(reinterpret_cast<::InventoryStackRecord *>(&(tile->children))->GetPayloadAddress())))->Set(0xfa9, 127);
             else
                 (*((::Tile **)(reinterpret_cast<::InventoryStackRecord *>(&(tile->children))->GetPayloadAddress())))->Set(0xfa9, 255);
         }
-        if (((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))->GetFormType() == 41 &&
+        if (((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))->GetFormType() == 41 &&
             reinterpret_cast<::FUN_008a1710_shell *>((reinterpret_cast<ItemLabelPlayer*>(::_g_thePlayer)))->FUN_008a1710())
         {
             (*((::Tile **)(reinterpret_cast<::FUN_006317a0_struct *>(&(tile->children))->AddEight((int)(((void *)(::FUN_00559450((int *)&(tile->children)))))))))
                 ->Set(0xfa3,
-                      static_cast<bool>(item && ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())) ==
+                      static_cast<bool>(item && ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject)) ==
                                                     reinterpret_cast<TESBoundObject*>(
                                                         ((::TESAmmo *)(reinterpret_cast<::AmmoOwner *>((reinterpret_cast<::FUN_008a1710_shell *>((reinterpret_cast<ItemLabelPlayer*>(::_g_thePlayer)))->FUN_008a1710()))->FUN_00525980((::AmmoActor *)(::Actor *)(reinterpret_cast<Actor*>(::_g_thePlayer))))))));
         }
@@ -3113,7 +3113,7 @@ void FUN_00782a90()
                     for (am = (ListNodeObj*)&ah; am && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(am)->m_item)); am = ((::ListNodeObj *)(reinterpret_cast<::Callees *>((am))->FUN_00726070())))
                     {
                         bb = dynamic_cast<TESFullName*>(
-                            (TESBoundObject*)(void*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryStackRecord*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(am)->m_item)))))->GetName())));
+                            (TESBoundObject*)(void*)((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((((InventoryStackRecord*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(am)->m_item)))))->m_pItemObject)));
                         as = (int)FUN_0044a670(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((SoundHolder*)bb)))->FUN_00408da0())));
                         ::TaskQueueInterface::CopyStringToBuffer(bo, 0x80, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((SoundHolder*)bb)))->FUN_00408da0())));
                         if (reinterpret_cast<::FUN_004bd820_stand *>((((ItemObj*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(am)->m_item)))))->FUN_004bd820())

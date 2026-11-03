@@ -2899,9 +2899,9 @@ void CompanionHealingMenu::HealCompanion()
                 {
                     if (healthX < ::g_01012070)
                         reinterpret_cast<::FUN_008c1f80_shell *>((companion))->EquipItemWithCaster(
-                            (::FUN_008c1de0_item *)(void *)(dynamic_cast<AlchemyItem*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())))),
+                            (::FUN_008c1de0_item *)(void *)(dynamic_cast<AlchemyItem*>(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject)))),
                             (int)(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))) ? ((::HealingExtra *)(reinterpret_cast<::SimpleListNodeView*>(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))))->m_item)) : 0), 1);
-                    (*reinterpret_cast<::HealingActor * *>(&::_g_thePlayer))->RemoveItem(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())),
+                    (*reinterpret_cast<::HealingActor * *>(&::_g_thePlayer))->RemoveItem(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject)),
                                              ((::HealingExtraList *)(::FUN_00559450((int *)(entry)))) ? ((::HealingExtra *)(reinterpret_cast<::SimpleListNodeView*>(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))))->m_item)) : 0, 1, 0, 0,
                                              0, 0, 0, 1, 0);
                     reinterpret_cast<::Actor *>((companion))->ConfigureActorState(0, 1);

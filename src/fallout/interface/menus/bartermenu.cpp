@@ -646,14 +646,14 @@ bool FUN_0072e570(InventoryEntry* entry)
                     {
                         TESObjectARMO* armor;
 
-                        form = entry ? ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) : 0;
+                        form = entry ? ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject)) : 0;
                         biped = ::TESBipedModelForm::GetFormAsBipedModel((const ::TESForm *)(form));
                         name = dynamic_cast<TESFullName*>(form);
-                        armor = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()))->FUN_00401170() == 0x28
-                                    ? static_cast<TESObjectARMO*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())))
+                        armor = ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject))->FUN_00401170() == 0x28
+                                    ? static_cast<TESObjectARMO*>(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject)))
                                     : 0;
-                        weapon = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()))->FUN_00401170() == 0x29
-                                     ? static_cast<TESObjectWEAP*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())))
+                        weapon = ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject))->FUN_00401170() == 0x29
+                                     ? static_cast<TESObjectWEAP*>(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject)))
                                      : 0;
                         if (!form || (biped && !reinterpret_cast<::FUN_00480d90_shell *>((biped))->FUN_00480d90()) || form->CannotSell() || ::FUN_00481f10((::TESObject *)(form)) ||
                             !name || !name->GetModelLength() || (armor && !reinterpret_cast<::FUN_0047bcf0_class *>((armor))->IsFlag80Clear()) ||
@@ -1567,14 +1567,14 @@ void __cdecl FUN_0072eac0(int iUnused, OwnItem* pkItem)
             reinterpret_cast<::fnv_00567ad0::FUN_00567ad0 *>(&(kCheck))->SetOwner(((void *)(reinterpret_cast<::FUN_00418660_shell *>((pkExtra))->FUN_00418660())));
             reinterpret_cast<::Self567b50 *>(&(kCheck))->FUN_00567b50((::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::FUN_00418690_shell *>((pkExtra))->FUN_00418690()))));
             reinterpret_cast<::FUN_00567bd0_cls *>(&(kCheck))->FUN_00567bd0((unsigned int)(((reinterpret_cast<::FUN_004186c0_shell *>((pkExtra))->FUN_004186c0()))));
-            reinterpret_cast<::Fn575690 *>(&(kCheck))->FUN_00575690(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((pkItem))->GetName())));
+            reinterpret_cast<::Fn575690 *>(&(kCheck))->FUN_00575690(((void *)(reinterpret_cast<::InventoryEntryFields *>((pkItem))->m_pItemObject)));
             if (reinterpret_cast<::OwnershipReferenceView *>(&(kCheck))->FUN_005785e0((::Actor *)(pkMerchant_), 1))
                 kRemoveY.FUN_005ae3d0(pkExtra);
         }
     }
     for (OwnNode* pkIter = &kRemoveY; pkIter && *((::OwnExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)); pkIter = ((::OwnNode *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070())))
     {
-        reinterpret_cast<::CombatProcedure *>((pkItem))->Initialize((::CombatController *)(((std::intptr_t)(reinterpret_cast<::Callees *>((pkItem))->FUN_00726070())) - reinterpret_cast<::FUN_00418770_shell *>(((*((::OwnExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)))))->FUN_00418770()));
+        reinterpret_cast<::CombatProcedure *>((pkItem))->Initialize((::CombatController *)(((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((pkItem))->m_iCountChange)) - reinterpret_cast<::FUN_00418770_shell *>(((*((::OwnExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)))))->FUN_00418770()));
         reinterpret_cast<::ItemChangeListNode *>((((OwnExtraContainer*)((::OwnNode *)(::FUN_00559450((int *)(pkItem)))))))->FUN_00905330((*(::InventoryStackRecord *const *)(((::OwnExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)))));
     }
     reinterpret_cast<::FileMatchList *>(&(kRemoveY))->RemoveAll();
@@ -1663,7 +1663,7 @@ float __cdecl FUN_0072ed00(S_0072ed00_Tile* tile, S_0072ed00_Item* item)
     }
     else if ((b5 && !b8) || (!b5 && b8))
     {
-        bool isEquip = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))->FUN_00401170() == 0x6c || ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))->FUN_00401170() == 0x74;
+        bool isEquip = ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))->FUN_00401170() == 0x6c || ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))->FUN_00401170() == 0x74;
         amount *= isEquip ? 1.0f : ((S_0072ed00_Settings*)DAT_011d8fa4)->unk94;
         if (((S_0072ed00_Settings*)DAT_011d8fa4)->unk88 > 0)
         {
@@ -1673,7 +1673,7 @@ float __cdecl FUN_0072ed00(S_0072ed00_Tile* tile, S_0072ed00_Item* item)
         {
             amount = (std::abs(((S_0072ed00_Settings*)DAT_011d8fa4)->unk88) / 100.0 + 1.0) * amount;
         }
-        ::ApplyPerkModifiers(0x11, (::Actor *)(::_g_thePlayer), ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), &amount);
+        ::ApplyPerkModifiers(0x11, (::Actor *)(::_g_thePlayer), ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject)), &amount);
         if (FUN_00408860(amount) > 1.0)
             amount = ::InventoryStackRecord::RoundToNearestStep(amount, 1.0f);
         else
@@ -1682,7 +1682,7 @@ float __cdecl FUN_0072ed00(S_0072ed00_Tile* tile, S_0072ed00_Item* item)
     }
     else if ((b5 && b8) || (!b5 && !b8))
     {
-        bool isEquip = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))->FUN_00401170() == 0x6c || ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))->FUN_00401170() == 0x74;
+        bool isEquip = ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))->FUN_00401170() == 0x6c || ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))->FUN_00401170() == 0x74;
         amount *= isEquip ? 1.0f : ((S_0072ed00_Settings*)DAT_011d8fa4)->unk98;
         if (((S_0072ed00_Settings*)DAT_011d8fa4)->unk88 > 0)
         {
@@ -1727,7 +1727,7 @@ InventoryEntry* TargetClass::FindMatchingEntry(ListNode* head, EntryEx* target)
     for (ListNode* node2 = head; !result2 && node2 && *((::EntryEx **)(&reinterpret_cast<::SimpleListNodeView*>(node2)->m_item)); node2 = ((::ListNode *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070())))
     {
         EntryEx* item5 = *((::EntryEx **)(&reinterpret_cast<::SimpleListNodeView*>(node2)->m_item));
-        if (((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((target))->GetName())) == ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item5))->GetName())))
+        if (((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((target))->m_pItemObject)) == ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((item5))->m_pItemObject)))
         {
             void* local7 = ((::SubNode *)(::FUN_00559450((int *)(target)))) ? *((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::SubNode *)(::FUN_00559450((int *)(target)))))->m_item)) : 0;
             void* local_14 = ((::SubNode *)(::FUN_00559450((int *)(item5)))) ? *((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::SubNode *)(::FUN_00559450((int *)(item5)))))->m_item)) : 0;
@@ -1964,7 +1964,7 @@ void __cdecl UpdateBarterQuantity(int iCount)
         (*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))->DecrementEntryCount(iCount);
     else
         reinterpret_cast<::InvOwner *>(((*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))))->AddOrUpdateEntryCount(iCount);
-    (*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))->RebuildInventoryLists(((::fnv_0072f6f0::QtyForm *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::fnv_0072f6f0::QtyItem * *>(&::DAT_011d8fa8))))->GetName())));
+    (*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))->RebuildInventoryLists(((::fnv_0072f6f0::QtyForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_0072f6f0::QtyItem * *>(&::DAT_011d8fa8))))->m_pItemObject)));
     if (!(*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))->m_kMerchantItems.FUN_008256d0() ||
         !(*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))->m_kPlayerItems.FUN_008256d0())
     {
@@ -2955,7 +2955,7 @@ void FUN_007306d0_cls::FUN_007306d0()
     {
         if (DAT_011d8fa8 != 0)
         {
-            if (((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryEntry*)DAT_011d8fa8)))->GetName()))->FUN_00401170() == 0x28)
+            if (((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((((InventoryEntry*)DAT_011d8fa8)))->m_pItemObject))->FUN_00401170() == 0x28)
             {
                 ::UpdateAnimationTileFade((::AnimationTile *)(m_60), (::AnimationTile *)(m_64), (::AnimationTile *)(m_68), (::AnimationReference *)(DAT_011d8fa8), 0);
                 return;
@@ -2963,18 +2963,18 @@ void FUN_007306d0_cls::FUN_007306d0()
         }
         if (DAT_011d8fa8 != 0)
         {
-            if (((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryEntry*)DAT_011d8fa8)))->GetName()))->FUN_00401170() == 0x18)
+            if (((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((((InventoryEntry*)DAT_011d8fa8)))->m_pItemObject))->FUN_00401170() == 0x18)
             {
 
                 ::UpdateAnimationTileFade(
                     (::AnimationTile *)((DAT_011d8fa8 != 0 &&
                      ::_DAT_01012060 !=
-                         ((double)(::FUN_004be060((void *)(((TESBoundObjectExt*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryEntry*)DAT_011d8fa8)))->GetName()))))))))
+                         ((double)(::FUN_004be060((void *)(((TESBoundObjectExt*)((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((((InventoryEntry*)DAT_011d8fa8)))->m_pItemObject))))))))
                         ? m_6c
                         : 0),
                     (::AnimationTile *)((DAT_011d8fa8 != 0 &&
                      ::_DAT_01012060 !=
-                         ((double)(::FUN_004be180((char *)(((TESBoundObjectExt*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryEntry*)DAT_011d8fa8)))->GetName()))))))))
+                         ((double)(::FUN_004be180((char *)(((TESBoundObjectExt*)((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((((InventoryEntry*)DAT_011d8fa8)))->m_pItemObject))))))))
                         ? m_70
                         : 0),
                     (::AnimationTile *)(0), (::AnimationReference *)(DAT_011d8fa8), 0);
@@ -3308,10 +3308,10 @@ bool __cdecl IsFilteredFromBarter(EntryObj* apEntry)
         (((OwnBarterMenu*)DAT_011d8fa4)->m_pkMerchant && ((OwnBarterMenu*)DAT_011d8fa4)->m_pkMerchant->IsActor())
             ? (MerchantActor*)((OwnBarterMenu*)DAT_011d8fa4)->m_pkMerchant
             : 0;
-    formTmp = apEntry ? ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryEntry*)apEntry)))->GetName())) : 0;
+    formTmp = apEntry ? ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((((InventoryEntry*)apEntry)))->m_pItemObject)) : 0;
     if (merchant4)
     {
-        switch (((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryEntry*)apEntry)))->GetName()))->FUN_00401170())
+        switch (((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((((InventoryEntry*)apEntry)))->m_pItemObject))->FUN_00401170())
         {
         case 40:
         case 41:
@@ -3337,7 +3337,7 @@ bool __cdecl IsFilteredFromBarter(EntryObj* apEntry)
             filteredVal = reinterpret_cast<::FUN_0047efe0_shell *>(&(((::MerchantBase *)(reinterpret_cast<::Actor *>((merchant4))->GetActorBase()))->services))->HasFlags(8) == false;
             break;
         case 47:
-            switch (FUN_00479430(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryEntry*)apEntry)))->GetName()))))
+            switch (FUN_00479430(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((((InventoryEntry*)apEntry)))->m_pItemObject))))
             {
             case 10:
                 filteredVal = reinterpret_cast<::FUN_0047efe0_shell *>(&(((::MerchantBase *)(reinterpret_cast<::Actor *>((merchant4))->GetActorBase()))->services))->HasFlags(0x20) == false;
@@ -3357,11 +3357,11 @@ bool __cdecl IsFilteredFromBarter(EntryObj* apEntry)
     }
     bipedVal = ::TESBipedModelForm::GetFormAsBipedModel((const ::TESForm *)(formTmp));
     name = dynamic_cast<TESFullName*>(formTmp);
-    armor = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryEntry*)apEntry)))->GetName()))->FUN_00401170() == 40
-                ? (TESObjectARMO*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryEntry*)apEntry)))->GetName()))
+    armor = ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((((InventoryEntry*)apEntry)))->m_pItemObject))->FUN_00401170() == 40
+                ? (TESObjectARMO*)((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((((InventoryEntry*)apEntry)))->m_pItemObject))
                 : 0;
-    weapon_ = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryEntry*)apEntry)))->GetName()))->FUN_00401170() == 41
-                  ? (TESObjectWEAP*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryEntry*)apEntry)))->GetName()))
+    weapon_ = ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((((InventoryEntry*)apEntry)))->m_pItemObject))->FUN_00401170() == 41
+                  ? (TESObjectWEAP*)((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((((InventoryEntry*)apEntry)))->m_pItemObject))
                   : 0;
     if (!formTmp || (bipedVal && !reinterpret_cast<::FUN_00480d90_shell *>((bipedVal))->FUN_00480d90()) || ::FUN_00481f10((::TESObject *)(formTmp)) || !name ||
         !name->GetModelLength() || (armor && !reinterpret_cast<::FUN_0047bcf0_class *>((armor))->IsFlag80Clear()) || (weapon_ && !((bool)(reinterpret_cast<::FUN_004c94d0_shell *>((weapon_))->GetFlag()))))

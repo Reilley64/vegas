@@ -221,7 +221,8 @@ void hkpDisableEntityCollisionFilterE46::FUN_00e46880(hkpEntityE46* entity)
 {
     if (entity)
     {
-        reinterpret_cast<::FnvDisabledCollisionFilter *>(this)->FUN_00e46820((char *)(entity), {});
+        char wasRemoved;
+        reinterpret_cast<::FnvDisabledCollisionFilter *>(this)->FUN_00e46820(&wasRemoved, reinterpret_cast<hkpEntity*>(entity));
         reinterpret_cast<::HostC9C6 *>((entity))->FUN_00c9c670(this);
     }
 }

@@ -45,7 +45,6 @@
 #include "fnv/symbols_00af7000.h"
 #include "fnv/symbols_00afb000.h"
 #include "fnv/symbols_00afc000.h"
-#include "fnv/symbols_00afd000.h"
 #include "fnv/symbols_00b01000.h"
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_0101d000.h"
@@ -510,17 +509,20 @@ struct Arc
 };
 struct LNode
 {
-    Arc* item;
+    struct Arc* item;
     LNode* next;
 };
-extern LNode* DAT_011f8160;
+inline LNode*& ArcListHead()
+{
+    return *reinterpret_cast<LNode**>(&::fnv_00af56d0::DAT_011f8160);
+}
 // If the global node list is non-empty, sets the cache state to 2 when it is 1, calls LoadNames on each node's Arc, then restores state 2 to 1.
 // @fnv 0x00af59f0
 void __cdecl ProcessArcList()
 {
     bool b;
     LNode* pCurrentElementNext;
-    if (DAT_011f8160)
+    if (ArcListHead())
     {
         BSFileCache* c1 = &BSFileCache::GetRandomGenerator();
         b = c1->state == 2 || c1->state == 3;
@@ -530,10 +532,10 @@ void __cdecl ProcessArcList()
             if (c2->state == 1)
                 c2->state = 2;
         }
-        pCurrentElementNext = DAT_011f8160;
+        pCurrentElementNext = ArcListHead();
         while (pCurrentElementNext)
         {
-            Arc* a = pCurrentElementNext->item;
+            struct Arc* a = pCurrentElementNext->item;
             a->LoadNames();
             pCurrentElementNext = pCurrentElementNext->next;
         }
@@ -1593,7 +1595,7 @@ struct Inner
 {
     virtual void Slot0();
     virtual void Slot1();
-    int field;
+    long field;
 };
 struct Outer
 {
@@ -1819,7 +1821,9 @@ void* LoadFileFromArchives(const char* apFileName, unsigned int auiBufferSize, u
 }  // namespace fnv_00af5fa0
 
 namespace fnv_00af6160 {
-struct _RTL_CRITICAL_SECTION;
+struct _RTL_CRITICAL_SECTION : ::CRITICAL_SECTION
+{
+};
 const char* __cdecl SkipDataPrefix(const char* apFileName);
 class NiRefObject
 {
@@ -1990,12 +1994,11 @@ struct ArcRef
     }
     long refs;
 };
-struct ArcLock
+struct ArcLock : CRITICAL_SECTION
 {
-    char data[0x18];
     ~ArcLock()
     {
-        DeleteCriticalSection(data);
+        DeleteCriticalSection(this);
     }
 };
 struct FUN_00af8e60 : ArcBase, ArcRef
@@ -2185,7 +2188,9 @@ void FUN_00afcdc0_StandIn::FUN_00afcdc0()
 }
 
 namespace fnv_00af5320 {
-struct _RTL_CRITICAL_SECTION;
+struct _RTL_CRITICAL_SECTION : ::CRITICAL_SECTION
+{
+};
 
 class BSRefCountedSI
 {
@@ -2867,7 +2872,6 @@ bool FUN_00affd80_t::SetBufferSize(unsigned int auiSize)
 }
 
 namespace fnv_00af96d0 {
-extern "C" unsigned int __cdecl strlen(const char*);
 
 struct MemMgrStand
 {
@@ -2877,14 +2881,6 @@ struct MemMgrStand
 extern MemMgrStand g_arcMemMgr;
 extern int DAT_011ace04;
 
-inline void* operator new[](std::size_t auiSize)
-{
-    return g_arcMemMgr.Allocate(auiSize);
-}
-inline void operator delete[](void* apMem)
-{
-    g_arcMemMgr.Deallocate(apMem);
-}
 
 struct ArcFolderRec
 {
@@ -3136,11 +3132,9 @@ char* ArcStand::FUN_00af96d0(unsigned int auiFolder, unsigned int auiFile)
 }
 }  // namespace fnv_00af96d0
 
-struct ArcCS
+struct ArcCS : CRITICAL_SECTION
 {
-    int unk00;
 };
-struct ArcCS;
 struct ArchiveStub
 {
     virtual void v00();
@@ -3438,7 +3432,7 @@ struct ArcStream
     unsigned int unk190;
     unsigned int unk194;
     unsigned int unk198;
-    int csLock;
+    CRITICAL_SECTION csLock;
     unsigned int GetPos() const
     {
         return m_iBufferSize != -1 ? m_iBufferSize : m_uiBufferSize;
@@ -3682,11 +3676,11 @@ void __cdecl ClearArchiveTables()
     unsigned int uiIndex2;
     unsigned int k;
 
-    if (DAT_011f8160)
+    if (ArcListHead())
     {
-        reinterpret_cast<ArchiveList*>(DAT_011f8160)->RemoveAll();
-        delete reinterpret_cast<ArchiveList*>(DAT_011f8160);
-        DAT_011f8160 = 0;
+        reinterpret_cast<ArchiveList*>(ArcListHead())->RemoveAll();
+        delete reinterpret_cast<ArchiveList*>(ArcListHead());
+        ArcListHead() = 0;
     }
     if (DAT_011f8168)
     {
@@ -3764,13 +3758,13 @@ struct ArcNode_af5
 // @fnv 0x00af5e40
 bool __cdecl HasFileInArchives(const char* apName)
 {
-    if (!DAT_011f8160)
+    if (!ArcListHead())
         return false;
     apName = SkipDataPrefix(apName);
     FileNameHash kDirHash6;
     FileNameHash kFileHash;
     HashPathComponents(apName, &kDirHash6, &kFileHash);
-    ArcNode_af5* pNode = (ArcNode_af5*)DAT_011f8160;
+    ArcNode_af5* pNode = (ArcNode_af5*)ArcListHead();
     while (pNode)
     {
         ArcPtr_af5<ArchiveRef_af5> spArchive3(pNode->item);
@@ -3907,7 +3901,7 @@ __forceinline void ReleaseArchiveReference(RefObj* reference)
 struct ScopedArchive
 {
     LookupArchive* pointer;
-    __forceinline ScopedArchive(Arc* const& value) : pointer((LookupArchive*)value)
+    __forceinline ScopedArchive(struct Arc* const& value) : pointer((LookupArchive*)value)
     {
         if (pointer)
             AddArchiveReference(&pointer->reference);
@@ -3923,7 +3917,7 @@ struct ScopedArchive
 LookupArchive* __cdecl FindArchiveByKey(const FileNameHash* key, unsigned int types)
 {
     EnterCriticalSection(&DAT_011f8170);
-    LNode* node = DAT_011f8160;
+    LNode* node = ArcListHead();
     while (node)
     {
         ScopedArchive archive(node->item);
@@ -3937,7 +3931,7 @@ LookupArchive* __cdecl FindArchiveByKey(const FileNameHash* key, unsigned int ty
     }
     if (types == 0xffff)
         return 0;
-    node = DAT_011f8160;
+    node = ArcListHead();
     while (node)
     {
         ScopedArchive archive(node->item);
@@ -4018,7 +4012,7 @@ __forceinline unsigned int CountEntries(LNode* input)
 // @fnv 0x00af6ba0
 void __cdecl FUN_00af6ba0(LNode* entries, const char* path, const char* directory, unsigned int types)
 {
-    if (!DAT_011f8160)
+    if (!ArcListHead())
         return;
     path = SkipDataPrefix(path);
     char buffer[260];
@@ -4032,7 +4026,7 @@ void __cdecl FUN_00af6ba0(LNode* entries, const char* path, const char* director
     FileNameHash bound, n;
     HashPathComponents(path, &bound, &n);
     unsigned int count_2 = CountEntries(entries);
-    for (LNode* archive = DAT_011f8160; archive;)
+    for (LNode* archive = ArcListHead(); archive;)
     {
         ArchiveOwner owner(*(const ArchiveOwner*)&archive->item);
         if (owner && (unsigned short)(owner->GetTypes() & types))
@@ -4263,7 +4257,7 @@ extern long g_ArchiveListLock_af7;
 // @fnv 0x00af7c40
 void __cdecl ProcessFilesByType(int aiArg1, int aiArg2, unsigned int auiType)
 {
-    EnterCriticalSection(&g_ArchiveListLock_af7);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&g_ArchiveListLock_af7));
     ArchiveNode_af7* pNode = g_pArchiveList_af7;
     while (pNode && !pNode->IsEmpty())
     {
@@ -4272,7 +4266,7 @@ void __cdecl ProcessFilesByType(int aiArg1, int aiArg2, unsigned int auiType)
             reinterpret_cast<::fnv_00afac20::S_af9 *>(((m_pArchive).operator->()))->FUN_00afac20(aiArg1, aiArg2, 0);
         pNode = pNode->pNext;
     }
-    LeaveCriticalSection(&g_ArchiveListLock_af7);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&g_ArchiveListLock_af7));
 }
 
 struct ArchiveNames : BSFile
@@ -5130,7 +5124,7 @@ struct FUN_00afb520_sub
 {
     virtual void Slot0();
     virtual void Slot1();
-    int unk08;
+    long unk08;
 };
 
 class FUN_00afb520_cls : public FUN_00afb520_base
@@ -5458,6 +5452,7 @@ struct ArcPtr
         return m_pObject != ptr.m_pObject;
     }
 };
+namespace fnv_00afc960 {
 struct BSSimpleList
 {
     ArcPtr m_item;
@@ -5526,6 +5521,7 @@ void BSSimpleList::RemoveItem(const ArcPtr& item)
         }
     }
 }
+}  // namespace fnv_00afc960
 
 struct ListItem
 {
@@ -5788,13 +5784,13 @@ extern char g_kCS_11f8170[];
 // @fnv 0x00af5480
 void __cdecl AddObjectToList(Obj_af5480* pkObj)
 {
-    EnterCriticalSection(g_kCS_11f8170);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(g_kCS_11f8170));
     if (g_pNode_11f8160)
     {
         NiPtr_af5480<Obj_af5480> sp(pkObj);
         g_pNode_11f8160->AddTail(sp);
     }
-    LeaveCriticalSection(g_kCS_11f8170);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(g_kCS_11f8170));
 }
 }  // namespace fnv_00af5480
 
@@ -5910,7 +5906,9 @@ struct LNode
 };
 
 extern LNode* g_pLNode;
-struct _RTL_CRITICAL_SECTION;
+struct _RTL_CRITICAL_SECTION : ::CRITICAL_SECTION
+{
+};
 extern _RTL_CRITICAL_SECTION g_cs;
 extern NiPointer<MyArchiveFile> g_activeFile;
 extern NiPointer<MyArchiveFile> g_files[2][9];
@@ -5955,8 +5953,6 @@ extern const char DAT_010a4398[];
 extern const char DAT_010a43a8[];
 extern const char* DAT_011f8158;
 extern const char* DAT_011f815c;
-extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" char* __cdecl strstr(const char*, const char*);
 struct ArchiveRef
 {
     virtual void slot0();
@@ -6659,7 +6655,7 @@ class Archive : public BSFile, public NiRefObject
     unsigned int unk190;
     unsigned int unk194;
     unsigned int unk198;
-    unsigned int m_kCriticalSection;
+    CRITICAL_SECTION m_kCriticalSection;
 };
 extern Archive* DAT_011f8190[2][9];
 
@@ -6695,19 +6691,8 @@ struct MemoryManager
     void* Allocate(unsigned int);
 };
 extern MemoryManager _g_memoryManager;
-inline void* __cdecl operator new[](std::size_t n)
+struct ArcCS : CRITICAL_SECTION
 {
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00af7060::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-}
-extern "C" unsigned int __cdecl strlen(const char*);
-struct ArcCS
-{
-    void* p0;
-    void* p1;
-    void* p2;
-    void* p3;
-    void* p4;
-    void* p5;
 };
 
 struct HashKey
@@ -6749,7 +6734,6 @@ inline void AppendPath(char* dest, unsigned int size, const char* src)
 {
     fnv::crt::strcat_s(dest, size, src);
 }
-void* __cdecl operator new(std::size_t);
 struct PathNode
 {
     const char* path;
@@ -6974,26 +6958,9 @@ struct MemoryManager
     void Deallocate(void*);
 };
 extern MemoryManager _g_memoryManager;
-inline void* __cdecl operator new[](std::size_t n)
-{
-    return _g_memoryManager.Allocate(n);
-}
-inline void* __cdecl operator new(std::size_t n)
-{
-    return _g_memoryManager.Allocate(n);
-}
-inline void __cdecl operator delete[](void* p)
-{
-    _g_memoryManager.Deallocate(p);
-}
-inline void __cdecl operator delete(void* p)
-{
-    _g_memoryManager.Deallocate(p);
-}
 extern unsigned int DAT_011f81d8;
 extern bool DAT_011f8154;
 extern int DAT_011acdfc, DAT_011ace00, DAT_011ace04;
-extern "C" unsigned int __cdecl strlen(const char*);
 extern void(* DAT_00fdf054)(void*);
 struct Directory077;
 struct Entry077
@@ -7617,20 +7584,6 @@ FUN_00afb300::FUN_00afb300(const char* name, Archive* arch, unsigned int off, un
 }  // namespace fnv_00afb300
 
 namespace fnv_00af7400 {
-struct CRITICAL_SECTION
-{
-    void* DebugInfo;
-    long LockCount;
-    long RecursionCount;
-    void* OwningThread;
-    void* LockSemaphore;
-    unsigned long SpinCount;
-};
-
-extern "C"
-{
-}
-
 
 const char* __cdecl SkipDataPrefix(const char*);
 
@@ -8029,8 +7982,6 @@ struct RecursiveMutex : CRITICAL_SECTION
 
 
 
-extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" char* __cdecl strrchr(const char*, int);
 struct LNode;
 extern LNode* DAT_011f8160;
 
@@ -8688,7 +8639,7 @@ unsigned int DecompReadFile::FUN_00afc0e0(char* buffer, unsigned int size)
                 m_uiBufferSize += available - state->m_uiAvailableInputBytes;
                 if (state->m_uiAvailableInputBytes == 0)
                 {
-                    reinterpret_cast<::NiFile *>(this)->Flush();
+                    NiFile::Flush();
                     m_uiBufferReadSize = reinterpret_cast<::Reader078 *>(this)->ReadAtOffset((char *)(m_pBuffer), m_uiBufferAllocSize, 0);
                 }
             }

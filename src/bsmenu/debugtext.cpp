@@ -231,25 +231,6 @@ struct PendingOwner {
 };
 
 
-// If g_011f33a8 is set, calls FUN_00a0dcc0 on it, passes it to g_011f6238.FUN_00aa4060, then clears g_011f33a8.
-// @fnv 0x00a0dae0
-void __cdecl ClearPendingObject() {
-    if (g_011f33a8 != 0) {
-        PendingObj* b = g_011f33a8;
-        PendingObj* a = b;
-        void* r;
-        if (a != 0) {
-            if ((reinterpret_cast<::fnv_00a0dcc0::FUN_00a0dcc0 *>((a))->fnv_00a0dcc0::FUN_00a0dcc0::~FUN_00a0dcc0(), 1) & 1) {
-                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::PendingOwner *>(&::g_memoryManager))))->FUN_00aa4060(a);
-            }
-            r = a;
-        } else {
-            r = 0;
-        }
-        g_011f33a8 = 0;
-    }
-}
-
 struct Setting { int unk00; int value; };
 struct Record { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34; float* unk38; };
 struct LayoutObject {
@@ -644,16 +625,6 @@ struct E4F0DebugText {
     int PrintFormattedLine(int iX, int iLine, int iFlags, const char* pcFormat, char* pArgs, const RgbaColor* pkColor);
 };
 
-// Formats pcFormat with pArgs into a 200-byte buffer, then prints it at iX and the line's Y from m_aiLineY[iLine].
-// @fnv 0x00a0e4f0
-int E4F0DebugText::PrintFormattedLine(int iX, int iLine, int iFlags, const char* pcFormat, char* pArgs, const RgbaColor* pkColor)
-{
-    char acBuffer2[200];
-    std::vsnprintf(acBuffer2, 200, pcFormat, pArgs);
-    int iResult = reinterpret_cast<::A0F8Self *>(this)->FUN_00a0f8b0(acBuffer2, (float)iX, (float)m_aiLineY[iLine], iFlags, -1, -1.0f, 0, (::A0F8Color *)(pkColor));
-    return iResult;
-}
-
 // 256-byte span of not-yet-identified fields.
 struct A0E5C0Block {
     int unk00;
@@ -797,17 +768,6 @@ public:
 
     int PrintFormattedAtSlot(int iSlot, int m_iPayloadInteger, const char* pcFormat, char* pArgs, const RgbaColor* pkColor);
 };
-
-// Formats pcFormat with pArgs into a 200-byte buffer, prints it at slot iSlot's X/Y, advances that slot's Y by m_iLineHeight, and returns the print result.
-// @fnv 0x00a0e5c0
-int A0E5C0DebugText::PrintFormattedAtSlot(int iSlot, int m_iPayloadInteger, const char* pcFormat, char* pArgs, const RgbaColor* pkColor) {
-    int iResult;
-    char acText[200];
-    std::vsnprintf(acText, sizeof(acText), pcFormat, pArgs);
-    iResult = reinterpret_cast<::A0F8Self *>(this)->FUN_00a0f8b0(acText, (float)m_aiX[iSlot], (float)m_aiY[iSlot], m_iPayloadInteger, -1, -1.0f, 0, (::A0F8Color *)(pkColor));
-    m_aiY[iSlot] += m_iLineHeight;
-    return iResult;
-}
 
 struct ListNode_b5742 {
     ListNode_b5742* m_00;
@@ -1235,6 +1195,9 @@ struct Owner {
  virtual void Remove(SceneNode*);
 };
 
+inline int DecrementRef(void* value);
+inline int IncrementRef(void* value);
+
 struct SceneNode {
  virtual void slot0();
  virtual void DeleteThis();
@@ -1380,6 +1343,9 @@ struct Owner {
 }
 
 namespace fnv_00a0dcc0 {
+inline int DecrementRef(void* value);
+inline int IncrementRef(void* value);
+
 struct SceneNode {
     virtual void slot0();
     virtual void DeleteThis();
@@ -2063,7 +2029,6 @@ struct TextListD {
  ~TextListD();
 };
 
-inline void* operator new(std::size_t size,void* p) { return p; }
 
 struct ArrayD {
  virtual void slot0();
@@ -3174,7 +3139,7 @@ void AudioManager::FUN_00a0e770() {
                 }
                 if(!changed) {
                     FUN_00a11820();
-                    slots[pending[i]->slot].playback.FUN_0066b0d0(((::Playback *)(reinterpret_cast<::fnv_00a0fe20::A0FE20Cls *>(this)->FUN_00a0fe20((char *)(pending[i]->source->filename),
+                    slots[pending[i]->slot].playback.FUN_0066b0d0(((::Playback *)(reinterpret_cast<::fnv_00a0fe20::A0FE20Cls *>(this)->FUN_00a0fe20((char *)(const char *)(pending[i]->source->filename),
                         slots[pending[i]->slot].x,slots[pending[i]->slot].y,slots[pending[i]->slot].identifier,0,(::fnv_00a0fe20::A0FE20Col *)(0)))));
                     ReleaseLock();
                 }
@@ -3246,7 +3211,7 @@ void AudioManager::FUN_00a0e770() {
                 if(!reuse) {
                     FUN_00a11820();
                     if(!failed4) {
-                        slots[slotX].playback.FUN_0066b0d0(((::Playback *)(reinterpret_cast<::fnv_00a0fe20::A0FE20Cls *>(this)->FUN_00a0fe20((char *)(text4),pending[i]->source->x,pending[i]->source->y,
+                        slots[slotX].playback.FUN_0066b0d0(((::Playback *)(reinterpret_cast<::fnv_00a0fe20::A0FE20Cls *>(this)->FUN_00a0fe20((char *)(const char *)(text4),pending[i]->source->x,pending[i]->source->y,
                             pending[i]->source->identifier,voice,(::fnv_00a0fe20::A0FE20Col *)(&pending[i]->source->color)))));
                     } else slots[slotX].playback.FUN_0066b0d0(0);
                     if(slots[slotX].playback) {
@@ -3723,6 +3688,46 @@ unsigned char __cdecl FUN_00a10c00(NiObject* root,int text,int height,float dura
  entry7->node.FUN_0066b0d0(nodeB);
  reinterpret_cast<FUN_00a11c00_shell*>(&((::DebugState *)(::FUN_00a0d9e0(true)))->list)->FUN_00a11c00(reinterpret_cast<NiTMapItem*>(&entry7));
  return true;
+}
+
+// If g_011f33a8 is set, calls FUN_00a0dcc0 on it, passes it to g_011f6238.FUN_00aa4060, then clears g_011f33a8.
+// @fnv 0x00a0dae0
+void __cdecl ClearPendingObject() {
+    if (g_011f33a8 != 0) {
+        PendingObj* b = g_011f33a8;
+        PendingObj* a = b;
+        void* r;
+        if (a != 0) {
+            if ((reinterpret_cast<::fnv_00a0dcc0::FUN_00a0dcc0 *>((a))->fnv_00a0dcc0::FUN_00a0dcc0::~FUN_00a0dcc0(), 1) & 1) {
+                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::PendingOwner *>(&::g_memoryManager))))->FUN_00aa4060(a);
+            }
+            r = a;
+        } else {
+            r = 0;
+        }
+        g_011f33a8 = 0;
+    }
+}
+
+// Formats pcFormat with pArgs into a 200-byte buffer, then prints it at iX and the line's Y from m_aiLineY[iLine].
+// @fnv 0x00a0e4f0
+int E4F0DebugText::PrintFormattedLine(int iX, int iLine, int iFlags, const char* pcFormat, char* pArgs, const RgbaColor* pkColor)
+{
+    char acBuffer2[200];
+    std::vsnprintf(acBuffer2, 200, pcFormat, pArgs);
+    int iResult = reinterpret_cast<::A0F8Self *>(this)->FUN_00a0f8b0(acBuffer2, (float)iX, (float)m_aiLineY[iLine], iFlags, -1, -1.0f, 0, (::A0F8Color *)(pkColor));
+    return iResult;
+}
+
+// Formats pcFormat with pArgs into a 200-byte buffer, prints it at slot iSlot's X/Y, advances that slot's Y by m_iLineHeight, and returns the print result.
+// @fnv 0x00a0e5c0
+int A0E5C0DebugText::PrintFormattedAtSlot(int iSlot, int m_iPayloadInteger, const char* pcFormat, char* pArgs, const RgbaColor* pkColor) {
+    int iResult;
+    char acText[200];
+    std::vsnprintf(acText, sizeof(acText), pcFormat, pArgs);
+    iResult = reinterpret_cast<::A0F8Self *>(this)->FUN_00a0f8b0(acText, (float)m_aiX[iSlot], (float)m_aiY[iSlot], m_iPayloadInteger, -1, -1.0f, 0, (::A0F8Color *)(pkColor));
+    m_aiY[iSlot] += m_iLineHeight;
+    return iResult;
 }
 
 #include "generated/data/bsmenu/debugtext.inc"

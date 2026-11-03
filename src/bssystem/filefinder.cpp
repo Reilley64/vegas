@@ -209,7 +209,7 @@ void Loader_S::UpdateLoadingStatus()
         else if (DAT_011c3bfc)
         {
             DAT_011c3bfc = false;
-            SetWindowTextA(((void *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::OSGlobals_S * *>(&::g_osGlobals))))->GetName())), ::_DAT_011a2fe8);
+            SetWindowTextA(((HWND)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::OSGlobals_S * *>(&::g_osGlobals))))->GetName())), ::_DAT_011a2fe8);
         }
     }
 }
@@ -239,11 +239,6 @@ int __cdecl FUN_00afe590(int a1, int a2, int a3)
     return ((int)(::FUN_00afe420((const char *)(a1), (const char *)(a2), 0xffffu, (::FileMatchList *)(a3))));
 }
 
-struct _FILETIME
-{
-    unsigned long dwLowDateTime;
-    unsigned long dwHighDateTime;
-};
 struct FileFinderHack
 {
 };

@@ -1,4 +1,6 @@
 #pragma once
 
+#include <cstdint>
+
 // 0x011c16bc
-extern "C" extern unsigned int __security_cookie;
+extern "C" extern std::uintptr_t __security_cookie;

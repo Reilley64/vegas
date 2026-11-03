@@ -215,5 +215,4 @@ class TaskQueueInterface
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
-int strcat_s(char*, unsigned int, const char*);
 #endif

@@ -242,8 +242,6 @@ float FUN_00a1b3a0_shell::FUN_00a1b3a0(int aiFont)
 
 extern char str_010a435c[];
 
-int __cdecl _strnicmp(const char*, const char*, unsigned int);
-int __cdecl strcpy_s(char*, unsigned int, const char*);
 
 // Builds dst from src: prefixes "Trees" when src ends in "spt", prefixes str_010a435c unless src starts with "meshes\", else copies src.
 // @fnv 0x00af4250
@@ -261,7 +259,6 @@ void __cdecl BuildAssetPath(const char* pcSourcePath, char* pcDestPath, unsigned
     }
 }
 
-int __cdecl strcpy_s(char*, unsigned int, const char*);
 struct FUN_00c3d090_shell2 {
     char pad[0x28];
     char* p;
@@ -396,7 +393,6 @@ void FUN_00a1b970_t::ClearString()
     reinterpret_cast<::TextString *>(&(str))->FUN_004037f0(0, 0);
 }
 
-inline void* operator new(std::size_t, void* p) { return p; }
 struct FUN_00a1c1f0_vec { float a, b, c, d; FUN_00a1c1f0_vec() { a = 0.0f; b = 0.0f; c = 0.0f; d = 0.0f; } };
 struct FUN_00a1c1f0_elem { int pad[4]; FUN_00a1c1f0_vec v; };
 struct FUN_00a1c1f0_shell {
@@ -1201,7 +1197,6 @@ void FUN_00a1b770_cls::FUN_00a1b770()
     FUN_00a1b7f0(0x20);
 }
 
-int __cdecl strcpy_s(char*, unsigned int, const char*);
 
 inline void CopyFont(char* dst, unsigned int size, const char* file) { strcpy_s(dst, size, file); }
 struct FontTexSlot {
@@ -2014,8 +2009,6 @@ delete kTextureFile; kTextureFile=0; texture5->FUN_0060aeb0(1); textures[index3]
 
 namespace fnv_00a19f70 {
 struct LayoutMemory { void Deallocate(void*); };
-void* __cdecl operator new(std::size_t);
-void __cdecl operator delete(void*);
 unsigned int LayoutLength(const char*);
 unsigned int LayoutCapacity(unsigned int,unsigned int);
 void* LayoutCopy(void*,const void*,unsigned int);
@@ -2273,7 +2266,6 @@ struct IconSetting {
     const char* value;
     const char* Get() { return this ? value : 0; }
 };
-void* operator new(std::size_t, void* address) { return address; }
 struct IconArray {
     void** vtable;
     IconData* data;
@@ -2789,11 +2781,8 @@ RunNode* FontData::CreateTextRunNode(SStr* text, Info_* info) {
 
 namespace fnv_00a12880 {
 extern char DAT_01011584[];
-void* __cdecl operator new(std::size_t);
-void __cdecl operator delete(void*);
 unsigned int LayoutLength(const char*);
 unsigned int LayoutCapacity(unsigned int,unsigned int);
-extern "C" void* __cdecl memcpy(void*,const void*,unsigned int);
 inline void* LayoutCopy(void* destination,const void* source,unsigned int size) { return memcpy(destination,source,size); }
 struct LayoutText {
     char* data; unsigned short length,capacity;
@@ -3228,15 +3217,9 @@ void TxtQ::ExtractLine(BSStr* str, int line)
 namespace fnv_00a17390 {
 struct MemoryManager { void* Allocate(unsigned int); };
 struct LayoutMemory { void Deallocate(void*); };
-void* __cdecl operator new(std::size_t);
-void __cdecl operator delete(void*);
 unsigned int LayoutLength(const char*);
 unsigned int LayoutCapacity(unsigned int,unsigned int);
-extern "C" void* __cdecl memcpy(void*,const void*,unsigned int);
 inline void* LayoutCopy(void* destination,const void* source,unsigned int size) { return memcpy(destination,source,size); }
-extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" char* __cdecl strcpy(char*,const char*);
-extern "C" int __cdecl toupper(int);
 int __cdecl FUN_00408b20(const char*,const char*);
 extern "C" int __cdecl sscanf(const char*,const char*,...);
 struct LayoutString {
@@ -3785,9 +3768,6 @@ unsigned int LayoutLength(const char*);
 unsigned int LayoutCapacity(unsigned int,unsigned int);
 inline void* LayoutCopy(void* destination,const void* source,unsigned int size) {return memcpy(destination,source,size);}
 namespace TextLayout {
-extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" char* __cdecl strcpy(char*,const char*);
-extern "C" int __cdecl sprintf(char*,const char*,...);
 extern char DAT_010950a8[];
 struct Memory {
  void FUN_00aa4060(void*);
@@ -4195,7 +4175,7 @@ void Builder::BuildPage(Node* node,Layout* layout){
 
 Page* pageSlot35=0;int remainingSlot28=index;int iconIndexSlot11=0;Shape* shapesSlot32[8];int indices[8];Link<Page*>* cursorSlot10=pages.Head();while(cursorSlot10&&remainingSlot28--)pages.Next(cursorSlot10);if(cursorSlot10)pageSlot35=cursorSlot10->value;else return;
 
-for(unsigned int fontIndex=0;fontIndex<8;fontIndex++){indices[fontIndex]=0;shapesSlot32[fontIndex]=0;int count=reinterpret_cast<::MapQ *>((pageSlot35))->CountEmptyNameEntries(fontIndex);if(count>0){shapesSlot32[fontIndex]=((::PageMeshes::Shape *)(reinterpret_cast<::fnv_00a14a20::FUN_00a14a20_shell *>((GetDebrisManager()->GetFont(fontIndex)))->CreateTextShape(count,(void *)(&Color(117.0f/255.0f,59.0f/255.0f,33.0f/255.0f,1.0f)),true)));shapesSlot32[fontIndex]->SetPosition((*reinterpret_cast<::PageMeshes::Vec *>((void *)&::NiPoint3::ZERO)));}}
+for(unsigned int fontIndex=0;fontIndex<8;fontIndex++){indices[fontIndex]=0;shapesSlot32[fontIndex]=0;int count=reinterpret_cast<::MapQ *>((pageSlot35))->CountEmptyNameEntries(fontIndex);if(count>0){Color kShapeColor(117.0f/255.0f,59.0f/255.0f,33.0f/255.0f,1.0f);shapesSlot32[fontIndex]=((::PageMeshes::Shape *)(reinterpret_cast<::fnv_00a14a20::FUN_00a14a20_shell *>((GetDebrisManager()->GetFont(fontIndex)))->CreateTextShape(count,(void *)(&kShapeColor),true)));shapesSlot32[fontIndex]->SetPosition((*reinterpret_cast<::PageMeshes::Vec *>((void *)&::NiPoint3::ZERO)));}}
 
 List<Shape*> imagesSlot52;Shape* iconsSlot17=0;if(!GetDebrisManager()->GetFont(0)->icons.Empty()){iconsSlot17=((::PageMeshes::Shape *)(reinterpret_cast<::FontAtlasFactory *>((GetDebrisManager()->GetFont(0)))->FUN_00a14da0()));iconsSlot17->SetPositionThroughShape((*reinterpret_cast<::PageMeshes::Vec *>((void *)&::NiPoint3::ZERO)));imagesSlot52.Add(iconsSlot17);}
 
@@ -5161,7 +5141,6 @@ FUN_00a168b0::FUN_00a168b0() {
 }
 
 namespace fnv_00a1a800 {
-extern "C" unsigned int __cdecl strlen(const char*);
 unsigned int __cdecl BSStringLength(const char*);
 unsigned int __cdecl BSStringCapacityMaximum(unsigned int, unsigned int);
 void* __cdecl __memcpy(void*, const void*, unsigned int);

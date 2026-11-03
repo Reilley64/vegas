@@ -36,7 +36,7 @@ struct JobSemaphore
 struct JobOwner
 {
     int unk00;
-    int unk04;
+    bool unk04;
     JobSemaphore completion;
     int unk10;
     CritSection kLock;
@@ -78,25 +78,14 @@ struct Job
 struct JobThread
 {
     int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    bool unk04;
+    bool bThreadsStarted;
+    JobSemaphore kStartSemaphore;
     int unk10;
-    int unk14;
+    HANDLE hUnk14;
     int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
+    unsigned int uiThreadCount;
+    HANDLE ahThreads[12];
     bool bStop;
     CritSection kLock;
     Job* m_pQueueHeads[64];
@@ -134,19 +123,19 @@ struct FUN_00b02310_shell
 // @fnv 0x00b02310
 bool FUN_00b02310_shell::FUN_00b02310(unsigned char* pObject)
 {
-    unsigned char* p = pObject;
+    JobOwner* p = reinterpret_cast<JobOwner*>(pObject);
     bool b;
-    EnterCriticalSection(p + 0x14);
-    if (p[0x2C] != 0)
+    EnterCriticalSection(&p->kLock);
+    if (p->enabled)
     {
-        p[0x2D] = 0;
+        p->pending = false;
         b = 1;
     }
     else
     {
         b = 0;
     }
-    LeaveCriticalSection(p + 0x14);
+    LeaveCriticalSection(&p->kLock);
     return b;
 }
 
@@ -202,19 +191,16 @@ void FUN_00b023f0(Unk00b023f0* pTarget)
     ExitThread(0);
 }
 
-struct FUN_00b02420_Data
+struct FUN_00b02420_Data : JobThread
 {
-    unsigned char pad[0x1C];
-    unsigned int cnt;
-    void* h[1];
     void ResumeAllThreads();
 };
-// Resumes each thread handle stored in the array, iterating cnt times.
+// Resumes each thread handle stored in the array, iterating uiThreadCount times.
 // @fnv 0x00b02420
 void FUN_00b02420_Data::ResumeAllThreads()
 {
-    for (unsigned int i = 0; i < cnt; ++i)
-        ResumeThread(h[i]);
+    for (unsigned int i = 0; i < uiThreadCount; ++i)
+        ResumeThread(ahThreads[i]);
 }
 
 struct FUN_00b02600_shell
@@ -250,7 +236,7 @@ void* S00b02640::FUN_00b02640(unsigned int flags)
     return this;
 }
 
-struct FUN_00b02130_shell
+struct FUN_00b02130_shell : JobThread
 {
     bool QueueItem(void* p);
 };
@@ -258,28 +244,23 @@ struct FUN_00b02130_shell
 // @fnv 0x00b02130
 bool FUN_00b02130_shell::QueueItem(void* apItem)
 {
-    void* pInnerTmp = *(void**)((char*)apItem + 8);
-    void* pInner2;
+    Job* pJob = static_cast<Job*>(apItem);
     unsigned int idx;
-    char* p26c3;
     bool result9;
-    if (pInnerTmp)
+    if (pJob->pOwner)
     {
-        EnterCriticalSection((void*)((char*)this + 0x54));
-        pInner2 = *(void**)((char*)apItem + 8);
-        idx = *(unsigned int*)((char*)pInner2 + 0x30);
+        EnterCriticalSection(&kLock);
+        idx = pJob->pOwner->priority;
         if (idx >= 0x40)
             idx = 0x3f;
-        if (*(void**)((char*)this + 0x6c + idx * 4) == 0)
-            *(void**)((char*)this + 0x16c + idx * 4) = (char*)this + 0x6c + idx * 4;
-        *(void**)(*(void**)((char*)this + 0x16c + idx * 4)) = apItem;
-        *(void**)((char*)this + 0x16c + idx * 4) = (char*)apItem + 0x14;
-        *(void**)((char*)apItem + 0x14) = 0;
-        *(char*)((char*)apItem + 4) = 0;
-        LeaveCriticalSection((void*)((char*)this + 0x54));
-        p26c3 = (char*)this + 0x26c;
-        ReleaseSemaphore(*(void**)(p26c3 + 4), 1, 0);
-        InterlockedIncrement((long*)p26c3);
+        if (m_pQueueHeads[idx] == 0)
+            pQueueTails[idx] = &m_pQueueHeads[idx];
+        *pQueueTails[idx] = pJob;
+        pQueueTails[idx] = &pJob->pNext;
+        pJob->pNext = 0;
+        pJob->bHasCallback = false;
+        LeaveCriticalSection(&kLock);
+        kSemaphore.Signal();
         result9 = true;
     }
     else
@@ -295,29 +276,29 @@ struct FUN_00b020a0_shell
 char FUN_00b020a0_shell::FUN_00b020a0(void* pObject)
 {
     unsigned char flag;
-    void* obj = pObject;
-    EnterCriticalSection((char*)obj + 0x14);
-    if (!(*(unsigned char*)((char*)obj + 0x2c)))
+    JobOwner* obj = static_cast<JobOwner*>(pObject);
+    EnterCriticalSection(&obj->kLock);
+    if (!obj->enabled)
     {
-        WaitForSingleObject(*(void**)((char*)obj + 0xc), 0);
+        WaitForSingleObject(obj->completion.h, 0);
         flag = 1;
-        *(unsigned char*)((char*)obj + 0x2c) = flag;
-        *(unsigned char*)((char*)obj + 4) = 0;
-        *(unsigned char*)((char*)obj + 0x2d) = 1;
-        *(unsigned char*)((char*)obj + 0x2e) = 0;
-        *(unsigned int*)((char*)obj + 0x34) = 0;
-        *(unsigned int*)((char*)obj + 0x38) = 0;
+        obj->enabled = flag;
+        obj->unk04 = false;
+        obj->pending = true;
+        obj->bBusy = false;
+        obj->count = 0;
+        obj->completed = 0;
     }
     else
     {
         flag = 0;
     }
-    LeaveCriticalSection((char*)obj + 0x14);
+    LeaveCriticalSection(&obj->kLock);
     return (char)flag;
 }
 
 
-struct FUN_00b01f50_shell
+struct FUN_00b01f50_shell : JobThread
 {
     void FUN_00b01f50();
 };
@@ -327,24 +308,19 @@ void FUN_00b01f50_shell::FUN_00b01f50()
 {
     unsigned int i;
 
-    *(char*)((char*)this + 0x50) = 1;
-    if (*(unsigned char*)((char*)this + 5))
+    bStop = true;
+    if (bThreadsStarted)
     {
-        for (i = 0; i < *(unsigned int*)((char*)this + 0x1c); ++i)
-        {
-            Inner_00b023b0* pInner = (Inner_00b023b0*)((char*)this + 0x26c);
-            ReleaseSemaphore(pInner->h, 1, 0);
-            InterlockedIncrement(&pInner->cnt);
-        }
-        WaitForMultipleObjects(*(unsigned int*)((char*)this + 0x1c), (const void* const*)((char*)this + 0x20), 1,
-                               0xFFFFFFFF);
+        for (i = 0; i < uiThreadCount; ++i)
+            kSemaphore.Signal();
+        WaitForMultipleObjects(uiThreadCount, ahThreads, 1, 0xFFFFFFFF);
     }
 
-    for (i = 0; i < *(unsigned int*)((char*)this + 0x1c); ++i)
+    for (i = 0; i < uiThreadCount; ++i)
     {
-        CloseHandle(*(void**)((char*)this + i * 4 + 0x20));
+        CloseHandle(ahThreads[i]);
     }
-    CloseHandle(*(void**)((char*)this + 0x14));
+    CloseHandle(hUnk14);
 }
 
 struct Lock_00b02220 : CRITICAL_SECTION

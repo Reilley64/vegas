@@ -822,7 +822,7 @@ NiNode* TileImageShim::FUN_00a1fd50()
     {
         ptr_k =
             (NiNode*)new FUN_00c5cf30(4, vertices_nriq, previous_zphzqj, 0, extraBuffer_tjnslw, 1, 0, 2, indices_tyg, 0,
-                                      0, (((void *)(::Interface::GetFirstInterfaceFloat())), ::Interface::UpdateInterfaceState(), FUN_00ec62c0()));
+                                      0, (((void)(::Interface::GetFirstInterfaceFloat())), ::Interface::UpdateInterfaceState(), FUN_00ec62c0()));
         m_bTextureLoaded = true;
     }
     else
@@ -866,7 +866,6 @@ NiNode* TileImageShim::FUN_00a1fd50()
 
 }
 
-typedef unsigned int size_t;
 
 void* __cdecl operator new(size_t);
 
@@ -1122,7 +1121,7 @@ template <class T> class allocator : public _Allocator_base<T>
     {}
     void deallocate(pointer _Ptr, size_type)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::FUN_00401030(_Ptr);
     }
     pointer allocate(size_type _Count)
     {

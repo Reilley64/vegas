@@ -834,14 +834,6 @@ struct MemoryManager
     void Deallocate(void* apMem);
 };
 extern MemoryManager g_memoryManager;
-inline void* operator new[](size_t stSize)
-{
-    return g_memoryManager.Allocate(stSize);
-}
-inline void operator delete[](void* pvMem)
-{
-    g_memoryManager.Deallocate(pvMem);
-}
 class NiBinaryStream
 {
   public:

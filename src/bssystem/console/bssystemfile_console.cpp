@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00aff000_tbl.h"
 #include "fnv/decl/O.h"
 #include "fnv/decl/SystemFileWriter.h"
@@ -45,7 +46,6 @@ int S_008785e0::SetAndGetField0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
     return field0;
 }
 
-#include <windows.h>
 struct FileSizeInfo
 {
     unsigned int m_eErrorCode;

@@ -1740,7 +1740,7 @@ class SceneC8E
 // @fnv 0x00c8f3c0
 void bhkRigidBody::FUN_00c8f3c0(NiStream* stream)
 {
-    reinterpret_cast<::S00c859e0_cls *>(this)->FUN_00c859e0((unsigned int)(stream));
+    reinterpret_cast<::S00c859e0_cls *>(this)->FUN_00c859e0((uintptr_t)(stream));
     unsigned int count = reinterpret_cast<::FUN_00a63460_shell *>((stream))->FUN_00a63460();
     for (unsigned int i = 0; i < count; ++i)
     {

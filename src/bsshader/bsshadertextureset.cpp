@@ -118,7 +118,7 @@ int FUN_00ba87e0(int* self, int unused, int index)
 }
 
 // @fnv 0x00a81fe0
-void __cdecl FUN_00a81fe0(int a)
+void __cdecl FUN_00a81fe0(intptr_t a)
 {
     reinterpret_cast<::FUN_00a5d2f0_class *>((a))->FUN_00a5d2f0({});
 }

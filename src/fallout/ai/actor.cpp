@@ -131907,7 +131907,7 @@ WeaponObject* ActH2::FUN_008a5f20(bool immediate)
             }
             else
             {
-                weapon = ((::fnv_008a5f20::WeaponObject *)(::fnv_00c89540::CreateResourceObject((int)(weaponData), (int)(root), (int)(node), hidden)));
+                weapon = ((::fnv_008a5f20::WeaponObject *)(::fnv_00c89540::CreateResourceObject((intptr_t)(weaponData), (intptr_t)(root), (intptr_t)(node), hidden)));
                 if (weapon && !immediate)
                     weapon->FUN_00c89050(immediate, weaponData, root, hidden);
             }

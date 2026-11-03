@@ -446,7 +446,7 @@ struct hkStepInfo
 
 struct FUN_00ca86c0_class
 {
-    unsigned int FUN_00ca86c0();
+    uintptr_t FUN_00ca86c0();
 };
 
 struct FUN_00cdf250_class

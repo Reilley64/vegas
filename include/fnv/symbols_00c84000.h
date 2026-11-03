@@ -6,7 +6,7 @@ struct NiColor;
 // 0x00c84470
 void GetLayerColor(unsigned int, ::NiColor &);
 // 0x00c84740
-bool FUN_00c84740(uintptr_t, uintptr_t);
+bool FUN_00c84740(unsigned int, unsigned int);
 // 0x00c84cc0
 void FUN_00c84cc0(int *, uintptr_t);
 // 0x00c84cd0

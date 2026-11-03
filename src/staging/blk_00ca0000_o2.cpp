@@ -12410,7 +12410,7 @@ void FUN_00cac070_Stub::FUN_00cac070(NiStream& stream)
                 ((void(*)(void*, NiStream&))(*(void***)obj)[21])(obj, stream);
         }
     }
-    ::FUN_00a81fe0((int)this);
+    ::FUN_00a81fe0((intptr_t)this);
 }
 // @fnv 0x00cac0b0
 void S_00cac0b0_cls::FUN_00cac0b0(S_00cac0b0_Arg* a)

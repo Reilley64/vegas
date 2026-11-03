@@ -31,7 +31,7 @@
 #include "fnv/symbols_01268000.h"
 struct FUN_00ca86c0_class
 {
-    unsigned int FUN_00ca86c0();
+    uintptr_t FUN_00ca86c0();
 };
 struct FUN_00ca88c0_Class
 {

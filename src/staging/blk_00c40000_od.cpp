@@ -5221,11 +5221,11 @@ public:
     virtual void v32();
     virtual void v33();
     virtual void v34();
-    virtual int v35(void** a2);
+    virtual intptr_t v35(void** a2);
     virtual void v36();
     virtual void v37();
     virtual void v38();
-    virtual int v39(void** a2);
+    virtual intptr_t v39(void** a2);
     unsigned int unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20;
     unsigned int unk24, unk28, unk2C, unk30, unk34, unk38, unk3C, unk40;
     unsigned int unk44, unk48, unk4C, unk50, unk54, unk58, unk5C, unk60;
@@ -5236,10 +5236,10 @@ public:
 
 // Looks up a node via FUN_00a5c570, calls its unk78 object's v35 with a2, and falls back to a1->v39 when a3 is nonzero.
 // @fnv 0x00c4b470
-int __cdecl FUN_00c4b470(FUN_00c4b470_owner* pOwner, void** a2, unsigned char bFallback)
+intptr_t __cdecl FUN_00c4b470(FUN_00c4b470_owner* pOwner, void** a2, unsigned char bFallback)
 {
     FUN_00c4b470_owner* node7;
-    int r7;
+    intptr_t r7;
     void* cur;
     FUN_00c4b470_owner* m78;
     FUN_00c4b470_owner* obj;

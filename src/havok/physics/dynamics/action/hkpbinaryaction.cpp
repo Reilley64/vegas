@@ -177,9 +177,9 @@ struct Act : Ref
 {
     void* world;
     void* island;
-    unsigned long userData;
+    uintptr_t userData;
     NameStr name;
-    Act(unsigned long u) : world(0), island(0), userData(u)
+    Act(uintptr_t u) : world(0), island(0), userData(u)
     {}
 };
 struct FUN_00cf4d80 : Act
@@ -187,11 +187,11 @@ struct FUN_00cf4d80 : Act
     void* a;
     void* b;
     virtual ~FUN_00cf4d80();
-    FUN_00cf4d80(void* x, void* y, unsigned long u);
+    FUN_00cf4d80(void* x, void* y, uintptr_t u);
 };
 // Constructs the object from two pointers and a userData value, calling Init() when either pointer is non-null.
 // @fnv 0x00cf4d80
-FUN_00cf4d80::FUN_00cf4d80(void* x, void* y, unsigned long uiUserData) : Act(uiUserData), a(x), b(y)
+FUN_00cf4d80::FUN_00cf4d80(void* x, void* y, uintptr_t uiUserData) : Act(uiUserData), a(x), b(y)
 {
     if (b || a)
         reinterpret_cast<::FUN_00cf4ca0_class *>(this)->FUN_00cf4ca0();

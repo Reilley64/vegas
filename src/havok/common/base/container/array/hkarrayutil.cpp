@@ -85,35 +85,35 @@ struct SpawnedObject
     virtual void v00();
     virtual void v01();
     virtual void v02();
-    virtual int v03(int* out);
+    virtual void* v03(int& reqNumBytesInOut);
     virtual void v04();
-    virtual int v05(intptr_t a, int b, int* out);
+    virtual void* v05(void* pOld, int oldNumBytes, int& reqNumBytesInOut);
 };
 
 struct SpawnedArray
 {
-    intptr_t m_00;
+    void* m_00;
     int m_04;
-    uintptr_t m_08;
+    int m_08;
 };
 
 
 // @fnv 0x00c908c0
 void __cdecl FUN_00c908c0(SpawnedObject* apObject, SpawnedArray* apArray, intptr_t aiSize, int stride)
 {
-    intptr_t iNewSize = aiSize * stride;
-    if ((apArray->m_08 & 0x80000000u) == 0)
+    int iNewSize = int(aiSize) * stride;
+    if ((apArray->m_08 & 0x80000000) == 0)
     {
-        int n = (int)(apArray->m_08 & 0x3fffffffu) * stride;
-        apArray->m_00 = apObject->v05(apArray->m_00, n, &iNewSize);
-        apArray->m_08 = (unsigned int)(iNewSize / stride);
+        int n = (apArray->m_08 & 0x3fffffff) * stride;
+        apArray->m_00 = apObject->v05(apArray->m_00, n, iNewSize);
+        apArray->m_08 = iNewSize / stride;
     }
     else
     {
-        intptr_t pNewData = apObject->v03(&iNewSize);
-        std::memmove((void *)(pNewData), (const void *)(apArray->m_00), apArray->m_04 * stride);
+        void* pNewData = apObject->v03(iNewSize);
+        std::memmove(pNewData, apArray->m_00, apArray->m_04 * stride);
         apArray->m_00 = pNewData;
-        apArray->m_08 = (unsigned int)(iNewSize / stride);
+        apArray->m_08 = iNewSize / stride;
     }
 }
 
@@ -161,7 +161,7 @@ void ResizeAudioStream(AudioAllocator* pAlloc, AudioStream* pStream, int elemSiz
     }
 }
 
-typedef unsigned int hkUlong;
+typedef uintptr_t hkUlong;
 
 
 struct S_00da2bd0_Node
@@ -669,16 +669,16 @@ void __cdecl FUN_00da12b0(ScriptProgram* mesh, float tolerance, bool unique, Mes
 
     vertexMap->SetSizeAndGrow(mesh->vertices.size);
 
-    MeshArray<MeshVertex> vertices = {0, 0, 0x80000000};
+    MeshArray<MeshVertex> vertices = {0, 0, (int)0x80000000};
 
     FUN_00da0f10(mesh, &vertices, vertexMap, tolerance);
 
     if (unique)
     {
 
-        MeshArray<MeshVertex> compact = {0, 0, 0x80000000};
+        MeshArray<MeshVertex> compact = {0, 0, (int)0x80000000};
 
-        MeshArray<int> mapping = {0, 0, 0x80000000};
+        MeshArray<int> mapping = {0, 0, (int)0x80000000};
 
         int n = vertices.size;
 

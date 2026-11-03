@@ -69,7 +69,7 @@ void FUN_00c66560_class::FUN_00cbf1a0()
 struct FUN_00cd06a0_class : public FUN_00c66560_class
 {
     unsigned char m_aPadding[0x120];
-    unsigned char m_CriticalSection[24];
+    CRITICAL_SECTION m_CriticalSection;
 
     void ResetVftableAndDeleteCriticalSection();
 };
@@ -79,7 +79,7 @@ void FUN_00cd06a0_class::ResetVftableAndDeleteCriticalSection()
 {
     void* criticalSection = &m_CriticalSection;
     m_pVftable = &DAT_010d1110;
-    DeleteCriticalSection(criticalSection);
+    DeleteCriticalSection((LPCRITICAL_SECTION)criticalSection);
     reinterpret_cast<::FUN_00cbf1a0_cls *>(this)->FUN_00cbf1a0();
 }
 
@@ -116,15 +116,7 @@ void FUN_00d5e890(void* context, unsigned int flags)
 {}
 
 
-struct hkCriticalSectionD5E9
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-};
+typedef CRITICAL_SECTION hkCriticalSectionD5E9;
 
 struct hkStreamD5E9
 {
@@ -602,7 +594,7 @@ struct S00d5eb10_Alloc : public FUN_00c66560_class
 void S00d5eb10_Alloc::FUN_00d5eb10(void* apBlock, int size)
 {
     void* cs = &m_pWorldLock;
-    EnterCriticalSection(cs);
+    EnterCriticalSection((LPCRITICAL_SECTION)cs);
     m_numAllocations--;
     if ((char*)apBlock + size == m_pTileTemplate)
     {
@@ -617,7 +609,7 @@ void S00d5eb10_Alloc::FUN_00d5eb10(void* apBlock, int size)
             m_pTileTemplate = m_kBlocks.back().p;
             m_kBlocks.popBack();
         } while (m_kBlocks.m_iElementCount != 0);
-        LeaveCriticalSection(cs);
+        LeaveCriticalSection((LPCRITICAL_SECTION)cs);
         return;
     }
 
@@ -628,7 +620,7 @@ void S00d5eb10_Alloc::FUN_00d5eb10(void* apBlock, int size)
         S00d5eb10_Block& newBlock = m_kBlocks.m_data[iIndex];
         newBlock.p = apBlock;
         newBlock.size = size;
-        LeaveCriticalSection(cs);
+        LeaveCriticalSection((LPCRITICAL_SECTION)cs);
         return;
     }
 
@@ -651,7 +643,7 @@ void S00d5eb10_Alloc::FUN_00d5eb10(void* apBlock, int size)
                 b.size += m_kBlocks.m_data[i + 1].size;
                 m_kBlocks.removeAtAndCopy(i + 1);
             }
-            LeaveCriticalSection(cs);
+            LeaveCriticalSection((LPCRITICAL_SECTION)cs);
             return;
         }
     }
@@ -663,14 +655,14 @@ void S00d5eb10_Alloc::FUN_00d5eb10(void* apBlock, int size)
         {
             kNextBlock.size += size;
             kNextBlock.p = apBlock;
-            LeaveCriticalSection(cs);
+            LeaveCriticalSection((LPCRITICAL_SECTION)cs);
             return;
         }
     }
 
     m_kBlocks.aiRecipeIndex(i + 1, S00d5eb10_Block(apBlock, size));
 exit:
-    LeaveCriticalSection(cs);
+    LeaveCriticalSection((LPCRITICAL_SECTION)cs);
 }
 
 struct SolverDeletingView : FUN_00cd06a0_class

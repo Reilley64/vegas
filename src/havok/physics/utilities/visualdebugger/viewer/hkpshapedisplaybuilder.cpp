@@ -98,7 +98,7 @@ HkDisplayConvexObj* FUN_00ddfc30_cls::FUN_00ddfc30(HkArrayRaw* apArray)
     {
         HkArrayPairBlock* pBlock = (HkArrayPairBlock*)zero;
         hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
-        void* mem = pHolder->m_heap->blockAlloc(0x18);
+        void* mem = pHolder->m_heap->blockAlloc(sizeof(HkArrayPairBlock));
         if (mem != (void*)zero)
         {
             HkArrayPairBlock* p = (HkArrayPairBlock*)mem;
@@ -120,7 +120,7 @@ HkDisplayConvexObj* FUN_00ddfc30_cls::FUN_00ddfc30(HkArrayRaw* apArray)
         pHolder = &hkMemoryRouter::getInstance();
         if (apArray->m_iArrayLength == (int)(apArray->m_uCapFlags & 0x3fffffffu))
         {
-            ::ResizeAudioStream((::AudioAllocator *)(pHolder->m_heap), (::AudioStream *)(apArray), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(pHolder->m_heap), (::AudioStream *)(apArray), sizeof(HkDisplayConvexObj*));
         }
         int idx = apArray->m_iArrayLength;
         HkDisplayConvexObj** pArrayData = (HkDisplayConvexObj**)apArray->m_pData;
@@ -159,8 +159,6 @@ struct Node
     __declspec(noinline) void resetX();
     void FUN_00de0f90(void* shape, XfResult* result);
 public:
-    void FUN_00ddfd10(const ::BaseShape *, const struct ::Transform &, ::Array< ::Display *> &);
-public:
     struct Env
     {
         int m_iFirstValue, m_iSecondValue;
@@ -188,7 +186,7 @@ void Node::FUN_00de0f90(void* shape, XfResult* result)
     _mm_store_ps(t.m[3], _mm_setzero_ps());
     reinterpret_cast<::FUN_00ddfbb0_cls *>(this)->FUN_00ddfbb0();
     result->m_04 = 0;
-    reinterpret_cast<::Node *>(this)->FUN_00ddfd10((const ::BaseShape *)(shape), (*(const struct struct ::Transform *)(&t)), (*(::Array< ::Display *> *)(result)));
+    FUN_00ddfd10((const ::BaseShape *)(shape), (*(const ::Transform *)(&t)), (*(::Array< ::Display *> *)(result)));
 }
 
 // Moved from hkpshapedisplaybuilder_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
@@ -617,10 +615,6 @@ struct FUN_00de4f20 : Display
 {
     Vector normal, center, perp, extent;
     FUN_00de4f20(const Vector&, const Vector&, const Vector&, const Vector&);
-};
-struct FUN_00de1d20 : Display
-{
-    FUN_00de1d20(Mesh*);
 };
 struct Container
 {
@@ -1061,7 +1055,7 @@ void Node::FUN_00ddfd10(const BaseShape* shape, const Transform& mat, Array<Disp
             transformed.data[i].SetTransformedPoint(mat, p[i].getPosition());
         Mesh* mesh = new Mesh;
         MeshUtility::ConvertStridedToMesh(transformed, *mesh);
-        FUN_00de1d20* g = new FUN_00de1d20(mesh);
+        Display* g = reinterpret_cast<Display*>(new ::FUN_00de1d20(mesh));
         out.AddBack(g);
         break;
     }
@@ -1082,7 +1076,7 @@ void Node::FUN_00ddfd10(const BaseShape* shape, const Transform& mat, Array<Disp
                 v->SetTransformedPoint(mat, child->getVertex(j));
             }
         }
-        FUN_00de1d20* g = new FUN_00de1d20(mesh);
+        Display* g = reinterpret_cast<Display*>(new ::FUN_00de1d20(mesh));
         out.AddBack(g);
         break;
     }

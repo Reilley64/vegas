@@ -1851,7 +1851,7 @@ void BoltShader::CreateShaders()
     ShaderDesc kVS("bolt\\v\\bolt.v.hlsl");
     FUN_00be0c00(kVS.pcFile, acPath);
     ::FUN_00406d00(acName, 260, "BOLT.vso");
-    m_spTreeVertexShader = ((::ShaderObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(acPath), (const char *)(::ShaderMacroInfo *)(&kVS.kInfo), "vs_1_1")));
+    m_spTreeVertexShader = ((::ShaderObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(acPath), (::_D3DXMACRO *)(&kVS.kInfo), "vs_1_1", (const char *)(acName))));
 
     const char* pcPixelProfile = NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     ShaderDesc kPS("bolt\\p\\bolt.p.hlsl");

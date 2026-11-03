@@ -1818,7 +1818,7 @@ void ShaderOwner::FUN_00c03ae0(ShaderDesc* pVertexDesc, ShaderDesc* pPixelDesc, 
 
     ::FUN_00be0c00(pVertexDesc->m_pFile, path);
     ::FUN_00406d00(shaderName, 0x104, "IS%s.vso", name);
-    m_spVertexShaderObject = ((::ShaderObj *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(path), (const char *)(int *)(&pVertexDesc->m_04), (const char *)(pVertexArg))));
+    m_spVertexShaderObject = ((::ShaderObj *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(path), (::_D3DXMACRO *)(&pVertexDesc->m_04), (const char *)(pVertexArg), (const char *)(shaderName))));
 
     if (pPixelArg)
     {

@@ -208,17 +208,6 @@ struct FUN_00d08a40_class {
     void ProcessFlaggedEntries(void* arg);
 };
 
-struct FUN_00cd2a00_class {
-};
-
-// @fnv 0x00d083e0
-void FUN_00d083e0(void* arg)
-{
-    FUN_00cd2a00_class* p = reinterpret_cast<FUN_00cd2a00_class*>(
-        reinterpret_cast<char*>(arg) + reinterpret_cast<signed char*>(arg)[0x10]);
-    reinterpret_cast<::FnvCpu_FUN_00cd2a00_CpuObject *>((p))->FUN_00cd2a00();
-}
-
 struct FUN_00d08a90_class {
     char pad0[4];
     char m_enabled4;
@@ -631,6 +620,13 @@ struct hkpCollidableD088 {
 
     hkpEntityD088* getOwner() const { return (hkpEntityD088*)((char*)this + m_iOwnerOffset); }
 };
+
+// @fnv 0x00d083e0
+void FUN_00d083e0(void* arg)
+{
+    hkpEntityD088* owner = static_cast<hkpCollidableD088*>(arg)->getOwner();
+    reinterpret_cast<::FnvCpu_FUN_00cd2a00_CpuObject *>((owner))->FUN_00cd2a00();
+}
 
 class hkpEntityListD088 {
 public:

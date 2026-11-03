@@ -211,7 +211,7 @@ bool TESAmmo::Load(TESFile* file)
         case 0x49524353: {
             unsigned int script = 0;
             file->GetChunkData(&script);
-            ((CombatProcedure*)static_cast<TESScriptableForm *>(this))->Initialize((CombatController*)script);
+            ((CombatProcedure*)static_cast<TESScriptableForm *>(this))->Initialize((CombatController*)(std::uintptr_t)script);
             TESScriptableForm::InitItem(this);
             break;
         }
@@ -222,13 +222,13 @@ bool TESAmmo::Load(TESFile* file)
         case 0x4d414e59: {
             unsigned int pickup = 0;
             file->GetChunkData(&pickup);
-            ((CombatProcedure*)static_cast<BGSPickupPutdownSounds *>(this))->Initialize((CombatController*)pickup);
+            ((CombatProcedure*)static_cast<BGSPickupPutdownSounds *>(this))->Initialize((CombatController*)(std::uintptr_t)pickup);
             break;
         }
         case 0x4d414e5a: {
             unsigned int putdown = 0;
             file->GetChunkData(&putdown);
-            ((TESRegionGrassObject*)static_cast<BGSPickupPutdownSounds *>(this))->AssignLandTexture((TESLandTexture*)putdown);
+            ((TESRegionGrassObject*)static_cast<BGSPickupPutdownSounds *>(this))->AssignLandTexture((TESLandTexture*)(std::uintptr_t)putdown);
             break;
         }
         case 0x41544144:
@@ -254,7 +254,7 @@ bool TESAmmo::Load(TESFile* file)
         case 0x4c494352: {
             unsigned int effect = 0;
             file->GetChunkData(&effect);
-            reinterpret_cast<::Callees *>((((BSSimpleList<ScriptVariableInfo*>*)((TESAmmoInitCalls*)this)->FUN_00923000())))->FUN_00905820((void *)&(const ::ScriptVariableInfo *const &)((ScriptVariableInfo*)effect));
+            reinterpret_cast<::Callees *>((((BSSimpleList<ScriptVariableInfo*>*)((TESAmmoInitCalls*)this)->FUN_00923000())))->FUN_00905820((void *)&(const ::ScriptVariableInfo *const &)((ScriptVariableInfo*)(std::uintptr_t)effect));
             break;
         }
         }
@@ -289,7 +289,7 @@ void FUN_00504420_shell::FUN_00504420(unsigned int aiFlags, unsigned int aiCurre
 
 struct FUN_00504450_shell
 {
-    void FUN_00504450(unsigned int);
+    void FUN_00504450(std::uintptr_t);
 };
 
 struct FUN_00484d60_holder
@@ -302,7 +302,7 @@ struct FUN_0048ea40_holder
 
 // Forwards aiFlags to the method at offset 0 and to the method at offset 0x78 of this object.
 // @fnv 0x00504450
-void FUN_00504450_shell::FUN_00504450(unsigned int aiFlags)
+void FUN_00504450_shell::FUN_00504450(std::uintptr_t aiFlags)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged((::BGSSaveFormBuffer *)(aiFlags));
     reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x78)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(aiFlags));

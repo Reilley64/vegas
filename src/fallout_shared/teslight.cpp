@@ -362,11 +362,11 @@ struct FUN_0048ea40_holder
 
 struct FUN_0050e5c0_shell
 {
-    void FUN_0050e5c0(unsigned int aiFlags);
+    void FUN_0050e5c0(std::uintptr_t aiFlags);
 };
 
 // @fnv 0x0050e5c0
-void FUN_0050e5c0_shell::FUN_0050e5c0(unsigned int aiFlags)
+void FUN_0050e5c0_shell::FUN_0050e5c0(std::uintptr_t aiFlags)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged((::BGSSaveFormBuffer *)(aiFlags));
     reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x8c)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(aiFlags));

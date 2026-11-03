@@ -92,7 +92,7 @@ bool TESObjectSTAT::Load(TESFile* file)
         case 0x4d414e52: {
             unsigned int sound = 0;
             file->GetChunkData(&sound);
-            m_pSoundForm = (TESSound*)sound;
+            m_pSoundForm = (TESSound*)(std::uintptr_t)sound;
             break;
         }
         }

@@ -153,7 +153,7 @@ void BGSTalkingActivator::FindRadioStations(TESObjectREFR* ref, BSSimpleList<TES
                     {
                         bReferencePresent = true;
                         fDistance = -1.0f;
-                        unsigned int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(path.Spaces))->GetName()));
+                        unsigned int count = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(path.Spaces))->GetName()));
                         for (unsigned int i = 0; i < count; ++i)
                         {
                             TESWorldSpace* pathWorld = path.Spaces.GetAt(i).m_pContainingWorldspace;
@@ -179,7 +179,7 @@ void BGSTalkingActivator::FindRadioStations(TESObjectREFR* ref, BSSimpleList<TES
                     {
                         bReferencePresent = true;
                         fDistance = -1.0f;
-                        unsigned int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(path.Spaces))->GetName()));
+                        unsigned int count = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(path.Spaces))->GetName()));
                         for (unsigned int i = 0; i < count; ++i)
                         {
                             if (path.Spaces.GetAt(i).m_pContainingWorldspace)

@@ -2162,7 +2162,7 @@ NiAVObject* BipedAnim::AttachBipedModel(NiNode* model, NiNode* parent, BIPED_OBJ
                 if (!pResult)
                     pResult = skinned.child;
                 BipedSkinBoneBinding binding;
-                binding.count = (unsigned int)((LowProcess*)((::NiSkinData *)(reinterpret_cast<::TESRegionDataMap *>((skinned.skin))->GetRegionMapName())))->GetActiveCombatTarget();
+                binding.count = (unsigned int)(std::uintptr_t)((LowProcess*)((::NiSkinData *)(reinterpret_cast<::TESRegionDataMap *>((skinned.skin))->GetRegionMapName())))->GetActiveCombatTarget();
                 binding.boneArray = (NiAVObject**)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)skinned.skin)))->FUN_00825c00();
                 for (unsigned int j = 0; j < binding.count; ++j)
                 {

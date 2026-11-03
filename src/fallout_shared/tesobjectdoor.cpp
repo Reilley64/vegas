@@ -750,7 +750,7 @@ class HighProcess : public BaseProcess
 // @fnv 0x00518f80
 void __cdecl FUN_00518f80(unsigned int uiRefId)
 {
-    S_00518f80_Ref* ref = ((::S_00518f80_Ref *)(::FUN_0056f930((::NiAVObject *)(uiRefId))));
+    S_00518f80_Ref* ref = ((::S_00518f80_Ref *)(::FUN_0056f930((::NiAVObject *)(std::uintptr_t)(uiRefId))));
     if (ref)
     {
         if (((::S_00518f80_Obj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->FUN_00401170() == 0x1c)
@@ -2311,7 +2311,7 @@ void __cdecl FUN_00519290();
 // @fnv 0x00518cf0
 void __cdecl PlaySoundForRef(unsigned int id)
 {
-    Ref* ref = (Ref*)id;
+    Ref* ref = (Ref*)(std::uintptr_t)id;
     if (ref)
     {
         FUN_00519290();

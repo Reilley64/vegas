@@ -106,7 +106,7 @@ bool TESLevCharacter::Load(TESFile* file)
         case 0x474c564c: {
             unsigned int global = 0;
             file->GetChunkData(&global);
-            m_pLevelGlobal = (TESGlobal*)global;
+            m_pLevelGlobal = (TESGlobal*)(std::uintptr_t)global;
             break;
         }
         case 0x4c444f4d:

@@ -1337,7 +1337,7 @@ void SaveRace611e50::SaveRace()
             hairposition7++;
             hairlist7 = ((::SaveList611e50 *)(reinterpret_cast<::Callees *>((hairlist7))->FUN_00726070()));
         }
-        ::FUN_00485710((void *)(0x4d414e48), (void *)(hairdata1), (void *)(haircount2));
+        ::FUN_00485710((void *)(0x4d414e48), (void *)(hairdata1), (void *)(std::uintptr_t)(haircount2));
         delete[] hairdata1;
     }
     {
@@ -1351,7 +1351,7 @@ void SaveRace611e50::SaveRace()
             eyeposition15++;
             eyelist45 = ((::SaveList611e50 *)(reinterpret_cast<::Callees *>((eyelist45))->FUN_00726070()));
         }
-        ::FUN_00485710((void *)(0x4d414e45), (void *)(eyedata3), (void *)(eyecount20));
+        ::FUN_00485710((void *)(0x4d414e45), (void *)(eyedata3), (void *)(std::uintptr_t)(eyecount20));
         delete[] eyedata3;
     }
     for (sex3 = 0; sex3 < 2; sex3++)
@@ -1379,7 +1379,7 @@ void SaveRace611e50::SaveRace()
                     geometrydata18[geometryindex] = *((float *)&(reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::FaceValue611e50 &)(((FaceMatrix611e50*)&m_kFirstFloatPairBySex[0][0])
                                                          ->FUN_0060b370(geometryindex, 0)))->FUN_00629ab0({})));
             }
-            ::FUN_00485710((void *)(0x53474746), (void *)(geometrydata18), (void *)(count));
+            ::FUN_00485710((void *)(0x53474746), (void *)(geometrydata18), (void *)(std::uintptr_t)(count));
             FUN_00401030(geometrydata18);
             geometrydata18 = 0;
         }
@@ -1401,7 +1401,7 @@ void SaveRace611e50::SaveRace()
                     asymmetrydata24[asymmetryindex] = *((float *)&(reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::FaceValue611e50 &)(((FaceMatrix611e50*)&m_kFirstFloatPairBySex[0][1])
                                                            ->FUN_0060b370(asymmetryindex, 0)))->FUN_00629ab0({})));
             }
-            ::FUN_00485710((void *)(0x41474746), (void *)(asymmetrydata24), (void *)(count));
+            ::FUN_00485710((void *)(0x41474746), (void *)(asymmetrydata24), (void *)(std::uintptr_t)(count));
             FUN_00401030(asymmetrydata24);
             asymmetrydata24 = 0;
         }
@@ -1423,7 +1423,7 @@ void SaveRace611e50::SaveRace()
                     texturedata16[textureindex] = *((float *)&(reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::FaceValue611e50 &)(((FaceMatrix611e50*)&m_kFirstFloatPairBySex[1][0])
                                                        ->FUN_0060b370(textureindex, 0)))->FUN_00629ab0({})));
             }
-            ::FUN_00485710((void *)(0x53544746), (void *)(texturedata16), (void *)(count));
+            ::FUN_00485710((void *)(0x53544746), (void *)(texturedata16), (void *)(std::uintptr_t)(count));
             FUN_00401030(texturedata16);
             texturedata16 = 0;
         }
@@ -1812,7 +1812,7 @@ void FUN_00612c90_cls::CopyFromRace(TESForm* apSource)
         Data.m_fGlyphExtent[j3] = reinterpret_cast<::FUN_00604210_shell *>((pRace3))->FUN_00604210(j3);
         Data.fWeight[j3] = reinterpret_cast<::FUN_006042d0_Owner *>((pRace3))->GetArrValue(j3);
     }
-    Data.iFlags = ((int)(reinterpret_cast<::FUN_004fd380_shell *>((pRace3))->FUN_004fd380()));
+    Data.iFlags = ((int)(std::uintptr_t)(reinterpret_cast<::FUN_004fd380_shell *>((pRace3))->FUN_004fd380()));
     for (uiSexB = 0; uiSexB < 2; uiSexB++)
     {
         for (uiPartA = 0; uiPartA < 8; uiPartA++)

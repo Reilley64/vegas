@@ -1786,7 +1786,7 @@ void DDecal::BuildDecalGeometry()
         dismember_9 = skin_1;
     else
         return;
-    partitionCount_10 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::DPartitionData *)(::fnv_0043b230::FUN_0043b230((const char *)(skin_1))))))->GetName()));
+    partitionCount_10 = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::DPartitionData *)(::fnv_0043b230::FUN_0043b230((const char *)(skin_1))))))->GetName()));
     DMatrix basis_6;
     DMatrix worldRotation_4 = ((::DGeometry *)(::FUN_00559450((int *)&(geometry))))->FUN_00461130().rotation;
     DMatrix inverse_11 = (*(::DMatrix *)(reinterpret_cast<::ThreeByThreeMatrix *>(&(worldRotation_4))->FUN_004b45b0({})));
@@ -1855,7 +1855,7 @@ void DDecal::BuildDecalGeometry()
     reinterpret_cast<::Class87d40 *>((skin_1))->ForwardActorBaseData(((::DGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))), (std::intptr_t)(positions_6), (std::intptr_t)(normals_17), 0, 0, 12);
     skinData_1 = ((::DSkinData *)(reinterpret_cast<::TESRegionDataMap *>((skin_1))->GetRegionMapName()));
     bones_53 = ((::DBone *)(reinterpret_cast<::LowProcess *>((skinData_1))->GetTarget()));
-    boneCount_4 = ((int)(reinterpret_cast<::LowProcess *>((skinData_1))->GetActiveCombatTarget()));
+    boneCount_4 = ((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((skinData_1))->GetActiveCombatTarget()));
     newBones_3 = new DBone[boneCount_4];
     for (int allocBoneIndex = 0; allocBoneIndex < boneCount_4; allocBoneIndex++)
     {

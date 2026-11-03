@@ -8436,7 +8436,7 @@ void SaveHeader::WriteSaveHeader(void* file, const char* name)
     reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(file), (const char *)(const void *)(&_heading), 4);
     if (!reinterpret_cast<::FUN_0047c850 *>(this)->EvaluateCondition() && (!name || (!((int)(std::uintptr_t)(std::strstr((char *)(name), "quicksave"))) && !((int)(std::uintptr_t)(std::strstr((char *)(name), "autosave"))))))
     {
-        unsigned int saveNumber = ((unsigned int)(reinterpret_cast<::FUN_00862370_class *>(this)->GetOrCreatePointer()));
+        unsigned int saveNumber = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::FUN_00862370_class *>(this)->GetOrCreatePointer()));
         reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(file), (const char *)(const void *)(&saveNumber), 4);
         unk8c = unk8c + 1;
     }
@@ -8655,7 +8655,7 @@ bool Cls56::FUN_00856ca0(int aiFileHandle, std::intptr_t apSavePath, unsigned ch
     pForm = 0;
     if (!reinterpret_cast<::FUN_0047c850 *>((((FUN_00485d50_slg*)this)))->EvaluateCondition())
     {
-        pForm = (FormObj*)((::SaveOwner*)this)->OpenSaveFile((::SaveFile*)aiFileHandle, (const char*)apSavePath, 0);
+        pForm = (FormObj*)((::SaveOwner*)this)->OpenSaveFile((::SaveFile*)(std::uintptr_t)aiFileHandle, (const char*)apSavePath, 0);
     }
     if (p2)
     {

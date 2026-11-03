@@ -734,7 +734,7 @@ TESIdleForm* IdleCopy::CopyIdleForm(unsigned char flag, FormCopyMap* map)
     TESForm* b;
     TESForm* ba;
     TESForm* k;
-    i = dynamic_cast<TESIdleForm*>(((::TESForm *)(reinterpret_cast<::FUN_004867a0_cls *>(this)->FUN_004867a0((void *)(flag), map))));
+    i = dynamic_cast<TESIdleForm*>(((::TESForm *)(reinterpret_cast<::FUN_004867a0_cls *>(this)->FUN_004867a0((void *)(std::uintptr_t)(flag), map))));
     h = 0;
     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((std::uintptr_t)(m_pParentIdleForm), (::fnv_00853130::CombatThreatRecord *&)(h)) || !h)
         h = m_pParentIdleForm;

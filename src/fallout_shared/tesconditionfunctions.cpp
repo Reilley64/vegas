@@ -9149,7 +9149,7 @@ struct FUN_0059c5d0_TLSData
 // @fnv 0x0059c5d0
 bool __cdecl FUN_0059c5d0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
-    int iActorValueIndex = reinterpret_cast<unsigned int>(apParam1);
+    int iActorValueIndex = (unsigned int)(std::uintptr_t)(apParam1);
     Actor* pActor = 0;
 
     if (apRefObject && reinterpret_cast<FUN_0059c5d0_RefInterface*>(apRefObject)->f64())
@@ -11419,7 +11419,7 @@ bool __cdecl FUN_0059f300(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         }
     }
 
-    iCreatureType = (int)apParam1;
+    iCreatureType = (int)(std::uintptr_t)apParam1;
 
     if (pcreature && reinterpret_cast<::TESCreature *>((void *)(pcreature))->GetCreatureType() == iCreatureType)
     {
@@ -18804,7 +18804,7 @@ bool FUN_005a1770(ActorX* apActor, void* apUnused1, void* apUnused2, double& res
             {
             case 0x17: {
                 ItemZ* pZ = pItem;
-                result = ((int)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pZ))));
+                result = ((int)(std::uintptr_t)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pZ))));
                 break;
             }
             case 0xe: {
@@ -21642,7 +21642,7 @@ class ProcMgr
 bool FUN_005a5ab0(void* reference, void* arg1, void* arg2, double& result)
 {
     result = 0;
-    result = ((int)(reinterpret_cast<::FUN_005a5b10_Class *>(&((*reinterpret_cast<::fnv_005a5ab0::ProcMgr *>(&::g_011e0e80))))->GetFieldPointer()));
+    result = ((int)(std::uintptr_t)(reinterpret_cast<::FUN_005a5b10_Class *>(&((*reinterpret_cast<::fnv_005a5ab0::ProcMgr *>(&::g_011e0e80))))->GetFieldPointer()));
     if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("GetActorsInHigh >> %0.2f", result);
     return true;
@@ -22640,8 +22640,8 @@ bool FUN_0059f630(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
             return true;
         if (reinterpret_cast<::fnv_008b8e90::FUN_008b8e90_shell *>((pact))->FUN_008b8e90((::fnv_008b8e90::TESFaction *)(pfac)))
             *afReturnValue = 1.0;
-        ::fnv_005a38e0::DAT_011cab04 = (int)apRefObject;
-        ::fnv_005a38e0::DAT_011cab00 = (int)pfac;
+        ::fnv_005a38e0::DAT_011cab04 = (int)(std::uintptr_t)apRefObject;
+        ::fnv_005a38e0::DAT_011cab00 = (int)(std::uintptr_t)pfac;
         ::fnv_005a38e0::DAT_011cab08 = *afReturnValue;
     }
     if (::g_tlsBlock.conditionFunctionDebug)
@@ -22931,8 +22931,8 @@ bool __cdecl FUN_0059f450(TESObjectREFR* apRefObject, void* apParam1, void* apPa
             }
             break;
             }
-            ::fnv_005a38e0::DAT_011cab18 = reinterpret_cast<int>(apRefObject);
-            ::fnv_005a38e0::DAT_011cab14 = reinterpret_cast<int>(pcompvoice);
+            ::fnv_005a38e0::DAT_011cab18 = (int)(std::uintptr_t)(apRefObject);
+            ::fnv_005a38e0::DAT_011cab14 = (int)(std::uintptr_t)(pcompvoice);
         }
         if (pcompvoice == apParam1)
             *afReturnValue = 1.0;

@@ -686,7 +686,7 @@ struct FUN_0048aba0_Class
 // @fnv 0x0048aba0
 void FUN_0048aba0_Class::ApplyTextureSwapOverrides(unsigned int formID)
 {
-    reinterpret_cast<::ModelCopyView *>(this)->FUN_00489430((::BaseFormComponent *)(formID));
+    reinterpret_cast<::ModelCopyView *>(this)->FUN_00489430((::BaseFormComponent *)(std::uintptr_t)(formID));
     TextureSwapNodeAccessor* list =
         static_cast<TextureSwapNodeAccessor*>(FUN_00ec43fb(formID, 0, &::DAT_01183040, &DAT_011831c4, 0));
     if (!list)

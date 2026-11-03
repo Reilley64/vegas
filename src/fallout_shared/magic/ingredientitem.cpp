@@ -466,7 +466,7 @@ void LCItem::FUN_00409da0(LCFile* apFile, int aiChunk)
     case 'IRCS': {
         unsigned int uiScript = 0;
         apFile->GetChunkData(&uiScript);
-        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(uiScript));
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(uiScript));
         reinterpret_cast<::TESScriptableForm *>(this)->InitItem((::TESForm *)(::LCForm *)(this));
         break;
     }
@@ -477,7 +477,7 @@ void LCItem::FUN_00409da0(LCFile* apFile, int aiChunk)
     case 'PYTE': {
         unsigned int uiEquipType = 0;
         apFile->GetChunkData(&uiEquipType);
-        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(uiEquipType));
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(uiEquipType));
         break;
     }
     case 'ATAD':

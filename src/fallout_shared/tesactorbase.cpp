@@ -281,7 +281,7 @@ struct FUN_005f0f50_shell : ArrSI
 // @fnv 0x005f0f50
 char FUN_005f0f50_shell::HasFlag80000()
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int flags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
     return (flags & 0x80000) != 0;
 }
 

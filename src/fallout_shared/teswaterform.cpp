@@ -1071,13 +1071,13 @@ bool TESWaterForm::Load(TESFile* file)
         case 0x4d414e53: {
             unsigned int shader = 0;
             file->GetChunkData(&shader);
-            reinterpret_cast<EffectSetting*>(this)->SetEnchantEffectShader((TESEffectShader*)shader);
+            reinterpret_cast<EffectSetting*>(this)->SetEnchantEffectShader((TESEffectShader*)(std::uintptr_t)shader);
             break;
         }
         case 0x4d414e58: {
             unsigned int spell = 0;
             file->GetChunkData(&spell);
-            reinterpret_cast<::FUN_0057f890_shell *>(this)->FUN_0057f890((SpellItem*)spell);
+            reinterpret_cast<::FUN_0057f890_shell *>(this)->FUN_0057f890((SpellItem*)(std::uintptr_t)spell);
             break;
         }
         case 0x4d414e4d: {

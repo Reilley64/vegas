@@ -337,10 +337,10 @@ bool MediaSetLoad::FUN_00598bc0(TESFile* apFile)
             switch (chunkid)
             {
             case 'MANH':
-                m_pSound1 = (TESSound*)itempint;
+                m_pSound1 = (TESSound*)(std::uintptr_t)itempint;
                 break;
             case 'MANI':
-                m_pSound2 = (TESSound*)itempint;
+                m_pSound2 = (TESSound*)(std::uintptr_t)itempint;
                 break;
             }
             break;

@@ -6025,14 +6025,14 @@ char AnimationInterface::FUN_00495f50(int sequenceIndex, int actionId, float* ou
     float tracks = reinterpret_cast<::TESObjectREFR *>((static_cast<SequenceInterface*>(m_pChildTile[sequenceIndex])))->GetScale();
     FUN_00495f30_shell* sequenceTime = static_cast<SequenceInterface*>(m_pChildTile[sequenceIndex])->FUN_00700300();
     TrackEntry* key = reinterpret_cast<TrackEntry*>(sequenceTime->FUN_00495f30(&entries));
-    unsigned int trackCount = ::FUN_0044a670((const char *)(actionId));
+    unsigned int trackCount = ::FUN_0044a670((const char *)(std::uintptr_t)(actionId));
     if (!trackCount)
         return 0;
 
     for (unsigned int i = 0; i < static_cast<unsigned int>(entries); ++i)
     {
         signed char* object = key[i].FUN_00717e50()->FUN_0043b1b0();
-        if (object != 0 && fnv::crt::strnicmp((const char *)(object), (const char *)(actionId), trackCount) == 0 && tracks <= reinterpret_cast<::CombatTargetTimestamp *>(&(key[i]))->FUN_006a7f50())
+        if (object != 0 && fnv::crt::strnicmp((const char *)(object), (const char *)(std::uintptr_t)(actionId), trackCount) == 0 && tracks <= reinterpret_cast<::CombatTargetTimestamp *>(&(key[i]))->FUN_006a7f50())
         {
             if (outTime != 0)
                 *outTime = reinterpret_cast<::CombatTargetTimestamp *>(&(key[i]))->FUN_006a7f50();

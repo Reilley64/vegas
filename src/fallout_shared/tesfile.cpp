@@ -1159,7 +1159,7 @@ bool FUN_00471870_shell::MatchMasterFiles(void* pFileList, bool showerror)
     TESFile* pcheckfile;
     pFList = (BSSimpleList<TESFile*>*)pFileList;
     pMList = (BSSimpleList<char*>*)((FUN_00464df0_shell*)this)->FUN_00464df0();
-    size = ((unsigned int)(reinterpret_cast<::FUN_00471850_Class *>((this))->GetFieldAt3FC()));
+    size = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::FUN_00471850_Class *>((this))->GetFieldAt3FC()));
     if (this->m_ppTESFiles)
         delete[] this->m_ppTESFiles;
     this->m_ppTESFiles = 0;

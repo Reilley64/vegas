@@ -1880,13 +1880,13 @@ void FUN_004e3590_shell::FUN_004e3520(void* apList)
     void* pvItem2 = 0;
     while (uiCount2)
     {
-        pvItem2 = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)(((NiTPointerList<WaterSurface>*)((char*)apList + 0x24))))->DereferenceIfNotNull((int **)(void *)((void*)uiCount2))));
+        pvItem2 = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)(((NiTPointerList<WaterSurface>*)((char*)apList + 0x24))))->DereferenceIfNotNull((int **)(void *)((void*)(std::uintptr_t)uiCount2))));
         if (uiCount2)
         {
             void* pvNext = *(void**)reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_struct*)((char*)apList + 0x24))))->AddEight(uiCount2);
             FUN_004e3590(apList, pvNext);
         }
-        uiCount2 = (unsigned int)pvItem2;
+        uiCount2 = (unsigned int)(std::uintptr_t)pvItem2;
     }
 }
 }  // namespace fnv_004e3520

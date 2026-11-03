@@ -657,7 +657,7 @@ bool BGSRagdoll::Load(TESFile* file)
                 ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(&m_kRagdollAnimationData.m_kFootIndices)))->GetName())) *
                     2);
             locals.count =
-                ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(&m_kRagdollAnimationData.m_kFootIndices)))->GetName()));
+                ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(&m_kRagdollAnimationData.m_kFootIndices)))->GetName()));
             if (file->IsEndianConversionRequired())
             {
                 for (locals.i = 0; locals.i < locals.count; ++locals.i)
@@ -995,7 +995,7 @@ void FUN_005ef1f0_Arr::FUN_005ef1f0(unsigned int aiNewSize, bool abFreeMemory)
         }
         else
         {
-            reinterpret_cast<::FUN_005efa80_cls *>(this)->FUN_005efa80((void *)(aiNewSize), uiSize);
+            reinterpret_cast<::FUN_005efa80_cls *>(this)->FUN_005efa80((void *)(std::uintptr_t)(aiNewSize), uiSize);
             uiAllocSize = aiNewSize;
         }
         reinterpret_cast<::E5EF9A0Allocator *>(this)->ConstructEntries((::E5EF9A0Entry *)(::fnv_005ef1f0::FUN_005ef1f0_Item *)(pBuffer + uiSize), aiNewSize - uiSize);
@@ -1007,7 +1007,7 @@ void FUN_005ef1f0_Arr::FUN_005ef1f0(unsigned int aiNewSize, bool abFreeMemory)
         uiSize = aiNewSize;
         if (abFreeMemory && aiNewSize <= uiAllocSize >> 2)
         {
-            reinterpret_cast<::FUN_005efa80_cls *>(this)->FUN_005efa80((void *)(aiNewSize), aiNewSize);
+            reinterpret_cast<::FUN_005efa80_cls *>(this)->FUN_005efa80((void *)(std::uintptr_t)(aiNewSize), aiNewSize);
             uiAllocSize = aiNewSize;
         }
     }
@@ -1056,7 +1056,7 @@ void BSSimpleArray_005ef3d0::FUN_005ef3d0(unsigned int aiNewSize, bool abFreeMem
         }
         else
         {
-            reinterpret_cast<::fnv_005efc90::FUN_005efc90_class *>(this)->FUN_005efc90((void *)(aiNewSize), (void *)(uiSize));
+            reinterpret_cast<::fnv_005efc90::FUN_005efc90_class *>(this)->FUN_005efc90((void *)(std::uintptr_t)(aiNewSize), (void *)(std::uintptr_t)(uiSize));
             uiAllocSize = aiNewSize;
         }
         reinterpret_cast<::EFBC0Array *>(this)->ConstructItems((::EFBC0Item *)(::fnv_005ef3d0::GrabIK_Arm_DATA_005ef3d0 *)(pBuffer + uiSize), aiNewSize - uiSize);
@@ -1068,7 +1068,7 @@ void BSSimpleArray_005ef3d0::FUN_005ef3d0(unsigned int aiNewSize, bool abFreeMem
         uiSize = aiNewSize;
         if (abFreeMemory && aiNewSize <= uiAllocSize >> 2)
         {
-            reinterpret_cast<::fnv_005efc90::FUN_005efc90_class *>(this)->FUN_005efc90((void *)(aiNewSize), (void *)(aiNewSize));
+            reinterpret_cast<::fnv_005efc90::FUN_005efc90_class *>(this)->FUN_005efc90((void *)(std::uintptr_t)(aiNewSize), (void *)(std::uintptr_t)(aiNewSize));
             uiAllocSize = aiNewSize;
         }
     }
@@ -1130,10 +1130,10 @@ void FUN_005ee110_shell::FUN_005ee110()
         ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0xc0)))->GetName()));
 
     saveData.m_usHeadDataCount =
-        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0xe4)))->GetName()));
+        ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0xe4)))->GetName()));
 
     saveData.m_usGrabArmDataCount =
-        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0x108)))->GetName()));
+        ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0x108)))->GetName()));
 
     *reinterpret_cast<unsigned char*>(&saveData.m_bRagdollAnimationEnabled) =
         *reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(this) + 0x40);

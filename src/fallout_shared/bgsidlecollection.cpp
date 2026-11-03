@@ -289,7 +289,7 @@ void FUN_004799f0_shell::FUN_004799f0()
                 parray[i] = 0;
         }
 
-        ::FUN_00485710((void *)(0x414c4449), parray, (void *)(m_ucPickType));
+        ::FUN_00485710((void *)(0x414c4449), parray, (void *)(std::uintptr_t)(m_ucPickType));
     }
 }
 

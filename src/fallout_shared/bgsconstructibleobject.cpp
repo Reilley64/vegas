@@ -386,7 +386,7 @@ bool FUN_004f96f0_cobj::FUN_004f96f0(TESFile* apFile)
         case 0x49524353: {
             unsigned int tempint = 0;
             apFile->GetChunkData(&tempint);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(tempint));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(tempint));
             TESScriptableForm::InitItem(this);
             break;
         }
@@ -400,13 +400,13 @@ bool FUN_004f96f0_cobj::FUN_004f96f0(TESFile* apFile)
         case 0x4d414e52: {
             unsigned int itempint = 0;
             apFile->GetChunkData(&itempint);
-            m_pCreatedObject = (BGSListForm*)itempint;
+            m_pCreatedObject = (BGSListForm*)(std::uintptr_t)itempint;
             break;
         }
         case 0x4d414e43: {
             unsigned int itempint = 0;
             apFile->GetChunkData(&itempint);
-            m_pWorkbenchKeyword = (TESBoundObject*)itempint;
+            m_pWorkbenchKeyword = (TESBoundObject*)(std::uintptr_t)itempint;
             break;
         }
         }

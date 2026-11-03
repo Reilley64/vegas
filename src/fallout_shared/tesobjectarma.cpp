@@ -236,11 +236,11 @@ struct FUN_0048ea40_holder
 
 struct FUN_005144c0_shell
 {
-    void FUN_005144c0(unsigned int flags);
+    void FUN_005144c0(std::uintptr_t flags);
 };
 
 // @fnv 0x005144c0
-void FUN_005144c0_shell::FUN_005144c0(unsigned int flags)
+void FUN_005144c0_shell::FUN_005144c0(std::uintptr_t flags)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged((::BGSSaveFormBuffer *)(flags));
     reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x58)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(flags));
@@ -446,7 +446,7 @@ bool TESObjectARMA::Load(TESFile* file)
             unsigned int type = 0;
             file->GetChunkData(&type);
             // Reuse the canonical identity of the folded scalar setter.
-            reinterpret_cast<::CombatProcedure *>((((TESResponse*)&equipType)))->Initialize((::CombatController *)(type));
+            reinterpret_cast<::CombatProcedure *>((((TESResponse*)&equipType)))->Initialize((::CombatController *)(std::uintptr_t)(type));
             break;
         }
         case 'MAND':

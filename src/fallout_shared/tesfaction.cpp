@@ -530,10 +530,10 @@ struct STR00
 };
 struct FUN_005fd610_shell
 {
-    void FUN_005fd610(unsigned int, unsigned int);
+    void FUN_005fd610(unsigned int, std::uintptr_t);
 };
 // @fnv 0x005fd610
-void FUN_005fd610_shell::FUN_005fd610(unsigned int aiFlags, unsigned int aiCurrentFlags)
+void FUN_005fd610_shell::FUN_005fd610(unsigned int aiFlags, std::uintptr_t aiCurrentFlags)
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((((TESFormStub*)this)))->FUN_00484c50(aiFlags, aiCurrentFlags);
     reinterpret_cast<::TESReactionFormLoad *>((((STR24*)((char*)this + 0x24))))->LoadReactions(aiFlags, (::BGSLoadFormBuffer *)(aiCurrentFlags));

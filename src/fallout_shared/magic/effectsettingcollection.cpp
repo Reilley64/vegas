@@ -108,8 +108,8 @@ EffectSetting* EffectSettingCollection::CreateEffectSetting(unsigned int formID,
     effect->UpdateEffectName(fullName);
     reinterpret_cast<::FUN_004ee4b0_shell *>((effect))->FUN_004ee4b0(cost);
     reinterpret_cast<::FUN_00810570_shell *>((effect))->SetAssociatedActorValue(skill);
-    ((MiddleHighProcess*)effect)->AddDeferredHideLimb((TargetDoorController*)item);
-    reinterpret_cast<::MiddleHighProcess *>((((PlayerQuestData*)effect)))->SetFaceAnimationData((::TargetDoorController *)(::Date *)((Date*)resist));
+    ((MiddleHighProcess*)effect)->AddDeferredHideLimb((TargetDoorController*)(std::uintptr_t)item);
+    reinterpret_cast<::MiddleHighProcess *>((((PlayerQuestData*)effect)))->SetFaceAnimationData((::TargetDoorController *)(::Date *)((Date*)(std::uintptr_t)resist));
     reinterpret_cast<::FUN_004078a0_shell *>((effect))->SetEffectID(flags);
     ::RegisterEffectSetting((int *)(effect));
     return effect;

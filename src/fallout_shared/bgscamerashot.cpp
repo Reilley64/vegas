@@ -303,7 +303,7 @@ bool BGSCameraShot::Load(TESFile* file)
         case 0x4d414e4d: {
             unsigned int modifier = 0;
             file->GetChunkData(&modifier);
-            ((CombatProcedure*)static_cast<TESImageSpaceModifiableForm *>(this))->Initialize((CombatController*)modifier);
+            ((CombatProcedure*)static_cast<TESImageSpaceModifiableForm *>(this))->Initialize((CombatController*)(std::uintptr_t)modifier);
             break;
         }
         case 0x41544144:

@@ -249,7 +249,7 @@ void FUN_004f20b0_cls::ResetAndCollectProbes()
             pProbes[iIndex] = v2;
             pNode = ((::FUN_004f20b0_node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         }
-        ::FUN_00485710((void *)(0x44494452), pProbes, (void *)(count));
+        ::FUN_00485710((void *)(0x44494452), pProbes, (void *)(std::uintptr_t)(count));
         delete pProbes;
     }
 }

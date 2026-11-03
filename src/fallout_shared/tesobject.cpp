@@ -2840,18 +2840,18 @@ StdString& StdString::Replace(unsigned int _Off, ::std::uintptr_t _N0, StdString
     }
     else if (_Count <= _N0)
     {
-        ::fnv_0044d580::FUN_0044d580(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Off, (void *)(_Myres - _Off), (void *)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Roff), (void *)(_Count));
+        ::fnv_0044d580::FUN_0044d580(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Off, (void *)(_Myres - _Off), (void *)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Roff), (void *)(std::uintptr_t)(_Count));
         ::fnv_0044d580::FUN_0044d580(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Off + _Count, (void *)(_Myres - _Off - _Count), (void *)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Off + _N0), (void *)(_Nm));
     }
     else if (_Roff <= _Off)
     {
         ::fnv_0044d580::FUN_0044d580(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Off + _Count, (void *)(_Myres - _Off - _Count), (void *)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Off + _N0), (void *)(_Nm));
-        ::fnv_0044d580::FUN_0044d580(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Off, (void *)(_Myres - _Off), (void *)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Roff), (void *)(_Count));
+        ::fnv_0044d580::FUN_0044d580(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Off, (void *)(_Myres - _Off), (void *)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Roff), (void *)(std::uintptr_t)(_Count));
     }
     else if (_Off + _N0 <= _Roff)
     {
         ::fnv_0044d580::FUN_0044d580(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Off + _Count, (void *)(_Myres - _Off - _Count), (void *)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Off + _N0), (void *)(_Nm));
-        ::fnv_0044d580::FUN_0044d580(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Off, (void *)(_Myres - _Off), (void *)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + (_Roff + _Count - _N0)), (void *)(_Count));
+        ::fnv_0044d580::FUN_0044d580(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Off, (void *)(_Myres - _Off), (void *)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + (_Roff + _Count - _N0)), (void *)(std::uintptr_t)(_Count));
     }
     else
     {

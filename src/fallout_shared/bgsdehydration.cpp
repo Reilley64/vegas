@@ -3367,7 +3367,7 @@ void FUN_009f2220_obj::ResolveReferences()
             }
             else
             {
-                TESObjectREFR* stale = (TESObjectREFR*)formID3;
+                TESObjectREFR* stale = (TESObjectREFR*)(std::uintptr_t)formID3;
                 reinterpret_cast<::ItemChangeListNode *>((aPrev))->FUN_00905330((::InventoryStackRecord *const &)(stale));
                 iter5 = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((aPrev))->FUN_00726070()));
             }

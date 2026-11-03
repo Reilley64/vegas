@@ -298,14 +298,14 @@ bool FloraFull::FUN_00508610(FloraFile* pkFile)
         case 0x49524353: {
             unsigned int uiScript = 0;
             pkFile->ReadChunkInt(&uiScript);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(uiScript));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(uiScript));
             reinterpret_cast<::TESScriptableForm *>(this)->InitItem((::TESForm *)(::FloraFormBase *)(this));
             break;
         }
         case 0x47494650: {
             unsigned int uiIngredient = 0;
             pkFile->ReadChunkInt(&uiIngredient);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(uiIngredient));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(uiIngredient));
             break;
         }
         case 0x43504650: {

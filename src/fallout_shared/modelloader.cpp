@@ -8902,7 +8902,7 @@ struct FUN_00444dc0_t
 void FUN_00444dc0_t::QueueModelForObject(TESObject* apObject, QHeadPtrDest* apDest, int a3, int a4,
                                          FUN_00444dc0_ref* apRef)
 {
-    int iHandle = ((int)(reinterpret_cast<::BoundObjectModelLookup *>(this)->FUN_00446a60((::TESForm *)(apObject), (::TESObjectREFR *)(apRef))));
+    int iHandle = ((int)(std::uintptr_t)(reinterpret_cast<::BoundObjectModelLookup *>(this)->FUN_00446a60((::TESForm *)(apObject), (::TESObjectREFR *)(apRef))));
     int iLOD = ::FUN_0045c6b0((::TESForm_0045c6b0 *)(apObject));
     if (apRef && (reinterpret_cast<::FUN_00564e60_shell *>((apRef))->FUN_00564e60() || reinterpret_cast<::FUN_00444ed0_shell *>((apRef))->FUN_00444ed0()))
         iLOD = 6;
@@ -11201,7 +11201,7 @@ struct FUN_0043dac0_cls
 // @fnv 0x0043dac0
 void FUN_0043dac0_cls::UpdateStateAndNotify(int aIndex, int aFlags)
 {
-    reinterpret_cast<::fnv_00c3cb70::IOTask *>(this)->FUN_00c3cb70(aIndex, (::fnv_00c3cb70::RefObj *)(aFlags));
+    reinterpret_cast<::fnv_00c3cb70::IOTask *>(this)->FUN_00c3cb70(aIndex, (::fnv_00c3cb70::RefObj *)(std::uintptr_t)(aFlags));
 
     if (aIndex >= 4)
     {
@@ -11619,7 +11619,7 @@ class FUN_004404c0 : public B4404C0Task
 FUN_004404c0::FUN_004404c0(void* pvTarget, int iHandle) : B4404C0Task(B4404C0_PRIORITY_CRITICAL)
 {
     m_pvTarget = pvTarget;
-    new ((void *)&(m_kHandle)) ::FUN_00633c90((::G00559a40 *)(iHandle));
+    new ((void *)&(m_kHandle)) ::FUN_00633c90((::G00559a40 *)(std::uintptr_t)(iHandle));
 }
 
 struct PriorityKey
@@ -12959,11 +12959,11 @@ void FUN_004f05c0_cls::ApplyFlagsToEntries(unsigned int flags)
         LoaderEntryB* b = (LoaderEntryB*)((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned char *>(&::g_011f36e4))), (::NiObject *)(node))));
         if (a != 0)
         {
-            reinterpret_cast<::fnv_004f0640::NiInterpController *>((a))->FUN_004f0640((::fnv_004f0640::NiAVObject *)(flags));
+            reinterpret_cast<::fnv_004f0640::NiInterpController *>((a))->FUN_004f0640((::fnv_004f0640::NiAVObject *)(std::uintptr_t)(flags));
         }
         if (b != 0)
         {
-            reinterpret_cast<::FUN_00a35910_shell *>((b))->FUN_004f06d0((::NiAVObject *)(flags));
+            reinterpret_cast<::FUN_00a35910_shell *>((b))->FUN_004f06d0((::NiAVObject *)(std::uintptr_t)(flags));
         }
     }
 }
@@ -19981,7 +19981,7 @@ void FUN_0043ccf0_shell::FUN_0043ccf0()
         void* pFile5 = ((FUN_00c3cff0_shell*)this)->FUN_00c3cff0(0, true);
         BSStream_MLd stream;
 
-        DAT_011f94c0 = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess_MLd*)this)))->FUN_0045cd60()));
+        DAT_011f94c0 = ((int)(std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess_MLd*)this)))->FUN_0045cd60()));
 
         if ((pFile5 != 0 && reinterpret_cast<::FUN_00c3a8a0_cls *>((((NiStream_MLd*)&stream)))->FUN_00c3a8a0((std::uintptr_t)((const char*)((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess_MLd*)this)))->FUN_0045cd60()))), (std::uintptr_t)(pFile5))) ||
             ((FUN_0043cf90_shell*)this)->FUN_0043cf90())

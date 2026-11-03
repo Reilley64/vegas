@@ -984,13 +984,13 @@ bool TESImageSpaceModifier::Load(TESFile* file)
         case CHUNK_ID_RDSD_ID: {
             unsigned int sound = 0;
             file->GetChunkData(&sound);
-            pIntroSound = (TESSound*)sound;
+            pIntroSound = (TESSound*)(std::uintptr_t)sound;
             break;
         }
         case CHUNK_ID_RDSI_ID: {
             unsigned int sound = 0;
             file->GetChunkData(&sound);
-            pOutroSound = (TESSound*)sound;
+            pOutroSound = (TESSound*)(std::uintptr_t)sound;
             break;
         }
         default:

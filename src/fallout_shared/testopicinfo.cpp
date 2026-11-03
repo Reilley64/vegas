@@ -674,12 +674,12 @@ void FUN_0061dad0_shell::FUN_0061dad0(unsigned int aiFlags, unsigned int aiCurre
 
 struct FUN_0061db00_shell : TESForm
 {
-    void Revert(unsigned int);
+    void Revert(std::uintptr_t);
 };
 
 // Calls TESForm::Revert with the given buffer and, if the high bit of aiFlags is set, clears byte at offset 0x22.
 // @fnv 0x0061db00
-void FUN_0061db00_shell::Revert(unsigned int aiFlags)
+void FUN_0061db00_shell::Revert(std::uintptr_t aiFlags)
 {
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((std::uintptr_t)((BGSLoadFormBuffer*)aiFlags));
     if (aiFlags & 0x80000000)

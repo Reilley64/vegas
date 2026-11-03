@@ -446,7 +446,7 @@ void FUN_004fa1a0_shell::WriteDebrisEntries()
             pcCur += ::FUN_0044a670(pkData->pcPath) + 1;
             *pcCur = pkData->cFlags;
             pcCur++;
-            ::FUN_004856f0((void *)('ATAD'), pTmpcBuffer, (void *)(uiSize));
+            ::FUN_004856f0((void *)('ATAD'), pTmpcBuffer, (void *)(std::uintptr_t)(uiSize));
             delete pTmpcBuffer;
             reinterpret_cast<::FUN_008d0600_s *>(&(pkData->kModel))->FUN_008d0600('TDOM', (std::intptr_t)pkData->pcPath);
         }

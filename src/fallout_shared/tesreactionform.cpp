@@ -669,7 +669,7 @@ void S24::WriteReactionList(unsigned int auiFlags)
             }
             node = ((::ReactionListOps_bd50 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
-        *(unsigned short*)posCountC = kCount;
+        *(unsigned short*)(std::uintptr_t)posCountC = kCount;
         if (*::g_011de4e8.Bool())
         {
             unsigned int endPos2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();

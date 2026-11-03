@@ -1196,11 +1196,11 @@ bool FUN_00618aa0_t::FUN_00618aa0(::TESFile* pFile)
             unsigned int uiChunkType = 0;
             ((TESFileRef*)pFile)->_ref_004727f0(&uiChunkType);
             ::ResolveFormID((unsigned int *)&(uiChunkType), GetFile(-1));
-            QuestDialogueInfo* pQuestInfo = reinterpret_cast<::FUN_006195d0_shell *>((((FUN_006195d0_shell*)this)))->GetOrCreateQuestInfo((TESQuest*)uiChunkType, false);
+            QuestDialogueInfo* pQuestInfo = reinterpret_cast<::FUN_006195d0_shell *>((((FUN_006195d0_shell*)this)))->GetOrCreateQuestInfo((TESQuest*)(std::uintptr_t)uiChunkType, false);
             if (pQuestInfo)
             {
                 pLastQuestInfo = pQuestInfo;
-                unsigned int uiOldSize = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((pQuestInfo))->GetCurrentProcessData())))))->GetName()));
+                unsigned int uiOldSize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((pQuestInfo))->GetCurrentProcessData())))))->GetName()));
                 ((NiTLargeArraySetSizeHelper*)((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((pQuestInfo))->GetCurrentProcessData())))->SetSize(uiOldSize + 100);
                 reinterpret_cast<::FUN_00600ab0_shell *>((((TESConditionItem*)((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((pQuestInfo))->GetCurrentProcessData())))))->FUN_00600ab0(10);
             }
@@ -1229,7 +1229,7 @@ bool FUN_00618aa0_t::FUN_00618aa0(::TESFile* pFile)
                 if ((IdxJustAdded = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)pLastQuestInfo + 0x1c))))->GetName())) - 1) >= 0)
                 {
                     ((PSNArr*)((char*)pLastQuestInfo + 0x1c))->GetAt(IdxJustAdded).c = m_iIndex;
-                    int size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)pLastQuestInfo + 0x1c))))->GetName()));
+                    int size = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)pLastQuestInfo + 0x1c))))->GetName()));
                     for (int iter = 0; iter < IdxJustAdded; iter++)
                     {
                         if (*(int*)&((PSNArr*)((char*)pLastQuestInfo + 0x1c))->GetAt(iter) ==
@@ -1562,7 +1562,7 @@ TESTopicInfo* TESTopic::FindMatchingTopicInfo(const TESTopic* originalTopic, boo
             unsigned int sourceCount = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pSourceArray))->FUN_0084e3a0()));
             for (unsigned int sourceIndex = 0; sourceIndex < sourceCount; sourceIndex++)
                 reinterpret_cast<::S00863d90 *>(&(sortedArray))->FUN_00863d90((const unsigned int &)(pSourceArray->GetAt(sourceIndex)));
-            unsigned int linkSize = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(questInfo->m_kInfoLinks))->GetName()));
+            unsigned int linkSize = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(questInfo->m_kInfoLinks))->GetName()));
             for (unsigned int linkIndex = 0; linkIndex < linkSize; linkIndex++)
             {
                 if (questInfo->m_kInfoLinks.GetAt(linkIndex).pInfo)
@@ -1779,7 +1779,7 @@ void TESTopic_Shell::InitializeTopic()
         {
             if (!questInfo->bInitialized)
             {
-                int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(questInfo->m_kInfoLinks))->GetName()));
+                int count = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(questInfo->m_kInfoLinks))->GetName()));
                 for (int i = 0; i < count; i++)
                 {
                     unsigned int formID = questInfo->m_kInfoLinks.GetAt(i).nID;
@@ -2172,11 +2172,11 @@ unsigned int __cdecl GenerateConversation(TESObjectREFR* speaker, TESObjectREFR*
                 {
                     if (reinterpret_cast<::DialogueItem *>((entry))->SelectDefaultResponseList())
                     {
-                        ::FUN_00703c00("Item %d: %s says '%s'", (const char *)(index));
+                        ::FUN_00703c00("Item %d: %s says '%s'", (const char *)(std::uintptr_t)(index));
                     }
                     else
                     {
-                        ::FUN_00703c00("Item %d: %s has no response!", (const char *)(index));
+                        ::FUN_00703c00("Item %d: %s has no response!", (const char *)(std::uintptr_t)(index));
                     }
                 }
                 index++;

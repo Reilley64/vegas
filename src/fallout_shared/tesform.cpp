@@ -2684,7 +2684,7 @@ void ArrSI::FUN_004855a0()
     ::DAT_011c54d0 = sizeof(FormRecordHeader);
     ::DAT_011c54cc = ::FUN_00401000(::DAT_011c54d0);
     pForm = static_cast<FormRecordHeader*>(::DAT_011c54cc);
-    pForm->flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    pForm->flags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
     if (GetFormType() != 1)
         pForm->flags = pForm->flags & 0x30032FE0;
     pForm->form = (*reinterpret_cast<fnv_004855a0::FormEnumEntry (*)[]>(&::DAT_01187008))[GetFormType()].iFormString;
@@ -3969,7 +3969,7 @@ void Form_004861f0::FUN_004861f0(TESFile* file, void* dest, unsigned short count
         pos4 += 4;
         if (file->IsEndianConversionRequired())
             ::FUN_00401080(&val3);
-        reinterpret_cast<::CombatProcedure *>((pHealth4))->Initialize((::CombatController *)(val3));
+        reinterpret_cast<::CombatProcedure *>((pHealth4))->Initialize((::CombatController *)(std::uintptr_t)(val3));
     }
     if (pWeightFormTmp && pos4 < chunkSize3)
     {

@@ -15,9 +15,11 @@ add_library(game STATIC
   src/fileformat/compression.cpp
   src/fileformat/plugin_header.cpp
   src/runtime/crt.cpp
+  src/runtime/havok_router_tls.cpp
   src/runtime/tls.cpp
 )
 target_include_directories(game PUBLIC src)
+set_source_files_properties(src/runtime/havok_router_tls.cpp PROPERTIES INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include")
 target_link_libraries(game PRIVATE ZLIB::ZLIBSTATIC)
 include(src/generated/data/sources.cmake)
 include(src/bs_speedtree_sources.cmake)

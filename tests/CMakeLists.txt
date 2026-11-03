@@ -25,3 +25,8 @@ add_test(NAME runtime.asm_helpers COMMAND runtime_asm_helpers_test)
 add_executable(runtime_new_test runtime/new_test.cpp ${PROJECT_SOURCE_DIR}/src/runtime/new.cpp)
 target_include_directories(runtime_new_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
 add_test(NAME runtime.new COMMAND runtime_new_test)
+
+add_executable(runtime_havok_router_tls_test runtime/havok_router_tls_test.cpp)
+target_include_directories(runtime_havok_router_tls_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(runtime_havok_router_tls_test PRIVATE game)
+add_test(NAME runtime.havok_router_tls COMMAND runtime_havok_router_tls_test)

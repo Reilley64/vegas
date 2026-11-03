@@ -178890,12 +178890,12 @@
     },
     {
      "address": "0x006a7ad0",
-     "symbol": "?FUN_006a7ad0@S3e60@@QAE_NI@Z",
+     "symbol": "?FUN_006a7ad0@S3e60@@QAEPAPAXI@Z",
      "size": 25
     },
     {
      "address": "0x006a7af0",
-     "symbol": "?FUN_006a7af0@S3e60@fnv_006a7af0@@QAE_NI@Z",
+     "symbol": "?FUN_006a7af0@S3e60@fnv_006a7af0@@QAEAAVNiPoint3@@I@Z",
      "size": 25
     },
     {
@@ -178993,7 +178993,7 @@
     "?FUN_006a7d30@FUN_006a7d30_shell@@QAEXM@Z": "0x006a7d30",
     "??0?$BSSimpleArray@VNavMeshPtr@@$0EAA@@@QAE@I@Z": "0x0042f7d0",
     "??0NavMeshPtr@@QAE@XZ": "0x0042fb00",
-    "?FUN_006a7ad0@S3e60@@QAE_NI@Z": "0x006a7ad0",
+    "?FUN_006a7ad0@S3e60@@QAEPAPAXI@Z": "0x006a7ad0",
     "??A?$BSSimpleArray@VNavMeshPtr@@$0EAA@@@QAEAAVNavMeshPtr@@I@Z": "0x00877a30",
     "??4NavMeshPtr@@QAEAAV0@ABV0@@Z": "0x0042f4c0",
     "__real@4059000000000000": "0x01017a40",
@@ -179001,8 +179001,8 @@
     "__real@3fd0000000000000": "0x010290b0",
     "?FUN_00996800@FUN_00996800_shell@@QAEXXZ": "0x00996800",
     "??1NavMeshSearch@@QAE@XZ": "0x006a7c40",
-    "?GetFlag@S3e60@@QBE_NI@Z": "0x00877a30",
-    "?GetFlag@S3e60@fnv_006a7af0@@QBE_NI@Z": "0x006a1440",
+    "?GetAt@S3e60@@QBEAAPAXI@Z": "0x00877a30",
+    "?GetAt@S3e60@fnv_006a7af0@@QBEAAVNiPoint3@@I@Z": "0x006a1440",
     "?ClearData@TESForm@@UAEXXZ": "0x00483710",
     "__ehhandler$??1FUN_006a7bc0_Class@@UAE@XZ": "0x00f025e6",
     "??_7FUN_006a7bc0_Class@@6B@": "0x0106b650",

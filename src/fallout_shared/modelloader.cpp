@@ -7846,7 +7846,7 @@ void QueuedActor::QueueDismemberedLimbLoads()
             for (unsigned int j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)&pdismemberedLimb->parts)))->GetName()));
                  j++)
             {
-                unsigned int uiBoundObject = ((unsigned int)(reinterpret_cast<::S3e60 *>((((FUN_006a7ad0_shell*)&pdismemberedLimb->parts)))->FUN_006a7ad0(j)));
+                unsigned int uiBoundObject = (*(unsigned int*)(reinterpret_cast<::S3e60 *>((((FUN_006a7ad0_shell*)&pdismemberedLimb->parts)))->FUN_006a7ad0(j)));
                 ((FUN_00444d40_shell*)g_modelLoader)
                     ->FUN_00444d40(uiBoundObject, epriority, this, *(Actor**)((char*)this + 0x28));
             }

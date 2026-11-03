@@ -2935,7 +2935,7 @@ bool SkillBookEffect552::FUN_00515040(TESObjectREFR* reference)
         return applied;
     if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((actor2))->FUN_00493bb0())) && !FUN_00702360())
     {
-        ::DispatchMessageToSink((intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting552 *>(&::g_011d4ccc))))->GetMenuTitle()))), 0, (int)(0), (int)(0), DAT_010162c0, false);
+        ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting552 *>(&::g_011d4ccc))))->GetMenuTitle()))), 0, (const char *)(0), (const char *)(0), DAT_010162c0, false);
         return applied;
     }
     ActorValue::Index skill2 = FUN_00514fd0();
@@ -2950,7 +2950,7 @@ bool SkillBookEffect552::FUN_00515040(TESObjectREFR* reference)
             ::TopicMenuController::IncrementMiscStat(15);
             ::FUN_00406f60((::FUN_00406f90_this *)(::StrMem *)(&message), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting552 *>(&::g_011d49c0))))->GetMenuTitle())), ActorValue::GetActorValueName(skill2),
                          static_cast<int>(amount5));
-            ::DispatchMessageToSink((intptr_t)(((const char *)(::FUN_00559450((int *)&(message))))), 1, (int)(0), (int)(0), DAT_010162c0, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(::FUN_00559450((int *)&(message))))), 1, (const char *)(0), (const char *)(0), DAT_010162c0, false);
             applied = true;
         }
     }

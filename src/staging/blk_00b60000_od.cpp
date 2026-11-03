@@ -154,7 +154,7 @@ void Owner132::FUN_00b7b730(Group132* group, unsigned int slot, const void* skip
         (slot >= 0x244 && slot <= 0x24b) || (slot >= 0x2d8 && slot <= 0x2ef) || slot == 0xfe || slot == 0x10b)
     {
         temporary = context->transform;
-        ::FUN_00ee6dd4();
+        ::FUN_00ee6dd4((void *)&DAT_011fecc8, &temporary);
         return;
     }
     Group132* geometry = (*reinterpret_cast<::Group132 * *>(&::DAT_011f91e0));
@@ -173,7 +173,7 @@ void Owner132::FUN_00b7b730(Group132* group, unsigned int slot, const void* skip
     matrix.m43 += (*reinterpret_cast<::Vector132 *>(&::DAT_011f474c)).z;
     ::FUN_00ee6de0(&temporary, &matrix, &geometry->objects[0]->transform);
     result = temporary;
-    ::FUN_00ee6dd4();
+    ::FUN_00ee6dd4(&result, &result);
     memmove(&(*reinterpret_cast<::Matrix132 *>((void *)&::DAT_011fecc8)), &result, sizeof(result));
 }
 
@@ -381,8 +381,8 @@ void ClipManager::FUN_00b7be00(unsigned int state)
             ClipMatrix inverse;
             ClipPlane16 transformed[6];
             ::FUN_00ee6de0((Matrix132*)&transform, (const Matrix132*)&view, (const Matrix132*)&projection);
-            reinterpret_cast<void*(__stdcall*)(void*, float*, const void*)>(&::FUN_00ee6dda)(&inverse, 0, &transform);
-            reinterpret_cast<void*(__stdcall*)(void*, const void*)>(&::FUN_00ee6dd4)(&transform, &inverse);
+            ::FUN_00ee6dda(&inverse, 0, &transform);
+            ::FUN_00ee6dd4(&transform, &inverse);
 
             for (int i = 0; i < 6; ++i)
             {
@@ -761,7 +761,7 @@ void BSShaderPass::FUN_00b7b450(unsigned int uiPass)
     if (((ShaderGeometryGroup*)(*reinterpret_cast<::Group132 * *>(&::DAT_011f91e0)))->current->m_iShaderConstants)
     {
         Matrix132 kWorld;
-        ::FUN_00ee6dd4();
+        ::FUN_00ee6dd4(&kWorld, (Matrix132*)(m_pfConstants + 640));
         ShaderConstantDevice* pkDevice = (*reinterpret_cast<::RendererData * *>(&::DAT_0126f74c))->m_pDeviceHolder->m_pDirectInputDevice;
         pkDevice->SetVertexShaderConstantF(1, &kWorld.m11, 4);
     }

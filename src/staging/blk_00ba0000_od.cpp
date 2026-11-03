@@ -291,7 +291,7 @@ void Shader::FUN_00baa850(int identity, const Transform* transform)
     AlignedMatrix product;
     ::FUN_00ee6de0(&product, &world, &view);
     result = product;
-    ::FUN_00ee6dd4();
+    ::FUN_00ee6dd4(&result, &result);
     {
         FourFloatVector value = {result.m11, result.m12, result.m13, result.m14};
         (*reinterpret_cast<::FourFloatVector *>(&::DAT_01200510)) = value;

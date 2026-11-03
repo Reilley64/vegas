@@ -5551,7 +5551,7 @@ void UpdateLightDirection(LightOwner* owner, const Matrix44* matrix, float scale
     dir.y = -(*reinterpret_cast<::Vec3 *>(&::DAT_011fa1f0)).y;
     dir.z = -(*reinterpret_cast<::Vec3 *>(&::DAT_011fa1f0)).z;
     Vec3 tmp;
-    ::FUN_00ee6df2();
+    ::FUN_00ee6df2(&tmp, &dir, matrix);
     ::FUN_00ee6dec(&dir, &tmp);
     (*reinterpret_cast<::Vec4 *>((void *)&::DAT_01200618)) = Vec4(dir.x, dir.y, dir.z, 0.0f);
     if (((unsigned short)(::FUN_00b70790((::FUN_00b70790_owner *)(owner)))) > 0)
@@ -6037,7 +6037,7 @@ int ShaderBB2::RenderGeometry(int iA, int iB, int iC, int iD, RenderObjBB2* pkOb
     D3DXMATRIXBB2 kWorld;
     D3DXMATRIXBB2 kInvWorld;
     GetD3DFromNiBB2(kWorld, *pkXform);
-    reinterpret_cast<void*(__stdcall*)(void*, float*, const void*)>(&::FUN_00ee6dda)(&kInvWorld, 0, &kWorld);
+    ::FUN_00ee6dda(&kInvWorld, 0, &kWorld);
 
     GeometryBB2* pkGeom = pkObj->m_pkRenderableGeometry;
     ::UpdateLightDirection((::LightOwner *)(IsSkinnedBB2(pkGeom) ? pkGeom : 0), (const ::Matrix44 *)&kInvWorld, pkXform->m_fScale);
@@ -6281,7 +6281,7 @@ bool __cdecl FUN_00bb2fc0(unsigned int index, float x, float y)
     }
     S_00bb2fc0_Mat m;
     ::FUN_00ee6e04(&m, x, y, 0.0f);
-    ::FUN_00ee6dd4();
+    ::FUN_00ee6dd4(&m, &m);
     (*reinterpret_cast<S_00bb2fc0_Mat (*)[]>(&::DAT_01200688))[index] = m;
     return true;
 }
@@ -13341,14 +13341,14 @@ int ACShader::FUN_00baac10(intptr_t a, intptr_t b, intptr_t c, intptr_t d, ACObj
     D3DXMATRIXBB2 world, inverse;
     GetD3DFromNiBB2(world, *transform);
     unsigned int flags = (*reinterpret_cast<int *>(&::DAT_011f91e4));
-    reinterpret_cast<void*(__stdcall*)(void*, float*, const void*)>(&::FUN_00ee6dda)(&inverse, 0, &world);
+    ::FUN_00ee6dda(&inverse, 0, &world);
     UpPair upPair;
     upPair.up.x = 0.0f;
     upPair.up.y = 1.0f;
     upPair.up.z = 0.0f;
     NiPoint3& up = upPair.up;
     NiPoint3 transformedUp;
-    ::FUN_00ee6df2();
+    ::FUN_00ee6df2(&transformedUp, &up, &inverse);
     ::FUN_00ee6dec(&up, &transformedUp);
     DAT_01200550 = up.x;
     DAT_01200554 = up.y;

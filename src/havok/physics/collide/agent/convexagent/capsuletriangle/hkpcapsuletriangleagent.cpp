@@ -266,57 +266,6 @@ struct Mat4 {
     Vec4 row0, row1, row2, row3;
 };
 
-
-static __forceinline void transform(Vec4* out, const char* shape, int count, const Mat4* m)
-{
-    Vec4 p0 = m->row0;
-    Vec4 p1 = m->row1;
-    Vec4 p2 = m->row2;
-    Vec4 p3 = m->row3;
-    __m128 r0 = *(__m128*)&p0;
-    __m128 r1 = *(__m128*)&p1;
-    __m128 r2 = *(__m128*)&p2;
-    __m128 r3 = *(__m128*)&p3;
-
-    __m128* v = (__m128*)(shape + 0x20);
-    for (int i = count - 1; i >= 0; --i) {
-        __m128 vi = v[i];
-        __m128 x = _mm_shuffle_ps(vi, vi, 0x00);
-        __m128 y = _mm_shuffle_ps(vi, vi, 0x55);
-        __m128 z = _mm_shuffle_ps(vi, vi, 0xaa);
-        __m128 a = _mm_add_ps(_mm_mul_ps(y, r1), _mm_mul_ps(x, r0));
-        __m128 b = _mm_add_ps(_mm_mul_ps(z, r2), r3);
-        *(__m128*)&out[i] = _mm_add_ps(a, b);
-    }
-}
-
-struct CollisionInput { int unk00; int unk04; float tolerance; };
-
-// Transforms two shapes' vertices by their matrices, then calls FUN_00cd6520 with the results, a4, a3's float at +8, a5 and a6.
-// @fnv 0x00d399f0
-void __cdecl TransformAndDispatch(char* a1, char* a2, char* pExtra, void* a4, int a5, ::ContactRecord* a6)
-{
-    const char* shapeA = *(const char**)a1;
-    const char* shapeB = *(const char**)a2;
-
-    Vec4 aTransformedA[2];
-    transform(aTransformedA, shapeA, 2, *(Mat4**)(a1 + 8));
-
-    Vec4 aTransformedB[3];
-    transform(aTransformedB, shapeB, 3, *(Mat4**)(a2 + 8));
-
-    ::FUN_00cd6520((const ::ContactVector *)(void *)(&aTransformedA[0]),
-                 *(float*)(shapeA + 0x10),
-                 (const ::ContactVector *)(void *)(&aTransformedB[0]),
-                 *(float*)(shapeB + 0x10),
-                 (const float *)(a4),
-                 reinterpret_cast<const CollisionInput*>(pExtra)->tolerance,
-                 a5,
-                 a6,
-                 (::Feature *)(0));
-}
-
-
 static __forceinline float SqLenLane(__m128 x)
 {
     __m128 sq = _mm_mul_ps(x, x);
@@ -566,23 +515,68 @@ struct Context
 
 struct hkpShape
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    float m_fSphereRadius;
-    int unk14;
-    int unk18;
-    int unk1c;
-    __m128 m_kVertices[4];
+    const void* m_vtable;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+    void* m_userData;
+    int m_type;
+    float m_fSphereRadius;  // +0x10
+    __m128 m_kVertices[4];  // +0x20
 };
 
 struct hkpCdBody
 {
     const hkpShape* m_pCollisionShape;
-    int unk04;
+    unsigned int m_shapeKey;
     const ContactMatrix* m_kMotionState;
 };
+
+static __forceinline void transform(Vec4* out, const hkpShape* shape, int count, const ContactMatrix* m)
+{
+    __m128 r0 = m->row[0].quad();
+    __m128 r1 = m->row[1].quad();
+    __m128 r2 = m->row[2].quad();
+    __m128 r3 = m->row[3].quad();
+
+    const __m128* v = shape->m_kVertices;
+    for (int i = count - 1; i >= 0; --i) {
+        __m128 vi = v[i];
+        __m128 x = _mm_shuffle_ps(vi, vi, 0x00);
+        __m128 y = _mm_shuffle_ps(vi, vi, 0x55);
+        __m128 z = _mm_shuffle_ps(vi, vi, 0xaa);
+        __m128 a = _mm_add_ps(_mm_mul_ps(y, r1), _mm_mul_ps(x, r0));
+        __m128 b = _mm_add_ps(_mm_mul_ps(z, r2), r3);
+        *(__m128*)&out[i] = _mm_add_ps(a, b);
+    }
+}
+
+struct CollisionInput { void* m_dispatcher; int unk04; float tolerance; };
+
+// Transforms the capsule's two and the triangle's three vertices by their bodies' motions, then calls FUN_00cd6520 with the results, the
+// two radii, a4, the input's tolerance, a5 and a6.
+// @fnv 0x00d399f0
+void __cdecl TransformAndDispatch(const hkpCdBody* a1, const hkpCdBody* a2, const CollisionInput* pExtra, void* a4, int a5, ::ContactRecord* a6)
+{
+    const hkpShape* shapeA = a1->m_pCollisionShape;
+    const hkpShape* shapeB = a2->m_pCollisionShape;
+
+    Vec4 aTransformedA[2];
+    transform(aTransformedA, shapeA, 2, a1->m_kMotionState);
+
+    Vec4 aTransformedB[3];
+    transform(aTransformedB, shapeB, 3, a2->m_kMotionState);
+
+    ::FUN_00cd6520((const ::ContactVector *)(void *)(&aTransformedA[0]),
+                 shapeA->m_fSphereRadius,
+                 (const ::ContactVector *)(void *)(&aTransformedB[0]),
+                 shapeB->m_fSphereRadius,
+                 (const float *)(a4),
+                 pExtra->tolerance,
+                 a5,
+                 a6,
+                 (::Feature *)(0));
+}
+
 
 struct __declspec(align(16)) RowPair { Vec4f first, second; };
 
@@ -937,7 +931,7 @@ void __cdecl FUN_00d3a8c0(Body* apBodyA, Body* apBodyB, Input* input, Penetratio
 #include "fnv/symbols_00c85000.h"
 void FUN_00d3ab60(void* apObject);
 void __cdecl FUN_00d3ab90(void** apTable);
-void __cdecl TransformAndDispatch(char* a1, char* a2, char* pExtra, void* a4, int a5, ::ContactRecord* a6);
+void __cdecl TransformAndDispatch(const hkpCdBody* a1, const hkpCdBody* a2, const CollisionInput* pExtra, void* a4, int a5, ::ContactRecord* a6);
 int __cdecl FUN_00d39bf0(Obj* a, Obj* b, Par* volatile p, void* q, Contact* out);
 
 typedef float hkReal;

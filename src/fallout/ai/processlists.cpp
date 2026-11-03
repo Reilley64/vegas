@@ -10804,9 +10804,9 @@ void FUN_0096f600_shell::FUN_0096f600(Actor* arg1, bool abClearPackageTargets)
                 }
                 if (kIter != 0 && bed1 == 0)
                 {
-                    if (((::Actor *)(reinterpret_cast<::DialogueItem *>((((TESChallenge*)kIter)))->SelectDefaultResponseList())) != 0)
+                    if (((::Actor *)(reinterpret_cast<::DialogueItem *>((((TESChallenge*)kIter)))->FUN_005e3fa0())) != 0)
                     {
-                        if (arg1 == ((::Actor *)(reinterpret_cast<::DialogueItem *>((((TESChallenge*)kIter)))->SelectDefaultResponseList())))
+                        if (arg1 == ((::Actor *)(reinterpret_cast<::DialogueItem *>((((TESChallenge*)kIter)))->FUN_005e3fa0())))
                         {
                             kIter->Unk_A2();
                         }

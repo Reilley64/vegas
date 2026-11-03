@@ -708,7 +708,7 @@ class DialogueItem
     DialogueItem();
     ~DialogueItem();
 public:
-    ::TESObjectREFR *SelectDefaultResponseList();
+    ::TESObjectREFR *FUN_005e3fa0();
 public:
     bool SelectDefaultResponseList();
 public:

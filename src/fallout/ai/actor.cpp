@@ -91867,9 +91867,9 @@ void MatchActor::FUN_008b1070()
         MatchActor* third = ((::MatchActor *)(reinterpret_cast<::FUN_004036b0_Class *>((linked))->FUN_004036b0()));
         if (third)
         {
-            MatchActor* owner = ((::MatchActor *)(reinterpret_cast<::DialogueItem *>((((MatchPackage*)third)))->SelectDefaultResponseList()));
+            MatchActor* owner = ((::MatchActor *)(reinterpret_cast<::DialogueItem *>((((MatchPackage*)third)))->FUN_005e3fa0()));
             reinterpret_cast<::FUN_0042e130_shell *>((((::MatchExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))->FUN_0042e130();
-            reinterpret_cast<::FUN_0042e130_shell *>((((::MatchExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((((::MatchActor *)(reinterpret_cast<::DialogueItem *>((((MatchPackage*)third)))->SelectDefaultResponseList()))))->FUN_005d43c0()))))->FUN_0042e130();
+            reinterpret_cast<::FUN_0042e130_shell *>((((::MatchExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((((::MatchActor *)(reinterpret_cast<::DialogueItem *>((((MatchPackage*)third)))->FUN_005e3fa0()))))->FUN_005d43c0()))))->FUN_0042e130();
             reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::MatchQueue *>(&::g_011e0e80))))->FUN_0096d470((::MobileObject *)(third), 0);
             reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::MatchQueue *>(&::g_011e0e80))))->AddMobileObjectToList((::MobileObject *)(third));
         }

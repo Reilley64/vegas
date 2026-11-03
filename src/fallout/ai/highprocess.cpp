@@ -38417,7 +38417,7 @@ void ActorProxyFnv::HandleActorInteraction(ActorProxyFnv* target)
             ActorProxyFnv* source = actor;
             if (((bool)(::FUN_00574900((const unsigned char *)(actor)))))
             {
-                source = ((::ActorProxyFnv *)(reinterpret_cast<::DialogueItem *>((actor))->SelectDefaultResponseList()));
+                source = ((::ActorProxyFnv *)(reinterpret_cast<::DialogueItem *>((actor))->FUN_005e3fa0()));
                 ActorProxyFnv* relation = ((::ActorProxyFnv *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((source))->FUN_007af430()));
                 if (((::ActorProxyFnv *)(reinterpret_cast<::FUN_00516bf0_shell *>((relation))->FUN_00516bf0())))
                 {

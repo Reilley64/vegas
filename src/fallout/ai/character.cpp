@@ -3791,26 +3791,10 @@ template <class T> class BSSimpleList;
 class Actor;
 class Animation;
 class NiNode;
-template <> class NiPointer<NiNode>
-{
-  public:
-    NiNode* m_pObject;
-    NiNode* operator->() const;
-};
 class ParentSpaceNode;
 class GameSettingCollection;
 extern GlobalObject_0045d260 g_011df69c;
 enum ACTOR_LIFE_STATE;
-#ifdef _MSC_VER
-__forceinline
-#else
-inline __attribute__((always_inline))
-#endif
-    Actor*
-    ActorValueOwner::GetActorOwner()
-{
-    return static_cast<Actor*>(this);
-}
 #undef PlayerCharacter
 
 class MusicMarkerReference;

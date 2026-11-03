@@ -6423,7 +6423,7 @@ struct ExtraSayTopicInfoOnceADay : public BSExtraData
 class DialogueResponse;
 struct DialogueItem
 {
-    TESObjectREFR* SelectDefaultResponseList();
+    TESObjectREFR* FUN_005e3fa0();
 public:
     ::DialogueResponse *GetActiveResponse();
 };
@@ -6441,7 +6441,7 @@ void FUN_00935ae0_t::FUN_00935ae0()
     BSSimpleList<TopicInfoVisitRecord*>* pList;
 
     if (((bool)(::FUN_00574900((const unsigned char *)this))))
-        pextra9 = ((::ExtraSayTopicInfoOnceADay *)(reinterpret_cast<::FUN_0042efe0_cls *>((void *)(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((DialogueItem*)this)->SelectDefaultResponseList()))->FUN_005d43c0()))))->FUN_0042efe0()));
+        pextra9 = ((::ExtraSayTopicInfoOnceADay *)(reinterpret_cast<::FUN_0042efe0_cls *>((void *)(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((DialogueItem*)this)->FUN_005e3fa0()))->FUN_005d43c0()))))->FUN_0042efe0()));
     else
         pextra9 = ((::ExtraSayTopicInfoOnceADay *)(reinterpret_cast<::FUN_0042efe0_cls *>((void *)(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0042efe0()));
     if (pextra9)
@@ -11243,9 +11243,9 @@ void Obj::FUN_009339a0(float delta, Obj* target, bool skip)
         {
             unsigned id2 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::fnv_009339a0::Obj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430()))))->FUN_0084e3a0()));
             GlobalObject_0041a250 _other;
-            if (((int)(reinterpret_cast<::DialogueItem *>(this)->SelectDefaultResponseList())))
+            if (((int)(reinterpret_cast<::DialogueItem *>(this)->FUN_005e3fa0())))
             {
-                int progressA = ((int)(reinterpret_cast<::DialogueItem *>(this)->SelectDefaultResponseList()));
+                int progressA = ((int)(reinterpret_cast<::DialogueItem *>(this)->FUN_005e3fa0()));
                 reinterpret_cast<::SoundPlaybackHandle *>(&(_other))->operator=((const ::SoundPlaybackHandle &)((const ::fnv_009339a0::GlobalObject_0041a250 &)(((::fnv_009339a0::Audio *)(::FUN_00453a70()))->FUN_00ad73b0(id2, 0x105))));
                 reinterpret_cast<::FUN_00ad8830_shell *>(&(_other))->FUN_00ad8830(false);
             }
@@ -13674,7 +13674,7 @@ float ActorObject::FUN_009344d0(const char* apSoundName, SoundRef* apSoundRef, u
             if (update && ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))
                 ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v187(arg3);
             unsigned int flagsZ = 0x104;
-            Node* node2 = (Node*)((void *)(reinterpret_cast<::DialogueItem *>(this)->SelectDefaultResponseList()));
+            Node* node2 = (Node*)((void *)(reinterpret_cast<::DialogueItem *>(this)->FUN_005e3fa0()));
             if (node2 && ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((node2))->FUN_007af430())))
             {
                 void* space1 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((node2))->FUN_007af430()));

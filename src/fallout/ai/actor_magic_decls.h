@@ -643,10 +643,10 @@ class ActorMagicSpellList
 {
   public:
 };
-class TESActorBase
+class TESActorBase : public TESForm
 {
   public:
-    char pad[0x7c];
+    char pad[0x7c - 0x18];
     ActorMagicSpellList spells;
 };
 class TESRace

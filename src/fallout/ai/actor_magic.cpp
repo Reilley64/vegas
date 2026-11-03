@@ -126,7 +126,6 @@
 #include "fnv/decl/StartMenu.h"
 #include "fnv/decl/TES.h"
 #include "fnv/decl/TESCallHelper.h"
-#include "fnv/decl/TESObjectWEAP.h"
 #include "fnv/decl/Target.h"
 #include "fnv/decl/Target96.h"
 #include "fnv/decl/TaskQueueInterface.h"
@@ -214,6 +213,14 @@
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f3000.h"
 #include "actor_magic_decls.h"
+
+// The one TESObjectWEAP method this unit calls. fnv/decl/TESObjectWEAP.h is not included: its
+// `enum ActorValue__Index` clashes with the typedef in layout_support.h.
+class TESObjectWEAP
+{
+  public:
+    float FUN_00709430(bool);
+};
 #include "actor_magic_actor.h"
 #include "BaseProcess.h"
 #include "fnv/decl/FUN_005f9ad0_shell.h"
@@ -8112,27 +8119,21 @@ class Actor;
 class BSFileEntry;
 class NiAVObject;
 class SoundPlaybackHandle;
-#endif
 class PlayerCharacter;
 
-#ifndef FNV_MAGICCASTER_H
-#define FNV_MAGICCASTER_H
 class TESObjectREFR;
 extern BIPED_OBJECT DAT_011a337c[5];
 class TESForm;
 enum DEFAULT_OBJECT;
 
-#ifndef FNV_MAGICTARGET_H
-#define FNV_MAGICTARGET_H
 // Node getter behind 0x00950bb0. It reads a node pointer at +0x694, which
 // only exists on PlayerCharacter-sized objects, so it is declared here on
 // a minimal PlayerCharacter until its canonical home is confirmed.
 
 
-class TESCreature
+class TESCreature : public TESActorBase
 {
   public:
-public:
     signed char GetCreatureType() const;
 };
 

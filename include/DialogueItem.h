@@ -18,7 +18,7 @@ class DialogueItem
     TESQuest* pQuest;                                         // +0x14
     TESObjectREFR* m_pDialogueSpeaker;                        // +0x18
 public:
-    ::TESObjectREFR *SelectDefaultResponseList();
+    ::TESObjectREFR *FUN_005e3fa0();
 public:
     bool SelectDefaultResponseList();
 public:

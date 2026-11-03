@@ -14,6 +14,8 @@
 #include "fnv/decl/FUN_0098adb0_shell.h"
 #include "fnv/decl/FUN_009c8d60_t.h"
 #include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/symbols_011f6000.h"
 #include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
 #include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
 #include "fnv/symbols_011f2000.h"
@@ -380,9 +382,9 @@ void Actor::UpdateActorMovement(float delta)
         {
             if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<ParentSpaceNode, 1024>*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4 && this == DAT_011f21cc)
                 ((ActorProcessView*)m_pBaseProcess)
-                    ->Update(this, g_timeGlobal.FUN_0084d030() * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATS *>(&::g_011f2250))))->FUN_009c8d60());
+                    ->Update(this, reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal)->GetStoredFloatValue() * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATS *>(&::g_011f2250))))->FUN_009c8d60());
             else
-                ((ActorProcessView*)m_pBaseProcess)->Update(this, g_timeGlobal.FUN_0084d030());
+                ((ActorProcessView*)m_pBaseProcess)->Update(this, reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal)->GetStoredFloatValue());
         }
         if (!((ActorPacketView*)this)->IsMoving(false) && ((ActorProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->IsInIdleState() &&
             pCurrentAnimation && !pCurrentAnimation->GetControllerSequence(4))

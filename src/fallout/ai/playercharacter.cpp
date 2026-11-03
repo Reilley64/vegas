@@ -32070,7 +32070,7 @@ void xActor::FUN_00953060(xActor* pActor, float fRate, bool bSkip)
     xNode* qsSDDgz = 0;
     if (((bool)(::FUN_00574900((const unsigned char *)(pActor)))))
     {
-        xActor* qxQHW = ((::fnv_00953060::xActor *)(reinterpret_cast<::DialogueItem *>((pActor))->SelectDefaultResponseList()));
+        xActor* qxQHW = ((::fnv_00953060::xActor *)(reinterpret_cast<::DialogueItem *>((pActor))->FUN_005e3fa0()));
         qsSDDgz = qxQHW->Get3D();
     }
     else
@@ -33884,11 +33884,11 @@ void FUN_0094ed40_cls::WriteProgressData(int aiDifficulty)
     {
         xChallenge* qAXSCg = (xChallenge*)*((void **)(((::Vec3 *)(void *)(qdqWL))));
         qdqWL = ((::xNode *)(reinterpret_cast<::Callees *>((qdqWL))->FUN_00726070()));
-        if (reinterpret_cast<::FUN_0060fd70_shell *>((qAXSCg))->FUN_0060fd70() && ((::xChallengeTarget *)(reinterpret_cast<::DialogueItem *>((qAXSCg))->SelectDefaultResponseList())))
+        if (reinterpret_cast<::FUN_0060fd70_shell *>((qAXSCg))->FUN_0060fd70() && ((::xChallengeTarget *)(reinterpret_cast<::DialogueItem *>((qAXSCg))->FUN_005e3fa0())))
         {
             char qBLsiu[0x104];
-            ::FUN_00406d00(qBLsiu, 0x104, "%s(%08X), ", ((::xChallengeTarget *)(reinterpret_cast<::DialogueItem *>((qAXSCg))->SelectDefaultResponseList()))->GetName(),
-                     ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::xChallengeTarget *)(reinterpret_cast<::DialogueItem *>((qAXSCg))->SelectDefaultResponseList()))))->FUN_0084e3a0())));
+            ::FUN_00406d00(qBLsiu, 0x104, "%s(%08X), ", ((::xChallengeTarget *)(reinterpret_cast<::DialogueItem *>((qAXSCg))->FUN_005e3fa0()))->GetName(),
+                     ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::xChallengeTarget *)(reinterpret_cast<::DialogueItem *>((qAXSCg))->FUN_005e3fa0()))))->FUN_0084e3a0())));
             qpqRa += qBLsiu;
         }
     }
@@ -33995,9 +33995,9 @@ bool FUN_009528c0_shell::AddChallenge(TESChallenge* pkChallenge)
     {
         TESChallenge* pkItem = ((::TESChallenge *)(((::Vec3 *)(void *)(pkIter))));
         pkIter = ((::ChallengeNode *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070()));
-        if (pkItem == pkChallenge && !reinterpret_cast<::FUN_0060d5e0_shell *>((((ChallengeCheck*)((int)(reinterpret_cast<::DialogueItem *>((pkItem))->SelectDefaultResponseList())))))->HasFlag8())
+        if (pkItem == pkChallenge && !reinterpret_cast<::FUN_0060d5e0_shell *>((((ChallengeCheck*)((int)(reinterpret_cast<::DialogueItem *>((pkItem))->FUN_005e3fa0())))))->HasFlag8())
             return false;
-        if (((int)(reinterpret_cast<::DialogueItem *>((pkItem))->SelectDefaultResponseList())) == ((int)(reinterpret_cast<::DialogueItem *>((pkChallenge))->SelectDefaultResponseList())))
+        if (((int)(reinterpret_cast<::DialogueItem *>((pkItem))->FUN_005e3fa0())) == ((int)(reinterpret_cast<::DialogueItem *>((pkChallenge))->FUN_005e3fa0())))
             bFound = true;
     }
     m_kChallenges.AddHead(pkChallenge);
@@ -34006,7 +34006,7 @@ bool FUN_009528c0_shell::AddChallenge(TESChallenge* pkChallenge)
     if (reinterpret_cast<::FUN_0060fd70_shell *>((pkChallenge))->FUN_0060fd70())
     {
         FUN_00706f30(9);
-        if (((int)(reinterpret_cast<::DialogueItem *>((pkChallenge))->SelectDefaultResponseList())) == ::FUN_005cbb50((char *)((*reinterpret_cast<void * *>(&::_g_thePlayer)))) && ((::TESQuest *)(reinterpret_cast<::FUN_004fd380_shell *>((pkChallenge))->FUN_004fd380())))
+        if (((int)(reinterpret_cast<::DialogueItem *>((pkChallenge))->FUN_005e3fa0())) == ::FUN_005cbb50((char *)((*reinterpret_cast<void * *>(&::_g_thePlayer)))) && ((::TESQuest *)(reinterpret_cast<::FUN_004fd380_shell *>((pkChallenge))->FUN_004fd380())))
             ((::TESQuest *)(reinterpret_cast<::FUN_004fd380_shell *>((pkChallenge))->FUN_004fd380()))->SetEnabled(true);
     }
     return true;
@@ -37796,7 +37796,7 @@ void PlayerX::FUN_009590f0(BufferX* apBuffer)
             ChallengeX* pChallenge = ((::ChallengeX *)(((::Vec3 *)(void *)(pNode9New91))));
             if (pChallenge)
             {
-                ProgressX* pProgress = ((::ProgressX *)(reinterpret_cast<::DialogueItem *>((pChallenge))->SelectDefaultResponseList()));
+                ProgressX* pProgress = ((::ProgressX *)(reinterpret_cast<::DialogueItem *>((pChallenge))->FUN_005e3fa0()));
                 char pProcessData = ((char)(reinterpret_cast<::F1A0Owner *>((pProgress))->GetKeyForForm((::F1A0Form *)(pChallenge))));
                 char cFlag = ::FUN_005dc980((const char *)(pChallenge));
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pProgress), 0);
@@ -71446,7 +71446,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
             while (quests2 && !quests2->FUN_008256d0())
             {
                 FormRecord* quest = *((::FormRecord **)(((::Vec3 *)(void *)(quests2))));
-                FormRecord* questForm = ((::FormRecord *)(reinterpret_cast<::DialogueItem *>((quest))->SelectDefaultResponseList()));
+                FormRecord* questForm = ((::FormRecord *)(reinterpret_cast<::DialogueItem *>((quest))->FUN_005e3fa0()));
                 unsigned int questID3 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((questForm))->FUN_0084e3a0()));
                 bool completed = false;
                 bool questFlag = ((bool)(::FUN_005dc980((const char *)(quest))));

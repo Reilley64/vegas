@@ -628,7 +628,7 @@ void FUN_00624340_shell::ProcessArgType(ArgType* apArg)
         }
         else
         {
-            if (reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::CF845 &)(CF845(((int)(::FUN_0043b540((char *)(((::Type8 *)(::FUN_00460140((int)(apArg)))))))))))->FUN_0043b4d0() == 0x14)
+            if (reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::CF845 &)(CF845(((int)(::FUN_0043b540((char *)(((::Type8 *)(::FUN_00460140((std::intptr_t)(apArg)))))))))))->FUN_0043b4d0() == 0x14)
             {
                 var2 = ((::Type1 *)(::NiShader::DynamicCast((::NiAVObject *)(apArg))));
                 var1C8 = var2 ? ((::Type2 *)(reinterpret_cast<::Twin_0044ddc0 *>((var2))->GetName())) : 0;
@@ -1155,7 +1155,7 @@ void Manager96::FUN_00624720(Input96* input)
             if (((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) == (*reinterpret_cast<void * *>(&::DAT_011ca27c)) || ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) == (*reinterpret_cast<void * *>(&::DAT_011ca280)))
                 ::FUN_00c6a350((::NiAVObject *)(linked), 5, true, false, true);
         }
-        if (reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::Filter96 &)(Filter96(((int)(::FUN_0043b540((char *)(((::Descriptor96 *)(::FUN_00460140((int)(node)))))))))))->FUN_0043b4d0() == 20 && ref && !ref->IsDisabled())
+        if (reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::Filter96 &)(Filter96(((int)(::FUN_0043b540((char *)(((::Descriptor96 *)(::FUN_00460140((std::intptr_t)(node)))))))))))->FUN_0043b4d0() == 20 && ref && !ref->IsDisabled())
         {
             Geometry96* geometry = ((::Geometry96 *)(::FUN_004b5a80(node)));
             if (geometry && ::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012681c0))), (::NiAVObject *)(geometry)))

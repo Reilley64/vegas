@@ -1,5 +1,6 @@
 // fallout_shared/packagelist.cpp: PackageList, TESAIForm (10 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -160,8 +161,8 @@ TESPackage* PackageList::GetPackageForActor(Actor* actor)
                             {
                                 sprintf(
                                     message, "%s Picked Package %s (%s)", reinterpret_cast<::FUN_0055d520_shell *>((actor))->FUN_0055d520(),
-                                    ((const char *)(::FUN_00464f30((int)(g_packageTypeNames[reinterpret_cast<struct ::FUN_0041ca90 *>((selection.package))->get()])))),
-                                    ((const char *)(::FUN_00464f30((int)(selection.package->GetName())))));
+                                    ((const char *)(::FUN_00464f30((std::intptr_t)(g_packageTypeNames[reinterpret_cast<struct ::FUN_0041ca90 *>((selection.package))->get()])))),
+                                    ((const char *)(::FUN_00464f30((std::intptr_t)(selection.package->GetName())))));
                                 ::FUN_00703c00(message, {});
                             }
                             if (reinterpret_cast<::FUN_009611e0_shell *>((selection.package))->FUN_009611e0() == -1)

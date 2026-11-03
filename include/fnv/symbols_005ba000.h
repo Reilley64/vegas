@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class NiNode;
 
 // 0x005ba2d0
@@ -23,4 +25,4 @@ namespace fnv_005bac50 { unsigned int FUN_005bac50(); }
 // 0x005bac70
 void *FUN_005bac70();
 // 0x005bac80
-void FUN_005bac80(int);
+void FUN_005bac80(std::intptr_t);

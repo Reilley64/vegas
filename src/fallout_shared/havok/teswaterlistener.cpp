@@ -2313,7 +2313,7 @@ int PhysicsController_o2_od_noo2::FUN_00630170(PhysicsReference* reference, floa
             {
                 reinterpret_cast<::TESForm *>((state))->ClearData();
                 PhysicsVector direction;
-                new ((void *)&(direction)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(::FUN_00460140((int)(state)))))));
+                new ((void *)&(direction)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(::FUN_00460140((std::intptr_t)(state)))))));
                 PhysicsVector velocity;
                 new ((void *)&(velocity)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(::FUN_00560dc0((::TESDataHandler *)(reference)))))));
                 float mass = reinterpret_cast<::fnv_004b4ea0::TESDataHandler *>((reference))->FUN_004b4ea0();
@@ -2413,7 +2413,7 @@ int PhysicsController_o2_od_noo2::FUN_00630170(PhysicsReference* reference, floa
             reinterpret_cast<::WaterSplash_62e970 *>(this)->SpawnWaterSplash((::Body_62e970 *)(body), FUN_004587d0(height));
             result = 1;
         }
-        reinterpret_cast<::FUN_0084d310_class *>(&((*reinterpret_cast<::ReferenceMap *>(&::g_011cc584))))->FUN_0084d310((int)(reference), true);
+        reinterpret_cast<::FUN_0084d310_class *>(&((*reinterpret_cast<::ReferenceMap *>(&::g_011cc584))))->FUN_0084d310((std::intptr_t)(reference), true);
     }
     else
     {

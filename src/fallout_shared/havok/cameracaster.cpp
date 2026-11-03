@@ -2,6 +2,7 @@
 // src/fallout_shared/havok/cameracaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/cameracaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00621c90_Class.h"
@@ -494,7 +495,7 @@ bool xCaster::FUN_00620bc0(const xP3& akFrom, xP3& akTo, xOutHit* apOut)
         xVec4b TO;
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&FROM)), (const ::fnv_004a3e00::NiPoint3 &)(akFrom));
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&TO)), (const ::fnv_004a3e00::NiPoint3 &)(akTo));
-        reinterpret_cast<::ScriptX *>((((::xPhantom *)(::FUN_00559450((int *)&(m_iWordAt00))))))->InvokeInterfaceCall((int)(&FROM), (int)(&TO), (int)(&COL), 0);
+        reinterpret_cast<::ScriptX *>((((::xPhantom *)(::FUN_00559450((int *)&(m_iWordAt00))))))->InvokeInterfaceCall((std::intptr_t)(&FROM), (std::intptr_t)(&TO), (std::intptr_t)(&COL), 0);
         RESULT = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::xTag &)((*(::xTag *)(reinterpret_cast<::Hld621210 *>(&(COL))->FUN_00621210({})))))->FUN_005609f0();
         if (RESULT)
         {

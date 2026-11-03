@@ -1928,7 +1928,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
         pweather->InitItem();
         pweatherlist = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pweatherlist))->FUN_00726070()));
     }
-    pcamshotlist = (LC3_Node*)((::BSSimpleList< ::BGSCameraShot *> *)(::FUN_00461110((int)this)));
+    pcamshotlist = (LC3_Node*)((::BSSimpleList< ::BGSCameraShot *> *)(::FUN_00461110((std::intptr_t)this)));
     while (pcamshotlist && (pcamshot = (TESForm*)*((void **)((void *)(pcamshotlist)))) != 0)
     {
         pcamshot->InitItem();
@@ -1946,13 +1946,13 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
         pheadpart->InitItem();
         pimpdatasetlist = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pimpdatasetlist))->FUN_00726070()));
     }
-    pzone = (LC3_Node*)((::BSSimpleList< ::BGSEncounterZone *> *)(::FUN_00461130((int)this)));
+    pzone = (LC3_Node*)((::BSSimpleList< ::BGSEncounterZone *> *)(::FUN_00461130((std::intptr_t)this)));
     while (pzone && (n = (TESForm*)*((void **)((void *)(pzone)))) != 0)
     {
         n->InitItem();
         pzone = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pzone))->FUN_00726070()));
     }
-    pFactList = (LC3_Node*)((::BSSimpleList< ::TESFaction *> *)(::FUN_00871a30((int)this)));
+    pFactList = (LC3_Node*)((::BSSimpleList< ::TESFaction *> *)(::FUN_00871a30((std::intptr_t)this)));
     while (pFactList && (pFaction = (TESForm*)*((void **)((void *)(pFactList)))) != 0)
     {
         pFaction->InitItem();
@@ -2152,7 +2152,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
         pregion->InitItem();
         preglist = (LC3_RegionList*)(LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((preglist))->FUN_00726070()));
     }
-    pWorldList = (LC3_Node*)((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)));
+    pWorldList = (LC3_Node*)((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((std::intptr_t)this)));
     while (pWorldList)
     {
         TESForm* pworld = (TESForm*)*((void **)((void *)(pWorldList)));
@@ -2167,7 +2167,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
         if (pnavinfo)
             pnavinfo->InitItem();
     }
-    pWorldList = (LC3_Node*)((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)));
+    pWorldList = (LC3_Node*)((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((std::intptr_t)this)));
     while (pWorldList)
     {
         TESForm* pworldspace = (TESForm*)*((void **)((void *)(pWorldList)));
@@ -2335,7 +2335,7 @@ void FUN_00462fb0_shell::FUN_00462fb0()
         if (pObj8)
             reinterpret_cast<::fnv_0054c740::FUN_0054c740_shell *>((((FUN_0054c740_shell*)pObj8)))->FUN_0054c740(1, 1);
     }
-    pWorldNode = (TESFormList*)((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)));
+    pWorldNode = (TESFormList*)((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((std::intptr_t)this)));
     while (pWorldNode)
     {
         BGSCameraPath* world = (BGSCameraPath*)*((void **)((void *)(((ListNodeHelper*)pWorldNode))));
@@ -2947,10 +2947,10 @@ void TESDataHandler::InitializeMagicSystem()
     if (!pDefaultWorld)
     {
     }
-    else if (((((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this))))->item) != pDefaultWorld)
+    else if (((((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((std::intptr_t)this))))->item) != pDefaultWorld)
     {
-        reinterpret_cast<::ItemChangeListNode *>((((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)))))->FUN_00905330((::InventoryStackRecord *const &)(pDefaultWorld));
-        ((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)))->AddHead(pDefaultWorld);
+        reinterpret_cast<::ItemChangeListNode *>((((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((std::intptr_t)this)))))->FUN_00905330((::InventoryStackRecord *const &)(pDefaultWorld));
+        ((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((std::intptr_t)this)))->AddHead(pDefaultWorld);
     }
     DAT_011ca230 = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(0x15));
     if (!DAT_011ca230)
@@ -3128,7 +3128,7 @@ void TESDataHandler::InitializeMagicSystem()
         DAT_011cb550 = new TESFaction;
         DAT_011cb550->SetRefID(0x13, true);
         DAT_011cb550->SetEditorID_AtRuntime("CreatureFaction");
-        ((::BSSimpleList< ::TESFaction *> *)(::FUN_00871a30((int)this)))->AddHead(DAT_011cb550);
+        ((::BSSimpleList< ::TESFaction *> *)(::FUN_00871a30((std::intptr_t)this)))->AddHead(DAT_011cb550);
         DAT_011cb550->reaction.SetReactionValue(DAT_011cb550, 100);
         reinterpret_cast<::FUN_005fd460_shell *>((DAT_011cb550))->FUN_005fd460();
         DAT_011cb550->SetInitializationState(true);
@@ -3598,7 +3598,7 @@ TESObjectCELL* FUN_00461ae0_shell::FUN_00461ae0(const char* pcEditorID)
         if (!FUN_00404dc0(form->GetEditorID(), pcEditorID))
             return (TESObjectCELL*)form;
     }
-    BSSimpleList<TESWorldSpace*>* pWorldList = ((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)));
+    BSSimpleList<TESWorldSpace*>* pWorldList = ((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((std::intptr_t)this)));
     while (pWorldList)
     {
         TESWorldSpace* pspace = (pWorldList->item);
@@ -3647,7 +3647,7 @@ bool TESDataHandler::AddFormToDataHandler(TESForm* form)
     }
     case 8: {
         TESFaction* entry = static_cast<TESFaction*>(form);
-        ((::BSSimpleList< ::TESFaction *> *)(::FUN_00871a30((int)this)))->AddHead(entry);
+        ((::BSSimpleList< ::TESFaction *> *)(::FUN_00871a30((std::intptr_t)this)))->AddHead(entry);
         break;
     }
     case 104: {
@@ -3717,7 +3717,7 @@ bool TESDataHandler::AddFormToDataHandler(TESForm* form)
     }
     case 97: {
         BGSEncounterZone* entry = static_cast<BGSEncounterZone*>(form);
-        ((::BSSimpleList< ::BGSEncounterZone *> *)(::FUN_00461130((int)this)))->AddHead(entry);
+        ((::BSSimpleList< ::BGSEncounterZone *> *)(::FUN_00461130((std::intptr_t)this)))->AddHead(entry);
         break;
     }
     case 71: {
@@ -3742,7 +3742,7 @@ bool TESDataHandler::AddFormToDataHandler(TESForm* form)
     }
     case 91: {
         BGSCameraShot* entry = static_cast<BGSCameraShot*>(form);
-        ((::BSSimpleList< ::BGSCameraShot *> *)(::FUN_00461110((int)this)))->AddHead(entry);
+        ((::BSSimpleList< ::BGSCameraShot *> *)(::FUN_00461110((std::intptr_t)this)))->AddHead(entry);
         break;
     }
     case 17: {
@@ -3772,7 +3772,7 @@ bool TESDataHandler::AddFormToDataHandler(TESForm* form)
     }
     case 65: {
         TESWorldSpace* entry = static_cast<TESWorldSpace*>(form);
-        ((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)))->AddHead(entry);
+        ((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((std::intptr_t)this)))->AddHead(entry);
         break;
     }
     case 73: {
@@ -5448,7 +5448,7 @@ bool TESDataHandler::ConstructObject(TESFile* file, bool skipExisting, TESForm* 
             else
             {
                 if (!DAT_011c3f34)
-                    DAT_011c3f34 = ((((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this))))->item);
+                    DAT_011c3f34 = ((((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((std::intptr_t)this))))->item);
                 if (!reinterpret_cast<::FUN_00587670_shell *>((DAT_011c3f34))->FUN_00587670(cell))
                 {
                     TESObjectCELL* existingCell =
@@ -5824,7 +5824,7 @@ TESObjectCELL* FUN_00461c20_Holder::GetOrCreateCell(int x, int y, TESWorldSpace*
 {
     if (!world)
     {
-        world = (TESWorldSpace*)*(((void **)((void *)(((::ListNodeHelper *)(::FUN_00460140((int)(((HandlerOperations*)this)))))))));
+        world = (TESWorldSpace*)*(((void **)((void *)(((::ListNodeHelper *)(::FUN_00460140((std::intptr_t)(((HandlerOperations*)this)))))))));
         if (!world)
             return 0;
     }

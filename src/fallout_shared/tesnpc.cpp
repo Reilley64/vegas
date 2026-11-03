@@ -4148,7 +4148,7 @@ void FaceNpc::RandomizeFace(bool keepAge, bool keepShape, bool keepOther)
     FaceMatrixLocal _result[2][2];
     float first2, second, value, other7;
     ::BSFaceGenManager::InitializeFaceGenCoordinates((::FaceGenCoordinates *)(_result));
-    ::FUN_00652fc0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FaceSetting *>(&::originalRuntimeFloatSetting46)))))), (int)(((void *)(reinterpret_cast<::S9fb0 *>((((::FaceRace *)(reinterpret_cast<::Callees *>(&(race))->FUN_00726070()))))->FUN_005d9fb0(FUN_005f0cc0())))), (int)(source9));
+    ::FUN_00652fc0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FaceSetting *>(&::originalRuntimeFloatSetting46)))))), (std::intptr_t)(((void *)(reinterpret_cast<::S9fb0 *>((((::FaceRace *)(reinterpret_cast<::Callees *>(&(race))->FUN_00726070()))))->FUN_005d9fb0(FUN_005f0cc0())))), (std::intptr_t)(source9));
     first2 = ::FUN_00652440((int)(source9), 0, 0);
     second = ::FUN_00652440((int)(source9), 0, 1);
     if (keepAge)
@@ -7301,14 +7301,14 @@ void FloatInsertVector::Insert(FloatInsertIterator where, unsigned int count, co
         }
         catch (...)
         {
-            reinterpret_cast<::FUN_0065f2b0_class *>(this)->FUN_0065f2b0((int)(ptr), (int)(pWritePos));
+            reinterpret_cast<::FUN_0065f2b0_class *>(this)->FUN_0065f2b0((std::intptr_t)(ptr), (std::intptr_t)(pWritePos));
             reinterpret_cast<::FUN_0064df10_helper *>(&(allocator))->deallocate(ptr, capacity);
             throw;
         }
         count += ((unsigned int)(reinterpret_cast<::FUN_00662820_shell *>((void *)this)->FUN_00662820()));
         if (first != 0)
         {
-            reinterpret_cast<::FUN_0065f2b0_class *>(this)->FUN_0065f2b0((int)(first), (int)(last));
+            reinterpret_cast<::FUN_0065f2b0_class *>(this)->FUN_0065f2b0((std::intptr_t)(first), (std::intptr_t)(last));
             reinterpret_cast<::FUN_0064df10_helper *>(&(allocator))->deallocate(first, end - first);
         }
         end = ptr + capacity;
@@ -7325,7 +7325,7 @@ void FloatInsertVector::Insert(FloatInsertIterator where, unsigned int count, co
         }
         catch (...)
         {
-            reinterpret_cast<::FUN_0065f2b0_class *>(this)->FUN_0065f2b0((int)(where.current + count), (int)(last + count));
+            reinterpret_cast<::FUN_0065f2b0_class *>(this)->FUN_0065f2b0((std::intptr_t)(where.current + count), (std::intptr_t)(last + count));
             throw;
         }
         last += count;

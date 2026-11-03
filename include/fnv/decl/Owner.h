@@ -67,7 +67,7 @@ public:
     // 0x00ca85f0
     void FUN_00ca85f0(uintptr_t);
     // 0x00cab0e0
-    void FUN_00cab0e0(int, int, float);
+    void FUN_00cab0e0(std::intptr_t, std::intptr_t, float);
     // 0x00ce1420
     int FUN_00ce1420(void *, int, float);
     // 0x00cf5ea0

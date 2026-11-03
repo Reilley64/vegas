@@ -37,4 +37,4 @@ void FUN_00652af0(CoordArray (*)[2], CoordArray (*)[2], CoordArray (*)[2], bool,
 // 0x00652e00
 void FUN_00652e00(MatrixProxy (*)[2], MatrixProxy (*)[2], MatrixProxy (*)[2], bool);
 // 0x00652fc0
-void FUN_00652fc0(float, int, int);
+void FUN_00652fc0(float, std::intptr_t, std::intptr_t);

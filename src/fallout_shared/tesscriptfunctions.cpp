@@ -2635,7 +2635,7 @@ void __cdecl FUN_005ca1c0(unsigned int aiFlag, TESObjectREFR* apRefObject, TESFo
     afReturnValue = 0.0;
     if (apRefObject && apScriptLocals)
     {
-        if (((bool)(reinterpret_cast<::FUN_005a8e20_cls *>((((FUN_005a8ef0_helper*)apScriptLocals)))->FUN_005a8ef0((int)(apActionForm), aiFlag))))
+        if (((bool)(reinterpret_cast<::FUN_005a8e20_cls *>((((FUN_005a8ef0_helper*)apScriptLocals)))->FUN_005a8ef0((std::intptr_t)(apActionForm), aiFlag))))
         {
             afReturnValue = 1.0;
         }
@@ -4174,7 +4174,7 @@ void __cdecl DebugLog(char const*, ...);
 // @fnv 0x005c5a00
 void __cdecl FUN_005c5a00(const char* message)
 {
-    DebugLog(((const char *)(::FUN_00464f30((int)(message)))));
+    DebugLog(((const char *)(::FUN_00464f30((std::intptr_t)(message)))));
 }
 
 namespace fnv_005c5a20 {
@@ -7008,7 +7008,7 @@ bool FUN_005dda00(const ScriptParameter* parameters, const char* scriptData,
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, thisObject,
                      container, script, locals, buffer))
         return false;
-    reinterpret_cast<::fnv_00a26120::FUN_00a26120_cls *>((((::BGSSaveLoadUI *)(::FUN_00a25920()))))->FUN_00a26120((unsigned int)(buffer));
+    reinterpret_cast<::fnv_00a26120::FUN_00a26120_cls *>((((::BGSSaveLoadUI *)(::FUN_00a25920()))))->FUN_00a26120((std::uintptr_t)(buffer));
     return true;
 }
 
@@ -7936,11 +7936,11 @@ bool __cdecl FUN_005ced30(const ScriptParameter* parameters, const char* scriptD
         if (formID) {
             if (BGSOpenCloseForm::GetOpenState(thisObject) > BGSOpenCloseForm::OPEN_STATE_OPEN)
                 ((TESObjectREFR_StandIn*)thisObject)->Activate(0, false, 0, 1);
-            reinterpret_cast<::fnv_00578a30::Thing *>((((TESObjectREFR_StandIn*)thisObject)))->FUN_00578a30((int)("Open"));
+            reinterpret_cast<::fnv_00578a30::Thing *>((((TESObjectREFR_StandIn*)thisObject)))->FUN_00578a30((std::intptr_t)("Open"));
         } else {
             if (BGSOpenCloseForm::GetOpenState(thisObject) < BGSOpenCloseForm::OPEN_STATE_CLOSING)
                 ((TESObjectREFR_StandIn*)thisObject)->Activate(0, false, 0, 1);
-            reinterpret_cast<::fnv_00578a30::Thing *>((((TESObjectREFR_StandIn*)thisObject)))->FUN_00578a30((int)("Close"));
+            reinterpret_cast<::fnv_00578a30::Thing *>((((TESObjectREFR_StandIn*)thisObject)))->FUN_00578a30((std::intptr_t)("Close"));
         }
         reinterpret_cast<::FUN_00422aa0_shell *>((((FUN_00422aa0_shell*)((::fnv_005ced30::FUN_00422aa0_shell *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor*)thisObject)))->FUN_005d43c0())))))->FUN_00422aa0();
     }
@@ -9960,7 +9960,7 @@ bool __cdecl FUN_005c9610(const ScriptParameter* parameters, const char* scriptD
     BSAudio* form = 0;
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, thisObject, container, script, locals, &form))
         return false;
-    reinterpret_cast<::fnv_00952830::FUN_00952830_Class *>(((*reinterpret_cast<::fnv_005c9610::FUN_00952830_Class * *>(&::_g_thePlayer))))->FUN_00952830((int)(form), 1, 0);
+    reinterpret_cast<::fnv_00952830::FUN_00952830_Class *>(((*reinterpret_cast<::fnv_005c9610::FUN_00952830_Class * *>(&::_g_thePlayer))))->FUN_00952830((std::intptr_t)(form), 1, 0);
     return true;
 }
 }  // namespace fnv_005c9610
@@ -10540,7 +10540,7 @@ bool FUN_005dd960(const ScriptParameter* parameters, const char* scriptData, TES
     char buffer[0x100];
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, thisObject, container, script, locals, buffer))
         return false;
-    bool success = ((bool)(reinterpret_cast<::FUN_00a26090_cls *>((((::fnv_005dd960::BGSSaveLoadUI *)(::FUN_00a25920()))))->FUN_00a26090((int)(buffer))));
+    bool success = ((bool)(reinterpret_cast<::FUN_00a26090_cls *>((((::fnv_005dd960::BGSSaveLoadUI *)(::FUN_00a25920()))))->FUN_00a26090((std::intptr_t)(buffer))));
     result = success ? 1.0 : 0.0;
     return success;
 }
@@ -10614,7 +10614,7 @@ bool FUN_005de2d0(const ScriptParameter* parameters, const char* scriptData,
         return false;
     *(ActorS**)((char*)(*reinterpret_cast<::fnv_005de2d0::ActorS * *>(&::_g_thePlayer)) + 0x604) = actor;
     if (actor && ((::fnv_005de2d0::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor))->FUN_00575d70())))
-        ::FUN_00709d20((int)((::fnv_005de2d0::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor))->FUN_00575d70())));
+        ::FUN_00709d20((std::intptr_t)((::fnv_005de2d0::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor))->FUN_00575d70())));
     return true;
 }
 }  // namespace fnv_005de2d0
@@ -11413,7 +11413,7 @@ bool FUN_005b7820(const ScriptParameter* parameter, const char* name,
         return false;
 
     if (scriptS)
-        reinterpret_cast<::FUN_00b8cb00_class *>((((::fnv_005b7820::ImageSpaceManager *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b8cb00((int)(((void *)(reinterpret_cast<::BGSCameraPath *>((scriptS))->GetConditions()))));
+        reinterpret_cast<::FUN_00b8cb00_class *>((((::fnv_005b7820::ImageSpaceManager *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b8cb00((std::intptr_t)(((void *)(reinterpret_cast<::BGSCameraPath *>((scriptS))->GetConditions()))));
     else
         reinterpret_cast<::FUN_00b8cb00_class *>((((::fnv_005b7820::ImageSpaceManager *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b8cb00((int)(0));
 
@@ -11744,7 +11744,7 @@ public:
 // @fnv 0x005bac90
 bool FUN_005bac90(const ScriptParameter*, const char*, TESObjectREFR* object)
 {
-    ::FUN_005bac80((int)(((void (&)())::FUN_004d78c0)));
+    ::FUN_005bac80((std::intptr_t)(((void (&)())::FUN_004d78c0)));
 
     FUN_004d61b0* sceneGraph = new FUN_004d61b0(
         ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::fnv_005bac90::BSAudio * *>(&::g_osGlobals))))->FUN_0084e3a0())),
@@ -11759,8 +11759,8 @@ bool FUN_005bac90(const ScriptParameter*, const char*, TESObjectREFR* object)
     if(object)
         reinterpret_cast<::FUN_004d65a0_Class *>((sceneGraph))->FUN_004d65a0(reinterpret_cast<VirtualObject*>(object)->V116());
 
-    reinterpret_cast<::Owner64 *>((sceneGraph))->FUN_004d64c0((int)(((::fnv_005bac90::NiNode *)(::FUN_005bac60()))), "Fallout Interface Scene Graph");
-    reinterpret_cast<::Owner64 *>((sceneGraph))->FUN_004d64c0((int)(::FUN_005bac70()), "Fallout Interface 3D Object Scene Graph");
+    reinterpret_cast<::Owner64 *>((sceneGraph))->FUN_004d64c0((std::intptr_t)(((::fnv_005bac90::NiNode *)(::FUN_005bac60()))), "Fallout Interface Scene Graph");
+    reinterpret_cast<::Owner64 *>((sceneGraph))->FUN_004d64c0((std::intptr_t)(::FUN_005bac70()), "Fallout Interface 3D Object Scene Graph");
 
     if(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))
         reinterpret_cast<::Owner64 *>((sceneGraph))->FUN_004d64c0(
@@ -16251,7 +16251,7 @@ bool FUN_005bd660(const ScriptParameter* parameters, const char* scriptData, TES
         return false;
     WorldSpaceStandIn* worldSpace = ((::WorldSpaceStandIn *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::TESStandIn5bd * *>(&::g_TES))))->GetHitSound()));
     if (!worldSpace)
-        worldSpace = ((::WorldSpaceNode *)((void *)(((::WorldSpaceListStandIn *)(::FUN_00460140((int)((*reinterpret_cast<::DataHandlerStandIn * *>(&::g_dataHandler)))))))))->item;
+        worldSpace = ((::WorldSpaceNode *)((void *)(((::WorldSpaceListStandIn *)(::FUN_00460140((std::intptr_t)((*reinterpret_cast<::DataHandlerStandIn * *>(&::g_dataHandler)))))))))->item;
     if (!worldSpace)
         return false;
     if ((*reinterpret_cast<::QueuedCellManagerStandIn * *>(&::DAT_011c9618)))
@@ -23211,7 +23211,7 @@ bool __cdecl FUN_005d8bf0(const ScriptParameter* parameters, const char* compile
     if (!FUN_005accb0(parameters, compiled, &offset, reference, container, script, locals, text))
         return false;
     BSStringT<char> value;
-    if (!::FUN_005b4960((int)(parameters), compiled, reference, container, script, locals, (int)&(result), offset, text, (::BSStringT<char> *)&(value)))
+    if (!::FUN_005b4960((std::intptr_t)(parameters), compiled, reference, container, script, locals, (int)&(result), offset, text, (::BSStringT<char> *)&(value)))
         return false;
     return true;
 }
@@ -25059,7 +25059,7 @@ bool __cdecl FUN_005b4630(const ScriptParameter* parameters, const char* compile
     if (!i)
         return false;
     BSStringT<char> p; // rendered message text
-    if (!::FUN_005b4960((int)(parameters), compiled, reference, container, script, locals, (int)&(result), offset, i->description.GetDescription(0, 0x43534544), (::BSStringT<char> *)&(p)))
+    if (!::FUN_005b4960((std::intptr_t)(parameters), compiled, reference, container, script, locals, (int)&(result), offset, i->description.GetDescription(0, 0x43534544), (::BSStringT<char> *)&(p)))
         return false;
     FUN_005b4940();
     if (reference && !reinterpret_cast<::FUN_004077c0_shell *>((void *)(reference))->FUN_004077c0())
@@ -25088,10 +25088,10 @@ bool __cdecl FUN_005b4630(const ScriptParameter* parameters, const char* compile
     if (f)
         a[0] = DAT_0103934c;
     if (reinterpret_cast<::FUN_00590d00_shell *>((i))->FUN_00590d00()) {
-        FUN_00703e80(((const char *)(::FUN_00464f30((int)(((const char *)(::FUN_00559450((int *)&(p)))))))), 0, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(i->fullName))->FUN_00408da0())), FUN_005b4a70, 0, 23, 0.0f, 0.0f,
+        FUN_00703e80(((const char *)(::FUN_00464f30((std::intptr_t)(((const char *)(::FUN_00559450((int *)&(p)))))))), 0, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(i->fullName))->FUN_00408da0())), FUN_005b4a70, 0, 23, 0.0f, 0.0f,
             a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], 0);
     } else if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)(&p))->FUN_004048e0()))) {
-        ::DispatchMessageToSink((std::intptr_t)(((const char *)(::FUN_00464f30((int)(((const char *)(::FUN_00559450((int *)&(p))))))))), 0,
+        ::DispatchMessageToSink((std::intptr_t)(((const char *)(::FUN_00464f30((std::intptr_t)(((const char *)(::FUN_00559450((int *)&(p))))))))), 0,
             (std::intptr_t)(((::MessageFullNameRecord *)(reinterpret_cast<::BGSMessageInitAccess *>((i))->GetIconFormID())) ? ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::MessageFullNameRecord *)(reinterpret_cast<::BGSMessageInitAccess *>((i))->GetIconFormID()))->fullName))->FUN_00408da0())) : 0), (std::intptr_t)(0),
             (float)((unsigned int)(reinterpret_cast<::Twin_00639b40 *>((i))->GetEntryPoint())), false);
     }
@@ -26023,7 +26023,7 @@ bool __cdecl FUN_005b6d40(const ScriptParameter* apParameters, const char* apCom
     if (!ExtractArgs(apParameters, apCompiledParams, &auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &iShowA, &iTravel_2, &iSkipHiddenTmp))
         return false;
 
-    MarkerList<MarkerWorld*>* pWorldIterA = ((::MarkerList< ::MarkerWorld *> *)(::FUN_00460140((int)(((MarkerDataHandler*)(*reinterpret_cast<::DataHandler * *>(&::g_dataHandler)))))));
+    MarkerList<MarkerWorld*>* pWorldIterA = ((::MarkerList< ::MarkerWorld *> *)(::FUN_00460140((std::intptr_t)(((MarkerDataHandler*)(*reinterpret_cast<::DataHandler * *>(&::g_dataHandler)))))));
     while (pWorldIterA && !pWorldIterA->IsEmpty()) {
         MarkerWorld* pWorld6 = ((::MarkerWorld *)((void *)(pWorldIterA)));
         pWorldIterA = ((::MarkerList< ::MarkerWorld *> *)(reinterpret_cast<::Callees *>((pWorldIterA))->FUN_00726070()));
@@ -27834,25 +27834,25 @@ SceneViewer(unsigned int, unsigned int, void*, const char*, int, int, int, int);
 };
 // @fnv 0x005ba8f0
 bool __cdecl FUN_005ba8f0(int arg0, int arg1, ViewerRef* ref) {
-::FUN_005bac80((int)(((void (&)())::FUN_004d78c0)));
+::FUN_005bac80((std::intptr_t)(((void (&)())::FUN_004d78c0)));
 SceneViewer* viewer;
 if (ref && ref->GetScene()) {
 const char* name = 0;
 name = reinterpret_cast<::FUN_0055d520_shell *>((ref))->FUN_0055d520();
 if (ref == (ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer))) {
 viewer = new SceneViewer(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->FUN_0084e3a0())), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->GetName())), ref->GetScene(), reinterpret_cast<::FUN_004eaf60_shell *>((((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_004eaf60() ? "Player 3rd Person" : "Player 1st Person", (-2147483647-1), (-2147483647-1), 800, 600);
-reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((int)(((void *)(reinterpret_cast<::FUN_00950bb0_shell *>((((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_00950bb0(reinterpret_cast<::FUN_004eaf60_shell *>((((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_004eaf60())))), reinterpret_cast<::FUN_004eaf60_shell *>((((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_004eaf60() ? "Player 1st Person" : "Player 3rd Person");
-if (((void *)(::fnv_00490f80::FUN_00490f80((char *)(((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))))) reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((int)(((void *)(::fnv_00490f80::FUN_00490f80((char *)(((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))))), "Player Inventory Menu");
+reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((std::intptr_t)(((void *)(reinterpret_cast<::FUN_00950bb0_shell *>((((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_00950bb0(reinterpret_cast<::FUN_004eaf60_shell *>((((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_004eaf60())))), reinterpret_cast<::FUN_004eaf60_shell *>((((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_004eaf60() ? "Player 1st Person" : "Player 3rd Person");
+if (((void *)(::fnv_00490f80::FUN_00490f80((char *)(((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))))) reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((std::intptr_t)(((void *)(::fnv_00490f80::FUN_00490f80((char *)(((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))))), "Player Inventory Menu");
 } else {
 new SceneViewer(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->FUN_0084e3a0())), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->GetName())), ref->GetScene(), name, (-2147483647-1), (-2147483647-1), 800, 600);
 }
 } else {
 viewer = new SceneViewer(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->FUN_0084e3a0())), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->GetName())), ((void *)(::FUN_0045c670())), "Fallout World Scene Graph", (-2147483647-1), (-2147483647-1), 800, 600);
-reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((int)(((void *)(::FUN_005bac60()))), "Fallout Interface Scene Graph");
-reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((int)(FUN_005bac70()), "Fallout Interface 3D Object Scene Graph");
-if (((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))) reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((int)(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))), "Fallout Menu Object 3D Scene Graph");
-if (((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3)))) reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((int)(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3)))), "Fallout Menu Player 3D Scene Graph");
-if (::fnv_005bac20::FUN_005bac20()) reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((int)(((void *)(::fnv_005bac50::FUN_005bac50()))), "Fallout Screen Splatter Scene Graph");
+reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((std::intptr_t)(((void *)(::FUN_005bac60()))), "Fallout Interface Scene Graph");
+reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((std::intptr_t)(FUN_005bac70()), "Fallout Interface 3D Object Scene Graph");
+if (((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))) reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((std::intptr_t)(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))), "Fallout Menu Object 3D Scene Graph");
+if (((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3)))) reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((std::intptr_t)(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3)))), "Fallout Menu Player 3D Scene Graph");
+if (::fnv_005bac20::FUN_005bac20()) reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((std::intptr_t)(((void *)(::fnv_005bac50::FUN_005bac50()))), "Fallout Screen Splatter Scene Graph");
 }
 return true;
 }
@@ -28288,7 +28288,7 @@ bool FUN_005bb8c0(int p1,int p2,int reference,int container,int script,int local
  else DAT_011cae47=true;
  ::MyVec005bb9b0 kFogColor;
  FogColor color=(*(::FogColor *)&(reinterpret_cast<::UnknownClass005bb9b0 *>((((::FogRenderer *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_005bb9b0(kFogColor)));
- ::FUN_00b5a8c0((int)(((::FogRenderer *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))), DAT_011cae47,(*(int *)&(const ::FogColor &)(color)),start2,end, {});
+ ::FUN_00b5a8c0((std::intptr_t)(((::FogRenderer *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))), DAT_011cae47,(*(int *)&(const ::FogColor &)(color)),start2,end, {});
  return true;
 }
 
@@ -49572,7 +49572,7 @@ bool __cdecl FUN_005dd870(
         return false;
     }
 
-    ok = reinterpret_cast<::RedeemedContentA26 *>((((::fnv_005dd870::BGSSaveLoadUI *)(::FUN_00a25920()))))->FUN_00a26020((unsigned int)(cCode));
+    ok = reinterpret_cast<::RedeemedContentA26 *>((((::fnv_005dd870::BGSSaveLoadUI *)(::FUN_00a25920()))))->FUN_00a26020((std::uintptr_t)(cCode));
 
     _sprintf_s(
         msg,
@@ -50049,7 +50049,7 @@ bool __cdecl FUN_005bb9e0(const ScriptParameter* params, const char* scriptData,
     }
     MyVec005bb9b0 _pos;
     ((UnknownClass005bb9b0*)((::fnv_005bb9e0::Mgr1 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))->FUN_005bb9b0(_pos);
-    Mat3 mat4 = *((::fnv_005bb9e0::Mat3 *)(::FUN_00461130((int)(((::fnv_005bb9e0::EffSrc *)(reinterpret_cast<::BSFaceGenNiNode *>((((EffSrc2*)((void *)(::FUN_0045c670())))))->GetAnimationData()))))));
+    Mat3 mat4 = *((::fnv_005bb9e0::Mat3 *)(::FUN_00461130((std::intptr_t)(((::fnv_005bb9e0::EffSrc *)(reinterpret_cast<::BSFaceGenNiNode *>((((EffSrc2*)((void *)(::FUN_0045c670())))))->GetAnimationData()))))));
     Mat3 rot;
     reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(1.5707963f);
     mat4 = mat4.FUN_0043f8d0(rot);
@@ -58991,7 +58991,7 @@ bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR_o2_od
     NiPoint3_o2_od_oy_noo2 pt(0.0f, f14, 0.0f);
     NiPoint3_o2_od_oy_noo2 pos = *(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))->GetPos1f4();
     void* tmpEC = ((void *)(reinterpret_cast<::BSFaceGenNiNode *>((((AnimS*)FUN_0045c670())))->GetAnimationData()));
-    S36 s36 = *((::S36 *)(::FUN_00461130((int)(((NodeS_o2_od_oy_noo2*)tmpEC)))));
+    S36 s36 = *((::S36 *)(::FUN_00461130((std::intptr_t)(((NodeS_o2_od_oy_noo2*)tmpEC)))));
     MatrixS p134;
     NiPoint3_o2_od_oy_noo2 p140;
     reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(0, &p140.y, &p140.z, &p140.x);
@@ -59180,7 +59180,7 @@ bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR_o2_od
     NiPoint3_o2_od_oy_noo2 pt(0.0f, f14, 0.0f);
     NiPoint3_o2_od_oy_noo2 pos = *(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))->GetPos1f4();
     void* tmpEC = ((void *)(reinterpret_cast<::BSFaceGenNiNode *>((((AnimS*)FUN_0045c670())))->GetAnimationData()));
-    S36 s36 = *((::S36 *)(::FUN_00461130((int)(((NodeS_o2_od_oy_noo2*)tmpEC)))));
+    S36 s36 = *((::S36 *)(::FUN_00461130((std::intptr_t)(((NodeS_o2_od_oy_noo2*)tmpEC)))));
     MatrixS p134;
     NiPoint3_o2_od_oy_noo2 p140;
     reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(0, &p140.y, &p140.z, &p140.x);

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class Animation;
 class BSBound;
 class BSFaceGenNiNode;
@@ -49,7 +51,7 @@ public:
     // 0x008d8500
     void AddDeferredHideLimb(::TargetDoorController *);
     // 0x008d8a80
-    void SetKnockdownStage(int);
+    void SetKnockdownStage(std::intptr_t);
     // 0x008d8aa0
     void AttachFaceGenerationNode(::BSFaceGenNiNode *);
     // 0x008d8ac0

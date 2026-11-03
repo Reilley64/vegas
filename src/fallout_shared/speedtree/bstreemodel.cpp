@@ -1541,7 +1541,7 @@ void FUN_00667190_shell::LoadTreeCollision(TESObjectTREE* apTree)
     ::TaskQueueInterface::CopyStringToBuffer(acPath, 0x104, "Data\\Meshes\\Trees");
     strcat_s(acPath, 0x104, kModelName.acName);
     strcat_s(acPath, 0x104, ".NIF");
-    if (FileFinder::Exist(acPath, 0, 6, 1) && reinterpret_cast<::FUN_00c3a8a0_cls *>(&(kStream))->FUN_00c3a8a0((unsigned int)(acPath), false) && ::GetRefAt21C((const char *)&(kStream)) == 1)
+    if (FileFinder::Exist(acPath, 0, 6, 1) && reinterpret_cast<::FUN_00c3a8a0_cls *>(&(kStream))->FUN_00c3a8a0((std::uintptr_t)(acPath), false) && ::GetRefAt21C((const char *)&(kStream)) == 1)
     {
         NiAVObject* pObject = ((::NiAVObject *)(reinterpret_cast<::MLx *>(&(kStream))->GetStringAt(0)));
         NiNode* kNode = (NiNode*)((::NiAVObject *)(::FUN_00653270(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f4280)), (::NiObject *)(pObject))));

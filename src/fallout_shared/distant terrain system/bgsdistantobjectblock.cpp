@@ -274,7 +274,7 @@ void BGSDistantObjectBlockLoadTask::RunOnce(void* apTaskState, void* apTaskOwner
     else
     {
         *(unsigned char*)((char*)this + 0x50) = 1;
-        reinterpret_cast<::fnv_00c3cb70::IOTask *>((this))->FUN_00c3cb70((int)(apTaskState), (::fnv_00c3cb70::RefObj *)(apTaskOwner));
+        reinterpret_cast<::fnv_00c3cb70::IOTask *>((this))->FUN_00c3cb70((std::intptr_t)(apTaskState), (::fnv_00c3cb70::RefObj *)(apTaskOwner));
     }
 }
 }  // namespace fnv_006f71a0
@@ -1173,7 +1173,7 @@ void DistantBlock::LoadDistantObjectBlock()
     if (memory == 0 && !FUN_00456a20(((const char *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())), 0, 6, 1))
         canLoad = 0;
     BSStream stream;
-    if (canLoad && reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((unsigned int)(((const char *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))), {}))
+    if (canLoad && reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((std::uintptr_t)(((const char *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))), {}))
     {
         Node* node = ((::fnv_006f71e0::Node *)(reinterpret_cast<::MLx *>(&(stream))->GetStringAt(0)));
         if (node->AsNode())

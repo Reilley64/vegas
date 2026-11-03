@@ -1,5 +1,6 @@
 // fallout_shared/tesscriptcompiler.cpp: ScriptCompiler, BGSCameraPath, S7f, S5a and more (36 functions)
 
+#include <cstdint>
 #include <new>
 #include <cctype>
 #include <cstdlib>
@@ -989,7 +990,7 @@ void __cdecl ReportScriptError(CStringArgument* self, const char* pcFormat, ...)
                  self->m_uiLastLineNumber, msg);
     if (self->m_eCompilerIndex == 1)
     {
-        ::FUN_00703c00((const char *)(::FUN_00464f30((int)(((char *)(::FUN_00559450((int *)&(strBuf))))))), {});
+        ::FUN_00703c00((const char *)(::FUN_00464f30((std::intptr_t)(((char *)(::FUN_00559450((int *)&(strBuf))))))), {});
     }
     else
     {

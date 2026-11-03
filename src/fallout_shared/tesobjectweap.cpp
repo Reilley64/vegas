@@ -1468,13 +1468,13 @@ void TESObjectWEAP::InitItem()
     formID = (std::uintptr_t)((::SpellItem *)(reinterpret_cast<::FUN_0051f4d0_class *>(this)->GetField1CC()));
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
-        reinterpret_cast<::FUN_0051f4f0_Class *>(this)->FUN_0051f4f0((int)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
+        reinterpret_cast<::FUN_0051f4f0_Class *>(this)->FUN_0051f4f0((std::intptr_t)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
         if(!((::SpellItem *)(reinterpret_cast<::FUN_0051f4d0_class *>(this)->GetField1CC()))) ::FUN_005b5e40();
     }
     formID = (std::uintptr_t)((::SpellItem *)(reinterpret_cast<::HighProcess *>(this)->GetMobileObject()));
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
-        reinterpret_cast<::FUN_0051f530_class *>(this)->FUN_0051f530((int)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
+        reinterpret_cast<::FUN_0051f530_class *>(this)->FUN_0051f530((std::intptr_t)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
         if(!((::SpellItem *)(reinterpret_cast<::HighProcess *>(this)->GetMobileObject()))) ::FUN_005b5e40();
     }
     formID = (std::uintptr_t)m_pWeaponSound1;
@@ -1782,7 +1782,7 @@ void WeaponCopyAccess::CopyFromWeapon(unsigned int id)
         reinterpret_cast<::FUN_005216d0_shell *>(this)->FUN_005216d0(((::TESSound *)(reinterpret_cast<::FUN_00522520_shell *>((source))->GetField238())));
         reinterpret_cast<::FUN_005216f0_shell *>(this)->FUN_005216f0(((::TESSound *)(reinterpret_cast<::FUN_00522540_shell *>((source))->GetField23C())));
         reinterpret_cast<::FUN_00521610_shell *>(this)->FUN_00521610(((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>((source))->RefreshActorRuntimeData())));
-        reinterpret_cast<::MiddleHighProcess *>(this)->SetKnockdownStage((int)(((::TESSound *)(reinterpret_cast<::FUN_008d8a60_Class *>((source))->GetField244()))));
+        reinterpret_cast<::MiddleHighProcess *>(this)->SetKnockdownStage((std::intptr_t)(((::TESSound *)(reinterpret_cast<::FUN_008d8a60_Class *>((source))->GetField244()))));
         reinterpret_cast<::MiddleHighProcess *>(this)->AttachFaceGenerationNode((::BSFaceGenNiNode *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>((source))->GetFacialAnimationNode()))));
         m_eSoundLevel = source->FUN_00522560(false);
         reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(source->FUN_00401170());
@@ -2363,7 +2363,7 @@ bool TESObjectWEAP::Load(TESFile* file)
         {
             TESSound* modAttackSound = 0;
             file->GetChunkData((unsigned int*)&modAttackSound);
-            if(((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>(this)->RefreshActorRuntimeData()))) reinterpret_cast<::MiddleHighProcess *>(this)->SetKnockdownStage((int)(modAttackSound));
+            if(((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>(this)->RefreshActorRuntimeData()))) reinterpret_cast<::MiddleHighProcess *>(this)->SetKnockdownStage((std::intptr_t)(modAttackSound));
             else reinterpret_cast<::FUN_00521610_shell *>(this)->FUN_00521610(modAttackSound);
             break;
         }
@@ -3841,7 +3841,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
      FireFace* face31 = (FireFace*)FUN_00524c90();
      if (useFace2 && face31) {
       static FirePoint offset(0.0f,-5.0f,0.0f);
-      position6 = ((::FireTransform *)(::FUN_00461130((int)(face31))))->FUN_00524c40(offset);
+      position6 = ((::FireTransform *)(::FUN_00461130((std::intptr_t)(face31))))->FUN_00524c40(offset);
      }
     }
     if (reference && reference==(*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)) && !::FUN_00524d10((bool *)((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))) {
@@ -3849,7 +3849,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
      pitch37 = reinterpret_cast<::MobileObject *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->GetLooking();
     } else {
      float roll4;
-     reinterpret_cast<::RotationMatrix *>((((FireNode*)((::FirePoint *)(::FUN_00461130((int)(muzzle11)))))))->FUN_00a59400((*(float *)(&yaw21)),(*(float *)(&pitch37)),(*(float *)(&roll4)));
+     reinterpret_cast<::RotationMatrix *>((((FireNode*)((::FirePoint *)(::FUN_00461130((std::intptr_t)(muzzle11)))))))->FUN_00a59400((*(float *)(&yaw21)),(*(float *)(&pitch37)),(*(float *)(&roll4)));
     }
     if (*(*reinterpret_cast<::FireSetting *>(&::g_011c94a0)).Bool()) {
      FireNode* root = muzzle11->node();
@@ -3859,7 +3859,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
       if (!(FireNode*)marker) {
        FireColor color(1,0,0,1);
        marker = ((::FireNode *)(::fnv_00c584a0::FUN_00c584a0(1,1,4096.0f,10,10,(::fnv_00c584a0::MeshColor *)(::FireColor *)(&color))));
-       ::AssignFixedString((char *)(((FireNode*)marker)), (int)(FUN_00524cb0()), {});
+       ::AssignFixedString((char *)(((FireNode*)marker)), (std::intptr_t)(FUN_00524cb0()), {});
        FireMatrix rotation;
        reinterpret_cast<::FUN_00524ac0_shell *>(&(rotation))->FUN_00524ac0(1.57079637f);
        reinterpret_cast<::FUN_0043fa80_s *>((((FireNode*)marker)))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&rotation)));
@@ -3903,7 +3903,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
       if ((FireNode*)cellMarker31) ((::FireNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((FireNode*)cellMarker31)))->FUN_009611e0()))->detach(cellMarker31);
       FireColor cellColor14(0,1,0,1);
       cellMarker31 = ((::FireNode *)(::FUN_00c55d50((::Point3 *)(::FirePoint *)(&position6),(::Point3 *)(::FirePoint *)(&targetPosition),0.5f,0.5f,0.5f,0.5f,(::FilterData *)(::FireColor *)(&cellColor14),(::FilterData *)(0))));
-      ::AssignFixedString((char *)(((FireNode*)cellMarker31)), (int)((void*)FUN_00524cc0()), {});
+      ::AssignFixedString((char *)(((FireNode*)cellMarker31)), (std::intptr_t)((void*)FUN_00524cc0()), {});
       cellNode->attach(cellMarker31,true);
       reinterpret_cast<::FUN_00a5a040_Class *>((((FireNode*)cellMarker31)))->FUN_00a5a040();
       FireUpdate cellUpdate73(0,false,false);
@@ -3997,7 +3997,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
     }
     FireRef* shooter2=0;
     if (reference->isActor()) shooter2=reference;
-    spawned19=((::FireRefData *)(::CreateProjectile((::P062Ammo *)(::FireRefData *)(((::FireRefData *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(shooter2))))),(::P062Object *)(reference),(::P062Object *)(target20),(::P062Object *)(::FireWeapon *)(this),(*(::NiPoint3 *)&(const ::FirePoint &)(position6)),shotYaw16,shotPitch5,lastNode23,(int)(aimTarget25),aimed26,(bool)(specialFlag19 || useSpecial62),yawOffset5,pitchOffset13,(void *)(0))));
+    spawned19=((::FireRefData *)(::CreateProjectile((::P062Ammo *)(::FireRefData *)(((::FireRefData *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((std::intptr_t)(shooter2))))),(::P062Object *)(reference),(::P062Object *)(target20),(::P062Object *)(::FireWeapon *)(this),(*(::NiPoint3 *)&(const ::FirePoint &)(position6)),shotYaw16,shotPitch5,lastNode23,(int)(aimTarget25),aimed26,(bool)(specialFlag19 || useSpecial62),yawOffset5,pitchOffset13,(void *)(0))));
     if (shot16 && (shot16->ammo || shot16->special) && FUN_0066dde0(shot16->id) && !useSpecial62) {
      if (!reinterpret_cast<::FUN_00524b40_class *>(this)->FUN_00524b40() || (!((int)(reinterpret_cast<::BGSTerrainManager *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetMinLevel())) && reinterpret_cast<::FUN_00524b40_class *>(this)->FUN_00524b40())) reinterpret_cast<::FUN_009c8b90_cls *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->FUN_009c8b90((::FUN_009c8b90_arg *)(spawned19));
     }
@@ -4260,8 +4260,8 @@ void ThisObj::FUN_00524db0(Param* param)
     if (flag7) {
     dword4 = ((::fnv_00524db0::SubA *)(reinterpret_cast<::FUN_004600d0_shell *>((this))->FUN_004600d0()))->vfn_14();
     point1 = *((::fnv_00524db0::P12 *)(::FUN_0045bb80((int)(node3))));
-    matTmp = *(Mat36*)((::fnv_00524db0::Sub461130 *)(::FUN_00461130((int)(node3))));
-    reinterpret_cast<::FUN_00439f50_class *>((((::fnv_00524db0::Sub461130 *)(::FUN_00461130((int)(node3))))))->FUN_00439f50(2, (::NiPoint3 *)(::fnv_00524db0::P12 *)(&obj34));
+    matTmp = *(Mat36*)((::fnv_00524db0::Sub461130 *)(::FUN_00461130((std::intptr_t)(node3))));
+    reinterpret_cast<::FUN_00439f50_class *>((((::fnv_00524db0::Sub461130 *)(::FUN_00461130((std::intptr_t)(node3))))))->FUN_00439f50(2, (::NiPoint3 *)(::fnv_00524db0::P12 *)(&obj34));
     f7c5 = -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting638))))));
     f9 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting638))))));
     reinterpret_cast<::FUN_0063c8a0_shell *>(&(obj34))->FUN_0063c8a0(((::fnv_00524db0::P12 *)(reinterpret_cast<::FUN_00416870_t *>(&(tempBCz))->FUN_00416870(::RandomFloat(f7c5, f9), ::RandomFloat(f7c5, f9), ::RandomFloat(f7c5, f9)))));
@@ -4276,7 +4276,7 @@ void ThisObj::FUN_00524db0(Param* param)
     reinterpret_cast<::MyPoint439180 *>(&(vecA0))->FUN_00439180(1.0f + ::RandomFloat(_fa8, f8c2));
     ::FUN_00525340((float *)(::fnv_00524db0::P12 *)(&vecA0));
     reinterpret_cast<::FUN_00416870_t *>(&(temp6))->FUN_00416870(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting635)))))) * vecA0.x, 0.0f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting635)))))) * vecA0.z);
-    obj14 = *((::fnv_00524db0::Sub461130 *)(::FUN_00461130((int)(node3))))->FUN_004b4500(&bufC3, &temp6);
+    obj14 = *((::fnv_00524db0::Sub461130 *)(::FUN_00461130((std::intptr_t)(node3))))->FUN_004b4500(&bufC3, &temp6);
     if (paramHome8 == (*reinterpret_cast<::fnv_00524db0::Param * *>(&::_g_thePlayer)) && !reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::fnv_00524db0::Param * *>(&::_g_thePlayer))))->FUN_004eaf60() && !reinterpret_cast<::FUN_00525430_Class *>(&((*reinterpret_cast<::fnv_00524db0::Obj2250 *>(&::g_011f2250))))->FUN_00525430()) {
         qA7 = new XObj(((void *)(reinterpret_cast<::LowProcess *>((param))->GetTarget())), ::FUN_0040ebd0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting637)))))), ::DAT_010162c0), dword4, param, &point1, &matTmp, &obj34, &obj14, 1.0f, 0, 1);
         reinterpret_cast<::Twin_007e6580 *>((qA7))->SetIsForegroundEffect(1);

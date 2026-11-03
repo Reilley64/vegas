@@ -2,6 +2,7 @@
 // src/fallout_shared/speedtree/bstreenode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreenode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ExtraOwnerB.h"
 #include "fnv/decl/FUN_00439410_cls.h"
@@ -1836,7 +1837,7 @@ void S_0066d880::FUN_0066d880(S_0066d880_List* list)
 {
     reinterpret_cast<::FUN_00a5ea70_t *>(this)->FUN_00a5ea70((::StrArr *)(list));
     char* name = ::FUN_00a7d330("BSTreeNode");
-    reinterpret_cast<::S_0060ba10 *>((list))->FUN_0096a610((int)(&name));
+    reinterpret_cast<::S_0060ba10 *>((list))->FUN_0096a610((std::intptr_t)(&name));
     char* text;
     if (((::S_0066d880_Obj *)(::FUN_00559450((int *)&(m_e4)))))
     {
@@ -1845,16 +1846,16 @@ void S_0066d880::FUN_0066d880(S_0066d880_List* list)
             ::FUN_00406d00(text, 0x20, "Type = Instance");
         else
             ::FUN_00406d00(text, 0x20, "Type = Base");
-        reinterpret_cast<::S_0060ba10 *>((list))->FUN_0096a610((int)(&text));
+        reinterpret_cast<::S_0060ba10 *>((list))->FUN_0096a610((std::intptr_t)(&text));
         text = new char[0x20];
         ::FUN_00406d00(text, 0x20, "Seed = %d", ((int)(reinterpret_cast<::LowProcess *>((((::S_0066d880_Obj *)(::FUN_00559450((int *)&(m_e4))))))->GetTarget())));
-        reinterpret_cast<::S_0060ba10 *>((list))->FUN_0096a610((int)(&text));
+        reinterpret_cast<::S_0060ba10 *>((list))->FUN_0096a610((std::intptr_t)(&text));
     }
     else
     {
         text = new char[0x20];
         ::FUN_00406d00(text, 0x20, "-No Model-");
-        reinterpret_cast<::S_0060ba10 *>((list))->FUN_0096a610((int)(&text));
+        reinterpret_cast<::S_0060ba10 *>((list))->FUN_0096a610((std::intptr_t)(&text));
     }
 }
 
@@ -3423,7 +3424,7 @@ void SpawnedSourceOwner::FUN_00cab820(SpawnedSource* apSource)
 {
     __m128 vA = _mm_setr_ps(apSource->m_f20, apSource->m_f24, apSource->m_f28, apSource->m_f2C);
     __m128 vB = _mm_setr_ps(apSource->m_f10, apSource->m_f14, apSource->m_f18, apSource->m_f1C);
-    reinterpret_cast<::Owner *>(this)->FUN_00cab0e0((int)(&vB), (int)(&vA), apSource->m_f04);
+    reinterpret_cast<::Owner *>(this)->FUN_00cab0e0((std::intptr_t)(&vB), (std::intptr_t)(&vA), apSource->m_f04);
     Apply(apSource);
 }
 
@@ -4662,7 +4663,7 @@ void C8C330Owner::FUN_00c8c330(C8C330Node* pkNode)
     C8C330Child* pkChild = GetOrCreateChild(&bCreated);
     C8C330Source* pkSource = ((::C8C330Source *)(reinterpret_cast<::NiStream *>((pkNode))->GetLoadedObject()));
     pkChild->m_uiFilterValue = pkSource ? pkSource->m_uiFilterValue : 0;
-    ::FUN_00c84cc0((int *)this, (unsigned int)(pkNode));
+    ::FUN_00c84cc0((int *)this, (std::uintptr_t)(pkNode));
 }
 
 typedef unsigned int C8CA60size_t;

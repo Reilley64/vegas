@@ -1015,7 +1015,7 @@ void TerrainStream::PushRef(TerrainRefProxy* apRef)
     reinterpret_cast<::S694a0 *>(&(tempBuffer))->FUN_00a694a0((void *)&reinterpret_cast<::NiCamera *>(apRef)->GetViewFrustum());
     if (m_04 != 0)
     {
-        ::fnv_006fa6d0::UpdateSceneEntryRadii((*(const ::fnv_006fa6d0::ScenePosition *)(apRef)), (unsigned int)(&tempBuffer));
+        ::fnv_006fa6d0::UpdateSceneEntryRadii((*(const ::fnv_006fa6d0::ScenePosition *)(apRef)), (std::uintptr_t)(&tempBuffer));
         FUN_006f5840();
     }
 }

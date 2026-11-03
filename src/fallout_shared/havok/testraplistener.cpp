@@ -572,7 +572,7 @@ void S_0062e350::FUN_0062e350(void* a)
     reinterpret_cast<::FUN_00621c90_Class *>((this))->FUN_00626870();
     if (!(f8 & 0x80000000))
     {
-        reinterpret_cast<::FUN_0066db70_Class *>((((H_6db70*)a)))->FUN_0066db70((int)(f0), (int)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
+        reinterpret_cast<::FUN_0066db70_Class *>((((H_6db70*)a)))->FUN_0066db70((std::intptr_t)(f0), (std::intptr_t)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
     }
     f0 = 0;
     f8 = 0x80000000;
@@ -1882,7 +1882,7 @@ struct GlobalObject_008c71b0 : FUN_0043b4d0_shell
 // @fnv 0x0062da00
 void FUN_0062da00_Class::HandleTrapEvent(InputBody* pInputBody)
 {
-    EventContext* resolvedBody = ((::EventContext *)(::FUN_00460140((int)(pInputBody))));
+    EventContext* resolvedBody = ((::EventContext *)(::FUN_00460140((std::intptr_t)(pInputBody))));
     EventCode notification;
     new ((void *)&(notification)) ::GlobalObject_008c71b0((int)(((void *)(::FUN_0043b540((char *)(resolvedBody))))));
     int category = reinterpret_cast<::FUN_0043b4d0_shell *>(&(notification))->FUN_0043b4d0();
@@ -1925,7 +1925,7 @@ struct TargetClass
 // @fnv 0x0062da90
 void TargetClass::RemoveMatchingListEntry(ArgClass* arg)
 {
-    LocalClass* v8 = ((::LocalClass *)(::FUN_00460140((int)(arg))));
+    LocalClass* v8 = ((::LocalClass *)(::FUN_00460140((std::intptr_t)(arg))));
     GlobalObject_008c71b0 v4(((int)(::FUN_0043b540((char *)(v8)))));
 
     if (unk04)
@@ -2015,7 +2015,7 @@ struct TrapListener
 // @fnv 0x0062db60
 void TrapListener::AddListener(CollisionArgument* apCollisionArgument)
 {
-    CollisionBody* body = ((::CollisionBody *)(::FUN_00460140((int)(apCollisionArgument))));
+    CollisionBody* body = ((::CollisionBody *)(::FUN_00460140((std::intptr_t)(apCollisionArgument))));
     FilterWord filter(::FUN_0043b540((char *)(body)));
     int layer = reinterpret_cast<::FUN_0043b4d0_shell *>(&(filter))->FUN_0043b4d0();
     if (layer == 12 || layer == 22 || layer == 24)

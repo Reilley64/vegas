@@ -2,6 +2,7 @@
 // src/fallout_shared/havok/bgsacousticspacelistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/bgsacousticspacelistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/C6b7f20_Map.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -119,7 +120,7 @@ bool BGSAcousticSpaceListenerX::CheckAcousticSpaceListener(RootContactPoint* pPo
     if (apTestRef)
     {
         if (m_ucState)
-            reinterpret_cast<::FUN_0061f870_shell *>(this)->SetCopyMapEntry((unsigned int)(apTestRef));
+            reinterpret_cast<::FUN_0061f870_shell *>(this)->SetCopyMapEntry((std::uintptr_t)(apTestRef));
         else
             SoundPlaybackManager::ResetAcousticSpace(((::BGSAcousticSpace *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apTestRef))->FUN_007af430())));
     }
@@ -187,13 +188,13 @@ void FUN_0061f630_shell::CheckPlayerReference(TESObjectREFR* apEntity)
         return;
     if (reinterpret_cast<::FUN_004eaf60_shell *>((((PC_00605d70*)::_g_thePlayer)))->FUN_004eaf60())
     {
-        if (((void *)(::FUN_00460140((int)(((TgtOps*)apEntity))))) ==
+        if (((void *)(::FUN_00460140((std::intptr_t)(((TgtOps*)apEntity))))) ==
             (void*)((unsigned int)(reinterpret_cast<::FUN_0043b560_shell *>((((W_0043b4f0*)(reinterpret_cast<::FUN_0061f6c0_shell *>((::_g_thePlayer))->FUN_0061f6c0()))))->GetSourceFilesFromObject())))
             SoundPlaybackManager::ResetAcousticSpace(0);
     }
     else
     {
-        TESObjectREFR* apTestRef = FUN_0062b4e0(((void *)(::FUN_00460140((int)(((TgtOps*)apEntity))))));
+        TESObjectREFR* apTestRef = FUN_0062b4e0(((void *)(::FUN_00460140((std::intptr_t)(((TgtOps*)apEntity))))));
         if (apTestRef == (TESObjectREFR*)::_g_thePlayer)
             SoundPlaybackManager::ResetAcousticSpace(0);
     }

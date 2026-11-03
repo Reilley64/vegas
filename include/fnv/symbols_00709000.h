@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 struct NiCamera;
 
 // 0x00709470
@@ -43,7 +45,7 @@ void FUN_00709d00();
 // 0x00709d10
 namespace fnv_00709d10 { bool FUN_00709d10(); }
 // 0x00709d20
-void FUN_00709d20(int);
+void FUN_00709d20(std::intptr_t);
 // 0x00709d40
 bool FUN_00709d40();
 // 0x00709d50

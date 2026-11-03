@@ -2704,7 +2704,7 @@ void FUN_006777b0_shell::ComputePackageFlags(TESObjectREFR* apLinkedRef)
     {
         char message[260];
         ::std::sprintf(message, "Package '%s' is not a valid package because it is missing necessary Target Or Location Info.",
-                ((const char *)(::FUN_00464f30((int)(((TESPackageVt*)this)->GetEditorID())))));
+                ((const char *)(::FUN_00464f30((std::intptr_t)(((TESPackageVt*)this)->GetEditorID())))));
         flags18 = 0;
         ((TESPackageEx*)this)->SetPackageType(6);
     }

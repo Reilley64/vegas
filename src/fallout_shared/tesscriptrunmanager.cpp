@@ -1,5 +1,6 @@
 // fallout_shared/tesscriptrunmanager.cpp: ScriptRunner, ScriptExecutor (11 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -135,7 +136,7 @@ bool ScriptExecutor::Run(Script* script, TESObjectREFR* reference, ScriptLocals*
         if (!m_pReusableScriptRunner)
             m_pReusableScriptRunner = new ScriptRunner;
         m_pActiveScriptRunner = m_pReusableScriptRunner;
-        result = reinterpret_cast<::Runner *>((m_pReusableScriptRunner))->RunScript((::A8 *)(script), reference, (::SLoc *)(locals), (int)(target), arg5, arg6, arg7, arg8);
+        result = reinterpret_cast<::Runner *>((m_pReusableScriptRunner))->RunScript((::A8 *)(script), reference, (::SLoc *)(locals), (std::intptr_t)(target), arg5, arg6, arg7, arg8);
         m_pActiveScriptRunner = 0;
     }
     else
@@ -143,7 +144,7 @@ bool ScriptExecutor::Run(Script* script, TESObjectREFR* reference, ScriptLocals*
         ScriptRunner* runner = new ScriptRunner;
         ScriptRunner* previousRunner = m_pActiveScriptRunner;
         m_pActiveScriptRunner = runner;
-        result = reinterpret_cast<::Runner *>((runner))->RunScript((::A8 *)(script), reference, (::SLoc *)(locals), (int)(target), arg5, arg6, arg7, arg8);
+        result = reinterpret_cast<::Runner *>((runner))->RunScript((::A8 *)(script), reference, (::SLoc *)(locals), (std::intptr_t)(target), arg5, arg6, arg7, arg8);
         m_pActiveScriptRunner = previousRunner;
         delete runner;
     }
@@ -201,7 +202,7 @@ void LogScriptCompileError(ScriptRunner* scriptRunner, Script* apScript, char* a
 
     if (::GetThreadLocalValue())
     {
-        ::FUN_00703c00(((const char *)(::FUN_00464f30((int)(buffer)))), {});
+        ::FUN_00703c00(((const char *)(::FUN_00464f30((std::intptr_t)(buffer)))), {});
     }
     else
     {
@@ -469,7 +470,7 @@ bool ScriptRunner::ParseBlock(Script* script, const SCRIPT_OUTPUT output, TESObj
                 ::FUN_00406f60((::FUN_00406f90_this *)&(message), "SCRIPTS: Unable to find function definition for command %d in script '%s'.", output,
                                 script->GetName());
                 if (::GetThreadLocalValue())
-                    ::FUN_00703c00(((const char *)(::FUN_00464f30((int)(((const char *)(::FUN_00559450((int *)&(message)))))))), {});
+                    ::FUN_00703c00(((const char *)(::FUN_00464f30((std::intptr_t)(((const char *)(::FUN_00559450((int *)&(message)))))))), {});
                 else
                     ::FUN_005b5e40();
                 return false;
@@ -483,7 +484,7 @@ bool ScriptRunner::ParseBlock(Script* script, const SCRIPT_OUTPUT output, TESObj
                     ::FUN_00406f60((::FUN_00406f90_this *)&(message), "SCRIPTS: Script '%s', line %d: Function '%s' requires a reference.",
                                     script->GetName(), lineNumber, function->pFunctionName);
                     if (::GetThreadLocalValue())
-                        ::FUN_00703c00(((const char *)(::FUN_00464f30((int)(((const char *)(::FUN_00559450((int *)&(message)))))))), {});
+                        ::FUN_00703c00(((const char *)(::FUN_00464f30((std::intptr_t)(((const char *)(::FUN_00559450((int *)&(message)))))))), {});
                     else
                         ::FUN_005b5e40();
                     return false;

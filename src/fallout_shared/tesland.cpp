@@ -262,7 +262,7 @@ struct TESForm
 // @fnv 0x00537b10
 BSSimpleList<TESFile*>* GetSourceFilesFromForm(char* thisPtr)
 {
-    return ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(((TESForm*)(const char*)(*(BSStringT<char>*)(thisPtr + 0xb8)))))));
+    return ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)(((TESForm*)(const char*)(*(BSStringT<char>*)(thisPtr + 0xb8)))))));
 }
 
 struct Actor;
@@ -1245,7 +1245,7 @@ void Mgr_e74120_iso::FUN_00e74120()
                         !it->unk0c->FUN_00e74288(it->unk00, it->unk04, it->unk08, 0xfff, sub, index, offset, 0, 0))
                     {
                         if (it->unk08)
-                            reinterpret_cast<::VertexRenderer *>((helper8bc))->FUN_00e8c820((::VertexSource *)(it->unk00), (unsigned int)(it->unk04), (::VertexData *)(it->unk08), 0xfff, (::VertexBufferLockInfo *)(sub), (char *)(offset));
+                            reinterpret_cast<::VertexRenderer *>((helper8bc))->FUN_00e8c820((::VertexSource *)(it->unk00), (std::uintptr_t)(it->unk04), (::VertexData *)(it->unk08), 0xfff, (::VertexBufferLockInfo *)(sub), (char *)(offset));
                         else
                             reinterpret_cast<::Renderer *>((helper8bc))->FUN_00e8c1e0((::NiGeometryData *)(it->unk00), (::Class87d40 *)(it->unk04), 0xfff, (::VertexRecord *)(sub), (char *)(offset));
                     }
@@ -1477,7 +1477,7 @@ void FUN_00b61370(const char* key)
                     CacheListNode* bucket = node;
                     CacheItem*& slot = entries->GetNext(node);
                     CacheItem* item = slot;
-                    if (item && !reinterpret_cast<::Owner_bd8670 *>((item))->FUN_00bd8670((unsigned int)(key)))
+                    if (item && !reinterpret_cast<::Owner_bd8670 *>((item))->FUN_00bd8670((std::uintptr_t)(key)))
                     {
                         entries->Remove(bucket, slot);
                         reinterpret_cast<::FUN_00bd8f90 *>((item))->FUN_00bd8f90::~FUN_00bd8f90();

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSFadeNode.h"
 #include "fnv/decl/Callees.h"
@@ -224,7 +225,7 @@ void* FUN_0043b560_shell::GetSourceFilesFromObject()
         if (obj)
         {
             obj->FUN_0043b5b0();
-            result = ((void *)(::FUN_00460140((int)(reinterpret_cast<TgtOps*>(obj)))));
+            result = ((void *)(::FUN_00460140((std::intptr_t)(reinterpret_cast<TgtOps*>(obj)))));
             reinterpret_cast<::FUN_0043b5f0_cls *>((reinterpret_cast<FUN_0043b5f0_shell*>(obj)))->FUN_0043b5f0();
         }
     }
@@ -1130,7 +1131,7 @@ Point3* FUN_0062bfb0(Point3* out, Node* node)
                 bodyWorld.scale = 1.0f;
                 Transform inverse;
                 reinterpret_cast<::_dummy_476a80 *>(&(inverse))->FUN_00476a80();
-                reinterpret_cast<::NiTransform *>((void *)(((const struct ::Transform *)(::FUN_00461130((int)(node))))))->CalculateInverse((*(::NiTransform *)(&inverse)));
+                reinterpret_cast<::NiTransform *>((void *)(((const struct ::Transform *)(::FUN_00461130((std::intptr_t)(node))))))->CalculateInverse((*(::NiTransform *)(&inverse)));
                 Transform composed;
                 Point3 transformed;
                 chosen = *inverse.FUN_0062c250(&composed, &bodyWorld)->FUN_00524c40(&transformed, &chosen);

@@ -3758,7 +3758,7 @@ struct Unk_C44EA0
 void Unk_C44EA0::FUN_00c44ea0(float* pfValue, unsigned int b)
 {
     reinterpret_cast<::StandNode *>(this)->FUN_00c44ed0(*pfValue);
-    ::FUN_00a5e1f0((::NiNode *)this, (int)(pfValue), (*(::NiUpdateData *)(b)), {});
+    ::FUN_00a5e1f0((::NiNode *)this, (std::intptr_t)(pfValue), (*(::NiUpdateData *)(b)), {});
 }
 
 namespace fnv_004518e0 {
@@ -9381,7 +9381,7 @@ void WS458200_Shell::FUN_00458200(WS458200_World* apWorld)
         reinterpret_cast<::fnv_00453940::FUN_00453940_shell *>(this)->FUN_00453940();
         reinterpret_cast<::Calendar *>(this)->ResetCachedValues();
         ::Interface::IsWorldSpaceEnabled({});
-        ::FUN_00709d20((int)(apWorld));
+        ::FUN_00709d20((std::intptr_t)(apWorld));
         if (*reinterpret_cast<::FUN_00454b50_shell *>((void *)(apWorld))->FUN_00454b50())
         {
             AutoMemContext kMemContext(0x1d, true, DAT_01017874, 0x1751);
@@ -9715,7 +9715,7 @@ void CellTest::FUN_00459ae0(unsigned int flags)
     ::FUN_0040fbe0();
     ::fnv_007037e0::FUN_007037e0();
     int state3 = ((int)(::FUN_00457fe0()));
-    TestWorldList* worlds5 = ((::TestWorldList *)(::FUN_00460140((int)((*reinterpret_cast<::TestDataHandler * *>(&::g_dataHandler))))));
+    TestWorldList* worlds5 = ((::TestWorldList *)(::FUN_00460140((std::intptr_t)((*reinterpret_cast<::TestDataHandler * *>(&::g_dataHandler))))));
     while (worlds5 && !worlds5->FUN_008256d0())
     {
         TestWorld* world = *((::TestWorld **)((void *)(worlds5)));
@@ -9821,7 +9821,7 @@ void AddonOwner::FUN_00459f10()
                     reinterpret_cast<::AlchemyItem *>((particle))->SetSound((::TESSound *)(((reinterpret_cast<::FUN_0068a830_shell *>((addon))->GetGrass()))));
                     reinterpret_cast<::FUN_00705b10_Dummy *>((particle))->Set(((int)(reinterpret_cast<::TESQuest *>((addon))->GetScriptLocalData())));
                     reinterpret_cast<::FUN_0045a140_Class *>((particle))->SetShortAtOffsetBC(reinterpret_cast<::FUN_0045a1a0_Class *>((addon))->GetShortAtOffset58());
-                    reinterpret_cast<::FUN_0045a160_Cls *>((((::AddonParticleManager *)(::FUN_0045a190()))))->FUN_0045a160((int)(particle));
+                    reinterpret_cast<::FUN_0045a160_Cls *>((((::AddonParticleManager *)(::FUN_0045a190()))))->FUN_0045a160((std::intptr_t)(particle));
                 }
                 reinterpret_cast<::FUN_00445300_shell *>((::g_modelLoader))->FUN_00445300(addon->GetModelPath(), true, 1);
             }
@@ -11121,7 +11121,7 @@ void BatchTES::FUN_004556d0(int mode)
     case 7:
         mode -= 5;
         batchInitialized = true;
-        reinterpret_cast<::FUN_005a8040_class *>(this)->SetField54((int)(((void (&)())::fnv_00557dd0::FUN_00557dd0)));
+        reinterpret_cast<::FUN_005a8040_class *>(this)->SetField54((std::intptr_t)(((void (&)())::fnv_00557dd0::FUN_00557dd0)));
         break;
     }
     switch (mode)
@@ -11141,7 +11141,7 @@ void BatchTES::FUN_004556d0(int mode)
         }
         if ((mode == 1 || mode == 4 || mode == 5 || mode == 9) && !batchWorlds && !batchCellCount)
         {
-            batchWorlds = ((::BatchWorldNode *)(::FUN_00460140((int)((*reinterpret_cast<::BatchHandler * *>(&::g_dataHandler))))));
+            batchWorlds = ((::BatchWorldNode *)(::FUN_00460140((std::intptr_t)((*reinterpret_cast<::BatchHandler * *>(&::g_dataHandler))))));
             batchNewWorld = true;
             reinterpret_cast<::SortHandler *>(((*reinterpret_cast<::BatchHandler * *>(&::g_dataHandler))))->FUN_004619b0();
             batchCellCount = ((unsigned int)(reinterpret_cast<::FUN_00461960_shell *>(((*reinterpret_cast<::BatchHandler * *>(&::g_dataHandler))))->FUN_00461960()));
@@ -11151,7 +11151,7 @@ void BatchTES::FUN_004556d0(int mode)
         {
             if (!batchWorlds || *((::BatchWorld **)((void *)(batchWorlds))) != currentWorld)
             {
-                batchWorlds = ((::BatchWorldNode *)(::FUN_00460140((int)((*reinterpret_cast<::BatchHandler * *>(&::g_dataHandler))))));
+                batchWorlds = ((::BatchWorldNode *)(::FUN_00460140((std::intptr_t)((*reinterpret_cast<::BatchHandler * *>(&::g_dataHandler))))));
                 while (batchWorlds)
                 {
                     BatchWorld* world = *((::BatchWorld **)((void *)(batchWorlds)));

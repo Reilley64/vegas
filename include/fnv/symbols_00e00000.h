@@ -166,7 +166,7 @@ int FUN_00e00d30(int *);
 // 0x00e00d50
 void FUN_00e00d50(::FUN_00d57b20_class *, int);
 // 0x00e00d70
-int FUN_00e00d70();
+void* FUN_00e00d70();
 // 0x00e00d90
 void FUN_00e00d90(::FUN_00e00d90_vt *);
 // 0x00e00db0

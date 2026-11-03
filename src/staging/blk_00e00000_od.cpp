@@ -967,11 +967,11 @@ struct __declspec(align(16)) S00e00d70_Object
 };
 
 // @fnv 0x00e00d70
-int __cdecl FUN_00e00d70()
+void* __cdecl FUN_00e00d70()
 {
     S00e00d70_Object object;
     reinterpret_cast<::S00d57b20_Obj *>(&(object))->FUN_00d57b20((*(int *)&(const ::S00e00d70_Arg &)(S00e00d70_Arg(0))));
-    return (int)object.first;
+    return object.first;
 }
 
 struct __declspec(align(16)) Vector4f
@@ -1044,12 +1044,12 @@ struct VertexTriple
 
 struct EdgeTriple
 {
-    unsigned int values[3];
-    unsigned int& operator[](int n)
+    uintptr_t values[3];
+    uintptr_t& operator[](int n)
     {
         return values[n];
     }
-    const unsigned int& operator[](int n) const
+    const uintptr_t& operator[](int n) const
     {
         return values[n];
     }
@@ -1237,9 +1237,9 @@ inline void registerEdge(EdgeNode* node, int tag)
         (*reinterpret_cast<::PointerSlotArray * *>(&::DAT_0126ebe8)) = 0;
         (*reinterpret_cast<int *>(&::DAT_0126ebec)) = 0;
     }
-    node->edges[tag] = (unsigned int)(*reinterpret_cast<::PointerSlotArray * *>(&::DAT_0126ebe8)) + (*reinterpret_cast<int *>(&::DAT_0126ebec));
+    node->edges[tag] = (uintptr_t)(*reinterpret_cast<::PointerSlotArray * *>(&::DAT_0126ebe8)) + (*reinterpret_cast<int *>(&::DAT_0126ebec));
     if ((*reinterpret_cast<::PointerSlotArray * *>(&::DAT_0126ebe8)))
-        (*reinterpret_cast<::PointerSlotArray * *>(&::DAT_0126ebe8))->slots[(*reinterpret_cast<int *>(&::DAT_0126ebec))] = (void*)((unsigned int)node + tag);
+        (*reinterpret_cast<::PointerSlotArray * *>(&::DAT_0126ebe8))->slots[(*reinterpret_cast<int *>(&::DAT_0126ebec))] = (void*)((uintptr_t)node + tag);
 }
 
 struct EdgeProcessor
@@ -1274,8 +1274,8 @@ void EdgeProcessor::FUN_00e195c0(float threshold, float distance, const EdgeMesh
             EdgeRef current(node, edge);
             Vertex* second = current.second();
             Vertex* first = current.first();
-            if (!(vertexLess(second, first) && (node->edges[edge] & ~3u)))
-                if ((node->edges[edge] & ~3u) && ::FUN_00e13870((char *)(node), edge) > 0.0f)
+            if (!(vertexLess(second, first) && (node->edges[edge] & ~(uintptr_t)3)))
+                if ((node->edges[edge] & ~(uintptr_t)3) && ::FUN_00e13870((char *)(node), edge) > 0.0f)
                 {
                     refs.grow(8);
                     EdgeRef* ref = (EdgeRef*)refs.data + refs.size;
@@ -1293,7 +1293,7 @@ void EdgeProcessor::FUN_00e195c0(float threshold, float distance, const EdgeMesh
     for (int index = 0; index < refs.size; ++index)
     {
         EdgeRef ref = ((EdgeRef*)refs.data)[index];
-        EdgeNode* adjacent = (EdgeNode*)(ref.node->edges[ref.index] & ~3u);
+        EdgeNode* adjacent = (EdgeNode*)(ref.node->edges[ref.index] & ~(uintptr_t)3);
         __m128 product = _mm_mul_ps(_mm_load_ps(ref.node->normal.v), _mm_load_ps(adjacent->normal.v));
         __m128 y = _mm_shuffle_ps(product, product, 0x55);
         __m128 z = _mm_shuffle_ps(product, product, 0xaa);

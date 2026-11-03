@@ -187,6 +187,8 @@ public:
 class RecursiveSpinLock
 {
   public:
+    volatile unsigned int m_uiOwningThreadID;
+    unsigned int m_uiRecursionCount;
 public:
     void FUN_0040fba0();
 };
@@ -198,12 +200,15 @@ class ExteriorCellData
 };
 class TESWorldSpace;
 class TESRegionList;
+class BGSLightingTemplate;
 class TESObjectCELL
 {
   public:
-    char padToExtraData[0x24];
+    char padToExtraData[0x18];
+    void* kFullName[3];  // +0x18, the TESFullName base
     unsigned char field24;
-    char padToExtraData2[3];
+    unsigned char ucCellFlags25;
+    char padToExtraData2[2];
     ExtraDataList extraDataList;
     void* cellData;
     void* unk4c;
@@ -212,11 +217,19 @@ class TESObjectCELL
     char pad68[0x14];
     void* unk7c;
     RecursiveSpinLock refListLock;
-    char padToWorldSpace[0x27];
+    char padToWorldSpace[0x20];
     unsigned short unka8;
-    char padaa[0x16];
+    char padaa[2];
+    void* kObjectList[2];  // +0xAC, a BSSimpleList of references
+    void* pCellNode;       // +0xB4
+    void* unkb8;
+    void* unkbc;
     TESWorldSpace* worldSpace;
-    char padToUnknownDC[0x18];
+    void* pRenderData;     // +0xC4
+    float fUnkC8;
+    unsigned char aucUnkCC[8];
+    void* pPortalGraph;    // +0xD4, a NiPointer
+    BGSLightingTemplate* pLightingTemplate;  // +0xD8
     unsigned int unknownDC;
     char padToField210[0x130];
     unsigned char field210;

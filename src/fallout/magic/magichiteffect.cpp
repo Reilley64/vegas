@@ -171,15 +171,20 @@ struct TESSaveLoadGame
 struct FUN_0081bd80_s
 {
     void FUN_0081bd80(ActiveEffect* apEffect, TESObjectREFR* apTarget);
+    unsigned int pad00[0x2];
+    unsigned int unk08;
+    unsigned int pad0c[0x5];
+    unsigned int unk20;
+    unsigned char unk24;
 };
 
 // @fnv 0x0081bd80
 void FUN_0081bd80_s::FUN_0081bd80(ActiveEffect* apEffect, TESObjectREFR* apTarget)
 {
-    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 0x20, 4);
-    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 0x24, 1);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&this->unk20, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&this->unk24, 1);
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x72)
-        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 8, 4);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&this->unk08, 4);
 }
 }  // namespace fnv_0081bd80
 
@@ -188,6 +193,8 @@ struct ActiveEffect;
 struct FUN_0081be50_s
 {
     void SetTargetCell(ActiveEffect* apEffect, TESObjectREFR* apTarget);
+    unsigned int pad00[0x3];
+    void* unk0c;
 };
 
 // If apTarget is non-null, stores the cell returned by apTarget->GetTarget() at offset 0xc of this object.
@@ -195,7 +202,7 @@ struct FUN_0081be50_s
 void FUN_0081be50_s::SetTargetCell(ActiveEffect* apEffect, TESObjectREFR* apTarget)
 {
     if (apTarget)
-        *(TESObjectCELL**)((char*)this + 0xc) = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((apTarget))->GetTarget()));
+        *(TESObjectCELL**)&this->unk0c = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((apTarget))->GetTarget()));
 }
 
 struct BGSSaveFormBuffer
@@ -209,6 +216,10 @@ struct FUN_00682a30_base
 struct FUN_0081be80_s : FUN_00682a30_base
 {
     void FUN_0081be80(BGSSaveFormBuffer* apSaveGameBuffer);
+    char pad00[0x1c];
+    TESObjectREFR* unk1c;
+    unsigned int unk20;
+    unsigned char unk24;
 };
 
 // Calls the base save, writes the 4-byte field at 0x20 and the byte at 0x24, then saves the TESObjectREFR pointer at 0x1c.
@@ -216,9 +227,9 @@ struct FUN_0081be80_s : FUN_00682a30_base
 void FUN_0081be80_s::FUN_0081be80(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     reinterpret_cast<::Holder00682a30 *>(this)->FUN_00682a30(apSaveGameBuffer);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x20, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x24, 1, 0);
-    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(TESObjectREFR**)((char*)this + 0x1c)), 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&this->unk20, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&this->unk24, 1, 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(this->unk1c), 0);
 }
 
 struct BGSLoadFormBuffer
@@ -233,15 +244,19 @@ struct FUN_00682a80_shell
 struct FUN_0081bed0_s : FUN_00682a80_shell
 {
     void LoadFormData(BGSLoadFormBuffer* apLoadGameBuffer);
+    char pad00[0x1c];
+    TESObjectREFR* unk1c;
+    unsigned int unk20;
+    unsigned char unk24;
 };
 
 // @fnv 0x0081bed0
 void FUN_0081bed0_s::LoadFormData(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     FUN_00682a80(apLoadGameBuffer);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x20), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x24), 1);
-    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)((char*)this + 0x1c));
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&this->unk20), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&this->unk24), 1);
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)(&this->unk1c));
 }
 
 namespace fnv_0081bde0 {
@@ -252,10 +267,14 @@ struct TESSaveLoadGame
 
 struct FUN_0081bde0_shell
 {
-    char pad[0x18];
+    char pad[0x8];
+    unsigned int unk08;
+    char pad0c[0xc];
     ActiveEffect* pEffect;
     TESObjectREFR* pTarget;
-    char pad2[0x14];
+    unsigned int unk20;
+    unsigned char unk24;
+    char pad25[0xf];
     char pad3[4];
     char pad4[4];
     char pad5[4];
@@ -266,11 +285,11 @@ struct FUN_0081bde0_shell
 // @fnv 0x0081bde0
 void FUN_0081bde0_shell::SaveLoad(ActiveEffect* apActiveEffect, TESObjectREFR* apTarget)
 {
-    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0081bde0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(reinterpret_cast<char*>(this) + 0x20, 4);
-    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0081bde0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(reinterpret_cast<char*>(this) + 0x24, 1);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0081bde0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&this->unk20, 4);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0081bde0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&this->unk24, 1);
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_0081bde0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x72)
     {
-        reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0081bde0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(reinterpret_cast<char*>(this) + 8, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0081bde0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&this->unk08, 4);
     }
     this->pEffect = apActiveEffect;
     this->pTarget = apTarget;

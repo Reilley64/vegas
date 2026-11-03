@@ -254,9 +254,12 @@ struct ItemList
 };
 struct ItemListContainer
 {
-    char pad[8];
+    char pad[0x4];
+    int unk04;
     ItemList items;
     ~ItemListContainer();
+    char pad9[0x17];
+    int unk20;
 };
 struct TargetList
 {
@@ -1921,15 +1924,14 @@ void __cdecl FUN_007f3b40(int a1)
         return;
     }
     {
-        BSSimpleList<ItemListContainer*>* cur = (BSSimpleList<ItemListContainer*>*)((char*)*((StandIn*)DAT_011db0d4)
+        BSSimpleList<ItemListContainer*>* cur = (BSSimpleList<ItemListContainer*>*)&(*((StandIn*)DAT_011db0d4)
                                                 ->FindListEntryForTarget((TESObjectREFR*)::DAT_011f21cc)
-                                                ->FUN_006815c0() +
-                                            8);
+                                                ->FUN_006815c0())->items;
         while (cur != 0 && !cur->FUN_008256d0())
         {
             if (*((TargetList*)cur)->FUN_006815c0() != 0)
             {
-                if (*(int*)((char*)*((TargetList*)cur)->FUN_006815c0() + 0x20) == a1)
+                if ((*((TargetList*)cur)->FUN_006815c0())->unk20 == a1)
                 {
                     *(ItemListContainer**)((char*)DAT_011db0d4 + 0x100) = *((TargetList*)cur)->FUN_006815c0();
                     break;
@@ -4141,7 +4143,7 @@ void Owner7::UpdateLimbHighlight()
     BSSimpleList<ItemListContainer*>* node7;
     BSSimpleList<ItemListContainer*>* list6;
     list6 = FindListEntryForTarget(::DAT_011f21cc);
-    node7 = (BSSimpleList<ItemListContainer*>*)((char*)(*list6->FUN_006815c0()) + 8);
+    node7 = (BSSimpleList<ItemListContainer*>*)&(*list6->FUN_006815c0())->items;
     if (((std::uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((FormX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->pObject)) == 1 || ((std::uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((FormX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->pObject)) == 3 ||
         (((std::uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((FormX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->pObject)) == 2 && !bF8))
     {
@@ -4191,7 +4193,7 @@ void Owner7::UpdateLimbHighlight()
                 savedNodeA = node7;
             node7 = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070()));
         }
-        node7 = (BSSimpleList<ItemListContainer*>*)((char*)(*list6->FUN_006815c0()) + 8);
+        node7 = (BSSimpleList<ItemListContainer*>*)&(*list6->FUN_006815c0())->items;
         while (node7 != 0 && !node7->FUN_008256d0())
         {
             float fVal8;
@@ -4532,7 +4534,7 @@ BSSimpleList<ItemListContainer*>* FUN_007f3d60_cls::FindListEntryByValue(int aiV
         BSSimpleList<ItemListContainer*>* cur = (BSSimpleList<ItemListContainer*>*)(head + 8);
         while (cur != 0 && !cur->FUN_008256d0())
         {
-            if ((int)this->FUN_007f3bf0(*(int*)((std::intptr_t)*cur->FUN_006815c0() + 0x20)) == aiValue)
+            if ((int)this->FUN_007f3bf0((*cur->FUN_006815c0())->unk20) == aiValue)
             {
                 return cur;
             }
@@ -7226,8 +7228,8 @@ void TargetSelectHelper::SelectTarget(bool abReverse)
 
             while (itemIter2 && !itemIter2->FUN_008256d0())
             {
-                if (reinterpret_cast<int*>(*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(iter)->m_item)))[1] == 1 &&
-                    reinterpret_cast<int*>(*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(itemIter2)->m_item)))[8] == 1)
+                if ((*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(iter)->m_item)))->unk04 == 1 &&
+                    (*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(itemIter2)->m_item)))->unk20 == 1)
                 {
                     reinterpret_cast<VATSMenu*>(DAT_011db0d4)->m_pTargetChance = *((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(itemIter2)->m_item));
                 }
@@ -7243,7 +7245,7 @@ void TargetSelectHelper::SelectTarget(bool abReverse)
 void FUN_007f6e50_This::AssignActionTiles(TargetList* apTargets)
 {
     void* pTileBuffer = ((void *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(void *)(((void *)(::FUN_00a09030(0x420)))), (const char *)(void *)(&UNK_01077eac))));
-    BSSimpleList<ItemListContainer*>* pEntry = (BSSimpleList<ItemListContainer*>*)((char*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(apTargets)->m_item)) + 8);
+    BSSimpleList<ItemListContainer*>* pEntry = (BSSimpleList<ItemListContainer*>*)&(*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(apTargets)->m_item)))->items;
     while (pEntry != 0 && !pEntry->FUN_008256d0())
     {
         ((ActionData*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pEntry)->m_item)))->tile =

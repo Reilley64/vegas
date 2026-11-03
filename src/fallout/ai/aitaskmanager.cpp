@@ -333,12 +333,14 @@ struct ATM
 struct FUN_008c8a20_shell
 {
     void FUN_008c8a20(int);
+    unsigned int pad00[0xe];
+    int unk38;
 };
 // Clears the int at offset 0x38 and calls QueryPerformanceCounter on g_011dfc38.
 // @fnv 0x008c8a20
 void FUN_008c8a20_shell::FUN_008c8a20(int)
 {
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x38) = 0;
+    this->unk38 = 0;
     reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008c8a20::ATM *>(&::g_011dfc38))))->FUN_004538a0(0);
 }
 }  // namespace fnv_008c8a20
@@ -647,6 +649,8 @@ struct GlobalObject_008caae0
 struct FUN_008ca300_shell
 {
     void FUN_008ca300();
+    char pad00[0x10180];
+    unsigned char unk10180;
 };
 
 struct FUN_008ca330_shell
@@ -656,10 +660,10 @@ struct FUN_008ca330_shell
 // @fnv 0x008ca300
 void FUN_008ca300_shell::FUN_008ca300()
 {
-    if (*(unsigned char*)((char*)this + 0x10180))
+    if (this->unk10180)
     {
         reinterpret_cast<::FUN_008ca330_shell *>(&(::g_011dfc24))->FUN_008ca330(2);
-        *(unsigned char*)((char*)this + 0x10180) = 0;
+        this->unk10180 = 0;
     }
 }
 // @fnv 0x008ca330
@@ -1357,6 +1361,8 @@ struct FUN_008c81c0_shell
     void SetMob(void*);
     void SetCount(unsigned int);
     bool ProcessMessage(const MobileObjectTaskletContext* aMessage, unsigned int aThread);
+    unsigned int pad0c[0x9];
+    unsigned int unk30;
 };
 
 typedef void(* SetCountFn)(FUN_008c81c0_shell*, unsigned int);
@@ -1369,7 +1375,7 @@ bool FUN_008c81c0_shell::ProcessMessage(const MobileObjectTaskletContext* aMessa
     switch (aMessage->m_iFirstValue)
     {
     case 0:
-        *(unsigned int*)((char*)this + 0x30) = aMessage->ItemUpdateArray;
+        this->unk30 = aMessage->ItemUpdateArray;
         ((SetCountFn*)m_vtbl)[4](this, aMessage->ItemUpdateArray);
         break;
     case 1:
@@ -1939,6 +1945,8 @@ struct VTActorBase
 struct VTActor : VTActorBase
 {
     virtual void v2f8(float);
+    char pad04[0xb8];
+    unsigned char unkbc;
 };
 
 struct ActorUpdateTaskData
@@ -1957,7 +1965,7 @@ void ActorUpdateTaskData::UpdateActorTask(MobileObject* apMob)
     if (pmob != 0 && ((VTMobileObject*)pmob)->v100())
     {
         pact = (VTActor*)pmob;
-        if (*((unsigned char*)pact + 0xbc) != 0)
+        if (pact->unkbc != 0)
         {
             pact->v2f8(0.0f);
         }
@@ -3259,6 +3267,8 @@ struct Mode
 struct Obj
 {
     void FUN_008ca070();
+    char pad00[0x10180];
+    bool unk10180;
 };
 // @fnv 0x008ca070
 void Obj::FUN_008ca070()
@@ -3312,7 +3322,7 @@ void Obj::FUN_008ca070()
                     if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfb88)).FUN_00408d60())
                         reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::fnv_008ca070::Store *>(&::g_011dfb98))))->PushItem((intptr_t)((char*)this + 0x138));
                     reinterpret_cast<::fnv_008ca2e0::FUN_008ca2e0_shell *>(&((*reinterpret_cast<::fnv_008ca070::Mode *>(&::g_011dfc24))))->CallAt(2);
-                    *((bool*)this + 0x10180) = true;
+                    this->unk10180 = true;
                 }
                 else
                 {

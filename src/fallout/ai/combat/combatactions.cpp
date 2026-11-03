@@ -512,12 +512,14 @@ void FUN_0097b940_shell::FUN_0097b940()
 struct FUN_0097b960_shell
 {
     unsigned char GetByte76();
+    char pad00[0x76];
+    unsigned char unk76;
 };
 
 // @fnv 0x0097b960
 unsigned char FUN_0097b960_shell::GetByte76()
 {
-    return *(reinterpret_cast<unsigned char*>(this) + 0x76);
+    return this->unk76;
 }
 
 namespace fnv_0097b980 {
@@ -596,6 +598,8 @@ struct FUN_0097bcc0_cls
 struct CombatActionStandIn
 {
     float FUN_0097bd00(unsigned int idx);
+    unsigned int pad00[0x2e];
+    float unkb8;
 };
 // @fnv 0x0097bcc0
 float FUN_0097bcc0_cls::FUN_0097bcc0(CombatController* apController, int v)
@@ -608,19 +612,21 @@ float FUN_0097bcc0_cls::FUN_0097bcc0(CombatController* apController, int v)
 // @fnv 0x0097bd00
 float CombatActionStandIn::FUN_0097bd00(unsigned int uiIndex)
 {
-    return reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xb8)[uiIndex];
+    return (&this->unkb8)[uiIndex];
 }
 
 namespace fnv_0097c150 {
 struct CombatActionStandIn
 {
     intptr_t FUN_0097c150(unsigned int idx);
+    unsigned int pad00[0x3];
+    int unk0c;
 };
 
 // @fnv 0x0097c150
 intptr_t CombatActionStandIn::FUN_0097c150(unsigned int uiIndex)
 {
-    return reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xc)[uiIndex];
+    return (&this->unk0c)[uiIndex];
 }
 }  // namespace fnv_0097c150
 
@@ -735,12 +741,14 @@ namespace fnv_0097cd10 {
 struct CombatActionStandIn
 {
     void FUN_0097cd10(unsigned char v);
+    char pad00[0x72];
+    unsigned char unk72;
 };
 
 // @fnv 0x0097cd10
 void CombatActionStandIn::FUN_0097cd10(unsigned char v)
 {
-    *(reinterpret_cast<unsigned char*>(this) + 0x72) = v;
+    this->unk72 = v;
 }
 }  // namespace fnv_0097cd10
 
@@ -748,12 +756,14 @@ namespace fnv_0097cfc0 {
 struct CombatActionStandIn
 {
     intptr_t GetActionAtIndex(unsigned int idx);
+    unsigned int pad00[0x64];
+    int unk190;
 };
 
 // @fnv 0x0097cfc0
 intptr_t CombatActionStandIn::GetActionAtIndex(unsigned int uiIndex)
 {
-    return reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x190)[uiIndex];
+    return (&this->unk190)[uiIndex];
 }
 }  // namespace fnv_0097cfc0
 

@@ -125,12 +125,14 @@ struct NiBound;
 struct FUN_0043d450_Owner
 {
     NiBound* FUN_0043d450();
+    unsigned int pad00[0x8];
+    void* unk20;
 };
 // Returns the bound stored at offset 0x20 of this object, or the global DAT_011f4288 when that pointer is null.
 // @fnv 0x0043d450
 NiBound* FUN_0043d450_Owner::FUN_0043d450()
 {
-    NiBound* pBound = ((NiBound**)this)[8] ? ((NiBound**)this)[8] : &::g_defaultBound;
+    NiBound* pBound = (*(NiBound**)&this->unk20) ? (*(NiBound**)&this->unk20) : &::g_defaultBound;
     return pBound;
 }
 

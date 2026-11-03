@@ -100,21 +100,38 @@ struct FUN_0087d4a0
 struct FUN_008d4500 : public FUN_0087d4a0
 {
     FUN_008d4500(bool);
+    char pad04[0x14];
+    void* unk18;
+    char pad1c[0x6c];
+    void* unk88;
+    char pad8c[0x8];
+    void* unk94;
+    char pad98[0xc];
+    void* unka4;
+    void* unka8;
+    char padac[0x90];
+    int unk13c;
+    int unk140;
+    char pad144[0x70];
+    char unk1b4;
+    char pad1b5[0x3];
+    float unk1b8;
+    float unk1bc;
 };
 // @fnv 0x008d4500
 FUN_008d4500::FUN_008d4500(bool abUnk) : FUN_0087d4a0(abUnk)
 {
-    *(void**)((char*)this + 0x18) = &DAT_010870a0;
-    *(void**)((char*)this + 0x88) = &DAT_0108704c;
-    *(void**)((char*)this + 0x94) = &DAT_01087014;
-    *(void**)((char*)this + 0xa4) = &DAT_01086fe4;
-    *(void**)((char*)this + 0xa8) = &DAT_01086f9c;
+    this->unk18 = &DAT_010870a0;
+    this->unk88 = &DAT_0108704c;
+    this->unk94 = &DAT_01087014;
+    this->unka4 = &DAT_01086fe4;
+    this->unka8 = &DAT_01086f9c;
     reinterpret_cast<::FUN_004f15a0_shell *>((((SFTX*)this)))->FUN_004f15a0(0x3c);
-    *((char*)this + 0x1b4) = 0;
-    *(float*)((char*)this + 0x1b8) = -1.0f;
-    *(float*)((char*)this + 0x1bc) = -1.0f;
-    *(int*)((char*)this + 0x140) = 0;
-    *(int*)((char*)this + 0x13c) = 0;
+    this->unk1b4 = 0;
+    this->unk1b8 = -1.0f;
+    this->unk1bc = -1.0f;
+    this->unk140 = 0;
+    this->unk13c = 0;
 }
 
 // @fnv 0x008d44b0

@@ -5351,17 +5351,19 @@ struct FUN_00912150_shell
     virtual void vfn_288(Actor* apActor, bool abFlag);
 
     void UpdateActorIfStale(Actor* apActor);
+    void* unk04;
+    char pad08[0x14];
 };
 
 // @fnv 0x00912150
 void FUN_00912150_shell::UpdateActorIfStale(Actor* apActor)
 {
     float fElapsedTime =
-        std::abs((float)((double)(*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameTime() - reinterpret_cast<::FUN_00621b00_shell *>((((ActorPackageContext*)((char*)this + 4))))->FUN_00621b00()));
+        std::abs((float)((double)(*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameTime() - reinterpret_cast<::FUN_00621b00_shell *>((((ActorPackageContext*)&this->unk04)))->FUN_00621b00()));
     if (fElapsedTime >= (double)0.1f)
     {
         vfn_288(apActor, true);
-        ((FUN_00674d70_shell*)*(void **)((char*)this + 4))->SetFlag800(true);
+        ((FUN_00674d70_shell*)this->unk04)->SetFlag800(true);
     }
     else
     {

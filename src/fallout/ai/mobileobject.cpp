@@ -941,6 +941,8 @@ struct VTableHelper
     virtual void v4c4();
     virtual void* v4c8();
     void FUN_00931b60(float fAngleDifference);
+    unsigned int pad04[0xa];
+    float unk2c;
 };
 
 // @fnv 0x00931b60
@@ -966,7 +968,7 @@ void VTableHelper::FUN_00931b60(float afAngle)
     afAngle = WrapAngle(afAngle);
     if (this->v100() && reinterpret_cast<::FUN_0087eeb0_shell *>((this))->FUN_0087eeb0())
     {
-        afAngle = afAngle - *(float*)((char*)this + 0x2c);
+        afAngle = afAngle - this->unk2c;
         while (afAngle < DAT_0101ff58)
             afAngle = afAngle + 6.2831854820251465;
         while (afAngle >= 3.1415927410125732)
@@ -1462,12 +1464,14 @@ class FUN_0092f140_shell
 
   public:
     uintptr_t GetFieldD2C();
+    unsigned int pad04[0x34a];
+    unsigned int unkd2c;
 };
 
 // @fnv 0x0092f140
 uintptr_t FUN_0092f140_shell::GetFieldD2C()
 {
-    return *(unsigned int*)((unsigned char*)this + 0xd2c);
+    return this->unkd2c;
 }
 
 
@@ -1544,12 +1548,14 @@ extern "C"
 struct FUN_00930620_shell
 {
     void FUN_00930620();
+    unsigned int pad00[0x14c];
+    float unk530;
 };
 
 // @fnv 0x00930620
 void FUN_00930620_shell::FUN_00930620()
 {
-    *(float*)((char*)this + 0x530) = DAT_011b014c;
+    this->unk530 = DAT_011b014c;
 }
 
 struct FUN_0083b9a0_shell
@@ -1755,6 +1761,10 @@ struct PC7d;
 struct FUN_008a0270_t
 {
     bool FUN_008a0270(bool);
+    char pad00[0x104];
+    bool unk104;
+    char pad105[0x22];
+    bool unk127;
 };
 // Returns false for the player; otherwise returns the flag at offset 0x104 when offset 0x68 is nonzero, unless 0x104, abFlag and 0x127 are all set.
 // @fnv 0x008a0270
@@ -1764,9 +1774,9 @@ bool FUN_008a0270_t::FUN_008a0270(bool abFlag)
         return false;
     if (*(int*)((char*)this + 0x68) != 0)
     {
-        if (*(bool*)((char*)this + 0x104) && abFlag && *(bool*)((char*)this + 0x127))
+        if (this->unk104 && abFlag && this->unk127)
             return false;
-        return *(bool*)((char*)this + 0x104);
+        return this->unk104;
     }
     return false;
 }

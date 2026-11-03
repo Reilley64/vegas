@@ -208,11 +208,12 @@ FUN_0080a900::FUN_0080a900(void* apArg1, void* apArg2, void* apArg3) : ValueModi
 struct FUN_0082ccb0_Cls : ActiveEffect
 {
     bool FUN_0082ccb0();
+    int unk48;
 };
 // @fnv 0x0082ccb0
 bool FUN_0082ccb0_Cls::FUN_0082ccb0()
 {
-    return *(int*)((char*)this + 0x48) == 16 && reinterpret_cast<::S3e60 *>((reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))->FUN_00403e60(4) && !reinterpret_cast<::S3e60 *>((reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))->FUN_00403e60(2);
+    return this->unk48 == 16 && reinterpret_cast<::S3e60 *>((reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))->FUN_00403e60(4) && !reinterpret_cast<::S3e60 *>((reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))->FUN_00403e60(2);
 }
 
 extern int DAT_0107c68c;
@@ -245,12 +246,12 @@ FUN_0082ba60::FUN_0082ba60(MagicCaster* apCaster, MagicItem* apSpell, EffectItem
     *(void**)this = &DAT_0107c68c;
     EffectSetting* psetting = ((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(apEffect)->setting));
     if (reinterpret_cast<FUN_00403e80_shell*>(psetting)->FUN_00403e80())
-        *(intptr_t*)((char*)this + 0x48) = ((intptr_t)(reinterpret_cast<::InterfaceManager *>((reinterpret_cast<IMH*>(psetting)))->FUN_00586150()));
+        reinterpret_cast<ValueModifierEffectFields*>(this)->actorValue = (int)((intptr_t)(reinterpret_cast<::InterfaceManager *>((reinterpret_cast<IMH*>(psetting)))->FUN_00586150()));
     else
-        *(int*)((char*)this + 0x48) = apEffect->GetAffectedActorValue();
+        reinterpret_cast<ValueModifierEffectFields*>(this)->actorValue = apEffect->GetAffectedActorValue();
 
     if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(apEffect)->setting))))->FUN_00403e60(0x100))
-        *(float*)((char*)this + 0x1c) = 1.0f;
+        reinterpret_cast<ActiveEffectFields*>(this)->elapsedTime = 1.0f;
 }
 
 struct ActorAVExt : Actor

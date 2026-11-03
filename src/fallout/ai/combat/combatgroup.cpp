@@ -234,13 +234,15 @@ void FUN_009871c0_shell::FUN_009871c0(int state)
 struct FUN_009871e0_shell
 {
     bool IsModifierZero();
+    unsigned int pad00[0x17];
+    float unk5c;
 };
 
 // Returns whether the float at offset 0x5c of this object equals _gModifierZero.
 // @fnv 0x009871e0
 bool FUN_009871e0_shell::IsModifierZero()
 {
-    return (*(float*)((char*)this + 0x5c)) == ::_DAT_01012060;
+    return (this->unk5c) == ::_DAT_01012060;
 }
 
 struct ArrSI
@@ -276,12 +278,14 @@ void FUN_009877e0_shell::ClearGlobalObject()
 struct FUN_00987800_shell
 {
     char GetByteAtOffset154();
+    char pad00[0x154];
+    char unk154;
 };
 
 // @fnv 0x00987800
 char FUN_00987800_shell::GetByteAtOffset154()
 {
-    return ((char*)this)[0x154];
+    return this->unk154;
 }
 
 namespace fnv_00988750 {
@@ -1689,6 +1693,8 @@ struct FUN_0098de30_class
 struct FUN_009859c0_shell
 {
     void FUN_009859c0(BGSSaveFormBuffer* buffer, FUN_0098de30_class* obj);
+    unsigned int pad00[0x4];
+    unsigned int unk10;
 };
 struct SaveFormIDHelper
 {
@@ -1702,8 +1708,8 @@ void FUN_009859c0_shell::FUN_009859c0(BGSSaveFormBuffer* buffer, FUN_0098de30_cl
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 8, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 12, 4, 0);
     char result = 0xFF;
-    if (*(unsigned int*)((char*)this + 16))
-        result = obj->FUN_0098de30(*(unsigned int**)((char*)this + 16));
+    if (this->unk10)
+        result = obj->FUN_0098de30(*(unsigned int**)&this->unk10);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&result, 1, 0);
 }
 
@@ -2796,6 +2802,8 @@ struct FUN_00986150_shell
 {
     void FUN_00986150();
     void FUN_0098a580();
+    char pad00[0x154];
+    signed char unk154;
 };
 
 
@@ -10315,7 +10323,7 @@ void FUN_00986150_shell::FUN_00986150()
     if (reinterpret_cast<::FUN_00990890_shell *>((this))->FUN_00990890() > 1)
         reinterpret_cast<::ClusterWork *>((this))->UpdateGroups();
 
-    if (*reinterpret_cast<signed char*>(reinterpret_cast<char*>(this) + 0x154) == -1)
+    if (this->unk154 == -1)
     {
         if (!reinterpret_cast<FUN_0097fa50_Class*>(reinterpret_cast<char*>(this) + 0xb8)->FUN_0097fa50())
         {
@@ -10327,7 +10335,7 @@ void FUN_00986150_shell::FUN_00986150()
         }
         else if (reinterpret_cast<TimeoutTimer*>(reinterpret_cast<char*>(this) + 0xb8)->CheckTimer())
         {
-            *reinterpret_cast<signed char*>(reinterpret_cast<char*>(this) + 0x154) = 0;
+            this->unk154 = 0;
 
             if (*reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xc8) > _DAT_01012060)
             {
@@ -10336,7 +10344,7 @@ void FUN_00986150_shell::FUN_00986150()
 
                 if (ratio > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting487)))))) && ratio < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting488)))))))
                 {
-                    *reinterpret_cast<signed char*>(reinterpret_cast<char*>(this) + 0x154) = 1;
+                    this->unk154 = 1;
                 }
             }
         }

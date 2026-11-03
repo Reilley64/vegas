@@ -1167,12 +1167,14 @@ void FUN_00691c90_shell::FUN_00691c90(unsigned int auiIndex, unsigned int auiCou
 struct FUN_006d3ae0
 {
     void SetValue(float value);
+    unsigned int pad00[0x1a];
+    float unk68;
 };
 
 // @fnv 0x006d3ae0
 void FUN_006d3ae0::SetValue(float value)
 {
-    *(float*)((char*)this + 0x68) = value;
+    this->unk68 = value;
 }
 
 struct FUN_009de060_Class
@@ -1180,13 +1182,17 @@ struct FUN_009de060_Class
     unsigned char m_071;
     int m_038;
     void FUN_009de060(int param);
+    char pad08[0x30];
+    int unk38;
+    char pad3c[0x35];
+    unsigned char unk71;
 };
 
 // @fnv 0x009de060
 void FUN_009de060_Class::FUN_009de060(int aiValue)
 {
-    *(unsigned char*)((char*)this + 0x71) = 1;
-    *(int*)((char*)this + 0x38) = aiValue;
+    this->unk71 = 1;
+    this->unk38 = aiValue;
 }
 
 namespace fnv_009de160 {
@@ -1265,11 +1271,13 @@ void FUN_009de160_shell::SetMoveTarget(NiPoint3 aTarget)
 struct FUN_009deff0_Class
 {
     void SetFlagA3(bool b);
+    char pad00[0xa3];
+    char unka3;
 };
 // @fnv 0x009deff0
 void FUN_009deff0_Class::SetFlagA3(bool abValue)
 {
-    ((char*)this)[0xa3] = abValue;
+    this->unka3 = abValue;
 }
 
 namespace fnv_009dfb80 {
@@ -1298,6 +1306,11 @@ struct PathHandlerBase
 struct FUN_009dfb80_t : ActorMover
 {
     void ResetPathingState(BGSLoadFormBuffer* apLoadGameBuffer);
+    bool unk78;
+    char pad79[0x3];
+    unsigned int unk7c;
+    unsigned int unk80;
+    int unk84;
 };
 // @fnv 0x009dfb80
 void FUN_009dfb80_t::ResetPathingState(BGSLoadFormBuffer* apLoadGameBuffer)
@@ -1321,14 +1334,14 @@ void FUN_009dfb80_t::ResetPathingState(BGSLoadFormBuffer* apLoadGameBuffer)
     m_kPathingDelta = ::NiPoint3::ZERO;
     m_bHasLookAtTarget = false;
     m_bHasMovementData = false;
-    *(bool*)((char*)this + 0x78) = false;
+    this->unk78 = false;
     m_bHasPathingDelta = false;
     m_uiMovementFlags = 0;
     m_uiMovementMode = 0;
     this->unk2c = 0;
-    *(int*)((char*)this + 0x84) = 0;
-    *(unsigned int*)((char*)this + 0x7c) = 0;
-    *(unsigned int*)((char*)this + 0x80) = 0;
+    this->unk84 = 0;
+    this->unk7c = 0;
+    this->unk80 = 0;
 }
 }  // namespace fnv_009dfb80
 
@@ -1700,12 +1713,14 @@ bool S009dccf0::FUN_009dccf0()
 struct FUN_009de040_class
 {
     void ClearFlags(unsigned int mask);
+    unsigned int pad00[0xd];
+    unsigned int unk34;
 };
 
 // @fnv 0x009de040
 void FUN_009de040_class::ClearFlags(unsigned int mask)
 {
-    *(unsigned int*)((char*)this + 0x34) &= ~mask;
+    this->unk34 &= ~mask;
 }
 
 namespace fnv_009de110 {
@@ -1747,12 +1762,14 @@ bool Unk::FUN_009de110(int aiArg1, int aiArg2)
 struct Unk009DE3A0
 {
     void SetFormID(TESForm*);
+    unsigned int pad00[0xb];
+    unsigned int unk2c;
 };
 // Stores the form's form ID at offset 0x2c, or 0 when pForm is null.
 // @fnv 0x009de3a0
 void Unk009DE3A0::SetFormID(TESForm* pForm)
 {
-    *(unsigned int*)((char*)this + 0x2c) = pForm ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pForm))->FUN_0084e3a0())) : 0;
+    this->unk2c = pForm ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pForm))->FUN_0084e3a0())) : 0;
 }
 
 namespace fnv_009de3e0 {

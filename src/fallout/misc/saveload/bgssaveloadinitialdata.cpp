@@ -149,22 +149,24 @@ BGSNumericIDIndex3* ClearNumericIDIndex(BGSNumericIDIndex3* self)
 }
 
 namespace fnv_0084eb20 {
-struct BGSNumericIDIndex3
-{
-    BGSNumericIDIndex3* FUN_0084eb20();
-    void FUN_0084eac0();
-};
 struct Dummy84eaf0
 {
     void ClearNumericIDIndex();
 };
+struct BGSNumericIDIndex3
+{
+    BGSNumericIDIndex3* FUN_0084eb20();
+    void FUN_0084eac0();
+    char pad00[0x1c];
+    Dummy84eaf0 unk1c;
+};
 
-// Calls FUN_0084eac0 on this object, then ClearNumericIDIndex on the sub-object at offset 0x1C, and returns this.
+// Calls FUN_0084eac0 on this object, then ClearNumericIDIndex on unk1c, and returns this.
 // @fnv 0x0084eb20
 BGSNumericIDIndex3* BGSNumericIDIndex3::FUN_0084eb20()
 {
     FUN_0084eac0();
-    ((Dummy84eaf0*)((char*)this + 0x1C))->ClearNumericIDIndex();
+    unk1c.ClearNumericIDIndex();
     return this;
 }
 }  // namespace fnv_0084eb20
@@ -198,6 +200,8 @@ void FUN_0084f880_shell::SetFlag10(bool abSet)
 struct FUN_0084f8c0_shell
 {
     void FUN_0084f8c0(void* value);
+    unsigned int pad00[0x5c];
+    void* unk170;
 };
 // Loads a cell or reference change record from the save buffer and applies its location, angle and cell/worldspace to the form.
 // @fnv 0x0084f330
@@ -331,7 +335,7 @@ INITIAL_DATA_TYPE BGSSaveLoadInitialDataPacket::LoadInitialDataForForm(BGSLoadFo
 // @fnv 0x0084f8c0
 void FUN_0084f8c0_shell::FUN_0084f8c0(void* value)
 {
-    *(void**)((char*)this + 0x170) = value;
+    this->unk170 = value;
 }
 
 struct FUN_0084e6a0_shell

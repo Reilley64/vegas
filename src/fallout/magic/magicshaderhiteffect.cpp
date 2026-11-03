@@ -280,13 +280,13 @@ void FUN_00820b70_shell::FUN_00820b70(float afValue)
 // @fnv 0x00820b90
 void FUN_00820b90(void* pObject)
 {
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x64) = 1;
+    reinterpret_cast<FUN_00820b70_shell*>(pObject)->m_0x64 = 1;
 }
 
 // @fnv 0x00820bb0
 void ClearField64(void* apObject)
 {
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(apObject) + 0x64) = 0;
+    reinterpret_cast<FUN_00820b70_shell*>(apObject)->m_0x64 = 0;
 }
 
 struct Arr3520
@@ -305,17 +305,21 @@ void FUN_00822560(Arr3520* pArray)
 struct FUN_00820b50_shell
 {
     void* GetFieldAt11C();
+    char pad00[0x11c];
+    unsigned int unk11c;
 };
 
 // @fnv 0x00820b50
 void* FUN_00820b50_shell::GetFieldAt11C()
 {
-    return reinterpret_cast<char*>(this) + 0x11C;
+    return &unk11c;
 }
 
 struct FUN_00820bf0_shell
 {
     int GetField6A4();
+    unsigned int pad00[0x1a9];
+    int unk6a4;
 };
 
 // The player's magic shader hit effect, the field 0x00820bf0 returns.
@@ -401,7 +405,7 @@ void MagicShaderHitEffect::GetSceneGraphData(bool& isActor, bool& isWeapon, floa
 // @fnv 0x00820bf0
 int FUN_00820bf0_shell::GetField6A4()
 {
-    return *(int*)((char*)this + 0x6a4);
+    return this->unk6a4;
 }
 
 struct FUN_0081bd30_s
@@ -615,12 +619,15 @@ FUN_0087d230::~FUN_0087d230()
 struct FUN_00820bd0_shell
 {
     void SetByteAtOffset6C(unsigned char a);
+    char pad00[0x6c];
+    unsigned char unk6c;
+    char pad6d[0x3];
 };
 
 // @fnv 0x00820bd0
 void FUN_00820bd0_shell::SetByteAtOffset6C(unsigned char aucValue)
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x6c) = aucValue;
+    this->unk6c = aucValue;
 }
 
 struct BGSSaveFormBuffer
@@ -633,18 +640,30 @@ struct FUN_0081be80_s
 struct FUN_00822250_shell
 {
     void FUN_00822250(BGSSaveFormBuffer*);
+    unsigned int pad00[0xa];
+    unsigned char unk28;
+    unsigned char pad29[0x3];
+    int unk2c;
+    int unk30;
+    unsigned int unk34;
+    unsigned int pad38[0x5];
+    unsigned char unk4c;
+    unsigned char pad4d[0x3];
+    unsigned int pad50[0x4];
+    unsigned int unk60;
+    unsigned int unk64;
 };
 // @fnv 0x00822250
 void FUN_00822250_shell::FUN_00822250(BGSSaveFormBuffer* pBuffer)
 {
     reinterpret_cast<FUN_0081be80_s*>(this)->FUN_0081be80(pBuffer);
-    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x28, 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x34, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x60, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x64, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x4c, 1, 0);
-    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)(reinterpret_cast<void*>(reinterpret_cast<int*>(this)[0x2c / 4])), 0);
-    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)(reinterpret_cast<void*>(reinterpret_cast<int*>(this)[0x30 / 4])), 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(&this->unk28, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(&this->unk34, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(&this->unk60, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(&this->unk64, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(&this->unk4c, 1, 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)(reinterpret_cast<void*>(this->unk2c)), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)(reinterpret_cast<void*>(this->unk30)), 0);
 }
 
 struct Shell00822060
@@ -1108,13 +1127,15 @@ struct FUN_00821e40_shell
     char base[0x2c];
     TESForm* m_pAffectedArmorObject;
     void FUN_00821e40(ActiveEffect* a1, TESObjectREFR* a2);
+    unsigned int pad30[0x1];
+    unsigned int unk34;
 };
 
 // @fnv 0x00821e40
 void FUN_00821e40_shell::FUN_00821e40(ActiveEffect* pEffect, TESObjectREFR* a2)
 {
     reinterpret_cast<::fnv_0081bd80::FUN_0081bd80_s *>(this)->FUN_0081bd80((::fnv_0081bd80::ActiveEffect *)(pEffect), a2);
-    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00821e40::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 0x34, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00821e40::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&this->unk34, 4);
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_00821e40::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x37)
     {
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00821e40::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)&this->base[40], 1);
@@ -1137,28 +1158,39 @@ struct FUN_0081bed0_s
 {
     void LoadFormData(BGSLoadFormBuffer*);
 };
+struct TESBoundObject;
+struct TESEffectShader;
 struct FUN_008222f0_s : public FUN_0081bed0_s
 {
     void FUN_008222f0(BGSLoadGameBuffer*);
+    char pad00[0x28];
+    bool m_bUseActorParticleEffects;
+    char pad29[0x3];
+    TESBoundObject* m_pAffectedArmorObject;
+    TESEffectShader* m_pEffectShader;
+    float m_fEffectShaderScale;
+    char pad38[0x14];
+    bool b3rdPerson;
+    char pad4d[0x13];
+    float m_fAddonModelTimer;
+    float m_fAddonModelScale;
 };
-struct TESBoundObject;
-struct TESEffectShader;
 // Loads the base form data, then reads several fields from the buffer and resolves two form IDs into a TESBoundObject and a TESEffectShader.
 // @fnv 0x008222f0
 void FUN_008222f0_s::FUN_008222f0(BGSLoadGameBuffer* buffer)
 {
     LoadFormData((BGSLoadFormBuffer*)buffer);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 0x28), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 0x34), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&this->m_bUseActorParticleEffects), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&this->m_fEffectShaderScale), 4);
     if (buffer->GetVersion() >= 8)
     {
-        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 0x60), 4);
-        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 0x64), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&this->m_fAddonModelTimer), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&this->m_fAddonModelScale), 4);
     }
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 0x4c), 1);
-    *(TESBoundObject**)((char*)this + 0x2c) =
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&this->b3rdPerson), 1);
+    this->m_pAffectedArmorObject =
         dynamic_cast<TESBoundObject*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
-    *(TESEffectShader**)((char*)this + 0x30) =
+    this->m_pEffectShader =
         dynamic_cast<TESEffectShader*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
 }
 

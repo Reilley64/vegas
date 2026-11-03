@@ -289,6 +289,8 @@ struct FUN_009dcc80_target
 struct FUN_008b3b30_shell
 {
     NiPoint3 FUN_008b3b30(float f);
+    unsigned int pad00[0x64];
+    void* unk190;
 };
 // Returns the stored point when f is not above _gModifierZero, otherwise delegates to the object at offset 0x190 with f.
 // @fnv 0x008b3b30
@@ -298,17 +300,19 @@ NiPoint3 FUN_008b3b30_shell::FUN_008b3b30(float f)
     {
         return *((::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>(this)->GetAddTopicList()));
     }
-    return (*(FUN_009dcc80_target**)((char*)this + 0x190))->GetVec(f);
+    return (*(FUN_009dcc80_target**)&this->unk190)->GetVec(f);
 }
 
 struct FUN_008d1e70_t
 {
     unsigned char GetByteAtOffset1C0();
+    char pad00[0x1c0];
+    unsigned char unk1c0;
 };
 // @fnv 0x008d1e70
 unsigned char FUN_008d1e70_t::GetByteAtOffset1C0()
 {
-    return *((unsigned char*)this + 0x1c0);
+    return this->unk1c0;
 }
 
 struct FUN_008d1f10_shell : public Character
@@ -413,11 +417,13 @@ void FUN_008d33a0_shell::SaveFormData(BGSSaveFormBuffer* apSaveGameBuffer)
 struct FUN_009396f0_shell
 {
     void SetFieldD64(int value);
+    unsigned int pad00[0x359];
+    int unkd64;
 };
 // @fnv 0x009396f0
 void FUN_009396f0_shell::SetFieldD64(int value)
 {
-    *(int*)((char*)this + 0xd64) = value;
+    this->unkd64 = value;
 }
 
 struct FUN_00950ad0_shell : public PlayerCharacter
@@ -441,14 +447,16 @@ struct MusicMarkerReference
 struct FUN_009698a0_shell : public PlayerCharacter
 {
     MediaLocationController* GetMediaLocationController();
+    unsigned int pad00[0x1f7];
+    char* unk7dc;
 };
 
 // @fnv 0x009698a0
 MediaLocationController* FUN_009698a0_shell::GetMediaLocationController()
 {
-    if (*(MusicMarkerReference**)((char*)this + 0x7dc) && *(AudioMarkerDataCalls**)(*(char**)((char*)this + 0x7dc) + 4))
+    if (*(MusicMarkerReference**)&this->unk7dc && *(AudioMarkerDataCalls**)(this->unk7dc + 4))
     {
-        return (MediaLocationController*)((void *)(reinterpret_cast<::TESRace *>(((*(AudioMarkerDataCalls**)(*(char**)((char*)this + 0x7dc) + 4))))->FUN_00969910()));
+        return (MediaLocationController*)((void *)(reinterpret_cast<::TESRace *>(((*(AudioMarkerDataCalls**)(this->unk7dc + 4))))->FUN_00969910()));
     }
     else
     {
@@ -556,6 +564,8 @@ struct Slot12cHolder
 struct FUN_008b1910_shell
 {
     TESObjectREFR* FUN_008b1910(TESObjectREFR* apRefr, TESObjectREFR*& apOutRefr);
+    unsigned int pad00[0x1a];
+    void* unk68;
 };
 
 // @fnv 0x008b1910
@@ -574,7 +584,7 @@ TESObjectREFR* FUN_008b1910_shell::FUN_008b1910(TESObjectREFR* apRefr, TESObject
             apRefr = ((::TESObjectREFR *)(reinterpret_cast<::FUN_00516bf0_shell *>((void *)(m_pLinkedReference))->FUN_00516bf0()));
         }
     }
-    (*(Slot12cHolder**)((char*)this + 0x68))->Method12c(apRefr);
+    (*(Slot12cHolder**)&this->unk68)->Method12c(apRefr);
     return apRefr;
 }
 
@@ -635,6 +645,14 @@ struct FUN_0087d4a0
 struct FUN_008d1f40_t : public FUN_0087d4a0
 {
     FUN_008d1f40_t(bool abadd);
+    char pad00[0x134];
+    unsigned char unk134;
+    char pad135[0xf];
+    unsigned char unk144;
+    char pad145[0x7b];
+    unsigned char unk1c0;
+    unsigned char unk1c1;
+    char pad1c2[0x6];
 };
 
 struct CharacterCallStandin
@@ -664,14 +682,14 @@ FUN_008d1f40_t::FUN_008d1f40_t(bool abadd) : FUN_0087d4a0(abadd)
 
     reinterpret_cast<::Character *>((reinterpret_cast<CharacterCallStandin*>(this)))->FUN_008d4e80();
 
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x1C1) = 0;
+    this->unk1c1 = 0;
     *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x1C4) = -1.0f;
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x1C0) = 0;
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x134) = 0;
+    this->unk1c0 = 0;
+    this->unk134 = 0;
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x138) = 0;
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x13C) = 0;
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x140) = 0;
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x144) = 0;
+    this->unk144 = 0;
 }
 
 struct FUN_00573150_shell

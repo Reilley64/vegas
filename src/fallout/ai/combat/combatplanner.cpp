@@ -32,6 +32,8 @@
 struct AStarNodeData
 {
     int m_iNodeIndex;
+    unsigned int pad04[0x36];
+    int unkdc;
 };
 struct AStarNode
 {
@@ -47,7 +49,7 @@ struct CombatPlanner
 // @fnv 0x00995800
 bool CombatPlanner::FUN_00995800(const AStarNode* apNode)
 {
-    if (*(const int*)((const char*)apNode->m_p + 0xdc) == 0)
+    if (apNode->m_p->unkdc == 0)
         return true;
     return false;
 }

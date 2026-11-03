@@ -107,11 +107,13 @@ void FUN_009aad00Class::FUN_009aad00(int index, intptr_t value)
 struct FUN_009aad40_shell
 {
     bool IsFlagSet();
+    char pad00[0x73];
+    char unk73;
 };
 // @fnv 0x009aad40
 bool FUN_009aad40_shell::IsFlagSet()
 {
-    return ((char*)this)[0x73] != 0;
+    return this->unk73 != 0;
 }
 
 struct CombatStateArray

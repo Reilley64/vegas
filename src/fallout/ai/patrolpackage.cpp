@@ -221,22 +221,31 @@ struct blob12
 struct FUN_009f2ba0_shell : public PatrolActorPackageData
 {
     bool InitPatrolPackage(Actor*, TESPackage*);
+    char pad08[0x4];
+    bool unk0c;
+    char pad0d[0x3];
+    void* unk10;
+    void* unk14;
+    void* unk18;
+    char pad1c[0x14];
+    int unk30;
+    int unk34;
 };
 
 // Stores the actor and package, resets counters, and if the package is valid and has patrol data, initializes the patrol from the actor's position.
 // @fnv 0x009f2ba0
 bool FUN_009f2ba0_shell::InitPatrolPackage(Actor* apActor, TESPackage* apPackage)
 {
-    *(Actor**)((char*)this + 0x10) = apActor;
-    *(TESPackage**)((char*)this + 0x14) = apPackage;
-    *(const TESPatrolPackageData**)((char*)this + 0x18) = apPackage->GetPackagePatrolData();
-    *(int*)((char*)this + 0x34) = 0;
-    *(bool*)((char*)this + 0x0c) = true;
-    *(int*)((char*)this + 0x30) = 0;
+    *(Actor**)&this->unk10 = apActor;
+    *(TESPackage**)&this->unk14 = apPackage;
+    *(const TESPatrolPackageData**)&this->unk18 = apPackage->GetPackagePatrolData();
+    this->unk34 = 0;
+    this->unk0c = true;
+    this->unk30 = 0;
     bool bvalid = ::BuildLinkedRefChain((char *)this);
     if (bvalid)
     {
-        if ((*(PatrolActorPackageData**)((char*)this + 0x18))->IsPatrolling())
+        if ((*(PatrolActorPackageData**)&this->unk18)->IsPatrolling())
         {
             SetPatrolPosition((*(const NiPoint3&(**)(Actor*))(*(intptr_t*)apActor + 0x1f4))(apActor));
         }
@@ -385,6 +394,12 @@ struct blob12
 struct FUN_009f30d0_shell : public PatrolActorPackageData
 {
     bool SetPatrolRefIndex(unsigned int);
+    char pad08[0x8];
+    void* unk10;
+    char pad14[0x18];
+    unsigned char unk2c;
+    char pad2d[0x7];
+    unsigned int unk34;
 };
 
 struct NavMeshEdgeSegment;
@@ -411,9 +426,9 @@ struct PatrolHelper
 bool FUN_009f30d0_shell::SetPatrolRefIndex(unsigned int aiRefIndex)
 {
     if (reinterpret_cast<::FUN_0076b610_Class *>((void *)(((BSSimpleArray<NavMeshEdgeSegment, 1024>*)((char*)this + 0x1c))))->FUN_0076b610() ||
-        !*(unsigned char*)((char*)this + 0x2c))
+        !this->unk2c)
     {
-        *(unsigned int*)((char*)this + 0x34) = aiRefIndex;
+        this->unk34 = aiRefIndex;
         return true;
     }
     unsigned int aiclampedRefIndex = aiRefIndex;
@@ -425,11 +440,11 @@ bool FUN_009f30d0_shell::SetPatrolRefIndex(unsigned int aiRefIndex)
     ExtraDataList* pnewExtra = pnewRef ? (ExtraDataList*)((const ::fnv_009f30d0::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((RefExtraHelper*)pnewRef)))->FUN_005d43c0())) : 0;
     if (pnewExtra)
     {
-        if (reinterpret_cast<::FUN_0042f3d0_shell *>((((ExtraHelper*)pnewExtra)))->FUN_0042f3d0(*(void**)((char*)this + 0x10)))
+        if (reinterpret_cast<::FUN_0042f3d0_shell *>((((ExtraHelper*)pnewExtra)))->FUN_0042f3d0(this->unk10))
         {
             ((PatrolHelper*)this)->FUN_009f2b30();
-            reinterpret_cast<::fnv_0042f300::FUN_0042f300_shell *>((((ExtraHelper*)pnewExtra)))->FUN_0042f300((::TESObjectREFR *)(*(void**)((char*)this + 0x10)));
-            *(unsigned int*)((char*)this + 0x34) = aiclampedRefIndex;
+            reinterpret_cast<::fnv_0042f300::FUN_0042f300_shell *>((((ExtraHelper*)pnewExtra)))->FUN_0042f300((::TESObjectREFR *)(this->unk10));
+            this->unk34 = aiclampedRefIndex;
         }
         else
         {
@@ -443,6 +458,8 @@ bool FUN_009f30d0_shell::SetPatrolRefIndex(unsigned int aiRefIndex)
 struct FUN_009f3390_shell : public PatrolActorPackageData
 {
     TESObjectREFR* FUN_009f3390();
+    char pad08[0x2c];
+    unsigned int unk34;
 };
 
 template <class T, unsigned int N> class BSSimpleArray;
@@ -464,7 +481,7 @@ TESObjectREFR* FUN_009f3390_shell::FUN_009f3390()
 {
     if (!reinterpret_cast<::FUN_0076b610_Class *>((void *)(((BSSimpleArray<NavMeshEdgeSegment, 1024>*)((char*)this + 0x1c))))->FUN_0076b610())
     {
-        return SimpleArrayItem<TESObjectREFR*>((char*)this + 0x1c, *(unsigned int*)((char*)this + 0x34));
+        return SimpleArrayItem<TESObjectREFR*>((char*)this + 0x1c, this->unk34);
     }
     else
     {

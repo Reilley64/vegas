@@ -471,24 +471,29 @@ struct FUN_00997c10_shell
 struct FUN_009989f0_shell
 {
     unsigned char GetByteAtOffsetC7();
+    char pad00[0xc7];
+    unsigned char unkc7;
 };
 
 // @fnv 0x009989f0
 unsigned char FUN_009989f0_shell::GetByteAtOffsetC7()
 {
-    return ((unsigned char*)this)[0xc7];
+    return this->unkc7;
 }
 
 struct FUN_00998a10_shell
 {
     unsigned char field_c5;
     unsigned char GetFieldC5();
+    char pad00[0xc4];
+    unsigned char unkc5;
+    char padc6[0x1];
 };
 
 // @fnv 0x00998a10
 unsigned char FUN_00998a10_shell::GetFieldC5()
 {
-    return *(unsigned char*)((char*)this + 0xc5);
+    return this->unkc5;
 }
 
 struct CombatTargetMapLock
@@ -679,11 +684,13 @@ void FUN_006dbee0_s::FUN_006dbee0(Elem* apElements, unsigned int count)
 struct FUN_009052c0_shell
 {
     void* FUN_009052c0(int index);
+    unsigned int pad00[0x1];
+    char* unk04;
 };
 // @fnv 0x009052c0
 void* FUN_009052c0_shell::FUN_009052c0(int index)
 {
-    return *(char**)((char*)this + 4) + index * 0x54;
+    return this->unk04 + index * 0x54;
 }
 
 struct Tile;
@@ -739,11 +746,13 @@ bool UnknownClass::IsElapsedTimeAtLeastSetting()
 struct FUN_0097ef30_shell
 {
     bool FUN_0097ef30();
+    unsigned int pad00[0x34];
+    unsigned int unkd0;
 };
 // @fnv 0x0097ef30
 bool FUN_0097ef30_shell::FUN_0097ef30()
 {
-    return 0 < *(unsigned int*)((char*)this + 0xd0);
+    return 0 < this->unkd0;
 }
 
 namespace fnv_00997400 {
@@ -875,6 +884,8 @@ void FUN_00997bf0_shell::FUN_00997bf0()
 struct MobileObject
 {
     unsigned int GetCurrentProcessLevel();
+    unsigned int pad00[0x29];
+    void* unka4;
 };
 
 struct TESAmmoInitCalls
@@ -922,11 +933,13 @@ bool FUN_009989d0_shell::FUN_009989d0()
 struct FUN_00998a30_shell
 {
     bool FUN_00998a30();
+    char pad00[0xd4];
+    bool unkd4;
 };
 // @fnv 0x00998a30
 bool FUN_00998a30_shell::FUN_00998a30()
 {
-    return *(bool*)((char*)this + 0xd4);
+    return this->unkd4;
 }
 
 struct FUN_009990c0_s
@@ -1064,6 +1077,8 @@ struct S9a1280
 struct FUN_0099a6b0_Class
 {
     void FUN_0099a6b0(int, int);
+    char pad00[0xd8];
+    unsigned char unkd8;
 };
 
 // @fnv 0x0099a6b0
@@ -1075,7 +1090,7 @@ void FUN_0099a6b0_Class::FUN_0099a6b0(int p1, int p2)
     }
     CombatTargetTimestamp ts(::FUN_00435dd0());
     *(CombatTargetTimestamp*)((char*)this + 0xa0) = ts;
-    if (*(unsigned char*)((char*)this + 0xd8) == 2)
+    if (this->unkd8 == 2)
     {
         reinterpret_cast<::fnv_009a1280::CombatLogic *>((((S9a1280*)this)))->FUN_009a1280(1);
     }
@@ -1178,6 +1193,8 @@ struct AlchemyItem
 struct FUN_0099abc0_This
 {
     bool UpdateLastSeenFiringLocation(NiPoint3&);
+    unsigned int pad00[0x71];
+    void* unk1c4;
 };
 // Checks the point via FUN_0099ab50, then adds FUN_009a8460's result for the target actor to the point's z and returns true.
 // @fnv 0x0099abc0
@@ -1186,7 +1203,7 @@ bool FUN_0099abc0_This::UpdateLastSeenFiringLocation(NiPoint3& arLastSeenFiringL
     Actor* ptarget;
     if (!reinterpret_cast<::FUN_0099ab50_Class *>(this)->FUN_0099ab50((::D3 *)&(arLastSeenFiringLocation)))
         return false;
-    ptarget = ((::fnv_0099abc0::Actor *)(reinterpret_cast<::AlchemyItem *>(((*(AlchemyItem**)((char*)this + 0x1c4))))->FUN_004030b0()));
+    ptarget = ((::fnv_0099abc0::Actor *)(reinterpret_cast<::AlchemyItem *>(((*(AlchemyItem**)&this->unk1c4)))->FUN_004030b0()));
     arLastSeenFiringLocation.z += ::FUN_009a8460((::S_009a8460_Actor *)(ptarget), 2, 1);
     return true;
 }
@@ -1234,11 +1251,13 @@ void FUN_0099b8b0_shell::FUN_0099b8b0(std::intptr_t a, int b)
 struct FUN_0099c1f0_shell
 {
     bool FUN_0099c1f0();
+    char pad00[0x4c];
+    bool unk4c;
 };
 // @fnv 0x0099c1f0
 bool FUN_0099c1f0_shell::FUN_0099c1f0()
 {
-    return *(bool*)((char*)this + 0x4c);
+    return this->unk4c;
 }
 
 struct ParentSpaceNode
@@ -1294,13 +1313,15 @@ struct FUN_009a0680_shell
 struct FUN_009a0650_shell : FUN_009a0680_shell
 {
     void SetField18C(int v);
+    unsigned int pad00[0x63];
+    int unk18c;
 };
 // Calls ClearAndDeletePointer, then stores v at offset 0x18c of this object.
 // @fnv 0x009a0650
 void FUN_009a0650_shell::SetField18C(int aiValue)
 {
     reinterpret_cast<::FUN_009a0680_shell *>(this)->ClearAndDeletePointer();
-    *(int*)((char*)this + 0x18c) = aiValue;
+    this->unk18c = aiValue;
 }
 }  // namespace fnv_009a0650
 
@@ -1333,6 +1354,8 @@ FUN_009a08d0_Cls* FUN_009a08d0_Cls::FUN_009a08d0()
 struct FUN_009a0b30_self
 {
     float GetScaledValue();
+    unsigned int pad00[0x31];
+    void* unkc4;
 };
 
 // Returns 0.9 times the float at offset 0x18 of the pointer stored at offset 0xc4, or 0.0 if that pointer is null.
@@ -1340,8 +1363,8 @@ struct FUN_009a0b30_self
 float FUN_009a0b30_self::GetScaledValue()
 {
     return (
-        float)(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0xc4)
-                   ? *reinterpret_cast<float*>(*reinterpret_cast<char**>(reinterpret_cast<char*>(this) + 0xc4) + 0x18) *
+        float)(this->unkc4
+                   ? *reinterpret_cast<float*>(*reinterpret_cast<char**>(&this->unkc4) + 0x18) *
                          (double)0.9f
                    : 0.0);
 }
@@ -1362,23 +1385,27 @@ template <class T> struct SettingT;
 struct FUN_009a0be0_Class
 {
     float GetIdleAdjustedValue();
+    unsigned int pad00[0x31];
+    char* unkc4;
+    unsigned int padc8[0x3f];
+    void* unk1c4;
 };
 
 // Returns the float at this+0xc4 offset 0x1c, adding the runtime float setting when the idle's section is not 0xf, 6 or 0.
 // @fnv 0x009a0be0
 float FUN_009a0be0_Class::GetIdleAdjustedValue()
 {
-    AnimIdle* idle = ((::fnv_009a0be0::AnimIdle *)(reinterpret_cast<::FUN_004f9bf0_shell *>((((Obj_1c4*)*(void**)((char*)this + 0x1c4))))->FUN_004f9bf0()));
+    AnimIdle* idle = ((::fnv_009a0be0::AnimIdle *)(reinterpret_cast<::FUN_004f9bf0_shell *>((((Obj_1c4*)this->unk1c4)))->FUN_004f9bf0()));
     if (idle)
     {
         int section = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((idle))->FUN_00825c00()));
         if (section != 0xf && section != 6 && section != 0)
         {
-            return *(float*)(*(char**)((char*)this + 0xc4) + 0x1c) +
+            return *(float*)(this->unkc4 + 0x1c) +
                    ((float *)&(::FUN_00403e20((float *)(reinterpret_cast<Setting_S*>(&(*reinterpret_cast<::fnv_009a0be0::SettingT< ::fnv_009a0be0::GameSettingCollection> *>(&::originalRuntimeFloatSetting424)))))))[0];
         }
     }
-    return *(float*)(*(char**)((char*)this + 0xc4) + 0x1c);
+    return *(float*)(this->unkc4 + 0x1c);
 }
 }  // namespace fnv_009a0be0
 
@@ -1489,14 +1516,19 @@ struct TESAmmoInitCalls
 struct FUN_009a1010_Class
 {
     void FUN_009a1010();
+    unsigned int pad00[0x34];
+    float unkd0;
+    float unkd4;
+    unsigned int padd8[0x3b];
+    void* unk1c4;
 };
 
 // @fnv 0x009a1010
 void FUN_009a1010_Class::FUN_009a1010()
 {
-    Actor* ptarget = (Actor*)(reinterpret_cast<CombatControllerFields*>((*(TESAmmoInitCalls**)((char*)this + 0x1c4)))->pActor);
-    *(float*)((char*)this + 0xd4) = ptarget->FUN_008be600();
-    *(float*)((char*)this + 0xd0) = reinterpret_cast<::fnv_008acbe0::FUN_008acbe0_shell *>((ptarget))->GetModifiedDamagePerSecond(*(float*)((char*)this + 0xd4));
+    Actor* ptarget = (Actor*)(reinterpret_cast<CombatControllerFields*>((*(TESAmmoInitCalls**)&this->unk1c4))->pActor);
+    this->unkd4 = ptarget->FUN_008be600();
+    this->unkd0 = reinterpret_cast<::fnv_008acbe0::FUN_008acbe0_shell *>((ptarget))->GetModifiedDamagePerSecond(this->unkd4);
 }
 }  // namespace fnv_009a1010
 
@@ -1707,11 +1739,13 @@ struct Host
 struct FUN_009cc490_shell
 {
     void FUN_009cc490(unsigned int flags);
+    unsigned int pad00[0x1];
+    unsigned int unk04;
 };
 // @fnv 0x009cc490
 void FUN_009cc490_shell::FUN_009cc490(unsigned int flags)
 {
-    *(unsigned int*)((char*)this + 4) |= flags;
+    this->unk04 |= flags;
 }
 
 struct CCL
@@ -1764,12 +1798,15 @@ struct FUN_0097cfc0_shell
 struct FUN_0099a530_shell
 {
     void FUN_0099a530();
+    unsigned int pad00[0x67];
+    void* unk19c;
+    void* unk1a0;
 };
 // @fnv 0x0099a530
 void FUN_0099a530_shell::FUN_0099a530()
 {
-    void* a = *(void**)((char*)this + 0x19c);
-    void* b = *(void**)((char*)this + 0x1a0);
+    void* a = this->unk19c;
+    void* b = this->unk1a0;
     for (unsigned int i = 0; i < 5; ++i)
     {
         void* pSlotObj = ((void *)(reinterpret_cast<::fnv_0097cfc0::CombatActionStandIn *>((((FUN_0097cfc0_shell*)this)))->GetActionAtIndex(i)));
@@ -1919,17 +1956,22 @@ struct TESWorldSpace
 struct Container
 {
     bool FUN_0099a360(int, TESWorldSpace*);
+    unsigned int pad00[0x1b];
+    int unk6c;
+    unsigned int pad70[0x54];
+    void* unk1c0;
+    void* unk1c4;
 };
 
 // @fnv 0x0099a360
 bool Container::FUN_0099a360(int, TESWorldSpace* param2)
 {
-    if (param2 != *(TESWorldSpace**)((char*)this + 0x1c0))
+    if (param2 != *(TESWorldSpace**)&this->unk1c0)
         return true;
     bool bResult = true;
-    if (*(int*)((char*)this + 0x6c) > 0)
+    if (this->unk6c > 0)
     {
-        TESWorldSpace* SoundAssetTmp = ((::TESWorldSpace *)(reinterpret_cast<::EffectSetting *>((((TES*)(*(TES**)((char*)this + 0x1c4)))))->GetHitSound()));
+        TESWorldSpace* SoundAssetTmp = ((::TESWorldSpace *)(reinterpret_cast<::EffectSetting *>((((TES*)(*(TES**)&this->unk1c4))))->GetHitSound()));
         if (SoundAssetTmp)
         {
             if (SoundAssetTmp->getFormType() == 7)
@@ -2209,14 +2251,18 @@ struct RetObj
 struct FUN_00997480_shell
 {
     void FUN_00997480(const FUN_00997480_shell* apCopy);
+    char pad00[0x1];
+    bool unk01;
+    unsigned char unk02;
+    char pad03[0x73];
 };
 
 // @fnv 0x00997480
 void FUN_00997480_shell::FUN_00997480(const FUN_00997480_shell* apCopy)
 {
     *(bool*)((char*)this + 0) = *(bool*)((char*)apCopy + 0);
-    *(bool*)((char*)this + 1) = *(bool*)((char*)apCopy + 1);
-    *(unsigned char*)((char*)this + 2) = *(unsigned char*)((char*)apCopy + 2);
+    this->unk01 = *(bool*)&apCopy->unk01;
+    this->unk02 = *(unsigned char*)&apCopy->unk02;
     *(int*)((char*)this + 4) = *(int*)((char*)apCopy + 4);
     *(S12*)((char*)this + 8) = *(S12*)((char*)apCopy + 8);
     reinterpret_cast<::FUN_006e4430_class *>((((RetObj*)((char*)this + 0x14))))->operator=((*(const ::FUN_006e4430_class *)((RetObj*)((char*)apCopy + 0x14))));
@@ -2245,6 +2291,8 @@ struct Unk975C0
 struct FUN_00997520_shell : Unk975C0
 {
     void FUN_00997520(const void* apParam);
+    char pad00[0x38];
+    char unk38;
 };
 
 // @fnv 0x00997520
@@ -2262,7 +2310,7 @@ void FUN_00997520_shell::FUN_00997520(const void* apParam)
     reinterpret_cast<::Host *>((((Host*)((char*)apParam + 0x20))))->ProcessElements((::Helper *)(::fnv_00997520::Helper *)((Helper*)((char*)this + 0x20)));
     *(int*)((char*)this + 0x30) = *(int*)((char*)apParam + 0x30);
     *(int*)((char*)this + 0x34) = *(int*)((char*)apParam + 0x34);
-    *(char*)((char*)this + 0x38) = *(char*)((char*)apParam + 0x38);
+    this->unk38 = *(char*)((char*)apParam + 0x38);
 }
 }  // namespace fnv_00997520
 
@@ -2391,18 +2439,25 @@ struct FUN_00997c30_shell : FUN_00997cb0_Class
 {
     void EvaluateWeaponScores();
     void InitAmmoState();
+    char pad00[0x75];
+    char unk75;
+    char pad76[0x52];
+    char unkc8;
+    char unkc9;
+    char padca[0xfe];
+    char unk1c8;
 };
 
 // @fnv 0x00997c30
 void FUN_00997c30_shell::InitAmmoState()
 {
     void* local4 = (void*)((void *)(reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)*(void**)((char*)this + 0x1c4)))->pActor));
-    *(char*)((char*)this + 0x75) = ::FUN_0097f310((::VtableOwner *)(local4), 0);
+    this->unk75 = ::FUN_0097f310((::VtableOwner *)(local4), 0);
     EvaluateWeaponScores();
     reinterpret_cast<::FUN_00997cb0_Class *>(this)->FUN_00997cb0();
-    *(char*)((char*)this + 0xc8) = ((SubObj*)((char*)local4 + 0xa4))->vf2(true);
-    *(char*)((char*)this + 0xc9) = *(char*)((char*)this + 0xc8);
-    *(char*)((char*)this + 0x1c8) = 0;
+    this->unkc8 = ((SubObj*)((char*)local4 + 0xa4))->vf2(true);
+    this->unkc9 = this->unkc8;
+    this->unk1c8 = 0;
 }
 }  // namespace fnv_00997c30
 
@@ -3147,23 +3202,25 @@ struct FUN_006d3370_s
 struct FUN_009a0470_shell : FUN_009d6c80_shell
 {
     void ReleaseStageHolder(bool);
+    unsigned int pad00[0x3a];
+    void* unke8;
 };
 
 // @fnv 0x009a0470
 void FUN_009a0470_shell::ReleaseStageHolder(bool bParam)
 {
-    if (*(void**)((char*)this + 0xe8))
+    if (this->unke8)
     {
         if (bParam)
         {
-            reinterpret_cast<::fnv_009a0d00::FUN_009a0d00_shell *>(this)->StoreEntry((const void *)(*(intptr_t*)(*(char**)((char*)this + 0xe8) + 0x68)));
+            reinterpret_cast<::fnv_009a0d00::FUN_009a0d00_shell *>(this)->StoreEntry((const void *)(*(intptr_t*)(*(char**)&this->unke8 + 0x68)));
         }
-        if (reinterpret_cast<::FUN_005dc960_shell *>((((StageHolder*)*(void**)((char*)this + 0xe8))))->FUN_005dc960())
+        if (reinterpret_cast<::FUN_005dc960_shell *>((((StageHolder*)this->unke8)))->FUN_005dc960())
         {
-            reinterpret_cast<::fnv_009a05b0::FUN_009a05b0_shell *>(this)->FUN_009a05b0((::fnv_009a05b0::StageHolder *)(::fnv_009a0470::CombatCoverPointData *)((CombatCoverPointData*)*(void**)((char*)this + 0xe8)));
+            reinterpret_cast<::fnv_009a05b0::FUN_009a05b0_shell *>(this)->FUN_009a05b0((::fnv_009a05b0::StageHolder *)(::fnv_009a0470::CombatCoverPointData *)((CombatCoverPointData*)this->unke8));
         }
-        delete (FUN_006d3370_s*)*(void**)((char*)this + 0xe8);
-        *(void**)((char*)this + 0xe8) = 0;
+        delete (FUN_006d3370_s*)this->unke8;
+        this->unke8 = 0;
     }
 }
 }  // namespace fnv_009a0470
@@ -7811,8 +7868,8 @@ void FUN_0099d310_shell::FUN_0099d310(FUN_0099d310_arg* param)
     {
         reinterpret_cast<::FUN_006e4320_Class *>((param))->FUN_006e4320(reinterpret_cast<::FUN_00453700_shell *>((((FUN_0099d310_field_calls*)f1C4)))->FUN_00453700());
     }
-    reinterpret_cast<::FUN_005076c0Class *>((param))->FUN_005076c0((float)((int(*)(void*, unsigned int))(*(void***)((char*)actor + 0xa4))[2])(
-        (char*)actor + 0xa4, 0x10));
+    reinterpret_cast<::FUN_005076c0Class *>((param))->FUN_005076c0((float)((int(*)(void*, unsigned int))(*(void***)&actor->unka4)[2])(
+        (char*)&actor->unka4, 0x10));
     if (item != 0)
     {
         if (FUN_0097ee90() && (unsigned char)_pad[0x74] == 0)

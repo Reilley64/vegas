@@ -309,6 +309,8 @@ void FUN_00796f40_shell::SetFlag8000(bool abOn)
 struct FUN_00798400_shell : public PlayerCharacter
 {
     TESObjectREFR* FUN_00798400();
+    char pad70[0x684];
+    TESObjectREFR* unk6f4;
 };
 // @fnv 0x0079f640
 void MapMenu::SetMapPositionToPlayer()
@@ -326,7 +328,7 @@ void MapMenu::SetMapPositionToPlayer()
 // @fnv 0x00798400
 TESObjectREFR* FUN_00798400_shell::FUN_00798400()
 {
-    return *(TESObjectREFR**)((char*)this + 0x6f4);
+    return this->unk6f4;
 }
 
 struct FUN_0079c090_shell : public MapMenu
@@ -688,12 +690,14 @@ struct FUN_00798420_shell
 {
     char bUnk7d;
     char GetUnk7d();
+    char pad01[0x7c];
+    char unk7d;
 };
 
 // @fnv 0x00798420
 char FUN_00798420_shell::GetUnk7d()
 {
-    return ((char*)this)[0x7d];
+    return this->unk7d;
 }
 
 extern float DAT_01074f70;
@@ -770,6 +774,9 @@ struct StrArray;
 struct V;
 struct S
 {
+    char pad00[0x4b0];
+    float unk4b0;
+
     float GetScaledValue();
 public:
     void FUN_0044e4f0(void *);
@@ -798,11 +805,17 @@ public:
 // @fnv 0x007983c0
 float S::GetScaledValue()
 {
-    return (float)(*(float*)((char*)this + 0x4B0) * DAT_0106e7f8 / FUN_004dc200());
+    return (float)(this->unk4b0 * DAT_0106e7f8 / FUN_004dc200());
 }
 
 struct FUN_00798480_This
 {
+    char pad00[0x38];
+    Tile* unk38;
+    char pad3c[0xe4];
+    float unk120;
+    float unk124;
+
     void FUN_00798480(int aiID, Tile* apTarget);
 };
 // For ID 4, reads floats 4001 and 4002 from the Tile at offset 0x38 and stores them at offsets 0x120 and 0x124.
@@ -811,8 +824,8 @@ void FUN_00798480_This::FUN_00798480(int aiID, Tile* apTarget)
 {
     if (aiID == 4)
     {
-        *(float*)((char*)this + 0x120) = (*(Tile**)((char*)this + 0x38))->GetFloat(4001);
-        *(float*)((char*)this + 0x124) = (*(Tile**)((char*)this + 0x38))->GetFloat(4002);
+        this->unk120 = (this->unk38)->GetFloat(4001);
+        this->unk124 = (this->unk38)->GetFloat(4002);
     }
 }
 
@@ -924,13 +937,16 @@ void FUN_007312e0_shell::FUN_007312e0()
 
 struct FUN_0079b800_shell
 {
+    char pad00[0x5c];
+    unsigned short unk5c;
+
     bool IsFlagSet();
 };
 
 // @fnv 0x0079b800
 bool FUN_0079b800_shell::IsFlagSet()
 {
-    return *(const unsigned short*)((const char*)this + 0x5c) & 4;
+    return this->unk5c & 4;
 }
 
 extern int DAT_01075530;
@@ -1569,6 +1585,13 @@ extern double DAT_01075010;
 struct FUN_0079c380_shell : TESObjectREFR
 {
     NiPoint3* GetMarkerPosition(NiPoint3* result, NiPoint3 position, TESWorldSpace* worldSpace);
+    char pad70[0x10];
+    unsigned int unk80;
+    char pad84[0x64];
+    float unke8;
+    float unkec;
+    float unkf0;
+    float unkf4;
 };
 
 // @fnv 0x0079c380
@@ -1576,22 +1599,22 @@ NiPoint3* FUN_0079c380_shell::GetMarkerPosition(NiPoint3* result, NiPoint3 posit
 {
     NiPoint3 markerPosition;
 
-    if (worldSpace != 0 && *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0x80) == 0x21)
+    if (worldSpace != 0 && this->unk80 == 0x21)
     {
         reinterpret_cast<::FUN_00588e40_shell *>((worldSpace))->TransformWorldPoint((::Pt3 *)&(position), false);
     }
 
-    markerPosition.x = (position.x - *reinterpret_cast<float*>(reinterpret_cast<unsigned char*>(this) + 0xe8)) /
-                       (*reinterpret_cast<float*>(reinterpret_cast<unsigned char*>(this) + 0xf0) -
-                        *reinterpret_cast<float*>(reinterpret_cast<unsigned char*>(this) + 0xe8));
+    markerPosition.x = (position.x - this->unke8) /
+                       (this->unkf0 -
+                        this->unke8);
 
-    markerPosition.y = (position.y - *reinterpret_cast<float*>(reinterpret_cast<unsigned char*>(this) + 0xec)) /
-                       (*reinterpret_cast<float*>(reinterpret_cast<unsigned char*>(this) + 0xf4) -
-                        *reinterpret_cast<float*>(reinterpret_cast<unsigned char*>(this) + 0xec));
+    markerPosition.y = (position.y - this->unkec) /
+                       (this->unkf4 -
+                        this->unkec);
 
     markerPosition.z = 0.0f;
 
-    if (*reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0x80) == 0x21)
+    if (this->unk80 == 0x21)
     {
         markerPosition.x = markerPosition.x * DAT_01075010 + DAT_01075008;
         markerPosition.y = markerPosition.y * DAT_01075010 + DAT_01075008;

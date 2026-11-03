@@ -220,12 +220,14 @@ void ClearField44(intptr_t param_1)
 struct FUN_00524b60_shell
 {
     unsigned char GetByteAt102();
+    char pad00[0x102];
+    unsigned char unk102;
 };
 
 // @fnv 0x00524b60
 unsigned char FUN_00524b60_shell::GetByteAt102()
 {
-    return *(unsigned char*)((char*)this + 0x102);
+    return this->unk102;
 }
 
 extern float DAT_01085df0;

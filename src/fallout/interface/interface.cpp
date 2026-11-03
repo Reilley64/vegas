@@ -1423,6 +1423,14 @@ void FUN_00705e30()
 class MapMenu
 {
   public:
+    char pad00[0x80];
+    int unk80;
+    char pad84[0xc];
+    void* unk90;
+    char pad94[0x98];
+    char unk12c;
+
+  public:
     void FUN_007069f0(unsigned char);
 public:
     static void StopMapMenuSounds();
@@ -1536,7 +1544,7 @@ void ClearMapMenuNote()
 {
     if (DAT_011da368 != 0)
     {
-        *(BGSNote**)((char*)DAT_011da368 + 0x90) = 0;
+        *(BGSNote**)&DAT_011da368->unk90 = 0;
     }
 }
 
@@ -2412,7 +2420,7 @@ class MapMenu;
 void FUN_00704450(char bShow)
 {
     if (DAT_011da368)
-        ((char*)DAT_011da368)[0x12c] = bShow;
+        DAT_011da368->unk12c = bShow;
 }
 
 
@@ -2651,7 +2659,7 @@ char FUN_00706830()
 {
     int v;
     if (DAT_011da368)
-        v = ((int*)DAT_011da368)[0x80 / 4] - 0x20;
+        v = DAT_011da368->unk80 - 0x20;
     else
         v = 4;
     return (char)v;

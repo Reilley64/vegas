@@ -28,6 +28,16 @@ struct ActiveEffectFields
     MagicTarget* target;
     MagicCaster* caster;
     int spellType;
+    unsigned int soundHandle[3];
+    void* source;
+    void* hitEffectList;
+    MagicItem* magicItem;
+};
+
+// The ValueModifierEffect member after ActiveEffect.
+struct ValueModifierEffectFields : ActiveEffectFields
+{
+    int actorValue;
 };
 
 #endif

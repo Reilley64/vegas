@@ -294,6 +294,8 @@ struct Host37870
 struct FUN_009378d0_shell : Host37870
 {
     void CountModifiers();
+    unsigned int pad00[0x3];
+    void* unk0c;
 };
 
 // @fnv 0x009378d0
@@ -312,12 +314,12 @@ void FUN_009378d0_shell::CountModifiers()
         pmodlist = ((::BSSimpleList< ::fnv_009378d0::Modifier *> *)(reinterpret_cast<::SimpleListNodeView *>((pmodlist))->m_pkNext));
     }
 
-    int ifastCount = *(void**)((char*)this + 0xc) ? ::DAT_011e0750 : 0;
+    int ifastCount = this->unk0c ? ::DAT_011e0750 : 0;
     if (ifastCount)
     {
         for (int i = 0; i < ifastCount; i++)
         {
-            reinterpret_cast<::Host37870 *>(this)->FUN_00937870((::Modifier *)((*(Modifier***)*(void**)((char*)this + 0xc))[i]));
+            reinterpret_cast<::Host37870 *>(this)->FUN_00937870((::Modifier *)((*(Modifier***)this->unk0c)[i]));
             icount++;
         }
     }

@@ -260,23 +260,26 @@ bool EffectItem::FUN_008231f0()
 struct FUN_004f5d90_shell : public ActiveEffect
 {
     void FUN_004f5d90(float);
+    float unk04;
 };
 
 // @fnv 0x004f5d90
 void FUN_004f5d90_shell::FUN_004f5d90(float afValue)
 {
-    *(float*)((char*)this + 4) = afValue;
+    this->unk04 = afValue;
 }
 
 struct FUN_008240f0_shell : public ActiveEffect
 {
     bool FUN_008240f0();
+    unsigned int pad04[0x5];
+    unsigned int unk18;
 };
 
 // @fnv 0x008240f0
 bool FUN_008240f0_shell::FUN_008240f0()
 {
-    return (*(unsigned int*)((char*)this + 0x18) & 0x80000000) != 0;
+    return (this->unk18 & 0x80000000) != 0;
 }
 
 struct FUN_00822a70_shell : MagicTarget

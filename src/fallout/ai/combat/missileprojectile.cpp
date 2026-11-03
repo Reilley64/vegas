@@ -235,6 +235,8 @@ struct Projectile
 struct MissileProjectile : Projectile
 {
     void FUN_009bab70(BGSLoadFormBuffer* apLoadGameBuffer);
+    unsigned int pad00[0x54];
+    int unk150;
 };
 
 void Projectile::FUN_009c58e0(BGSLoadFormBuffer* apLoadGameBuffer)
@@ -244,7 +246,7 @@ void Projectile::FUN_009c58e0(BGSLoadFormBuffer* apLoadGameBuffer)
 void MissileProjectile::FUN_009bab70(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::Projectile9c58 *>(this)->FUN_009c58e0((::LoadBuffer9c58 *)(apLoadGameBuffer));
-    ((int*)this)[0x150 / 4] = 0;
+    this->unk150 = 0;
 }
 }  // namespace fnv_009bab70
 
@@ -297,6 +299,8 @@ struct FUN_009ba350_shell
 {
     void* m_p;
     void FUN_009ba350(ScriptLocalsX* p);
+    unsigned int pad04[0x2];
+    void* unk0c;
 };
 // Calls FUN_009ba350 with a and FUN_009ba390 with b.
 // @fnv 0x009ba320
@@ -308,7 +312,7 @@ void FUN_009ba320_shell::FUN_009ba320(uintptr_t auiFirst, uintptr_t auiSecond)
 // @fnv 0x009ba350
 void FUN_009ba350_shell::FUN_009ba350(ScriptLocalsX* p)
 {
-    *(void**)((char*)this + 0xc) = p ? ((void *)(::FUN_004ae750((void *)(p)))) : 0;
+    this->unk0c = p ? ((void *)(::FUN_004ae750((void *)(p)))) : 0;
 }
 
 namespace fnv_009ba390 {
@@ -318,11 +322,13 @@ struct ScriptLocalsX
 struct FUN_009ba390_shell
 {
     void FUN_009ba390(ScriptLocalsX*);
+    unsigned int pad00[0x4];
+    void* unk10;
 };
 // @fnv 0x009ba390
 void FUN_009ba390_shell::FUN_009ba390(ScriptLocalsX* apScriptLocals)
 {
-    *(void**)((char*)this + 0x10) = apScriptLocals ? ((void *)(::FUN_004ae750((void *)(apScriptLocals)))) : 0;
+    this->unk10 = apScriptLocals ? ((void *)(::FUN_004ae750((void *)(apScriptLocals)))) : 0;
 }
 }  // namespace fnv_009ba390
 

@@ -358,6 +358,10 @@ struct FUN_009f41c0_shell
 {
     void ResetReference();
     void FUN_009f41c0();
+    char pad00[0x34];
+    unsigned char unk34;
+    char pad35[0xb];
+    unsigned char unk40;
 };
 
 // Calls ResetReference, then sets the byte at offset 0x34 and the int at offset 4 to 1.
@@ -365,7 +369,7 @@ struct FUN_009f41c0_shell
 void FUN_009f41c0_shell::FUN_009f41c0()
 {
     ResetReference();
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x34) = 1;
+    this->unk34 = 1;
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 4) = 1;
 }
 
@@ -802,11 +806,11 @@ void FUN_009f41c0_shell::ResetReference()
     {
         if (*(TESObjectREFRHelper**)((char*)this + 0x3c) != 0)
         {
-            reinterpret_cast<::fnv_00568150::FUN_00568150_shell *>(((*(TESObjectREFRHelper**)((char*)this + 0x3c))))->FUN_00568150(*(unsigned char*)((char*)this + 0x40), false);
+            reinterpret_cast<::fnv_00568150::FUN_00568150_shell *>(((*(TESObjectREFRHelper**)((char*)this + 0x3c))))->FUN_00568150(this->unk40, false);
         }
     }
     *(TESObjectREFRHelper**)((char*)this + 0x3c) = 0;
-    *(unsigned char*)((char*)this + 0x40) = 0x7f;
+    this->unk40 = 0x7f;
 }
 
 struct TESObjectREFR_GetFlags_Helper

@@ -69,6 +69,9 @@ struct Tile;
 
 struct CharGenMenu
 {
+    char pad00[0x2c];
+    ::fnv_00753350::Tile* unk2c;
+
     void SetTile(int id, Tile* tile);
 };
 
@@ -78,7 +81,7 @@ void CharGenMenu::SetTile(int aiIndex, Tile* tile)
 {
     if (aiIndex >= 0 && aiIndex < 7)
     {
-        ((Tile**)((char*)this + 0x2c))[aiIndex] = tile;
+        (&this->unk2c)[aiIndex] = tile;
     }
 }
 }  // namespace fnv_00753350

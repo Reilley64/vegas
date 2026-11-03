@@ -127,6 +127,12 @@ struct Tile
 
 struct RepairServicesMenu
 {
+    char pad00[0x34];
+    int unk34;
+    int unk38;
+    char pad3c[0x20];
+    int unk5c;
+
     void UpdateRepairServiceTiles(int aiID, Tile* apTarget);
 };
 
@@ -135,9 +141,9 @@ void RepairServicesMenu::UpdateRepairServiceTiles(int aiID, Tile* apTarget)
 {
     if (aiID == 0x11)
     {
-        reinterpret_cast<Tile*>(*(int*)((std::intptr_t)this + 0x5C))->Set(0xFAF, 1);
-        reinterpret_cast<Tile*>(*(int*)((std::intptr_t)this + 0x34))->Set(0xFA3, 0);
-        reinterpret_cast<Tile*>(*(int*)((std::intptr_t)this + 0x38))->Set(0xFA3, 0);
+        reinterpret_cast<Tile*>(this->unk5c)->Set(0xFAF, 1);
+        reinterpret_cast<Tile*>(this->unk34)->Set(0xFA3, 0);
+        reinterpret_cast<Tile*>(this->unk38)->Set(0xFA3, 0);
     }
 }
 }  // namespace fnv_007b8ae0
@@ -318,6 +324,8 @@ struct FUN_007b7400 : FUN_00a1c4a0
     FUN_00730810 inner;
     FUN_007b7400();
     virtual ~FUN_007b7400();
+    char pad6c[0x2c];
+    int unk98;
 };
 // Initializes four global values via FUN_00a01860 and sets the field at offset 0x98 of this object to zero.
 // @fnv 0x007b7400
@@ -327,7 +335,7 @@ FUN_007b7400::FUN_007b7400()
     DAT_011da7e8 = FUN_00a01860(&(*reinterpret_cast<char *>(&::DAT_0106ed18)));
     DAT_011da7e4 = FUN_00a01860(&DAT_01075da0);
     DAT_011da7dc = FUN_00a01860(&DAT_01075d94);
-    *((int*)((char*)this + 0x98)) = 0;
+    this->unk98 = 0;
 }
 
 struct Obj

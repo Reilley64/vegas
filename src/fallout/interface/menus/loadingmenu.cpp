@@ -305,7 +305,7 @@ void LoadingMenu::SelectLoadScreens(BSSimpleArray<TESLoadScreen*, 1024>& aLoadSc
     unsigned int count = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da138)))))->u;
     if (GetFloat(5))
         count = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da124)))))->u;
-    else if (extraCandidates && !((bool)(::FUN_0078a930())))
+    else if (pLocation && !((bool)(::FUN_0078a930())))
         count = FUN_0042f5a0(count, ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da108)))))->u);
     unsigned int maximum = reinterpret_cast<BSSimpleList<BGSMusicType::MusicTrack*>*>(&candidates)->ItemsInList();
     while (maximum < count && ((std::uintptr_t)(reinterpret_cast<LoadScreenArrayFields*>(&aLoadScreens)->size)))
@@ -368,19 +368,19 @@ void LoadingMenu::UpdateLoadScreen(TESLoadScreen* screen, float alpha, int mode)
         switch (type)
         {
         case 4:
-            tiles = reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0xd0);
+            tiles = reinterpret_cast<Tile**>(&this->m_kFirstTileList);
             FUN_0078b100(alpha, mode);
             break;
         case 3:
-            tiles = reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0xf4);
+            tiles = reinterpret_cast<Tile**>(&this->m_kFourthTileList);
             FadeSlideTiles(alpha, mode);
             break;
         case 1:
-            tiles = reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0xe8);
+            tiles = reinterpret_cast<Tile**>(&this->m_kThirdTileList);
             UpdateLoadingTiles(alpha, mode);
             break;
         case 2:
-            tiles = reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0xdc);
+            tiles = reinterpret_cast<Tile**>(&this->m_kSecondTileList);
             UpdateTiles(alpha, mode);
             break;
         }
@@ -435,7 +435,16 @@ struct M788
 };
 struct S788
 {
-    char pad[0xe8];
+    char pad00[0x50];
+    void* unk50;
+    char pad54[0x10];
+    void* unk64;
+    void* unk68;
+    char pad6c[0x2c];
+    void* unk98;
+    void* unk9c;
+    void* unka0;
+    char pada4[0x44];
     M788 m;
     void FUN_00788fe0();
 };
@@ -444,12 +453,12 @@ struct S788
 void S788::FUN_00788fe0()
 {
     reinterpret_cast<::NiTPointerListBaseRaw *>(&(m))->FUN_004ed900();
-    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)((char*)this + 0x68));
-    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)((char*)this + 0x98));
-    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)((char*)this + 0x9c));
-    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)((char*)this + 0x64));
-    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)((char*)this + 0x50));
-    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)((char*)this + 0xa0));
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)&this->unk68);
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)&this->unk98);
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)&this->unk9c);
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)&this->unk64);
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)&this->unk50);
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)&this->unka0);
 }
 
 namespace fnv_00789080 {
@@ -580,9 +589,9 @@ void LoadingMenu::CollectLoadScreens(BSSimpleArray<TESLoadScreen*, 1024>& aLoadS
     {
         if ((GetFloat(5) && reinterpret_cast<::FUN_0078ada0_shell *>((reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))))->IsRefFlag400Set()) ||
             (!GetFloat(5) &&
-             ((extraCandidates && reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))
-                                      ->MatchesFormLocation(reinterpret_cast<TESForm*>(extraCandidates))) ||
-              (!extraCandidates && reinterpret_cast<::FUN_005a7110_shell *>((reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))))->FUN_005a7110()))))
+             ((pLocation && reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))
+                                      ->MatchesFormLocation(reinterpret_cast<TESForm*>(pLocation))) ||
+              (!pLocation && reinterpret_cast<::FUN_005a7110_shell *>((reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))))->FUN_005a7110()))))
         {
             unsigned int index = reinterpret_cast<::FUN_00438690 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&aLoadScreens)))->FUN_007cb2e0((unsigned int *)&(reinterpret_cast<NavMeshInfo*&>(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)));
             int type = reinterpret_cast<::FUN_005a7130_shell *>((reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))))->FUN_005a7130();
@@ -765,6 +774,16 @@ public:
 
 extern const double DAT_0106e7f8;
 
+// The rectangle FUN_0078b9b0 reads from apData, in 1280-wide screen units.
+struct LoadingScreenRect
+{
+    unsigned int uiUnk0;
+    unsigned int uiX;
+    unsigned int uiY;
+    unsigned int uiWidth;
+    unsigned int uiHeight;
+};
+
 // @fnv 0x0078b9b0
 void FUN_0078b9b0_shell::FUN_0078b9b0(void* apData)
 {
@@ -785,12 +804,12 @@ void FUN_0078b9b0_shell::FUN_0078b9b0(void* apData)
     fSafeHeight = fCurrentScreenHeight - ::fnv_00717820::FUN_00717820();
 
     float fConvertedWidth;
-    float fConvertedXPos = (double)((unsigned int*)apData)[1] / 1280.0 * fCurrentScreenWidth;
-    fConvertedYPos = (double)((unsigned int*)apData)[2] / DAT_0106e7f8 * fCurrentScreenHeight;
-    fConvertedWidth = (double)((unsigned int*)apData)[3] / 1280.0 * fCurrentScreenWidth;
-    fConvertedHeight = (double)((unsigned int*)apData)[4] / 1280.0 * fCurrentScreenHeight;
+    float fConvertedXPos = (double)static_cast<LoadingScreenRect*>(apData)->uiX / 1280.0 * fCurrentScreenWidth;
+    fConvertedYPos = (double)static_cast<LoadingScreenRect*>(apData)->uiY / DAT_0106e7f8 * fCurrentScreenHeight;
+    fConvertedWidth = (double)static_cast<LoadingScreenRect*>(apData)->uiWidth / 1280.0 * fCurrentScreenWidth;
+    fConvertedHeight = (double)static_cast<LoadingScreenRect*>(apData)->uiHeight / 1280.0 * fCurrentScreenHeight;
 
-    if (((unsigned int*)apData)[0] != 0)
+    if (static_cast<LoadingScreenRect*>(apData)->uiUnk0 != 0)
     {
         this->unkc0 = (int)FUN_00404010(fConvertedXPos, FUN_007177c0());
         this->unkc4 = (int)FUN_00404010(fConvertedYPos, ::fnv_00717820::FUN_00717820());
@@ -1243,7 +1262,7 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
     if (psleep)
         delete psleep;
 
-    *(TESForm**)((char*)this + 0x1e8) = apLocation;
+    this->pLocation = apLocation;
 
     if (DAT_011a0294 || reinterpret_cast<::FUN_00526ac0_shell *>(((*reinterpret_cast<::fnv_007890e0::TESGlobalValueReader * *>(&::DAT_011c3f3c))))->FUN_00526ac0() != ::_DAT_01012060)
     {
@@ -1258,12 +1277,12 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
     }
     else
     {
-        if (*(TESForm**)((char*)this + 0x1e8) && !reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((::g_BGSSaveLoadGame))->FUN_0042ce10())
+        if (this->pLocation && !reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((::g_BGSSaveLoadGame))->FUN_0042ce10())
         {
-            switch ((*(TESForm**)((char*)this + 0x1e8))->GetFormType())
+            switch ((this->pLocation)->GetFormType())
             {
             case 0x39:
-                reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->SetFloatFlag(9, reinterpret_cast<::TESObjectCELL *>((((TESObjectCELL*)*(TESForm**)((char*)this + 0x1e8))))->IsCellInterior());
+                reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->SetFloatFlag(9, reinterpret_cast<::TESObjectCELL *>((((TESObjectCELL*)this->pLocation)))->IsCellInterior());
                 break;
             case 0x3a:
             case 0x3b:
@@ -1273,7 +1292,7 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
             case 0x3f:
             case 0x40:
             case 0x69:
-                reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->SetFloatFlag(9, reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>((((FUN_00575d10_shell*)*(TESForm**)((char*)this + 0x1e8))))->FUN_00575d10());
+                reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->SetFloatFlag(9, reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>((((FUN_00575d10_shell*)this->pLocation)))->FUN_00575d10());
                 break;
             }
         }
@@ -1281,7 +1300,7 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
         {
             ((LoadingMenuH*)this)->SetTileVisible(0xb, false);
             reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->SetFloatFlag(4, false);
-            *(unsigned int*)((char*)this + 0x1e4) = ((unsigned int)(::FUN_00457fe0()));
+            this->m_uiTipTimer = ((unsigned int)(::FUN_00457fe0()));
             ::DAT_011a0295 = true;
         }
         else
@@ -1318,14 +1337,14 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
         pnode = pav->IsSceneNode();
         if (pnode)
         {
-            *(NiProperty**)((char*)this + 0x1ec) = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((::fnv_007890e0::NiAVObjectV *)(reinterpret_cast<::S_FUN_0045bc00 *>((pnode))->FUN_0045bc00(0)))))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
+            this->m_pTileShaderState = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((::fnv_007890e0::NiAVObjectV *)(reinterpret_cast<::S_FUN_0045bc00 *>((pnode))->FUN_0045bc00(0)))))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
             pnode = (NiNodeV*)((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[0]))))->renderedNode))
                         ->GetObjectByName(NiFixedString("Slide02"));
             *(NiProperty**)&this->m_pAlternateTileShaderState = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((::fnv_007890e0::NiAVObjectV *)(reinterpret_cast<::S_FUN_0045bc00 *>((pnode))->FUN_0045bc00(0)))))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
         }
         else
         {
-            *(NiProperty**)((char*)this + 0x1ec) = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pav))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
+            this->m_pTileShaderState = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pav))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
             pav = ((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[0]))))->renderedNode))->GetObjectByName(NiFixedString("Slide02"));
             *(NiProperty**)&this->m_pAlternateTileShaderState = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pav))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
         }
@@ -1348,7 +1367,7 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
         data.FUN_0043d410(0.0f, true, false);
         reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((p3dtile))->renderedNode))))->FUN_00a59c60((std::intptr_t)&(data));
         ((FUN_0078cc50_shell*)this)->FUN_0078cc50();
-        *(unsigned int*)((char*)this + 0x1e4) = 0;
+        this->m_uiTipTimer = 0;
     }
 
     ::FUN_0078d080();
@@ -1631,25 +1650,30 @@ struct Flt
 };
 struct TL
 {
+    void* m_pHead;
+    char pad04[0x8];
 };
 struct TileEx
 {
 };
 struct LoadingMenuStandIn
 {
+    char pad00[0xd0];
+    TL kTiles;
+
     void FUN_0078b100(float afTime, int aiState);
     void SetTileAlpha(Tile* apTile, float afTime);
 };
-// When aiState is 1, walks the tile list at this+0xd0, sets flag 0xfa3 to 1 on tiles where it is 0, and calls SetTileAlpha on each tile with afTime.
+// When aiState is 1, walks the tile list kTiles, sets flag 0xfa3 to 1 on tiles where it is 0, and calls SetTileAlpha on each tile with afTime.
 // @fnv 0x0078b100
 void LoadingMenuStandIn::FUN_0078b100(float afTime, int aiState)
 {
     if (aiState == 1)
     {
-        void* pos = (void*)(uintptr_t)*(Flt*)((char*)this + 0xd0);
+        void* pos = this->kTiles.m_pHead;
         while (pos)
         {
-            Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)((char*)this + 0xd0))))->FUN_0057cbe0((int **)&(pos))));
+            Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((&this->kTiles))->FUN_0057cbe0((int **)&(pos))));
             if (pTile)
             {
                 if (reinterpret_cast<::TileListBoxCalls *>((((TileEx*)pTile)))->GetFloat(0xfa3) == 0.0)
@@ -1668,25 +1692,30 @@ struct Flt
 };
 struct TL
 {
+    void* m_pHead;
+    char pad04[0x8];
 };
 struct TileEx
 {
 };
 struct LoadingMenuStandIn
 {
+    char pad00[0xdc];
+    TL kTiles;
+
     void UpdateTiles(float afTime, int aiState);
     void SetTileAlpha(Tile* apTile, float afTime);
 };
-// When aiState is 1, walks the tile list at this+0xdc, sets tile flag 0xfa3 to 1 if it is 0, and calls SetTileAlpha on each tile with afTime.
+// When aiState is 1, walks the tile list kTiles, sets tile flag 0xfa3 to 1 if it is 0, and calls SetTileAlpha on each tile with afTime.
 // @fnv 0x0078b190
 void LoadingMenuStandIn::UpdateTiles(float afTime, int aiState)
 {
     if (aiState == 1)
     {
-        void* pos = (void*)(uintptr_t)*(Flt*)((char*)this + 0xdc);
+        void* pos = this->kTiles.m_pHead;
         while (pos)
         {
-            Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)((char*)this + 0xdc))))->FUN_0057cbe0((int **)&(pos))));
+            Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((&this->kTiles))->FUN_0057cbe0((int **)&(pos))));
             if (pTile)
             {
                 if (reinterpret_cast<::TileListBoxCalls *>((((TileEx*)pTile)))->GetFloat(0xfa3) == 0.0)
@@ -1763,25 +1792,30 @@ struct Flt
 };
 struct TL
 {
+    void* m_pHead;
+    char pad04[0x8];
 };
 struct TileEx
 {
 };
 struct LoadingMenuStandIn
 {
+    char pad00[0xe8];
+    TL kTiles;
+
     void UpdateLoadingTiles(float afTime, int aiState);
     void SetTileAlpha(Tile* apTile, float afTime);
 };
-// When aiState is 1, walks the tile list at this+0xe8, sets flag 0xfa3 to 1 on tiles where it is 0, and calls SetTileAlpha on each tile with afTime.
+// When aiState is 1, walks the tile list kTiles, sets flag 0xfa3 to 1 on tiles where it is 0, and calls SetTileAlpha on each tile with afTime.
 // @fnv 0x0078b360
 void LoadingMenuStandIn::UpdateLoadingTiles(float afTime, int aiState)
 {
     if (aiState == 1)
     {
-        void* pos = (void*)(uintptr_t)*(Flt*)((char*)this + 0xe8);
+        void* pos = this->kTiles.m_pHead;
         while (pos)
         {
-            Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)((char*)this + 0xe8))))->FUN_0057cbe0((int **)&(pos))));
+            Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((&this->kTiles))->FUN_0057cbe0((int **)&(pos))));
             if (pTile)
             {
                 if (reinterpret_cast<::TileListBoxCalls *>((((TileEx*)pTile)))->GetFloat(0xfa3) == 0.0)
@@ -2660,13 +2694,13 @@ void FUN_00789820_shell::FUN_00789820()
         {
             while (!(*reinterpret_cast<::TES * *>(&::g_TES)))
                 FUN_0040fca0(5);
-            reinterpret_cast<::LoadingMenuX *>((((LoadingMenuS*)this)))->ApplyLoadingScreenTexture((::TileShaderProperty *)(*(void**)((LoadingMenu*)this)->_padToUsFlags_pad1ec));
+            reinterpret_cast<::LoadingMenuX *>((((LoadingMenuS*)this)))->ApplyLoadingScreenTexture((::TileShaderProperty *)(((LoadingMenu*)this)->m_pTileShaderState));
         }
-        if (!*(unsigned int*)((LoadingMenu*)this)->_padToExtra && ((LoadingMenu*)this)->GetFloat(4))
+        if (!((LoadingMenu*)this)->m_uiTipTimer && ((LoadingMenu*)this)->GetFloat(4))
             ((LoadingMenuS*)this)->FUN_0078cc50();
         else
-            *(unsigned int*)((LoadingMenu*)this)->_padToExtra = ((unsigned int)(::FUN_00457fe0()));
-        ((LoadingMenu*)this)->nextTipTime = *(unsigned int*)((LoadingMenu*)this)->_padToExtra;
+            ((LoadingMenu*)this)->m_uiTipTimer = ((unsigned int)(::FUN_00457fe0()));
+        ((LoadingMenu*)this)->nextTipTime = ((LoadingMenu*)this)->m_uiTipTimer;
     }
     else if (((LoadingMenu*)this)->GetFloat(4))
     {
@@ -3356,9 +3390,9 @@ void FUN_0078ce10_shell::SetTileAlpha(Tile* pkTile, float fAlpha)
         fAlpha = 1.0f - fAlpha;
     reinterpret_cast<::FUN_00a012d0_t *>((pkTile))->FUN_00a012d0(0xfa9, fAlpha * 255.0, true);
     DAT_011a0295 = true;
-    void* pPos = ((void *)(::FUN_00559450((int *)(((TileList*)((char*)pkTile + 4))))));
+    void* pPos = ((void *)(::FUN_00559450((int *)(((TileList*)&reinterpret_cast<::TileFields *>(pkTile)->childHead)))));
     while (pPos)
-        SetTileAlpha(((::Tile *)(reinterpret_cast<::ListStandIn *>((((TileList*)((char*)pkTile + 4))))->FUN_0057cbe0((int **)&(pPos)))), fAlpha);
+        SetTileAlpha(((::Tile *)(reinterpret_cast<::ListStandIn *>((((TileList*)&reinterpret_cast<::TileFields *>(pkTile)->childHead)))->FUN_0057cbe0((int **)&(pPos)))), fAlpha);
 }
 
 namespace fnv_0078bb60 {
@@ -4021,7 +4055,7 @@ struct S00788ab0_LoadingSetup : LoadingMenu
 {
     void FUN_00788ab0(int);
 };
-// When GetFloat(3) is nonzero, updates timers and menu state, configures tiles, and assigns value to extraCandidates.
+// When GetFloat(3) is nonzero, updates timers and menu state, configures tiles, and assigns the value to pLocation.
 // @fnv 0x00788ab0
 void S00788ab0_LoadingSetup::FUN_00788ab0(int aiExtraCandidates)
 {
@@ -4046,9 +4080,9 @@ void S00788ab0_LoadingSetup::FUN_00788ab0(int aiExtraCandidates)
             reinterpret_cast<::FUN_0078afa0_shell *>((((S00788ab0_AfaShell*)this)))->FUN_0078afa0(true);
             reinterpret_cast<::LoadingMenu *>(this)->RefreshLoadingScreen();
         }
-        extraCandidates = aiExtraCandidates;
+        pLocation = (TESForm*)(std::intptr_t)aiExtraCandidates;
         reinterpret_cast<::FUN_0078a5a0_cls *>(this)->UpdateLoadingScreens();
-        extraCandidates = aiExtraCandidates;
+        pLocation = (TESForm*)(std::intptr_t)aiExtraCandidates;
         nextTipTime = ((unsigned int)(::FUN_00457fe0()));
         ++m_uiSecondStateValue;
         reinterpret_cast<::FUN_0078a280_shell *>((((S00788ab0_LoadingMenu*)this)))->UpdateLoadingScreenText(0);

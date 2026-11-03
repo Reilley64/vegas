@@ -15,14 +15,16 @@ struct FUN_00994860_obj
 struct CombatPlan
 {
     bool FUN_00981940(int aiAction);
+    unsigned int pad00[0x28];
+    void* unka0;
 };
 
 // Returns the result of ContainsValue(aiAction) on the object at offset 0xa0, or false if that pointer is null.
 // @fnv 0x00981940
 bool CombatPlan::FUN_00981940(int aiAction)
 {
-    if (*reinterpret_cast<FUN_00994860_obj**>(reinterpret_cast<char*>(this) + 0xa0))
-        return reinterpret_cast<::SearchList *>(((*reinterpret_cast<FUN_00994860_obj**>(reinterpret_cast<char*>(this) + 0xa0))))->ContainsValue(aiAction);
+    if (*reinterpret_cast<FUN_00994860_obj**>(&this->unka0))
+        return reinterpret_cast<::SearchList *>(((*reinterpret_cast<FUN_00994860_obj**>(&this->unka0))))->ContainsValue(aiAction);
     return false;
 }
 

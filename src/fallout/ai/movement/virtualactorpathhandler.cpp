@@ -1060,6 +1060,10 @@ struct RefWithPos
 struct FUN_009eb160_shell
 {
     NiPoint3 GetNextPathPoint() const;
+    unsigned int pad00[0x1];
+    void* unk04;
+    unsigned int pad08[0x3];
+    unsigned int unk14;
 };
 
 namespace fnv_009eb2b0 {
@@ -1209,18 +1213,22 @@ struct RefWithPos
 struct FUN_009eb2b0_shell
 {
     void PrintPathDebugInfo(IDebugText* apDebugText, DEBUGTEXT_LOCATION aLoc, DEBUGTEXT_JUSTIFY aJust);
+    unsigned int pad00[0x1];
+    void* unk04;
+    unsigned int pad08[0x3];
+    unsigned int unk14;
 };
 
 // Prints the actor's starting position and, if a pathing solution exists, the current path node index and count; otherwise prints "No path".
 // @fnv 0x009eb2b0
 void FUN_009eb2b0_shell::PrintPathDebugInfo(IDebugText* apDebugText, DEBUGTEXT_LOCATION aLoc, DEBUGTEXT_JUSTIFY aJust)
 {
-    NiPoint3 loc = *((RefWithPos*)*(void**)((char*)this + 4))->GetStartingPos();
+    NiPoint3 loc = *((RefWithPos*)this->unk04)->GetStartingPos();
     apDebugText->Print(aLoc, aJust, "VirtualPathHandler: Actor's Positon %1.f %1.f %1.f", loc.x, loc.y, loc.z);
 
     if ((PathingSolution*)*(NiPointer<PathingSolution>*)((char*)this + 0xc))
     {
-        apDebugText->Print(aLoc, aJust, "Current path node %u of %u", *(unsigned int*)((char*)this + 0x14),
+        apDebugText->Print(aLoc, aJust, "Current path node %u of %u", this->unk14,
                            ::FUN_005a4320((char *)(((*(NiPointer<PathingSolution>*)((char*)this + 0xc))).operator->())));
     }
     else
@@ -1243,10 +1251,10 @@ NiPoint3 FUN_009eb160_shell::GetNextPathPoint() const
     if (::GetObjectFlags((char *)(((PathingSolution_helper*)(PathingSolution*)*(NiPointer<PathingSolution>*)((char*)this + 0xc)))) >
         0)
     {
-        if (*(unsigned int*)((char*)this + 0x14) + 1 <
+        if (*(unsigned int*)&this->unk14 + 1 <
             ::FUN_005a4320((char *)(((*(NiPointer<PathingSolution>*)((char*)this + 0xc))).operator->())))
         {
-            return reinterpret_cast<::TaskQueueInterface *>((void *)&(((::PathingNode_helper *)(reinterpret_cast<::FUN_006e78b0_shell *>((((PathingSolution_helper*)(PathingSolution*)*(NiPointer<PathingSolution>*)((char*)this + 0xc))))->FUN_006e78b0(*(unsigned int*)((char*)this + 0x14) + 1)))
+            return reinterpret_cast<::TaskQueueInterface *>((void *)&(((::PathingNode_helper *)(reinterpret_cast<::FUN_006e78b0_shell *>((((PathingSolution_helper*)(PathingSolution*)*(NiPointer<PathingSolution>*)((char*)this + 0xc))))->FUN_006e78b0(*(unsigned int*)&this->unk14 + 1)))
                 ->GetLocation()))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
         }
         else
@@ -1258,7 +1266,7 @@ NiPoint3 FUN_009eb160_shell::GetNextPathPoint() const
     }
     else
     {
-        return *((RefWithPos*)*(void**)((char*)this + 4))->GetStartingPos();
+        return *((RefWithPos*)*(void**)&this->unk04)->GetStartingPos();
     }
 }
 struct FUN_005c3420_shell

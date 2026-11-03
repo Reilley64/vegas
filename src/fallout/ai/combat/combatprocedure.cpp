@@ -60,23 +60,27 @@ float FUN_009d1b10_shell::GetTarget()
 struct FUN_009d4f30_shell
 {
     void SetByteAtOffset188ToFF();
+    char pad00[0x188];
+    unsigned char unk188;
 };
 
 // @fnv 0x009d4f30
 void FUN_009d4f30_shell::SetByteAtOffset188ToFF()
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x188) = 0xff;
+    this->unk188 = 0xff;
 }
 
 struct FUN_00980070_shell
 {
     unsigned int FUN_00980070();
+    unsigned int pad00[0x3d];
+    unsigned int unkf4;
 };
 
 // @fnv 0x00980070
 unsigned int FUN_00980070_shell::FUN_00980070()
 {
-    return *(unsigned int*)((char*)this + 0xf4);
+    return this->unkf4;
 }
 
 struct BGSSaveFormBuffer

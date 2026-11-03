@@ -414,17 +414,19 @@ FUN_009ec700::~FUN_009ec700()
 struct FUN_009ebae0_shell
 {
     void AddActorToList(Actor* a);
+    unsigned int pad00[0xe];
+    void* unk38;
 };
 
 // Creates the BSSimpleList at offset 0x38 if null, then adds the given Actor to its head.
 // @fnv 0x009ebae0
 void FUN_009ebae0_shell::AddActorToList(Actor* apActor)
 {
-    if (!*(BSSimpleList<Actor*>**)((char*)this + 0x38))
+    if (!*(BSSimpleList<Actor*>**)&this->unk38)
     {
-        *(BSSimpleList<Actor*>**)((char*)this + 0x38) = new BSSimpleList<Actor*>;
+        *(BSSimpleList<Actor*>**)&this->unk38 = new BSSimpleList<Actor*>;
     }
-    (*(BSSimpleList<Actor*>**)((char*)this + 0x38))->AddHead(apActor);
+    (*(BSSimpleList<Actor*>**)&this->unk38)->AddHead(apActor);
 }
 
 struct DialoguePackage

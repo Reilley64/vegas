@@ -196,24 +196,28 @@ FUN_009edf40::~FUN_009edf40()
 struct FUN_009edd30_shell
 {
     bool IsPointerMatch(const void* p);
+    unsigned int pad00[0x2c];
+    void* unkb0;
 };
 
 // Returns whether p equals the pointer stored at offset 0xb0 of this object.
 // @fnv 0x009edd30
 bool FUN_009edd30_shell::IsPointerMatch(const void* apValue)
 {
-    return apValue == *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0xb0);
+    return apValue == this->unkb0;
 }
 
 struct FUN_009ef510_shell
 {
     unsigned char GetByteAtBC();
+    char pad00[0xbc];
+    unsigned char unkbc;
 };
 
 // @fnv 0x009ef510
 unsigned char FUN_009ef510_shell::GetByteAtBC()
 {
-    return ((unsigned char*)this)[0xbc];
+    return this->unkbc;
 }
 
 struct FUN_008e95c0_shell
@@ -306,6 +310,20 @@ struct FUN_0083c900_shell
 struct DialoguePackage
 {
     void SaveGame(BGSSaveFormBuffer* apSaveGameBuffer);
+    char pad00[0x98];
+    char unk98;
+    char pad99[0x7];
+    char unka0;
+    char pada1[0x1b];
+    char unkbc;
+    char unkbd;
+    char unkbe;
+    char unkbf;
+    char unkc0;
+    char unkc1;
+    char unkc2;
+    char padc3[0x9];
+    char unkcc;
 };
 
 // @fnv 0x009f01d0
@@ -321,18 +339,18 @@ void DialoguePackage::SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((*(TESObjectREFR**)((char*)this + 0x9c))), 0);
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((*(TESTopic**)((char*)this + 0x8c))), 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(*(int*)((char*)this + 0x90)), 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(*(char*)((char*)this + 0x98)), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(*(char*)((char*)this + 0xbc)), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(*(char*)((char*)this + 0xbd)), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(*(char*)((char*)this + 0xbe)), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(*(char*)((char*)this + 0xbf)), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(*(char*)((char*)this + 0xc0)), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(*(char*)((char*)this + 0xc1)), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(this->unk98), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(this->unkbc), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(this->unkbd), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(this->unkbe), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(this->unkbf), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(this->unkc0), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(this->unkc1), 1, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(*(int*)((char*)this + 0xc4)), 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(*(int*)((char*)this + 0xc8)), 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(*(char*)((char*)this + 0xa0)), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(*(char*)((char*)this + 0xcc)), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(*(char*)((char*)this + 0xc2)), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(this->unka0), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(this->unkcc), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&(this->unkc2), 1, 0);
     bhasConversation = (*(Conversation_Stub**)((char*)this + 0xa4));
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&bhasConversation, 1, 0);
     if (bhasConversation)

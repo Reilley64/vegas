@@ -422,6 +422,8 @@ struct FUN_0081d0b0_t
 {
     unsigned short GetSaveSize(ActiveEffect* apEffect, TESObjectREFR* apTarget);
     unsigned short FUN_0081d0b0(ActiveEffect* apEffect, TESObjectREFR* apTarget);
+    char pad00[0x30];
+    Flt unk30;
 };
 // @fnv 0x0081d0b0
 unsigned short FUN_0081d0b0_t::FUN_0081d0b0(ActiveEffect* apEffect, TESObjectREFR* apTarget)
@@ -429,10 +431,10 @@ unsigned short FUN_0081d0b0_t::FUN_0081d0b0(ActiveEffect* apEffect, TESObjectREF
     unsigned short isize = 0;
     isize += reinterpret_cast<::FUN_0081bd30_s *>(this)->GetSaveSize(apEffect, apTarget);
     isize += 2;
-    if (*(Flt*)((char*)this + 0x30))
+    if (unk30)
     {
         NiControllerManager* pmanager = (NiControllerManager*)((::SkyShaderProperty *)(::FUN_00653270(
-            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(uintptr_t)*(Flt*)((char*)this + 0x30))))))))));
+            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(uintptr_t)unk30)))))))));
         if (pmanager)
         {
             isize += ::FUN_0055fdb0((::AnimationInterpolatorNode *)(pmanager));
@@ -740,17 +742,20 @@ struct Flt
 struct FUN_0081d800_t
 {
     void FUN_0081d800(BGSSaveGameBuffer* apSaveGameBuffer);
+    unsigned int pad00[0xb];
+    const char* unk2c;
+    Flt unk30;
 };
 // @fnv 0x0081d800
 void FUN_0081d800_t::FUN_0081d800(BGSSaveGameBuffer* apSaveGameBuffer)
 {
     NiControllerManager* pmanager;
     reinterpret_cast<::FUN_0081be80_s *>((((FUN_0081be80_s*)this)))->FUN_0081be80((::BGSSaveFormBuffer *)(::fnv_0081d800::BGSSaveFormBuffer *)((BGSSaveFormBuffer*)apSaveGameBuffer));
-    reinterpret_cast<::FUN_00865e70_shell *>((apSaveGameBuffer))->FUN_00865e70(*(const char**)((char*)this + 0x2c), 0);
+    reinterpret_cast<::FUN_00865e70_shell *>((apSaveGameBuffer))->FUN_00865e70(this->unk2c, 0);
     pmanager = 0;
-    if (*(Flt*)((char*)this + 0x30))
+    if (unk30)
         pmanager = (NiControllerManager*)((::SkyShaderProperty *)(::FUN_00653270(
-            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(uintptr_t)*(Flt*)((char*)this + 0x30))))))))));
+            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(uintptr_t)unk30)))))))));
     {
         unsigned int uiStartPosition = reinterpret_cast<::FUN_00865f20_shell *>((((BGSSaveFormBuffer*)apSaveGameBuffer)))->FUN_00865f20();
         unsigned int uiFormIdBefore = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)apSaveGameBuffer)))->FUN_0084e3a0()));
@@ -1916,6 +1921,8 @@ struct TES
 struct FUN_0081d150_t
 {
     void FUN_0081d150(ActiveEffect* apEffect, TESObjectREFR* apTarget);
+    char pad00[0x30];
+    Flt unk30;
 };
 
 // Calls the base helper, passes a 16-bit value to g_TESSaveLoadGame, and may update a controller manager using an actor's animation time.
@@ -1924,9 +1931,9 @@ void FUN_0081d150_t::FUN_0081d150(ActiveEffect* apEffect, TESObjectREFR* apTarge
 {
     reinterpret_cast<::fnv_0081bd80::FUN_0081bd80_s *>((((FUN_0081bd80_shell*)this)))->FUN_0081bd80((::fnv_0081bd80::ActiveEffect *)(apEffect), apTarget);
     NiControllerManager* pmanager = 0;
-    if ((unsigned int)*(Flt*)((char*)this + 0x30))
+    if ((unsigned int)unk30)
         pmanager = (NiControllerManager*)((::SkyShaderProperty *)(::FUN_00653270(
-            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(uintptr_t)*(Flt*)((char*)this + 0x30))))))))));
+            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(uintptr_t)unk30)))))))));
     unsigned short usState = 0;
     if (pmanager)
         usState = ::FUN_0055fdb0((::AnimationInterpolatorNode *)(pmanager));
@@ -1962,6 +1969,8 @@ struct TESSaveLoadGame
 struct FUN_0081d2a0_t
 {
     void FUN_0081d2a0(ActiveEffect* apEffect, TESObjectREFR* apTarget);
+    unsigned int pad00[0xb];
+    char* unk2c;
 };
 // Calls SaveLoad, queues the effect model for loading if present, and reads a size-prefixed buffer from the save stream into the object.
 // @fnv 0x0081d2a0
@@ -1983,7 +1992,7 @@ void FUN_0081d2a0_t::FUN_0081d2a0(ActiveEffect* apEffect, TESObjectREFR* apTarge
         pbuffer = (char*)::FUN_00401000(isize + 2);
         memcpy(pbuffer, &isize, 2);
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0081d2a0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(pbuffer + 2, isize);
-        *(char**)((char*)this + 0x2c) = pbuffer;
+        this->unk2c = pbuffer;
     }
 }
 }  // namespace fnv_0081d2a0

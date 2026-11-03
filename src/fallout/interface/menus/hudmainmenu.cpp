@@ -1914,13 +1914,16 @@ int __cdecl GetHUDMainMenuValue()
 
 struct FUN_007735b0_class
 {
+    char pad00[0x5f8];
+    unsigned char unk5f8;
+
     unsigned char GetByteAt5F8();
 };
 
 // @fnv 0x007735b0
 unsigned char FUN_007735b0_class::GetByteAt5F8()
 {
-    return *(unsigned char*)((char*)this + 0x5f8);
+    return this->unk5f8;
 }
 
 class SoundPlaybackHandle
@@ -2238,6 +2241,13 @@ class Tile
 extern HUDMainMenu* g_pHudMainMenuInstance;
 struct HUDMainMenuS
 {
+    char pad00[0x4c];
+    ::fnv_0077f890::Tile* unk4c;
+    ::fnv_0077f890::Tile* unk50;
+    ::fnv_0077f890::Tile* unk54;
+    char pad58[0x128];
+    ::fnv_0077f890::Tile* unk180;
+
     void ShiftTileValues(int aishift);
 };
 
@@ -2245,10 +2255,10 @@ struct HUDMainMenuS
 // @fnv 0x0077f890
 void HUDMainMenuS::ShiftTileValues(int aishift)
 {
-    reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x50))))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[10])))->GetFloat(4001) + aishift, true);
-    reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x54))))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[11])))->GetFloat(4001) + aishift, true);
-    reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x4c))))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[9])))->GetFloat(4001) + aishift, true);
-    reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x180))))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[86])))->GetFloat(4001) + aishift, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(((this->unk50)))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[10])))->GetFloat(4001) + aishift, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(((this->unk54)))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[11])))->GetFloat(4001) + aishift, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(((this->unk4c)))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[9])))->GetFloat(4001) + aishift, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(((this->unk180)))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[86])))->GetFloat(4001) + aishift, true);
 }
 }  // namespace fnv_0077f890
 
@@ -2504,6 +2514,15 @@ void __cdecl UpdateHealthInfoTiles(int aiHealth, int aiInfoLabel, int aiInfoValu
 namespace fnv_0077f420 {
 struct Tile
 {
+    char pad00[0x154];
+    ::fnv_0077f420::Tile* unk154;
+    char pad158[0x18];
+    ::fnv_0077f420::Tile* unk170;
+    char pad174[0x48];
+    unsigned int unk1bc;
+    char pad1c0[0x8c];
+    unsigned int unk24c;
+
     void Set(int, int);
 };
 struct GameTimerRecord
@@ -2516,13 +2535,13 @@ extern Tile* _pme;
 // @fnv 0x0077f420
 void __cdecl FUN_0077f420(bool bFlag)
 {
-    *(unsigned int*)((char*)_pme + 0x24c) = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&((*reinterpret_cast<::fnv_0077f420::GameTimerRecord *>(&::g_timeGlobal))))->FUN_00825c00();
-    if (*(unsigned int*)((char*)_pme + 0x1bc) & 1)
+    _pme->unk24c = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&((*reinterpret_cast<::fnv_0077f420::GameTimerRecord *>(&::g_timeGlobal))))->FUN_00825c00();
+    if (_pme->unk1bc & 1)
     {
         if (bFlag)
-            reinterpret_cast<::Tile *>(((*(Tile**)((char*)_pme + 0x170))))->Set(0xfa3, 1);
+            reinterpret_cast<::Tile *>(((_pme->unk170)))->Set(0xfa3, 1);
         else
-            reinterpret_cast<::Tile *>(((*(Tile**)((char*)_pme + 0x154))))->Set(0xfa3, 1);
+            reinterpret_cast<::Tile *>(((_pme->unk154)))->Set(0xfa3, 1);
     }
 }
 }  // namespace fnv_0077f420

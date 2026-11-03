@@ -148,12 +148,14 @@ float ScaleCharToFloat(char acValue)
 struct FUN_009a9f00_shell
 {
     void SetFieldE0(float value);
+    unsigned int pad00[0x38];
+    float unke0;
 };
 
 // @fnv 0x009a9f00
 void FUN_009a9f00_shell::SetFieldE0(float value)
 {
-    *(float*)((char*)this + 0xe0) = value;
+    this->unke0 = value;
 }
 
 struct BGSProjectile

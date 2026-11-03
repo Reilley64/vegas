@@ -124,13 +124,15 @@ struct FileSizeInfo
 };
 struct FUN_00878590_shell : FileSizeInfo
 {
+    int _pad;
+    ::FileSizeInfo mFile;
     int FUN_00878590();
 };
 // @fnv 0x00878590
 int FUN_00878590_shell::FUN_00878590()
 {
     unsigned __int64 size;
-    reinterpret_cast<::FileSizeInfo *>((((FileSizeInfo*)((char*)this + 4))))->FUN_0065c290(reinterpret_cast<::_LARGE_INTEGER &>(size));
+    mFile.FUN_0065c290(reinterpret_cast<::_LARGE_INTEGER &>(size));
     return (int)size;
 }
 }  // namespace fnv_00878590
@@ -142,13 +144,15 @@ struct FUN_008785e0_holder
 };
 struct MemoryManagerFile
 {
+    int _pad;
+    FUN_008785e0_holder mFile;
     void FUN_008785b0(int aiPos);
 };
 // @fnv 0x008785b0
 void MemoryManagerFile::FUN_008785b0(int aiPos)
 {
     uint64 uipos;
-    reinterpret_cast<::S_008785e0 *>((reinterpret_cast<FUN_008785e0_holder*>(reinterpret_cast<char*>(this) + 4)))->SetAndGetField0(aiPos, 0, (intptr_t)(&uipos), {});
+    reinterpret_cast<::S_008785e0 *>(&mFile)->SetAndGetField0(aiPos, 0, (intptr_t)(&uipos), {});
 }
 }  // namespace fnv_008785b0
 

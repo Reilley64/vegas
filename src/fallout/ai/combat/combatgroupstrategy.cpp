@@ -150,13 +150,16 @@ bool CombatGroupStrategyAmbush::FUN_00990d30(ActorCombatGroup* apGroup)
 struct FUN_00990480_shell
 {
     bool FUN_00990480();
+    unsigned int pad00[0x16];
+    float unk58;
+    float unk5c;
 };
 
 // Returns whether the float at offset 0x58 is greater than the float at offset 0x5c.
 // @fnv 0x00990480
 bool FUN_00990480_shell::FUN_00990480()
 {
-    return *(float*)((char*)this + 0x58) > *(float*)((char*)this + 0x5c);
+    return this->unk58 > this->unk5c;
 }
 
 struct Grp_Call2
@@ -186,13 +189,15 @@ struct FUN_009905a0_shell
 struct FUN_00990570_shell
 {
     unsigned int FUN_00990570();
+    unsigned int pad00[0x4];
+    unsigned int unk10;
 };
 // @fnv 0x00990570
 unsigned int FUN_00990570_shell::FUN_00990570()
 {
-    if (*(unsigned int*)((char*)this + 0x10) == 0x80000000)
+    if (this->unk10 == 0x80000000)
         ((FUN_009905a0_shell*)this)->UpdateMinProgress();
-    return *(unsigned int*)((char*)this + 0x10);
+    return this->unk10;
 }
 
 struct DataOps

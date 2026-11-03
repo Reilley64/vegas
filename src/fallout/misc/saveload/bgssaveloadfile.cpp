@@ -365,6 +365,10 @@ public:
 struct FUN_00846330_shell
 {
     unsigned int WriteToFile(const void* apBuffer, unsigned int aiBytes);
+    unsigned int pad00[0x41];
+    char* unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
 };
 // @fnv 0x00846330
 unsigned int FUN_00846330_shell::WriteToFile(const void* apBuffer, unsigned int aiBytes)
@@ -372,13 +376,13 @@ unsigned int FUN_00846330_shell::WriteToFile(const void* apBuffer, unsigned int 
     if (((bool)(reinterpret_cast<::FUN_00424940_shell *>((::DAT_011de134))->FUN_00424940())))
     {
         unsigned int ifileSizePositionDiff =
-            *(unsigned int*)((char*)this + 0x108) - *(unsigned int*)((char*)this + 0x10c);
+            this->unk108 - this->unk10c;
         if (aiBytes > ifileSizePositionDiff)
-            *(unsigned int*)((char*)this + 0x108) += aiBytes - ifileSizePositionDiff;
-        *(unsigned int*)((char*)this + 0x10c) += aiBytes;
+            this->unk108 += aiBytes - ifileSizePositionDiff;
+        this->unk10c += aiBytes;
         return aiBytes;
     }
-    return ((FUN_00473180_shell*)(*(char**)((char*)this + 0x104)))->FUN_00473180((void *)((const char*)apBuffer), aiBytes);
+    return ((FUN_00473180_shell*)(this->unk104))->FUN_00473180((void *)((const char*)apBuffer), aiBytes);
 }
 
 struct FUN_00846710_mgr_view

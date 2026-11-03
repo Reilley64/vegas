@@ -189,25 +189,30 @@ float FUN_009cef90_shell::FUN_009cef90(int index)
 struct FUN_009cf400_shell
 {
     unsigned char GetByteAtOffsetAD();
+    char pad00[0xad];
+    unsigned char unkad;
 };
 
 // @fnv 0x009cf400
 unsigned char FUN_009cf400_shell::GetByteAtOffsetAD()
 {
-    return ((unsigned char*)this)[0xad];
+    return this->unkad;
 }
 
 struct FUN_009cf6d0_shell
 {
     void FUN_009cf6d0(int arg);
+    unsigned int pad00[0x5];
+    int unk14;
+    int unk18;
 };
 
 // Stores the previous value at offset 0x14 into offset 0x18, then writes arg into offset 0x14.
 // @fnv 0x009cf6d0
 void FUN_009cf6d0_shell::FUN_009cf6d0(int arg)
 {
-    *(int*)((char*)this + 0x18) = *(int*)((char*)this + 0x14);
-    *(int*)((char*)this + 0x14) = arg;
+    this->unk18 = this->unk14;
+    this->unk14 = arg;
 }
 
 struct FUN_009cfc40_shell
@@ -294,6 +299,8 @@ struct FUN_008935f0_shell
 struct FUN_009cce70_shell : AnimIdle
 {
     void FUN_009cce70(int attack, int arg2);
+    unsigned int pad00[0x7];
+    int unk1c;
 };
 namespace fnv_009cd3d0 {
 struct AnimIdle
@@ -357,15 +364,21 @@ float __cdecl GetActorReach(Actor*, int);
 struct FUN_009ce560_shell
 {
     float FUN_009ce560();
+    unsigned int pad00[0x1];
+    int unk04;
+    unsigned int pad08[0x14];
+    float unk58;
 };
 struct FUN_009cefb0_shell
 {
     char FUN_009cefb0();
+    char pad00[0xf9];
+    char unkf9;
 };
 // @fnv 0x009cefb0
 char FUN_009cefb0_shell::FUN_009cefb0()
 {
-    return *((char*)this + 0xf9);
+    return this->unkf9;
 }
 
 struct Date
@@ -375,6 +388,10 @@ struct Date
 struct FUN_009cf660_shell
 {
     void SetMode(int mode);
+    unsigned int pad00[0x1];
+    void* unk04;
+    unsigned int pad08[0x2];
+    int unk10;
 };
 namespace fnv_009cfbd0 {
 struct FUN_009cdde0_shell
@@ -429,6 +446,8 @@ float __cdecl FUN_009a64d0(Actor*, Actor*, int);
 struct FUN_009cfd20_shell
 {
     float GetModifierValue();
+    unsigned int pad00[0x17];
+    float unk5c;
 };
 struct NiPoint3
 {
@@ -642,7 +661,7 @@ void FUN_009cce70_shell::FUN_009cce70(int attack, int arg2)
     if (queued)
     {
         ((FUN_009cf6d0_shell*)this)->FUN_009cf6d0(0);
-        ((int*)this)[7] = attack;
+        this->unk1c = attack;
     }
 }
 // Returns the cached modifier value, recomputing it from the attacker and the value at offset 4 when it is below _gModifierZero.
@@ -650,9 +669,9 @@ void FUN_009cce70_shell::FUN_009cce70(int attack, int arg2)
 float FUN_009ce560_shell::FUN_009ce560()
 {
     Actor* pattacker = ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
-    if (((float*)this)[0x16] < ::_DAT_01012060)
-        ((float*)this)[0x16] = GetActorReach(pattacker, FUN_007031c0(((int*)this)[1]));
-    return ((float*)this)[0x16];
+    if (this->unk58 < ::_DAT_01012060)
+        this->unk58 = GetActorReach(pattacker, FUN_007031c0(this->unk04));
+    return this->unk58;
 }
 // Gets the attacker via FUN_00996de0 and, if FUN_008b3bd0 returns false, calls FUN_009cfc40(1) on the object at this+0x64.
 // @fnv 0x009cfc00
@@ -858,9 +877,9 @@ struct FUN_00996e00_shell
 // @fnv 0x009cfd20
 float FUN_009cfd20_shell::GetModifierValue()
 {
-    if (((float*)this)[0x17] < ::_DAT_01012060)
-        ((float*)this)[0x17] = FUN_009a64d0(((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0())), ((::Actor *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00())), 0);
-    return ((float*)this)[0x17];
+    if (this->unk5c < ::_DAT_01012060)
+        this->unk5c = FUN_009a64d0(((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0())), ((::Actor *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00())), 0);
+    return this->unk5c;
 }
 struct S009cefd0
 {
@@ -4105,15 +4124,15 @@ void FUN_009cd410_shell::FUN_009cd410()
 // @fnv 0x009cf660
 void FUN_009cf660_shell::SetMode(int mode)
 {
-    if (((int*)this)[4] != mode)
+    if (this->unk10 != mode)
     {
-        if (mode == 0 && ((int*)this)[4] == 4 && ((unsigned char)(reinterpret_cast<::CombatProcStub *>(this)->IsTargetOutOfRange())))
+        if (mode == 0 && this->unk10 == 4 && ((unsigned char)(reinterpret_cast<::CombatProcStub *>(this)->IsTargetOutOfRange())))
             return;
-        if (mode == 4 || ((int*)this)[4] == 4)
-            reinterpret_cast<::TESForm *>((((Date*)((intptr_t*)this)[1])))->ClearData();
+        if (mode == 4 || this->unk10 == 4)
+            reinterpret_cast<::TESForm *>((((Date*)this->unk04)))->ClearData();
         reinterpret_cast<::FUN_009cfc00_shell *>(this)->FUN_009cfc00();
     }
-    ((int*)this)[4] = mode;
+    this->unk10 = mode;
 }
 // Checks the actor is alive, projects a point ahead of it along its heading, and returns whether the target is at least range*range away from that point.
 // @fnv 0x009cfd70

@@ -114,6 +114,12 @@ void BGSSaveGameBuffer::FUN_00865f60(unsigned int aiVariableValue)
 struct FUN_00835f10_shell
 {
     void FUN_00835f10(BGSSaveFormBuffer* apBuffer);
+    void* unk00;
+    unsigned int pad04[0x6];
+    unsigned char unk1c;
+    unsigned char unk1d;
+    unsigned char unk1e;
+    unsigned char unk1f;
 };
 
 struct FUN_009f3850_shell
@@ -128,13 +134,20 @@ struct FUN_009f3850_shell
 struct FUN_006e2350_shell
 {
     void FUN_006e2350(BGSSaveFormBuffer* apBuffer);
+    unsigned int pad00[0x1];
+    void* unk04;
+    unsigned int pad08[0x9];
+    unsigned char unk2c[12];
+    void* unk38;
 };
 
 struct FUN_006f50b0_shell
 {
     int m_00;
-    int m_04;
+    void** m_04;
     void FUN_006f50b0(BGSSaveFormBuffer* apBuffer);
+    unsigned int pad08[0x9];
+    void* unk2c;
 };
 
 struct Flt
@@ -162,16 +175,16 @@ struct FUN_008579b0_shell
     int m_08;
     int m_0c;
     int m_10;
-    int m_14;
+    char* m_14;
     int m_18;
     int m_1c;
     void FUN_008579b0(void* a1, unsigned int a2);
 };
-// Copies a2 bytes from a1 into the buffer at this+0x14, then calls Init with a2.
+// Copies a2 bytes from a1 into the buffer at m_14, then calls Init with a2.
 // @fnv 0x008579b0
 void FUN_008579b0_shell::FUN_008579b0(void* apSource, unsigned int uiSize)
 {
-    __memcpy(*(void**)((char*)this + 0x14), apSource, uiSize);
+    __memcpy(m_14, apSource, uiSize);
     ((FUN_00857bd0*)this)->Init(uiSize);
 }
 
@@ -180,10 +193,19 @@ struct S00865ce0
     void FUN_00865ce0(void* a1, unsigned int a2, unsigned int a3, unsigned char a4);
 };
 // Writes size bytes from data into the buffer at the given offset, using the buffer's stored base position.
+struct FUN_00865ce0_state
+{
+    int m_00;
+    char* m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+};
+
 // @fnv 0x00865570
 void BGSSaveGameBuffer::WriteAtOffset(void* data, unsigned int size, unsigned int offset)
 {
-    ((S00865ce0*)this)->FUN_00865ce0(data, size, *(unsigned int*)((char*)this + 12), offset);
+    ((S00865ce0*)this)->FUN_00865ce0(data, size, reinterpret_cast<FUN_00865ce0_state*>(this)->m_0c, offset);
 }
 
 extern int DAT_01082324;
@@ -205,12 +227,14 @@ void FUN_00865c10_shell::FUN_00865c10()
 struct FUN_00865c40_shell : FUN_00865c80_shell
 {
     void FUN_00865c40(FUN_00846330_shell*);
+    unsigned int pad08[0x1];
+    int unk0c;
 };
 // @fnv 0x00865c40
 void FUN_00865c40_shell::FUN_00865c40(FUN_00846330_shell* a1)
 {
-    ::ForwardToShell(a1, (intptr_t)((char*)this + 0xc), 4);
-    this->FUN_00865c80(a1, *(int*)((char*)this + 0xc));
+    ::ForwardToShell(a1, (intptr_t)((char*)&this->unk0c), 4);
+    this->FUN_00865c80(a1, this->unk0c);
 }
 
 struct Dummy84eaf0
@@ -270,15 +294,15 @@ void FUN_0043aa40_shell::FUN_0043aa40(BGSSaveFormBuffer* apBuffer)
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((void*)((char*)&this->m_1c), 1, 0);
     apBuffer->SerializeFormData((void*)this->m_00, 0);
 }
-// Writes the object's pointer to the save buffer, then saves four consecutive one-byte fields at offsets 0x1c through 0x1f.
+// Writes the form at unk00 to the save buffer, then saves the four one-byte fields unk1c to unk1f.
 // @fnv 0x00835f10
 void FUN_00835f10_shell::FUN_00835f10(BGSSaveFormBuffer* apBuffer)
 {
-    apBuffer->SerializeFormData(*(void**)this, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x1c, 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x1d, 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x1e, 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x1f, 1, 0);
+    apBuffer->SerializeFormData(unk00, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&unk1c, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&unk1d, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&unk1e, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&unk1f, 1, 0);
 }
 // @fnv 0x009f3850
 void FUN_009f3850_shell::FUN_009f3850(BGSSaveFormBuffer* apBuffer)
@@ -292,9 +316,9 @@ void FUN_009f3850_shell::FUN_009f3850(BGSSaveFormBuffer* apBuffer)
 void FUN_006e2350_shell::FUN_006e2350(BGSSaveFormBuffer* apBuffer)
 {
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(this, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x2c, 12, 0);
-    apBuffer->SerializeFormData(*(void**)((char*)this + 0x38), 0);
-    ((void(*)(void*, BGSSaveFormBuffer*))(*(void***)(*(void***)((char*)this + 4))))((char*)this + 4,
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(unk2c, 12, 0);
+    apBuffer->SerializeFormData(this->unk38, 0);
+    ((void(*)(void*, BGSSaveFormBuffer*))(*(void***)(*(void***)&this->unk04)))((char*)&this->unk04,
                                                                                               apBuffer);
 }
 // Saves 4 bytes of this object, saves the pointer at offset 0x2c, then calls the virtual save on the sub-object at offset 4.
@@ -302,9 +326,8 @@ void FUN_006e2350_shell::FUN_006e2350(BGSSaveFormBuffer* apBuffer)
 void FUN_006f50b0_shell::FUN_006f50b0(BGSSaveFormBuffer* apBuffer)
 {
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(this, 4, 0);
-    apBuffer->SerializeFormData(*(void**)((char*)this + 0x2c), 0);
-    ((void(*)(FUN_006f50b0_shell*, BGSSaveFormBuffer*))(*(void**)(*(void**)((char*)this + 4))))(
-        (FUN_006f50b0_shell*)((char*)this + 4), apBuffer);
+    apBuffer->SerializeFormData(this->unk2c, 0);
+    ((void(*)(FUN_006f50b0_shell*, BGSSaveFormBuffer*))(m_04[0]))((FUN_006f50b0_shell*)&m_04, apBuffer);
 }
 // @fnv 0x00865e50
 void FUN_00865e50_shell::FUN_00865e50(void* data, unsigned int size, unsigned int offset)
@@ -370,6 +393,20 @@ unsigned int FUN_00865f20_shell::FUN_00865f20()
 struct FUN_0083fb10_shell
 {
     void FUN_0083fb10(BGSSaveFormBuffer* apBuffer);
+    Flt unk00;
+    unsigned char pad01[0x7];
+    unsigned char unk08;
+    unsigned char unk09;
+    unsigned char unk0a;
+    unsigned char pad0b[0x9];
+    void* unk14;
+    void* unk18;
+    void* unk1c;
+    unsigned int pad20[0x1];
+    unsigned char unk24;
+    unsigned char unk25;
+    unsigned char pad26[0x2];
+    void* unk28;
 };
 
 struct FUN_00865e70_shell : BGSSaveGameBuffer
@@ -392,16 +429,16 @@ void FUN_0083d690_shell::FUN_0083d690(BGSSaveFormBuffer* apBuffer)
 // @fnv 0x0083fb10
 void FUN_0083fb10_shell::FUN_0083fb10(BGSSaveFormBuffer* apBuffer)
 {
-    reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBufferSaveStringHelper*)apBuffer)))->FUN_00865e70((const char*)(uintptr_t)*(Flt*)this, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 8, 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x24, 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x25, 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 9, 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0xa, 1, 0);
-    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(void**)((char*)this + 0x14)), 0);
-    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(void**)((char*)this + 0x28)), 0);
-    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(void**)((char*)this + 0x1c)), 0);
-    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(void**)((char*)this + 0x18)), 0);
+    reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBufferSaveStringHelper*)apBuffer)))->FUN_00865e70((const char*)(uintptr_t)unk00, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&unk08, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&unk24, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&unk25, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&unk09, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&unk0a, 1, 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(this->unk14), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(this->unk28), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(this->unk1c), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(this->unk18), 0);
 }
 // Writes a string to the save buffer: computes its length, writes the 2-byte length, then the string bytes if non-empty.
 // @fnv 0x00865e70
@@ -461,15 +498,6 @@ void FUN_00847dd0_cls::FUN_00847dd0()
 
 struct FUN_008660b0_Obj
 {
-};
-
-struct FUN_00865ce0_state
-{
-    int m_00;
-    char* m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
 };
 
 

@@ -2355,6 +2355,11 @@ NiPoint3Ex __cdecl GetPitchYaw(NiPoint3 kFrom, NiPoint3 kTo);
 struct FUN_009e2aa0_shell
 {
     bool FUN_009e2aa0(float fTimeDelta);
+    char pad00[0xc0];
+    bool unkc0;
+    bool unkc1;
+    char padc2[0x1f];
+    bool unke1;
 };
 
 // Updates the actor's movement flags from look-at/pathing heading, animation state and a timed state machine, writing them to offset 0x60 and returning true.
@@ -2371,12 +2376,12 @@ bool FUN_009e2aa0_shell::FUN_009e2aa0(float fTimeDelta)
         return true;
     }
     uiOldFlagsVal = *(unsigned int*)((char*)this + 0x60);
-    if (*(bool*)((char*)this + 0xe1))
+    if (this->unke1)
     {
         *(float*)((char*)this + 0xb8) -= fTimeDelta;
         if (*(float*)((char*)this + 0xb8) < 0.0)
         {
-            *(bool*)((char*)this + 0xe1) = false;
+            this->unke1 = false;
             *(float*)((char*)this + 0x8c) = 1.0f;
         }
     }
@@ -2387,8 +2392,8 @@ bool FUN_009e2aa0_shell::FUN_009e2aa0(float fTimeDelta)
         *(unsigned int*)((char*)this + 0x60) = uiMoveMode3 | 1;
         return true;
     }
-    if (!*(bool*)((char*)this + 0xe1) &&
-        (reinterpret_cast<::ActorMover *>(((*(DetailedActorMover**)((char*)this + 8))))->HasLookAtTarget() || *(bool*)((char*)this + 0xc0)))
+    if (!this->unke1 &&
+        (reinterpret_cast<::ActorMover *>(((*(DetailedActorMover**)((char*)this + 8))))->HasLookAtTarget() || this->unkc0))
     {
         NiPoint3Ex kPoint;
         float fDesiredHeading;
@@ -2401,7 +2406,7 @@ bool FUN_009e2aa0_shell::FUN_009e2aa0(float fTimeDelta)
             reinterpret_cast<::NiPoint3 *>(&(kPoint))->Subtract(*(*(Actor**)((char*)this + 4))->GetPos());
             fDesiredHeading_2 = ::GetDirectionAngle((const ::NiPoint3 *)&(kPoint));
         }
-        else if (*(bool*)((char*)this + 0xc1))
+        else if (this->unkc1)
         {
             static_cast<NiPoint3&>(kPoint) = NiPoint3::ZERO;
             fDesiredHeading_2 = (*(Actor**)((char*)this + 4))->GetCurrentTargetDistance(false);
@@ -2445,7 +2450,7 @@ bool FUN_009e2aa0_shell::FUN_009e2aa0(float fTimeDelta)
                             !reinterpret_cast<::FUN_00494710_shell *>(((*(Actor**)((char*)this + 4))->GetAnimation()))->FUN_00494710(5))
                         {
                             uiMoveFlags3 = 1;
-                            *(bool*)((char*)this + 0xe1) = true;
+                            this->unke1 = true;
                             *(float*)((char*)this + 0xb8) = 1.0f;
                         }
                         else
@@ -2457,7 +2462,7 @@ bool FUN_009e2aa0_shell::FUN_009e2aa0(float fTimeDelta)
                             !reinterpret_cast<::FUN_00494710_shell *>(((*(Actor**)((char*)this + 4))->GetAnimation()))->FUN_00494710(6))
                         {
                             uiMoveFlags3 = 1;
-                            *(bool*)((char*)this + 0xe1) = true;
+                            this->unke1 = true;
                             *(float*)((char*)this + 0xb8) = 1.0f;
                         }
                         else
@@ -4841,12 +4846,14 @@ bool FUN_009e3110_t::IsPathReachableToPlayer() const
 struct FUN_009e3970Class
 {
     float GetValue();
+    unsigned int pad00[0x158];
+    float unk560;
 };
 
 // @fnv 0x009e3970
 float FUN_009e3970Class::GetValue()
 {
-    return *(float*)((char*)this + 0x560);
+    return this->unk560;
 }
 
 class NavMeshPtr;
@@ -4976,12 +4983,14 @@ struct FUN_009e20a0_Class
 {
     unsigned char* m_data;
     unsigned char GetByteAtOffset9F();
+    char pad04[0x9b];
+    unsigned char unk9f;
 };
 
 // @fnv 0x009e20a0
 unsigned char FUN_009e20a0_Class::GetByteAtOffset9F()
 {
-    return *(reinterpret_cast<unsigned char*>(this) + 0x9f);
+    return this->unk9f;
 }
 
 struct LS3de0
@@ -5106,12 +5115,14 @@ void FUN_009e68c0::Reset()
 struct FUN_009e8670
 {
     char GetMethod();
+    char pad00[0x9c];
+    char unk9c;
 };
 
 // @fnv 0x009e8670
 char FUN_009e8670::GetMethod()
 {
-    return ((char*)this)[0x9c];
+    return this->unk9c;
 }
 
 struct NiRTTI;
@@ -5249,23 +5260,27 @@ bool FUN_009e2a80_Class::FUN_009e2a80()
 struct FUN_009e3360_Class
 {
     void SetMode(unsigned int mode);
+    unsigned int pad00[0x18];
+    unsigned int unk60;
 };
 
 // @fnv 0x009e3360
 void FUN_009e3360_Class::SetMode(unsigned int mode)
 {
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x60) = mode;
+    this->unk60 = mode;
 }
 
 struct FUN_009e3be0_class
 {
     bool FUN_009e3be0();
+    char pad00[0xde];
+    bool unkde;
 };
 
 // @fnv 0x009e3be0
 bool FUN_009e3be0_class::FUN_009e3be0()
 {
-    return *(bool*)((char*)this + 0xde);
+    return this->unkde;
 }
 
 struct B006815c0
@@ -10525,12 +10540,14 @@ extern char DAT_01048858[], DAT_010c6078[], DAT_01029400[], DAT_010925bc[], DAT_
 struct S
 {
     const char* FUN_00c8d4a0();
+    char pad00[0xd7];
+    signed char unkd7;
 };
 // @fnv 0x00c8d4a0
 const char* S::FUN_00c8d4a0()
 {
     const char* r = 0;
-    switch (*((signed char*)this + 0xd7))
+    switch (this->unkd7)
     {
     case -1:
         r = DAT_01048858;

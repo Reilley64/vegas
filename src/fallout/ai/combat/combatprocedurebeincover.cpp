@@ -163,13 +163,16 @@ float FUN_009d32e0_shell::GetRandomFloatInRange()
 struct FUN_009d3310_shell
 {
     float GetRandomFloat();
+    unsigned int pad00[0xa];
+    float unk28;
+    float unk2c;
 };
 
 // Returns a random float between the two float values stored at offsets 0x28 and 0x2c of this object.
 // @fnv 0x009d3310
 float FUN_009d3310_shell::GetRandomFloat()
 {
-    return ::RandomFloat(*(float*)((char*)this + 0x28), *(float*)((char*)this + 0x2c));
+    return ::RandomFloat(this->unk28, this->unk2c);
 }
 
 

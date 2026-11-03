@@ -730,12 +730,14 @@ MagicShaderHitEffect* ProcessLists::FindMagicShaderHitEffect(TESObjectREFR* targ
 struct FUN_00632d20_shell : public Crime
 {
     void FUN_00632d20(bool);
+    char pad00[0x10];
+    bool unk10;
 };
 
 // @fnv 0x00632d20
 void FUN_00632d20_shell::FUN_00632d20(bool abflag)
 {
-    *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x10) = abflag;
+    this->unk10 = abflag;
 }
 
 struct FUN_0096bbc0_list
@@ -2885,12 +2887,14 @@ void FUN_0096cb50_shell::UpdateHighProcessActors()
 struct FUN_009707f0_shell
 {
     void FUN_009707f0(int value);
+    unsigned int pad00[0x3f];
+    int unkfc;
 };
 
 // @fnv 0x009707f0
 void FUN_009707f0_shell::FUN_009707f0(int value)
 {
-    *(int*)((char*)this + 0xfc) = value;
+    this->unkfc = value;
 }
 
 struct ActorAnimHelper
@@ -2933,6 +2937,8 @@ struct TESResponse
 struct FUN_009724e0_shell
 {
     MobileObject* FindMobileObjectByValue(int, int);
+    unsigned int pad00[0x11];
+    void* unk44;
 };
 
 // Scans the list at this+0x44 indexed by iList for a MobileObject whose GetNext() equals iValue, returning the first match or null.
@@ -2942,7 +2948,7 @@ MobileObject* FUN_009724e0_shell::FindMobileObjectByValue(int iList, int iValue)
     if (iList <= -1 || iList > 5)
         return 0;
     MobileObject* pRet;
-    TESFormList* pNode = ((TESFormList**)((char*)this + 0x44))[iList];
+    TESFormList* pNode = ((TESFormList**)&this->unk44)[iList];
     TESFormList* pCurrent = pNode;
     pRet = 0;
     while (pCurrent && *((::MobileObject **)(((::Vec3 *)(void *)(pCurrent)))) && !pRet)
@@ -3064,12 +3070,14 @@ void FUN_009784c0_shell::FUN_009784c0()
 struct FUN_00973a70_shell
 {
     void SetByteAt66c(char arg);
+    char pad00[0x66c];
+    char unk66c;
 };
 
 // @fnv 0x00973a70
 void FUN_00973a70_shell::SetByteAt66c(char acValue)
 {
-    ((char*)this)[0x66c] = acValue;
+    this->unk66c = acValue;
 }
 
 namespace fnv_0096cb20 {
@@ -3673,6 +3681,8 @@ struct G2
 struct FUN_00971fd0_shell
 {
     SL* FUN_00971fd0(float afTime);
+    unsigned int pad00[0x14];
+    void* unk50;
 };
 
 // @fnv 0x00971fd0
@@ -3680,7 +3690,7 @@ SL* FUN_00971fd0_shell::FUN_00971fd0(float afTime)
 {
     SL* pList;
     {
-        NodeS* pIter = *(NodeS**)((char*)this + 0x50);
+        NodeS* pIter = *(NodeS**)&this->unk50;
         pList = new SL;
         bool bPickResultFound = false;
         NodeS* pPrev = 0;
@@ -3710,7 +3720,7 @@ SL* FUN_00971fd0_shell::FUN_00971fd0(float afTime)
                 reinterpret_cast<::ItemChangeListNode *>((pIter))->FUN_00905330((*(::InventoryStackRecord *const *)((void* const*)&pItem)));
                 pIter = pPrev;
                 if (!pIter)
-                    pIter = *(NodeS**)((char*)this + 0x50);
+                    pIter = *(NodeS**)&this->unk50;
                 ((G2*)pList)->AddHead((int*)&pItem);
             }
             else

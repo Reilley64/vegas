@@ -3560,6 +3560,8 @@ struct QueuedItemList
 struct MiddleHighProcessQ
 {
     bool HasMatchingQueuedItem(TESBoundObject* apObject, ExtraDataList* apExtra, bool abEquipped);
+    unsigned int pad00[0x8c];
+    void* unk230;
 };
 
 // Walks the queued-item list at this+0x230 and returns true if an entry matches apObject, apExtra and abEquipped.
@@ -3567,7 +3569,7 @@ struct MiddleHighProcessQ
 bool MiddleHighProcessQ::HasMatchingQueuedItem(TESBoundObject* apObject, ExtraDataList* apExtra, bool abEquipped)
 {
     bool bFound = false;
-    QueuedItemList* pCurrentElementNext = *(QueuedItemList**)((char*)this + 0x230);
+    QueuedItemList* pCurrentElementNext = *(QueuedItemList**)&this->unk230;
     while (pCurrentElementNext && *((::PaddedFloatRecord **)(((::Vec3 *)(void *)(pCurrentElementNext)))) && !bFound)
     {
         PaddedFloatRecord* pitem = *((::PaddedFloatRecord **)(((::Vec3 *)(void *)(pCurrentElementNext))));
@@ -3686,12 +3688,14 @@ void T_::ForwardToMember(intptr_t param)
 struct StandIn_00929220
 {
     void FUN_00929220(intptr_t value);
+    unsigned int pad00[0x1a9];
+    int unk6a4;
 };
 
 // @fnv 0x00929220
 void StandIn_00929220::FUN_00929220(intptr_t value)
 {
-    *(int*)((char*)this + 0x6a4) = value;
+    this->unk6a4 = value;
 }
 
 struct FUN_00929240_Class
@@ -3739,6 +3743,9 @@ unsigned int FUN_0092b440_Class::GetByte5()
 struct FUN_0092b7f0_Class
 {
     void ClearState();
+    unsigned int pad00[0x86];
+    int unk218;
+    int unk21c;
 };
 
 // Zeroes the 0x3c bytes at offset 0x1dc and clears the int fields at offsets 0x218 and 0x21c.
@@ -3746,8 +3753,8 @@ struct FUN_0092b7f0_Class
 void FUN_0092b7f0_Class::ClearState()
 {
     ::FUN_00403d30(reinterpret_cast<char*>(this) + 0x1dc, 0, 0x3c);
-    reinterpret_cast<int*>(this)[0x218 / 4] = 0;
-    reinterpret_cast<int*>(this)[0x21c / 4] = 0;
+    this->unk218 = 0;
+    this->unk21c = 0;
 }
 
 namespace fnv_0092c120 {
@@ -4092,12 +4099,14 @@ struct Host
 struct FUN_009145c0
 {
     float GetControllerPhase();
+    unsigned int pad00[0x8d];
+    float unk234;
 };
 
 // @fnv 0x009145c0
 float FUN_009145c0::GetControllerPhase()
 {
-    return *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x234);
+    return this->unk234;
 }
 
 struct S9145e0
@@ -4171,12 +4180,14 @@ void* MiddleHighProcessStandIn::FUN_00922b20(void* apBiped)
 struct FUN_00922b60
 {
     void SetFlag(bool abFlag);
+    char pad00[0x1da];
+    char unk1da;
 };
 
 // @fnv 0x00922b60
 void FUN_00922b60::SetFlag(bool abFlag)
 {
-    ((char*)this)[0x1da] = abFlag;
+    this->unk1da = abFlag;
 }
 
 struct FUN_00495480_shell
@@ -4239,14 +4250,16 @@ struct LipSyncAnimation
 struct MidHighStub
 {
     void SetLipsynchAnim(LipSyncAnimation*);
+    unsigned int pad00[0x68];
+    void* unk1a0;
 };
 // Deletes the existing object at offset 0x1A0 and stores apCreatureLipsynchAnim there.
 // @fnv 0x0092c2e0
 void MidHighStub::SetLipsynchAnim(LipSyncAnimation* apCreatureLipsynchAnim)
 {
-    if (*(LipSyncAnimation**)((char*)this + 0x1A0))
-        delete *(LipSyncAnimation**)((char*)this + 0x1A0);
-    *(LipSyncAnimation**)((char*)this + 0x1A0) = apCreatureLipsynchAnim;
+    if (*(LipSyncAnimation**)&this->unk1a0)
+        delete *(LipSyncAnimation**)&this->unk1a0;
+    *(LipSyncAnimation**)&this->unk1a0 = apCreatureLipsynchAnim;
 }
 
 namespace fnv_0091efe0 {
@@ -4432,6 +4445,8 @@ struct FUN_0091efe0_shell
     virtual ActorPackageContext* GetCurrentActorPackage();
     virtual TESPackage* GetCurrentPackage();
     bool ProcessPackageTarget(FUN_00891db0_shell* apActor, int ainumb);
+    unsigned int pad04[0x41];
+    int unk108;
 };
 
 // Reads the current package's target and dispatches it to FUN_00891db0 based on the target type, returning whether it succeeded.
@@ -4459,16 +4474,16 @@ bool FUN_0091efe0_shell::ProcessPackageTarget(FUN_00891db0_shell* apActor, int a
             pref = (TESObjectREFR*)((uintptr_t)(((((TESObjectREFR_GetFlags_Helper*)pactorPack)))->unk08));
             if (pref)
                 bdone = reinterpret_cast<::ActorInventoryQueryViews::ActorQuery *>((apActor))->FUN_00891db0((::TESBoundObject *)(void *)((void*)((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)pref)))->FUN_007af430()))), 0, 1, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pref))->FUN_0084e3a0())),
-                                              (*(int *)((char*)this + 0x108)));
+                                              (this->unk108));
         }
     }
     else if (etype == 1)
     {
-        bdone = reinterpret_cast<::ActorInventoryQueryViews::ActorQuery *>((apActor))->FUN_00891db0((::TESBoundObject *)(void *)(reinterpret_cast<::PackageTargetRecord *>((ptarg))->GetTargetForm()), 0, ainumb, 0, (*(int *)((char*)this + 0x108)));
+        bdone = reinterpret_cast<::ActorInventoryQueryViews::ActorQuery *>((apActor))->FUN_00891db0((::TESBoundObject *)(void *)(reinterpret_cast<::PackageTargetRecord *>((ptarg))->GetTargetForm()), 0, ainumb, 0, (this->unk108));
     }
     else
     {
-        bdone = reinterpret_cast<::ActorInventoryQueryViews::ActorQuery *>((apActor))->FUN_00891db0((::TESBoundObject *)(void *)(0), ptarg->GetTargetObjectType(), ainumb, 0, (*(int *)((char*)this + 0x108)));
+        bdone = reinterpret_cast<::ActorInventoryQueryViews::ActorQuery *>((apActor))->FUN_00891db0((::TESBoundObject *)(void *)(0), ptarg->GetTargetObjectType(), ainumb, 0, (this->unk108));
     }
     return bdone;
 }
@@ -5159,15 +5174,19 @@ struct Crime
 struct FUN_0091e780_s
 {
     void UpdateWeaponTypeFlags();
+    char pad00[0x124];
+    char unk124;
+    char unk125;
+    char unk126;
 };
 // Clears three flags at offsets 0x124-0x126, then sets one based on the weapon type of the crime's target reference.
 // @fnv 0x0091e780
 void FUN_0091e780_s::UpdateWeaponTypeFlags()
 {
     TESObjectREFR* pcurrentWeapon;
-    ((char*)this)[0x124] = 0;
-    ((char*)this)[0x125] = 0;
-    ((char*)this)[0x126] = 0;
+    this->unk124 = 0;
+    this->unk125 = 0;
+    this->unk126 = 0;
     if (*(Crime**)((char*)this + 0x114))
     {
         pcurrentWeapon = ((::TESObjectREFR *)(reinterpret_cast<::Twin_0044ddc0 *>(((*(Crime**)((char*)this + 0x114))))->GetName()));
@@ -5176,14 +5195,14 @@ void FUN_0091e780_s::UpdateWeaponTypeFlags()
             switch (((TESObjectWEAP*)pcurrentWeapon)->GetWeaponType())
             {
             case 10:
-                ((char*)this)[0x124] = 1;
+                this->unk124 = 1;
                 break;
             case 11:
             case 12:
-                ((char*)this)[0x125] = 1;
+                this->unk125 = 1;
                 break;
             case 13:
-                ((char*)this)[0x126] = 1;
+                this->unk126 = 1;
                 break;
             }
         }
@@ -7111,15 +7130,17 @@ struct FUN_009b4d90
 struct FUN_0092c540
 {
     void SetHitData(FUN_009b4d90* apData);
+    unsigned int pad00[0x95];
+    void* unk254;
 };
 
 // Allocates a FUN_009b4d90 at this+0x254 if null, then calls its FUN_009b4ec0 with apData.
 // @fnv 0x0092c540
 void FUN_0092c540::SetHitData(FUN_009b4d90* apData)
 {
-    if (!((FUN_009b4d90**)((char*)this + 0x254))[0])
-        ((FUN_009b4d90**)((char*)this + 0x254))[0] = new FUN_009b4d90;
-    reinterpret_cast<::HitDataEx *>((((FUN_009b4d90**)((char*)this + 0x254))[0]))->FUN_009b4ec0((*(const ::BooleanFloatQuery *)(apData)));
+    if (!((FUN_009b4d90**)&this->unk254)[0])
+        ((FUN_009b4d90**)&this->unk254)[0] = new FUN_009b4d90;
+    reinterpret_cast<::HitDataEx *>((((FUN_009b4d90**)&this->unk254)[0]))->FUN_009b4ec0((*(const ::BooleanFloatQuery *)(apData)));
 }
 }  // namespace fnv_0092c540
 
@@ -21709,6 +21730,8 @@ struct PackageAccess : TESForm
     virtual void Slot138();
     virtual bool IsEffectValid(TESObjectREFR*, int, float, bool);
     virtual bool CheckActor(TESObjectREFR*, Actor*, int, float, bool);
+    unsigned int pad18[0x27];
+    void* unkb4;
 };
 struct ActivateActor : TESObjectREFR
 {
@@ -21758,7 +21781,7 @@ bool ActivateProcess::ActivatePackageTarget(Actor* actor)
         return false;
     }
     PackageAccess* eb = (PackageAccess*)GetOneTimePackage();
-    TESObjectREFR* p = ((::TESObjectREFR *)(*reinterpret_cast<void **>((char *)(eb) + 0xb4)));
+    TESObjectREFR* p = ((::TESObjectREFR *)(eb->unkb4));
     TESObjectREFR* cf = ((::TESObjectREFR *)(::FUN_009ee040((char *)(eb))));
     if (!((bool)(reinterpret_cast<::FUN_008e95a0_Class *>((eb))->GetByteAtBD())) && ((intptr_t)(reinterpret_cast<::FUN_00672dd0_shell *>((eb))->FUN_00672dd0())))
     {
@@ -32840,6 +32863,8 @@ struct SelfFull91 : Slots<432>
 {
     virtual void v6c4();
     void FUN_0091fee0(Ref91*, Point91, float);
+    char pad04[0x138];
+    unsigned char unk13c;
 };
 struct Actor91 : Slots<132>
 {
@@ -36608,6 +36633,8 @@ struct ShaderManager
 class PlayerCharacter : public Actor
 {
   public:
+    unsigned int pad1b4[0x13c];
+    void* unk6a4;
 };
 struct ShaderItemChange
 {
@@ -36694,7 +36721,7 @@ void ShaderProcess::FUN_00928d90(Actor* actor)
         if (actor == (*reinterpret_cast<::fnv_00928d90::PlayerCharacter * *>(&::_g_thePlayer)) && ((intptr_t)(::fnv_00490f80::FUN_00490f80((char *)((*reinterpret_cast<::fnv_00928d90::PlayerCharacter * *>(&::_g_thePlayer)))))))
         {
             TESEffectShader* shader = GetCurrentEffectShader();
-            FUN_0081f580* pPlayerShader = ((::fnv_00928d90::FUN_0081f580 *)(*reinterpret_cast<void **>((char *)(*reinterpret_cast<::fnv_00928d90::PlayerCharacter * *>(&::_g_thePlayer)) + 0x6a4)));
+            FUN_0081f580* pPlayerShader = ((::fnv_00928d90::FUN_0081f580 *)((*reinterpret_cast<::fnv_00928d90::PlayerCharacter * *>(&::_g_thePlayer))->unk6a4));
             if (shader)
             {
                 if (pPlayerShader && ((::TESEffectShader *)(reinterpret_cast<::Script *>((pPlayerShader))->GetData())) != shader)
@@ -36998,7 +37025,7 @@ void SelfFull91::FUN_0091fee0(Ref91* actor, Point91 point, float force)
         {
             if (((Actor91*)actor)->v214())
                 reinterpret_cast<::fnv_0088d640::FUN_0088d640_shell *>((actor))->FUN_0088d640();
-            *((unsigned char*)this + 0x13c) = 2;
+            this->unk13c = 2;
             ((Self91*)this)->v028();
             NiNode* node;
             if (actor == (Ref91*)(*reinterpret_cast<::Player91 * *>(&::_g_thePlayer)))

@@ -222,13 +222,15 @@ struct BGSSaveFormBuffer
 struct FUN_009f0bb0_shell
 {
     void SaveFormList(BGSSaveFormBuffer* apSaveGameBuffer);
+    unsigned int pad00[0x2];
+    void* unk08;
 };
 
 // Writes the form at offset 8, then each non-null form from the list at offset 0x10, and stores the count at the saved buffer position.
 // @fnv 0x009f0bb0
 void FUN_009f0bb0_shell::SaveFormList(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(void**)((char*)this + 8)), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(this->unk08), 0);
 
     unsigned int isaveGameCount = 0;
     unsigned int isaveGameBufferPos = reinterpret_cast<::FUN_00865f20_shell *>((apSaveGameBuffer))->FUN_00865f20();

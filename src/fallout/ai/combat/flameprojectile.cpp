@@ -110,6 +110,9 @@ struct Projectile
 struct FlameProjectile : Projectile
 {
     void FUN_009b3f50(BGSLoadFormBuffer* apLoadGameBuffer);
+    unsigned int pad00[0x54];
+    float unk150;
+    float unk154;
 };
 
 // Calls the base Projectile load routine, then zeroes the two floats at offsets 0x150 and 0x154.
@@ -117,8 +120,8 @@ struct FlameProjectile : Projectile
 void FlameProjectile::FUN_009b3f50(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::Projectile9c58 *>(this)->FUN_009c58e0((::LoadBuffer9c58 *)(apLoadGameBuffer));
-    *(float*)((char*)this + 0x150) = 0.0f;
-    *(float*)((char*)this + 0x154) = 0.0f;
+    this->unk150 = 0.0f;
+    this->unk154 = 0.0f;
 }
 }  // namespace fnv_009b3f50
 

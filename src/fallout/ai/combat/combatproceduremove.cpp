@@ -115,13 +115,15 @@ struct CombatProcedureMove
 struct FUN_009d7bd0_shell
 {
     bool IsFlagSet(unsigned int flags);
+    unsigned int pad00[0x24];
+    unsigned int unk90;
 };
 
 // Tests whether the bit selected by flags is set in the 32-bit mask at offset 0x90 of this object.
 // @fnv 0x009d7bd0
 bool FUN_009d7bd0_shell::IsFlagSet(unsigned int flags)
 {
-    return ((1 << flags) & *(unsigned int*)((char*)this + 0x90)) ? true : false;
+    return ((1 << flags) & this->unk90) ? true : false;
 }
 
 struct CombatTargetTimestamp
@@ -134,22 +136,26 @@ public:
 struct Holder
 {
     void SetValue(float);
+    unsigned int pad00[0x30];
+    int unkc0;
 };
 // @fnv 0x009d8410
 void Holder::SetValue(float afValue)
 {
     CombatTargetTimestamp t(afValue);
-    *(int*)((char*)this + 0xC0) = t.v;
+    this->unkc0 = t.v;
 }
 
 struct S009d8440
 {
     float FUN_009d8440();
+    unsigned int pad00[0xf];
+    int unk3c;
 };
 // @fnv 0x009d8440
 float S009d8440::FUN_009d8440()
 {
-    switch (*(int*)((char*)this + 0x3C))
+    switch (this->unk3c)
     {
     case 6:
     case 7:
@@ -168,14 +174,16 @@ struct CombatProcedureAttackRanged
 struct MoveHolder
 {
     void ClearTargetRef(TESObjectREFR*);
+    unsigned int pad00[0xe];
+    void* unk38;
 };
 // If the reference stored at offset 0x38 matches apRef, clears it to null and logs that the targeted reference pointer was cleared.
 // @fnv 0x009d8480
 void MoveHolder::ClearTargetRef(TESObjectREFR* apRef)
 {
-    if (*(TESObjectREFR**)((char*)this + 0x38) == apRef)
+    if (*(TESObjectREFR**)&this->unk38 == apRef)
     {
-        *(TESObjectREFR**)((char*)this + 0x38) = 0;
+        *(TESObjectREFR**)&this->unk38 = 0;
         reinterpret_cast<::FUN_009caac0_shell *>((((CombatProcedureAttackRanged*)this)))->FUN_009caac0((intptr_t)("Targeted reference pointer was cleared"));
     }
 }
@@ -190,15 +198,17 @@ struct IMH
 struct FUN_009d84b0_shell
 {
     void FUN_009d84b0();
+    char pad00[0x54];
+    bool unk54;
 };
 // If the bool at offset 0x54 is set, calls FUN_009d6c80 through the object at offset 4 and clears the flag.
 // @fnv 0x009d84b0
 void FUN_009d84b0_shell::FUN_009d84b0()
 {
-    if (*(bool*)((char*)this + 0x54))
+    if (this->unk54)
     {
         ((::FUN_009d6c80_shell *)(reinterpret_cast<CombatControllerFields*>((((IMH*)*(IMH**)((char*)this + 4))))->pCombatState))->FUN_009d6c80();
-        *(bool*)((char*)this + 0x54) = 0;
+        this->unk54 = 0;
     }
 }
 
@@ -213,13 +223,17 @@ struct FUN_009d7c20_shell
 struct FUN_009d84e0_shell
 {
     void FUN_009d84e0();
+    unsigned int pad00[0x1];
+    int unk04;
+    unsigned int pad08[0x2];
+    int unk10;
 };
 // @fnv 0x009d84e0
 void FUN_009d84e0_shell::FUN_009d84e0()
 {
-    if (reinterpret_cast<int*>(this)[4] == 2 || reinterpret_cast<int*>(this)[4] == 3)
+    if (this->unk10 == 2 || this->unk10 == 3)
     {
-        reinterpret_cast<::FUN_009d7c20_shell *>((reinterpret_cast<FUN_009d7c20_shell*>(((::fnv_009d84e0::Tile *)(reinterpret_cast<CombatControllerFields*>((reinterpret_cast<IMH*>(reinterpret_cast<int*>(this)[1])))->pCombatState)))))->FUN_009d7c20();
+        reinterpret_cast<::FUN_009d7c20_shell *>((reinterpret_cast<FUN_009d7c20_shell*>(((::fnv_009d84e0::Tile *)(reinterpret_cast<CombatControllerFields*>((reinterpret_cast<IMH*>(this->unk04)))->pCombatState)))))->FUN_009d7c20();
         *reinterpret_cast<char*>(this + 0x54) = 1;
     }
 }
@@ -246,6 +260,8 @@ struct FUN_009d6c00_shell : CombatProcedureEngageTarget
 {
     Actor* GetFieldBC();
     void UpdateCombatMovement();
+    char pad00[0x54];
+    bool unk54;
 };
 // @fnv 0x009d6c00
 void FUN_009d6c00_shell::UpdateCombatMovement()
@@ -259,7 +275,7 @@ void FUN_009d6c00_shell::UpdateCombatMovement()
     else if (*(int*)((char*)this + 0x10) == 3)
         reinterpret_cast<::fnv_00996ea0::MyProc *>((((CombatProcedure*)this)))->FUN_00996ea0();
     reinterpret_cast<::fnv_00996e40::FUN_00996e40_shell *>(this)->FUN_00996e40();
-    if (*(bool*)((char*)this + 0x54))
+    if (this->unk54)
         ((::FUN_009d6c80_shell *)(reinterpret_cast<CombatControllerFields*>((((IMH*)*(void**)((char*)this + 4))))->pCombatState))->FUN_009d6c80();
 }
 
@@ -295,6 +311,9 @@ struct FUN_009a5eb0_shell
 struct FUN_009d8880_shell
 {
     void FUN_009d8880(BGSSaveFormBuffer* buffer);
+    char pad00[0x5c];
+    bool unk5c;
+    char pad5d[0x18];
 };
 
 // @fnv 0x009d8880
@@ -324,10 +343,10 @@ void FUN_009d8880_shell::FUN_009d8880(BGSSaveFormBuffer* buffer)
 
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x54), 1, 0);
 
-    *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x5C) =
+    this->unk5c =
         reinterpret_cast<const GO*>(reinterpret_cast<char*>(this) + 0x58)->operator unsigned int();
 
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x5C), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(&this->unk5c)), 1, 0);
 }
 
 struct BGSLoadFormBuffer

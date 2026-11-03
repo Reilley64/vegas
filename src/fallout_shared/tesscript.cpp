@@ -875,12 +875,12 @@ struct RefObj
     int f8;
     int fc;
 };
-// Clears the thread-local slot if it holds this object, then walks the extra-data list and zeroes f8 on each referenced object that has a nonzero fc.
+// Clears the referenced-object cache's script if it is this script, then walks the extra-data list and zeroes f8 on each referenced object that has a nonzero fc.
 // @fnv 0x005ae2e0
 void FUN_005ae2e0_shell::FUN_005ae2e0()
 {
-    if (g_tlsBlock.lastRefObject == (void*)this)
-        g_tlsBlock.lastRefObject = 0;
+    if (g_tlsBlock.lastRefObjectScript == reinterpret_cast<Script*>(this))
+        g_tlsBlock.lastRefObjectScript = 0;
     void* pCurrentElementNext = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)this)))->FUN_005d43c0()));
     while (pCurrentElementNext && !_ref_008256d0((unsigned int)pCurrentElementNext))
     {
@@ -3740,11 +3740,6 @@ void LoadScriptLocals::FUN_005a9950()
 }
 
 namespace fnv_005aa350 {
-struct TlsSlot
-{
-    char pad[0x24F0];
-    void* pCached;
-};
 
 struct ItemX
 {
@@ -3760,12 +3755,12 @@ struct ClsX
 };
 
 
-// Clears the TLS cached pointer if it points to this object, then iterates the list from FUN_005d43c0 and calls FUN_005aa3f0(1) on each item.
+// Clears the referenced-object cache's script if it is this script, then iterates the list from FUN_005d43c0 and calls FUN_005aa3f0(1) on each item.
 // @fnv 0x005aa350
 void ClsX::FUN_005aa350()
 {
-    if ((*reinterpret_cast<::fnv_005aa350::TlsSlot *>(&::DAT_0126fd98)).pCached == this)
-        (*reinterpret_cast<::fnv_005aa350::TlsSlot *>(&::DAT_0126fd98)).pCached = 0;
+    if (g_tlsBlock.lastRefObjectScript == reinterpret_cast<Script*>(this))
+        g_tlsBlock.lastRefObjectScript = 0;
     ListX* pList = ((::fnv_005aa350::ListX *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     while (pList != 0 && !pList->FUN_008256d0())
     {

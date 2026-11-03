@@ -116,6 +116,13 @@
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_01018000.h"
 #include <xmmintrin.h>
+
+// The geometry field that the folded field setter at 0x00874460 writes.
+struct GeometryShaderSlotView
+{
+    char pad[0xc0];
+    void* pValueC0;
+};
 struct BSTreeModel
 {
     virtual ~BSTreeModel();
@@ -552,7 +559,7 @@ void TreeModelX::FUN_00667470()
         {
             if (qpDOY[qrEZrs])
             {
-                reinterpret_cast<::S_0060ba10 *>(&(qEMUOs))->FUN_0096a610((int)&(qrEZrs));
+                reinterpret_cast<::S_0060ba10 *>(&(qEMUOs))->FUN_0096a610((std::intptr_t)&(qrEZrs));
             }
         }
         delete[] qpDOY;
@@ -1972,7 +1979,7 @@ Tree* Model::CreateTree(float scale)
                 }
             }
             if (reinterpret_cast<::FUN_00666f00_shell *>(this)->FUN_00666f00())
-                reinterpret_cast<::FUN_00874460_cls *>((geometryX))->set((int)(shader));
+                reinterpret_cast<::GeometryShaderSlotView *>((geometryX))->pValueC0 = shader;
             tree5->SetBranch(i, geometryX);
         }
         if (!reinterpret_cast<::FUN_00666f00_shell *>(this)->FUN_00666f00())
@@ -2008,7 +2015,7 @@ Tree* Model::CreateTree(float scale)
                 reinterpret_cast<::FUN_00439410_cls *>((geometryX))->FUN_00439410((::ArgObject *)(::TreeBuild::Property *)(((::TreeBuild::Property *)(::FUN_00559450((int *)&(leafProperties[i]))))));
             }
             tree5->SetLeaf(i, geometryX);
-            reinterpret_cast<::FUN_00874460_cls *>((geometryX))->set((int)(shader));
+            reinterpret_cast<::GeometryShaderSlotView *>((geometryX))->pValueC0 = shader;
             ((::TreeBuild::Renderer *)(::FUN_0043c4b0()))->Prepare(geometryX, 0, 0, 0);
         }
     }
@@ -2499,7 +2506,6 @@ struct FUN_00414430
     FUN_00414430();
     FUN_00414430(float fA, float fB, float fC, float fD);
 };
-unsigned int FUN_0044edb0(void* pTree);
 void FUN_00804cb0(void* pObject, float fValue);
 class TESObjectREFR
 {
@@ -2791,9 +2797,9 @@ void TreeLeafModel::FUN_00668500(TreeLeafRef* pRef)
     if (m_pLeafTreeRuntime && ((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((m_pLeafTreeRuntime))->FUN_0044edb0())))
     {
         ((FUN_00621b20_Class*)(NiAVObject*)m_spLeafMaterial)
-            ->FUN_00621b20(((TESObjectREFR*)FUN_0044edb0(m_pLeafTreeRuntime))->GetScale());
+            ->FUN_00621b20(((TESObjectREFR*)reinterpret_cast<::MagicCaster_shell *>((m_pLeafTreeRuntime))->FUN_0044edb0())->GetScale());
         ((FUN_006694c0_shell*)(NiAVObject*)m_spLeafMaterial)
-            ->SetPad5(((FUN_00792760_shell*)FUN_0044edb0(m_pLeafTreeRuntime))->FUN_00792760());
+            ->SetPad5(((FUN_00792760_shell*)reinterpret_cast<::MagicCaster_shell *>((m_pLeafTreeRuntime))->FUN_0044edb0())->FUN_00792760());
         if (pRef)
         {
             ((BSMultiBoundSphere*)(NiAVObject*)m_spLeafMaterial)->FUN_00819a50(pRef->GetWidth());
@@ -2863,7 +2869,7 @@ void TreeLeafModel::FUN_00668500(TreeLeafRef* pRef)
         m_pspLeafGeometry[usI] =
             new FUN_00a7b630(usVertCount, pkVertex, pkNorm, 0, pkUVCoords, 1, 0, usLeafCount * 2, pusTris);
         spWindData = new FUN_00bb33c0;
-        ((FUN_006684d0_shell*)(NiAVObject*)spWindData)->FUN_006684d0((int)pkAttributes, usVertCount);
+        ((FUN_006684d0_shell*)(NiAVObject*)spWindData)->FUN_006684d0((std::intptr_t)pkAttributes, usVertCount);
         m_pspLeafShaders[usI] = new FUN_00bb3ba0(usI, spWindData, m_spLeafMaterial);
         m_pspLeafShaders[usI]->SetMaterial(m_spLeafTexture);
         ((NiGPUProgramOwner*)(NiAVObject*)m_pspLeafGeometry[usI])->SetProgram(m_pspLeafShaders[usI]->GetProgram(0));

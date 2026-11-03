@@ -9477,7 +9477,7 @@ bool LandOwner535d_od_rtti::FUN_00535d00()
     else
     {
         LandWorld535d* world = ((::LandWorld535d *)(reinterpret_cast<::FUN_005340b0_Class_od_rtti *>(this)->FUN_005340b0()));
-        if (!world || !reinterpret_cast<::FUN_00585ee0_shell *>((world))->FindParentFile(reinterpret_cast<::FUN_00533fd0_Class *>(this)->FUN_00533fd0(), reinterpret_cast<::fnv_00534010::FUN_00534010 *>(this)->GetY(), (unsigned int *)(::LandFile535d **)(&_fileIndex), &_uBlockOffset))
+        if (!world || !reinterpret_cast<::FUN_00585ee0_shell *>((world))->FindParentFile(reinterpret_cast<::FUN_00533fd0_Class *>(this)->FUN_00533fd0(), reinterpret_cast<::fnv_00534010::FUN_00534010 *>(this)->GetY(), (void **)(::LandFile535d **)(&_fileIndex), &_uBlockOffset))
             return true;
     }
     if (failedActor_2)

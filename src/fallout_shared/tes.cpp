@@ -327,6 +327,18 @@
 #include "fnv/decl/fnv_00547ad0__CellMask.h"
 #include "fnv/symbols_00441000.h"
 #include "fnv/symbols_0057d000.h"
+
+// Layout of the TES fields the grid lookups read: the loaded grid cell array and the exterior
+// cell coordinates at its centre.
+struct TESGridView
+{
+    const void* pVtable;
+    void* unk04;
+    void* pGridCellArray;
+    char pad0c[0x24 - 0x0c];
+    int iCenterCellX;
+    int iCenterCellY;
+};
 struct GlobalObject_00a7b610
 {
 };
@@ -4575,7 +4587,7 @@ struct TESSaveLoadGame
 {
 };
 
-struct FUN_00451900_shell
+struct FUN_00451900_shell : ::TESGridView
 {
     TESObjectCELL* FUN_00451900(int aiCellX, int aiCellY);
 };
@@ -4588,9 +4600,9 @@ TESObjectCELL* FUN_00451900_shell::FUN_00451900(int aiCellX, int aiCellY)
     int igridX;
     int igridY;
 
-    igridX = aiCellX - (*reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x24) -
+    igridX = aiCellX - (iCenterCellX -
                         (static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))) >> 1));
-    igridY = aiCellY - (*reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x28) -
+    igridY = aiCellY - (iCenterCellY -
                         (static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))) >> 1));
     pcell = 0;
 
@@ -4598,7 +4610,7 @@ TESObjectCELL* FUN_00451900_shell::FUN_00451900(int aiCellX, int aiCellY)
         static_cast<unsigned int>(igridY) < static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))) && igridX >= 0 && igridY >= 0)
     {
         pcell = *reinterpret_cast<TESObjectCELL**>(
-            reinterpret_cast<GridCellArray*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x08))
+            reinterpret_cast<GridCellArray*>(pGridCellArray)
                 ->Get(static_cast<unsigned int>(igridX), static_cast<unsigned int>(igridY)));
     }
 
@@ -4630,7 +4642,7 @@ struct TESSaveLoadGame
 };
 
 
-struct FUN_00452ed0_shell
+struct FUN_00452ed0_shell : ::TESGridView
 {
     bool FUN_00452ed0();
 };
@@ -4648,16 +4660,16 @@ bool FUN_00452ed0_shell::FUN_00452ed0()
     if (!((::fnv_00452ed0::TESWorldSpace *)(reinterpret_cast<::EffectSetting *>((reinterpret_cast<TESSaveLoadGame*>(::g_TES)))->GetHitSound())))
         return false;
 
-    pgc = *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x24) -
+    pgc = iCenterCellX -
           (static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))) >> 1);
-    ix = *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x28) -
+    ix = iCenterCellY -
          (static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))) >> 1);
 
     for (icellY = 0; static_cast<unsigned int>(icellY) < static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))); ++icellY)
     {
         for (iy = 0; iy < static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))); ++iy)
         {
-            pcell = static_cast<GridCell*>((*reinterpret_cast<GridCellArray**>(reinterpret_cast<char*>(this) + 8))
+            pcell = static_cast<GridCell*>(reinterpret_cast<GridCellArray*>(pGridCellArray)
                                                ->Get(static_cast<unsigned int>(icellY), iy));
 
             if (pcell)

@@ -1166,4 +1166,78 @@ void AlchemyItemMagic::FUN_00403600(MagicItem* source)
     ::__memcpy(GetData(), ((AlchemyItemMagic*)item)->GetData(), 0x14);
 }
 
+// sub ecx,0x30; jmp FUN_004029b0
+// MSVC adjustor thunk: a derived class overrides a virtual declared by two bases;
+// the secondary-base vtable entry is a thunk that moves 'this' back by the primary base size.
+struct PrimaryBase
+{
+    virtual void FUN_00403a50();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_00403a50();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x00403a50
+    virtual void FUN_00403a50();
+};
+
+Derived::Derived()
+{}
+
+// sub ecx,0x4c; jmp target  ==  MSVC adjustor thunk: the derived class overrides a virtual that both
+// bases declare, so the secondary base's vtable gets a thunk that moves `this` back by the primary base size (0x4c).
+struct AdjustPrimaryBase
+{
+    virtual void FUN_00403a60();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+};
+
+struct AdjustSecondaryBase
+{
+    virtual void FUN_00403a60();
+};
+
+struct AdjustDerived : AdjustPrimaryBase, AdjustSecondaryBase
+{
+    AdjustDerived();
+// @fnv 0x00403a60
+    virtual void FUN_00403a60();
+};
+
+AdjustDerived::AdjustDerived()
+{}
+
 #include "generated/data/fallout_shared/magic/alchemyitem.inc"

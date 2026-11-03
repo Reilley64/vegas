@@ -34,6 +34,12 @@
 #include "fnv/symbols_0048e000.h"
 #include "fnv/symbols_005b5000.h"
 #include "bgsnote_decls.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_005e8d40_shell.h"
+#include "fnv/decl/FUN_005e9130_shell.h"
+#include "fnv/decl/FUN_005e9270_shell.h"
+#include "fnv/decl/FUN_005e92d0_shell.h"
+#include "fnv/symbols_00472000.h"
 // @fnv 0x005e8240
 void BGSNote::ResetFormData()
 {
@@ -802,3 +808,28 @@ bool NoteCompare::FUN_005e8d60(TESForm* apForm)
     return false;
 }
 }  // namespace fnv_005e8d60
+
+// Adjustor thunk: the derived class inherits a virtual that is declared by a
+// secondary base, so MSVC emits a this-adjusting thunk that moves `this` back
+// to the primary sub-object (sizeof(NotePrimaryBase) == 0x30) before jumping
+// to the implementation.
+struct NotePrimaryBase
+{
+    virtual void FUN_005e9520();
+    char unk04[0x2c];
+};
+
+struct NoteSecondaryBase
+{
+    virtual void FUN_005e9520();
+};
+
+struct NoteDerived : NotePrimaryBase, NoteSecondaryBase
+{
+    NoteDerived();
+// @fnv 0x005e9520
+    virtual void FUN_005e9520();
+};
+
+NoteDerived::NoteDerived()
+{}

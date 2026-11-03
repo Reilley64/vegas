@@ -45,6 +45,7 @@
 #include "fnv/symbols_011ca000.h"
 #include "bgsexplosion_types_BGSExplosion.h"
 #include "bgsexplosion_decls.h"
+#include "fnv/symbols_00472000.h"
 
 // Clears the explosion's field to 0 and calls InitExplosionData on the object returned by FUN_004fadc0.
 // @fnv 0x004fade0
@@ -754,5 +755,40 @@ void BGSExplosion_shell::FUN_004fb5a0(TESForm* apCopy)
     memcpy(FUN_004fadc0(), pcopy->FUN_004fadc0(), 0x34);
     reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((((EffectSetting_shell*)this)))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(::TESObjectLIGH *)(((EffectSetting_shell*)pcopy)->GetLight()));
 }
+
+// sub ecx,0x3c; jmp FUN_004facf0  ==  MSVC adjustor thunk (multiple inheritance, primary base size 0x3c)
+struct PrimaryBase
+{
+    virtual void FUN_004fb9f0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_004fb9f0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x004fb9f0
+    virtual void FUN_004fb9f0();
+};
+
+Derived::Derived()
+{}
 
 #include "generated/data/fallout_shared/bgsexplosion.inc"

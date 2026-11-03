@@ -27,6 +27,8 @@
 #include "tesobjectstat_load.h"
 #include "tesobjectstat_global.h"
 #include "tesobjectstat_types_TESObjectSTAT.h"
+#include <new>
+#include "fnv/symbols_00472000.h"
 
 // Initializes a TESGlobal: sets cType to 's', fValue to 0.0f, and the form type to 6.
 // @fnv 0x005a6320
@@ -248,4 +250,41 @@ void StatCopy::FUN_0051b5f0(TESForm* apCopy)
     this->m_pSoundForm = pcopy->m_pSoundForm;
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(pcopy);
     this->m_cType = pcopy->m_cType;
+}
+
+struct Primary231
+{
+    virtual void* DestroyIfFlagged(unsigned int);
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+};
+
+struct Secondary231
+{
+    virtual void* DestroyIfFlagged(unsigned int) = 0;
+};
+
+struct FUN_0051b6d0 : Primary231, Secondary231
+{
+// @fnv 0x0051b6d0
+    FUN_0051b6d0();
+    void* DestroyIfFlagged(unsigned int);
+};
+
+struct Complete231 : FUN_0051b6d0
+{
+};
+
+void* Make231(void* storage)
+{
+    return new (storage) Complete231;
 }

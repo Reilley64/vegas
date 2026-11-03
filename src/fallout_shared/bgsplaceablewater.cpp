@@ -33,6 +33,14 @@
 #include "bgsplaceablewater_decls.h"
 #include "bgsplaceablewater_types_BGSPlaceableWater.h"
 #include <malloc.h>
+#include "fnv/decl/FUN_004fc360_shell.h"
+#include "fnv/decl/FUN_004fc3a0_shell.h"
+#include "fnv/decl/FUN_004fc3c0_shell.h"
+#include "fnv/decl/FUN_004fc3e0_shell.h"
+#include "fnv/decl/FUN_004fc400_shell.h"
+#include "fnv/decl/FUN_004fc470_shell.h"
+#include "fnv/decl/FUN_004fc490_shell.h"
+#include "fnv/decl/fnv_004fc450__FUN_004fc450_shell.h"
 
 // @fnv 0x004fc1b0
 BGSPlaceableWater::BGSPlaceableWater() : TESBoundObject(), TESModel()
@@ -381,4 +389,37 @@ struct FUN_004fc240 : public BGSPlaceableWater
     virtual ~FUN_004fc240();
 };
 FUN_004fc240::~FUN_004fc240()
+{}
+
+// sub ecx,0x30; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
+// declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x30).
+struct PrimaryBase
+{
+    virtual void FUN_004fcbf0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_004fcbf0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x004fcbf0
+    virtual void FUN_004fcbf0();
+};
+
+Derived::Derived()
 {}

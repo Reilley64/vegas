@@ -87,3 +87,80 @@ bool FUN_0067c960_shell::FUN_0067c960(TESPackageData* apCompare)
         return true;
     return false;
 }
+
+// src/fallout_shared/packagedatauseitem_rtti_variant.cpp - RTTI variant unit created 2026-10-24 by rtti_variants.py for paused functions whose original code needs
+// polymorphic classes (TESPackageData_rtti, TESUseItemPackageData_rtti). The skeleton of src/fallout_shared/packagedatauseitem.cpp with those classes made polymorphic; move the functions to
+// their real unit once its classes are.
+
+// src/fallout_shared/packagedatauseitem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/packagedatauseitem.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+extern "C" void __cdecl FUN_004856d0(int);
+
+struct TESPackageData_rtti
+{
+    virtual ~TESPackageData_rtti();  // the original class is polymorphic (rtti_variants.py)
+    void Save(int);
+};
+
+struct TESUseItemPackageData_rtti
+{
+    virtual ~TESUseItemPackageData_rtti();  // the original class is polymorphic (rtti_variants.py)
+    TESPackageData_rtti base;
+    LocationDescriptor* m_pPackageTarget;
+    void FUN_0067c9d0();
+};
+
+struct FUN_0067c7a0_shell_rtti : TESUseItemPackageData_rtti
+{
+    void FUN_0067c7d0();
+    void* FUN_0067c7a0(unsigned int flags);
+};
+
+struct LocationDescriptor_rtti_decl
+{
+    void Save(int);
+    unsigned int u0, u4, u8;
+    LocationDescriptor_rtti_decl();
+    ~LocationDescriptor_rtti_decl();
+public:
+    void Copy(::LocationDescriptor_rtti_decl *, bool);
+};
+
+struct TESPackageData_rtti_decl
+{
+    virtual ~TESPackageData_rtti_decl();  // the original class is polymorphic (rtti_variants.py)
+    void Save(int);
+};
+
+struct TESUseItemPackageData_rtti_decl : TESPackageData_rtti_decl
+{
+    virtual ~TESUseItemPackageData_rtti_decl();  // the original class is polymorphic (rtti_variants.py)
+    LocationDescriptor_rtti_decl* m_pPackageTarget;
+    void FUN_0067c9d0();
+    void FUN_0067c860(TESPackageData_rtti_decl* source);
+};
+
+struct FUN_0067c7a0_shell_rtti_decl : TESUseItemPackageData_rtti_decl
+{
+    void FUN_0067c7d0();
+    void* FUN_0067c7a0(unsigned int flags);
+};
+
+// @fnv 0x0067c860
+void TESUseItemPackageData_rtti_decl::FUN_0067c860(TESPackageData_rtti_decl* source)
+{
+    TESUseItemPackageData_rtti_decl* copy = dynamic_cast<TESUseItemPackageData_rtti_decl*>(source);
+    if (copy)
+    {
+        if (m_pPackageTarget)
+        {
+            delete m_pPackageTarget;
+            m_pPackageTarget = 0;
+        }
+        if (copy->m_pPackageTarget)
+        {
+            m_pPackageTarget = new LocationDescriptor_rtti_decl;
+            m_pPackageTarget->Copy(copy->m_pPackageTarget, false);
+        }
+    }
+}

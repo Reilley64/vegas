@@ -46,6 +46,21 @@
 #include "fnv/symbols_011cf000.h"
 #include "fnv/symbols_011d0000.h"
 #include "fnv/symbols_011d1000.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_0056ded0.h"
+#include "fnv/decl/FUN_00c8d280_cls.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/NiPosData.h"
+#include "fnv/decl/NiTransform.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/WorldObject_c8d3.h"
+#include "fnv/decl/_dummy_476a80.h"
+#include "fnv/decl/fnv_00437c10__FUN_00437c10.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_004a3000.h"
 struct FUN_006295a0_shell
 {
     void FUN_006295a0();
@@ -1040,6 +1055,109 @@ void __cdecl FUN_0062c430(VtObj* apVtObj)
             }
         }
     }
+}
+
+
+
+struct Point3
+{
+    float x, y, z;
+};
+
+struct Aabb
+{
+    __m128 minimum, maximum;
+};
+
+struct HavokTransform
+{
+    __m128 rotation0, rotation1, rotation2, translation;
+};
+
+struct Transform
+{
+    float rotation[3][3];
+    Point3 translation;
+    float scale;
+    Transform* FUN_0062c250(Transform* out, const Transform* other) const;
+    Point3* FUN_00524c40(Point3* out, const Point3* point) const;
+};
+
+struct Node
+{
+};
+
+struct WorldObject
+{
+};
+
+struct CollisionObject
+{
+};
+
+struct RTTI;
+
+// @fnv 0x0062bfb0
+Point3* FUN_0062bfb0(Point3* out, Node* node)
+{
+    Point3 chosen = (*reinterpret_cast<::Point3 *>((void *)&::NiPoint3::ZERO));
+    CollisionObject* collision = ((::CollisionObject *)(::fnv_004b5260::FUN_004b5260((::NiAVObject *)(node))));
+    if (collision)
+    {
+        WorldObject* body = ((::WorldObject *)(::fnv_006fa820::FUN_006fa820((const char *)(collision))));
+        if (body)
+        {
+            Aabb bounds;
+            new ((void *)&(bounds)) ::fnv_00437c10::FUN_00437c10();
+            reinterpret_cast<::WorldObject_c8d3 *>((body))->GetAabb((*(::Aabb_c8d3 *)(&bounds)));
+            Point3 minimum;
+            new ((void *)&(minimum)) ::Vec3();
+            ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&minimum)), (*(const ::hkVector4 *)(&bounds.minimum)));
+            Point3 maximum;
+            new ((void *)&(maximum)) ::Vec3();
+            ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&maximum)), (*(const ::hkVector4 *)(&bounds.maximum)));
+            Point3 lower, upper, minTermA, maxTermA, minTermB, maxTermB;
+            reinterpret_cast<::Point3Offset *>((void *)(((::Point3 *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::Point3 *)(&maxTermA), .55f, (const ::NiPoint3 *)(const ::Point3 *)(&maximum))))))->ProjectileLaunched((::NiPoint3 *)(::Point3 *)(&upper), (::NiPoint3 *)(((::Point3 *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::Point3 *)(&minTermA), .45f, (const ::NiPoint3 *)(const ::Point3 *)(&minimum))))));
+            reinterpret_cast<::Point3Offset *>((void *)(((::Point3 *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::Point3 *)(&maxTermB), .45f, (const ::NiPoint3 *)(const ::Point3 *)(&maximum))))))->ProjectileLaunched((::NiPoint3 *)(::Point3 *)(&lower), (::NiPoint3 *)(((::Point3 *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::Point3 *)(&minTermB), .55f, (const ::NiPoint3 *)(const ::Point3 *)(&minimum))))));
+            Point3 random;
+            chosen = *((::Point3 *)(reinterpret_cast<::FUN_00416870_t *>(&(random))->FUN_00416870(::RandomFloat(lower.x, upper.x), ::RandomFloat(lower.y, upper.y),
+                                          ::RandomFloat(lower.z, upper.z))));
+            if (::FUN_0043b300((const ::NiRTTI *)(const ::RTTI *)(&(*reinterpret_cast<::RTTI *>(&::g_012683c8))), (::NiAVObject *)(body)) || ((::Node *)(reinterpret_cast<::Twin_0044ddc0 *>((collision))->GetName())) != node)
+            {
+                HavokTransform bodyHavok;
+                new ((void *)&(bodyHavok)) ::FUN_0056ded0();
+                reinterpret_cast<::FUN_00c8d280_cls *>((body))->FUN_00c8d280((::S8d280_Mat *)(::HavokTransform *)(&bodyHavok));
+                Transform bodyWorld;
+                reinterpret_cast<::_dummy_476a80 *>(&(bodyWorld))->FUN_00476a80();
+                ::FUN_00624ad0((::NiTransform *)(struct ::Transform *)(&bodyWorld), (::TopicH *)(&bodyHavok));
+                bodyWorld.scale = 1.0f;
+                Transform inverse;
+                reinterpret_cast<::_dummy_476a80 *>(&(inverse))->FUN_00476a80();
+                reinterpret_cast<::NiTransform *>((void *)(((const struct ::Transform *)(::FUN_00461130((int)(node))))))->CalculateInverse((*(::NiTransform *)(&inverse)));
+                Transform composed;
+                Point3 transformed;
+                chosen = *inverse.FUN_0062c250(&composed, &bodyWorld)->FUN_00524c40(&transformed, &chosen);
+            }
+        }
+    }
+    *out = chosen;
+    return out;
+}
+
+struct __declspec(align(16)) V_0062b8d0
+{
+    char buf[16];
+
+    V_0062b8d0();
+};
+
+// @fnv 0x0062b8d0
+void __cdecl FUN_0062b8d0(void* object, const void* in, unsigned char flag)
+{
+    V_0062b8d0 v;
+
+    ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&v)), (*(const ::fnv_004a3e00::NiPoint3 *)(in)));
+    ::FUN_0062b930((::NiAVObject *)(object), (::Vec3Arg *)(::V_0062b8d0 *)(&v), flag);
 }
 
 #include "generated/data/fallout_shared/havok/teshavokutilities.inc"

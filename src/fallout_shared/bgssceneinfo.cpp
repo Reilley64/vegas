@@ -83,6 +83,7 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_01202000.h"
+#include "fnv/decl/FUN_004a95d0_shell.h"
 struct FUN_004a7cf0_shell
 {
     int m_0000;
@@ -1400,6 +1401,147 @@ void* FUN_004a9970_shell::FUN_004a9660(unsigned int flags)
 FUN_004a9970::~FUN_004a9970()
 {
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+}
+
+struct Script_o2
+{
+    int GetText();
+};
+
+unsigned char __cdecl FUN_004a82c0();
+
+int __cdecl MinInt(int iA, int iB);
+
+struct FUN_004a8f50_shell_o2
+{
+    void FUN_004a95d0(int a);
+    void* FUN_004a8f50();
+};
+
+struct GlobalObject2_0040c150_o2
+{
+    int* Int();
+};
+
+struct GlobalObject2_0045cfe0_o2
+{
+    int* Int();
+};
+
+GlobalObject2_0045cfe0_o2 g_011c59e0;
+
+struct FUN_004a9850_shell_o2
+{
+    void FUN_004a9850();
+};
+
+void __cdecl _Deallocate(void* p);
+
+struct __declspec(align(16)) ChildBuffer
+{
+    char name[512];
+};
+
+struct Node;
+
+struct TileWorkList
+{
+    virtual void vf00();
+    virtual void vf04();
+    virtual int GetFirst();
+    virtual int GetNext(int index);
+    virtual void vf10();
+    virtual Node* GetAt(int index, ChildBuffer* buffer);
+};
+
+struct Node
+{
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0c();
+    virtual TileWorkList* GetChildren();
+
+};
+
+// @fnv 0x004a9240
+int __cdecl FUN_004a9240(Node* node)
+{
+    if (node == 0)
+        return 0;
+    int count = 0;
+    switch (((int)(::fnv_0043b230::FUN_0043b230((const char *)(node)))))
+    {
+    case 3:
+        return 1;
+        break;
+    case 10: {
+        Node* obj = node;
+        TileWorkList* list = obj->GetChildren();
+        int index = list->GetFirst();
+        while (index != -1)
+        {
+            ChildBuffer buffer;
+            Node* child = list->GetAt(index, &buffer);
+            if (child == 0)
+                break;
+            count += FUN_004a9240(child);
+            index = list->GetNext(index);
+        }
+        return count;
+    }
+    break;
+    case 9: {
+        Node* obj = node;
+        TileWorkList* list = obj->GetChildren();
+        int index = list->GetFirst();
+        while (index != -1)
+        {
+            ChildBuffer buffer;
+            Node* child = list->GetAt(index, &buffer);
+            if (child == 0)
+                break;
+            count += FUN_004a9240(child);
+            index = list->GetNext(index);
+        }
+        return count;
+    }
+    break;
+    case 22: {
+        Node* obj = node;
+        TileWorkList* list = obj->GetChildren();
+        int index = list->GetFirst();
+        while (index != -1)
+        {
+            ChildBuffer buffer;
+            Node* child = list->GetAt(index, &buffer);
+            if (child == 0)
+                break;
+            count += FUN_004a9240(child);
+            index = list->GetNext(index);
+        }
+        return count;
+    }
+    break;
+    case 23: {
+        Node* obj = node;
+        TileWorkList* list = obj->GetChildren();
+        int index = list->GetFirst();
+        while (index != -1)
+        {
+            ChildBuffer buffer;
+            Node* child = list->GetAt(index, &buffer);
+            if (child == 0)
+                break;
+            count += FUN_004a9240(child);
+            index = list->GetNext(index);
+        }
+        return count;
+    }
+    break;
+    default:
+        return 10;
+    }
 }
 
 #include "generated/data/fallout_shared/bgssceneinfo.inc"

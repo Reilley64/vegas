@@ -98,6 +98,9 @@
 #include "fnv/symbols_011d8000.h"
 #include "fnv/symbols_011de000.h"
 #include "tesobjectdoor_decls.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/symbols_00472000.h"
+#include "tesobjectdoor_decls_decl_tesobjectdoor.h"
 // Loads a TESObjectDOOR record from a TESFile, dispatching each chunk to the matching sub-record loader and returning false if the form type is not 28.
 // @fnv 0x005177f0
 bool TESObjectDOOR::Load(TESFile* file)
@@ -2411,5 +2414,48 @@ void __cdecl FUN_00519290()
         }
     }
 }
+
+// @fnv 0x00517500
+TESObjectDOOR::~TESObjectDOOR()
+{
+    ClearData();
+}
+
+// Adjustor thunk: sub ecx,0x3c; jmp FUN_005174d0
+// Both bases declare the same virtual; Derived overrides it, so the compiler
+// emits a this-adjusting thunk in Derived's vtable for the secondary base.
+struct PrimaryBase
+{
+    virtual void FUN_00519cb0();
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_00519cb0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x00519cb0
+    virtual void FUN_00519cb0();
+};
+
+Derived::Derived()
+{}
 
 #include "generated/data/fallout_shared/tesobjectdoor.inc"

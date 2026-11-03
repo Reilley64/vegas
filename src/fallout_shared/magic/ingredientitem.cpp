@@ -557,3 +557,36 @@ FUN_0040a140::~FUN_0040a140()
 {
     reinterpret_cast<::fnv_00406340::EffectItemList *>(this)->FUN_00406340();
 }
+
+// sub ecx,0x30; jmp <target>  ==  MSVC adjustor thunk for a second base.
+// PrimaryBase is vptr + 11 ints = 0x30 bytes. The shared virtual is named after the claim.
+struct PrimaryBase
+{
+    virtual void FUN_0040a120();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0040a120();
+};
+
+struct AdjustedDerived : PrimaryBase, SecondaryBase
+{
+    AdjustedDerived();
+// @fnv 0x0040a120
+    virtual void FUN_0040a120();
+};
+
+AdjustedDerived::AdjustedDerived()
+{}

@@ -68,6 +68,13 @@
 #include "fnv/symbols_011de000.h"
 #include "tescontainer_decls.h"
 #include "BaseFormComponent.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_0040e7f0_owner.h"
+#include "fnv/decl/FUN_00481a90_shell.h"
+#include "fnv/decl/p07__DelStandIn.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 
 class ContainerItemExtra
 {
@@ -2040,5 +2047,184 @@ Script* FUN_004826d0(TESForm* apForm)
     return pSF ? ((::fnv_004826d0::Script *)(reinterpret_cast<::Callees *>((pSF))->FUN_00726070())) : 0;
 }
 }  // namespace fnv_004826d0
+
+class ContainerItemExtra_rtti2
+{
+  public:
+    void* m_pForm;
+    union
+    {
+        void* m_pGlobal;
+        int m_cRank;
+        unsigned int bits;
+    };
+    float m_fHealth;
+    ContainerItemExtra_rtti2();
+    void Copy(ContainerItemExtra_rtti2* other);
+    bool IsDefault();
+};
+
+class InventoryItemEntry_rtti2
+{
+  public:
+    int count;
+    void* object;
+    ContainerItemExtra_rtti2* extra;
+    void Copy(InventoryItemEntry_rtti2* other);
+};
+
+class TESContainer_rtti2;
+
+struct CopyComponentState_rtti2
+{
+    BSSimpleList<InventoryStackRecord*>* list;
+    TESContainer_rtti2* source;
+};
+
+class TESContainer_rtti2 : public BaseFormComponent
+{
+  public:
+    BSSimpleList<InventoryStackRecord*> objectList;
+    virtual void Init();
+    void ClearObjects();
+    void InitItem(TESForm_rtti2* form);
+    virtual void Free();
+    virtual void CopyFromBase(BaseFormComponent* component);
+    ~TESContainer_rtti2();
+    bool HasObjectOfType(TESObject* object);
+    int GetObjectCount(TESObject* object);
+    static bool IsValidContainerType(unsigned char type);
+    TESContainer_rtti2();
+};
+
+class TESFile;
+
+class TESForm_rtti2
+{
+  public:
+    virtual void vfn000();
+    virtual void vfn004();
+    virtual void vfn008();
+    virtual void vfn00C();
+    virtual void vfn010();
+    virtual void vfn014();
+    virtual void vfn018();
+    virtual void vfn01C();
+    virtual void vfn020();
+    virtual void vfn024();
+    virtual void vfn028();
+    virtual void vfn02C();
+    virtual void vfn030();
+    virtual void vfn034();
+    virtual void vfn038();
+    virtual void vfn03C();
+    virtual void vfn040();
+    virtual void vfn044();
+    virtual void vfn048();
+    virtual void vfn04C();
+    virtual void vfn050();
+    virtual void vfn054();
+    virtual void vfn058();
+    virtual void vfn05C();
+    virtual void vfn060();
+    virtual void vfn064();
+    virtual void vfn068();
+    virtual void vfn06C();
+    virtual void vfn070();
+    virtual void vfn074();
+    virtual void vfn078();
+    virtual void vfn07C();
+    virtual void vfn080();
+    virtual void vfn084();
+    virtual void vfn088();
+    virtual void vfn08C();
+    virtual void vfn090();
+    virtual void vfn094();
+    virtual void vfn098();
+    virtual void vfn09C();
+    virtual void vfn0A0();
+    virtual void vfn0A4();
+    virtual void vfn0A8();
+    virtual void vfn0AC();
+    virtual void vfn0B0();
+    virtual void vfn0B4();
+    virtual void vfn0B8();
+    virtual void vfn0BC();
+    virtual void vfn0C0();
+    virtual void vfn0C4();
+    virtual void vfn0C8();
+    virtual void vfn0CC();
+    virtual void vfn0D0();
+    virtual void vfn0D4();
+    virtual void vfn0D8();
+    virtual void vfn0DC();
+    virtual void vfn0E0();
+    virtual void vfn0E4();
+    virtual void vfn0E8();
+    virtual void vfn0EC();
+    virtual void vfn0F0();
+    virtual void vfn0F4();
+    virtual void vfn0F8();
+    virtual void vfn0FC();
+    virtual void vfn100();
+    virtual void vfn104();
+    virtual void vfn108();
+    virtual void vfn10C();
+    virtual void vfn110();
+    virtual void vfn114();
+    virtual void vfn118();
+    virtual void vfn11C();
+    virtual void vfn120();
+    virtual void vfn124();
+    virtual void vfn128();
+    virtual void vfn12C();
+    virtual const char* GetEditorID();
+
+public:
+    ::TESFile *GetFile(int);
+};
+
+class TESBoundObject_rtti2 : public TESForm_rtti2
+{
+};
+
+class B81390Extra
+{
+  public:
+};
+
+class B81390ContainerObject_rtti2
+{
+  public:
+    void FUN_00481390(TESForm_rtti2* pkOwner);
+
+    int m_iArrayLength;
+    TESBoundObject_rtti2* m_pPointer;
+    B81390Extra* m_pkExtra;
+};
+
+// @fnv 0x00481390
+void B81390ContainerObject_rtti2::FUN_00481390(TESForm_rtti2* pkOwner)
+{
+    unsigned int auiFormId = (unsigned int)m_pPointer;
+    ::ResolveFormID(&auiFormId, (::TESFile *)(((int)(pkOwner->GetFile(-1)))));
+    m_pPointer = dynamic_cast<TESBoundObject_rtti2*>(FUN_004839c0(auiFormId));
+    if (!m_pPointer)
+    {
+        if (pkOwner)
+        {
+            if (reinterpret_cast<::BGSCameraPath *>((pkOwner))->HasNameForWarning())
+                ::FUN_005b5e40();
+            else
+                ::FUN_005b5e40();
+        }
+        else
+        {
+            ::FUN_005b5e40();
+        }
+    }
+    if (m_pkExtra)
+        reinterpret_cast<::FUN_0040e7f0_owner *>((m_pkExtra))->ResolveFormReferences((::FormContext *)(pkOwner));
+}
 
 #include "generated/data/fallout_shared/tescontainer.inc"

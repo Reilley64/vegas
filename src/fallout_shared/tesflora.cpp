@@ -348,3 +348,62 @@ bool FUN_005089d0_cls::FUN_005089d0(void* apObject)
     }
     return false;
 }
+
+struct Prim_508db0
+{
+    virtual void FUN_00508db0();
+    int p04;
+    int p08;
+    int p0c;
+    int p10;
+    int p14;
+    int p18;
+    int p1c;
+    int p20;
+    int p24;
+    int p28;
+    int p2c;
+    int p30;
+    int p34;
+    int p38;
+    int p3c;
+    int p40;
+    int p44;
+};
+
+struct B1_508db0
+{
+    virtual void FUN_00508db0();
+};
+
+struct TO_508db0 : Prim_508db0, B1_508db0
+{
+// @fnv 0x00508db0
+    virtual void FUN_00508db0();
+};
+
+static TO_508db0 g_thunk;
+
+// sub ecx,0xc; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
+// declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0xc).
+struct PrimaryBase
+{
+    virtual void FUN_00508df0();
+    int unk04;
+    int unk08;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_00508df0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x00508df0
+    virtual void FUN_00508df0();
+};
+
+Derived::Derived()
+{}

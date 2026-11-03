@@ -102,6 +102,23 @@
 #include "fnv/symbols_011d7000.h"
 #include "fnv/symbols_011de000.h"
 #include "pathsmootherpov_decls.h"
+#include "fnv/decl/AvoidNodes__Search.h"
+#include "fnv/decl/ClearanceSearch.h"
+#include "fnv/decl/FUN_00505c00_shell.h"
+#include "fnv/decl/FUN_00507e10_shell.h"
+#include "fnv/decl/FUN_00697980_t.h"
+#include "fnv/decl/FUN_0069f900_shell.h"
+#include "fnv/decl/FUN_006b05d0_shell.h"
+#include "fnv/decl/FUN_006b1df0_shell.h"
+#include "fnv/decl/FUN_006b3380_shell.h"
+#include "fnv/decl/FUN_006b3420_shell.h"
+#include "fnv/decl/FloatValueProvider.h"
+#include "fnv/decl/LastNodeSearch17.h"
+#include "fnv/decl/PSSearchView.h"
+#include "fnv/decl/PathSmootherAccess.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/symbols_00533000.h"
+#include "pathsmootherpov_decls_decl_pathsmootherpov.h"
 
 // @fnv 0x006afcc0
 void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
@@ -7251,6 +7268,34 @@ bool ClearanceSearch::FUN_006b25f0(const NavMeshEdgePoint& origin, const NiPoint
                                                           ::DAT_01016970, savedHeight);
         hit->Location.z = savedHeight;
     }
+    return true;
+}
+
+// @fnv 0x006b23d0
+bool PathSmootherPOVSearch::FUN_006b23d0(const NavMeshEdgePoint& edge, Sphere& sphere, CircularArc arc)
+{
+    float firstRadius1 = arc.Direction == AD_CCW ? sphere.Radius - ::GetFloatAtOffset68((const char *)(pRequest)) * 0.9f
+                                                 : sphere.Radius + ::GetFloatAtOffset68((const char *)(pRequest)) * 0.9f;
+    NiPoint3 firstDirection0 = arc.Start.MakePointOnCircle(firstRadius1);
+    NavMeshEdgePoint firstLocation6;
+    Sphere firstSphere2(sphere.Center, firstRadius1);
+    float cost13 = 0.0f;
+    if (!reinterpret_cast<::PathSmootherAccess *>(this)->FindPath(edge, sphere.Center + firstDirection0, (::NavMeshEdgePoint *)&(firstLocation6), cost13))
+        return false;
+    NavMeshEdgePoint firstExit15;
+    if (!FUN_006b1e50(firstLocation6, firstSphere2, arc, &firstExit15))
+        return false;
+
+    float secondRadius1 = arc.Direction == AD_CCW ? sphere.Radius + ::GetFloatAtOffset68((const char *)(pRequest)) * 0.9f
+                                                  : sphere.Radius - ::GetFloatAtOffset68((const char *)(pRequest)) * 0.9f;
+    NiPoint3 secondDirection2 = arc.Start.MakePointOnCircle(secondRadius1);
+    NavMeshEdgePoint secondLocation2;
+    Sphere secondSphere12(sphere.Center, secondRadius1);
+    if (!reinterpret_cast<::PathSmootherAccess *>(this)->FindPath(edge, sphere.Center + secondDirection2, (::NavMeshEdgePoint *)&(secondLocation2), cost13))
+        return false;
+    NavMeshEdgePoint secondExit9;
+    if (!FUN_006b1e50(secondLocation2, secondSphere12, arc, &secondExit9))
+        return false;
     return true;
 }
 

@@ -162,4 +162,60 @@ unsigned char TESEatPackageData_StandIn::FUN_0067bb40(int arg)
     return 0;
 }
 
+struct TESEatPackageData_rtti
+{
+    virtual ~TESEatPackageData_rtti();  // the original class is polymorphic (rtti_variants.py)
+    void* m_pPackageTarget;
+    void FUN_0067bbb0();
+};
+
+struct LocationDescriptor_rtti
+{
+public:
+    void Copy(::LocationDescriptor_rtti *, bool);
+};
+
+extern "C" int __cdecl FUN_00ec43fb(int, int, int*, int*, int);
+
+struct FUN_0067f030
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    FUN_0067f030();
+    ~FUN_0067f030();
+};
+
+struct FUN_0067ba40_Result
+{
+    int unk00;
+    void* location;
+};
+
+struct TESEatPackageData_Copy
+{
+    int unk00;
+    FUN_0067f030* m_pPackageTarget;
+    void FUN_0067ba40(int flags);
+};
+
+// @fnv 0x0067ba40
+void TESEatPackageData_Copy::FUN_0067ba40(int flags)
+{
+    FUN_0067ba40_Result* result = (FUN_0067ba40_Result*)FUN_00ec43fb(flags, 0, &DAT_0119bdec, &DAT_0119be3c, 0);
+    if (result)
+    {
+        if (m_pPackageTarget)
+        {
+            delete m_pPackageTarget;
+            m_pPackageTarget = 0;
+        }
+        if (result->location)
+        {
+            m_pPackageTarget = new FUN_0067f030;
+            reinterpret_cast<::LocationDescriptor_rtti *>((m_pPackageTarget))->Copy((::LocationDescriptor_rtti *)(result->location), 0);
+        }
+    }
+}
+
 #include "generated/data/fallout_shared/packagedataeat.inc"

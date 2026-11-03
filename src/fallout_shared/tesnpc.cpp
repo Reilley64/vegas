@@ -279,6 +279,48 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f2000.h"
 #include "tesnpc_pc_decls.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/C42CE30.h"
+#include "fnv/decl/Dummy_00607810.h"
+#include "fnv/decl/ExtraOwnerB.h"
+#include "fnv/decl/FUN_004169d0_shell.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_0050d100_shell.h"
+#include "fnv/decl/FUN_005b8fc0_shell.h"
+#include "fnv/decl/FUN_00601800_shell.h"
+#include "fnv/decl/FUN_00601c10_shell.h"
+#include "fnv/decl/FUN_00602130_shell.h"
+#include "fnv/decl/FUN_00602170_shell.h"
+#include "fnv/decl/FUN_006031e0_shell.h"
+#include "fnv/decl/FUN_00603200_shell.h"
+#include "fnv/decl/FUN_00604210_shell.h"
+#include "fnv/decl/FUN_00606050_shell.h"
+#include "fnv/decl/FUN_00606800_shell.h"
+#include "fnv/decl/FUN_00607350_shell.h"
+#include "fnv/decl/FUN_00607830_helper.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_00629ab0_shell.h"
+#include "fnv/decl/FUN_0094eaf0_Class.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/HeadNPC.h"
+#include "fnv/decl/RaceAppearance__Race.h"
+#include "fnv/decl/Ref3.h"
+#include "fnv/decl/Self9.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/fnv_0043ecb0__FUN_0043ecb0_shell.h"
+#include "fnv/decl/fnv_0043ed90__AttachTask.h"
+#include "fnv/decl/fnv_008bb520__TES.h"
+#include "fnv/decl/fnv_00950110__FUN_00950110_pc.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_004c0000.h"
+#include "fnv/symbols_005d9000.h"
+#include "fnv/symbols_00655000.h"
+#include "fnv/decl/FUN_0060b370_shell.h"
+#include "fnv/symbols_011cc000.h"
+#include "tesnpc_pc_decls_decl_tesnpc.h"
 
 // @fnv 0x00601170
 TESNPC::TESNPC() : m_pkPrimaryFaceGenNode(0), m_pkSecondaryFaceGenNode(0), m_pkFaceGenTexture(0), undoStates(0, true)
@@ -8218,4 +8260,1273 @@ bool TESNPCActivate::FUN_00607990(TESObjectREFR* apTargetRef, TESObjectREFR* apA
     return false;
 }
 
+class Helper009f8770
+{
+  public:
+};
+
+class FUN_00484d40_Host_ctx
+{
+  public:
+    void FUN_00484d40(unsigned int* apFormID, int aiSize);
+};
+
+class FUN_004ac110_shell_ctx
+{
+  public:
+    TESRace* FUN_004ac110();
+};
+
+class FUN_009611e0_shell_ctx
+{
+  public:
+    int FUN_009611e0();
+};
+
+class FUN_006141f0_shell
+{
+  public:
+};
+
+class FUN_008b70d0_shell
+{
+  public:
+    Animation* FUN_008b70d0();
+};
+
+class FUN_004eaf60_shell_ctx
+{
+  public:
+    bool FUN_004eaf60();
+};
+
+class FUN_0043c610_shell
+{
+  public:
+    void RunVirtualMethod28();
+};
+
+class ActorView
+{
+  public:
+    TESActorBase* GetActorBase();
+};
+
+class GlobalObject_0040c150
+{
+  public:
+};
+
+extern GlobalObject_0040c150 g_011d2b38;
+
+class ActorFace
+{
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual void v0f4();
+    virtual void v0f8();
+    virtual void v0fc();
+    virtual void v100();
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+    virtual void v140();
+    virtual void v144();
+    virtual void v148();
+    virtual void v14c();
+    virtual void v150();
+    virtual void v154();
+    virtual void v158();
+    virtual void v15c();
+    virtual void v160();
+    virtual void v164();
+    virtual void v168();
+    virtual void v16c();
+    virtual void v170();
+    virtual void v174();
+    virtual void v178();
+    virtual void v17c();
+    virtual void v180();
+    virtual void v184();
+    virtual void v188();
+    virtual void v18c();
+    virtual void v190();
+    virtual void v194();
+    virtual void v198();
+    virtual void v19c();
+    virtual void v1a0();
+    virtual void v1a4();
+    virtual void v1a8();
+    virtual NiNode* GetHeadRootNode(bool);
+    virtual NiNode* GetFaceRootNode(bool);
+    virtual void v1b4();
+    virtual void v1b8();
+    virtual void v1bc();
+    virtual void v1c0();
+    virtual void UpdateHead();
+};
+
+class NodeFace
+{
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void InsertChild(NiAVObject*);
+};
+
+class ModelFace
+{
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void SetModelFilePath(const char*);
+};
+
+class NPCModelView_ctx
+{
+  public:
+    int pad[0xdc / 4];
+    ModelFace kModel;
+};
+
+class FaceRefr
+{
+  public:
+};
+
+class PlayerFace
+{
+  public:
+};
+
+class NPCFace
+{
+  public:
+};
+
+class FUN_005dd590
+{
+  public:
+    int data[0x3c];
+    FUN_005dd590();
+    ~FUN_005dd590();
+};
+
+class FaceGenPaletteEntry
+{
+  public:
+    int data[0xe];
+    ~FaceGenPaletteEntry();
+};
+
+class QHeadLocal : public FaceGenPaletteEntry
+{
+  public:
+    QHeadLocal(TESNPC* apNPC, int aiFlag);
+};
+
+class Animation;
+
+class NiAVObject;
+
+class MiddleHighProcess_ctx : public BaseProcess
+{
+public:
+    ::NiAVObject *GetSceneRoot();
+public:
+    bool IsActorInCombat();
+public:
+    ::Animation *GetAnimation();
+};
+
+class TESNPCFace : public TESNPC
+{
+  public:
+    void FUN_00609f60(Actor* apActor);
+};
+
+// @fnv 0x00609f60
+void TESNPCFace::FUN_00609f60(Actor* apActor)
+{
+    bool bChanged = false;
+    for (unsigned int i = 0; i < 2; i++)
+    {
+        for (unsigned int j = 0; j < 2; j++)
+        {
+            unsigned int uiNumRows = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell_ctx *>(&(m_kFaceGenCoordinates[i][j]))->FUN_009611e0()));
+            unsigned int uiNumCols = reinterpret_cast<::BGSTerrainManager *>(&(m_kFaceGenCoordinates[i][j]))->GetMinLevel();
+            for (unsigned int r = 0; r < uiNumRows; r++)
+            {
+                for (unsigned int c = 0; c < uiNumCols; c++)
+                {
+                    float fValue;
+                    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((Helper009f8770*)this)))->FUN_00484d00(&fValue, 4);
+                    if (*((const float *)&(reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::FaceGenCoordinateValue &)(m_kFaceGenCoordinates[i][j].FUN_0060b370(r, c)))->FUN_00629ab0({}))) != fValue)
+                    {
+                        *(float*)((const float *)&(reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::FaceGenCoordinateValue &)(m_kFaceGenCoordinates[i][j].FUN_0060b370(r, c)))->FUN_00629ab0({}))) = fValue;
+                        bChanged = true;
+                    }
+                }
+            }
+        }
+    }
+    bool bPrevHadRace = false;
+    if (((FUN_004ac110_shell_ctx*)this)->FUN_004ac110())
+        bPrevHadRace = false;
+    else
+        ::FUN_005b5e40();
+    unsigned int uiNewRace;
+    ((FUN_00484d40_Host_ctx*)this)->FUN_00484d40(&uiNewRace, 4);
+    TESRace* pRace = dynamic_cast<TESRace*>(FUN_004839c0(uiNewRace));
+    if (uiNewRace && !pRace)
+        ::FUN_005b5e40();
+    if (((::TESRace *)(reinterpret_cast<::Callees *>((void *)this)->FUN_00726070())) != pRace)
+        bChanged = true;
+    reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(pRace));
+    bool bNowHasRace = false;
+    if (((FUN_004ac110_shell_ctx*)this)->FUN_004ac110())
+        bNowHasRace = false;
+    else
+        ::FUN_005b5e40();
+    unsigned int uiNewHairFormID;
+    ((FUN_00484d40_Host_ctx*)this)->FUN_00484d40(&uiNewHairFormID, 4);
+    TESHair* pReadHair = dynamic_cast<TESHair*>(FUN_004839c0(uiNewHairFormID));
+    if (uiNewHairFormID && !pReadHair)
+        ::FUN_005b5e40();
+    if (m_pHair != pReadHair)
+        bChanged = true;
+    m_pHair = pReadHair;
+    unsigned int uiEyes;
+    ((FUN_00484d40_Host_ctx*)this)->FUN_00484d40(&uiEyes, 4);
+    TESEyes* pCurEyeForm = dynamic_cast<TESEyes*>(FUN_004839c0(uiEyes));
+    if (uiEyes && !pCurEyeForm)
+        ::FUN_005b5e40();
+    if (m_pEyes != pCurEyeForm)
+        bChanged = true;
+    m_pEyes = pCurEyeForm;
+    float fScaleMultiplier;
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((Helper009f8770*)this)))->FUN_00484d00(&fScaleMultiplier, 4);
+    unsigned int uiCurHairColor;
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((Helper009f8770*)this)))->FUN_00484d00(&uiCurHairColor, 4);
+    if (m_fHairLength != fScaleMultiplier || iHairColor != uiCurHairColor)
+        bChanged = true;
+    m_fHairLength = fScaleMultiplier;
+    iHairColor = uiCurHairColor;
+    bool bLoadedFemale;
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((Helper009f8770*)this)))->FUN_00484d00(&bLoadedFemale, 1);
+    if (TESActorBaseData::GetFlag(1) != bLoadedFemale)
+        bChanged = true;
+    reinterpret_cast<::FlagSet *>(this)->FUN_0047dd50(1, bLoadedFemale, true);
+    if (bChanged)
+    {
+        NiAVObject* p3D = ((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((apActor))->FUN_0043fcd0()));
+        NiNode* pNode = 0;
+        if (p3D)
+            pNode = p3D->IsSceneNode();
+        if (bPrevHadRace == bNowHasRace)
+        {
+            if (pNode)
+            {
+                NiControllerManager* pAnimManager = 0;
+                if (((FUN_008b70d0_shell*)apActor)->FUN_008b70d0() &&
+                    reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((((ActorAnimData*)((FUN_008b70d0_shell*)apActor)->FUN_008b70d0())))->FUN_00496940())
+                    pAnimManager = ((::NiControllerManager *)(::fnv_00537bd0::GetStringAtOffset((const char *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((((ActorAnimData*)((FUN_008b70d0_shell*)apActor)->FUN_008b70d0())))->FUN_00496940()))));
+                NiControllerManager* pkManager = pAnimManager;
+                NiNode* pFace = ((ActorFace*)apActor)->GetFaceRootNode(false);
+                if (pFace && ((FUN_009611e0_shell_ctx*)pFace)->FUN_009611e0())
+                {
+                    ::FUN_00a6e8e0((::S_00a6e8e0_Object *)(pFace), (::S_00a6e8e0_Palette *)(pkManager));
+                    ((NodeFace*)((FUN_009611e0_shell_ctx*)pFace)->FUN_009611e0())->InsertChild(pFace);
+                }
+                pFace = ((ActorFace*)apActor)->GetHeadRootNode(false);
+                if (pFace && ((FUN_009611e0_shell_ctx*)pFace)->FUN_009611e0())
+                {
+                    ::FUN_00a6e8e0((::S_00a6e8e0_Object *)(pFace), (::S_00a6e8e0_Palette *)(pkManager));
+                    ((NodeFace*)((FUN_009611e0_shell_ctx*)pFace)->FUN_009611e0())->InsertChild(pFace);
+                }
+            }
+            reinterpret_cast<::TESNPC *>((((NPCFace*)this)))->ResetFaceGen();
+            if (FUN_005d9f90((char*)apActor))
+                reinterpret_cast<::HeadNPC *>((((NPCFace*)this)))->FUN_00606820((::TESObjectREFR *)(apActor), (::NiPointer< ::BipedAnim> *)(FUN_005d9f90((char*)apActor)));
+            if (((ActorFace*)apActor)->GetHeadRootNode(false) && ((ActorFace*)apActor)->GetFaceRootNode(false))
+            {
+                FUN_005dd590 kData;
+                reinterpret_cast<::RaceAppearance::Race *>((((FUN_006141f0_shell*)((::TESRace *)(reinterpret_cast<::Callees *>((void *)this)->FUN_00726070())))))->BuildAppearance((::RaceAppearance::NPC *)(::TESActorBase *)(this), (::RaceAppearance::Output *)(void *)(&kData), (*(int *)&(const ::SEX &)(MALE)), false);
+                ::fnv_00655fa0::ApplyFaceGenTextures((::fnv_00655fa0::NiAVObject *)(::NiNode *)(((ActorFace*)apActor)->GetHeadRootNode(false)), (::fnv_00655fa0::FaceGenData *)(void *)(&kData));
+                ::fnv_00655fa0::ApplyFaceGenTextures((::fnv_00655fa0::NiAVObject *)(::NiNode *)(((ActorFace*)apActor)->GetFaceRootNode(false)), (::fnv_00655fa0::FaceGenData *)(void *)(&kData));
+            }
+        }
+        else
+        {
+            NiNode* pParent = 0;
+            reinterpret_cast<::TESNPC *>((((NPCFace*)this)))->ResetFaceGen();
+            bool bWasFirstPerson = ((FUN_004eaf60_shell_ctx*)::_g_thePlayer)->FUN_004eaf60();
+            reinterpret_cast<::fnv_00950110::FUN_00950110_pc *>((((PlayerFace*)::_g_thePlayer)))->FUN_00950110(false);
+            if (pNode && bPrevHadRace != bNowHasRace)
+            {
+                pParent = (NiNode*)((FUN_009611e0_shell_ctx*)((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((apActor))->FUN_0043fcd0())))->FUN_009611e0();
+                reinterpret_cast<::Ref3 *>((((FaceRefr*)apActor)))->FUN_005702e0((::Obj3 *)(::NiNode *)(0), true);
+            }
+            if (bNowHasRace)
+                ((NPCModelView_ctx*)this)->kModel.SetModelFilePath(((const char *)(reinterpret_cast<::StartMenu *>(&(g_011d2b38))->GetMenuTitle())));
+            else if (reinterpret_cast<::TESActorBase *>(this)->GetSex() == FEMALE)
+                ((NPCModelView_ctx*)this)->kModel.SetModelFilePath(((const char *)(reinterpret_cast<::StartMenu *>(&(g_011d2718))->GetMenuTitle())));
+            else
+                ((NPCModelView_ctx*)this)->kModel.SetModelFilePath(((const char *)(reinterpret_cast<::StartMenu *>(&(g_011d3e44))->GetMenuTitle())));
+            if (pParent)
+            {
+                DAT_011c5cb4 = true;
+                NiNode* pNew3D = ((::NiNode *)(reinterpret_cast<::Self9 *>((((FaceRefr*)apActor)))->FUN_0087e060(false)));
+                if (!((ActorFace*)apActor)->GetFaceRootNode(false) && !((ActorFace*)apActor)->GetHeadRootNode(false))
+                {
+                    TESNPC* m_pActorBaseFormItem = (TESNPC*)reinterpret_cast<::Actor *>((((ActorView*)apActor)))->GetActorBase();
+                    QHeadLocal kHead(m_pActorBaseFormItem, 0);
+                    reinterpret_cast<::fnv_0043ecb0::FUN_0043ecb0_shell *>(&(kHead))->FUN_0043ecb0();
+                    ((FUN_0043c610_shell*)&kHead)->RunVirtualMethod28();
+                    reinterpret_cast<::fnv_0043ed90::AttachTask *>(&(kHead))->FUN_0043ed90((::fnv_0043ed90::RefActor *)(apActor), FUN_005d9f90((char*)apActor));
+                }
+                pParent->AttachChildInAvailableSlot(pNew3D, true);
+                DAT_011c5cb4 = false;
+                if (apActor == ::_g_thePlayer)
+                    reinterpret_cast<::FUN_0094eaf0_Class *>((((PlayerFace*)::_g_thePlayer)))->FUN_0094eaf0((::Vt9c *)(pNew3D), false);
+                ((ActorFace*)apActor)->UpdateHead();
+                MiddleHighProcess_ctx* pProcess = dynamic_cast<MiddleHighProcess_ctx*>(((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((apActor))->GetBaseTexture())));
+                if (pProcess)
+                    pProcess->ApplyProcessLevelChange(apActor);
+            }
+            reinterpret_cast<::fnv_00950110::FUN_00950110_pc *>((((PlayerFace*)::_g_thePlayer)))->FUN_00950110(!bWasFirstPerson);
+        }
+    }
+}
+
+struct ElemT;
+
+struct ObjX;
+
+struct NiTimeController
+{
+    virtual void z00();
+    virtual void z01();
+    virtual void z02();
+    virtual void z03();
+    virtual void z04();
+    virtual void z05();
+    virtual void z06();
+    virtual void z07();
+    virtual void z08();
+    virtual void z09();
+    virtual void z10();
+    virtual void z11();
+    virtual void z12();
+    virtual void z13();
+    virtual void z14();
+    virtual void z15();
+    virtual void z16();
+    virtual void z17();
+    virtual void z18();
+    virtual void z19();
+    virtual void z20();
+    virtual void z21();
+    virtual void z22();
+    virtual void z23();
+    virtual void z24();
+    virtual void z25();
+    virtual void z26();
+    virtual void z27();
+    virtual void z28();
+    virtual void z29();
+    virtual void z30();
+    virtual void z31();
+    virtual void z32();
+    virtual void z33();
+    virtual void z34();
+    virtual void z35();
+    virtual void z36();
+    virtual void z37();
+    virtual void z38();
+    virtual void z39();
+    virtual void z40();
+    virtual void z41();
+    virtual void z42();
+    virtual void z43();
+    virtual void z44();
+    virtual void z45();
+    virtual void z46();
+    virtual void z47();
+    virtual void z48();
+    virtual void z49();
+    virtual void z50();
+    virtual void z51();
+    virtual void z52();
+    virtual void z53();
+    virtual void z54();
+    virtual void z55();
+    virtual void z56();
+    virtual void z57();
+    virtual void z58();
+    virtual void z59();
+    virtual void z60();
+    virtual void z61();
+    virtual void z62();
+    virtual void v63(int, void*);
+};
+
+struct NiFixedString
+{
+    NiFixedString(const char*);
+    ~NiFixedString();
+    operator const char*() const;
+    int f0;
+};
+
+struct ElemRet;
+
+struct ListT
+{
+    virtual void y00();
+    virtual void y01();
+    virtual void y02();
+    virtual void y03();
+    virtual void y04();
+    virtual void y05();
+    virtual void y06();
+    virtual void y07();
+    virtual void y08();
+    virtual void y09();
+    virtual void y10();
+    virtual void y11();
+    virtual void y12();
+    virtual void y13();
+    virtual void y14();
+    virtual void y15();
+    virtual void y16();
+    virtual void y17();
+    virtual void y18();
+    virtual void y19();
+    virtual void y20();
+    virtual void y21();
+    virtual void y22();
+    virtual void y23();
+    virtual void y24();
+    virtual void y25();
+    virtual void y26();
+    virtual void y27();
+    virtual void y28();
+    virtual void y29();
+    virtual void y30();
+    virtual void y31();
+    virtual void y32();
+    virtual void y33();
+    virtual void y34();
+    virtual void y35();
+    virtual void y36();
+    virtual void y37();
+    virtual void y38();
+    virtual ElemT* v39(const NiFixedString&);
+    unsigned int FUN_0043b480();
+};
+
+struct PartT;
+
+struct ElemT
+{
+    virtual void w0();
+    virtual void w1();
+    virtual void w2();
+    virtual void w3();
+    virtual void w4();
+    virtual void w5();
+    virtual void w6();
+    virtual PartT* v7();
+};
+
+struct NiObjectNET
+{
+};
+
+struct FUN_00633c90
+{
+    FUN_00633c90(int);
+    ~FUN_00633c90();
+    void FUN_0066b0d0(PartT*);
+    int f0;
+};
+
+struct FUN_004037b0
+{
+    FUN_004037b0();
+    ~FUN_004037b0();
+    int f0;
+    int f4;
+};
+
+struct NiMemObject
+{
+};
+
+struct FUN_00a6aa40 : NiMemObject
+{
+    FUN_00a6aa40();
+    void FUN_004f3200(int);
+    void FUN_0060aeb0(int);
+    int f00;
+    int f04;
+    int f08;
+    int f0c;
+    int f10;
+    int f14;
+    int f18;
+    int f1c;
+    int f20;
+    int f24;
+    int f28;
+    int f2c;
+};
+
+struct MgrT
+{
+};
+
+extern char DAT_0104aac0;
+
+extern char DAT_0104aab0;
+
+extern char DAT_0104aa80;
+
+extern char DAT_0104a64c;
+
+struct ParamSub
+{
+};
+
+struct ParamT
+{
+    char pad24[0x24];
+    ParamSub sub;
+};
+
+struct ThisT
+{
+    char pad1c4[0x1c4];
+    FUN_00633c90 holder;
+    void FUN_0060a950(ParamT*);
+};
+
+// @fnv 0x0060a950
+void ThisT::FUN_0060a950(ParamT* param)
+{
+    FUN_00633c90 a(0);
+    FUN_00633c90 eye(0);
+    ElemT* cur;
+    if (((::ListT *)(::FUN_00559450((int *)&(holder)))))
+    {
+        long count;
+        count = ((::ListT *)(::FUN_00559450((int *)&(holder))))->FUN_0043b480();
+        unsigned int ptr;
+        for (ptr = 0; ptr < count; ptr++)
+        {
+            cur = ((::ElemT *)(reinterpret_cast<::NiNode *>((((::ListT *)(::FUN_00559450((int *)&(holder))))))->GetAt(ptr)));
+            if (FUN_00408b20((const char*)(*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((cur))->GetLinkToList())), &DAT_0104aac0) == 0)
+                a.FUN_0066b0d0(cur->v7());
+            if (FUN_00408b20((const char*)(*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((cur))->GetLinkToList())), &DAT_0104aab0) == 0)
+                eye.FUN_0066b0d0(cur->v7());
+        }
+        if (((::ListT *)(::FUN_00559450((int *)&(a)))) && ((::ListT *)(::FUN_00559450((int *)&(eye)))))
+        {
+            FUN_004037b0 p40;
+            if (param)
+                ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&p40), &DAT_0104a64c, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(param->sub))->FUN_00408da0())));
+            else
+                ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&p40), &DAT_0104aa80);
+            FUN_00633c90 c(0);
+            reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::MgrT * *>(&::g_TES))))->FUN_004568c0((const char *)(void *)(((void *)(::FUN_00559450((int *)&(p40))))), (*(::TexPtr< ::NiSourceTexture> *)(&c)), 0, 0);
+            if (((::ListT *)(::FUN_00559450((int *)&(c)))))
+            {
+                NiObjectNET* x;
+                x = ((::NiObjectNET *)(reinterpret_cast<::FUN_0050d100_shell *>((((::ListT *)(::FUN_00559450((int *)&(a))))))->FUN_0050d100()));
+                NiObjectNET* x2;
+                x2 = ((::NiObjectNET *)(reinterpret_cast<::FUN_0050d100_shell *>((((::ListT *)(::FUN_00559450((int *)&(eye))))))->FUN_0050d100()));
+                if (x && x2)
+                {
+                    NiTimeController* b3;
+                    b3 = ((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(x))));
+                    (!b3 ? 0 : ((int)reinterpret_cast<::BGSTerrainManager *>((b3))->GetMinLevel() >= 8 && (int)reinterpret_cast<::BGSTerrainManager *>((b3))->GetMinLevel() <= 12));
+                    NiTimeController* nw;
+                    nw = (!b3 ? 0 : ((int)reinterpret_cast<::BGSTerrainManager *>((b3))->GetMinLevel() >= 8 && (int)reinterpret_cast<::BGSTerrainManager *>((b3))->GetMinLevel() <= 12)) ? b3 : 0;
+                    NiTimeController* m40;
+                    m40 = ((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(x2))));
+                    NiTimeController* found;
+                    found = (!m40 ? 0 : ((int)reinterpret_cast<::BGSTerrainManager *>((m40))->GetMinLevel() >= 8 && (int)reinterpret_cast<::BGSTerrainManager *>((m40))->GetMinLevel() <= 12)) ? m40 : 0;
+                    if (nw && found)
+                    {
+                        nw->v63(0, ((::ListT *)(::FUN_00559450((int *)&(c)))));
+                        found->v63(0, ((::ListT *)(::FUN_00559450((int *)&(c)))));
+                        return;
+                    }
+                }
+                FUN_00a6aa40* p44;
+                p44 = new FUN_00a6aa40;
+                reinterpret_cast<::FUN_005b8fc0_shell *>((p44))->FUN_005b8fc0((::NiNode *)(void *)(((::ListT *)(::FUN_00559450((int *)&(c))))));
+                p44->FUN_004f3200(3);
+                p44->FUN_0060aeb0(2);
+                if (((int)(reinterpret_cast<::FUN_00a59d30_C *>((((::ListT *)(::FUN_00559450((int *)&(a))))))->FUN_00a59d30(5))))
+                    reinterpret_cast<::ExtraOwnerB *>((((::ListT *)(::FUN_00559450((int *)&(a))))))->FUN_00a5b230(5);
+                reinterpret_cast<::FUN_00439410_cls *>((((::ListT *)(::FUN_00559450((int *)&(a))))))->FUN_00439410((::ArgObject *)(p44));
+                if (((int)(reinterpret_cast<::FUN_00a59d30_C *>((((::ListT *)(::FUN_00559450((int *)&(eye))))))->FUN_00a59d30(5))))
+                    reinterpret_cast<::ExtraOwnerB *>((((::ListT *)(::FUN_00559450((int *)&(eye))))))->FUN_00a5b230(5);
+                reinterpret_cast<::FUN_00439410_cls *>((((::ListT *)(::FUN_00559450((int *)&(eye))))))->FUN_00439410((::ArgObject *)(p44));
+            }
+        }
+        cur = ((::ListT *)(::FUN_00559450((int *)&(holder))))->v39(NiFixedString(&DAT_0104aac0));
+        if (cur)
+            ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(cur), 0, 0);
+        cur = ((::ListT *)(::FUN_00559450((int *)&(holder))))->v39(NiFixedString(&DAT_0104aab0));
+        if (cur)
+            ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(cur), 0, 0);
+    }
+}
+
+// @fnv 0x006047c0
+void TESNPC::FUN_006047c0(TESObjectREFR* a2, bool a3, bool a4, bool a5, bool a6)
+{
+    InventoryChanges* j;
+    InventoryStackRecord* item;
+    bool bAllowed;
+    bAllowed = true;
+    if (a6 == 0)
+    {
+        bAllowed = reinterpret_cast<::FUN_004623f0_shell *>((::g_BGSSaveLoadGame))->FUN_004623f0(false);
+    }
+    if (a2->IsActor())
+    {
+        reinterpret_cast<::BipedAnim *>((a2))->AttachFaceGenNode();
+    }
+    j = ::InventoryChanges::CreateForReference(a2);
+    reinterpret_cast<::FUN_004bfe50_t *>((j))->RemoveWornItems(true, a2);
+    Actor* pBiped;
+    pBiped = (Actor*)a2;
+    if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pBiped))->GetBaseTexture())))
+    {
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pBiped))->GetBaseTexture()))->SetCurrentAmmunition(NULL);
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pBiped))->GetBaseTexture()))->SetCurrentShield(NULL);
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pBiped))->GetBaseTexture()))->SetCurrentTorch(NULL);
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pBiped))->GetBaseTexture()))->SetCurrentArmor(NULL, NULL, false);
+    }
+    TESBipedModelForm* res = NULL;
+    ExtraDataList* pExtra = NULL;
+    for (int i = 0; i < 20; i++)
+    {
+        item = reinterpret_cast<::FUN_004c8220_shell *>((j))->FUN_004c8220(this, i, true);
+        if (item)
+        {
+            bool val = true;
+            TESBoundObject* p;
+            p = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()));
+            if ((!res || !res->HasBipedModel(i, false, NULL)) && !reinterpret_cast<::Thing575 *>((a2))->FUN_00575400((int)(p)))
+            {
+                if (((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(item)))))
+                {
+                    pExtra = ((::ExtraDataList *)(new ((void *)(((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(item)))))) ::Vec3()));
+                }
+                else
+                {
+                    pExtra = NULL;
+                }
+                if (i == 2)
+                {
+                    res = dynamic_cast<TESBipedModelForm*>(p);
+                }
+                else
+                {
+                    TESBipedModelForm* pInv;
+                    pInv = ::TESBipedModelForm::GetFormAsBipedModel(p);
+                    if (pInv->HasBipedModel(2, false, NULL))
+                    {
+                        val = false;
+                    }
+                }
+                if (val)
+                {
+                    a2->EquipItem(p, 1, pExtra, false);
+                }
+            }
+            delete item;
+            item = NULL;
+        }
+    }
+    if (a4 && !a2->HasHealth(false))
+    {
+        float cnt;
+        cnt = 0.0f;
+        InventoryStackRecord* pWeaponExtra;
+        pWeaponExtra = ((::InventoryStackRecord *)(reinterpret_cast<::Target *>((j))->SelectBestWeapon((::ActorStand *)(::TESActorBase *)(this), &cnt, 6, true)));
+        if (pWeaponExtra)
+        {
+            bool pItem = true;
+            if (!reinterpret_cast<::Thing575 *>((a2))->FUN_00575400((int)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((pWeaponExtra))->GetName())))))
+            {
+                ExtraDataList* fWeight;
+                fWeight = NULL;
+                if (((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(pWeaponExtra)))))
+                {
+                    fWeight = ((::ExtraDataList *)(new ((void *)(((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(pWeaponExtra)))))) ::Vec3()));
+                    pItem = false;
+                }
+                else
+                {
+                    fWeight = NULL;
+                }
+                TESObjectREFR* bEquipWeapon;
+                bEquipWeapon = a2;
+                reinterpret_cast<::fnv_0088c830::ThisC *>((bEquipWeapon))->FUN_0088c830((::fnv_0088c830::FormC *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((pWeaponExtra))->GetName()))), ((int)(reinterpret_cast<::Callees *>((pWeaponExtra))->FUN_00726070())), fWeight, true,
+                                          false, true);
+                if (pItem)
+                {
+                    delete pWeaponExtra;
+                }
+            }
+            else if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Actor*)a2)))->GetBaseTexture())))
+            {
+                if (((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((pWeaponExtra))->GetName())) != reinterpret_cast<::FUN_008a1710_shell *>((((Actor*)a2)))->FUN_008a1710())
+                {
+                    ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Actor*)a2)))->GetBaseTexture()))->SetCurrentArmor(pWeaponExtra, a2->GetNiNode(), false);
+                }
+            }
+        }
+    }
+    if (a6 == 0)
+    {
+        reinterpret_cast<::FUN_004623f0_shell *>((::g_BGSSaveLoadGame))->FUN_004623f0(bAllowed);
+    }
+    if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pBiped))->GetBaseTexture())))
+    {
+        reinterpret_cast<::ActorSpellView *>((pBiped))->UpdateSpells(true);
+    }
+}
+
+// Adjustor thunk for FUN_0060c440: "sub ecx, 0xdc; jmp FUN_00601370".
+//
+// This is the MSVC this-adjusting thunk that the compiler emits for a virtual
+// function inherited from a secondary base: it converts the secondary base
+// sub-object pointer (this + 0xdc) back into the derived object pointer
+// (sub ecx, 0xdc) and tail-jumps to the final overrider.
+//
+// The subtracted offset is the size of the first base, so the first base is
+// laid out as a vtable pointer plus 54 int members (4 + 54 * 4 = 0xdc bytes).
+// Both bases declare the same virtual function, the derived class redeclares
+// it and only defines its constructor, which is what makes the compiler emit
+// the vtables and the adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_0060c440();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0060c440();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0060c440
+    virtual void FUN_0060c440();
+};
+
+Derived::Derived()
+{}
+
+// FUN_0060c450 is a MSVC this-adjusting thunk (adjustor thunk).
+//
+// The class AdjustorThunkHolder inherits AdjustorSecondaryBase at offset
+// 0x7c (the primary base is 0x7c bytes long), and overrides the virtual
+// function FUN_0060c450 that AdjustorSecondaryBase declares.  For that
+// override the compiler emits a thunk that moves `this` back to the
+// secondary base sub-object and jumps to the implementation:
+//
+//     sub ecx, 0x7c
+//     jmp AdjustorThunkHolder::FUN_0060c450
+//
+// The overriding implementation itself lives in another translation unit,
+// so it is only declared here.
+
+struct AdjustorPrimaryBase
+{
+    virtual void FUN_0060c450();
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+};
+
+struct AdjustorSecondaryBase
+{
+    virtual void FUN_0060c450();
+};
+
+struct AdjustorThunkHolder : AdjustorPrimaryBase, AdjustorSecondaryBase
+{
+// @fnv 0x0060c450
+    virtual void FUN_0060c450();
+    AdjustorThunkHolder();
+};
+
+AdjustorThunkHolder::AdjustorThunkHolder()
+{}
+
+namespace fnv_0060c460 {
+struct PrimaryBase
+{
+    virtual void FUN_0060c460();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0060c460();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0060c460
+    virtual void FUN_0060c460();
+};
+
+Derived::Derived()
+{}
+}
+
+// namespace fnv_0060c460
+
+namespace fnv_0060c470 {
+// Adjustor (this-adjusting) thunk for FUN_0060c470:
+//     sub ecx, 0x90 ; jmp FUN_00608e00
+// MSVC emits such a thunk in the vftable of a class that inherits the same
+// virtual from two bases: the thunk converts the secondary base sub-object
+// pointer back to the primary base pointer by subtracting the size of the
+// primary base (0x90 = 4 byte vptr + 35 int members) and tail jumps to the
+// implementation.  Both bases declare the virtual, the derived class
+// redeclares it and defines only its constructor, which makes the compiler
+// emit the vtables and the adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_0060c470();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0060c470();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0060c470
+    virtual void FUN_0060c470();
+};
+
+Derived::Derived()
+{}
+}
+
+// namespace fnv_0060c470
+
+// Adjustor thunk: sub ecx,0x90 ; jmp <base virtual>.
+// The primary base occupies 0x90 bytes, so the secondary base sub-object starts
+// at +0x90 and the compiler emits an adjustor thunk for the secondary base's
+// virtual slot, moving 'this' back onto the secondary base before the jump.
+struct AdjPrimaryBase
+{
+    virtual void FUN_0060c490();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+};
+
+struct AdjSecondaryBase
+{
+    virtual void FUN_0060c490();
+};
+
+struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
+{
+    AdjDerived();
+// @fnv 0x0060c490
+    virtual void FUN_0060c490();
+};
+
+AdjDerived::AdjDerived()
+{}
+
+namespace fnv_0060c4a0 {
+// Adjustor (this-adjusting) thunk for FUN_0060c4a0: "sub ecx, 0x7c; jmp FUN_00608e00".
+// PrimaryBase is the first base (vptr + 30 int fields = 0x7c bytes); SecondaryBase
+// declares the same virtual; Derived derives from both, redeclares the virtual and
+// defines only its constructor, so the compiler emits the adjusting thunk.
+struct PrimaryBase
+{
+    virtual void* FUN_0060c4a0(unsigned int flags);
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+};
+
+struct SecondaryBase
+{
+    virtual void* FUN_0060c4a0(unsigned int flags);
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0060c4a0
+    virtual void* FUN_0060c4a0(unsigned int flags);
+};
+
+Derived::Derived()
+{}
+}
+
 #include "generated/data/fallout_shared/tesnpc.inc"
+#include "generated/data/fallout_shared/tesnpc_ctx_variant.inc"

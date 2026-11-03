@@ -33,6 +33,29 @@
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_005e5000.h"
 #include "../../include/BGSEntryPointFunction.h"
+#include <new>
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00418800_shell.h"
+#include "fnv/decl/FUN_00419ad0_shell.h"
+#include "fnv/decl/FUN_00419ed0_shell.h"
+#include "fnv/decl/FUN_00419f80_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00488350_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005abf60_shell.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_00487000.h"
+#include "BGSEntryPointFunction.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/TextString.h"
 
 // @fnv 0x005e5b30
 unsigned char BGSEntryPointFunction::GetArgumentCount(ENTRY_POINT_FUNCTION_TYPE type)
@@ -1205,4 +1228,437 @@ FUN_005e6540::FUN_005e6540() : FUN_005e6420_SV(), label(0), m_script(), flags(0)
     reinterpret_cast<::BGSEntryPointFunctionDataActivateChoice *>((reinterpret_cast<ChoiceDataInitialization*>(this)))->InitializeComponent();
 }
 
+struct ScriptLocals;
+
+struct BoundObj5e5f50
+{
+    virtual void b0();
+    virtual void b1();
+    virtual void b2();
+    virtual void b3();
+    virtual void b4();
+    virtual void b5();
+    virtual void b6();
+    virtual void b7();
+    virtual void b8();
+    virtual void b9();
+    virtual void b10();
+    virtual void b11();
+    virtual void b12();
+    virtual void b13();
+    virtual void b14();
+    virtual void b15();
+    virtual void b16();
+    virtual void b17();
+    virtual void b18();
+    virtual void b19();
+    virtual void b20();
+    virtual void b21();
+    virtual void b22();
+    virtual void b23();
+    virtual void b24();
+    virtual void b25();
+    virtual void b26();
+    virtual void b27();
+    virtual void b28();
+    virtual void b29();
+    virtual void b30();
+    virtual void b31();
+    virtual void b32();
+    virtual void b33();
+    virtual void b34();
+    virtual void b35();
+    virtual void b36();
+    virtual void b37();
+    virtual void b38();
+    virtual void b39();
+    virtual void b40();
+    virtual void b41();
+    virtual void b42();
+    virtual void b43();
+    virtual void b44();
+    virtual void b45();
+    virtual void b46();
+    virtual void b47();
+    virtual void b48();
+    virtual void b49();
+    virtual void b50();
+    virtual void b51();
+    virtual void b52();
+    virtual void b53();
+    virtual void b54();
+    virtual void b55();
+    virtual void b56();
+    virtual bool IsLeveledOrPlayable();
+};
+
+struct InventoryItemEntry
+{
+    int m_iCountDelta;
+    BoundObj5e5f50* pObj;
+};
+
+struct Actor5e5f50
+{
+    virtual void a0();
+    virtual void a1();
+    virtual void a2();
+    virtual void a3();
+    virtual void a4();
+    virtual void a5();
+    virtual void a6();
+    virtual void a7();
+    virtual void a8();
+    virtual void a9();
+    virtual void a10();
+    virtual void a11();
+    virtual void a12();
+    virtual void a13();
+    virtual void a14();
+    virtual void a15();
+    virtual void a16();
+    virtual void a17();
+    virtual void a18();
+    virtual void a19();
+    virtual void a20();
+    virtual void a21();
+    virtual void a22();
+    virtual void a23();
+    virtual void a24();
+    virtual void a25();
+    virtual void a26();
+    virtual void a27();
+    virtual void a28();
+    virtual void a29();
+    virtual void a30();
+    virtual void a31();
+    virtual void a32();
+    virtual void a33();
+    virtual void a34();
+    virtual void a35();
+    virtual void a36();
+    virtual void a37();
+    virtual void a38();
+    virtual void a39();
+    virtual void a40();
+    virtual void a41();
+    virtual void a42();
+    virtual void a43();
+    virtual void a44();
+    virtual void a45();
+    virtual void a46();
+    virtual void a47();
+    virtual void a48();
+    virtual void a49();
+    virtual void a50();
+    virtual void a51();
+    virtual void a52();
+    virtual void a53();
+    virtual void a54();
+    virtual void a55();
+    virtual void a56();
+    virtual void a57();
+    virtual void a58();
+    virtual void a59();
+    virtual void a60();
+    virtual void a61();
+    virtual void a62();
+    virtual void a63();
+    virtual void a64();
+    virtual void a65();
+    virtual void a66();
+    virtual void a67();
+    virtual void a68();
+    virtual void a69();
+    virtual void a70();
+    virtual void a71();
+    virtual void a72();
+    virtual void a73();
+    virtual void a74();
+    virtual void a75();
+    virtual void a76();
+    virtual void a77();
+    virtual void a78();
+    virtual void a79();
+    virtual void a80();
+    virtual void a81();
+    virtual void a82();
+    virtual void a83();
+    virtual void a84();
+    virtual void a85();
+    virtual void a86();
+    virtual void a87();
+    virtual void a88();
+    virtual void a89();
+    virtual void a90();
+    virtual void a91();
+    virtual void a92();
+    virtual void a93();
+    virtual void a94();
+    virtual void a95();
+    virtual void a96();
+    virtual void a97();
+    virtual void a98();
+    virtual void a99();
+    virtual void AddObjectToContainer(BoundObj5e5f50*, struct ExtraDataList*, int);
+};
+
+struct ListNode5e5f50
+{
+    bool FUN_008256d0();
+};
+
+struct TESContainer
+{
+    TESContainer();
+    virtual ~TESContainer();
+    InventoryItemEntry* pFirstItem;
+    ListNode5e5f50* pListNode;
+};
+
+struct TESLeveledList
+{
+};
+
+struct LevForm5e5f50
+{
+    virtual void vfn00();
+    unsigned char m_ucFormType;
+    unsigned int m_uiFormFlags;
+    unsigned int iFormID;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    TESLeveledList list;
+};
+
+struct DataLeveledList5e5f50
+{
+};
+
+class TESObjectREFR;
+
+struct InventoryChanges
+{
+public:
+    static ::InventoryChanges *CreateForReference(::TESObjectREFR *);
+};
+
+struct ExtraDataList
+{
+    ExtraDataList();
+    virtual ~ExtraDataList();
+    void* m_data;
+    unsigned char m_presenceBitfield[0x15];
+};
+
+// @fnv 0x005e5f50
+void __cdecl FUN_005e5f50(void* apPerkOwner, int aeFunctionType, unsigned char acArgumentCount,
+                          void** apFunctionArgument, void* apData)
+{
+    if (!::FUN_005e5b80(1, 3, (::TESObjectREFR *)(apPerkOwner), aeFunctionType, acArgumentCount, apFunctionArgument, apData))
+        return;
+    DataLeveledList5e5f50* pfunctionData = (DataLeveledList5e5f50*)apData;
+    Actor5e5f50* ptarget = (Actor5e5f50*)*apFunctionArgument;
+    TESContainer tempcont;
+    reinterpret_cast<::FUN_00488350_shell *>(&(((::LevForm5e5f50 *)(reinterpret_cast<::Callees *>((pfunctionData))->FUN_00726070()))->list))->AddLeveledItemsToContainer((::TESObjectREFR *)(apPerkOwner), &tempcont);
+    InventoryChanges* pinventory = ::InventoryChanges::CreateForReference((::TESObjectREFR *)(ptarget));
+    ListNode5e5f50* pCurrentElementNext = ((::ListNode5e5f50 *)(reinterpret_cast<::BaseProcess *>(&(tempcont))->GetCurrentProcessData()));
+    if (pinventory)
+    {
+        while (pCurrentElementNext && !pCurrentElementNext->FUN_008256d0() && *((::InventoryItemEntry **)(new ((void *)(pCurrentElementNext)) ::Vec3())))
+        {
+            InventoryItemEntry* pdata = *((::InventoryItemEntry **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            BoundObj5e5f50* pboundObject = 0;
+            if (pdata->pObj && pdata->pObj->IsLeveledOrPlayable())
+                pboundObject = pdata->pObj;
+            if (pboundObject)
+            {
+                Script* pScript = ((::Script *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(pdata->pObj))));
+                if (pScript)
+                {
+                    ExtraDataList* pExtra = 0;
+                    for (int n = 0; n < pdata->m_iCountDelta; n++)
+                    {
+                        pExtra = new ExtraDataList;
+                        reinterpret_cast<::FUN_00419ad0_shell *>((pExtra))->FUN_00419ad0(1);
+                        if (pExtra && !reinterpret_cast<::FUN_00418800_shell *>((pExtra))->FUN_00418800())
+                        {
+                            reinterpret_cast<::FUN_00419ed0_shell *>((pExtra))->FUN_00419ed0(pScript);
+                            reinterpret_cast<::FUN_00419f80_shell *>((pExtra))->FUN_00419f80(reinterpret_cast<::FUN_005abf60_shell *>((reinterpret_cast<::FUN_00418800_shell *>((pExtra))->FUN_00418800()))->FUN_005abf60());
+                        }
+                    }
+                    ptarget->AddObjectToContainer(pboundObject, pExtra, 1);
+                }
+                else
+                    ptarget->AddObjectToContainer(pboundObject, 0, pdata->m_iCountDelta);
+            }
+            pCurrentElementNext = ((::ListNode5e5f50 *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+        }
+    }
+}
+
+class ScriptVariableInfo
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    BSStringT<char> name;
+
+    ScriptVariableInfo();
+public:
+    void Load(::TESFile *);
+};
+
+extern ScriptVariableInfo* DAT_011cb0fc;
+
+class FUN_005e2a20_shell
+{
+  public:
+};
+
+class FUN_00500910
+{
+  public:
+    BSStringT<char> name;
+    unsigned int formID;
+    unsigned int variableOrIndex;
+
+    FUN_00500910();
+};
+
+class ScriptHeader
+{
+  public:
+};
+
+class FUN_005d43e0_shell
+{
+  public:
+    void* FUN_005d43e0();
+};
+
+class FUN_005d43c0_
+{
+  public:
+    void* FUN_005d43c0();
+};
+
+class FUN_005aae70_shell
+{
+  public:
+    void FUN_005aae70(unsigned int, char*);
+};
+
+class FUN_00472840_impl
+{
+  public:
+    bool ReadChunkData(unsigned short*);
+};
+
+class FUN_005e6c60_shell_ctx
+{
+  public:
+public:
+    void FUN_005e6c60(const char *);
+};
+
+class Script_ctx : public TESForm
+{
+  public:
+};
+
+class ActivateChoice : public BGSEntryPointFunctionDataActivateChoice
+{
+  public:
+    bool FUN_005e6ee0(TESFile* file);
+};
+
+// @fnv 0x005e6ee0
+bool ActivateChoice::FUN_005e6ee0(TESFile* file)
+{
+    void* scvrBuf3;
+    unsigned int scdaSize4;
+    void* scdaData;
+    unsigned int scroRefID2;
+    FUN_00500910* scroObjVal;
+    unsigned int scrvRefID3;
+    FUN_00500910* _scrvObj;
+    void* epf2BufTmp;
+
+    switch (static_cast<int>(((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))))
+    {
+    case 0x44534c53:  // 'SLSD'
+    case 0x52564353:  // 'SCVR'
+        if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == 0x44534c53)
+        {
+            DAT_011cb0fc = new ScriptVariableInfo();
+            reinterpret_cast<::ScriptVariableInfo *>((reinterpret_cast<FUN_005e2a20_shell*>(DAT_011cb0fc)))->Load(file);
+            reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Actor*>*>(reinterpret_cast<FUN_005d43e0_shell*>(formStorage)->FUN_005d43e0())))->FUN_00905820((void *)&(reinterpret_cast<Actor*&>(DAT_011cb0fc)));
+        }
+        else if (DAT_011cb0fc)
+        {
+            scvrBuf3 = _alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(scvrBuf3), 0x200);
+            reinterpret_cast<::TextString *>(&(DAT_011cb0fc->name))->FUN_004037f0(reinterpret_cast<const char*>(scvrBuf3), 0);
+        }
+        break;
+
+    case 0x52484353:  // 'SCHR'
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(((::ScriptHeader *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<Script_ctx*>(formStorage)))->GetConditions()))), 0);
+        if (file->IsEndianConversionRequired())
+        {
+            reinterpret_cast<::FUN_00414220_shell *>((((::ScriptHeader *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<Script_ctx*>(formStorage)))->GetConditions()))))->FUN_00414220();
+        }
+        break;
+
+    case 0x41444353:  // 'SCDA'
+        scdaSize4 = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
+        scdaData = _alloca(scdaSize4);
+        memset(scdaData, 0, scdaSize4);
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(scdaData), 0);
+        reinterpret_cast<FUN_005aae70_shell*>(formStorage)->FUN_005aae70(scdaSize4, reinterpret_cast<char*>(scdaData));
+        break;
+
+    case 0x4f524353:  // 'SCRO'
+        scroObjVal = new FUN_00500910();
+        file->GetChunkData(&scroRefID2);
+        scroObjVal->formID = scroRefID2;
+        reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Actor*>*>(reinterpret_cast<FUN_005d43c0_*>(formStorage)->FUN_005d43c0())))->FUN_00905820((void *)&(reinterpret_cast<Actor*&>(scroObjVal)));
+        break;
+
+    case 0x56524353:  // 'SCRV'
+        _scrvObj = new FUN_00500910();
+        file->GetChunkData(&scrvRefID3);
+        _scrvObj->variableOrIndex = scrvRefID3;
+        reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Actor*>*>(reinterpret_cast<FUN_005d43c0_*>(formStorage)->FUN_005d43c0())))->FUN_00905820((void *)&(reinterpret_cast<Actor*&>(_scrvObj)));
+        break;
+
+    case 0x32465045:  // 'EPF2'
+        epf2BufTmp = _alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(epf2BufTmp), 0);
+        reinterpret_cast<FUN_005e6c60_shell_ctx*>(this)->FUN_005e6c60((const char *)(epf2BufTmp));
+        break;
+
+    case 0x33465045:  // 'EPF3'
+        reinterpret_cast<FUN_00472840_impl*>(file)->ReadChunkData(&flags);
+        break;
+
+    default:
+        break;
+    }
+
+    return true;
+}
+
 #include "generated/data/fallout_shared/bgsentrypointfunction.inc"
+#include "generated/data/fallout_shared/bgsentrypointfunction_ctx_variant.inc"

@@ -214,6 +214,12 @@
 #include "tesconditionfunctions_conditionfn_BGSQuestObjective.h"
 #include "tesconditionfunctions_packet.h"
 #include "tesconditionfunctions_conditionfn_dep_TESObjectREFR.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_00458400_cls.h"
+#include "fnv/decl/TESFaction_RankDataView.h"
+#include "tesconditionfunctions_conditionfn_MobileObject_decl_tesconditionfunctions.h"
+#include "tesconditionfunctions_conditionfn_dep_TESObjectREFR_decl_tesconditionfunctions.h"
 
 class PlayerCharacter;
 
@@ -23361,6 +23367,91 @@ bool FUN_005a08c0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     if (::bConditionFunctionDebug)
         DebugLog("Get Knocked State >> %0.2f", *afReturnValue);
     return true;
+}
+
+class Actor_decl
+{
+  public:
+};
+
+class TESWorldSpace
+{
+  public:
+};
+
+// @fnv 0x0059c010
+bool __cdecl FUN_0059c010(TESObjectREFR* reference, void* parameter, void* unused, double& result)
+{
+    result = 0.0;
+    void* zone = parameter;
+    if (reference && zone)
+    {
+        void* found = 0;
+        TESObjectCELL* cell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((reference))->GetTarget()));
+        if (cell)
+            found = ((void *)(cell->FindEncounterZone()));
+        if (!found)
+        {
+            TESWorldSpace* world = ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((reference))->FUN_00575d70()));
+            if (world)
+                found = ((void *)(reinterpret_cast<::FUN_00458400_cls *>((world))->GetFieldD0()));
+        }
+        if (found == zone)
+            result = 1.0;
+    }
+    if (::bConditionFunctionDebug)
+        DebugLog("GetInZone >> %0.2f", result);
+    return true;
+}
+
+extern PlayerCharacter* g_thePlayer;
+
+class Actor_o2
+{
+  public:
+    bool IsEssentialActor();
+    unsigned int GetActorStateFlags() const;
+    BooleanFloatQuery* RefreshActorRuntimeData();
+};
+
+bool __cdecl GetEssentialConditionFunction(TESObjectREFR* reference, void* arg1, void* arg2, double& result);
+
+bool __cdecl IsPlayerEnteringSpaceConditionFunction(TESObjectREFR* reference, void* arg1, void* arg2, double& result);
+
+bool GetLastHitLocationConditionFunction(TESObjectREFR* reference, void* arg1, void* arg2, double& result);
+
+class Actor_rtm
+{
+  public:
+};
+
+namespace s59e490 {
+
+
+void FUN_00703c00(const char* pcFormat, ...);
+
+struct Quest
+{
+};
+
+static const char s_szGetStageDoneFormat[] = "GetStageDone >> %0.2f";
+
+// @fnv 0x0059e490
+bool FUN_0059e490(void* pvThisObj, Quest* pkQuestArg, unsigned int uiStage, double* pdResult)
+{
+    Quest* pkQuest;
+    unsigned int uiStageIndex;
+
+    *pdResult = 0.0;
+    pkQuest = pkQuestArg ? pkQuestArg : 0;
+    uiStageIndex = uiStage;
+    if (pkQuest && reinterpret_cast<::TESQuest *>((pkQuest))->HasStage((unsigned char)uiStageIndex))
+        *pdResult = 1.0;
+    if (::bConditionFunctionDebug)
+        FUN_00703c00(s_szGetStageDoneFormat, *pdResult);
+    return true;
+}
+
 }
 
 #include "generated/data/fallout_shared/tesconditionfunctions.inc"

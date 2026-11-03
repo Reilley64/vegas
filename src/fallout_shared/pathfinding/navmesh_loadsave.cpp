@@ -93,6 +93,10 @@
 #include "fnv/symbols_011d6000.h"
 #include "fnv/symbols_011de000.h"
 #include "navmesh_loadsave_decls.h"
+#include "fnv/decl/FUN_006947e0_cls.h"
+#include "fnv/decl/Map00694c50.h"
+#include "fnv/decl/Map00694d30.h"
+#include "fnv/decl/Map6946a0.h"
 
 // Public PC annotation: JohnnyGuitar TESForm.cpp, GAME 0x693EF0.
 // @fnv 0x00693ef0
@@ -2108,4 +2112,37 @@ void Map6946a0::FUN_006946a0(unsigned short key, RefPtr6946a0 aRefVal)
     pkItem->m_pkNext = m_ppkHashTable[uiIndex];
     m_ppkHashTable[uiIndex] = pkItem;
     m_uiCount++;
+}
+
+// FUN_00692940 : MSVC this-adjusting thunk  (sub ecx, 0x1c ; jmp <impl>)
+struct A1_00692940
+{
+    A1_00692940();
+    virtual void FUN_00692940();
+    char pad[0x18];
+};
+
+struct A2_00692940
+{
+    A2_00692940();
+    virtual void FUN_00692940();
+};
+
+struct Own_00692940 : A1_00692940, A2_00692940
+{
+    Own_00692940();
+    virtual void key_fn();
+// @fnv 0x00692940
+    void FUN_00692940();
+};
+
+Own_00692940::Own_00692940()
+{}
+
+void Own_00692940::key_fn()
+{}
+Own_00692940* make_00692940()
+{
+    static Own_00692940 o;
+    return &o;
 }

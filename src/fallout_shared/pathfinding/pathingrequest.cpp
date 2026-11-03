@@ -70,6 +70,11 @@
 #include "pathingrequest_types_TESPackage.h"
 #include "TESObjectREFR.h"
 #include "pathingrequest_decls.h"
+#include "fnv/decl/BSSimpleArray_PathingAvoidNode_1024.h"
+#include "fnv/decl/FUN_006a7910_shell.h"
+#include "fnv/decl/FUN_006e2980_shell.h"
+#include "fnv/decl/FUN_006e3960.h"
+#include "fnv/decl/FUN_006e39d0.h"
 
 // @fnv 0x006e38d0
 void PathingRequest::InitLoadGame(BGSLoadFormBuffer* buffer)
@@ -658,5 +663,30 @@ void PathingRequestDebugView::PrintDebugInfo(PathingDebugOutput* output)
     output->Print(0, 1, "Ignoring Locks: %s", bIgnoreLocks ? "true" : "false");
     output->Print(0, 1, "Pathsmoothing retry count: %i", m_iRequestType);
 }
+
+// sub ecx,0x10; jmp FUN_006e3880  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
+// declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x10).
+struct PrimaryBase
+{
+    virtual void FUN_006e3f20();
+    int unk04;
+    int unk08;
+    int unk0C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_006e3f20();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x006e3f20
+    virtual void FUN_006e3f20();
+};
+
+Derived::Derived()
+{}
 
 #include "generated/data/fallout_shared/pathfinding/pathingrequest.inc"

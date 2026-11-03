@@ -95,6 +95,21 @@
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01272000.h"
 #include "tesscript_decls.h"
+#include "fnv/decl/FUN_005a8e20_cls.h"
+#include "fnv/decl/FUN_005a9140_shell.h"
+#include "fnv/decl/FUN_005a9290_shell.h"
+#include "fnv/decl/FUN_005a9460_This.h"
+#include "fnv/decl/FUN_005aa420_shell.h"
+#include "fnv/decl/FUN_005aae70_shell.h"
+#include "fnv/decl/FUN_005abe50_shell.h"
+#include "fnv/decl/FUN_005abed0_shell.h"
+#include "fnv/decl/FUN_005abf60_shell.h"
+#include "fnv/decl/FUN_005ac1e0_shell.h"
+#include "fnv/decl/FUN_005ae2e0_shell.h"
+#include "fnv/decl/FUN_00792760_shell.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/fnv_005aa350__ClsX.h"
+#include "fnv/decl/fnv_005ac4f0__FUN_005ac4f0_shell.h"
 // @fnv 0x005ac740
 bool Script::IsConsolePlatform()
 {
@@ -3805,5 +3820,86 @@ void ClsX::FUN_005aa350()
     }
 }
 }  // namespace fnv_005aa350
+
+class ScriptLoader : public Script
+{
+  public:
+    bool FUN_005ab9f0(TESFile* file);
+};
+
+// @fnv 0x005ab9f0
+bool ScriptLoader::FUN_005ab9f0(TESFile* file)
+{
+    ScriptVariableInfo* chunk = 0;
+    unsigned int reference;
+    char* variable;
+    int size;
+    char* variableName;
+    unsigned int unusedID;
+    ScriptReferencedObject* referenceID;
+    unsigned int editorID;
+    if (file->GetTESForm() != ENUM_FORM_ID_SCPT_ID)
+        return false;
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
+    while (size = reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())
+    {
+        switch (size)
+        {
+        case 0x44494445:
+            variable = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(variable), 0x200);
+            SetEditorID_AtRuntime(variable);
+            break;
+        case 0x444e424f:
+            readOBNDSubRecord(file);
+            break;
+        case 0x52484353:
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&m_kHeader), 0);
+            if (file->IsEndianConversionRequired())
+                reinterpret_cast<::FUN_00414220_shell *>(&(m_kHeader))->FUN_00414220();
+            break;
+        case 0x44534c53:
+            chunk = new ScriptVariableInfo;
+            chunk->Load(file);
+            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()))))->FUN_00905820((void *)&(chunk));
+            break;
+        case 0x52564353:
+            if (chunk)
+            {
+                variableName = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(variableName), 0x200);
+                reinterpret_cast<::TextString *>(&(chunk->m_kName))->FUN_004037f0(variableName, 0);
+            }
+            break;
+        case 0x41444353:
+            reference = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
+            m_data = AllocateZeroed(1, reference);
+            memset(m_data, 0, reference);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(m_data), 0);
+            break;
+        case 0x4f524353:
+        case 0x56524353:
+            referenceID = new ScriptReferencedObject;
+            file->GetChunkData(&unusedID);
+            if (size == 0x4f524353)
+                referenceID->pForm = (TESForm*)unusedID;
+            else
+                referenceID->m_uiFormID = unusedID;
+            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_00905820((void *)&(referenceID));
+            break;
+        case 0x54584353:
+            break;
+        case 0x44484353:
+            break;
+        case 0x4d414e52:
+            file->GetChunkData(&editorID);
+        }
+        if (!file->NextChunk())
+            break;
+    }
+    if (!m_data)
+        ::FUN_005b5e40();
+    return true;
+}
 
 #include "generated/data/fallout_shared/tesscript.inc"

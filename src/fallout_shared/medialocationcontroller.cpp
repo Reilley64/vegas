@@ -43,6 +43,15 @@
 #include "medialocationcontroller_update_decls.h"
 #include "medialocationcontroller.h"
 #include "mediaset.h"
+#include "fnv/decl/FORenderedMenu.h"
+#include "fnv/decl/FUN_00595c80_shell.h"
+#include "fnv/decl/FUN_00595cb0_shell.h"
+#include "fnv/decl/FUN_00595cf0_shell.h"
+#include "fnv/decl/FUN_00595d10_shell.h"
+#include "fnv/decl/FUN_005fd3b0_shell.h"
+#include "fnv/decl/ThisT.h"
+#include "fnv/symbols_00472000.h"
+#include "medialocationcontroller_update_decls_decl_medialocationcontroller.h"
 
 class TESDataHandler
 {
@@ -1276,6 +1285,45 @@ void ThisCls::CopyFromMediaLocationController(TESForm* apForm)
         m_kMediaSetList6.AddHead(((::MediaSet *)(new ((void *)(pNode)) ::Vec3())));
         pNode = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
+}
+
+class TESDataHandler_decl
+{
+  public:
+};
+
+// @fnv 0x00595310
+MediaLocationController::MediaLocationController()
+{
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(static_cast<ENUM_FORM_ID>(0x70))));
+    iFlags = 4;
+    m_fLowerWeightThreshold = 0.33f;
+    m_fUpperWeightThreshold = 0.66f;
+    m_fUpdateInterval = 0.0f;
+    m_uiShortDelay = 64;
+    m_uiLongDelay = 336;
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList1))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList2))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList3))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList4))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList5))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList6))->RemoveAll();
+    pFaction = 0;
+    m_eRequiredFightReaction = FIGHT_REACTION_FIGHT_REACTION_ENEMY;
+    m_pReference = 0;
+    m_fUpdateCooldown = 0;
+    m_uiFirstCounter = 0;
+    m_uiSecondCounter = 0;
+    m_uiThirdCounter = 0;
+    m_bCountWasNonzero = false;
+    m_bActorStateFlag = false;
+    m_bConditionWasTrue = false;
+    m_bConditionActive = false;
+    m_cMediaState = 0;
+    m_pMediaSet = 0;
+    m_uiPerceivedActorCount = 0;
+    m_uiPreviousPerceivedActorCount = 0;
+    m_eCurrentFightReaction = FIGHT_REACTION_FIGHT_REACTION_ENEMY;
 }
 
 #include "generated/data/fallout_shared/medialocationcontroller.inc"

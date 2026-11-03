@@ -418,3 +418,5 @@ bool ClassComparison::FUN_005f6cf0(TESForm* other)
         return true;
     return false;
 }
+
+

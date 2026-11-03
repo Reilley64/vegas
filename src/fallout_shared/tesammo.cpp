@@ -58,6 +58,10 @@
 #include "tesammo_load.h"
 #include <malloc.h>
 #include <string.h>
+#include "fnv/decl/FUN_00502cb0_shell.h"
+#include "fnv/decl/FUN_00503240_shell.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
+#include "fnv/symbols_00472000.h"
 
 // @fnv 0x005026b0
 TESAmmo::TESAmmo()
@@ -740,3 +744,39 @@ struct FUN_00502850
 // @fnv 0x00502850
 FUN_00502850::~FUN_00502850()
 {}
+
+// The claimed function is a compiler-generated this-adjusting thunk:
+//     sub ecx, 0x3c
+//     jmp  <the most derived class' implementation of the virtual>
+// MSVC emits it for the second copy of a duplicated common base: the most
+// derived class inherits the same common base twice, so the vtable slot of
+// the second copy has to move `this` back onto the first copy.
+class ThunkCommonBase
+{
+  public:
+    virtual void FUN_00503bb0();
+};
+
+class ThunkPrimaryBase : public ThunkCommonBase
+{
+  public:
+    int m_pad01[14];
+};
+
+class ThunkSecondaryBase : public ThunkCommonBase
+{
+  public:
+};
+
+class ThunkDerived : public ThunkPrimaryBase, public ThunkSecondaryBase
+{
+  public:
+// @fnv 0x00503bb0
+    virtual void FUN_00503bb0();
+    ThunkDerived();
+};
+
+ThunkDerived::ThunkDerived()
+{}
+
+ThunkDerived g_thunkDerived;

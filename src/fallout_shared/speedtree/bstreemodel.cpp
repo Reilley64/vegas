@@ -114,6 +114,12 @@
 #include "fnv/symbols_011a9000.h"
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f4000.h"
+#include "fnv/decl/Owner226.h"
+#include "fnv/decl/fnv_00668500__TreeLeafModel.h"
+#include "fnv/decl/fnv_00669500__TreeModelX.h"
+#include "fnv/decl/fnv_00669990__BSTreeModel.h"
+#include "fnv/symbols_01018000.h"
+#include <xmmintrin.h>
 struct BSTreeModel
 {
     virtual ~BSTreeModel();
@@ -3170,4 +3176,188 @@ void TreeActor::UpdateTreeLod(TreeCallback* pCallback)
     }
 }
 
+float FUN_00666f20();
+
+unsigned char __cdecl GetByteAtOffset1B();
+
+GlobalObject_0044f440 g_011d5c80;
+
+float FUN_00666fa0();
+
+struct LeafDataX_o2_nood_nogf : public MemObjX
+{
+    char _pad[0x10];
+    LeafDataX_o2_nood_nogf();
+};
+
+struct StripsDataX_o2_nood_nogf : public MemObjX
+{
+    char _pad[0x50];
+    StripsDataX_o2_nood_nogf(unsigned int a1, Point3X* a2, Point3X* a3, unsigned int a4, Point2X* a5, unsigned int a6,
+                unsigned int a7, unsigned int a8, unsigned int a9, unsigned short* a10, unsigned short* a11);
+    void FUN_00a67050(unsigned int auiFlags);
+};
+
+struct LeafShapeX_o2_nood_nogf : public MemObjX
+{
+    char _pad[0x108];
+    LeafShapeX_o2_nood_nogf(LeafDataX_o2_nood_nogf* apData);
+};
+
+extern "C" int xIsNaN(double adValue);
+
+struct TreeModelX_o2_nood_nogf
+{
+    char _pad00[0xc];
+    SpeedTreeX* m_pTreeRuntime;
+    char _pad10[4];
+    PtrX<StripsDataX_o2_nood_nogf>* pLeafGeometry;
+    char _pad18[0xc];
+    PtrX<LeafShapeX_o2_nood_nogf>* pLeafShapes;
+
+    void FUN_00667470();
+};
+
+int strcpy_s(char* apDst, unsigned int auiSize, const char* apSrc);
+
+NiNode* __cdecl FUN_00c81380(float afArg, float afArgCur);
+
+struct FUN_00667190_shell_o2_nood_nogf : public TreeCloneView
+{
+    void LoadTreeCollision(TESObjectTREE* apTree);
+};
+
+struct hkVector4C813
+{
+    __m128 m_vComponents;
+};
+
+struct __declspec(align(16)) CapsuleParams
+{
+    int flags;
+    float radius;
+    int unk08, unk0c;
+    hkVector4C813 endpoints[2];
+};
+
+struct FUN_0066d6a0 : MemObjX
+{
+    int unk00, unk04;
+    void* shape;
+    int unk0c, material;
+    FUN_0066d6a0(CapsuleParams*);
+};
+
+struct AllocatorC813
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void Free(void*, int);
+};
+
+struct MemoryC813
+{
+    int unk00, unk04, unk08, unk0c;
+    AllocatorC813* allocator;
+    AllocatorC813& heap()
+    {
+        return *allocator;
+    }
+};
+
+MemoryC813* FUN_00c85750();
+
+struct __declspec(align(16)) FUN_00c8f510
+{
+    int filter00;
+    void* shape04;
+    int unk08;
+    void* data;
+    int size;
+    int capacity;
+    int unk18;
+    int unk1c;
+    int filter20;
+    void* shape24;
+    int unk28;
+    int unk2c;
+    hkVector4C813 position;
+    hkVector4C813 rotation;
+    hkVector4C813 linearVelocity;
+    hkVector4C813 angularVelocity;
+    hkVector4C813 inertiaTensor[3];
+    hkVector4C813 centerOfMass;
+    float valueb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    float valuec0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    unsigned char motion, unkD5, unkD6, unkD7;
+    int unkd8;
+    int unkdc;
+    FUN_00c8f510();
+    void ClearAndRelease(AllocatorC813& alloc)
+    {
+        size = 0;
+        if ((capacity & 0x80000000) == 0)
+            alloc.Free(data, (capacity & 0x3fffffff) * 8);
+    }
+    ~FUN_00c8f510()
+    {
+        ClearAndRelease(FUN_00c85750()->heap());
+    }
+};
+
+struct FUN_0056d380 : MemObjX
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
+    FUN_0056d380(FUN_00c8f510*);
+};
+
+extern float DAT_01267e44;
+
+// @fnv 0x00c81380
+NiNode* __cdecl FUN_00c81380(float a, float b)
+{
+    CapsuleParams params;
+    params.endpoints[0].m_vComponents.m128_f32[3] = 0.0f;
+    params.endpoints[1].m_vComponents.m128_f32[3] = 0.0f;
+    params.flags = 0;
+    if (a <= b * 2.0f)
+        a = (float)(b * 2.0f + 1.0);
+    params.radius = DAT_01267e44 * b;
+    params.endpoints[0].m_vComponents.m128_f32[0] = 0.0f;
+    params.endpoints[0].m_vComponents.m128_f32[1] = 0.0f;
+    float delta = a - b;
+    params.endpoints[0].m_vComponents.m128_f32[2] = delta * DAT_01267e44;
+    params.endpoints[1].m_vComponents.m128_f32[0] = 0.0f;
+    params.endpoints[1].m_vComponents.m128_f32[1] = 0.0f;
+    params.endpoints[1].m_vComponents.m128_f32[2] = params.radius;
+    NiNode* result = 0;
+    FUN_0066d6a0* desc = new FUN_0066d6a0(&params);
+    if (desc)
+    {
+        desc->material = 9;
+        FUN_00c8f510 block;
+        void* shape = desc->shape;
+        block.valueb0 = 0.0f;
+        block.valuec0 = DAT_01018180;
+        block.motion = 5;
+        block.filter00 = 0x40009;
+        block.filter20 = 0x40009;
+        block.shape04 = shape;
+        block.shape24 = shape;
+        FUN_0056d380* obj = new FUN_0056d380(&block);
+        result = (NiNode*)obj;
+    }
+    return result;
+}
+
 #include "generated/data/fallout_shared/speedtree/bstreemodel.inc"
+#include "generated/data/fallout_shared/speedtree/bstreemodel_o2_nood_nogf_variant.inc"

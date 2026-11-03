@@ -39,6 +39,16 @@
 #include "fnv/symbols_011d6000.h"
 #include "fnv/symbols_011de000.h"
 #include "effectitemlist.h"
+#include "fnv/decl/EffectItem.h"
+#include "fnv/decl/EffectItemList.h"
+#include "fnv/decl/FUN_004046b0_cls.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/S3c60.h"
+#include "fnv/decl/TESFile.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00559000.h"
 
 // Out-of-line reference for the inline ActorPathHandler::CompleteNoPathUpdate so the
 // translation unit emits the method body attributed to the header.
@@ -1062,3 +1072,89 @@ void Description::BuildDescription(char* acBuffer, unsigned int size)
         }
     }
 }
+
+extern "C" char DAT_011837c4, DAT_01183028, DAT_010120d8, DAT_010125c0, DAT_01012578, DAT_01012520, DAT_011c33d4;
+
+struct File
+{
+    void ReadChunkInt(unsigned*);
+};
+
+struct Str_r00405760
+{
+    char data[8];
+    ~Str_r00405760();
+};
+
+class TESForm
+{
+  public:
+    virtual ~TESForm();
+};
+
+class EffectSetting_ctxr : public TESForm
+{
+  public:
+};
+
+struct Item
+{
+    char data[36];
+    Item(EffectSetting_ctxr*);
+    ~Item();
+};
+
+void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
+
+struct List
+{
+    int pad[3];
+    int count;
+    void FUN_00405760(File*, const char*);
+};
+
+// @fnv 0x00405760
+void List::FUN_00405760(File* file, const char* name)
+{
+    unsigned id;
+    EffectSetting_ctxr* effect;
+    Item* actorValue;
+    int item;
+    switch (reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())
+    {
+    case 0x44494645:
+        file->ReadChunkInt(&id);
+        ::ResolveFormID(&id, (::TESFile *)(file));
+        effect = dynamic_cast<EffectSetting_ctxr*>(FUN_004839c0(id));
+        if (effect)
+        {
+            actorValue = new Item(effect);
+            reinterpret_cast<::TESFile *>((file))->NextChunk();
+            if (reinterpret_cast<::S3c60 *>((effect))->HasFlag2() && ((int)(reinterpret_cast<::InterfaceManager *>((effect))->FUN_00586150())) == 0x36)
+                item = 0;
+            if (reinterpret_cast<::EffectItem *>((actorValue))->Load((::TESFile *)(file), name))
+                reinterpret_cast<::EffectItemList *>(this)->AddItem((::EffectItem *)(actorValue));
+            else
+            {
+                ::FUN_005b5e40();
+                delete actorValue;
+                actorValue = 0;
+            }
+            *(Item**)&DAT_011c33d4 = actorValue;
+        }
+        else
+            ::FUN_005b5e40();
+        break;
+    case 0x41445443:
+        if (*(Item**)&DAT_011c33d4)
+        {
+            reinterpret_cast<::EffectItem *>(((*(Item**)&DAT_011c33d4)))->Load((::TESFile *)(file), name);
+            if (reinterpret_cast<::EffectItem *>(((*(Item**)&DAT_011c33d4)))->IsHostile())
+                count++;
+        }
+        else
+            ::FUN_005b5e40();
+        break;
+    }
+}
+#include "generated/data/fallout_shared/magic/effectitemlist_ctxr_variant.inc"

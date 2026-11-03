@@ -35,6 +35,8 @@
 #include "tesbipedmodelform_types_BIPED_OBJECT.h"
 #include "tesbipedmodelform_types_SEX.h"
 #include "tesbipedmodelform_types_BGSBipedModelList.h"
+#include "fnv/decl/FUN_00480570_cls.h"
+#include "fnv/decl/TESActorBase.h"
 
 // @fnv 0x00480d10
 bool TESBipedModelForm::IsPowerArmor()
@@ -606,4 +608,23 @@ void BipedModelCopy::FUN_004807a0(BaseFormComponent* component)
         messageIcon[1].CopyFromBase(&source->messageIcon[1]);
         m_kFaceGenModel.CopyFromBase(&source->m_kFaceGenModel);
     }
+}
+
+class FUN_00480400
+{
+  public:
+    virtual ~FUN_00480400();
+
+    BipedModelForm m_kBipedModelForm;
+    TESModelTextureSwap bipedModel[2];
+    TESModelTextureSwap worldModel[2];
+    TESIcon m_kIcon[2];
+    BGSMessageIcon messageIcon[2];
+    TESModelRDT m_kFaceGenModel;
+};
+
+// @fnv 0x00480400
+FUN_00480400::~FUN_00480400()
+{
+    reinterpret_cast<::FUN_00480570_cls *>(this)->FreeModels();
 }

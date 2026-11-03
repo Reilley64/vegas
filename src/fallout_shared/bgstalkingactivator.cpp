@@ -50,6 +50,8 @@
 #include "fnv/symbols_011c8000.h"
 #include "bgstalkingactivator.h"
 #include <malloc.h>
+#include "fnv/decl/fnv_0056b210__FUN_0056b210_shell.h"
+#include "fnv/symbols_00472000.h"
 
 static const char s_kTalkingVoiceTypeWarning[] =
     "MASTERFILE: Could not find voice type (%08X) for activator '%s' (%08X).";
@@ -698,3 +700,49 @@ bool TalkingActivatorComparison::FUN_004fed50(TESForm* form)
         return true;
     return false;
 }
+
+// Adjustor thunk for FUN_004ffa90: "sub ecx, 0x3c; jmp FUN_004fe6e0".
+//
+// MSVC "this adjusting thunk" emitted for a virtual function inherited from a
+// secondary base: the thunk converts the secondary base sub-object pointer
+// (this + 0x3c) back into the derived object pointer (sub ecx, 0x3c) and then
+// tail jumps to the final overrider.
+//
+// The subtracted constant is the size of the primary base, so the primary base
+// is laid out as a vtable pointer plus 14 int members (4 + 14 * 4 = 0x3c).
+// Both bases declare the same virtual, the derived class redeclares it and
+// defines only its constructor, which is what makes the compiler emit the
+// vtables and the adjusting thunk.
+struct AdjustorPrimary
+{
+    virtual void FUN_004ffa90();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct AdjustorSecondary
+{
+    virtual void FUN_004ffa90();
+};
+
+struct AdjustorDerived : AdjustorPrimary, AdjustorSecondary
+{
+    AdjustorDerived();
+// @fnv 0x004ffa90
+    virtual void FUN_004ffa90();
+};
+
+AdjustorDerived::AdjustorDerived()
+{}

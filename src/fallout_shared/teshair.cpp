@@ -30,6 +30,8 @@
 #include "teshair_types_TESHair.h"
 #include "teshair_decls.h"
 #include <malloc.h>
+#include "fnv/decl/FUN_005fdf60_shell.h"
+#include "fnv/decl/FUN_005fdf80_shell.h"
 
 // @fnv 0x005fdaa0
 TESHair::TESHair() : TESForm(), TESFullName(), TESModel(), TESTexture()
@@ -251,3 +253,35 @@ bool HairComparisonEntry::FUN_005fded0(TESForm* apCompare)
         return true;
     return false;
 }
+
+// sub ecx,0x24; jmp FUN_005fdb60  ==  MSVC adjustor thunk (multiple inheritance).
+// The primary base occupies 0x24 bytes; both bases declare the same virtual, and the
+// derived class defines only its constructor, so the compiler emits the this-adjusting
+// thunk for the secondary base's vtable slot.
+struct PrimaryBase
+{
+    virtual void FUN_005fe030();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005fe030();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x005fe030
+    virtual void FUN_005fe030();
+};
+
+Derived::Derived()
+{}

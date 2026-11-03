@@ -35,6 +35,10 @@
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_01183000.h"
 #include "fnv/symbols_011c1000.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_00624700_shell.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESFile.h"
 extern "C" void ref_008256d0();
 extern "C" void ref_0063f7b0();
 extern "C" void ref_00726c60();
@@ -975,3 +979,40 @@ void HeadPartInit::FUN_005e77b0()
     }
     reinterpret_cast<::TESForm *>(this)->SetInitializationState(1);
 }
+
+extern "C" void ref_00ec43fb();
+
+extern "C" void ref_00ec5ec0();
+
+extern "C" void ref_00ec408c();
+
+// sub ecx,0x24; jmp target == MSVC adjustor thunk: Derived overrides a virtual that both of its
+// bases declare, so the second base's vtable gets a thunk that moves `this` back by the size of
+// the first base (vptr + 8 ints = 0x24).
+struct PrimaryBase
+{
+    virtual void FUN_005e7a80();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005e7a80();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x005e7a80
+    virtual void FUN_005e7a80();
+};
+
+Derived::Derived()
+{}

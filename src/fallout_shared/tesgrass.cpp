@@ -36,6 +36,7 @@
 #include "fnv/symbols_011c3000.h"
 #include "tesgrass_decls.h"
 #include <malloc.h>
+#include "fnv/decl/FUN_00509cc0.h"
 
 // Checks the form type is 0x24, clears Data, loads the record header and iterates chunks (EDID, OBND, MODL/MODT, DATA) until none remain, returning true.
 // @fnv 0x00509f80
@@ -823,3 +824,44 @@ bool FUN_0050a2a0(::TESGrass* apGrass, GrassCompare50A2A0Detail::Argument apComp
         return true;
     return false;
 }
+
+struct FUN_00509c90_shell_o2
+{
+    void* DestroyIfFlagged(unsigned int flags);
+};
+
+// sub ecx,0x30; jmp DestroyIfFlagged
+// This is an MSVC this-adjusting (adjustor) thunk: a derived class overrides a
+// virtual that both of its bases declare, so the secondary base's vtable slot
+// holds a thunk that walks `this` back to the derived object (the size of the
+// primary base, 0x30) and tail-jumps to the derived override.
+struct PrimaryBase
+{
+    virtual void* FUN_0050a590(unsigned int flags);
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void* FUN_0050a590(unsigned int flags);
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0050a590
+    virtual void* FUN_0050a590(unsigned int flags);
+};
+
+Derived::Derived()
+{}

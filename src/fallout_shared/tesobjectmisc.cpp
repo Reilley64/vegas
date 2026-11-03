@@ -38,6 +38,7 @@
 #include "fnv/symbols_005b5000.h"
 #include "tesobjectmisc_decls.h"
 #include <malloc.h>
+#include "fnv/symbols_00472000.h"
 extern const char DAT_0102b038[];
 
 // @fnv 0x0051a980
@@ -366,3 +367,39 @@ bool FUN_0051afb0_shell::FUN_0051afb0(TESForm* apCompare)
         return true;
     return false;
 }
+
+// MSVC adjustor thunk: the primary base occupies 0x3c bytes; both bases declare the virtual,
+// the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_0051b130();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0051b130();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0051b130
+    virtual void FUN_0051b130();
+};
+
+Derived::Derived()
+{}

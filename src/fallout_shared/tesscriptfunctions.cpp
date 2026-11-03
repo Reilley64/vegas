@@ -791,6 +791,55 @@
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01272000.h"
 #include "tesscriptfunctions_layout_support.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/s88c790__Actor.h"
+#include "fnv/symbols_0059e000.h"
+#include "fnv/symbols_0059f000.h"
+#include "fnv/symbols_005a0000.h"
+#include "fnv/symbols_005a1000.h"
+#include "fnv/symbols_005a4000.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/CalleeObj.h"
+#include "fnv/decl/FUN_00458420_cls.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3eb0_shell.h"
+#include "fnv/decl/FUN_004b55c0_class.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00564c60_cls.h"
+#include "fnv/decl/FUN_0059ce80_shell.h"
+#include "fnv/decl/FUN_005dbe40_Class.h"
+#include "fnv/decl/FUN_005df510_shell.h"
+#include "fnv/decl/FUN_00c84f50_cls.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NavMeshPtr.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/Ref39.h"
+#include "fnv/decl/S005dbe60_Object.h"
+#include "fnv/decl/S_00a592c0_Matrix3.h"
+#include "fnv/decl/ShadowLightData.h"
+#include "fnv/decl/fnv_0041e340__FUN_0041e340_ExtraDataList.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_0050ebf0__FUN_0050ebf0_shell.h"
+#include "fnv/decl/fnv_00565480__RefPersistsStandin.h"
+#include "fnv/decl/n451__Grid.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_005df000.h"
+#include "fnv/symbols_006a9000.h"
+#include "fnv/symbols_006d9000.h"
+#include <xmmintrin.h>
+#include "fnv/decl/FUN_004a3c20.h"
+#include "fnv/decl/FUN_005df560_S.h"
+#include "fnv/decl/S00561240_Vector.h"
+#include "fnv/symbols_simd.h"
+#include "fnv/decl/FUN_0047ded0_shell.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/fnv_008b3d30__FUN_008b3d30_shell.h"
 
 class ScriptParameter;
 class ScriptHeaderData;
@@ -55366,6 +55415,4681 @@ extern "C" void __cdecl FUN_005c0740(::TESObjectREFR* apRef, char acAxis, float 
             reinterpret_cast<::FUN_00a59c60_cls *>((((Node_005c0740*)pNode)))->FUN_00a59c60((std::intptr_t)&(updateData));
         }
     }
+}
+
+class TESForm_ctx
+{
+  public:
+    virtual void V0();
+    virtual void V1();
+    virtual void V2();
+    virtual void V3();
+    virtual void V4();
+    virtual void V5();
+    virtual void V6();
+    virtual void V7();
+    virtual void V8();
+    virtual void V9();
+    virtual void V10();
+    virtual void V11();
+    virtual void V12();
+    virtual void V13();
+    virtual void V14();
+    virtual void V15();
+    virtual void V16();
+    virtual void V17();
+    virtual void V18();
+    virtual void V19();
+    virtual void V20();
+    virtual void V21();
+    virtual void V22();
+    virtual void V23();
+    virtual void V24();
+    virtual void V25();
+    virtual void V26();
+    virtual void V27();
+    virtual void V28();
+    virtual void V29();
+    virtual void V30();
+    virtual void V31();
+    virtual void V32();
+    virtual void V33();
+    virtual void V34();
+    virtual void V35();
+    virtual void V36();
+    virtual void V37();
+    virtual void V38();
+    virtual void V39();
+    virtual void V40();
+    virtual void V41();
+    virtual void V42();
+    virtual void V43();
+    virtual void V44();
+    virtual void V45();
+    virtual void V46();
+    virtual void V47();
+    virtual void V48();
+    virtual void V49();
+    virtual void SetAltered(bool);
+    virtual void SetQuestItem(bool set);
+    virtual void Unk_34(bool set);
+    virtual void Unk_35(bool set);
+    virtual void Unk_36(bool set);
+    virtual void Unk_37(void);
+    virtual void readOBNDSubRecord(TESFile* modInfo);
+    virtual bool IsActor_InEditor(void);
+    ENUM_FORM_ID GetFormType() const;
+    void SetDestroyed(bool);
+};
+
+class TESObjectREFR_ctx : public TESForm_ctx
+{
+  public:
+};
+
+class FalloutAudioMedia_ctx
+{
+  public:
+    static void PlayMedia(BGSMusicType*);
+    static void EndMediaUpdate();
+};
+
+class TESQuest_ctx
+{
+  public:
+    bool IsStageComplete(unsigned char);
+    void SetEnabled(bool);
+};
+
+class Script_ctx;
+
+class Script_ctx
+{
+  public:
+    static bool OnHitWithFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool StopQuestFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool ScriptEffectUpdateFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*,
+                                           Script_ctx*, ScriptLocals*, double&, unsigned int&);
+    static bool SetAllyFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool SetDestroyedFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetCurrentTimeFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool GetSecondsPassedFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                         ScriptLocals*, double&, unsigned int&);
+    static bool GetDead(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*, ScriptLocals*,
+                        double&, unsigned int&);
+    static bool GetItemCount(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetSitting(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*, ScriptLocals*,
+                           double&, unsigned int&);
+    static bool GetTalkedToPC(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool GetIsRaining(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetInCell(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*, ScriptLocals*,
+                          double&, unsigned int&);
+    static bool GetInFaction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetRandomPercent(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                 ScriptLocals*, double&, unsigned int&);
+    static bool GetLevel(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*, ScriptLocals*,
+                         double&, unsigned int&);
+    static bool OnAddFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool OnSellFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnEquipFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnUnequipFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool OnFireFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnOpenFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnCloseFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnGrabFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnReleaseFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool OnDestructionStageChangeFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*,
+                                                 Script_ctx*, ScriptLocals*, double&, unsigned int&);
+    static bool OnHitFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool OnDeathFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnStartCombatFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                      ScriptLocals*, double&, unsigned int&);
+    static bool OnCombatEndFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                    ScriptLocals*, double&, unsigned int&);
+    static bool OnSayToDoneFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                    ScriptLocals*, double&, unsigned int&);
+    static bool OnPackageStartFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool OnPackageEndFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool OnPackageChangeFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                        ScriptLocals*, double&, unsigned int&);
+    static bool OnLoadFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnResetFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnMagicEffectHitFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                         ScriptLocals*, double&, unsigned int&);
+    static bool OnTriggerFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool OnTriggerEnterFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool OnTriggerLeaveFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                       ScriptLocals*, double&, unsigned int&);
+
+    // Insert these declaration-only additions in the existing Script_ctx public section.
+    static bool IsIdlePlayingFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                      ScriptLocals*, double&, unsigned int&);
+    static bool IsTalkingFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool GetDayOfWeekFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool IsPCSleepingFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetDestroyedFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool HasBeenEatenFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetUnconsciousFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool IsInCombatFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                   ScriptLocals*, double&, unsigned int&);
+    static bool IsInInteriorFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                     ScriptLocals*, double&, unsigned int&);
+
+    static void SetReferenceScale(TESObjectREFR_ctx*, float);
+
+    static bool GetQuestCompleted(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool GetQuestRunning(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool GetStage(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*, ScriptLocals*,
+                         double&, unsigned int&);
+    static bool GetDeadCount(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetQuestCompletedStatus(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                        ScriptLocals*, double&, unsigned int&);
+    static bool InvokeScriptFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetQuestCompletionState(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                        ScriptLocals*, double&, unsigned int&);
+    static bool GetStageDone(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool ConvertScriptValue(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                   ScriptLocals*, double&, unsigned int&);
+    static bool GetInWorldspace(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool GetInSameCell(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool GetDetected(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                            ScriptLocals*, double&, unsigned int&);
+    static bool GetGlobalValue(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool IsCurrentFurnitureRef(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                      ScriptLocals*, double&, unsigned int&);
+    static bool GetIsID(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*, ScriptLocals*,
+                        double&, unsigned int&);
+    static bool EvaluateScriptExpression(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                         ScriptLocals*, double&, unsigned int&);
+    static bool GetPCMiscStat(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool HandleScriptVariable(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool ReadScriptReference(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                    ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateParsedScriptFunction(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*,
+                                             Script_ctx*, ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateScriptFunctionCall(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*,
+                                           Script_ctx*, ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateScriptCall(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                   ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateScriptCallback(const ScriptParameter*, const char*, TESObjectREFR_ctx*, TESObjectREFR_ctx*, Script_ctx*,
+                                       ScriptLocals*, double&, unsigned int&);
+};
+
+class BGSListForm_ctx : public TESForm_ctx
+{
+  public:
+};
+
+class TESForm_ctx;
+
+class TESObjectREFR_ctx;
+
+class Actor_ctx;
+
+class BaseProcess_ctx;
+
+class InventoryChanges_ctx;
+
+class ExtraDataList_ctx;
+
+class Script_ctx;
+
+class StrListT;
+
+class YHolder;
+
+struct BaseProcess_ctx
+{
+    virtual void v000();
+    virtual void v001();
+    virtual void v002();
+    virtual void v003();
+    virtual void v004();
+    virtual void v005();
+    virtual void v006();
+    virtual void v007();
+    virtual void v008();
+    virtual void v009();
+    virtual void v010();
+    virtual void v011();
+    virtual void v012();
+    virtual void v013();
+    virtual void v014();
+    virtual void v015();
+    virtual void v016();
+    virtual void v017();
+    virtual void v018();
+    virtual void v019();
+    virtual void v020();
+    virtual void v021();
+    virtual void v022();
+    virtual void v023();
+    virtual void v024();
+    virtual void v025();
+    virtual void v026();
+    virtual void v027();
+    virtual void v028();
+    virtual void v029();
+    virtual void v030();
+    virtual void v031();
+    virtual void v032();
+    virtual void v033();
+    virtual void v034();
+    virtual void v035();
+    virtual void v036();
+    virtual void v037();
+    virtual void v038();
+    virtual void v039();
+    virtual void v040();
+    virtual void v041();
+    virtual void v042();
+    virtual void v043();
+    virtual void v044();
+    virtual void v045();
+    virtual void v046();
+    virtual void v047();
+    virtual void v048();
+    virtual void v049();
+    virtual void v050();
+    virtual void v051();
+    virtual void v052();
+    virtual void v053();
+    virtual void v054();
+    virtual void v055();
+    virtual void v056();
+    virtual void v057();
+    virtual void v058();
+    virtual void v059();
+    virtual void v060();
+    virtual void v061();
+    virtual void v062();
+    virtual void v063();
+    virtual void v064();
+    virtual void v065();
+    virtual void v066();
+    virtual void v067();
+    virtual void v068();
+    virtual void v069();
+    virtual void v070();
+    virtual void v071();
+    virtual void v072();
+    virtual void v073();
+    virtual void v074();
+    virtual void v075();
+    virtual void v076();
+    virtual void v077();
+    virtual void v078();
+    virtual void v079();
+    virtual void v080();
+    virtual void v081();
+    virtual void v082();
+    virtual void v083();
+    virtual void v084();
+    virtual void v085();
+    virtual void v086();
+    virtual void v087();
+    virtual void v088();
+    virtual void v089();
+    virtual void v090();
+    virtual void v091();
+    virtual void v092();
+    virtual void v093();
+    virtual void v094();
+    virtual void v095();
+    virtual void v096();
+    virtual void v097();
+    virtual void v098();
+    virtual void v099();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual void v105();
+    virtual void v106();
+    virtual void v107();
+    virtual void v108();
+    virtual void v109();
+    virtual void v110();
+    virtual void v111();
+    virtual void v112();
+    virtual void v113();
+    virtual void v114();
+    virtual void v115();
+    virtual void v116();
+    virtual void v117();
+    virtual void v118();
+    virtual void v119();
+    virtual void v120();
+    virtual void v121();
+    virtual void v122();
+    virtual void v123();
+    virtual void v124();
+    virtual void v125();
+    virtual void v126();
+    virtual void v127();
+    virtual void v128();
+    virtual void v129();
+    virtual void v130();
+    virtual void v131();
+    virtual void v132();
+    virtual void v133();
+    virtual void v134();
+    virtual void v135();
+    virtual void v136();
+    virtual void v137();
+    virtual void v138();
+    virtual void v139();
+    virtual void v140();
+    virtual void v141();
+    virtual void v142();
+    virtual void v143();
+    virtual void v144();
+    virtual void v145();
+    virtual void v146();
+    virtual void v147();
+    virtual void v148();
+    virtual void v149();
+    virtual void v150();
+    virtual void v151();
+    virtual void v152();
+    virtual void v153();
+    virtual void v154();
+    virtual void v155();
+    virtual void v156();
+    virtual void v157();
+    virtual void v158();
+    virtual void v159();
+    virtual void v160();
+    virtual void v161();
+    virtual void v162();
+    virtual void v163();
+    virtual void v164();
+    virtual void v165();
+    virtual void v166();
+    virtual void v167();
+    virtual void v168();
+    virtual void v169();
+    virtual void v170();
+    virtual void v171();
+    virtual void v172();
+    virtual void v173();
+    virtual void v174();
+    virtual void v175();
+    virtual void v176();
+    virtual void v177();
+    virtual void v178();
+    virtual void v179();
+    virtual void v180();
+    virtual void v181();
+    virtual void v182();
+    virtual void v183();
+    virtual void v184();
+    virtual void v185();
+    virtual void v186();
+    virtual void v187();
+    virtual void v188();
+    virtual void v189();
+    virtual void v190();
+    virtual void v191();
+    virtual void v192();
+    virtual void v193();
+    virtual void v194();
+    virtual void v195();
+    virtual void v196();
+    virtual void v197();
+    virtual void v198();
+    virtual void v199();
+    virtual void v200();
+    virtual void v201();
+    virtual void v202();
+    virtual void v203();
+    virtual void v204();
+    virtual void v205();
+    virtual void v206();
+    virtual void v207();
+    virtual void v208();
+    virtual void v209();
+    virtual void v210();
+    virtual void v211();
+    virtual void v212();
+    virtual void v213();
+    virtual void v214();
+    virtual void v215();
+    virtual void v216();
+    virtual void v217();
+    virtual void v218();
+    virtual void v219();
+    virtual void v220();
+    virtual void v221();
+    virtual void v222();
+    virtual void v223();
+    virtual void v224();
+    virtual void v225();
+    virtual void v226();
+    virtual void v227();
+    virtual void v228();
+    virtual void v229();
+    virtual void v230();
+    virtual void v231();
+    virtual void v232();
+    virtual void v233();
+    virtual void v234();
+    virtual void v235();
+    virtual void v236();
+    virtual void v237();
+    virtual void v238();
+    virtual void v239();
+    virtual void v240();
+    virtual void v241();
+    virtual void v242();
+    virtual void v243();
+    virtual void v244();
+    virtual void v245();
+    virtual void v246();
+    virtual void v247();
+    virtual void v248();
+    virtual void v249();
+    virtual void v250();
+    virtual void v251();
+    virtual void v252();
+    virtual void v253();
+    virtual void v254();
+    virtual void v255();
+    virtual void v256();
+    virtual void v257();
+    virtual void v258();
+    virtual void v259();
+    virtual void v260();
+    virtual void v261();
+    virtual void v262();
+    virtual void v263();
+    virtual void v264();
+    virtual void v265();
+    virtual void v266();
+    virtual void v267();
+    virtual void v268();
+    virtual void v269();
+    virtual void v270();
+    virtual void v271();
+    virtual void v272();
+    virtual void v273();
+    virtual void v274();
+    virtual void v275();
+    virtual void v276();
+    virtual void v277();
+    virtual void v278();
+    virtual void v279();
+    virtual void v280();
+    virtual void v281();
+    virtual void v282();
+    virtual void v283();
+    virtual void v284();
+    virtual void v285();
+    virtual void v286();
+    virtual void v287();
+    virtual void v288();
+    virtual void v289();
+    virtual void v290();
+    virtual void v291();
+    virtual void v292();
+    virtual void v293();
+    virtual void v294();
+    virtual void v295();
+    virtual void v296();
+    virtual void v297();
+    virtual void v298();
+    virtual void v299();
+    virtual void v300();
+    virtual void v301();
+    virtual void v302();
+    virtual void v303();
+    virtual void v304();
+    virtual void v305();
+    virtual void v306();
+    virtual void v307();
+    virtual void v308();
+    virtual void v309();
+    virtual void v310();
+    virtual void v311();
+    virtual void v312();
+    virtual void v313();
+    virtual void v314();
+    virtual void v315();
+    virtual void v316();
+    virtual void v317();
+    virtual void v318();
+    virtual void v319();
+    virtual void v320();
+    virtual void v321();
+    virtual void v322();
+    virtual void v323();
+    virtual void v324();
+    virtual void v325();
+    virtual void v326();
+    virtual void v327();
+    virtual void v328();
+    virtual void v329();
+    virtual void v330();
+    virtual void v331();
+    virtual void v332();
+    virtual void v333();
+    virtual void v334();
+    virtual void v335();
+    virtual void v336();
+    virtual void v337();
+    virtual void v338();
+    virtual void v339();
+    virtual void v340();
+    virtual void v341();
+    virtual void v342();
+    virtual void v343();
+    virtual void v344();
+    virtual void v345();
+    virtual void v346();
+    virtual void v347();
+    virtual void v348();
+    virtual void v349();
+    virtual void v350();
+    virtual void v351();
+    virtual void v352(int, int, int);
+};
+
+class Actor_ctx : public TESObjectREFR_ctx
+{
+  public:
+};
+
+class ExtraDataList_ctx
+{
+  public:
+    ExtraDataList_ctx();
+    ~ExtraDataList_ctx();
+    int m_auiShapeKeys[8];
+};
+
+class YHolder
+{
+  public:
+    BSSimpleList<const char*>* m_pEntries;
+    ~YHolder();
+};
+
+class TESObjectREFR_ctx;
+
+class InventoryChanges_ctx
+{
+  public:
+public:
+    static ::InventoryChanges_ctx *CreateForReference(::TESObjectREFR_ctx *);
+};
+
+class TESFullName_ctx
+{
+  public:
+};
+
+struct SettingObj_ctx
+{
+};
+
+struct Interface_ctx
+{
+};
+
+// @fnv 0x005d0300
+bool FUN_005d0300(const ScriptParameter* param, const char* desc, TESObjectREFR_ctx* obj, TESObjectREFR_ctx* obj2,
+                  Script_ctx* script, ScriptLocals* locals, double& result, unsigned int& opcode)
+{
+    TESForm_ctx* pForm = 0;
+    int iCount = 0;
+    int iFlag = 0;
+
+    if (!::FUN_005accb0((const ::ExtractParameter *)(param), desc, &opcode, obj, obj2, (::ExtractScript *)(script), locals, &pForm, &iCount, &iFlag))
+        return false;
+
+    if (obj)
+    {
+        Actor_ctx* pActor = dynamic_cast<Actor_ctx*>(obj);
+        bool bSet = false;
+        if (iCount > 0)
+            bSet = true;
+
+        if (pForm)
+        {
+            if (pActor)
+            {
+                InventoryChanges_ctx* pChanges = ::InventoryChanges_ctx::CreateForReference(obj);
+                if (pChanges)
+                {
+                    ExtraDataList_ctx* pExtra = 0;
+                    pExtra = reinterpret_cast<::fnv_004bfda0::FUN_004bfda0_shell *>((pChanges))->FUN_004bfda0((::fnv_004bfda0::TESBoundObject *)(pForm), 0);
+                    if (pExtra)
+                    {
+                        reinterpret_cast<::FUN_0041ab70_shell *>((pExtra))->FUN_0041ab70(false);
+                        reinterpret_cast<::s88c790::Actor_ctx *>((pActor))->FUN_0088c790((int)(pForm), 1, 0, 1, bSet, 1);
+                        if (pActor == (*reinterpret_cast<::Actor_ctx * *>(&::_g_thePlayer)) && iFlag == 0)
+                        {
+                            BSStringT<char> str;
+                            ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&str), "%s %s.", ::FUN_00482720(pForm),
+                                         ((const char *)(reinterpret_cast<::StartMenu *>((((SettingObj_ctx*)&(*reinterpret_cast<char *>(&::g_011d424c)))))->GetMenuTitle())));
+                            ::DispatchMessageToSink((int)(((const char *)(::FUN_00559450((int *)&(str))))), 0,
+                                                   (int)("Interface_ctx\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
+                                                   (int)(0), 2.0f, false);
+                            reinterpret_cast<::FUN_00950030_shell *>(((*reinterpret_cast<::Actor_ctx * *>(&::_g_thePlayer))))->FUN_00950030();
+                            ((::BaseProcess_ctx *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::Actor_ctx * *>(&::_g_thePlayer))))->GetBaseTexture()))->v352(1, 0, 0);
+                            ::fnv_00704af0::FUN_00704af0();
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            InventoryChanges_ctx* pChanges2 = ::InventoryChanges_ctx::CreateForReference(obj);
+            if (pChanges2)
+            {
+                YHolder* pHolder = ((::YHolder *)(reinterpret_cast<::Rebuild004d0650::Inventory *>((pChanges2))->FUN_004d0650((::Rebuild004d0650::Object *)(pForm), 0)));
+                if (pHolder)
+                {
+                    if (((::BSSimpleList< ::ExtraDataList_ctx *> *)(::FUN_00559450((int *)(pHolder)))))
+                    {
+                        if (((::ExtraDataList_ctx *)(new ((void *)(((::BSSimpleList< ::ExtraDataList_ctx *> *)(::FUN_00559450((int *)(pHolder)))))) ::Vec3())))
+                        {
+                            reinterpret_cast<::FUN_0041ab70_shell *>((((::ExtraDataList_ctx *)(new ((void *)(((::BSSimpleList< ::ExtraDataList_ctx *> *)(::FUN_00559450((int *)(pHolder)))))) ::Vec3()))))->FUN_0041ab70(bSet);
+                        }
+                        else
+                        {
+                            ExtraDataList_ctx* pNew = new ExtraDataList_ctx();
+                            reinterpret_cast<::FUN_0041ab70_shell *>((pNew))->FUN_0041ab70(bSet);
+                            ((::BSSimpleList< ::ExtraDataList_ctx *> *)(::FUN_00559450((int *)(pHolder))))->AddHead(pNew);
+                        }
+                    }
+                    else
+                    {
+                        pHolder->m_pEntries = new BSSimpleList<const char*>();
+                        ExtraDataList_ctx* pNew2 = new ExtraDataList_ctx();
+                        reinterpret_cast<::FUN_0041ab70_shell *>((pNew2))->FUN_0041ab70(bSet);
+                        ((::BSSimpleList< ::ExtraDataList_ctx *> *)(::FUN_00559450((int *)(pHolder))))->AddHead(pNew2);
+                    }
+                    delete pHolder;
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+class TESForm_o2
+{
+  public:
+    virtual void V0();
+    virtual void V1();
+    virtual void V2();
+    virtual void V3();
+    virtual void V4();
+    virtual void V5();
+    virtual void V6();
+    virtual void V7();
+    virtual void V8();
+    virtual void V9();
+    virtual void V10();
+    virtual void V11();
+    virtual void V12();
+    virtual void V13();
+    virtual void V14();
+    virtual void V15();
+    virtual void V16();
+    virtual void V17();
+    virtual void V18();
+    virtual void V19();
+    virtual void V20();
+    virtual void V21();
+    virtual void V22();
+    virtual void V23();
+    virtual void V24();
+    virtual void V25();
+    virtual void V26();
+    virtual void V27();
+    virtual void V28();
+    virtual void V29();
+    virtual void V30();
+    virtual void V31();
+    virtual void V32();
+    virtual void V33();
+    virtual void V34();
+    virtual void V35();
+    virtual void V36();
+    virtual void V37();
+    virtual void V38();
+    virtual void V39();
+    virtual void V40();
+    virtual void V41();
+    virtual void V42();
+    virtual void V43();
+    virtual void V44();
+    virtual void V45();
+    virtual void V46();
+    virtual void V47();
+    virtual void V48();
+    virtual void V49();
+    virtual void SetAltered(bool);
+    virtual void SetQuestItem(bool set);
+    virtual void Unk_34(bool set);
+    virtual void Unk_35(bool set);
+    virtual void Unk_36(bool set);
+    virtual void Unk_37(void);
+    virtual void readOBNDSubRecord(TESFile* modInfo);
+    virtual bool IsActor_InEditor(void);
+    ENUM_FORM_ID GetFormType() const;
+    void SetDestroyed(bool);
+};
+
+class TESObjectREFR_o2 : public TESForm_o2
+{
+  public:
+};
+
+class FalloutAudioMedia_o2
+{
+  public:
+    static void PlayMedia(BGSMusicType*);
+    static void EndMediaUpdate();
+};
+
+class TESQuest_o2
+{
+  public:
+    bool IsStageComplete(unsigned char);
+    void SetEnabled(bool);
+};
+
+class Script_o2;
+
+class Script_o2
+{
+  public:
+    static bool OnHitWithFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool StopQuestFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool ScriptEffectUpdateFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*,
+                                           Script_o2*, ScriptLocals*, double&, unsigned int&);
+    static bool SetAllyFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool SetDestroyedFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetCurrentTimeFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool GetSecondsPassedFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                         ScriptLocals*, double&, unsigned int&);
+    static bool GetDead(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*, ScriptLocals*,
+                        double&, unsigned int&);
+    static bool GetItemCount(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetSitting(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*, ScriptLocals*,
+                           double&, unsigned int&);
+    static bool GetTalkedToPC(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool GetIsRaining(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetInCell(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*, ScriptLocals*,
+                          double&, unsigned int&);
+    static bool GetInFaction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetRandomPercent(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                 ScriptLocals*, double&, unsigned int&);
+    static bool GetLevel(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*, ScriptLocals*,
+                         double&, unsigned int&);
+    static bool OnAddFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool OnSellFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnEquipFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnUnequipFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool OnFireFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnOpenFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnCloseFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnGrabFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnReleaseFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool OnDestructionStageChangeFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*,
+                                                 Script_o2*, ScriptLocals*, double&, unsigned int&);
+    static bool OnHitFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool OnDeathFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnStartCombatFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                      ScriptLocals*, double&, unsigned int&);
+    static bool OnCombatEndFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                    ScriptLocals*, double&, unsigned int&);
+    static bool OnSayToDoneFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                    ScriptLocals*, double&, unsigned int&);
+    static bool OnPackageStartFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool OnPackageEndFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool OnPackageChangeFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                        ScriptLocals*, double&, unsigned int&);
+    static bool OnLoadFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnResetFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnMagicEffectHitFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                         ScriptLocals*, double&, unsigned int&);
+    static bool OnTriggerFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool OnTriggerEnterFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool OnTriggerLeaveFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                       ScriptLocals*, double&, unsigned int&);
+
+    // Insert these declaration-only additions in the existing Script_o2 public section.
+    static bool IsIdlePlayingFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                      ScriptLocals*, double&, unsigned int&);
+    static bool IsTalkingFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool GetDayOfWeekFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool IsPCSleepingFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetDestroyedFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool HasBeenEatenFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetUnconsciousFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool IsInCombatFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                   ScriptLocals*, double&, unsigned int&);
+    static bool IsInInteriorFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                     ScriptLocals*, double&, unsigned int&);
+
+    static void SetReferenceScale(TESObjectREFR_o2*, float);
+
+    static bool GetQuestCompleted(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool GetQuestRunning(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool GetStage(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*, ScriptLocals*,
+                         double&, unsigned int&);
+    static bool GetDeadCount(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetQuestCompletedStatus(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                        ScriptLocals*, double&, unsigned int&);
+    static bool InvokeScriptFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetQuestCompletionState(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                        ScriptLocals*, double&, unsigned int&);
+    static bool GetStageDone(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool ConvertScriptValue(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                   ScriptLocals*, double&, unsigned int&);
+    static bool GetInWorldspace(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool GetInSameCell(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool GetDetected(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                            ScriptLocals*, double&, unsigned int&);
+    static bool GetGlobalValue(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool IsCurrentFurnitureRef(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                      ScriptLocals*, double&, unsigned int&);
+    static bool GetIsID(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*, ScriptLocals*,
+                        double&, unsigned int&);
+    static bool EvaluateScriptExpression(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                         ScriptLocals*, double&, unsigned int&);
+    static bool GetPCMiscStat(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool HandleScriptVariable(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool ReadScriptReference(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                    ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateParsedScriptFunction(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*,
+                                             Script_o2*, ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateScriptFunctionCall(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*,
+                                           Script_o2*, ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateScriptCall(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                   ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateScriptCallback(const ScriptParameter*, const char*, TESObjectREFR_o2*, TESObjectREFR_o2*, Script_o2*,
+                                       ScriptLocals*, double&, unsigned int&);
+};
+
+class BGSListForm_o2 : public TESForm_o2
+{
+  public:
+};
+
+struct Map;
+
+struct NiProperty
+{
+    NiProperty();
+    virtual void V0();
+    char pad[0x14];
+};
+
+struct StrArr
+{
+    virtual void V0();
+    Map** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+    StrArr(unsigned int uiMaxSize, unsigned int uiGrowBy)
+    {
+        m_usMaxSize = (unsigned short)uiMaxSize;
+        m_usGrowBy = (unsigned short)uiGrowBy;
+        m_usSize = 0;
+        m_usESize = 0;
+        if (m_usMaxSize > 0)
+            m_pBase = (Map**)::FUN_00aa1070(sizeof(Map*) * m_usMaxSize);
+        else
+            m_pBase = 0;
+    }
+};
+
+struct StrArrP : StrArr
+{
+    StrArrP(unsigned int a, unsigned int b) : StrArr(a, b)
+    {}
+    virtual void V0();
+};
+
+struct FUN_00a6aa40 : NiProperty
+{
+    unsigned short m_uiObjectFlags;
+    StrArrP m_kStringArray;
+    int m_iArrayLength;
+    FUN_00a6aa40();
+    virtual void V0();
+};
+
+// @fnv 0x00a6aa40
+FUN_00a6aa40::FUN_00a6aa40() : m_uiObjectFlags(0), m_kStringArray(9, 1), m_iArrayLength(0)
+{
+    Map* pkMap;
+    pkMap = 0;
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(0, (char *&)(pkMap));
+    pkMap = 0;
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(1, (char *&)(pkMap));
+    pkMap = 0;
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(2, (char *&)(pkMap));
+    pkMap = 0;
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(3, (char *&)(pkMap));
+    pkMap = 0;
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(4, (char *&)(pkMap));
+    pkMap = 0;
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(5, (char *&)(pkMap));
+    pkMap = 0;
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(6, (char *&)(pkMap));
+    pkMap = 0;
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(7, (char *&)(pkMap));
+    pkMap = 0;
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(8, (char *&)(pkMap));
+    m_uiObjectFlags &= 0xf00f;
+    bool bMulti = false;
+    unsigned int uiSize = m_kStringArray.m_usSize;
+    for (unsigned int i = 1; i < uiSize; i++)
+    {
+        if (m_kStringArray.m_pBase[i])
+        {
+            bMulti = true;
+            break;
+        }
+    }
+    if (bMulti)
+        m_uiObjectFlags |= 1;
+    else
+        m_uiObjectFlags &= ~1;
+    m_uiObjectFlags = (m_uiObjectFlags & ~0xA) | 4;
+}
+
+class TESForm_o2_od_oy_noo2_nogf
+{
+  public:
+    virtual void V0();
+    virtual void V1();
+    virtual void V2();
+    virtual void V3();
+    virtual void V4();
+    virtual void V5();
+    virtual void V6();
+    virtual void V7();
+    virtual void V8();
+    virtual void V9();
+    virtual void V10();
+    virtual void V11();
+    virtual void V12();
+    virtual void V13();
+    virtual void V14();
+    virtual void V15();
+    virtual void V16();
+    virtual void V17();
+    virtual void V18();
+    virtual void V19();
+    virtual void V20();
+    virtual void V21();
+    virtual void V22();
+    virtual void V23();
+    virtual void V24();
+    virtual void V25();
+    virtual void V26();
+    virtual void V27();
+    virtual void V28();
+    virtual void V29();
+    virtual void V30();
+    virtual void V31();
+    virtual void V32();
+    virtual void V33();
+    virtual void V34();
+    virtual void V35();
+    virtual void V36();
+    virtual void V37();
+    virtual void V38();
+    virtual void V39();
+    virtual void V40();
+    virtual void V41();
+    virtual void V42();
+    virtual void V43();
+    virtual void V44();
+    virtual void V45();
+    virtual void V46();
+    virtual void V47();
+    virtual void V48();
+    virtual void V49();
+    virtual void SetAltered(bool);
+    virtual void SetQuestItem(bool set);
+    virtual void Unk_34(bool set);
+    virtual void Unk_35(bool set);
+    virtual void Unk_36(bool set);
+    virtual void Unk_37(void);
+    virtual void readOBNDSubRecord(TESFile* modInfo);
+    virtual bool IsActor_InEditor(void);
+    ENUM_FORM_ID GetFormType() const;
+    void SetDestroyed(bool);
+};
+
+class TESObjectREFR_o2_od_oy_noo2_nogf : public TESForm_o2_od_oy_noo2_nogf
+{
+  public:
+};
+
+class FalloutAudioMedia_o2_od_oy_noo2_nogf
+{
+  public:
+    static void PlayMedia(BGSMusicType*);
+    static void EndMediaUpdate();
+};
+
+class TESQuest_o2_od_oy_noo2_nogf
+{
+  public:
+    bool IsStageComplete(unsigned char);
+    void SetEnabled(bool);
+};
+
+class Script_o2_od_oy_noo2_nogf;
+
+class Script_o2_od_oy_noo2_nogf
+{
+  public:
+    static bool OnHitWithFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool StopQuestFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool ScriptEffectUpdateFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*,
+                                           Script_o2_od_oy_noo2_nogf*, ScriptLocals*, double&, unsigned int&);
+    static bool SetAllyFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool SetDestroyedFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetCurrentTimeFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool GetSecondsPassedFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                         ScriptLocals*, double&, unsigned int&);
+    static bool GetDead(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*, ScriptLocals*,
+                        double&, unsigned int&);
+    static bool GetItemCount(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetSitting(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*, ScriptLocals*,
+                           double&, unsigned int&);
+    static bool GetTalkedToPC(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool GetIsRaining(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetInCell(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*, ScriptLocals*,
+                          double&, unsigned int&);
+    static bool GetInFaction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetRandomPercent(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                 ScriptLocals*, double&, unsigned int&);
+    static bool GetLevel(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*, ScriptLocals*,
+                         double&, unsigned int&);
+    static bool OnAddFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool OnSellFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnEquipFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnUnequipFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool OnFireFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnOpenFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnCloseFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnGrabFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnReleaseFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool OnDestructionStageChangeFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*,
+                                                 Script_o2_od_oy_noo2_nogf*, ScriptLocals*, double&, unsigned int&);
+    static bool OnHitFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool OnDeathFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnStartCombatFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                      ScriptLocals*, double&, unsigned int&);
+    static bool OnCombatEndFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                    ScriptLocals*, double&, unsigned int&);
+    static bool OnSayToDoneFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                    ScriptLocals*, double&, unsigned int&);
+    static bool OnPackageStartFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool OnPackageEndFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool OnPackageChangeFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                        ScriptLocals*, double&, unsigned int&);
+    static bool OnLoadFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnResetFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnMagicEffectHitFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                         ScriptLocals*, double&, unsigned int&);
+    static bool OnTriggerFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool OnTriggerEnterFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool OnTriggerLeaveFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                       ScriptLocals*, double&, unsigned int&);
+
+    // Insert these declaration-only additions in the existing Script_o2_od_oy_noo2_nogf public section.
+    static bool IsIdlePlayingFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                      ScriptLocals*, double&, unsigned int&);
+    static bool IsTalkingFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool GetDayOfWeekFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool IsPCSleepingFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetDestroyedFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool HasBeenEatenFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetUnconsciousFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool IsInCombatFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                   ScriptLocals*, double&, unsigned int&);
+    static bool IsInInteriorFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                     ScriptLocals*, double&, unsigned int&);
+
+    static void SetReferenceScale(TESObjectREFR_o2_od_oy_noo2_nogf*, float);
+
+    static bool GetQuestCompleted(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool GetQuestRunning(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool GetStage(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*, ScriptLocals*,
+                         double&, unsigned int&);
+    static bool GetDeadCount(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetQuestCompletedStatus(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                        ScriptLocals*, double&, unsigned int&);
+    static bool InvokeScriptFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetQuestCompletionState(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                        ScriptLocals*, double&, unsigned int&);
+    static bool GetStageDone(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool ConvertScriptValue(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                   ScriptLocals*, double&, unsigned int&);
+    static bool GetInWorldspace(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool GetInSameCell(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool GetDetected(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                            ScriptLocals*, double&, unsigned int&);
+    static bool GetGlobalValue(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool IsCurrentFurnitureRef(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                      ScriptLocals*, double&, unsigned int&);
+    static bool GetIsID(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*, ScriptLocals*,
+                        double&, unsigned int&);
+    static bool EvaluateScriptExpression(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                         ScriptLocals*, double&, unsigned int&);
+    static bool GetPCMiscStat(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool HandleScriptVariable(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool ReadScriptReference(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                    ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateParsedScriptFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*,
+                                             Script_o2_od_oy_noo2_nogf*, ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateScriptFunctionCall(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*,
+                                           Script_o2_od_oy_noo2_nogf*, ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateScriptCall(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                   ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateScriptCallback(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2_nogf*, TESObjectREFR_o2_od_oy_noo2_nogf*, Script_o2_od_oy_noo2_nogf*,
+                                       ScriptLocals*, double&, unsigned int&);
+public:
+    static void CopyIdentifierBitsToValue(const unsigned int &, double &);
+};
+
+class BGSListForm_o2_od_oy_noo2_nogf : public TESForm_o2_od_oy_noo2_nogf
+{
+  public:
+};
+
+struct Map;
+
+struct NiProperty_o2_od_oy_noo2_nogf
+{
+    NiProperty_o2_od_oy_noo2_nogf();
+    virtual void V0();
+    char pad[0x14];
+};
+
+struct StrArr_o2_od_oy_noo2_nogf
+{
+    virtual void V0();
+    Map** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+    StrArr_o2_od_oy_noo2_nogf(unsigned int uiMaxSize, unsigned int uiGrowBy)
+    {
+        m_usMaxSize = (unsigned short)uiMaxSize;
+        m_usGrowBy = (unsigned short)uiGrowBy;
+        m_usSize = 0;
+        m_usESize = 0;
+        if (m_usMaxSize > 0)
+            m_pBase = (Map**)::FUN_00aa1070(sizeof(Map*) * m_usMaxSize);
+        else
+            m_pBase = 0;
+    }
+};
+
+struct StrArrP_o2_od_oy_noo2_nogf : StrArr_o2_od_oy_noo2_nogf
+{
+    StrArrP_o2_od_oy_noo2_nogf(unsigned int a, unsigned int b) : StrArr_o2_od_oy_noo2_nogf(a, b)
+    {}
+    virtual void V0();
+};
+
+struct FUN_00a6aa40_o2_od_oy_noo2_nogf : NiProperty_o2_od_oy_noo2_nogf
+{
+    unsigned short m_uiObjectFlags;
+    StrArrP_o2_od_oy_noo2_nogf m_kStringArray;
+    int m_iArrayLength;
+    FUN_00a6aa40_o2_od_oy_noo2_nogf();
+    virtual void V0();
+};
+
+class NiPoint3C4
+{
+  public:
+    NiPoint3C4();
+    NiPoint3C4(float fX, float fY, float fZ);
+    NiPoint3C4 operator+(const NiPoint3C4& kPt) const;
+    NiPoint3C4 operator-(const NiPoint3C4& kPt) const;
+    NiPoint3C4 operator*(float fScale) const;
+    NiPoint3C4& operator+=(const NiPoint3C4& kPt);
+    NiPoint3C4& operator-=(const NiPoint3C4& kPt);
+    NiPoint3C4& operator*=(float fScale);
+    float x;
+    float y;
+    float z;
+};
+
+class NiMatrix3C4
+{
+  public:
+    float m_afEntries[3][3];
+};
+
+class NodeC4
+{
+  public:
+};
+
+class HitFlagC4
+{
+  public:
+    HitFlagC4();
+    char m_cValue;
+};
+
+class HitC4
+{
+  public:
+    __m128 m_kData[2];
+};
+
+class PickFlagsC4
+{
+  public:
+    PickFlagsC4(int iValue);
+    int m_iValue;
+};
+
+class PickQueryC4
+{
+  public:
+    PickQueryC4();
+    void SetFlags(PickFlagsC4 kFlags);
+    __m128 m_akA[3];
+    HitC4 m_kHit;
+    __m128 m_akB[6];
+};
+
+class PickWorldC4
+{
+  public:
+};
+
+class ActorC4
+{
+  public:
+    virtual void a000();
+    virtual void a001();
+    virtual void a002();
+    virtual void a003();
+    virtual void a004();
+    virtual void a005();
+    virtual void a006();
+    virtual void a007();
+    virtual void a008();
+    virtual void a009();
+    virtual void a00a();
+    virtual void a00b();
+    virtual void a00c();
+    virtual void a00d();
+    virtual void a00e();
+    virtual void a00f();
+    virtual void a010();
+    virtual void a011();
+    virtual void a012();
+    virtual void a013();
+    virtual void a014();
+    virtual void a015();
+    virtual void a016();
+    virtual void a017();
+    virtual void a018();
+    virtual void a019();
+    virtual void a01a();
+    virtual void a01b();
+    virtual void a01c();
+    virtual void a01d();
+    virtual void a01e();
+    virtual void a01f();
+    virtual void a020();
+    virtual void a021();
+    virtual void a022();
+    virtual void a023();
+    virtual void a024();
+    virtual void a025();
+    virtual void a026();
+    virtual void a027();
+    virtual void a028();
+    virtual void a029();
+    virtual void a02a();
+    virtual void a02b();
+    virtual void a02c();
+    virtual void a02d();
+    virtual void a02e();
+    virtual void a02f();
+    virtual void a030();
+    virtual void a031();
+    virtual void a032();
+    virtual void a033();
+    virtual void a034();
+    virtual void a035();
+    virtual void a036();
+    virtual void a037();
+    virtual void a038();
+    virtual void a039();
+    virtual void a03a();
+    virtual void a03b();
+    virtual void a03c();
+    virtual void a03d();
+    virtual void a03e();
+    virtual void a03f();
+    virtual void a040();
+    virtual void a041();
+    virtual void a042();
+    virtual void a043();
+    virtual void a044();
+    virtual void a045();
+    virtual void a046();
+    virtual void a047();
+    virtual void a048();
+    virtual void a049();
+    virtual void a04a();
+    virtual void a04b();
+    virtual void a04c();
+    virtual void a04d();
+    virtual void a04e();
+    virtual void a04f();
+    virtual void a050();
+    virtual void a051();
+    virtual void a052();
+    virtual void a053();
+    virtual void a054();
+    virtual void a055();
+    virtual void a056();
+    virtual void a057();
+    virtual void a058();
+    virtual void a059();
+    virtual void a05a();
+    virtual void a05b();
+    virtual void a05c();
+    virtual void a05d();
+    virtual void a05e();
+    virtual void a05f();
+    virtual void a060();
+    virtual void a061();
+    virtual void a062();
+    virtual void a063();
+    virtual void a064();
+    virtual void a065();
+    virtual void a066();
+    virtual void a067();
+    virtual void a068();
+    virtual void a069();
+    virtual void a06a();
+    virtual void a06b();
+    virtual void a06c();
+    virtual void a06d();
+    virtual void a06e();
+    virtual void a06f();
+    virtual void a070();
+    virtual void a071();
+    virtual void a072();
+    virtual void a073();
+    virtual void a074();
+    virtual void a075();
+    virtual void a076();
+    virtual void a077();
+    virtual void a078();
+    virtual void a079();
+    virtual void a07a();
+    virtual void a07b();
+    virtual void a07c();
+    virtual void a07d();
+    virtual void a07e();
+    virtual void a07f();
+    virtual void a080();
+    virtual void a081();
+    virtual void a082();
+    virtual void a083();
+    virtual void a084();
+    virtual void a085();
+    virtual void a086();
+    virtual void a087();
+    virtual void a088();
+    virtual void a089();
+    virtual void a08a();
+    virtual void a08b();
+    virtual void a08c();
+    virtual void a08d();
+    virtual void a08e();
+    virtual void a08f();
+    virtual void a090();
+    virtual void a091();
+    virtual void a092();
+    virtual void a093();
+    virtual void a094();
+    virtual void a095();
+    virtual void a096();
+    virtual void a097();
+    virtual void a098();
+    virtual void a099();
+    virtual void a09a();
+    virtual void a09b();
+    virtual void a09c();
+    virtual void a09d();
+    virtual void a09e();
+    virtual void a09f();
+    virtual void a0a0();
+    virtual void a0a1();
+    virtual void a0a2();
+    virtual void a0a3();
+    virtual void a0a4();
+    virtual void a0a5();
+    virtual void a0a6();
+    virtual void a0a7();
+    virtual void a0a8();
+    virtual void a0a9();
+    virtual void a0aa();
+    virtual void a0ab();
+    virtual void a0ac();
+    virtual void a0ad();
+    virtual void a0ae();
+    virtual void a0af();
+    virtual void a0b0();
+    virtual void a0b1();
+    virtual void a0b2();
+    virtual void a0b3();
+    virtual void a0b4();
+    virtual void a0b5();
+    virtual void a0b6();
+    virtual void a0b7();
+    virtual void a0b8();
+    virtual void a0b9();
+    virtual void a0ba();
+    virtual void a0bb();
+    virtual void a0bc();
+    virtual void a0bd();
+    virtual void a0be();
+    virtual void a0bf();
+    virtual void a0c0();
+    virtual void a0c1();
+    virtual void a0c2();
+    virtual void a0c3();
+    virtual void a0c4();
+    virtual void a0c5();
+    virtual void a0c6();
+    virtual void a0c7();
+    virtual void a0c8();
+    virtual void a0c9();
+    virtual void a0ca();
+    virtual void a0cb();
+    virtual void a0cc();
+    virtual void a0cd();
+    virtual void a0ce();
+    virtual void a0cf();
+    virtual void a0d0();
+    virtual void a0d1();
+    virtual void a0d2();
+    virtual void a0d3();
+    virtual void a0d4();
+    virtual void a0d5();
+    virtual void a0d6();
+    virtual void a0d7();
+    virtual void a0d8();
+    virtual void a0d9();
+    virtual void a0da();
+    virtual void a0db();
+    virtual void a0dc();
+    virtual void a0dd();
+    virtual void a0de();
+    virtual void a0df();
+    virtual void a0e0();
+    virtual void a0e1();
+    virtual void a0e2();
+    virtual void a0e3();
+    virtual void a0e4();
+    virtual void a0e5();
+    virtual void a0e6();
+    virtual void a0e7();
+    virtual void a0e8();
+    virtual void a0e9();
+    virtual void a0ea();
+    virtual void a0eb();
+    virtual void a0ec();
+    virtual void a0ed();
+    virtual void a0ee();
+    virtual void a0ef();
+    virtual void a0f0();
+    virtual void a0f1();
+    virtual void a0f2();
+    virtual void a0f3();
+    virtual void a0f4();
+    virtual void a0f5();
+    virtual void a0f6();
+    virtual void a0f7();
+    virtual void a0f8();
+    virtual void a0f9();
+    virtual void a0fa();
+    virtual void a0fb();
+    virtual void a0fc();
+    virtual void a0fd();
+    virtual void a0fe();
+    virtual void a0ff();
+    virtual void a100();
+    virtual void a101();
+    virtual void a102();
+    virtual void a103();
+    virtual void a104();
+    virtual void a105();
+    virtual void a106();
+    virtual void SetAlpha(float fAlpha);
+};
+
+class RefC4
+{
+  public:
+    virtual void r000();
+    virtual void r001();
+    virtual void r002();
+    virtual void r003();
+    virtual void r004();
+    virtual void r005();
+    virtual void r006();
+    virtual void r007();
+    virtual void r008();
+    virtual void r009();
+    virtual void r00a();
+    virtual void r00b();
+    virtual void r00c();
+    virtual void r00d();
+    virtual void r00e();
+    virtual void r00f();
+    virtual void r010();
+    virtual void r011();
+    virtual void r012();
+    virtual void r013();
+    virtual void r014();
+    virtual void r015();
+    virtual void r016();
+    virtual void r017();
+    virtual void r018();
+    virtual void r019();
+    virtual void r01a();
+    virtual void r01b();
+    virtual void r01c();
+    virtual void r01d();
+    virtual void r01e();
+    virtual void r01f();
+    virtual void r020();
+    virtual void r021();
+    virtual void r022();
+    virtual void r023();
+    virtual void r024();
+    virtual void r025();
+    virtual void r026();
+    virtual void r027();
+    virtual void r028();
+    virtual void r029();
+    virtual void r02a();
+    virtual void r02b();
+    virtual void r02c();
+    virtual void r02d();
+    virtual void r02e();
+    virtual void r02f();
+    virtual void r030();
+    virtual void r031();
+    virtual void r032();
+    virtual void r033();
+    virtual void r034();
+    virtual void r035();
+    virtual void r036();
+    virtual void r037();
+    virtual void r038();
+    virtual void r039();
+    virtual void r03a();
+    virtual void r03b();
+    virtual void r03c();
+    virtual void r03d();
+    virtual void r03e();
+    virtual void r03f();
+    virtual bool IsActor();
+    virtual void r041();
+    virtual void r042();
+    virtual void r043();
+    virtual void r044();
+    virtual void r045();
+    virtual void r046();
+    virtual void r047();
+    virtual void r048();
+    virtual void r049();
+    virtual void r04a();
+    virtual void r04b();
+    virtual void r04c();
+    virtual void r04d();
+    virtual void r04e();
+    virtual void r04f();
+    virtual void r050();
+    virtual void r051();
+    virtual void r052();
+    virtual void r053();
+    virtual void r054();
+    virtual void r055();
+    virtual void r056();
+    virtual void r057();
+    virtual void r058();
+    virtual void r059();
+    virtual void r05a();
+    virtual void r05b();
+    virtual void r05c();
+    virtual void r05d();
+    virtual void r05e();
+    virtual void r05f();
+    virtual void r060();
+    virtual void r061();
+    virtual void r062();
+    virtual void r063();
+    virtual void r064();
+    virtual void r065();
+    virtual void r066();
+    virtual void r067();
+    virtual void r068();
+    virtual void r069();
+    virtual void r06a();
+    virtual void r06b();
+    virtual void r06c();
+    virtual void r06d();
+    virtual void r06e();
+    virtual void r06f();
+    virtual void r070();
+    virtual void r071();
+    virtual void r072();
+    virtual void r073();
+    virtual NodeC4* Get3D();
+    virtual void r075();
+    virtual void r076();
+    virtual void r077();
+    virtual void r078();
+    virtual void r079();
+    virtual void r07a();
+    virtual void r07b();
+    virtual void r07c();
+    virtual const NiPoint3C4* GetPos();
+};
+
+class DataHandlerC4
+{
+  public:
+};
+
+struct LevEntryC4
+{
+    int m_iArrayLength;
+    void* m_pkForm;
+};
+
+class LevNodeC4
+{
+  public:
+    bool IsEmpty();
+};
+
+class LevResultC4
+{
+  public:
+    LevResultC4();
+    ~LevResultC4();
+    void* m_pResource[3];
+};
+
+class LevListC4
+{
+  public:
+};
+
+class FormC4
+{
+  public:
+    virtual void f000();
+    virtual void f001();
+    virtual void f002();
+    virtual void f003();
+    virtual void f004();
+    virtual void f005();
+    virtual void f006();
+    virtual void f007();
+    virtual void f008();
+    virtual void f009();
+    virtual void f00a();
+    virtual void f00b();
+    virtual void f00c();
+    virtual void f00d();
+    virtual void f00e();
+    virtual void f00f();
+    virtual void f010();
+    virtual void f011();
+    virtual void f012();
+    virtual void f013();
+    virtual void f014();
+    virtual void f015();
+    virtual void f016();
+    virtual void f017();
+    virtual void f018();
+    virtual void f019();
+    virtual void f01a();
+    virtual void f01b();
+    virtual void f01c();
+    virtual void f01d();
+    virtual void f01e();
+    virtual void f01f();
+    virtual void f020();
+    virtual void f021();
+    virtual void f022();
+    virtual void f023();
+    virtual void f024();
+    virtual void f025();
+    virtual void f026();
+    virtual void f027();
+    virtual void f028();
+    virtual void f029();
+    virtual void f02a();
+    virtual void f02b();
+    virtual void f02c();
+    virtual void f02d();
+    virtual void f02e();
+    virtual void f02f();
+    virtual void f030();
+    virtual void f031();
+    virtual void f032();
+    virtual void f033();
+    virtual void f034();
+    virtual void f035();
+    virtual void f036();
+    virtual void f037();
+    virtual void f038();
+    virtual bool IsBoundObject();
+    int GetFormType();
+};
+
+class LevCreatureC4 : public FormC4
+{
+  public:
+    char m_acPad[0x30 - 4];
+    LevListC4 m_kList;
+};
+
+class LevCharacterC4 : public FormC4
+{
+  public:
+    char m_acPad[0x30 - 4];
+    LevListC4 m_kList;
+};
+
+class BoundC4 : public FormC4
+{
+  public:
+};
+
+class CountC4
+{
+  public:
+    virtual void c000();
+    virtual void c001();
+    virtual void c002();
+    virtual void c003();
+    virtual unsigned int GetCount();
+};
+
+// @fnv 0x005c4b30
+RefC4* __cdecl FUN_005c4b30(RefC4* pkRef, FormC4* pkForm, int iCount, int iDistance, int iMode, float fScale)
+{
+    RefC4* pkNew = 0;
+    if (pkRef && pkForm)
+    {
+        NiPoint3C4 kAngle = (*(const ::NiPoint3C4 *)(reinterpret_cast<::TESRecipe *>((pkRef))->GetData()));
+        NiPoint3C4 kPos = *pkRef->GetPos();
+        if (iDistance)
+        {
+            NodeC4* pkNode = pkRef->Get3D();
+            if (pkNode)
+            {
+                NiPoint3C4 kWorldPosition(0.0f, 0.0f, 0.0f);
+                NiMatrix3C4 kRotate = (*(const ::NiMatrix3C4 *)(::FUN_006a9540((char *)(pkNode))));
+                kPos = (*(const ::NiPoint3C4 *)&(reinterpret_cast<::NiAVObject *>((pkNode))->FUN_0043c490()));
+                switch (iMode)
+                {
+                case 2:
+                case 3:
+                    kWorldPosition.x = reinterpret_cast<::FUN_004b55c0_class *>((void *)&(kRotate))->GetFloatAt(0, 0);
+                    kWorldPosition.y = reinterpret_cast<::FUN_004b55c0_class *>((void *)&(kRotate))->GetFloatAt(1, 0);
+                    kWorldPosition.z = reinterpret_cast<::FUN_004b55c0_class *>((void *)&(kRotate))->GetFloatAt(2, 0);
+                    break;
+                default:
+                    kWorldPosition.x = reinterpret_cast<::FUN_004b55c0_class *>((void *)&(kRotate))->GetFloatAt(0, 1);
+                    kWorldPosition.y = reinterpret_cast<::FUN_004b55c0_class *>((void *)&(kRotate))->GetFloatAt(1, 1);
+                    kWorldPosition.z = reinterpret_cast<::FUN_004b55c0_class *>((void *)&(kRotate))->GetFloatAt(2, 1);
+                    break;
+                }
+                reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3C4 &)(kWorldPosition))->FUN_00439180((float)iDistance);
+                switch (iMode)
+                {
+                case 1:
+                case 2:
+                    reinterpret_cast<::NiPoint3 *>((void *)&(const ::NiPoint3C4 &)(kPos))->Subtract((const ::NiPoint3 &)(kWorldPosition));
+                    break;
+                default:
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3C4 &)(kPos))->FUN_0063c8a0((void *)&(kWorldPosition));
+                    break;
+                }
+            }
+        }
+        NiPoint3C4 akPos[9];
+        int iIndex = 0;
+        akPos[iIndex] = kPos;
+        iIndex++;
+        float fAngleDifference = ::RandomFloat0To1() * 0.785398185253143310546875;
+        for (int i = 0; i < 8; i++)
+        {
+            akPos[iIndex] =
+                kPos + NiPoint3C4(FUN_005b9e80(fAngleDifference), FUN_005c53d0(fAngleDifference), 0.0f) * 100.0f;
+            iIndex++;
+            fAngleDifference += 0.785398185253143310546875;
+        }
+        if (pkForm->GetFormType() == 0x2c || pkForm->GetFormType() == 0x2d)
+        {
+            int iLevel = ((int)(reinterpret_cast<::fnv_00567e10::FUN_00567e10_shell *>((pkRef))->FUN_00567e10(0)));
+            LevResultC4 kResult;
+            if (pkForm->GetFormType() == 0x2c)
+            {
+                LevCreatureC4* pkLev = (LevCreatureC4*)pkForm;
+                reinterpret_cast<::TESLeveledList *>(&(pkLev->m_kList))->PopulateContainerWithLeveledItems(iLevel, iCount, (::TESContainer *)&(kResult), 0);
+            }
+            else
+            {
+                LevCharacterC4* pkLev = (LevCharacterC4*)pkForm;
+                reinterpret_cast<::TESLeveledList *>(&(pkLev->m_kList))->PopulateContainerWithLeveledItems(iLevel, iCount, (::TESContainer *)&(kResult), 0);
+            }
+            LevNodeC4* pkIter = ((::LevNodeC4 *)(reinterpret_cast<::BaseProcess *>(&(kResult))->GetCurrentProcessData()));
+            while (pkIter && !pkIter->IsEmpty())
+            {
+                LevEntryC4* pkEntry = *((::LevEntryC4 **)(new ((void *)(pkIter)) ::Vec3()));
+                if (pkEntry && pkEntry->m_pkForm)
+                {
+                    while (pkEntry->m_iArrayLength > 0)
+                    {
+                        pkNew =
+                            ((::RefC4 *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerC4 * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(pkEntry->m_pkForm), (::NiPoint3 *)(::NiPoint3C4 *)(&kPos), (::NiPoint3 *)(::NiPoint3C4 *)(&kAngle), (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((pkRef))->GetTarget()))),
+                                                        (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((pkRef))->FUN_00575d70()))), (::TESObjectREFR_o2_od_oy_noo2_nogf *)(void *)(0), (const char *)(void *)(0), (::TESForm_o2_od_oy_noo2_nogf *)(void *)(0))));
+                        if (pkNew && pkNew->IsActor())
+                        {
+                            ActorC4* pkActor = (ActorC4*)pkNew;
+                            pkActor->SetAlpha(0.0f);
+                            reinterpret_cast<::fnv_008bcd20::FUN_008bcd20_shell *>((pkActor))->FUN_008bcd20();
+                        }
+                        pkEntry->m_iArrayLength--;
+                    }
+                }
+                pkIter = ((::LevNodeC4 *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070()));
+            }
+        }
+        else if (pkForm->IsBoundObject())
+        {
+            BoundC4* pkBound = (BoundC4*)pkForm;
+            CountC4* pkCountObj = ((::CountC4 *)(::GetHealthForm((::TESForm_o2_od_oy_noo2_nogf *)(pkBound))));
+            bool bOutside = false;
+            if (!reinterpret_cast<::n451::Grid *>(((*reinterpret_cast<::PickWorldC4 * *>(&::g_TES))))->ContainsPoint((*(const ::n451::Pt *)(pkRef->GetPos()))))
+                bOutside = true;
+            iIndex = 0;
+            for (int j = 0; j < iCount; j++)
+            {
+                if (iIndex && !bOutside && reinterpret_cast<::n451::Grid *>(((*reinterpret_cast<::PickWorldC4 * *>(&::g_TES))))->ContainsPoint((*(const ::n451::Pt *)(&akPos[iIndex]))))
+                {
+                    PickQueryC4 kQuery;
+                    PickFlagsC4 kFlags(0);
+                    reinterpret_cast<::FUN_004a39f0_shell *>(&(kFlags))->FUN_004a39f0(0x26);
+                    reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80(3);
+                    kQuery.SetFlags(kFlags);
+                    NiPoint3C4 kStart = *pkRef->GetPos();
+                    kStart.z += 64.0;
+                    NiPoint3C4 kEnd = akPos[iIndex];
+                    kEnd.z += 64.0;
+                    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(kQuery))->FUN_004a3da0((void *)&(kStart));
+                    reinterpret_cast<::FUN_004a3eb0_shell *>(&(kQuery))->FUN_004a3eb0((void *)&(kEnd));
+                    reinterpret_cast<::FUN_00458420_cls *>(((*reinterpret_cast<::PickWorldC4 * *>(&::g_TES))))->FUN_00458420((int)&(kQuery));
+                    if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::HitFlagC4 &)((*(::HitFlagC4 *)(reinterpret_cast<::CalleeObj *>(&(kQuery.m_kHit))->FUN_005c53f0({})))))->FUN_005609f0())
+                    {
+                        NiPoint3C4 kDelta = kEnd - kStart;
+                        reinterpret_cast<::FUN_004a0c10_s *>(&(kDelta))->FUN_004a0c10();
+                        kPos = kEnd - kDelta * reinterpret_cast<::fnv_0050ebf0::FUN_0050ebf0_shell *>((pkBound))->FUN_0050ebf0();
+                    }
+                    else
+                    {
+                        kPos = kEnd;
+                    }
+                    kPos.z = pkRef->GetPos()->z;
+                }
+                else
+                {
+                    kPos = *pkRef->GetPos();
+                }
+                pkNew = ((::RefC4 *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerC4 * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(pkBound), (::NiPoint3 *)(::NiPoint3C4 *)(&kPos), (::NiPoint3 *)(::NiPoint3C4 *)(&kAngle), (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((pkRef))->GetTarget()))),
+                                                    (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((pkRef))->FUN_00575d70()))), (::TESObjectREFR_o2_od_oy_noo2_nogf *)(void *)(0), (const char *)(void *)(0), (::TESForm_o2_od_oy_noo2_nogf *)(void *)(0))));
+                if (!pkNew)
+                    return 0;
+                if (pkNew->IsActor())
+                {
+                    ActorC4* pkActor = (ActorC4*)pkNew;
+                    pkActor->SetAlpha(0.0f);
+                    reinterpret_cast<::fnv_008bcd20::FUN_008bcd20_shell *>((pkActor))->FUN_008bcd20();
+                }
+                if (pkCountObj)
+                {
+                    float fNewScale = (float)pkCountObj->GetCount();
+                    fNewScale *= fScale;
+                    reinterpret_cast<::Ref39 *>((pkNew))->FUN_00568bd0(fNewScale);
+                }
+                iIndex++;
+                if (iIndex == 9)
+                    iIndex = 0;
+            }
+        }
+    }
+    return pkNew;
+}
+
+class NiPoint3DB
+{
+  public:
+    NiPoint3DB();
+    NiPoint3DB(float fX, float fY, float fZ);
+    float x;
+    float y;
+    float z;
+};
+
+class NiMatrix3DB
+{
+  public:
+    NiMatrix3DB();
+    float m_afEntries[3][3];
+};
+
+NiMatrix3DB __cdecl FUN_00c4b8a0(NiPoint3DB kNormal);
+
+class NodeDB;
+
+class SceneNodeDB
+{
+  public:
+};
+
+class HitFlagDB
+{
+  public:
+    HitFlagDB();
+    char m_cValue;
+};
+
+class HitDB
+{
+  public:
+    __m128 m_kData[2];
+};
+
+class ShapeDB;
+
+class ContainerDB
+{
+  public:
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual ShapeDB* GetChildShape(int iKey, void* pvBuffer);
+};
+
+class ShapeDB
+{
+  public:
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual ContainerDB* GetContainer();
+};
+
+class CollObjDB
+{
+  public:
+};
+
+class CollidableDB
+{
+  public:
+};
+
+class KeyBufferDB
+{
+  public:
+    KeyBufferDB(unsigned int uiSize, unsigned int uiFlags);
+    ~KeyBufferDB();
+    void* GetAt(int iIndex);
+    void* m_pResource;
+    unsigned int m_uiSize;
+};
+
+class PickFlagsDB
+{
+  public:
+    PickFlagsDB(int iValue);
+    int m_iValue;
+};
+
+class PickQueryDB
+{
+  public:
+    PickQueryDB();
+    void SetFlags(PickFlagsDB kFlags);
+    __m128 m_akA[3];
+    HitDB m_kHit;
+    int m_aiKeys[8];
+    __m128 m_kB;
+    CollidableDB* m_pkCollidable;
+    int m_aiPad[11];
+};
+
+class PickWorldDB
+{
+  public:
+};
+
+class SurfaceDB
+{
+  public:
+    SurfaceDB(TESObjectREFR_o2_od_oy_noo2_nogf* pkRef);
+    ~SurfaceDB();
+    char m_acData[0x28];
+};
+
+class RefDB
+{
+  public:
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual void v0f();
+    virtual void v10();
+    virtual void v11();
+    virtual void SetFlagsDB(unsigned int uiFlags);
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1a();
+    virtual void v1b();
+    virtual void v1c();
+    virtual void v1d();
+    virtual void v1e();
+    virtual void v1f();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v2a();
+    virtual void v2b();
+    virtual void v2c();
+    virtual void v2d();
+    virtual void v2e();
+    virtual void v2f();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v3a();
+    virtual void v3b();
+    virtual void v3c();
+    virtual void v3d();
+    virtual void v3e();
+    virtual void v3f();
+    virtual bool Is3DLoaded();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v4a();
+    virtual void v4b();
+    virtual void v4c();
+    virtual void v4d();
+    virtual void v4e();
+    virtual void v4f();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v5a();
+    virtual void v5b();
+    virtual void v5c();
+    virtual void v5d();
+    virtual void v5e();
+    virtual void v5f();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v6a();
+    virtual void v6b();
+    virtual void v6c();
+    virtual void v6d();
+    virtual void v6e();
+    virtual void v6f();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual NodeDB* Get3D();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v7a();
+    virtual void v7b();
+    virtual void v7c();
+    virtual const NiPoint3DB* GetPos();
+};
+
+class DataHandlerDB
+{
+  public:
+};
+
+// @fnv 0x005db870
+bool __cdecl FUN_005db870(const ScriptParameter* paramInfo, const char* scriptData, RefDB* thisObj,
+                          TESObjectREFR_o2_od_oy_noo2_nogf* containingObj, Script_o2_od_oy_noo2_nogf* scriptObj, ScriptLocals* eventList, double& result,
+                          unsigned int& opcodeOffsetPtr)
+{
+    int iType = 0;
+    if (!::FUN_005accb0((const ::ExtractParameter *)(paramInfo), scriptData, &opcodeOffsetPtr, (TESObjectREFR_o2_od_oy_noo2_nogf*)thisObj, containingObj, (::ExtractScript *)(scriptObj),
+                     eventList, &iType))
+        return false;
+    if (thisObj && thisObj->Is3DLoaded())
+    {
+        NodeDB* pkNode = thisObj->Get3D();
+        NiPoint3DB kPos = *thisObj->GetPos();
+        NiPoint3DB kAngle(0.0f, 0.0f, (*(const ::NiPoint3DB *)(reinterpret_cast<::TESRecipe *>((thisObj))->GetData())).z);
+        bool bAligned = false;
+        unsigned int uiMask = 0x8022802;
+        ::ShadowLightData::SetTargetMaskForSelection(0x27, uiMask);
+        PickQueryDB kQuery;
+        PickFlagsDB kFlags(0);
+        reinterpret_cast<::FUN_004a39f0_shell *>(&(kFlags))->FUN_004a39f0(0x27);
+        reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((unsigned int)(((void *)(::FUN_005dbe10()))));
+        kQuery.SetFlags(kFlags);
+        NiPoint3DB kStart = kPos;
+        kStart.z += 32.0;
+        NiPoint3DB kEnd = kPos;
+        kEnd.z -= 256.0;
+        reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(kQuery))->FUN_004a3da0((void *)&(kStart));
+        reinterpret_cast<::FUN_004a3eb0_shell *>(&(kQuery))->FUN_004a3eb0((void *)&(kEnd));
+        reinterpret_cast<::FUN_00458420_cls *>(((*reinterpret_cast<::PickWorldDB * *>(&::g_TES))))->FUN_00458420((int)&(kQuery));
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::HitFlagDB &)((*(::HitFlagDB *)(reinterpret_cast<::CalleeObj *>(&(kQuery.m_kHit))->FUN_005c53f0({})))))->FUN_005609f0())
+        {
+            bool bSurface = false;
+            ShapeDB* pkShape = ((::ShapeDB *)(::FUN_00559450((int *)(kQuery.m_pkCollidable))));
+            CollObjDB* pkObj = ((::CollObjDB *)(::FUN_004a3a40((::TESObjectREFR_o2_od_oy_noo2_nogf *)(pkShape))));
+            bSurface = reinterpret_cast<::FUN_005dbe40_Class *>((pkObj))->FUN_005dbe40((::OBJECT_ACTION)(0x40));
+            if (!bSurface)
+            {
+                ShapeDB* pkCur = pkShape;
+                ShapeDB* pkLast = 0;
+                int iKey = -1;
+                KeyBufferDB kBuffer(8, 0);
+                for (int i = 0; i < 8 && kQuery.m_aiKeys[i] != -1; i++)
+                {
+                    if (((int)(::fnv_0043b230::FUN_0043b230((const char *)(pkCur)))) == 10)
+                    {
+                        i++;
+                        if (i >= 8 || kQuery.m_aiKeys[i] == -1)
+                            break;
+                    }
+                    iKey = kQuery.m_aiKeys[i];
+                    pkLast = pkCur;
+                    pkCur = pkCur->GetContainer()->GetChildShape(kQuery.m_aiKeys[i], reinterpret_cast<::NavMeshPtr *>(&(kBuffer))->FUN_005e05b0(i));
+                }
+                CollObjDB* pkLastObj = ((::CollObjDB *)(::FUN_004a3a40((::TESObjectREFR_o2_od_oy_noo2_nogf *)(pkLast))));
+                if (pkLastObj)
+                    bSurface = reinterpret_cast<::FUN_00c84f50_cls *>((pkLastObj))->FUN_00c84f50(iKey, 0x40);
+            }
+            NiPoint3DB kNormal;
+            if (bSurface)
+            {
+                SurfaceDB kSurface((TESObjectREFR_o2_od_oy_noo2_nogf*)thisObj);
+                ::GetPathingLocationNormal((::PathingLocation &)(kSurface), (::NiPoint3 &)(kNormal));
+            }
+            else
+            {
+                ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kNormal), (const ::hkVector4 &)(kQuery.m_kHit));
+            }
+            NiMatrix3DB kRotate = FUN_00c4b8a0(kNormal);
+            reinterpret_cast<::S_00a592c0_Matrix3 *>(&(kRotate))->DecomposeToEulerAngles(kAngle.x, kAngle.y, kAngle.z);
+            bAligned = true;
+            reinterpret_cast<::S005dbe60_Object *>(&(kQuery))->FUN_005dbe60((::S005dbe60_Target *)&(kPos));
+        }
+        void* pvForm = iType == 2 ? (*reinterpret_cast<void * *>(&::DAT_011ca280)) : (*reinterpret_cast<void * *>(&::DAT_011ca27c));
+        RefDB* pkNew = ((::RefDB *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerDB * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(pvForm), (::NiPoint3 *)(::NiPoint3DB *)(&kPos), (::NiPoint3 *)(::NiPoint3DB *)(&kAngle), (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((thisObj))->GetTarget()))),
+                                                   (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((thisObj))->FUN_00575d70()))), (::TESObjectREFR_o2_od_oy_noo2_nogf *)(void *)(0), (const char *)(void *)(0), (::TESForm_o2_od_oy_noo2_nogf *)(void *)(0))));
+        reinterpret_cast<::FUN_00564c60_cls *>((pkNew))->FUN_00564c60(!bAligned);
+        reinterpret_cast<::FUN_0056c780_t *>((pkNew))->FUN_0056c780(true);
+        reinterpret_cast<::fnv_00565480::RefPersistsStandin *>((pkNew))->FUN_00565480(true);
+        reinterpret_cast<::fnv_0041e340::FUN_0041e340_ExtraDataList *>((((::SceneNodeDB *)(reinterpret_cast<::FUN_005d43c0_ *>((pkNew))->FUN_005d43c0()))))->FUN_0041e340(thisObj);
+        reinterpret_cast<::fnv_0041e340::FUN_0041e340_ExtraDataList *>((((::SceneNodeDB *)(reinterpret_cast<::FUN_005d43c0_ *>((thisObj))->FUN_005d43c0()))))->FUN_0041e340(pkNew);
+        pkNew->SetFlagsDB(0x80000000);
+        thisObj->SetFlagsDB(0x80000000);
+    }
+    return true;
+}
+
+class NiPoint3DF
+{
+  public:
+    NiPoint3DF();
+    NiPoint3DF(float fX, float fY, float fZ);
+    NiPoint3DF operator+(const NiPoint3DF& kPt) const;
+    float x;
+    float y;
+    float z;
+};
+
+class NiMatrix3DF
+{
+  public:
+    NiMatrix3DF();
+    void GetRow(unsigned int uiRow, float& f0, float& f1, float& f2) const;
+    NiPoint3DF operator*(const NiPoint3DF& kPt) const;
+    float m_afEntries[3][3];
+};
+
+class SceneNodeDF
+{
+  public:
+    const NiMatrix3DF& GetRotate();
+};
+
+class SceneDF
+{
+  public:
+};
+
+class HandleDF
+{
+  public:
+    unsigned int m_uiHandle;
+};
+
+class PlayerDF
+{
+  public:
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual void v0f();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1a();
+    virtual void v1b();
+    virtual void v1c();
+    virtual void v1d();
+    virtual void v1e();
+    virtual void v1f();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v2a();
+    virtual void v2b();
+    virtual void v2c();
+    virtual void v2d();
+    virtual void v2e();
+    virtual void v2f();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v3a();
+    virtual void v3b();
+    virtual void v3c();
+    virtual void v3d();
+    virtual void v3e();
+    virtual void v3f();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v4a();
+    virtual void v4b();
+    virtual void v4c();
+    virtual void v4d();
+    virtual void v4e();
+    virtual void v4f();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v5a();
+    virtual void v5b();
+    virtual void v5c();
+    virtual void v5d();
+    virtual void v5e();
+    virtual void v5f();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v6a();
+    virtual void v6b();
+    virtual void v6c();
+    virtual void v6d();
+    virtual void v6e();
+    virtual void v6f();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v7a();
+    virtual void v7b();
+    virtual void v7c();
+    virtual const NiPoint3DF* GetLookAt();
+    HandleDF GetHandle();
+};
+
+class PickFlagsDF
+{
+  public:
+    PickFlagsDF(int iValue);
+    int m_iValue;
+};
+
+class PickQueryDF
+{
+  public:
+    PickQueryDF();
+    void SetFlags(PickFlagsDF kFlags);
+    __m128 m_kData[11];
+};
+
+class PickWorldDF
+{
+  public:
+    void* Pick(PickQueryDF& kQuery);
+};
+
+class RefDF
+{
+  public:
+};
+
+// @fnv 0x005df5d0
+bool __cdecl FUN_005df5d0(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR_o2_od_oy_noo2_nogf* thisObj,
+                          TESObjectREFR_o2_od_oy_noo2_nogf* containingObj, Script_o2_od_oy_noo2_nogf* scriptObj, ScriptLocals* eventList, double& result,
+                          unsigned int& opcodeOffsetPtr)
+{
+    result = 0;
+    int iUnused = 0;
+    int iUnused2 = 1;
+    float fAngleDifference = 0;
+    float fDistance = 0;
+    if (!::FUN_005accb0((const ::ExtractParameter *)(paramInfo), scriptData, &opcodeOffsetPtr, thisObj, containingObj, (::ExtractScript *)(scriptObj), eventList,
+                     &fAngleDifference, &fDistance))
+        return false;
+    fDistance = FUN_0040ebd0(fDistance, 50000.0f);
+    PickQueryDF kQuery;
+    NiPoint3DF kEnd(0.0f, fDistance, 0.0f);
+    NiPoint3DF kStart = *(*reinterpret_cast<::PlayerDF * *>(&::_g_thePlayer))->GetLookAt();
+    SceneNodeDF* pkNode = ((::SceneNodeDF *)(reinterpret_cast<::BSFaceGenNiNode *>((((::SceneDF *)(::FUN_0045c670()))))->GetAnimationData()));
+    NiMatrix3DF kRotate = pkNode->GetRotate();
+    NiMatrix3DF kSwizzled;
+    NiPoint3DF kRow;
+    kRotate.GetRow(0, kRow.y, kRow.z, kRow.x);
+    reinterpret_cast<::FUN_005df510_shell *>(&(kSwizzled))->FUN_005df510(0, (float *)&(kRow));
+    kRotate.GetRow(1, kRow.y, kRow.z, kRow.x);
+    reinterpret_cast<::FUN_005df510_shell *>(&(kSwizzled))->FUN_005df510(1, (float *)&(kRow));
+    kRotate.GetRow(2, kRow.y, kRow.z, kRow.x);
+    reinterpret_cast<::FUN_005df510_shell *>(&(kSwizzled))->FUN_005df510(2, (float *)&(kRow));
+    kStart = (*(::NiPoint3DF *)(::FUN_005df5b0((char *)((*reinterpret_cast<::PlayerDF * *>(&::_g_thePlayer))))));
+    kEnd = kSwizzled * kEnd + kStart;
+    HandleDF kHandle = (*reinterpret_cast<::PlayerDF * *>(&::_g_thePlayer))->GetHandle();
+    PickFlagsDF kFlags(0);
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(kFlags))->FUN_004a39f0(6);
+    reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((unsigned int)(((void *)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::HandleDF &)((*reinterpret_cast<::PlayerDF * *>(&::_g_thePlayer))->GetHandle()))->FUN_004a3a20()))));
+    kQuery.SetFlags(kFlags);
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(kQuery))->FUN_004a3da0((void *)&(kStart));
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(kQuery))->FUN_004a3eb0((void *)&(kEnd));
+    void* pvHit = (*reinterpret_cast<::PickWorldDF * *>(&::g_TES))->Pick(kQuery);
+    RefDF* pkRef = pvHit ? ((::RefDF *)(::FUN_0056f930((::NiAVObject *)(pvHit)))) : 0;
+    if (pkRef)
+    {
+        unsigned int uiID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkRef))->FUN_0084e3a0()));
+        ::Script_o2_od_oy_noo2_nogf::CopyIdentifierBitsToValue((*(const unsigned int *)(&uiID)), result);
+    }
+    return true;
+}
+
+class TESForm_o2_od_oy_noo2
+{
+  public:
+    virtual void V0();
+    virtual void V1();
+    virtual void V2();
+    virtual void V3();
+    virtual void V4();
+    virtual void V5();
+    virtual void V6();
+    virtual void V7();
+    virtual void V8();
+    virtual void V9();
+    virtual void V10();
+    virtual void V11();
+    virtual void V12();
+    virtual void V13();
+    virtual void V14();
+    virtual void V15();
+    virtual void V16();
+    virtual void V17();
+    virtual void V18();
+    virtual void V19();
+    virtual void V20();
+    virtual void V21();
+    virtual void V22();
+    virtual void V23();
+    virtual void V24();
+    virtual void V25();
+    virtual void V26();
+    virtual void V27();
+    virtual void V28();
+    virtual void V29();
+    virtual void V30();
+    virtual void V31();
+    virtual void V32();
+    virtual void V33();
+    virtual void V34();
+    virtual void V35();
+    virtual void V36();
+    virtual void V37();
+    virtual void V38();
+    virtual void V39();
+    virtual void V40();
+    virtual void V41();
+    virtual void V42();
+    virtual void V43();
+    virtual void V44();
+    virtual void V45();
+    virtual void V46();
+    virtual void V47();
+    virtual void V48();
+    virtual void V49();
+    virtual void SetAltered(bool);
+    virtual void SetQuestItem(bool set);
+    virtual void Unk_34(bool set);
+    virtual void Unk_35(bool set);
+    virtual void Unk_36(bool set);
+    virtual void Unk_37(void);
+    virtual void readOBNDSubRecord(TESFile* modInfo);
+    virtual bool IsActor_InEditor(void);
+    ENUM_FORM_ID GetFormType() const;
+    void SetDestroyed(bool);
+};
+
+class TESObjectREFR_o2_od_oy_noo2 : public TESForm_o2_od_oy_noo2
+{
+  public:
+};
+
+class FalloutAudioMedia_o2_od_oy_noo2
+{
+  public:
+    static void PlayMedia(BGSMusicType*);
+    static void EndMediaUpdate();
+};
+
+class TESQuest_o2_od_oy_noo2
+{
+  public:
+    bool IsStageComplete(unsigned char);
+    void SetEnabled(bool);
+};
+
+class Script_o2_od_oy_noo2;
+
+class Script_o2_od_oy_noo2
+{
+  public:
+    static bool OnHitWithFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool StopQuestFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool ScriptEffectUpdateFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*,
+                                           Script_o2_od_oy_noo2*, ScriptLocals*, double&, unsigned int&);
+    static bool SetAllyFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool SetDestroyedFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetCurrentTimeFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool GetSecondsPassedFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                         ScriptLocals*, double&, unsigned int&);
+    static bool GetDead(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*, ScriptLocals*,
+                        double&, unsigned int&);
+    static bool GetItemCount(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetSitting(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*, ScriptLocals*,
+                           double&, unsigned int&);
+    static bool GetTalkedToPC(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool GetIsRaining(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetInCell(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*, ScriptLocals*,
+                          double&, unsigned int&);
+    static bool GetInFaction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetRandomPercent(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                 ScriptLocals*, double&, unsigned int&);
+    static bool GetLevel(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*, ScriptLocals*,
+                         double&, unsigned int&);
+    static bool OnAddFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool OnSellFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnEquipFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnUnequipFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool OnFireFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnOpenFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnCloseFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnGrabFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnReleaseFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool OnDestructionStageChangeFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*,
+                                                 Script_o2_od_oy_noo2*, ScriptLocals*, double&, unsigned int&);
+    static bool OnHitFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool OnDeathFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnStartCombatFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                      ScriptLocals*, double&, unsigned int&);
+    static bool OnCombatEndFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                    ScriptLocals*, double&, unsigned int&);
+    static bool OnSayToDoneFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                    ScriptLocals*, double&, unsigned int&);
+    static bool OnPackageStartFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool OnPackageEndFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool OnPackageChangeFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                        ScriptLocals*, double&, unsigned int&);
+    static bool OnLoadFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnResetFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnMagicEffectHitFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                         ScriptLocals*, double&, unsigned int&);
+    static bool OnTriggerFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool OnTriggerEnterFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool OnTriggerLeaveFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                       ScriptLocals*, double&, unsigned int&);
+
+    // Insert these declaration-only additions in the existing Script_o2_od_oy_noo2 public section.
+    static bool IsIdlePlayingFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                      ScriptLocals*, double&, unsigned int&);
+    static bool IsTalkingFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool GetDayOfWeekFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool IsPCSleepingFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetDestroyedFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool HasBeenEatenFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetUnconsciousFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool IsInCombatFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                   ScriptLocals*, double&, unsigned int&);
+    static bool IsInInteriorFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                     ScriptLocals*, double&, unsigned int&);
+
+    static void SetReferenceScale(TESObjectREFR_o2_od_oy_noo2*, float);
+
+    static bool GetQuestCompleted(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool GetQuestRunning(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool GetStage(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*, ScriptLocals*,
+                         double&, unsigned int&);
+    static bool GetDeadCount(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetQuestCompletedStatus(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                        ScriptLocals*, double&, unsigned int&);
+    static bool InvokeScriptFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetQuestCompletionState(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                        ScriptLocals*, double&, unsigned int&);
+    static bool GetStageDone(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool ConvertScriptValue(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                   ScriptLocals*, double&, unsigned int&);
+    static bool GetInWorldspace(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool GetInSameCell(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool GetDetected(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                            ScriptLocals*, double&, unsigned int&);
+    static bool GetGlobalValue(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool IsCurrentFurnitureRef(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                      ScriptLocals*, double&, unsigned int&);
+    static bool GetIsID(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*, ScriptLocals*,
+                        double&, unsigned int&);
+    static bool EvaluateScriptExpression(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                         ScriptLocals*, double&, unsigned int&);
+    static bool GetPCMiscStat(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool HandleScriptVariable(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool ReadScriptReference(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                    ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateParsedScriptFunction(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*,
+                                             Script_o2_od_oy_noo2*, ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateScriptFunctionCall(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*,
+                                           Script_o2_od_oy_noo2*, ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateScriptCall(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                   ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateScriptCallback(const ScriptParameter*, const char*, TESObjectREFR_o2_od_oy_noo2*, TESObjectREFR_o2_od_oy_noo2*, Script_o2_od_oy_noo2*,
+                                       ScriptLocals*, double&, unsigned int&);
+};
+
+class BGSListForm_o2_od_oy_noo2 : public TESForm_o2_od_oy_noo2
+{
+  public:
+};
+
+struct Map;
+
+struct NiProperty_o2_od_oy_noo2
+{
+    NiProperty_o2_od_oy_noo2();
+    virtual void V0();
+    char pad[0x14];
+};
+
+struct StrArr_o2_od_oy_noo2
+{
+    virtual void V0();
+    Map** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+    StrArr_o2_od_oy_noo2(unsigned int uiMaxSize, unsigned int uiGrowBy)
+    {
+        m_usMaxSize = (unsigned short)uiMaxSize;
+        m_usGrowBy = (unsigned short)uiGrowBy;
+        m_usSize = 0;
+        m_usESize = 0;
+        if (m_usMaxSize > 0)
+            m_pBase = (Map**)::FUN_00aa1070(sizeof(Map*) * m_usMaxSize);
+        else
+            m_pBase = 0;
+    }
+};
+
+struct StrArrP_o2_od_oy_noo2 : StrArr_o2_od_oy_noo2
+{
+    StrArrP_o2_od_oy_noo2(unsigned int a, unsigned int b) : StrArr_o2_od_oy_noo2(a, b)
+    {}
+    virtual void V0();
+};
+
+struct FUN_00a6aa40_o2_od_oy_noo2 : NiProperty_o2_od_oy_noo2
+{
+    unsigned short m_uiObjectFlags;
+    StrArrP_o2_od_oy_noo2 m_kStringArray;
+    int m_iArrayLength;
+    FUN_00a6aa40_o2_od_oy_noo2();
+    virtual void V0();
+};
+
+typedef union __declspec(intrin_type) __declspec(align(16)) __m128
+{
+    float m128_f32[4];
+    unsigned __int64 m128_u64[2];
+    __int8 m128_i8[16];
+    __int16 m128_i16[8];
+    __int32 m128_i32[4];
+    __int64 m128_i64[2];
+    unsigned __int8 m128_u8[16];
+    unsigned __int16 m128_u16[8];
+    unsigned __int32 m128_u32[4];
+} __m128;
+
+extern "C" __m128 _mm_load_ss(float const* _A);
+
+struct FUN_005dbf20
+{
+    __m128 m_vValue;
+    FUN_005dbf20(float f);
+};
+
+// @fnv 0x005dbf20
+FUN_005dbf20::FUN_005dbf20(float f)
+{
+    m_vValue = _mm_load_ss(&f);
+}
+
+struct NiPoint3_o2_od_oy_noo2
+{
+    float x, y, z;
+    NiPoint3_o2_od_oy_noo2();
+    NiPoint3_o2_od_oy_noo2(float, float, float);
+    NiPoint3_o2_od_oy_noo2 operator+(const NiPoint3_o2_od_oy_noo2&) const;
+    void FUN_005df510(unsigned int, NiPoint3_o2_od_oy_noo2*);
+    NiPoint3_o2_od_oy_noo2* FUN_004b4500(void*, NiPoint3_o2_od_oy_noo2*, NiPoint3_o2_od_oy_noo2*);
+};
+
+struct __declspec(align(16)) ObjA
+{
+    __m128 rayFrom;
+    __m128 rayTo;
+    int m_20;
+    int m_24;
+    int m_28;
+    int m_2c;
+    int m_30;
+    int m_34;
+    int m_38;
+    int m_3c;
+    int m_40;
+    int m_44;
+    int m_48;
+    int m_4c;
+    unsigned int shapeKeys[8];
+    int m_70;
+    int m_74;
+    int m_78;
+    int m_7c;
+    int m_80;
+    int m_84;
+    int m_88;
+    int m_8c;
+    int m_90;
+    int m_94;
+    int m_98;
+    int m_9c;
+    int m_a0;
+    int m_a4;
+    int m_a8;
+    int m_ac;
+    void FUN_004a3f70(int);
+    void FUN_005dbe60(NiPoint3_o2_od_oy_noo2*);
+};
+
+struct S36
+{
+    float matrix[9];
+};
+
+struct MatrixS
+{
+    float matrix[9];
+    void FUN_005df510(unsigned int, NiPoint3_o2_od_oy_noo2*);
+    NiPoint3_o2_od_oy_noo2 FUN_004b4500(NiPoint3_o2_od_oy_noo2*);
+};
+
+struct AnimS
+{
+};
+
+struct NodeS_o2_od_oy_noo2
+{
+};
+
+struct StrSrc
+{
+    void* FUN_00931ed0(int*);
+};
+
+struct Src2
+{
+};
+
+struct StrObj
+{
+    int m_00;
+    StrObj(int);
+};
+
+struct TESX
+{
+    int FUN_00458420(ObjA*);
+};
+
+struct HfS
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual unsigned int Get10();
+};
+
+struct ObjX
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual void v0f();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1a();
+    virtual void v1b();
+    virtual void v1c();
+    virtual void v1d();
+    virtual void v1e();
+    virtual void v1f();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v2a();
+    virtual void v2b();
+    virtual void v2c();
+    virtual void v2d();
+    virtual void v2e();
+    virtual void v2f();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v3a();
+    virtual void v3b();
+    virtual void v3c();
+    virtual void v3d();
+    virtual void v3e();
+    virtual void v3f();
+    virtual bool Gate100();
+    virtual void w41();
+    virtual void w42();
+    virtual void w43();
+    virtual void w44();
+    virtual void w45();
+    virtual void w46();
+    virtual void w47();
+    virtual void w48();
+    virtual void w49();
+    virtual void w4a();
+    virtual void w4b();
+    virtual void w4c();
+    virtual void w4d();
+    virtual void w4e();
+    virtual void w4f();
+    virtual void w50();
+    virtual void w51();
+    virtual void w52();
+    virtual void w53();
+    virtual void w54();
+    virtual void w55();
+    virtual void w56();
+    virtual void w57();
+    virtual void w58();
+    virtual void w59();
+    virtual void w5a();
+    virtual void w5b();
+    virtual void w5c();
+    virtual void w5d();
+    virtual void w5e();
+    virtual void w5f();
+    virtual void w60();
+    virtual void w61();
+    virtual void w62();
+    virtual void w63();
+    virtual void w64();
+    virtual void w65();
+    virtual void w66();
+    virtual void w67();
+    virtual void w68();
+    virtual void w69();
+    virtual void w6a();
+    virtual void w6b();
+    virtual void w6c();
+    virtual void w6d();
+    virtual void w6e();
+    virtual void w6f();
+    virtual void w70();
+    virtual void w71();
+    virtual void w72();
+    virtual void w73();
+    virtual void w74();
+    virtual void w75();
+    virtual void w76();
+    virtual void w77();
+    virtual void w78();
+    virtual void w79();
+    virtual void w7a();
+    virtual void w7b();
+    virtual void w7c();
+    virtual void w7d();
+    virtual void w7e();
+    virtual void w7f();
+    virtual void w80();
+    virtual void w81();
+    virtual void w82();
+    virtual void w83();
+    virtual void w84();
+    virtual void w85();
+    virtual void w86();
+    virtual void w87();
+    virtual void w88();
+    virtual void w89();
+    virtual void w8a();
+    virtual void w8b();
+    virtual void w8c();
+    virtual void w8d();
+    virtual void w8e();
+    virtual void w8f();
+    virtual void w90();
+    virtual void w91();
+    virtual void w92();
+    virtual void w93();
+    virtual void w94();
+    virtual void w95();
+    virtual void w96();
+    virtual void w97();
+    virtual void w98();
+    virtual void w99();
+    virtual void w9a();
+    virtual void w9b();
+    virtual void w9c();
+    virtual void w9d();
+    virtual void w9e();
+    virtual void w9f();
+    virtual void wa0();
+    virtual void wa1();
+    virtual void wa2();
+    virtual void wa3();
+    virtual void wa4();
+    virtual void wa5();
+    virtual void wa6();
+    virtual void wa7();
+    virtual void wa8();
+    virtual void wa9();
+    virtual void waa();
+    virtual void wab();
+    virtual void wac();
+    virtual void wad();
+    virtual void wae();
+    virtual void waf();
+    virtual void wb0();
+    virtual void wb1();
+    virtual void wb2();
+    virtual void wb3();
+    virtual void wb4();
+    virtual void wb5();
+    virtual void wb6();
+    virtual void wb7();
+    virtual void wb8();
+    virtual void wb9();
+    virtual void wba();
+    virtual void wbb();
+    virtual void wbc();
+    virtual void wbd();
+    virtual void wbe();
+    virtual void wbf();
+    virtual void wc0();
+    virtual void wc1();
+    virtual void wc2();
+    virtual void wc3();
+    virtual void wc4();
+    virtual void wc5();
+    virtual void wc6();
+    virtual void wc7();
+    virtual void wc8();
+    virtual void wc9();
+    virtual void wca();
+    virtual void wcb();
+    virtual void wcc();
+    virtual void wcd();
+    virtual void wce();
+    virtual void wcf();
+    virtual void wd0();
+    virtual void wd1();
+    virtual void wd2();
+    virtual void wd3();
+    virtual void wd4();
+    virtual void wd5();
+    virtual void wd6();
+    virtual void wd7();
+    virtual void wd8();
+    virtual void wd9();
+    virtual void wda();
+    virtual void wdb();
+    virtual void wdc();
+    virtual void wdd();
+    virtual void wde();
+    virtual void wdf();
+    virtual void we0();
+    virtual void we1();
+    virtual void we2();
+    virtual void we3();
+    virtual void we4();
+    virtual void we5();
+    virtual void we6();
+    virtual void we7();
+    virtual void we8();
+    virtual void we9();
+    virtual void wea();
+    virtual void web();
+    virtual void wec();
+    virtual void wed();
+    virtual void wee();
+    virtual void wef();
+    virtual void wf0();
+    virtual void wf1();
+    virtual void wf2();
+    virtual void wf3();
+    virtual void wf4();
+    virtual void wf5();
+    virtual void wf6();
+    virtual void wf7();
+    virtual void wf8();
+    virtual void wf9();
+    virtual void wfa();
+    virtual void wfb();
+    virtual void wfc();
+    virtual void wfd();
+    virtual void wfe();
+    virtual void wff();
+    virtual void w100();
+    virtual void w101();
+    virtual void w102();
+    virtual void w103();
+    virtual void w104();
+    virtual void w105();
+    virtual void w106();
+    virtual void Gate41c(float);
+};
+
+struct DataHandlerS
+{
+};
+
+struct PlayerS
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual void v0f();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1a();
+    virtual void v1b();
+    virtual void v1c();
+    virtual void v1d();
+    virtual void v1e();
+    virtual void v1f();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v2a();
+    virtual void v2b();
+    virtual void v2c();
+    virtual void v2d();
+    virtual void v2e();
+    virtual void v2f();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v3a();
+    virtual void v3b();
+    virtual void v3c();
+    virtual void v3d();
+    virtual void v3e();
+    virtual void v3f();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v4a();
+    virtual void v4b();
+    virtual void v4c();
+    virtual void v4d();
+    virtual void v4e();
+    virtual void v4f();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v5a();
+    virtual void v5b();
+    virtual void v5c();
+    virtual void v5d();
+    virtual void v5e();
+    virtual void v5f();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v6a();
+    virtual void v6b();
+    virtual void v6c();
+    virtual void v6d();
+    virtual void v6e();
+    virtual void v6f();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v7a();
+    virtual void v7b();
+    virtual void v7c();
+    virtual NiPoint3_o2_od_oy_noo2* GetPos1f4();
+};
+
+struct FormS
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual void v0f();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1a();
+    virtual void v1b();
+    virtual void v1c();
+    virtual void v1d();
+    virtual void v1e();
+    virtual void v1f();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v2a();
+    virtual void v2b();
+    virtual void v2c();
+    virtual void v2d();
+    virtual void v2e();
+    virtual void v2f();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual bool GateE4();
+};
+
+// @fnv 0x005df040
+bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR_o2_od_oy_noo2* a2, TESObjectREFR_o2_od_oy_noo2* a3, Script_o2_od_oy_noo2* a4,
+                  ScriptLocals* a5, double& result, unsigned int& a7)
+{
+    result = 0.0;
+    void* form = 0;
+    int i1 = 1;
+    float f10 = 0.0f;
+    float f14 = 0.0f;
+    if (!::FUN_005accb0((const ::ExtractParameter *)(a0), a1, &a7, a2, a3, (::ExtractScript *)(a4), a5, &form, &i1, &f10, &f14))
+        return false;
+    f14 = FUN_0040ebd0(f14, 50000.0f);
+    ObjA objA;
+    new ((void *)&(objA)) ::FUN_004a3c20();
+    NiPoint3_o2_od_oy_noo2 pt(0.0f, f14, 0.0f);
+    NiPoint3_o2_od_oy_noo2 pos = *(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))->GetPos1f4();
+    void* tmpEC = ((void *)(reinterpret_cast<::BSFaceGenNiNode *>((((AnimS*)FUN_0045c670())))->GetAnimationData()));
+    S36 s36 = *((::S36 *)(::FUN_00461130((int)(((NodeS_o2_od_oy_noo2*)tmpEC)))));
+    MatrixS p134;
+    new ((void *)&(p134)) ::Vec3();
+    NiPoint3_o2_od_oy_noo2 p140;
+    reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(0, &p140.y, &p140.z, &p140.x);
+    reinterpret_cast<::FUN_005df510_shell *>(&(p134))->FUN_005df510(0, (float *)(::NiPoint3_o2_od_oy_noo2 *)(&p140));
+    reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(1, &p140.y, &p140.z, &p140.x);
+    reinterpret_cast<::FUN_005df510_shell *>(&(p134))->FUN_005df510(1, (float *)(::NiPoint3_o2_od_oy_noo2 *)(&p140));
+    reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(2, &p140.y, &p140.z, &p140.x);
+    reinterpret_cast<::FUN_005df510_shell *>(&(p134))->FUN_005df510(2, (float *)(::NiPoint3_o2_od_oy_noo2 *)(&p140));
+    pos = *((::NiPoint3_o2_od_oy_noo2 *)(::FUN_005df5b0((char *)((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))));
+    pt = p134.FUN_004b4500(&pt) + pos;
+    int out15c;
+    ((StrSrc*)(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer)))->FUN_00931ed0(&out15c);
+    StrObj strObj(0);
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(strObj))->FUN_004a39f0(6);
+    int out164;
+    reinterpret_cast<::FUN_0059ce80_shell *>(&(strObj))->FUN_0059ce80(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((((Src2*)((StrSrc*)(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer)))->FUN_00931ed0(&out164))))->FUN_004a3a20());
+    objA.FUN_004a3f70(strObj.m_00);
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(objA))->FUN_004a3da0(&pos);
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(objA))->FUN_004a3eb0(&pt);
+    int res168 = (*reinterpret_cast<::TESX * *>(&::g_TES))->FUN_00458420(&objA);
+    (void)res168;
+    NiPoint3_o2_od_oy_noo2 pt174;
+    objA.FUN_005dbe60(&pt174);
+    NiPoint3_o2_od_oy_noo2 pos180 = *(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))->GetPos1f4();
+    if (((FormS*)form)->GateE4())
+    {
+        void* form2 = form;
+        HfS* hf = ((::HfS *)(::GetHealthForm((::TESForm_o2_od_oy_noo2 *)(form2))));
+        if (reinterpret_cast<::n451::Grid *>(((*reinterpret_cast<::TESX * *>(&::g_TES))))->ContainsPoint((*(const ::n451::Pt *)(&pt174))))
+        {
+            pos180 = pt174;
+            result = 1.0;
+            ObjX* objX =
+                ((::ObjX *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerS * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(form2), &pos180, (::NiPoint3_o2_od_oy_noo2 *)(void *)(((void *)(reinterpret_cast<::TESRecipe *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->GetData()))),
+                                                    (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->GetTarget()))), (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->FUN_00575d70()))), {}, {}, {})));
+            if (!objX)
+                return false;
+            if (objX->Gate100())
+            {
+                ObjX* objX2 = objX;
+                objX2->Gate41c(0.0f);
+                reinterpret_cast<::fnv_008bcd20::FUN_008bcd20_shell *>((objX2))->FUN_008bcd20();
+            }
+            if (hf)
+            {
+                float fnc = (float)hf->Get10();
+                fnc *= 100.0;
+                reinterpret_cast<::Ref39 *>((objX))->FUN_00568bd0(fnc);
+            }
+        }
+    }
+    return true;
+}
+
+class S005dbe60_Vector
+{
+  public:
+    S005dbe60_Vector();  // FUN_006815c0
+    __m128 m_vComponents;
+};
+
+class S005dbe60_Target;
+
+class S005dbe60_Object_o2_od_oy_noo2
+{
+  public:
+    void FUN_005dbe60(S005dbe60_Target* pTarget) const;
+};
+
+class S005dbec0_SimdReal
+{
+  public:
+    S005dbec0_SimdReal(float f);  // FUN_005dbf20
+    __m128 m_vValue;
+};
+
+class S005dbec0_Vector
+{
+  public:
+    __m128 m_vComponents;
+};
+
+class S005dbec0_Object;
+
+class S005dbec0_Result
+{
+  public:
+    void FUN_005dbf70(const S005dbec0_Object* pObject, const S005dbec0_Vector* pPoint,
+                      const S005dbec0_SimdReal* pScale);
+};
+
+class S005dbec0_Object
+{
+  public:
+    void FUN_005dbec0(S005dbec0_Result* pOut) const;
+
+    __m128 unk00;
+    S005dbec0_Vector m_kPoint;
+    __m128 unk20;
+    __m128 unk30;
+    float m_fScale;
+};
+
+// @fnv 0x005dbe60
+void S005dbe60_Object_o2_od_oy_noo2::FUN_005dbe60(S005dbe60_Target* pTarget) const
+{
+    S005dbe60_Vector kValue;
+    reinterpret_cast<::S005dbec0_Object *>((void *)this)->FUN_005dbec0((::S005dbec0_Result *)(::S005dbe60_Vector *)(&kValue));
+    ::SetNiPoint3FromHkVector4((*(::NiPoint3_o2_od_oy_noo2 *)(pTarget)), (*(const ::hkVector4 *)(&kValue)));
+}
+
+// @fnv 0x005dbec0
+void S005dbec0_Object::FUN_005dbec0(S005dbec0_Result* pOut) const
+{
+    S005dbec0_SimdReal kScale(m_fScale);
+    pOut->FUN_005dbf70(this, &m_kPoint, &kScale);
+}
+
+namespace N {
+union __declspec(intrin_type) __declspec(align(16)) __m128
+{
+    float m128_f32[4];
+    unsigned __int64 m128_u64[2];
+    __int8 m128_i8[16];
+    __int16 m128_i16[8];
+    __int32 m128_i32[4];
+    __int64 m128_i64[2];
+    unsigned __int8 m128_u8[16];
+    unsigned __int16 m128_u16[8];
+    unsigned __int32 m128_u32[4];
+};
+extern "C"
+{
+    __m128 _mm_add_ps(__m128, __m128);
+    __m128 _mm_mul_ps(__m128, __m128);
+    __m128 _mm_sub_ps(__m128, __m128);
+}
+}
+
+struct BlendSource
+{
+};
+
+struct BlendTarget
+{
+    N::__m128 m_uiFilterValue;
+    void FUN_005dbf70(const N::__m128* pA, const N::__m128* pB, BlendSource* pSource);
+};
+
+// @fnv 0x005dbf70
+void BlendTarget::FUN_005dbf70(const N::__m128* pA, const N::__m128* pB, BlendSource* pSource)
+{
+    N::__m128 pos;
+    reinterpret_cast<::S00561240_Vector *>((pSource))->FUN_00561240((::S00561240_Vector *)(::N::__m128 *)(&pos));
+    N::__m128 delta = N::_mm_sub_ps((*reinterpret_cast<const ::N::__m128 *>((void *)&::DAT_010ec7f0)), pos);
+    m_uiFilterValue = N::_mm_add_ps(N::_mm_mul_ps(delta, *pA), N::_mm_mul_ps(pos, *pB));
+}
+
+struct Q_FUN_005dbf20
+{
+    __m128 m_vValue;
+    Q_FUN_005dbf20(float f);
+};
+
+// @fnv 0x005dbf20
+Q_FUN_005dbf20::Q_FUN_005dbf20(float f)
+{
+    m_vValue = _mm_load_ss(&f);
+}
+
+namespace fnv_005df040 {
+// @fnv 0x005df040
+bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR_o2_od_oy_noo2* a2, TESObjectREFR_o2_od_oy_noo2* a3, Script_o2_od_oy_noo2* a4,
+                  ScriptLocals* a5, double& result, unsigned int& a7)
+{
+    result = 0.0;
+    void* form = 0;
+    int i1 = 1;
+    float f10 = 0.0f;
+    float f14 = 0.0f;
+    if (!::FUN_005accb0((const ::ExtractParameter *)(a0), a1, &a7, a2, a3, (::ExtractScript *)(a4), a5, &form, &i1, &f10, &f14))
+        return false;
+    f14 = FUN_0040ebd0(f14, 50000.0f);
+    ObjA objA;
+    new ((void *)&(objA)) ::FUN_004a3c20();
+    NiPoint3_o2_od_oy_noo2 pt(0.0f, f14, 0.0f);
+    NiPoint3_o2_od_oy_noo2 pos = *(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))->GetPos1f4();
+    void* tmpEC = ((void *)(reinterpret_cast<::BSFaceGenNiNode *>((((AnimS*)FUN_0045c670())))->GetAnimationData()));
+    S36 s36 = *((::S36 *)(::FUN_00461130((int)(((NodeS_o2_od_oy_noo2*)tmpEC)))));
+    MatrixS p134;
+    new ((void *)&(p134)) ::Vec3();
+    NiPoint3_o2_od_oy_noo2 p140;
+    reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(0, &p140.y, &p140.z, &p140.x);
+    reinterpret_cast<::FUN_005df510_shell *>(&(p134))->FUN_005df510(0, (float *)(::NiPoint3_o2_od_oy_noo2 *)(&p140));
+    reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(1, &p140.y, &p140.z, &p140.x);
+    reinterpret_cast<::FUN_005df510_shell *>(&(p134))->FUN_005df510(1, (float *)(::NiPoint3_o2_od_oy_noo2 *)(&p140));
+    reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(2, &p140.y, &p140.z, &p140.x);
+    reinterpret_cast<::FUN_005df510_shell *>(&(p134))->FUN_005df510(2, (float *)(::NiPoint3_o2_od_oy_noo2 *)(&p140));
+    pos = *((::NiPoint3_o2_od_oy_noo2 *)(::FUN_005df5b0((char *)((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))));
+    pt = p134.FUN_004b4500(&pt) + pos;
+    int out15c;
+    ((StrSrc*)(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer)))->FUN_00931ed0(&out15c);
+    StrObj strObj(0);
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(strObj))->FUN_004a39f0(6);
+    int out164;
+    reinterpret_cast<::FUN_0059ce80_shell *>(&(strObj))->FUN_0059ce80(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((((Src2*)((StrSrc*)(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer)))->FUN_00931ed0(&out164))))->FUN_004a3a20());
+    objA.FUN_004a3f70(strObj.m_00);
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(objA))->FUN_004a3da0(&pos);
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(objA))->FUN_004a3eb0(&pt);
+    int res168 = (*reinterpret_cast<::TESX * *>(&::g_TES))->FUN_00458420(&objA);
+    (void)res168;
+    NiPoint3_o2_od_oy_noo2 pt174;
+    reinterpret_cast<::S005dbe60_Object_o2_od_oy_noo2 *>(&(objA))->FUN_005dbe60((::S005dbe60_Target *)(::NiPoint3_o2_od_oy_noo2 *)(&pt174));
+    NiPoint3_o2_od_oy_noo2 pos180 = *(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))->GetPos1f4();
+    if (((FormS*)form)->GateE4())
+    {
+        void* form2 = form;
+        HfS* hf = ((::HfS *)(::GetHealthForm((::TESForm_o2_od_oy_noo2 *)(form2))));
+        if (reinterpret_cast<::n451::Grid *>(((*reinterpret_cast<::TESX * *>(&::g_TES))))->ContainsPoint((*(const ::n451::Pt *)(&pt174))))
+        {
+            pos180 = pt174;
+            result = 1.0;
+            ObjX* objX =
+                ((::ObjX *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerS * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(form2), &pos180, (::NiPoint3_o2_od_oy_noo2 *)(void *)(((void *)(reinterpret_cast<::TESRecipe *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->GetData()))),
+                                                    (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->GetTarget()))), (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->FUN_00575d70()))), {}, {}, {})));
+            if (!objX)
+                return false;
+            if (objX->Gate100())
+            {
+                ObjX* objX2 = objX;
+                objX2->Gate41c(0.0f);
+                reinterpret_cast<::fnv_008bcd20::FUN_008bcd20_shell *>((objX2))->FUN_008bcd20();
+            }
+            if (hf)
+            {
+                float fnc = (float)hf->Get10();
+                fnc *= 100.0;
+                reinterpret_cast<::Ref39 *>((objX))->FUN_00568bd0(fnc);
+            }
+        }
+    }
+    return true;
+}
+}
+
+class TESForm_rtti2
+{
+  public:
+    virtual void V0();
+    virtual void V1();
+    virtual void V2();
+    virtual void V3();
+    virtual void V4();
+    virtual void V5();
+    virtual void V6();
+    virtual void V7();
+    virtual void V8();
+    virtual void V9();
+    virtual void V10();
+    virtual void V11();
+    virtual void V12();
+    virtual void V13();
+    virtual void V14();
+    virtual void V15();
+    virtual void V16();
+    virtual void V17();
+    virtual void V18();
+    virtual void V19();
+    virtual void V20();
+    virtual void V21();
+    virtual void V22();
+    virtual void V23();
+    virtual void V24();
+    virtual void V25();
+    virtual void V26();
+    virtual void V27();
+    virtual void V28();
+    virtual void V29();
+    virtual void V30();
+    virtual void V31();
+    virtual void V32();
+    virtual void V33();
+    virtual void V34();
+    virtual void V35();
+    virtual void V36();
+    virtual void V37();
+    virtual void V38();
+    virtual void V39();
+    virtual void V40();
+    virtual void V41();
+    virtual void V42();
+    virtual void V43();
+    virtual void V44();
+    virtual void V45();
+    virtual void V46();
+    virtual void V47();
+    virtual void V48();
+    virtual void V49();
+    virtual void SetAltered(bool);
+    virtual void SetQuestItem(bool set);
+    virtual void Unk_34(bool set);
+    virtual void Unk_35(bool set);
+    virtual void Unk_36(bool set);
+    virtual void Unk_37(void);
+    virtual void readOBNDSubRecord(TESFile* modInfo);
+    virtual bool IsActor_InEditor(void);
+    ENUM_FORM_ID GetFormType() const;
+    void SetDestroyed(bool);
+};
+
+class TESObjectREFR_rtti2 : public TESForm_rtti2
+{
+  public:
+};
+
+class FalloutAudioMedia_rtti2
+{
+  public:
+    static void PlayMedia(BGSMusicType*);
+    static void EndMediaUpdate();
+};
+
+class TESQuest_rtti2
+{
+  public:
+    bool IsStageComplete(unsigned char);
+    void SetEnabled(bool);
+};
+
+class Script_rtti2;
+
+class Script_rtti2
+{
+  public:
+    static bool OnHitWithFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool StopQuestFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool ScriptEffectUpdateFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*,
+                                           Script_rtti2*, ScriptLocals*, double&, unsigned int&);
+    static bool SetAllyFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool SetDestroyedFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetCurrentTimeFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool GetSecondsPassedFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                         ScriptLocals*, double&, unsigned int&);
+    static bool GetDead(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*, ScriptLocals*,
+                        double&, unsigned int&);
+    static bool GetItemCount(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetSitting(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*, ScriptLocals*,
+                           double&, unsigned int&);
+    static bool GetTalkedToPC(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool GetIsRaining(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetInCell(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*, ScriptLocals*,
+                          double&, unsigned int&);
+    static bool GetInFaction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetRandomPercent(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                 ScriptLocals*, double&, unsigned int&);
+    static bool GetLevel(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*, ScriptLocals*,
+                         double&, unsigned int&);
+    static bool OnAddFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool OnSellFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnEquipFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnUnequipFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool OnFireFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnOpenFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnCloseFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnGrabFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnReleaseFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool OnDestructionStageChangeFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*,
+                                                 Script_rtti2*, ScriptLocals*, double&, unsigned int&);
+    static bool OnHitFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool OnDeathFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnStartCombatFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                      ScriptLocals*, double&, unsigned int&);
+    static bool OnCombatEndFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                    ScriptLocals*, double&, unsigned int&);
+    static bool OnSayToDoneFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                    ScriptLocals*, double&, unsigned int&);
+    static bool OnPackageStartFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool OnPackageEndFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool OnPackageChangeFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                        ScriptLocals*, double&, unsigned int&);
+    static bool OnLoadFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool OnResetFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool OnMagicEffectHitFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                         ScriptLocals*, double&, unsigned int&);
+    static bool OnTriggerFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool OnTriggerEnterFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool OnTriggerLeaveFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                       ScriptLocals*, double&, unsigned int&);
+
+    // Insert these declaration-only additions in the existing Script_rtti2 public section.
+    static bool IsIdlePlayingFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                      ScriptLocals*, double&, unsigned int&);
+    static bool IsTalkingFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool GetDayOfWeekFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool IsPCSleepingFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetDestroyedFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool HasBeenEatenFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetUnconsciousFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                       ScriptLocals*, double&, unsigned int&);
+    static bool IsInCombatFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                   ScriptLocals*, double&, unsigned int&);
+    static bool IsInInteriorFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                     ScriptLocals*, double&, unsigned int&);
+
+    static void SetReferenceScale(TESObjectREFR_rtti2*, float);
+
+    static bool GetQuestCompleted(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                  ScriptLocals*, double&, unsigned int&);
+    static bool GetQuestRunning(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool GetStage(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*, ScriptLocals*,
+                         double&, unsigned int&);
+    static bool GetDeadCount(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool GetQuestCompletedStatus(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                        ScriptLocals*, double&, unsigned int&);
+    static bool InvokeScriptFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool GetQuestCompletionState(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                        ScriptLocals*, double&, unsigned int&);
+    static bool GetStageDone(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                             ScriptLocals*, double&, unsigned int&);
+    static bool ConvertScriptValue(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                   ScriptLocals*, double&, unsigned int&);
+    static bool GetInWorldspace(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                ScriptLocals*, double&, unsigned int&);
+    static bool GetInSameCell(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool GetDetected(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                            ScriptLocals*, double&, unsigned int&);
+    static bool GetGlobalValue(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                               ScriptLocals*, double&, unsigned int&);
+    static bool IsCurrentFurnitureRef(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                      ScriptLocals*, double&, unsigned int&);
+    static bool GetIsID(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*, ScriptLocals*,
+                        double&, unsigned int&);
+    static bool EvaluateScriptExpression(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                         ScriptLocals*, double&, unsigned int&);
+    static bool GetPCMiscStat(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                              ScriptLocals*, double&, unsigned int&);
+    static bool HandleScriptVariable(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                     ScriptLocals*, double&, unsigned int&);
+    static bool ReadScriptReference(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                    ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateParsedScriptFunction(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*,
+                                             Script_rtti2*, ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateScriptFunctionCall(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*,
+                                           Script_rtti2*, ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateScriptCall(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                   ScriptLocals*, double&, unsigned int&);
+    static bool EvaluateScriptCallback(const ScriptParameter*, const char*, TESObjectREFR_rtti2*, TESObjectREFR_rtti2*, Script_rtti2*,
+                                       ScriptLocals*, double&, unsigned int&);
+};
+
+class BGSListForm_rtti2 : public TESForm_rtti2
+{
+  public:
+};
+
+class TESClass;
+
+class TESActorBase : public TESForm_rtti2
+{
+  public:
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+};
+
+class TESActorBaseData_StandIn : public TESActorBaseData
+{
+  public:
+};
+
+class TESNPC_rtti2 : public TESActorBase, public TESActorBaseData_StandIn
+{
+  public:
+public:
+    void UpdateActorBaseData(bool);
+};
+
+class TESObjectREFR_StandIn : public TESObjectREFR_rtti2
+{
+  public:
+    virtual void V58();
+    virtual void V59();
+    virtual void V60();
+    virtual void V61();
+    virtual void V62();
+    virtual void V63();
+    virtual bool V64();
+};
+
+// @fnv 0x005c6c80
+bool __cdecl FUN_005c6c80(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR_rtti2* thisObj,
+                          TESObjectREFR_rtti2* containingObj, Script_rtti2* scriptObj, ScriptLocals* locals, double& result,
+                          unsigned int& opcodeOffsetPtr)
+{
+    TESObjectREFR_rtti2* targetRef7 = 0;
+    if (!::FUN_005accb0((const ::ExtractParameter *)(paramInfo), scriptData, &opcodeOffsetPtr, thisObj, containingObj, (::ExtractScript *)(scriptObj), locals, &targetRef7))
+        return false;
+
+    if (thisObj != 0 && static_cast<TESObjectREFR_StandIn*>(thisObj)->V64() && targetRef7 != 0)
+    {
+        TESObjectREFR_rtti2* actor = thisObj;
+        TESNPC_rtti2* npc1 = dynamic_cast<TESNPC_rtti2*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((static_cast<TESObjectREFR_StandIn*>(actor)))->FUN_007af430())));
+        TESNPC_rtti2* npc4 = dynamic_cast<TESNPC_rtti2*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((static_cast<TESObjectREFR_StandIn*>(targetRef7)))->FUN_007af430())));
+
+        if (npc1 != 0 && npc4 != 0)
+        {
+            reinterpret_cast<::FUN_00601c70_shell *>((npc1))->FUN_00601c70((int)(((::TESClass *)(reinterpret_cast<::MiddleHighProcess *>((npc4))->GetSceneRoot()))));
+            reinterpret_cast<::fnv_0047dfe0::TABStub *>((npc1))->FUN_0047dfe0(reinterpret_cast<::FUN_0047ded0_shell *>((npc4))->FUN_0047ded0());
+            npc1->UpdateActorBaseData(false);
+        }
+    }
+
+    return true;
+}
+
+class FNVActorContext
+{
+  public:
+};
+
+struct FNVWipController_SV
+{
+    virtual void vf_000();
+    virtual void vf_004();
+    virtual void vf_008();
+    virtual void vf_00c();
+    virtual void vf_010();
+    virtual void vf_014();
+    virtual void vf_018();
+    virtual void vf_01c();
+    virtual void vf_020();
+    virtual void vf_024();
+    virtual void vf_028();
+    virtual void vf_02c();
+    virtual void vf_030();
+    virtual void vf_034();
+    virtual void vf_038();
+    virtual void vf_03c();
+    virtual void vf_040();
+    virtual void vf_044();
+    virtual void vf_048();
+    virtual void vf_04c();
+    virtual void vf_050();
+    virtual void vf_054();
+    virtual void vf_058();
+    virtual void vf_05c();
+    virtual void vf_060();
+    virtual void vf_064();
+    virtual void vf_068();
+    virtual void vf_06c();
+    virtual void vf_070();
+    virtual void vf_074();
+    virtual void vf_078();
+    virtual void vf_07c();
+    virtual void vf_080();
+    virtual void vf_084();
+    virtual void vf_088();
+    virtual void vf_08c();
+    virtual void vf_090();
+    virtual void vf_094();
+    virtual void vf_098();
+    virtual void vf_09c();
+    virtual void vf_0a0();
+    virtual void vf_0a4();
+    virtual void vf_0a8();
+    virtual void vf_0ac();
+    virtual void vf_0b0();
+    virtual void vf_0b4();
+    virtual void vf_0b8();
+    virtual void vf_0bc();
+    virtual void vf_0c0();
+    virtual void vf_0c4();
+    virtual void vf_0c8();
+    virtual void vf_0cc();
+    virtual void vf_0d0();
+    virtual void vf_0d4();
+    virtual void vf_0d8();
+    virtual void vf_0dc();
+    virtual void vf_0e0();
+    virtual void vf_0e4();
+    virtual void vf_0e8();
+    virtual void vf_0ec();
+    virtual void vf_0f0();
+    virtual void vf_0f4();
+    virtual void vf_0f8();
+    virtual void vf_0fc();
+    virtual void vf_100();
+    virtual void vf_104();
+    virtual void vf_108();
+    virtual void vf_10c();
+    virtual void vf_110();
+    virtual void vf_114();
+    virtual void vf_118();
+    virtual void vf_11c();
+    virtual void vf_120();
+    virtual void vf_124();
+    virtual void vf_128();
+    virtual void vf_12c();
+    virtual void vf_130();
+    virtual void vf_134();
+    virtual void vf_138();
+    virtual void vf_13c();
+    virtual void vf_140();
+    virtual void vf_144();
+    virtual void vf_148();
+    virtual void vf_14c();
+    virtual void vf_150();
+    virtual void vf_154();
+    virtual void vf_158();
+    virtual void vf_15c();
+    virtual void vf_160();
+    virtual void vf_164();
+    virtual void vf_168();
+    virtual void vf_16c();
+    virtual void vf_170();
+    virtual void vf_174();
+    virtual void vf_178();
+    virtual void vf_17c();
+    virtual void vf_180();
+    virtual void vf_184();
+    virtual void vf_188();
+    virtual void vf_18c();
+    virtual void vf_190();
+    virtual void vf_194();
+    virtual void vf_198();
+    virtual void vf_19c();
+    virtual void vf_1a0();
+    virtual void vf_1a4();
+    virtual void vf_1a8();
+    virtual void vf_1ac();
+    virtual void vf_1b0();
+    virtual void vf_1b4();
+    virtual void vf_1b8();
+    virtual void vf_1bc();
+    virtual void vf_1c0();
+    virtual void vf_1c4();
+    virtual void vf_1c8();
+    virtual void vf_1cc();
+    virtual void vf_1d0();
+    virtual void vf_1d4();
+    virtual void vf_1d8();
+    virtual void vf_1dc();
+    virtual void vf_1e0();
+    virtual void vf_1e4();
+    virtual void vf_1e8();
+    virtual void vf_1ec();
+    virtual void vf_1f0();
+    virtual void vf_1f4();
+    virtual void vf_1f8();
+    virtual void vf_1fc();
+    virtual void vf_200();
+    virtual void vf_204();
+    virtual void vf_208();
+    virtual void vf_20c();
+    virtual void vf_210();
+    virtual void vf_214();
+    virtual void vf_218();
+    virtual void vf_21c();
+    virtual void vf_220();
+    virtual void vf_224();
+    virtual void vf_228();
+    virtual void vf_22c();
+    virtual void vf_230();
+    virtual void vf_234();
+    virtual void vf_238();
+    virtual void vf_23c();
+    virtual void vf_240();
+    virtual void vf_244();
+    virtual void vf_248();
+    virtual void vf_24c();
+    virtual void vf_250();
+    virtual void vf_254();
+    virtual void vf_258();
+    virtual void vf_25c();
+    virtual void vf_260();
+    virtual void vf_264();
+    virtual void vf_268();
+    virtual void vf_26c();
+    virtual void vf_270();
+    virtual void vf_274();
+    virtual void vf_278();
+    virtual void vf_27c();
+    virtual void vf_280();
+    virtual void vf_284();
+    virtual void vf_288();
+    virtual void vf_28c();
+    virtual void vf_290();
+    virtual void vf_294();
+    virtual void vf_298();
+    virtual void vf_29c();
+    virtual void vf_2a0();
+    virtual void vf_2a4();
+    virtual void vf_2a8();
+    virtual void vf_2ac();
+    virtual void vf_2b0();
+    virtual void vf_2b4();
+    virtual void vf_2b8();
+    virtual void vf_2bc();
+    virtual void vf_2c0();
+    virtual void vf_2c4();
+    virtual void vf_2c8();
+    virtual void vf_2cc();
+    virtual void vf_2d0();
+    virtual void vf_2d4();
+    virtual void vf_2d8();
+    virtual void vf_2dc();
+    virtual void vf_2e0();
+    virtual void vf_2e4();
+    virtual void vf_2e8();
+    virtual void vf_2ec();
+    virtual void vf_2f0();
+    virtual void vf_2f4();
+    virtual void vf_2f8();
+    virtual void vf_2fc();
+    virtual void vf_300();
+    virtual void vf_304();
+    virtual void vf_308();
+    virtual void vf_30c();
+    virtual void vf_310();
+    virtual void vf_314();
+    virtual void vf_318();
+    virtual void vf_31c();
+    virtual void vf_320();
+    virtual void vf_324();
+    virtual void vf_328();
+    virtual void vf_32c();
+    virtual void vf_330();
+    virtual void vf_334();
+    virtual void vf_338();
+    virtual void vf_33c();
+    virtual void vf_340();
+    virtual void vf_344();
+    virtual void vf_348();
+    virtual void vf_34c();
+    virtual void vf_350();
+    virtual void vf_354();
+    virtual void vf_358();
+    virtual void vf_35c();
+    virtual void vf_360();
+    virtual void vf_364();
+    virtual void vf_368();
+    virtual void vf_36c();
+    virtual void vf_370();
+    virtual void vf_374();
+    virtual void vf_378();
+    virtual void vf_37c();
+    virtual void vf_380();
+    virtual void vf_384();
+    virtual void vf_388();
+    virtual void vf_38c();
+    virtual void vf_390();
+    virtual void vf_394();
+    virtual void vf_398();
+    virtual void vf_39c();
+    virtual void vf_3a0();
+    virtual void vf_3a4();
+    virtual void vf_3a8();
+    virtual void vf_3ac();
+    virtual void vf_3b0();
+    virtual void vf_3b4();
+    virtual void vf_3b8();
+    virtual void vf_3bc();
+    virtual void vf_3c0();
+    virtual void vf_3c4();
+    virtual void vf_3c8();
+    virtual void vf_3cc();
+    virtual void vf_3d0();
+    virtual void vf_3d4();
+    virtual void vf_3d8();
+    virtual void vf_3dc();
+    virtual void vf_3e0();
+    virtual void vf_3e4();
+    virtual void vf_3e8();
+    virtual void vf_3ec();
+    virtual void vf_3f0();
+    virtual void vf_3f4();
+    virtual void vf_3f8();
+    virtual void vf_3fc();
+    virtual void vf_400();
+    virtual void vf_404();
+    virtual void vf_408();
+    virtual void vf_40c();
+    virtual void vf_410();
+    virtual void vf_414();
+    virtual void vf_418();
+    virtual void vf_41c();
+    virtual void vf_420();
+    virtual void vf_424();
+    virtual void vf_428();
+    virtual void vf_42c();
+    virtual void vf_430();
+    virtual void vf_434();
+    virtual void vf_438();
+    virtual void vf_43c();
+    virtual void vf_440();
+    virtual void vf_444();
+    virtual void vf_448();
+    virtual void vf_44c();
+    virtual void vf_450();
+    virtual void vf_454();
+    virtual void vf_458();
+    virtual void vf_45c();
+    virtual void vf_460();
+    virtual void vf_464();
+    virtual void vf_468();
+    virtual void vf_46c();
+    virtual void vf_470();
+    virtual void vf_474();
+    virtual void vf_478();
+    virtual void vf_47c();
+    virtual void vf_480();
+    virtual void vf_484();
+    virtual void vf_488();
+    virtual void vf_48c();
+    virtual void vf_490();
+    virtual void vf_494();
+    virtual void vf_498();
+    virtual void vf_49c();
+    virtual void vf_4a0();
+    virtual void vf_4a4();
+    virtual void vf_4a8();
+    virtual void vf_4ac();
+    virtual void vf_4b0();
+    virtual void vf_4b4();
+    virtual void vf_4b8();
+    virtual void vf_4bc();
+    virtual void vf_4c0();
+    virtual void vf_4c4();
+    virtual void vf_4c8();
+    virtual void vf_4cc();
+    virtual void vf_4d0();
+    virtual void vf_4d4();
+    virtual void vf_4d8();
+    virtual void vf_4dc();
+    virtual void vf_4e0();
+    virtual void vf_4e4();
+    virtual void vf_4e8();
+    virtual void vf_4ec();
+    virtual void vf_4f0();
+    virtual void vf_4f4();
+    virtual void vf_4f8();
+    virtual void vf_4fc();
+    virtual void vf_500();
+    virtual void vf_504();
+    virtual void vf_508();
+    virtual void vf_50c();
+    virtual void vf_510();
+    virtual void vf_514();
+    virtual void vf_518();
+    virtual void vf_51c();
+    virtual void vf_520();
+    virtual void vf_524();
+    virtual void vf_528();
+    virtual void vf_52c();
+    virtual void vf_530();
+    virtual void vf_534();
+    virtual void vf_538();
+    virtual void vf_53c();
+    virtual void vf_540();
+    virtual void vf_544();
+    virtual void vf_548();
+    virtual void vf_54c();
+    virtual void vf_550();
+    virtual void vf_554();
+    virtual void vf_558();
+    virtual void vf_55c();
+    virtual void vf_560();
+    virtual void vf_564();
+    virtual void vf_568();
+    virtual void vf_56c();
+    virtual void vf_570();
+    virtual void vf_574();
+    virtual void vf_578();
+    virtual void vf_57c();
+    virtual void vf_580();
+    virtual void vf_584();
+    virtual void vf_588();
+    virtual void vf_58c();
+    virtual void vf_590();
+    virtual void vf_594();
+    virtual void vf_598();
+    virtual void vf_59c();
+    virtual void vf_5a0();
+    virtual void vf_5a4();
+    virtual void vf_5a8();
+    virtual void vf_5ac();
+    virtual void vf_5b0();
+    virtual void vf_5b4();
+    virtual void vf_5b8();
+    virtual void vf_5bc();
+    virtual void vf_5c0();
+    virtual void vf_5c4();
+    virtual void vf_5c8();
+    virtual void vf_5cc();
+    virtual void vf_5d0();
+    virtual void vf_5d4();
+    virtual void vf_5d8();
+    virtual void vf_5dc();
+    virtual void vf_5e0();
+    virtual void vf_5e4();
+    virtual void vf_5e8();
+    virtual void vf_5ec();
+    virtual void vf_5f0();
+    virtual void vf_5f4();
+    virtual void vf_5f8();
+    virtual void vf_5fc();
+    virtual void vf_600();
+    virtual void vf_604();
+    virtual void vf_608();
+    virtual void vf_60c();
+    virtual void vf_610();
+    virtual void vf_614();
+    virtual void vf_618();
+    virtual void vf_61c();
+    virtual void vf_620();
+    virtual void vf_624();
+    virtual void vf_628();
+    virtual void vf_62c();
+    virtual void vf_630();
+    virtual void vf_634();
+    virtual void vf_638();
+    virtual void vf_63c();
+    virtual void vf_640();
+    virtual void vf_644();
+    virtual void v648(int);
+    virtual void vf_64c();
+    virtual void vf_650();
+    virtual void vf_654();
+    virtual void vf_658();
+    virtual void vf_65c();
+    virtual void vf_660();
+    virtual void vf_664();
+    virtual void vf_668();
+    virtual void vf_66c();
+    virtual void vf_670();
+    virtual void vf_674();
+    virtual void vf_678();
+    virtual void vf_67c();
+    virtual void vf_680();
+    virtual void vf_684();
+    virtual void vf_688();
+    virtual void vf_68c();
+    virtual void vf_690();
+    virtual void vf_694();
+    virtual void vf_698();
+    virtual void vf_69c();
+    virtual void vf_6a0();
+    virtual void vf_6a4();
+    virtual void vf_6a8();
+    virtual void vf_6ac();
+    virtual void vf_6b0();
+    virtual void vf_6b4();
+    virtual void vf_6b8();
+    virtual void vf_6bc();
+    virtual void vf_6c0();
+    virtual void vf_6c4();
+    virtual void vf_6c8();
+    virtual void vf_6cc();
+    virtual void vf_6d0();
+    virtual void vf_6d4();
+    virtual void vf_6d8();
+    virtual void vf_6dc();
+    virtual void vf_6e0();
+    virtual void vf_6e4();
+    virtual void vf_6e8();
+    virtual void vf_6ec();
+    virtual void vf_6f0();
+    virtual void vf_6f4();
+    virtual void vf_6f8();
+    virtual void vf_6fc();
+    virtual void vf_700();
+    virtual void vf_704();
+    virtual void vf_708();
+    virtual void vf_70c();
+    virtual void vf_710();
+    virtual void vf_714();
+    virtual void vf_718();
+    virtual void vf_71c();
+    virtual void vf_720();
+    virtual void vf_724();
+    virtual void vf_728();
+    virtual void vf_72c();
+    virtual void vf_730();
+    virtual void vf_734();
+    virtual void vf_738();
+    virtual void vf_73c();
+    virtual void vf_740();
+    virtual void vf_744();
+    virtual void vf_748();
+    virtual void vf_74c();
+    virtual void vf_750();
+    virtual void vf_754();
+    virtual void vf_758();
+    virtual void vf_75c();
+    virtual void vf_760();
+    virtual void vf_764();
+    virtual void vf_768();
+    virtual void vf_76c();
+    virtual void vf_770();
+    virtual void vf_774();
+    virtual void vf_778();
+    virtual void vf_77c();
+    virtual void vf_780();
+    virtual void vf_784();
+    virtual void vf_788();
+    virtual void vf_78c();
+    virtual void vf_790();
+    virtual void vf_794();
+    virtual void vf_798();
+    virtual void vf_79c();
+    virtual void vf_7a0();
+    virtual void vf_7a4();
+    virtual void vf_7a8();
+    virtual void v7ac(int);
+};
+
+struct Actor_5c98e0_Shell
+{
+};
+
+extern "C" void* __cdecl FNV_DynamicCast(void*, long, const void*, const void*, int);
+
+// @fnv 0x005c98e0
+bool __cdecl FUN_005c98e0(const ScriptParameter* apParameters, const char* apCompiledParams,
+                          TESObjectREFR_rtti2* apRefObject, TESObjectREFR_rtti2* apContainer, Script_rtti2* apScript,
+                          ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
+{
+    if (apRefObject)
+    {
+        Actor_5c98e0_Shell* actor =
+            static_cast<Actor_5c98e0_Shell*>(FNV_DynamicCast(apRefObject, 0, &DAT_011841cc, &DAT_011846d4, 0));
+        if (actor)
+        {
+            reinterpret_cast<::fnv_00419dc0::FUN_00419dc0_shell2 *>((((::FNVActorContext *)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))))->FUN_00419dc0((::fnv_00419dc0::TESObjectREFRHelper *)(::TESObjectREFR_rtti2 *)(0));
+            if (((::FNVWipController_SV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())))
+            {
+                ((::FNVWipController_SV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->v648(1);
+                reinterpret_cast<::fnv_008b3d30::FUN_008b3d30_shell *>((actor))->FUN_008b3d30();
+                ((::FNVWipController_SV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->v7ac(0);
+            }
+        }
+    }
+    return true;
 }
 
 #include "generated/data/fallout_shared/tesscriptfunctions.inc"

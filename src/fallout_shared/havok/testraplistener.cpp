@@ -43,6 +43,7 @@
 #include "fnv/symbols_0069b000.h"
 #include "fnv/symbols_0104e000.h"
 #include "fnv/symbols_011dd000.h"
+#include "fnv/decl/FUN_0062dfe0.h"
 struct FUN_0062d2f0_shell
 {
     void* GetOffset160();
@@ -2133,4 +2134,115 @@ void EventCollection_62c5a0::FUN_0062c5a0()
         node->Invoke(this);
         node = static_cast<EventNode_62c5a0*>(((::EventLink_62c5a0 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())));
     }
+}
+
+struct CombatWorldStateListNode_o2
+{
+};
+
+struct FUN_0062dee0_shell_o2
+{
+    CombatWorldStateListNode_o2* m_kNode;
+    bool FUN_0062dee0(int arg);
+};
+
+struct FUN_0062dfe0_shell_o2
+{
+};
+
+// Adjustor (this-adjusting) thunk for FUN_0062e3a0: "sub ecx, 0x1c; jmp FUN_0062d870".
+// PrimaryBase is the first base (vptr + six int fields = 0x1c bytes); SecondaryBase
+// declares the same virtual; Derived derives from both, redeclares the virtual and
+// defines only its constructor, so the compiler emits the adjusting thunk.
+struct PrimaryBase
+{
+    virtual void* FUN_0062e3a0(unsigned int flags);
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+};
+
+struct SecondaryBase
+{
+    virtual void* FUN_0062e3a0(unsigned int flags);
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0062e3a0
+    virtual void* FUN_0062e3a0(unsigned int flags);
+};
+
+Derived::Derived()
+{}
+
+namespace fnv_0062e3b0 {
+// Adjustor thunk for FUN_0062e3b0: "sub ecx, 8; jmp FUN_0062d870".
+//
+// MSVC emits a "this adjusting thunk" in the vtable of a class that inherits
+// the same virtual from two bases: the thunk converts the secondary base
+// sub-object pointer back to the derived object pointer (sub ecx, 8) and then
+// tail jumps to the final overrider.
+//
+// The subtracted offset is the size of the primary base, so the primary base
+// is laid out as a vtable pointer plus one int member (4 + 4 = 8 bytes). Both
+// bases declare the same virtual function; the derived class redeclares it and
+// defines only its constructor, which is what makes the compiler emit the
+// vtables and the adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_0062e3b0();
+    int unk04;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0062e3b0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0062e3b0
+    virtual void FUN_0062e3b0();
+};
+
+Derived::Derived()
+{}
+}
+
+// namespace fnv_0062e3b0
+
+namespace fnv_0062e3c0 {
+// sub ecx,0x14; jmp FUN_00dffb00
+// MSVC adjustor thunk: a class derives from two bases that both declare the same
+// virtual, so the secondary base's vtable entry is an adjustor thunk that moves
+// `this` back by the size of the primary base (0x14 = vptr + four int fields).
+struct PrimaryBase
+{
+    virtual void FUN_0062e3c0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0062e3c0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0062e3c0
+    virtual void FUN_0062e3c0();
+};
+
+Derived::Derived()
+{}
 }

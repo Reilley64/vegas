@@ -35,6 +35,7 @@
 #include "bgsimpactdata.h"
 #include <string.h>
 #include <malloc.h>
+#include "string.h"
 
 static const char s_textureSetWarning[] = "MASTERFILE: Unable to find texture set (%08X) on impact data %s (%08X).";
 static const char s_soundWarning[] = "MASTERFILE: Unable to find sound (%08X) on impact data %s (%08X).";
@@ -554,3 +555,5 @@ int FUN_0058e790_S::GetGlobalValue()
     }
     return result;
 }
+
+

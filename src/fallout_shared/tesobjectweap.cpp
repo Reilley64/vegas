@@ -191,6 +191,24 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f2000.h"
 #include "tesobjectweap_decls.h"
+#include "fnv/decl/FUN_0051f570_shell.h"
+#include "fnv/decl/FUN_0051f590_cls.h"
+#include "fnv/decl/FUN_005214d0_shell.h"
+#include "fnv/decl/FUN_00521580_shell.h"
+#include "fnv/decl/FUN_005215a0_shell.h"
+#include "fnv/decl/FUN_005215d0_shell.h"
+#include "fnv/decl/FUN_005215f0_shell.h"
+#include "fnv/decl/FUN_00521610_shell.h"
+#include "fnv/decl/FUN_00521650_shell.h"
+#include "fnv/decl/FUN_00521670_shell.h"
+#include "fnv/decl/FUN_005216b0_shell.h"
+#include "fnv/decl/FUN_005216d0_shell.h"
+#include "fnv/decl/FUN_005216f0_shell.h"
+#include "fnv/decl/FUN_00525be0_shell.h"
+#include "fnv/decl/ResetAccess.h"
+#include "fnv/decl/TESActorBase.h"
+#include "fnv/symbols_00472000.h"
+#include <math.h>
 // Resets the weapon's data block to defaults, initializes embedded sub-structures, sets casting type and sound level, and flags a reload-anim condition.
 // @fnv 0x0051ddf0
 void TESObjectWEAP::ResetFormData()
@@ -4298,5 +4316,98 @@ void ThisObj::FUN_00524db0(Param* param)
     }
 }
 }  // namespace fnv_00524db0
+
+// sub ecx, 0x3c ; jmp target  --  MSVC virtual adjustor thunk.
+// The thunk converts the pointer to the second base sub-object back into a
+// pointer to the complete object before jumping to the implementation.
+struct PrimaryBase
+{
+    virtual void FUN_00525c00();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_00525c00();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x00525c00
+    virtual void FUN_00525c00();
+};
+
+Derived::Derived()
+{}
+
+static float NI_HALF_PI;
+
+float FUN_00a811f0(float y, float x);
+
+inline float NiASin(float fValue)
+{
+    if (-1.0f < fValue)
+    {
+        if (fValue < 1.0f)
+            return float(asin(fValue));
+        else
+            return NI_HALF_PI;
+    }
+    else
+    {
+        return -NI_HALF_PI;
+    }
+}
+
+struct RotationMatrix_o2
+{
+    float m00, m01, m02;
+    float m10, m11, m12;
+    float m20, m21, m22;
+    bool FUN_00a59400(float& x, float& y, float& z);
+};
+
+// @fnv 0x00a59400
+bool RotationMatrix_o2::FUN_00a59400(float& x, float& y, float& z)
+{
+    y = -NiASin(m21);
+    if (y < NI_HALF_PI)
+    {
+        if (y > -NI_HALF_PI)
+        {
+            x = -FUN_00a811f0(-m01, m11);
+            z = -FUN_00a811f0(-m20, m22);
+            return true;
+        }
+        else
+        {
+            float fRmY = FUN_00a811f0(m02, m00);
+            z = 0.0f;
+            x = fRmY - z;
+            return false;
+        }
+    }
+    else
+    {
+        float fRpY = FUN_00a811f0(m02, m00);
+        z = 0.0f;
+        x = z - fRpY;
+        return false;
+    }
+}
 
 #include "generated/data/fallout_shared/tesobjectweap.inc"

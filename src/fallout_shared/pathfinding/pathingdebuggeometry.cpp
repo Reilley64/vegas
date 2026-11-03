@@ -55,6 +55,17 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f2000.h"
+#include <windows.h>
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/MobileObject.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/symbols_007f6000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01203000.h"
 struct Ref;
 struct ExtraList;
 struct Proc;
@@ -803,3 +814,296 @@ void __cdecl FUN_007f6a20(int a1)
     }
     int last = *(int*)((::ObjectResolver *)(new ((void *)&((*reinterpret_cast<::ListNode *>(&::g_011db150)))) ::Vec3()));
 }
+
+struct Ref_ob1;
+
+struct Ref_ob1
+{
+    virtual void vtbl000();
+    virtual void vtbl001();
+    virtual void vtbl002();
+    virtual void vtbl003();
+    virtual void vtbl004();
+    virtual void vtbl005();
+    virtual void vtbl006();
+    virtual void vtbl007();
+    virtual void vtbl008();
+    virtual void vtbl009();
+    virtual void vtbl010();
+    virtual void vtbl011();
+    virtual void vtbl012();
+    virtual void vtbl013();
+    virtual void vtbl014();
+    virtual void vtbl015();
+    virtual void vtbl016();
+    virtual void vtbl017();
+    virtual void vtbl018();
+    virtual void vt4c(int a);
+    virtual void vtbl020();
+    virtual void vtbl021();
+    virtual void vtbl022();
+    virtual void vtbl023();
+    virtual void vtbl024();
+    virtual void vtbl025();
+    virtual void vtbl026();
+    virtual void vtbl027();
+    virtual void vtbl028();
+    virtual void vtbl029();
+    virtual void vtbl030();
+    virtual void vtbl031();
+    virtual void vtbl032();
+    virtual void vtbl033();
+    virtual void vtbl034();
+    virtual void vtbl035();
+    virtual void vtbl036();
+    virtual void vtbl037();
+    virtual void vtbl038();
+    virtual void vtbl039();
+    virtual void vtbl040();
+    virtual void vtbl041();
+    virtual void vtbl042();
+    virtual void vtbl043();
+    virtual void vtbl044();
+    virtual void vtbl045();
+    virtual void vtbl046();
+    virtual void vtbl047();
+    virtual void vtbl048();
+    virtual void vtbl049();
+    virtual void vtc8(int a);
+    virtual void vtbl051();
+    virtual void vtbl052();
+    virtual void vtbl053();
+    virtual void vtbl054();
+    virtual void vtbl055();
+    virtual void vtbl056();
+    virtual void vtbl057();
+    virtual void vtbl058();
+    virtual void vtbl059();
+    virtual void vtbl060();
+    virtual void vtbl061();
+    virtual void vtbl062();
+    virtual bool vtfc();
+    virtual bool vt100();
+    virtual void vtbl065();
+    virtual void vtbl066();
+    virtual void vtbl067();
+    virtual void vtbl068();
+    virtual void vtbl069();
+    virtual void vtbl070();
+    virtual void vtbl071();
+    virtual void vtbl072();
+    virtual void vtbl073();
+    virtual void vtbl074();
+    virtual void vtbl075();
+    virtual void vtbl076();
+    virtual void vtbl077();
+    virtual void vtbl078();
+    virtual void vtbl079();
+    virtual void vtbl080();
+    virtual void vtbl081();
+    virtual void vtbl082();
+    virtual void vtbl083();
+    virtual void vtbl084();
+    virtual void vtbl085();
+    virtual void vtbl086();
+    virtual void vtbl087();
+    virtual void vtbl088();
+    virtual void vtbl089();
+    virtual void vtbl090();
+    virtual void vtbl091();
+    virtual void vtbl092();
+    virtual void vtbl093();
+    virtual void vtbl094();
+    virtual void vtbl095();
+    virtual void vtbl096();
+    virtual void vtbl097();
+    virtual void vtbl098();
+    virtual void vtbl099();
+    virtual void vtbl100();
+    virtual void vtbl101();
+    virtual void vtbl102();
+    virtual void vtbl103();
+    virtual void vtbl104();
+    virtual void vtbl105();
+    virtual void vtbl106();
+    virtual void vtbl107();
+    virtual void vtbl108();
+    virtual void vtbl109();
+    virtual void vtbl110();
+    virtual void vtbl111();
+    virtual void vtbl112();
+    virtual void vtbl113();
+    virtual void vtbl114();
+    virtual void vt1cc(int a, int b);
+    virtual void vtbl116();
+    virtual void vtbl117();
+    virtual void vtbl118();
+    virtual void vtbl119();
+    virtual void vtbl120();
+    virtual void vtbl121();
+    virtual void vtbl122();
+    virtual void vtbl123();
+    virtual void vtbl124();
+    virtual void vtbl125();
+    virtual void vtbl126();
+    virtual void vtbl127();
+    virtual void vtbl128();
+    virtual void vtbl129();
+    virtual void vtbl130();
+    virtual void vtbl131();
+    virtual void vtbl132();
+    virtual void vtbl133();
+    virtual void vtbl134();
+    virtual void vtbl135();
+    virtual void vtbl136();
+    virtual void vtbl137();
+    virtual void vtbl138();
+    virtual void vtbl139();
+    virtual void vtbl140();
+    virtual void vtbl141();
+    virtual void vtbl142();
+    virtual void vtbl143();
+    virtual void vtbl144();
+    virtual void vtbl145();
+    virtual void vtbl146();
+    virtual void vtbl147();
+    virtual void vtbl148();
+    virtual void vtbl149();
+    virtual void vtbl150();
+    virtual void vtbl151();
+    virtual void vtbl152();
+    virtual void vtbl153();
+    virtual void vtbl154();
+    virtual void vtbl155();
+    virtual void vtbl156();
+    virtual void vtbl157();
+    virtual void vtbl158();
+    virtual void vtbl159();
+    virtual void vtbl160();
+    virtual void vtbl161();
+    virtual void vt288();
+    virtual void vtbl163();
+    virtual void vtbl164();
+    virtual void vtbl165();
+    virtual void vtbl166();
+    virtual void vtbl167();
+    virtual void vtbl168();
+    virtual void vtbl169();
+    virtual void vtbl170();
+    virtual void vtbl171();
+    virtual void vtbl172();
+    virtual void vtbl173();
+    virtual void vtbl174();
+    virtual void vtbl175();
+    virtual void vtbl176();
+    virtual void vtbl177();
+    virtual void vtbl178();
+    virtual void vtbl179();
+    virtual void vtbl180();
+    virtual void vtbl181();
+    virtual void vtbl182();
+    virtual void vtbl183();
+    virtual void vtbl184();
+    virtual void vtbl185();
+    virtual bool vt2e8();
+    virtual void vtbl187();
+    virtual void vtbl188();
+    virtual void vtbl189();
+    virtual void vtbl190();
+    virtual void vt2fc();
+    void FUN_00574400();
+};
+
+struct PointJack
+{
+    float x, y, z;
+    PointJack()
+    {}
+    PointJack(float a, float b, float c) : x(a), y(b), z(c)
+    {}
+};
+
+struct ColorJack
+{
+    float r, g, b, a;
+    ColorJack() : r(0), g(0), b(0), a(0)
+    {}
+};
+
+struct MatrixJack
+{
+    float m00, m01, m02, m10, m11, m12, m20, m21, m22;
+};
+
+struct PoolJack
+{
+};
+
+extern ColorJack DAT_01203308, DAT_01203318;
+
+struct NameJack
+{
+    char* p;
+    NameJack(const char* text)
+    {
+        if (!text)
+            p = DAT_0109b220;
+        else
+            p = ::NiGlobalStringTable::AddString(text);
+    }
+    ~NameJack()
+    {
+        if (p == DAT_0109b220)
+        {
+        }
+        else
+        {
+            long* q = (long*)(p - 8);
+            InterlockedDecrement(q);
+        }
+    }
+};
+
+struct JackGeometry
+{
+    unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    unsigned int unk20, unk24, unk28, unk2c, unk30;
+    MatrixJack matrix;
+    PointJack position;
+    unsigned int unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
+    unsigned int unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c;
+    unsigned int unka0, unka4, unka8, unkac, unkb0, unkb4, unkb8, unkbc, unkc0;
+    JackGeometry(int, PointJack*, ColorJack*, int, int, int, char*);
+};
+
+// @fnv 0x00c59200
+JackGeometry* __cdecl FUN_00c59200(float scale)
+{
+    PointJack* positions = new PointJack[6];
+    positions[0] = PointJack(0, 0, 0);
+    positions[1] = PointJack(scale, 0, 0);
+    positions[2] = PointJack(0, 0, 0);
+    positions[3] = PointJack(0, scale, 0);
+    positions[4] = PointJack(0, 0, 0);
+    positions[5] = PointJack(0, 0, scale);
+    ColorJack* colors = new ColorJack[6];
+    colors[0] = (*reinterpret_cast<::ColorJack *>(&::DAT_012032f8));
+    colors[1] = (*reinterpret_cast<::ColorJack *>(&::DAT_012032f8));
+    colors[2] = DAT_01203308;
+    colors[3] = DAT_01203308;
+    colors[4] = DAT_01203318;
+    colors[5] = DAT_01203318;
+    char* flags3 = new char[6];
+    flags3[0] = 1;
+    flags3[1] = 0;
+    flags3[2] = 1;
+    flags3[3] = 0;
+    flags3[4] = 1;
+    flags3[5] = 0;
+    JackGeometry* result9 = new JackGeometry(6, positions, colors, 0, 0, 0, flags3);
+    result9->position = (*reinterpret_cast<::PointJack *>((void *)&::NiPoint3::ZERO));
+    result9->matrix = (*reinterpret_cast<::MatrixJack *>(&::DAT_011a9448));
+    ::AssignFixedString((char *)(result9), (int)&(const ::NameJack &)(NameJack("BSTestObjects Coordinate Jack")), {});
+    return result9;
+}
+#include "generated/data/fallout_shared/pathfinding/pathingdebuggeometry_ob1_variant.inc"

@@ -1196,4 +1196,15 @@ void Shot::UpdateCamera(float afTime)
         c75 = 1;
 }
 
+void __cdecl BSEndian(int*, EndianSizeTag<3>);
+
+void _Deallocate(void*);
+
+void* __memcpy(void*, const void*, unsigned int);
+
+struct FUN_005e78f0_t_o2
+{
+    void FUN_004851b0(TESForm*);
+};
+
 #include "generated/data/fallout_shared/bgscamerashot.inc"

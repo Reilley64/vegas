@@ -193,6 +193,11 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f6000.h"
 #include "navmeshobstaclemanager_decls.h"
+#include "fnv/decl/C006c6030.h"
+#include "fnv/decl/HostA.h"
+#include "fnv/decl/Map62d0.h"
+#include "fnv/decl/ObstacleMgrX.h"
+#include "fnv/decl/fnv_006c5ce0__FUN_006c5ce0_shell.h"
 // Locks the manager's lock, appends task to the array at offset 0x14c, then unlocks.
 // @fnv 0x006c4f70
 void NavMeshObstacleManager::AddProcessedTask(ObstacleTaskData* task)
@@ -7127,6 +7132,181 @@ void RemoveObstacleManagerView::FUN_006c0c80(::TESObjectREFR* ref)
             reinterpret_cast<::Callees *>(&(removed))->FUN_00905820((void *)&(const unsigned int &)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast< ::TESForm*>(ref)))->FUN_0084e3a0()))));
         }
     }
+}
+
+struct V3
+{
+    float x, y, z;
+};
+
+struct S006c4ad0_Obs
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    V3 pos;
+};
+
+struct S006c4ad0_Ptr
+{
+    S006c4ad0_Obs* p;
+    S006c4ad0_Ptr(S006c4ad0_Obs* q);
+    void FUN_0045cec0();
+    ~S006c4ad0_Ptr();
+};
+
+struct S006c4ad0_Body;
+
+struct S006c4ad0_Ref2
+{
+    void* FUN_004b4ec0();
+};
+
+struct S006c4ad0_Queue
+{
+    virtual void f0();
+    virtual void f1();
+    virtual void f2();
+    virtual void f3();
+    virtual unsigned int Count();
+};
+
+struct S006c4ad0_Body
+{
+};
+
+struct S006c4ad0_Map
+{
+};
+
+struct S006c4ad0_List
+{
+};
+
+__declspec(align(16)) struct S006c4ad0_Holder3
+{
+    __m128 q;
+};
+
+struct ObsMgr_nogf
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    S006c4ad0_List list3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    S006c4ad0_Queue queueA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    S006c4ad0_Map mapE0;
+    void FUN_006c4ad0();
+};
+
+// @fnv 0x006c4ad0
+void ObsMgr_nogf::FUN_006c4ad0()
+{
+    unsigned int count = queueA0.Count();
+    for (unsigned int i = 0; i < count; i++)
+    {
+        S006c4ad0_Body* body;
+        reinterpret_cast<::C006c6030 *>(&(queueA0))->FUN_006c6030(&body);
+        S006c4ad0_Ptr sp(0);
+        if (reinterpret_cast<::Map62d0 *>(&(mapE0))->FUN_006c62d0((unsigned int)(body), (void **)(::S006c4ad0_Ptr *)(&sp)))
+        {
+            S006c4ad0_Holder3 h;
+            new ((void *)&(h)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((::S006c4ad0_Ref2 *)(reinterpret_cast<::FUN_00620b80_shell *>((body))->GetReferenceFlags()))->FUN_004b4ec0())));
+            V3 v;
+            new ((void *)&(v)) ::Vec3();
+            ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&v)), (*(const ::hkVector4 *)(&h)));
+            V3 tmp;
+            if (reinterpret_cast<::TESCombatStyle *>((((::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>(&(v))->FUN_00439ef0((::NiPoint3 *)(::V3 *)(&tmp), (*(const ::NiPoint3 *)(&((::S006c4ad0_Obs *)(::FUN_00559450((int *)&(sp))))->pos)))))))->UpdateCombatStyle() > ::fnv_006c4d30::kObsDist)
+                reinterpret_cast<::ObstacleMgrX *>(this)->FUN_006c1760((*(const ::ObstPtrX *)(&sp)));
+            reinterpret_cast<::ListReader *>(&(list3C))->FUN_00631620((*(const ::NodeValue *)(&sp)));
+        }
+    }
+}
+
+int __cdecl FUN_00ec658f(void(__cdecl* fn)());
+
+struct ArrayHolderBase
+{
+    virtual void Unk_00();
+    int m_04;
+    void* m_08;
+    unsigned int m_0C;
+    bool m_10;
+    ArrayHolderBase()
+    {
+        m_04 = 0x25;
+        m_0C = 0;
+        m_08 = FUN_00aa1070(m_04 * 4);
+        std::memset(m_08, 0, m_04 * 4);
+        m_10 = true;
+    }
+};
+
+struct ArrayHolder : ArrayHolderBase
+{
+    virtual ~ArrayHolder()
+    {
+        m_10 = false;
+    }
+};
+
+// @fnv 0x00b61890
+ArrayHolder* __cdecl FUN_00b61890()
+{
+    static ArrayHolder obj;
+    return &obj;
 }
 
 #include "generated/data/fallout_shared/pathfinding/navmeshobstaclemanager.inc"

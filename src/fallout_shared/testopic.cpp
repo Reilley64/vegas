@@ -141,6 +141,14 @@
 #include "MobileObject.h"
 #include "PlayerCharacter.h"
 #include "game_constants.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_00619df0_shell.h"
+#include "fnv/decl/FUN_0061af10_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/TESFaction_RankDataView.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/TopicMethods.h"
+#include "TESTopicInfo_decl_testopic.h"
 
 // @fnv 0x0061a790
 TESTopicInfo* TESTopic::FindMatchingTopicInfo(bool& deferred, TESObjectREFR* speaker, TESObjectREFR* listener,
@@ -2180,6 +2188,116 @@ unsigned int __cdecl GenerateConversation(TESObjectREFR* speaker, TESObjectREFR*
         }
     }
     return history->FUN_005ae380();
+}
+
+// @fnv 0x0061af30
+TESTopicInfo* FUN_0061af30(TESTopicInfo* input, bool& deferredResult, TESObjectREFR* speaker, TESObjectREFR* listener,
+                           bool filter, BSSimpleList<DialogueItem*>* history)
+{
+    TESTopicInfo* b = input;
+    deferredResult = false;
+    if (!b || reinterpret_cast<::FUN_00440d80_shell *>((void *)(b))->FUN_00440d80())
+        return 0;
+    TESTopicInfo* excluded = 0;
+    BSSimpleList<TESTopicInfo*> choices;
+    unsigned int f = 0;
+    bool h = false;
+    BSSimpleList<TESTopicInfo*>* a = 0;
+    if (((::TESTopicInfoData *)(::GetField38((char *)(b)))))
+        a = ((::BSSimpleList< ::TESTopicInfo *> *)(::FUN_00460140((int)(((::TESTopicInfoData *)(::GetField38((char *)(b))))))));
+    TESTopicInfo* fallback = 0;
+    while (a && ((::TESTopicInfo *)(new ((void *)(a)) ::Vec3())) && !h)
+    {
+        TESTopicInfo* info = ((::TESTopicInfo *)(new ((void *)(a)) ::Vec3()));
+        TESQuest* quest = info->FUN_006733e0();
+        a = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((a))->FUN_00726070()));
+        if (quest && reinterpret_cast<::TESFaction_RankDataView *>((quest))->FUN_00455620() && quest->GetConditions()->ContainsTrait(speaker, listener))
+        {
+            bool deferred = false;
+            bool allowed = true;
+            if (info && reinterpret_cast<::TopicFlagStandIn *>((info))->FUN_0061aef0() && speaker->IsMobileObject())
+            {
+                MobileObject* mobile = (MobileObject*)speaker;
+                if (reinterpret_cast<::FUN_00935a40_cls *>((mobile))->HasEntryWithKey((int)(info)))
+                    allowed = false;
+            }
+            if (info && allowed && reinterpret_cast<::FUN_0061e600_t *>((info))->FUN_0061e600(deferred, 0, speaker, listener))
+            {
+                deferredResult = false;
+                bool keep = true;
+                if (keep)
+                {
+                    if (::IsFlag20Set((char *)(info)))
+                        h = true;
+                    BSSimpleList<DialogueItem*>* seen = history;
+                    while (seen && !seen->IsEmpty())
+                    {
+                        DialogueItem* dialogue = ((::DialogueItem *)(new ((void *)(seen)) ::Vec3()));
+                        if (((::TESTopicInfo *)(reinterpret_cast<::FUN_0084e3a0_Class *>((dialogue))->FUN_0084e3a0())) == info)
+                        {
+                            excluded = info;
+                            keep = false;
+                            break;
+                        }
+                        seen = ((::BSSimpleList< ::DialogueItem *> *)(reinterpret_cast<::Callees *>((seen))->FUN_00726070()));
+                    }
+                }
+                if (keep)
+                {
+                    if (::IsFlag20Set((char *)(info)))
+                        h = true;
+                    if (choices.IsEmpty() && !::FUN_00619410((const char *)(info)))
+                    {
+                        return info;
+                    }
+                    else if (!::FUN_00619410((const char *)(info)))
+                    {
+                        h = true;
+                        break;
+                    }
+                    else
+                    {
+                        choices.AddHead(info);
+                        f++;
+                    }
+                }
+                if (!filter && deferred)
+                {
+                    fallback = info;
+                    deferredResult = true;
+                }
+                if (h)
+                    break;
+            }
+        }
+    }
+    if (choices.IsEmpty())
+    {
+        if (filter)
+            return 0;
+        else
+            return fallback;
+    }
+    else
+    {
+        int pick = f ? DialogueRandom() % f + 1 : 0;
+        int a = 0;
+        BSSimpleList<TESTopicInfo*>* c = &choices;
+        TESTopicInfo* selected = 0;
+        TESTopicInfo* b = 0;
+        while (a < pick && c)
+        {
+            b = ((::TESTopicInfo *)(new ((void *)(c)) ::Vec3()));
+            if (b)
+            {
+                selected = b;
+                a++;
+            }
+            c = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((c))->FUN_00726070()));
+        }
+        reinterpret_cast<::FileMatchList *>(&(choices))->RemoveAll();
+        return selected;
+    }
 }
 
 #include "generated/data/fallout_shared/testopic.inc"

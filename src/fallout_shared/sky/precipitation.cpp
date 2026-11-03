@@ -255,4 +255,6 @@ FUN_00636b20::~FUN_00636b20()
     m_pvCached = 0;
 }
 
+int FUN_00404dc0(const char*, const char*);
+
 #include "generated/data/fallout_shared/sky/precipitation.inc"

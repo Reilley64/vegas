@@ -308,6 +308,45 @@
 #include "fnv/symbols_011f9000.h"
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_0126f000.h"
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00454e70_shell.h"
+#include "fnv/decl/FUN_00458f90_shell.h"
+#include "fnv/decl/FUN_0045ae50.h"
+#include "fnv/decl/FUN_00b58570_Class.h"
+#include "fnv/decl/FUN_00c4ed40_cls.h"
+#include "fnv/decl/FUN_00c67850_Class.h"
+#include "fnv/decl/FUN_00c68a40_Class.h"
+#include "fnv/decl/S_00c4edf0_cls.h"
+#include "fnv/decl/S_Owner.h"
+#include "fnv/decl/This676.h"
+#include "fnv/decl/fnv_00454c20__RecentItems.h"
+#include "fnv/decl/fnv_00c1b4a0__RefObjectList.h"
+#include "fnv/decl/fnv_00c6aac0__FUN_00c6aac0_Owner.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00b61000.h"
+#include "fnv/symbols_011af000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/decl/S457d70.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/fnv_00451530__FUN_00451530_shell.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_00451ea0__TES.h"
+#include "fnv/decl/fnv_00452490__FUN_00452490_shell.h"
+#include "fnv/decl/fnv_00453940__FUN_00453940_shell.h"
+#include "fnv/decl/fnv_00454bd0__TES.h"
+#include "fnv/decl/fnv_00454d50__FUN_00454d50_shell.h"
+#include "fnv/decl/fnv_00454e20__CellStand.h"
+#include "fnv/decl/fnv_00455490__Q455490TES.h"
+#include "fnv/decl/fnv_00457be0__OwnerProxy.h"
+#include "fnv/decl/fnv_00459870__FUN_00459870_cls.h"
+#include "fnv/decl/fnv_00459d20__FUN_00459d20_shell.h"
+#include "fnv/decl/fnv_0045c9e0__FUN_0045c9e0_shell.h"
+#include "fnv/decl/fnv_00547ad0__CellMask.h"
+#include "fnv/decl/fnv_00628da0__LoadedAreaBound.h"
+#include "fnv/symbols_00441000.h"
+#include "fnv/symbols_0057d000.h"
 struct GlobalObject_00a7b610
 {
 };
@@ -12238,6 +12277,2872 @@ void FadeAttachedTES::FUN_00459a00()
                 {
                     reinterpret_cast<::s5573e0::Owner *>((reinterpret_cast<FadeAttachedCell*>(pcell)))->FUN_005573e0();
                 }
+            }
+        }
+    }
+}
+
+struct NiPoint3_o2;
+
+struct TESObjectCELL_o2;
+
+struct TESDataHandler_o2
+{
+    static bool LoadForm(TESForm*, TESFile*);
+    bool SaveForm(TESForm*, bool);
+    char* GetFormName(unsigned char);
+    void OutputFormList();
+    void SetModelSizeOutputEnabled(bool);
+    void OutputModelSizeList();
+    void CheckTexturesRecurse(NiAVObject*, char*);
+    static bool CheckDismemberSkinInstanceRecurse(NiAVObject*, char*);
+    void PrintTextureInfo(void*, NiTriBasedGeom*, char*, char*, bool);
+    void OutputTextureInfo();
+    void CheckTexturePath(char*);
+    bool AddFormToDataHandler(TESForm*);
+    void ReleaseForm(TESForm*);
+    unsigned char NotUniqueID(char*);
+    void GetObjectCounts();
+    void GetReferenceCounts();
+    void GetRegions();
+    void InitializeMagicSystem();
+    void GetReferencesInArea(TESObjectCELL_o2*, void*, float, void*, float, int*, long);
+    void GetReferencesInArea(void*, float, void*, float, int*, long);
+    void EnumReferencesCloseToRef(TESObjectREFR*, float, void*, float, int*, long);
+    static bool ReferenceBaseSearchEnumFunc(TESObjectREFR*, long);
+    bool FindTeleportPathBetweenSmallSpaces(TESForm*, TESForm*, void*);
+    bool FindTeleportPathBetweenWorlds(TESWorldSpace*, TESWorldSpace*, void*);
+    bool FindTeleportPathFromSmallSpaceToWorld(TESForm*, TESWorldSpace*, void*, bool);
+    TESObjectREFR* FindFirstReference(TESObject*);
+    TESObjectREFR* FindFirstReference(char*);
+    bool FindConnectedWorld(TESWorldSpace*, TESWorldSpace*, void*);
+    bool FindConnectedSmallSpace(TESForm*, TESForm*, void*, void*);
+    TESWorldSpace* BuildPathNodeLocation(TESForm*, NiPoint3_o2*, void*);
+    TESObjectREFR* FindClosestReference(TESBoundObject*, void*, TESObjectCELL_o2*);
+    TESObjectREFR* FindClosestReference(char*, void*, TESObjectCELL_o2*);
+    TESObjectREFR* GetReference(char*);
+    TESObjectREFR* GetReference(unsigned int);
+    TESLandTexture* GetLandTexture(char*);
+    TESLandTexture* GetLandTexture(unsigned int);
+    TESRace* GetRace(char*);
+    TESRace* GetRace(unsigned int);
+    TESClass* GetClass(char*);
+    TESClass* GetClass(unsigned int);
+    Script* GetScript(char*);
+    Script* GetScript(unsigned int);
+    TESSound* GetSoundByEditorID(char*);
+    TESSound* GetSoundByEditorID(unsigned int);
+    TESGlobal* GetGlobal(char*);
+    TESGlobal* GetGlobal(unsigned int);
+    BGSVoiceType* GetVoiceType(unsigned int);
+    TESFaction* GetFactionByFormID(char*);
+    TESFaction* GetFactionByFormID(unsigned int);
+    TESReputation* GetReputation(char*);
+    TESReputation* GetReputation(unsigned int);
+    TESRecipe* GetRecipe(char*);
+    TESRecipe* GetRecipe(unsigned int);
+    TESRecipeCategory* GetRecipeCategory(char*);
+    TESRecipeCategory* GetRecipeCategory(unsigned int);
+    TESCasino* GetCasino(char*);
+    TESCasino* GetCasino(unsigned int);
+    TESCaravanDeck* GetCaravanDeck(char*);
+    TESCaravanDeck* GetCaravanDeck(unsigned int);
+    TESTopic* GetAudioBackendData(int, int);
+    TESTopic* GetAudioBackendData(char*);
+    TESTopic* GetAudioBackendData(unsigned int);
+    TESChallenge* GetChallenge(char*);
+    TESAmmoEffect* GetAmmoEffect(char*);
+    TESQuest* GetQuest(char*);
+    TESCombatStyle* GetCombatStyle(char*);
+    TESEffectShader* GetEffectShader(char*);
+    BGSProjectile* GetProjectileData(char*);
+    BGSExplosion* GetExplosion(char*);
+    BGSDebris* GetDebris(char*);
+    BGSPerk* GetPerk(char*);
+    BGSMessage* GetMessage(char*);
+    TESLoadScreenType* GetLoadScreenType(char*);
+    TESLoadScreenType* GetLoadScreenType(unsigned int);
+    TESFormList* GetObjectList();
+    void* GetFileList();
+    void* GetPartDataList();
+    void* GetPerks();
+    void* GetDebrisList();
+    void* GetExplosionList();
+    void* GetProjectileList();
+    void* GetRadiationStageList();
+    void* GetDehydrationStageList();
+    void* GetHungerStageList();
+    void* GetSleepDeprevationStageList();
+    void* GetEffectShaderList();
+    void* GetWaterList();
+    void* GetLoadScreenList();
+    void* GetAnimObjectList();
+    TESObjectANIO* GetAnimObject(TESIdleForm*, int);
+    void* GetCombatStyleList();
+    void* GetPackageList();
+    void* GetWorldSpaceList();
+    void* GetClimateList();
+    void* GetImageSpaceList();
+    void* GetImageSpaceModifierList();
+    void* GetWeatherList();
+    void* GetEnchantmentItemList();
+    void* GetSpellItemList();
+    void* GetLandTextList();
+    void* GetCameraShotList();
+    void* GetHeadPartList();
+    void* GetHairList();
+    void* GetEyesList();
+    void* GetRaceList();
+    void* GetZoneList();
+    void* GetClassList();
+    void* GetFactionList();
+    void* GetReputationList();
+    void* GetChallengeList();
+    void* GetRecipeList();
+    void* GetRecipeCategoryList();
+    void* GetAmmoEffectList();
+    void* GetCasinoList();
+    void* GetCaravanDeckList();
+    void* GetSoundList();
+    void* GetAcousticSpaceList();
+    void* GetRagdollList();
+    void* GetGlobalList();
+    void* GetVoiceTypeList();
+    void* GetImpactDataList();
+    void* GetImpactDataSetList();
+    void* GetBadFormList();
+    TESRegionList* GetRegionList();
+    void* GetTopicList();
+    void* GetTopicInfoList();
+    void* GetNoteList();
+    void* GetMenuIconList();
+    void* GetListFormList();
+    void* GetMessageList();
+    void* GetLightingTemplateList();
+    void* GetMusicTypeList();
+    void* GetLoadScreenTypeList();
+    void* GetMediaSetList();
+    void* GetMediaLocationControllerList();
+    void AddTopic(TESTopic*);
+    void RemoveTopic(TESTopic*);
+    void AddTopicInfo(TESTopicInfo*);
+    void RemoveTopicInfo(TESTopicInfo*);
+    void* GetScriptList();
+    void SortScriptList();
+    void* GetQuestList();
+    void AddQuest(TESQuest*);
+    void RemoveQuest(TESQuest*);
+    void RegisterAddonNode(BGSAddonNode*);
+    void RemoveAddonNode(BGSAddonNode*);
+    TESObjectCELL_o2* GetCellByNameAndGrid(char*);
+    TESObjectCELL_o2* GetCellByNameAndGrid(char*, int, int, TESWorldSpace*);
+    unsigned int GetInteriorCellCount();
+    TESObjectCELL_o2* GetCellByInteriorIndex(unsigned int);
+    void RefreshCellList();
+    unsigned int GetCellCount();
+    TESObjectCELL_o2* GetCellByIndex(unsigned int);
+    TESObjectCELL_o2* GetCellByNumericID(unsigned int);
+    TESObjectCELL_o2* LookupCellByEditorID(char*);
+    TESWorldSpace* GetWorldSpaceByEditorID(char*, int*, int*);
+    TESObjectCELL_o2* GetCellByWorldPosition(float, float, TESWorldSpace*, bool);
+    TESObjectCELL_o2* GetCellAtGridPosition(int, int, TESWorldSpace*, bool);
+    TESWorldSpace* GetWorldSpaceForCell(TESObjectCELL_o2*);
+    void RemoveCell(TESObjectCELL_o2*);
+    void RemoveCell(int, int, TESWorldSpace*);
+    void RemoveCell(char*);
+    TESObjectREFR* CreateReferenceInLoadedArea(TESBoundObject*, void*, void*, bool, BGSPrimitive*, void*);
+    TESObjectREFR* PlaceReferenceAtLocation(TESBoundObject*, void*, void*, TESObjectCELL_o2*, TESWorldSpace*,
+                                            TESObjectREFR*, BGSPrimitive*, void*);
+    TESObjectCELL_o2* SelectCell(struct blob12, bool*, TESWorldSpace*);
+    bool AssignToCell(TESObjectCELL_o2*, TESObjectREFR*);
+    bool PlaceInExterior(TESObjectREFR*, TESWorldSpace*);
+    void RemoveDuplicateReferences();
+    TESObjectREFR* CreateProjectileAtLocation(TESBoundObject*, void*, void*, TESObjectCELL_o2*, TESWorldSpace*);
+    TESObjectREFR* PlaceObjectAtLocation(TESBoundObject*, void*, void*, TESObjectCELL_o2*, TESWorldSpace*);
+    TESFile* LookupTESFile(unsigned int);
+    TESFile* LookupTESFile(char*);
+    bool RemoveListFile(TESFile*);
+    static void FileCacheCompleteCallback(char*);
+    char* GetActiveFileName();
+    void SetActiveFile(TESFile*);
+    TESFile* GetActiveFile();
+    void RemoveIDFromDataHandler(unsigned int);
+    unsigned int GetNextID();
+    void AddCompiledFile(TESFile*);
+    void ClearFileList();
+    bool UpdateLoadingStatusCallback(char*);
+    void BuildCompiledFileList();
+    int CountCheckedFiles(int);
+    unsigned int CountFiles();
+    unsigned int CountCompiled();
+    bool LoadPluginFiles(bool);
+    bool ClearData();
+    bool SaveActiveData(char*, bool);
+    void CloseAllTES();
+    bool LoadTESFile(TESFile*, bool);
+    void ClearLoadedFormCount();
+    unsigned int AddDownloadedContentToFileList();
+    void RunAllPersistentRefScripts();
+    bool ConstructObject(TESFile*, bool, TESForm*, bool);
+    bool FormGroupLoadsInGame(TESFile*, FormRecordHeader*);
+    static TESForm* CreateFormForType(unsigned char);
+    bool ResetOffsetData(TESFile*);
+    void FixAllScriptIDs();
+    void SetSaveLoadGameState(int);
+    bool GetMasterSave();
+    void SetMasterSave(bool);
+    bool GetSaveLoadGame();
+    void SetSaveLoadGame(bool);
+    bool GetSaveLoad();
+    void SetSaveLoad(bool);
+    bool GetAutoSaving();
+    void SetAutoSaving(bool);
+    bool GetClearingData();
+    void SetClearingData(bool);
+    bool GetHasDesiredFiles();
+    void SetHasDesiredFiles(bool);
+    bool IsSavingLoading();
+    void SetCheckingModels(bool);
+    bool GetCheckingModels();
+    void SetLoadingFiles(bool);
+    bool GetLoadingFiles();
+    bool GetGameSettingsLoaded();
+    void MarkGameSettingsLoaded();
+    void FlushSoundBuffers();
+    void SetBarterContainer(TESObjectREFR*);
+    void AddBarterItem(InventoryStackRecord*, int, TESObjectREFR*);
+    void ClearBarterContainer();
+    InventoryChanges* GetBarterContainer();
+    void CreateRecipeContainer(TESObjectREFR*);
+    void RemoveItemRecipeContainer(InventoryStackRecord*, int, TESObjectREFR*);
+    void ClearRecipeContainer();
+    InventoryChanges* GetRecipeContainer();
+    TESRegionDataManager* GetRegionDataManager();
+    TESFile* GetCompiledFileByIndex(int);
+    unsigned int GetNextFormID();
+    void SetNextFormID(unsigned int);
+    AlchemyItem* DoesPotionMatch(AlchemyItem*);
+    void SetDontRemoveIDs(bool);
+    bool GetDontRemoveIDs();
+    void* QArrayInteriorCells();
+    TESEffectShader* GetSpotterShader();
+    TESEffectShader* GetItemDetectedShader();
+    TESEffectShader* GetCateyeShader();
+    void SetSpotterShader(TESEffectShader*);
+    void SetItemDetectedShader(TESEffectShader*);
+    void SetCateyeShader(TESEffectShader*);
+    void ClearDLCFlags();
+    int GetNumDLCInstalled();
+    void DataError(int);
+    bool IsFormIDRemapped(unsigned int);
+    void AdvanceNextID();
+    char* GetDLCFlags();
+    bool IsDLCFlagSet(char);
+    void SetDLCFlag(char, bool);
+    int GetDLCIndex(char*);
+    unsigned int LoadFilesInDirectory(char*, void*);
+    void* __vecDelDtor(unsigned int);
+    char m_cDLCFlagCount;
+    char _pad_1[3];
+    TESFormList* m_pBoundObjectList;
+    char m_kPackages[8];
+    char m_kWorldSpaceList[8];
+    char m_kClimateList[8];
+    char m_kImageSpaceList[8];
+    char m_kImageSpaceModifierList[8];
+    char m_kWeatherList[8];
+    char m_kEnchantmentItemList[8];
+    char m_kSpellList[8];
+    char m_kHeadPartList[8];
+    char m_kHairList[8];
+    char m_kEyeList[8];
+    char m_kRaceList[8];
+    char m_kEncounterZoneList[8];
+    char m_kLandTextureList[8];
+    char m_kCameraShotList[8];
+    char m_kClassList[8];
+    char m_pVoiceType[8];
+    char m_kReputationList[8];
+    char m_kChallengeList[8];
+    char m_kCraftingRecipeList[8];
+    char m_kRecipeCategoryList[8];
+    char m_kAmmoEffectList[8];
+    char m_kCasinoList[8];
+    char m_kCaravanDeckList[8];
+    char m_kScriptList[8];
+    char m_kSoundList[8];
+    char m_kAcousticSpaceList[8];
+    char m_kRagdollList[8];
+    char m_kGlobalList[8];
+    char m_kVoiceTypeList[8];
+    char m_kImpactEffectList[8];
+    char m_kImpactDataSetList[8];
+    char m_kTopicList[8];
+    char m_kTopicInfoList[8];
+    char m_kQuestList[8];
+    char m_kCombatStyleList[8];
+    char m_kLoadScreenList[8];
+    char m_kWaterFormList[8];
+    char m_kEffectShaderList[8];
+    char m_kProjectileList[8];
+    char m_kExplosionList[8];
+    char m_kRadiationStageList[8];
+    char m_kDehydrationStageList[8];
+    char m_kHungerStageList[8];
+    char m_kSleepDeprivationStageList[8];
+    char m_kDebrisList[8];
+    char m_kPerkList[8];
+    char m_kBodyPartDataList[8];
+    char m_kNoteList[8];
+    char m_kListFormList[8];
+    char m_kMenuIconList[8];
+    char m_kFourthDataList[8];
+    char m_kMessageList[8];
+    char m_kLightingTemplateList[8];
+    char m_kMusicTypeList[8];
+    char m_kLoadScreenTypeList[8];
+    char m_kMediaSetList[8];
+    char m_kMediaLocationControllerList[8];
+    TESRegionList* m_pRegions;
+    char m_kFirstArrayStorage[16];
+    char m_kSecondArrayStorage[16];
+    char m_kThirdArrayStorage[12];
+    unsigned int m_uiFormCount;
+    TESFile* m_pActiveFile;
+    char m_kModInfoList[8];
+    unsigned int m_iLoadedModCount;
+    char m_ppLoadedMods[1020];
+    bool m_bLoadingFiles;
+    bool m_bGameSettingsLoaded;
+    bool m_bMasterSave;
+    bool m_bSaveLoadGame;
+    bool m_bFirstStateField;
+    bool m_bSecondStateField;
+    bool m_bThirdStateField;
+    bool m_bFourthStateFlag;
+    bool m_bFifthStateFlag;
+    bool m_bSixthStateFlag;
+    unsigned char m_ucInternalStateByte;
+    char _pad_623[1];
+    TESRegionDataManager* m_pRegionDataManager;
+    InventoryChanges* m_pFirstInventoryChanges;
+    InventoryChanges* m_pSecondInventoryChanges;
+    TESEffectShader* m_pFirstEffectShader;
+    TESEffectShader* m_pSecondEffectShader;
+    TESEffectShader* m_pThirdEffectShader;
+};
+
+struct FUN_004516b0_shell_o2 : public TESDataHandler_o2
+{
+    bool FUN_004516b0();
+};
+
+struct TESObjectCELL_o2;
+
+struct BGSSaveLoadGame_o2
+{
+    static void Create();
+    static void Destroy();
+    void ApplyFormChanges(BGSSaveLoadChangesMap*, FormIDConverter*);
+    void LoadCellChanges(bool);
+    void LoadForm(TESForm*);
+    void SetFormLoaded(TESForm*, bool);
+    bool ShouldUnloadForm(TESForm*);
+    void FormReconstructionMap(TESObjectCELL_o2*);
+    bool ContainsReference(unsigned int);
+    bool ShouldSaveForm(TESForm*, bool);
+    void NotifyFormIDChanged(TESForm*, struct blob4, bool);
+    bool HasFormChangeFlags(TESForm*, struct blob4);
+    bool GetOldChange(TESForm*, struct blob4);
+    bool IsFormChanged(TESForm*);
+    void ClearFormChangeFlags(TESForm*, struct blob4);
+    void HasFormChanges(TESForm*);
+    void ClearAllForms();
+    void CleanupExpiredData();
+    void ProcessSubBuffer(int, BGSLoadFormBuffer*, TESForm*);
+    void ClearForm(TESForm*);
+    void ClearFormID(unsigned int);
+    void DeleteForm(TESForm*);
+    unsigned int GetNewFormID(unsigned int);
+    bool IsFormIDRemapped(unsigned int);
+    void AreStringsEqual(char*, char*);
+    void DisplayReferenceDebugText(TESObjectREFR*, IDebugText*);
+    void DisplayCellDebugText(TESObjectREFR*, IDebugText*);
+    FormIDConverter* GetFormIDMap();
+    FormIDConverter* GetWorldspaceFormIDMap();
+    BGSReconstructFormsInAllFilesMap* GetReconstructFormsMap();
+    unsigned char GetConvertedFileIndex(unsigned char);
+    unsigned char GetReverseConvertedFileIndex(unsigned char);
+    unsigned char GetLoadState();
+    bool SetGlobalAllowChanges(bool);
+    bool GetGlobalAllowChanges();
+    void SetDeferInitForms(bool);
+    bool GetDeferInitForms();
+    void SetSaveGameLoading(bool);
+    bool GetSaveGameLoading();
+    void SetSaveGameSaving(bool);
+    bool GetSaveGameSaving();
+    void SetInitingForms(bool);
+    bool GetInitingForms();
+    void SetPositioningPlayerCharacter(bool);
+    bool GetPositioningPlayerCharacter();
+    void SetPlayerLocationInvalid(bool);
+    bool GetPlayerLocationInvalid();
+    void SetSaveLoadFailed(bool);
+    bool GetSaveLoadFailed();
+    bool GetThreadAllowChanges();
+    void SetLoadingMovedRefs(bool);
+    bool GetLoadingMovedRefs();
+    void SetReconstructingForms(bool);
+    bool GetReconstructingForms();
+    void SaveGame(SaveLoadFile*);
+    bool LoadGame(SaveLoadFile*, bool);
+    void PrepareLoadGame(SaveLoadFile*);
+    bool IsValidSaveGame(SaveLoadFile*);
+    unsigned int LoadFormRecord(SaveLoadFile*, BGSLoadFormBuffer*, FormIDConverter*);
+    bool FindFormByID(TESForm**, struct blob4, bool);
+    void InitializePackageLocations(Actor*);
+    void CancelInitPackageLocations(Actor*);
+    void ClearFormChanges();
+    BGSSaveLoadChangesMap* GetChangesMap();
+    void* __vecDelDtor(unsigned int);
+    BGSSaveLoadChangesMap* m_pFormChangesMap;
+    BGSSaveLoadChangesMap* m_pSecondChangesMap;
+    FormIDConverter* m_pSecondSaveLoadData;
+    FormIDConverter* m_pSaveLoadData;
+    BGSSaveLoadReferencesMap* m_pReferencesMap;
+    LoadGameSubBufferQueue* m_pSaveLoadMap;
+    void* m_pAuxiliaryData;
+    SaveLoadChangeHistory* m_pNoteHandler;
+    BGSReconstructFormsInAllFilesMap* m_pFormReconstructionMap;
+    char LoadFormBufferArray[16];
+    char m_acTextBuffer[16];
+    char m_acFirstTextBuffer[255];
+    char m_acSecondTextBuffer[255];
+    char _pad_242[2];
+    unsigned int m_uiInitializationFlags;
+    unsigned char m_ucSaveLoadState;
+    char _pad_249[3];
+};
+
+struct FUN_004523c0_shell_o2 : public BGSSaveLoadGame_o2
+{
+    bool FUN_004523c0();
+};
+
+void FUN_00454440(unsigned char value);
+
+struct FNStub_o2
+{
+};
+
+void FUN_00455680();
+
+struct TESObjectCELL_o2;
+
+struct ModelLoader_o2
+{
+    void LoadModelFileList(BSFile*, bool);
+    bool QueueModelFilePath(BSFileEntry*, int, QueuedFile*);
+    bool QueueModelFilePath(char*, int, QueuedFile*);
+    void ProcessModelRequest(char*, FileEntryList*, void*, int, QueuedFile*, int, bool, bool, bool);
+    void ProcessModelRequest(char*, void*, int, QueuedFile*, int, bool, bool, bool);
+    void ProcessModelRequest(TESModel*, void*, int, QueuedFile*, int, bool, bool, bool, float);
+    void ProcessModelRequest(char*, FileEntryList*, int, QueuedFile*, int, bool, bool, bool);
+    void ProcessModelRequest(char*, int, QueuedFile*, int, bool, bool, bool);
+    void ProcessModelRequest(TESModel*, int, QueuedFile*, int, bool, bool, bool);
+    void QueueTree(TESObjectREFR*, TESObjectTREE*, void*, int, QueuedFile*, int);
+    void QueueTree(TESObjectREFR*, TESObjectTREE*, int, QueuedFile*, int);
+    bool EnqueueFile(char*, int, QueuedFile*);
+    void QueueMagicEffectModel(MagicItem*, EffectSetting*, int);
+    void QueueReference(TESObjectREFR*, int, bool);
+    void QueueBoundObjectModel(TESBoundObject*, void*, int, QueuedFile*, TESObjectREFR*);
+    void QueueBoundObjectModel(TESBoundObject*, int, QueuedFile*, TESObjectREFR*);
+    void QueueTESModel(TESModel*, int, QueuedFile*, TESObjectREFR*);
+    void QueueModelWithOptions(TESModel*, int, QueuedFile*, TESObjectREFR*, bool, bool);
+    void QueueModelList(void*, FileEntryListCollection*, int, QueuedFile*, char*);
+    void QueueFileList(void*, int, QueuedFile*, char*);
+    void QueueReplacementKFList(void*, Animation*, int, QueuedFile*, char*);
+    void QueueHead(TESNPC*, void*, int, QueuedFile*);
+    void QueueBipedAnimation(BipedAnim*, void*, int, QueuedFile*, int);
+    KFModel* FindIdleKFModel(char*, AnimIdle*, int, TESObjectREFR*);
+    void QueueTreeBillboard(char*, ModelLoadData*);
+    void QueueFileLoad(char*, int, QueuedFile*, int);
+    void EnqueueModelFile(char*, int, QueuedFile*, int);
+    void QueueModelFile(TESModel*, int, QueuedFile*, int);
+    void QueueAlternateModel(TESModel*, int, QueuedFile*, int);
+    bool QueueFileFromArchive(BSFileEntry*, int, QueuedFile*);
+    void ReleaseKF(char*, bool);
+    void CancelReplacementKFList(Animation*);
+    void CancelAnimIdle(AnimIdle*);
+    void CancelReferenceFiles(TESObjectREFR*);
+    void CancelReferencesForCell(TESObjectCELL_o2*);
+    bool IsReferenceQueued(TESObjectREFR*);
+    TESModel* GetModelForBoundObject(TESBoundObject*, TESObjectREFR*);
+    bool BoundObjectOrModelAlreadyQueued(TESObjectREFR*, TESModel*, int, bool);
+    void UpdateQueuedReferencePriorities(TESObjectCELL_o2*);
+    void PauseBackgroundCloning();
+    void ResumeBackgroundCloning();
+    void QueueDistant3DTask(AttachDistant3DTask*);
+    bool IsBackgroundCloningPaused();
+    bool UpdateReferencesToQueue();
+    bool SetLoadTexturesDegraded(bool);
+    bool GetLoadTexturesDegraded();
+    void UpgradeTextures(NiAVObject*);
+    bool AddLoadedFileToMap(char*, LoadedFile*);
+    void RemoveLoadedFileFromMap(char*);
+    LoadedFile* GetLoadedFileFromMap(char*);
+    void DebugMessage(char*, ...);
+    void DisplayBackgroundLoadDebugText(int, int*, int*, bool);
+    void DisplayDebugLoadingText();
+    static void UpdateQueueCallback();
+    static bool UpdateSecondaryQueueCallback();
+    static void LoadQueuedPriorityCallback(float);
+    static unsigned int GetExternalCountCallback();
+    static void PauseCallback();
+    static void ResumeCallback();
+    void SetExiting();
+    void AddBackgroundCloneReference(QueuedReference*);
+    void RemoveReferenceFromMap(TESObjectREFR*);
+    void RemoveAnimIdleFromMap(AnimIdle*);
+    void RemoveReplacementKFListFromMap(Animation*);
+    void RemoveHelmetFromMap(TESObjectREFR*);
+    bool RegisterQueuedTexture(BSFileEntry*, QueuedTexture*);
+    void RemoveQueuedTextureFromMap(BSFileEntry*);
+    QueuedTexture* GetQueuedTextureFromMap(BSFileEntry*);
+    bool HasQueuedTextures();
+    unsigned int GetBackgroundCloningCount();
+    unsigned int GetQueuedReferenceCount();
+    unsigned int GetQueuedHelmetCount();
+    bool AddModel(char*, Model*);
+    bool AddKF(char*, KFModel*);
+    KFModel* LoadKF(char*);
+    void LoadPSA(char*, void*);
+    bool FindModel(char*, void*);
+    void* UpdateLoadingStatusCallback(char*, char*, void*);
+    void* BuildNIFFileList(char*);
+    void* GetModelFileList(char*, bool, bool, int);
+    void* FindNIFFileListEntry(void*, void*);
+    bool ProcessQueuedFile(TESObjectCELL_o2*);
+    KFModel* FindKFModel(char*);
+    KFModel* FindKFModel(NiControllerSequence*);
+    KFModel* FindKFModel(TESAnimGroup*);
+    void CancelAllFiles();
+    void SetLoadingEnabled(bool);
+    void ReleaseFile(char*);
+    void ReleaseKFFile(char*);
+    void UpdateReferenceNode(TESObjectREFR*, NiNode*);
+    void UpdateModelNode(NiNode*);
+    bool QHasDelayedFree();
+    static int GetArchiveTypeIndexForIOFileIndex(int);
+    static int GetIOFileIndexForArchiveTypeIndex(int);
+    void AddModelToMap(Model*, char*);
+    void* __vecDelDtor(unsigned int);
+    void* m_pLoadedModelMap;
+    void* m_pLoadedKFModelMap;
+    void* m_pQueuedReferenceMap;
+    void* m_pQueuedReferenceUpdateMap;
+    void* m_pQueuedAnimIdleMap;
+    void* m_pQueuedReplacementKFListMap;
+    void* m_pQueuedHelmetMap;
+    void* m_pDistant3DTaskQueue;
+    void* m_pQueuedTextureMap;
+    void* m_pLoadedFileMap;
+    BackgroundCloneThread* m_pBackgroundCloneThread;
+    bool m_bLoadTexturesDegraded;
+    char _pad_2d[3];
+};
+
+struct FUN_0045a5e0_shell_o2 : public ModelLoader_o2
+{
+    void FUN_0045a5e0(char*);
+};
+
+struct Flt
+{
+    operator unsigned int(void) const;
+};
+
+struct NiPoint3_o2
+{
+    float x;
+    float y;
+    float z;
+};
+
+struct NiCamera_o2
+{
+    float x;
+    float y;
+    float z;
+    float w;
+    int ClassifyPoint(const NiPoint3_o2* other);
+};
+
+struct TESObjectCELL_o2
+{
+public:
+    bool IsCellInterior() const;
+};
+
+struct TESObjectCELL_AddToInteriorBuffer_o2
+{
+};
+
+struct TESObjectCELL_AddToExteriorBuffer_o2
+{
+};
+
+struct FUN_00454b90_shell_o2
+{
+    void AddCellToBuffer(TESObjectCELL_o2* cell);
+};
+
+struct FUN_0045ae20_shell_o2
+{
+    void* FUN_0045ae20(unsigned int flags);
+};
+
+struct ShaderBufferRecord;
+
+struct NiTStringPointerMap_00e93060
+{
+};
+
+struct ShaderBufferRecord
+{
+    char pad[0x30];
+    NiTStringPointerMap_00e93060 map;
+};
+
+struct TallGrassShaderProperty_o2
+{
+};
+
+// @fnv 0x00b617b0
+bool __cdecl FUN_00b617b0(char const* a, char const* b)
+{
+    ShaderBufferRecord* pn = 0;
+    if (!reinterpret_cast<::A54440Hash *>((((::NiTStringPointerMap_00e93060 *)(::fnv_00b61170::GetArrayHolder()))))->FUN_00a53c30((::A54440Manager *)(a), (::A54440Manager **)&(pn)))
+        return false;
+    return reinterpret_cast<::A54440Hash *>(&(pn->map))->FUN_00a53c30((::A54440Manager *)(b), (::A54440Manager **)&(pn));
+}
+
+// Release one update lock; when the last lock goes away, process (a budgeted part of) the pending queue
+// or flush it, then run the post-update steps.
+
+class C6B540Item;
+
+class C6B540Manager_o2
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    unsigned int m_uiLockCount;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    C6B540Item** m_ppkPending;
+    unsigned int m_uiPendingCount;
+
+    void FUN_00c6b540(bool bProcess);
+};
+
+// @fnv 0x00c6b540
+void C6B540Manager_o2::FUN_00c6b540(bool bProcess)
+{
+    if (m_uiLockCount > 0)
+    {
+        if (--m_uiLockCount == 0)
+        {
+            if (bProcess)
+            {
+                if (m_uiPendingCount > 0 && !(*reinterpret_cast<bool *>(&::DAT_012677a2)))
+                {
+                    if (m_uiPendingCount >= 3000)
+                        m_uiPendingCount = 3000;
+                    unsigned int ItemUpdateArray =
+                        m_uiPendingCount < ::DAT_011afe80 ? m_uiPendingCount : ::DAT_011afe80;
+                    unsigned int uiRemaining = m_uiPendingCount - ItemUpdateArray;
+                    reinterpret_cast<::S_Owner *>(this)->FUN_00c674d0((::S_Item **)(::C6B540Item **)(&m_ppkPending[uiRemaining]), ItemUpdateArray);
+                    m_uiPendingCount = uiRemaining;
+                    (*reinterpret_cast<bool *>(&::DAT_012677a2)) = true;
+                }
+            }
+            else
+            {
+                reinterpret_cast<::FUN_00c68a40_Class *>(this)->FUN_00c68a40();
+            }
+            reinterpret_cast<::This676 *>(this)->ClearIndexedValues();
+            reinterpret_cast<::fnv_00c6aac0::FUN_00c6aac0_Owner *>(this)->FUN_00c6aac0();
+            reinterpret_cast<::FUN_00c67850_Class *>(this)->ProcessConstraints();
+        }
+    }
+    else if (m_uiPendingCount > 0 && !bProcess)
+    {
+        reinterpret_cast<::FUN_00c68a40_Class *>(this)->FUN_00c68a40();
+    }
+}
+
+struct QueryStub
+{
+};
+
+struct MemoryManager
+{
+};
+
+struct SlotEntry
+{
+    void* item;
+    unsigned char flag;
+    unsigned char unk05;
+    unsigned char unk06;
+    unsigned char unk07;
+    int unk08;
+    int unk0C;
+    int unk10;
+};
+
+struct HolderNode
+{
+    int unk00;
+    int unk04;
+    void* holder;
+};
+
+struct Holder
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    void* item;
+};
+
+inline void* const& NextHolder(HolderNode*& pos)
+{
+    void* const& element = pos->holder;
+    pos = (HolderNode*)pos->unk00;
+    return element;
+}
+
+struct FUN_00b631d0_cls_o2
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    unsigned char m_flag40;
+    unsigned char unk41;
+    unsigned char unk42;
+    unsigned char unk43;
+    unsigned char unk44;
+    unsigned char unk45;
+    unsigned char unk46;
+    unsigned char unk47;
+    SlotEntry m_entries[3];
+    int unk84;
+    unsigned short m_88;
+    unsigned short m_uiItemCount;
+    void** m_ppData;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+    int unkF0;
+    int unkF4;
+    int unkF8;
+    int unkFC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    void* m_kNode;
+    int unk144;
+    int m_listCount;
+    void FUN_00b631d0();
+};
+
+// @fnv 0x00b631d0
+void FUN_00b631d0_cls_o2::FUN_00b631d0()
+{
+    unsigned int state;
+    int i = 0;
+    while (i < m_uiItemCount)
+    {
+        if (m_ppData[i] != 0)
+        {
+            reinterpret_cast<::S_00c4edf0_cls *>((((QueryStub*)m_ppData[i])))->FUN_00c4edf0((std::intptr_t)(&state), 1);
+
+            void* item = m_ppData[i];
+            if (item != 0)
+            {
+                reinterpret_cast<::FUN_00c4ed40_cls *>((item))->FUN_00c4ed40();
+                reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(item);
+            }
+
+            m_ppData[i] = 0;
+        }
+        ++i;
+    }
+
+    SlotEntry* entry = m_entries;
+    int remaining = 3;
+    do
+    {
+        if (entry->item != 0)
+        {
+            reinterpret_cast<::S_00c4edf0_cls *>((((QueryStub*)entry->item)))->FUN_00c4edf0((std::intptr_t)(&state), 1);
+            void* item = entry->item;
+            if (item != 0)
+            {
+                reinterpret_cast<::FUN_00c4ed40_cls *>((item))->FUN_00c4ed40();
+                reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(item);
+            }
+            entry->item = 0;
+            entry->flag = 0;
+        }
+        ++entry;
+        --remaining;
+    } while (remaining != 0);
+
+    m_flag40 = 0;
+    HolderNode* node = (HolderNode*)m_kNode;
+    while (m_listCount != 0)
+    {
+        Holder* holder = (Holder*)NextHolder(node);
+        if (holder != 0 && holder->item != 0)
+        {
+            reinterpret_cast<::S_00c4edf0_cls *>((((QueryStub*)holder->item)))->FUN_00c4edf0((std::intptr_t)(&state), 1);
+            void* item = holder->item;
+            if (item != 0)
+            {
+                reinterpret_cast<::FUN_00c4ed40_cls *>((item))->FUN_00c4ed40();
+                reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(item);
+            }
+            holder->item = 0;
+        }
+    }
+
+    void** array = m_ppData;
+    m_88 = 0;
+    m_uiItemCount = 0;
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(array);
+    m_ppData = 0;
+}
+
+struct Item
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int type;
+};
+
+struct Ref
+{
+    Item* ptr;
+    Ref(Item*);
+    ~Ref();
+};
+
+struct List
+{
+    int head;
+    int tail;
+    int count;
+    Ref FUN_00b9fcc0(const Ref&);
+};
+
+struct Node
+{
+    Node* next;
+    Node* prev;
+    Item** data;
+};
+
+struct S00b6da10_Other
+{
+};
+
+struct Pending
+{
+    Node* head;
+    Node* tail;
+    int count;
+    __declspec(noalias) void FUN_00e7d7f0(Node* const&);
+    __forceinline void Find(Item* item, Node*& pos, Item**& found)
+    {
+        while (pos)
+        {
+            if (found)
+                return;
+            if (*pos->data == item)
+                found = pos->data;
+            else
+                pos = pos->next;
+        }
+    }
+};
+
+struct Manager
+{
+    List list0;
+    List list1;
+    List list2;
+    List list3;
+    List list4;
+    List dest0;
+    List dest1;
+    List dest2;
+    List dest3;
+    List dest4;
+    S00b6da10_Other other;
+    int o4;
+    int o8;
+    Pending pending;
+    void FUN_00b6da10(Item* item);
+    template <int N> static __forceinline void ProcT(List& l, List& d, Item* p)
+    {
+        {
+            Ref tmp(p);
+            reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(l))->FUN_00c1b4a0((const ::fnv_00c1b4a0::NiRefObjectPtr &)(tmp));
+        }
+        {
+            Ref tmp(p);
+            d.FUN_00b9fcc0(tmp);
+        }
+    }
+    __forceinline void Purge(Item* item, Node* pos, Item** found)
+    {
+        pending.Find(item, pos, found);
+        if (found)
+        {
+            reinterpret_cast<::FUN_00b58570_Class *>(&(other))->FUN_00b58570((void *)&(found));
+            pending.FUN_00e7d7f0(pos);
+        }
+    }
+    static __forceinline void Proc(List& l, List& d, Item* p)
+    {
+        {
+            Ref tmp(p);
+            reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(l))->FUN_00c1b4a0((const ::fnv_00c1b4a0::NiRefObjectPtr &)(tmp));
+        }
+        {
+            Ref tmp(p);
+            d.FUN_00b9fcc0(tmp);
+        }
+    }
+};
+
+// @fnv 0x00b6da10
+void Manager::FUN_00b6da10(Item* item)
+{
+    if (item)
+    {
+        if (item->type > -1)
+        {
+            switch (item->type)
+            {
+            case 43: {
+                {
+                    Ref tmp(item);
+                    reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(list0))->FUN_00c1b4a0((const ::fnv_00c1b4a0::NiRefObjectPtr &)(tmp));
+                }
+                {
+                    Ref tmp(item);
+                    dest0.FUN_00b9fcc0(tmp);
+                }
+                break;
+            }
+            case 17: {
+                {
+                    Ref tmp(item);
+                    reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(list1))->FUN_00c1b4a0((const ::fnv_00c1b4a0::NiRefObjectPtr &)(tmp));
+                }
+                {
+                    Ref tmp(item);
+                    dest1.FUN_00b9fcc0(tmp);
+                }
+                break;
+            }
+            case 9: {
+                {
+                    Ref tmp(item);
+                    reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(list2))->FUN_00c1b4a0((const ::fnv_00c1b4a0::NiRefObjectPtr &)(tmp));
+                }
+                {
+                    Ref tmp(item);
+                    dest2.FUN_00b9fcc0(tmp);
+                }
+                break;
+            }
+            case 22: {
+                {
+                    Ref tmp(item);
+                    reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(list3))->FUN_00c1b4a0((const ::fnv_00c1b4a0::NiRefObjectPtr &)(tmp));
+                }
+                {
+                    Ref tmp(item);
+                    dest3.FUN_00b9fcc0(tmp);
+                }
+                break;
+            }
+            case 19: {
+                {
+                    Ref tmp(item);
+                    reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(list4))->FUN_00c1b4a0((const ::fnv_00c1b4a0::NiRefObjectPtr &)(tmp));
+                }
+                {
+                    Ref tmp(item);
+                    dest4.FUN_00b9fcc0(tmp);
+                }
+                break;
+            }
+            }
+        }
+        else
+        {
+            Item** found = 0;
+            Node* pos = pending.head;
+            pending.Find(item, pos, found);
+            if (found)
+            {
+                reinterpret_cast<::FUN_00b58570_Class *>(&(other))->FUN_00b58570((void *)&(found));
+                pending.FUN_00e7d7f0(pos);
+            }
+        }
+    }
+}
+
+struct TESBoundObject_ob1;
+
+struct TESObjectCELL_ob1;
+
+struct TESDataHandler_ob1
+{
+    static bool LoadForm(TESForm*, TESFile*);
+    bool SaveForm(TESForm*, bool);
+    char* GetFormName(unsigned char);
+    void OutputFormList();
+    void SetModelSizeOutputEnabled(bool);
+    void OutputModelSizeList();
+    void CheckTexturesRecurse(NiAVObject*, char*);
+    static bool CheckDismemberSkinInstanceRecurse(NiAVObject*, char*);
+    void PrintTextureInfo(void*, NiTriBasedGeom*, char*, char*, bool);
+    void OutputTextureInfo();
+    void CheckTexturePath(char*);
+    bool AddFormToDataHandler(TESForm*);
+    void ReleaseForm(TESForm*);
+    unsigned char NotUniqueID(char*);
+    void GetObjectCounts();
+    void GetReferenceCounts();
+    void GetRegions();
+    void InitializeMagicSystem();
+    void GetReferencesInArea(TESObjectCELL_ob1*, void*, float, void*, float, int*, long);
+    void GetReferencesInArea(void*, float, void*, float, int*, long);
+    void EnumReferencesCloseToRef(TESObjectREFR*, float, void*, float, int*, long);
+    static bool ReferenceBaseSearchEnumFunc(TESObjectREFR*, long);
+    bool FindTeleportPathBetweenSmallSpaces(TESForm*, TESForm*, void*);
+    bool FindTeleportPathBetweenWorlds(TESWorldSpace*, TESWorldSpace*, void*);
+    bool FindTeleportPathFromSmallSpaceToWorld(TESForm*, TESWorldSpace*, void*, bool);
+    TESObjectREFR* FindFirstReference(TESObject*);
+    TESObjectREFR* FindFirstReference(char*);
+    bool FindConnectedWorld(TESWorldSpace*, TESWorldSpace*, void*);
+    bool FindConnectedSmallSpace(TESForm*, TESForm*, void*, void*);
+    TESWorldSpace* BuildPathNodeLocation(TESForm*, NiPoint3*, void*);
+    TESObjectREFR* FindClosestReference(TESBoundObject_ob1*, void*, TESObjectCELL_ob1*);
+    TESObjectREFR* FindClosestReference(char*, void*, TESObjectCELL_ob1*);
+    TESObjectREFR* GetReference(char*);
+    TESObjectREFR* GetReference(unsigned int);
+    TESLandTexture* GetLandTexture(char*);
+    TESLandTexture* GetLandTexture(unsigned int);
+    TESRace* GetRace(char*);
+    TESRace* GetRace(unsigned int);
+    TESClass* GetClass(char*);
+    TESClass* GetClass(unsigned int);
+    Script* GetScript(char*);
+    Script* GetScript(unsigned int);
+    TESSound* GetSoundByEditorID(char*);
+    TESSound* GetSoundByEditorID(unsigned int);
+    TESGlobal* GetGlobal(char*);
+    TESGlobal* GetGlobal(unsigned int);
+    BGSVoiceType* GetVoiceType(unsigned int);
+    TESFaction* GetFactionByFormID(char*);
+    TESFaction* GetFactionByFormID(unsigned int);
+    TESReputation* GetReputation(char*);
+    TESReputation* GetReputation(unsigned int);
+    TESRecipe* GetRecipe(char*);
+    TESRecipe* GetRecipe(unsigned int);
+    TESRecipeCategory* GetRecipeCategory(char*);
+    TESRecipeCategory* GetRecipeCategory(unsigned int);
+    TESCasino* GetCasino(char*);
+    TESCasino* GetCasino(unsigned int);
+    TESCaravanDeck* GetCaravanDeck(char*);
+    TESCaravanDeck* GetCaravanDeck(unsigned int);
+    TESTopic* GetAudioBackendData(int, int);
+    TESTopic* GetAudioBackendData(char*);
+    TESTopic* GetAudioBackendData(unsigned int);
+    TESChallenge* GetChallenge(char*);
+    TESAmmoEffect* GetAmmoEffect(char*);
+    TESQuest* GetQuest(char*);
+    TESCombatStyle* GetCombatStyle(char*);
+    TESEffectShader* GetEffectShader(char*);
+    BGSProjectile* GetProjectileData(char*);
+    BGSExplosion* GetExplosion(char*);
+    BGSDebris* GetDebris(char*);
+    BGSPerk* GetPerk(char*);
+    BGSMessage* GetMessage(char*);
+    TESLoadScreenType* GetLoadScreenType(char*);
+    TESLoadScreenType* GetLoadScreenType(unsigned int);
+    TESFormList* GetObjectList();
+    void* GetFileList();
+    void* GetPartDataList();
+    void* GetPerks();
+    void* GetDebrisList();
+    void* GetExplosionList();
+    void* GetProjectileList();
+    void* GetRadiationStageList();
+    void* GetDehydrationStageList();
+    void* GetHungerStageList();
+    void* GetSleepDeprevationStageList();
+    void* GetEffectShaderList();
+    void* GetWaterList();
+    void* GetLoadScreenList();
+    void* GetAnimObjectList();
+    TESObjectANIO* GetAnimObject(TESIdleForm*, int);
+    void* GetCombatStyleList();
+    void* GetPackageList();
+    void* GetWorldSpaceList();
+    void* GetClimateList();
+    void* GetImageSpaceList();
+    void* GetImageSpaceModifierList();
+    void* GetWeatherList();
+    void* GetEnchantmentItemList();
+    void* GetSpellItemList();
+    void* GetLandTextList();
+    void* GetCameraShotList();
+    void* GetHeadPartList();
+    void* GetHairList();
+    void* GetEyesList();
+    void* GetRaceList();
+    void* GetZoneList();
+    void* GetClassList();
+    void* GetFactionList();
+    void* GetReputationList();
+    void* GetChallengeList();
+    void* GetRecipeList();
+    void* GetRecipeCategoryList();
+    void* GetAmmoEffectList();
+    void* GetCasinoList();
+    void* GetCaravanDeckList();
+    void* GetSoundList();
+    void* GetAcousticSpaceList();
+    void* GetRagdollList();
+    void* GetGlobalList();
+    void* GetVoiceTypeList();
+    void* GetImpactDataList();
+    void* GetImpactDataSetList();
+    void* GetBadFormList();
+    TESRegionList* GetRegionList();
+    void* GetTopicList();
+    void* GetTopicInfoList();
+    void* GetNoteList();
+    void* GetMenuIconList();
+    void* GetListFormList();
+    void* GetMessageList();
+    void* GetLightingTemplateList();
+    void* GetMusicTypeList();
+    void* GetLoadScreenTypeList();
+    void* GetMediaSetList();
+    void* GetMediaLocationControllerList();
+    void AddTopic(TESTopic*);
+    void RemoveTopic(TESTopic*);
+    void AddTopicInfo(TESTopicInfo*);
+    void RemoveTopicInfo(TESTopicInfo*);
+    void* GetScriptList();
+    void SortScriptList();
+    void* GetQuestList();
+    void AddQuest(TESQuest*);
+    void RemoveQuest(TESQuest*);
+    void RegisterAddonNode(BGSAddonNode*);
+    void RemoveAddonNode(BGSAddonNode*);
+    TESObjectCELL_ob1* GetCellByNameAndGrid(char*);
+    TESObjectCELL_ob1* GetCellByNameAndGrid(char*, int, int, TESWorldSpace*);
+    unsigned int GetInteriorCellCount();
+    TESObjectCELL_ob1* GetCellByInteriorIndex(unsigned int);
+    void RefreshCellList();
+    unsigned int GetCellCount();
+    TESObjectCELL_ob1* GetCellByIndex(unsigned int);
+    TESObjectCELL_ob1* GetCellByNumericID(unsigned int);
+    TESObjectCELL_ob1* LookupCellByEditorID(char*);
+    TESWorldSpace* GetWorldSpaceByEditorID(char*, int*, int*);
+    TESObjectCELL_ob1* GetCellByWorldPosition(float, float, TESWorldSpace*, bool);
+    TESObjectCELL_ob1* GetCellAtGridPosition(int, int, TESWorldSpace*, bool);
+    TESWorldSpace* GetWorldSpaceForCell(TESObjectCELL_ob1*);
+    void RemoveCell(TESObjectCELL_ob1*);
+    void RemoveCell(int, int, TESWorldSpace*);
+    void RemoveCell(char*);
+    TESObjectREFR* CreateReferenceInLoadedArea(TESBoundObject_ob1*, void*, void*, bool, BGSPrimitive*, void*);
+    TESObjectREFR* PlaceReferenceAtLocation(TESBoundObject_ob1*, void*, void*, TESObjectCELL_ob1*, TESWorldSpace*,
+                                            TESObjectREFR*, BGSPrimitive*, void*);
+    TESObjectCELL_ob1* SelectCell(struct blob12, bool*, TESWorldSpace*);
+    bool AssignToCell(TESObjectCELL_ob1*, TESObjectREFR*);
+    bool PlaceInExterior(TESObjectREFR*, TESWorldSpace*);
+    void RemoveDuplicateReferences();
+    TESObjectREFR* CreateProjectileAtLocation(TESBoundObject_ob1*, void*, void*, TESObjectCELL_ob1*, TESWorldSpace*);
+    TESObjectREFR* PlaceObjectAtLocation(TESBoundObject_ob1*, void*, void*, TESObjectCELL_ob1*, TESWorldSpace*);
+    TESFile* LookupTESFile(unsigned int);
+    TESFile* LookupTESFile(char*);
+    bool RemoveListFile(TESFile*);
+    static void FileCacheCompleteCallback(char*);
+    char* GetActiveFileName();
+    void SetActiveFile(TESFile*);
+    TESFile* GetActiveFile();
+    void RemoveIDFromDataHandler(unsigned int);
+    unsigned int GetNextID();
+    void AddCompiledFile(TESFile*);
+    void ClearFileList();
+    bool UpdateLoadingStatusCallback(char*);
+    void BuildCompiledFileList();
+    int CountCheckedFiles(int);
+    unsigned int CountFiles();
+    unsigned int CountCompiled();
+    bool LoadPluginFiles(bool);
+    bool ClearData();
+    bool SaveActiveData(char*, bool);
+    void CloseAllTES();
+    bool LoadTESFile(TESFile*, bool);
+    void ClearLoadedFormCount();
+    unsigned int AddDownloadedContentToFileList();
+    void RunAllPersistentRefScripts();
+    bool ConstructObject(TESFile*, bool, TESForm*, bool);
+    bool FormGroupLoadsInGame(TESFile*, FormRecordHeader*);
+    static TESForm* CreateFormForType(unsigned char);
+    bool ResetOffsetData(TESFile*);
+    void FixAllScriptIDs();
+    void SetSaveLoadGameState(int);
+    bool GetMasterSave();
+    void SetMasterSave(bool);
+    bool GetSaveLoadGame();
+    void SetSaveLoadGame(bool);
+    bool GetSaveLoad();
+    void SetSaveLoad(bool);
+    bool GetAutoSaving();
+    void SetAutoSaving(bool);
+    bool GetClearingData();
+    void SetClearingData(bool);
+    bool GetHasDesiredFiles();
+    void SetHasDesiredFiles(bool);
+    bool IsSavingLoading();
+    void SetCheckingModels(bool);
+    bool GetCheckingModels();
+    void SetLoadingFiles(bool);
+    bool GetLoadingFiles();
+    bool GetGameSettingsLoaded();
+    void MarkGameSettingsLoaded();
+    void FlushSoundBuffers();
+    void SetBarterContainer(TESObjectREFR*);
+    void AddBarterItem(InventoryStackRecord*, int, TESObjectREFR*);
+    void ClearBarterContainer();
+    InventoryChanges* GetBarterContainer();
+    void CreateRecipeContainer(TESObjectREFR*);
+    void RemoveItemRecipeContainer(InventoryStackRecord*, int, TESObjectREFR*);
+    void ClearRecipeContainer();
+    InventoryChanges* GetRecipeContainer();
+    TESRegionDataManager* GetRegionDataManager();
+    TESFile* GetCompiledFileByIndex(int);
+    unsigned int GetNextFormID();
+    void SetNextFormID(unsigned int);
+    AlchemyItem* DoesPotionMatch(AlchemyItem*);
+    void SetDontRemoveIDs(bool);
+    bool GetDontRemoveIDs();
+    void* QArrayInteriorCells();
+    TESEffectShader* GetSpotterShader();
+    TESEffectShader* GetItemDetectedShader();
+    TESEffectShader* GetCateyeShader();
+    void SetSpotterShader(TESEffectShader*);
+    void SetItemDetectedShader(TESEffectShader*);
+    void SetCateyeShader(TESEffectShader*);
+    void ClearDLCFlags();
+    int GetNumDLCInstalled();
+    void DataError(int);
+    bool IsFormIDRemapped(unsigned int);
+    void AdvanceNextID();
+    char* GetDLCFlags();
+    bool IsDLCFlagSet(char);
+    void SetDLCFlag(char, bool);
+    int GetDLCIndex(char*);
+    unsigned int LoadFilesInDirectory(char*, void*);
+    void* __vecDelDtor(unsigned int);
+    char m_cDLCFlagCount;
+    char _pad_1[3];
+    TESFormList* m_pBoundObjectList;
+    char m_kPackages[8];
+    char m_kWorldSpaceList[8];
+    char m_kClimateList[8];
+    char m_kImageSpaceList[8];
+    char m_kImageSpaceModifierList[8];
+    char m_kWeatherList[8];
+    char m_kEnchantmentItemList[8];
+    char m_kSpellList[8];
+    char m_kHeadPartList[8];
+    char m_kHairList[8];
+    char m_kEyeList[8];
+    char m_kRaceList[8];
+    char m_kEncounterZoneList[8];
+    char m_kLandTextureList[8];
+    char m_kCameraShotList[8];
+    char m_kClassList[8];
+    char m_pVoiceType[8];
+    char m_kReputationList[8];
+    char m_kChallengeList[8];
+    char m_kCraftingRecipeList[8];
+    char m_kRecipeCategoryList[8];
+    char m_kAmmoEffectList[8];
+    char m_kCasinoList[8];
+    char m_kCaravanDeckList[8];
+    char m_kScriptList[8];
+    char m_kSoundList[8];
+    char m_kAcousticSpaceList[8];
+    char m_kRagdollList[8];
+    char m_kGlobalList[8];
+    char m_kVoiceTypeList[8];
+    char m_kImpactEffectList[8];
+    char m_kImpactDataSetList[8];
+    char m_kTopicList[8];
+    char m_kTopicInfoList[8];
+    char m_kQuestList[8];
+    char m_kCombatStyleList[8];
+    char m_kLoadScreenList[8];
+    char m_kWaterFormList[8];
+    char m_kEffectShaderList[8];
+    char m_kProjectileList[8];
+    char m_kExplosionList[8];
+    char m_kRadiationStageList[8];
+    char m_kDehydrationStageList[8];
+    char m_kHungerStageList[8];
+    char m_kSleepDeprivationStageList[8];
+    char m_kDebrisList[8];
+    char m_kPerkList[8];
+    char m_kBodyPartDataList[8];
+    char m_kNoteList[8];
+    char m_kListFormList[8];
+    char m_kMenuIconList[8];
+    char m_kFourthDataList[8];
+    char m_kMessageList[8];
+    char m_kLightingTemplateList[8];
+    char m_kMusicTypeList[8];
+    char m_kLoadScreenTypeList[8];
+    char m_kMediaSetList[8];
+    char m_kMediaLocationControllerList[8];
+    TESRegionList* m_pRegions;
+    char m_kFirstArrayStorage[16];
+    char m_kSecondArrayStorage[16];
+    char m_kThirdArrayStorage[12];
+    unsigned int m_uiFormCount;
+    TESFile* m_pActiveFile;
+    char m_kModInfoList[8];
+    unsigned int m_iLoadedModCount;
+    char m_ppLoadedMods[1020];
+    bool m_bLoadingFiles;
+    bool m_bGameSettingsLoaded;
+    bool m_bMasterSave;
+    bool m_bSaveLoadGame;
+    bool m_bFirstStateField;
+    bool m_bSecondStateField;
+    bool m_bThirdStateField;
+    bool m_bFourthStateFlag;
+    bool m_bFifthStateFlag;
+    bool m_bSixthStateFlag;
+    unsigned char m_ucInternalStateByte;
+    char _pad_623[1];
+    TESRegionDataManager* m_pRegionDataManager;
+    InventoryChanges* m_pFirstInventoryChanges;
+    InventoryChanges* m_pSecondInventoryChanges;
+    TESEffectShader* m_pFirstEffectShader;
+    TESEffectShader* m_pSecondEffectShader;
+    TESEffectShader* m_pThirdEffectShader;
+};
+
+struct FUN_004516b0_shell_ob1 : public TESDataHandler_ob1
+{
+    bool FUN_004516b0();
+};
+
+struct TESObjectCELL_ob1;
+
+struct BGSSaveLoadGame_ob1
+{
+    static void Create();
+    static void Destroy();
+    void ApplyFormChanges(BGSSaveLoadChangesMap*, FormIDConverter*);
+    void LoadCellChanges(bool);
+    void LoadForm(TESForm*);
+    void SetFormLoaded(TESForm*, bool);
+    bool ShouldUnloadForm(TESForm*);
+    void FormReconstructionMap(TESObjectCELL_ob1*);
+    bool ContainsReference(unsigned int);
+    bool ShouldSaveForm(TESForm*, bool);
+    void NotifyFormIDChanged(TESForm*, struct blob4, bool);
+    bool HasFormChangeFlags(TESForm*, struct blob4);
+    bool GetOldChange(TESForm*, struct blob4);
+    bool IsFormChanged(TESForm*);
+    void ClearFormChangeFlags(TESForm*, struct blob4);
+    void HasFormChanges(TESForm*);
+    void ClearAllForms();
+    void CleanupExpiredData();
+    void ProcessSubBuffer(int, BGSLoadFormBuffer*, TESForm*);
+    void ClearForm(TESForm*);
+    void ClearFormID(unsigned int);
+    void DeleteForm(TESForm*);
+    unsigned int GetNewFormID(unsigned int);
+    bool IsFormIDRemapped(unsigned int);
+    void AreStringsEqual(char*, char*);
+    void DisplayReferenceDebugText(TESObjectREFR*, IDebugText*);
+    void DisplayCellDebugText(TESObjectREFR*, IDebugText*);
+    FormIDConverter* GetFormIDMap();
+    FormIDConverter* GetWorldspaceFormIDMap();
+    BGSReconstructFormsInAllFilesMap* GetReconstructFormsMap();
+    unsigned char GetConvertedFileIndex(unsigned char);
+    unsigned char GetReverseConvertedFileIndex(unsigned char);
+    unsigned char GetLoadState();
+    bool SetGlobalAllowChanges(bool);
+    bool GetGlobalAllowChanges();
+    void SetDeferInitForms(bool);
+    bool GetDeferInitForms();
+    void SetSaveGameLoading(bool);
+    bool GetSaveGameLoading();
+    void SetSaveGameSaving(bool);
+    bool GetSaveGameSaving();
+    void SetInitingForms(bool);
+    bool GetInitingForms();
+    void SetPositioningPlayerCharacter(bool);
+    bool GetPositioningPlayerCharacter();
+    void SetPlayerLocationInvalid(bool);
+    bool GetPlayerLocationInvalid();
+    void SetSaveLoadFailed(bool);
+    bool GetSaveLoadFailed();
+    bool GetThreadAllowChanges();
+    void SetLoadingMovedRefs(bool);
+    bool GetLoadingMovedRefs();
+    void SetReconstructingForms(bool);
+    bool GetReconstructingForms();
+    void SaveGame(SaveLoadFile*);
+    bool LoadGame(SaveLoadFile*, bool);
+    void PrepareLoadGame(SaveLoadFile*);
+    bool IsValidSaveGame(SaveLoadFile*);
+    unsigned int LoadFormRecord(SaveLoadFile*, BGSLoadFormBuffer*, FormIDConverter*);
+    bool FindFormByID(TESForm**, struct blob4, bool);
+    void InitializePackageLocations(Actor*);
+    void CancelInitPackageLocations(Actor*);
+    void ClearFormChanges();
+    BGSSaveLoadChangesMap* GetChangesMap();
+    void* __vecDelDtor(unsigned int);
+    BGSSaveLoadChangesMap* m_pFormChangesMap;
+    BGSSaveLoadChangesMap* m_pSecondChangesMap;
+    FormIDConverter* m_pSecondSaveLoadData;
+    FormIDConverter* m_pSaveLoadData;
+    BGSSaveLoadReferencesMap* m_pReferencesMap;
+    LoadGameSubBufferQueue* m_pSaveLoadMap;
+    void* m_pAuxiliaryData;
+    SaveLoadChangeHistory* m_pNoteHandler;
+    BGSReconstructFormsInAllFilesMap* m_pFormReconstructionMap;
+    char LoadFormBufferArray[16];
+    char m_acTextBuffer[16];
+    char m_acFirstTextBuffer[255];
+    char m_acSecondTextBuffer[255];
+    char _pad_242[2];
+    unsigned int m_uiInitializationFlags;
+    unsigned char m_ucSaveLoadState;
+    char _pad_249[3];
+};
+
+struct FUN_004523c0_shell_ob1 : public BGSSaveLoadGame_ob1
+{
+    bool FUN_004523c0();
+};
+
+struct NiNode_ob1;
+
+struct TESBoundObject_ob1;
+
+struct TESObjectCELL_ob1;
+
+struct TESObjectTREE_ob1;
+
+struct ModelLoader_ob1
+{
+    void LoadModelFileList(BSFile*, bool);
+    bool QueueModelFilePath(BSFileEntry*, int, QueuedFile*);
+    bool QueueModelFilePath(char*, int, QueuedFile*);
+    void ProcessModelRequest(char*, FileEntryList*, void*, int, QueuedFile*, int, bool, bool, bool);
+    void ProcessModelRequest(char*, void*, int, QueuedFile*, int, bool, bool, bool);
+    void ProcessModelRequest(TESModel*, void*, int, QueuedFile*, int, bool, bool, bool, float);
+    void ProcessModelRequest(char*, FileEntryList*, int, QueuedFile*, int, bool, bool, bool);
+    void ProcessModelRequest(char*, int, QueuedFile*, int, bool, bool, bool);
+    void ProcessModelRequest(TESModel*, int, QueuedFile*, int, bool, bool, bool);
+    void QueueTree(TESObjectREFR*, TESObjectTREE_ob1*, void*, int, QueuedFile*, int);
+    void QueueTree(TESObjectREFR*, TESObjectTREE_ob1*, int, QueuedFile*, int);
+    bool EnqueueFile(char*, int, QueuedFile*);
+    void QueueMagicEffectModel(MagicItem*, EffectSetting*, int);
+    void QueueReference(TESObjectREFR*, int, bool);
+    void QueueBoundObjectModel(TESBoundObject_ob1*, void*, int, QueuedFile*, TESObjectREFR*);
+    void QueueBoundObjectModel(TESBoundObject_ob1*, int, QueuedFile*, TESObjectREFR*);
+    void QueueTESModel(TESModel*, int, QueuedFile*, TESObjectREFR*);
+    void QueueModelWithOptions(TESModel*, int, QueuedFile*, TESObjectREFR*, bool, bool);
+    void QueueModelList(void*, FileEntryListCollection*, int, QueuedFile*, char*);
+    void QueueFileList(void*, int, QueuedFile*, char*);
+    void QueueReplacementKFList(void*, Animation*, int, QueuedFile*, char*);
+    void QueueHead(TESNPC*, void*, int, QueuedFile*);
+    void QueueBipedAnimation(BipedAnim*, void*, int, QueuedFile*, int);
+    KFModel* FindIdleKFModel(char*, AnimIdle*, int, TESObjectREFR*);
+    void QueueTreeBillboard(char*, ModelLoadData*);
+    void QueueFileLoad(char*, int, QueuedFile*, int);
+    void EnqueueModelFile(char*, int, QueuedFile*, int);
+    void QueueModelFile(TESModel*, int, QueuedFile*, int);
+    void QueueAlternateModel(TESModel*, int, QueuedFile*, int);
+    bool QueueFileFromArchive(BSFileEntry*, int, QueuedFile*);
+    void ReleaseKF(char*, bool);
+    void CancelReplacementKFList(Animation*);
+    void CancelAnimIdle(AnimIdle*);
+    void CancelReferenceFiles(TESObjectREFR*);
+    void CancelReferencesForCell(TESObjectCELL_ob1*);
+    bool IsReferenceQueued(TESObjectREFR*);
+    TESModel* GetModelForBoundObject(TESBoundObject_ob1*, TESObjectREFR*);
+    bool BoundObjectOrModelAlreadyQueued(TESObjectREFR*, TESModel*, int, bool);
+    void UpdateQueuedReferencePriorities(TESObjectCELL_ob1*);
+    void PauseBackgroundCloning();
+    void ResumeBackgroundCloning();
+    void QueueDistant3DTask(AttachDistant3DTask*);
+    bool IsBackgroundCloningPaused();
+    bool UpdateReferencesToQueue();
+    bool SetLoadTexturesDegraded(bool);
+    bool GetLoadTexturesDegraded();
+    void UpgradeTextures(NiAVObject*);
+    bool AddLoadedFileToMap(char*, LoadedFile*);
+    void RemoveLoadedFileFromMap(char*);
+    LoadedFile* GetLoadedFileFromMap(char*);
+    void DebugMessage(char*, ...);
+    void DisplayBackgroundLoadDebugText(int, int*, int*, bool);
+    void DisplayDebugLoadingText();
+    static void UpdateQueueCallback();
+    static bool UpdateSecondaryQueueCallback();
+    static void LoadQueuedPriorityCallback(float);
+    static unsigned int GetExternalCountCallback();
+    static void PauseCallback();
+    static void ResumeCallback();
+    void SetExiting();
+    void AddBackgroundCloneReference(QueuedReference*);
+    void RemoveReferenceFromMap(TESObjectREFR*);
+    void RemoveAnimIdleFromMap(AnimIdle*);
+    void RemoveReplacementKFListFromMap(Animation*);
+    void RemoveHelmetFromMap(TESObjectREFR*);
+    bool RegisterQueuedTexture(BSFileEntry*, QueuedTexture*);
+    void RemoveQueuedTextureFromMap(BSFileEntry*);
+    QueuedTexture* GetQueuedTextureFromMap(BSFileEntry*);
+    bool HasQueuedTextures();
+    unsigned int GetBackgroundCloningCount();
+    unsigned int GetQueuedReferenceCount();
+    unsigned int GetQueuedHelmetCount();
+    bool AddModel(char*, Model*);
+    bool AddKF(char*, KFModel*);
+    KFModel* LoadKF(char*);
+    void LoadPSA(char*, void*);
+    bool FindModel(char*, void*);
+    void* UpdateLoadingStatusCallback(char*, char*, void*);
+    void* BuildNIFFileList(char*);
+    void* GetModelFileList(char*, bool, bool, int);
+    void* FindNIFFileListEntry(void*, void*);
+    bool ProcessQueuedFile(TESObjectCELL_ob1*);
+    KFModel* FindKFModel(char*);
+    KFModel* FindKFModel(NiControllerSequence*);
+    KFModel* FindKFModel(TESAnimGroup*);
+    void CancelAllFiles();
+    void SetLoadingEnabled(bool);
+    void ReleaseFile(char*);
+    void ReleaseKFFile(char*);
+    void UpdateReferenceNode(TESObjectREFR*, NiNode_ob1*);
+    void UpdateModelNode(NiNode_ob1*);
+    bool QHasDelayedFree();
+    static int GetArchiveTypeIndexForIOFileIndex(int);
+    static int GetIOFileIndexForArchiveTypeIndex(int);
+    void AddModelToMap(Model*, char*);
+    void* __vecDelDtor(unsigned int);
+    void* m_pLoadedModelMap;
+    void* m_pLoadedKFModelMap;
+    void* m_pQueuedReferenceMap;
+    void* m_pQueuedReferenceUpdateMap;
+    void* m_pQueuedAnimIdleMap;
+    void* m_pQueuedReplacementKFListMap;
+    void* m_pQueuedHelmetMap;
+    void* m_pDistant3DTaskQueue;
+    void* m_pQueuedTextureMap;
+    void* m_pLoadedFileMap;
+    BackgroundCloneThread* m_pBackgroundCloneThread;
+    bool m_bLoadTexturesDegraded;
+    char _pad_2d[3];
+};
+
+struct FUN_0045a5e0_shell_ob1 : public ModelLoader_ob1
+{
+    void FUN_0045a5e0(char*);
+};
+
+struct TESObjectCELL_ob1
+{
+public:
+    bool IsCellInterior() const;
+public:
+    int GetCellStandValue();
+public:
+    ::NiAVObject *GetCellChildAt(int);
+public:
+    int GetCellGridX();
+public:
+    int GetCellGridY();
+public:
+    ::BGSEncounterZone *FindEncounterZone() const;
+public:
+    ::TESWorldSpace *GetParentWorldSpace();
+public:
+    void FUN_005571a0(bool);
+};
+
+struct TESObjectCELL_AddToInteriorBuffer_ob1
+{
+};
+
+struct TESObjectCELL_AddToExteriorBuffer_ob1
+{
+};
+
+struct FUN_00454b90_shell_ob1
+{
+    void AddCellToBuffer(TESObjectCELL_ob1* cell);
+};
+
+struct FUN_0045ae20_shell_ob1
+{
+    void* FUN_0045ae20(unsigned int flags);
+};
+
+struct FNVHelper_ob1
+{
+};
+
+struct NiNode_ob1
+{
+    NiAVObject* GetAt(unsigned int);
+};
+
+struct FUN_0045c9a0_shell_ob1 : public TESObjectCELL_ob1
+{
+    NiAVObject* GetCellNodeAt(unsigned int index);
+};
+
+struct FUN_005570b0_shell_ob1
+{
+};
+
+struct DH_ob1
+{
+    void DeleteObject(TESObjectCELL_ob1*);
+};
+
+struct FUN_00454e70_shell_ob1
+{
+    char _pad[0x3c];
+    TESObjectCELL_ob1** m_ppCellBufferB;
+    void MoveCellToFront(TESObjectCELL_ob1* apCell);
+};
+
+struct TESObjectLAND_ob1;
+
+struct NiNode_ob1;
+
+struct FUN_00461c20_Holder_ob1
+{
+};
+
+struct GridCellArrayStandin_ob1
+{
+};
+
+struct GridCellArray_Target_ob1
+{
+};
+
+struct S451cb0_ob1
+{
+};
+
+int _sprintf(char*, const char*, ...);
+
+struct TES_00451a50_ob1
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    void* m_pGridCells;
+    NiNode_ob1* m_pLandRootNode;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3C;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4C;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5C;
+    bool m_bHasCurrentRegion;
+    void FUN_00451a50(int aiGridX, int aiGridY, int aiCellX, int aiCellY);
+};
+
+struct Sky_ob1
+{
+    void Update_ob1(float);
+public:
+    void SetMode(::Sky__SKY_MODE);
+};
+
+struct TaskQueueInterface_ob1
+{
+public:
+    static ::TaskQueueInterface_ob1 *GetSingleton();
+};
+
+struct Zt5TES_ob1
+{
+    void* pVtbl;
+    void* m_pGridDistantArray;
+    Zt5Grid* m_pGridCells;
+    void* m_pLandRootNode;
+    void* m_pWaterRootNode;
+    void* m_pDistantLandRootNode;
+    void* m_pObjectRootNode;
+    void* m_pDirectionalLight;
+    void* m_pFogProperty;
+    int iFirstValue;
+    int iSecondValue;
+    int m_iGridWidth;
+    int m_iGridHeight;
+    void* m_pReferenceCell;
+    void* m_ppCellBufferA;
+    void* m_ppCellBufferB;
+    unsigned int m_uiGridCellCountX;
+    unsigned int m_uiGridCellCountY;
+    int m_iCurrentGridX;
+    int m_iCurrentGridY;
+    bool m_bFirstCellGridFlag;
+    bool m_bSecondCellGridFlag;
+    bool m_bThirdCellGridFlag;
+    bool m_bFourthCellGridFlag;
+    void* m_pfnCellCallback;
+    void* m_pCellCallbackContext;
+    void* m_pCurrentRegion;
+    bool m_bHasCurrentRegion;
+    void* m_pCurrentClimate;
+    Sky_ob1* pWeatherSky;
+    void FUN_004537c0();
+    void FUN_00453550(float afTime);
+};
+
+struct TESForm_0045c6b0_ob1
+{
+};
+
+struct FUN_00453490_shell_ob1
+{
+    bool FUN_00453490(TESObjectCELL_ob1* cell);
+};
+
+struct FUN_00455400_sky_ob1 : Sky_ob1
+{
+};
+
+struct FUN_00455400_cell_ob1 : TESObjectCELL_ob1
+{
+    bool FUN_00454b10();
+};
+
+struct FUN_00455400_tes_ob1
+{
+    void UpdateSkyModeForCell(TESObjectCELL_ob1* apCell);
+};
+
+struct GridCellArray_ob1
+{
+};
+
+struct NiAdditionalGeometryData_ob1
+{
+};
+
+struct FUN_00451cf0_shell_ob1
+{
+    char pad[8];
+    GridCellArray_ob1* cells;
+    void FUN_00451cf0();
+};
+
+struct LLD_DataHandler_ob1
+{
+};
+
+struct FUN_00451900_shell_ob1
+{
+    TESObjectCELL_ob1* FUN_00451900(int aiCellX, int aiCellY);
+};
+
+void* __cdecl _FUN_00ec7230(void*, void*, unsigned int);
+
+struct FUN_00454fc0_shell_ob1
+{
+    void* vftable;
+    void* m_pGridDistantArray;
+    unsigned char padding[0x1c];
+    int iFirstValue;
+    int unknown_28;
+    int m_iGridWidth;
+    int m_iGridHeight;
+    int unknown_34;
+    int unknown_38;
+    TESObjectCELL_ob1** m_ppCellBufferB;
+
+    void CompactQueuedCells();
+};
+
+struct Calendar_ob1 : NiAVObject
+{
+    Calendar_ob1* GetDaysPassed();
+public:
+    void ResetCachedValues();
+};
+
+Calendar_ob1* Calendar_ob1::GetDaysPassed()
+{
+    return this;
+}
+
+struct FUN_00458e20_shell_ob1 : Calendar_ob1
+{
+    void FUN_00458e20(NiAVObject*, float);
+};
+
+struct FUN_0045c840_shell_ob1
+{
+    void* field_00;
+    void* field_04;
+    void* field_08;
+
+    void InitFromMatrix();
+};
+
+struct TESObjectLAND_ob1
+{
+public:
+    bool FUN_0053f180(const ::LandscapeColorData &, float &);
+};
+
+struct FUN_004572e0_shell_ob1 : public TES
+{
+    TESObjectCELL_ob1* FUN_00451900(int cellX, int cellY);
+    bool GetLandHeightAt(const NiPoint3& coord, float& height);
+};
+
+struct TESCallHelper_ob1
+{
+    bool IsCellBuffered(TESObjectCELL_ob1* cell, bool force);
+};
+
+bool TESCallHelper_ob1::IsCellBuffered(TESObjectCELL_ob1* cell, bool force)
+{
+    return false;
+}
+
+struct FUN_004511e0_cls_ob1
+{
+};
+
+struct TESBuffer45130_ob1 : Zt5TES_ob1
+{
+    void FUN_00455130(TESObjectCELL_ob1* apCell);
+};
+
+struct ExtCell_ob1 : TESObjectCELL_ob1
+{
+};
+
+struct TES_ExteriorBuffer_ob1
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    ExtCell_ob1** m_ppCellBufferB;
+
+    unsigned int FUN_00455200(bool abSkipLoaded, TESWorldSpace* apWorld);
+};
+
+struct FUN_00459920_grid_ob1
+{
+};
+
+struct FUN_00459920_shell_ob1
+{
+    void* unk00;
+    void* unk04;
+    FUN_00459920_grid_ob1* referenceGrid;
+    void FUN_00459920();
+};
+
+struct WaterTES_ob1
+{
+};
+
+struct S_0045c8d0_Tgt_ob1
+{
+};
+
+struct S_0045c8d0_Child_ob1
+{
+};
+
+struct S_0045c8d0_A_ob1
+{
+};
+
+struct S_0045c8d0_ob1
+{
+    int unk0;
+    int unk4;
+    S_0045c8d0_A_ob1* unk8;
+    void FUN_0045c8d0(unsigned int a, unsigned int b, unsigned char c);
+};
+
+class B45CDA0GridCellArray_ob1
+{
+  public:
+};
+
+class B45CDA0TES_ob1
+{
+  public:
+    int unk00;
+    int unk04;
+    B45CDA0GridCellArray_ob1* m_pkGridCells;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    B45CDA0Cell* m_pkInteriorCell;
+
+    void FUN_0045cda0();
+};
+
+struct Interface_ob1
+{
+public:
+    static bool IsWorldSpaceEnabled(::TESWorldSpace *);
+public:
+    static bool IsGamePaused();
+};
+
+struct TES4512_ob1
+{
+    int unk00;
+    int unk04;
+    Grid4512* grid;
+    int unk0c;
+    Node4512* root;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int gridX;
+    int gridY;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    World4512* world;
+    bool GetLandHeightAt(const NiPoint3&, float&);
+    void FUN_004512c0(const NiPoint3* position, bool reload);
+};
+
+struct FUN_004516d0_shell_ob1
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    GridCellArray_ob1* cells;
+    MobileObjectCellAccess** FUN_004516d0();
+};
+
+class TESBoundObject_ob1
+{
+  public:
+    virtual void Reserved();
+};
+
+class TESObjectTREE_ob1 : public TESBoundObject_ob1
+{
+  public:
+    virtual void Reserved1();
+    virtual void Reserved2();
+    virtual void Reserved3();
+    virtual void Reserved4();
+    virtual void Reserved5();
+    virtual void Reserved6();
+    virtual void Reserved7();
+    virtual void Reserved8();
+    virtual void Reserved9();
+    virtual void Reserved10();
+    virtual void Reserved11();
+    virtual void Reserved12();
+    virtual void Reserved13();
+    virtual void Reserved14();
+    virtual void Reserved15();
+    virtual void FinalizeAttach();
+    virtual void Reserved17();
+    virtual void Reserved18();
+    virtual void Reserved19();
+    virtual void Reserved20();
+    virtual void Reserved21();
+    virtual void Reserved22();
+    virtual void Reserved23();
+    virtual void Reserved24();
+    virtual void Reserved25();
+    virtual void Reserved26();
+    virtual void Reserved27();
+    virtual void Reserved28();
+    virtual void Reserved29();
+    virtual void Reserved30();
+    virtual void Reserved31();
+    virtual void Reserved32();
+    virtual void Reserved33();
+    virtual void Reserved34();
+    virtual void Reserved35();
+    virtual void Reserved36();
+    virtual void Reserved37();
+    virtual void Reserved38();
+    virtual void Reserved39();
+    virtual void Reserved40();
+    virtual void Reserved41();
+    virtual void Reserved42();
+    virtual void Reserved43();
+    virtual void Reserved44();
+    virtual void Reserved45();
+    virtual void Reserved46();
+    virtual void Reserved47();
+    virtual void Reserved48();
+    virtual void Reserved49();
+    virtual void Reserved50();
+    virtual void Reserved51();
+    virtual void Reserved52();
+    virtual void Reserved53();
+    virtual void Reserved54();
+    virtual void Reserved55();
+    virtual void Reserved56();
+    virtual void Reserved57();
+    virtual void Reserved58();
+    virtual void Reserved59();
+    virtual void Reserved60();
+    virtual void Reserved61();
+    virtual void Reserved62();
+    virtual void Reserved63();
+    virtual void Reserved64();
+    virtual void Reserved65();
+    virtual void Reserved66();
+    virtual void Reserved67();
+    virtual void Reserved68();
+    virtual void Reserved69();
+    virtual void Reserved70();
+    virtual void Reserved71();
+    virtual void Reserved72();
+    virtual void Reserved73();
+    virtual void Reserved74();
+    virtual void Reserved75();
+    virtual void Reserved76();
+    virtual void Reserved77();
+    virtual void Reserved78();
+    virtual void Reserved79();
+    virtual void Reserved80();
+    virtual void Reserved81();
+    virtual void Reserved82();
+    virtual void Reserved83();
+    virtual void Reserved84();
+    virtual void Reserved85();
+    virtual void Reserved86();
+    virtual void Reserved87();
+    virtual void Reserved88();
+    virtual void Reserved89();
+    virtual void Reserved90();
+    virtual void Reserved91();
+    virtual void Reserved92();
+    virtual void Reserved93();
+    virtual void Reserved94();
+    virtual void Reserved95();
+    virtual void Reserved96();
+    virtual void Reserved97();
+    virtual void Reserved98();
+    virtual void Reserved99();
+    virtual void Reserved100();
+    virtual void Reserved101();
+    virtual void Reserved102();
+    virtual void Reserved103();
+    virtual void Reserved104();
+    virtual void Reserved105();
+    virtual void Reserved106();
+    virtual void Reserved107();
+    virtual void Reserved108();
+    virtual void Reserved109();
+    virtual void Reserved110();
+    virtual double GetTreeScale(float);
+};
+
+struct AttachCell_ob1
+{
+};
+
+struct AttachmentHandler_ob1
+{
+    void FUN_00451ef0(AttachRef*, AttachCell_ob1*, AttachRef*, bool);
+};
+
+namespace GridRefresh {
+struct Profile_ob1
+{
+    int unk00;
+    Profile_ob1(int, int, const char*, int);
+    ~Profile_ob1();
+};
+struct Setting_ob1
+{
+};
+struct Update_ob1
+{
+    float time;
+    int flags, unk08;
+    Update_ob1(float, int, int);
+};
+struct Node_ob1
+{
+};
+struct Cell_ob1
+{
+};
+struct Game_ob1
+{
+};
+struct Loader_ob1
+{
+};
+struct Main_ob1
+{
+};
+struct World_ob1
+{
+};
+struct Cells_ob1
+{
+    Cell_ob1* GetOrCreateCell(int, int, World_ob1*, int);
+};
+struct Queue_ob1
+{
+};
+struct CellHandle_ob1
+{
+    void FUN_005ae3d0();
+};
+struct Grid_ob1
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int centerX, centerY;
+    World_ob1* FUN_004fd3e0();
+    void RefreshGrid();
+};
+// @fnv 0x00452ff0
+void Grid_ob1::RefreshGrid()
+{
+    Profile_ob1 profile3(26, 1, ::DAT_01017874, 2262);
+    int originX = centerX - (*((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))) >> 1);
+    int originY = centerY - (*((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))) >> 1);
+    int count = 0;
+    bool defer = false;
+    if (::Interface_ob1::IsGamePaused())
+        defer = true;
+    bool loading4 = ::Interface_ob1::IsGamePaused();
+    reinterpret_cast<::FUN_004534f0_shell *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->FUN_004534f0(true);
+    reinterpret_cast<::FUN_00453500_shell *>(((*reinterpret_cast<::GridRefresh::Loader_ob1 * *>(&::g_BGSSaveLoadGame))))->FUN_00453500(true);
+    if (((::GridRefresh::Queue_ob1 *)(::FUN_00451010())))
+        reinterpret_cast<::C00c66300 *>((((::GridRefresh::Queue_ob1 *)(::FUN_00451010()))))->FUN_00c66300();
+    for (unsigned int x = 0; x < *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))); ++x)
+    {
+        for (unsigned int y = 0; y < *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))); ++y)
+        {
+            reinterpret_cast<::TES_00451a50_ob1 *>(this)->FUN_00451a50(x, y, originX + x, originY + y);
+            Cell_ob1* cell = (*reinterpret_cast<::GridRefresh::Cells_ob1 * *>(&::g_dataHandler))->GetOrCreateCell(originX + x, originY + y, ((::GridRefresh::World_ob1 *)(reinterpret_cast<::EffectSetting *>(this)->GetHitSound())), 0);
+            if (reinterpret_cast<::FUN_00453490_shell_ob1 *>(((*reinterpret_cast<::GridRefresh::Main_ob1 * *>(&::g_TES))))->FUN_00453490((::TESObjectCELL_ob1 *)(cell)))
+                reinterpret_cast<::FUN_00454b90_shell_ob1 *>(this)->AddCellToBuffer((::TESObjectCELL_ob1 *)(cell));
+            if (loading4 || (reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->EvaluateCondition() && reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->EvaluateCondition()))
+            {
+                ++count;
+                float percent =
+                    (double)count / (*((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))) * *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc))))))) * ::g_d100;
+                if (reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->EvaluateCondition() && reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->EvaluateCondition())
+                    reinterpret_cast<::LLD_TESHelper *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->FUN_00861ea0();
+            }
+        }
+    }
+    if (((::GridRefresh::Queue_ob1 *)(::FUN_00451010())))
+        reinterpret_cast<::C6B540Manager *>((((::GridRefresh::Queue_ob1 *)(::FUN_00451010()))))->FUN_00c6b540(0);
+    reinterpret_cast<::FUN_004534f0_shell *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->FUN_004534f0(false);
+    if (((bool)(reinterpret_cast<::FUN_008727b0_Class *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->FUN_008727b0())))
+    {
+        bool first = reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->EvaluateCondition();
+        bool second6 = reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->EvaluateCondition();
+        reinterpret_cast<::FUN_004534f0_shell *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->FUN_004534f0(true);
+        reinterpret_cast<::FUN_004534f0_shell *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->FUN_004534f0(true);
+        reinterpret_cast<::Cls *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->FUN_00858af0((::EntryListNode *)(0), (::Entry *)(0), 0);
+        reinterpret_cast<::FUN_0085f850_class *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->FUN_0085f850(0);
+        reinterpret_cast<::FUN_004534f0_shell *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->FUN_004534f0(second6);
+        reinterpret_cast<::FUN_004534f0_shell *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->FUN_004534f0(first);
+    }
+    reinterpret_cast<::FUN_00453500_shell *>(((*reinterpret_cast<::GridRefresh::Loader_ob1 * *>(&::g_BGSSaveLoadGame))))->FUN_00453500(false);
+    if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::GridRefresh::Loader_ob1 * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
+        reinterpret_cast<::fnv_008492b0::FUN_008492b0_shell *>(((*reinterpret_cast<::GridRefresh::Loader_ob1 * *>(&::g_BGSSaveLoadGame))))->ResetLoadBuffers(0);
+    if (((::GridRefresh::Queue_ob1 *)(::FUN_00451010())))
+        reinterpret_cast<::C00c66300 *>((((::GridRefresh::Queue_ob1 *)(::FUN_00451010()))))->FUN_00c66300();
+    for (unsigned int x2 = 0; x2 < *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))); ++x2)
+    {
+        for (unsigned int y2 = 0; y2 < *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))); ++y2)
+        {
+            if (((::GridRefresh::World_ob1 *)(reinterpret_cast<::EffectSetting *>(this)->GetHitSound())))
+            {
+                Cell_ob1* cell2 = (*reinterpret_cast<::GridRefresh::Cells_ob1 * *>(&::g_dataHandler))->GetOrCreateCell(originX + x2, originY + y2, ((::GridRefresh::World_ob1 *)(reinterpret_cast<::EffectSetting *>(this)->GetHitSound())), 0);
+                if (cell2)
+                {
+                    if (((int)(reinterpret_cast<::FUN_00450fd0_class *>((cell2))->GetByteAtOffset38())) == 5)
+                    {
+                        reinterpret_cast<::SceneB54 *>((cell2))->FUN_0054bcf0(!defer);
+                        reinterpret_cast<::FUN_00454b90_shell_ob1 *>(this)->AddCellToBuffer((::TESObjectCELL_ob1 *)(cell2));
+                        Node_ob1* node = ((::GridRefresh::Node_ob1 *)(reinterpret_cast<::FUN_00545cf0_Cls *>((cell2))->GetOrCreateWidget()));
+                        reinterpret_cast<::FUN_00a5a040_Class *>((node))->FUN_00a5a040();
+                        if (!reinterpret_cast<::FUN_00453470_shell *>((node))->FUN_00453470())
+                        {
+                            Update_ob1 update(0.0f, 0, 0);
+                            reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(update));
+                        }
+                    }
+                    ((::GridRefresh::CellHandle_ob1 *)(::FUN_0045bb80((int)this)))->FUN_005ae3d0();
+                }
+            }
+        }
+    }
+    if (((::GridRefresh::Queue_ob1 *)(::FUN_00451010())))
+        reinterpret_cast<::C6B540Manager *>((((::GridRefresh::Queue_ob1 *)(::FUN_00451010()))))->FUN_00c6b540(0);
+    ::FUN_00451570(0);
+    ::FUN_00451520(1);
+}
+}
+
+struct S_004537c0_Sky_ob1 : Sky_ob1
+{
+};
+
+struct S_004537c0_Tes_ob1 : Zt5TES_ob1
+{
+    S_004537c0_Mgr* FUN_009611e0();
+};
+
+struct FUN_004539a0_cls_ob1
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    unsigned char unkB4;
+    void FUN_008d7dc0(int b);
+    void FUN_004539a0(unsigned char a1, unsigned char a2);
+};
+
+struct BufferedCell_ob1 : TESObjectCELL_ob1
+{
+};
+
+struct CellBufferManager_ob1
+{
+    void* vtable;
+    void* distantGrid;
+    C_0084e3a0* grid;
+    void* objectRoot;
+    void* landRoot;
+    void* waterRoot;
+    void* tempNodeManager;
+    void* light;
+    void* fog;
+    int currentGridX;
+    int currentGridY;
+    int queuedGridX;
+    int queuedGridY;
+    BufferedCell_ob1* interiorCell;
+    BufferedCell_ob1** interiorBuffer;
+    BufferedCell_ob1** exteriorBuffer;
+
+    BufferWorld* FUN_004fd3e0();
+    bool FUN_00453a80();
+};
+
+struct ReloadManager_ob1
+{
+    unsigned unk00;
+    unsigned unk04;
+    ReloadCamera* camera;
+    ReloadObject* object;
+    ReloadInterior* interior;
+    unsigned unk14;
+    unsigned unk18;
+    unsigned unk1c;
+    unsigned unk20;
+    int gridX;
+    int gridY;
+    int oldX;
+    int oldY;
+    unsigned unk34;
+    unsigned unk38;
+    int* loaded;
+    unsigned unk40;
+    unsigned unk44;
+    int savedX;
+    int savedY;
+    unsigned unk50;
+    unsigned unk54;
+    unsigned unk58;
+    unsigned unk5c;
+    unsigned unk60;
+    unsigned unk64;
+    ReloadTexture* texture;
+    unsigned unk6c;
+    unsigned unk70;
+    unsigned unk74;
+    unsigned unk78;
+    unsigned unk7c;
+    unsigned unk80;
+    unsigned unk84;
+    ReloadName* name;
+    unsigned unk8c;
+    unsigned unk90;
+    unsigned unk94;
+    unsigned unk98;
+    unsigned unk9c;
+    unsigned unka0;
+    unsigned unka4;
+    unsigned unka8;
+    unsigned unkac;
+    unsigned unkb0;
+    unsigned unkb4;
+    unsigned unkb8;
+    unsigned unkbc;
+    ReloadNode loadedNode;
+    void FUN_008d7dc0(ReloadScene*);
+    void Pause(int, int);
+    void UpdateSkyModeForCell(ReloadScene*);
+    void AttachScene(ReloadScene*, ReloadPoint*);
+    ReloadWorld* FUN_004fd3e0();
+    void FUN_008d7dc0(int);
+    void Pause(int, ReloadPoint*);
+    int FUN_00457620(ReloadPoint*);
+    ReloadCell* FUN_00451900(int, int);
+    ReloadShader* FUN_0044ddc0();
+    void InitFromMatrix();
+    void InitSoundGrid();
+    void FUN_0045cda0();
+    void GetLandHeightAt(ReloadPoint*, float&);
+    void FUN_00451cf0();
+    void UpdateSkyModeForCell(int);
+    void FUN_00454450(ReloadPoint*);
+};
+
+struct FUN_004571c0_cell_ob1 : FUN_004570d0_node
+{
+};
+
+struct WS458200_TES_ob1
+{
+};
+
+struct AddonParticleNode_ob1 : NiNode_ob1
+{
+};
+
+struct Target_ob1
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    unsigned int unka4;
+    unsigned int unka8;
+    unsigned int unkac;
+    FUN_0045ae20* head;
+    void FUN_0045ac80();
+};
+
+struct CellView_ob1 : public TESObjectCELL_ob1
+{
+};
+
+struct FUN_0045cbc0_shell_ob1
+{
+    float GetCellHeightAtPosition(const NiPoint3* apPos, CellView_ob1* apCell);
+};
+
+namespace n451 {
+struct Pt_ob1
+{
+    float iMinY, nX, z;
+};
+struct Grid_ob1
+{
+    char pad[0x24];
+    int m_24;
+    int m_28;
+    bool ContainsPoint(const Pt_ob1& pt);
+};
+}
+
+// @fnv 0x00451110
+bool n451::Grid_ob1::ContainsPoint(const Pt_ob1& pt)
+{
+    if (((void *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())))
+        return true;
+    int iMinY = FUN_00406d90(pt.iMinY) >> 12;
+    int nX = FUN_00406d90(pt.nX) >> 12;
+    int ix = m_24 - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))) >> 1);
+    int px = m_28 - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))) >> 1);
+    if (iMinY < ix || iMinY >= ix + (int)*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))) || nX < px ||
+        nX >= px + (int)*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))))
+        return false;
+    return true;
+}
+
+struct FUN_0045cac0_tes_ob1 : B45CDA0TES_ob1
+{
+    void FUN_0045cac0();
+};
+
+struct FUN_004573f0_shell_ob1 : public TES
+{
+    TESObjectCELL_ob1* FUN_00451900(int cellX, int cellY);
+    bool FUN_004573f0(const NiPoint3* pos, NiPoint3* normal, int flags);
+};
+
+struct StandRTTI
+{
+    const char* m_pcName;
+    const StandRTTI* m_pBaseRTTI;
+};
+
+struct StandRef
+{
+    virtual ~StandRef();
+    virtual void DeleteThis();
+    virtual const StandRTTI* GetRTTI() const;
+    long m_uiRefCount;
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+};
+
+template <class T> struct StandPtr
+{
+    T* m_pObject;
+    StandPtr(T* p = 0) : m_pObject(p)
+    {
+        if (m_pObject)
+            m_pObject->IncRefCount();
+    }
+    ~StandPtr()
+    {
+        if (m_pObject)
+            m_pObject->DecRefCount();
+    }
+};
+
+struct StandNode_ob1;
+
+struct StandChildren
+{
+    virtual ~StandChildren();
+    StandRef** data;
+    unsigned short capacity;
+    unsigned short firstFree;
+    unsigned short size;
+    unsigned short grow;
+    StandRef* const& GetAt(unsigned int i) const
+    {
+        StandRef* const& item = data[i];
+        return item;
+    }
+};
+
+struct StandNode_ob1 : StandRef
+{
+    virtual void Unk0c();
+    virtual void Unk10();
+    virtual void Unk14();
+    virtual void Unk18();
+    virtual void Unk1c();
+    virtual void Unk20();
+    virtual void Unk24();
+    virtual void Unk28();
+    virtual void Unk2c();
+    virtual void Unk30();
+    virtual void Unk34();
+    virtual void Unk38();
+    virtual void Unk3c();
+    virtual void Unk40();
+    virtual void Unk44();
+    virtual void Unk48();
+    virtual void Unk4c();
+    virtual void Unk50();
+    virtual void Unk54();
+    virtual void Unk58();
+    virtual void Unk5c();
+    virtual void Unk60();
+    virtual void Unk64();
+    virtual void Unk68();
+    virtual void Unk6c();
+    virtual void Unk70();
+    virtual void Unk74();
+    virtual void Unk78();
+    virtual void Unk7c();
+    virtual void Unk80();
+    virtual void Unk84();
+    virtual void Unk88();
+    virtual void Unk8c();
+    virtual void Unk90();
+    virtual void Unk94();
+    virtual void Unk98();
+    virtual void Unk9c();
+    virtual void Unka0();
+    virtual void Unka4();
+    virtual void Unka8();
+    virtual void Unkac();
+    virtual void Unkb0();
+    virtual void Unkb4();
+    virtual void Unkb8();
+    virtual void Unkbc();
+    virtual void Unkc0();
+    virtual void Unkc4();
+    virtual void Unkc8();
+    virtual void Unkcc();
+    virtual void Unkd0();
+    virtual void Unkd4();
+    virtual void Unkd8();
+    virtual void Unkdc();
+    virtual void Unke0();
+    virtual void Unke4();
+    virtual void Unke8();
+    virtual void RemoveAt(unsigned int i, StandPtr<StandRef>& removed);
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    StandChildren children;
+    float time;
+    float UpdateTime(float f)
+    {
+        float delta = time != ::_DAT_01012060 ? f - time : time;
+        time = f;
+        return delta;
+    }
+    StandRef* GetChild(unsigned int i)
+    {
+        StandRef* const& entry = children.data[i];
+        {
+            StandRef* item = entry;
+            return item;
+        }
+    }
+    void SetTime(float f)
+    {
+        time = f;
+        if (time < ::_DAT_01012060)
+            time = 0.0f;
+    }
+    bool Expired() const
+    {
+        return time == ::_DAT_01012060;
+    }
+    void FUN_00c44ed0(float);
+};
+
+__forceinline bool IsKindOfType(const StandRTTI* target, const StandRef* object)
+{
+    const StandRTTI* rtti = object->GetRTTI();
+    while (rtti)
+    {
+        if (rtti == target)
+            return true;
+        rtti = rtti->m_pBaseRTTI;
+    }
+    return false;
+}
+__forceinline StandNode_ob1* CastNode(StandRef* object)
+{
+    if (!object)
+        return 0;
+    return IsKindOfType(reinterpret_cast<const StandRTTI*>(&(*reinterpret_cast<const void *const *>(&::g_01202e00))), object) ? static_cast<StandNode_ob1*>(object) : 0;
+}
+
+// @fnv 0x00c44ed0
+void StandNode_ob1::FUN_00c44ed0(float f)
+{
+    StandPtr<StandRef> spRemoved;
+    float delta = UpdateTime(f);
+    {
+        unsigned int i = children.firstFree;
+        while (i--)
+        {
+            StandRef* object = GetChild(i);
+            StandNode_ob1* child = CastNode(object);
+            if (child)
+            {
+                child->SetTime(child->time - delta);
+                if (child->Expired())
+                    RemoveAt(i, spRemoved);
             }
         }
     }

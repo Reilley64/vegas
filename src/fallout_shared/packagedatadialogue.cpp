@@ -35,6 +35,11 @@
 #include "fnv/symbols_0061b000.h"
 #include "fnv/symbols_01068000.h"
 #include "packagedatadialogue_decls.h"
+#include "fnv/decl/fnv_0067f600__FUN_0067f600_shell.h"
+#include "packagedatadialogue_decls_rtti2_packagedatadialogue.h"
+#include <cstring>
+#include "packagedatadialogue_decls_rtti_variant.h"
+#include "packagedatadialogue_decls_rtti_variant_decl_packagedatadialogue_rtti_variant.h"
 // Resolves the stored topic ID to a TESTopic via the form's file and warns if the topic is missing.
 // @fnv 0x0067b590
 void TESDialoguePackageData::InitItem(TESForm* form)
@@ -327,5 +332,282 @@ void FUN_0067b7d0_shell::FUN_0067b7d0(BGSLoadFormBuffer* apLoadGameBuffer)
     {
         m_pTargetLocation = (LocationDescriptor*)new B0067f030;
         reinterpret_cast<::FUN_0067fbe0_cls *>((((TESEatPackageData_*)m_pTargetLocation)))->FUN_0067fbe0((::PackageLoadStream *)(apLoadGameBuffer));
+    }
+}
+
+struct TESPackageData_rtti2
+{
+    virtual ~TESPackageData_rtti2();  // the original class is polymorphic (rtti_variants.py)
+    int pad;
+};
+
+struct FUN_0067b6f0_cls_rtti2 : TESPackageData_rtti2
+{
+    int field4;
+    TESTopic* pMenuTopicEntry;
+    FUNObj* m_pTargetLocation;
+    bool field10;
+    bool field11;
+    bool field12;
+    int field14;
+    bool field18;
+    int field1c;
+
+    void SavePackageData(BGSSaveFormBuffer*);
+};
+
+struct DialogueTargetComparison : LocationDescriptor
+{
+};
+
+struct DialoguePackageComparison : TESDialoguePackageData
+{
+    DialogueTargetComparison* m_pTargetLocation;
+    unsigned char m_bFirstFlag;
+    unsigned char m_bFollowingFlag;
+    float m_fFloatValue;
+    unsigned char m_bThirdFlag;
+    int m_iTrailingValue;
+
+    bool FUN_0067b470(void*);
+};
+
+// @fnv 0x0067b470
+bool DialoguePackageComparison::FUN_0067b470(void* object)
+{
+    DialoguePackageComparison* other = reinterpret_cast<DialoguePackageComparison*>(
+        dynamic_cast< ::TESDialoguePackageData*>(static_cast< ::TESPackageData_rtti2*>(object)));
+
+    if (other == 0)
+        return true;
+
+    if (m_fFirstFloat != other->m_fFirstFloat)
+        return true;
+
+    if (m_fFloatValue != other->m_fFloatValue)
+        return true;
+
+    if (m_bFirstFlag != other->m_bFirstFlag)
+        return true;
+
+    if (pMenuTopicEntry != other->pMenuTopicEntry)
+        return true;
+
+    if (m_pTargetLocation != 0)
+    {
+        if (reinterpret_cast<::fnv_0067f600::FUN_0067f600_shell *>((m_pTargetLocation))->IsDifferentFrom((::LocationDescriptor *)(other->m_pTargetLocation)))
+            return true;
+    }
+    else if (other->m_pTargetLocation != 0)
+    {
+        return true;
+    }
+
+    if (m_bFollowingFlag != other->m_bFollowingFlag)
+        return true;
+
+    if (m_bThirdFlag != other->m_bThirdFlag)
+        return true;
+
+    if (m_iTrailingValue != other->m_iTrailingValue)
+        return true;
+
+    return false;
+}
+
+void __cdecl Deallocate(void*);
+
+namespace p07 {
+struct DtorStandIn_rtti
+{
+    void FUN_0083dec0();
+};
+struct DelStandIn_rtti
+{
+    void* FUN_0067b1e0(unsigned int flags);
+};
+// @fnv 0x0067b1e0
+void* DelStandIn_rtti::FUN_0067b1e0(unsigned int flags)
+{
+    ((DtorStandIn_rtti*)this)->FUN_0083dec0();
+    if (flags & 1)
+        Deallocate(this);
+    return this;
+}
+}
+
+struct FUN_0067fc50_impl_rtti
+{
+    void ResolveObject(BGSLoadFormBuffer*);
+};
+
+struct FUN_0067b920_host_rtti
+{
+    int pad0;
+    int pad4;
+    int pad8;
+    FUN_0067fc50_impl_rtti* padC;
+    void FUN_0067b920(BGSLoadFormBuffer*);
+};
+
+struct LocationDescriptor_rtti
+{
+    void Save(int);
+};
+
+bool _FUN_00401500();
+
+void _FUN_00485990(int, void*, unsigned int);
+
+struct FUN_0067b630_cls_rtti
+{
+    unsigned int pad0;
+    float m_fFirstFloat;
+    TESTopic* pMenuTopicEntry;
+    LocationDescriptor_rtti* m_pTargetLocation;
+    bool m_bFirstFlag;
+    bool m_bFollowingFlag;
+    float m_fFloatValue;
+    bool m_bThirdFlag;
+    int m_iTrailingValue;
+
+    void SaveTopicData();
+};
+
+struct FUNObj_rtti
+{
+    void FUN_0067fb60(void*);
+};
+
+struct SaveFormIDHelper_rtti
+{
+    void SerializeFormData(void*, int);
+};
+
+struct BGSSaveFormBuffer_rtti : SaveFormIDHelper_rtti
+{
+    void SaveData(void*, int, int);
+};
+
+struct TESPackageData_rtti
+{
+    virtual ~TESPackageData_rtti();  // the original class is polymorphic (rtti_variants.py)
+    int pad;
+};
+
+struct FUN_0067b6f0_cls_rtti : TESPackageData_rtti
+{
+    int field4;
+    TESTopic* pMenuTopicEntry;
+    FUNObj_rtti* m_pTargetLocation;
+    bool field10;
+    bool field11;
+    bool field12;
+    int field14;
+    bool field18;
+    int field1c;
+
+    void SavePackageData(BGSSaveFormBuffer_rtti*);
+};
+
+extern void* UNK_010688ac;
+
+struct ConstructorHost_rtti
+{
+    void* vtable;
+    float value04;
+    unsigned int value08;
+    unsigned int value0C;
+    unsigned char value10;
+    unsigned char value11;
+    float value14;
+    unsigned char value18;
+    unsigned int value1C;
+
+    void FUN_0067ad20();
+    ConstructorHost_rtti* Construct(float initial, unsigned int object, PairOfBytes flags, float scale,
+                               unsigned char enabled, unsigned int reference);
+};
+
+struct LocationDescriptor_rtti_decl
+{
+public:
+    void Copy(::LocationDescriptor_rtti_decl *, bool);
+};
+
+struct FUN_0067b630_cls_rtti_decl
+{
+    unsigned int pad0;
+    float m_fFirstFloat;
+    TESTopic* pMenuTopicEntry;
+    LocationDescriptor_rtti_decl* m_pTargetLocation;
+    bool m_bFirstFlag;
+    bool m_bFollowingFlag;
+    float m_fFloatValue;
+    bool m_bThirdFlag;
+    int m_iTrailingValue;
+
+    void SaveTopicData();
+};
+
+struct TESPackageData_rtti_decl
+{
+    virtual ~TESPackageData_rtti_decl();  // the original class is polymorphic (rtti_variants.py)
+    int pad;
+};
+
+struct FUN_0067b6f0_cls_rtti_decl : TESPackageData_rtti_decl
+{
+    int field4;
+    TESTopic* pMenuTopicEntry;
+    FUNObj* m_pTargetLocation;
+    bool field10;
+    bool field11;
+    bool field12;
+    int field14;
+    bool field18;
+    int field1c;
+
+    void SavePackageData(BGSSaveFormBuffer*);
+};
+
+struct TargetLocation
+{
+    unsigned char type;
+    unsigned char unk01, unk02, unk03;
+    unsigned int data;
+    float radius;
+    TargetLocation();
+    ~TargetLocation();
+};
+
+struct DialogueData544 : TESDialoguePackageData
+{
+    void FUN_0067b310(TESPackageData_rtti_decl*);
+};
+
+// @fnv 0x0067b310
+void DialogueData544::FUN_0067b310(TESPackageData_rtti_decl* input)
+{
+    TESDialoguePackageData* source = dynamic_cast<TESDialoguePackageData*>(input);
+    if (source)
+    {
+        m_fFirstFloat = source->m_fFirstFloat;
+        m_fFloatValue = source->m_fFloatValue;
+        m_bFirstFlag = source->m_bFirstFlag;
+        if (m_pTargetLocation)
+        {
+            delete m_pTargetLocation;
+            m_pTargetLocation = 0;
+        }
+        if (source->m_pTargetLocation)
+        {
+            m_pTargetLocation = new TargetLocation;
+            reinterpret_cast<::LocationDescriptor_rtti_decl *>((m_pTargetLocation))->Copy((::LocationDescriptor_rtti_decl *)(source->m_pTargetLocation), 0);
+        }
+        pMenuTopicEntry = source->pMenuTopicEntry;
+        m_bFollowingFlag = source->m_bFollowingFlag;
+        m_bThirdFlag = source->m_bThirdFlag;
+        m_iTrailingValue = source->m_iTrailingValue;
     }
 }

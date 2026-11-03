@@ -52,6 +52,8 @@
 #include "fnv/symbols_011c3000.h"
 #include "fnv/symbols_011cb000.h"
 #include "tesidleform_match_decls.h"
+#include "fnv/decl/FUN_005ff4d0_shell.h"
+#include "fnv/decl/IdleFormDetach.h"
 class TESObjectREFR;
 class LowProcess
 {
@@ -1026,3 +1028,47 @@ void IdleInit::InitLoad()
     }
     reinterpret_cast<::TESForm *>(this)->SetInitializationState(1);
 }
+
+class LowProcess_o2
+{
+  public:
+    TESObjectREFR* GetActiveCombatTarget();
+};
+
+// FUN_005ff880 : 8-byte MSVC this-adjusting (virtual) thunk.
+//     sub ecx, 0x18 ; jmp FUN_005fe130
+//
+// MSVC emits such a stub in the vtable of a class that inherits the same
+// virtual slot through two bases: the slot of the second base holds a tiny
+// stub that moves `this` back onto the complete object (sub ecx, size of the
+// primary base) and tail-jumps to the implementation.
+//
+// The subtracted offset is therefore the size of the primary base: a vtable
+// pointer plus 5 int members (4 + 20 = 0x18 bytes).  Both bases declare the
+// same virtual function; the derived class redeclares it and defines only its
+// constructor, which is what makes the compiler emit the vtables and the
+// adjusting thunk.
+struct IdlePrimaryBase
+{
+    virtual void FUN_005ff880();
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+};
+
+struct IdleSecondaryBase
+{
+    virtual void FUN_005ff880();
+};
+
+struct IdleDerived : IdlePrimaryBase, IdleSecondaryBase
+{
+    IdleDerived();
+// @fnv 0x005ff880
+    virtual void FUN_005ff880();
+};
+
+IdleDerived::IdleDerived()
+{}

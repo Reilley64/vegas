@@ -372,4 +372,102 @@ void Desc482d::FUN_00482d80(BaseFormComponent* apComponent)
     m_uiDescriptionFileOffset = ((unsigned long)(reinterpret_cast<::Callees *>((((Off482d*)pDesc)))->FUN_00726070()));
 }
 
+// Adjustor thunk: the secondary-base (+0x3c) vtable entry for an override defined on the derived class.
+
+class D1CC0Primary
+{
+  public:
+    virtual void FUN_00501cc0(unsigned int uiValue);
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+class D1CC0Secondary
+{
+  public:
+    virtual void FUN_00501cc0(unsigned int uiValue);
+};
+
+class D1CC0Derived : public D1CC0Primary, public D1CC0Secondary
+{
+  public:
+    D1CC0Derived();
+// @fnv 0x00501cc0
+    virtual void FUN_00501cc0(unsigned int uiValue);
+};
+
+D1CC0Derived::D1CC0Derived()
+{}
+
+// [thunk] this-adjustor (-0x84) for the secondary-base vtable slot of the TESObjectBOOK
+// GetSaveSize override at 0x515220. The override replaces the same virtual in both bases, so the
+// compiler emits this thunk with the vtable that the out-of-line constructor below instantiates;
+// the override body itself lives elsewhere.
+struct BookPrimaryBase
+{
+    virtual void Slot0();
+    virtual unsigned short FUN_00515430(unsigned int auiChangeFlags);
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    BookPrimaryBase() throw();
+};
+
+struct BookSaveSizeBase
+{
+    virtual unsigned short FUN_00515430(unsigned int auiChangeFlags);
+    BookSaveSizeBase() throw();
+};
+
+struct TESObjectBOOKStandIn : BookPrimaryBase, BookSaveSizeBase
+{
+// @fnv 0x00515430
+    virtual unsigned short FUN_00515430(unsigned int auiChangeFlags);
+    TESObjectBOOKStandIn() throw();
+};
+
+TESObjectBOOKStandIn::TESObjectBOOKStandIn() throw()
+{}
+
 #include "generated/data/fallout_shared/tesdescription.inc"

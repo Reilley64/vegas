@@ -34,6 +34,8 @@
 #include "fnv/symbols_0047a000.h"
 #include "fnv/symbols_00487000.h"
 #include "tesobjectimod_decls.h"
+#include "fnv/decl/FUN_00519e70.h"
+#include "fnv/symbols_00472000.h"
 
 class TESFormInitFlag : public TESObjectIMODVirtuals
 {
@@ -561,3 +563,140 @@ FUN_0051a840::~FUN_0051a840()
 {
     reinterpret_cast<::TESForm *>(this)->ClearData();
 }
+
+class TESForm_o2 : public TESFormInitFlag
+{
+  private:
+    unsigned char fields[0x14];
+
+  public:
+    void SetInitializationState(bool initialized);
+public:
+    bool GetInitialized() const;
+public:
+    void LoadGame(void *);
+};
+
+class TESBoundObject_o2 : public TESForm_o2
+{
+  private:
+    unsigned char fields[0x18];
+
+  public:
+    TESBoundObject_o2();
+    ~TESBoundObject_o2();
+};
+
+class TESModelTextureSwap_o2 : public TESModel
+{
+  private:
+    unsigned char fields[0x08];
+
+  public:
+    TESModelTextureSwap_o2();
+    ~TESModelTextureSwap_o2();
+    void InitItem(TESForm_o2* form);
+};
+
+class TESScriptableForm_o2 : public TESObjectIMODComponentVirtuals
+{
+  private:
+    unsigned char fields[0x08];
+
+  public:
+    TESScriptableForm_o2();
+    void InitItem(TESForm_o2* form);
+};
+
+class BGSDestructibleObjectForm_o2 : public TESObjectIMODComponentVirtuals
+{
+  private:
+    unsigned char fields[0x04];
+
+  public:
+    BGSDestructibleObjectForm_o2();
+    ~BGSDestructibleObjectForm_o2();
+    void InitItem(TESForm_o2* form);
+};
+
+class BGSPickupPutdownSounds_o2 : public TESObjectIMODComponentVirtuals
+{
+  private:
+    unsigned char fields[0x08];
+
+  public:
+    BGSPickupPutdownSounds_o2();
+    ~BGSPickupPutdownSounds_o2();
+    void InitItem(TESForm_o2* form);
+};
+
+class TESObjectIMOD_o2 : public TESBoundObject_o2,
+                      public TESFullName,
+                      public TESModelTextureSwap_o2,
+                      public TESIcon,
+                      public TESScriptableForm_o2,
+                      public TESDescription,
+                      public TESValueForm,
+                      public TESWeightForm,
+                      public BGSDestructibleObjectForm_o2,
+                      public BGSMessageIcon,
+                      public BGSPickupPutdownSounds_o2
+{
+  public:
+    TESObjectIMOD_o2();
+    bool Load(TESFile*);
+    void InitItem();
+};
+
+struct FUN_0051a630_shell_o2 : public TESObjectIMOD_o2
+{
+    void LoadGame(BGSLoadFormBuffer* buffer);
+};
+
+struct FUN_00519e40_shell_o2 : public TESObjectIMOD_o2
+{
+    void* FUN_00519e40(unsigned int flags);
+};
+
+struct FUN_00519e70_stub_o2
+{
+};
+
+struct FUN_0051a420_shell_o2 : public TESObjectIMOD_o2
+{
+    void FUN_0051a420();
+};
+
+struct B1
+{
+    virtual void FUN_0051a680(unsigned int);
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct B2
+{
+    virtual void FUN_0051a680(unsigned int);
+};
+
+struct Derived : B1, B2
+{
+    Derived();
+// @fnv 0x0051a680
+    virtual void FUN_0051a680(unsigned int);
+};
+
+Derived::Derived()
+{}

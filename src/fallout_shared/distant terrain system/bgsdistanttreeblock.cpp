@@ -67,6 +67,12 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_01200000.h"
 #include "fnv/symbols_01202000.h"
+#include "fnv/decl/Point3_0053d280.h"
+#include "fnv/decl/fnv_006f8830__FUN_006f8830.h"
+#include "fnv/symbols_006f7000.h"
+#include "fnv/symbols_00afd000.h"
+#include "fnv/decl/FUN_006f94a0.h"
+#include "fnv/symbols_011f9000.h"
 struct NP
 {
     NP& operator=(void*);
@@ -1804,6 +1810,99 @@ void OwnerX::FUN_006f8c40()
     }
     else if (loaded && built)
         reinterpret_cast<::BGSDistantTreeBlock *>(this)->ProcessAllTrees();
+}
+
+void FUN_006f7a60(void* p);
+
+struct FUN_006b3140_shell_o2_nood
+{
+};
+
+void FUN_006f86b0(void* a1);
+
+struct FUN_006f8800_shell_o2_nood
+{
+    void* FUN_006f8800(unsigned int flags);
+};
+
+struct FUN_006b3120_helper_o2_nood
+{
+};
+
+void FUN_006f83f0();
+
+void BuildNavMeshGeometry(void* param);
+
+void ReadTreeRecords(TreeHost* host);
+
+int __cdecl FUN_00ec8a19(const char* a, const char* b, int c);
+
+struct NiPoint3Ex_o2_nood
+{
+    float x, y, z;
+    NiPoint3Ex_o2_nood(float, float, float);
+    NiPoint3Ex_o2_nood operator-(const NiPoint3Ex_o2_nood&) const;
+    NiPoint3Ex_o2_nood operator+(const NiPoint3Ex_o2_nood&) const;
+};
+
+struct S_00bb6050
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+
+    int FUN_00bb6050(int arg0, int arg1);
+};
+
+// @fnv 0x00bb6050
+int S_00bb6050::FUN_00bb6050(int arg0, int arg1)
+{
+    return this->unk80;
+}
+
+struct BGSDistantTreeBlockLoadTask_o2
+{
+    void* Destroy(unsigned int flags);
+};
+
+extern unsigned int DAT_012007b8;
+
+// @fnv 0x00bb6030
+unsigned int __cdecl FUN_00bb6030()
+{
+    if (!DAT_012007b8)
+        DAT_012007b8 = 40 + ((::DAT_011f91c0 < 2) ? 0 : 74);
+    return DAT_012007b8;
 }
 
 #include "generated/data/fallout_shared/distant terrain system/bgsdistanttreeblock.inc"

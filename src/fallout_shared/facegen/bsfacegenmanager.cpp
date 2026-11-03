@@ -154,6 +154,12 @@
 #include "fnv/symbols_011f9000.h"
 #include "fnv/symbols_01200000.h"
 #include "bsfacegenmanager_decls.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/decl/FG_00659100_cls.h"
+#include "fnv/decl/FUN_0065fd10_class.h"
+#include <vector>
+#include <string.h>
 // @fnv 0x006521e0
 FaceGenCoordinates* BSFaceGenManager::GetFaceGenCoordinates()
 {
@@ -7252,5 +7258,453 @@ FUN_006518e0::~FUN_006518e0()
     cache = 0;
 }
 }  // namespace fnv_006518e0
+
+struct BSFaceGenModel_o2
+{
+    virtual void _v00();
+    virtual void _v04();
+    virtual void _v08();
+    virtual void _v0c();
+    virtual void _v10();
+    virtual void _v14();
+    virtual void _v18();
+    virtual void _v1c();
+    virtual void _v20();
+    virtual void _v24();
+    virtual void _v28();
+    virtual void _v2c();
+    virtual void _v30();
+    virtual void _v34();
+    virtual void _v38();
+    virtual void _v3c();
+    virtual void _v40();
+    virtual void _v44();
+    virtual void _v48();
+    virtual void _v4c();
+    virtual void _v50();
+    virtual void _v54();
+    virtual void _v58();
+    virtual void _v5c();
+    virtual void _v60();
+    virtual void _v64();
+    virtual void _v68();
+    virtual void _v6c();
+    virtual void _v70();
+    virtual void _v74();
+    virtual void _v78();
+    virtual void _v7c();
+    virtual void _v80();
+    virtual void _v84();
+    virtual void _v88();
+    virtual bool HasMorphs();  // 0x8c
+
+};
+
+struct BSFaceGenMorphData_o2
+{
+    void* m_pData;
+    unsigned int m_uiSize;
+    unsigned char m_bFlag;
+};
+
+struct S00a67410_o2
+{
+    char _pad0[0x20];
+    void* m_pDefaultData;  // +0x20
+    char _pad24[0xc];
+    BSFaceGenModel_o2* m_pModel;  // +0x30
+    char _pad34[6];
+    unsigned char m_bModifierActive;  // +0x3a
+
+    void FUN_00a67410(BSFaceGenMorphData_o2* outData);
+};
+
+struct RecursiveSpinLock
+{
+    unsigned int value;
+};
+
+template <class T> struct PoolAllocatorBase
+{
+    struct LinkedListEntry
+    {
+        LinkedListEntry* next;
+        LinkedListEntry* prev;
+        void* data;
+    };
+
+    static LinkedListEntry* ms_pFreeList;
+};
+
+struct FUN_00a68e30_shell
+{
+    char m_auiShapeKeys[0xb8];
+    PoolAllocatorBase<unsigned int>::LinkedListEntry* m_pkHead;
+    PoolAllocatorBase<unsigned int>::LinkedListEntry* m_pkTail;
+    unsigned int m_uiCount;
+
+    void FUN_00a68e30();
+};
+
+// @fnv 0x00a68e30
+void FUN_00a68e30_shell::FUN_00a68e30()
+{
+    while (m_uiCount)
+    {
+        PoolAllocatorBase<unsigned int>::LinkedListEntry* node = m_pkHead;
+        m_pkHead = node->next;
+        if (m_pkHead)
+            m_pkHead->prev = 0;
+        else
+            m_pkTail = 0;
+
+        node->data = 0;
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
+        node->prev = 0;
+        node->next = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
+        --DAT_011c5f84;
+        (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = node;
+        if (!DAT_011c5f84)
+            (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
+
+        --m_uiCount;
+    }
+}
+
+struct A72720Buffer
+{
+    int unk00;
+    unsigned int m_uiSize;
+    char* m_pcData;
+};
+
+struct A72720Record
+{
+    int unk00;
+    void* m_pvStream;
+    int m_iArrayCapacity;
+    int m_iFormat;
+    int m_iUsage;
+    unsigned int m_uiBuffer;
+    unsigned int m_uiValueBeforeCount;
+};
+
+class A72720StreamSet
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    unsigned short m_usVertexCount;
+    unsigned short unk0E;
+    unsigned int m_uiRecordCount;
+    A72720Record* m_pkRecords;
+    int unk18;
+    int unk1C;
+    A72720Buffer** m_ppkBuffers;
+    unsigned short unk24;
+    unsigned short m_usBufferCount;
+
+    bool FUN_00a72720(unsigned int uiIndex, char** ppcData, void** ppvStream, unsigned short* pusVertexCount,
+                      int* piFormat, int* piStride, int* piUsage);
+};
+
+// @fnv 0x00a67410
+void S00a67410_o2::FUN_00a67410(BSFaceGenMorphData_o2* outData)
+{
+    if (!m_bModifierActive)
+        return;
+
+    BSFaceGenModel_o2* model = m_pModel;
+    void* vars[6];
+    vars[1] = 0;
+    vars[3] = 0;
+    vars[0] = 0;
+
+    if (model && model->HasMorphs())
+    {
+        vars[2] = 0;
+        reinterpret_cast<::A72720StreamSet *>((model))->FUN_00a72720(0, (char **)(void *)(&vars[0]), (void **)(void *)(&vars[5]), (unsigned short *)(void *)(&vars[3]), (int *)(void *)(&vars[4]), (int *)(void *)(&vars[2]), (int *)(void *)(&vars[1]));
+    }
+
+    void* data;
+    unsigned int size;
+    if (!vars[0])
+    {
+        data = m_pDefaultData;
+        size = 12;
+    }
+    else
+    {
+        data = vars[0];
+        size = (unsigned int)vars[1];
+    }
+
+    outData->m_pData = data;
+    outData->m_uiSize = size;
+    outData->m_bFlag = 0;
+}
+
+// @fnv 0x00a72720
+bool A72720StreamSet::FUN_00a72720(unsigned int uiIndex, char** ppcData, void** ppvStream,
+                                   unsigned short* pusVertexCount, int* piFormat, int* piStride, int* piUsage)
+{
+    if (uiIndex >= m_uiRecordCount)
+        return false;
+    if (!m_pkRecords)
+        return false;
+
+    A72720Record& kRecord = m_pkRecords[uiIndex];
+    void* pvStream = kRecord.m_pvStream;
+    *ppvStream = pvStream;
+    if (!pvStream)
+        return false;
+
+    *pusVertexCount = m_usVertexCount;
+    *piFormat = kRecord.m_iFormat;
+    *piStride = kRecord.m_iArrayCapacity;
+    *piUsage = kRecord.m_iUsage;
+
+    if (kRecord.m_uiBuffer > m_usBufferCount)
+        return false;
+    A72720Buffer* pkBuffer = m_ppkBuffers[kRecord.m_uiBuffer];
+    if (!pkBuffer || pkBuffer->m_uiSize < kRecord.m_uiValueBeforeCount)
+        return false;
+
+    *ppcData = pkBuffer->m_pcData + kRecord.m_uiValueBeforeCount;
+    return true;
+}
+
+static __forceinline void DeadQ1()
+{
+    int dq[1];
+}
+
+static __forceinline void DeadQ2()
+{
+    int dq[2];
+}
+
+static __forceinline void DeadQ3()
+{
+    int dq[3];
+}
+
+static __forceinline void DeadQ4()
+{
+    int dq[4];
+}
+
+static __forceinline void DeadQ5()
+{
+    int dq[5];
+}
+
+static __forceinline void DeadQ6()
+{
+    int dq[6];
+}
+
+static __forceinline void DeadQ7()
+{
+    int dq[7];
+}
+
+static __forceinline void DeadQ8()
+{
+    int dq[8];
+}
+
+static __forceinline void DeadQ9()
+{
+    int dq[9];
+}
+
+static __forceinline void DeadQ10()
+{
+    int dq[10];
+}
+
+static __forceinline void DeadQ11()
+{
+    int dq[11];
+}
+
+struct ContainerBase
+{
+    void* m_ownedAux;
+};
+
+struct CoordVec;
+
+struct CoordConstIter
+{
+    void* m_aux;
+    float* m_ptr;
+    CoordConstIter()
+    {
+        m_aux = 0;
+    }
+    CoordConstIter(float* ptr, const ContainerBase* pVec);
+    CoordConstIter operator++(int)
+    {
+        DeadQ1();
+        CoordConstIter tmp = *this;
+        reinterpret_cast<::FG_00659100_cls *>(this)->FUN_00659190();
+        return tmp;
+    }
+};
+
+struct CoordIterBase : CoordConstIter
+{
+    CoordIterBase(float* ptr, const ContainerBase* pVec);
+};
+
+struct CoordIter : CoordIterBase
+{
+    CoordIter(float* ptr, const ContainerBase* pVec) : CoordIterBase(ptr, pVec)
+    {}
+    CoordIter operator++(int)
+    {
+        CoordIter tmp = *this;
+        reinterpret_cast<::FG_00659100_cls *>(this)->FUN_00659190();
+        return tmp;
+        DeadQ1();
+    }
+};
+
+struct CoordVec : ContainerBase
+{
+    int unk04;
+    int unk08;
+    float* m_pHeadNode;
+    float* m_last;
+    float* m_kRayEnd;
+    unsigned int m_rows;
+    unsigned int m_cols;
+    CoordIter begin()
+    {
+        return CoordIter(m_pHeadNode, this);
+        DeadQ1();
+    }
+    CoordConstIter end() const
+    {
+        return CoordConstIter(m_last, this);
+    }
+    CoordVec& FUN_00aaef90(const CoordVec& rhs);
+};
+
+inline CoordConstIter::CoordConstIter(float* ptr, const ContainerBase* pVec)
+{
+    m_aux = 0;
+    if (!(pVec != 0 && ((const CoordVec*)pVec)->m_pHeadNode <= ptr && ptr <= ((const CoordVec*)pVec)->m_last))
+        std::abort();
+    m_aux = pVec->m_ownedAux;
+    m_ptr = ptr;
+}
+
+// @fnv 0x00aaef90
+CoordVec& CoordVec::FUN_00aaef90(const CoordVec& rhs)
+{
+    (m_rows == rhs.m_rows && m_cols == rhs.m_cols)
+        ? (void)0
+        : ReportAssertionViolation("d:\\_fallout3\\platforms\\common\\code\\sdk\\facegen\\matrixVT.hpp", 0x29e);
+    CoordIter it2 = begin();
+    CoordConstIter it1 = (*(::CoordConstIter *)(reinterpret_cast<::FUN_0065fd10_class *>((void *)&(rhs))->FUN_0065fd10({})));
+    for (; reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(it2))->FUN_0065dfd0((int)&(const ::CoordConstIter &)(end())) && reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(it1))->FUN_0065dfd0((int)&(const ::CoordConstIter &)(rhs.end())); it2++, it1++)
+        *((float *)(reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(it2))->FUN_0064dda0())) -= (*((float *)(reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(it1))->FUN_0064dda0())));
+    return *this;
+    DeadQ2();
+}
+
+struct MatrixRow
+{
+    float* data;
+    unsigned int count;
+    MatrixRow(float* p, unsigned int n) : data(p), count(n)
+    {}
+    float& operator[](unsigned int i)
+    {
+        return data[i];
+    }
+};
+
+inline void copyColumn(float* dst, const float* src, unsigned int count)
+{
+    memcpy(dst, src, count * sizeof(float));
+}
+
+struct MatrixOps
+{
+    std::vector<float> data;
+    unsigned int columns;
+    unsigned int rows;
+    MatrixOps(unsigned int c, unsigned int r) : columns(c), rows(r)
+    {
+        data.resize(rows * columns);
+    }
+    MatrixOps(const MatrixOps& o)
+    {
+        unsigned int c = o.columns;
+        unsigned int r = o.rows;
+        columns = c;
+        rows = r;
+        unsigned int n = columns * rows;
+        data.resize(n);
+        unsigned int dstCount = data.size();
+        unsigned int srcCount = o.data.size();
+        if (dstCount && srcCount)
+        {
+            const float* src = &o.data[0];
+            float* dst = &data[0];
+            unsigned int columnBytes = r * sizeof(float);
+            unsigned int byteCount = c * columnBytes;
+            memcpy(dst, src, byteCount);
+        }
+    }
+    ~MatrixOps();
+    unsigned int getColumns() const
+    {
+        return columns;
+    }
+    unsigned int getRows() const
+    {
+        return rows;
+    }
+    MatrixRow FUN_0060b370(unsigned int i)
+    {
+        return MatrixRow(&data[0] + i * rows, rows);
+    }
+    MatrixOps FUN_00aaf110(unsigned int, unsigned int, unsigned int, unsigned int);
+};
+
+// @fnv 0x00aaf110
+MatrixOps MatrixOps::FUN_00aaf110(unsigned int startColumn, unsigned int startRow, unsigned int columnCount,
+                                  unsigned int rowCount)
+{
+    if (startRow >= 0 && startColumn >= 0)
+    {
+    }
+    else
+        ReportAssertionViolation("d:\\_fallout3\\platforms\\common\\code\\sdk\\facegen\\matrixVT.hpp", 0x425);
+    if (startRow + rowCount <= rows && startColumn + columnCount <= columns)
+    {
+    }
+    else
+        ReportAssertionViolation("d:\\_fallout3\\platforms\\common\\code\\sdk\\facegen\\matrixVT.hpp", 0x427);
+    MatrixOps temporary(columnCount, rowCount);
+    if (columnCount > 0 && rowCount > 0)
+    {
+        for (unsigned int column = 0; column < temporary.getColumns(); column++)
+        {
+            copyColumn(&temporary.FUN_0060b370(column)[0], &FUN_0060b370(column + startColumn)[startRow],
+                       temporary.getRows());
+        }
+    }
+    return temporary;
+}
+
+MatrixOps::~MatrixOps()
+{}
 
 #include "generated/data/fallout_shared/facegen/bsfacegenmanager.inc"

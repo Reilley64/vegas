@@ -101,6 +101,19 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "extradataobjects_private_packet.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_0041f840.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/fnv_005653d0__FUN_005653d0_shell.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
+#include "extradataobjects_private_packet_rtti_variant.h"
+#include "fnv/decl/WorkerExtraList.h"
+#include "fnv/decl/fnv_0041f4c0__EDL_0041f4c0.h"
+#include "extradataobjects_private_packet_rtti_variant_decl_extradataobjects_rtti_variant.h"
+#include "extradataobjects_private_packet_rtti_variant_decl_extradataobjects_rtti_variant2.h"
+#include "extradataobjects_additions_decl_extradataobjects_rtti_variant2.h"
 
 // Packet additions verified with /Od /Oy- /GS /EHsc /Gy.
 // Shared code addresses use the canonical decorated names, even when the
@@ -8120,6 +8133,226 @@ bool EmittanceSourceComparison::FUN_004354c0(BSExtraData* apCompare)
     if (this->pSource != pcomp->pSource)
         return true;
     return false;
+}
+
+class FUN_00ee8ac0_cls
+{
+  public:
+    virtual void vSlot0();
+    unsigned int m_uiCount;
+    int** m_ppItems;
+    int* FUN_00ee8ac0();
+};
+
+// @fnv 0x00ee8ac0
+int* FUN_00ee8ac0_cls::FUN_00ee8ac0()
+{
+    unsigned int count = m_uiCount;
+    int i = 0;
+    if (i < count)
+    {
+        int** items = m_ppItems;
+        int** p = items;
+        do
+        {
+            if (*p != 0)
+            {
+                return items[i];
+            }
+            ++i;
+            ++p;
+        } while (i < count);
+    }
+    return 0;
+}
+
+// @fnv 0x00438470
+template <> bool BSStringT<char>::Set(const BSStringT<char>& source)
+{
+    unsigned int length = ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)&(source))->FUN_004048e0()));
+    if (length <= GetMaxLength())
+    {
+        if (length)
+            memcpy(pString, ((const char *)(::FUN_00559450((int *)&(source)))), length + 1);
+        else
+        {
+            if (pString)
+                delete[] pString;
+            pString = 0;
+            length = 0;
+            reinterpret_cast<::FUN_00403a00_class *>(this)->FUN_00403a00(length);
+        }
+    }
+    else
+    {
+        char* old = pString;
+        pString = new char[length + 1];
+        memcpy(pString, ((const char *)(::FUN_00559450((int *)&(source)))), length + 1);
+        if (old)
+            delete[] old;
+        reinterpret_cast<::FUN_00403a00_class *>(this)->FUN_00403a00(length);
+    }
+    SetLength(length);
+    return length != 0;
+}
+
+class ExtraDataList
+{
+  public:
+};
+
+struct LitWaterRef
+{
+};
+
+struct LitWaterOwner
+{
+};
+
+struct ExtraLitWaterRefsStandIn
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    BSSimpleList<LitWaterRef*> kRefs;
+    void FUN_00434050(LitWaterOwner* apOwner);
+};
+
+// @fnv 0x00434050
+void ExtraLitWaterRefsStandIn::FUN_00434050(LitWaterOwner* apOwner)
+{
+    BSSimpleList<LitWaterRef*>* pNodeB8 = &kRefs;
+    BSSimpleList<LitWaterRef*> kResolved4;
+    while (pNodeB8 && !pNodeB8->IsEmpty())
+    {
+        LitWaterRef* pItem3 = ((::LitWaterRef *)(new ((void *)(pNodeB8)) ::Vec3()));
+        unsigned int auiFormId = (unsigned int)pItem3;
+        ResolveFormID(&auiFormId, reinterpret_cast<::TESForm *>((apOwner))->GetFile(-1));
+        LitWaterRef* pRef = (LitWaterRef*)dynamic_cast<TESObjectREFR*>(FUN_004839c0(auiFormId));
+        if (!pRef || !reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((pRef))->FUN_005653d0())
+        {
+            if (!pRef)
+                ::FUN_005b5e40();
+            else
+                ::FUN_005b5e40(
+                    );
+        }
+        else
+        {
+            reinterpret_cast<::FUN_0041f840 *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pRef))->FUN_005d43c0()))))->SetEnableParentReference({}, {});
+            kResolved4.AddHead(pRef);
+        }
+        pNodeB8 = ((::BSSimpleList< ::LitWaterRef *> *)(reinterpret_cast<::Callees *>((pNodeB8))->FUN_00726070()));
+    }
+    reinterpret_cast<::FileMatchList *>(&(kRefs))->RemoveAll();
+    BSSimpleList<LitWaterRef*>* pIter = &kResolved4;
+    while (pIter && ((::LitWaterRef *)(new ((void *)(pIter)) ::Vec3())))
+    {
+        kRefs.AddHead(((::LitWaterRef *)(new ((void *)(pIter)) ::Vec3())));
+        pIter = ((::BSSimpleList< ::LitWaterRef *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+    }
+    reinterpret_cast<::FileMatchList *>(&(kResolved4))->RemoveAll();
+}
+
+struct ReflectReference554
+{
+    TESObjectREFR* m_pWorldReferenceInfo;
+    unsigned int flags;
+};
+
+struct ReflectReferences554 : BSExtraData
+{
+    BSSimpleList<ReflectReference554*> references;
+    void FUN_00433ed0(TESForm* form);
+};
+
+// @fnv 0x00433ed0
+void ReflectReferences554::FUN_00433ed0(TESForm* form)
+{
+    BSSimpleList<ReflectReference554*>* position = &references;
+    BSSimpleList<ReflectReference554*>* previous = 0;
+    while (position && !position->IsEmpty())
+    {
+        bool removed = false;
+        ReflectReference554* item3 = ((::ReflectReference554 *)(new ((void *)(position)) ::Vec3()));
+        unsigned int formID5 = reinterpret_cast<unsigned int>(item3->m_pWorldReferenceInfo);
+        ResolveFormID(&formID5, form->GetFile(-1));
+        TESObjectREFR* reference_2 = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID5));
+        if (!reference_2 || !reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((reference_2))->FUN_005653d0())
+        {
+            if (!reference_2)
+                ::FUN_005b5e40();
+            else
+                ::FUN_005b5e40(
+                    );
+            if (previous)
+            {
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(item3));
+                position = ((::BSSimpleList< ::ReflectReference554 *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
+            }
+            else
+            {
+                position->RemoveHead();
+            }
+            delete item3;
+            item3 = 0;
+            removed = true;
+        }
+        else
+        {
+            if (item3->flags & 1)
+                reinterpret_cast<::fnv_0041f4c0::EDL_0041f4c0 *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((reference_2))->FUN_005d43c0()))))->FUN_0041f4c0((::TESObjectREFR *)(form), true);
+            if (item3->flags & 2)
+                reinterpret_cast<::WorkerExtraList *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((reference_2))->FUN_005d43c0()))))->FUN_0041f650((::TESObjectREFR *)(form), true);
+            item3->m_pWorldReferenceInfo = reference_2;
+        }
+        if (!removed)
+        {
+            previous = position;
+            position = ((::BSSimpleList< ::ReflectReference554 *> *)(reinterpret_cast<::Callees *>((position))->FUN_00726070()));
+        }
+    }
+}
+
+// Walks m_kDecalReferences, resolving each decal's m_pHitReference form ID against the given TESForm and removing entries that cannot be resolved.
+// @fnv 0x00433db0
+void ExtraDecalRefs::FUN_00433db0(TESForm* form)
+{
+    BSSimpleList<ReferenceIntersectionData*>* position = &m_kDecalReferences;
+    BSSimpleList<ReferenceIntersectionData*>* previous = 0;
+    while (position && !position->IsEmpty())
+    {
+        bool removed = false;
+        ReferenceIntersectionData* decal = ((::ReferenceIntersectionData *)(new ((void *)(position)) ::Vec3()));
+        unsigned int formID = reinterpret_cast<unsigned int>(decal->m_pHitReference);
+        ResolveFormID(&formID, form->GetFile(-1));
+        TESObjectREFR* resolvedB = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID));
+        if (!resolvedB)
+        {
+            ::FUN_005b5e40();
+            if (previous)
+            {
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(decal));
+                position = ((::BSSimpleList< ::ReferenceIntersectionData *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
+            }
+            else
+            {
+                position->RemoveHead();
+            }
+            delete decal;
+            decal = 0;
+            removed = true;
+        }
+        else
+        {
+            decal->m_pHitReference = resolvedB;
+        }
+        if (!removed)
+        {
+            previous = position;
+            position = ((::BSSimpleList< ::ReferenceIntersectionData *> *)(reinterpret_cast<::Callees *>((position))->FUN_00726070()));
+        }
+    }
 }
 
 #include "generated/data/fallout_shared/extradataobjects.inc"

@@ -52,6 +52,20 @@
 #include "fnv/symbols_011d8000.h"
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_01202000.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00c3a8a0_cls.h"
+#include "fnv/decl/FUN_00c3cff0_shell.h"
+#include "fnv/decl/MLx.h"
+#include "fnv/symbols_00441000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004ad000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_006fd000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/decl/FUN_00c3cee0_shell.h"
+#include "fnv/decl/SelfX.h"
+#include "fnv/decl/fnv_00c3cf60__FUN_00c3cf60_shell.h"
 struct FUN_006fa840_shell
 {
     unsigned char GetByteAt5D();
@@ -1471,6 +1485,502 @@ void D6Detacher::FUN_006fb3d0(bool force)
             pObjectB = 0;
         }
     }
+}
+
+int __cdecl _sprintf(char*, const char*, ...);
+
+void __cdecl BuildLodNormalTexturePath(char* a1, FakeFab* a2, int a3, short a4, short a5);
+
+int __cdecl _sprintf(char*, const char*, ...);
+
+void __cdecl BuildLODDiffuseTexturePath(char* buf, FakeObj* obj, int level, short x, short y);
+
+void UpdateSoundListItems();
+
+struct Obj006fac_ctx;
+
+struct Obj006fac_ctx
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void attach(Obj006fac_ctx*, int);
+};
+
+struct BSMultiBound_ctx : TESObjectDoorController
+{
+    int pad[4];
+    BSMultiBound_ctx();
+};
+
+struct Target006fac_ctx
+{
+    Obj006fac_ctx* root;
+    Ref006fac r4, r8, rc, r10, r14, r18;
+    int p1c, p20, p24;
+    unsigned char enabled, done;
+    void FUN_006facb0();
+};
+
+void __cdecl UpdateListItems();
+
+class NiProperty_ctx;
+
+class NiProperty_ctx : public FUN_006fb940_shell
+{
+  public:
+};
+
+struct PropState_ctx
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void* v70(NiGeometry*, NiProperty_ctx*);
+};
+
+struct AutoMemX
+{
+    int m;
+    AutoMemX(int a, int b, const char* f, int l);
+    ~AutoMemX();
+};
+
+struct Q28_ctx
+{
+    virtual void v0(), v1(), v2(), v3(), v4(), v5(), v6(), v7(), v8(), v9();
+    virtual struct TaskX* F28();
+};
+
+struct Obj18
+{
+    virtual void v0(), v1(), v2(), v3(), v4(), v5();
+    virtual void* F18();
+};
+
+struct NodeX
+{
+};
+
+struct RootX
+{
+    virtual void v0(), v1(), v2();
+    virtual int Fc();
+};
+
+struct PN
+{
+    void* p;
+    void FUN_0066b0d0(void* q);
+};
+
+struct PQ_ctx
+{
+    void* p;
+    void FUN_0066b0d0(void* q);
+};
+
+struct PV
+{
+    void* p;
+    void FUN_0066b0d0(void* q);
+};
+
+struct StreamX
+{
+    char buf[0x5cc];
+    StreamX();
+    ~StreamX();
+};
+
+struct SettingX
+{
+    bool* FUN_00408d60();
+};
+
+class SelfX_ctx
+{
+  public:
+    char pad[0x48];
+    PV m48;
+    PQ_ctx m4c;
+    PV m50;
+    PN m54;
+    void FUN_006fbd00();
+public:
+    void UpdateWaterReferences(bool);
+};
+
+// @fnv 0x006fbd00
+void SelfX_ctx::FUN_006fbd00()
+{
+    AutoMemX kMemVal(
+        0x23, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Distant Terrain System\\BGSTerrainChunk.cpp",
+        0x298);
+    int iFile = ((int)(reinterpret_cast<::FUN_00c3cff0_shell *>(this)->FUN_00c3cff0(0, 1)));
+    StreamX kStreamVal;
+    if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(kStreamVal))->FUN_00c3a8a0(((int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())), {}))
+    {
+        RootX* pkRoot = ((::RootX *)(reinterpret_cast<::MLx *>(&(kStreamVal))->GetStringAt(0)));
+        if (pkRoot->Fc())
+        {
+            m54.FUN_0066b0d0(((::RootX *)(reinterpret_cast<::MLx *>(&(kStreamVal))->GetStringAt(0))));
+            m48.FUN_0066b0d0(((::Obj18 *)(reinterpret_cast<::NiNode *>((((::NodeX *)(::FUN_00559450((int *)&(m54))))))->GetAt(0))));
+            if (((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((((::NodeX *)(::FUN_00559450((int *)&(m54))))))->FUN_00453470())) > 1 && *(*reinterpret_cast<::SettingX *>(&::g_011c7adc)).FUN_00408d60())
+            {
+                m4c.FUN_0066b0d0(((::Obj18 *)(reinterpret_cast<::NiNode *>((((::NodeX *)(::FUN_00559450((int *)&(m54))))))->GetAt(1)))->F18());
+                if (((::Q28_ctx *)(::FUN_00559450((int *)&(m4c))))->F28() && ((int)(reinterpret_cast<::FUN_006fbfe0_shell *>((((::Q28_ctx *)(::FUN_00559450((int *)&(m4c))))->F28()))->GetFlagOrValue())) == 3)
+                    m4c.FUN_0066b0d0(0);
+            }
+            if (((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((((::NodeX *)(::FUN_00559450((int *)&(m54))))))->FUN_00453470())) > 2 && *(*reinterpret_cast<::SettingX *>(&::g_011c7adc)).FUN_00408d60())
+                m50.FUN_0066b0d0(((::Obj18 *)(reinterpret_cast<::NiNode *>((((::NodeX *)(::FUN_00559450((int *)&(m54))))))->GetAt(2)))->F18());
+        }
+        else
+        {
+            m48.FUN_0066b0d0(((::RootX *)(reinterpret_cast<::MLx *>(&(kStreamVal))->GetStringAt(0))));
+            if (((unsigned int)(::GetRefAt21C((const char *)&(kStreamVal)))) > 1)
+                m4c.FUN_0066b0d0(((::RootX *)(reinterpret_cast<::MLx *>(&(kStreamVal))->GetStringAt(1))));
+        }
+    }
+}
+
+class TESWorldSpace;
+
+struct QueuedFileEntry_decl
+{
+    virtual ~QueuedFileEntry_decl();
+    int f4[0x2c / 4];
+    QueuedFileEntry_decl(int priority);
+};
+
+template <class T> struct ChunkPtr
+{
+    ChunkPtr(T* p);
+    ~ChunkPtr();
+    T* p;
+};
+
+struct BGSTerrainChunkLoadTask_decl : QueuedFileEntry_decl
+{
+    bool unk30;
+    int iX;
+    int iY;
+    int iLevel;
+    void* owner;
+    TESWorldSpace* world;
+    ChunkPtr<void> unk48;
+    ChunkPtr<void> unk4c;
+    ChunkPtr<void> unk50;
+    ChunkPtr<void> unk54;
+    bool unk58;
+    BGSTerrainChunkLoadTask_decl(void* block, TESWorldSpace* space, int x, int y, int level);
+    bool FUN_006fc400(char* apDescription, unsigned int aiBufferSize);
+};
+
+struct FUN_006fbbd0_shell_decl : BGSTerrainChunkLoadTask_decl
+{
+    void LoadTerrainChunkTextures();
+};
+
+struct Obj006fac_decl;
+
+struct Obj006fac_decl
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void attach(Obj006fac_decl*, int);
+};
+
+struct BSMultiBound_decl : TESObjectDoorController
+{
+    int pad[4];
+    BSMultiBound_decl();
+};
+
+struct Target006fac_decl
+{
+    Obj006fac_decl* root;
+    Ref006fac r4, r8, rc, r10, r14, r18;
+    int p1c, p20, p24;
+    unsigned char enabled, done;
+    void FUN_006facb0();
+};
+
+class NiProperty_decl;
+
+class NiProperty_decl : public FUN_006fb940_shell
+{
+  public:
+};
+
+struct PropState_decl
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void* v70(NiGeometry*, NiProperty_decl*);
+};
+
+struct TerrainTask_decl : BGSTerrainChunkLoadTask_decl
+{
+    FinalObject* m_pExtra40;
+    unsigned int m_unk44;
+    NodeRef m_ref48;
+    NodeRef m_ref4c;
+    NodeRef m_ref50;
+    unsigned int m_unk54;
+    bool m_bDisabled58;
+    void UpdateTerrainLODNames();
+};
+
+// @fnv 0x006fb980
+BGSTerrainChunkLoadTask_decl::BGSTerrainChunkLoadTask_decl(void* block, TESWorldSpace* space, int x, int y, int level)
+    : QueuedFileEntry_decl(3), unk30(false), iX(x), iY(y), iLevel(level), owner(block), world(space), unk48(0), unk4c(0),
+      unk50(0), unk54(0), unk58(false)
+{
+    char fileName[260];
+    ::BuildLodMeshPath(fileName, (::FakeWorld006faad0 *)(world), level, (short)x, (short)y);
+    reinterpret_cast<::FUN_00c3cee0_shell *>(this)->FUN_00c3cee0((char *)(fileName + 5));
+    reinterpret_cast<::fnv_00c3cf60::FUN_00c3cf60_shell *>(this)->LookupFileEntryByArchive(0);
 }
 
 #include "generated/data/fallout_shared/distant terrain system/bgsterrainchunk.inc"

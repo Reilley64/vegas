@@ -16,6 +16,10 @@
 #include "fnv/symbols_00483000.h"
 #include "fnv/symbols_00485000.h"
 #include "tesobjectanio_decls.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/decl/FUN_00511a10_cls.h"
 
 // @fnv 0x00511a90
 void TESObjectANIO::InitItem()
@@ -188,3 +192,67 @@ FUN_00511a10_cls::~FUN_00511a10_cls()
 {
     reinterpret_cast<::TESForm *>(this)->ClearData();
 }
+
+struct AnimationObjectComparison : TESObjectANIO
+{
+    bool FUN_00511dc0(TESForm* otherForm);
+};
+
+// @fnv 0x00511dc0
+bool AnimationObjectComparison::FUN_00511dc0(TESForm* otherForm)
+{
+    TESObjectANIO* otherAnimation = dynamic_cast<TESObjectANIO*>(otherForm);
+    if (!otherAnimation)
+        return true;
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(otherAnimation))
+        return true;
+    if (pObject != otherAnimation->pObject)
+        return true;
+    return false;
+}
+
+struct FUN_005e78f0_t
+{
+};
+
+struct AnimationCopyEntry : TESObjectANIO
+{
+    void FUN_00511d70(TESForm* apCopy);
+};
+
+// @fnv 0x00511d70
+void AnimationCopyEntry::FUN_00511d70(TESForm* apCopy)
+{
+    TESObjectANIO* panimObj = dynamic_cast<TESObjectANIO*>(apCopy);
+    if (panimObj == 0)
+        return;
+    reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(apCopy);
+    pObject = panimObj->pObject;
+}
+
+// sub ecx,0x18; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
+// declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x18).
+struct PrimaryBase
+{
+    virtual void FUN_00511e30();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_00511e30();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x00511e30
+    virtual void FUN_00511e30();
+};
+
+Derived::Derived()
+{}

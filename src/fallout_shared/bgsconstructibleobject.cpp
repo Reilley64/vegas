@@ -30,6 +30,7 @@
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_009ee000.h"
 #include "fnv/symbols_01183000.h"
+#include "fnv/decl/FUN_004f94b0_BGSConstructibleObject.h"
 struct FUN_004f9bf0_shell
 {
     unsigned int FUN_004f9bf0();
@@ -794,3 +795,38 @@ FUN_004f94b0_BGSConstructibleObject::~FUN_004f94b0_BGSConstructibleObject()
 {
     reinterpret_cast<::TESForm *>(this)->ClearData();
 }
+
+// sub ecx,0x3c; jmp target: MSVC adjustor thunk from multiple inheritance (Derived overrides a virtual both bases declare).
+struct PrimaryBase
+{
+    virtual void FUN_004f9cb0();
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_004f9cb0();
+};
+
+struct AdjustedDerived : PrimaryBase, SecondaryBase
+{
+    AdjustedDerived();
+// @fnv 0x004f9cb0
+    virtual void FUN_004f9cb0();
+};
+
+AdjustedDerived::AdjustedDerived()
+{}

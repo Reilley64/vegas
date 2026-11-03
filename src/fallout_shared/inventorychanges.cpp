@@ -14959,7 +14959,7 @@ void EquipInv::AddItemToInventory(EquipForm* form, int count, EquipActor* actor,
                     if (actor == ((EquipActor*)(*reinterpret_cast<char * *>(&::_g_thePlayer))))
                         ::SetField1F0((::FUN_004c0cd0_This *)(((EquipActor*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))), ::FUN_004c0cd0_Arg{equipped->form});
                     else if (FUN_008c7aa0() && actor != ((::EquipActor *)(::FUN_0047b200())))
-                        reinterpret_cast<::Host0087b360 *>((((::EquipQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b360((std::intptr_t)(actor), (int)(equipped->form));
+                        reinterpret_cast<::Host0087b360 *>((((::EquipQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b360((std::intptr_t)(actor), (std::intptr_t)(equipped->form));
                     else
                         reinterpret_cast<::fnv_00571760::Actor *>((actor))->FUN_00571760((::fnv_00571760::TESObjectWEAP *)(equipped->form));
                 }

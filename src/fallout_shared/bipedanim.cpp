@@ -1187,17 +1187,17 @@ bool FUN_004ad010_shell::IsFlag4Set()
 
 struct BSPackedTask
 {
-    int f0;
-    int f1;
-    int f2;
-    char buf[20];
+    std::intptr_t f0;
+    std::intptr_t f1;
+    std::intptr_t f2;
+    void* rest[5];
 };
 struct Host0087b360
 {
-    void FUN_0087b360(std::intptr_t a, int b);
+    void FUN_0087b360(std::intptr_t a, std::intptr_t b);
 };
 // @fnv 0x0087b360
-void Host0087b360::FUN_0087b360(std::intptr_t aiFirst, int aiSecond)
+void Host0087b360::FUN_0087b360(std::intptr_t aiFirst, std::intptr_t aiSecond)
 {
     BSPackedTask task;
     task.f0 = 0x15;

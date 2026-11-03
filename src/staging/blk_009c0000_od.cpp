@@ -191,24 +191,28 @@ void FUN_009c1a50_shell::FUN_009c1a20(hkVector4 const& aVector)
 
 struct FUN_009c8600_Class
 {
+    char pad[0x44];
+    char unk44;
     bool FUN_009c8600();
 };
 
 // @fnv 0x009c8600
 bool FUN_009c8600_Class::FUN_009c8600()
 {
-    return (reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x44)[0] & 8) ? true : false;
+    return (((int*)&unk44)[0] & 8) ? true : false;
 }
 
 struct FUN_009c8620_class
 {
+    char pad[0x44];
+    int unk44;
     bool IsFlagSet() const;
 };
 
 // @fnv 0x009c8620
 bool FUN_009c8620_class::IsFlagSet() const
 {
-    return (*(const int*)((const char*)this + 0x44) & 0x10) ? true : false;
+    return (unk44 & 0x10) ? true : false;
 }
 
 struct Flt
@@ -217,12 +221,14 @@ struct Flt
 };
 struct FUN_009c8660_Class
 {
+    char pad[0x64];
+    char unk64;
     void FUN_009c8660();
 };
 // @fnv 0x009c8660
 void FUN_009c8660_Class::FUN_009c8660()
 {
-    ((Flt*)((char*)this + 0x64))->operator unsigned int();
+    ((Flt*)&unk64)->operator unsigned int();
 }
 
 
@@ -239,13 +245,15 @@ void FUN_009ca6c0_class::FUN_009ca6c0()
 
 struct FUN_009d1b30_class
 {
+    char pad[0x50];
+    float unk50;
     float GetFloatAtOffset50() const;
 };
 
 // @fnv 0x009d1b30
 float FUN_009d1b30_class::GetFloatAtOffset50() const
 {
-    return *(const float*)((const char*)this + 0x50);
+    return unk50;
 }
 
 struct FUN_006e4820_Class
@@ -254,13 +262,15 @@ struct FUN_006e4820_Class
 
 struct FUN_009d3370_Class
 {
+    char pad[0x14];
+    FUN_006e4820_Class unk14;
     void FUN_009d3370();
 };
 
 // @fnv 0x009d3370
 void FUN_009d3370_Class::FUN_009d3370()
 {
-    reinterpret_cast<::FUN_006e4820_class *>((((FUN_006e4820_Class*)((char*)this + 0x14))))->FUN_006e4820();
+    reinterpret_cast<::FUN_006e4820_class *>(((&unk14)))->FUN_006e4820();
 }
 
 struct FUN_009d7c40_Class
@@ -335,35 +345,41 @@ void FUN_009d7c40_Class::FUN_009d7c40()
 
 struct FUN_009d7c60_class
 {
+    char pad[0xe1];
+    char unke1;
     char GetByteAtOffsetE1();
 };
 
 // @fnv 0x009d7c60
 char FUN_009d7c60_class::GetByteAtOffsetE1()
 {
-    return reinterpret_cast<char*>(this)[0xe1];
+    return unke1;
 }
 
 struct FUN_009d9f00_Class
 {
+    char pad[0x144];
+    unsigned int unk144;
     unsigned int FUN_009d9f00();
 };
 
 // @fnv 0x009d9f00
 unsigned int FUN_009d9f00_Class::FUN_009d9f00()
 {
-    return *(unsigned int*)((char*)this + 0x144);
+    return unk144;
 }
 
 struct FUN_009d9f40_Class
 {
+    char pad[0xe0];
+    char unke0;
     void* FUN_009d9f40();
 };
 
 // @fnv 0x009d9f40
 void* FUN_009d9f40_Class::FUN_009d9f40()
 {
-    return reinterpret_cast<char*>(this) + 0xE0;
+    return &unke0;
 }
 
 struct PathBuilder
@@ -371,17 +387,18 @@ struct PathBuilder
     void* FUN_009dfd50();
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void* m_8;
+    unsigned int m_8;
 };
 
 // @fnv 0x009dfd50
 void* PathBuilder::FUN_009dfd50()
 {
-    return ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>(this)->FUN_006e8f40((int)(std::uintptr_t)((char*)m_8 - 1))));
+    return ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>(this)->FUN_006e8f40((int)(m_8 - 1))));
 }
 
 struct InventoryStackRecord
 {
+    char pad[0x40];
     void* m_40;
     void* m_44;
     void SetPointers(void* a, void* b);
@@ -390,8 +407,8 @@ struct InventoryStackRecord
 // @fnv 0x009c8a90
 void InventoryStackRecord::SetPointers(void* pFirst, void* pSecond)
 {
-    *(void**)((char*)this + 0x40) = pFirst;
-    *(void**)((char*)this + 0x44) = pSecond;
+    m_40 = pFirst;
+    m_44 = pSecond;
     reinterpret_cast<::VATS *>(this)->FUN_009c8950(true, true);
 }
 
@@ -461,6 +478,12 @@ struct Call741e0
 };
 struct FUN_009c6440_Class
 {
+    char pad[0x3e0];
+    void* unk3e0;
+    char pad3e4[0x2c];
+    void* unk410;
+    char pad414[0x23c];
+    int unk650;
     void* FUN_009c6440(void* a, int b);
 };
 // @fnv 0x009c6440
@@ -468,9 +491,9 @@ void* FUN_009c6440_Class::FUN_009c6440(void* a, int aiStoredValue)
 {
     new ((void *)(((Call741e0*)this))) ::fnv_00c741e0::FUN_00c741e0((::fnv_00c741e0::T741_Src *)(a));
     *(const void**)this = &DAT_01090594;
-    *(const void**)((char*)this + 0x3e0) = &DAT_01090584;
-    *(const void**)((char*)this + 0x410) = &DAT_01090568;
-    *(int*)((char*)this + 0x650) = aiStoredValue;
+    unk3e0 = &DAT_01090584;
+    unk410 = &DAT_01090568;
+    unk650 = aiStoredValue;
     return this;
 }
 
@@ -821,14 +844,23 @@ extern const double DAT_01018c00;
 typedef void*(* GetContextFn)(OrientationObject*);
 typedef float(* GetAngleFn)(OrientationObject*, int);
 typedef void(* SetAngleFn)(OrientationObject*, float);
+struct OrientationObject_Vtbl
+{
+    void* slots000[125];
+    GetContextFn GetContext;
+    void* slots126[175 - 126];
+    GetAngleFn GetAngle;
+    void* slot176;
+    SetAngleFn SetAngle;
+};
 // @fnv 0x009c6030
 void OrientationObject::SetOrientationFromDirection(Vector3 aDirection)
 {
     Vector3 c;
-    reinterpret_cast<::FUN_00439ef0_class *>(&(aDirection))->FUN_00439ef0((::NiPoint3 *)(::Vector3 *)(&c), (*(const ::NiPoint3 *)(((GetContextFn*)vtable)[125](this))));
+    reinterpret_cast<::FUN_00439ef0_class *>(&(aDirection))->FUN_00439ef0((::NiPoint3 *)(::Vector3 *)(&c), (*(const ::NiPoint3 *)(((OrientationObject_Vtbl*)vtable)->GetContext(this))));
     Vector3 b = c;
     reinterpret_cast<::FUN_004a0c10_s *>(&(b))->FUN_004a0c10();
-    float e = ((GetAngleFn*)vtable)[175](this, 0);
+    float e = ((OrientationObject_Vtbl*)vtable)->GetAngle(this, 0);
     float d = reinterpret_cast<::MobileObject *>(this)->GetLooking();
     float a = reinterpret_cast<::FUN_00966980_shell *>((((::OrientationSource *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->FUN_00966980();
     if (a == ::_DAT_01012060)
@@ -836,9 +868,9 @@ void OrientationObject::SetOrientationFromDirection(Vector3 aDirection)
         d = -::FUN_004b1460(b.z / (1.0f - b.z * b.z));
     }
     e = ::GetDirectionAngle((const ::NiPoint3 *)(::Vector3 *)(&b));
-    if (a == ::_DAT_01012060 || FUN_00408840(e - ((GetAngleFn*)vtable)[175](this, 0)) <= DAT_01018c00)
+    if (a == ::_DAT_01012060 || FUN_00408840(e - ((OrientationObject_Vtbl*)vtable)->GetAngle(this, 0)) <= DAT_01018c00)
     {
-        ((SetAngleFn*)vtable)[177](this, e);
+        ((OrientationObject_Vtbl*)vtable)->SetAngle(this, e);
     }
     reinterpret_cast<::FUN_00931d90_shell *>(this)->ClampLookAngle(d);
 }
@@ -2598,13 +2630,15 @@ struct LinkedObject
 
 struct FUN_009d9ee0_Class
 {
+    char pad[0xb4];
+    char unkb4;
     void FUN_009d9ee0(LinkedObject* linked);
 };
 
 // @fnv 0x009d9ee0
 void FUN_009d9ee0_Class::FUN_009d9ee0(LinkedObject* linked)
 {
-    reinterpret_cast<::FUN_0069cfe0_cls *>((linked))->CopyElementsTo((::FUN_0069cfe0_Dst *)(void *)(reinterpret_cast<char*>(this) + 0xb4));
+    reinterpret_cast<::FUN_0069cfe0_cls *>((linked))->CopyElementsTo((::FUN_0069cfe0_Dst *)(void *)(&unkb4));
 }
 
 struct RefPtrStub

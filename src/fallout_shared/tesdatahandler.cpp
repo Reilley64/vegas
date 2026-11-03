@@ -2157,7 +2157,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
     pfileList = reinterpret_cast<::FUN_00658930_class *>(&(((LC3_DH*)this)->arr1dc))->GetShortAtOffsetA();
     for (int j = 0; j < pfileList; j++)
     {
-        TESForm* pnavinfo = (TESForm*)(std::uintptr_t)*((LC3_DH*)this)->arr1dc.GetAt(j);
+        TESForm* pnavinfo = *reinterpret_cast<TESForm**>(((LC3_DH*)this)->arr1dc.GetAt(j));
         if (pnavinfo)
             pnavinfo->InitItem();
     }
@@ -2325,7 +2325,7 @@ void FUN_00462fb0_shell::FUN_00462fb0()
     count2 = reinterpret_cast<::FUN_00658930_class *>((((ArrHelper*)&this->interiorCells)))->GetShortAtOffsetA();
     for (int iIndex = 0; iIndex < count2; ++iIndex)
     {
-        pObj8 = (BGSCameraPath*)(std::uintptr_t)*((ArrHelper*)&this->interiorCells)->GetAt(iIndex);
+        pObj8 = *reinterpret_cast<BGSCameraPath**>(((ArrHelper*)&this->interiorCells)->GetAt(iIndex));
         if (pObj8)
             reinterpret_cast<::fnv_0054c740::FUN_0054c740_shell *>((((FUN_0054c740_shell*)pObj8)))->FUN_0054c740(1, 1);
     }

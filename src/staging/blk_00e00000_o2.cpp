@@ -360,17 +360,27 @@ void __cdecl FUN_00e00720(void* p)
 
 extern int DAT_010cc41c;
 
+struct S_e00740_View
+{
+    const void* m_vptr;
+    int m_04;
+    int m_08;
+    int m_0c;
+    const void* m_10;
+};
+
 // @fnv 0x00e00740
 void __cdecl FUN_00e00740(int* pObject, int bClear)
 {
     if (pObject)
     {
-        *(void**)pObject = (void*)&(*reinterpret_cast<int *>(&::DAT_010305a8));
+        S_e00740_View* v = reinterpret_cast<S_e00740_View*>(pObject);
+        v->m_vptr = &::DAT_010305a8;
         if (bClear)
-            pObject[3] = 0;
-        *(void**)pObject = (void*)&DAT_010cc41c;
-        pObject[4] = (int)&DAT_010c6fd0;
-        pObject[3] = 15;
+            v->m_0c = 0;
+        v->m_vptr = &DAT_010cc41c;
+        v->m_10 = &DAT_010c6fd0;
+        v->m_0c = 15;
     }
 }
 
@@ -420,7 +430,7 @@ void __cdecl FUN_00e00d10(int* p)
 // @fnv 0x00e00d30
 int __cdecl FUN_00e00d30(int* p)
 {
-    return (*(int(**)(int*, int))(*p))(p, 0);
+    return (**(int(***)(int*, int))p)(p, 0);
 }
 
 extern int DAT_010e8d8c;
@@ -434,17 +444,28 @@ void __cdecl FUN_00e00db0(int* a)
 
 extern int DAT_010d0e5c;
 
+struct S_e00e90_View
+{
+    const void* m_vptr;
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    const void* m_14;
+};
+
 // @fnv 0x00e00e90
 void __cdecl FUN_00e00e90(int* pObject, int bClear)
 {
     if (pObject)
     {
-        *(void**)pObject = (void*)&(*reinterpret_cast<int *>(&::DAT_010305a8));
+        S_e00e90_View* v = reinterpret_cast<S_e00e90_View*>(pObject);
+        v->m_vptr = &::DAT_010305a8;
         if (bClear)
-            pObject[3] = 0;
-        pObject[5] = (int)&DAT_010c6fd0;
-        *(void**)pObject = (void*)&DAT_010d0e5c;
-        pObject[3] = 11;
+            v->m_0c = 0;
+        v->m_14 = &DAT_010c6fd0;
+        v->m_vptr = &DAT_010d0e5c;
+        v->m_0c = 11;
     }
 }
 
@@ -648,7 +669,7 @@ void __cdecl FUN_00e02140(int* pObject, int iValue)
 // @fnv 0x00e02260
 void __cdecl FUN_00e02260(int** p)
 {
-    ((void(*)(void*, int))(*p)[0])(p, 0);
+    (*(void(***)(void*, int))p)[0](p, 0);
 }
 
 typedef int(* FUN_00e02340_fn)(void*, int);
@@ -778,6 +799,19 @@ FUN_00e0bf20_s::FUN_00e0bf20_s()
     new ((void *)(((FUN_00e0bf20_s*)((char*)this + 8)))) struct ::FUN_00cb0a60();
 }
 
+struct E11dc0Vertex
+{
+    char m_pad00[0x1c];
+    int m_1c;
+};
+struct E11dc0Triangle
+{
+    E11dc0Triangle* m_pNext;
+    int m_04;
+    E11dc0Vertex* m_apVertices[3];
+    char m_pad14[0x1c];
+    int m_30;
+};
 struct FUN_00e11dc0_class
 {
     int m_iWordAt00;
@@ -791,23 +825,23 @@ struct FUN_00e11dc0_class
     int m_20;
     int m_24;
     int m_28;
-    int m_2c;
+    E11dc0Triangle* m_2c;
     void FUN_00e11dc0();
 };
 
 // @fnv 0x00e11dc0
 void FUN_00e11dc0_class::FUN_00e11dc0()
 {
-    int node = m_2c;
+    E11dc0Triangle* node = m_2c;
     if (!node)
         return;
     while (node)
     {
-        int* cur = (int*)node;
-        *(int*)((char*)(*(int*)((char*)cur + 8)) + 0x1c) = *(int*)((char*)cur + 0x30) | 0x3f000000;
-        *(int*)((char*)(*(int*)((char*)cur + 0xc)) + 0x1c) = *(int*)((char*)cur + 0x30) | 0x3f000000;
-        *(int*)((char*)(*(int*)((char*)cur + 0x10)) + 0x1c) = *(int*)((char*)cur + 0x30) | 0x3f000000;
-        node = *(int*)cur;
+        E11dc0Triangle* cur = node;
+        cur->m_apVertices[0]->m_1c = cur->m_30 | 0x3f000000;
+        cur->m_apVertices[1]->m_1c = cur->m_30 | 0x3f000000;
+        cur->m_apVertices[2]->m_1c = cur->m_30 | 0x3f000000;
+        node = cur->m_pNext;
     }
 }
 
@@ -1093,7 +1127,7 @@ void __cdecl FUN_00e01550(FUN_00e01550_vt* p)
 // @fnv 0x00e018c0
 void __cdecl FUN_00e018c0(int* p)
 {
-    ((void(*)(void*, int)) * (void**)*p)(p, 0);
+    (**(void(***)(void*, int))p)(p, 0);
 }
 
 typedef void(* Fn)(void*, int);
@@ -1293,7 +1327,7 @@ struct FUN_00e11d60_class
     int m_20;
     int m_24;
     int m_28;
-    int* m_2c;
+    E11dc0Triangle* m_2c;
     int m_30;
     void FUN_00e11d60(int val);
 };
@@ -1301,13 +1335,13 @@ struct FUN_00e11d60_class
 // @fnv 0x00e11d60
 void FUN_00e11d60_class::FUN_00e11d60(int val)
 {
-    int* p = m_2c;
+    E11dc0Triangle* p = m_2c;
     if (p)
     {
         do
         {
-            *(p + 12) = val;
-            p = (int*)*p;
+            p->m_30 = val;
+            p = p->m_pNext;
         } while (p);
     }
 }
@@ -3116,7 +3150,7 @@ extern int DAT_010e9acc;
 
 struct FUN_00e01e80_obj
 {
-    int unk00;
+    const void* unk00;
     int unk04;
     int unk08;
     int unk0C;
@@ -3131,7 +3165,7 @@ void __cdecl FUN_00e01e80(FUN_00e01e80_obj* pObj, int aiValue)
 {
     if (pObj != 0)
     {
-        pObj->unk00 = reinterpret_cast<int>(&DAT_010e9acc);
+        pObj->unk00 = &DAT_010e9acc;
         reinterpret_cast<::FUN_00cb0a70_Class *>((reinterpret_cast<FUN_00cb0a70*>(&pObj->unk14)))->FUN_00cb0a70(aiValue);
         reinterpret_cast<::FUN_00cb0a70_Class *>((reinterpret_cast<FUN_00cb0a70*>(&pObj->unk18)))->FUN_00cb0a70(aiValue);
     }
@@ -3564,7 +3598,7 @@ class E02700Object
 void __cdecl FUN_00e02700(E02700Object* pkObject, void* pvData)
 {
     if (pkObject)
-        reinterpret_cast<::FUN_00e4af80 *>((pkObject))->Set((int)(pvData));
+        reinterpret_cast<::FUN_00e4af80 *>((pkObject))->Set((intptr_t)(pvData));
 }
 
 
@@ -4434,7 +4468,7 @@ struct Input
 };
 struct Entry
 {
-    unsigned int key;
+    void* key;
     unsigned int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38,
         unk3c, unk40, unk44, unk48, unk4c;
 };
@@ -5949,7 +5983,7 @@ void ProcessInput(Context** context, Input* input, void* argument, bool reverse,
     default:
         return;
     }
-    int operation = ::FUN_00dcd4d0((void *)((*context)->entries[input->selector].key));
+    int operation = ::FUN_00dcd4d0((*context)->entries[input->selector].key);
     *type = input->component;
     switch (operation)
     {
@@ -7313,7 +7347,7 @@ template <class T> class hkArrayE030
 
 struct RangeE030
 {
-    int m_iStart;
+    const char* m_iStart;
     int m_iFirstValue;
 };
 
@@ -7348,7 +7382,7 @@ void ParserE030::FUN_00e03010(intptr_t iOffset, hkArrayE030<RangeE030>& kOut)
         int iOff = ::ReadIntAtOffset((intptr_t)(pcData), &iPos);
         if (iOff == -1)
             break;
-        int iStart = ((int)(::ReadPaddedString((char *)(pcData), &iPos)));
+        const char* iStart = ::ReadPaddedString((char *)(pcData), &iPos);
         RangeE030& kRange = kOut.AllocatePair();
         kRange.m_iStart = iStart;
         kRange.m_iFirstValue = iOff + iOffset;
@@ -7646,7 +7680,7 @@ void ExportSection::ReadRecords(const void* base, ExportList<ExportRecord, Expor
         int iOffset = ::ReadIntAtOffset((intptr_t)(stream), &cursor);
         if (iOffset == -1)
             break;
-        const char* label = reinterpret_cast<const char*>(((int)(::ReadPaddedString((char *)(stream), &cursor))));
+        const char* label = ::ReadPaddedString((char *)(stream), &cursor);
         ExportRecord& entry = out.add();
         entry.name = label;
         entry.object = const_cast<char*>(static_cast<const char*>(base)) + iOffset;
@@ -7686,15 +7720,15 @@ struct PtrMap
         reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&(static_cast<BSAudio*>(::FUN_00c85750())->heap()));
         ::FUN_00a29680();
     }
-    __forceinline void insert(unsigned int key, unsigned int value)
+    __forceinline void insert(uintptr_t key, uintptr_t value)
     {
         reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(static_cast<BSAudio*>(::FUN_00c85750())->heap()), key, value);
     }
-    __forceinline unsigned int FindValueForKey(unsigned int key, unsigned int def)
+    __forceinline uintptr_t FindValueForKey(uintptr_t key, uintptr_t def)
     {
-        return ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>(this)->LookupHashEntry(key, def)));
+        return (uintptr_t)reinterpret_cast<::FUN_00cb1930_t *>(this)->LookupHashEntry(key, def);
     }
-    __forceinline void remove(unsigned int key)
+    __forceinline void remove(uintptr_t key)
     {
         reinterpret_cast<::FUN_00cb18f0_t *>(this)->FUN_00cb1fb0(key);
     }
@@ -7881,13 +7915,13 @@ void Mesh::FUN_00e192c0(Mesh* apSrcMesh)
     mapEdgeToNew.init();
 
     for (Vertex* v = apSrcMesh->m_kVertices.m_pFirstNode; v; v = v->m_next)
-        mapVertexToNew.insert((unsigned int)v, (unsigned int)m_kVertices.allocate(*v));
+        mapVertexToNew.insert((uintptr_t)v, (uintptr_t)m_kVertices.allocate(*v));
 
     for (Triangle* t = apSrcMesh->m_uiTriangleCount.m_pFirstNode; t; t = t->m_next)
     {
         Triangle* pNewTriangle = m_uiTriangleCount.allocate(*t);
         for (int i = 0; i < 3; ++i)
-            pNewTriangle->vertex(i) = (Vertex*)mapVertexToNew.FindValueForKey((unsigned int)pNewTriangle->vertex(i), 0);
+            pNewTriangle->vertex(i) = (Vertex*)mapVertexToNew.FindValueForKey((uintptr_t)pNewTriangle->vertex(i), 0);
         for (int i = 0; i < 3; ++i)
         {
             Edge e(pNewTriangle, i);

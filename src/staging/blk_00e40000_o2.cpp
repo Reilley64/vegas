@@ -383,18 +383,19 @@ struct FUN_00cb0a70 {
     void m(int);
 };
 struct FUN_00e4af80 {
-    int vtbl;
+    const void* vtbl;
     int m_04;
     int m_08;
     int m_0c;
     int m_10;
-    FUN_00e4af80* Set(int arg);
+    uintptr_t m_14;
+    FUN_00e4af80* Set(intptr_t arg);
 };
 // @fnv 0x00e4af80
-FUN_00e4af80* FUN_00e4af80::Set(int aiValue)
+FUN_00e4af80* FUN_00e4af80::Set(intptr_t aiValue)
 {
-    *(void**)this = (void*)&DAT_010ec1fc;
-    reinterpret_cast<::FUN_00cb0a70_Class *>((reinterpret_cast<FUN_00cb0a70*>(reinterpret_cast<char*>(this) + 0x14)))->FUN_00cb0a70(aiValue);
+    vtbl = &DAT_010ec1fc;
+    reinterpret_cast<::FUN_00cb0a70_Class *>(&m_14)->FUN_00cb0a70(aiValue);
     return this;
 }
 

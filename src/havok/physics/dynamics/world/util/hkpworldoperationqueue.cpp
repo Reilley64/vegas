@@ -822,7 +822,7 @@ void Pending::FUN_00cf7c10()
             break;
         }
         case 32:
-            reinterpret_cast<::fnv_00c93c30::FnvWorld *>((world))->FUN_00c93c30((int)(p->vector));
+            reinterpret_cast<::fnv_00c93c30::FnvWorld *>((world))->FUN_00c93c30(p->vector);
             freeBlock(p->vector, 32);
             break;
         case 33:

@@ -6812,7 +6812,7 @@ static __forceinline void FreeVec(void** dataP, int* sizeP, int* capP, int elem)
 }
 // Returns if mode equals a0->m_e8; else calls FUN_00cb4230 and, if a0->m_08 is set and exactly one mode is 5, updates owner state, lists and constraints.
 // @fnv 0x00cb6f70
-void FUN_00cb6f70(MotionObj* apMotionObj, int aiNewMode, int a2, MotionObj* a3, int a4, int a5, int a6, int a7, int a8)
+void FUN_00cb6f70(MotionObj* apMotionObj, int aiNewMode, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
 {
     {
         ModeBool fCur;
@@ -6877,7 +6877,7 @@ void FUN_00cb6f70(MotionObj* apMotionObj, int aiNewMode, int a2, MotionObj* a3, 
             }
             ::FUN_00cb4740((::Obj *)(pForm), (::Obj *)(apMotionObj));
             ::FUN_00cb4230((::ThisObj *)(apMotionObj), (::S00cb4230_MotionType)(aiNewMode), (*(::MotionFlag31 *)&(const ::ModeBool &)(fMode)), (*(::MotionFlag31 *)&(const ::ModeBool &)(fCur)), (::Node4 *)(pForm));
-            ::fnv_00cb4640::FUN_00cb4640((::fnv_00cb4640::TaskCtx *)(pForm), (::fnv_00cb4640::TaskCtx *)((int)apMotionObj), a2);
+            ::fnv_00cb4640::FUN_00cb4640((::fnv_00cb4640::TaskCtx *)(pForm), (::fnv_00cb4640::TaskCtx *)(apMotionObj), a2);
             ApplyConstraintsToEntity(pForm, (int)apMotionObj, &a);
             pForm->m_9d = 1;
             VecC vec;
@@ -6916,7 +6916,7 @@ void FUN_00cb6f70(MotionObj* apMotionObj, int aiNewMode, int a2, MotionObj* a3, 
                 ::NotifyEntityRemoved((::D017B0World *)(apMotionObj->m_08), apMotionObj);
                 pForm->m_94--;
             }
-            reinterpret_cast<::CallRet *>((((CallInner*)pForm)))->FUN_00c946e0((::CollisionEntity *)(apMotionObj), (int)(a3), 1);
+            reinterpret_cast<::CallRet *>((((CallInner*)pForm)))->FUN_00c946e0((::CollisionEntity *)(apMotionObj), a3, 1);
             pForm->m_9c = 0;
             if (pForm->m_94 == 0)
             {
@@ -6934,7 +6934,7 @@ void FUN_00cb6f70(MotionObj* apMotionObj, int aiNewMode, int a2, MotionObj* a3, 
         {
             ::FUN_00cb4230((::ThisObj *)(apMotionObj), (::S00cb4230_MotionType)(aiNewMode), (*(::MotionFlag31 *)&(const ::ModeBool &)(fMode)), (*(::MotionFlag31 *)&(const ::ModeBool &)(fCur)), (::Node4 *)(pForm));
             if (pForm ? true : false)
-                reinterpret_cast<::CallRet *>((((CallInner*)pForm)))->FUN_00c946e0((::CollisionEntity *)(apMotionObj), (int)(a3), 1);
+                reinterpret_cast<::CallRet *>((((CallInner*)pForm)))->FUN_00c946e0((::CollisionEntity *)(apMotionObj), a3, 1);
         }
     }
     reinterpret_cast<::hkReferencedObjectC905 *>((((RemRef*)apMotionObj)))->FUN_00c905b0();

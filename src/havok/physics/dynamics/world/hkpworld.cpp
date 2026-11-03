@@ -112,6 +112,7 @@
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpWorld.h"
+#include "fnv/decl/S_00ce5290.h"
 #include "fnv/symbols_simd.h"
 class hkWorldCFD4;
 struct hkpWorldQ;
@@ -418,8 +419,8 @@ void FUN_00caa840_shell::WriteToStream(Ctx_00caa840* ctx)
 // @fnv 0x00c90e40
 void FUN_00c90e40(void* self, int arg)
 {
-    (*(void (**)(void*, const char*))(*(unsigned int*)self + 0x18))(self, "hkpContactMgrFactory");
-    (*(void (**)(void*))(*(unsigned int*)self + 0x1c))(self);
+    (*(void (**)(void*, const char*))(*(char**)self + 0x18))(self, "hkpContactMgrFactory");
+    (*(void (**)(void*))(*(char**)self + 0x1c))(self);
 }
 
 struct FUN_00cf86e0_class {
@@ -502,7 +503,7 @@ struct FUN_00c91140_Class {
     unsigned int m_7C;
     unsigned int m_80;
     unsigned int m_84;
-    unsigned int m_88;
+    FUN_00cf7ae0_Class* m_88;
     unsigned int m_8C;
     int m_90;
     void FUN_00c91140();
@@ -511,7 +512,7 @@ struct FUN_00c91140_Class {
 void FUN_00c91140_Class::FUN_00c91140()
 {
     m_90 = 0;
-    reinterpret_cast<::fnv_00cf7ae0::S_00cf7ae0 *>((((FUN_00cf7ae0_Class*)m_88)))->FUN_00cf7ae0();
+    reinterpret_cast<::fnv_00cf7ae0::S_00cf7ae0 *>((m_88))->FUN_00cf7ae0();
 }
 
 struct S_00cf7540_Ref {
@@ -741,7 +742,7 @@ void FUN_00c983e0_Class::ForEachCall(int aiArg1, int aiArg2, int aiArg3, int aiA
 struct FUN_00c984a0_Class {
     unsigned int unk00;
     unsigned int unk04;
-    unsigned int unk08;
+    void** unk08;
     int unk0C;
     unsigned int unk10;
     CRITICAL_SECTION* unk14;
@@ -754,7 +755,7 @@ void FUN_00c984a0_Class::FUN_00c984a0(int aiArg1, int aiArg2, int aiArg3)
 {
     EnterCriticalSection(unk14);
     for (int i = 0; i < unk0C; ++i) {
-        void* obj = *(void**)((char*)unk08 + i * 4);
+        void* obj = unk08[i];
         void** vtbl = *(void***)obj;
         ((void (*)(void*, int, int, int))vtbl[3])(obj, aiArg1, aiArg2, aiArg3);
     }
@@ -774,7 +775,7 @@ void FUN_00c98540_Class::CallAllWithArgs(int aiArg1, int aiArg2, int aiArg3)
     int i = 0;
     if (*(int*)((char*)this + 0xc) > 0) {
         do {
-            void* obj = *(void**)(*(int*)((char*)this + 8) + i * 4);
+            void* obj = (*(void***)((char*)this + 8))[i];
             void** vtbl = *(void***)obj;
             void (* fn)(void*, int, int, int) = (void (*)(void*, int, int, int))vtbl[5];
             fn(obj, aiArg1, aiArg2, aiArg3);
@@ -824,7 +825,7 @@ void FUN_00c990b0_Class::FUN_00c990b0(int aiArg1, int aiArg2, int aiArg3, int ai
     int i = 0;
     if (*(int*)((char*)this + 0xc) > 0) {
         do {
-            void* obj = *(void**)(*(int*)((char*)this + 8) + i * 4);
+            void* obj = (*(void***)((char*)this + 8))[i];
             void** ppVtable = *(void***)obj;
             void (* fn)(void*, int, int, int, int) = (void (*)(void*, int, int, int, int))ppVtable[0x2c / 4];
             fn(obj, aiArg1, aiArg2, aiArg3, aiArg4);
@@ -1215,12 +1216,9 @@ void FUN_00c982b0(unsigned char* flag, int a2, int a3, int a4, int a5, int a6, i
     *flag = 1;
 }
 
-extern __declspec(thread) int g_tlsMemContext;
 
 struct ScopedMemContext {
     int m_saved;
-    ScopedMemContext(int ctx) { m_saved = g_tlsMemContext; g_tlsMemContext = ctx; }
-    ~ScopedMemContext() { g_tlsMemContext = m_saved; }
 public:
     ScopedMemContext(int ctx)
     {
@@ -1532,7 +1530,7 @@ void FUN_00c913b0_Class::ProcessPair(const void* left, const void* right)
         const void* secondaryB = b + 0x10;
         const void* secondaryA = a + 0x10;
         if (*m_iFilter->core.evaluate(&answer, secondaryA, secondaryB)) {
-            if (!((int)(::FindEntryValue((::LinkNode *)(secondaryA), (::LinkNode *)(secondaryB))))) {
+            if (!::FindEntryValue((::LinkNode *)(secondaryA), (::LinkNode *)(secondaryB))) {
                 pair.left = primaryA;
                 pair.right = primaryB;
                 reinterpret_cast<::DispatcherCF7080 *>((m_callback))->FUN_00cf7080((::PairCF7080 *)(&pair), 1, (const ::FilterCF7080 *)(::FilterCore *)(m_iFilter ? &m_iFilter->core : 0));
@@ -2266,7 +2264,7 @@ struct ObjectWriter {
     virtual void slot08();
     virtual void WriteValue(char* name, void* value, int flags);
     virtual void slot10();
-    virtual void WriteArray(int kind, char* name, void* array, int length, void* bounded);
+    virtual void WriteArray(int kind, char* name, void* array, int length, int bounded);
     virtual void OpenBlock(char* name);
     virtual void CloseBlock();
     int m_unknown04;
@@ -2314,7 +2312,7 @@ static __forceinline void SaveArray(ObjectWriter* writer,hkArrayRaw& array,char*
     if ((array.m_iCapacityState & 0x80000000u) == 0 || writer->m_writeAll10) {
         void* ptr = array.m_data;
          unsigned int capacity = (array.m_iCapacityState & 0x3fffffff);
-         void* bounded = ((void *)(::fnv_00d06f80::FUN_00d06f80((const char *)(ptr), capacity * stride)));
+         int bounded = ::fnv_00d06f80::FUN_00d06f80((const char *)(ptr), capacity * stride);
         writer->WriteArray(3, name, array.m_data, array.m_iElementCount * stride, bounded);
     }
 }
@@ -4673,7 +4671,7 @@ FUN_00c99eb0::FUN_00c99eb0() {
 
 struct FUN_00ca8420_Local {
     unsigned char unk00;
-    unsigned int unk04;
+    void* unk04;
     unsigned char unk08;
     unsigned char unk09;
     unsigned char unk0A;
@@ -4738,13 +4736,13 @@ void FUN_00ca8420_Class::FUN_00ca8420(int aiArg1, int aiArg2, int aiArg3)
         local.unk08 = (unsigned char)aiArg1;
         local.unk09 = (unsigned char)aiArg2;
         local.unk00 = 4;
-        local.unk04 = (unsigned int)this;
+        local.unk04 = this;
         local.unk0A = (unsigned char)aiArg3;
         reinterpret_cast<::WorldWithPending *>((unk08))->FUN_00c91160();
         return;
     }
 
-    ::FUN_00cb6f70((::MotionObj *)(void *)(this), aiArg1, aiArg2, (::MotionObj *)(aiArg3), {}, {}, {}, {}, {});
+    ::FUN_00cb6f70((::MotionObj *)(void *)(this), aiArg1, aiArg2, aiArg3, {}, {}, {}, {}, {});
 
     if (unk08 != 0) {
         ::fnv_00d006e0::NotifyEntitySetMotionType((::fnv_00d006e0::World833 *)(unk08), (::fnv_00d006e0::hkpEntity *)(void *)(this));
@@ -4936,7 +4934,7 @@ int* Class9::GetOrCreateData(unsigned char* wasEmpty) {
             nextData = contents;
         } else nextData = 0;
         data = nextData;
-        if (callbackFlag) reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((unsigned int)(data ? (Node9*)((char*)data - 4) : 0));
+        if (callbackFlag) reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(data ? (Node9*)((char*)data - 4) : 0));
     }
     return data;
 }
@@ -5059,187 +5057,8 @@ void FUN_00d53200_class::ReadFromStream(NiStream& stream)
     }
 }
 
-struct AudioTlsState {
- int unk000;
- int unk004;
- int unk008;
- int unk00C;
- int unk010;
- int unk014;
- int unk018;
- int unk01C;
- int unk020;
- int unk024;
- int unk028;
- int unk02C;
- int unk030;
- int unk034;
- int unk038;
- int unk03C;
- int unk040;
- int unk044;
- int unk048;
- int unk04C;
- int unk050;
- int unk054;
- int unk058;
- int unk05C;
- int unk060;
- int unk064;
- int unk068;
- int unk06C;
- int unk070;
- int unk074;
- int unk078;
- int unk07C;
- int unk080;
- int unk084;
- int unk088;
- int unk08C;
- int unk090;
- int unk094;
- int unk098;
- int unk09C;
- int unk0A0;
- int unk0A4;
- int unk0A8;
- int unk0AC;
- int unk0B0;
- int unk0B4;
- int unk0B8;
- int unk0BC;
- int unk0C0;
- int unk0C4;
- int unk0C8;
- int unk0CC;
- int unk0D0;
- int unk0D4;
- int unk0D8;
- int unk0DC;
- int unk0E0;
- int unk0E4;
- int unk0E8;
- int unk0EC;
- int unk0F0;
- int unk0F4;
- int unk0F8;
- int unk0FC;
- int unk100;
- int unk104;
- int unk108;
- int unk10C;
- int unk110;
- int unk114;
- int unk118;
- int unk11C;
- int unk120;
- int unk124;
- int unk128;
- int unk12C;
- int unk130;
- int unk134;
- int unk138;
- int unk13C;
- int unk140;
- int unk144;
- int unk148;
- int unk14C;
- int unk150;
- int unk154;
- int unk158;
- int unk15C;
- int unk160;
- int unk164;
- int unk168;
- int unk16C;
- int unk170;
- int unk174;
- int unk178;
- int unk17C;
- int unk180;
- int unk184;
- int unk188;
- int unk18C;
- int unk190;
- int unk194;
- int unk198;
- int unk19C;
- int unk1A0;
- int unk1A4;
- int unk1A8;
- int unk1AC;
- int unk1B0;
- int unk1B4;
- int unk1B8;
- int unk1BC;
- int unk1C0;
- int unk1C4;
- int unk1C8;
- int unk1CC;
- int unk1D0;
- int unk1D4;
- int unk1D8;
- int unk1DC;
- int unk1E0;
- int unk1E4;
- int unk1E8;
- int unk1EC;
- int unk1F0;
- int unk1F4;
- int unk1F8;
- int unk1FC;
- int unk200;
- int unk204;
- int unk208;
- int unk20C;
- int unk210;
- int unk214;
- int unk218;
- int unk21C;
- int unk220;
- int unk224;
- int unk228;
- int unk22C;
- int unk230;
- int unk234;
- int unk238;
- int unk23C;
- int unk240;
- int unk244;
- int unk248;
- int unk24C;
- int unk250;
- int unk254;
- int unk258;
- int unk25C;
- int unk260;
- int unk264;
- int unk268;
- int unk26C;
- int unk270;
- int unk274;
- int unk278;
- int unk27C;
- int unk280;
- int unk284;
- int unk288;
- int unk28C;
- int unk290;
- int unk294;
- int unk298;
- int unk29C;
- int unk2A0;
- int unk2A4;
- int unk2A8;
- int unk2AC;
- int unk2B0;
- int unk2B4;
-};
-__declspec(thread) AudioTlsState threadData;
 struct MemoryScope {
  int previous;
- MemoryScope() {previous=threadData.unk2B4;threadData.unk2B4=16;}
- ~MemoryScope() {threadData.unk2B4=previous;}
 public:
     MemoryScope()
     {
@@ -5386,8 +5205,6 @@ FUN_00cbfba0::FUN_00cbfba0() throw()
 // Stand-in declarations; unknown fields are named by their byte offset.
 // External callees keep the pack's FUN_ names and bind through relocations.
 
-struct Tls676 { char m_pad0000[0x2b4]; int m_2b4; };
-__declspec(thread) Tls676 g_tls676;
 
 struct Elem676;
 struct Sub676 { char m_pad0000[0x14]; unsigned char m_14; };
@@ -5489,8 +5306,6 @@ struct This676 {
 // Scoped override of the thread-local context field (0x10 during the operation).
 struct Guard676 {
     int m_saved;
-    Guard676() { m_saved = g_tls676.m_2b4; g_tls676.m_2b4 = 0x10; }
-    ~Guard676() { g_tls676.m_2b4 = m_saved; }
 public:
     Guard676()
     {
@@ -7976,7 +7791,7 @@ struct __declspec(align(16)) FUN_00c987e0_Pose {
 struct FUN_00c98780_Obj {
 };
 struct FUN_00c987e0_Cls {
-    void FUN_00c987e0(int a1,int a2,int a3,int a4,int a5,int a6);
+    void FUN_00c987e0(const void* a1,const void* a2,const void* a3,int a4,int a5,int a6);
 };
 struct __declspec(align(16)) EC98BE0Vector {
     float x;
@@ -8126,17 +7941,21 @@ void hkOwnerXc99ce0::Add(void* item)
 }
 }  // namespace fnv_00c99ce0
 
+struct S_00ce5290_Bool
+{
+    char m_cBooleanValue;
+};
+
 class Ce52e0Helper
 {
 public:
-    void SetFromInput(int*, int);
-    void FUN_00ce52e0(int a);
+    void FUN_00ce52e0(const void* a);
 };
 
 // @fnv 0x00ce52e0
-void Ce52e0Helper::FUN_00ce52e0(int a)
+void Ce52e0Helper::FUN_00ce52e0(const void* a)
 {
-    SetFromInput(&a, a);
+    reinterpret_cast<::S_00ce5290*>(this)->SetFromInput(a);
 }
 
 class hkpWorldD0AD;
@@ -9289,7 +9108,7 @@ public:
 // @fnv 0x00c99870
 void HavokHelper::FUN_00c99870(const hkQuaternion& aQuat, float afValue, int aiArg3, int aiArg4) {
     AlignedRotation rot;
-    reinterpret_cast<::Ce52e0Helper *>(&(rot))->FUN_00ce52e0((int)&(aQuat));
+    reinterpret_cast<::Ce52e0Helper *>(&(rot))->FUN_00ce52e0(&(aQuat));
     reinterpret_cast<::hkDebugDisplayHandlerC997 *>(this)->DrawAxes((const ::hkTransformC997 &)(rot), afValue, aiArg3, aiArg4);
 }
 
@@ -11071,28 +10890,6 @@ struct S96_WorldShell : hkpWorld {
  }
  void FUN_00c96ff0(int mode,int update);
 public:
-    static __forceinline void S96_TimerBegin(const char* name) {
-  S96_Timer* timer=(S96_Timer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
-  if(timer->unk04<timer->unk0C) {
-   S96_TimerEntry* entry=timer->unk04;
-   entry->name=name;
-   unsigned tick;
-   tick = static_cast<unsigned int>(__rdtsc());
-   entry->tick=tick;
-   timer->unk04=entry+1;
-  }
- }
-    static __forceinline void S96_TimerEnd() {
-  S96_Timer* timer=(S96_Timer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
-  if(timer->unk04<timer->unk0C) {
-   S96_TimerEntry* entry=timer->unk04;
-   entry->name=::DAT_010c41f8;
-   unsigned tick;
-   tick = static_cast<unsigned int>(__rdtsc());
-   entry->tick=tick;
-   timer->unk04=entry+1;
-  }
- }
 };
 // @fnv 0x00c96ff0
 void S96_WorldShell::FUN_00c96ff0(int mode,int update) {
@@ -11209,7 +11006,6 @@ struct S97_MonitorStream {
         const char* m_pFirst;
     };
 public:
-    static __forceinline S97_MonitorStream& GetMonitorStream() { return *(S97_MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))); }
 };
 
 static __forceinline void S97_timerList(const char* name1, const char* name2)
@@ -11702,7 +11498,7 @@ struct FnvBroadPhase {
     virtual void vf38();
     virtual void vf3C();
     virtual void vf40();
-    virtual void vf44(int flags, FnvBodyArray* bodies);
+    virtual void vf44(const void* flags, FnvBodyArray* bodies);
 };
 
 
@@ -11713,12 +11509,12 @@ struct FnvMsg {
 };
 
 struct FnvWorld : WorldWithPending {
-    void FUN_00c93c30(int flags);
+    void FUN_00c93c30(const void* flags);
 };
 
 // When locked, queues a message via FUN_00c91160; otherwise queries bodies from the broad phase and calls FUN_00c9c1d0 on each whose adjusted byte 0x18 is 1.
 // @fnv 0x00c93c30
-void FnvWorld::FUN_00c93c30(int flags) {
+void FnvWorld::FUN_00c93c30(const void* flags) {
     if (m_iCriticalOperationsLockCount != 0) {
         FnvMsg msg;
         msg.unk00 = 0x20;
@@ -11726,7 +11522,7 @@ void FnvWorld::FUN_00c93c30(int flags) {
         FnvAudioManager* audio = static_cast<FnvAudioManager*>(::FUN_00c85750());
         void* buffer = audio->unk10->vf04(0x20);
         msg.unk04 = buffer;
-        ::FUN_00cb1260(buffer, (void*)flags, 0x20);
+        ::FUN_00cb1260(buffer, flags, 0x20);
         reinterpret_cast<::WorldWithPending *>((this))->FUN_00c91160();
         return;
     }
@@ -11765,7 +11561,7 @@ typedef signed short TI16; typedef signed int TI32; typedef unsigned char TU; ty
 typedef unsigned short TU16; typedef unsigned int TU32; typedef unsigned long __w64 TU1; typedef signed long __w64 TL;
 typedef void*Tvl; enum TR1{ KS=0,KF=1} ;
 typedef unsigned __int64 TU64; typedef __int64 TI64; typedef long TST2; typedef size_t TS4;
-typedef TU16 TOI; typedef TR TT; __forceinline TL __cdecl TGBO(const void*base,const void*pntr)throw(){ return TL(pntr)-TL(base);
+typedef TU16 TOI; typedef TR TT; __forceinline TL __cdecl TGBO(const void*base,const void*pntr)throw(){ return TL((const char*)pntr-(const char*)base);
 } template<typename TYPE>__forceinline TYPE*__cdecl TABO(TYPE*base,TL offset)throw(){ return reinterpret_cast<TYPE*>(reinterpret_cast<char*>(base)+offset); }
 class TFLOF{ public:TFLOF()throw():vf1(0){ } int vf1;
 } ; class TC1; struct TV;
@@ -11792,7 +11588,7 @@ vs8=e; } __forceinline TYPE val()const throw(){ return vs8;
 __forceinline operator TYPE()const{ return val(); } private:TYPE vs8;
 } ; struct TCOBAC; enum KMC{
 KMCR,KMCB,KMCC5,KMCCS1,KMCD4,KMCE1,KMCS1,KMCG,KMCD3,KMCM2,KMCSD,KMCV1,KMCD1,KMCU5,KMCA4,KMCB1,KMCC3,KMCA2,KMCT,KMCDF,KMCD,KMCU,KMCBC,KMCS6,KMCA5,KMCS4,KMCS,KMCS5,KMCM4,KMCM1,KMCT1,KMCH,KMCA1,KMCA3,KMCBP,KMCC7,KMCD2,KMCM,KMCS2,KMCC4,KMCC1,KMCM5,KMCA,KMCD5,KMCC6,KMCE,KMCM6,KMCW,KMCRB,KMCP1,KMCS3,KMCC,KMCC2,KMCV,KMCI,KMCAU,KMCAC1,KMCAD,KMCAM,KMCAR,KMCAC2,KMCAR1,KMCAC,KMCBR,KMCBD,KMCCR,KMCCD,KMCCS,KMCAN,KMCAA,KMCAS,KMCU1,KMCU2,KMCU3,KMCU4,KMCPA,KMCM3} ; template<typename T>class TTLD{ public:__forceinline T getData()const throw(){
-return(T)(TU1)TlsGetValue(vsI1); } unsigned long vsI1; }
+return(T)TlsGetValue(vsI1); } unsigned long vsI1; }
 ; typedef std::type_info TCTI; struct TCTIH; class TCRIU;
 template<typename T>struct TSOTOV{ enum{ val=sizeof(T)} ;
 } ; template<>struct TSOTOV<void>{ enum{
@@ -12112,8 +11908,8 @@ return&vm3; } inline TB TE::isFixed()const throw(){ return vm3.vt6==TM5::MOTION_
 TPS<TR>vdT; TPS<TR>viDT; } ;
 class TS; typedef TS TSBW; class TW; class TSI1;
 class FUN_00d07830; class TE; class TB; struct TTD;
-class TMS{ public:static TMS&GetMonitorStream()throw(){ extern TTLD<TMS*>OptMonitorStream__DAT_0126835c; return*OptMonitorStream__DAT_0126835c.getData();
-} public:__forceinline char*__cdecl GetStreamEnd()throw(){ return ve.val(); }
+class TMS{
+ public:__forceinline char*__cdecl GetStreamEnd()throw(){ return ve.val(); }
 __forceinline char*__cdecl getCapacityMinus16()throw(){ return vcM16.val(); } __forceinline char*__cdecl getCapacity()throw(){
 return vc.val(); } __forceinline TB __cdecl memoryAvailable()throw(){ return GetStreamEnd()<getCapacityMinus16();
 } __forceinline void __cdecl setEnd(char*ptr)throw(){ ve=ptr; }
@@ -12215,7 +12011,7 @@ TA2<TWPCL*>vwPCL; TA2<TIPIL*>viPIL; TA2<TIPCL*>viPCL; TA2<TCL1*>vcL1;
 TA2<TCILBL*>vcILBL; TVCA*vvCA; class TBPB*vbPB; class TCCU*vcCU;
 class TdW*vdW; public:struct TWDSI vdSI1; TV4 vbPE[2]; int vbPNM;
 int vsOTEQ; TI32 vbPQS; TI32 vbPUS; TE1<TWC::ContactPointGeneration,TI8>vcPG;
-} ; const TA2<FUN_00d07830*>&TW::getActiveSimulationIslands()const throw(){ return vaSI;
+} ; const TA2<FUN_00d07830*>&TW::getActiveSimulationIslands()const throw(){ return vaSI; }
 // Updates the physics system's entities, phantoms, actions and constraints, using bulk calls when no null entries are present and per-entry calls otherwise.
 // @fnv 0x00c97f80
 void SystemWorld::FUN_00c97f80(PhysicsSystem* system) {
@@ -12249,7 +12045,7 @@ void SystemWorld::FUN_00c97f80(PhysicsSystem* system) {
             reinterpret_cast<::Mgr *>(this)->FUN_00c97d30((::Item *)(system->constraints.m_data[i]));
     }
 }
-} inline const EnumIntegerValue*TW::getCollisionFilter()const throw(){ ; return vcF;
+inline const EnumIntegerValue*TW::getCollisionFilter()const throw(){ ; return vcF;
 } void TW::lockCriticalOperations()throw(){ ; vcOLC++;
 ; } void TW::unlockCriticalOperations()throw(){ ;
 vcOLC--; ; } int TW::areCriticalOperationsLocked()const throw(){
@@ -14053,7 +13849,7 @@ struct Cls_00c98780 {
 };
 // Builds a pose via FUN_00ce52e0(a1) and passes its address with a2 through a6 to FUN_00c98780 on this.
 // @fnv 0x00c987e0
-void FUN_00c987e0_Cls::FUN_00c987e0(int a1,int a2,int a3,int a4,int a5,int a6)
+void FUN_00c987e0_Cls::FUN_00c987e0(const void* a1,const void* a2,const void* a3,int a4,int a5,int a6)
 {
     FUN_00c987e0_Pose pose;
     reinterpret_cast<::Ce52e0Helper *>(&(pose))->FUN_00ce52e0(a1);
@@ -14098,8 +13894,8 @@ struct Disp_00c98c80 {
 // @fnv 0x00c98c80
 void Disp_00c98c80::FUN_00c98c80(const Aabb_00c98c80* box, int p2, int p3, int p4)
 {
-    const float* pMin = reinterpret_cast<float*>(&box->m_kMinimumCorner.m_vComponents);
-    const float* pMax = reinterpret_cast<float*>(&box->m_kMaximumCorner.m_vComponents);
+    const float* pMin = reinterpret_cast<const float*>(&box->m_kMinimumCorner.m_vComponents);
+    const float* pMax = reinterpret_cast<const float*>(&box->m_kMaximumCorner.m_vComponents);
     Line_00c98c80 aabbEdges[12];
     aabbEdges[0].a.set(pMin[0], pMin[1], pMin[2], DAT_01011d78);
     aabbEdges[0].b.set(pMin[0], pMax[1], pMin[2], DAT_01011d78);
@@ -14148,7 +13944,7 @@ struct Pose_00c996e0 {
 void Pose_00c996e0::FUN_00c996e0(const hkQsTransform& a, int b, int c, int d, int e, int g)
 {
     Xf_00c996e0 t;
-    reinterpret_cast<::Ce52e0Helper *>(&(t))->FUN_00ce52e0((int)&(a));
+    reinterpret_cast<::Ce52e0Helper *>(&(t))->FUN_00ce52e0(&(a));
     ApplyRotation(t, b, c, d, e, g);
 }
 
@@ -14918,7 +14714,6 @@ int WorldAdvanceEntry::FUN_00c91bd0()
 }
 
 // Moved from hkpworld_gs_nogs_variant.cpp (VEGAS-15).
-#include "fnv/decl/S_00ce5290.h"
 #include "fnv/symbols_00c98000.h"
 void FUN_00c90e40(void* self, int arg);
 void FUN_00c982a0(char* pFlag, int a2, int a3, int a4, int a5, int a6);

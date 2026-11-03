@@ -116,31 +116,7 @@ void hkpPhantomOverlapDD04::AddReferencedObject(hkReferencedObjectDD04* pkObject
     reinterpret_cast<::FUN_00c90510_class *>((pkObject))->FUN_00c90510();
 }
 
-class hkMemoryAllocatorDD05
-{
-  public:
-    virtual ~hkMemoryAllocatorDD05() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iNumBytes) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterDD05
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorDD05* m_pStreamAllocator;
-    hkMemoryAllocatorDD05& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-namespace hkRouterDD05 {
-
-}
 
 template <class T> class hkArrayDD05
 {
@@ -151,10 +127,10 @@ template <class T> class hkArrayDD05
 
     ~hkArrayDD05() throw()
     {
-        hkMemoryAllocatorDD05& kAlloc = (*static_cast<hkMemoryRouterDD05*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -213,24 +189,7 @@ FnvCpu_FUN_00dd0630_CpuObject* FnvCpu_FUN_00dd0630_CpuObject::Destroy(unsigned i
 }  // namespace fnv_00dd0630
 
 namespace fnv_00dd0530 {
-class hkMemoryAllocatorDD05
-{
-  public:
-    virtual ~hkMemoryAllocatorDD05() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterDD05
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorDD05* m_pStreamAllocator;
-
-    hkMemoryAllocatorDD05& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 
@@ -248,7 +207,7 @@ class hkRefObj
 
     static void* operator new(size_t nbytes)
     {
-        hkRefObj* b = static_cast<hkRefObj*>((*static_cast<hkMemoryRouterDD05*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
+        hkRefObj* b = static_cast<hkRefObj*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }

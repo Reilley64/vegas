@@ -86,7 +86,7 @@ struct MemoryManager {
 void FUN_00a2a600(void* p)
 {
     if (p)
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((char*)p - 4);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((char*)p - sizeof(std::size_t));
 }
 
 
@@ -131,16 +131,20 @@ void __cdecl FUN_00a31680()
 
 
 struct FUN_00a3ea40_cls {
+    char pad00[0xc];
+    unsigned short unk0c;
+    char pad0e[0x16];
+    float unk24;
     void UpdateIfFlagged();
 };
 
 // @fnv 0x00a3ea40
 void FUN_00a3ea40_cls::UpdateIfFlagged()
 {
-    if ((*(unsigned short*)((char*)this + 0xc) & 1) != 0)
+    if ((this->unk0c & 1) != 0)
     {
-        *(float*)((char*)this + 0x24) = reinterpret_cast<::FUN_00a3e9a0_cls *>(this)->GetAccumulatedValue();
-        *(unsigned short*)((char*)this + 0xc) &= 0xfffe;
+        this->unk24 = reinterpret_cast<::FUN_00a3e9a0_cls *>(this)->GetAccumulatedValue();
+        this->unk0c &= 0xfffe;
     }
 }
 
@@ -201,7 +205,7 @@ bool FUN_00a282a0(float afTime, TCBKeyS** pKeys, unsigned int* pCount)
     }
     ++*pCount;
     if (old)
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((int*)old - 1);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((std::size_t*)old - 1);
     *pKeys = keys;
     ComputeTCBKeyTangents(keys, *pCount, sizeof(TCBKeyS));
     return true;
@@ -240,7 +244,9 @@ void CopyFloat7(float* dst, const float* src)
 }
 
 struct NiTMapBaseStub { void RemoveAll(); };
-struct FUN_00a30880_T {  };
+struct FUN_00a30880_T {
+    char pad00[0x40];
+    unsigned int unk40;  };
 struct HolderBase { void FUN_00a2e620(); };
 struct NiTMapBase_StandIn {
     char pad[0x34];
@@ -250,6 +256,8 @@ struct NiTMapBase_StandIn {
     NiTMapBaseStub map1;
     unsigned short usSize2;
     NiTMapBaseStub map2;
+    char pad41[0xf];
+    NiTMapBaseStub unk50;
     void ClearEntries();
 };
 // Iterates the pp1 array up to usSize2, calls ReleaseItems and zeroes offset 0x40 on each entry, then calls FUN_00a2e620 and RemoveAll on the embedded holders.
@@ -262,13 +270,13 @@ void NiTMapBase_StandIn::ClearEntries()
             FUN_00a30880_T* t = (FUN_00a30880_T*)pp1[i];
             if (t) {
                 reinterpret_cast<::S_00a30880_Foo *>((t))->ReleaseItems();
-                *(unsigned int*)((char*)t + 0x40) = 0;
+                t->unk40 = 0;
             }
             i++;
         } while (i < usSize2);
     }
     this->h1.FUN_00a2e620();
-    reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)((char*)this + 0x50))))->FUN_00b601a0();
+    reinterpret_cast<::S_00b601a0_Map *>(&this->unk50)->FUN_00b601a0();
 }
 
 // @fnv 0x00a2ae10
@@ -300,10 +308,11 @@ void CopyFloatBlock(float* afDest, const float* afSource)
 struct FUN_00a29a70 : public Inner_00a6db50 {
     float a, b, c, d;
     float e, f, g;
-    char h, i, j;
+    float h;
     float k, l, m;
-    float n, o, p;
-    float q, r, s;
+    char n, i, j;
+    float o, p, q;
+    float r, s, t;
     FUN_00a29a70();
 };
 // @fnv 0x00a29a70
@@ -312,7 +321,7 @@ FUN_00a29a70::FUN_00a29a70()
     reinterpret_cast<::FUN_00a6db50_V *>((((Inner_00a6db50*)&this->b)))->Set(0.0f, 0.0f, 0.0f, 0.0f);
     *(unsigned int*)&this->f = 0;
     *(unsigned int*)&this->g = 0;
-    *(unsigned int*)((char*)this + 0x1c) = 0;
+    *(unsigned int*)&this->h = 0;
     *(unsigned int*)&this->o = 0;
     *(unsigned int*)&this->p = 0;
     *(unsigned int*)&this->q = 0;
@@ -321,10 +330,10 @@ FUN_00a29a70::FUN_00a29a70()
     *(unsigned int*)&this->m = 0;
     *(unsigned int*)&this->r = 0;
     *(unsigned int*)&this->s = 0;
-    *(unsigned int*)((char*)this + 0x44) = 0;
+    *(unsigned int*)&this->t = 0;
     *(char*)&this->n = 0;
-    *(char*)((char*)this + 0x2d) = 0;
-    *(char*)((char*)this + 0x2e) = 0;
+    this->i = 0;
+    this->j = 0;
 }
 
 
@@ -355,6 +364,14 @@ FUN_00a2ceb0_cls& FUN_00a2ceb0_cls::Clear() {
 }
 
 extern unsigned char DAT_01096968;
+class NiRefObject {
+public:
+    virtual ~NiRefObject() throw();
+    unsigned int m_uiRefCount;
+    void IncRefCount() throw();
+    void DecRefCount() throw();
+};
+
 typedef int (*FnInterlockedDecrement)(void*);
 extern FnInterlockedDecrement DAT_00fdf1c4;
 struct FUN_00a31260_StandIn {
@@ -373,13 +390,13 @@ void FUN_00a31260_StandIn::FUN_00a31260()
     void* obj;
     obj = p0;
     if (obj) {
-        if (pfnDecrement((char*)obj + 4) == 0)
+        if (pfnDecrement(&((NiRefObject*)obj)->m_uiRefCount) == 0)
             ((void (*)(void*))(*(void***)obj)[1])(obj);
         p0 = 0;
     }
     obj = p1;
     if (obj) {
-        if (pfnDecrement((char*)obj + 4) == 0)
+        if (pfnDecrement(&((NiRefObject*)obj)->m_uiRefCount) == 0)
             ((void (*)(void*))(*(void***)obj)[1])(obj);
         p1 = 0;
     }
@@ -403,7 +420,7 @@ void FUN_00a30700_T::ReleaseRefs()
     p = p1;
     if (p)
     {
-        if (fn((char*)p + 4) == 0)
+        if (fn(&((NiRefObject*)p)->m_uiRefCount) == 0)
         {
             void** vt = *(void***)p;
             ((void (*)(void*))vt[1])(p);
@@ -413,7 +430,7 @@ void FUN_00a30700_T::ReleaseRefs()
     p = p0;
     if (p)
     {
-        if (fn((char*)p + 4) == 0)
+        if (fn(&((NiRefObject*)p)->m_uiRefCount) == 0)
         {
             void** vt = *(void***)p;
             ((void (*)(void*))vt[1])(p);
@@ -484,6 +501,11 @@ void FUN_00a29640_T::FUN_00a29640(NiStream& stream)
 struct SStream;
 struct SObj;
 
+struct FUN_00a2d230_Key
+{
+    char data[0x8];
+};
+
 // Calls WriteFloatToStream for each of c SObj entries starting at b, advancing 8 bytes per entry.
 // @fnv 0x00a2d230
 void __cdecl FUN_00a2d230(SStream* pStream, SObj* b, unsigned int c)
@@ -493,7 +515,7 @@ void __cdecl FUN_00a2d230(SStream* pStream, SObj* b, unsigned int c)
         unsigned int n = c;
         do {
             WriteFloatToStream(pStream, d);
-            d = (SObj*)((char*)d + 8);
+            d = (SObj*)((FUN_00a2d230_Key*)d + 1);
         } while (--n);
     }
 }
@@ -658,7 +680,7 @@ bool FUN_00a27080(float fTime, BezFloatKey*& pkKeys, unsigned int& uiNumKeys)
 
     uiNumKeys++;
     if (pkOld)
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((unsigned int*)pkOld - 1);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((std::size_t*)pkOld - 1);
     pkKeys = pkNewKeys;
     return true;
     }
@@ -801,8 +823,8 @@ void __cdecl FUN_00a27b60(FUN_00a27b60_rec* apDest, const FUN_00a27b60_rec* apSo
     apDest->unk28 = apSource->unk28;
     apDest->unk2C = apSource->unk2C;
     apDest->unk30 = apSource->unk30;
-    apDest = (FUN_00a27b60_rec*)((char*)apDest + 0x34);
-    apSource = (const FUN_00a27b60_rec*)((const char*)apSource + 0x34);
+    apDest = apDest + 1;
+    apSource = apSource + 1;
     ((FUN_00a27b60_tail*)apDest)->unk00 = ((const FUN_00a27b60_tail*)apSource)->unk00;
     ((FUN_00a27b60_tail*)apDest)->unk04 = ((const FUN_00a27b60_tail*)apSource)->unk04;
     ((FUN_00a27b60_tail*)apDest)->unk08 = ((const FUN_00a27b60_tail*)apSource)->unk08;
@@ -1047,13 +1069,17 @@ void FUN_00a286e0(unsigned int auiUnused0, unsigned int auiUnused1, unsigned int
 struct FUN_00a28720_target {
 };
 
+struct FUN_00a28720_Obj {
+    void* vtbl;
+    FUN_00a28720_target unk04;
+};
+
 
 // Calls CallAnimCallback with a and b, then invokes FUN_00a6e4a0 on the object at b+4 passing a.
 // @fnv 0x00a28720
 void __cdecl FUN_00a28720(void* a, void* b) {
     ::CallAnimCallback((::FUN_00a3da50_Owner *)(a), (intptr_t)(b));
-    reinterpret_cast<::FUN_00a6e4a0_shell *>((reinterpret_cast<FUN_00a28720_target*>(
-        reinterpret_cast<char*>(b) + 4)))->FUN_00a6e4a0((*(::NiStream *)(a)));
+    reinterpret_cast<::FUN_00a6e4a0_shell *>(&reinterpret_cast<FUN_00a28720_Obj*>(b)->unk04)->FUN_00a6e4a0((*(::NiStream *)(a)));
 }
 
 extern "C" unsigned int DAT_011f366c;
@@ -1499,6 +1525,13 @@ extern "C" void FNV_array_ctor_iterator(void* base, unsigned int size, unsigned 
 // The element constructor of the allocated object.
 extern "C" void __cdecl FNV_element_ctor(void* self);
 
+// The block of an array new of one 0x48-byte element: the element count, then the element.
+struct UpdateArrayElements_Block
+{
+    int count;
+    char element[0x48];
+};
+
 // @fnv 0x00a29e40
 bool UpdateArrayElements(float t, void** pOut, int* piFlag)
 {
@@ -1506,8 +1539,8 @@ bool UpdateArrayElements(float t, void** pOut, int* piFlag)
         FNV_Obj* p;
         void* block = reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(0x4c);
         if (block) {
-            *(int*)block = 1;                      // element count cookie
-            p = (FNV_Obj*)((char*)block + 4);       // the element itself
+            ((UpdateArrayElements_Block*)block)->count = 1;
+            p = (FNV_Obj*)((UpdateArrayElements_Block*)block)->element;
             FNV_array_ctor_iterator(p, 0x48, 1, (void*)&FNV_element_ctor);
         } else {
             p = 0;
@@ -1936,12 +1969,11 @@ typedef void (*A29FE0LoadFunc)(A29FE0Context* pkContext, void* pvData, unsigned 
 // Reads three count/type pairs from the stream and, for each nonzero count, reads its type and calls the matching loader with the data pointer.
 // @fnv 0x00a29fe0
 void ReadBlockEntries(A29FE0Context* pkContext, A29FE0Block* pkBlock) {
-    unsigned int* puiCount = pkBlock->m_auiCount;
-    for (int i = 0; i < 3; i++, puiCount++) {
-        pkContext->m_pDataStream->Read(puiCount, 4);
-        if (*puiCount > 0) {
-            pkContext->m_pDataStream->Read(puiCount + 3, 4);
-            g_apfnA29FE0Load[puiCount[3]](pkContext, ((void**)puiCount)[7], *puiCount);
+    for (int i = 0; i < 3; i++) {
+        pkContext->m_pDataStream->Read(&pkBlock->m_auiCount[i], 4);
+        if (pkBlock->m_auiCount[i] > 0) {
+            pkContext->m_pDataStream->Read(&pkBlock->m_auiType[i], 4);
+            g_apfnA29FE0Load[pkBlock->m_auiType[i]](pkContext, pkBlock->m_apvData[i], pkBlock->m_auiCount[i]);
         }
     }
 }
@@ -2100,7 +2132,7 @@ bool InsertLinPosKey(float t, LinPosKey** pKeys, unsigned int* pCount)
         ++*pCount;
         // free the old array including its element-count cookie
         if (keys)
-            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((unsigned int*)keys - 1);
+            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((std::size_t*)keys - 1);
         *pKeys = newKeys;
         return true;
     }
@@ -2109,6 +2141,12 @@ bool InsertLinPosKey(float t, LinPosKey** pKeys, unsigned int* pCount)
 
 struct FUN_00a6e330_StandIn {
     void FUN_00a6e330(float value, const void* first, const void* second);
+};
+
+struct FUN_00a2ab90_Key
+{
+    float time;
+    char unk04;
 };
 
 // Calls FUN_00a6e330 on result with value and the two pointers advanced by 4 bytes.
@@ -2121,8 +2159,8 @@ void __cdecl FUN_00a2ab90(
 ) {
     result->FUN_00a6e330(
         value,
-        static_cast<const void*>(static_cast<const char*>(first) + 4),
-        static_cast<const void*>(static_cast<const char*>(second) + 4)
+        static_cast<const void*>(&static_cast<const FUN_00a2ab90_Key*>(first)->unk04),
+        static_cast<const void*>(&static_cast<const FUN_00a2ab90_Key*>(second)->unk04)
     );
 }
 
@@ -2574,7 +2612,7 @@ void* __cdecl AllocateElement76Array(intptr_t a1, unsigned int auiCount)
         p = items;
         do {
             reinterpret_cast<::FUN_00a2b980_cls *>((p))->FUN_00a2b980((*(::NiStreamImpl *)(a1)));
-            p = (Element76*)((char*)p + 0x4c);
+            p = p + 1;
         } while (--auiCount != 0);
     }
     return items;
@@ -3472,6 +3510,11 @@ KeyframeElement* __cdecl AllocateKeyframeElements(void* context, unsigned int co
 
 extern "C" void __cdecl FUN_00a2ca60(void* a1, void* a2);
 
+struct FUN_00a2cb50_Elem
+{
+    char data[0x1c];
+};
+
 // Calls FUN_00a2ca60 for each of count elements, advancing a2 by 0x1c bytes per iteration.
 // @fnv 0x00a2cb50
 void __cdecl FUN_00a2cb50(void* a1, void* a2, unsigned int count)
@@ -3481,7 +3524,7 @@ void __cdecl FUN_00a2cb50(void* a1, void* a2, unsigned int count)
         return;
     do {
         FUN_00a2ca60(a1, a2);
-        a2 = (char*)a2 + 0x1c;
+        a2 = (FUN_00a2cb50_Elem*)a2 + 1;
         n = n - 1;
     } while (n != 0);
 }
@@ -3622,7 +3665,7 @@ bool InsertKeyPair(float afTime, KeyPair8** pKeys, unsigned int* pCount)
         (*pCount)++;
         if (data)
         {
-            reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<DynamicMemoryAllocator*>(&DAT_011f6238)))->FUN_00aa4060((char*)data - 4);
+            reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<DynamicMemoryAllocator*>(&DAT_011f6238)))->FUN_00aa4060((char*)data - sizeof(std::size_t));
         }
         *pKeys = newData;
         return true;
@@ -3664,6 +3707,11 @@ void __cdecl SelectKeyVec(float afBlendWeight, const KeyData* pA, const KeyData*
 
 namespace fnv_00a2d690 {
 
+struct FUN_00a2d690_Elem
+{
+    char data[0x14];
+};
+
 // Calls FUN_00a28720 for each of count elements, advancing b by 0x14 bytes per iteration; returns early when count is 0.
 // @fnv 0x00a2d690
 void __cdecl FUN_00a2d690(void* a, void* b, unsigned int count)
@@ -3674,7 +3722,7 @@ void __cdecl FUN_00a2d690(void* a, void* b, unsigned int count)
     for (unsigned int i = count; i != 0; --i)
     {
         ::FUN_00a28720(a, b);
-        b = static_cast<char*>(b) + 0x14;
+        b = static_cast<FUN_00a2d690_Elem*>(b) + 1;
     }
 }
 }  // namespace fnv_00a2d690
@@ -4121,11 +4169,17 @@ void FUN_00a27430_T::FUN_00a27430(NiStream& stream)
     m_kDiffuseColor.LoadBinary(stream);
 }
 
+struct FUN_00a3da20_Owner
+{
+    char pad00[0x24c];
+    AnimSink* unk24c;
+};
+
 // Calls the sink's callback with count 4 and adds its return value to the sink's m_04 counter.
 // @fnv 0x00a3da20
 void FUN_00a3da20_cls::AccumulateAnimSink(intptr_t a1)
 {
-    AnimSink* sink = *(AnimSink**)((char*)a1 + 0x24c);
+    AnimSink* sink = ((FUN_00a3da20_Owner*)a1)->unk24c;
     int (__cdecl *fn)(AnimSink*, void*, int, int*, int) = sink->m_08;
     int count = 4;
     sink->m_04 += fn(sink, this, 4, &count, 1);
@@ -4414,7 +4468,7 @@ bool __cdecl FUN_00a2a620(float t, TCBKeyS** pKeys, unsigned int* puiCount)
         key->value = v;
         (*puiCount)++;
         if (old != 0) {
-            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((char*)old - 4);
+            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((char*)old - sizeof(std::size_t));
         }
         *pKeys = (TCBKeyS*)dst;
         return true;
@@ -4470,7 +4524,7 @@ bool InsertBezPosKey(float t, BezPosKey** pKeys, unsigned int* puiCount) {
         key.in.z = 0.0f;
         ++*puiCount;
         if (oldKeys)
-            ::operator delete[]((unsigned int*)oldKeys - 1);
+            ::operator delete[]((std::size_t*)oldKeys - 1);
         *pKeys = newKeys;
         ::FUN_00a2b410((::PositionSplineKey *)(newKeys), *puiCount);
         return true;
@@ -4504,7 +4558,7 @@ bool FUN_00a2d4a0(float time, InsertPositionKey*& keys, unsigned int& count) {
         pInsertedKey->position = position;
         count++;
         if (old) {
-            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((char*)old - 4);
+            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((char*)old - sizeof(std::size_t));
         }
         keys = pNewKeys;
         return true;
@@ -4619,9 +4673,9 @@ struct Dtor00a2dd70 {
 Dtor00a2dd70* Dtor00a2dd70::FUN_00a2dd70(unsigned char acFlags)
 {
     if (acFlags & 2) {
-        int count = ((int*)this)[-1];
+        int count = (int)((std::size_t*)this)[-1];
         Elem00a2dd70* e = (Elem00a2dd70*)((char*)this + count * sizeof(Elem00a2dd70));
-        char* base = (char*)this - 4;
+        char* base = (char*)this - sizeof(std::size_t);
         if (--count >= 0) {
             do {
                 --e;
@@ -4846,14 +4900,20 @@ void __cdecl FUN_00a28ab0(TimedRotationKey* pkKeys, unsigned int uiNumKeys, unsi
 extern "C" unsigned char DAT_011f367d;
 extern "C" unsigned char __cdecl InterpolateBooleanKey(float, const void*, int, unsigned int, unsigned int*, unsigned char);
 
+struct FUN_00a29470_Key
+{
+    float time;
+    unsigned char value;
+};
+
 // Returns the value at the first or last key when fTime is out of range, otherwise calls InterpolateBooleanKey to interpolate between keys.
 // @fnv 0x00a29470
 extern "C" unsigned char __cdecl FUN_00a29470(float fTime, const void* pkKeys, int uiType, unsigned int uiNumKeys, unsigned char ucSize) {
     if (uiNumKeys) {
         if (fTime < *(const float*)pkKeys)
-            return *((const unsigned char*)pkKeys + 4);
+            return ((const FUN_00a29470_Key*)pkKeys)->value;
         if (fTime > *(const float*)((const char*)pkKeys + (uiNumKeys - 1) * ucSize))
-            return *((const unsigned char*)pkKeys + (uiNumKeys - 1) * ucSize + 4);
+            return ((const FUN_00a29470_Key*)((const char*)pkKeys + (uiNumKeys - 1) * ucSize))->value;
         unsigned int uiLastIdx = 0;
         return InterpolateBooleanKey(fTime, pkKeys, uiType, uiNumKeys, &uiLastIdx, ucSize);
     }
@@ -5367,13 +5427,6 @@ struct NiFixedString {
     NiFixedString& operator=(char* const& s) { m_kHandle = s; return *this; }
 };
 
-class NiRefObject {
-public:
-    virtual ~NiRefObject() throw();
-    unsigned int m_uiRefCount;
-    void IncRefCount() throw();
-    void DecRefCount() throw();
-};
 
 class NiObject : public NiRefObject {
 public:

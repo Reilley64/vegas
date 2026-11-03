@@ -2783,7 +2783,10 @@ class FUN_00b0dc10_Vector : public vectorS<int>
 // @fnv 0x00b0dc10
 void FUN_00b0dc10_Vector::FUN_00b0dc10()
 {
-    reinterpret_cast<::FUN_00b0e510_cls *>(this)->FUN_00b0e510((*(::FUN_00b0e510_pair * *)&(const ::_Vector_const_iteratorS<int> &)(begin())), (*(unsigned int *)&(const ::_Vector_const_iteratorS<int> &)(end())), {}, {}, {});
+    const ::_Vector_const_iteratorS<int> &first = begin();
+    const ::_Vector_const_iteratorS<int> &last = end();
+    ::FUN_00b0e510_pair result;
+    reinterpret_cast<::FUN_00b0e510_cls *>(this)->FUN_00b0e510(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)(((void *const *)&(first))[1]), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)(((void *const *)&(last))[1]));
 }
 
 struct DceAux;
@@ -4221,7 +4224,12 @@ void VcVec::FUN_00b0e200(unsigned int _Newsize, char _Val)
     if (size() < _Newsize)
         reinterpret_cast<::ByteVector *>(this)->FUN_00b0ecf0((*(::ByteIterator *)&(const ::VcConstIter &)(end())), _Newsize - size(), _Val);
     else if (_Newsize < size())
-        reinterpret_cast<::FUN_00b0e510_cls *>(this)->FUN_00b0e510((*(::FUN_00b0e510_pair * *)&(const ::VcConstIter &)(begin() + _Newsize)), (*(unsigned int *)&(const ::VcConstIter &)(end())), {}, {}, {});
+    {
+        const ::VcConstIter &first = begin() + _Newsize;
+        const ::VcConstIter &last = end();
+        ::FUN_00b0e510_pair result;
+        reinterpret_cast<::FUN_00b0e510_cls *>(this)->FUN_00b0e510(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)(((void *const *)&(first))[1]), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)(((void *const *)&(last))[1]));
+    }
 }
 
 // @fnv 0x00b0e3e0
@@ -5467,7 +5475,8 @@ void Effect::FUN_00b13100(ParentNode* node, float amount, unsigned int index, co
     float distance = reinterpret_cast<::FUN_00b37ad0_class *>((profile->GetCurve()))->FUN_00b37ad0(time) * amount;
     float step = max_value(distance / profile->count, 0.01f);
     float randomAngle = reinterpret_cast<::FUN_00b3f130_shell *>(&((*reinterpret_cast<::fnv_00b13100::RandomSource *>(&::g_011f8c05))))->FUN_00b3f130(-180.0f, 180.0f);
-    Vector3 rotated = (*(::fnv_00b13100::Vector3 *)(reinterpret_cast<::FUN_00b12b50_class *>((void *)&(rotation))->TransformVector((float *)&(axis), {})));
+    Vector3 rotated;
+    reinterpret_cast<::FUN_00b12b50_class *>((void *)&(rotation))->TransformVector((float *)(void *)(&rotated), (const float *)(void *)(&axis));
     TransformRecord::TransformData* from = &transforms[0];
     from->position = position;
     from->rotation = rotation;
@@ -5475,7 +5484,10 @@ void Effect::FUN_00b13100(ParentNode* node, float amount, unsigned int index, co
     from->rotation.FUN_00b134d0(arc);
     from->direction = (*reinterpret_cast<::fnv_00b13100::Vector3 *>(&::DAT_011f8c40)).FUN_00b12890(from->rotation);
     TransformRecord::TransformData* pOther = &transforms[1];
-    pOther->position = (*(::fnv_00b13100::Vector3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(from->position))->AddVector((float *)&(const ::fnv_00b13100::Vector3 &)(from->direction.ScaleSwizzled(step)), {})));
+    Vector3 scaled = from->direction.ScaleSwizzled(step);
+    Vector3 moved;
+    reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(from->position))->AddVector((float *)(void *)(&moved), (const float *)(void *)(&scaled));
+    pOther->position = moved;
     Vector3 forward = transforms[1].position.FUN_00b13040(transforms[0].position);
     reinterpret_cast<::FUN_00b12790_class *>(&(forward))->FUN_00b12790();
     Vector3 towardParent;

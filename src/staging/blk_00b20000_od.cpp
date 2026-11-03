@@ -2885,7 +2885,10 @@ template <class T> struct ShortVec : ContainerBase
         if (size() < newSize)
             FUN_00b34e10(end(), newSize - size(), val);
         else if (newSize < size())
-            reinterpret_cast<::FUN_00b33af0_cls *>(this)->FUN_00b33af0((*(::FUN_00b33af0_pair * *)&(const ::fnv_00b337f0::ConstIter<unsigned short> &)(begin() + newSize)), (*(unsigned int *)&(const ::fnv_00b337f0::ConstIter<unsigned short> &)(end())), {}, {}, {});
+            const ::fnv_00b337f0::ConstIter<unsigned short> &first = begin() + newSize;
+            const ::fnv_00b337f0::ConstIter<unsigned short> &last = end();
+            ::FUN_00b33af0_pair result;
+            reinterpret_cast<::FUN_00b33af0_cls *>(this)->FUN_00b33af0(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)(((void *const *)&(first))[1]), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)(((void *const *)&(last))[1]));
     }
 };
 template void ShortVec<unsigned short>::FUN_00b337f0(unsigned int, unsigned short);
@@ -3619,7 +3622,10 @@ using namespace vecb2d;
 // @fnv 0x00b2df90
 void VcVector::FUN_00b2df90()
 {
-    reinterpret_cast<::FUN_00b2e250_cls *>(this)->FUN_00b2e250((*(::SpanPair * *)&(const ::fnv_00b2df90::vecb2d::VcConstIterator &)(begin())), (*(int *)&(const ::fnv_00b2df90::vecb2d::VcConstIterator &)(end())), {}, {}, {});
+    const ::fnv_00b2df90::vecb2d::VcConstIterator &first = begin();
+    const ::fnv_00b2df90::vecb2d::VcConstIterator &last = end();
+    ::SpanPair result;
+    reinterpret_cast<::FUN_00b2e250_cls *>(this)->FUN_00b2e250(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)(((void *const *)&(first))[1]), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)(((void *const *)&(last))[1]));
 }
 }
 
@@ -5352,7 +5358,10 @@ class FUN_00b32540_Vector : public vectorS<int>
 // @fnv 0x00b32540
 void FUN_00b32540_Vector::FUN_00b32540()
 {
-    reinterpret_cast<::FUN_00b33af0_cls *>(this)->FUN_00b33af0((*(::FUN_00b33af0_pair * *)&(const ::_Vector_const_iteratorS<int> &)(begin())), (*(unsigned int *)&(const ::_Vector_const_iteratorS<int> &)(end())), {}, {}, {});
+    const ::_Vector_const_iteratorS<int> &first = begin();
+    const ::_Vector_const_iteratorS<int> &last = end();
+    ::FUN_00b33af0_pair result;
+    reinterpret_cast<::FUN_00b33af0_cls *>(this)->FUN_00b33af0(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)(((void *const *)&(first))[1]), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)(((void *const *)&(last))[1]));
 }
 
 namespace fnv_00b32880 {
@@ -10168,7 +10177,10 @@ void ResizeContainer::FUN_00b3d910(unsigned int count, T value)
     if (size() < count)
         FUN_00b3dbd0(end(), count - size(), value);
     else if (count < size())
-        reinterpret_cast<::FUN_00b2e250_cls *>(this)->FUN_00b2e250((*(::SpanPair * *)&(const ::fnv_00b3d910::ResizeCIterator &)(begin() + count)), (*(int *)&(const ::fnv_00b3d910::ResizeCIterator &)(end())), {}, {}, {});
+        const ::fnv_00b3d910::ResizeCIterator &first = begin() + count;
+        const ::fnv_00b3d910::ResizeCIterator &last = end();
+        ::SpanPair result;
+        reinterpret_cast<::FUN_00b2e250_cls *>(this)->FUN_00b2e250(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)(((void *const *)&(first))[1]), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)(((void *const *)&(last))[1]));
     Pad24();
 }
 }

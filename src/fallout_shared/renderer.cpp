@@ -219,7 +219,7 @@ bool __cdecl FUN_004da570()
 
     if (::FUN_004dce30())
     {
-        TgtOps* target = ((::fnv_004da570::TgtOps *)(::fnv_004dcdb0::GetFltValueAt(0)));
+        TgtOps* target = ((::fnv_004da570::TgtOps *)(std::uintptr_t)(::fnv_004dcdb0::GetFltValueAt(0)));
         if (target)
         {
             char const* pcMenuState = static_cast<char const*>(reinterpret_cast<::FUN_004da650_shell *>((target))->GetFieldAt204());
@@ -305,7 +305,7 @@ void __cdecl ApplyGammaRamp()
         kRamp4.green[i] = (unsigned short)(::fnv_004dd130::FUN_004dd130((float)(i / 255.0), ::DAT_0118945c) * 65535.0 + 0.5);
         kRamp4.blue[i] = (unsigned short)(::fnv_004dd130::FUN_004dd130((float)(i / 255.0), ::DAT_0118945c) * 65535.0 + 0.5);
     }
-    ((::GRDevice *)(reinterpret_cast<::FUN_004dc020_Class *>((((GRRenderer*)g_spGRRenderer)))->FUN_004dc020()))->SetGammaRamp(0, 1, &kRamp4);
+    ((::GRDevice *)(std::uintptr_t)(reinterpret_cast<::FUN_004dc020_Class *>((((GRRenderer*)g_spGRRenderer)))->FUN_004dc020()))->SetGammaRamp(0, 1, &kRamp4);
 }
 
 #include <string.h>
@@ -1686,7 +1686,7 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
         ((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(DAT_011c73b4))))->vfn_b0(((std::intptr_t)(::FUN_004dc2c0())));
         if (DAT_011c6fba != 0)
         {
-            RendObj* sub = ((::fnv_004da670::RendObj *)(reinterpret_cast<::FUN_004dc020_Class *>((((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(DAT_011c73b4))))))->FUN_004dc020()));
+            RendObj* sub = ((::fnv_004da670::RendObj *)(std::uintptr_t)(reinterpret_cast<::FUN_004dc020_Class *>((((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(DAT_011c73b4))))))->FUN_004dc020()));
             if (sub != 0)
             {
                 sub->vfn_13c((float)FUN_004dc2b0());
@@ -1701,7 +1701,7 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
     ::fnv_00a76b60::AssignImageConverter((::NiImageConverter *)(void *)(new ShaderInitializer));
     ::FUN_004dc050(true);
     ::FUN_004dc010(0);
-    DbcObj* dbc15 = ((::fnv_004da670::DbcObj *)(::fnv_004dcdb0::GetFltValueAt(::FUN_004dc210())));
+    DbcObj* dbc15 = ((::fnv_004da670::DbcObj *)(std::uintptr_t)(::fnv_004dcdb0::GetFltValueAt(::FUN_004dc210())));
     void* spells117 = reinterpret_cast<::FUN_004da650_shell *>((dbc15))->GetFieldAt204();
     void* spells218 = ((void *)(reinterpret_cast<::BaseProcess *>((dbc15))->GetCurrentProcessData()));
     (void)spells117;
@@ -1972,9 +1972,9 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
         std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021434, t1404);
         std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021418, sub13013->fcc & 0xffff);
         std::fprintf((std::FILE *)(file32), (const char*)&DAT_010213fc, sub13013->fc4 & 0xffff);
-        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010213e0, ((int)(::NiD3DGPUProgramCache::GetVertexShaderProfile())));
-        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010213c4, ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(0))));
-        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010213a8, ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1))));
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010213e0, ((::NiD3DGPUProgramCache::GetVertexShaderProfile())));
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010213c4, ((::NiD3DGPUProgramCache::GetPixelShaderProfile(0))));
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010213a8, ((::NiD3DGPUProgramCache::GetPixelShaderProfile(1))));
         std::fprintf((std::FILE *)(file32), (const char*)&DAT_0102138c, (int)wval40);
         std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021368,
                      (*reinterpret_cast<unsigned char *>(&::DAT_011f94a4)) ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);

@@ -112,7 +112,7 @@ extern int DAT_01011d68;
 // @fnv 0x00402d30
 int* FUN_00402d30(int* this_ptr)
 {
-    *this_ptr = (int)&DAT_01011d68;
+    *this_ptr = (std::intptr_t)&DAT_01011d68;
     return this_ptr;
 }
 
@@ -1062,9 +1062,9 @@ struct AlchemySave : AlchPrimBase, AlchSaveBase
 void AlchemySave::FUN_00402f90()
 {
     FormStub* oldItem = ((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0()));
-    reinterpret_cast<::FUN_00874460_cls *>(this)->set((std::intptr_t)(((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0())) ? (FormStub*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0()))))->FUN_0084e3a0())) : 0));
-    FormStub* pOldSound = ((::FormStub *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()));
-    reinterpret_cast<::AlchemyItem *>(this)->SetSound((::TESSound *)(::FormStub *)(((::FormStub *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8())) ? (FormStub*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FormStub *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()))))->FUN_0084e3a0())) : 0));
+    reinterpret_cast<::FUN_00874460_cls *>(this)->set((std::intptr_t)(((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0())) ? (FormStub*)((std::uintptr_t)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0()))))->FUN_0084e3a0())) : 0));
+    FormStub* pOldSound = ((::FormStub *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()));
+    reinterpret_cast<::AlchemyItem *>(this)->SetSound((::TESSound *)(::FormStub *)(((::FormStub *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8())) ? (FormStub*)((std::uintptr_t)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FormStub *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()))))->FUN_0084e3a0())) : 0));
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_00403720_shell *>(&(data))->SwapEndian();
     ::AppendChunk(s24(), &data, 0x14);
@@ -1089,7 +1089,7 @@ struct FUN_00403590_sub
     virtual void v1C();
     virtual void v20();
     virtual void v24();
-    virtual unsigned int v28();
+    virtual std::uintptr_t v28();
 };
 
 class FUN_00403590_cls

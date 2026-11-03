@@ -52,7 +52,7 @@ bool EffectItem::IsDetrimental()
 // @fnv 0x00404730
 bool EffectItem::IsScriptBasedEffect()
 {
-    return ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(this)->FUN_00825c00())) == ((::EffectSetting *)(::FUN_00408b50()));
+    return ((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(this)->FUN_00825c00())) == ((::EffectSetting *)(std::uintptr_t)(::FUN_00408b50()));
 }
 
 // Returns the effect name by delegating to the effect's GetEffectName method.
@@ -151,7 +151,7 @@ struct S3e60
 // @fnv 0x00404710
 bool EffectItem::IsHostile()
 {
-    return reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(this)->FUN_00825c00()))))->FUN_00403e60(1);
+    return reinterpret_cast<::S3e60 *>((((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(this)->FUN_00825c00()))))->FUN_00403e60(1);
 }
 // @fnv 0x00403e60
 bool S3e60::FUN_00403e60(unsigned int auiFlag)
@@ -354,7 +354,7 @@ float FUN_00403f00_shell::FUN_00403f00()
 {
     if (m_fCost < 0.0)
     {
-        m_fCost = CalcEffectCost(((TESGrass*)((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(this)->FUN_00825c00())))->GetLowestAllowedSlope(), reinterpret_cast<::FUN_00404420_shell *>(this)->FUN_00404420(), reinterpret_cast<::FUN_004044d0_shell *>(this)->FUN_004044d0(),
+        m_fCost = CalcEffectCost(((TESGrass*)((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(this)->FUN_00825c00())))->GetLowestAllowedSlope(), reinterpret_cast<::FUN_00404420_shell *>(this)->FUN_00404420(), reinterpret_cast<::FUN_004044d0_shell *>(this)->FUN_004044d0(),
                                  reinterpret_cast<::FUN_00404390_shell *>(this)->FUN_00404390(), reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0() == 2);
     }
     return m_fCost;
@@ -362,7 +362,7 @@ float FUN_00403f00_shell::FUN_00403f00()
 // @fnv 0x004042a0
 bool FUN_004042a0_shell::IsDifferentFrom(EffectItem* apCompare)
 {
-    bool bDifferent = ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((apCompare))->FUN_00825c00())) != ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(this)->FUN_00825c00())) ||
+    bool bDifferent = ((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((apCompare))->FUN_00825c00())) != ((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(this)->FUN_00825c00())) ||
                       reinterpret_cast<::FUN_00404390_shell *>((apCompare))->FUN_00404390() != reinterpret_cast<::FUN_00404390_shell *>(this)->FUN_00404390() || reinterpret_cast<::FUN_00404420_shell *>((apCompare))->FUN_00404420() != reinterpret_cast<::FUN_00404420_shell *>(this)->FUN_00404420() ||
                       reinterpret_cast<::FUN_004044d0_shell *>((apCompare))->FUN_004044d0() != reinterpret_cast<::FUN_004044d0_shell *>(this)->FUN_004044d0() || reinterpret_cast<::FUN_0084e3a0_Class *>((apCompare))->FUN_0084e3a0() != reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0() ||
                       apCompare->GetAffectedActorValue() != GetAffectedActorValue();
@@ -433,14 +433,14 @@ class TESChallenge
 Script* FUN_004045e0_shell::GetScriptFromEffectSetting()
 {
     Script* pscript = 0;
-    EffectSetting* psetting = ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(this)->FUN_00825c00()));
+    EffectSetting* psetting = ((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(this)->FUN_00825c00()));
     if (::HasEffectArchetypeFlag((*(int *)&(const ::fnv_004045e0::MagicEffectSystem::_Type::Type &)((MagicEffectSystem::_Type::Type)reinterpret_cast<::EffectSetting *>((psetting))->GetArchetype())), 0x40))
     {
         if (((TESChallenge*)psetting)->GetInterval())
         {
             if (_FNV_GetFormType(((TESChallenge*)psetting)->GetInterval()) == 0x11)
             {
-                pscript = (Script*)((TESChallenge*)((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(this)->FUN_00825c00())))->GetInterval();
+                pscript = (Script*)(std::uintptr_t)((TESChallenge*)((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(this)->FUN_00825c00())))->GetInterval();
             }
         }
     }

@@ -138,7 +138,7 @@ struct FUN_00688f90_shell
 
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 
 struct BSTempEffectParticle
@@ -181,7 +181,7 @@ struct DetachHost : BSTempEffectParticle
 // @fnv 0x006896c0
 void DetachHost::FUN_006896c0()
 {
-    NiNode* pnode = m_flt ? ((NiNode*)(unsigned int)m_flt)->f3() : 0;
+    NiNode* pnode = m_flt ? ((NiNode*)(std::uintptr_t)m_flt)->f3() : 0;
     if (pnode)
         ::fnv_00578170::FUN_00578170(pnode);
 }
@@ -246,7 +246,7 @@ struct FUN_00689920_shell
 void FUN_00689920_shell::FUN_00689920(const char* name)
 {
     NiControllerManager* controllerManager =
-        ((::NiControllerManager *)(::FUN_00653270(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiNode *)(((::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)(reinterpret_cast<Model*>(m_flt.operator unsigned int())))))))));
+        ((::NiControllerManager *)(::FUN_00653270(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiNode *)(((::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)(reinterpret_cast<Model*>(m_flt.operator std::uintptr_t())))))))));
 
     if (controllerManager)
     {
@@ -1525,16 +1525,16 @@ void SGTempEffectParticle::FUN_00689cb0()
 {
     unsigned short usBlockLen = 0;
     unsigned short* pSizeLoc = 0;
-    char* pBeginPos = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    char* pBeginPos = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
     if (*(*reinterpret_cast<::fnv_00689cb0::SGSettingBool *>(&::g_011de4e8)).FUN_00408d60())
     {
-        pBeginPos = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        pBeginPos = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned int uiMarker = 'BLOK';
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&uiMarker, 4);
-        pSizeLoc = (unsigned short*)((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        pSizeLoc = (unsigned short*)((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&usBlockLen, 2);
     }
 
@@ -1565,7 +1565,7 @@ void SGTempEffectParticle::FUN_00689cb0()
 
     if (*(*reinterpret_cast<::fnv_00689cb0::SGSettingBool *>(&::g_011de4e8)).FUN_00408d60())
     {
-        char* pDebugEnd = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        char* pDebugEnd = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
         SGChangeRecord* pChange = ((::fnv_00689cb0::SGChangeRecord *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (pChange)
         {
@@ -1579,7 +1579,7 @@ void SGTempEffectParticle::FUN_00689cb0()
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        std::uintptr_t uiEnd = (std::uintptr_t)((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        std::uintptr_t uiEnd = (std::uintptr_t)((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
         std::uintptr_t uiStart = (std::uintptr_t)pSizeLoc;
         if (uiEnd > uiStart + 0xFFFF)
         {

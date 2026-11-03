@@ -494,7 +494,7 @@ struct TESObjectLIGH;
 struct TESLevItem;
 struct BGSTerrainManager
 {
-    unsigned int GetMinLevel();
+    std::uintptr_t GetMinLevel();
 };
 struct RegionPointList
 {
@@ -526,9 +526,9 @@ void FUN_00510130_shell::RemoveNode(NiNode* pNode)
     std::uintptr_t n = ((BGSTerrainManager*)pNode)->GetMinLevel();
     if (n)
     {
-        reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((((RegionPointList*)n)))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)((unsigned int)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((GetNextObj*)pNode)))->FUN_007af430()))));
+        reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((((RegionPointList*)n)))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((GetNextObj*)pNode)))->FUN_007af430()))));
     }
-    n = (unsigned int)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((GetNextObj*)pNode)))->FUN_007af430()));
+    n = ((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((GetNextObj*)pNode)))->FUN_007af430()));
     if (n)
     {
         reinterpret_cast<::BGSDehydrationStage *>((((TESActorBaseData*)n)))->FUN_0050f9a0((::SpellItem *)(::TESLevItem *)((TESLevItem*)((BGSTerrainManager*)pNode)->GetMinLevel()));
@@ -1317,7 +1317,7 @@ Light* LightForm::FUN_0050d810(Reference* reference, Scene* pScene, bool force)
     if (flags & 4)
         tintSlot1 = (*(::LightCreation::Color *)(reinterpret_cast<::P3 *>(&(tintSlot1))->FUN_004a0bd0({})));
     Scene* rootSlot19 = 0;
-    Extra* extra = pScene->GetExtra(((const char *)(::FUN_0050de10())));
+    Extra* extra = pScene->GetExtra(((const char *)(std::uintptr_t)(::FUN_0050de10())));
     if (extra)
         rootSlot19 = extra->GetScene();
     if (!rootSlot19)
@@ -1328,7 +1328,7 @@ Light* LightForm::FUN_0050d810(Reference* reference, Scene* pScene, bool force)
         char name[260];
         ::FUN_00406d00(name, 260, DAT_010290a4, Name());
         lightSlot12 = new Light;
-        ::AssignFixedString((char *)(lightSlot12), (int)&(const ::LightCreation::FixedString &)(FixedString(name)), {});
+        ::AssignFixedString((char *)(lightSlot12), (std::intptr_t)&(const ::LightCreation::FixedString &)(FixedString(name)), {});
         rootSlot19->Attach(lightSlot12, true);
     }
     if (reference)

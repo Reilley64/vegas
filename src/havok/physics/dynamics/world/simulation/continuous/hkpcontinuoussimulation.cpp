@@ -4601,8 +4601,7 @@ public:
     inline BoolFlag operator!=(bool b) const {return int(value)!=int(b);}
 };
 struct ArrayOps {
-    static __declspec(nothrow) void __cdecl ResizeAudioStream(hkMemoryAllocator&,void*,int) throw();
-    __forceinline static void GrowArray(hkMemoryAllocator& a,void* p,int n) {ResizeAudioStream(a,p,n);}
+    __forceinline static void GrowArray(hkMemoryAllocator& a,void* p,int n) {::ResizeAudioStream((::AudioAllocator *)(&a),(::AudioStream *)(p),n);}
 };
 template<class T> __forceinline void releaseArena(T* p) {hkMemoryRouter::getInstance().deallocateStack(p);}
 template<class T> __forceinline T* allocateArena(int n) {return static_cast<T*>(hkMemoryRouter::getInstance().allocateStack((n*int(sizeof(T))+127)&~127));}
@@ -5754,7 +5753,6 @@ int __cdecl FUN_00d0f300(const EventQuery&,SolverState&,Entry70&,PhaseObj&,Arg0*
 struct SolveConstraint;
 struct SolveSchemaInfo {SolveConstraint* constraint;void* schema;float depth;};
 
-void __cdecl reserveSolveArray(hkMemoryAllocator&,void*,int,int);
 template<class T> struct SolveArray {
     T* data;int size,capacity;
     __forceinline SolveArray():data(0),size(0),capacity(0x80000000){}
@@ -5764,7 +5762,7 @@ template<class T> struct SolveArray {
     __forceinline T& operator[](int i){return data[i];}
     __forceinline const T& operator[](int i)const{return data[i];}
     __forceinline void clear(){size=0;}
-    __forceinline void reserve(int n){if(n>(capacity&0x3fffffff))reserveSolveArray(*hkMemoryRouter::getInstance().m_heap,this,n,sizeof(T));}
+    __forceinline void reserve(int n){if(n>(capacity&0x3fffffff))::FUN_00c908c0((::SpawnedObject *)(hkMemoryRouter::getInstance().m_heap),(::SpawnedArray *)(void *)(this),n,sizeof(T));}
     __forceinline void pushBackUnchecked(const T& v){data[size++]=v;}
     __forceinline void AddBack(const T& v){reserve(size+1);pushBackUnchecked(v);}
     __forceinline void removeAt(int i){--size;if(size!=i)data[i]=data[size];}
@@ -6188,7 +6186,6 @@ unsigned char* __cdecl CollectMatchingEntries(unsigned char* pResult, SrcA* pSrc
 void FUN_00d0bf30(World_b2089* world, EntryList_b2089* pEntries);
 void __cdecl ProcessCollisionEvent(void* context, CollisionEvent* event, float deltaTime, CollisionQueue* queue);
 void UpdateBroadPhasePairs(CollidableD0** collidables, int numCollidables, WorldD0* world, PairArrayD0& newPairs, PairArrayD0& delPairs);
-void ReserveMoreL(hkMemoryAllocator& alloc, void* arr, int elemSize) throw();
 void CollectUnsaturatedObjects(SrcL* pSource, int level, float fValue, unsigned char** ppFlags, ArrL<ObjL*>* out);
 void FUN_00d0bc50(int, int, int);
 void FUN_00d0bcf0(int a);

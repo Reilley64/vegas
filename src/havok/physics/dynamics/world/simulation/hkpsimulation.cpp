@@ -443,18 +443,6 @@ void hkpSimulationV::ResetSimulationState(hkpEntity** entities, int numEntities,
 }
 }  // namespace fnv_00cfa470
 
-struct FnvCpu_FUN_00cfa7a0_CpuAllocator {
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00cfa7a0_CpuAllocator* allocator;
-};
 
 struct FnvCpu_FUN_00cfa7a0_CpuObject {
     unsigned int unk00;
@@ -466,8 +454,7 @@ FnvCpu_FUN_00cfa7a0_CpuObject* FnvCpu_FUN_00cfa7a0_CpuObject::FUN_00cfa7a0(unsig
 {
     reinterpret_cast<::FUN_00cf86d0_cls *>(this)->FUN_00cf86d0();
     if (flags & 1) {
-        FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder*>(::FUN_00c85750());
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter::getInstance().heap().blockFree(this, size);
     }
     return this;
 }
@@ -1871,12 +1858,6 @@ __declspec(noinline) void WorldFull::ComputeMemoryUsage(MemoryRequirements* memo
         if (size>memory->max) { memory->max=size; memory->biggest=island; }
     }
 }
-struct MemoryManager {
-    virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3();
-    virtual void slot4(); virtual void slot5(); virtual void slot6(); virtual void slot7();
-    virtual bool available(int);
-};
-struct Holder { unsigned int unk00, unk04, unk08, unk0c, unk10, unk14; MemoryManager* memory; };
 
 struct __declspec(align(16)) IntegrationContext {
     unsigned int unk000;
@@ -1983,11 +1964,8 @@ int Simulation::FUN_00cf8da0(const TimeInterval* step) {
     ::FUN_00cb55d0((::S55Owner *)(m_pOwningWorld));
 
     reinterpret_cast<::FUN_00c92b50_Class *>((m_pOwningWorld))->ComputeMemoryUsage((::hkpWorld_MemUsageOut *)(::MemoryRequirements *)(&resources.memory));
-    Holder* holder;
-    MemoryManager* solver;
-    holder = (Holder*)static_cast<FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder*>(::FUN_00c85750());
-    solver = holder->memory;
-    if (!solver->available(resources.memory.max)) {
+    hkMemoryAllocator* solver = hkMemoryRouter::getInstance().m_solver;
+    if (!solver->forwardToCanAllocTotal(resources.memory.max)) {
         if (reinterpret_cast<::WorldWatchDogHolder *>((m_pOwningWorld))->FUN_00c93570()) {
             m_pOwningWorld->unlock();
             ::FUN_00d01bc0((::S_00d01bc0_Owner *)(m_pOwningWorld));
@@ -2512,11 +2490,6 @@ void Sim::FUN_00cf8b00()
 }
 }  // namespace fnv_00cf8b00
 
-struct Allocator {
-    virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3();
-    virtual void freeBlock(void*, int);
-};
-struct MemoryRouter { int unk00, unk04, unk08, unk0c; Allocator* heap; };
 
 struct Pair;
 struct PairEntry { Pair* pair; int key; };
@@ -2738,12 +2711,11 @@ struct SavedTransform {
 struct Vec4f { int x, y, z, w; };
 __forceinline void copySnapshot(Vec4f& dest,const void* value) { const Vec4f& src=*reinterpret_cast<const Vec4f*>(value); dest.x=src.x; dest.y=src.y; dest.z=src.z; dest.w=src.w; }
 inline void releaseAll(PairArray& pairs, PairMap& visited) {
-    MemoryRouter* router=(MemoryRouter*)static_cast<FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder*>(::FUN_00c85750());
-    Allocator* heap=router->heap;
+    hkMemoryAllocator* heap=hkMemoryRouter::getInstance().m_heap;
     pairs.size=0;
-    if((pairs.capacity&0x80000000)==0) heap->freeBlock(pairs.data,(pairs.capacity&0x3fffffff)*8);
+    if((pairs.capacity&0x80000000)==0) heap->bufFree(pairs.data,(pairs.capacity&0x3fffffff)*8);
     pairs.data=0; pairs.capacity=0x80000000;
-    Allocator* finalHeap=((MemoryRouter*)static_cast<FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder*>(::FUN_00c85750()))->heap;
+    hkMemoryAllocator* finalHeap=hkMemoryRouter::getInstance().m_heap;
     reinterpret_cast<::CB1A90Owner *>(&(visited))->ProcessArgument((::CB1A90Argument *)(finalHeap));
     ::FUN_00a29680();
 }
@@ -2771,7 +2743,7 @@ void MyObj::FUN_00cfa430(void* first, int second, S00cfa430_Data* data, unsigned
 void SimulationContext::FUN_00cf9480(Body** bodies, int count, CollisionInput* input, ProcessCallback callback, int mode) {
     PairMap visited;
     visited.data=0; visited.size=0; visited.mask=-1;
-    MemoryRouter* router=(MemoryRouter*)static_cast<FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder*>(::FUN_00c85750()); Allocator* initialHeap=router->heap;
+    hkMemoryAllocator* initialHeap=hkMemoryRouter::getInstance().m_heap;
     reinterpret_cast<::FUN_00cb1fe0_t *>(&(visited))->EnsureCapacity(reinterpret_cast<intptr_t>(initialHeap),count);
     __declspec(align(16)) CollisionOutput collisionOutput;
     collisionOutput.toiTime=3.402820018375656e38f;
@@ -2782,7 +2754,7 @@ void SimulationContext::FUN_00cf9480(Body** bodies, int count, CollisionInput* i
     for(int i=0;i<count;++i) {
         Body* body=bodies[i];
         Collidable* root=&body->collidable;
-        router=(MemoryRouter*)static_cast<FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder*>(::FUN_00c85750()); Allocator* currentHeap=router->heap;
+        hkMemoryAllocator* currentHeap=hkMemoryRouter::getInstance().m_heap;
         reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(visited))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(currentHeap)),(uintptr_t)(root),0);
         reinterpret_cast<::ContainerD082 *>((root))->CopyAndSortGeometryList((*(::hkArrayD082< ::ItemD082> *)(&pairs)));
         for(int j=0;j<pairs.size;++j) {
@@ -2909,7 +2881,7 @@ struct __declspec(align(16)) FNVState_CFA5F0 {
     int input58;
     int input5c;
     int reserved60;
-    int result64;
+    void* result64;
     float contactNormalX;
     float contactNormalY;
     float contactNormalZ;
@@ -2960,15 +2932,6 @@ struct FNVSIM_CFA5F0 {
     int unka0;
     int statusa4;
 };
-struct FNVAudio_CFA5F0 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2(int id, int flags);
-};
-struct FNVAudioHolder_CFA5F0 {
-    int unk00, unk04, unk08, unk0c;
-    FNVAudio_CFA5F0* audio10;
-};
 
 struct FNVOwner_CFA5F0 {
     void FUN_00cfa5f0(void* arg1,int arg2,FNVSIM_CFA5F0* sim, const int* values,int arg5);
@@ -2992,8 +2955,7 @@ void FNVOwner_CFA5F0::FUN_00cfa5f0(void* arg1,int arg2,FNVSIM_CFA5F0* sim,const 
         if (sim->statusa4 == 1 && sim->hasPending90) reinterpret_cast<::FUN_00c91140_Class *>((sim))->FUN_00c91140();
     }
     if (state.result64) {
-        FNVAudioHolder_CFA5F0* holder = static_cast<FNVAudioHolder_CFA5F0*>(::FUN_00c85750());
-        holder->audio10->v2(state.result64, 0x200);
+        hkMemoryRouter::getInstance().heap().blockFree(state.result64, 0x200);
     }
 }
 }  // namespace fnv_00cfa5f0

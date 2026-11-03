@@ -870,23 +870,7 @@ void Pending::FUN_00cf7c10()
 }
 
 namespace fnv_00cf75f0 {
-struct Allocator
-{
-    virtual void vtable_00() = 0;
-    virtual void vtable_04() = 0;
-    virtual void vtable_08() = 0;
-    virtual void vtable_0c() = 0;
-    virtual void Release(void* data, unsigned int size) = 0;
-};
 
-struct BSAudio
-{
-    unsigned long field_00;
-    unsigned long field_04;
-    unsigned long field_08;
-    unsigned long field_0c;
-    Allocator* allocator;
-};
 
 
 
@@ -920,15 +904,14 @@ template <typename T> void Buffer<T>::clear()
 {
     const unsigned int stride = sizeof(T);
 
-    BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
-    Allocator* alloc = audio->allocator;
+    hkMemoryAllocator* alloc = hkMemoryRouter::getInstance().m_heap;
 
     const unsigned int f = flags;
     size = 0;
 
     if (!(f & 0x80000000u))
     {
-        alloc->Release(data, (f & 0x3fffffffu) * stride);
+        alloc->bufFree(data, (f & 0x3fffffffu) * stride);
     }
 
     data = 0;
@@ -956,16 +939,6 @@ void Owner::FUN_00cf75f0()
 }  // namespace fnv_00cf75f0
 
 namespace fnv_00cf7690 {
-struct BSAudio
-{
-    unsigned char unk00[0x10];
-    struct Alloc* alloc;
-};
-struct Alloc
-{
-    virtual void V00();
-    virtual void* V04(int sz);
-};
 struct Obj
 {
 };
@@ -1019,10 +992,10 @@ struct Vec
 void Vec::FUN_00cf7690(Elem* arg)
 {
     ::EnterTlsGuard();
-    BSAudio* bsa = static_cast<BSAudio*>(::FUN_00c85750());
+    hkMemoryRouter* bsa = &hkMemoryRouter::getInstance();
     if (cnt == (cap & 0x3fffffff))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(bsa->alloc), (::AudioStream *)(void *)(this), sizeof(Elem));
+        ::ResizeAudioStream((::AudioAllocator *)(bsa->m_heap), (::AudioStream *)(void *)(this), sizeof(Elem));
     }
     Elem* pNew = data + cnt;
     if (pNew)
@@ -1059,8 +1032,8 @@ void Vec::FUN_00cf7690(Elem* arg)
     case 6: {
         intptr_t f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
-        void* mem = b->alloc->V04(count * (int)sizeof(Obj*));
+        hkMemoryRouter* b = &hkMemoryRouter::getInstance();
+        void* mem = b->m_heap->blockAlloc(count * (int)sizeof(Obj*));
         dst->f04 = (Obj**)mem;
         ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * sizeof(Obj*));
         Obj** p = dst->f04;
@@ -1075,8 +1048,8 @@ void Vec::FUN_00cf7690(Elem* arg)
     case 7: {
         intptr_t f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
-        void* mem = b->alloc->V04(count * (int)sizeof(Obj*));
+        hkMemoryRouter* b = &hkMemoryRouter::getInstance();
+        void* mem = b->m_heap->blockAlloc(count * (int)sizeof(Obj*));
         dst->f04 = (Obj**)mem;
         ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * sizeof(Obj*));
         Obj** p = dst->f04;
@@ -1105,10 +1078,10 @@ void Vec::FUN_00cf7690(Elem* arg)
         reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f08)))->FUN_00c90510();
         {
             VecBase* s = &sub;
-            BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
+            hkMemoryRouter* b = &hkMemoryRouter::getInstance();
             if (s->cnt == (s->cap & 0x3fffffff))
             {
-                ::ResizeAudioStream((::AudioAllocator *)(b->alloc), (::AudioStream *)(s), sizeof(Elem));
+                ::ResizeAudioStream((::AudioAllocator *)(b->m_heap), (::AudioStream *)(s), sizeof(Elem));
             }
             Elem* d2 = s->data + s->cnt;
             if (d2)
@@ -1129,8 +1102,8 @@ void Vec::FUN_00cf7690(Elem* arg)
     case 15: {
         intptr_t f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
-        void* mem = b->alloc->V04(count * (int)sizeof(Obj*));
+        hkMemoryRouter* b = &hkMemoryRouter::getInstance();
+        void* mem = b->m_heap->blockAlloc(count * (int)sizeof(Obj*));
         dst->f04 = (Obj**)mem;
         ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * sizeof(Obj*));
         Obj** p = dst->f04;
@@ -1145,8 +1118,8 @@ void Vec::FUN_00cf7690(Elem* arg)
     case 16: {
         intptr_t f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
-        void* mem = b->alloc->V04(count * (int)sizeof(Obj*));
+        hkMemoryRouter* b = &hkMemoryRouter::getInstance();
+        void* mem = b->m_heap->blockAlloc(count * (int)sizeof(Obj*));
         dst->f04 = (Obj**)mem;
         ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * sizeof(Obj*));
         Obj** p = dst->f04;
@@ -1160,8 +1133,8 @@ void Vec::FUN_00cf7690(Elem* arg)
         return;
     case 17: {
         reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
-        BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
-        void* mem = b->alloc->V04(0x20);
+        hkMemoryRouter* b = &hkMemoryRouter::getInstance();
+        void* mem = b->m_heap->blockAlloc(0x20);
         intptr_t nf08;
         if (mem)
         {
@@ -1202,8 +1175,8 @@ void Vec::FUN_00cf7690(Elem* arg)
     case 23: {
         intptr_t f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
-        void* mem = b->alloc->V04(count * (int)sizeof(Obj*));
+        hkMemoryRouter* b = &hkMemoryRouter::getInstance();
+        void* mem = b->m_heap->blockAlloc(count * (int)sizeof(Obj*));
         dst->f04 = (Obj**)mem;
         ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * sizeof(Obj*));
         Obj** p = dst->f04;

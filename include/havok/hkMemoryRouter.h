@@ -47,6 +47,19 @@ struct hkMemoryRouter
     hkMemoryAllocator* m_debug;  // +0x14
     hkMemoryAllocator* m_solver; // +0x18
 
+    // Bump allocation from the thread's stack area; callers round numBytes as the original did.
+    void* allocateStack(int numBytes)
+    {
+        char* p = m_stackCurrent;
+        m_stackCurrent = p + numBytes;
+        return p;
+    }
+
+    void deallocateStack(void* p)
+    {
+        m_stackCurrent = static_cast<char*>(p);
+    }
+
     hkMemoryAllocator& temp()
     {
         return *m_temp;

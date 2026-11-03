@@ -2581,7 +2581,7 @@ bool WeaponCompareAccess::IsDifferentFrom(TESForm* form) {
     if (memcmp(&m_kVATSData, &other->m_kVATSData, 0x14)) return true;
     if (reinterpret_cast<::FUN_005215a0_shell *>(this)->FUN_005215a0(false) != reinterpret_cast<::FUN_005215a0_shell *>((other))->FUN_005215a0(false)) return true;
     if (reinterpret_cast<::FUN_00522440_shell *>(this)->GetValueByFlag(false) != reinterpret_cast<::FUN_00522440_shell *>((other))->GetValueByFlag(false)) return true;
-    if (((int)(reinterpret_cast<::S_00522470 *>(this)->GetPointerByFlag(false))) != ((int)(reinterpret_cast<::S_00522470 *>((other))->GetPointerByFlag(false)))) return true;
+    if (((int)(std::intptr_t)(reinterpret_cast<::S_00522470 *>(this)->GetPointerByFlag(false))) != ((std::intptr_t)(reinterpret_cast<::S_00522470 *>((other))->GetPointerByFlag(false)))) return true;
     if (reinterpret_cast<::FUN_008bffa0_shell *>(this)->GetField228() != reinterpret_cast<::FUN_008bffa0_shell *>((other))->GetField228()) return true;
     if (((int)(reinterpret_cast<::FUN_005224c0_Class *>(this)->GetField22C())) != ((int)(reinterpret_cast<::FUN_005224c0_Class *>((other))->GetField22C()))) return true;
     if (((int)(reinterpret_cast<::FUN_005224e0_class *>(this)->GetField230())) != ((int)(reinterpret_cast<::FUN_005224e0_class *>((other))->GetField230()))) return true;
@@ -2590,7 +2590,7 @@ bool WeaponCompareAccess::IsDifferentFrom(TESForm* form) {
     if (reinterpret_cast<::FUN_00522540_shell *>(this)->GetField23C() != reinterpret_cast<::FUN_00522540_shell *>((other))->GetField23C()) return true;
     if (((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>(this)->RefreshActorRuntimeData())) != ((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>((other))->RefreshActorRuntimeData()))) return true;
     if (((int)(reinterpret_cast<::FUN_008d8a60_Class *>(this)->GetField244())) != ((int)(reinterpret_cast<::FUN_008d8a60_Class *>((other))->GetField244()))) return true;
-    if (((int)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFacialAnimationNode())) != ((int)(reinterpret_cast<::MiddleHighProcess *>((other))->GetFacialAnimationNode()))) return true;
+    if (((int)(std::intptr_t)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFacialAnimationNode())) != ((std::intptr_t)(reinterpret_cast<::MiddleHighProcess *>((other))->GetFacialAnimationNode()))) return true;
     if (m_eSoundLevel != reinterpret_cast<::FUN_00522560_shell *>((other))->FUN_00522560(false)) return true;
     return false;
 }
@@ -3820,7 +3820,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
   FireNode* muzzle11 = 0;
   if (process39 && (GetWeaponType()==10 || GetWeaponType()==11 || GetWeaponType()==12 || GetWeaponType()==13)) {
    float unusedPad[18];
-   if (player12 && process39 && process39->weapons() && ((int)(reinterpret_cast<::Callees *>((process39->weapons()))->FUN_00726070()))>1) {
+   if (player12 && process39 && process39->weapons() && ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((process39->weapons()))->FUN_00726070()))>1) {
     muzzle11 = process39->muzzle(((void *)(reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->FUN_00950b00(reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->FUN_004eaf60()))));
     if (muzzle11 && muzzle11->node() && ((::FireNode *)(reinterpret_cast<::S_FUN_0045bc00 *>((muzzle11->node()))->FUN_0045bc00(0)))) reinterpret_cast<::TaskQueueInterface *>((((::FireNode *)(reinterpret_cast<::NiNode *>((muzzle11->node()))->GetAt(0)))))->QueueActorDisarm(true);
    }
@@ -3832,7 +3832,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
    else muzzle11 = ((::FireNode *)(reinterpret_cast<::UnkClass25700 *>(this)->FUN_00525700((::NiAVObject *)(::FireNode *)(player12 ? ((::FireNode *)(::FUN_00950be0((bool *)((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)))))) : reference->root()))));
    if (muzzle11) {
     position6 = *((::FirePoint *)(::FUN_0045bb80((std::intptr_t)(muzzle11))));
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetName()))!=4 && actor19==(*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)) && reinterpret_cast<::FUN_008bbc10_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->FUN_008bbc10() && ((::FireString *)(reinterpret_cast<::FUN_00504e60_shell *>(this)->FUN_00504e60()))->GetModelLength()) {
+    if (((int)(std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetName()))!=4 && actor19==(*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)) && reinterpret_cast<::FUN_008bbc10_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->FUN_008bbc10() && ((::FireString *)(reinterpret_cast<::FUN_00504e60_shell *>(this)->FUN_00504e60()))->GetModelLength()) {
      bool useFace2 = false;
      if (reinterpret_cast<::FUN_004ad030_shell *>(this)->GetFlag()) {
       FireProcess* faceProcess = ((::FireProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->GetBaseTexture()));
@@ -3954,7 +3954,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
   int projectileCount11 = GetDamageForActor(false,false,(Actor*)actor19) * shots14;
   int usedAmmo26=unusedResult10;
   FireSmart lastNode23(0);
-  if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetName()))==4 && actor19==(*reinterpret_cast<::FireRef * *>(&::DAT_011f21f0))) shot16=((::FireShot *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->FUN_009c71c0()));
+  if (((int)(std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetName()))==4 && actor19==(*reinterpret_cast<::FireRef * *>(&::DAT_011f21f0))) shot16=((::FireShot *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->FUN_009c71c0()));
   bool aimed26=false;
   unsigned char specialFlag19=0;
   FirePackage* package3 = actor19 ? ((::FirePackage *)(reinterpret_cast<::FUN_009344a0_shell *>((actor19))->FUN_009344a0())) : 0;
@@ -4039,7 +4039,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
    actor19->count(usedAmmo26-savedAmmo);
   }
   if ((process39 && GetWeaponType()==10) || GetWeaponType()==11 || GetWeaponType()==12 || GetWeaponType()==13) {
-   if (!process39->weapons() || ((int)(reinterpret_cast<::Callees *>((process39->weapons()))->FUN_00726070()))<=0) reinterpret_cast<::BipedAnim *>((actor19))->AttachFaceGenNode();
+   if (!process39->weapons() || ((std::intptr_t)(reinterpret_cast<::Callees *>((process39->weapons()))->FUN_00726070()))<=0) reinterpret_cast<::BipedAnim *>((actor19))->AttachFaceGenNode();
    else if (muzzle11) {
     FireNode* child=((::FireNode *)(reinterpret_cast<::S_FUN_0045bc00 *>((muzzle11->node()))->FUN_0045bc00(0)));
     if (child) reinterpret_cast<::TaskQueueInterface *>((child))->QueueActorDisarm(true);

@@ -724,7 +724,7 @@ void TESNPC::InitItem()
     }
     if (!GetCombatStyle())
         SetCombatStyle(((::TESCombatStyle *)(::FUN_00505000())));
-    if (((unsigned int)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) <= 0)
+    if (((std::uintptr_t)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) <= 0)
         reinterpret_cast<::FUN_00565210_shell *>(this)->FUN_00565210(true);
     if (m_fGlyphExtent == 0.0)
         m_fGlyphExtent = GetDefaultHeight();
@@ -1751,7 +1751,7 @@ struct GameSettingCollection
 // @fnv 0x00608d80
 bool FUN_00608d80_shell::FUN_00608d80()
 {
-    return (int)((::TESFile *)(reinterpret_cast<::FUN_004f8960_shell *>((((GameSettingCollection*)this)))->FUN_004f8960())) == 4 ? true : false;
+    return (int)(std::intptr_t)((::TESFile *)(reinterpret_cast<::FUN_004f8960_shell *>((((GameSettingCollection*)this)))->FUN_004f8960())) == 4 ? true : false;
 }
 
 struct FUN_006099f0_shell : public TESNPC
@@ -2033,7 +2033,7 @@ struct FUN_00603f90_shell : TESRaceForm
 TESRace* FUN_00603f90_shell::GetRaceOrNull()
 {
     TESRace* race = ((::TESRace *)(reinterpret_cast<::Callees *>((void *)this)->FUN_00726070()));
-    if ((long)race < 0)
+    if ((std::intptr_t)race < 0)
         race = 0;
     return race;
 }
@@ -2089,7 +2089,7 @@ bool FUN_00609bf0_s::FUN_00609bf0(TESFile* apFile)
         reinterpret_cast<::TESOffsetWorker *>((reinterpret_cast<FileH*>(apFile)))->FUN_004723a0(
             this->m_ulTopicFlags) &&
         reinterpret_cast<FUN_00472660_shell*>(apFile)->FUN_00472660() == DAT_011871f8 &&
-        ((unsigned int)(reinterpret_cast<::MiddleHighProcess *>((reinterpret_cast<FileH*>(apFile)))->GetFaceGenHeadNode())) == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))
+        ((unsigned int)(std::uintptr_t)(reinterpret_cast<::MiddleHighProcess *>((reinterpret_cast<FileH*>(apFile)))->GetFaceGenHeadNode())) == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))
         return true;
     return false;
 }
@@ -2468,7 +2468,7 @@ struct FUN_00604310_shell
 // @fnv 0x006044e0
 void FUN_006044e0_shell::CreatePartTexture(int aePart, void* aspTexture)
 {
-    if (*(*reinterpret_cast<::fnv_006044e0::GlobalObject_0045cf30 *>(&::g_011d5adc)).Bool() || (unsigned int)this == ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)::_g_thePlayer)))->FUN_007af430())))
+    if (*(*reinterpret_cast<::fnv_006044e0::GlobalObject_0045cf30 *>(&::g_011d5adc)).Bool() || (unsigned int)(std::uintptr_t)this == ((unsigned int)(std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)::_g_thePlayer)))->FUN_007af430())))
     {
         *(GO*)aspTexture = 0;
         return;
@@ -2587,7 +2587,7 @@ struct FUN_006046a0_shell
 // @fnv 0x006046a0
 TESForm* FUN_006046a0_shell::GetHeadPartForm()
 {
-    if (reinterpret_cast<unsigned int>(reinterpret_cast<char*>(this) - 0x30) == ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::fnv_006046a0::FUN_006047a0_shell * *>(&::_g_thePlayer))))->FUN_007af430())))
+    if (reinterpret_cast<unsigned int>(reinterpret_cast<char*>(this) - 0x30) == ((unsigned int)(std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::fnv_006046a0::FUN_006047a0_shell * *>(&::_g_thePlayer))))->FUN_007af430())))
     {
         if (reinterpret_cast<TESActorBase*>(reinterpret_cast<char*>(this) - 0x30)->GetSex() == 0)
         {
@@ -3107,7 +3107,7 @@ bool NpcLoadShell::FUN_00602190(TESFile* apFile)
             break;
     }
 
-    if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) == 7 && (*reinterpret_cast<::NpcFaceGenQueue * *>(&::_g_thePlayer)) && !((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::NpcFaceGenQueue * *>(&::_g_thePlayer))))->FUN_007af430())))
+    if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) == 7 && (*reinterpret_cast<::NpcFaceGenQueue * *>(&::_g_thePlayer)) && !((std::intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::NpcFaceGenQueue * *>(&::_g_thePlayer))))->FUN_007af430())))
         reinterpret_cast<::Fn575690 *>(((*reinterpret_cast<::NpcFaceGenQueue * *>(&::_g_thePlayer))))->FUN_00575690(this);
 
     if (!::GetShortAtOffset12((const char *)this))
@@ -3140,12 +3140,12 @@ void FUN_00603280(int aiFirstValue, int aiSecondValue, int pCollector)
             if (((FUN_00603280_Api*)pEntry)->FUN_00401170() == 0x2a)
             {
                 int item = pEntry;
-                if (((int)(reinterpret_cast<::FUN_004ac110_shell *>((((FUN_00603280_Api*)item)))->FUN_004ac110())) == aiFirstValue &&
+                if (((int)(std::intptr_t)(reinterpret_cast<::FUN_004ac110_shell *>((((FUN_00603280_Api*)item)))->FUN_004ac110())) == aiFirstValue &&
                     ((FUN_00603280_Api*)item)->FUN_005f0cc0() == aiSecondValue)
                 {
                     if (!flag || reinterpret_cast<::TESActorBaseData *>((((FUN_00603280_Api*)(item + 0x30))))->GetFlag(4))
                     {
-                        if (item != ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FUN_00603280_Api*)(*reinterpret_cast<int *>(&::_g_thePlayer)))))->FUN_007af430())))
+                        if (item != ((int)(std::intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FUN_00603280_Api*)(*reinterpret_cast<int *>(&::_g_thePlayer)))))->FUN_007af430())))
                         {
                             reinterpret_cast<::FUN_00438690 *>((((FUN_00603280_Api*)pCollector)))->FUN_007cb2e0((unsigned int *)(int *)(&item));
                         }
@@ -3240,8 +3240,8 @@ int Context::ComputeAttributeValue(bool includeCount)
     if (a < 1)
         a = 1;
     int j =
-        ((unsigned int)(reinterpret_cast<::Callees *>(&(count))->FUN_00726070()))
-            ? (int)((includeCount ? ((unsigned int)(reinterpret_cast<::Callees *>(&(count))->FUN_00726070())) : 0) +
+        ((std::uintptr_t)(reinterpret_cast<::Callees *>(&(count))->FUN_00726070()))
+            ? (int)((includeCount ? ((std::uintptr_t)(reinterpret_cast<::Callees *>(&(count))->FUN_00726070())) : 0) +
                     (reinterpret_cast<::FUN_005f1230_shell *>(&(attributes))->GetAttributeValue7() + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingProxy *>(&::originalRuntimeFloatSetting298))))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingProxy *>(&::originalRuntimeFloatSetting297)))))) +
                     (a - 1) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingProxy *>(&::originalRuntimeFloatSetting299)))))))
             : 0;
@@ -3935,7 +3935,7 @@ void ProcessHost::FUN_0060a890(int pObject)
         std::intptr_t p;
         x = (std::intptr_t)((void *)(reinterpret_cast<::FUN_00950bb0_shell *>((((ProcessHost*)(*reinterpret_cast<int *>(&::_g_thePlayer)))))->FUN_00950bb0(1)));
         y = x != 0 ? x : 0;
-        p = y != 0 ? (int)((void *)(reinterpret_cast<::S_FUN_0045bc00 *>((((ProcessHost*)y)))->FUN_0045bc00(0))) : 0;
+        p = y != 0 ? (std::intptr_t)((void *)(reinterpret_cast<::S_FUN_0045bc00 *>((((ProcessHost*)y)))->FUN_0045bc00(0))) : 0;
         blob = *(CopyBlob9*)&(*reinterpret_cast<unsigned char *>(&::DAT_011a9448));
         if (p != 0)
         {
@@ -5254,7 +5254,7 @@ void CopyData::FUN_00604ba0(CopyPrefix* apSource)
 
                 reinterpret_cast<::FUN_006053f0_class *>((reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))))->FUN_006053f0(reinterpret_cast<::FUN_00604250_shell *>((source9))->GetWeight());
 
-                reinterpret_cast<::FUN_00601c70_shell *>((reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))))->FUN_00601c70(((int)(reinterpret_cast<::MiddleHighProcess *>((source9))->GetSceneRoot())));
+                reinterpret_cast<::FUN_00601c70_shell *>((reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))))->FUN_00601c70(((std::intptr_t)(reinterpret_cast<::MiddleHighProcess *>((source9))->GetSceneRoot())));
 
                 reinterpret_cast<::fnv_0047e1c0::S47b *>(this)->SetClampedValue(source9->GetFactor());
 
@@ -5898,7 +5898,7 @@ void FUN_00605e70_Owner::ProcessInventoryItems(EqRef* apRef, EqInventory* apInve
     if (pActor6 && ((::EqProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor6))->GetBaseTexture())))
         ((::EqProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor6))->GetBaseTexture()))->SetPaused(true);
 
-    for (i4 = 0; i4 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apItems))->GetName())); i4++)
+    for (i4 = 0; i4 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apItems))->GetName())); i4++)
     {
         iItem7 = *((int *)(reinterpret_cast<::S3e60 *>((apItems))->FUN_006a7ad0(i4)));
         reinterpret_cast<::FUN_006061b0_shell *>(this)->FUN_006061b0((::TESObjectREFR *)(apRef), (::BipedAnim *)(apInventory), (::TESBoundObject *)(iItem7));
@@ -6292,9 +6292,9 @@ void TESNPC::RebuildHeadModel(TESObjectREFR* refr, BipedAnim* biped, bool rebuil
         {
             bool intact = true;
             ExtraDismemberedLimbs* limbs = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pActorRefr))->FUN_005d43c0()))->GetDismemberedLimbs();
-            if (limbs && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(limbs->parts))->GetName())) && ((::DismembermentPart *)(reinterpret_cast<::B441420Owner *>((limbs))->GetInfoAt(0))))
+            if (limbs && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(limbs->parts))->GetName())) && ((::DismembermentPart *)(reinterpret_cast<::B441420Owner *>((limbs))->GetInfoAt(0))))
             {
-                for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(limbs->parts))->GetName())); ++i)
+                for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(limbs->parts))->GetName())); ++i)
                 {
                     DismembermentPart* part = ((::DismembermentPart *)(reinterpret_cast<::B441420Owner *>((limbs))->GetInfoAt(i)));
                     if (!part->bIsBody && part->bDismembered)
@@ -6348,7 +6348,7 @@ void TESNPC::RebuildHeadModel(TESObjectREFR* refr, BipedAnim* biped, bool rebuil
 void HeadNPC::FUN_00606820(TESObjectREFR* ref, NiPointer<BipedAnim>* biped)
 {
     NiPointer<NiAVObject> copiedData(0);
-    if (((int)(::BSFaceGenManager::GetFaceGenManager())) && (BipedAnim*)*biped && ((bool)(::FUN_0043faf0())) &&
+    if (((std::intptr_t)(::BSFaceGenManager::GetFaceGenManager())) && (BipedAnim*)*biped && ((bool)(::FUN_0043faf0())) &&
         (ref != (TESObjectREFR*)(*reinterpret_cast<::NpcFaceGenQueue * *>(&::_g_thePlayer)) || !reinterpret_cast<::FUN_00950b30_Class *>((((HeadPlayerCheck*)(*reinterpret_cast<::NpcFaceGenQueue * *>(&::_g_thePlayer)))))->FUN_00950b30((::BipedAnim *)(biped))))
     {
         FaceObject* node1_2 = (FaceObject*)((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((ref))->FUN_0043fcd0()));
@@ -6377,7 +6377,7 @@ void HeadNPC::FUN_00606820(TESObjectREFR* ref, NiPointer<BipedAnim>* biped)
                 if ((BSFaceGenNiNode*)m_pkPrimaryFaceGenNode)
                 {
                     if ((BSFaceGenNiNode*)m_pkSecondaryFaceGenNode &&
-                        ((unsigned int)(reinterpret_cast<::Callees *>((((FaceObject*)(BSFaceGenNiNode*)m_pkSecondaryFaceGenNode)))->FUN_00726070())) <= 1)
+                        ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FaceObject*)(BSFaceGenNiNode*)m_pkSecondaryFaceGenNode)))->FUN_00726070())) <= 1)
                         node9 = (FaceObject*)(BSFaceGenNiNode*)m_pkPrimaryFaceGenNode;
                     else
                     {
@@ -6406,7 +6406,7 @@ void HeadNPC::FUN_00606820(TESObjectREFR* ref, NiPointer<BipedAnim>* biped)
                 }
                 if ((BSFaceGenNiNode*)m_pkSecondaryFaceGenNode)
                 {
-                    if (((unsigned int)(reinterpret_cast<::Callees *>((((FaceObject*)(BSFaceGenNiNode*)m_pkSecondaryFaceGenNode)))->FUN_00726070())) <= 1)
+                    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FaceObject*)(BSFaceGenNiNode*)m_pkSecondaryFaceGenNode)))->FUN_00726070())) <= 1)
                         bipedNodeVal = (FaceObject*)(BSFaceGenNiNode*)m_pkSecondaryFaceGenNode;
                     else
                     {
@@ -6862,7 +6862,7 @@ void C3370::FUN_00603370()
     }
     if (!v98())
         v99(((::TESCombatStyle *)(::FUN_00505000())));
-    if (((unsigned int)(reinterpret_cast<::Callees *>((((H3370*)((char*)this + 0xb0))))->FUN_00726070())) <= 0)
+    if (((std::uintptr_t)(reinterpret_cast<::Callees *>((((H3370*)((char*)this + 0xb0))))->FUN_00726070())) <= 0)
         reinterpret_cast<::FUN_00565210_shell *>((((H3370*)this)))->FUN_00565210(true);
     if (field1f4 == 0.0)
         field1f4 = reinterpret_cast<::TESNPC *>((((H3370*)this)))->GetDefaultHeight();
@@ -7071,9 +7071,9 @@ void Shell::FUN_00606540(Ref* ref, Biped* biped, bool force)
     {
         bool valid = true;
         Extra* extra = ((::fnv_00606540::Extra *)(reinterpret_cast<::ExtraDataList *>((((::fnv_00606540::Extras *)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))))->GetDismemberedLimbs()));
-        if (extra && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(extra->count))->GetName())) && ((::fnv_00606540::Part *)(reinterpret_cast<::B441420Owner *>((extra))->GetInfoAt(0))))
+        if (extra && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(extra->count))->GetName())) && ((::fnv_00606540::Part *)(reinterpret_cast<::B441420Owner *>((extra))->GetInfoAt(0))))
         {
-            for (unsigned j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(extra->count))->GetName())); ++j)
+            for (unsigned j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(extra->count))->GetName())); ++j)
             {
                 Part* part = ((::fnv_00606540::Part *)(reinterpret_cast<::B441420Owner *>((extra))->GetInfoAt(j)));
                 if (!part->a && part->b)

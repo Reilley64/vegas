@@ -793,16 +793,16 @@ bool EnchantmentItem::IsValidObject(TESForm* form)
     switch (object->GetFormType())
     {
     case 41:
-        return ((unsigned int)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) == 2;
+        return ((unsigned int)(std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) == 2;
         break;
     case 40: {
         TESObjectWEAP* weapon = dynamic_cast<TESObjectWEAP*>(object);
         if (weapon)
-            return ((unsigned int)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) == 2;
+            return ((unsigned int)(std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) == 2;
     }
     break;
     case 24:
-        return !reinterpret_cast<::EffectItemList_6140 *>(&(effects))->HasNonDetrimentalEffectWithFlag(0x20000) && ((unsigned int)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) == 3;
+        return !reinterpret_cast<::EffectItemList_6140 *>(&(effects))->HasNonDetrimentalEffectWithFlag(0x20000) && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) == 3;
         break;
     case 26: {
         TESBipedModelForm* biped = dynamic_cast<TESBipedModelForm*>(form);
@@ -810,16 +810,16 @@ bool EnchantmentItem::IsValidObject(TESForm* form)
             return false;
         if (!reinterpret_cast<::FUN_0047c850 *>((biped))->EvaluateCondition() && reinterpret_cast<::EffectItemList_6140 *>(&(effects))->HasNonDetrimentalEffectWithFlag(0x20000))
             return false;
-        return ((unsigned int)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) == 3;
+        return ((unsigned int)(std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) == 3;
     }
     break;
     case 25:
         if (reinterpret_cast<::FUN_00409700_Class *>((object))->FUN_00409700())
-            return ((unsigned int)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) == 0;
+            return ((std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) == 0;
         break;
     case 42:
     case 43:
-        return ((unsigned int)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) == 2;
+        return ((unsigned int)(std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) == 2;
         break;
     case 81:
         return true;
@@ -1893,7 +1893,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
                     {
                         char r[260];
                         ::FUN_00406d00(r, 0x104, "DATA\\%s", G.cFileName);
-                        if (!((int)(::fnv_00af5320::FindArchiveByName(r))))
+                        if (!((std::intptr_t)(::fnv_00af5320::FindArchiveByName(r))))
                             ::fnv_00af4be0::FUN_00af4be0(r, 0, 0);
                     }
                 } while (FindNextFileA(F, (WIN32_FIND_DATAA*)&G));
@@ -2666,7 +2666,7 @@ void FUN_00461930_shell::RemoveAddonNode(BGSAddonNode* node)
 {
     if (!node)
         return;
-    reinterpret_cast<::PtrArrayView *>(&(member_0x1ec))->FUN_009e98d0(((unsigned int)(reinterpret_cast<::FUN_0068a830_shell *>((node))->GetGrass())));
+    reinterpret_cast<::PtrArrayView *>(&(member_0x1ec))->FUN_009e98d0(((std::uintptr_t)(reinterpret_cast<::FUN_0068a830_shell *>((node))->GetGrass())));
 }
 
 struct FUN_00462ea0_shell
@@ -5317,10 +5317,10 @@ bool TESDataHandler::ConstructObject(TESFile* file, bool skipExisting, TESForm* 
         loadingGroup = 1;
     else if (loadingGroup = (1 && m_eReferenceTypeInfo != 3))
         loadingGroup = 2;
-    if (!skipExisting || ::TESForm::IsReservedFormID(((unsigned int)(reinterpret_cast<::MiddleHighProcess *>((file))->GetFaceGenHeadNode()))))
+    if (!skipExisting || ::TESForm::IsReservedFormID(((std::uintptr_t)(reinterpret_cast<::MiddleHighProcess *>((file))->GetFaceGenHeadNode()))))
     {
         if (!pOldForm)
-            pOldForm = ::FUN_004839c0(((unsigned int)(reinterpret_cast<::MiddleHighProcess *>((file))->GetFaceGenHeadNode())));
+            pOldForm = ::FUN_004839c0(((std::uintptr_t)(reinterpret_cast<::MiddleHighProcess *>((file))->GetFaceGenHeadNode())));
         if (pOldForm)
         {
             bool wrongType = false;
@@ -5367,7 +5367,7 @@ bool TESDataHandler::ConstructObject(TESFile* file, bool skipExisting, TESForm* 
         if (!pOldForm && (file->GetRecordHeader()->flags & 0x4000))
         {
             ::FUN_005b5e40();
-            if ((((unsigned int)(reinterpret_cast<::MiddleHighProcess *>((file))->GetFaceGenHeadNode())) >> 24) == file->GetFileCompileIndex())
+            if ((((unsigned int)(std::uintptr_t)(reinterpret_cast<::MiddleHighProcess *>((file))->GetFaceGenHeadNode())) >> 24) == file->GetFileCompileIndex())
             {
                 ::FUN_005b5e40();
                 file->GetRecordHeader()->flags &= ~0x4000;
@@ -5533,7 +5533,7 @@ bool TESDataHandler::ConstructObject(TESFile* file, bool skipExisting, TESForm* 
             }
             else if (reinterpret_cast<::FUN_00440d80_shell *>((void *)(pRef))->FUN_00440d80())
                 ((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pRef))->FUN_007af430()))->vfn_170();
-            if (::g_TESSaveLoadGame && reinterpret_cast<::FUN_0047c850 *>((::g_TESSaveLoadGame))->EvaluateCondition() && ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((pRef))->FUN_0043fcd0())))
+            if (::g_TESSaveLoadGame && reinterpret_cast<::FUN_0047c850 *>((::g_TESSaveLoadGame))->EvaluateCondition() && ((std::intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((pRef))->FUN_0043fcd0())))
                 pRef->Set3D(0, true);
             if (reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((pRef))->FUN_005653d0() && reinterpret_cast<::MessageHandler *>((file))->GetSpeechProgress() < 0.2f)
             {
@@ -5805,7 +5805,7 @@ void FUN_00557760_cls::SetHelper(Helper_cls* pHelper)
     {
         Helper_cls* b = m_64;
         Helper_cls* a = b;
-        (a != 0) ? ((unsigned int)(reinterpret_cast<::FUN_00541a30_StandIn *>((a))->FUN_00541a30(1))) : 0;
+        (a != 0) ? ((std::uintptr_t)(reinterpret_cast<::FUN_00541a30_StandIn *>((a))->FUN_00541a30(1))) : 0;
     }
     m_64 = pHelper;
 }
@@ -6910,7 +6910,7 @@ void InventoryHandler::UpdateInventoryForReference(TESObjectREFR* reference)
                     count = ((::ExtraNode *)(reinterpret_cast<::Callees *>((count))->FUN_00726070()));
                 }
                 reinterpret_cast<::CombatProcedure *>((actor))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((actor))->FUN_00726070())) - iExtraCount));
-                if (((int)(reinterpret_cast<::Callees *>((actor))->FUN_00726070())) <= 0 || !((::ExtraNode *)(::FUN_00559450((int *)(actor)))) || ((::ExtraNode *)(::FUN_00559450((int *)(actor))))->FUN_008256d0() ||
+                if (((std::intptr_t)(reinterpret_cast<::Callees *>((actor))->FUN_00726070())) <= 0 || !((::ExtraNode *)(::FUN_00559450((int *)(actor)))) || ((::ExtraNode *)(::FUN_00559450((int *)(actor))))->FUN_008256d0() ||
                     reinterpret_cast<::FUN_004bddd0_shell *>((actor))->FUN_004bddd0(false))
                     reinterpret_cast<::ItemChangeListNode *>((inventory->entries))->FUN_00905330((::InventoryStackRecord *const &)(actor));
                 break;
@@ -7727,7 +7727,7 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
                     FNVObject* input = 0;
                     if (reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((current))->FUN_0040fe20())
                     {
-                        if (reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((current))->FUN_0040fe20() != 1 || !((int)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((current))->FUN_00410220(0x24))))
+                        if (reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((current))->FUN_0040fe20() != 1 || !((std::intptr_t)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((current))->FUN_00410220(0x24))))
                             input = current;
                     }
                     typedef void(* SendFunc)(void*, FNVRecordGroup*);
@@ -7768,7 +7768,7 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
                         }
                     }
                     if (unique && current && reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((current))->FUN_0040fe20() < 2 && reinterpret_cast<::FUN_00418770_shell *>((current))->FUN_00418770() <= 1 &&
-                        !((int)(reinterpret_cast<::FUN_00418800_shell *>((current))->FUN_00418800())))
+                        !((std::intptr_t)(reinterpret_cast<::FUN_00418800_shell *>((current))->FUN_00418800())))
                     {
                         reinterpret_cast<::ItemChangeListNode *>((group->owner))->FUN_00905330((*(::InventoryStackRecord *const *)(&current)));
                         node = ((::FNVListNode *)(::FUN_00559450((int *)(group))));
@@ -7788,7 +7788,7 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
                         (*reinterpret_cast<void * *>(&::_g_thePlayer)), processed, count, 0);
                     reinterpret_cast<::ItemChangeListNode *>((group->owner))->FUN_00905330((*(::InventoryStackRecord *const *)(&current)));
                     node = ((::FNVListNode *)(::FUN_00559450((int *)(group))));
-                    if (reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((current))->FUN_0040fe20() < 2 && reinterpret_cast<::FUN_00418770_shell *>((current))->FUN_00418770() <= 1 && !((int)(reinterpret_cast<::FUN_00418800_shell *>((current))->FUN_00418800())))
+                    if (reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((current))->FUN_0040fe20() < 2 && reinterpret_cast<::FUN_00418770_shell *>((current))->FUN_00418770() <= 1 && !((std::intptr_t)(reinterpret_cast<::FUN_00418800_shell *>((current))->FUN_00418800())))
                     {
                         delete current;
                     }

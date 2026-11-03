@@ -108,7 +108,7 @@ bool BGSAcousticSpaceListenerX::CheckAcousticSpaceListener(RootContactPoint* pPo
     if (reinterpret_cast<::FUN_004eaf60_shell *>((::_g_thePlayer))->FUN_004eaf60())
     {
         if (pPoint->m_48 ==
-            ((unsigned int)(reinterpret_cast<::FUN_0043b560_shell *>((reinterpret_cast<W_0043b4f0*>(reinterpret_cast<::FUN_0061f6c0_shell *>((reinterpret_cast<PlayerCharacter*>(::_g_thePlayer)))->FUN_0061f6c0())))->GetSourceFilesFromObject())))
+            ((unsigned int)(std::uintptr_t)(reinterpret_cast<::FUN_0043b560_shell *>((reinterpret_cast<W_0043b4f0*>(reinterpret_cast<::FUN_0061f6c0_shell *>((reinterpret_cast<PlayerCharacter*>(::_g_thePlayer)))->FUN_0061f6c0())))->GetSourceFilesFromObject())))
             apTestRef = FUN_0062b4e0((void*)pPoint->m_20);
     }
     else
@@ -189,7 +189,7 @@ void FUN_0061f630_shell::CheckPlayerReference(TESObjectREFR* apEntity)
     if (reinterpret_cast<::FUN_004eaf60_shell *>((((PC_00605d70*)::_g_thePlayer)))->FUN_004eaf60())
     {
         if (((void *)(::FUN_00460140((std::intptr_t)(((TgtOps*)apEntity))))) ==
-            (void*)((unsigned int)(reinterpret_cast<::FUN_0043b560_shell *>((((W_0043b4f0*)(reinterpret_cast<::FUN_0061f6c0_shell *>((::_g_thePlayer))->FUN_0061f6c0()))))->GetSourceFilesFromObject())))
+            (void*)((std::uintptr_t)(reinterpret_cast<::FUN_0043b560_shell *>((((W_0043b4f0*)(reinterpret_cast<::FUN_0061f6c0_shell *>((::_g_thePlayer))->FUN_0061f6c0()))))->GetSourceFilesFromObject())))
             SoundPlaybackManager::ResetAcousticSpace(0);
     }
     else
@@ -222,7 +222,7 @@ bool FUN_0061f6e0_shell::CheckAcousticSpaceEntered(RootContactPoint* pPoint)
 
     if (reinterpret_cast<::FUN_004eaf60_shell *>((::_g_thePlayer))->FUN_004eaf60())
     {
-        if (pPoint->m_48 == ((unsigned int)(reinterpret_cast<::FUN_0043b560_shell *>((reinterpret_cast<W_0043b4f0*>(reinterpret_cast<::FUN_0061f6c0_shell *>((::_g_thePlayer))->FUN_0061f6c0())))->GetSourceFilesFromObject())))
+        if (pPoint->m_48 == ((unsigned int)(std::uintptr_t)(reinterpret_cast<::FUN_0043b560_shell *>((reinterpret_cast<W_0043b4f0*>(reinterpret_cast<::FUN_0061f6c0_shell *>((::_g_thePlayer))->FUN_0061f6c0())))->GetSourceFilesFromObject())))
         {
             pAcousticSpaceRef = FUN_0062b4e0(reinterpret_cast<void*>(pPoint->m_20));
         }

@@ -222,7 +222,7 @@ void FUN_006fcf30_shell::FUN_006fcf30(TESObjectREFR* apTreeRef)
     unsigned int i = 0;
     while (i < icount)
     {
-        if (((Arr*)((char*)this + 0x2c))->GetAt(i)[0] == (unsigned int)apTreeRef)
+        if (((Arr*)((char*)this + 0x2c))->GetAt(i)[0] == (unsigned int)(std::uintptr_t)apTreeRef)
         {
             reinterpret_cast<::FUN_006bf8f0_Class *>((((GlobalObject_00869f00*)((char*)this + 0x2c))))->FUN_006bf8f0(i, true);
             icount--;
@@ -946,7 +946,7 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
             {
                 std::uintptr_t count;
                 reinterpret_cast<::TerrainNodeX *>((lodNode))->FUN_006fe330((int)&(pos));
-                if (FUN_006fcda0() > 0u && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(array2C))->GetName())) > 0)
+                if (FUN_006fcda0() > 0u && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(array2C))->GetName())) > 0)
                 {
                     LocalRefArray kept;
                     count = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(array2C))->GetName()));
@@ -964,7 +964,7 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
                         }
                     }
                     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(array2C))->Clear(true);
-                    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kept))->GetName())) > 0)
+                    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kept))->GetName())) > 0)
                     {
                         std::uintptr_t keptCount = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kept))->GetName()));
                         reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(array2C))->FUN_006f2290(keptCount, true);

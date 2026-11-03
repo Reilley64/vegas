@@ -122,7 +122,7 @@ TESPackage* PackageList::GetPackageForActor(Actor* actor)
                     bDayOfWeek = false;
                     bDayOfMonth = false;
                     bCalendarMonth = false;
-                    if (selection.schedule->FUN_0086a460() + ((int)(reinterpret_cast<::Callees *>((selection.schedule))->FUN_00726070())) > 24)
+                    if (selection.schedule->FUN_0086a460() + ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((selection.schedule))->FUN_00726070())) > 24)
                     {
                         bDayOfWeek = reinterpret_cast<::fnv_00678d40::FUN_00678d40_shell *>((selection.package))->IsPackageScheduledForDay(true);
                         int yesterday = ((char)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->GetDayOfMonth())) - 1;

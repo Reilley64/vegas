@@ -1207,7 +1207,7 @@ bool FUN_0065c090_shell::FUN_0065c090()
 {
     if (unk08 && unk08->unk08)
     {
-        if (!((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((unk08))->FUN_007af430())))
+        if (!((std::intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((unk08))->FUN_007af430())))
         {
             Unk_006599d0* pCopy = unk08->unk08;
             Unk_006599d0* p = pCopy;

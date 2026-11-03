@@ -315,8 +315,8 @@ bool Holder_0048cd30::FUN_0048cd30(BaseFormComponent* apComponent)
     TESScriptableForm* b = dynamic_cast<TESScriptableForm*>(apComponent);
     if (!b)
         return true;
-    if (((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<Helper_00726070*>(this)))->FUN_00726070())) !=
-        ((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<Helper_00726070*>(b)))->FUN_00726070())))
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<Helper_00726070*>(this)))->FUN_00726070())) !=
+        ((std::uintptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<Helper_00726070*>(b)))->FUN_00726070())))
         return true;
     return false;
 }

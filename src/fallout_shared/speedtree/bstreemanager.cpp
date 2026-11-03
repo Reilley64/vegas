@@ -651,7 +651,7 @@ void TreeMgr664b50::GetOrCreateModel(TESObjectTREE* tree, int key, TreeModelPtr&
             TreeModel664b50* model = entries3[i3];
             if (model)
             {
-                if (((int)(reinterpret_cast<::LowProcess *>((void *)(model))->GetTarget())) == key)
+                if (((int)(std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(model))->GetTarget())) == key)
                 {
                     spModel3 = model;
                     found3 = true;
@@ -794,7 +794,7 @@ NiAVObject* TreeManager::CreateTreeInstance(TreeReference* reference, TESObjectT
     reinterpret_cast<::TreeMgr664b50 *>((((TreeModelManager*)FUN_00664840(true))))->GetOrCreateModel(tree, node, (::TreeModelPtr &)(scale));
     if (!(BSTreeModel*)scale)
         return 0;
-    if (((unsigned int)(reinterpret_cast<::Callees *>((((BSTreeModel*)scale)))->FUN_00726070())) > 2)
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((BSTreeModel*)scale)))->FUN_00726070())) > 2)
     {
         model = new FUN_00666650;
         if (!reinterpret_cast<::TreeCloneView *>((model))->CloneFromModel((::TreeCloneView *)(::BSTreeModel *)(scale)))
@@ -982,7 +982,7 @@ void Entry664::FUN_00664cd0(bool partial)
                 {
                     if (((::Obj664 *)(::FUN_00559450((int *)&(p[s])))))
                     {
-                        if (((unsigned int)(reinterpret_cast<::Callees *>((((::Obj664 *)(::FUN_00559450((int *)&(p[s]))))))->FUN_00726070())) <= 1)
+                        if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((::Obj664 *)(::FUN_00559450((int *)&(p[s]))))))->FUN_00726070())) <= 1)
                             p[s].FUN_0066b0d0(0);
                         else
                             i = false;

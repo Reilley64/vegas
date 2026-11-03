@@ -297,9 +297,9 @@ struct FUN_0067dbf0_shell
 // @fnv 0x0067dbf0
 bool FUN_0067dbf0_shell::FUN_0067dbf0(TESObjectREFR_GetFlags_caller* apParam)
 {
-    if (unk00 != (int)(void*)apParam->operator const char*())
+    if (unk00 != (int)(std::intptr_t)(void*)apParam->operator const char*())
         return true;
-    if (unk08 != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apParam))->GetName())))
+    if (unk08 != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apParam))->GetName())))
         return true;
     if ((void*)unk04 || reinterpret_cast<::Callees *>((((FUN_00726070_shell*)apParam)))->FUN_00726070())
     {

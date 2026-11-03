@@ -4167,7 +4167,7 @@ void FaceGenModelCache650::PurgeUnusedModels(bool abForce)
         while (pPos3)
         {
             reinterpret_cast<::Map62d0 *>(&(kMap))->FUN_00559120((::MapItem62d0 *&)(pPos3), (void *&)(uiKey4), (::Helper62d0 &)(spEntry));
-            if (((int)(reinterpret_cast<::Callees *>(((((FGCacheEntry*)spEntry)->m_pRenderedNodeEntry).operator->()))->FUN_00726070())) == 1)
+            if (((int)(std::intptr_t)(reinterpret_cast<::Callees *>(((((FGCacheEntry*)spEntry)->m_pRenderedNodeEntry).operator->()))->FUN_00726070())) == 1)
             {
                 reinterpret_cast<::NiTMap_S *>(&(kMap))->RemoveKey(uiKey4);
             }
@@ -6027,7 +6027,7 @@ Sol* GetOrCreateFaceGenModel(char* a1, char* a2, char* a3, char* a4, bool abCrea
         {
             if (a4)
             {
-                if (!((unsigned int)(::FUN_00650600((char *)(((::Sol *)(::FUN_00559450((int *)&(ref)))))))))
+                if (!((std::uintptr_t)(::FUN_00650600((char *)(((::Sol *)(::FUN_00559450((int *)&(ref)))))))))
                     reinterpret_cast<::BSFaceGenModel *>((((::Sol *)(::FUN_00559450((int *)&(ref))))))->LoadFaceGenTexture((const char *)(a4));
             }
             return ((::Sol *)(::FUN_00559450((int *)&(ref))));

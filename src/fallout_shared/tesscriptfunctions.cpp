@@ -2693,7 +2693,7 @@ struct FUN_005cbb70_shell : public RegionObjectEntry {
 // @fnv 0x005cbb70
 TESObjectREFR* FUN_005cbb70_shell::FUN_005cbb70()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<TESObjectREFR*, 1024>*>(&this->m_auiData[16])))->GetName())) > 0 ?
+    return ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<TESObjectREFR*, 1024>*>(&this->m_auiData[16])))->GetName())) > 0 ?
         ((::TESObjectREFR *)(reinterpret_cast<::FUN_00558dd0_class *>((reinterpret_cast<BSSimpleArray<TESObjectREFR*, 1024>*>(&this->m_auiData[16])))->FUN_00558dd0(0))) :
         m_pReference;
 }
@@ -6333,7 +6333,7 @@ bool FUN_005b78a0(const ScriptParameter* paramInfo, const char* scriptData, TESO
 {
     NiNode* pNode = new NiNode(0);
     {
-        TESObjectCELL* pCell = reinterpret_cast<TESObjectCELL*>(((int)(reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::fnv_005b78a0::BSOcclusionPlane * *>(&::_g_thePlayer))))->GetTarget())));
+        TESObjectCELL* pCell = reinterpret_cast<TESObjectCELL*>(((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::fnv_005b78a0::BSOcclusionPlane * *>(&::_g_thePlayer))))->GetTarget())));
         if (reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<TESObjectCELL_Ext*>(pCell)))->IsCellInterior())
         {
             SeenData* pCellSeenData = ((::fnv_005b78a0::SeenData *)(reinterpret_cast<::FUN_00555bc0_shell *>((reinterpret_cast<FUN_00555bc0_shell*>(pCell)))->FindSeenData()));
@@ -6817,7 +6817,7 @@ bool __cdecl FUN_005d1920(const ScriptParameter* paramInfo, const char* scriptDa
             reinterpret_cast<::TESFullName *>((((FullNameEx*)((char*)((void *)(reinterpret_cast<::Actor *>((pActor))->GetActorBase())) + 0xd0))))->SetFullName(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)((char*)pName + 0x18))))->FUN_00408da0())));
             ((VBase*)((void *)(reinterpret_cast<::Actor *>((pActor))->GetActorBase())))->MarkChanged(0x20);
         }
-        else if (_FNV_GetFormType((void*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)thisObj)))->FUN_007af430()))) == 0x16)
+        else if (_FNV_GetFormType((void*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)thisObj)))->FUN_007af430()))) == 0x16)
         {
             VBase* pBase = (VBase*)((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)thisObj)))->FUN_007af430()));
             reinterpret_cast<::TESFullName *>((((FullNameEx*)((char*)pBase + 0x30))))->SetFullName(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)((char*)pName + 0x18))))->FUN_00408da0())));
@@ -7794,7 +7794,7 @@ bool __cdecl FUN_005cb580(const ScriptParameter* parameters, const char* scriptD
                      script, locals, cameraPathFormName))
         return false;
     TESForm* form4 = ::TESForm::LookupFormByEditorID(cameraPathFormName);
-    DAT_011f21c0 = (int)dynamic_cast<BGSCameraPath*>(form4);
+    DAT_011f21c0 = (int)(std::intptr_t)dynamic_cast<BGSCameraPath*>(form4);
     if (::bConditionFunctionDebug) {
         if (DAT_011f21c0)
             _DebugLog("PlayVATSCameras '%s' queued for next VATS playback.", cameraPathFormName);
@@ -9027,7 +9027,7 @@ bool __cdecl FUN_005d9810(const ScriptParameter* apParameters, const char* apCom
                 reinterpret_cast<::fnv_00567dd0::FUN_00567dd0_shell *>((((FUN_00567dd0_shell*)pplacedref)))->FUN_00567dd0((::fnv_00567dd0::BGSEncounterZone *)(pforcezone));
             reinterpret_cast<::FUN_00421540_shell *>((((FUN_00421540_shell*)((::fnv_005d9810::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor*)pplacedref)))->FUN_005d43c0())))))->FUN_00421540(ilevmod);
             pplacedref->SetFlag(0x40000000);
-            pplacedref->SetParentCell(((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)apRefObject)))->GetTarget())));
+            pplacedref->SetParentCell(((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)apRefObject)))->GetTarget())));
             reinterpret_cast<::Fn575690 *>((((Fn575690*)pplacedref)))->FUN_00575690(pbase);
             if (reinterpret_cast<::FUN_0047cdb0_shell *>((((FUN_0047cdb0_shell*)((char*)pbase + 0x30))))->FUN_0047cdb0())
                 reinterpret_cast<::fnv_0047ce10::OwnerShell *>((((TESActorBaseDataX*)((char*)pbase + 0x30))))->FUN_0047ce10((::fnv_0047ce10::RefShell *)(::TESObjectREFR *)((TESObjectREFR*)pplacedref));
@@ -9073,7 +9073,7 @@ bool FUN_005daae0(const ScriptParameter* parameters, const char* scriptData,
         bool hasParameter = formID != 0;
         bool isParameter = false;
         FUN_004759a0_First* form3 = FUN_00475400(
-            (void*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)thisObject)))->FUN_007af430())));
+            (void*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)thisObject)))->FUN_007af430())));
         if (form3)
             isParameter = ((FUN_00576100_Class*)form3)->FUN_00576100();
         if (isParameter == hasParameter)
@@ -10740,7 +10740,7 @@ bool FUN_005b9540()
         if (DAT_011cae45)
             reinterpret_cast<::Sky *>((reinterpret_cast<Sky*>(((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<TES*>((*reinterpret_cast<::fnv_005b9540::TES * *>(&::g_TES)))))->GetBaseTexture())))))->SetMode((*(::Sky__SKY_MODE *)&(const ::fnv_005b9540::Sky__SKY_MODE &)(SKY_OFF)));
         else if (((int)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>((*reinterpret_cast<::fnv_005b9540::TES * *>(&::g_TES)))))->GetPrevPath()))) {
-            if (((bool)(reinterpret_cast<::fnv_00454b10::TESObjectCELL *>((reinterpret_cast<FUN_00455400_cell*>(((int)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>((*reinterpret_cast<::fnv_005b9540::TES * *>(&::g_TES)))))->GetPrevPath())))))->GetFakeExterior())))
+            if (((bool)(reinterpret_cast<::fnv_00454b10::TESObjectCELL *>((reinterpret_cast<FUN_00455400_cell*>(((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>((*reinterpret_cast<::fnv_005b9540::TES * *>(&::g_TES)))))->GetPrevPath())))))->GetFakeExterior())))
                 reinterpret_cast<::Sky *>((reinterpret_cast<Sky*>(((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<TES*>((*reinterpret_cast<::fnv_005b9540::TES * *>(&::g_TES)))))->GetBaseTexture())))))->SetMode((*(::Sky__SKY_MODE *)&(const ::fnv_005b9540::Sky__SKY_MODE &)(SKY_AUTO)));
             else
                 reinterpret_cast<::Sky *>((reinterpret_cast<Sky*>(((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<TES*>((*reinterpret_cast<::fnv_005b9540::TES * *>(&::g_TES)))))->GetBaseTexture())))))->SetMode((*(::Sky__SKY_MODE *)&(const ::fnv_005b9540::Sky__SKY_MODE &)(SKY_ON)));
@@ -12285,7 +12285,7 @@ bool __cdecl FUN_005c4940(
     if (!::std::strcmp(
             (*reinterpret_cast<fnv_005c4940::FUN_005c4940_FormTypeEntry (*)[]>((void *)&::FNV_FormTypeNames))[
                 _FNV_GetFormType(
-                    ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())))].name,
+                    ((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())))].name,
             input))
     {
         afReturnValue = 1.0;
@@ -13921,12 +13921,12 @@ bool FUN_005dc5e0(const ScriptParameter* apParameters, const char* apCompiledPar
         return false;
 
     if (apRefObject &&
-        ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())) != 0 &&
+        ((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())) != 0 &&
         _FNV_GetFormType(
-            ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430()))) == 0x1C)
+            ((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430()))) == 0x1C)
     {
         reinterpret_cast<::FUN_00518030_shell *>((reinterpret_cast<FUN_00518030_shell*>(
-            ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430()))
+            ((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430()))
         )))->FUN_00518030(iflag != 0);
 
         reinterpret_cast<::FUN_00952c30_shell *>(((*reinterpret_cast<::fnv_005dc5e0::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_00952c30((::TESObjectREFR *)((*reinterpret_cast<::fnv_005dc5e0::PlayerCharacter * *>(&::_g_thePlayer))));
@@ -14747,7 +14747,7 @@ bool FUN_00594e40(void* unused,int value,void* parameter,double& result) {
  result=0;
  bool h=true;
  h=false;
- Context17* p=((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ContextStack17 *>(&::g_011f2250))))->GetName()))==4 ? ((::Context17 *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::ContextStack17 *>(&::g_011f2250))))->FUN_009c71c0())) : ((((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ContextStack17 *>(&::g_011f2250))))->GetName()))==2 || ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ContextStack17 *>(&::g_011f2250))))->GetName()))==3) ? ((::Context17 *)(::fnv_007f5280::FUN_007f5280())) : 0);
+ Context17* p=((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ContextStack17 *>(&::g_011f2250))))->GetName()))==4 ? ((::Context17 *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::ContextStack17 *>(&::g_011f2250))))->FUN_009c71c0())) : ((((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ContextStack17 *>(&::g_011f2250))))->GetName()))==2 || ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ContextStack17 *>(&::g_011f2250))))->GetName()))==3) ? ((::Context17 *)(::fnv_007f5280::FUN_007f5280())) : 0);
  if(p) {
   int a=value;
   if(a>=0 && a<18) {
@@ -19751,12 +19751,12 @@ bool FUN_005d0ba0(unsigned int a0, unsigned int a1, ScriptTargetObj* a2, unsigne
     if (!FUN_005accb0(a0, a1, a7, (unsigned int)a2, a3, a4, a5, &v8, &v4)) {
         return false;
     }
-    if ((unsigned int)a2 == (*reinterpret_cast<unsigned int *>(&::_g_thePlayer))) {
+    if ((unsigned int)(std::uintptr_t)a2 == (*reinterpret_cast<unsigned int *>(&::_g_thePlayer))) {
         return true;
     } else {
         if (a2 != 0) {
             ScriptTargetObj* v12 = ((fnv_005d0ba0::ScriptTargetObj *)(dynamic_cast<::Actor *>(reinterpret_cast<::TESObjectREFR *>(a2))));
-            if (v12 != 0 && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((v12))->GetBaseTexture()))) {
+            if (v12 != 0 && ((std::intptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((v12))->GetBaseTexture()))) {
                 ScriptTargetObj* v16 = v12->vfn266();
                 if (v16 != 0) {
                     reinterpret_cast<::FUN_008d0600_s *>((v16))->FUN_008d0600(v8, (float)v4);
@@ -22808,7 +22808,7 @@ bool __cdecl FUN_005d6b60(const ScriptParameter* apParameters, const char* apCom
         ActorS* pActor5 = (ActorS*)pRef;
         float fForce7 = ::FUN_00646580((::ActorValueOwner *)(pActor5), force);
         BaseProcess* pProcess4 = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor5))->GetBaseTexture()));
-        if (pProcess4 && !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((pProcess4))->FUN_0045cd60()))) {
+        if (pProcess4 && !((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((pProcess4))->FUN_0045cd60()))) {
             BaseProcess* pHigh8 = pProcess4;
             if (apRefObject == (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer))) {
                 ProcItem* pItem = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((ActorS*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->GetBaseTexture()))->GetItem();
@@ -23278,7 +23278,7 @@ bool __cdecl FUN_005d8e20(void* unused1, void* unused2, Reference_005d8e20* refe
     if (reference && !reinterpret_cast<::FUN_00440d80_shell *>((reference))->FUN_00440d80() &&
         static_cast<void*>(reference) != static_cast<void*>(::_g_thePlayer)) {
         reference->V49(true);
-        if (!((int)(reinterpret_cast<::TESForm *>((reference))->GetFile(0)))) {
+        if (!((std::intptr_t)(reinterpret_cast<::TESForm *>((reference))->GetFile(0)))) {
             (*reinterpret_cast<::ReferenceRemovalManager *>(&::g_011cacb8)).FUN_005ae3d0(&reference);
         }
     }
@@ -29053,7 +29053,7 @@ bool __cdecl FUN_005bc950(const ScriptParameter* params,const char* data,TESObje
  DebugLog("----CONSOLE COMMANDS--------------------");
  unsigned i;
  for(i=0;i<205;i++) {
- if(!search[0] || ((int)(::FUN_004b75a0((*reinterpret_cast<CommandDescription (*)[]>(&::DAT_0118e8e0))[i].description,search))) || ((int)(::FUN_004b75a0((*reinterpret_cast<CommandDescription (*)[]>(&::DAT_0118e8e0))[i].name,search))) || ((int)(::FUN_004b75a0((*reinterpret_cast<CommandDescription (*)[]>(&::DAT_0118e8e0))[i].alternate,search)))) {
+ if(!search[0] || ((std::intptr_t)(::FUN_004b75a0((*reinterpret_cast<CommandDescription (*)[]>(&::DAT_0118e8e0))[i].description,search))) || ((std::intptr_t)(::FUN_004b75a0((*reinterpret_cast<CommandDescription (*)[]>(&::DAT_0118e8e0))[i].name,search))) || ((std::intptr_t)(::FUN_004b75a0((*reinterpret_cast<CommandDescription (*)[]>(&::DAT_0118e8e0))[i].alternate,search)))) {
  if((*reinterpret_cast<CommandDescription (*)[]>(&::DAT_0118e8e0))[i].description && FUN_0044a670((*reinterpret_cast<CommandDescription (*)[]>(&::DAT_0118e8e0))[i].description)) {
  if((*reinterpret_cast<CommandDescription (*)[]>(&::DAT_0118e8e0))[i].alternate && FUN_0044a670((*reinterpret_cast<CommandDescription (*)[]>(&::DAT_0118e8e0))[i].alternate)) DebugLog("%s (%s) -> %s",(*reinterpret_cast<CommandDescription (*)[]>(&::DAT_0118e8e0))[i].name,(*reinterpret_cast<CommandDescription (*)[]>(&::DAT_0118e8e0))[i].alternate,(*reinterpret_cast<CommandDescription (*)[]>(&::DAT_0118e8e0))[i].description);
  else DebugLog("%s -> %s",(*reinterpret_cast<CommandDescription (*)[]>(&::DAT_0118e8e0))[i].name,(*reinterpret_cast<CommandDescription (*)[]>(&::DAT_0118e8e0))[i].description);
@@ -29063,7 +29063,7 @@ bool __cdecl FUN_005bc950(const ScriptParameter* params,const char* data,TESObje
  }
  DebugLog("----SCRIPT FUNCTIONS--------------------");
  for(i=0;i<640;i++) {
- if(!search[0] || ((int)(::FUN_004b75a0((*reinterpret_cast<CommandDescription (*)[]>(&::g_scriptCommands))[i].description,search))) || ((int)(::FUN_004b75a0((*reinterpret_cast<CommandDescription (*)[]>(&::g_scriptCommands))[i].name,search))) || ((int)(::FUN_004b75a0((*reinterpret_cast<CommandDescription (*)[]>(&::g_scriptCommands))[i].alternate,search)))) {
+ if(!search[0] || ((std::intptr_t)(::FUN_004b75a0((*reinterpret_cast<CommandDescription (*)[]>(&::g_scriptCommands))[i].description,search))) || ((std::intptr_t)(::FUN_004b75a0((*reinterpret_cast<CommandDescription (*)[]>(&::g_scriptCommands))[i].name,search))) || ((std::intptr_t)(::FUN_004b75a0((*reinterpret_cast<CommandDescription (*)[]>(&::g_scriptCommands))[i].alternate,search)))) {
  if((*reinterpret_cast<CommandDescription (*)[]>(&::g_scriptCommands))[i].description && FUN_0044a670((*reinterpret_cast<CommandDescription (*)[]>(&::g_scriptCommands))[i].description)) {
  if((*reinterpret_cast<CommandDescription (*)[]>(&::g_scriptCommands))[i].alternate && FUN_0044a670((*reinterpret_cast<CommandDescription (*)[]>(&::g_scriptCommands))[i].alternate)) DebugLog("%s (%s) -> %s",(*reinterpret_cast<CommandDescription (*)[]>(&::g_scriptCommands))[i].name,(*reinterpret_cast<CommandDescription (*)[]>(&::g_scriptCommands))[i].alternate,(*reinterpret_cast<CommandDescription (*)[]>(&::g_scriptCommands))[i].description);
  else DebugLog("%s -> %s",(*reinterpret_cast<CommandDescription (*)[]>(&::g_scriptCommands))[i].name,(*reinterpret_cast<CommandDescription (*)[]>(&::g_scriptCommands))[i].description);
@@ -29079,7 +29079,7 @@ bool __cdecl FUN_005bc950(const ScriptParameter* params,const char* data,TESObje
  for(old=0;old<::FUN_009938b0((const unsigned short *)&(settings));old++) {
  char* text=settings.FUN_00877a30(old);
  if(text) {
- if(old && ((int)(::FUN_004b75a0(text,search)))) DebugLog("%s",text);
+ if(old && ((std::intptr_t)(::FUN_004b75a0(text,search)))) DebugLog("%s",text);
  delete text;
  }
  }
@@ -29089,7 +29089,7 @@ bool __cdecl FUN_005bc950(const ScriptParameter* params,const char* data,TESObje
  for(old=0;old<::FUN_009938b0((const unsigned short *)&(ini));old++) {
  char* name=ini.FUN_00877a30(old);
  if(name) {
- if(old && ((int)(::FUN_004b75a0(name,search)))) DebugLog("%s",name);
+ if(old && ((std::intptr_t)(::FUN_004b75a0(name,search)))) DebugLog("%s",name);
  delete name;
  }
  }
@@ -29649,7 +29649,7 @@ bool __cdecl FUN_005bd960(const ScriptParameter* paramInfo, const char* scriptDa
         Actor_005bd960* actorLocal = actor;
         int id4 = requestedValue2;
         float initial_2 = actorLocal->values.GetBase(id4);
-        DebugLog("GetActorValueInfo: %s on %s", ::FUN_0066eac0((::ActorValue::Index)(id4)), ((unsigned int)(reinterpret_cast<::FUN_0055d520_shell *>((actorLocal))->FUN_0055d520())));
+        DebugLog("GetActorValueInfo: %s on %s", ::FUN_0066eac0((::ActorValue::Index)(id4)), ((std::uintptr_t)(reinterpret_cast<::FUN_0055d520_shell *>((actorLocal))->FUN_0055d520())));
         DebugLog("...Current Value: %.2f Computed Base: %.2f ", actorLocal->values.Apply(id4), (double)initial_2);
         float current4 = ((::OtherActor_005bd960 *)(reinterpret_cast<::Actor *>((actorLocal))->GetActorBase()))->values.Apply(id4);
         float delta = 0.0f;
@@ -31418,12 +31418,12 @@ bool __cdecl FUN_005c14a0(int p0, int p1, C0B10Ref* ref, int p3, int p4, int p5,
                     if (unused == 255) {
                         for (unsigned int j = 0; j < reinterpret_cast<::fnv_00495d00::FUN_00495d00_shell *>((controller))->FUN_00495d00(); j++) {
                             AnimSequence5C14* sequence = ((::AnimSequence5C14 *)(reinterpret_cast<::fnv_00495d20::FUN_00495d20_shell *>((controller))->FUN_00495d20(j)));
-                            if (sequence && ((int)(reinterpret_cast<::LowProcess *>((sequence))->GetActiveCombatTarget())))
+                            if (sequence && ((std::intptr_t)(reinterpret_cast<::LowProcess *>((sequence))->GetActiveCombatTarget())))
                                 result = 1.0;
                         }
                     } else {
                         AnimSequence5C14* sequence = ((::AnimSequence5C14 *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((controller))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString((*reinterpret_cast<AnimGroupEntry5C14 (*)[]>(&::DAT_011977d8))[unused].name)))));
-                        if (sequence && ((int)(reinterpret_cast<::LowProcess *>((sequence))->GetActiveCombatTarget())))
+                        if (sequence && ((std::intptr_t)(reinterpret_cast<::LowProcess *>((sequence))->GetActiveCombatTarget())))
                             result = 1.0;
                     }
                 }
@@ -34099,7 +34099,7 @@ bool __cdecl FUN_005c43d0(int a1, int a2, Ref* ref, int a4, Ref* scr, Extra* ex,
         reinterpret_cast<::FUN_0056c780_t *>((ref))->FUN_0056c780(1);
     }
     if (ref) {
-        if (((int)(reinterpret_cast<::EnableParentRef *>((ref))->FUN_0056a9f0())) != 0) {
+        if (((std::intptr_t)(reinterpret_cast<::EnableParentRef *>((ref))->FUN_0056a9f0())) != 0) {
             if (scr != 0 && ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ScriptObj*)scr)))->FUN_0084e3a0())) != 0) {
                 if (reinterpret_cast<::BGSCameraPath *>((ref))->HasNameForWarning()) {
                     name = ref->v130();
@@ -34487,9 +34487,9 @@ unsigned char __cdecl FUN_005c5a70(void* source, void* callback, void* third, vo
             ::FUN_004afb00(temp,0x104);
             category=&DAT_0103962c;
             if (!bUnnamed) {
-                if (((int)(::FUN_004812f0(temp,&DAT_01039624))) || ((int)(::FUN_004812f0(temp,&DAT_01039618))) || ((int)(::FUN_004812f0(temp,&DAT_01039608))) || ((int)(::FUN_004812f0(temp,&DAT_010395f8))) || ((int)(::FUN_004812f0(temp,&DAT_010395ec))) || ((int)(::FUN_004812f0(temp,&DAT_010395e0))) || ((int)(::FUN_004812f0(temp,&DAT_010395d0)))) category=&DAT_010395c8;
-                else if (((int)(::FUN_004812f0(temp,&DAT_010395c0))) || ((int)(::FUN_004812f0(temp,&DAT_010395b4)))) category=&DAT_010395ac;
-                else if (((int)(::FUN_004812f0(temp,&DAT_010395a0))) || ((int)(::FUN_004812f0(temp,&DAT_01039598)))) category=&(*reinterpret_cast<char *>((void *)&::g_011d4edc_arg1));
+                if (((std::intptr_t)(::FUN_004812f0(temp,&DAT_01039624))) || ((std::intptr_t)(::FUN_004812f0(temp,&DAT_01039618))) || ((std::intptr_t)(::FUN_004812f0(temp,&DAT_01039608))) || ((std::intptr_t)(::FUN_004812f0(temp,&DAT_010395f8))) || ((std::intptr_t)(::FUN_004812f0(temp,&DAT_010395ec))) || ((std::intptr_t)(::FUN_004812f0(temp,&DAT_010395e0))) || ((std::intptr_t)(::FUN_004812f0(temp,&DAT_010395d0)))) category=&DAT_010395c8;
+                else if (((std::intptr_t)(::FUN_004812f0(temp,&DAT_010395c0))) || ((std::intptr_t)(::FUN_004812f0(temp,&DAT_010395b4)))) category=&DAT_010395ac;
+                else if (((std::intptr_t)(::FUN_004812f0(temp,&DAT_010395a0))) || ((std::intptr_t)(::FUN_004812f0(temp,&DAT_01039598)))) category=&(*reinterpret_cast<char *>((void *)&::g_011d4edc_arg1));
                 else if (((int)(::FUN_004812f0(temp,&DAT_01039588)))) category=&DAT_01039584;
                 else if (((int)(::FUN_004812f0(temp,&DAT_0103957c)))) category=&(*reinterpret_cast<char *>((void *)&::shader_LOD));
                 else if (((int)(::FUN_004812f0(temp,&DAT_01039570)))) category=&DAT_01023014;
@@ -35808,7 +35808,7 @@ int savedSlot16=*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ScriptId
 if(actor && target){reinterpret_cast<::FUN_00934250_shell *>((actor))->FUN_00934250();if(((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && !actor->Busy(1) && ((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))){
 ((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Reset(0);((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Clear();
 if(!actor->FUN_00931850()){if(!optionSlot33){((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->Flag(0);((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->Target(actor);reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((target))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(actor));}((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Flag(0);((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Target(target);}
-if((*reinterpret_cast<::ScriptIdle::Manager * *>(&::_g_thePlayer))->FUN_0094df60() || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) || (reinterpret_cast<::FUN_0087f3d0_shell *>((actor))->FUN_0087f3d0() && reinterpret_cast<::FUN_004f8960_shell *>((actor))->FUN_004f8960()==6)){
+if((*reinterpret_cast<::ScriptIdle::Manager * *>(&::_g_thePlayer))->FUN_0094df60() || ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) || (reinterpret_cast<::FUN_0087f3d0_shell *>((actor))->FUN_0087f3d0() && reinterpret_cast<::FUN_004f8960_shell *>((actor))->FUN_004f8960()==6)){
 Event* event=((::ScriptIdle::Event *)(reinterpret_cast<::FUN_0061b320_shell *>((idleSlot10))->FUN_0061b320((::TESObjectREFR *)(actor),(::TESObjectREFR *)(target),(::TESTopic *)(0),(void *)(0),1)));if(event){reinterpret_cast<::DialogueItem *>((event))->SelectDefaultResponseList();std::intptr_t old=((std::intptr_t)(reinterpret_cast<::DialogueItem *>((event))->GetActiveResponse()));reinterpret_cast<::FUN_0083c850 *>((event))->AppendTopicInfo(0);reinterpret_cast<::FUN_0083c850 *>((event))->AppendTopicInfo(1);FUN_005ac750(idleSlot10,reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0(),0x40000);delete event;}}
 else{reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((actor))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(target));((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Start(actor,idleSlot10,enabledSlot10,0,1,1);}
 }}
@@ -44649,7 +44649,7 @@ bool __cdecl FUN_005dc730(int p0,int p1,int p2,int p3,int p4,int p5,int p6,int p
  DebugMemberNode* members=((::fnv_005dc730::DebugMemberNode *)(reinterpret_cast<::BaseProcess *>((record))->GetCurrentProcessData()));
  while(members && *((::fnv_005dc730::DebugMember **)((void *)(members)))) {
  DebugMember* member=*((::fnv_005dc730::DebugMember **)((void *)(members)));
- FUN_00406d00(buffer2,31,DAT_0103d07c,((bool)(::FUN_005dc980((const char *)(member)))),((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((member))->GetBaseTexture()))?1:0);
+ FUN_00406d00(buffer2,31,DAT_0103d07c,((bool)(::FUN_005dc980((const char *)(member)))),((std::intptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((member))->GetBaseTexture()))?1:0);
  ((DebugStringOps*)&line5)->FUN_00404820(buffer2);
  if(((::fnv_005dc730::DebugMemberNode *)(reinterpret_cast<::Callees *>((members))->FUN_00726070())))((DebugStringOps*)&line5)->FUN_00404820(::DAT_01012630);
  members=((::fnv_005dc730::DebugMemberNode *)(reinterpret_cast<::Callees *>((members))->FUN_00726070()));
@@ -45213,7 +45213,7 @@ bool FUN_005ddf90(int a0, int a1, RefLike* param) {
             if (item != 0 && reinterpret_cast<::FUN_00576d30_shell *>((item))->FUN_00576d30()) continue;
             if (item->VCheck()) {
                 RefLike* target = item;
-                if (((::fnv_005ddf90::RefLike *)(::FUN_00874480((char *)(target)))) == param || ((int)(reinterpret_cast<::OwnerLookupView *>((target))->FUN_00567790())) == param->VCountCheck()) {
+                if (((::fnv_005ddf90::RefLike *)(::FUN_00874480((char *)(target)))) == param || ((int)(std::intptr_t)(reinterpret_cast<::OwnerLookupView *>((target))->FUN_00567790())) == param->VCountCheck()) {
                     if (((::fnv_005ddf90::Sub *)(reinterpret_cast<::Actor *>((target))->GetActorBase()))->Test()) reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>((target))->FUN_005de0a0(0x100000, true);
                 }
             }
@@ -46748,7 +46748,7 @@ void FNVWipScreenManager::FUN_008d6050() {
                 reinterpret_cast<::SoundPlaybackHandle *>(&(sound1))->SetCompletionCallback((void (*)(void *, bool))(unsigned char *)(&(*reinterpret_cast<unsigned char *>(&::fnv_005790f0::FUN_005790f0))),(void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((player))->FUN_0084e3a0()));
                 return;
             }
-            if (((unsigned char)(reinterpret_cast<::PlayerCharacter *>((reinterpret_cast<FNVWipAudio*>((*reinterpret_cast<void * *>(&::_g_thePlayer)))))->IsSleepingOrResting())) || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::FNVWipController *)(reinterpret_cast<::BSShaderNoLightingProperty *>((player))->GetBaseTexture()))))->FUN_0045cd60())) ||
+            if (((unsigned char)(reinterpret_cast<::PlayerCharacter *>((reinterpret_cast<FNVWipAudio*>((*reinterpret_cast<void * *>(&::_g_thePlayer)))))->IsSleepingOrResting())) || ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::FNVWipController *)(reinterpret_cast<::BSShaderNoLightingProperty *>((player))->GetBaseTexture()))))->FUN_0045cd60())) ||
                 (((unsigned char)(reinterpret_cast<::FUN_0087f3d0_shell *>((player))->FUN_0087f3d0())) && reinterpret_cast<::FUN_004f8960_shell *>((player))->FUN_004f8960()==6)) {
             FNVWipGame* dialogue2 = ((::FNVWipGame *)(reinterpret_cast<::FUN_0061b320_shell *>((resource))->FUN_0061b320((::TESObjectREFR *)(player),(::TESObjectREFR *)(0),(::TESTopic *)(0),(void *)(0),1)));
             if (dialogue2) {
@@ -52905,10 +52905,10 @@ bool FUN_005cc4f0(const ScriptParameter* params, const char* data,
             (int)(actor->GetPosition()), (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((actor))->GetData())).z);
         reinterpret_cast<::FUN_00674e00_cls *>((package))->SetFlag4000(true);
         actor->ApplyPackage(package, false, false);
-        if (((::ProcessSV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcessSV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60()))) {
+        if (((::ProcessSV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcessSV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60()))) {
             reinterpret_cast<::FUN_00693d50_shell *>((((::ProcessSV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_00693d50(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->GetGameTime() - 1.0);
-            if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcessSV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) == 1) {
-                ((ActorDeletionQueue*)&(*reinterpret_cast<int *>(&::g_011e0e80)))->FUN_0096d470((::MobileObject *)(actor), ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcessSV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())));
+            if (((int)(std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcessSV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) == 1) {
+                ((ActorDeletionQueue*)&(*reinterpret_cast<int *>(&::g_011e0e80)))->FUN_0096d470((::MobileObject *)(actor), ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcessSV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())));
                 reinterpret_cast<::Host096d450 *>((((ActorDeletionQueue*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_0096d450((::MobileObject *)(actor), ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcessSV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())), false, false, (::MobileObject *)(::ActorSV *)(0));
             }
         } else if (actor == (ActorSV*)(*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))) {
@@ -53178,7 +53178,7 @@ bool FUN_005be5e0(const ScriptParameter* scriptParameter,
     if (actor)
     {
         reinterpret_cast<::FUN_0040fbf0_shell *>(&(DAT_011f11a0))->FUN_0040fbf0((char *)(0));
-        bool randomAnim = ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(actor)))->FUN_0043fcd0())) != 0;
+        bool randomAnim = ((std::intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(actor)))->FUN_0043fcd0())) != 0;
         reinterpret_cast<ResurrectionActorAccess*>(actor)->Resurrect(true, randomAnim, arg == 1);
         reinterpret_cast<::RecursiveSpinLock *>(&(DAT_011f11a0))->FUN_0040fba0();
     }
@@ -57822,7 +57822,7 @@ bool __cdecl FUN_005db870(const ScriptParameter* paramInfo, const char* scriptDa
                 KeyBufferDB kBuffer(8, 0);
                 for (int i = 0; i < 8 && kQuery.m_aiKeys[i] != -1; i++)
                 {
-                    if (((int)(::fnv_0043b230::FUN_0043b230((const char *)(pkCur)))) == 10)
+                    if (((int)(std::intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(pkCur)))) == 10)
                     {
                         i++;
                         if (i >= 8 || kQuery.m_aiKeys[i] == -1)

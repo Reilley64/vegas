@@ -1514,34 +1514,34 @@ void AnimHost::ClearLists(bool abCallVirtual, bool abClearListBc, bool abClearLi
         this->vfn_120();
     }
     KItem* pItem;
-    if (abClearList88 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(blk88.list))->GetName())) != 0)
+    if (abClearList88 && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(blk88.list))->GetName())) != 0)
     {
         pItem = *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blk88.list))->FUN_0073ac90()));
         while (pItem != 0)
         {
             delete pItem;
             blk88.list.RemoveHead();
-            pItem = (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(blk88.list))->GetName())) != 0) ? *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blk88.list))->FUN_0073ac90())) : 0;
+            pItem = (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(blk88.list))->GetName())) != 0) ? *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blk88.list))->FUN_0073ac90())) : 0;
         }
     }
-    if (abClearListBc && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkbc.list))->GetName())) != 0)
+    if (abClearListBc && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkbc.list))->GetName())) != 0)
     {
         pItem = *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blkbc.list))->FUN_0073ac90()));
         while (pItem != 0)
         {
             delete pItem;
             blkbc.list.RemoveHead();
-            pItem = (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkbc.list))->GetName())) != 0) ? *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blkbc.list))->FUN_0073ac90())) : 0;
+            pItem = (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkbc.list))->GetName())) != 0) ? *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blkbc.list))->FUN_0073ac90())) : 0;
         }
     }
-    if (abClearListF0 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkf0.list))->GetName())) != 0)
+    if (abClearListF0 && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkf0.list))->GetName())) != 0)
     {
         pItem = *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blkf0.list))->FUN_0073ac90()));
         while (pItem != 0)
         {
             delete pItem;
             blkf0.list.RemoveHead();
-            pItem = (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkf0.list))->GetName())) != 0) ? *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blkf0.list))->FUN_0073ac90())) : 0;
+            pItem = (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkf0.list))->GetName())) != 0) ? *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blkf0.list))->FUN_0073ac90())) : 0;
         }
     }
 }
@@ -1567,13 +1567,13 @@ unsigned char FUN_0064b0f0::Check(int aiMode)
     switch (aiMode)
     {
     case 0:
-        return ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_0bc))->GetName())) == 0;
+        return ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_0bc))->GetName())) == 0;
         break;
     case 2:
-        return ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_088))->GetName())) == 0;
+        return ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_088))->GetName())) == 0;
         break;
     case 3:
-        return ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_0f0))->GetName())) == 0;
+        return ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_0f0))->GetName())) == 0;
         break;
     }
     return 1;
@@ -1753,12 +1753,12 @@ bool FUN_0064ca60_shell::AdvanceKeyframe(float afTime, ListBase* list, Keyframe*
     bool result2 = false;
     if (key == 0 || list == 0)
         return false;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((list))->GetName())) && *((::Keyframe **)(reinterpret_cast<::FUN_0073ac90_shell *>((list))->FUN_0073ac90())))
+    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((list))->GetName())) && *((::Keyframe **)(reinterpret_cast<::FUN_0073ac90_shell *>((list))->FUN_0073ac90())))
     {
         if ((*((::Keyframe **)(reinterpret_cast<::FUN_0073ac90_shell *>((list))->FUN_0073ac90())))->vfn_4() != key->vfn_4())
             return false;
     }
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((list))->GetName())) <= 0)
+    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((list))->GetName())) <= 0)
     {
         key->vfn_10(0.0f);
         return false;
@@ -1774,7 +1774,7 @@ bool FUN_0064ca60_shell::AdvanceKeyframe(float afTime, ListBase* list, Keyframe*
         Keyframe* x3 = kf;
         Keyframe* y3 = x3;
         y3 ? y3->vfn_0(1) : 0;
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((list))->GetName())) > 0)
+        if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((list))->GetName())) > 0)
             kf = *((::Keyframe **)(reinterpret_cast<::FUN_0073ac90_shell *>((list))->FUN_0073ac90()));
         else
             kf = 0;

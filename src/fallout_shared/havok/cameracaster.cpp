@@ -200,7 +200,7 @@ struct Hld621210
 // @fnv 0x00621210
 Rcv621210* Hld621210::FUN_00621210(Rcv621210* apReceiver)
 {
-    reinterpret_cast<::FUN_00622570_Class *>((apReceiver))->FUN_00622570(((int)(reinterpret_cast<::Callees *>(&(_c))->FUN_00726070())) > 0);
+    reinterpret_cast<::FUN_00622570_Class *>((apReceiver))->FUN_00622570(((std::intptr_t)(reinterpret_cast<::Callees *>(&(_c))->FUN_00726070())) > 0);
     return apReceiver;
 }
 
@@ -502,7 +502,7 @@ bool xCaster::FUN_00620bc0(const xP3& akFrom, xP3& akTo, xOutHit* apOut)
             reinterpret_cast<::SortableArray *>(&(COL))->FUN_00cabad0();
             int I = 0;
             bool FOUND = false;
-            bool ISX = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::MenuItemCollection *>(&::g_011f2250))))->GetName())) == 4;
+            bool ISX = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::MenuItemCollection *>(&::g_011f2250))))->GetName())) == 4;
             xActor* TARGET = 0;
             if (ISX)
             {
@@ -514,7 +514,7 @@ bool xCaster::FUN_00620bc0(const xP3& akFrom, xP3& akTo, xOutHit* apOut)
                 if (!TARGET)
                     TARGET = (*reinterpret_cast<::xActor * *>(&::_g_thePlayer));
             }
-            while (!FOUND && I < ((int)(reinterpret_cast<::Callees *>((((::xHitList *)(::FUN_00460140((int)&(COL))))))->FUN_00726070())))
+            while (!FOUND && I < ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((((::xHitList *)(::FUN_00460140((int)&(COL))))))->FUN_00726070())))
             {
                 void* SHAPE = ((::xHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::xHitList *)(::FUN_00460140((int)&(COL))))))->FUN_00807770(I)))->m_48;
                 xFilter FILTER(::FUN_0043b540((char *)(SHAPE)));

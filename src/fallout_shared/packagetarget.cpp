@@ -297,7 +297,7 @@ bool FUN_00680220_shell::Compare(PackageTargetRecord* apCompare)
         return true;
     if (this->GetTargetObjectType() != apCompare->GetTargetObjectType())
         return true;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)apCompare)))->GetName())))
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())) != ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)apCompare)))->GetName())))
         return true;
     if (((Twin_0084d030*)this)->GetStoredFloatValue() != ((Twin_0084d030*)apCompare)->GetStoredFloatValue())
         return true;

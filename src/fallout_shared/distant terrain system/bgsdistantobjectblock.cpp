@@ -2383,7 +2383,7 @@ void FUN_006f6a90_Owner::ApplyShaderSetup(GtAVObject* pkObject)
             pkShaderZ = pkNewVal2;
             reinterpret_cast<::FUN_00439410_cls *>((pkGeomA))->FUN_00439410((::ArgObject *)(pkShaderZ));
         }
-        reinterpret_cast<::FUN_00874460_cls *>((pkGeomA))->set(((int)(::FUN_00b55560(reinterpret_cast<::LowProcess *>((pkShaderZ))->GetPackageObjectType()))));
+        reinterpret_cast<::FUN_00874460_cls *>((pkGeomA))->set(((std::intptr_t)(::FUN_00b55560(reinterpret_cast<::LowProcess *>((pkShaderZ))->GetPackageObjectType()))));
         GtPoint3 kZeroWork(0.0f, 0, 0);
         reinterpret_cast<::FUN_00a5a040_Class *>((pkGeomA))->FUN_00a5a040();
         reinterpret_cast<::FUN_00a59c60_cls *>((pkGeomA))->FUN_00a59c60((std::intptr_t)(&kZeroWork));

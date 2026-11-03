@@ -114,7 +114,7 @@ bool BSFaceGenKeyframeMultiple::ClearData(bool initialize)
     if (vfn_0c() != 0.0)
         changed = true;
     vfn_10(0.0f);
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(this)))->FUN_0044edb0())); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(this)))->FUN_0044edb0())); ++i)
     {
         if (IsQuantityInRange(i))
         {
@@ -219,12 +219,12 @@ bool FUN_0064f690_shell::DiffersFrom(BSFaceGenKeyframe* apOther)
                                                ? reinterpret_cast<BSFaceGenKeyframeMultiple*>(apOther)
                                                : 0;
     if (!pkeyframe || reinterpret_cast<VTableHelper*>(pkeyframe)->v1() != reinterpret_cast<VTableHelper*>(this)->v1() ||
-        ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(pkeyframe)))->FUN_0044edb0())) !=
-            ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(this)))->FUN_0044edb0())))
+        ((unsigned int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(pkeyframe)))->FUN_0044edb0())) !=
+            ((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(this)))->FUN_0044edb0())))
     {
         return true;
     }
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(this)))->FUN_0044edb0())); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(this)))->FUN_0044edb0())); ++i)
     {
         if (reinterpret_cast<::Sd4e0 *>((reinterpret_cast<RotationValues*>(pkeyframe)))->FUN_005dd4e0(i) !=
             reinterpret_cast<::Sd4e0 *>((reinterpret_cast<RotationValues*>(this)))->FUN_005dd4e0(i))
@@ -561,7 +561,7 @@ bool BlendFrame::BlendWith(BlendFrame* apLeft, BlendFrame* apRight, float weight
     else
         blendA = weight;
     std::uintptr_t _maximum;
-    if (((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((leftX))->FUN_0044edb0())) >= ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((right3))->FUN_0044edb0())))
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((leftX))->FUN_0044edb0())) >= ((unsigned int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((right3))->FUN_0044edb0())))
         _maximum = ((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((leftX))->FUN_0044edb0()));
     else
         _maximum = ((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((right3))->FUN_0044edb0()));
@@ -740,11 +740,11 @@ bool xKF::Interpolate(float fTime, xKF* pOther)
     float qrEZrs;
     bool qpqRa = false;
     unsigned int qSVM;
-    if (fTime <= 0.0 || !qsSDDgz || qsSDDgz->GetType() != GetType() || ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((qsSDDgz))->FUN_0044edb0())) != ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) ||
+    if (fTime <= 0.0 || !qsSDDgz || qsSDDgz->GetType() != GetType() || ((unsigned int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((qsSDDgz))->FUN_0044edb0())) != ((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) ||
         !IsCompatible(qsSDDgz))
         return false;
     qfTOqo = (::FUN_0064fb10() + ::fnv_0064fb50::FUN_0064fb50() * pOther->GetScale()) * fTime;
-    for (qSVM = 0; qSVM < ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())); qSVM++)
+    for (qSVM = 0; qSVM < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())); qSVM++)
     {
         if (!IsActive(qSVM))
             continue;

@@ -1,5 +1,6 @@
 // fallout_shared/packageschedule.cpp: PackedByteIntRecord, DurationData (9 functions)
 
+#include <cstdint>
 #include "fnv/decl/Calendar.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -234,7 +235,7 @@ char DurationData::FUN_0067fe10(DurationData* other)
         return 1;
     if (reinterpret_cast<::Calendar *>(this)->GetGameHour() != reinterpret_cast<::Calendar *>((other))->GetGameHour())
         return 1;
-    if (((int)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) != ((int)(reinterpret_cast<::Callees *>((other))->FUN_00726070())))
+    if (((int)(std::intptr_t)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) != ((std::intptr_t)(reinterpret_cast<::Callees *>((other))->FUN_00726070())))
         return 1;
     return 0;
 }

@@ -1096,7 +1096,7 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
     Actor* ptarget =
         reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType() ? ((MagicTarget*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())->GetOwnerActor() : 0;
     Actor* pcaster =
-        ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())) ? ((MagicCaster*)((reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())))->GetCasterActor() : 0;
+        ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())) ? ((MagicCaster*)((reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())))->GetCasterActor() : 0;
     if (!pcaster)
     {
         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(true);
@@ -1116,7 +1116,7 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
         if (*(int*)((char*)this + 0x4c) == 10)
         {
             BaseProcess* pprocess = (BaseProcess*)((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((PlayerQuestData*)ptarget)))->GetBaseTexture()));
-            if (!((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)pprocess)))->FUN_0045cd60())))
+            if (!((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)pprocess)))->FUN_0045cd60())))
                 ((AIProcess*)pprocess)->Unk_1BE(true);
             if (*(float*)((char*)this + 4) - *(float*)((char*)this + 0x50) > DAT_01020998)
                 *(int*)((char*)this + 0x4c) = 20;
@@ -1158,7 +1158,7 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
                 reinterpret_cast<::fnv_00494740::FUN_00494740_t *>((panim))->FUN_00494740(0, (*(int *)&(const ::ACTION_FLAGS &)((ACTION_FLAGS)0)), -1, (*(int *)&(const ::ANIM_GROUP_SECTION &)((ANIM_GROUP_SECTION)-1)));
                 ::FUN_00c9bdf0((::Obj_c9b *)(pNode), 0.0f);
                 BaseProcess* pprocess = (BaseProcess*)((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((PlayerQuestData*)ptarget)))->GetBaseTexture()));
-                if (!((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)pprocess)))->FUN_0045cd60())))
+                if (!((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)pprocess)))->FUN_0045cd60())))
                     ((AIProcess*)pprocess)->Unk_1BE(false);
                 reinterpret_cast<::fnv_0041d490::FUN_0041d490_shell *>((((ExtraDataList_helper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)ptarget)))->FUN_005d43c0())))))->UpdateRagDoll(0);
                 *(float*)((char*)this + 0x50) = *(float*)((char*)this + 4);

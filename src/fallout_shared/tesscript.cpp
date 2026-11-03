@@ -2196,7 +2196,7 @@ void FUN_005a8c00(void* pThis)
         }
         t = ((FUN_005a8c00_cls*)pThis)->m_08;
         l = t;
-        l != 0 ? ((int)(reinterpret_cast<::W004702f0 *>((((FUN_005a8c00_list*)l)))->FUN_004702f0(1))) : 0;
+        l != 0 ? ((std::intptr_t)(reinterpret_cast<::W004702f0 *>((((FUN_005a8c00_list*)l)))->FUN_004702f0(1))) : 0;
         ((FUN_005a8c00_cls*)pThis)->m_08 = 0;
     }
 }

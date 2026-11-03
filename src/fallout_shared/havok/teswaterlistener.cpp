@@ -487,7 +487,7 @@ void FUN_0062e500_shell::FUN_0062e500(std::intptr_t aiKey, int auiValue)
         uindex = ((LS3de0*)((char*)ptarget2 + 0x50))->Find(*(unsigned int*)&auiValue, 0, FUN_009a3830);
         if (uindex != (unsigned int)-1)
             reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>((((LS3de0*)((char*)ptarget2 + 0x50))))->FUN_009a4320(uindex, 1);
-        if (!((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(((ArrSI*)((char*)ptarget2 + 0x50))))->GetName())))
+        if (!((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(((ArrSI*)((char*)ptarget2 + 0x50))))->GetName())))
             reinterpret_cast<::Holder *>(this)->FUN_0061ff30((::Node *)(ptarget2));
     }
 }
@@ -2010,7 +2010,7 @@ bool WaterManager::FUN_0062f900(EventWater* event)
             }
             else
             {
-                FUN_0062f310(((int)(reinterpret_cast<::FUN_00547770_shell *>((((::Cell *)(reinterpret_cast<::LowProcess *>((((Player*)_g_thePlayer)))->GetTarget()))))->FUN_00547770())));
+                FUN_0062f310(((std::intptr_t)(reinterpret_cast<::FUN_00547770_shell *>((((::Cell *)(reinterpret_cast<::LowProcess *>((((Player*)_g_thePlayer)))->GetTarget()))))->FUN_00547770())));
             }
             return true;
         }
@@ -2126,7 +2126,7 @@ void WaterZoneRemoval::FUN_0062fc70(ParamStruct* apParams)
     reinterpret_cast<::Ref57b240 *>((apParams->unk00))->FUN_0057b240(0);
 
     b5 = true;
-    if (!((int)(reinterpret_cast<::FUN_0042f180_cls *>((((EDL_Helper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apParams->unk00))->FUN_005d43c0())))))->FUN_0042f180())))
+    if (!((std::intptr_t)(reinterpret_cast<::FUN_0042f180_cls *>((((EDL_Helper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apParams->unk00))->FUN_005d43c0())))))->FUN_0042f180())))
     {
         NiTMap* map4 = ((::NiTMap *)(reinterpret_cast<::FUN_0042f1d0_shell *>((((EDL_Helper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apParams->unk00))->FUN_005d43c0())))))->FUN_0042f1d0()));
         if (map4)
@@ -2875,7 +2875,7 @@ void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
             while (pkList)
             {
                 bool bSkip = false;
-                for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkList->m_kForms))->GetName())); i++)
+                for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkList->m_kForms))->GetName())); i++)
                 {
                     void* pvForm = *((void **)(reinterpret_cast<::S3e60 *>(&(pkList->m_kForms))->FUN_006a7ad0(i)));
                     BodyE* pkBody = ((::BodyE *)(::FUN_004b59f0(pvForm)));

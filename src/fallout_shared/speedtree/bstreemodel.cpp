@@ -1100,7 +1100,7 @@ void TreeModelX::FUN_00669500(LoaderX* loader)
     shader->SetFlag(0x16, true);
     ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::fnv_00669500::NiNodeX *)(m_pController), 0, 0);
     TreeGeom* first2 = ((::fnv_00669500::TreeGeom *)(reinterpret_cast<::AlchemyItem *>((((NiNodeX*)m_pController)))->FUN_004030b0()));
-    TreeGeom* geom = !first2 ? 0 : ((((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((first2))->GetBaseTexture())) >= 1 && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((first2))->GetBaseTexture())) <= 5) ? first2 : 0);
+    TreeGeom* geom = !first2 ? 0 : ((((int)(std::intptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((first2))->GetBaseTexture())) >= 1 && ((int)(std::intptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((first2))->GetBaseTexture())) <= 5) ? first2 : 0);
     if (geom)
     {
         ((::fnv_00669500::Renderer *)(::FUN_0043c4b0()))->PrecacheGeometry(m_pController, 0, 0, geom->GetSkin());
@@ -1965,7 +1965,7 @@ Tree* Model::CreateTree(float scale)
             {
                 reinterpret_cast<::FUN_00baa000_shell *>((((::TreeBuild::Property *)(::FUN_00559450((int *)&(branchProperties[i]))))))->FUN_00baa000();
                 reinterpret_cast<::FUN_00439410_cls *>((geometryX))->FUN_00439410((::ArgObject *)(::TreeBuild::Property *)(((::TreeBuild::Property *)(::FUN_00559450((int *)&(branchProperties[i]))))));
-                if (!((int)(::fnv_004a8a90::FUN_004a8a90((char *)(((::TreeBuild::ShaderState *)(::fnv_005495f0::FUN_005495f0((const char *)(geometryX)))))))))
+                if (!((std::intptr_t)(::fnv_004a8a90::FUN_004a8a90((char *)(((::TreeBuild::ShaderState *)(::fnv_005495f0::FUN_005495f0((const char *)(geometryX)))))))))
                 {
                     Shader* created = ((::TreeBuild::Property *)(::FUN_00559450((int *)&(branchProperties[i]))))->CreateShader(geometryX);
                     reinterpret_cast<::ShaderOwner *>((geometryX))->FUN_00539ef0((::NiGPUProgram *)(created));
@@ -1985,7 +1985,7 @@ Tree* Model::CreateTree(float scale)
                 reinterpret_cast<::FUN_00b66ad0_cls *>((((::TreeBuild::Property *)(::FUN_00559450((int *)&(branchProperties[i]))))))->FUN_00b66ad0((std::intptr_t)(DAT_01066830), (::FnvTarget *)(::TreeBuild::Object *)(((::TreeBuild::Object *)(::FUN_00559450((int *)&(extra))))));
                 ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(geometryX), 0, 0);
                 reinterpret_cast<::ShaderOwner *>((geometryX))->FUN_00539ef0((::NiGPUProgram *)(::TreeBuild::Shader *)(((::TreeBuild::Property *)(::FUN_00559450((int *)&(branchProperties[i]))))->CreateShader(geometryX)));
-                if (!((int)(reinterpret_cast<::BGSCameraPath *>((((::TreeBuild::ShaderState *)(::fnv_005495f0::FUN_005495f0((const char *)(geometryX))))))->GetPrevPath())))
+                if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((((::TreeBuild::ShaderState *)(::fnv_005495f0::FUN_005495f0((const char *)(geometryX))))))->GetPrevPath())))
                     ((::TreeBuild::Renderer *)(::FUN_0043c4b0()))->Prepare(geometryX, 0, 0, 0);
             }
         }
@@ -2788,7 +2788,7 @@ void TreeLeafModel::FUN_00668500(TreeLeafRef* pRef)
 
     m_spLeafMaterial = new FUN_00bb3950;
     ((FUN_0063f790_shell*)(NiAVObject*)m_spLeafMaterial)->FUN_0063f790(m_fLeafScale);
-    if (m_pLeafTreeRuntime && ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((m_pLeafTreeRuntime))->FUN_0044edb0())))
+    if (m_pLeafTreeRuntime && ((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((m_pLeafTreeRuntime))->FUN_0044edb0())))
     {
         ((FUN_00621b20_Class*)(NiAVObject*)m_spLeafMaterial)
             ->FUN_00621b20(((TESObjectREFR*)FUN_0044edb0(m_pLeafTreeRuntime))->GetScale());

@@ -4771,7 +4771,7 @@ bool TESCreature::FUN_005f9b90(TESForm* otherForm)
         if (reinterpret_cast<::FUN_005f9100_shell *>(this)->FUN_005f9100() != reinterpret_cast<::FUN_005f9100_shell *>((other))->FUN_005f9100())
             return true;
     }
-    if (((int)(reinterpret_cast<::FUN_005f9b30_shell *>(this)->GetImpactDataSet())) != ((int)(reinterpret_cast<::FUN_005f9b30_shell *>((other))->GetImpactDataSet())))
+    if (((int)(std::intptr_t)(reinterpret_cast<::FUN_005f9b30_shell *>(this)->GetImpactDataSet())) != ((std::intptr_t)(reinterpret_cast<::FUN_005f9b30_shell *>((other))->GetImpactDataSet())))
         return true;
     if (::GetField158((std::intptr_t)this) != ::GetField158((std::intptr_t)(other)))
         return true;

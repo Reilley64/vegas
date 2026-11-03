@@ -1848,7 +1848,7 @@ void S_0066d880::FUN_0066d880(S_0066d880_List* list)
             ::FUN_00406d00(text, 0x20, "Type = Base");
         reinterpret_cast<::S_0060ba10 *>((list))->FUN_0096a610((std::intptr_t)(&text));
         text = new char[0x20];
-        ::FUN_00406d00(text, 0x20, "Seed = %d", ((int)(reinterpret_cast<::LowProcess *>((((::S_0066d880_Obj *)(::FUN_00559450((int *)&(m_e4))))))->GetTarget())));
+        ::FUN_00406d00(text, 0x20, "Seed = %d", ((std::intptr_t)(reinterpret_cast<::LowProcess *>((((::S_0066d880_Obj *)(::FUN_00559450((int *)&(m_e4))))))->GetTarget())));
         reinterpret_cast<::S_0060ba10 *>((list))->FUN_0096a610((std::intptr_t)(&text));
     }
     else
@@ -9640,7 +9640,7 @@ void xEffect::FUN_0066c160(float afTime)
     xList LIST;
     reinterpret_cast<::fnv_00623150::FUN_00623150_Class *>((PREF))->FUN_00623150(&LIST);
     xArr* ARR = ((::fnv_0066c160::xArr *)(reinterpret_cast<::TESTopicInfoData *>(&(LIST))->GetLinkToList()));
-    for (int I = 0; I < ((int)(reinterpret_cast<::Callees *>((ARR))->FUN_00726070())); I++)
+    for (int I = 0; I < ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((ARR))->FUN_00726070())); I++)
     {
         void* PA = ::FUN_004b5950(((::fnv_0066c160::xForm *)(reinterpret_cast<::FUN_0062e150_cls *>((ARR))->FUN_0062e150(I)))->m_8);
         xB* PB = ((::fnv_0066c160::xB *)(::FUN_004b59f0(((::fnv_0066c160::xForm *)(reinterpret_cast<::FUN_0062e150_cls *>((ARR))->FUN_0062e150(I)))->m_8)));

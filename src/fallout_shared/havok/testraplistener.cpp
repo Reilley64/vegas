@@ -830,7 +830,7 @@ void FUN_0062de90_shell::FUN_0062de90(CombatWorldStateListNode* target)
     CombatWorldStateListNode* node = m_20;
     while (node)
     {
-        if (reinterpret_cast<::FUN_0084e3a0_Class *>((node))->FUN_0084e3a0() == (int)target)
+        if (reinterpret_cast<::FUN_0084e3a0_Class *>((node))->FUN_0084e3a0() == (int)(std::intptr_t)target)
         {
             ((FUN_0062d510_shell*)node)->FUN_0062d510();
             break;

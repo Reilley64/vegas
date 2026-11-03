@@ -6755,7 +6755,7 @@ if (!data->nodes) {
    geometryB->FUN_00a67050(0x4000); reinterpret_cast<::NiGeometryData *>((geometryB))->SetCompressFlags(true);
    int flags5=17; flags5|=6; reinterpret_cast<::FUN_004410d0_Class *>((geometryB))->SetByteAtOffset38(flags5);
    Property* property3=((::Property *)(reinterpret_cast<::AlchemyItem *>((shapesB[index]))->FUN_004030b0()));
-   Property* shader6=property3==0 ? 0 : ((((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((property3))->GetBaseTexture()))>=1 && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((property3))->GetBaseTexture()))<=5) ? property3 : 0);
+   Property* shader6=property3==0 ? 0 : ((((int)(std::intptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((property3))->GetBaseTexture()))>=1 && ((int)(std::intptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((property3))->GetBaseTexture()))<=5) ? property3 : 0);
    if(shader6) {
     Renderer_od* renderer=((::Renderer_od *)(::FUN_0043c4b0()));
     renderer->Render(shapesB[index],0,0,((void *)(::fnv_00537bd0::GetStringAtOffset((const char *)(shader6)))));

@@ -2578,7 +2578,7 @@ struct FUN_00452370_shell
 // @fnv 0x00452370
 bool FUN_00452370_shell::FUN_00452370() const
 {
-    return (*(const unsigned int*)((const char*)this + 8) & (unsigned int)&DAT_01000000) ? true : false;
+    return (*(const unsigned int*)((const char*)this + 8) & (std::uintptr_t)&DAT_01000000) ? true : false;
 }
 
 namespace fnv_00453940 {
@@ -3318,9 +3318,9 @@ void FUN_00456be0_shell::FUN_00456be0()
     bool bcol = !::FUN_00456c70();
     ::FUN_00456c80(bcol);
     bhkWorld* pw = 0;
-    TESObjectCELL* pcell = reinterpret_cast<TESObjectCELL*>(((int)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(::g_TES)))->GetPrevPath())));
+    TESObjectCELL* pcell = reinterpret_cast<TESObjectCELL*>(((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(::g_TES)))->GetPrevPath())));
     if (pcell)
-        pw = reinterpret_cast<bhkWorld*>(((unsigned int)(reinterpret_cast<::FUN_004543c0_cls *>((reinterpret_cast<ExtraDataList*>(pcell)))->FUN_004543c0())));
+        pw = reinterpret_cast<bhkWorld*>(((std::uintptr_t)(reinterpret_cast<::FUN_004543c0_cls *>((reinterpret_cast<ExtraDataList*>(pcell)))->FUN_004543c0())));
     else
         pw = ((::fnv_00456be0::bhkWorld *)(::FUN_00451010()));
     if (pw)
@@ -3350,7 +3350,7 @@ void TES::FUN_00456cb0(bool abShow)
     if (m_bHasCurrentRegion != abShow)
     {
         m_bHasCurrentRegion = abShow;
-        if (!(*reinterpret_cast<void * *>(&::g_dataHandler)) || ((int)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)this)))->GetPrevPath())))
+        if (!(*reinterpret_cast<void * *>(&::g_dataHandler)) || ((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)this)))->GetPrevPath())))
             return;
         reinterpret_cast<::fnv_004baca0::GridCellArrayHelper *>((m_pGridCells))->FUN_004baca0(abShow);
     }
@@ -5648,7 +5648,7 @@ bool LookupHandler::FUN_00456800(void* object, unsigned int limit)
     ::FindTextureByPath((const char *)(object), (::NiTexture **)(::LookupResult *)(&result));
     if (((::LookupEntry *)(::FUN_00559450((int *)&(result)))) != 0)
     {
-        if (((unsigned int)(reinterpret_cast<::Callees *>((((::LookupEntry *)(::FUN_00559450((int *)&(result))))))->FUN_00726070())) <= limit + 2)
+        if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((::LookupEntry *)(::FUN_00559450((int *)&(result))))))->FUN_00726070())) <= limit + 2)
         {
             ::FUN_00a61f30(((::LookupEntry *)(::FUN_00559450((int *)&(result)))));
             return true;
@@ -9819,7 +9819,7 @@ void AddonOwner::FUN_00459f10()
                 {
                     AddonParticleNode* particle = static_cast<AddonParticleNode*>(model);
                     reinterpret_cast<::AlchemyItem *>((particle))->SetSound((::TESSound *)(((reinterpret_cast<::FUN_0068a830_shell *>((addon))->GetGrass()))));
-                    reinterpret_cast<::FUN_00705b10_Dummy *>((particle))->Set(((int)(reinterpret_cast<::TESQuest *>((addon))->GetScriptLocalData())));
+                    reinterpret_cast<::FUN_00705b10_Dummy *>((particle))->Set(((std::intptr_t)(reinterpret_cast<::TESQuest *>((addon))->GetScriptLocalData())));
                     reinterpret_cast<::FUN_0045a140_Class *>((particle))->SetShortAtOffsetBC(reinterpret_cast<::FUN_0045a1a0_Class *>((addon))->GetShortAtOffset58());
                     reinterpret_cast<::FUN_0045a160_Cls *>((((::AddonParticleManager *)(::FUN_0045a190()))))->FUN_0045a160((std::intptr_t)(particle));
                 }

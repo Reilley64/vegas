@@ -320,17 +320,17 @@ void CountCollisionShapes(NiAVObject* object, unsigned int* firstCount, unsigned
                 CollisionShape* shape5 = wrapper_2 ? ((::CollisionShape *)(reinterpret_cast<::FUN_00620b80_shell *>((wrapper_2))->GetReferenceFlags())) : 0;
                 if (shape5)
                 {
-                    if (((int)(::fnv_0043b230::FUN_0043b230((const char *)(shape5)))) == 23)
+                    if (((int)(std::intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(shape5)))) == 23)
                     {
                         CollisionShape* list7 = shape5;
                         *secondCount += list7->container.Count();
                     }
-                    else if (((int)(::fnv_0043b230::FUN_0043b230((const char *)(shape5)))) == 6)
+                    else if (((int)(std::intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(shape5)))) == 6)
                     {
                         CollisionShape* collection = shape5;
                         *firstCount += collection->Count();
                     }
-                    else if (((int)(::fnv_0043b230::FUN_0043b230((const char *)(shape5)))) == 10)
+                    else if (((int)(std::intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(shape5)))) == 10)
                     {
                         CollisionShape* parent = shape5;
                         CollisionShape* child9 = parent->GetChild();
@@ -1033,7 +1033,7 @@ void __cdecl FUN_0062c430(VtObj* apVtObj)
         else
             ::CollectTreeResultValues((::TreeNode_cls *)(::Inner62c *)(apVtObj->v116()), (::SpawnedPtrArray *)(::SeqArray *)(&arr5));
 
-        if (((int)(reinterpret_cast<::Callees *>(&(arr5))->FUN_00726070())) != 0)
+        if (((std::intptr_t)(reinterpret_cast<::Callees *>(&(arr5))->FUN_00726070())) != 0)
         {
             Inner62c* owner3 = ((::Inner62c *)(reinterpret_cast<::Twin_0044ddc0 *>((((::NiSeq *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(arr5))->FUN_00629ab0(0)))))->GetName()));
 
@@ -1041,7 +1041,7 @@ void __cdecl FUN_0062c430(VtObj* apVtObj)
             {
                 reinterpret_cast<::TESForm *>((owner3))->ClearData();
 
-                for (int i = 1; i < ((int)(reinterpret_cast<::Callees *>(&(arr5))->FUN_00726070())); i++)
+                for (int i = 1; i < ((int)(std::intptr_t)(reinterpret_cast<::Callees *>(&(arr5))->FUN_00726070())); i++)
                 {
                     unsigned int b;
                     unsigned int a2;

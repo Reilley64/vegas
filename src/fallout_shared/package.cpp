@@ -6288,7 +6288,7 @@ void FUN_006738b0_shell::FUN_006738b0()
         reinterpret_cast<::FUN_00680910_shell *>((reinterpret_cast<TESConditionSave*>(((char *)(reinterpret_cast<::PackedByteIntRecord *>((reinterpret_cast<PackedByteIntRecord*>(this)))->Endian())))))->ProcessItems();
 
     if (((int)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(this)))->GetPrevPath())))
-        reinterpret_cast<::FUN_004799f0_shell *>((reinterpret_cast<FUN_004799f0_shell*>(((int)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(this)))->GetPrevPath())))))->FUN_004799f0();
+        reinterpret_cast<::FUN_004799f0_shell *>((reinterpret_cast<FUN_004799f0_shell*>(((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(this)))->GetPrevPath())))))->FUN_004799f0();
 
     if (reinterpret_cast<TESTopicInfo*>(this)->GetParentQuest())
         ::FUN_00485910(0x4D414E43, reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESTopicInfo*>(this)->GetParentQuest()))->FUN_0084e3a0());
@@ -7797,7 +7797,7 @@ void PackageCopy::CopyFromPackage(TESForm* form)
     reinterpret_cast<::BGSDehydrationStage *>(this)->FUN_0050f9a0((::SpellItem *)(((reinterpret_cast<::BGSTerrainManager *>((((PackageAccessor*)p)))->GetMinLevel()))));
     f22 = p->f22;
     reinterpret_cast<::fnv_00673200::FUN_00673200_shell *>(this)->FUN_00673200((::fnv_00673200::BGSIdleCollection *)(((reinterpret_cast<::PackedByteIntRecord *>((((PackageAccessor*)p)))->Endian()))));
-    reinterpret_cast<::fnv_006730a0::FUN_006730a0_shell *>(this)->CallOrResetObject((void *)(((int)(reinterpret_cast<::BGSCameraPath *>((((PackageAccessor*)p)))->GetPrevPath()))));
+    reinterpret_cast<::fnv_006730a0::FUN_006730a0_shell *>(this)->CallOrResetObject((void *)(((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((((PackageAccessor*)p)))->GetPrevPath()))));
     reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(((PackageAccessor*)p)->FUN_006733e0()));
     reinterpret_cast<::PackageEx *>(this)->SetPackageType((*(int *)&(const ::PTYPE &)(p->GetPackType())));
     f24 = p->f24;
@@ -10217,7 +10217,7 @@ bool P070Package::IsWithinPackageLocation(P070Ref* object, P070Ref* actor, bool 
         {
             if (reinterpret_cast<::FUN_00568680_shell *>((target8))->FUN_00568680() && ((::P070Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((object))->GetBaseTexture())) && ((::P070Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((object))->GetBaseTexture()))->GetLocation())
             {
-                if (!((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::P070Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())))
+                if (!((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::P070Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())))
                     position = *((::P070Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetLocation();
                 radius2 = 20;
                 exact2 = true;
@@ -12315,7 +12315,7 @@ V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)
         if (GetPackType() == (PTYPE)1 || GetPackType() == (PTYPE)7)
         {
             if (secondary7 == (*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer)) &&
-                ((::fnv_006780e0::V *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)targetObj)))->GetBaseTexture()))->f14b() != (unsigned int)(*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer)) &&
+                ((::fnv_006780e0::V *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)targetObj)))->GetBaseTexture()))->f14b() != (unsigned int)(std::uintptr_t)(*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer)) &&
                 !reinterpret_cast<::FUN_00962720_shell *>(((*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer))))->HasExtraFollowerForm((char *)(targetObj)) &&
                 reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>(((*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer))))->FUN_00962620() > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_006780e0::NumberSingleton *>(&::g_011cdad0)))))))
             {
@@ -14852,7 +14852,7 @@ void A::FUN_008bed50(A* source, int value, bool react, A* target)
         package2 = ((::P *)(reinterpret_cast<::FUN_0041cb10_shell *>((((Extra*)((::P *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0())))))->FUN_0041cb10()));
     if ((((bool)(reinterpret_cast<::FUN_00493bb0_Class *>(this)->FUN_00493bb0())) || IsState(0) || reinterpret_cast<::FleeActorEntry *>(this)->FUN_008a6650(0) ||
          (package2 && reinterpret_cast<::FUN_0067a3f0_shell *>((package2))->HasFlag400000() && source &&
-          ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((source))->GetName())) != (unsigned int)process->GetTarget())) &&
+          ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((source))->GetName())) != (unsigned int)(std::uintptr_t)process->GetTarget())) &&
         react)
     {
         if (!IsState(0) && !((bool)(reinterpret_cast<::FUN_00833c20_shell *>((source))->FUN_00833c20())))

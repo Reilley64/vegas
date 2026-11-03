@@ -82,7 +82,7 @@ struct DDCC60World
 };
 struct FUN_00cb8b40_class
 {
-    int m_000;
+    const void* m_000;
     int m_004;
     int m_008;
     int m_00c;
@@ -126,7 +126,7 @@ struct FUN_00cb8b40_class
     int m_0a4;
     int m_0a8;
     int m_0ac;
-    int m_0b0;
+    DDCC60World* m_0b0;
     int m_0b4;
     int m_0b8;
     int m_0bc;
@@ -135,16 +135,16 @@ struct FUN_00cb8b40_class
 // @fnv 0x00cb8b40
 void FUN_00cb8b40_class::DestroyWorldReference()
 {
-    DDCC60World* p = (DDCC60World*)this->m_0b0;
-    *((int*)this) = (int)&DAT_010c89e4;
+    DDCC60World* p = this->m_0b0;
+    m_000 = &DAT_010c89e4;
     if (p)
         reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
-    *((int*)this) = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_000 = &::DAT_0102e388;
 }
 
 // Stores b at self+0xa2 and its negation at self+0xb6; if a is non-null, zeroes four floats at a->0x30->0x1c.
 // @fnv 0x00cb8fe0
-void FUN_00cb8fe0(char* self, int, int a, bool b)
+void FUN_00cb8fe0(char* self, void* a, bool b)
 {
     self[0xa2] = b;
     self[0xb6] = !b;
@@ -283,10 +283,10 @@ struct FUN_00cb9ce0_cls
 {
     virtual void v0();
     virtual void* v1(int a);
-    virtual void v2(int a);
-    virtual int v3(int a, int b);
+    virtual void v2(void* a);
+    virtual void* v3(void* a, int b);
     virtual void v4(int a, int b);
-    int m_004;
+    void* m_004;
     int m_008;
     int m_00c;
     void FUN_00cb9ce0(int a, int b);
@@ -303,16 +303,15 @@ void FUN_00cb9ce0_cls::FUN_00cb9ce0(int a, int b)
         }
         else
         {
-            int r = reinterpret_cast<int>(v1(a));
-            ::FUN_00cb9930((void *)(reinterpret_cast<FUN_00b5aea0_self*>(this)), (int)(reinterpret_cast<int*>(r)),
-                                                                     (unsigned int *)(int *)(reinterpret_cast<int*>(m_004)), (unsigned int *)(b), {});
+            void* r = v1(a);
+            ::FUN_00cb9930((void *)(reinterpret_cast<FUN_00b5aea0_self*>(this)), 0, (unsigned int *)(r), (unsigned int *)(m_004), (unsigned int)(b));
             v2(m_004);
             m_004 = r;
         }
     }
     else
     {
-        int r = reinterpret_cast<int>(v1(a));
+        void* r = v1(a);
         m_00c = a;
         m_004 = r;
     }

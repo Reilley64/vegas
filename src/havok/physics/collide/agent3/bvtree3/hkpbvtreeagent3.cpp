@@ -15,32 +15,48 @@
 #include "fnv/symbols_01076000.h"
 #include "fnv/symbols_010ce000.h"
 #include "fnv/symbols_01268000.h"
-void FUN_00d2d890(void* self, int, void*, int);
-void CallWithValueSource(void* self, int, int, int);
-void FUN_00d2d430(void* self, int, int, int);
-void FUN_00d2d480(void* self, int, int, int);
-// @fnv 0x00d2d9d0
-void FUN_00d2d9d0(void* pObject)
+void __cdecl FUN_00d2d460(void* a, void* b, void* c);
+
+// The agent3 function table, in the order of hkpCollisionDispatcher::Agent3Funcs.
+struct Agent3FuncsD2D9
 {
-    *(void**)pObject = (void*)&InitAndReturnTail;
-    *(void**)((char*)pObject + 0x2c) = (void*)&FUN_00d2d890;
-    *(int*)((char*)pObject + 0x28) = 0;
-    *(int*)((char*)pObject + 8) = 0;
-    *(int*)((char*)pObject + 0xc) = 0;
-    *(int*)((char*)pObject + 0x10) = 0;
-    *(int*)((char*)pObject + 0x14) = 0;
-    *(void**)((char*)pObject + 0x18) = (void*)&CallWithValueSource;
-    *(void**)((char*)pObject + 0x1c) = (void*)&FUN_00d2d430;
-    *(int*)((char*)pObject + 0x20) = 0xd2d460;
-    *(void**)((char*)pObject + 0x24) = (void*)&FUN_00d2d480;
-    *(int*)((char*)pObject + 4) = 0xda6dc0;
-    *(char*)((char*)pObject + 0x30) = 1;
+    void* m_createFunc;
+    void* m_destroyFunc;
+    void* m_cleanupFunc;
+    void* m_removePointFunc;
+    void* m_commitPotentialFunc;
+    void* m_createZeroContactFunc;
+    void* m_processFunc;
+    void* m_sepNormalFunc;
+    void* m_invalidateTimFunc;
+    void* m_warpTimeFunc;
+    void* m_updateFilterFunc;
+    void* m_calcStatisticsFunc;
+    bool m_isPredictive;
+};
+
+// @fnv 0x00d2d9d0
+void FUN_00d2d9d0(Agent3FuncsD2D9* pObject)
+{
+    pObject->m_createFunc = (void*)&InitAndReturnTail;
+    pObject->m_calcStatisticsFunc = (void*)&FUN_00d2d890;
+    pObject->m_updateFilterFunc = 0;
+    pObject->m_cleanupFunc = 0;
+    pObject->m_removePointFunc = 0;
+    pObject->m_commitPotentialFunc = 0;
+    pObject->m_createZeroContactFunc = 0;
+    pObject->m_processFunc = (void*)&CallWithValueSource;
+    pObject->m_sepNormalFunc = (void*)&FUN_00d2d430;
+    pObject->m_invalidateTimFunc = (void*)&FUN_00d2d460;
+    pObject->m_warpTimeFunc = (void*)&FUN_00d2d480;
+    pObject->m_destroyFunc = (void*)&FUN_00da6dc0;
+    pObject->m_isPredictive = 1;
 }
 
 // @fnv 0x00d2d480
-void __cdecl FUN_00d2d480(void*, void* target, float first, float second, int flags)
+void __cdecl FUN_00d2d480(void*, void* target, float first, float second, void** flags)
 {
-    ::FUN_00da35f0((::Da35Stream ***)(target), first, second, (void **)(flags));
+    ::FUN_00da35f0((::Da35Stream ***)(target), first, second, flags);
 }
 
 struct Interface
@@ -196,14 +212,15 @@ struct Agent
 
 // Calls p->f6 with the type name hkBvTreeAgent3, then FUN_00d97250 with a2, a3 and p, then p->f7().
 // @fnv 0x00d2d430
-void __cdecl FUN_00d2d430(int a1, int a2, int a3, Agent* pAgent)
+void __cdecl FUN_00d2d430(void* a1, ::Hdr* a2, char** a3, Agent* pAgent)
 {
     pAgent->f6("hkBvTreeAgent3");
-    ::FUN_00d97250((::Hdr *)(a2), (char **)(a3), (::Logger *)(pAgent));
+    ::FUN_00d97250(a2, a3, (::Logger *)(pAgent));
     pAgent->f7();
 }
 
-void __cdecl FUN_00d2d460(int a, int b, int c)
+// @fnv 0x00d2d460
+void __cdecl FUN_00d2d460(void* a, void* b, void* c)
 {
     ::FUN_00da3510((*(::AgentSectorPointerArray *)(b)), (*(::CollisionAgentContext *)(c)));
 }
@@ -393,11 +410,11 @@ struct S00d2d890_Obj
     int unk0c;
 };
 int FUN_00d2d4f0(int a, int b, S00d2d890_Local* l, void* c, int d, int e, char* f, int g);
-int FUN_00d2d4b0(int a, S00d2d890_Hits* h);
+void* FUN_00d2d4b0(void* a, S00d2d890_Hits* h);
 
 // Takes 0x4000 bytes from an arena, calls FUN_00d2d4f0, FUN_00d2d4b0 and FUN_00da4aa0 between timing markers, restores the arena and returns child + 0x10.
 // @fnv 0x00d2d890
-char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, int a4)
+char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, void* a4)
 {
     volatile unsigned int tb;
     S00d2d890_Buf* t = (S00d2d890_Buf*)TlsGetValue(DAT_0126835c);
@@ -421,8 +438,8 @@ char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, int a4)
     int p1 = *(int*)(self + 4);
     int p0 = *(int*)self;
     int numHits = FUN_00d2d4f0(p0, p1, &loc, self + 0x70, c, 0, mark, 0x1000);
-    int tree = *(int*)(self + 4);
-    int r4b = FUN_00d2d4b0(tree, &hits);
+    void* tree = *(void**)(self + 4);
+    void* r4b = FUN_00d2d4b0(tree, &hits);
 
     t = (S00d2d890_Buf*)TlsGetValue(DAT_0126835c);
     if (t->cur < t->end)
@@ -435,7 +452,7 @@ char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, int a4)
         t->cur = (char*)(r + 1);
     }
     char* cond = numHits < 0 ? 0 : mark;
-    ::fnv_00da4aa0::FUN_00da4aa0((*(::fnv_00da4aa0::Q30 *)((int)child)), (*(const ::fnv_00da4aa0::Q14 *)(self)), (const ::fnv_00da4aa0::Q24 *)((*(volatile int*)&r4b)), (const unsigned int *)(cond), (*(::fnv_00da4aa0::Q6 *)(a4)));
+    ::fnv_00da4aa0::FUN_00da4aa0((*(::fnv_00da4aa0::Q30 *)(child)), (*(const ::fnv_00da4aa0::Q14 *)(self)), (const ::fnv_00da4aa0::Q24 *)((*(void* volatile*)&r4b)), (const unsigned int *)(cond), (*(::fnv_00da4aa0::Q6 *)(a4)));
     t = (S00d2d890_Buf*)TlsGetValue(DAT_0126835c);
     if (t->cur < t->end)
     {

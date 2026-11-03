@@ -5,6 +5,7 @@
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/Agent.h"
@@ -101,28 +102,6 @@ void FUN_00d2ddf0_Class::FUN_00d2ddf0(float a, float b, void* c)
     ::FUN_00da35f0((::Da35Stream ***)(void *)((char*)this + 0x30), a, b, (void **)(c));
 }
 
-struct hkMemoryAllocator
-{
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
-
-struct AudioMgr
-{
-    int unk00, unk04, unk08, unk0c;
-    hkMemoryAllocator* unk10;
-    hkMemoryAllocator& heap()
-    {
-        return *unk10;
-    }
-};
-
-struct BSAudio;
-inline AudioMgr* audio()
-{
-    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
-}
-
 struct RefObj
 {
     void* vtbl;
@@ -138,7 +117,7 @@ struct Obj : RefObj
 
 inline void* hkAlloc(int n)
 {
-    RefObj* p = (RefObj*)audio()->heap().AllocateMemoryBlock(n);
+    RefObj* p = static_cast<RefObj*>(hkMemoryRouter::getInstance().heap().blockAlloc(n));
     p->m_usMemSizeAndFlags = (short)n;
     return p;
 }
@@ -1010,44 +989,6 @@ void* FUN_00d2e5a0(void* a1, void* a2, void* a3, void* a4)
 }  // namespace fnv_00d2e5a0
 
 
-struct AllocationManager
-{
-    virtual void* GetHeap();
-    virtual void* Allocate(unsigned int size);
-};
-
-struct GlobalOwner
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    AllocationManager* allocator;
-};
-
-struct hkpBvTreeStreamAgent
-{
-    virtual void Destroy();
-    unsigned short unk04;
-    hkpBvTreeStreamAgent(void* a, void* b, void* c, void* d);
-};
-
-template <class Agent> struct hkpSymmetricAgent : Agent
-{
-    hkpSymmetricAgent(void* a, void* b, void* c, void* d) : Agent(b, a, c, d)
-    {}
-    virtual void Destroy();
-};
-
-// Allocates 0x40 bytes from the global owner's allocator, sets the size field at offset 4, and constructs a hkpSymmetricAgent<hkpBvTreeStreamAgent> in place.
-// @fnv 0x00d2e680
-hkpSymmetricAgent<hkpBvTreeStreamAgent>* __cdecl FUN_00d2e680(void* a, void* b, void* c, void* d)
-{
-    GlobalOwner* owner = (GlobalOwner*)static_cast<BSAudio*>(::FUN_00c85750());
-    void* object = owner->allocator->Allocate(0x40);
-    *(unsigned short*)((char*)object + 4) = 0x40;
-    return new (object) hkpSymmetricAgent<hkpBvTreeStreamAgent>(a, b, c, d);
-}
 
 namespace fnv_00d2e6d0 {
 struct RegEntry
@@ -1213,9 +1154,7 @@ struct Obj64 : Header
 };
 static __forceinline Obj56* Create56(void* second, void* first, StreamDispatchInput* context, void* flags)
 {
-    AudioMgr* owner = audio();
-    hkMemoryAllocator* allocator = owner->unk10;
-    Obj56* obj = static_cast<Obj56*>(allocator->AllocateMemoryBlock(0x38));
+    Obj56* obj = static_cast<Obj56*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x38));
     obj->size = 0x38;
     new ((void *)(obj)) ::FUN_00d440f0((*(const ::CdBodyS *)(second)), (*(const ::CdBodyS *)(first)), (*(const ::CollisionInputS *)(context)), static_cast<::ContactMgrS *>(flags));
     obj->vtable = g_010ce8b0;
@@ -1223,9 +1162,7 @@ static __forceinline Obj56* Create56(void* second, void* first, StreamDispatchIn
 }
 static __forceinline Obj64* Create64(void* second, void* first, StreamDispatchInput* context, void* flags)
 {
-    AudioMgr* owner = audio();
-    hkMemoryAllocator* allocator = owner->unk10;
-    Obj64* obj = static_cast<Obj64*>(allocator->AllocateMemoryBlock(0x40));
+    Obj64* obj = static_cast<Obj64*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
     obj->size = 0x40;
     reinterpret_cast<::FUN_00d2def0_cls *>((obj))->FUN_00d2def0(second, first, (int *)(context), flags);
     obj->vtable = g_010ce874;
@@ -2289,6 +2226,53 @@ enum{SECTOR_SIZE=512,NET_SECTOR_SIZE=SECTOR_SIZE-16};};
 struct AgentSectorPointerArray
 {
 hkArray<hkpAgent1nSector*>m_kSectors;};
+class hkpBvTreeStreamAgent:public hkpCollisionAgent
+{
+public:
+static void __cdecl RegisterCapsuleCapsuleAgent(hkpCollisionDispatcher*dispatcher);
+static void __cdecl registerConvexListAgent(hkpCollisionDispatcher*dispatcher);
+static void __cdecl registerMultiRayAgent(hkpCollisionDispatcher*dispatcher);
+virtual void FUN_00d2df90(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const GskAgentInput&input,WorldOperationEntry&result);
+virtual void cleanup(hkpConstraintOwner&info);
+virtual void getPenetrations(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpCdBodyPairCollector&collector);
+virtual void getClosestPoints(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpCdPointCollector&collector);
+virtual void linearCast(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const ShapeSweepParameters&input,hkpCdPointCollector&collector,hkpCdPointCollector*startCollector);
+virtual void ProcessContactPoints(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpConstraintOwner&constraintOwner);
+virtual void RemovePoint(const CollisionAgentContext&input);
+virtual void WarpTime(hkTime oldTime,hkTime newTime,const CollisionAgentContext&input);
+protected:
+hkResult prepareCollisionPartnersProcess(AgentSubtypeMarker&input,hkArray<hkpShapeKey>&hitList);
+hkpBvTreeStreamAgent(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpContactMgr*mgr);
+~hkpBvTreeStreamAgent(){}
+void CalcContentStatistics(hkStatisticsCollector*collector,const hkClass*cls)const;
+public:
+static hkpCollisionAgent*__cdecl createShapeBvAgent(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpContactMgr*mgr);
+static hkpCollisionAgent*__cdecl createBvTreeShapeAgent(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpContactMgr*mgr);
+static hkpCollisionAgent*__cdecl dispatchBvTreeConvexList(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpContactMgr*mgr);
+static hkpCollisionAgent*__cdecl dispatchConvexListBvTree(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpContactMgr*mgr);
+protected:
+hkpCollisionDispatcher*m_pCollisionDispatcher;
+hkAabb m_kBoundingBox;
+AgentSectorPointerArray m_kAgentNnTrack;
+};
+
+template <class Agent> struct hkpSymmetricAgent : Agent
+{
+    hkpSymmetricAgent(const hkpCdBody& a, const hkpCdBody& b, const CollisionAgentContext& c, hkpContactMgr* d) : Agent(b, a, c, d)
+    {}
+};
+
+// Allocates the agent from the heap allocator, records its size in the memory-size field, and constructs a hkpSymmetricAgent<hkpBvTreeStreamAgent> in place.
+// @fnv 0x00d2e680
+hkpSymmetricAgent<hkpBvTreeStreamAgent>* __cdecl FUN_00d2e680(void* a, void* b, void* c, void* d)
+{
+    const int size = sizeof(hkpSymmetricAgent<hkpBvTreeStreamAgent>);
+    void* object = hkMemoryRouter::getInstance().heap().blockAlloc(size);
+    static_cast<hkReferencedObject*>(object)->m_usMemSizeAndFlags = size;
+    return new (object) hkpSymmetricAgent<hkpBvTreeStreamAgent>(*static_cast<const hkpCdBody*>(a), *static_cast<const hkpCdBody*>(b),
+                                                                *static_cast<const CollisionAgentContext*>(c), static_cast<hkpContactMgr*>(d));
+}
+
 class hkpBvTreeShape:public hkpShape
 {
 public:

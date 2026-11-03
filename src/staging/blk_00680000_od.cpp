@@ -165,6 +165,8 @@ void FUN_00692290_class::FUN_00692290(unsigned int requested, unsigned int saved
 
 struct PackageTargetRecord
 {
+    char pad00[0x4];
+    void* unk04;
     int GetTargetKind();
     void FUN_00680170(void* reference);
 };
@@ -172,7 +174,7 @@ struct PackageTargetRecord
 void PackageTargetRecord::FUN_00680170(void* reference)
 {
     if (GetTargetKind() == 2)
-        *(void**)((char*)this + 4) = reference;
+        this->unk04 = reference;
 }
 
 struct TESConditionItem
@@ -183,6 +185,8 @@ public:
 
 struct FUN_00681500_class
 {
+    char pad00[0x4];
+    float unk04;
     void SetValueIfNoParams(float value);
 };
 
@@ -191,7 +195,7 @@ struct FUN_00681500_class
 void FUN_00681500_class::SetValueIfNoParams(float value)
 {
     if (!((TESConditionItem*)this)->GetValueIsGlobal())
-        *(float*)((char*)this + 4) = value;
+        this->unk04 = value;
 }
 
 struct FUN_00682530_class
@@ -239,12 +243,14 @@ struct FUN_00683760_class
 };
 struct FUN_0068a810_class
 {
+    char pad00[0x4c];
+    int unk4c;
     int GetField4C();
 };
 // @fnv 0x0068a810
 int FUN_0068a810_class::GetField4C()
 {
-    return *(int*)((char*)this + 0x4c);
+    return this->unk4c;
 }
 
 extern int DAT_01069d7c;
@@ -269,13 +275,15 @@ void FUN_0068ab80_class::FUN_0068ab80()
 
 struct FUN_0068e740_class
 {
+    char pad00[0x24];
+    char unk24;
     void FUN_0068e740();
 };
 
 // @fnv 0x0068e740
 void FUN_0068e740_class::FUN_0068e740()
 {
-    ((void(*)(void*))((void (&)(void *))::FUN_004a4650))((char*)this + 0x24);
+    ((void(*)(void*))((void (&)(void *))::FUN_004a4650))((char*)&this->unk24);
 }
 
 extern int DAT_0106a038;
@@ -326,17 +334,24 @@ struct GO
 {
     void operator=(void*);
 };
+struct FUN_00691a30_Object
+{
+    char pad00[0x8];
+    GO unk08;
+};
+
 struct FUN_00691a30_class
 {
-    GO m0;
+    char pad00[0xc];
+    ::FUN_00659080_Class unk0c;
     void FUN_00691a30(intptr_t a);
 };
 // Clears the pointer at offset 8 of the passed object and forwards it to FUN_00659080 on this+0xc.
 // @fnv 0x00691a30
 void FUN_00691a30_class::FUN_00691a30(intptr_t pObject)
 {
-    ((GO*)((char*)pObject + 8))->operator=(0);
-    reinterpret_cast<::FUN_00659080_Class *>((((FUN_00691a30_class*)((char*)this + 0xc))))->FUN_00659080((::FUN_00659140_Class *)(pObject));
+    ((FUN_00691a30_Object*)pObject)->unk08.operator=(0);
+    this->unk0c.FUN_00659080((::FUN_00659140_Class *)(pObject));
 }
 
 namespace fnv_00691bf0 {
@@ -398,6 +413,8 @@ struct PositionRotation
 };
 struct FUN_006926e0_class
 {
+    char pad00[0x24];
+    unsigned short unk24;
     PositionRotation* FUN_006926e0();
 };
 // Calls FUN_00692710 on this object, sets the unsigned short at offset 0x24 to 0xffff, and returns this.
@@ -405,7 +422,7 @@ struct FUN_006926e0_class
 PositionRotation* FUN_006926e0_class::FUN_006926e0()
 {
     ::FUN_00692710((::PositionRotation *)(((PositionRotation*)this)));
-    *(unsigned short*)((char*)this + 0x24) = 0xffff;
+    this->unk24 = 0xffff;
     return (PositionRotation*)this;
 }
 
@@ -443,13 +460,14 @@ int FUN_00693cf0_class::GetSix()
 struct FUN_00693d10_class
 {
     int a;
+    ::FUN_00693cf0_class unk04;
     void FUN_00693d10();
 };
 
 // @fnv 0x00693d10
 void FUN_00693d10_class::FUN_00693d10()
 {
-    reinterpret_cast<::FUN_00693cf0_class *>((((FUN_00693d10_class*)((char*)this + 4))))->GetSix();
+    this->unk04.GetSix();
 }
 
 struct ArrSI
@@ -591,25 +609,35 @@ struct FUN_0069b8a0_class
 
 struct FUN_0069b760_class
 {
+    char pad00[0xc];
+    FUN_0069b8a0_class unk0c;
+    char pad0d[0x3];
     void FUN_0069b760();
 };
 
 struct Unk6b
 {
 };
+struct FUN_0069b780_Node
+{
+    char pad00[0xc];
+    int unk0c;
+};
+
 struct FUN_0069b780_class
 {
     int a;
     int b;
     int c;
+    Unk6b unk0c;
     void FUN_0069b780(void* p);
 };
 // Clears the int at offset 0xc of p, then calls FreeMemory on this+0xc with p.
 // @fnv 0x0069b780
 void FUN_0069b780_class::FUN_0069b780(void* p)
 {
-    *(int*)((char*)p + 0xc) = 0;
-    reinterpret_cast<::FUN_006b8310_class *>((((Unk6b*)((char*)this + 0xc))))->FreeMemory(p);
+    ((FUN_0069b780_Node*)p)->unk0c = 0;
+    reinterpret_cast<::FUN_006b8310_class *>(&this->unk0c)->FreeMemory(p);
 }
 
 struct FUN_006d5320_mem
@@ -716,13 +744,15 @@ bool FUN_0069dee0_class::Contains(const unsigned short& ausValue)
 
 struct FUN_0069dfb0_class
 {
+    char pad00[0x54];
+    int unk54;
     bool HasNonZeroAtOffset54() const;
 };
 
 // @fnv 0x0069dfb0
 bool FUN_0069dfb0_class::HasNonZeroAtOffset54() const
 {
-    return *(const int*)((const char*)this + 0x54) != 0;
+    return *(const int*)&this->unk54 != 0;
 }
 
 struct FUN_00691a00_class : public NiTPointerMap<int, int>
@@ -773,6 +803,10 @@ void S00681590::CopyFromRefObj(RefObj* apRefObj, int d)
 
 struct S682530
 {
+    char pad00[0xc];
+    int unk0c;
+    int unk10;
+    int unk14;
     void* InitWithValue(int);
 };
 // @fnv 0x00682510
@@ -786,9 +820,9 @@ void* FUN_00682510_class::FUN_00682510(int arg)
 void* S682530::InitWithValue(int aiValue)
 {
     ((FUN_00682570_class*)this)->FUN_00682570(0);
-    *(int*)((char*)this + 0xc) = 0;
-    *(int*)((char*)this + 0x10) = aiValue;
-    *(int*)((char*)this + 0x14) = aiValue;
+    this->unk0c = 0;
+    this->unk10 = aiValue;
+    this->unk14 = aiValue;
     return this;
 }
 
@@ -1451,15 +1485,17 @@ struct SDFC0
 };
 struct FUN_0069df60
 {
-    char pad[24];
+    SDF10 unk00;
+    char pad01[0xb];
+    SDFC0 unk0c;
     FUN_0069df60(const FUN_0069df60&);
 };
 // @fnv 0x0069df60
 FUN_0069df60::FUN_0069df60(const FUN_0069df60& o)
 {
     new ((void *)(((SDF10*)this))) ::FUN_0069df10((::FUN_0069df10_Param *)&(*(SDF10*)&o));
-    new ((void *)(((SDFC0*)((char*)this + 12)))) ::Vec3();
-    *((SDFC0*)((char*)this + 12)) = *((SDFC0*)((char*)&o + 12));
+    new ((void *)&this->unk0c) ::Vec3();
+    this->unk0c = o.unk0c;
 }
 
 struct FUN_0069e090_class
@@ -1812,6 +1848,9 @@ struct PortalHolder
 };
 struct FUN_0069d1d0_class
 {
+    char pad00[0x4];
+    PortalHolder unk04;
+    char pad05[0x3];
     void ReadFromFile(TESFile* file, unsigned int* p);
 };
 // @fnv 0x0069d1d0
@@ -1821,7 +1860,7 @@ void FUN_0069d1d0_class::ReadFromFile(TESFile* file, unsigned int* puiValue)
     if (file->IsEndianConversionRequired())
         ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this));
     puiValue++;
-    reinterpret_cast<::DFD0Data *>((((PortalHolder*)((char*)this + 4))))->LoadFormRef(((void *)(reinterpret_cast<::Owner45A *>((*reinterpret_cast<TES **>(&g_TES)))->FUN_0045af00())), (::DFD0File *)(void *)(file), (const char *)(puiValue));
+    reinterpret_cast<::DFD0Data *>(((&this->unk04)))->LoadFormRef(((void *)(reinterpret_cast<::Owner45A *>((*reinterpret_cast<TES **>(&g_TES)))->FUN_0045af00())), (::DFD0File *)(void *)(file), (const char *)(puiValue));
 }
 
 struct NiTMallocInterface_006826d0
@@ -1878,6 +1917,16 @@ int FUN_00693cd0_class::FUN_00693cd0()
 
 struct FUN_00693dc0_class
 {
+    char pad00[0x4];
+    unsigned char unk04;
+    char pad05[0x3];
+    unsigned char unk08;
+    char pad09[0x3];
+    unsigned char unk0c;
+    char pad0d[0x3];
+    unsigned char unk10;
+    char pad11[0x3];
+    unsigned char unk14;
     void SwapEndian();
 };
 
@@ -1885,11 +1934,11 @@ struct FUN_00693dc0_class
 void FUN_00693dc0_class::SwapEndian()
 {
     ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this)));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 4));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 8));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 0xC));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 0x10));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 0x14));
+    ::FUN_00401080((int *)&this->unk04);
+    ::FUN_00401080((int *)&this->unk08);
+    ::FUN_00401080((int *)&this->unk0c);
+    ::FUN_00401080((int *)&this->unk10);
+    ::FUN_00401080((int *)&this->unk14);
 }
 
 struct FUN_005efdd0_class
@@ -2176,13 +2225,13 @@ void __cdecl ReleaseSpawnedObject(SpawnedObject* apObject)
     int iResult2;
     if (kObj != 0)
     {
-        if (((int*)kObj)[-1] != 0)
+        if (reinterpret_cast<std::size_t*>(kObj)[-1] != 0)
         {
             iResult = p->vDel(3);
         }
         else
         {
-            FUN_00401030((char*)kObj - 4);
+            FUN_00401030((char*)kObj - sizeof(std::size_t));
             iResult = 0;
         }
         iResult2 = iResult;
@@ -2595,6 +2644,18 @@ struct SpawnedFlag
 
 class FUN_00693c10_cls
 {
+    char pad00[0x2];
+    char unk02;
+    char pad03[0x1];
+    char unk04;
+    char pad05[0x1];
+    char unk06;
+    char pad07[0x1];
+    char unk08;
+    char pad09[0x1];
+    char unk0a;
+    char pad0b[0x1];
+    char unk0c;
   public:
     void FUN_00693c10();
 };
@@ -2603,19 +2664,19 @@ class FUN_00693c10_cls
 void FUN_00693c10_cls::FUN_00693c10()
 {
     SpawnedFlag f0 = {};
-    ::FUN_00401080((int *)(void *)((char*)this + 0xc));
+    ::FUN_00401080((int *)(void *)((char*)&this->unk0c));
     SpawnedFlag f8 = {};
     ::FUN_00407a90((short *)(void *)((char*)this + 0));
     SpawnedFlag f2 = {};
-    ::FUN_00407a90((short *)(void *)((char*)this + 2));
+    ::FUN_00407a90((short *)(void *)((char*)&this->unk02));
     SpawnedFlag fX = {};
-    ::FUN_00407a90((short *)(void *)((char*)this + 4));
+    ::FUN_00407a90((short *)(void *)((char*)&this->unk04));
     SpawnedFlag f9 = {};
-    ::FUN_00407a90((short *)(void *)((char*)this + 6));
+    ::FUN_00407a90((short *)(void *)((char*)&this->unk06));
     SpawnedFlag f5 = {};
-    ::FUN_00407a90((short *)(void *)((char*)this + 8));
+    ::FUN_00407a90((short *)(void *)((char*)&this->unk08));
     SpawnedFlag f7 = {};
-    ::FUN_00407a90((short *)(void *)((char*)this + 0xa));
+    ::FUN_00407a90((short *)(void *)((char*)&this->unk0a));
 }
 
 // @fnv 0x00693db0
@@ -2719,7 +2780,7 @@ struct FUN_0069b8a0_cls
 // @fnv 0x0069b760
 void FUN_0069b760_class::FUN_0069b760()
 {
-    reinterpret_cast<::FUN_0069b8a0_cls *>((((FUN_0069b8a0_class*)((char*)this + 0xc))))->CreateObj();
+    reinterpret_cast<::FUN_0069b8a0_cls *>(((&this->unk0c)))->CreateObj();
 }
 
 // Allocates and constructs a new Obj_b9971 via its operator new and returns the pointer.
@@ -2884,14 +2945,14 @@ void* S_0069d9a0_cls::FUN_0069d9a0(unsigned int flags)
 {
     if (flags & 2)
     {
-        ::FUN_00ec5fce(this, 0x10, reinterpret_cast<int*>(this)[-1], (const void *)&((void (&)())::FUN_00691800));
+        ::FUN_00ec5fce(this, 0x10, (unsigned int)reinterpret_cast<std::size_t*>(this)[-1], (const void *)&((void (&)())::FUN_00691800));
 
         if (flags & 1)
         {
-            ::FUN_00401030(reinterpret_cast<char*>(this) - 4);
+            ::FUN_00401030(reinterpret_cast<char*>(this) - sizeof(std::size_t));
         }
 
-        return reinterpret_cast<char*>(this) - 4;
+        return reinterpret_cast<char*>(this) - sizeof(std::size_t);
     }
 
     ::FUN_00691800((::GlobalObject_00869f00 *)this);
@@ -3590,6 +3651,13 @@ struct GRes2
 {
 };
 struct LinkT;
+struct ArrElem
+{
+    char pad00[0x4];
+    float unk04[3];
+    float unk10;
+};
+
 struct ArrObj
 {
     int d0;
@@ -5972,10 +6040,10 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
                               (float)((double)i / (double)((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_2068))->GetName()))), ::g_011db5ec_arg1);
                     {
                         ObjB objB2(
-                            ((void *)(::FUN_00c56680(*(float*)((char*)*(((ArrObj*)((void *)(reinterpret_cast<::FUN_00558dd0_class *>(&(m_2068))->FUN_00558dd0(i))))->FUN_00877a30(j)) + 0x10),
+                            ((void *)(::FUN_00c56680(((ArrElem*)*(((ArrObj*)((void *)(reinterpret_cast<::FUN_00558dd0_class *>(&(m_2068))->FUN_00558dd0(i))))->FUN_00877a30(j)))->unk10,
                                          10, 10, (const ::Color4 *)(void *)(&objA)))));
                         reinterpret_cast<::FUN_00440460_S *>((((::fnv_0069f010::ResObj *)(::FUN_00559450((int *)&(objB2))))))->FUN_00440460(
-                            (const ::V3 *)(void *)((char*)*(((ArrObj*)((void *)(reinterpret_cast<::FUN_00558dd0_class *>(&(m_2068))->FUN_00558dd0(i))))->FUN_00877a30(j)) + 4));
+                            (const ::V3 *)(void *)((ArrElem*)*(((ArrObj*)((void *)(reinterpret_cast<::FUN_00558dd0_class *>(&(m_2068))->FUN_00558dd0(i))))->FUN_00877a30(j)))->unk04);
                         auxPtr = (AuxObj*)new ObjY();
                         reinterpret_cast<::FUN_0049ed90_shell *>((auxPtr))->FUN_0049ed90(1);
                         reinterpret_cast<::FUN_00439410_cls *>((((::fnv_0069f010::ResObj *)(::FUN_00559450((int *)&(objB2))))))->FUN_00439410((::ArgObject *)(auxPtr));

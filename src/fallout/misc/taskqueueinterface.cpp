@@ -336,7 +336,7 @@ void TaskQueueInterface::ProcessPackedTask(const BSPackedTask& task)
     if (DAT_011a31f4)
     {
         if (!reinterpret_cast<PackedTaskQueueProcessor*>(
-                 ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(this)))->GetName())))
+                 (((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(this)))->iSize))
                  ->CallVirtualMethod1(task))
             DebugBreak();
     }
@@ -1698,20 +1698,20 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
         break;
     }
     case 4: {
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244))))->GetName())) > 0)
+        if (((&((*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244))))->iSize) > 0)
         {
             TaskQueueParallelWork kWork;
-            reinterpret_cast<::FUN_0087cf10_shell *>(&(kWork))->Construct(((void (&)(unsigned int, void *))::FUN_0087cfb0), &(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244)), (void *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244))))->GetName()))));
+            reinterpret_cast<::FUN_0087cf10_shell *>(&(kWork))->Construct(((void (&)(unsigned int, void *))::FUN_0087cfb0), &(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244)), (void *)(std::uintptr_t)(((&((*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244))))->iSize)));
             reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((int)(&kWork));
             reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<BSSimpleArray_SandBoxChoiceListItem_1024_*>(&(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244)))))->Clear(false);
         }
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df1c4))))->GetName())) > 0)
+        if (((&((*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df1c4))))->iSize) > 0)
         {
             BSScrapArray<NiPointer<NiAVObject>, 1024> nodeList;
             FUN_0087d030(&nodeList);
             TaskQueueParallelWork kWork;
             reinterpret_cast<::FUN_0087cf10_shell *>(&(kWork))->Construct(UpdateAnimObjFromTask, &nodeList,
-                            (void *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&nodeList)))->GetName()))));
+                            (void *)(std::uintptr_t)((((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&nodeList)))->iSize)));
             reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((int)(&kWork));
         }
         if (!(*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011df1b8)).Bool()->b)
@@ -2466,7 +2466,7 @@ class FUN_0087d030_ObjectArray
 // @fnv 0x0087d030
 void FUN_0087d030(BSScrapArray<NiPointer<NiAVObject>, 1024>* apArray)
 {
-    unsigned int uiParentCount = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((FUN_0087d030_ParentArray&)(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df1c4)))))->GetName()));
+    unsigned int uiParentCount = ((&(((FUN_0087d030_ParentArray&)(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df1c4)))))->iSize);
     for (unsigned int iParentIndex = 0; iParentIndex < uiParentCount; iParentIndex++)
     {
         NiNode* pParent = ((FUN_0087d030_ParentArray&)(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df1c4))).GetAt(iParentIndex);

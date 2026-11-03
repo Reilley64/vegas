@@ -3542,7 +3542,7 @@ xProj::xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2)
     xPtr OLD(xFUN_0081e440(((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400()))));
     OLD.FUN_0066b0d0(0);
     reinterpret_cast<::Bolt *>(this)->InitEffect();
-    reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70((int)(((void *)(::FUN_00559450((int *)&(m_b4))))));
+    reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70((std::intptr_t)(((void *)(::FUN_00559450((int *)&(m_b4))))));
     reinterpret_cast<::fnv_00813f30::Actor80F *>(this)->FUN_00813f30();
     xVec4 V(-xg_107a8b0, 0.0f, 0.0f, 0.0f);
     reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((((::xCtl *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_0080fb00((int)(&V));

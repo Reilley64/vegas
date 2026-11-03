@@ -207,7 +207,7 @@ void ProxyUpdate::FUN_00806f20(Owner1* apOwner, Arg2* apArgs)
     {
         Item* item = apArgs->m_48 + i;
         Node* pNode = ((::Node *)(reinterpret_cast<::FUN_00807770_Class *>((apOwner))->FUN_00807770(i)));
-        int iResult1 = ((int)(::FUN_004b59f0(pNode->m_48)));
+        void* iResult1 = ::FUN_004b59f0(pNode->m_48);
         Str20 s;
         new ((void *)&(s)) ::GlobalObject_008c71b0((int)(((void *)(::FUN_0043b540((char *)(pNode->m_48))))));
         int iResult3 = reinterpret_cast<::FUN_0043b4d0_shell *>(&(s))->FUN_0043b4d0();
@@ -215,19 +215,19 @@ void ProxyUpdate::FUN_00806f20(Owner1* apOwner, Arg2* apArgs)
         {
             if (iResult3 != 0x1e)
             {
-                reinterpret_cast<::AlignedVector *>((((ItemSub*)&item->unk10)))->FUN_004a3f10((*(const ::AlignedVector *)(((int)(reinterpret_cast<::Holder00807080 *>((this))->FUN_00807080())))));
+                reinterpret_cast<::AlignedVector *>((((ItemSub*)&item->unk10)))->FUN_004a3f10((*(const ::AlignedVector *)(reinterpret_cast<::Holder00807080 *>((this))->FUN_00807080())));
                 Vec16 t;
-                reinterpret_cast<::AlignedVector *>((item))->FUN_004a3f10((*(const ::AlignedVector *)(((int)(reinterpret_cast<::FUN_005532a0_cls *>(&(t))->FUN_005532a0(0.0f, 0.0f, 0.0f, 1.0f))))));
+                reinterpret_cast<::AlignedVector *>((item))->FUN_004a3f10((*(const ::AlignedVector *)(reinterpret_cast<::FUN_005532a0_cls *>(&(t))->FUN_005532a0(0.0f, 0.0f, 0.0f, 1.0f))));
             }
         }
         else
         {
-            int iResult4 = ((int)(reinterpret_cast<::FUN_00807730_shell *>((this))->FUN_00807730(pNode->m_48)));
-            if (iResult4 != 0 && iResult4 == ((int)(reinterpret_cast<::FUN_0089f4e0_shell *>(((*reinterpret_cast<::Global * *>(&::_g_thePlayer))))->FUN_0089f4e0())))
+            void* iResult4 = reinterpret_cast<::FUN_00807730_shell *>((this))->FUN_00807730(pNode->m_48);
+            if (iResult4 != 0 && iResult4 == static_cast<void *>(reinterpret_cast<::FUN_0089f4e0_shell *>(((*reinterpret_cast<::Global * *>(&::_g_thePlayer))))->FUN_0089f4e0()))
             {
-                reinterpret_cast<::AlignedVector *>((((ItemSub*)&item->unk10)))->FUN_004a3f10((*(const ::AlignedVector *)(((int)(reinterpret_cast<::Holder00807080 *>((this))->FUN_00807080())))));
+                reinterpret_cast<::AlignedVector *>((((ItemSub*)&item->unk10)))->FUN_004a3f10((*(const ::AlignedVector *)(reinterpret_cast<::Holder00807080 *>((this))->FUN_00807080())));
                 Vec16 t;
-                reinterpret_cast<::AlignedVector *>((item))->FUN_004a3f10((*(const ::AlignedVector *)(((int)(reinterpret_cast<::FUN_005532a0_cls *>(&(t))->FUN_005532a0(0.0f, 0.0f, 0.0f, 1.0f))))));
+                reinterpret_cast<::AlignedVector *>((item))->FUN_004a3f10((*(const ::AlignedVector *)(reinterpret_cast<::FUN_005532a0_cls *>(&(t))->FUN_005532a0(0.0f, 0.0f, 0.0f, 1.0f))));
                 break;
             }
         }

@@ -151,11 +151,11 @@ struct FUN_0083d280_cls
 {
     FUN_0083d280_Sub m_sub00;
     int m_08;
-    int m_0c;
+    void* m_0c;
     FUN_0083d280_Sub m_sub10;
-    int m_18;
+    void* m_18;
     int m_1c;
-    int m_20;
+    void* m_20;
     unsigned char m_24;
     int m_28;
 
@@ -169,14 +169,14 @@ FUN_0083d280_cls::FUN_0083d280_cls(int aiArg1, int aiArg2, int aiArg3, int aiArg
     if (apSrc != 0)
     {
         FUN_0083d280_Sub tmp;
-        reinterpret_cast<::TextString *>(&(tmp))->FUN_004037f0((const char *)(((unsigned int)(reinterpret_cast<::TESResponse *>((apSrc))->GetDialogueText()))), {});
+        reinterpret_cast<::TextString *>(&(tmp))->FUN_004037f0((const char *)(reinterpret_cast<::TESResponse *>((apSrc))->GetDialogueText()), {});
         Set(tmp.Get());
         m_08 = ((unsigned int)(::FUN_00559450((int *)(apSrc))));
-        m_0c = ((unsigned int)(reinterpret_cast<::Callees *>((apSrc))->FUN_00726070()));
+        m_0c = reinterpret_cast<::Callees *>((apSrc))->FUN_00726070();
         reinterpret_cast<::FUN_00616f40_shell *>((apSrc))->DispatchOnNextFormType((::TESObject *)(aiArg4), aiArg1, ((unsigned int)(::fnv_0061a310::FindTopicByInfo((::TESTopicInfo *)(aiArg3)))), aiArg3, (int)(&m_sub10));
-        m_18 = ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSrc))->FUN_007af430()));
+        m_18 = reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSrc))->FUN_007af430();
         m_1c = reinterpret_cast<::ActorMover *>((apSrc))->GetCurrentMoveModeType();
-        m_20 = ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((apSrc))->FUN_0044edb0()));
+        m_20 = reinterpret_cast<::MagicCaster_shell *>((apSrc))->FUN_0044edb0();
         m_24 = ((unsigned char)(reinterpret_cast<::FUN_00843150_shell *>((apSrc))->FUN_00843150()));
         m_28 = reinterpret_cast<::TESResponse *>((apSrc))->GetResponseID();
     }

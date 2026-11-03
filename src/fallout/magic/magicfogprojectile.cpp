@@ -1684,7 +1684,7 @@ xProj::xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* ap
     m_cc = 0;
     m_c8 = 0;
     if (apE)
-        reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70((int)(apE));
+        reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70((std::intptr_t)(apE));
     else
         reinterpret_cast<::XRef *>(this)->FUN_0081e570(0);
     reinterpret_cast<::FogProjectileInit *>(this)->InitProjectileEffect();

@@ -1236,7 +1236,7 @@ void __cdecl FUN_007917a0()
 {
     int menu;
     unsigned int m, j, k, l;
-    IntegerBooleanHandler* i = ((::IntegerBooleanHandler *)(::FUN_00a09030((int)(((void *)(::FUN_00791740()))))));
+    IntegerBooleanHandler* i = ((::IntegerBooleanHandler *)(::FUN_00a09030((int)(((::FUN_00791740()))))));
     if (!i)
         return;
     reinterpret_cast<::FUN_0045a5e0_shell *>(((*reinterpret_cast<::ResetResourceManager * *>(&::g_modelLoader))))->FUN_0045a5e0((char *)("Meshes\\architecture\\Goodsprings\\NV_VitoMaticVigorTester_Activate.NIF"));

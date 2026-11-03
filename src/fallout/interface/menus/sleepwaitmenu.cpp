@@ -511,8 +511,8 @@ bool MenuClass::FUN_007c0580()
         reinterpret_cast<::fnv_00969c30::HardcorePlayer *>(((*reinterpret_cast<::PlayerStub * *>(&::_g_thePlayer))))->FUN_00969c30();
     }
     reinterpret_cast<::fnv_0094df80::PlayerCharacter_Cand *>(((*reinterpret_cast<::PlayerStub * *>(&::_g_thePlayer))))->FUN_0094df80();
-    reinterpret_cast<::Tile *>((m_tile))->Set((int)((void *)(::FUN_00a01860("_current_value"))), ((int)(reinterpret_cast<::FUN_005cde20Class *>(((*reinterpret_cast<::PlayerStub * *>(&::_g_thePlayer))))->FUN_005cde20())) - 1);
-    reinterpret_cast<::FUN_00a01290_shell *>((m_tile))->SetTraitAndReset((int)((void *)(::FUN_00a01860("_SetInCode"))), 1.0f);
+    reinterpret_cast<::Tile *>((m_tile))->Set((int)((::FUN_00a01860("_current_value"))), ((int)(reinterpret_cast<::FUN_005cde20Class *>(((*reinterpret_cast<::PlayerStub * *>(&::_g_thePlayer))))->FUN_005cde20())) - 1);
+    reinterpret_cast<::FUN_00a01290_shell *>((m_tile))->SetTraitAndReset((int)((::FUN_00a01860("_SetInCode"))), 1.0f);
     reinterpret_cast<::Menu *>(this)->UpdateClockText();
     return true;
 }

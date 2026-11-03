@@ -55,7 +55,7 @@ namespace fnv_00705910 { intptr_t FUN_00705910(); }
 // 0x00705950
 ::BSSimpleList< ::BGSPerk *> *FUN_00705950();
 // 0x00705990
-namespace fnv_00705990 { int FUN_00705990(); }
+namespace fnv_00705990 { void* FUN_00705990(); }
 // 0x007059d0
 namespace fnv_007059d0 { void FUN_007059d0(); }
 // 0x00705a00

@@ -1320,8 +1320,8 @@ struct FUN_0072db60_cls
 void FUN_0072db60_cls::FUN_0072db60()
 {
     char buf[0x40];
-    m_8c = (int)((void *)(reinterpret_cast<::ActorGoldQuery *>(((*reinterpret_cast<::fnv_0072db60::SysVA * *>(&::_g_thePlayer))))->FUN_00891d70()));
-    m_90 = (int)((void *)(reinterpret_cast<::Inv4cb320 *>((((::fnv_0072db60::SysVC *)(reinterpret_cast<::FUN_00740960_Class *>(((*reinterpret_cast<::fnv_0072db60::SysVB * *>(&::g_dataHandler))))->FUN_00740960()))))->GetCountableItemCount()));
+    m_8c = (int)((reinterpret_cast<::ActorGoldQuery *>(((*reinterpret_cast<::fnv_0072db60::SysVA * *>(&::_g_thePlayer))))->FUN_00891d70()));
+    m_90 = (int)((reinterpret_cast<::Inv4cb320 *>((((::fnv_0072db60::SysVC *)(reinterpret_cast<::FUN_00740960_Class *>(((*reinterpret_cast<::fnv_0072db60::SysVB * *>(&::g_dataHandler))))->FUN_00740960()))))->GetCountableItemCount()));
     ::FUN_00406d00(buf, 0x40, "%s   %d", ((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0072db60::SysStr *>(&::g_011d25b0))))->GetMenuTitle())), m_8c);
     reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_3c))->FUN_00a01350(0xfc4, buf, 1);
     ::FUN_00406d00(buf, 0x40, "%s   %d", ((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0072db60::SysStr *>(&::g_011d25b0))))->GetMenuTitle())), m_90);
@@ -1424,7 +1424,7 @@ void S_0072e370::UpdateTileState(int aiIndex, Tile* pTile)
         DAT_0119fdb0 = 1;
         if (this->unk108 == 0)
         {
-            this->vfn10(reinterpret_cast<::ListOwner *>(&(this->subD8))->ContainsKey((int)(pTile)) ? 1 : 0);
+            this->vfn10(reinterpret_cast<::ListOwner *>(&(this->subD8))->ContainsKey((void *)(pTile)) ? 1 : 0);
         }
         DAT_011d8fa8 = this->unk108->FUN_007a1910();
         if (DAT_011d8fa8 != 0)
@@ -1565,7 +1565,7 @@ void __cdecl FUN_0072eac0(int iUnused, OwnItem* pkItem)
             OwnCheck kCheck;
             reinterpret_cast<::fnv_00567ad0::FUN_00567ad0 *>(&(kCheck))->SetOwner(((void *)(reinterpret_cast<::FUN_00418660_shell *>((pkExtra))->FUN_00418660())));
             reinterpret_cast<::Self567b50 *>(&(kCheck))->FUN_00567b50((::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::FUN_00418690_shell *>((pkExtra))->FUN_00418690()))));
-            reinterpret_cast<::FUN_00567bd0_cls *>(&(kCheck))->FUN_00567bd0((unsigned int)(((void *)(reinterpret_cast<::FUN_004186c0_shell *>((pkExtra))->FUN_004186c0()))));
+            reinterpret_cast<::FUN_00567bd0_cls *>(&(kCheck))->FUN_00567bd0((unsigned int)(((reinterpret_cast<::FUN_004186c0_shell *>((pkExtra))->FUN_004186c0()))));
             reinterpret_cast<::Fn575690 *>(&(kCheck))->FUN_00575690(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((pkItem))->GetName())));
             if (reinterpret_cast<::OwnershipReferenceView *>(&(kCheck))->FUN_005785e0((::Actor *)(pkMerchant_), 1))
                 kRemoveY.FUN_005ae3d0(pkExtra);
@@ -1653,7 +1653,7 @@ float __cdecl FUN_0072ed00(S_0072ed00_Tile* tile, S_0072ed00_Item* item)
 {
     float amount = reinterpret_cast<::ItemChangeValueShell *>((item))->FUN_004bd400();
     float base = amount;
-    bool b5 = reinterpret_cast<::ListOwner *>(&(((S_0072ed00_Settings*)DAT_011d8fa4)->list_d8))->ContainsKey((int)(tile));
+    bool b5 = reinterpret_cast<::ListOwner *>(&(((S_0072ed00_Settings*)DAT_011d8fa4)->list_d8))->ContainsKey((void *)(tile));
     bool b8 = reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero(DAT_011d8fb4);
     float result = 0.0f;
     if (amount < 0.0)

@@ -514,7 +514,7 @@ void DialogMenu::HandleSelection(int id, Tile* tile)
         else
             return;
     }
-    if (id == -1 && reinterpret_cast<::ListOwner *>(&(m_kResponseListBox))->ContainsKey((int)(tile)) &&
+    if (id == -1 && reinterpret_cast<::ListOwner *>(&(m_kResponseListBox))->ContainsKey((void *)(tile)) &&
         reinterpret_cast<::FUN_0083e430_shell *>((pDialogueItem))->FUN_0083e430((int)reinterpret_cast<TileListBoxCalls*>(tile)->GetFloat(0xFAC)))
     {
         MenuTopic* pTopic = pDialogueItem->GetSelectedTopic();

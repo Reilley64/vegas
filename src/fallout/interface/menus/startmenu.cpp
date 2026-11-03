@@ -436,7 +436,7 @@ void FUN_007cf8e0_shell::FUN_007cf8e0(int aiID, Tile* apTarget)
     }
     if (!FUN_004b71d0())
     {
-        if (reinterpret_cast<::ListOwner *>((reinterpret_cast<ListBox_int_*>(reinterpret_cast<char*>(this) + 0x174)))->ContainsKey((int)(apTarget)))
+        if (reinterpret_cast<::ListOwner *>((reinterpret_cast<ListBox_int_*>(reinterpret_cast<char*>(this) + 0x174)))->ContainsKey((void *)(apTarget)))
         {
             UpdateTargetInfo(this);
         }
@@ -1217,12 +1217,12 @@ struct Dummy7d6e90
     virtual void v2();
     virtual void v3();
     virtual void v4();
-    virtual int v5(int, int);
+    virtual void* v5(int, int);
 };
 }
 
 // @fnv 0x007d6e90
-int CallVirtualZero(Dummy7d6e90* pObject)
+void* CallVirtualZero(Dummy7d6e90* pObject)
 {
     return pObject->v5(0, 0);
 }
@@ -5646,7 +5646,7 @@ void TargetSM::FUN_007ce9b0(int reason, TileX* tile)
             }
             else
             {
-                if (reinterpret_cast<::ListOwner *>(&(m_kOptionHelper))->ContainsKey((int)(tile)) && ((StartMenu*)this)->IsFlagSet((StartMenu::Flag)8))
+                if (reinterpret_cast<::ListOwner *>(&(m_kOptionHelper))->ContainsKey((void *)(tile)) && ((StartMenu*)this)->IsFlagSet((StartMenu::Flag)8))
                 {
                     if (((unsigned int)(::GetRaceCount((char *)&(m_kOptionHelper)))) > 1000 && ((unsigned int)(::GetRaceCount((char *)&(m_kOptionHelper)))) > 0)
                         return;
@@ -5657,7 +5657,7 @@ void TargetSM::FUN_007ce9b0(int reason, TileX* tile)
                 }
                 else
                 {
-                    if (reinterpret_cast<::ListOwner *>(&(m_kOptionIndexList))->ContainsKey((int)(tile)) && ((int)(reinterpret_cast<::LBList *>(&(m_kOptionIndexList))->FindItemData((::Tile *)(tile)))) == -1)
+                    if (reinterpret_cast<::ListOwner *>(&(m_kOptionIndexList))->ContainsKey((void *)(tile)) && ((int)(reinterpret_cast<::LBList *>(&(m_kOptionIndexList))->FindItemData((::Tile *)(tile)))) == -1)
                     {
                         void* tmp = ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((SaveUI*)((::BGSSaveLoadUI *)(::FUN_00a25920())))))->GetBaseTexture()));
                         reinterpret_cast<::FUN_00af28f0_cls *>((((::fnv_007ce9b0::ChainB *)&(reinterpret_cast<::BSSystemUtility *>((FUN_00af2640(tmp)))->QDLCUtility()))))->FUN_00af28f0({});
@@ -9085,10 +9085,10 @@ void EnterMenuView::FUN_007cf7e0(int aiID, ::Tile* apTile)
 {
     if (apTile && ((::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((EnterTileOps*)apTile)))->FUN_0045cd60())))
     {
-        if (reinterpret_cast<::ListOwner *>((((EnterListOps*)&m_kDownloadOptions)))->ContainsKey((int)(((::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((EnterTileOps*)apTile)))->FUN_0045cd60())))))
+        if (reinterpret_cast<::ListOwner *>((((EnterListOps*)&m_kDownloadOptions)))->ContainsKey((void *)(((::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((EnterTileOps*)apTile)))->FUN_0045cd60())))))
             m_kDownloadOptions.Highlight(((::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((EnterTileOps*)apTile)))->FUN_0045cd60())));
     }
-    if (reinterpret_cast<::ListOwner *>((((EnterListOps*)&m_kOptionHelper)))->ContainsKey((int)(apTile)))
+    if (reinterpret_cast<::ListOwner *>((((EnterListOps*)&m_kOptionHelper)))->ContainsKey((void *)(apTile)))
     {
         if (::FUN_004b71d0() || (double)reinterpret_cast<::FUN_0073b020_shell *>((((EnterInterfaceOps*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0073b020() >=
                                     reinterpret_cast<::FUN_00a01440_shell *>((((EnterTileOps*)m_pTiles[6])))->GetAccumulatedFloat())

@@ -1081,10 +1081,10 @@ class Modifier
 
 // If FUN_004b7210 returns a Modifier whose GetKey is nonzero, returns FUN_00796b90(); otherwise returns 0.
 // @fnv 0x00704140
-int FUN_00704140()
+void* FUN_00704140()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey())
-        return ((int)(::FUN_00796b90()));
+        return ::FUN_00796b90();
     return 0;
 }
 }  // namespace fnv_00704140
@@ -1099,10 +1099,10 @@ class Modifier
 
 // If FUN_004b7210() returns non-null and its GetKey() is nonzero, returns FUN_00796b90(); otherwise returns 0.
 // @fnv 0x00704490
-int FUN_00704490()
+void* FUN_00704490()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey())
-        return ((int)(::RepairMenu::Create()));
+        return ::RepairMenu::Create();
     return 0;
 }
 }  // namespace fnv_00704490
@@ -1117,10 +1117,10 @@ class Modifier
 
 // If FUN_004b7210 returns a Modifier whose GetKey is nonzero, returns FUN_00796b90(); otherwise returns 0.
 // @fnv 0x007046c0
-int FUN_007046c0()
+void* FUN_007046c0()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey())
-        return ((int)(static_cast<::ItemModMenu *>(nullptr)->Create()));
+        return static_cast<::ItemModMenu *>(nullptr)->Create();
     return 0;
 }
 }  // namespace fnv_007046c0
@@ -1158,10 +1158,10 @@ class Modifier
 
 // If FUN_004b7210 returns a non-null Modifier whose GetKey is nonzero, returns FUN_007da2c0(); otherwise returns 0.
 // @fnv 0x00704be0
-int FUN_00704be0()
+void* FUN_00704be0()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && static_cast<unsigned char>(reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey()))
-        return ((int)(::FUN_007da2c0()));
+        return ::FUN_007da2c0();
     return 0;
 }
 }  // namespace fnv_00704be0
@@ -1300,11 +1300,11 @@ struct TESNPC
 };
 // If FUN_004b7210() returns a Modifier whose GetKey() is true, returns its FUN_00602170() result; otherwise returns 0.
 // @fnv 0x00705990
-int FUN_00705990()
+void* FUN_00705990()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey())
     {
-        return ((int)(reinterpret_cast<::Interface *>((reinterpret_cast<TESNPC*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->GetPipboyManager()));
+        return reinterpret_cast<::Interface *>((reinterpret_cast<TESNPC*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->GetPipboyManager();
     }
     else
     {

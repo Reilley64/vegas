@@ -345,7 +345,7 @@ void FUN_007c19c0()
     AnimIdle* anim2 = (AnimIdle*)(unsigned int)::g_011da9d0;
     ::UpdateCameraFrustum((::NiCamera *)(anim2), g_011db5ec_arg1);
 
-    GO selected((int)((::AnimIdle *)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::Mgr_00733500 *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
+    GO selected((int)((reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::Mgr_00733500 *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
     reinterpret_cast<::FUN_004a0fd0_shell *>((accum))->FUN_004a0fd0((::NiNode *)(::AnimIdle *)((AnimIdle*)(unsigned int)selected));
 
     AnimIdle* anim = anim2 ? anim2 : (AnimIdle*)((BSFaceGenNiNode*)go)->GetAnimationData();

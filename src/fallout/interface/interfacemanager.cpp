@@ -13197,7 +13197,7 @@ PickTile* IMView::FUN_007126c0(bool bAny)
     reinterpret_cast<::TaskQueueInterface *>((((::fnv_007126c0::PickCursor *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)this)))))->QueueActorDisarm(true);
     PickNode* pkRootLoc = (PickNode*)((::fnv_007126c0::PickScene *)(reinterpret_cast<::StrOwner *>(this)->FUN_007fa950()));
     if (m_pkController && ((bool)(::IsStartMenuFlag1Set())))
-        pkRootLoc = ((::fnv_007126c0::PickNode *)(reinterpret_cast<::TileFields *>((((::fnv_007126c0::PickTile *)(::FUN_00a09030((int)(((void *)(reinterpret_cast<::InterfaceManager *>(this)->GetTopEnterStackEntry()))))))))->renderedNode));
+        pkRootLoc = ((::fnv_007126c0::PickNode *)(reinterpret_cast<::TileFields *>((((::fnv_007126c0::PickTile *)(::FUN_00a09030((int)(((reinterpret_cast<::InterfaceManager *>(this)->GetTopEnterStackEntry()))))))))->renderedNode));
     NiPick kPickOut(0, 8);
     reinterpret_cast<::FUN_00632d20_shell *>(&(kPickOut))->FUN_00632d20(false);
     reinterpret_cast<::FUN_00458b30_class *>(&(kPickOut))->SetByteAtOffset17(true);

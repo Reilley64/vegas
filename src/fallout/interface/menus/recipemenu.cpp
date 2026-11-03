@@ -969,7 +969,7 @@ struct SelectionManager
 // @fnv 0x0072b5b0
 bool SelectionManager::FUN_0072b5b0(SelectedOption* option)
 {
-    if (FUN_0072c7d0() && (!option || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(option)) && reinterpret_cast<::FUN_00a01230_shell *>((option))->IsTraitNonZero((int)(((void *)(::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1))))))))
+    if (FUN_0072c7d0() && (!option || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((void *)(option)) && reinterpret_cast<::FUN_00a01230_shell *>((option))->IsTraitNonZero((int)(((::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1))))))))
     {
         selectedOption = option;
         FUN_0072c880();
@@ -1611,12 +1611,12 @@ RecipeEntry* Panel515::FUN_0072a900(int selection, int choice, int aiRecipeIndex
             }
             reinterpret_cast<::Tile *>((entry))->Set(0xfac, nextIndex++);
         }
-        if (::GetRaceCount((char *)this) == 1 && reinterpret_cast<::TileListBoxCalls *>((parent))->GetFloat((int)((void *)(::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxNumFiltered)), -1)))) > ::_DAT_01012060)
+        if (::GetRaceCount((char *)this) == 1 && reinterpret_cast<::TileListBoxCalls *>((parent))->GetFloat((int)((::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxNumFiltered)), -1)))) > ::_DAT_01012060)
         {
             MenuNode* tile = ((::MenuNode *)(reinterpret_cast<::FUN_00a00e90_shell *>((parent))->FindTraitValue(0xfb0)));
             reinterpret_cast<::fnv_00a09200::Value_00a09200 *>((tile))->RemoveFromReactions();
             reinterpret_cast<::AGOwner *>((tile))->FUN_00a09130(0x7d0, (::Tile *)(entry), 0xfb0);
-            reinterpret_cast<::P03Value *>((tile))->AppendFloatAction(0x7d3, reinterpret_cast<::TileListBoxCalls *>((parent))->GetFloat((int)((void *)(::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxNumFiltered)), -1)))));
+            reinterpret_cast<::P03Value *>((tile))->AppendFloatAction(0x7d3, reinterpret_cast<::TileListBoxCalls *>((parent))->GetFloat((int)((::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxNumFiltered)), -1)))));
             reinterpret_cast<::fnv_00a09410::EvalValue *>((tile))->FUN_00a09410(0);
         }
         return entry;
@@ -1926,13 +1926,13 @@ NavTile* Navigation::FUN_0072b620(int action)
                 if (reinterpret_cast<::TileListBoxCalls *>(((*((::NavEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->tile))->GetFloat(0xfac) == index)
                     foundVal = (*((::NavEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->tile;
             }
-            if (foundVal && !reinterpret_cast<::FUN_00a01230_shell *>((foundVal))->IsTraitNonZero((int)(((void *)(::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1))))))
+            if (foundVal && !reinterpret_cast<::FUN_00a01230_shell *>((foundVal))->IsTraitNonZero((int)(((::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1))))))
             {
                 foundVal = 0;
                 if (delta8 > 0 && ++index > maximum)
                 {
                     index = maximum - 1;
-                    while ((!foundVal || !reinterpret_cast<::FUN_00a01230_shell *>((foundVal))->IsTraitNonZero((int)(((void *)(::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1)))))) && index >= 0)
+                    while ((!foundVal || !reinterpret_cast<::FUN_00a01230_shell *>((foundVal))->IsTraitNonZero((int)(((::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1)))))) && index >= 0)
                     {
                         foundVal = Get(index--, false);
                     }
@@ -1941,7 +1941,7 @@ NavTile* Navigation::FUN_0072b620(int action)
                 else if (delta8 < 0 && --index < 0)
                 {
                     index = 1;
-                    while ((!foundVal || !reinterpret_cast<::FUN_00a01230_shell *>((foundVal))->IsTraitNonZero((int)(((void *)(::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1)))))) &&
+                    while ((!foundVal || !reinterpret_cast<::FUN_00a01230_shell *>((foundVal))->IsTraitNonZero((int)(((::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1)))))) &&
                            index <= maximum)
                     {
                         foundVal = Get(index++, false);
@@ -2494,7 +2494,7 @@ struct HLListItem
 // @fnv 0x0072a250
 bool Object::SetCurrentItem(Item* pItem)
 {
-    if (reinterpret_cast<::FUN_0072bc30_shell *>(this)->FUN_0072bc30() && (!pItem || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(pItem)) && reinterpret_cast<::FUN_00a01230_shell *>((pItem))->IsTraitNonZero(::FUN_00a00940((const char *)(int *)(&(*reinterpret_cast<int *>((void *)&::kListBoxEnabled))), -1)))))
+    if (reinterpret_cast<::FUN_0072bc30_shell *>(this)->FUN_0072bc30() && (!pItem || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((void *)(pItem)) && reinterpret_cast<::FUN_00a01230_shell *>((pItem))->IsTraitNonZero(::FUN_00a00940((const char *)(int *)(&(*reinterpret_cast<int *>((void *)&::kListBoxEnabled))), -1)))))
     {
         current = pItem;
         reinterpret_cast<::HLListItem *>(this)->RefreshHighlight();
@@ -2652,7 +2652,7 @@ void ListPanel::ClearItems()
 // @fnv 0x0072ae00
 bool List271::FUN_0072ae00(SelectedOption* option)
 {
-    if (reinterpret_cast<::fnv_0072c200::MenuTileControl *>(this)->FUN_0072c200() && (!option || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(option)) && reinterpret_cast<::FUN_00a01230_shell *>((option))->IsTraitNonZero((int)(((void *)(::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1))))))))
+    if (reinterpret_cast<::fnv_0072c200::MenuTileControl *>(this)->FUN_0072c200() && (!option || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((void *)(option)) && reinterpret_cast<::FUN_00a01230_shell *>((option))->IsTraitNonZero((int)(((::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1))))))))
     {
         current = option;
         reinterpret_cast<::HighlightList *>(this)->FUN_0072c2b0();
@@ -4024,7 +4024,7 @@ void RecipeEnterMenu::FUN_00727b10(int id, RecipeTiles* tile)
                         }
                     }
                     else
-                        reinterpret_cast<::Panel515 *>(&(second))->FUN_0072a900((int)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(list)->m_item))), (int)(((const char *)(::FUN_00464f30((int)("ERROR WITH CAST"))))), 0, 0);
+                        reinterpret_cast<::Panel515 *>(&(second))->FUN_0072a900((int)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(list)->m_item))), (int)(((::FUN_00464f30((int)("ERROR WITH CAST"))))), 0, 0);
                     list = ((::EntryListNode *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                 }
                 second.Sort(FUN_00728cd0);

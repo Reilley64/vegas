@@ -371,7 +371,7 @@ void UpdateRepairTile(RepairTile* apTile, HealthOwner* apItem)
     float fRepairHealth = reinterpret_cast<::FUN_004bcdb0_shell *>(((*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760))))->FUN_004bcdb0(true);
     float fResult = 0.0f;
     int iOut = -1;
-    fResult = ::fnv_00648090::ComputeSkillValue((int)(((void *)(reinterpret_cast<::ActorValueOwner *>(&((*reinterpret_cast<::PlayerStub * *>(&::_g_thePlayer))->skills))->GetActorValueAsInteger((::ActorValue::Index)(0x27))))), fRepairHealth, fHealthPercent, &iOut) / 100.0;
+    fResult = ::fnv_00648090::ComputeSkillValue((int)(((reinterpret_cast<::ActorValueOwner *>(&((*reinterpret_cast<::PlayerStub * *>(&::_g_thePlayer))->skills))->GetActorValueAsInteger((::ActorValue::Index)(0x27))))), fRepairHealth, fHealthPercent, &iOut) / 100.0;
     fResult = FUN_0040ebd0(fResult, 1.0f);
     reinterpret_cast<::FUN_00a012d0_t *>((apTile))->FUN_00a012d0(0x1004, fResult, true);
 }
@@ -1008,7 +1008,7 @@ void FUN_007b5b40_cls::HandleRepairMenuAction(int aiActionId, ClickTile* apTarge
 void RepairAction::ApplyRepair(HealthOwner* source)
 {
     float repairVal = 0.0f;
-    repairVal = ::fnv_00648090::ComputeSkillValue((int)(((void *)(reinterpret_cast<::ActorValueOwner *>(&((*reinterpret_cast<::PlayerStub * *>(&::_g_thePlayer))->skills))->GetActorValueAsInteger((::ActorValue::Index)(39))))), reinterpret_cast<::FUN_004bcdb0_shell *>(((*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760))))->FUN_004bcdb0(true),
+    repairVal = ::fnv_00648090::ComputeSkillValue((int)(((reinterpret_cast<::ActorValueOwner *>(&((*reinterpret_cast<::PlayerStub * *>(&::_g_thePlayer))->skills))->GetActorValueAsInteger((::ActorValue::Index)(39))))), reinterpret_cast<::FUN_004bcdb0_shell *>(((*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760))))->FUN_004bcdb0(true),
                                     reinterpret_cast<::FUN_004bcdb0_shell *>((source))->FUN_004bcdb0(true), 0) /
                 100.0;
     repairVal = FUN_0040ebd0(repairVal, 1.0f);

@@ -5965,7 +5965,7 @@ void InitRaceMenu::SetupRaceMenu(int mode)
     const char* names[20];
     if (((double)(reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfa7))) == 6006.0 || ((double)(reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfa7))) == 102.0)
         reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(0xfad, ::Tile::GetInterfaceScale(), {});
-    reinterpret_cast<::TutorialMessageGate718 *>(&(((InitRootManager*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->messages))->FUN_00718630(15, (unsigned int)((void*)FUN_007ac9c0()), 0x200);
+    reinterpret_cast<::TutorialMessageGate718 *>(&(((InitRootManager*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->messages))->FUN_00718630(15, (unsigned int)(FUN_007ac9c0()), 0x200);
     reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::InitTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->FUN_00a01350(0x1005, (char *)(DAT_01063ab4), true);
     reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::InitTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->FUN_00a01350(0x1006, (char *)(DAT_010692d0), true);
     npc = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::InitPlayer * *>(&::_g_thePlayer))))->FUN_007af430())));

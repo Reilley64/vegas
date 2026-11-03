@@ -760,7 +760,7 @@ void __cdecl FUN_00740f30()
     pPackage = ::g_011d91a8.operator unsigned int();
     ::UpdateCameraFrustum((::NiCamera *)(::AnimIdle *)((AnimIdle*)pPackage), g_011db5ec_arg1);
 
-    GO animation((int)((::AnimIdle *)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::Mgr_00733500 *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
+    GO animation((int)((reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::Mgr_00733500 *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
 
     reinterpret_cast<::FUN_004a0fd0_shell *>((uiGlobal))->FUN_004a0fd0((::NiNode *)(::AnimIdle *)((AnimIdle*)animation.operator unsigned int()));
 

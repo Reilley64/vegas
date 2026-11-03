@@ -1310,7 +1310,7 @@ void ThisCls::InitLockInterface()
     {
         m_a4 = (CtrlNode*)cnt;
         m_a8 = (ChildObj*)((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((m_a4))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Forward")))));
-        m_ac = (int)((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((m_a4))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Backward")))));
+        m_ac = (int)((reinterpret_cast<::fnv_0047a520::Fn47a520 *>((m_a4))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Backward")))));
         m_b0 = (ChildObj*)((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((m_a4))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Left")))));
         reinterpret_cast<::NiControllerManager *>((m_a4))->DeactivateAllSequences(0.0f);
         if (!!m_a8)

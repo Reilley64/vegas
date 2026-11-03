@@ -192,7 +192,7 @@ void ReadSaveFileHeader(void* pFile, void* pHeader)
         char* saveTime;
         int saveVersion = 0;
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pLoadBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&saveVersion), 4);
-        reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)pHeader)))->SetValue((int)((TESSound*)saveVersion));
+        reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)pHeader)))->SetValue((int)(saveVersion));
         if (saveVersion == 48)
         {
             char* data = ((char *)(::GetCombinedValue((int)(pLoadBuffer))));

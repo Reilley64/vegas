@@ -4867,30 +4867,30 @@ void ClickMenu::OnTileClick(int aiTileIndex, Tile* tile)
         }
         break;
     case SM_SPECIAL:
-        if (reinterpret_cast<::ListOwner *>((((ListClick*)&m_kPrimaryActorValueList)))->ContainsKey((int)(tile)))
+        if (reinterpret_cast<::ListOwner *>((((ListClick*)&m_kPrimaryActorValueList)))->ContainsKey((void *)(tile)))
         {
             reinterpret_cast<::FUN_007dfd20_cls *>(this)->FUN_007dfd20((::Dummy007_obj *)(tile), (unsigned int *)(int *)(&DAT_011dad64));
             reinterpret_cast<::StatsMenuFunction007dc7e0 *>(this)->UpdateStatsDisplay(reinterpret_cast<::LBList *>((((ListClick*)&m_kPrimaryActorValueList)))->FindItemData(tile));
         }
         break;
     case SM_SKILLS:
-        if (reinterpret_cast<::ListOwner *>((((ListClick*)&m_kSecondaryActorValueList)))->ContainsKey((int)(tile)))
+        if (reinterpret_cast<::ListOwner *>((((ListClick*)&m_kSecondaryActorValueList)))->ContainsKey((void *)(tile)))
         {
             reinterpret_cast<::FUN_007dfd20_cls *>(this)->FUN_007dfd20((::Dummy007_obj *)(tile), (unsigned int *)(int *)(&DAT_011dad68));
             reinterpret_cast<::StatsMenuFunction007dc7e0 *>(this)->UpdateStatsDisplay(reinterpret_cast<::LBList *>((((ListClick*)&m_kSecondaryActorValueList)))->FindItemData(tile));
         }
         break;
     case SM_PERKS:
-        if (reinterpret_cast<::ListOwner *>((((ListClick*)&m_kPerkRankList)))->ContainsKey((int)(tile)))
+        if (reinterpret_cast<::ListOwner *>((((ListClick*)&m_kPerkRankList)))->ContainsKey((void *)(tile)))
         {
             reinterpret_cast<::FUN_007dfd20_cls *>(this)->FUN_007dfd20((::Dummy007_obj *)(tile), (unsigned int *)(int *)(&DAT_011dad6c));
             reinterpret_cast<::fnv_007dc9b0::FUN_007dc9b0_shell *>(this)->UpdateScrollBar((::fnv_007dc9b0::EntrySI **)(void *)(reinterpret_cast<::LBList *>((((ListClick*)&m_kPerkRankList)))->FindItemData(tile)));
         }
         break;
     case SM_GENERAL:
-        if (reinterpret_cast<::ListOwner *>((((ListClick*)&m_kMiscStatList)))->ContainsKey((int)(tile)))
+        if (reinterpret_cast<::ListOwner *>((((ListClick*)&m_kMiscStatList)))->ContainsKey((void *)(tile)))
             reinterpret_cast<::FUN_007dfd20_cls *>(this)->FUN_007dfd20((::Dummy007_obj *)(tile), (unsigned int *)(int *)(&DAT_011dad70));
-        if (reinterpret_cast<::ListOwner *>((((ListClick*)&m_kReputationList)))->ContainsKey((int)(tile)))
+        if (reinterpret_cast<::ListOwner *>((((ListClick*)&m_kReputationList)))->ContainsKey((void *)(tile)))
         {
             reinterpret_cast<::fnv_007dcb40::FUN_007dcb40_t *>(this)->SetReputationEntry((::fnv_007dcb40::TESReputation *)(void *)(reinterpret_cast<::LBList *>((((ListClick*)&m_kReputationList)))->FindItemData(tile)));
             reinterpret_cast<::FUN_007dfd20_cls *>(this)->FUN_007dfd20((::Dummy007_obj *)(tile), (unsigned int *)(int *)(&DAT_011dad70));

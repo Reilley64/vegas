@@ -1963,17 +1963,17 @@ void TextQueue::ProcessQueue()
                         }
                         reinterpret_cast<::RenderTile *>((tile))->FUN_00a04640(false);
                         if (reinterpret_cast<::ListOwner *>(&(reinterpret_cast<QueueMenu*>((*reinterpret_cast<int *>(&::g_pF57EA0TerminalMenu)))
-                                ->selection))->ContainsKey((int)(reinterpret_cast<Tile*>(tile))))
+                                ->selection))->ContainsKey((void *)(reinterpret_cast<Tile*>(tile))))
                         {
                             reinterpret_cast<::Tile *>((tile))->SetSpeechChallengeFailure(false);
                             reinterpret_cast<::FUN_00a012d0_t *>((reinterpret_cast<QueueMenu*>((*reinterpret_cast<int *>(&::g_pF57EA0TerminalMenu)))
                                 ->positionTile))->FUN_00a012d0(
                                     0xfa1,
-                                    x + reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(reinterpret_cast<int>(((const char *)(::FUN_00a00940("_text_width", -1))))),
+                                    x + reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(reinterpret_cast<int>(((::FUN_00a00940("_text_width", -1))))),
                                     true);
                             reinterpret_cast<::FUN_00a012d0_t *>((reinterpret_cast<QueueMenu*>((*reinterpret_cast<int *>(&::g_pF57EA0TerminalMenu)))
                                 ->positionTile))->FUN_00a012d0(
-                                    0xfa2, y + reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(reinterpret_cast<int>(((const char *)(::FUN_00a00940("_text_y", -1))))),
+                                    0xfa2, y + reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(reinterpret_cast<int>(((::FUN_00a00940("_text_y", -1))))),
                                     true);
                         }
                         else if (!hasTrait)
@@ -2271,13 +2271,13 @@ MyTile* MyListBox::GetScrollTargetTile(int aiScrollCode)
                 }
             }
 
-            if (pFound_ && !pFound_->IsTraitNonZero((int)((const char *)(::FUN_00a00940("_enabled", -1)))))
+            if (pFound_ && !pFound_->IsTraitNonZero((int)((::FUN_00a00940("_enabled", -1)))))
             {
                 pFound_ = 0;
                 if (iTileIndex > 0 && ++curIdx > maxIdxTmp)
                 {
                     curIdx = maxIdxTmp - 1;
-                    while ((!pFound_ || !pFound_->IsTraitNonZero((int)((const char *)(::FUN_00a00940("_enabled", -1))))) && curIdx >= 0)
+                    while ((!pFound_ || !pFound_->IsTraitNonZero((int)((::FUN_00a00940("_enabled", -1))))) && curIdx >= 0)
                     {
                         pFound_ = FUN_0075a955(curIdx--, 0);
                     }
@@ -2286,7 +2286,7 @@ MyTile* MyListBox::GetScrollTargetTile(int aiScrollCode)
                 else if (iTileIndex < 0 && --curIdx < 0)
                 {
                     curIdx = 1;
-                    while ((!pFound_ || !pFound_->IsTraitNonZero((int)((const char *)(::FUN_00a00940("_enabled", -1))))) &&
+                    while ((!pFound_ || !pFound_->IsTraitNonZero((int)((::FUN_00a00940("_enabled", -1))))) &&
                            curIdx <= maxIdxTmp)
                     {
                         pFound_ = FUN_0075a955(curIdx++, 0);
@@ -2857,8 +2857,8 @@ struct HighlightList
 bool SetTileHelper::FUN_0075a610(Tile* apTile)
 {
     if (reinterpret_cast<::FUN_0075ab20_shell *>((((Shell*)this)))->IsTileTraitEnabled() &&
-        (apTile == 0 || (reinterpret_cast<::ListOwner *>((((Shell*)this)))->ContainsKey((int)(apTile)) &&
-                         reinterpret_cast<::FUN_00a01230_shell *>((((ParamShell*)apTile)))->IsTraitNonZero((int)((const char *)(::FUN_00a00940("_enabled", -1)))))))
+        (apTile == 0 || (reinterpret_cast<::ListOwner *>((((Shell*)this)))->ContainsKey((void *)(apTile)) &&
+                         reinterpret_cast<::FUN_00a01230_shell *>((((ParamShell*)apTile)))->IsTraitNonZero((int)((::FUN_00a00940("_enabled", -1)))))))
     {
         m_pTile10 = apTile;
         reinterpret_cast<::HighlightList *>((((Shell*)this)))->UpdateHighlight();
@@ -3354,7 +3354,7 @@ void HostF::FUN_00757f70(int aiTileIndex, TileF* apTile)
     }
     else
     {
-        if (reinterpret_cast<::ListOwner *>(&(m_kNode))->ContainsKey((int)(apTile)))
+        if (reinterpret_cast<::ListOwner *>(&(m_kNode))->ContainsKey((void *)(apTile)))
         {
             reinterpret_cast<::FUN_00ad8830_shell *>(&(m_sound))->FUN_00ad8830(false);
             obj = ((::fnv_00757f70::Obj *)(reinterpret_cast<::LBList *>(&(m_kNode))->FindItemData((::Tile *)(apTile))));

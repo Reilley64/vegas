@@ -8,7 +8,7 @@ void FUN_00704000();
 // 0x00704010
 char FUN_00704010(const char *, int, int, int, ...);
 // 0x00704140
-namespace fnv_00704140 { int FUN_00704140(); }
+namespace fnv_00704140 { void* FUN_00704140(); }
 // 0x00704170
 namespace fnv_00704170 { void UpdatePipboyMapVisibility(bool, bool); }
 // 0x00704390
@@ -22,13 +22,13 @@ namespace fnv_00704420 { void FUN_00704420(bool); }
 // 0x00704450
 void FUN_00704450(char);
 // 0x00704490
-namespace fnv_00704490 { int FUN_00704490(); }
+namespace fnv_00704490 { void* FUN_00704490(); }
 // 0x007044c0
 void FUN_007044c0(bool, bool, bool);
 // 0x00704690
 namespace fnv_00704690 { void FUN_00704690(unsigned int); }
 // 0x007046c0
-namespace fnv_007046c0 { int FUN_007046c0(); }
+namespace fnv_007046c0 { void* FUN_007046c0(); }
 // 0x007046f0
 namespace fnv_007046f0 { void FUN_007046f0(bool, bool, bool); }
 // 0x007048c0
@@ -40,7 +40,7 @@ namespace fnv_00704af0 { void FUN_00704af0(); }
 // 0x00704bc0
 void FUN_00704bc0();
 // 0x00704be0
-namespace fnv_00704be0 { int FUN_00704be0(); }
+namespace fnv_00704be0 { void* FUN_00704be0(); }
 // 0x00704c10
 void ShowStatsMenu(bool, bool);
 // 0x00704e10

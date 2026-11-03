@@ -1294,7 +1294,7 @@ void Menu::UpdateItemDisplay(int action, Tile* changed)
             if (((::InventorySelection::Form *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()))->FUN_00401170() == 40)
             {
                 ammo = ((::InventorySelection::Form *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()));
-                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ammoLabel))->FUN_00a01350(0xfcc, (char *)(::GetWeaponSkillIconPath((int)(((void *)(reinterpret_cast<::FUN_008d85e0_Class *>((ammo))->GetUnk15C()))))), 1);
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ammoLabel))->FUN_00a01350(0xfcc, (char *)(::GetWeaponSkillIconPath((int)(((reinterpret_cast<::FUN_008d85e0_Class *>((ammo))->GetUnk15C()))))), 1);
                 char countText[128];
                 ::FUN_00406d00(countText, 128, DAT_01020764, ((std::intptr_t)(reinterpret_cast<::FUN_008d8160_Class *>((ammo))->GetField1BC())));
                 if (ammoCount)
@@ -3068,7 +3068,7 @@ void FUN_00782a90()
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->t2c))->FUN_00a01350(::InventoryMenu::ms_iValueTileID, (char *)(ba), true);
         if (FUN_00408b20(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011c3cb4)))))->GetMenuTitle())), "ENGLISH"))
         {
-            el = (int)((void *)(::FUN_00a01860("_Title")));
+            el = (int)((::FUN_00a01860("_Title")));
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))
                 ->t44))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d2a18)))))->GetMenuTitle()))), true);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))

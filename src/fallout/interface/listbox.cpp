@@ -1763,7 +1763,7 @@ class B23AF0ListBox
 
 struct ListItem
 {
-    int key;
+    void* key;
 };
 struct ListLink
 {
@@ -1774,11 +1774,11 @@ struct ListOwner
 {
     int unknown00;
     ListLink head;
-    bool ContainsKey(int key);
+    bool ContainsKey(void* key);
 };
 // Walks the linked list from head and returns true if any item's key equals key, otherwise false.
 // @fnv 0x007242f0
-bool ListOwner::ContainsKey(int key)
+bool ListOwner::ContainsKey(void* key)
 {
     ListLink* current = this ? &head : 0;
     for (; current && *((::ListItem **)(&reinterpret_cast<::SimpleListNodeView*>(current)->m_item)); current = ((::ListLink *)(reinterpret_cast<::Callees *>((current))->FUN_00726070())))
@@ -2431,7 +2431,7 @@ bool FUN_007a79b0_shell::FUN_007a79b0()
 // @fnv 0x00723af0
 bool B23AF0ListBox::FUN_00723af0(B23AF0Tile* pkTile)
 {
-    if (reinterpret_cast<::B726160Menu *>(this)->FUN_00726160() && (!pkTile || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(pkTile)) && reinterpret_cast<::FUN_00a01230_shell *>((pkTile))->IsTraitNonZero(FUN_00a00940(kListBoxEnabled, -1)))))
+    if (reinterpret_cast<::B726160Menu *>(this)->FUN_00726160() && (!pkTile || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((void *)(pkTile)) && reinterpret_cast<::FUN_00a01230_shell *>((pkTile))->IsTraitNonZero(FUN_00a00940(kListBoxEnabled, -1)))))
     {
         m_pkSelected = pkTile;
         Refresh();
@@ -2730,7 +2730,7 @@ struct SelectionList
 // @fnv 0x007d9660
 bool SelectionList::FUN_007d9660(SelectionTile* item, int operation)
 {
-    if (::fnv_007d88a0::FUN_007d88a0((void *)this) && item && reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(item)))
+    if (::fnv_007d88a0::FUN_007d88a0((void *)this) && item && reinterpret_cast<::ListOwner *>(this)->ContainsKey((void *)(item)))
     {
         static int selectedTrait = ::FUN_00a00940("_selected", -1);
         bool selected = reinterpret_cast<::FUN_00a01230_shell *>((item))->IsTraitNonZero(selectedTrait);
@@ -3841,7 +3841,7 @@ class C4FD0ListBox
 // @fnv 0x007223a0
 bool ListBox_7223a0::FUN_007223a0(Tile_7223a0* apTile)
 {
-    if (reinterpret_cast<::C4FD0ListBox *>(this)->FUN_00724fd0() && (!apTile || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(apTile)) && reinterpret_cast<::FUN_00a01230_shell *>((apTile))->IsTraitNonZero(FUN_00a00940((*reinterpret_cast<char (*)[]>((void *)&::kListBoxEnabled)), -1)))))
+    if (reinterpret_cast<::C4FD0ListBox *>(this)->FUN_00724fd0() && (!apTile || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((void *)(apTile)) && reinterpret_cast<::FUN_00a01230_shell *>((apTile))->IsTraitNonZero(FUN_00a00940((*reinterpret_cast<char (*)[]>((void *)&::kListBoxEnabled)), -1)))))
     {
         m_pSelected = apTile;
         FUN_00725080();
@@ -4080,7 +4080,7 @@ void FUN_00725c20_shell::UpdateHighlightTiles()
 // @fnv 0x00721440
 bool FUN_00721440_class::SelectObject(SelectedObject* object)
 {
-    if (reinterpret_cast<::Owner_00724430 *>(this)->FUN_00724430() && (!object || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(object)) && reinterpret_cast<::FUN_00a01230_shell *>((object))->IsTraitNonZero(FUN_00a00940((*reinterpret_cast<char (*)[]>((void *)&::kListBoxEnabled)), -1)))))
+    if (reinterpret_cast<::Owner_00724430 *>(this)->FUN_00724430() && (!object || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((void *)(object)) && reinterpret_cast<::FUN_00a01230_shell *>((object))->IsTraitNonZero(FUN_00a00940((*reinterpret_cast<char (*)[]>((void *)&::kListBoxEnabled)), -1)))))
     {
         selected = object;
         reinterpret_cast<::HighlightList *>(this)->FUN_007244e0();
@@ -5725,7 +5725,7 @@ struct ListBox_7a6600
 // @fnv 0x007a23e0
 bool FUN_007a23e0_cls::FUN_007a23e0(FUN_007a23e0_arg* arg)
 {
-    if (reinterpret_cast<::FUN_007a6550_shell *>(this)->FUN_007a6550() && (arg == 0 || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(arg)) && reinterpret_cast<::FUN_00a01230_shell *>((arg))->IsTraitNonZero(FUN_00a00940((*reinterpret_cast<char (*)[]>((void *)&::kListBoxEnabled)), -1)))))
+    if (reinterpret_cast<::FUN_007a6550_shell *>(this)->FUN_007a6550() && (arg == 0 || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((void *)(arg)) && reinterpret_cast<::FUN_00a01230_shell *>((arg))->IsTraitNonZero(FUN_00a00940((*reinterpret_cast<char (*)[]>((void *)&::kListBoxEnabled)), -1)))))
     {
         m_10 = arg;
         reinterpret_cast<::ListBox_7a6600 *>(this)->FUN_007a6600();
@@ -6036,7 +6036,7 @@ void FUN_007d7a80_shell::FUN_007d7a80(int a)
 // @fnv 0x007d9000
 bool SelectionList::ApplySelectionAction(SelectionTile* item, int action)
 {
-    if (reinterpret_cast<::D7580ListBox *>(this)->FUN_007d7580() && item && reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(item)))
+    if (reinterpret_cast<::D7580ListBox *>(this)->FUN_007d7580() && item && reinterpret_cast<::ListOwner *>(this)->ContainsKey((void *)(item)))
     {
         static int selected = FUN_00a00940("_selected", -1);
         bool value = reinterpret_cast<::FUN_00a01230_shell *>((item))->IsTraitNonZero(selected);
@@ -6520,7 +6520,7 @@ void P240Owner::ApplyFilter(bool(__cdecl* predicate)(void*))
 // @fnv 0x007d8950
 bool C7D8950ListBox::FUN_007d8950(C7D8950Tile* pkTile)
 {
-    if (::fnv_007d88a0::FUN_007d88a0((void *)this) && (!pkTile || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(pkTile)) && reinterpret_cast<::FUN_00a01230_shell *>((pkTile))->IsTraitNonZero(::FUN_00a00940("_enabled", -1)))))
+    if (::fnv_007d88a0::FUN_007d88a0((void *)this) && (!pkTile || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((void *)(pkTile)) && reinterpret_cast<::FUN_00a01230_shell *>((pkTile))->IsTraitNonZero(::FUN_00a00940("_enabled", -1)))))
     {
         m_pkSelected = pkTile;
         reinterpret_cast<::ListBoxX *>(this)->FUN_007d97a0();
@@ -7216,7 +7216,7 @@ struct FUN_007d7670_cls
 // @fnv 0x007d7670
 bool FUN_007d7670_cls::FUN_007d7670(FUN_007d7670_Tile* pkTile)
 {
-    if (reinterpret_cast<::D7580ListBox *>(this)->FUN_007d7580() && (!pkTile || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(pkTile)) && reinterpret_cast<::FUN_00a01230_shell *>((pkTile))->IsTraitNonZero(FUN_00a00940((*reinterpret_cast<char (*)[]>((void *)&::kListBoxEnabled)), -1)))))
+    if (reinterpret_cast<::D7580ListBox *>(this)->FUN_007d7580() && (!pkTile || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((void *)(pkTile)) && reinterpret_cast<::FUN_00a01230_shell *>((pkTile))->IsTraitNonZero(FUN_00a00940((*reinterpret_cast<char (*)[]>((void *)&::kListBoxEnabled)), -1)))))
     {
         m_pkSelected = pkTile;
         reinterpret_cast<::ListBoxExt *>(this)->UpdateHighlightBox();
@@ -7628,7 +7628,7 @@ struct MenuChk_a3f90
 // @fnv 0x007a3f90
 bool MenuChk_a3f90::FUN_007a3f90(TileChk_a3f90* tile)
 {
-    if (((bool)(reinterpret_cast<::FUN_007a7330_cls *>(this)->FUN_007a7330())) && (!tile || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(tile)) && reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero(FUN_00a00940((*reinterpret_cast<char (*)[]>((void *)&::kListBoxEnabled)), -1)))))
+    if (((bool)(reinterpret_cast<::FUN_007a7330_cls *>(this)->FUN_007a7330())) && (!tile || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((void *)(tile)) && reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero(FUN_00a00940((*reinterpret_cast<char (*)[]>((void *)&::kListBoxEnabled)), -1)))))
     {
         unk10 = tile;
         reinterpret_cast<::fnv_007a73e0::HighlightList *>(this)->FUN_007a73e0();
@@ -7707,7 +7707,7 @@ struct Owner_007a5a60
 bool Owner_007a5a60::FUN_007a5a60(Target_007a5a60* pkTarget)
 {
     if (reinterpret_cast<::FUN_007a81b0_cls *>(this)->FUN_007a81b0() &&
-        (!pkTarget || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(pkTarget)) && reinterpret_cast<::FUN_00a01230_shell *>((pkTarget))->IsTraitNonZero(FUN_00a00940("_enabled", -1)))))
+        (!pkTarget || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((void *)(pkTarget)) && reinterpret_cast<::FUN_00a01230_shell *>((pkTarget))->IsTraitNonZero(FUN_00a00940("_enabled", -1)))))
     {
         m_pkTarget = pkTarget;
         reinterpret_cast<::HighlightList *>(this)->UpdateHighlight_007a8260();

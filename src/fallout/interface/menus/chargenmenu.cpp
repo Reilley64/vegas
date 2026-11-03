@@ -1840,7 +1840,7 @@ bool Proxy_754a00::SetTraitSelected(void* pTarget, int action)
     {
         if (pTarget != 0)
         {
-            if (reinterpret_cast<::ListOwner *>((((Proxy_7242f0*)this)))->ContainsKey((int)(pTarget)))
+            if (reinterpret_cast<::ListOwner *>((((Proxy_7242f0*)this)))->ContainsKey((void *)(pTarget)))
             {
                 static void* selectedTrait = ((void *)(::FUN_00a00940("_selected", -1)));
 

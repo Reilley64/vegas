@@ -1872,7 +1872,7 @@ void Holder::UpdateTileEffects(Tile* tile)
                     recVal.mag -= reinterpret_cast<::FUN_00404390_shell *>((((EffectItem*)*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(cur4)->m_item)))))->FUN_00404390();
                 }
             }
-            if (!reinterpret_cast<::FUN_00a01230_shell *>((((LevelOption*)tile)))->IsTraitNonZero((int)((void*)DAT_011d9fe0)))
+            if (!reinterpret_cast<::FUN_00a01230_shell *>((((LevelOption*)tile)))->IsTraitNonZero((int)(DAT_011d9fe0)))
             {
                 recVal.mag = recVal.mag * -1;
             }
@@ -3144,7 +3144,7 @@ struct SkillHighlight
 // @fnv 0x007871f0
 bool ListBox787::SelectTile(Tile787* pkTile)
 {
-    if (reinterpret_cast<::FUN_00787b70_cls *>(this)->FUN_00787b70() && (!pkTile || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(pkTile)) && reinterpret_cast<::FUN_00a01230_shell *>((pkTile))->IsTraitNonZero(FUN_00a00940("_enabled", -1)))))
+    if (reinterpret_cast<::FUN_00787b70_cls *>(this)->FUN_00787b70() && (!pkTile || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((void *)(pkTile)) && reinterpret_cast<::FUN_00a01230_shell *>((pkTile))->IsTraitNonZero(FUN_00a00940("_enabled", -1)))))
     {
         m_pkSelected = pkTile;
         reinterpret_cast<::SkillHighlight *>(this)->UpdateHighlight();
@@ -3790,7 +3790,7 @@ void FUN_00787c20_shell::FUN_00787c20(unsigned int a)
 // @fnv 0x00787c40
 bool ListBox_int_::SetTileSelection(Tile* pkTile, int eMode)
 {
-    if (reinterpret_cast<::FUN_00787b70_cls *>(this)->FUN_00787b70() && pkTile && reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(pkTile)))
+    if (reinterpret_cast<::FUN_00787b70_cls *>(this)->FUN_00787b70() && pkTile && reinterpret_cast<::ListOwner *>(this)->ContainsKey((void *)(pkTile)))
     {
         static int s_iSelectedTrait = (int)FUN_00a00940("_selected", -1);
         bool bSelected = reinterpret_cast<::FUN_00a01230_shell *>((((TileValue*)pkTile)))->IsTraitNonZero(s_iSelectedTrait);

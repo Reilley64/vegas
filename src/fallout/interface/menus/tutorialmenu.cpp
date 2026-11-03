@@ -259,7 +259,7 @@ void TutorialMenuView::ApplyRecordToTiles(MenuRecord* record)
     }
     if (text40 != 0)
     {
-        reinterpret_cast<::FUN_00a012d0_t *>((text40))->FUN_00a012d0((int)(((void *)(::FUN_00a00940(str_010702d8, -1)))), 0.0f, 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((text40))->FUN_00a012d0((int)(((::FUN_00a00940(str_010702d8, -1)))), 0.0f, 0);
     }
 }
 

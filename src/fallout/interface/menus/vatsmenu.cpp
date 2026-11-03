@@ -5527,7 +5527,7 @@ void ShutdownVats()
     if (!(*reinterpret_cast<::VatsShutdown::Menu * *>(&::DAT_011db0d4))->closed)
         reinterpret_cast<::BSAudio *>((((::VatsShutdown::Input *)(::FUN_00453a70()))))->DisableAudioPlayback();
     (*reinterpret_cast<::VatsShutdown::Menu * *>(&::DAT_011db0d4))->closed = 1;
-    V::Tile* tile = ((::VatsShutdown::Tile *)(::FUN_00a09030((int)(((void *)(::FUN_007eb8c0()))))));
+    V::Tile* tile = ((::VatsShutdown::Tile *)(::FUN_00a09030((int)(((::FUN_007eb8c0()))))));
     if (!tile)
     {
         reinterpret_cast<::NiPoint3Interpolator *>(&((*reinterpret_cast<::VatsShutdown::Queue *>(&::g_011f2250))))->CreateObject(0, 0);
@@ -8080,7 +8080,7 @@ bool FUN_007f52c0()
                     new ((void *)&(oFilter)) ::GlobalObject_008c71b0(0);
                     reinterpret_cast<::FUN_004a39f0_shell *>(&(oFilter))->FUN_004a39f0(0x25);
                     int material;
-                    reinterpret_cast<::FUN_0059ce80_shell *>(&(oFilter))->FUN_0059ce80((unsigned int)(((void *)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((((GlobC*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))->FUN_00931ed0(&material)))->FUN_004a3a20()))));
+                    reinterpret_cast<::FUN_0059ce80_shell *>(&(oFilter))->FUN_0059ce80((unsigned int)(((reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((((GlobC*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))->FUN_00931ed0(&material)))->FUN_004a3a20()))));
                     oBigList.FUN_004a3f70(oFilter.f0);
                     hkpAllRayHitCollector oCollector;
                     reinterpret_cast<::FUN_004a3fb0_shell *>(&(oBigList))->FUN_004a3fb0((::hkpAllRayHitCollector *)(void *)(&oCollector));
@@ -8126,7 +8126,7 @@ bool FUN_007f52c0()
         new ((void *)&(oFilter2)) ::GlobalObject_008c71b0(0);
         reinterpret_cast<::FUN_004a39f0_shell *>(&(oFilter2))->FUN_004a39f0(0x25);
         int material2;
-        reinterpret_cast<::FUN_0059ce80_shell *>(&(oFilter2))->FUN_0059ce80((unsigned int)(((void *)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((((GlobC*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))->FUN_00931ed0(&material2)))->FUN_004a3a20()))));
+        reinterpret_cast<::FUN_0059ce80_shell *>(&(oFilter2))->FUN_0059ce80((unsigned int)(((reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((((GlobC*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))->FUN_00931ed0(&material2)))->FUN_004a3a20()))));
         oBigList2.FUN_004a3f70(oFilter2.f0);
         hkpAllRayHitCollector oCollector2;
         reinterpret_cast<::FUN_004a3fb0_shell *>(&(oBigList2))->FUN_004a3fb0((::hkpAllRayHitCollector *)(void *)(&oCollector2));

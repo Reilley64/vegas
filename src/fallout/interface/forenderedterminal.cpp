@@ -678,7 +678,7 @@ void RenderNode::SetupPowerButtonScreen()
     reinterpret_cast<::FOPipboyManager *>(this)->FUN_007fc2d0((::NiAVObject *)(screenNode));
     reinterpret_cast<::FOPipboyManager *>(this)->SetScreen((::NiAVObject *)(screenNode));
     reinterpret_cast<::FUN_004dc540_shell *>(this)->FUN_004dc540((::NiAVObject *)(rootP));
-    reinterpret_cast<::ExtraOwnerB *>((screenNode))->FUN_00a5b230((int)(((void *)(::FUN_0040df90()))));
+    reinterpret_cast<::ExtraOwnerB *>((screenNode))->FUN_00a5b230((int)(((::FUN_0040df90()))));
     reinterpret_cast<::FUN_00439410_cls *>((screenNode))->FUN_00439410((::ArgObject *)(void *)(new Controller));
     reinterpret_cast<::FUN_007fd620_Class *>(this)->SetGo(cameraK);
     reinterpret_cast<::FORenderedMenu *>(this)->OnMenuOpen();

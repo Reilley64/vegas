@@ -408,7 +408,7 @@ void FUN_009cbb70_shell::FUN_009cbb70()
     if (RandomFloat(0.0f, 1.0f) < fChance3)
     {
         FUN_008c1c30 spPackage(new FUN_009b4d90);
-        ::FUN_009b5720((::FUN_009b5a30_Class *)(::AnimIdle *)(spPackage), (int)(kActor), (int)(pTarget), fTime);
+        ::FUN_009b5720((::FUN_009b5a30_Class *)(::AnimIdle *)(spPackage), (kActor), (pTarget), fTime);
         reinterpret_cast<::fnv_0089a760::HActor *>((pTarget))->FUN_0089a760((::fnv_0089a760::HHit *)(::AnimIdle *)(spPackage), 0);
     }
 

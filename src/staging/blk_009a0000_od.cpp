@@ -904,7 +904,7 @@ void FUN_009b12d0_Class::FUN_009b12d0()
 {
     if (*(Flt*)((char*)this + 0xc4))
     {
-        reinterpret_cast<::B5Owner *>((((ExtraDataList*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))->FUN_00b5eed0((uintptr_t)((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc4)));
+        reinterpret_cast<::B5Owner *>((((ExtraDataList*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))->FUN_00b5eed0((uintptr_t)((NiAVObject*)(std::uintptr_t)(unsigned int)*(Flt*)((char*)this + 0xc4)));
         *(GO*)((char*)this + 0xc4) = 0;
     }
 }
@@ -1362,14 +1362,14 @@ void FUN_009bb8a0_Class::UpdateLightVisibility()
             if (!((intptr_t)(::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(((FUN_00b5b4a0_holder*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))), (unsigned int)mf, {}))))
             {
                 b = 0;
-                reinterpret_cast<::fnv_00b5c940::SSNode *>((((ShadowSceneNode*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(::NiLight *)((NiLight*)(unsigned int)mf), true);
+                reinterpret_cast<::fnv_00b5c940::SSNode *>((((ShadowSceneNode*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(::NiLight *)((NiLight*)(std::uintptr_t)(unsigned int)mf), true);
             }
         }
-        ((NiPointLight*)(unsigned int)mf)->FUN_0050dd20(m0 ? 1.0f : 0.0f);
+        ((NiPointLight*)(std::uintptr_t)(unsigned int)mf)->FUN_0050dd20(m0 ? 1.0f : 0.0f);
     }
 }
 
-int __cdecl FUN_009aa1b0(int a, int b);
+const char* __cdecl FUN_009aa1b0(int a, int b);
 int __cdecl GetKeywordName(int a);
 extern char $SG3667[];
 struct FUN_009aa150_Class
@@ -1558,7 +1558,7 @@ struct FUN_009b5a30_Class
     void* vfn_04;
     void* vfn_08;
     void* vfn_0c;
-    void* vfn_10;
+    int vfn_10;
     float f14;
     float f18;
     int i1c;
@@ -1566,13 +1566,13 @@ struct FUN_009b5a30_Class
 };
 
 // @fnv 0x009b5720
-void __cdecl FUN_009b5720(FUN_009b5a30_Class* a, int b, int c, float afValue)
+void __cdecl FUN_009b5720(FUN_009b5a30_Class* a, void* b, void* c, float afValue)
 {
     if (!a)
         return;
-    a->vfn_00 = (void*)b;
-    a->vfn_04 = (void*)c;
-    a->vfn_08 = (void*)b;
+    a->vfn_00 = b;
+    a->vfn_04 = c;
+    a->vfn_08 = b;
     a->f14 = afValue;
     a->f18 = afValue;
     a->FUN_009b5a30(0);
@@ -1594,7 +1594,7 @@ void ShadowNode::FUN_009bb850()
 {
     if (m10)
     {
-        reinterpret_cast<::B5Owner *>((((ExtraDataList*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))->FUN_00b5eed0((uintptr_t)((NiAVObject*)(unsigned int)m10));
+        reinterpret_cast<::B5Owner *>((((ExtraDataList*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))->FUN_00b5eed0((uintptr_t)((NiAVObject*)(std::uintptr_t)(unsigned int)m10));
         ((GO*)&this->m10)->operator=(0);
     }
 }
@@ -1602,9 +1602,9 @@ void ShadowNode::FUN_009bb850()
 struct FUN_009a39f0_class
 {
     virtual void FUN_009a39f0_virtual0();
-    virtual int FUN_009a39f0_virtual1(unsigned int size);
+    virtual void* FUN_009a39f0_virtual1(unsigned int size);
 
-    int m4;
+    void* m4;
     int m8;
     int mc;
 
@@ -1615,17 +1615,17 @@ struct FUN_009a39f0_class
 inline void FUN_009a39f0_class::FUN_009a39f0_virtual0()
 {}
 
-inline int FUN_009a39f0_class::FUN_009a39f0_virtual1(unsigned int size)
+inline void* FUN_009a39f0_class::FUN_009a39f0_virtual1(unsigned int size)
 {
-    return 0;
+    return nullptr;
 }
 
 struct FUN_009a3bc0_class
 {
     virtual void vfn_00() = 0;
-    virtual int Write(unsigned int size) = 0;
+    virtual void* Write(unsigned int size) = 0;
 
-    int m_uiLogicalSize;
+    void* m_uiLogicalSize;
     int m_iPosition;
     int m_iDataLength;
 
@@ -1781,9 +1781,9 @@ void NegateCharacterControllerValue()
 
 
 // @fnv 0x009aa140
-int FUN_009aa140(int index)
+const char* FUN_009aa140(int index)
 {
-    return *(int*)((char*)DAT_011a55b0 + index * 8);
+    return *(const char**)((char*)DAT_011a55b0 + index * 8);
 }
 
 // If a equals the value stored at this, forwards b to FUN_009aa280 and returns its result; otherwise returns false.
@@ -2014,7 +2014,7 @@ struct FUN_009b8a20_class
 struct FUN_009a03d0_inner
 {
     unsigned int unk00[0x68 / 4];
-    unsigned int m_68;
+    const void* m_68;
 };
 
 struct FUN_009a03d0_cls
@@ -2039,7 +2039,7 @@ void FUN_009a03d0_cls::FUN_009a03d0(unsigned char flag)
     {
         if (flag)
         {
-            reinterpret_cast<::fnv_009a0d00::FUN_009a0d00_shell *>(this)->StoreEntry((const void *)(m_e4->m_68));
+            reinterpret_cast<::fnv_009a0d00::FUN_009a0d00_shell *>(this)->StoreEntry(m_e4->m_68);
         }
         if (reinterpret_cast<::FUN_005dc960_shell *>((m_e4))->FUN_005dc960())
         {
@@ -2261,10 +2261,10 @@ void FUN_009a3950_Class::ConstructObjects(FUN_009a3d90* objects, unsigned int co
 struct FUN_009a3c50_cls
 {
     virtual void vfn_00();
-    virtual int v1(int a);
+    virtual void* v1(int a);
     virtual void vfn_08();
-    virtual int v3(int a, int b);
-    int m_04;
+    virtual void* v3(void* a, int b);
+    void* m_04;
     int m_08;
     int m_0c;
     void UpdateThreat(int a1, int a2);
@@ -2282,7 +2282,7 @@ void FUN_009a3c50_cls::UpdateThreat(int a1, int a2)
         }
         else
         {
-            int r = v1(a1);
+            void* r = v1(a1);
             ((FUN_009a3b20_Class*)this)
                 ->CopyCombatThreatEntries((CombatThreatEntry*)r, (CombatThreatEntry*)m_04, (unsigned int)a2);
             ::FUN_006a8500((::DummyClass_006a8500 *)this);
@@ -2544,17 +2544,17 @@ struct FUN_00435de0_ctor : public TimestampStruct
 
 struct FUN_009a4690_shell
 {
-    int m0;
+    void* m0;
     float m4;
     TimestampStruct m8;
     TimestampStruct mc;
     float m10;
 
-    void FUN_009a4690(int a1, float a2, float a3, float a4, float a5, bool a6);
+    void FUN_009a4690(void* a1, float a2, float a3, float a4, float a5, bool a6);
 };
 
 // @fnv 0x009a4690
-void FUN_009a4690_shell::FUN_009a4690(int a1, float a2, float afFirstOffset, float afSecondOffset, float a5,
+void FUN_009a4690_shell::FUN_009a4690(void* a1, float a2, float afFirstOffset, float afSecondOffset, float a5,
                                       bool abSkipFirst)
 {
     FUN_00435de0_ctor t2;
@@ -2872,18 +2872,18 @@ struct S_9a54a0_Actor
 float __cdecl ComputeExplosionDamageFalloff(float a, float b, float c);
 struct S_9a54a0_Class
 {
-    void AddOrUpdateItem(int a, float b, float c, float d, float e);
-    void FUN_009a54a0(int a1, S_9a54a0_Actor* a2, float a3);
+    void AddOrUpdateItem(void* a, float b, float c, float d, float e);
+    void FUN_009a54a0(std::intptr_t a1, S_9a54a0_Actor* a2, float a3);
 };
 // @fnv 0x009a54a0
-void S_9a54a0_Class::FUN_009a54a0(int a1, S_9a54a0_Actor* pActor, float a3)
+void S_9a54a0_Class::FUN_009a54a0(std::intptr_t a1, S_9a54a0_Actor* pActor, float a3)
 {
     float cur = reinterpret_cast<::PathingRequest *>((pActor))->GetTargetRadius();
     if (cur >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_9a54a0_Setting *>(&::originalRuntimeFloatSetting353)))))))
     {
         float f = reinterpret_cast<::Standin77900 *>((pActor))->FUN_00477900();
         f = ComputeExplosionDamageFalloff(f, cur, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_9a54a0_Setting *>(&::originalRuntimeFloatSetting353)))))));
-        AddOrUpdateItem(a1, f, 0.0f, a3, cur);
+        AddOrUpdateItem((void*)a1, f, 0.0f, a3, cur);
     }
 }
 
@@ -2947,11 +2947,11 @@ struct FUN_008c71b0_Class
 };
 struct FUN_009a7bc0 : FUN_0062a220
 {
-    FUN_009a7bc0(unsigned int first, unsigned int second);
+    FUN_009a7bc0(unsigned int first, const void* second);
 };
 // Sets the vtable, initialises the object at offset 0x70 with 0, then calls SetFilter with first and second.
 // @fnv 0x009a7bc0
-FUN_009a7bc0::FUN_009a7bc0(unsigned int first, unsigned int second)
+FUN_009a7bc0::FUN_009a7bc0(unsigned int first, const void* second)
 {
     vtable = &DAT_0104e1dc;
     new ((void *)(reinterpret_cast<FUN_008c71b0_Class*>(reinterpret_cast<char*>(this) + 0x70))) ::GlobalObject_008c71b0(0);
@@ -3058,8 +3058,8 @@ void FUN_009aa150_Class::FUN_009aa150(char* pBuffer, unsigned int uiBufferSize, 
 {
     if (c == -1)
         c = m4;
-    int v = FUN_009aa1b0(m0, c);
-    ::FUN_00406d00(pBuffer, uiBufferSize, "%s: %s", ((intptr_t)(reinterpret_cast<::FUN_009aa120_cls *>(this)->GetKeywordName())), v);
+    const char* v = FUN_009aa1b0(m0, c);
+    ::FUN_00406d00(pBuffer, uiBufferSize, "%s: %s", reinterpret_cast<::FUN_009aa120_cls *>(this)->GetKeywordName(), v);
 }
 
 // @fnv 0x009aa120
@@ -4006,8 +4006,8 @@ struct CombatThing
 {
     void SetFlagX(unsigned int flag, bool on);
     void Update1(int a);
-    int unk00;
-    int unk04;
+    void* unk00;
+    void* unk04;
     ActorStub* unk08;
     int unk0C;
     int unk10;
@@ -4024,7 +4024,7 @@ struct CombatThing
 
 // Initializes a CombatThing with two ints, an actor and a float, sets flag 0x2000, derives unk30/unk34 from the actor's weapon, then runs Update1/2/3.
 // @fnv 0x009b5770
-void InitCombatThing(CombatThing* thing, int iValueA, int iValueB, ActorStub* actor, float fValue)
+void InitCombatThing(CombatThing* thing, void* iValueA, void* iValueB, ActorStub* actor, float fValue)
 {
     if (thing == 0)
         return;
@@ -4645,7 +4645,7 @@ class E9A3A80Allocator
 // @fnv 0x009a3bc0
 void FUN_009a3bc0_class::Initialize(unsigned int uiRequestedSize, unsigned int savedSize)
 {
-    m_uiLogicalSize = 0;
+    m_uiLogicalSize = nullptr;
     m_iPosition = 0;
     m_iDataLength = 0;
 
@@ -5177,7 +5177,7 @@ struct Form_009a5530
 struct Item_009a5530 : public FUN_009a4690_shell
 {
     char pad[0x30 - sizeof(FUN_009a4690_shell)];
-    Item_009a5530(int a1, float a2, float a3, float a4, float a5);
+    Item_009a5530(void* a1, float a2, float a3, float a4, float a5);
 };
 
 struct Setting_009a5530
@@ -5187,7 +5187,7 @@ struct Setting_009a5530
 
 
 // @fnv 0x009a5530
-void S_9a54a0_Class::AddOrUpdateItem(int pForm, float b, float c, float d, float e)
+void S_9a54a0_Class::AddOrUpdateItem(void* pForm, float b, float c, float d, float e)
 {
     ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)&(((Map_009a5530*)this)->m_lock));
     reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((Form_009a5530*)pForm)))->FUN_00564db0(true);
@@ -5418,7 +5418,7 @@ bool WorldStateNode::FindStateByType(int type, unsigned int* puiOutput)
         UnsignedIdHandle* state = (*((::UnsignedIdHandle **)(void *)(current)));
         if (state != 0 && ::FUN_00559450((int *)(state)) == type)
         {
-            *puiOutput = ((unsigned int)(reinterpret_cast<::Callees *>((state))->FUN_00726070()));
+            *puiOutput = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((state))->FUN_00726070()));
             return true;
         }
         current = current->FUN_0062d990();
@@ -6143,7 +6143,7 @@ void MatchContext::UpdateMatchingActors()
     {
         for (int index3 = 0; index3 < ((intptr_t)(reinterpret_cast<::Callees *>((((::MatchArray *)(reinterpret_cast<::Owner9AF *>((((::MatchList *)(::FUN_00559450((int *)&(entries))))))->GetFirstListItem()))))->FUN_00726070())); ++index3)
         {
-            MatchRef* reference = ((::MatchRef *)(::FUN_004b5820((::FormLike *)(((unsigned int)(reinterpret_cast<::FUN_00629ab0_shell *>((((::MatchArray *)(reinterpret_cast<::Owner9AF *>((((::MatchList *)(::FUN_00559450((int *)&(entries))))))->GetFirstListItem()))))->FUN_00629ab0(index3)))))));
+            MatchRef* reference = ((::MatchRef *)(::FUN_004b5820((::FormLike *)(((std::uintptr_t)(unsigned int)(reinterpret_cast<::FUN_00629ab0_shell *>((((::MatchArray *)(reinterpret_cast<::Owner9AF *>((((::MatchList *)(::FUN_00559450((int *)&(entries))))))->GetFirstListItem()))))->FUN_00629ab0(index3)))))));
             MatchRef* actor = ((::MatchRef *)(::FUN_0056f930((::NiAVObject *)(reference))));
             if (actor)
             {
@@ -6153,7 +6153,7 @@ void MatchContext::UpdateMatchingActors()
                     if (reinterpret_cast<::FUN_008ace90_shell *>((ghostActor4))->FUN_008ace90())
                         continue;
                 }
-                MatchBase* base2 = ((::MatchBase *)(::FUN_004b59f0((const void *)(((unsigned int)(reinterpret_cast<::FUN_00629ab0_shell *>((((::MatchArray *)(reinterpret_cast<::Owner9AF *>((((::MatchList *)(::FUN_00559450((int *)&(entries))))))->GetFirstListItem()))))->FUN_00629ab0(index3)))))));
+                MatchBase* base2 = ((::MatchBase *)(::FUN_004b59f0((const void *)(((std::uintptr_t)(unsigned int)(reinterpret_cast<::FUN_00629ab0_shell *>((((::MatchArray *)(reinterpret_cast<::Owner9AF *>((((::MatchList *)(::FUN_00559450((int *)&(entries))))))->GetFirstListItem()))))->FUN_00629ab0(index3)))))));
                 bool lowRank = base2 ? ::FUN_00517670((::TESDataHandler *)(base2)) < 4 : false;
                 void* result = 0;
                 if (actor != (*reinterpret_cast<::MatchRef * *>(&::_g_thePlayer)) && actor != excluded)
@@ -6352,7 +6352,7 @@ void Actor9af::FUN_009afef0()
             if (bFlag || iLayerB == 0x1d)
             {
                 Ref9af* pRef = ((::Ref9af *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(pObj2))));
-                unsigned int uiIDA = pRef ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pRef))->GetName())) : 0;
+                void* uiIDA = pRef ? ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((pRef))->GetName())) : nullptr;
                 Form9af* pForm5 = ((::Form9af *)(::FUN_0056f930((::NiAVObject *)(uiIDA))));
                 if (bFlag && pForm5 != unkcc)
                     continue;
@@ -6690,7 +6690,7 @@ void Obj082::ProcessHits()
                     {
                         Hit082 hit;
                         new ((void *)&(hit)) ::FUN_009b4d90();
-                        ::InitCombatThing((::CombatThing *)(::fnv_009b00a0::Hit082 *)(&hit), (int)(impactSource && impactSource->IsActor() ? impactSource : 0), (int)(amount), (::ActorStub *)(::fnv_009b00a0::Obj082 *)(this),
+                        ::InitCombatThing((::CombatThing *)(::fnv_009b00a0::Hit082 *)(&hit), (impactSource && impactSource->IsActor() ? impactSource : nullptr), (amount), (::ActorStub *)(::fnv_009b00a0::Obj082 *)(this),
                                         actor);
                         reinterpret_cast<::fnv_0089a760::HActor *>((amount))->FUN_0089a760((::fnv_0089a760::HHit *)(::fnv_009b00a0::Hit082 *)(&hit), 0);
                         if (amount == (*reinterpret_cast<::fnv_009b00a0::Obj082 * *>(&::_g_thePlayer)) && distance > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b00a0::Setting082 *>(&::originalRuntimeFloatSetting1039)))))))
@@ -7433,7 +7433,7 @@ struct Actor9b58d0
     virtual void vf123();
     virtual void vf124();
     virtual Pt9b* GetPos();
-    int FUN_008b3d70(Pt9b a, Pt9b b);
+    void* FUN_008b3d70(Pt9b a, Pt9b b);
 };
 
 struct Struct9b58d0
@@ -7475,8 +7475,8 @@ void __cdecl FUN_009b58d0(Thing9b58d0* pThing, int iUnused, Actor9b58d0* pActor,
 
     if (pActor)
     {
-        int iResult = pActor->FUN_008b3d70(a5->pt1 - a5->pt2, a5->pt1);
-        pThing->vfn_10 = (void*)reinterpret_cast<::FUN_008b3ef0_cls *>((pActor))->FUN_008b3ef0((::TESObjectREFR *)(iResult));
+        void* iResult = pActor->FUN_008b3d70(a5->pt1 - a5->pt2, a5->pt1);
+        pThing->vfn_10 = reinterpret_cast<::FUN_008b3ef0_cls *>((pActor))->FUN_008b3ef0((::TESObjectREFR *)(iResult));
     }
 
     pThing->FUN_009b5a30(1);
@@ -7579,22 +7579,22 @@ extern const char* DAT_011a5700[];
 extern const char* DAT_0118a8a8[];
 extern const char* DAT_011a5768[];
 // @fnv 0x009aa1b0
-int __cdecl FUN_009aa1b0(int a, int iIndex)
+const char* __cdecl FUN_009aa1b0(int a, int iIndex)
 {
     switch (a)
     {
     case 1:
     case 2:
     case 13:
-        return (int)DAT_011a5700[iIndex];
+        return DAT_011a5700[iIndex];
     case 10:
     case 11:
     case 12:
-        return (int)DAT_0118a8a8[iIndex];
+        return DAT_0118a8a8[iIndex];
     case 18:
-        return (int)DAT_011a5768[iIndex];
+        return DAT_011a5768[iIndex];
     default:
-        return (int)(iIndex ? "True" : "False");
+        return iIndex ? "True" : "False";
     }
 }
 
@@ -8089,7 +8089,7 @@ struct CTPoint
 extern float DAT_0108e2b0;
 struct TimeoutTimer
 {
-    int unk00;
+    void* unk00;
     float unk04;
     CTStamp unk08;
     CTStamp unk0c;
@@ -8097,10 +8097,10 @@ struct TimeoutTimer
     CTList unk14;
     CTPoint unk20;
     CTStamp unk2c;
-    TimeoutTimer(int a1, float a2, float a3, float a4, float a5);
+    TimeoutTimer(void* a1, float a2, float a3, float a4, float a5);
 };
 // @fnv 0x009a44e0
-TimeoutTimer::TimeoutTimer(int a1, float a2, float a3, float a4, float a5) : unk14(0)
+TimeoutTimer::TimeoutTimer(void* a1, float a2, float a3, float a4, float a5) : unk14(0)
 {
     reinterpret_cast<::FUN_009a4690_shell *>(this)->FUN_009a4690(a1, a2, a3, a4, a5, false);
     unk14.unk04 = 0;

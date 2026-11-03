@@ -226,7 +226,7 @@ struct FUN_009ca6c0_class
 // @fnv 0x009ca6c0
 void FUN_009ca6c0_class::FUN_009ca6c0()
 {
-    *(int*)this = (int)&DAT_01090874;
+    *(const void**)this = &DAT_01090874;
 }
 
 struct FUN_009d1b30_class
@@ -315,7 +315,7 @@ struct FUN_009d7c40_Class
     int m_dc;
     int m_e0;
     int m_e4;
-    int m_e8;
+    void* m_e8;
     void FUN_009d7c40();
 };
 
@@ -453,17 +453,17 @@ struct Call741e0
 };
 struct FUN_009c6440_Class
 {
-    int FUN_009c6440(int a, int b);
+    void* FUN_009c6440(void* a, int b);
 };
 // @fnv 0x009c6440
-int FUN_009c6440_Class::FUN_009c6440(int a, int aiStoredValue)
+void* FUN_009c6440_Class::FUN_009c6440(void* a, int aiStoredValue)
 {
     new ((void *)(((Call741e0*)this))) ::fnv_00c741e0::FUN_00c741e0((::fnv_00c741e0::T741_Src *)(a));
-    *(int*)this = (int)&DAT_01090594;
-    *(int*)((char*)this + 0x3e0) = (int)&DAT_01090584;
-    *(int*)((char*)this + 0x410) = (int)&DAT_01090568;
+    *(const void**)this = &DAT_01090594;
+    *(const void**)((char*)this + 0x3e0) = &DAT_01090584;
+    *(const void**)((char*)this + 0x410) = &DAT_01090568;
     *(int*)((char*)this + 0x650) = aiStoredValue;
-    return (int)this;
+    return this;
 }
 
 struct NiAVObject;
@@ -693,7 +693,7 @@ NiPoint3* FUN_009c8ac0_class::FUN_009c8ac0(NiPoint3* result)
     {
         NiPoint3 offset;
         NiPoint3 sum;
-        point = *reinterpret_cast<::Point3Offset *>((void *)(((::NiPoint3 *)(::FUN_0045bb80(((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((void *)((*reinterpret_cast<::P09H * *>(&::DAT_011f21f0))))->FUN_0043fcd0())))))))->ProjectileLaunched(&sum, (::NiPoint3 *)(reinterpret_cast<::FUN_00416870_t *>(&(offset))->FUN_00416870(0.0f, 0.0f, FUN_0070c3b0((*reinterpret_cast<::FUN_0070c3b0_Dummy * *>(&::_g_thePlayer))))));
+        point = *reinterpret_cast<::Point3Offset *>((void *)(((::NiPoint3 *)(::FUN_0045bb80(((std::intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((void *)((*reinterpret_cast<::P09H * *>(&::DAT_011f21f0))))->FUN_0043fcd0())))))))->ProjectileLaunched(&sum, (::NiPoint3 *)(reinterpret_cast<::FUN_00416870_t *>(&(offset))->FUN_00416870(0.0f, 0.0f, FUN_0070c3b0((*reinterpret_cast<::FUN_0070c3b0_Dummy * *>(&::_g_thePlayer))))));
     }
 
     *result = point;
@@ -707,7 +707,7 @@ struct FUN_009ca680
 };
 struct FUN_009cbad0 : FUN_009ca680
 {
-    int m_iWordAt00;
+    const void* m_iWordAt00;
     int m_iWordAt04;
     int m_8;
     int m_iThirdValue;
@@ -721,7 +721,7 @@ struct FUN_009cbad0 : FUN_009ca680
 // @fnv 0x009cbad0
 FUN_009cbad0::FUN_009cbad0()
 {
-    m_iWordAt00 = (int)&DAT_01090aec;
+    m_iWordAt00 = &DAT_01090aec;
     m_10 = 0;
     m_14 = 0.0f;
     m_1c = 0;
@@ -756,10 +756,10 @@ struct FUN_009d7c00_Class
 {
     char pad[0x128];
     FUN_00997520_Class sub;
-    void ForwardToSub(int);
+    void ForwardToSub(std::intptr_t);
 };
 // @fnv 0x009d7c00
-void FUN_009d7c00_Class::ForwardToSub(int aiValue)
+void FUN_009d7c00_Class::ForwardToSub(std::intptr_t aiValue)
 {
     reinterpret_cast<::fnv_00997520::FUN_00997520_shell *>(&(sub))->FUN_00997520((const void *)(aiValue));
 }
@@ -1884,7 +1884,7 @@ void DialogueCameraX::FUN_009c7240()
                 xiTopicCount = 0;
         }
         qpia = ((::IdleCtlX *)(::FUN_00559450((int *)&(((::AnimX *)(reinterpret_cast<::FUN_008b70d0_shell *>(((*reinterpret_cast<::RefX * *>(&::DAT_011f21f0))))->FUN_008b70d0()))->kIdle))));
-        if (m_pIdleForm && (!qpia || ((::IdleX *)(reinterpret_cast<::BGSMessageInitAccess *>((qpia))->GetIconFormID())) != m_pIdleForm || (((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((qpia))->GetName())) >= 2 && ((intptr_t)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((qpia))->FUN_00490e40())) == 0)))
+        if (m_pIdleForm && (!qpia || ((::IdleX *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((qpia))->GetIconFormID())) != m_pIdleForm || (((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((qpia))->GetName())) >= 2 && ((intptr_t)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((qpia))->FUN_00490e40())) == 0)))
         {
             reinterpret_cast<::FUN_00497ca0_shell *>((((::AnimX *)(reinterpret_cast<::FUN_008b70d0_shell *>(((*reinterpret_cast<::RefX * *>(&::DAT_011f21f0))))->FUN_008b70d0()))))->FUN_00497ca0((::TESIdleForm *)(m_pIdleForm), reinterpret_cast<::FUN_005ff160_shell *>((m_pIdleForm))->GetFlagsMasked());
         }
@@ -2347,7 +2347,7 @@ class FUN_009c8b90_arg
     virtual int v1C4();
     virtual int v1C8();
     virtual int v1CC();
-    virtual int v1D0();
+    virtual void* v1D0();
 };
 
 class FUN_009c8b90_sub
@@ -3381,7 +3381,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                     reinterpret_cast<::Owner623 *>((pNewDecal))->FUN_006231a0((::NiNode623 *)(pCellNode));
                     ImpResults kResultsVal;
                     reinterpret_cast<::fnv_00623090::Host *>((pNewDecal))->FUN_00623090(apPos, (::fnv_00623090::Vir *)(::ProjectileImpact::ImpResults *)(&kResultsVal));
-                    int iTheCount = ((int)(reinterpret_cast<::Callees *>((((::ProjectileImpact::ImpHitList *)(reinterpret_cast<::TESTopicInfoData *>(&(kResultsVal))->GetLinkToList()))))->FUN_00726070()));
+                    int iTheCount = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((::ProjectileImpact::ImpHitList *)(reinterpret_cast<::TESTopicInfoData *>(&(kResultsVal))->GetLinkToList()))))->FUN_00726070()));
                     float fPathHeading = ((float)(::FUN_004a4240()));
                     unsigned char m_ucClipIdentifier = (int)FUN_00406cc0(::RandomFloat(0.0f, 4.0f));
                     ImpSurface* pLastSurface = 0;
@@ -3506,7 +3506,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                 if (((::ProjectileImpact::ImpShooterProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((WeaponHitData))->GetBaseTexture())))
                     ((::ProjectileImpact::ImpShooterProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((WeaponHitData))->GetBaseTexture()))->FUN_vtfc(WeaponHitData, *apPos, reinterpret_cast<::FUN_0058e790_S *>((pImpactTmp))->GetGlobalValue(), 0, 0);
             }
-            ImpSoundDesc* SoundAssetTmp = ((::ProjectileImpact::ImpSoundDesc *)(reinterpret_cast<::FUN_0068a810_class *>((pImpactTmp))->GetField4C()));
+            ImpSoundDesc* SoundAssetTmp = ((::ProjectileImpact::ImpSoundDesc *)(std::uintptr_t)(reinterpret_cast<::FUN_0068a810_class *>((pImpactTmp))->GetField4C()));
             if (SoundAssetTmp)
             {
                 ImpSound kSound = ((::ProjectileImpact::ImpAudio *)(::FUN_00453a70()))->FUN_00ad7480(((void *)(::FUN_00511840((char *)(SoundAssetTmp)))), 0x4102, SoundAssetTmp);

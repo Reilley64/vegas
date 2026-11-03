@@ -23,7 +23,6 @@
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_010c3000.h"
 #include "fnv/symbols_011b9000.h"
-extern void* ::FUN_00c85750();
 
 struct HashCls
 {
@@ -53,19 +52,6 @@ struct DEF350Allocator
     virtual void vfunc00();
 };
 
-struct DEF350MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    DEF350Allocator* m_pStreamAllocator;
-
-    DEF350Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 
@@ -401,21 +387,7 @@ DEF120Bool DEF120Wrapper::FUN_00def120(const void* pvA, const void* pvB) const
     return !m_pkOwnerManager || m_pkOwnerManager->m_kFilter.IsCollisionEnabled(pvA, pvB);
 }
 
-struct DEF1E0Allocator;
 
-struct DEF1E0MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    DEF1E0Allocator* m_pStreamAllocator;
-
-    DEF1E0Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace fnvc_adapt {
 

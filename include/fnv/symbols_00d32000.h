@@ -21,15 +21,15 @@ extern "C" void FUN_00d32150(void *, void *, void *, void *);
 // 0x00d32170
 void FUN_00d32170(void *, void *, void *, void *);
 // 0x00d32190
-namespace fnv_00d32190 { ::fnv_00d32190::FUN_00d32190_cls *FUN_00d32190(int, int, int, int); }
+namespace fnv_00d32190 { ::fnv_00d32190::FUN_00d32190_cls *FUN_00d32190(const void *, const void *, const void *, void *); }
 // 0x00d321e0
 void FUN_00d321e0(::S_00d321e0_Dispatcher *);
 // 0x00d32370
-void FUN_00d32370(int, int, int, int);
+void FUN_00d32370(const void *, const void *, const void *, void *);
 // 0x00d323b0
-void FUN_00d323b0(int, int, int, int);
+void FUN_00d323b0(const void *, const void *, const void *, void *);
 // 0x00d323f0
-namespace fnv_00d323f0 { void FUN_00d323f0(int, int, const ::fnv_00d323f0::CopyPacket *, int, int); }
+namespace fnv_00d323f0 { void FUN_00d323f0(void *, void *, const ::fnv_00d323f0::CopyPacket *, void *, void *); }
 // 0x00d32ac0
 int FUN_00d32ac0(int, int);
 // 0x00d32ad0

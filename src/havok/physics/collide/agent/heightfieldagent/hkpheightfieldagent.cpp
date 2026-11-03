@@ -3,7 +3,9 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
-#include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -15,14 +17,7 @@
 #include "fnv/symbols_01076000.h"
 #include "fnv/symbols_010ce000.h"
 #include "fnv/symbols_01268000.h"
-struct hkMemoryAllocator {
-    virtual ~hkMemoryAllocator();
-};
 
-struct BSAudio {
-    int unk00, unk04, unk08, unk0c;
-    hkMemoryAllocator* unk10;
-};
 
 
 
@@ -46,8 +41,7 @@ struct hkArrayU16 {
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     __forceinline void reserve(int n)
     {
-        BSAudio* a = static_cast<BSAudio*>(::FUN_00c85750());
-        hkMemoryAllocator* alloc = a->unk10;
+        hkMemoryAllocator* alloc = &hkMemoryRouter::getInstance().heap();
         int c = m_iCapacityState & 0x3fffffff;
         if (c < n) {
             c = c * 2;
@@ -70,15 +64,15 @@ struct FUN_00d32060_Class {
     void* m_vtbl;
     short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    int m_flag;
+    void* m_flag;
     hkArrayU16 m_aiIndexedValues;
 
-    FUN_00d32060_Class* Init(const SourceRef& src, int b, int c, int flag);
+    FUN_00d32060_Class* Init(const SourceRef& src, const void* b, const void* c, void* flag);
 };
 
 // Sets the vtable, flag and count fields, initialises the array, and if flag is set fills it with 0xffff up to src.m_p->GetCount().
 // @fnv 0x00d32060
-FUN_00d32060_Class* FUN_00d32060_Class::Init(const SourceRef& aSource, int aiUnused1, int aiUnused2, int aiFlags)
+FUN_00d32060_Class* FUN_00d32060_Class::Init(const SourceRef& aSource, const void* aiUnused1, const void* aiUnused2, void* aiFlags)
 {
     m_sReferenceCount = 1;
     m_flag = aiFlags;
@@ -92,18 +86,7 @@ FUN_00d32060_Class* FUN_00d32060_Class::Init(const SourceRef& aSource, int aiUnu
 }
 
 namespace fnv_00d32110 {
-struct Allocator {
-    virtual void unk0();
-    virtual void* Allocate(unsigned int size);
-};
 
-struct BSAudio {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    Allocator* allocator;
-};
 
 
 struct TargetObj {
@@ -111,27 +94,26 @@ struct TargetObj {
     unsigned short size;
 };
 
-// Allocates a 0x18-byte TargetObj from the BSAudio allocator, sets its size to 0x18, and returns the result of FUN_00d32060(a1, a2, a3, a4).
+// Allocates a 0x18-byte TargetObj from the heap allocator, sets its size to 0x18, and returns the result of FUN_00d32060(a1, a2, a3, a4).
 // @fnv 0x00d32110
 TargetObj* AllocateTargetObj(void* apArg1, void* apArg2, void* apArg3, void* apArg4) {
-    BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
-    TargetObj* obj = (TargetObj*)audio->allocator->Allocate(0x18);
+    TargetObj* obj = (TargetObj*)hkMemoryRouter::getInstance().heap().blockAlloc(0x18);
     obj->size = 0x18;
-    return ((::fnv_00d32110::TargetObj *)(reinterpret_cast<::FUN_00d32060_Class *>((obj))->Init((*(const ::SourceRef *)(apArg1)), (int)(apArg2), (int)(apArg3), (int)(apArg4))));
+    return ((::fnv_00d32110::TargetObj *)(reinterpret_cast<::FUN_00d32060_Class *>((obj))->Init((*static_cast<const ::SourceRef *>(apArg1)), apArg2, apArg3, apArg4)));
 }
 }  // namespace fnv_00d32110
 
-extern void __cdecl FUN_00d319e0(void*, void*, void*, void*);
+struct D323B0CollectorBase;
+void __cdecl FUN_00d317d0(const void* a1, const void* a2, const void* a3, void* a4);
+void __cdecl FUN_00d319e0(const void* a, const void* b, const void* c, D323B0CollectorBase* collector);
+extern "C" void __cdecl FUN_00d31d30(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
 // @fnv 0x00d32170
 void FUN_00d32170(void* apArg1, void* apArg2, void* apArg3, void* apArg4) {
-    FUN_00d319e0(apArg1, apArg2, apArg3, apArg4);
+    FUN_00d319e0(apArg1, apArg2, apArg3, static_cast<D323B0CollectorBase*>(apArg4));
 }
 
 typedef void (*S_00d321e0_Func)();
 
-void FUN_00d317d0();
-void FUN_00d319e0();
-void FUN_00d31d30();
 
 struct S_00d321e0_AgentFuncs {
     S_00d321e0_Func m_pCreateFunc;
@@ -161,9 +143,9 @@ void FUN_00d321e0(S_00d321e0_Dispatcher* dispatcher)
     {
         S_00d321e0_AgentFuncs af;
         af.m_pCreateFunc = ((void (&)())::fnv_00d32110::AllocateTargetObj);
-        af.m_pQueryPenetrationsFunc = FUN_00d317d0;
-        af.m_pGetPenetrationsFunc = FUN_00d319e0;
-        af.m_pLinearCastFunc = FUN_00d31d30;
+        af.m_pQueryPenetrationsFunc = ((void (&)())::FUN_00d317d0);
+        af.m_pGetPenetrationsFunc = ((void (&)())::FUN_00d319e0);
+        af.m_pLinearCastFunc = ((void (&)())::FUN_00d31d30);
         af.m_bIsFlipped = false;
         af.m_bIsPredictive = true;
         reinterpret_cast<::FUN_00cfbbe0_cls *>((dispatcher))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(af), 0x1a, 0x19);
@@ -182,19 +164,18 @@ struct D323B0CollectorBase {
 };
 
 struct D323B0Collector : D323B0CollectorBase {
-    int m_iData;
+    void* m_iData;
 
-    D323B0Collector(int iData) : m_iData(iData) {}
+    D323B0Collector(void* iData) : m_iData(iData) {}
 
     virtual void unk00();
     virtual void unk04();
 };
 
-void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector);
 
 // Constructs a D323B0Collector from d and passes it with b, a, c to FUN_00d319e0.
 // @fnv 0x00d323b0
-void __cdecl FUN_00d323b0(int aiArg1, int aiArg2, int aiArg3, int aiData)
+void __cdecl FUN_00d323b0(const void* aiArg1, const void* aiArg2, const void* aiArg3, void* aiData)
 {
     D323B0Collector collector(aiData);
     FUN_00d319e0(aiArg2, aiArg1, aiArg3, &collector);
@@ -229,7 +210,6 @@ void Owner::NotifyAndClear(int value) {
     clear(1);
 }
 
-extern "C" void __cdecl FUN_00d31d30(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
 // Forwards all five arguments unchanged to FUN_00d31d30.
 // @fnv 0x00d32030
 extern "C" void FUN_00d32030(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
@@ -237,7 +217,6 @@ extern "C" void FUN_00d32030(void* arg0, void* arg1, void* arg2, void* arg3, voi
     FUN_00d31d30(arg0, arg1, arg2, arg3, arg4);
 }
 
-extern "C" void __cdecl FUN_00d317d0(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d32150
 extern "C" void FUN_00d32150(void* arg0, void* arg1, void* arg2, void* arg3)
 {
@@ -245,17 +224,15 @@ extern "C" void FUN_00d32150(void* arg0, void* arg1, void* arg2, void* arg3)
 }
 
 
-void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4);
-
 struct FUN_00d32370_cls {
     void* vt;
     unsigned char flag;
-    int d;
+    void* d;
 };
 
 // Builds a FUN_00d32370_cls with vt set to DAT_010ce81c and d set to a4, then calls FUN_00d317d0 with a2, a1, a3 and the struct.
 // @fnv 0x00d32370
-void __cdecl FUN_00d32370(int aiArg1, int aiArg2, int aiArg3, int a4) {
+void __cdecl FUN_00d32370(const void* aiArg1, const void* aiArg2, const void* aiArg3, void* a4) {
     FUN_00d32370_cls local;
     local.flag = 0;
     local.d = a4;
@@ -281,14 +258,13 @@ struct Argument {
     float scale;
     unsigned int unk08, unk0c;
     FourFloatVector orientation;
-    int identifier;
+    void* identifier;
     unsigned int unk24, unk28, unk2c;
 };
-extern "C" void __cdecl FUN_00d31d30(int, int, const CopyPacket*, const Argument*, const Argument*);
 
 // Copies a CopyPacket with its orientation sign-flipped and calls FUN_00d31d30 with one or two Argument descriptors built from the source.
 // @fnv 0x00d323f0
-void __cdecl FUN_00d323f0(int a, int b, const CopyPacket* source, int id1, int id2) {
+void __cdecl FUN_00d323f0(void* a, void* b, const CopyPacket* source, void* id1, void* id2) {
     __m128 orient = _mm_load_ps(&source->orientation.x);
     __m128 inverted = _mm_xor_ps(orient, ::DAT_010c44d0);
     Argument first;
@@ -501,11 +477,11 @@ struct hkpCdBodyPairCollector {
 };
 
 // @fnv 0x00d317d0
-void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4)
+void __cdecl FUN_00d317d0(const void* a1, const void* a2, const void* a3, void* a4)
 {
-    const hkpCdBody* bodyA = (const hkpCdBody*)a1;
-    const hkpCdBody* bodyB = (const hkpCdBody*)a2;
-    const CollisionAgentContext* input = (const CollisionAgentContext*)a3;
+    const hkpCdBody* bodyA = static_cast<const hkpCdBody*>(a1);
+    const hkpCdBody* bodyB = static_cast<const hkpCdBody*>(a2);
+    const CollisionAgentContext* input = static_cast<const CollisionAgentContext*>(a3);
     hkpCdBodyPairCollector* collector = (hkpCdBodyPairCollector*)a4;
 
     StringCursor::GetMonitorStream().timerBegin("LtHeightField", "StGetSpheres");
@@ -517,24 +493,18 @@ void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4)
 
     int count = ((hkpShape*)shapeA)->getNumCollisionSpheres();
 
-    BSAudio* q = static_cast<BSAudio*>(::FUN_00c85750());
-    char* cur1 = (char*)q->unk00;
-    hkSphere* sphereBuffer = (hkSphere*)cur1;
-    q->unk00 = (int)(cur1 + ((count * 16 + 127) & ~127));
+    hkSphere* sphereBuffer = static_cast<hkSphere*>(hkMemoryRouter::getInstance().allocateStack((count * 16 + 127) & ~127));
 
     const hkSphere* spheres = ((hkpShape*)shapeA)->getCollisionSpheres(sphereBuffer);
     transformSpheres(aTb, spheres, count, sphereBuffer);
 
     StringCursor::GetMonitorStream().timerSplit("StCollide");
 
-    BSAudio* bs2 = static_cast<BSAudio*>(::FUN_00c85750());
-    char* cur2 = (char*)bs2->unk00;
-    hkSphere* hitResults = (hkSphere*)cur2;
+    hkSphere* hitResults = static_cast<hkSphere*>(hkMemoryRouter::getInstance().allocateStack((count * 16 + 127) & ~127));
     {
         const CollisionAgentContext* __restrict in = input;
         CollisionSphereData shB;
         shB.m_kSpheres = sphereBuffer;
-        bs2->unk00 = (int)(cur2 + ((count * 16 + 127) & ~127));
         shB.m_iSphereCount = count;
         shB.m_fScalar = in->m_fScalar;
         shapeB->CollideSpheres(shB, hitResults);
@@ -550,25 +520,14 @@ void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4)
         }
     }
 
-    static_cast<BSAudio*>(::FUN_00c85750())->unk00 = (int)hitResults;
-    static_cast<BSAudio*>(::FUN_00c85750())->unk00 = (int)sphereBuffer;
+    hkMemoryRouter::getInstance().deallocateStack(hitResults);
+    hkMemoryRouter::getInstance().deallocateStack(sphereBuffer);
 
     StringCursor::GetMonitorStream().timerEnd("lt");
 }
 
 namespace fnv_00d32190 {
-struct AllocIface {
-    virtual void unk00();
-    virtual void* Alloc(unsigned int size);
-};
 
-struct AllocHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AllocIface* m_pAllocator;
-};
 
 
 extern char DAT_010ceaf4[];
@@ -582,12 +541,11 @@ struct FUN_00d32190_cls {
 
 // Allocates a 0x18 byte object via m_pAllocator, sets m_w04 to 0x18, calls FUN_00d32060, and sets m_vptr to DAT_010ceaf4.
 // @fnv 0x00d32190
-FUN_00d32190_cls* __cdecl FUN_00d32190(int a1, int a2, int a3, int a4)
+FUN_00d32190_cls* __cdecl FUN_00d32190(const void* a1, const void* a2, const void* a3, void* a4)
 {
-    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-    FUN_00d32190_cls* obj = (FUN_00d32190_cls*)holder->m_pAllocator->Alloc(0x18);
+    FUN_00d32190_cls* obj = (FUN_00d32190_cls*)hkMemoryRouter::getInstance().heap().blockAlloc(0x18);
     obj->m_w04 = 0x18;
-    reinterpret_cast<::FUN_00d32060_Class *>((obj))->Init((*(const ::SourceRef *)(a2)), a1, a3, a4);
+    reinterpret_cast<::FUN_00d32060_Class *>((obj))->Init((*static_cast<const ::SourceRef *>(a2)), a1, a3, a4);
     obj->m_vptr = DAT_010ceaf4;
     return obj;
 }
@@ -702,16 +660,15 @@ extern "C" void __cdecl FUN_00d31d30(void* arg0,void* arg1,void* arg2,void* arg3
     CastBody* bodyA=(CastBody*)arg0;
     CastBody* bodyB=(CastBody*)arg1;
     CastInput* input=(CastInput*)arg2;
-    if(arg4) ::FUN_00d319e0((int)(arg0),(int)(arg1),(int)(arg2),(::D323B0CollectorBase *)(arg4));
+    if(arg4) ::FUN_00d319e0(arg0,arg1,arg2,static_cast<::D323B0CollectorBase *>(arg4));
     event((TimerStream*)TlsGetValue(DAT_0126835c),"StGetSpheres");
     CastShape* shape=bodyA->shape;
     CastHeightField* __restrict heightField=(CastHeightField*)bodyB->shape;
     CastTransform relativeTransform;
     reinterpret_cast<::hkTransformCB22 *>(&(relativeTransform))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(bodyB->transform)),(*(const ::hkTransformCB22 *)(bodyA->transform)));
     int count=shape->count();
-    BSAudio* scratch=static_cast<BSAudio*>(::FUN_00c85750());
-    int savedStack=scratch->unk00;
-    scratch->unk00=savedStack+((count*16+127)&~127);
+    hkMemoryRouter& scratch=hkMemoryRouter::getInstance();
+    void* savedStack=scratch.allocateStack((count*16+127)&~127);
     __m128 c0=bodyB->transform->r0.v;
     __m128 c1=bodyB->transform->r1.v;
     __m128 c2=bodyB->transform->r2.v;
@@ -731,7 +688,7 @@ extern "C" void __cdecl FUN_00d31d30(void* arg0,void* arg1,void* arg2,void* arg3
     __m128 b2=_mm_shuffle_ps(path,path,0xaa);
     __m128 p2=_mm_mul_ps(c2,b2);
     __m128 localPath=_mm_add_ps(_mm_add_ps(p0,p1),p2);
-    CastVector* spheres=shape->getSpheres((void*)savedStack);
+    CastVector* spheres=shape->getSpheres(savedStack);
     event((TimerStream*)TlsGetValue(DAT_0126835c),"StCastSpheres");
     {
     SphereCastInput sphereInput;
@@ -760,7 +717,7 @@ extern "C" void __cdecl FUN_00d31d30(void* arg0,void* arg1,void* arg2,void* arg3
         heightField->CastSphere(sphereInput,*bodyB,collector);
         ++spheres;
     } while(--remaining); }
-    static_cast<BSAudio*>(::FUN_00c85750())->unk00=savedStack;
+    hkMemoryRouter::getInstance().deallocateStack(savedStack);
     event((TimerStream*)TlsGetValue(DAT_0126835c),"lt");
     }
 }
@@ -804,13 +761,9 @@ struct ManagerD {
     virtual unsigned short add(const BodyD&, const BodyD&, const InputD&, OutputD&, int, ContactD*);
     virtual void v10(); virtual void remove(unsigned short id, int constraint);
 };
-struct ArenaD { __m128* top; };
 static __forceinline __m128* reserve(int n) {
-    ArenaD* arena = (ArenaD*)static_cast<BSAudio*>(::FUN_00c85750());
-    __m128* p = arena->top;
     int bytes = (n * 16 + 127) & -128;
-    arena->top = (__m128*)((char*)p + bytes);
-    return p;
+    return static_cast<__m128*>(hkMemoryRouter::getInstance().allocateStack(bytes));
 }
 static __forceinline __m128 point(const Matrix& m, __m128 v) {
     return _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v,v,0x55),m.c1), _mm_mul_ps(_mm_shuffle_ps(v,v,0),m.c0)),
@@ -876,8 +829,8 @@ void AgentD::FUN_00d324e0(const BodyD& a, const BodyD& b, const InputD& input, O
             c->id = *id;
         }
     }
-    ((ArenaD*)static_cast<BSAudio*>(::FUN_00c85750()))->top = planes;
-    ((ArenaD*)static_cast<BSAudio*>(::FUN_00c85750()))->top = transformed;
+    hkMemoryRouter::getInstance().deallocateStack(planes);
+    hkMemoryRouter::getInstance().deallocateStack(transformed);
     timer(::DAT_010c41f8);
 }
 }  // namespace fnv_00d324e0
@@ -885,11 +838,11 @@ void AgentD::FUN_00d324e0(const BodyD& a, const BodyD& b, const InputD& input, O
 // Moved from hkpheightfieldagent_rtm_variant.cpp (VEGAS-15).
 
 // @fnv 0x00d319e0
-void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector)
+void __cdecl FUN_00d319e0(const void* a, const void* b, const void* c, D323B0CollectorBase* collector)
 {
-    const hkpCdBody* bodyA = (const hkpCdBody*)a;
-    const hkpCdBody* bodyB = (const hkpCdBody*)b;
-    const CollisionAgentContext* input = (const CollisionAgentContext*)c;
+    const hkpCdBody* bodyA = static_cast<const hkpCdBody*>(a);
+    const hkpCdBody* bodyB = static_cast<const hkpCdBody*>(b);
+    const CollisionAgentContext* input = static_cast<const CollisionAgentContext*>(c);
 
     StringCursor::GetMonitorStream().timerBegin(DAT_010cea38, DAT_010cea7c);
 
@@ -900,10 +853,7 @@ void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector)
 
     int count = ((hkpShape*)shapeA)->getNumCollisionSpheres();
 
-    BSAudio* q = static_cast<BSAudio*>(::FUN_00c85750());
-    char* cur1 = (char*)q->unk00;
-    hkSphere* sphereBuffer = (hkSphere*)cur1;
-    q->unk00 = (int)(cur1 + ((count * 16 + 127) & ~127));
+    hkSphere* sphereBuffer = static_cast<hkSphere*>(hkMemoryRouter::getInstance().allocateStack((count * 16 + 127) & ~127));
 
     StringCursor::GetMonitorStream().timerSplit(DAT_010cea6c);
 
@@ -916,13 +866,10 @@ void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector)
     StringCursor::GetMonitorStream().timerSplit(DAT_010cea54);
 
     const CollisionAgentContext* __restrict in = input;
-    BSAudio* bs2 = static_cast<BSAudio*>(::FUN_00c85750());
-    char* cur2 = (char*)bs2->unk00;
-    hkSphere* hitResults = (hkSphere*)cur2;
+    hkSphere* hitResults = static_cast<hkSphere*>(hkMemoryRouter::getInstance().allocateStack((count * 16 + 127) & ~127));
     {
         CollisionSphereData shB;
         shB.m_kSpheres = sphereBuffer;
-        bs2->unk00 = (int)(cur2 + ((count * 16 + 127) & ~127));
         shB.m_iSphereCount = count;
         shB.m_fScalar = in->m_fScalar;
         shapeB->CollideSpheres(shB, hitResults);
@@ -954,8 +901,8 @@ void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector)
         }
     }
 
-    static_cast<BSAudio*>(::FUN_00c85750())->unk00 = (int)hitResults;
-    static_cast<BSAudio*>(::FUN_00c85750())->unk00 = (int)sphereBuffer;
+    hkMemoryRouter::getInstance().deallocateStack(hitResults);
+    hkMemoryRouter::getInstance().deallocateStack(sphereBuffer);
 
     StringCursor::GetMonitorStream().timerEnd(::str_01076f38);
 }

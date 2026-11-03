@@ -61,7 +61,7 @@ class BaseFormComponent
 void* FUN_00479320(int* pFormComponent)
 {
     ::FUN_00402d30((int *)(((BaseFormComponent*)pFormComponent)));
-    *pFormComponent = (int)&DAT_0101aa14;
+    *reinterpret_cast<void**>(pFormComponent) = &DAT_0101aa14;
     reinterpret_cast<::FUN_008c6060_shell *>((pFormComponent))->FUN_008c6060();
     return pFormComponent;
 }
@@ -96,7 +96,7 @@ extern const char $SG5812[];
 // @fnv 0x00479540
 const char* __cdecl GetMenuIconName(int aeType)
 {
-    BGSMenuIcon* picon = ((::fnv_00479540::BGSMenuIcon *)(::FUN_00479510(aeType)));
+    BGSMenuIcon* picon = ((::fnv_00479540::BGSMenuIcon *)(std::uintptr_t)(::FUN_00479510(aeType)));
     if (picon)
         return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(picon + 0x18)))->FUN_00408da0()));
     return $SG5812;
@@ -167,7 +167,7 @@ float S_0040a0a0_Actor::FUN_0040a0a0(int avCode)
 {
     if (reinterpret_cast<::FUN_00409a30_shell *>(this)->FUN_00409a30(1))
     {
-        return ((int)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()));
+        return ((int)(std::intptr_t)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()));
     }
     else
     {

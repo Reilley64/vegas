@@ -100,7 +100,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
         templateSelection.creature = 0;
         if (!reinterpret_cast<::FUN_0047cdd0_shell *>(this)->FUN_0047cdd0())
             templateSelection.creature =
-                (TESCreature*)reinterpret_cast<ActorMover*>(reinterpret_cast<char*>(&actorData) -
+                (TESCreature*)(std::uintptr_t)reinterpret_cast<ActorMover*>(reinterpret_cast<char*>(&actorData) -
                                                             offsetof(TESActorBaseData, actorData))
                     ->GetCurrentMoveModeType();
         if (selectedForm && selectedForm->GetFormType() == ENUM_FORM_ID_CREA_ID)
@@ -193,7 +193,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
         if (reinterpret_cast<::FUN_0047cd40_shell *>(this)->FUN_0047cd40((*(int *)&(const ::TESActorBaseData::TEMPLATE_USE_FLAG &)(USE_TRAITS))))
         {
             // Folded death-item getter followed by its setter.
-            reinterpret_cast<::BGSDehydrationStage *>(this)->FUN_0050f9a0((::SpellItem *)(::TESLevItem *)((TESLevItem*)((int)(reinterpret_cast<::BGSTerrainManager *>((reinterpret_cast<NiTimeController*>(
+            reinterpret_cast<::BGSDehydrationStage *>(this)->FUN_0050f9a0((::SpellItem *)(::TESLevItem *)((TESLevItem*)(std::uintptr_t)((reinterpret_cast<::BGSTerrainManager *>((reinterpret_cast<NiTimeController*>(
                              reinterpret_cast<char*>(&templateSelection.creature->actorData) -
                              offsetof(TESActorBaseData, actorData))))->GetMinLevel()))));
             reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((reinterpret_cast<TESResponse*>(reinterpret_cast<char*>(&actorData) - offsetof(TESActorBaseData, actorData))))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(::TESIdleForm *)((TESIdleForm*)templateSelection.creature->GetVoiceType()));

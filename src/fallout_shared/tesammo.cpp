@@ -624,10 +624,10 @@ void AmmoSave::Save()
     m_kProjectileData.m_pShellCasing = projectile;
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(reinterpret_cast<AmmoSaveCalls&>(m_kPrimaryString)))->FUN_004048e0())))
         ::FUN_004856f0((void *)(0x4d414e4f), (void *)(((const char *)(::FUN_00559450((int *)&(m_kPrimaryString))))),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(reinterpret_cast<AmmoSaveCalls&>(m_kPrimaryString)))->FUN_004048e0())) + 1));
+                     (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(reinterpret_cast<AmmoSaveCalls&>(m_kPrimaryString)))->FUN_004048e0())) + 1));
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(reinterpret_cast<AmmoSaveCalls&>(m_kSecondaryString)))->FUN_004048e0())))
         ::FUN_004856f0((void *)(0x4d414e51), (void *)(((const char *)(::FUN_00559450((int *)&(m_kSecondaryString))))),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(reinterpret_cast<AmmoSaveCalls&>(m_kSecondaryString)))->FUN_004048e0())) + 1));
+                     (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(reinterpret_cast<AmmoSaveCalls&>(m_kSecondaryString)))->FUN_004048e0())) + 1));
     BSSimpleList<TESAmmoEffect*>* effect =
         reinterpret_cast<BSSimpleList<TESAmmoEffect*>*>(reinterpret_cast<TESAmmoInitCalls*>(this)->FUN_00923000());
     TESAmmoEffect* consumed = 0;

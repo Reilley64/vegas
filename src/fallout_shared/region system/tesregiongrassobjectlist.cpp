@@ -136,9 +136,9 @@ void FUN_004f5e20::ClearList()
 struct FUN_004f5f80_obj
 {
     virtual void unk00();
-    virtual int unk04();
+    virtual std::intptr_t unk04();
     virtual void unk08();
-    virtual int unk0c();
+    virtual std::intptr_t unk0c();
 };
 
 struct ListNodeX
@@ -164,8 +164,8 @@ FUN_004f5f80_obj* FUN_004f5f80_cls::FUN_004f5f80(int a1, int a2)
     while (it9 != 0 && *((void **)((void *)(it9))) != 0)
     {
         obj = (FUN_004f5f80_obj*)*((void **)((void *)(it9)));
-        if (reinterpret_cast<::FUN_0084e3a0_Class *>((((IntOpsX*)(int)obj->unk04())))->FUN_0084e3a0() == a1 &&
-            ((a2 >= 0 && obj->unk0c() != 0 && reinterpret_cast<::FUN_0084e3a0_Class *>((((IntOpsX*)(int)obj->unk0c())))->FUN_0084e3a0() == a2) ||
+        if (reinterpret_cast<::FUN_0084e3a0_Class *>((((IntOpsX*)obj->unk04())))->FUN_0084e3a0() == a1 &&
+            ((a2 >= 0 && obj->unk0c() != 0 && reinterpret_cast<::FUN_0084e3a0_Class *>((((IntOpsX*)obj->unk0c())))->FUN_0084e3a0() == a2) ||
              (a2 < 0 && obj->unk0c() == 0)))
         {
             result = obj;

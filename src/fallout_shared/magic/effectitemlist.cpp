@@ -400,7 +400,7 @@ struct FUN_00403ca0
 // @fnv 0x00403ca0
 FUN_00403ca0::FUN_00403ca0(EffectItem* pEffectItem)
 {
-    reinterpret_cast<::FUN_00403be0_cls *>(this)->FUN_00403be0((::InterfaceManager *)(::fnv_00403ca0::EffectSetting *)(((::fnv_00403ca0::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pEffectItem))->FUN_00825c00()))));
+    reinterpret_cast<::FUN_00403be0_cls *>(this)->FUN_00403be0((::InterfaceManager *)(::fnv_00403ca0::EffectSetting *)(((::fnv_00403ca0::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pEffectItem))->FUN_00825c00()))));
     m_pEffectSetting = 0;
     reinterpret_cast<::FUN_00404210_t *>(this)->CopyFrom((::FUN_00404210_t *)(pEffectItem));
 }
@@ -739,7 +739,7 @@ bool EffectItemList_6140::HasNonDetrimentalEffectWithFlag(unsigned int auiFlag)
     while (pNode2 && !bResultTmp)
     {
         EffectItem_6140* pItem = *((::EffectItem_6140 **)((void *)(pNode2)));
-        if (pItem && reinterpret_cast<::S3e60 *>((((::EffectSetting_6140 *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pItem))->FUN_00825c00()))))->FUN_00403e60(auiFlag) && !reinterpret_cast<::EffectItem *>((pItem))->IsDetrimental())
+        if (pItem && reinterpret_cast<::S3e60 *>((((::EffectSetting_6140 *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pItem))->FUN_00825c00()))))->FUN_00403e60(auiFlag) && !reinterpret_cast<::EffectItem *>((pItem))->IsDetrimental())
         {
             bResultTmp = true;
         }
@@ -990,7 +990,7 @@ void Description::BuildDescription(char* acBuffer, unsigned int size)
             if (!((::Condition *)(reinterpret_cast<::BGSDebris *>(((*((::EI **)((void *)(nodeB))))))->GetDataList())) ||
                 reinterpret_cast<::PerkEntryConditionSet *>((((::Condition *)(reinterpret_cast<::BGSDebris *>(((*((::EI **)((void *)(nodeB))))))->GetDataList()))))->ContainsTrait((::TESObjectREFR *)((*reinterpret_cast<::Player * *>(&::_g_thePlayer))), (::TESObjectREFR *)(0), (*(bool *)(&s)), 0))
             {
-                if (reinterpret_cast<::S3e60 *>((((::Setting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*((::EI **)((void *)(nodeB))))))->FUN_00825c00()))))->FUN_00403e60(0x2000))
+                if (reinterpret_cast<::S3e60 *>((((::Setting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*((::EI **)((void *)(nodeB))))))->FUN_00825c00()))))->FUN_00403e60(0x2000))
                 {
                     ::TaskQueueInterface::CopyStringToBuffer(bufferA, 128, (*((::EI **)((void *)(nodeB))))->EffectName());
                     if (aA)

@@ -670,14 +670,14 @@ struct ConstructibleComparison : FUN_004f96f0_cobj
 // @fnv 0x004f9c10
 bool ConstructibleComparison::FUN_004f9c10(void* apCompare)
 {
-    void* pcomp = dynamic_cast<::BGSConstructibleObject *>(reinterpret_cast<::TESForm *>((unsigned int)apCompare));
+    void* pcomp = dynamic_cast<::BGSConstructibleObject *>(reinterpret_cast<::TESForm *>(apCompare));
     if (!pcomp)
         return true;
     if (reinterpret_cast<::FUN_0051afb0_shell *>((((BoundObjectComparison*)this)))->FUN_0051afb0((::TESForm *)(pcomp)))
         return true;
     if (m_pCreatedObject != (BGSListForm*)((FUN_004f9bf0_shell*)pcomp)->FUN_004f9bf0())
         return true;
-    if (m_pWorkbenchKeyword != (TESBoundObject*)((unsigned int)(::FUN_009ee040((char *)(((FUN_009ee040_cls*)pcomp))))))
+    if (m_pWorkbenchKeyword != (TESBoundObject*)((::FUN_009ee040((char *)(((FUN_009ee040_cls*)pcomp))))))
         return true;
     return false;
 }

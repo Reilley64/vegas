@@ -151,7 +151,7 @@ TESRegionList* TESObjectCELL::GetRegionList(bool create)
     TESRegionList* result = 0;
     if (IsCellInterior())
         return 0;
-    result = ((::TESRegionList *)(reinterpret_cast<::FUN_0041bce0_class *>(&(extraData))->FUN_0041bce0()));
+    result = ((::TESRegionList *)(std::uintptr_t)(reinterpret_cast<::FUN_0041bce0_class *>(&(extraData))->FUN_0041bce0()));
     if (!result && create)
     {
         result = new TESRegionList(0);
@@ -491,7 +491,7 @@ void FUN_004f77c0_shell::FUN_004f77c0()
             node = ((::RegionNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
         if (points)
-            ::FUN_00485710((void *)(0x444c5052), blocks, (void *)(points * 2));
+            ::FUN_00485710((void *)(0x444c5052), blocks, (void *)(std::uintptr_t)(points * 2));
         delete[] blocks;
     }
 }

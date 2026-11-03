@@ -132,7 +132,7 @@ struct NodeS
 struct Flt
 {
     void* p;
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct NP : Flt
 {
@@ -149,14 +149,14 @@ struct PrecipS
 // @fnv 0x00637800
 void PrecipS::RemoveChildren()
 {
-    if (m_pPreviousNode.Flt::operator unsigned int())
+    if (m_pPreviousNode.Flt::operator std::uintptr_t())
     {
-        pParent->RemoveChild((void*)m_pPreviousNode.Flt::operator unsigned int());
+        pParent->RemoveChild((void*)m_pPreviousNode.Flt::operator std::uintptr_t());
         m_pPreviousNode.NP::operator=(0);
     }
-    if (m_pPrecipitationNode.Flt::operator unsigned int())
+    if (m_pPrecipitationNode.Flt::operator std::uintptr_t())
     {
-        pParent->RemoveChild((void*)m_pPrecipitationNode.Flt::operator unsigned int());
+        pParent->RemoveChild((void*)m_pPrecipitationNode.Flt::operator std::uintptr_t());
         m_pPrecipitationNode.NP::operator=(0);
     }
 }
@@ -207,7 +207,7 @@ void FUN_00636bd0_cls::QueuePrecipitationObject(PrecipQueuedObject* object)
 
     if (object != 0 && object->FUN_0048cee0() != 0)
     {
-        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::PrecipManager * *>(&::g_modelLoader))))->FUN_00444040((int)(object->vfn_0014(0, 0, 0, 0, 0, 0)), {}, {}, {}, {}, {}, {});
+        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::PrecipManager * *>(&::g_modelLoader))))->FUN_00444040((std::intptr_t)(object->vfn_0014(0, 0, 0, 0, 0, 0)), {}, {}, {}, {}, {}, {});
         m_pPrecipitationData = object;
     }
     else

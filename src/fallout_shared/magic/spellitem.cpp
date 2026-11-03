@@ -200,7 +200,7 @@ E600Sound* E600TopicInfo::FUN_0040e600()
     if (((bool)(reinterpret_cast<::FlaggedData *>(this)->ContainsAnyFlag(1))))
         return ((::E600Sound *)(reinterpret_cast<::Twin_00639b40 *>(this)->GetEntryPoint()));
     else
-        return ((::E600Sound *)(::GetBandIndex(GetValue(0))));
+        return ((::E600Sound *)(std::uintptr_t)(::GetBandIndex(GetValue(0))));
 }
 
 class FormPart40E
@@ -278,7 +278,7 @@ struct MagicBase
     virtual void s3();
     virtual void s4();
     virtual void s5();
-    virtual int s6();
+    virtual std::intptr_t s6();
     virtual bool FUN_0040e3c0(class MagicItem* p);
     int unk04;
     int unk08;

@@ -191,6 +191,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesconditionitem.cpp
   src/fallout_shared/tescreature.cpp
   src/fallout_shared/tescreature_h_unit.cpp
+  src/fallout_shared/tesdatahandler.cpp
   src/fallout_shared/tesenchantableform.cpp
   src/fallout_shared/tesenchantableform_h_unit.cpp
   src/fallout_shared/teseyes.cpp
@@ -334,7 +335,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/tescondition.cpp
   src/fallout_shared/tesconditionfunctions.cpp
   src/fallout_shared/tescontainer.cpp
-  src/fallout_shared/tesdatahandler.cpp
   src/fallout_shared/tesdescription.cpp
   src/fallout_shared/teseffectshader.cpp
   src/fallout_shared/tesfaction.cpp

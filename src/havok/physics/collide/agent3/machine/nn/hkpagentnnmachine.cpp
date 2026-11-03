@@ -1259,32 +1259,9 @@ struct AgentInput
     {}
 };
 typedef void(__cdecl* AgentCreateFunc)(AgentInput* input, CollisionAgentEntry* entry, void* subEntry);
-struct QualityEntry
-{
-    AgentCreateFunc m_pCreateFunc;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int m_flag28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-};
 struct Dispatcher
 {
-    char* m_tableBase;
+    hkpCollisionDispatcher* m_dispatcher;
     int unk04;
     int unk08;
     int unk0c;
@@ -1308,7 +1285,7 @@ struct Dispatcher
     int unk54;
     int unk58;
     int unk5c;
-    void* m_currentAgentEntry;
+    const hkpCollisionDispatcher::CollisionQualityInfo* m_collisionQualityInfo;
 };
 struct CollisionAgentEntry
 {
@@ -1336,7 +1313,7 @@ CollisionAgentEntry* __cdecl FUN_00cfe8a0(CFE820Pool* pool, CollidableNode* node
                                           int qualityType, Dispatcher* dispatcher, void* island)
 {
 
-    char* initialTable = dispatcher->m_tableBase;
+    const hkpCollisionDispatcher* initialDispatcher = dispatcher->m_dispatcher;
     char* pAlloc = AllocatePoolChunk(pool);
     CollisionAgentEntry* entry = (CollisionAgentEntry*)pAlloc;
     entry->m_nodeA = nodeA;
@@ -1357,27 +1334,26 @@ CollisionAgentEntry* __cdecl FUN_00cfe8a0(CFE820Pool* pool, CollidableNode* node
         input.m_pContactManager = entry->m_pCurrentSimulationIsland;
         input.m_pRayCastInput = dispatcher;
         reinterpret_cast<::hkTransformCB22 *>(&(input.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)(*bodyA->m_kMotionTransform), (const ::hkTransformCB22 &)(*bodyB->m_kMotionTransform));
-        char* tableBase = dispatcher->m_tableBase;
-        char agentType = tableBase[0x1bb0 + nodeA->m_type * 10 + nodeB->m_type];
+        const hkpCollisionDispatcher* tableDispatcher = dispatcher->m_dispatcher;
+        char agentType = tableDispatcher->m_collisionQualityTable[nodeA->m_type][nodeB->m_type];
         entry->m_ucNnTrackType = agentType;
-        dispatcher->m_currentAgentEntry = dispatcher->m_tableBase + 0x1c20 + ((int)(signed char)agentType << 6);
-        QualityEntry* quality = (QualityEntry*)(initialTable + 0x16b0 + qualityType * 80);
+        dispatcher->m_collisionQualityInfo = &dispatcher->m_dispatcher->m_collisionQualityInfo[(signed char)agentType];
+        const hkpCollisionDispatcher::Agent3FuncsIntern* quality = &initialDispatcher->m_agent3Func[qualityType];
         entry->m_iAutoRemoveLevel = (unsigned char)qualityType;
         void* subEntry;
-        if (quality->m_flag28 != 0)
+        if (quality->m_sepNormalFunc != 0)
         {
             entry->m_flags = flags | 4;
             entry->m_fTimeOfImpact = -1.0f;
             entry->m_vSeparatingNormal = _mm_setzero_ps();
-            subEntry = (char*)entry + 0x30;
+            subEntry = entry + 1;
         }
         else
         {
             entry->m_flags = flags | 2;
             subEntry = (char*)&entry->m_vSeparatingNormal;
         }
-        ((QualityEntry*)(initialTable + 0x16b0 + (unsigned char)qualityType * 80))
-            ->m_pCreateFunc(&input, entry, subEntry);
+        reinterpret_cast<AgentCreateFunc>(initialDispatcher->m_agent3Func[(unsigned char)qualityType].m_createFunc)(&input, entry, subEntry);
     }
     entry->m_iElementCount = 0x80;
     return entry;

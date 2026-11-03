@@ -71,7 +71,7 @@ extern intptr_t DAT_011dea1c;
 // 0x011dea20
 extern ::SkyInit *DAT_011dea20;
 // 0x011dea24
-extern int DAT_011dea24;
+extern std::intptr_t DAT_011dea24;
 // 0x011dea28
 extern bool DAT_011dea28;
 // 0x011dea29

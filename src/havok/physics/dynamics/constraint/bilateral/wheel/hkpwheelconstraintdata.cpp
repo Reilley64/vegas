@@ -696,3 +696,71 @@ hkBoolRet hkpWheelConstraintData_Standin::FUN_00d4eec0()
             (((DummyTransform*)&t1)->*fn)(0.001f) && (((DummyTransform*)&t2)->*fn)(0.001f) &&
             (m_kBridgeAtoms.m_suspensionMin <= m_kBridgeAtoms.m_suspensionMax));
 }
+
+// Moved from hkpwheelconstraintdata_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
+
+// src/havok/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/havok/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata_gs_ehsc_nogs_noehsc_variant.cpp that match byte for byte only
+// with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
+
+// src/havok/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-11-01 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+// src/havok/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/fnv_00cb2e70__hkMatrix3q.h"
+#include "fnv/symbols_00d21000.h"
+void FUN_00d4e580(char a1, int* a2);
+int __cdecl FUN_00d4e5b0();
+
+struct WheelSteeringView : hkpConstraintData
+{
+    int unk0C;
+    hkVector4 unk10, unk20, unk30, unk40, unk50, unk60, unk70, unk80;
+    hkVector4 unk90, unkA0, unkB0, unkC0, unkD0, unkE0, unkF0;
+    __m128 steeringDirection;
+    hkVector4 unk110;
+    __m128 perpendicularDirection;
+    hkVector4 unk130;
+    __m128 axleDirection, steeringAxis;
+};
+
+static __forceinline __m128 WheelAngleCross(const __m128& b, const __m128& a)
+{
+    __m128 p = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9), _mm_shuffle_ps(b, b, 0xd2));
+    __m128 q = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xd2), _mm_shuffle_ps(b, b, 0xc9));
+    return _mm_sub_ps(p, q);
+}
+
+static __forceinline __m128 WheelAnglePerpendicular(const __m128& a, const __m128& b)
+{
+    __m128 left = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9), _mm_shuffle_ps(b, b, 0xd2));
+    __m128 right = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xd2), _mm_shuffle_ps(b, b, 0xc9));
+    return _mm_sub_ps(left, right);
+}
+struct WheelAngleScalar
+{
+    __m128 v;
+    __forceinline WheelAngleScalar(float x)
+    {
+        v = _mm_load_ss(&x);
+    }
+    __forceinline __m128 broadcast() const
+    {
+        return _mm_shuffle_ps(v, v, 0);
+    }
+};
+// @fnv 0x00d4e480
+void FUN_00d4e480(hkpWheelConstraintData* self, void*, float angle)
+{
+    WheelSteeringView& wheel = *reinterpret_cast<WheelSteeringView*>(self);
+    float s = sinf(angle);
+    float c = sqrtf(1.0f - s * s);
+    WheelAngleScalar co(c);
+    WheelAngleScalar si(s);
+    __m128 cr = WheelAngleCross(wheel.axleDirection, wheel.steeringAxis);
+    __m128 st = _mm_mul_ps(cr, si.broadcast());
+    __m128 ct = _mm_mul_ps(co.broadcast(), wheel.axleDirection);
+    __m128 result = _mm_add_ps(st, ct);
+    wheel.steeringDirection = result;
+    wheel.perpendicularDirection = WheelAnglePerpendicular(result, wheel.steeringAxis);
+}

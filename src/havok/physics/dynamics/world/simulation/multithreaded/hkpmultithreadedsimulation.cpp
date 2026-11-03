@@ -256,6 +256,8 @@ struct Owner
     Reserve* reserve;
 public:
     void FUN_00d97070(void *);
+public:
+    void FUN_00d04a80(int, int);
 };
 struct FUN_00d0d020
 {
@@ -4029,6 +4031,31 @@ struct ArrGroup
         m_pData[m_iArrayLength - 1].id = key;
         return m_pData[m_iArrayLength - 1];
     }
+public:
+    __forceinline Group& FindOrAdd(GroupIdentity* key)
+    {
+        for (int k = 0; k < m_iArrayLength; ++k)
+        {
+            if (key == m_pData[k].id)
+                return m_pData[k];
+        }
+        Singleton* allocator = GetSingleton();
+        if (m_iArrayLength == (m_iCapacity & 0x3fffffff))
+            ResizeAudioStream(allocator->m_10, (PairArray*)this, 24);
+        ZeroNew(m_iArrayLength);
+        Group* added = m_pData + m_iArrayLength++;
+        if (added != 0)
+        {
+            added->id = 0;
+            added->count = 0;
+            added->start = 0;
+            added->unk0C = 0;
+            added->job = 0;
+            added->unk14 = 0;
+        }
+        m_pData[m_iArrayLength - 1].id = key;
+        return m_pData[m_iArrayLength - 1];
+    }
 };
 
 struct ObjA
@@ -6544,3 +6571,683 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
     reinterpret_cast<::CB1A90Owner *>(&(L.seen))->ProcessArgument((::CB1A90Argument *)(pSingleton10->m_10));
     ::FUN_00a29680();
 }
+
+// Moved from hkpmultithreadedsimulation_rtm_variant.cpp (VEGAS-15).
+#include "fnv/decl/FUN_00c92b50_Class.h"
+#include "fnv/decl/fnv_00cf8b00__Sim.h"
+#include "fnv/decl/fnv_00d03030__HkProcessor.h"
+#include "fnv/symbols_00cb5000.h"
+#include "fnv/symbols_00cc0000.h"
+#include "fnv/symbols_00d89000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_010cc000.h"
+int FUN_00d021e0(int self, int, int* out);
+void FUN_00d021f0(void* this_, int, int* arg, int);
+void FUN_00d02020(S_00d02020_Pair* pair);
+void __cdecl CompareObjectKeys(bool* result, CompareObject* left, CompareObject* right);
+void FUN_00d01fc0(HandlePair* pHandlePair);
+bool FUN_00d02160(int* apPairA, int* apPairB);
+void __cdecl ResizeAudioStream(void* alloc, PairArray* arr, int elemSize);
+void FUN_00d020f0(S_00d02020_Pair* pair);
+void FUN_00d02200(int);
+void FUN_00d02210(int, int, int);
+void NotifyPhantomCollision(PairD020* pkPair);
+void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize);
+template <class T> struct hkArrayQ
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    __forceinline hkArrayQ() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    __forceinline int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    __forceinline void _clearAndDeallocate(hkMemoryAllocatorQ& alloc)
+    {
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    __forceinline void ClearAndRelease()
+    {
+        _clearAndDeallocate(*getRouter().m_pStreamAllocator);
+    }
+    __forceinline void _pushBack(hkMemoryAllocatorQ& alloc, const T& t)
+    {
+        if (m_iElementCount == getCapacity())
+            ResizeAudioStream(&alloc, this, sizeof(T));
+        m_data[m_iElementCount++] = t;
+    }
+    __forceinline void AddBack(const T& t)
+    {
+        _pushBack(*getRouter().m_pStreamAllocator, t);
+    }
+};
+static S00d02880_Elem* FUN_00d02880(S00d02880_Arr* b, S00d02880_Key t);
+S00d02880_Elem* S00d02880_Call(S00d02880_Arr* a, S00d02880_Key key);
+void __cdecl ResizeAudioStream(void*, PairArray*, int);
+
+extern "C" void _ReadWriteBarrier();
+extern "C" void __debugbreak();
+extern char DAT_010ccbb0;
+namespace StepBeginDetail {
+struct Vec4
+{
+    float x, y, z, w;
+    __forceinline float delta() const
+    {
+        return z;
+    }
+    __forceinline void set(float start, float end)
+    {
+        x = start;
+        y = end;
+        z = end - start;
+        w = z == 0.0f ? 0.0f : 1.0f / z;
+    }
+};
+struct Ring
+{
+    int unk00;
+    int* cur;
+    int unk08;
+    int* end;
+};
+struct Entry16
+{
+    const char* id;
+    int ts;
+    int unk;
+    const char* id2;
+};
+struct Entry12
+{
+    const char* id;
+    int ts;
+    int unk;
+};
+static __forceinline void writeBeginTrace(volatile int& ts)
+{
+    Ring* ring = (Ring*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+    Entry16* cur = (Entry16*)ring->cur;
+    if ((int*)cur < ring->end)
+    {
+        cur->id = &DAT_010ccbb0;
+        cur->id2 = &(*reinterpret_cast<char *>((void *)&::str_010cc5bc));
+        _ReadWriteBarrier();
+        ts = (int)__rdtsc();
+        cur->ts = ts;
+        cur += 1;
+        ring->cur = (int*)cur;
+    }
+}
+static __forceinline void writeTrace(const char* name, volatile int& ts2)
+{
+    Ring* ring2 = (Ring*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+    Entry12* cur2 = (Entry12*)ring2->cur;
+    if ((int*)cur2 < ring2->end)
+    {
+        cur2->id = name;
+        _ReadWriteBarrier();
+        ts2 = (int)__rdtsc();
+        cur2->ts = ts2;
+        cur2 += 1;
+        ring2->cur = (int*)cur2;
+    }
+}
+
+struct Obj;
+struct MemoryInfo
+{
+    int maximum;
+    int total;
+    void* largest;
+};
+struct Sub78
+{
+    int unk00;
+    int unk04;
+    float m_08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    Vec4 m_50;
+};
+struct S4cObj
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14(Obj* o, Vec4* v);
+};
+struct GlobObj
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual bool v20(int v);
+};
+struct Glob
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    GlobObj* m_18;
+};
+struct Sub
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    Vec4 m_10;
+    Vec4 m_20;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    int unke0;
+    int unke4;
+    int unke8;
+    int unkec;
+    int unkf0;
+    int unkf4;
+    int unkf8;
+    int unkfc;
+    int unk100;
+    int unk104;
+    int unk108;
+    float m_10c;
+    float m_110;
+    int m_114;
+    int unk118;
+    int unk11c;
+    float m_120;
+    char unk124;
+    char m_125;
+    char m_126;
+    char m_127;
+    __forceinline void setup(const Vec4& v, const Vec4& direction)
+    {
+        m_10c = m_120 * v.z;
+        m_110 = (float)m_114 * v.w;
+        _mm_store_ps(
+            (float*)&m_10, _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&m_10c),
+                                                                                 _mm_load_ss(&m_10c), 0),
+                                                    _mm_load_ps((const float*)&direction)));
+        float dz = v.z;
+        _mm_store_ps(
+            (float*)&m_20, _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&dz),
+                                                                                 _mm_load_ss(&dz), 0),
+                                                    _mm_load_ps((const float*)&direction)));
+    }
+    __forceinline void advanceCounters()
+    {
+        unsigned char c = ++(unsigned char&)m_127;
+        if ((((c - 4) & 7)) == 0)
+            m_125 ^= 1;
+        if ((c & 7) == 0)
+            m_125 ^= 2;
+        if ((c & 15) == 0)
+        {
+            m_126 = 1 - m_126;
+            m_127 = 0;
+        }
+    }
+};
+struct __declspec(align(16)) Msg : JobBase
+{
+    int d20;
+    __forceinline Msg() : JobBase(0, 0, 48, 2)
+    {
+        count = 0;
+    }
+};
+struct ArgCls
+{
+};
+struct QueueHandle
+{
+    ArgCls* queue;
+};
+struct RegA
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+};
+struct RegB
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+};
+struct EdiObj
+{
+    Obj* m_00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    RegA m_10;
+    RegB m_90;
+    void* m_110;
+    void* m_114;
+    float m_118;
+    void* m_11c;
+};
+struct Obj
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    Vec4 m_10;
+    int unk20;
+    int unk24;
+    int unk28;
+    int m_2c;
+    int unk30;
+    int unk34;
+    int m_38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    S4cObj* m_4c;
+    int m_50;
+    char m_54;
+    char unk55;
+    char unk56;
+    char unk57;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    EdiObj* m_74;
+    Sub78* m_78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int m_8c;
+    int m_90;
+    int m_94;
+    int m_98;
+    char m_9c;
+    char unk9d;
+    char unk9e;
+    char unk9f;
+    int unka0;
+    int m_a4;
+    int unka8;
+    int unkac;
+    char m_b0;
+    char unkb1;
+    char unkb2;
+    char unkb3;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    int unke0;
+    int unke4;
+    int unke8;
+    int unkec;
+    int unkf0;
+    int unkf4;
+    int unkf8;
+    int unkfc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int* m_1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    Vec4 m_1d0;
+    Sub m_1e0;
+    __forceinline void unlock()
+    {
+        if (--m_94 == 0 && m_9c == 0)
+        {
+            if (m_8c)
+                reinterpret_cast<::FUN_00c91120 *>(this)->ExecutePendingOperations();
+            if (m_a4 == 1 && m_90)
+                reinterpret_cast<::FUN_00c91140_Class *>(this)->FUN_00c91140();
+        }
+    }
+};
+struct Simulation
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    Obj* volatile m_0c;
+    int unk10;
+    int unk14;
+    float m_18;
+    float m_1c;
+    int unk20;
+    int unk24;
+    int m_28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    volatile bool m_68;
+    char unk69;
+    char unk6a;
+    char unk6b;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int m_b8;
+    int m_bc;
+    int FUN_00d022b0(ArgCls* arg, float dt);
+};
+static __forceinline void scaleGravity(Vec4* dst, const Obj& world, const float& scale)
+{
+    _mm_store_ps(
+        (float*)dst, _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&scale),
+                                                                           _mm_load_ss(&scale), 0),
+                                              _mm_load_ps((const float*)&world.m_10)));
+}
+// @fnv 0x00d022b0
+int Simulation::FUN_00d022b0(ArgCls* arg, float dt)
+{
+    union StepTraceScratch
+    {
+        volatile int ticks;
+        float start;
+    };
+    StepTraceScratch scratch;
+    writeBeginTrace(scratch.ticks);
+    m_68 = 1;
+    m_0c->m_94 += 1;
+    m_1c = dt;
+    __declspec(align(16)) Vec4 v;
+    scratch.start = m_18;
+    v.set(scratch.start, dt + m_18);
+    m_0c->m_1d0 = v;
+    m_0c->m_78->m_50 = v;
+    {
+        Obj* world = m_0c;
+        world->m_4c->v14(world, &v);
+    }
+    ::FUN_00cb55d0((::S55Owner *)(m_0c));
+    MemoryInfo outVal;
+    reinterpret_cast<::FUN_00c92b50_Class *>((m_0c))->ComputeMemoryUsage((::hkpWorld_MemUsageOut *)(::StepBeginDetail::MemoryInfo *)(&outVal));
+    Glob* g = (Glob*)FUN_00c85750();
+    bool ok = g->m_18->v20(outVal.maximum);
+    if (!ok)
+    {
+        if (reinterpret_cast<::WorldWatchDogHolder *>((m_0c))->FUN_00c93570())
+        {
+            m_0c->unlock();
+            ::FUN_00d01bc0((::S_00d01bc0_Owner *)(m_0c));
+            m_0c->m_94 += 1;
+        }
+        else
+        {
+            if (m_0c->m_54)
+                __debugbreak();
+            m_28 = 1;
+            return 1;
+        }
+    }
+    ::FUN_00d892d0();
+    m_0c->m_1d0 = v;
+    Sub* sub = &const_cast<Obj*&>(m_0c)->m_1e0;
+    sub->m_10c = sub->m_120 * v.z;
+    sub->m_110 = (float)sub->m_114 * v.w;
+    scaleGravity(&sub->m_10, *m_0c, sub->m_10c);
+    scaleGravity(&sub->m_20, *m_0c, v.delta());
+    *m_0c->m_1b8 = 0;
+    Obj* world = m_0c;
+    EdiObj* edi = world->m_74;
+    edi->m_114 = &world->m_1d0;
+    new ((void *)&(edi->m_90)) ::FUN_00cfa7d0((*(const ::FUN_00cfa7d0 *)(m_0c->m_78)));
+    world = m_0c;
+    reinterpret_cast<::S00cfa6e0_Dst *>(&(edi->m_10))->FUN_00cfa6e0((::S00cfa6e0_Src *)(::StepBeginDetail::Sub *)(&world->m_1e0), (::S00cfa6e0_Pair *)(::StepBeginDetail::Vec4 *)(&world->m_1d0), (int)(world->m_1b8));
+    edi->m_110 = this;
+    edi->m_118 = m_0c->m_78->m_08;
+    edi->m_11c = &DAT_01269210;
+    edi->m_00 = m_0c;
+    world = m_0c;
+    int count = world->m_2c;
+    if (count > 0)
+    {
+        if (world->m_b0)
+        {
+            writeTrace(&DAT_010cc5b0, scratch.ticks);
+            m_0c->m_98 -= 1;
+            reinterpret_cast<::fnv_00cf8b00::Sim *>(this)->FUN_00cf8b00();
+            m_0c->m_98 += 1;
+        }
+        Msg msg;
+        msg.d20 = count;
+        msg.header = (int)m_0c->m_74;
+        reinterpret_cast<::Owner *>((arg))->FUN_00d04a80(0, count);
+        reinterpret_cast<::Owner *>((arg))->FUN_00d04a80(1, count);
+        reinterpret_cast<::D04B90World *>((arg))->AddObjectCopy((const ::D04B90Object *)(::StepBeginDetail::Msg *)(&msg), (void *)(1));
+    }
+    m_0c->m_1e0.advanceCounters();
+    world = m_0c;
+    m_b8 = world->m_2c;
+    m_bc = world->m_38;
+    ::FUN_00c910b0();
+    writeTrace(&(*reinterpret_cast<char *>((void *)&::str_01076f38)), scratch.ticks);
+    return 0;
+}
+
+}
+#include "generated/data/havok/physics/dynamics/world/simulation/multithreaded/hkpmultithreadedsimulation_rtm_variant.inc"

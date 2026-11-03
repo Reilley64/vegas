@@ -751,6 +751,8 @@ struct __declspec(align(16)) S00d33940_Out
     float y3;
     float z3;
     float w3;
+public:
+    void FUN_00cb22f0(int a, int b);
 };
 
 struct S00d33940_Sub
@@ -1315,4 +1317,585 @@ void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input,
 }
 }  // namespace fnv_00d34510
 
+// Moved from hkpconvexlistagent_rtm_variant.cpp (VEGAS-15).
+#include "fnv/decl/Container.h"
+#include "fnv/decl/FUN_00d33670.h"
+#include "fnv/decl/hkpPredGskfAgent.h"
+
+struct ProfileIndex
+{
+    unsigned long value;
+    __forceinline ProfileIndex(unsigned long v) : value(v)
+    {}
+};
+static __forceinline void* profileBuffer(const ProfileIndex& index)
+{
+    return TlsGetValue(index.value);
+}
+static __forceinline __m128 Splat(const float& f)
+{
+    __m128 r = _mm_load_ss(&f);
+    return _mm_shuffle_ps(r, r, 0);
+}
+static __forceinline float ParseFloatValue(__m128 v)
+{
+    float f;
+    _mm_store_ss(&f, v);
+    return f;
+}
+
+extern const char str_010ceb84[], str_010ceb7c[], str_010ceb70[], str_010ceca0[];
+
+union Vec4
+{
+    __m128 quad;
+    struct
+    {
+        float x, y, z, w;
+    };
+};
+struct L16
+{
+    Vec4 v;
+};
+struct L64
+{
+    L16 a, b, c, d;
+};
+struct L256
+{
+    L64 a, b, c, d;
+};
+struct L1024
+{
+    L256 a, b, c, d;
+};
+struct L4096
+{
+    L1024 a, b, c, d;
+};
+struct L128
+{
+    L64 a, b;
+};
+struct Arg4;
+struct Shape;  // Collision-output snapshot: 0x1080 bytes consumed by the snapshot/reset methods.
+struct Workspace
+{
+    L4096 contacts;
+    L128 state;
+    void FUN_00d33670(Arg4&);
+    void FUN_00d33600(const Shape&, const Shape&, Arg4&, void*);
+};
+
+struct Obj
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    Vec4 m_40;
+    Vec4 m_50;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    float m_9c;
+    float m_a0;
+};
+struct ShapeHead
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int count;
+};
+struct Shape
+{
+    ShapeHead* m_00;
+    int unkp04;
+    Obj* m_08;
+    Shape* m_0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    float m_4c;
+};
+struct Arg3
+{
+    int unk00;
+    int unk04;
+    float m_08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    float m_58;
+};
+struct Arg4
+{
+    int unkp00;
+    void* m_04;
+};
+struct CollObj
+{
+    Vec4 a, b, c, d;
+    void FUN_00cb22f0(Obj*, Obj*);
+};
+struct SStruct
+{
+    void* pCo;
+    void* pObjA;
+    void* a0;
+    void* b0;
+    float f;
+};
+struct StackObj
+{
+    void* vptr;
+    short unkp04;
+    short m_06s;
+    int kind;
+    void* saved;
+    char flag;
+    char unkp19a;
+    short unkp20;
+};
+struct Big
+{
+    const Shape* a;
+    const Shape* b;
+    int zero;
+    const Arg3* c;
+    void* agent08;
+    int unkp14, unk18, unk1c;
+    CollObj co;
+    int p60, p64, p68, p6c;
+    Vec4 vec;
+};
+struct D33ProfBuf
+{
+    int unkp00;
+    char* cursor;
+    int unkp08;
+    char* end;
+};
+struct Rec16
+{
+    const char* name;
+    unsigned int tick;
+    void* unk;
+    const char* name2;
+};
+struct Rec12
+{
+    const char* name;
+    unsigned int tick;
+    void* unk;
+};
+
+void FUN_00d33670(void* a);
+void FUN_00d33600(void* a, void* b, void* c, void* d);
+void* FUN_00cb22f0(void* a, void* b);
+int FUN_00dabca0(SStruct* a, void* b, void* c, void* d);
+void FUN_00d33850(void* a);
+void FUN_00d33ef0(void* a);
+void FUN_00d42020(void* a, void* b, void* c, void* d);
+struct AddressValue
+{
+    void* value;
+    __forceinline AddressValue(void* p) : value(p)
+    {}
+};
+struct ScratchArena
+{
+    int* cursor;
+};
+
+typedef void(* Ws70Fn)(void*, const void*);
+typedef void(* Ws00Fn)(void*, const void*, const void*, const void*, void*);
+typedef void*(* CbFn)(void*, void*, void*);
+typedef void(* Ag1Fn)(void*, void*);
+typedef void(* Ag4Fn)(void*, const void*, const void*, const void*, void*);
+
+struct StreamState
+{
+    short flags;
+    char count;
+    char unknown;
+    int field04, field08;
+    float distance;
+};
+struct ScalarScratch;
+struct Agent
+{
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    Vec4 m_20w;
+    short unkp30;
+    char m_32;
+    char unkp33;
+    int unk34;
+    int unk38;
+    float m_3c;
+    __forceinline StreamState& streaming()
+    {
+        return *reinterpret_cast<StreamState*>(&unkp30);
+    }
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    char m_84;
+    char m_85;
+    short m_86;
+    void FUN_00d33850(void*);
+    void FUN_00d33ef0(void*);
+    void FUN_00d42020(const Shape&, const Shape&, const Arg3&, Arg4&);
+    __forceinline void processCached(const Shape&, const Shape&, const Arg3&, Arg4&, const Vec4&, Workspace&, StackObj&,
+                                     ScalarScratch&, bool&);
+    void streamCollision(const Shape&, const Shape&, const Arg3&, Arg4&, const Vec4&, ShapeHead*);
+    void FUN_00d33f40(const Shape& a, const Shape& b, const Arg3& c, Arg4& d);
+};
+
+__forceinline void projectDistance(Vec4& normal, const Vec4& vec)
+{
+    __m128 p = _mm_mul_ps(normal.quad, vec.quad);
+    __m128 v = vec.quad;
+    __m128 s3 = _mm_shuffle_ps(v, v, 0xff);
+    __m128 s2 = _mm_shuffle_ps(p, p, 0xaa);
+    __m128 s1 = _mm_shuffle_ps(p, p, 0x55);
+    __m128 rr = _mm_add_ps(_mm_add_ss(s2, s3), _mm_add_ss(s1, p));
+    float dot;
+    _mm_store_ss(&dot, rr);
+    normal.w -= dot;
+}
+// Keep the two rounded scale values together for x87 and SIMD consumers.
+struct MotionScales
+{
+    float a, b;
+};
+struct ScalarScratch
+{
+    union
+    {
+        float dt;
+        D33ProfBuf* volatile monitor;
+        float minimum;
+    } first;
+    union
+    {
+        float factor;
+        volatile unsigned stamp;
+    } a;
+    float radius;
+    union
+    {
+        float factor;
+        volatile unsigned stamp;
+    } b;
+    union
+    {
+        ShapeHead* shape;
+        volatile unsigned stamp;
+    } last;
+};
+__forceinline void calculateMotion(const Obj& oa, const Obj& ob, ScalarScratch& scratch, Vec4& vec)
+{
+    scratch.a.factor = scratch.first.dt * oa.m_50.w;
+    scratch.b.factor = scratch.first.dt * ob.m_50.w;
+    __m128 scaleA = Splat(scratch.a.factor);
+    __m128 scaleB = Splat(scratch.b.factor);
+    __m128 vc = ob.m_40.quad;
+    __m128 vd = ob.m_50.quad;
+    __m128 va = oa.m_40.quad;
+    __m128 vb = oa.m_50.quad;
+    vec.quad = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(vd, vc), scaleB), _mm_mul_ps(_mm_sub_ps(va, vb), scaleA));
+    vec.w = oa.m_9c * scratch.a.factor * oa.m_a0 + ob.m_9c * scratch.b.factor * ob.m_a0;
+}
+
+__forceinline void Agent::streamCollision(const Shape& a, const Shape& b, const Arg3& c, Arg4& d, const Vec4& vec,
+                                          ShapeHead* bHead)
+{
+    Big big;
+    big.zero = 0;
+    big.a = &a;
+    big.b = &b;
+    big.agent08 = m_08;
+    __m128 motion = vec.quad;
+    big.c = &c;
+    big.vec.quad = motion;
+    reinterpret_cast<::hkTransformCB22 *>(&(big.co))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(a.m_08)), (*(const ::hkTransformCB22 *)(b.m_08)));
+    int count = bHead->count;
+    ScratchArena* pool = (ScratchArena*)FUN_00c85750();
+    int* arr = pool->cursor;
+    pool->cursor = (int*)((unsigned int)arr + (((unsigned int)(count * 4 + 4) + 0x7f) & ~0x7f));
+    for (int i = 0; i < count; i++)
+        arr[i] = i;
+    arr[count] = -1;
+    ::fnv_00da4aa0::FUN_00da4aa0((*(::fnv_00da4aa0::Q30 *)(&streaming())), (*(const ::fnv_00da4aa0::Q14 *)(&big)), (*(const ::fnv_00da4aa0::Q24 * *)&(const ::AddressValue &)(AddressValue(&bHead->unk14))), (const unsigned int *)(arr), (*(::fnv_00da4aa0::Q6 *)(&d)));
+    ScratchArena* pool2 = (ScratchArena*)FUN_00c85750();
+    pool2->cursor = arr;
+}
+__forceinline void Agent::processCached(const Shape& a, const Shape& b, const Arg3& c, Arg4& d, const Vec4& vec,
+                                        Workspace& ws, StackObj& so, ScalarScratch& scratch, bool& retry)
+{
+    if (m_20w.w > c.m_08)
+    {
+        projectDistance(m_20w, vec);
+        if (m_20w.w > c.m_08)
+        {
+            if (m_32 != 0)
+                ::ReleaseAllEntries((::S_00dad640_Set *)(void *)(&unkp30), (::S_00dad640_Target *)(m_08), d.m_04);
+            return;
+        }
+    }
+    {
+        D33ProfBuf* pBuf;
+        pBuf = (D33ProfBuf*)TlsGetValue(DAT_0126835c);
+        scratch.first.monitor = pBuf;
+        Rec12* pRec = (Rec12*)pBuf->cursor;
+        if (pRec < (Rec12*)pBuf->end)
+        {
+            pRec->name = str_010ceca0;
+            _ReadWriteBarrier();
+            scratch.a.stamp = (unsigned int)__rdtsc();
+            pRec->tick = scratch.a.stamp;
+            scratch.first.monitor->cursor = (char*)(pRec + 1);
+        }
+        so.kind = 2;
+        so.m_06s = 1;
+        so.vptr = &DAT_010ceb44;
+        so.flag = 0;
+        so.saved = m_08;
+        m_08 = &so;
+        reinterpret_cast<::hkpPredGskfAgent *>(this)->FUN_00d42020((const ::hkpCdBody &)(a), (const ::hkpCdBody &)(b), (const ::GskAgentInput &)(c), (::WorldOperationEntry &)(d));
+        m_08 = so.saved;
+        if (so.flag == 0)
+        {
+            if (m_32 == 0)
+                return;
+            if (m_85 != 0)
+                return;
+            const Shape* pa = &b;
+            while (pa->m_0c)
+                pa = pa->m_0c;
+            scratch.radius = pa->m_4c;
+            const Shape* pb = &a;
+            while (pb->m_0c)
+                pb = pb->m_0c;
+            scratch.first.minimum = pb->m_4c;
+            double cachedDistance;
+            if (scratch.first.minimum < scratch.radius)
+            {
+                scratch.first.minimum = (const float&)(scratch.first.minimum * 1.0f);
+                cachedDistance = m_20w.w;
+            }
+            else
+            {
+                scratch.first.minimum = scratch.radius;
+                cachedDistance = m_20w.w;
+            }
+            scratch.radius = 2.0f * scratch.first.minimum;
+            if (!(cachedDistance < -scratch.radius))
+                return;
+        }
+        reinterpret_cast<::Container *>(&(ws))->FUN_00d33600((void *)&(a), (void *)&(b), (char *)&(d), (struct ::Callback *)(m_08));
+        reinterpret_cast<::hkObjD33E *>(this)->FUN_00d33ef0(d.m_04);
+        retry = true;
+        return;
+    }
+}
+// @fnv 0x00d33f40
+void Agent::FUN_00d33f40(const Shape& a, const Shape& b, const Arg3& c, Arg4& d)
+{
+    Workspace ws;
+    Vec4 vec;
+
+    ScalarScratch scratch;
+    CollObj co;
+    union
+    {
+        SStruct query;
+        StackObj manager;
+    } temp;
+
+    {
+        D33ProfBuf* pBuf;
+        Rec16* pRec = (Rec16*)(pBuf = (D33ProfBuf*)TlsGetValue(DAT_0126835c))->cursor;
+        if (pRec < (Rec16*)pBuf->end)
+        {
+            pRec->name = str_010ceb84;
+            pRec->name2 = str_010ceb7c;
+            _ReadWriteBarrier();
+            scratch.a.stamp = (unsigned int)__rdtsc();
+            pRec->tick = scratch.a.stamp;
+            pBuf->cursor = (char*)(pRec + 1);
+        }
+    }
+    scratch.last.shape = b.m_00;
+    scratch.first.dt = c.m_58;
+    calculateMotion(*a.m_08, *b.m_08, scratch, vec);
+    new ((void *)&(ws)) ::FUN_00d33670((const ::LargeOutput &)(d));
+    if (m_84 != 0)
+        goto project;
+stream: {
+    D33ProfBuf* pBuf;
+    pBuf = (D33ProfBuf*)TlsGetValue(DAT_0126835c);
+    scratch.first.monitor = pBuf;
+    Rec12* pRec = (Rec12*)pBuf->cursor;
+    if (pRec < (Rec12*)pBuf->end)
+    {
+        pRec->name = str_010ceb70;
+        _ReadWriteBarrier();
+        scratch.b.stamp = (unsigned int)__rdtsc();
+        pRec->tick = scratch.b.stamp;
+        scratch.first.monitor->cursor = (char*)(pRec + 1);
+    }
+    short oc = m_86;
+    m_86 = (short)(oc - 1);
+    if (oc >= 0)
+        goto sqrtpath;
+    m_86 = 0x19;
+    {
+        reinterpret_cast<::hkTransformCB22 *>(&(co))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(a.m_08)), (*(const ::hkTransformCB22 *)(b.m_08)));
+        SStruct& s = temp.query;
+        Vec4 objD;
+        s.a0 = a.m_00;
+        s.b0 = b.m_00;
+        s.pCo = &co;
+        s.pObjA = a.m_08;
+        s.f = c.m_08;
+        int res = FUN_00dabca0(&s, &m_0c, &m_20w, &objD);
+        if (res == 0)
+        {
+            streaming().distance = -m_20w.w;
+            goto sqrtpath;
+        }
+        reinterpret_cast<::FUN_00d33850_cls *>(this)->FUN_00d33850((int)(d.m_04));
+        reinterpret_cast<::Container *>(&(ws))->FUN_00d33600((void *)&(a), (void *)&(b), (char *)&(d), (struct ::Callback *)(m_08));
+    }
+}
+// Update cached separation before choosing GSK or cached-contact export.
+project: {
+    bool retry = false;
+    processCached(a, b, c, d, vec, ws, temp.manager, scratch, retry);
+    if (retry)
+        goto stream;
+    goto tail;
+}
+// Streaming path: reduce cached distance by motion length, then visit all shape keys.
+sqrtpath: {
+    __m128 vv = vec.quad;
+    __m128 sq = _mm_mul_ps(vv, vv);
+    __m128 sh1 = _mm_shuffle_ps(sq, sq, 0x55);
+    __m128 s1 = _mm_add_ss(sh1, sq);
+    __m128 sh2 = _mm_shuffle_ps(sq, sq, 0xaa);
+    __m128 s2 = _mm_add_ss(sh2, s1);
+    __m128 len = _mm_sqrt_ss(s2);
+    _mm_store_ss(&scratch.radius, len);
+    streaming().distance -= scratch.radius;
+    streamCollision(a, b, c, d, vec, scratch.last.shape);
+}
+tail:
+    m_85 = 1;
+    {
+        D33ProfBuf* pBuf;
+        unsigned long index = DAT_0126835c;
+        Rec12* pRec = (Rec12*)(pBuf = (D33ProfBuf*)profileBuffer(ProfileIndex(index)))->cursor;
+        if (pRec < (Rec12*)pBuf->end)
+        {
+            pRec->name = str_01076f38;
+            _ReadWriteBarrier();
+            scratch.last.stamp = (unsigned int)__rdtsc();
+            pRec->tick = scratch.last.stamp;
+            pBuf->cursor = (char*)(pRec + 1);
+        }
+    }
+}
 #include "generated/data/havok/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent.inc"
+#include "generated/data/havok/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent_rtm_variant.inc"

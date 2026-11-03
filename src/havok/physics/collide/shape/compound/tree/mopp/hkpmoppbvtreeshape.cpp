@@ -1101,4 +1101,151 @@ void hkpMoppBvTreeShapeD543::FUN_00d54380(const hkAabbD543& kAabbIn, hkArrayD543
 }
 }  // namespace fnv_00d54380
 
+// Moved from hkpmoppbvtreeshape_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/BundleMachine.h"
+#include "fnv/decl/fnv_00d543e0__FUN_00d543e0.h"
+#include "fnv/symbols_01091000.h"
+
+struct hkVector4q
+{
+    __m128 m_vComponents;
+    void operator=(const hkVector4q& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+};
+
+struct hkAabbq
+{
+    hkVector4q m_kMinimumCorner;
+    hkVector4q m_kMaximumCorner;
+};
+
+struct hkMoppAllocQ : public hkMemoryAllocatorD548
+{
+    virtual void unused0C() throw();
+    virtual void ReturnMemory(void* p, int numBytes) throw();
+};
+
+template <class T> struct hkArr
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    hkArr(T* buffer, int size, int capacity) : m_data(buffer), m_iElementCount(size), m_iCapacityState(capacity | 0x80000000)
+    {}
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    void _clearAndDeallocate(hkMemoryAllocatorD548& alloc)
+    {
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+        {
+            static_cast<hkMoppAllocQ&>(alloc).ReturnMemory(m_data, getCapacity() * sizeof(T));
+        }
+    }
+};
+
+enum BuildKindQ
+{
+    kPlainQ = 2
+};
+template <class E, class S> struct SmallEnumQ
+{
+    S value;
+    void operator=(E e)
+    {
+        value = (S)e;
+    }
+};
+struct ByteViewQ
+{
+    const unsigned char* pointer;
+    int size;
+    int cap;
+    void owned(const unsigned char* p, int n, int c)
+    {
+        pointer = p;
+        size = n;
+        cap = c;
+    }
+};
+
+struct hkMoppCodeInfoQ
+{
+    hkVector4q m_offset;
+};
+
+struct __declspec(align(16)) hkpMoppCodeQ
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    hkMoppCodeInfoQ m_info;
+    const void* m_data;
+    int m_iElementCount;
+    int m_pRayCursor;
+    unsigned char m_eBuildType;
+    void init(const hkMoppCodeInfoQ& info, const void* data, int size)
+    {
+        m_info = info;
+        m_data = data;
+        m_iElementCount = size;
+        m_pRayCursor = size;
+        m_eBuildType = 2;
+    }
+};
+
+struct hkMoppHitsQ
+{
+    hkArr<unsigned int>* m_kHits;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+
+};
+
+
+class hkMoppBvTreeShapeBaseQ : public hkMoppBvTreeShapeBase
+{
+  public:
+    int FUN_00d54810(const hkAabbq& aabbIn, unsigned int* hits, int maxNumKeys) const;
+};
+
+// @fnv 0x00d54810
+int hkMoppBvTreeShapeBaseQ::FUN_00d54810(const hkAabbq& aabbIn, unsigned int* hits, int maxNumKeys) const
+{
+    const hkVector4q& offset = reinterpret_cast<const hkVector4q&>(m_kMoppCodeInfo);
+
+    hkAabbq aabb;
+    int buffer[16];
+    hkpMoppCodeQ* code = (hkpMoppCodeQ*)(((unsigned int)buffer + 15) & ~15u);
+    code->init(reinterpret_cast<const hkMoppCodeInfoQ&>(offset), m_pMoppData, m_uiMoppDataSize);
+    float extent = (float)(::DAT_01091c00 / m_kMoppCodeInfo.w);
+    aabb.m_kMinimumCorner.m_vComponents = _mm_max_ps(offset.m_vComponents, aabbIn.m_kMinimumCorner.m_vComponents);
+    aabb.m_kMaximumCorner.m_vComponents =
+        _mm_min_ps(_mm_add_ps(_mm_set_ps1(extent), offset.m_vComponents), aabbIn.m_kMaximumCorner.m_vComponents);
+    hkArr<unsigned int> hitsArray(hits, 0, maxNumKeys);
+    hkMoppHitsQ machine;
+    reinterpret_cast<::GridCell *>(&(machine))->FUN_00dd1da0((::GridSource *)(code), (::GridBounds *)(&aabb), (int)(&hitsArray));
+    int numHits = machine.m_kHits->m_iElementCount;
+    hitsArray._clearAndDeallocate(FUN_00c85750().heap());
+    return numHits;
+}
 #include "generated/data/havok/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.inc"

@@ -147,3 +147,191 @@ unsigned int FUN_00d9e010_cls::FUN_00d9e010(unsigned int index)
 }
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
+
+// Moved from hkpcollidablemediator_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+
+// src/havok/physics/collide/util/kdtree/mediator/hkpcollidablemediator_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-27 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/collide/util/kdtree/mediator/hkpcollidablemediator.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// src/havok/physics/collide/util/kdtree/mediator/hkpcollidablemediator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/kdtree/mediator/hkpcollidablemediator.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
+#include "fnv/symbols_00cf8000.h"
+#include "fnv/symbols_01267000.h"
+
+#include <emmintrin.h>
+#include "fnv/symbols_simd.h"
+
+
+struct hkAabbQ
+{
+    __m128 m_kMinimumCorner;
+    __m128 m_kMaximumCorner;
+};
+
+struct __declspec(align(16)) hkAabbUint32Q
+{
+    unsigned int m_kMinimumCorner[3];
+    unsigned char m_ucExpansionMin[3];
+    unsigned char m_ucExpansionShift;
+    unsigned int m_kMaximumCorner[3];
+    unsigned char m_ucExpansionMax[3];
+    unsigned char m_expansionMaxXYZ;
+
+    __forceinline bool isValid() const { return m_kMinimumCorner[0] <= m_kMaximumCorner[0]; }
+};
+
+
+class ShapeQ
+{
+public:
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void getAabb(const void* localToWorld, float tolerance, hkAabbQ& out) const;
+};
+
+struct BroadPhaseQ
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    __m128 m_kVectorAt40;
+    __m128 m_kVectorAt50;
+    __m128 m_vScale;
+};
+
+struct WorldQ
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    BroadPhaseQ* m_pJobSemaphore;
+};
+
+struct WorldObjectQ
+{
+    int unk00;
+    int unk04;
+    WorldQ* m_pOwningWorld;
+};
+
+struct CollidableQ
+{
+    ShapeQ* m_pCollisionShape;
+    unsigned int m_uiCollisionShapeKey;
+    const void* m_pMotionState;
+    const void* m_parent;
+    signed char m_iOwnerOffset;
+    unsigned char unk11;
+    unsigned char unk12;
+    unsigned char unk13;
+    int unk14;
+    int unk18;
+    int unk1c;
+    hkAabbUint32Q m_kBoundingVolumeData;
+
+    WorldObjectQ* getOwner() const { return (WorldObjectQ*)((char*)this + m_iOwnerOffset); }
+};
+
+union hkVec4U
+{
+    __m128 m_vComponents;
+    float m_f[4];
+    __forceinline float operator()(int i) const { return m_f[i]; }
+};
+
+static __forceinline void convertToUint32WithClip(const __m128& in, const __m128& offset, const __m128& scale,
+                                                  const __m128& maxVal, const __m128& minVal, unsigned int* out)
+{
+    hkVec4U x;
+    x.m_vComponents = _mm_add_ps(in, offset);
+    x.m_vComponents = _mm_mul_ps(x.m_vComponents, scale);
+    x.m_vComponents = _mm_min_ps(x.m_vComponents, maxVal);
+    x.m_vComponents = _mm_max_ps(x.m_vComponents, minVal);
+    out[0] = fnv_FloatToInt(x(0));
+    out[1] = fnv_FloatToInt(x(1));
+    out[2] = fnv_FloatToInt(x(2));
+    out[3] = fnv_FloatToInt(x(3));
+}
+
+// @fnv 0x00d9e020
+void FUN_00d9e020(const CollidableQ* collidable, __m128i* out)
+{
+    hkAabbUint32Q aabb32;
+    const hkAabbUint32Q& bv = collidable->m_kBoundingVolumeData;
+    if (bv.isValid())
+    {
+        ::FUN_00cf8690((::hkAabbUint32 *)(::hkAabbUint32Q *)(&aabb32), (const ::hkAabbUint32 *)(const ::hkAabbUint32Q *)(&collidable->m_kBoundingVolumeData));
+    }
+    else
+    {
+        hkAabbQ aabb;
+        WorldQ* world = collidable->getOwner()->m_pOwningWorld;
+        collidable->m_pCollisionShape->getAabb(collidable->m_pMotionState, 0.0f, aabb);
+        BroadPhaseQ* bp = world->m_pJobSemaphore;
+        __m128 maxVal = DAT_011b6d70;
+        convertToUint32WithClip(aabb.m_kMinimumCorner, bp->m_kVectorAt40, bp->m_vScale, maxVal, (*reinterpret_cast<const __m128 *>(&::DAT_01267e30)), aabb32.m_kMinimumCorner);
+        convertToUint32WithClip(aabb.m_kMaximumCorner, bp->m_kVectorAt50, bp->m_vScale, maxVal, (*reinterpret_cast<const __m128 *>(&::DAT_01267e30)), aabb32.m_kMaximumCorner);
+        aabb32.m_ucExpansionShift = 0;
+        aabb32.m_ucExpansionMin[0] = 0;
+        aabb32.m_ucExpansionMin[1] = 0;
+        aabb32.m_ucExpansionMin[2] = 0;
+        aabb32.m_ucExpansionMax[0] = 0;
+        aabb32.m_ucExpansionMax[1] = 0;
+        aabb32.m_ucExpansionMax[2] = 0;
+    }
+
+    __m128i mi = _mm_load_si128((const __m128i*)aabb32.m_kMinimumCorner);
+    __m128i ma = _mm_load_si128((const __m128i*)aabb32.m_kMaximumCorner);
+    mi = _mm_slli_epi32(mi, 1);
+    ma = _mm_adds_epu16(_mm_slli_epi32(ma, 1), _mm_set1_epi16(1));
+
+    union { __m128i m_vComponents; unsigned short m_u16[8]; } r;
+    r.m_u16[0] = reinterpret_cast<unsigned short*>(&mi)[1];
+    r.m_u16[1] = reinterpret_cast<unsigned short*>(&mi)[3];
+    r.m_u16[2] = reinterpret_cast<unsigned short*>(&mi)[5];
+    r.m_u16[3] = reinterpret_cast<unsigned short*>(&mi)[7];
+    r.m_u16[4] = reinterpret_cast<unsigned short*>(&ma)[1];
+    r.m_u16[5] = reinterpret_cast<unsigned short*>(&ma)[3];
+    r.m_u16[6] = reinterpret_cast<unsigned short*>(&ma)[5];
+    r.m_u16[7] = reinterpret_cast<unsigned short*>(&ma)[7];
+    *out = r.m_vComponents;
+}

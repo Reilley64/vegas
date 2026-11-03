@@ -704,4 +704,231 @@ FUN_00cbb4e0::FUN_00cbb4e0(int arg)
     reinterpret_cast<::SStringPtr *>((((Ms_N*)&m_name)))->FUN_00cb0c10("hkpMouseSpringAction");
 }
 
+// Moved from hkpmousespringaction_rtm_variant.cpp (VEGAS-15).
+#include <cmath>
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_00561800_Class.h"
+#include "fnv/decl/FUN_00c7f750_shell.h"
+#include "fnv/decl/MProduct.h"
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/decl/S00cd4cc0_M.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_0106c000.h"
+int __cdecl FUN_00cbb8a0();
+
+
+
+struct hkStepInfo
+{
+    hkReal m_uiStartTime;
+    hkReal m_fEndTime;
+    hkReal m_fTimeStep;
+    hkReal m_fInverseDeltaTime;
+};
+
+struct FUN_00ca86c0_class
+{
+    unsigned int FUN_00ca86c0();
+};
+
+struct FUN_00cdf250_class
+{
+};
+
+struct Vector4Ext : hkVector4
+{
+    void FUN_00c7f640(const hkTransform* t, const hkVector4* v);
+};
+
+struct Matrix3Ext : FUN_00cdf250_class, hkMatrix3
+{
+    void Subtract(const hkMatrix3* a);
+};
+
+struct MotionExt
+{
+    virtual void unk0();
+    virtual void unk1();
+    virtual void unk2();
+    virtual void unk3();
+    virtual void unk4();
+    virtual void unk5();
+    virtual void unk6();
+    virtual void unk7();
+    virtual void unk8();
+    virtual void unk9();
+    virtual void GetLocalInverseInertia(hkMatrix3* out);
+    virtual void unk11();
+    virtual void unk12();
+    virtual void unk13();
+    virtual void unk14();
+    virtual void unk15();
+    virtual void unk16();
+    virtual void unk17();
+    virtual void unk18();
+    virtual void unk19();
+    virtual void ApplyImpulseAtPoint(const hkVector4* impulse, const hkVector4* point);
+
+    int unk04;
+    int unk08;
+    int unk0c;
+    hkTransform m_kMotionTransform;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    hkVector4 m_centerOfMassInWorld;
+    hkVector4 unk70;
+    hkVector4 unk80;
+    hkVector4 unk90;
+    hkVector4 unka0;
+    hkVector4 unkb0;
+    hkVector4 m_kInertiaAndMassInv;
+    hkVector4 m_kTranslationalVelocity;
+    hkVector4 m_kAngularVelocity;
+
+};
+
+struct RigidBodyExt : FUN_00ca86c0_class
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    hkVector4 unk10;
+    hkVector4 unk20;
+    hkVector4 unk30;
+    hkVector4 unk40;
+    hkVector4 unk50;
+    hkVector4 unk60;
+    hkVector4 unk70;
+    hkVector4 unk80;
+    hkVector4 unk90;
+    hkVector4 unka0;
+    hkVector4 unkb0;
+    hkVector4 unkc0;
+    hkVector4 unkd0;
+    MotionExt m_pMotionState;
+
+    void FUN_00ca0c40(const hkVector4* point, hkVector4* outVel);
+};
+
+typedef void(__cdecl* MouseSpringCallback)(hkpMouseSpringAction*, const hkStepInfo&, const hkVector4&);
+
+struct MouseSpringActionExt : hkpMouseSpringAction
+{
+    void FUN_00cbb1e0(const hkStepInfo& stepInfo);
+};
+
+// @fnv 0x00cbb1e0
+void MouseSpringActionExt::FUN_00cbb1e0(const hkStepInfo& stepInfo)
+{
+    Vector4Ext impulse;
+    Vector4Ext worldPos;
+    Vector4Ext r;
+    Vector4Ext angVel;
+    struct MassAndVelocity
+    {
+        Matrix3Ext K;
+        Vector4Ext lin;
+        Vector4Ext ang;
+    } work;
+    Vector4Ext deltaPos;
+    Matrix3Ext crossR;
+    struct InertiaProducts
+    {
+        Matrix3Ext tempMat1;
+        Matrix3Ext inertiaInvWorld;
+        Matrix3Ext tempMat2;
+    } matrices;
+    float maxImpulse;
+    float lenSq;
+
+    RigidBodyExt* rb = (RigidBodyExt*)m_pEntity;
+
+    worldPos.FUN_00c7f640(&rb->m_pMotionState.m_kMotionTransform, &m_kMousePositionInWorld);
+
+    *(__m128*)&deltaPos = _mm_sub_ps(*(__m128*)&worldPos, *(__m128*)&m_kGrabPointInBodySpace);
+
+    MotionExt* motion = rb->FUN_00ca86c0() ? (MotionExt*)rb->FUN_00ca86c0() : &rb->m_pMotionState;
+
+    __m128 invMassVec =
+        _mm_shuffle_ps(*(__m128*)&motion->m_kInertiaAndMassInv, *(__m128*)&motion->m_kInertiaAndMassInv, 0xff);
+    _mm_store_ss(&maxImpulse, invMassVec);
+
+    *(__m128*)&r = _mm_sub_ps(*(__m128*)&worldPos, *(__m128*)&rb->m_pMotionState.m_centerOfMassInWorld);
+
+    reinterpret_cast<::S00cd4cc0_M *>(&(crossR))->FUN_00cd4cc0((const float *)(const ::hkVector4 *)(&r));
+
+    motion->GetLocalInverseInertia(&matrices.inertiaInvWorld);
+
+    *(__m128*)&work.K.m_kColumn0 = _mm_setzero_ps();
+    work.K.m_kColumn0.x = maxImpulse;
+    *(__m128*)&work.K.m_kColumn1 = _mm_setzero_ps();
+    work.K.m_kColumn1.y = maxImpulse;
+    *(__m128*)&work.K.m_kColumn2 = _mm_setzero_ps();
+    work.K.m_kColumn2.z = maxImpulse;
+
+    reinterpret_cast<::MProduct *>(&(matrices.tempMat1))->FUN_00cd55b0((*(const ::MProduct *)((int*)&crossR)), (*(const ::MProduct *)((int)&matrices.inertiaInvWorld)));
+    reinterpret_cast<::MProduct *>(&(matrices.tempMat2))->FUN_00cd55b0((*(const ::MProduct *)((int*)&matrices.tempMat1)), (*(const ::MProduct *)((int)&crossR)));
+
+    work.K.Subtract(&matrices.tempMat2);
+
+    if (reinterpret_cast<::hkMatrix3 *>(&(work.K))->FUN_00cd4f10(DAT_0106c288) == 0)
+    {
+        *(__m128*)&work.lin = *(__m128*)&rb->m_pMotionState.m_kTranslationalVelocity;
+        __m128 dampLoad1 = _mm_load_ss(&m_fTau);
+        __m128 dampSplat1 = _mm_shuffle_ps(dampLoad1, dampLoad1, 0);
+        *(__m128*)&work.lin = _mm_mul_ps(*(__m128*)&work.lin, dampSplat1);
+        reinterpret_cast<::FUN_005616d0_Owner *>((rb))->OnTrigger((::TriggerContext *)(&work.lin));
+
+        *(__m128*)&work.ang = *(__m128*)&rb->m_pMotionState.m_kAngularVelocity;
+        __m128 dampLoad2 = _mm_load_ss(&m_fTau);
+        __m128 dampSplat2 = _mm_shuffle_ps(dampLoad2, dampLoad2, 0);
+        *(__m128*)&work.ang = _mm_mul_ps(*(__m128*)&work.ang, dampSplat2);
+        reinterpret_cast<::FUN_00561800_Class *>((rb))->FUN_00561800((::FUN_00561730_Obj *)(&work.ang));
+
+        rb->FUN_00ca0c40(&worldPos, &r);
+
+        float springFactor = m_fSpringElasticity * stepInfo.m_fInverseDeltaTime;
+        __m128 term1 =
+            _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&springFactor), _mm_load_ss(&springFactor), 0), *(__m128*)&deltaPos);
+        *(__m128*)&angVel = term1;
+        __m128 sdLoad = _mm_load_ss(&m_fSpringDamping);
+        __m128 sdSplat = _mm_shuffle_ps(sdLoad, sdLoad, 0);
+        __m128 term2 = _mm_mul_ps(sdSplat, *(__m128*)&r);
+        *(__m128*)&angVel = _mm_add_ps(term2, term1);
+
+        reinterpret_cast<::FUN_00c7f750_shell *>(&(impulse))->FUN_00c7f750((float *)(&work.K), (float *)(&angVel));
+
+        *(__m128*)&impulse = _mm_xor_ps(*(__m128*)&impulse, *(__m128*)&(*reinterpret_cast<::hkVector4 *>((void *)&::DAT_010c44d0)));
+
+        __m128 sq = _mm_mul_ps(*(__m128*)&impulse, *(__m128*)&impulse);
+        __m128 y = _mm_shuffle_ps(sq, sq, 0x55);
+        __m128 xy = _mm_add_ss(y, sq);
+        __m128 z = _mm_shuffle_ps(sq, sq, 0xaa);
+        __m128 xyz = _mm_add_ss(z, xy);
+        _mm_store_ss(&lenSq, xyz);
+
+        maxImpulse = reinterpret_cast<::MotionMassView *>((motion))->FUN_00c86430();
+        maxImpulse = stepInfo.m_fTimeStep * maxImpulse * m_fMaxRelativeForce;
+
+        if (lenSq > maxImpulse * maxImpulse)
+        {
+            float sqrtLen = (float)sqrt(lenSq);
+            float invLen = 1.0f / sqrtLen;
+            float scale = invLen * maxImpulse;
+            *(__m128*)&impulse =
+                _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&scale), _mm_load_ss(&scale), 0), *(__m128*)&impulse);
+        }
+
+        reinterpret_cast<::hkpEntityC9C *>((rb))->FUN_00c9c1d0();
+        rb->m_pMotionState.ApplyImpulseAtPoint(&impulse, &worldPos);
+
+        for (int i = 0; i < m_kAppliedCallbacks.m_iElementCount; ++i)
+        {
+            ((MouseSpringCallback*)m_kAppliedCallbacks.m_data)[i](this, stepInfo, impulse);
+        }
+    }
+}
 #include "generated/data/havok/physics/utilities/actions/mousespring/hkpmousespringaction.inc"

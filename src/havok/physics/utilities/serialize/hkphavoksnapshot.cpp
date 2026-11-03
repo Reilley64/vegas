@@ -73,6 +73,8 @@ struct D481D0RefVariant
 
     D481D0RefVariant() : m_ptr(0)
     {}
+public:
+    void set(D481D0ReferencedObject* obj, const D481D0Class* pClassInfo);
 };
 
 struct FUN_00d481d0
@@ -426,3 +428,410 @@ unsigned char* FUN_00cc0b50(unsigned char* apResult, unsigned int a2, unsigned i
     return apResult;
 }
 }  // namespace fnv_00cc0b50
+
+// Moved from hkphavoksnapshot_ehsc_noehsc_variant.cpp (VEGAS-15).
+
+// src/havok/physics/utilities/serialize/hkphavoksnapshot_ehsc_noehsc_variant.cpp - flag-variant unit created 2026-10-27 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS /EHs-c- /Gy (unit src/havok/physics/utilities/serialize/hkphavoksnapshot.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// src/havok/physics/utilities/serialize/hkphavoksnapshot.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkphavoksnapshot.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include "fnv/decl/FUN_00d46d40_s.h"
+#include "fnv/decl/fnv_00cc0ae0__FUN_00cc0ae0_cls.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00cc0000.h"
+
+struct hkMemoryAllocator
+{
+    virtual void reserved0();
+    virtual void FunctionAtSlot4();
+    virtual void VirtualFunction8();
+    virtual void reservedC();
+    virtual void ReturnMemory(void* p, int numBytes);
+};
+struct hkMemoryRouterS
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    hkMemoryAllocator* m_pStreamAllocator;
+    hkMemoryAllocator& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+};
+inline hkMemoryRouterS* getRouter()
+{
+    return (hkMemoryRouterS*)FUN_00c85750();
+}
+
+struct HavokElementArray;
+
+struct hkClassS
+{
+};
+struct hkReferencedObjectS
+{
+};
+struct hkStringPtr
+{
+    const char* m_pcText;
+    hkStringPtr();
+    ~hkStringPtr();
+    void operator=(const char* s);
+};
+struct hkRefVariantS
+{
+    hkReferencedObjectS* m_pRetainedObject;
+    hkRefVariantS() : m_pRetainedObject(0)
+    {}
+    __forceinline ~hkRefVariantS()
+    {
+        if (m_pRetainedObject)
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
+        m_pRetainedObject = 0;
+    }
+};
+struct NamedVariantS
+{
+    hkStringPtr m_name;
+    hkStringPtr m_pClassName;
+    hkRefVariantS m_pReferencedResource;
+
+    __forceinline NamedVariantS()
+    {}
+    __forceinline ~NamedVariantS()
+    {}
+
+    __forceinline void set(const char* name, const void* object, const hkClassS* pClassInfo)
+    {
+        reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(m_name))->FUN_00cb0c10(name);
+        reinterpret_cast<::FUN_00d47770 *>(&(m_pReferencedResource))->SetObject((::hkReferencedObject *)(object), (int)(pClassInfo));
+        reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(m_pClassName))->FUN_00cb0c10(((const ::hkClassS *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0())) ? reinterpret_cast<::FnvClassNameNode *>((void *)(((const ::hkClassS *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0()))))->FUN_00d46d40() : 0);
+    }
+};
+inline void* operator new(size_t, void* p)
+{
+    return p;
+}
+
+template <typename T> __forceinline void destruct(T* t, int n)
+{
+    for (int i = 0; i < n; i++)
+        t[i].~T();
+}
+
+struct NamedVariantArray
+{
+    NamedVariantS* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    __forceinline NamedVariantArray() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    __forceinline ~NamedVariantArray()
+    {
+        hkMemoryAllocator& a = getRouter()->heap();
+        destruct(m_data, m_iElementCount);
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            a.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(NamedVariantS));
+    }
+    __forceinline NamedVariantS& AllocatePair()
+    {
+        hkMemoryAllocator& a = getRouter()->heap();
+        if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&a), (::AudioStream *)(void *)(this), sizeof(NamedVariantS));
+        new (m_data + m_iElementCount) NamedVariantS();
+        return m_data[m_iElementCount++];
+    }
+};
+struct hkRootLevelContainerS
+{
+    NamedVariantArray m_kNamedVariants;
+    __forceinline hkRootLevelContainerS()
+    {}
+    __forceinline ~hkRootLevelContainerS()
+    {}
+};
+struct hkResultS
+{
+    int m_pClassEnum;
+    hkResultS();
+};
+hkResultS __cdecl FUN_00cc0b50(const void* object, const void* pClassInfo, int a3, int a4, int a5, int a6);
+
+// @fnv 0x00cc0bc0
+hkResultS __cdecl FUN_00cc0bc0(const void* object, const hkClassS& pClassInfo, int a3, int a4, int a5)
+{
+    hkRootLevelContainerS container;
+    container.m_kNamedVariants.AllocatePair().set(reinterpret_cast<::FnvClassNameNode *>((void *)&(pClassInfo))->FUN_00d46d40(), object, &pClassInfo);
+    return FUN_00cc0b50(&container, &(*reinterpret_cast<int *>(&::g_01268b54)), a3, a4, a5, 0);
+}
+
+// Moved from hkphavoksnapshot_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/FUN_00d61700_cls.h"
+#include "fnv/decl/FUN_00d61df0_cls.h"
+#include "fnv/decl/hkStringD618.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_01044000.h"
+#include "fnv/symbols_01063000.h"
+#include "fnv/symbols_011b3000.h"
+
+#include <windows.h>
+struct DirAllocator
+{
+    virtual void reserved00();
+    virtual void reserved04();
+    virtual void reserved08();
+    virtual void reserved0c();
+    virtual void freeBuffer(void*, int);
+    template <class T> inline void freeElements(void* p, int count)
+    {
+        const int itemSize = sizeof(T);
+        freeBuffer(p, count * itemSize);
+    }
+};
+struct DirRouter
+{
+    int unk00, unk04, unk08;
+    DirAllocator* temporary;
+};
+namespace DirectoryMemory {
+DirRouter& __cdecl FUN_00c85750();
+}
+__forceinline DirAllocator& tempAllocator()
+{
+    return *DirectoryMemory::FUN_00c85750().temporary;
+}
+void __cdecl reserveDirectoryBuffer(DirAllocator&, void*, int, int);
+
+template <class T> struct DirArrayBase
+{
+    T* data;
+    int count;
+    int capacityFlags;
+    __forceinline DirArrayBase(T* p, int n, int capacity) : data(p), count(n), capacityFlags(capacity | 0x80000000)
+    {}
+    __forceinline ~DirArrayBase()
+    {}
+    __forceinline int capacity() const
+    {
+        return capacityFlags & 0x3fffffff;
+    }
+    __forceinline void reserve(DirAllocator& allocator, int n)
+    {
+        int old = capacity();
+        if (old < n)
+        {
+            int doubled = old * 2;
+            reserveDirectoryBuffer(allocator, this, n < doubled ? doubled : n, sizeof(T));
+        }
+    }
+    __forceinline void resize(DirAllocator& allocator, int n)
+    {
+        reserve(allocator, n);
+        count = n;
+    }
+    __forceinline void release(DirAllocator& allocator)
+    {
+        count = 0;
+        if ((capacityFlags & 0x80000000) == 0)
+            allocator.freeElements<T>(data, capacity());
+        data = 0;
+        capacityFlags = 0x80000000;
+    }
+};
+template <class T> struct DirTempArray : DirArrayBase<T>
+{
+    __forceinline DirTempArray(T* p, int n, int capacity) : DirArrayBase<T>(p, n, capacity)
+    {}
+    __forceinline ~DirTempArray()
+    {
+        DirRouter* router = &DirectoryMemory::FUN_00c85750();
+        DirAllocator* allocator = router->temporary;
+        this->count = 0;
+        if ((this->capacityFlags & 0x80000000) == 0)
+            allocator->freeBuffer(this->data, this->capacityFlags & 0x3fffffff);
+        this->data = 0;
+        this->capacityFlags = 0x80000000;
+    }
+    __forceinline void resize(int n)
+    {
+        DirArrayBase<T>::resize(tempAllocator(), n);
+    }
+};
+template <class T, unsigned N> struct DirInlineArray : DirTempArray<T>
+{
+    T storage[N];
+    __forceinline DirInlineArray() : DirTempArray<T>(storage, 0, N)
+    {}
+    __forceinline ~DirInlineArray()
+    {}
+};
+struct DirectoryString
+{
+    DirInlineArray<char, 128> chars;
+    __forceinline ~DirectoryString()
+    {}
+    inline int length() const
+    {
+        return chars.count - 1;
+    }
+    inline const char* text() const
+    {
+        return chars.data;
+    }
+    inline operator const char*() const
+    {
+        return chars.data;
+    }
+    inline void setLength(int n)
+    {
+        chars.resize(n + 1);
+        chars.data[n] = 0;
+    }
+};
+
+struct InitBuffer : DirectoryString
+{
+    __forceinline ~InitBuffer()
+    {}
+    InitBuffer()
+    {
+        setLength(0);
+        chars.data[0] = 0;
+    }
+};
+struct FUN_00d61a50 : DirectoryString
+{
+    __forceinline ~FUN_00d61a50()
+    {}
+    FUN_00d61a50(const char*);
+};
+
+struct DirectoryFlags
+{
+    unsigned bits;
+    inline DirectoryFlags()
+    {}
+    inline DirectoryFlags(unsigned b) : bits(b)
+    {}
+};
+struct DirectoryItem
+{
+    const char* name;
+    unsigned modified;
+    DirectoryFlags flags;
+};
+struct DirectoryArray
+{
+    DirectoryItem* data;
+    int count, capacityFlags;
+    __forceinline DirectoryItem& expand(DirAllocator& allocator)
+    {
+        if (count == (capacityFlags & 0x3fffffff))
+            ::ResizeAudioStream((::AudioAllocator *)&(allocator), (::AudioStream *)(void *)(this), sizeof(DirectoryItem));
+        return data[count++];
+    }
+};
+struct DirectoryOutput
+{
+    DirectoryArray entries;
+    DirAllocator* allocator;
+    __forceinline void add(const char* name, DirectoryFlags flags, unsigned modified = 0)
+    {
+        DirectoryItem& item = entries.expand(*allocator);
+        item.name = ::FUN_00cb1160(name, (void *)&(*allocator));
+        item.flags = flags;
+        item.modified = modified;
+    }
+    __forceinline void addDirectory(const char* name)
+    {
+        add(name, 2);
+    }
+    __forceinline void addFile(const char* name, unsigned modified = 0)
+    {
+        add(name, 1, modified);
+    }
+};
+typedef const char*(__cdecl* DirectoryConvert)(const char*, DirectoryString&);
+extern const char DAT_0101ffbc[], DAT_010a2560[];
+struct DirectoryBool
+{
+    char value;
+    inline DirectoryBool()
+    {}
+    inline DirectoryBool(bool b)
+    {
+        value = static_cast<char>(b);
+    }
+    inline operator bool() const
+    {
+        return value != 0;
+    }
+    inline DirectoryBool& operator=(bool b)
+    {
+        value = static_cast<char>(b);
+        return *this;
+    }
+};
+enum DirectoryResult
+{
+    DirectorySuccess,
+    DirectoryFailure
+};
+
+// @fnv 0x00da25a0
+DirectoryResult __cdecl FUN_00da25a0(const char* input, DirectoryOutput& listing)
+{
+    InitBuffer path;
+    {
+        FUN_00d61a50 normalized(input);
+        if (normalized.length() > 0)
+        {
+            reinterpret_cast<::hkStringD618 *>(&(normalized))->ReplaceChar('\\', '/', 1);
+            if (!reinterpret_cast<::FUN_00d61700_cls *>((void *)&(normalized))->EndsWith((char *)(DAT_01063cbc)))
+                reinterpret_cast<::FUN_00d61df0_cls *>(&(normalized))->FUN_00d61df0((int)(DAT_01063cbc));
+            (*reinterpret_cast<const char *(**)(const char *, DirectoryString &)>(&::DAT_011b3dc0))(normalized.text(), path);
+        }
+    }
+    DWORD attrs = GetFileAttributesA(path);
+    if (attrs == INVALID_FILE_ATTRIBUTES)
+        return DirectoryFailure;
+    bool valid = (attrs & FILE_ATTRIBUTE_DIRECTORY) != 0;
+    if (!valid)
+        return DirectoryFailure;
+    if (path.length())
+        reinterpret_cast<::FUN_00d61df0_cls *>(&(path))->FUN_00d61df0((int)(DAT_0101ffbc));
+    WIN32_FIND_DATAA found;
+    HANDLE handle = FindFirstFileA(path, &found);
+    DirectoryBool more = handle != INVALID_HANDLE_VALUE;
+    while (more)
+    {
+        if (::fnv_00cb0fa0::FUN_00cb0fa0(found.cFileName, DAT_01044c28) && ::fnv_00cb0fa0::FUN_00cb0fa0(found.cFileName, DAT_010a2560))
+        {
+            bool directory = (found.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+            if (directory)
+            {
+                listing.addDirectory(found.cFileName);
+            }
+            else
+            {
+                LARGE_INTEGER epoch = {0};
+                epoch.QuadPart = 0x19db1ded53e8000LL;
+                __int64 seconds = (*(__int64*)&found.ftLastWriteTime - epoch.QuadPart) / 10000000;
+                listing.addFile(found.cFileName, (unsigned)seconds);
+            }
+        }
+        more = FindNextFileA(handle, &found) != 0;
+    }
+    FindClose(handle);
+    return DirectorySuccess;
+}
+#include "generated/data/havok/physics/utilities/serialize/hkphavoksnapshot_gs_ehsc_nogs_noehsc_variant.inc"

@@ -627,6 +627,8 @@ struct SmallType
     unsigned char m_42;
     unsigned char m_43;
     ArrayField m_ppData;
+public:
+    void FUN_00d065e0(void);
 };
 
 struct AllocType
@@ -867,3 +869,551 @@ FUN_00d4c250::~FUN_00d4c250()
         reinterpret_cast<::hkReferencedObjectC905 *>((m_children.m_data[i]))->FUN_00c905b0();
 }
 }  // namespace fnv_00d4c250
+
+// Moved from hkpphysicsdata_ehsc_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/FUN_00d061b0_Class.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/fnv_00d061f0__FUN_00d061f0_Class.h"
+#include "fnv/decl/hkOwnerD064.h"
+#include "fnv/decl/hkOwnerXd06540.h"
+#include "fnv/decl/hkOwnerXd06590.h"
+static void FUN_00d4bf70(Owner* owner, Entity* volatile entityArg, MemberPtr valueArg);
+void probeCaller();
+
+struct SplitPlace
+{
+};
+inline void* operator new(size_t, void* p, SplitPlace)
+{
+    return p;
+}
+inline void operator delete(void*, void*, SplitPlace)
+{}
+struct SplitRef
+{
+    virtual ~SplitRef();
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+};
+class SplitBool
+{
+    char value;
+
+  public:
+    inline SplitBool()
+    {}
+    inline SplitBool(bool b)
+    {
+        value = (char)b;
+    }
+    inline operator bool() const
+    {
+        return value != 0;
+    }
+    inline SplitBool& operator=(bool b)
+    {
+        value = (char)b;
+        return *this;
+    }
+    inline SplitBool operator==(bool b) const
+    {
+        return (int)value == (int)b;
+    }
+    inline SplitBool operator!=(bool b) const
+    {
+        return (int)value != (int)b;
+    }
+};
+
+struct SplitAllocator
+{
+    virtual void vf00();
+    virtual void* alloc(int);
+    virtual void vf08();
+    virtual void vf0c();
+    virtual void freeBuffer(void*, int);
+    template <class T> inline void freeItems(void* p, int count)
+    {
+        freeBuffer(p, count * sizeof(T));
+    }
+};
+struct SplitRouter
+{
+    int unk00, unk04, unk08, unk0c;
+    SplitAllocator* heap;
+    inline SplitAllocator& allocator()
+    {
+        return *heap;
+    }
+};
+struct SplitHeap
+{
+    inline SplitAllocator& get(const void*)
+    {
+        return ((SplitRouter*)FUN_00c85750())->allocator();
+    }
+};
+template <class T> static __forceinline void copyItems(T* dest, int count, const T& item)
+{
+    for (int i = 0; i < count; ++i)
+        dest[i] = item;
+}
+template <class T> struct SplitArrayBase
+{
+    T* data;
+    int size;
+    int capacity;
+    __forceinline SplitArrayBase() : data(0), size(0), capacity(0x80000000)
+    {}
+    __forceinline void clearWith(SplitAllocator& alloc)
+    {
+        size = 0;
+        if (!(capacity & 0x80000000))
+            alloc.freeItems<T>(data, getCapacity());
+        data = 0;
+        capacity = 0x80000000;
+    }
+    __forceinline int GetLogicalSize() const
+    {
+        return size;
+    }
+    __forceinline int getCapacity() const
+    {
+        return capacity & 0x3fffffff;
+    }
+    __forceinline int indexOf(const T& item, int start = 0, int end = -1) const
+    {
+        if (end < 0)
+            end = size;
+        for (int i = start; i < end; ++i)
+            if (data[i] == item)
+                return i;
+        return -1;
+    }
+    __forceinline const T& operator[](int i) const
+    {
+        return data[i];
+    }
+    __forceinline T& operator[](int i)
+    {
+        return data[i];
+    }
+    __forceinline void appendWith(SplitAllocator& alloc, const T& item)
+    {
+        if (size == getCapacity())
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
+        copyItems(data + size, 1, item);
+        ++size;
+    }
+};
+template <class T> struct SplitArray : SplitArrayBase<T>
+{
+    __forceinline SplitArray()
+    {}
+    __forceinline ~SplitArray()
+    {
+        clearWith(SplitHeap().get(this));
+    }
+    __forceinline void AddBack(const T& item)
+    {
+        appendWith(SplitHeap().get(this), item);
+    }
+};
+struct SplitName
+{
+    char* text;
+    __forceinline SplitName& operator=(const char* str)
+    {
+        return (*(::SplitName *)(reinterpret_cast<::SStringPtr *>(this)->FUN_00cb0c10(str)));
+    }
+};
+struct SplitBody;
+struct SplitEntity;
+struct SplitConstraint
+{
+    int unk00, unk04, unk08, unk0c, unk10;
+    SplitEntity* bodyA;
+    SplitEntity* bodyB;
+    __forceinline SplitEntity* getEntityA() const
+    {
+        return bodyA;
+    }
+    __forceinline SplitEntity* getEntityB() const
+    {
+        return bodyB;
+    }
+    __forceinline SplitEntity* getOtherEntity(const SplitEntity* item) const
+    {
+        return (SplitEntity*)((unsigned int)bodyA ^ (unsigned int)bodyB ^ (unsigned int)item);
+    }
+};
+struct SplitAction
+{
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0c();
+    virtual void GetEntities(SplitArray<SplitEntity*>&);
+};
+struct SplitSystem : SplitRef
+{
+    virtual ~SplitSystem() throw();
+    SplitArray<SplitBody*> bodies;
+    SplitArray<SplitConstraint*> constraints;
+    SplitArray<SplitAction*> actions;
+    SplitArray<void*> phantoms;
+    SplitName name;
+    unsigned long userData;
+    SplitBool active;
+    static __forceinline void* operator new(size_t bytes)
+    {
+        SplitRef* p = (SplitRef*)((SplitRouter*)FUN_00c85750())->allocator().alloc(bytes);
+        p->m_usMemSizeAndFlags = (unsigned short)bytes;
+        return p;
+    }
+
+    __forceinline const SplitArray<SplitBody*>& getRigidBodies() const
+    {
+        return bodies;
+    }
+    __forceinline const SplitArray<SplitConstraint*>& getConstraints() const
+    {
+        return constraints;
+    }
+    __forceinline const SplitArray<SplitAction*>& getActions() const
+    {
+        return actions;
+    }
+    __forceinline const SplitArray<void*>& getPhantomArray() const
+    {
+        return phantoms;
+    }
+    __forceinline void SetParentObject(const char* str)
+    {
+        name = str;
+    }
+    __forceinline unsigned long getUserData() const
+    {
+        return userData;
+    }
+    __forceinline void setUserData(unsigned long p)
+    {
+        userData = p;
+    }
+    __forceinline SplitBool isActive() const
+    {
+        return active;
+    }
+    __forceinline void setActive(SplitBool b)
+    {
+        active = b;
+    }
+};
+struct SplitOutput
+{
+    SplitSystem* m_pFirstSplitSystem;
+    SplitSystem* m_pSecondSplitSystem;
+    SplitSystem* m_pThirdSplitSystem;
+    SplitSystem* m_kPhantoms;
+    SplitArray<SplitSystem*> m_kSplitSystemArray;
+};
+
+struct FUN_00d065e0 : SplitSystem
+{
+    FUN_00d065e0();
+};
+
+enum SplitMotionKind
+{
+    SplitMotionInvalid,
+    SplitMotionDynamic,
+    SplitMotionSphere,
+    SplitMotionBox,
+    SplitMotionKeyframed,
+    SplitMotionFixed
+};
+class SplitMotionByte
+{
+    unsigned char value;
+
+  public:
+    inline SplitMotionByte()
+    {}
+    inline SplitMotionByte(SplitMotionKind k)
+    {
+        value = (unsigned char)k;
+    }
+    inline operator SplitMotionKind() const
+    {
+        return (SplitMotionKind)value;
+    }
+    inline void operator=(SplitMotionKind k)
+    {
+        value = (unsigned char)k;
+    }
+    inline SplitBool operator==(SplitMotionKind k) const
+    {
+        return value == (unsigned char)k;
+    }
+    inline SplitBool operator!=(SplitMotionKind k) const
+    {
+        return value != (unsigned char)k;
+    }
+};
+struct SplitMotion
+{
+    int unk00, unk04;
+    SplitMotionByte type;
+    inline SplitMotionKind getType() const
+    {
+        return type;
+    }
+};
+struct SplitEntity
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    void* island;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    SplitMotion motion;
+    inline SplitBool isFixed() const
+    {
+        return motion.type == SplitMotionFixed;
+    }
+    __forceinline void* GetSimulationIsland() const
+    {
+        return island;
+    }
+};
+struct SplitBody : SplitEntity
+{
+    inline SplitMotion* getRigidMotion() const
+    {
+        return const_cast<SplitMotion*>(&motion);
+    }
+    inline SplitMotionKind getMotionType() const
+    {
+        return getRigidMotion()->getType();
+    }
+};
+
+static __forceinline SplitSystem* makeSystem()
+{
+    return new FUN_00d065e0;
+}
+typedef int SplitSystem::*MoveMember;
+static __declspec(noinline) void FUN_00d4bf70(SplitSystem* from, SplitSystem* volatile toArg, MoveMember encoded)
+{
+    SplitSystem* to = toArg;
+    SplitBody* body;
+    memcpy(&body, &encoded, 4);
+    int fromIndex = from->getRigidBodies().indexOf(body);
+    int toIndex = to->getRigidBodies().indexOf(body);
+    if (toIndex == -1 && fromIndex != -1)
+    {
+        to->setActive(to->isActive() || (*(::SplitBool *)(reinterpret_cast<::FUN_00c9bff0_Class *>((void *)(body))->FUN_00c9bff0({}))));
+        reinterpret_cast<::Container64 *>((to))->AddShape((::Shape64 *)(body));
+        reinterpret_cast<::BodyCollection *>((from))->FUN_00d06130(fromIndex);
+    }
+}
+static __forceinline void moveConnected(SplitSystem* from, SplitSystem* to, SplitEntity* item)
+{
+    MoveMember encoded;
+    memcpy(&encoded, &item, 4);
+    FUN_00d4bf70(from, to, encoded);
+}
+
+// @fnv 0x00d4c3b0
+void FUN_00d4c3b0(const SplitSystem* source, SplitOutput& output)
+{
+    SplitSystem* remaining = makeSystem();
+    for (int i = 0; i < source->getRigidBodies().GetLogicalSize(); ++i)
+        reinterpret_cast<::Container64 *>((remaining))->AddShape((::Shape64 *)(source->getRigidBodies()[i]));
+    for (int i = 0; i < source->getActions().GetLogicalSize(); ++i)
+        reinterpret_cast<::hkOwnerXd06590 *>((remaining))->FUN_00d06590((::hkShapeXd06590 *)(source->getActions()[i]));
+    for (int i = 0; i < source->getConstraints().GetLogicalSize(); ++i)
+        reinterpret_cast<::hkOwnerXd06540 *>((remaining))->FUN_00d06540((::hkShapeXd06540 *)(source->getConstraints()[i]));
+    for (int i = 0; i < source->getPhantomArray().GetLogicalSize(); ++i)
+        reinterpret_cast<::hkOwnerD064 *>((remaining))->FUN_00d064f0((::hkShapeD064 *)(source->getPhantomArray()[i]));
+
+    const SplitArray<SplitBody*>& bodies = remaining->getRigidBodies();
+    SplitSystem* moving = makeSystem();
+    moving->SetParentObject("Unconstrained Rigid Bodies");
+    moving->setUserData(remaining->getUserData());
+    moving->setActive(false);
+    SplitSystem* fixed = makeSystem();
+    fixed->SetParentObject("Fixed Rigid Bodies");
+    fixed->setUserData(remaining->getUserData());
+    fixed->setActive(false);
+    SplitSystem* keyframed = makeSystem();
+    keyframed->SetParentObject("Keyframed Rigid Bodies");
+    keyframed->setUserData(remaining->getUserData());
+    keyframed->setActive(false);
+
+    const SplitArray<SplitConstraint*>& constraints = remaining->getConstraints();
+    const SplitArray<SplitAction*>& actions = remaining->getActions();
+    while (bodies.GetLogicalSize() > 0)
+    {
+        SplitSystem* component = makeSystem();
+        component->SetParentObject("Constrained System");
+        component->setUserData(remaining->getUserData());
+        component->setActive((*(::SplitBool *)(reinterpret_cast<::FUN_00c9bff0_Class *>((void *)(bodies[0]))->FUN_00c9bff0({}))));
+        reinterpret_cast<::Container64 *>((component))->AddShape((::Shape64 *)(bodies[0]));
+        reinterpret_cast<::BodyCollection *>((remaining))->FUN_00d06130(0);
+        bool changed = true;
+        while (changed)
+        {
+            changed = false;
+            for (int j = 0; j < component->getRigidBodies().GetLogicalSize(); ++j)
+            {
+                SplitBody* current = component->getRigidBodies()[j];
+                int i = 0;
+                while (i < constraints.GetLogicalSize())
+                {
+                    if (constraints[i]->getEntityA() == current || constraints[i]->getEntityB() == current)
+                    {
+                        changed = true;
+                        reinterpret_cast<::hkOwnerXd06540 *>((component))->FUN_00d06540((::hkShapeXd06540 *)(constraints[i]));
+                        SplitEntity* other = constraints[i]->getOtherEntity(current);
+                        if (other && !other->isFixed())
+                            moveConnected(remaining, component, other);
+                        reinterpret_cast<::FUN_00d061b0_Class *>((remaining))->FUN_00d061b0(i);
+                    }
+                    else
+                        ++i;
+                }
+                i = 0;
+                while (i < actions.GetLogicalSize())
+                {
+                    SplitArray<SplitEntity*> participants;
+                    actions[i]->GetEntities(participants);
+                    bool moved = false;
+                    for (int k = 0; k < participants.GetLogicalSize(); ++k)
+                    {
+                        if (participants[k] == current)
+                        {
+                            changed = true;
+                            reinterpret_cast<::hkOwnerXd06590 *>((component))->FUN_00d06590((::hkShapeXd06590 *)(actions[i]));
+                            reinterpret_cast<::fnv_00d061f0::FUN_00d061f0_Class *>((remaining))->FUN_00d061f0(i);
+                            moved = true;
+                            for (int l = 0; l < participants.GetLogicalSize(); ++l)
+                            {
+                                if (participants[l] != current)
+                                    if (!participants[l]->isFixed())
+                                        moveConnected(remaining, component, participants[l]);
+                            }
+                        }
+                    }
+                    if (!moved)
+                        ++i;
+                }
+            }
+        }
+        if (component->getConstraints().GetLogicalSize() == 0 && component->getActions().GetLogicalSize() == 0)
+        {
+            SplitBody* body = component->getRigidBodies()[0];
+            bool active = !body->GetSimulationIsland() || (*(::SplitBool *)(reinterpret_cast<::FUN_00c9bff0_Class *>((void *)(body))->FUN_00c9bff0({})));
+            if (body->getMotionType() == 4)
+            {
+                keyframed->setActive(keyframed->isActive() || active);
+                reinterpret_cast<::Container64 *>((keyframed))->AddShape((::Shape64 *)(body));
+            }
+            else if (body->getMotionType() == 5)
+                reinterpret_cast<::Container64 *>((fixed))->AddShape((::Shape64 *)(body));
+            else
+            {
+                moving->setActive(moving->isActive() || active);
+                reinterpret_cast<::Container64 *>((moving))->AddShape((::Shape64 *)(body));
+            }
+            delete component;
+        }
+        else
+            output.m_kSplitSystemArray.AddBack(component);
+    }
+    if (keyframed->getRigidBodies().GetLogicalSize())
+        output.m_pSecondSplitSystem = keyframed;
+    else
+    {
+        delete keyframed;
+        output.m_pSecondSplitSystem = 0;
+    }
+    if (fixed->getRigidBodies().GetLogicalSize())
+        output.m_pFirstSplitSystem = fixed;
+    else
+    {
+        delete fixed;
+        output.m_pFirstSplitSystem = 0;
+    }
+    if (moving->getRigidBodies().GetLogicalSize())
+        output.m_pThirdSplitSystem = moving;
+    else
+    {
+        delete moving;
+        output.m_pThirdSplitSystem = 0;
+    }
+    const SplitArray<void*>& phantoms = remaining->getPhantomArray();
+    if (phantoms.GetLogicalSize() > 0)
+    {
+        SplitSystem* phantomGroup = makeSystem();
+        phantomGroup->SetParentObject("Phantoms");
+        phantomGroup->setUserData(remaining->getUserData());
+        output.m_kPhantoms = phantomGroup;
+        for (int i = 0; i < phantoms.GetLogicalSize(); ++i)
+            reinterpret_cast<::hkOwnerD064 *>((phantomGroup))->FUN_00d064f0((::hkShapeD064 *)(phantoms[i]));
+    }
+    else
+        output.m_kPhantoms = 0;
+    delete remaining;
+}

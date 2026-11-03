@@ -2557,3 +2557,380 @@ void FUN_00ca8920(FUN_00ca8860_cls* body, void*, int inertia)
     SetInertia set = reinterpret_cast<SetInertia>(motion->m_pVtbl->fn1c);
     set(motion, inertia);
 }
+
+// Moved from hkprigidbody_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include <new>
+#include <cmath>
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_00561800_Class.h"
+#include "fnv/decl/FUN_00c86420_Class.h"
+#include "fnv/decl/FUN_00c9cce0.h"
+#include "fnv/decl/FUN_00ca9360_cls.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/S_00ca8f50_Src.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01268000.h"
+void ComputeScaledMinimum(const Vector3* values, Output* result);
+#include <math.h>
+static inline float CA8Sqrtf(float x)
+{
+    return ((float)sqrt((double)x));
+}
+static inline float CA8Sqrt(float r)
+{
+    return CA8Sqrtf(r);
+}
+static inline float CA8Max2(float a, float b)
+{
+    return (a > b) ? a : b;
+}
+
+__declspec(align(16)) struct CA8Vec4
+{
+    float x;
+    float y;
+    float z;
+    float w;
+};
+
+__declspec(align(16)) struct CA8Aabb
+{
+    CA8Vec4 m_kMinimumCorner;
+    CA8Vec4 m_kMaximumCorner;
+};
+
+struct CA8Shape
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void getAabb(void* t, float tol, CA8Aabb* out);
+};
+
+struct CA8Owner
+{
+    unsigned int unk000, unk004, unk008, unk00C, unk010, unk014, unk018, unk01C;
+    unsigned int unk020, unk024, unk028, unk02C, unk030, unk034, unk038, unk03C;
+    unsigned int unk040, unk044, unk048, unk04C, unk050, unk054, unk058, unk05C;
+    unsigned int unk060, unk064, unk068, unk06C, unk070, unk074, unk078, unk07C;
+    unsigned int unk080, unk084, unk088, unk08C, unk090, unk094, unk098, unk09C;
+    unsigned int unk0A0, unk0A4, unk0A8, unk0AC, unk0B0, unk0B4, unk0B8, unk0BC;
+    unsigned int unk0C0, unk0C4, unk0C8, unk0CC, unk0D0, unk0D4, unk0D8, unk0DC;
+    unsigned int unk0E0, unk0E4, unk0E8, unk0EC, unk0F0, unk0F4, unk0F8, unk0FC;
+    unsigned int unk100, unk104, unk108, unk10C, unk110, unk114, unk118, unk11C;
+    unsigned int unk120, unk124, unk128, unk12C, unk130, unk134, unk138, unk13C;
+    unsigned int unk140, unk144, unk148, unk14C, unk150, unk154, unk158, unk15C;
+    unsigned int unk160, unk164, unk168, unk16C;
+    CA8Vec4 m_170;
+    unsigned int unk180, unk184, unk188, unk18C;
+    float m_190;
+
+    void FUN_00ca8150(CA8Shape* seg, CA8Vec4* dst);
+};
+
+// @fnv 0x00ca8150
+void CA8Owner::FUN_00ca8150(CA8Shape* seg, CA8Vec4* dst)
+{
+    CA8Aabb pair;
+    seg->getAabb(&::DAT_01268370, 0.0f, &pair);
+    __m128 a = *(const __m128*)&pair.m_kMinimumCorner;
+    __m128 b = *(const __m128*)&pair.m_kMaximumCorner;
+    _mm_store_ps(&dst->x, _mm_sub_ps(b, a));
+
+    CA8Vec4& p = pair.m_kMinimumCorner;
+    p = m_170;
+    __m128 pv = _mm_load_ps(&p.x);
+    __m128 d0 = _mm_sub_ps(b, pv);
+    __m128 d1 = _mm_sub_ps(a, pv);
+    __m128 x0 = _mm_mul_ps(d0, d0);
+    float db;
+    _mm_store_ss(&db, _mm_add_ss(_mm_shuffle_ps(x0, x0, 0xaa), _mm_add_ss(_mm_shuffle_ps(x0, x0, 0x55), x0)));
+    __m128 x1 = _mm_mul_ps(d1, d1);
+    float da;
+    _mm_store_ss(&da, _mm_add_ss(_mm_shuffle_ps(x1, x1, 0xaa), _mm_add_ss(_mm_shuffle_ps(x1, x1, 0x55), x1)));
+
+    m_190 = CA8Sqrt(CA8Max2(db, da));
+}
+
+struct __declspec(align(16)) V181
+{
+    float x, y, z, w;
+};
+struct Matrix181
+{
+    V181 x, y, z;
+};
+struct Transform181
+{
+    V181 x, y, z, t;
+};
+struct Ref181
+{
+};
+struct UFloat181
+{
+    unsigned char value;
+};
+struct Motion181
+{
+    int unk00, unk04;
+    unsigned char type, unk09;
+    unsigned short unk0a;
+    int unk0c;
+    Transform181 transform;
+    int unk50;
+    int unk54;
+    int unk58;
+    float penetrationDepth;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    float linearDamping, angularDamping;
+    UFloat181 maxLinear, maxAngular;
+    unsigned short unkbe;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    unsigned short unk11c, solverDeactivation;
+    int unk120, unk124, unk128, unk12c;
+};
+struct FixedMotion181 : Motion181
+{
+    FixedMotion181(const V181*, const V181*) throw();
+};
+inline void* operator new(size_t, void* memory) throw()
+{
+    return memory;
+}
+struct CInfo181
+{
+    unsigned int userData;
+    void* shape;
+    Ref181* localFrame;
+    unsigned char response, unk0d;
+    unsigned short responseCount;
+    V181 position, rotation, linearVelocity, angularVelocity;
+    Matrix181 inertia;
+    V181 centerOfMass;
+    float mass, linearDamping, angularDamping;
+    unsigned short unk9c, solverDeactivation;
+    float friction, restitution, maxLinear, maxAngular, penetrationDepth;
+    signed char motionType;
+    unsigned char enableDeactivation;
+    signed char deactivationClass, quality;
+    unsigned char removalLevel, responseModifier;
+    signed char shapeKeys;
+    unsigned char forceCollide;
+};
+struct Root181
+{
+    virtual void slot0();
+    int unk04, unk08, unk0c;
+};
+struct Entity181 : Root181
+{
+    void* shape;
+    int unk14;
+    Transform181* transform;
+    int unk1c;
+    unsigned char unk20, flags, unk22, unk23;
+    int unk24;
+    unsigned short unk28;
+    unsigned char quality, unk2b;
+    unsigned int userData;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    float penetrationDepth;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    unsigned char response, unk8d;
+    unsigned short unk8e;
+    float friction, restitution;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    unsigned short unka8, responseCount;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    unsigned char removalLevel, shapeKeys, responseModifier, unkd3;
+    int unkd4, unkd8, unkdc;
+    Motion181 motion;
+    Ref181* localFrame;
+};
+struct Error181
+{
+    virtual void unknown0();
+    virtual void unknown4();
+    virtual void unknown8();
+    virtual void Report(int severity, unsigned int id, const char* text, const char* file, int line) throw();
+};
+struct ErrorStream181
+{
+    void* vptr;
+    char* buffer;
+    int length, capacity;
+    ErrorStream181(char* buffer, int capacity) throw();
+};
+static __declspec(noinline) void ComputeScaledMinimum(Output* coll, const V181& he)
+{
+    float lo = lowerPair(he.x, lowerPair(he.y, he.z));
+    float hi = he.x > he.y ? he.x : he.y;
+    if (he.z > hi)
+        hi = he.z;
+    coll->value = lowerPairReversed(hi * ::fnv_00c88020::DAT_01016248, lo);
+    coll->unk48 = coll->unk44;
+}
+struct S00ca8c90_Body : Entity181
+{
+    virtual void slot0();
+    S00ca8c90_Body* FUN_00ca8c90(const CInfo181& info);
+};
+// @fnv 0x00ca8c90
+S00ca8c90_Body* S00ca8c90_Body::FUN_00ca8c90(const CInfo181& info)
+{
+    new ((void *)this) ::FUN_00c9cce0((const ::hkpShape *)(info.shape));
+    *(void**)this = &(*reinterpret_cast<void * *>(&::DAT_010c7888));
+    response = info.response;
+    responseCount = info.responseCount;
+    userData = info.userData;
+    Ref181* frame = info.localFrame;
+    if (frame)
+    {
+        reinterpret_cast<::FUN_00c90510_class *>((frame))->FUN_00c90510();
+        if (localFrame)
+            reinterpret_cast<::hkReferencedObjectC905 *>((localFrame))->FUN_00c905b0();
+        localFrame = frame;
+        reinterpret_cast<::FUN_00c90510_class *>((frame))->FUN_00c90510();
+    }
+    if (info.motionType == 5)
+    {
+        FixedMotion181* fixed = new (&motion) FixedMotion181(&info.position, &info.rotation);
+        reinterpret_cast<::FUN_00ca9360_cls *>(&(fixed->maxLinear))->FUN_00ca9360(&info.maxLinear);
+        reinterpret_cast<::FUN_00ca9360_cls *>(&(fixed->maxAngular))->FUN_00ca9360(&info.maxAngular);
+        reinterpret_cast<::FUN_00c86420_Class *>((fixed))->FUN_00c86420(1);
+        transform = &motion.transform;
+        if (info.penetrationDepth <= 0.0f)
+            penetrationDepth = ::DAT_0104da48;
+        else
+            penetrationDepth = info.penetrationDepth;
+    }
+    else
+    {
+        ::FUN_00ca8240(info.motionType, &info.position, &info.rotation, info.mass, (const float *)(const ::Matrix181 *)(&info.inertia), &info.centerOfMass,
+                     info.maxLinear, info.maxAngular, (::MotionStorage *)(::Motion181 *)(&motion));
+        reinterpret_cast<::FUN_00c86420_Class *>(&(motion))->FUN_00c86420(info.deactivationClass);
+        reinterpret_cast<::FUN_005616d0_Owner *>(this)->OnTrigger((::TriggerContext *)(&info.linearVelocity));
+        reinterpret_cast<::FUN_00561800_Class *>(this)->FUN_00561800((::FUN_00561730_Obj *)(&info.angularVelocity));
+        transform = &motion.transform;
+        penetrationDepth = info.penetrationDepth;
+    }
+    reinterpret_cast<::S_00ca8630_Class *>(this)->FUN_00ca8630(info.enableDeactivation != 0);
+    motion.linearDamping = info.linearDamping;
+    motion.angularDamping = info.angularDamping;
+    if (shape)
+    {
+        V181 halfExtents;
+        reinterpret_cast<::CA8Owner *>(this)->FUN_00ca8150((::CA8Shape *)(shape), (::CA8Vec4 *)(::V181 *)(&halfExtents));
+        if (penetrationDepth <= 0.0f)
+            ComputeScaledMinimum(reinterpret_cast<Output*>(&shape), halfExtents);
+    }
+    if (info.quality != -1)
+        quality = info.quality;
+    else if (motion.type == 5)
+        quality = 0;
+    else
+        quality = (info.motionType == 4) ? 1 : 2;
+    removalLevel = info.removalLevel;
+    if (info.forceCollide)
+        flags |= 1;
+    friction = info.friction;
+    restitution = info.restitution;
+    motion.solverDeactivation = info.solverDeactivation;
+    if (info.shapeKeys >= 0)
+    {
+        shapeKeys = info.shapeKeys;
+        if (shapeKeys > 0 && shapeKeys < ::GetSubtreeDepth((::FUN_00d21960_Node *)(info.shape)))
+        {
+            char buffer[512];
+            ErrorStream181 stream(buffer, 512);
+            reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(
+                "Shape key storage insufficient to store all possible branches. This may cause truncation of the shape key information.");
+            (*reinterpret_cast<::Error181 * *>(&::DAT_01268360))->Report(1, 0x458a1bb2, buffer, ".\\Entity\\hkpRigidBody.cpp", 329);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
+        }
+    }
+    else
+        shapeKeys = ::GetSubtreeDepth((::FUN_00d21960_Node *)(info.shape));
+    responseModifier = info.responseModifier;
+    return this;
+}

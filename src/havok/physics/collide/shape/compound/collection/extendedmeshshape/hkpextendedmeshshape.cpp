@@ -3003,4 +3003,144 @@ FUN_00d56ab0::FUN_00d56ab0(Src& input) : FUN_00d21410(14, 1)
     m_ce0 = reinterpret_cast<::FUN_00d1f1e0_class *>((reinterpret_cast<FUN_00d554a0_class*>(static_cast<Base2*>(this))))->FUN_00d1f1e0();
 }
 
+// Moved from hkpextendedmeshshape_gs_nogs_variant.cpp (VEGAS-15).
+#include "fnv/decl/SpawnedOwnerQ.h"
+#include "fnv/symbols_00ceb000.h"
+void FUN_00d554e0(int a);
+void FUN_00d554f0(int a0);
+
+
+struct S00d55950_hkAabb
+{
+    __m128 m_kMinimumCorner;
+    __m128 m_kMaximumCorner;
+};
+
+
+struct S00d55950_MeshTransform
+{
+    __m128 rotation0, rotation1, rotation2;
+    struct
+    {
+        int x, y, z, w;
+    } translation;
+    void FUN_00cb2d90(const void* quaternion);
+};
+struct S00d55950_MeshChild
+{
+    virtual void vf0();
+    virtual void vf4();
+    virtual void vf8();
+    virtual void vfc();
+    virtual void vf10();
+    virtual void vf14();
+    virtual void vf18();
+    virtual void getAabb(const S00d55950_MeshTransform& transform, float tolerance, S00d55950_hkAabb& out);
+};
+static __declspec(noinline) void FUN_00d558b0(const S_00d56880_Elem* elem, S00d55950_hkAabb* out)
+{
+    out->m_kMinimumCorner = _mm_load_ps1(&::DAT_0104da48);
+    out->m_kMaximumCorner = _mm_xor_ps(out->m_kMinimumCorner, ::DAT_010c44d0);
+    S00d55950_MeshTransform transform;
+    transform.translation.x = elem->unk30;
+    transform.translation.y = elem->unk34;
+    transform.translation.z = elem->unk38;
+    transform.translation.w = elem->unk3c;
+    transform.FUN_00cb2d90(&elem->unk20);
+    for (int i = 0; i < elem->m_iElementCount; ++i)
+    {
+        S00d55950_hkAabb aabb;
+        static_cast<S00d55950_MeshChild**>(elem->m_data)[i]->getAabb(transform, 0.0f, aabb);
+        out->m_kMinimumCorner = _mm_min_ps(out->m_kMinimumCorner, aabb.m_kMinimumCorner);
+        out->m_kMaximumCorner = _mm_max_ps(out->m_kMaximumCorner, aabb.m_kMaximumCorner);
+    }
+}
+
+struct S_00d55950
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    __m128 m_vHalfExtents;
+    __m128 m_kCenterPosition;
+    int unkB0;
+    Elem* m_pElements;
+    int m_iCapacityFlags;
+    int unkBC;
+    S_00d56880_Elem* m_elems2;
+    int m_numElems2;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    float m_ucUnknownByte;
+
+    void FUN_00d55950();
+};
+
+// @fnv 0x00d55950
+void S_00d55950::FUN_00d55950()
+{
+    S00d55950_hkAabb bounds;
+    bounds.m_kMinimumCorner = _mm_load_ps1(&::DAT_0104da48);
+    bounds.m_kMaximumCorner = _mm_xor_ps(bounds.m_kMinimumCorner, ::DAT_010c44d0);
+    __m128 padVec = _mm_load_ps1(&this->m_ucUnknownByte);
+
+    for (int i = 0; i < this->m_iCapacityFlags; ++i)
+    {
+        S00d55950_hkAabb tempAabb;
+        ::FUN_00d55680((*(const ::TrianglesSubpart *)(&this->m_pElements[i])), (*(const ::hkVector4q *)(&this->unk80)), (*(::hkAabbq *)(&tempAabb)));
+        tempAabb.m_kMinimumCorner = _mm_sub_ps(tempAabb.m_kMinimumCorner, padVec);
+        tempAabb.m_kMaximumCorner = _mm_add_ps(tempAabb.m_kMaximumCorner, padVec);
+        bounds.m_kMinimumCorner = _mm_min_ps(bounds.m_kMinimumCorner, tempAabb.m_kMinimumCorner);
+        bounds.m_kMaximumCorner = _mm_max_ps(bounds.m_kMaximumCorner, tempAabb.m_kMaximumCorner);
+    }
+
+    for (int j = 0; j < this->m_numElems2; ++j)
+    {
+        S00d55950_hkAabb tempAabb;
+        FUN_00d558b0(&this->m_elems2[j], &tempAabb);
+        bounds.m_kMinimumCorner = _mm_min_ps(bounds.m_kMinimumCorner, tempAabb.m_kMinimumCorner);
+        bounds.m_kMaximumCorner = _mm_max_ps(bounds.m_kMaximumCorner, tempAabb.m_kMaximumCorner);
+    }
+
+    this->m_kCenterPosition = _mm_mul_ps(_mm_add_ps(bounds.m_kMaximumCorner, bounds.m_kMinimumCorner), DAT_010c71d0);
+    this->m_vHalfExtents = _mm_mul_ps(_mm_sub_ps(bounds.m_kMaximumCorner, bounds.m_kMinimumCorner), DAT_010c71d0);
+}
 #include "generated/data/havok/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.inc"

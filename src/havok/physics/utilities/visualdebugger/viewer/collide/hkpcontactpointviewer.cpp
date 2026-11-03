@@ -895,3 +895,186 @@ void Node::FUN_00de2da0(Cont* apCont)
         }
     }
 }
+
+// Moved from hkpcontactpointviewer_rtmfull_variant.cpp (VEGAS-15).
+#include <intrin.h>
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01019000.h"
+#include "fnv/symbols_010c6000.h"
+
+__declspec(noinline) void FUN_00de2aa0(Target* context, Contact67* volatile contact, const Vec67* normal, int color, void* body, int tag);
+#pragma optimize("", on)
+
+
+#include <math.h>
+#include "fnv/symbols_simd.h"
+
+
+
+
+
+extern const float DAT_010c69c0 = -(1.0f - 0.85f);
+
+
+struct ContactArrowVector67 {
+
+    __m128 m_vComponents;
+
+};
+
+
+
+static inline void markContactArrowProfile67(const char* name)
+
+{
+
+    StringCursor* s = (StringCursor*)TlsGetValue(DAT_0126835c);
+
+    ProfEntry* p = (ProfEntry*)s->m_ptr;
+
+    if (p < (ProfEntry*)s->m_kRayEnd) {
+
+        p->name = name;
+        unsigned int ticks;
+        ticks = static_cast<unsigned int>(__rdtsc());
+        p->tsc = ticks;
+
+        s->m_ptr = (char*)(p + 1);
+
+    }
+
+}
+
+static inline __m128 contactArrowDot3_67(const __m128& a, const __m128& b)
+
+{
+
+    __m128 m = _mm_mul_ps(a, b);
+
+    return _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m));
+
+}
+
+static inline float contactArrowAbs67(float r) { return (float)fabs(r); }
+
+// @fnv 0x00de2aa0
+static __declspec(noinline) void FUN_00de2aa0(Target* self, Contact67* contact, const Vec67* direction, int color, void* id, int tag)
+
+{
+
+    const ContactArrowVector67& dir = *(const ContactArrowVector67*)direction;
+    const ContactArrowVector67& from = *(const ContactArrowVector67*)&contact->position;
+
+    markContactArrowProfile67("TthkContactPointViewer_displayArrow");
+
+    float lenSq;
+
+    _mm_store_ss(&lenSq, contactArrowDot3_67(dir.m_vComponents, dir.m_vComponents));
+
+    if (lenSq < 1.1920928955078125e-07f) {
+
+        markContactArrowProfile67("Et");
+
+        return;
+
+    }
+
+    ContactArrowVector67 to;
+
+    struct ArrowGeometry { ContactArrowVector67 p1; float perp[4]; } geometry;
+
+    to.m_vComponents = _mm_add_ps(from.m_vComponents, dir.m_vComponents);
+
+    int min = 0;
+
+    int ok1 = 1;
+
+    int ok2 = 2;
+
+    float a0 = contactArrowAbs67(((const float*)&dir)[0]);
+
+    float a1 = contactArrowAbs67(((const float*)&dir)[1]);
+
+    float a2 = contactArrowAbs67(((const float*)&dir)[2]);
+
+    if (a1 < a0) {
+
+        ok1 = 0;
+
+        min = 1;
+
+        a0 = a1;
+
+    }
+
+    if (a2 < a0) {
+
+        ok2 = min;
+
+    }
+
+    _mm_store_ps(geometry.perp, _mm_setzero_ps());
+
+    geometry.perp[ok1] = ((const float*)&dir)[ok2];
+
+    geometry.perp[ok2] = -((const float*)&dir)[ok1];
+
+    ContactArrowVector67 ort;
+
+    ort.m_vComponents = *(const __m128*)geometry.perp;
+
+    {
+
+        __m128 len2 = contactArrowDot3_67(ort.m_vComponents, ort.m_vComponents);
+
+        __m128 r = _mm_rsqrt_ss(len2);
+
+        __m128 zero = _mm_cmpeq_ss(len2, _mm_set_ss(DAT_01011d78));
+
+        __m128 t = _mm_sub_ss(_mm_set_ss(DAT_01017718), _mm_mul_ss(_mm_mul_ss(len2, r), r));
+
+        __m128 inv = _mm_andnot_ps(zero, _mm_mul_ss(_mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248), r), t));
+
+        ort.m_vComponents = _mm_mul_ps(_mm_shuffle_ps(inv, inv, 0), ort.m_vComponents);
+
+    }
+
+    __m128 len = _mm_sqrt_ss(contactArrowDot3_67(dir.m_vComponents, dir.m_vComponents));
+
+    ort.m_vComponents = _mm_mul_ps(ort.m_vComponents, _mm_shuffle_ps(len, len, 0));
+
+    float cc = ::DAT_01019de0;
+
+    __m128 t0 = _mm_load_ss(&cc);
+
+    __m128 t = _mm_shuffle_ps(t0, t0, 0);
+
+    ContactArrowVector67 p;
+
+    p.m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, t), from.m_vComponents), _mm_mul_ps(t, to.m_vComponents));
+
+    float f1 = ::ArrowHeadRatios::DAT_010c69c4;
+
+    __m128 r1 = _mm_load_ss(&f1);
+
+    geometry.p1.m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(r1, r1, 0), ort.m_vComponents), p.m_vComponents);
+
+    float f2 = DAT_010c69c0;
+
+    __m128 r2 = _mm_load_ss(&f2);
+
+    ContactArrowVector67 p2;
+
+    p2.m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(r2, r2, 0), ort.m_vComponents), p.m_vComponents);
+
+    self->Draw((const Vec67*)&from, (const Vec67*)&to, color, id, tag);
+
+    self->Draw((const Vec67*)&to, (const Vec67*)&geometry.p1, color, id, tag);
+
+    self->Draw((const Vec67*)&to, (const Vec67*)&p2, color, id, tag);
+
+    markContactArrowProfile67("Et");
+
+}

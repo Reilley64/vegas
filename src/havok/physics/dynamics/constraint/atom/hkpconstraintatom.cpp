@@ -474,3 +474,35 @@ void Cls_00d21fc0::FUN_00d21fc0(__m128* a, int b, int c, int d, int e, int out)
     __m128* pOut = (__m128*)iOut;
     *pOut = _mm_sub_ps(*pOut, t);
 }
+
+// Moved from hkpconstraintatom_rtm_variant.cpp (VEGAS-15).
+#include "fnv/symbols_00d22000.h"
+#include "fnv/symbols_simd.h"
+static inline __m128 Blend_d21d10(const __m128& v, const __m128& kRef, const float& t)
+{
+    __m128 s = _mm_load_ss(&t);
+    s = _mm_shuffle_ps(s, s, 0);
+    return _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, s), kRef), _mm_mul_ps(v, s));
+}
+struct SoftContactVelocityBlend
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    float m_fWeight;
+    void FUN_00d21d10(int a1, int a2, int a3, __m128* pkA, int a5, __m128* pkB);
+};
+// @fnv 0x00d21d10
+void SoftContactVelocityBlend::FUN_00d21d10(int a1, int a2, int a3, __m128* pkA, int a5, __m128* pkB)
+{
+    float t = m_fWeight;
+    pkA[0] = Blend_d21d10(pkA[0], DAT_012689a0, t);
+    pkA[1] = Blend_d21d10(pkA[1], DAT_012689b0, t);
+    pkB[0] = Blend_d21d10(pkB[0], DAT_012689c0, t);
+    pkB[1] = Blend_d21d10(pkB[1], DAT_012689d0, t);
+}

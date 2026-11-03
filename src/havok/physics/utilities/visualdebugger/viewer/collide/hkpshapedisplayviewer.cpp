@@ -1406,6 +1406,8 @@ struct Node
     int unk24;
     Group** m_28;
     int m_2c;
+public:
+    void FUN_00de0f90(void *, ::XfResult *);
 };
 
 class S00d653f0_Obj
@@ -1899,4 +1901,433 @@ void S_00d65970_Obj::FUN_00d65970(S_00d65970_Arg* arg)
     }
 }
 
+// Moved from hkpshapedisplayviewer_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00ddfb70_cls.h"
+#include "fnv/decl/FUN_00de1d20.h"
+#include "fnv/decl/S_00d65970_Obj.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/fnv_00d65750__Shell.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00ddf000.h"
+void* __cdecl FUN_00d65910(void* context);
+void RegisterShapesProcess();
+int __cdecl FUN_00d661d0();
+void* __cdecl GetProperty1134(D66180Entity* entity);
+static int FUN_00d652c0(S_00c6d840* props, bool checkOverride, bool* usedDefault);
+int PropertyQueryCaller(S_00c6d840* props, bool checkOverride, bool* usedDefault);
+struct XfResult;
+
+#include <xmmintrin.h>
+struct S65_Alloc
+{
+    virtual void v00();
+    virtual void* allocate(unsigned int size);
+    virtual void v08();
+    virtual void v0c();
+    virtual void FreeArray(void* p, int size);
+};
+struct S65_Heap
+{
+    int h00;
+    int h04;
+    int h08;
+    int h0c;
+    S65_Alloc* allocator;
+    __forceinline S65_Alloc& heap()
+    {
+        return *allocator;
+    }
+};
+__forceinline S65_Heap& s65Router()
+{
+    return *static_cast<S65_Heap*>(FUN_00c85750());
+}
+
+struct S65_Pair
+{
+    unsigned __int64 bits;
+    S65_Pair()
+    {}
+
+    int integer() const
+    {
+        return (int)bits;
+    }
+    void* pointer() const
+    {
+        return (void*)(unsigned long)bits;
+    }
+};
+struct S65_Param : S_00c6d840
+{
+    int p80;
+    int p84;
+    int p88;
+    int p8c;
+    int p90;
+    int p94;
+    int p98;
+    int p9c;
+    int pa0;
+    int pa4;
+    int pa8;
+    int pac;
+    int pb0;
+    int pb4;
+    int pb8;
+    int pbc;
+    int pc0;
+    int pc4;
+    int pc8;
+    int pcc;
+    int pd0;
+    int pd4;
+    int pd8;
+    int pdc;
+    int pe0;
+    int pe4;
+    unsigned char motionType;
+    unsigned char pe9;
+    unsigned char pea;
+    unsigned char peb;
+    int pec;
+    int transform;
+    S65_Pair FindEntry(int key, int unused);
+    __forceinline void* pointerProperty(int key)
+    {
+        return FindEntry(key, 0).pointer();
+    }
+    __forceinline int integerProperty(int key)
+    {
+        return FindEntry(key, 0).integer();
+    }
+    S65_Pair FUN_00cd2a50(int key);
+    bool has(int key) const
+    {
+        for (int i = 0; i < m_uiItemCount; ++i)
+            if (m_entries[i].m_key == key)
+                return true;
+        return false;
+    }
+};
+
+struct S65_Map
+{
+    int s00;
+    int s04;
+    int s08;
+    __forceinline void insert(void* key, int val)
+    {
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&s65Router().heap())), (unsigned int)(key), val);
+    }
+};
+struct S65_Ref
+{
+};
+struct S65_Val
+{
+    int phi;
+    int theta;
+};
+struct S65_Str
+{
+    int s00;
+    int s04;
+    int s08;
+};
+struct S65_Elem
+{
+    virtual ~S65_Elem();
+    int f04;
+    int f08;
+    int f0c;
+    int f10;
+    int f14;
+    int f18;
+    int f1c;
+    int f20;
+    int f24;
+    int f28;
+    int f2c;
+    int f30;
+    int f34;
+    int f38;
+    int f3c;
+    int f40;
+    int f44;
+    int f48;
+    int f4c;
+    int f50;
+};
+struct S65_Vec
+{
+    S65_Elem** data;
+    int count;
+    int cap;
+    S65_Elem* inlineBuf[8];
+};
+struct S65_Work
+{
+    int w00;
+    int w04;
+    int w08;
+    int w0c;
+    int w10;
+};
+union S65_V4
+{
+    __m128 q;
+    float f[4];
+};
+struct S65_NewObj
+{
+    int n00;
+    short s04;
+    short s06;
+    int n08;
+    int n0c;
+    S65_V4 c0;
+    S65_V4 c1;
+    S65_V4 c2;
+    S65_V4 t;
+    float& cell(int row, int col)
+    {
+        return ((float*)&c0)[col * 4 + row];
+    }
+};
+struct S65_Host
+{
+    virtual void v00();
+    virtual void v04(S65_Vec* out, void* arg, void* nv, int glob, void* saved);
+    virtual void v08(int a, void* arg, void* nv, int glob, void* saved);
+    virtual void v0c(int val, void* nv, int glob);
+};
+struct S65_Err
+{
+    virtual void d00();
+    virtual void d04();
+    virtual void d08();
+    virtual void d0c(int a, int b, const char* buf, const char* s, int n);
+};
+struct S65_IntArr
+{
+    int* data;
+    int count;
+    int cap;
+};
+struct S65_Item
+{
+    int i00;
+    S65_IntArr arr;
+};
+
+extern const char str_010d1b18[];
+
+static __declspec(noinline) void* FUN_00d652c0(S65_Param* p, bool flag, unsigned char* out)
+{
+    void* base = p->pointerProperty(0x1135);
+    void* alt = p->pointerProperty(0x1235);
+    void* over = p->pointerProperty(0x1234);
+    *out = 0;
+    if (flag && p->has(0x1234))
+    {
+        if (!over)
+            *out = 1;
+        return (void*)over;
+    }
+    if (p->has(0x1235))
+    {
+        if (!alt)
+            *out = 1;
+        return (void*)alt;
+    }
+    if (p->has(0x1135))
+    {
+        if (!base)
+            *out = 1;
+        return (void*)base;
+    }
+    return 0;
+}
+
+struct S65_Prim
+{
+    virtual void p00();
+    int o04;
+    int o08;
+    int o0c;
+    int f10;
+    int f14;
+    S65_Host* host;
+    int o1c;
+    int o20;
+    int o24;
+};
+struct S65_Sec
+{
+    virtual void FUN_00d65ad0(S65_Param* param);
+};
+struct S65_Self : S65_Prim, S65_Sec
+{
+    int t04;
+    S65_Item** m_items;
+    int t0c;
+    int t10;
+    S65_Map sub14;
+    S65_Map sub20;
+    S65_Map sub2c;
+    unsigned char b38;
+    unsigned char b39;
+    unsigned char b3a;
+    unsigned char b3b;
+    unsigned char b3c;
+    unsigned char b3d;
+    unsigned char b3e;
+    unsigned char b3f;
+    int t40;
+    int f44;
+    int f48;
+    void FUN_00d65ad0(S65_Param* param);
+};
+
+inline void* operator new(size_t, void* p)
+{
+    return p;
+}
+
+// @fnv 0x00d65ad0
+void S65_Self::FUN_00d65ad0(S65_Param* param)
+{
+    unsigned char done;
+    bool flag = (f10 == 0 && f14 == 0) ? true : false;
+    void* ret = FUN_00d652c0(param, flag, &done);
+    if (done)
+        return;
+    int idx = reinterpret_cast<::FUN_00d655e0_class *>(this)->FindItemIndex(param->unk08);
+    if (idx < 0)
+        return;
+    S65_Item* item = m_items[idx];
+    void* key = ret;
+    if (!key)
+        key = (void*)param->unk10;
+    if (!key)
+        return;
+    bool isNew = false;
+    if (b3a)
+    {
+        unsigned int r = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>(&(sub2c))->LookupHashEntry((int)(key), 0)));
+        isNew = r > 0;
+        if (!r)
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(sub2c))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(s65Router().allocator)), (unsigned int)(key), 1);
+    }
+    int existing = 0;
+    if (b39)
+        existing = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>(&(sub14))->LookupHashEntry((int)(key), 0)));
+    S65_Vec vec;
+    vec.data = vec.inlineBuf;
+    vec.count = 0;
+    vec.cap = (int)0x80000008;
+    bool keep = true;
+    if (!existing && !isNew && b3b && b3c)
+    {
+        void* a = param->pointerProperty(0x1136);
+        void* alt = param->pointerProperty(0x1131);
+        if (!a && !alt)
+        {
+            S65_Val val;
+            reinterpret_cast<::FUN_00ddfb70_cls *>(&(val))->FUN_00ddfb70();
+            S65_Work work;
+            ::FUN_00ddfb80((::FUN_00ddfb80_s *)&(work), (int)(&val), {});
+            reinterpret_cast<::Node *>(&(work))->FUN_00de0f90(key, (::XfResult *)(::S65_Vec *)(&vec));
+            for (int i = vec.count - 1; i >= 0; i--)
+            {
+                S65_Elem* e = vec.data[i];
+                if (e->f50 == 6 && e->f08 == 0)
+                {
+                    __declspec(align(16)) char buf[0x200];
+                    S65_Str str;
+                    new ((void *)&(str)) ::FUN_00cb1600(buf, 0x200);
+                    reinterpret_cast<::SinkOwner *>(&(str))->FUN_00cc01c0(::fnv_00d66530::str_010d196c);
+                    (*reinterpret_cast<::S65_Err * *>(&::DAT_01268360))->d0c(0, -1, buf, str_010d1b18, 0x13c);
+                    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(str))->FUN_00cc00e0::~FUN_00cc00e0();
+                    vec.count--;
+                    if (vec.count != i)
+                        vec.data[i] = vec.data[vec.count];
+                }
+            }
+            void* v = param->pointerProperty(0x1135);
+            if (v && (void*)v == ret)
+            {
+                reinterpret_cast<::hkReferencedObjectC905 *>((((S65_Ref*)v)))->FUN_00c905b0();
+                param->FUN_00cd2a50(0x1135);
+            }
+        }
+        else
+        {
+            keep = a == 0;
+            if (alt)
+                param->FUN_00cd2a50(0x1131);
+            S65_NewObj* mem = (S65_NewObj*)s65Router().heap().allocate(0x60);
+            mem->s04 = (short)0x60;
+            S65_NewObj* obj = ((::S65_NewObj *)(new ((void *)(mem)) ::FUN_00de1d20((int)(a ? a : alt))));
+            obj->c0.q = _mm_setzero_ps();
+            obj->c1.q = _mm_setzero_ps();
+            obj->c2.q = _mm_setzero_ps();
+            obj->cell(0, 0) = 1.0f;
+            obj->cell(1, 1) = 1.0f;
+            obj->cell(2, 2) = 1.0f;
+            obj->t.q = _mm_setzero_ps();
+            hkArrayConstruct(vec.data + vec.count, 1, (S65_Elem*)obj);
+            ++vec.count;
+        }
+    }
+    void* nv = GetProperty1134((D66180Entity*)param);
+    S65_IntArr* arr = &item->arr;
+    S65_Heap* heap = (S65_Heap*)FUN_00c85750();
+    if (arr->count == (arr->cap & 0x3fffffff))
+        ::ResizeAudioStream((::AudioAllocator *)(heap->allocator), (::AudioStream *)(arr), 4);
+    int* slot = arr->data + arr->count;
+    __assume(slot != 0);
+    new (slot) int((int)nv);
+    arr->count++;
+    if (!existing)
+    {
+        if (vec.count > 0 || isNew || !b3c)
+        {
+            host->v04(&vec, &param->transform, nv, DAT_01268fe0, key);
+            if (b39)
+            {
+                sub14.insert(key, (int)nv);
+                sub20.insert(key, 1);
+            }
+            int val = param->integerProperty(0x1130);
+            if (b3d)
+            {
+                if (b3e || !val)
+                    val = (param->motionType == 5) ? f44 : f48;
+            }
+            if (val)
+                host->v0c(val, nv, DAT_01268fe0);
+        }
+    }
+    else
+    {
+        int n = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>(&(sub20))->LookupHashEntry((int)(key), 1))) + 1;
+        sub20.insert(key, n);
+        host->v08(existing, &param->transform, nv, DAT_01268fe0, key);
+    }
+    for (int i = 0; i < vec.count; i++)
+    {
+        if (!keep)
+            vec.data[i]->f08 = 0;
+        delete vec.data[i];
+    }
+    S65_Alloc& al = s65Router().heap();
+    vec.count = 0;
+    if ((vec.cap & 0x80000000) == 0)
+        al.FreeArray(vec.data, (vec.cap & 0x3fffffff) * 4);
+}
 #include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.inc"
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer_gs_ehsc_nogs_noehsc_variant.inc"

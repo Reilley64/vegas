@@ -7463,3 +7463,125 @@ extern "C" DCEEntryInit* FUN_00dce930(void* storage, void*)
     __assume(storage != 0);
     return new (storage) DCEEntryInit;
 }
+
+// Moved from hkpsavecontactpointsutil_ehsc_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/ContainerD082.h"
+#include "fnv/decl/FUN_00cb18f0_t.h"
+#include "fnv/decl/fnv_00dce840__FUN_00dce840.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d40000.h"
+void FUN_00dcdd80(void* a, S_00dcdd80_Item** items, int count, S_00dcdd80_Listener* listener);
+void __cdecl FUN_00dce7e0(int a, int b, int* p, int d);
+
+struct LinkedCollidable;
+
+struct CollisionKeyEntry
+{
+    S_00dcdd80_Item* m_pAgentEntry;
+    LinkedCollidable* m_pCollidable;
+};
+
+struct EntryArray
+{
+    CollisionKeyEntry* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    __forceinline EntryArray() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    __forceinline ~EntryArray()
+    {
+        _clearAndDeallocate((S_00dcda40_Heap&)S_00dcdd80_Router::FUN_00c85750().heap());
+    }
+    __forceinline void _clearAndDeallocate(S_00dcda40_Heap& alloc)
+    {
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(CollisionKeyEntry));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    CollisionKeyEntry& operator[](int i)
+    {
+        return m_data[i];
+    }
+};
+
+struct LinkedCollidable
+{
+};
+
+struct BodyEntity
+{
+    int unk00;
+    int unk04;
+    S_00dcdd80_World2* m_pOwningWorld;
+    int unk0C;
+    LinkedCollidable m_kCollidable;
+};
+
+struct PointerMap
+{
+    void* m_kPrimitiveElement;
+    int m_iCapacityFlags;
+    int m_iPairCount;
+
+    PointerMap() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
+    {}
+    ~PointerMap();
+    bool isValid(int it) const
+    {
+        return it <= m_iPairCount;
+    }
+    void reserve(int numElements)
+    {
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(S_00dcdd80_Router::FUN_00c85750().heap()), numElements);
+    }
+    void insert(LinkedCollidable* key, int val)
+    {
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(S_00dcdd80_Router::FUN_00c85750().heap()), (unsigned int)(key), val);
+    }
+    void clear()
+    {
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&(S_00dcdd80_Router::FUN_00c85750().heap()));
+    }
+};
+
+__forceinline int AddAgentHelper(void* a, const CollisionKeyEntry& e, int c, FUN_00dce930* agent)
+{
+    return ::FUN_00dcd720((::S00dcd720_Cb *)(a), (::S00dcd720_Src *)(e.m_pAgentEntry), c, (::S00dcd720_Out *)(agent));
+}
+
+// @fnv 0x00dcdc00
+void __cdecl FUN_00dcdc00(void* a, BodyEntity** entities, int numEntities, S_00dcdd80_Listener* listener)
+{
+    S_00dcdd80_World2* world = entities[0]->m_pOwningWorld;
+    PointerMap map;
+    map.reserve(numEntities);
+
+    for (int i = 0; i < numEntities; i++)
+    {
+        map.insert(&entities[i]->m_kCollidable, 0);
+
+        EntryArray entries;
+        reinterpret_cast<::ContainerD082 *>(&(entities[i]->m_kCollidable))->CopyAndSortGeometryList((::hkArrayD082< ::ItemD082> &)(entries));
+
+        for (int j = 0; j < entries.GetLogicalSize(); j++)
+        {
+            CollisionKeyEntry& entry = entries[j];
+            if (!map.isValid(reinterpret_cast<::FUN_00cb18f0_t *>(&(map))->FindSlot((int)(entry.m_pCollidable))))
+            {
+                FUN_00dce930* agent = new FUN_00dce930();
+                if (!AddAgentHelper(a, entry, world->unk78, agent))
+                    reinterpret_cast<::hkpEntityGroupDCEC *>((listener))->AddObject((::hkReferencedObjectDCEC *)(agent));
+                reinterpret_cast<::hkReferencedObjectC905 *>((agent))->FUN_00c905b0();
+            }
+        }
+    }
+
+    map.clear();
+}

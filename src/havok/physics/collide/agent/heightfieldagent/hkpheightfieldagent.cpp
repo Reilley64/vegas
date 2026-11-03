@@ -595,4 +595,454 @@ FUN_00d32190_cls* __cdecl FUN_00d32190(int a1, int a2, int a3, int a4)
 }
 }  // namespace fnv_00d32190
 
+// Moved from hkpheightfieldagent_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/symbols_010c4000.h"
+
+extern "C" unsigned __int64 __rdtsc();
+extern "C" void _ReadWriteBarrier();
+extern char DAT_010cea14[];
+
+union CastVector {
+    __m128 v;
+    struct { float x,y,z,w; };
+    template<int mask> __forceinline void broadcast(const CastVector& s) { v=_mm_shuffle_ps(s.v,s.v,mask); }
+    __forceinline void mul(const CastVector& a,const CastVector& b) { v=_mm_mul_ps(a.v,b.v); }
+    __forceinline void add(const CastVector& a,const CastVector& b) { v=_mm_add_ps(a.v,b.v); }
+};
+struct CastTransform {
+    CastVector r0,r1,r2,translation;
+};
+static __forceinline void transformVector(CastVector& out,const CastTransform& t,const CastVector& in) {
+    CastVector x,y,z,tx,ty,tz,xy,zt;
+    x.broadcast<0>(in);
+    y.broadcast<0x55>(in);
+    z.broadcast<0xaa>(in);
+    tx.mul(x,t.r0);
+    ty.mul(y,t.r1);
+    tz.mul(z,t.r2);
+    xy.add(tx,ty);
+    zt.add(tz,t.translation);
+    out.add(xy,zt);
+}
+struct CastBody;
+struct CastInput {
+    void* dispatcher; void* filter; void* quality;
+    float tolerance; float weldTolerance; float allowedPenetration;
+    int broadPhaseMode; int collisionMode;
+    void* config; void* constraintOwner; void* world; void* query;
+    int queryFlags; int filterInfo; int material; int shapeKey;
+    float time; float deltaTime; int flags; int mode;
+    CastVector path;
+    float maxExtraPenetration;
+};
+struct SphereCastInput {
+    CastVector from,to;
+    int filterInfo,filterInfoB;
+    int shapeKey,shapeKeyB;
+    float radius,maxExtraPenetration;
+    int flags,mode;
+};
+struct CastCollector {
+    char* vtable;
+    float earlyOut;
+    int flags,mode;
+    CastVector worldPosition;
+    float radius;
+    int filterInfo,shapeKey,material;
+    CastVector path;
+    CastBody* body;
+    void* output;
+    int flags2,mode2;
+};
+struct CastShape {
+    virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
+    virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c();
+    virtual void v20(); virtual void v24(); virtual void v28();
+    virtual int count();
+    virtual CastVector* getSpheres(void*);
+};
+struct SphereCastInput;
+struct CastCollector;
+struct CastHeightField {
+    virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
+    virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c();
+    virtual void v20(); virtual void v24(); virtual void v28(); virtual void v2c();
+    virtual void CastSphere(const SphereCastInput&,const CastBody&,CastCollector&) const;
+};
+struct CastBody {
+    CastShape* shape;
+    int shapeKey;
+    CastTransform* transform;
+};
+struct TimerEvent { const char* name; unsigned time, timeHi; const char* first; };
+struct CastWork {
+    CastTransform relativeTransform;
+};
+struct TimerStream { void* begin; TimerEvent* current; void* capacity; TimerEvent* end; };
+static __forceinline void event(TimerStream* stream,const char* name) {
+    TimerEvent* e=stream->current;
+    if(e<stream->end) {
+        e->name=name;
+        unsigned int stamp;
+        stamp = static_cast<unsigned int>(__rdtsc());
+        e->time=stamp;
+        stream->current=(TimerEvent*)((unsigned char*)e+12);
+    }
+}
+// @fnv 0x00d31d30
+extern "C" void __cdecl FUN_00d31d30(void* arg0,void* arg1,void* arg2,void* arg3,void* arg4) {
+    TimerStream* stream=(TimerStream*)TlsGetValue(DAT_0126835c);
+    TimerEvent* e=stream->current;
+    if(e<stream->end) {
+        e->name="LtHeightField";
+        e->first="StClosestPoints";
+        unsigned int stamp;
+        stamp = static_cast<unsigned int>(__rdtsc());
+        e->time=stamp;
+        stream->current=e+1;
+    }
+    CastBody* bodyA=(CastBody*)arg0;
+    CastBody* bodyB=(CastBody*)arg1;
+    CastInput* input=(CastInput*)arg2;
+    if(arg4) ::FUN_00d319e0((int)(arg0),(int)(arg1),(int)(arg2),(::D323B0CollectorBase *)(arg4));
+    event((TimerStream*)TlsGetValue(DAT_0126835c),"StGetSpheres");
+    CastShape* shape=bodyA->shape;
+    CastHeightField* __restrict heightField=(CastHeightField*)bodyB->shape;
+    CastTransform relativeTransform;
+    reinterpret_cast<::hkTransformCB22 *>(&(relativeTransform))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(bodyB->transform)),(*(const ::hkTransformCB22 *)(bodyA->transform)));
+    int count=shape->count();
+    BSAudio* scratch=FUN_00c85750();
+    int savedStack=scratch->unk00;
+    scratch->unk00=savedStack+((count*16+127)&~127);
+    __m128 c0=bodyB->transform->r0.v;
+    __m128 c1=bodyB->transform->r1.v;
+    __m128 c2=bodyB->transform->r2.v;
+    __m128 path; (void)path;
+    {
+        __m128 lo=_mm_unpacklo_ps(c0,c1);
+        __m128 ct=_mm_shuffle_ps(_mm_unpackhi_ps(c0,c1),c2,0xe4);
+        c0=_mm_movelh_ps(lo,c2);
+        c1=_mm_shuffle_ps(_mm_movehl_ps(c0,lo),c2,0xd4);
+        c2=ct;
+    }
+    path=input->path.v;
+    __m128 b0=_mm_shuffle_ps(path,path,0);
+    __m128 p0=_mm_mul_ps(c0,b0);
+    __m128 b1=_mm_shuffle_ps(path,path,0x55);
+    __m128 p1=_mm_mul_ps(c1,b1);
+    __m128 b2=_mm_shuffle_ps(path,path,0xaa);
+    __m128 p2=_mm_mul_ps(c2,b2);
+    __m128 localPath=_mm_add_ps(_mm_add_ps(p0,p1),p2);
+    CastVector* spheres=shape->getSpheres((void*)savedStack);
+    event((TimerStream*)TlsGetValue(DAT_0126835c),"StCastSpheres");
+    {
+    SphereCastInput sphereInput;
+    CastCollector collector;
+    sphereInput.filterInfo=0;
+    sphereInput.filterInfoB=0;
+    sphereInput.maxExtraPenetration=input->maxExtraPenetration;
+    collector.vtable=DAT_010cea14;
+    collector.earlyOut=1.0f;
+    collector.path=input->path;
+    collector.body=bodyA;
+    collector.output=arg3;
+    if(count>0) { int remaining=count; do {
+        CastVector sphere;
+        sphere.v=spheres->v;
+        sphereInput.radius=spheres->w;
+        double radius=spheres->w;
+        CastVector transformed;
+        transformVector(transformed,relativeTransform,sphere);
+        sphereInput.from.v=transformed.v;
+        sphereInput.to.v=_mm_add_ps(sphereInput.from.v,localPath);
+        CastVector worldPosition;
+        transformVector(worldPosition,*bodyA->transform,sphere);
+        collector.worldPosition.v=worldPosition.v;
+        collector.radius=radius;
+        heightField->CastSphere(sphereInput,*bodyB,collector);
+        ++spheres;
+    } while(--remaining); }
+    FUN_00c85750()->unk00=savedStack;
+    event((TimerStream*)TlsGetValue(DAT_0126835c),"lt");
+    }
+}
+namespace fnv_00d324e0 {
+extern "C" unsigned __int64 __rdtsc(void);
+extern "C" void _ReadWriteBarrier(void);
+extern char DAT_010ceae0[];
+struct TimerEvent { const char* tag; unsigned int time; unsigned int unused; };
+struct TimerStream { int unk00; TimerEvent* next; int unk08; TimerEvent* end; };
+static __forceinline void timer(const char* tag) {
+    TimerStream* s = (TimerStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+    TimerEvent* p = s->next;
+    if (p < s->end) {
+        p->tag = tag;
+        unsigned int t;
+        t = static_cast<unsigned int>(__rdtsc());
+        p->time = t;
+        s->next = p + 1;
+    }
+}
+struct Matrix {
+    __m128 c0,c1,c2,c3;
+};
+struct SphereQuery {
+    __m128* spheres; int count; float tolerance;
+    SphereQuery(__m128* s,int n,float t):spheres(s),count(n),tolerance(t) {}
+};
+struct ShapeD {
+    virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
+    virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c();
+    virtual void v20(); virtual void v24(); virtual void v28();
+    virtual void query(const SphereQuery& q, __m128* out);
+    virtual const __m128* spheres(__m128* buffer);
+};
+struct BodyD { ShapeD* shape; int unk04; const Matrix* transform; };
+struct InputD { int unk00,unk04; float tolerance; };
+struct ContactD { __m128 position; __m128 normal; unsigned int id; int unk24,unk28,unk2c; };
+struct OutputD { ContactD* next; int constraint; };
+struct ManagerD {
+    virtual void v00(); virtual void v04(); virtual void v08();
+    virtual unsigned short add(const BodyD&, const BodyD&, const InputD&, OutputD&, int, ContactD*);
+    virtual void v10(); virtual void remove(unsigned short id, int constraint);
+};
+struct ArenaD { __m128* top; };
+static __forceinline __m128* reserve(int n) {
+    ArenaD* arena = (ArenaD*)FUN_00c85750();
+    __m128* p = arena->top;
+    int bytes = (n * 16 + 127) & -128;
+    arena->top = (__m128*)((char*)p + bytes);
+    return p;
+}
+static __forceinline __m128 point(const Matrix& m, __m128 v) {
+    return _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v,v,0x55),m.c1), _mm_mul_ps(_mm_shuffle_ps(v,v,0),m.c0)),
+                     _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v,v,0xaa),m.c2),m.c3));
+}
+static __forceinline __m128 direction(const Matrix& m, __m128 v) {
+    return _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v,v,0x55),m.c1), _mm_mul_ps(_mm_shuffle_ps(v,v,0),m.c0)),
+                     _mm_mul_ps(_mm_shuffle_ps(v,v,0xaa),m.c2));
+}
+struct AgentD {
+    void* vtable; int unk04; ManagerD* manager; unsigned short* ids; int count; int capacity;
+    void FUN_00d324e0(const BodyD& a, const BodyD& b, const InputD& input, OutputD& output);
+};
+// @fnv 0x00d324e0
+void AgentD::FUN_00d324e0(const BodyD& a, const BodyD& b, const InputD& input, OutputD& output) {
+    timer(DAT_010ceae0);
+    ShapeD* shapeA = a.shape;
+    ShapeD* shapeB = b.shape;
+    Matrix relative;
+    reinterpret_cast<::hkTransformCB22 *>(&(relative))->FUN_00cb22f0((const ::hkTransformCB22 &)(*b.transform),(const ::hkTransformCB22 &)(*a.transform));
+    int n = count;
+    __m128* transformed = reserve(n);
+    unsigned short* id = ids;
+    const __m128* src = shapeA->spheres(transformed);
+    int last = n - 1;
+    int j = last;
+    const __m128 c0 = relative.c0;
+    const __m128 c1 = relative.c1;
+    const __m128 c2 = relative.c2;
+    const __m128 c3 = relative.c3;
+    const __m128* s = src + last;
+    int delta = (char*)transformed - (char*)src;
+    do {
+        __m128 sphere = *s;
+        __m128 v = _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(sphere,sphere,0x55),c1), _mm_mul_ps(_mm_shuffle_ps(sphere,sphere,0),c0)),
+                             _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(sphere,sphere,0xaa),c2),c3));
+        *(__m128*)((char*)s + delta) = _mm_shuffle_ps(v,_mm_unpackhi_ps(v,sphere),0xc4);
+        --j;
+        --s;
+    } while (j >= 0);
+    __m128* planes = reserve(n);
+    shapeB->query(SphereQuery(transformed,n,input.tolerance),planes);
+    float tolerance = input.tolerance;
+    __m128* p = planes;
+    __m128* sphere = transformed;
+    for (int i = last; i >= 0; ++p,++sphere,++id,--i) {
+        if (((float*)p)[3] > tolerance) {
+            if (*id != 0xffff) {
+                manager->remove(*id,output.constraint);
+                *id = 0xffff;
+            }
+        } else {
+            ContactD* c = output.next;
+            float negW = -((float*)sphere)[3];
+            __m128 pos = _mm_add_ps(_mm_mul_ps(_mm_set1_ps(negW),*p),*sphere);
+            c->position = point(*b.transform,pos);
+            c->normal = direction(*b.transform,*p);
+            ((float*)&c->normal)[3] = ((float*)p)[3];
+            if (*id == 0xffff) {
+                *id = manager->add(a,b,input,output,0,c);
+                if (*id != 0xffff) ++output.next;
+            } else ++output.next;
+            c->id = *id;
+        }
+    }
+    ((ArenaD*)FUN_00c85750())->top = planes;
+    ((ArenaD*)FUN_00c85750())->top = transformed;
+    timer(::DAT_010c41f8);
+}
+}  // namespace fnv_00d324e0
+
+// Moved from hkpheightfieldagent_rtm_variant.cpp (VEGAS-15).
+
+// @fnv 0x00d319e0
+void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector)
+{
+    const hkpCdBody* bodyA = (const hkpCdBody*)a;
+    const hkpCdBody* bodyB = (const hkpCdBody*)b;
+    const CollisionAgentContext* input = (const CollisionAgentContext*)c;
+
+    StringCursor::GetMonitorStream().timerBegin(DAT_010cea38, DAT_010cea7c);
+
+    const hkpShape* shapeA = bodyA->m_pCollisionShape;
+    hkpHeightFieldShape* shapeB = (hkpHeightFieldShape*)bodyB->m_pCollisionShape;
+    CollisionScratch scratch;
+    reinterpret_cast<::hkTransformCB22 *>(&(scratch.transform))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(bodyB->m_pMotionState)), (*(const ::hkTransformCB22 *)(bodyA->m_pMotionState)));
+
+    int count = ((hkpShape*)shapeA)->getNumCollisionSpheres();
+
+    BSAudio* q = FUN_00c85750();
+    char* cur1 = (char*)q->unk00;
+    hkSphere* sphereBuffer = (hkSphere*)cur1;
+    q->unk00 = (int)(cur1 + ((count * 16 + 127) & ~127));
+
+    StringCursor::GetMonitorStream().timerSplit(DAT_010cea6c);
+
+    const hkSphere* spheres = ((hkpShape*)shapeA)->getCollisionSpheres(sphereBuffer);
+
+    StringCursor::GetMonitorStream().timerSplit(DAT_010cea60);
+
+    transformSpheres(scratch.transform, spheres, count, sphereBuffer);
+
+    StringCursor::GetMonitorStream().timerSplit(DAT_010cea54);
+
+    const CollisionAgentContext* __restrict in = input;
+    BSAudio* bs2 = FUN_00c85750();
+    char* cur2 = (char*)bs2->unk00;
+    hkSphere* hitResults = (hkSphere*)cur2;
+    {
+        CollisionSphereData shB;
+        shB.m_kSpheres = sphereBuffer;
+        bs2->unk00 = (int)(cur2 + ((count * 16 + 127) & ~127));
+        shB.m_iSphereCount = count;
+        shB.m_fScalar = in->m_fScalar;
+        shapeB->CollideSpheres(shB, hitResults);
+    }
+
+    StringCursor::GetMonitorStream().timerSplit(DAT_010cea48);
+
+    float tolerance = in->m_fScalar;
+    const hkSphere* __restrict hitPtr = hitResults;
+    const hkSphere* __restrict spherePtr = sphereBuffer;
+    for (int i = count - 1; i >= 0; ++hitPtr, ++spherePtr, --i) {
+        const hkSphere& __restrict hit = *hitPtr;
+        if (hit.w <= tolerance) {
+            ContactPointPair& point = scratch.contact;
+            point.m_pBodyA = bodyA;
+            point.m_pBodyB = bodyB;
+            float distToPoint = -spherePtr->w - hit.w;
+
+            hkVector4 posInB;
+            __m128 dist4 = _mm_load_ss(&distToPoint);
+            dist4 = _mm_shuffle_ps(dist4,dist4,0);
+            posInB.m_vComponents = _mm_add_ps(_mm_mul_ps(dist4, hit.m_vComponents), spherePtr->m_vComponents);
+
+            point.m_kPoint.m_vContactPosition.SetTransformedPoint(bodyB->m_pMotionState->m_kMotionTransform, posInB);
+            point.m_kPoint.m_vSeparatingNormal.SetRotatedDirection(bodyB->m_pMotionState->m_kMotionTransform, hit);
+            point.m_kPoint.m_vSeparatingNormal.w = hit.w;
+
+            ((hkpCdPointCollector*)collector)->AddCdPoint(point);
+        }
+    }
+
+    FUN_00c85750()->unk00 = (int)hitResults;
+    FUN_00c85750()->unk00 = (int)sphereBuffer;
+
+    StringCursor::GetMonitorStream().timerEnd(::str_01076f38);
+}
+
+struct Scale {
+    __m128 value;
+    Scale(float f) { value = _mm_load_ss(&f); }
+    __forceinline __m128 repeated() const { return _mm_shuffle_ps(value,value,0); }
+};
+static __forceinline void S_combine(hkVector4& out, const hkVector4& start, const hkVector4& direction, const Scale& amount) {
+    out.m_vComponents = _mm_add_ps(start.m_vComponents, _mm_mul_ps(amount.repeated(), direction.m_vComponents));
+}
+static __forceinline void S_accumulate(hkVector4& out, const Scale& amount, const hkVector4& direction) {
+    out.m_vComponents = _mm_add_ps(out.m_vComponents, _mm_mul_ps(amount.repeated(), direction.m_vComponents));
+}
+static __forceinline void S_rotate(hkVector4& out, const hkTransform& matrix, const hkVector4& input) {
+    __m128 first = _mm_mul_ps(matrix.m_kColumn0.m_vComponents, _mm_shuffle_ps(input.m_vComponents,input.m_vComponents,0));
+    __m128 second = _mm_mul_ps(matrix.m_kColumn1.m_vComponents, _mm_shuffle_ps(input.m_vComponents,input.m_vComponents,0x55));
+    __m128 third = _mm_mul_ps(matrix.m_kColumn2.m_vComponents, _mm_shuffle_ps(input.m_vComponents,input.m_vComponents,0xaa));
+    out.m_vComponents = _mm_add_ps(_mm_add_ps(first, second), third);
+}
+
+struct S_00d32270_In;
+struct S_00d32270_Target
+{
+    virtual void v00();
+    virtual void v04(struct S_00d32270_In* in);
+    float m_04;
+};
+
+struct S_00d32270_Q
+{
+    int unk00;
+    int unk04;
+    hkTransform* m_08;
+};
+
+struct S_00d32270_P
+{
+    hkVector4 v00;
+    float f10;
+};
+
+struct S_00d32270_cls
+{
+    int unk00;
+    float m_04;
+    int unk08;
+    int unk0c;
+    hkVector4 m_10;
+    float m_20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    hkVector4 m_30;
+    int m_40;
+    S_00d32270_Target* m_44;
+    void FUN_00d32270(S_00d32270_Q* q, S_00d32270_P* p);
+};
+
+struct S_00d32270_In
+{
+    hkVector4 a;
+    hkVector4 b;
+    int m40;
+    S_00d32270_Q* q;
+    S_00d32270_In(int a, S_00d32270_Q* b) : m40(a), q(b) {}
+};
+
+static __forceinline float S_min(float a, float b) { return (b < a) ? b : a; }
+
+// @fnv 0x00d32270
+void S_00d32270_cls::FUN_00d32270(S_00d32270_Q* q, S_00d32270_P* p)
+{
+    __declspec(align(16)) S_00d32270_In in(m_40, q);
+    float s = -m_20;
+    float t = p->f10;
+    S_combine(in.a, m_10, m_30, Scale(p->f10));
+    S_rotate(in.b, *q->m_08, p->v00);
+    S_accumulate(in.a, Scale(s), in.b);
+    in.b.w = t;
+    m_44->v04(&in);
+    float o = m_44->m_04;
+    m_04 = S_min(m_04, o);
+}
 #include "generated/data/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent.inc"
+#include "generated/data/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent_gs_ehsc_nogs_noehsc_variant.inc"
+#include "generated/data/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent_rtm_variant.inc"

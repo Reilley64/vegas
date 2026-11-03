@@ -565,4 +565,110 @@ void FUN_00cd80e0(float* output)
     *reinterpret_cast<__m128*>(output) = _mm_setzero_ps();
 }
 
+// Moved from hkpsphereshape_rtm_variant.cpp (VEGAS-15).
+#include "fnv/symbols_00cd8000.h"
+void __cdecl FUN_00cd8040(char const* const* a1, char const* const* a2);
+int __cdecl FUN_00cd8050();
+int FUN_00cd87f0(int a1, int a2);
+void FUN_00cd8060(int direction, float* vertexOut);
+void FUN_00cd8080(int a0, __int64 packed);
+CentreVectorCD80 FUN_00cd80c0();
+void FUN_00cd80e0(float* output);
+
+#include <math.h>
+
+struct FnvBool
+{
+    FnvBool(bool v)
+    {
+        m = (char)v;
+    }
+    char m;
+};
+
+struct RayIn
+{
+    __m128 m_vFrom;
+    __m128 m_vTo;
+};
+
+
+static __forceinline float dot3(__m128 a, __m128 b)
+{
+    __m128 p = _mm_mul_ps(a, b);
+    __m128 s = _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p);
+    s = _mm_add_ss(_mm_shuffle_ps(p, p, 0xAA), s);
+    float r;
+    _mm_store_ss(&r, s);
+    return r;
+}
+
+static __forceinline __m128 lerp(__m128 a, __m128 b, const float& t)
+{
+    __m128 scalar = _mm_load_ss(&t);
+    __m128 ts = _mm_shuffle_ps(scalar, scalar, 0);
+    __m128 one = ::DAT_010ec7f0;
+    return _mm_add_ps(_mm_mul_ps(a, _mm_sub_ps(one, ts)), _mm_mul_ps(b, ts));
+}
+
+// @fnv 0x00cd85c0
+FnvBool __cdecl FUN_00cd85c0(float radius, const RayIn& input, RayHit& results)
+{
+    float extra, p2, gap, disc, negative, root, nearDist;
+    __m128 point;
+    float radiusSq = radius * radius;
+    __m128 dir = _mm_sub_ps(input.m_vTo, input.m_vFrom);
+    float b = dot3(input.m_vFrom, dir);
+    if (b >= 0.0f)
+        goto miss;
+
+    const float& a = dot3(dir, dir);
+    if (b * b > (float)(radiusSq * a * 100.0))
+    {
+        if (!(a < radiusSq))
+        {
+            extra = -b;
+            float closestFraction = extra / a;
+            point = lerp(input.m_vFrom, input.m_vTo, closestFraction);
+            b = 0.0f;
+        }
+        else
+            goto miss;
+    }
+    else
+    {
+        point = input.m_vFrom;
+        extra = 0.0f;
+    }
+
+    p2 = dot3(point, point);
+    gap = p2 - radiusSq;
+    disc = b * b - a * gap;
+    if (disc <= 0.0f)
+        goto miss;
+
+    negative = -b;
+    root = sqrtf(disc);
+    nearDist = negative - root;
+    extra = nearDist + extra;
+
+    if (extra >= (float)(a * results.m_fHitFraction))
+        goto miss;
+    if (extra < 0.0f)
+    {
+    miss:
+        return false;
+    }
+    {
+        extra = extra / a;
+        results.m_fHitFraction = extra;
+        __m128 hit = lerp(input.m_vFrom, input.m_vTo, extra);
+        float invRadius = 1.0f / radius;
+        results.m_vHitNormal = RayVector(hit);
+        __m128 invScalar = _mm_load_ss(&invRadius);
+        results.m_vHitNormal = RayVector(_mm_mul_ps(_mm_shuffle_ps(invScalar, invScalar, 0), hit));
+        results.setKey(0xffffffff);
+        return true;
+    }
+}
 #include "generated/data/havok/physics/collide/shape/convex/sphere/hkpsphereshape.inc"

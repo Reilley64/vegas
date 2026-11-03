@@ -1080,3 +1080,288 @@ int S00e42460_RayCastWheelCollide::FUN_00e42460(const S00e42460_VehicleInstance*
     }
     return 0;
 }
+
+// Moved from hkpvehicleraycastwheelcollide_rtm_variant.cpp (VEGAS-15).
+void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
+template <class T> class hkArrayXe42610
+{
+  public:
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    void AddBack(const T& t)
+    {
+        hkMemoryAllocatorXe42610& kAlloc = FUN_00c85750().heap();
+        if (m_iElementCount == getCapacity())
+            ResizeAudioStream(&kAlloc, this, sizeof(T));
+        constructWithCopyXe42610(m_data + m_iElementCount, 1, t);
+        m_iElementCount++;
+    }
+};
+void FUN_00e42010(FUN_00e42010_self* self, hkAabb* aabb);
+
+struct Tab34
+{
+    int p00;
+    int p04;
+    float* f08;
+};
+struct VSub
+{
+    int p00;
+    int p04;
+    int p08;
+    int p0c;
+    int p10;
+    int p14;
+    int p18;
+    int p1c;
+    int p20;
+    int p24;
+    int p28;
+    int p2c;
+    int p30;
+    int p34;
+    int p38;
+    int p3c;
+    int p40;
+    int p44;
+    int p48;
+    int p4c;
+    int p50;
+    int p54;
+    int p58;
+    int p5c;
+    int p60;
+    int p64;
+    int p68;
+    int p6c;
+    int p70;
+    int p74;
+    int p78;
+    int p7c;
+    int p80;
+    float f84;
+    int p88;
+    float* f8c;
+};
+struct VecWork
+{
+    __m128 m_vComponents;
+    VecWork()
+    {}
+    VecWork(const VecWork& b)
+    {
+        m_vComponents = b.m_vComponents;
+    }
+    void operator=(const VecWork& b)
+    {
+        m_vComponents = b.m_vComponents;
+    }
+    void sub(const VecWork& a, const VecWork& b)
+    {
+        m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
+    }
+    void cross(const VecWork& a, const VecWork& b)
+    {
+        m_vComponents = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, 0xc9),
+                                              _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xd2)),
+                                   _mm_mul_ps(_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, 0xd2),
+                                              _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xc9)));
+    }
+    void add(const VecWork& b)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, b.m_vComponents);
+    }
+};
+struct CenterTrack
+{
+    VecWork center0, center1, orient0, orient1, localCenter;
+};
+struct MotionStateData
+{
+    VecWork transform0, transform1, transform2, transform3;
+    CenterTrack track;
+    VecWork unk90, unkA0, unkB0;
+    __forceinline const CenterTrack& trackData() const
+    {
+        return track;
+    }
+};
+struct MotionData
+{
+    VecWork unk00;
+    MotionStateData state;
+    VecWork linearVelocity, angularVelocity;
+    __forceinline const VecWork& worldCenter() const
+    {
+        return state.trackData().center1;
+    }
+    __forceinline const MotionStateData* stateData() const
+    {
+        return &state;
+    }
+};
+struct IntegerTriple
+{
+    __m128 unk00, unk10, unk20, unk30, unk40, unk50, unk60, unk70, unk80;
+    float friction;
+    float unk94, unk98, unk9C;
+    __m128 unkA0, unkB0, unkC0, unkD0;
+    MotionData motion;
+};
+struct VObj
+{
+    int p00;
+    int p04;
+    int p08;
+    int p0c;
+    int p10;
+    int p14;
+    IntegerTriple* f18;
+    VSub* f1c;
+    int p20;
+    int p24;
+    int p28;
+    int p2c;
+    int p30;
+    Tab34* f34;
+    int p38;
+    int p3c;
+    int p40;
+    int p44;
+    hkpVehicleWheelInfoE423* f48;
+};
+struct Node50
+{
+    int p00;
+    int p04;
+    int p08;
+    int p0c;
+    signed char c10;
+    char p11;
+    char p12;
+    char p13;
+    int p14;
+    char c18;
+};
+struct Src
+{
+    __m128 v0;
+    float f10;
+    float f14;
+    float f18;
+    float f1c;
+    unsigned int shapeKeys[8];
+    int p40;
+    int p44;
+    int p48;
+    int p4c;
+    Node50* f50;
+};
+struct Dst
+{
+    __m128 v0;
+    union
+    {
+        __m128 v1;
+        struct
+        {
+            float normalX, normalY, normalZ, distance;
+        };
+    };
+    float f20;
+    IntegerTriple* f24;
+    unsigned int shapeKeys[8];
+    float f48;
+    float f4c;
+    float f50;
+};
+
+__forceinline void CrossP(__m128& out, const __m128& angular, const __m128& offset)
+{
+    __m128 first = _mm_mul_ps(_mm_shuffle_ps(angular, angular, 0xC9), _mm_shuffle_ps(offset, offset, 0xD2));
+    __m128 second = _mm_mul_ps(_mm_shuffle_ps(angular, angular, 0xD2), _mm_shuffle_ps(offset, offset, 0xC9));
+    out = _mm_sub_ps(first, second);
+}
+__forceinline void PointVelocity(const MotionData& motion, const VecWork& point, VecWork& out)
+{
+    VecWork offset;
+    offset.sub(point, motion.worldCenter());
+    const VecWork& angular = motion.angularVelocity;
+    out.cross(angular, offset);
+    out.add(motion.linearVelocity);
+}
+// @fnv 0x00e42190
+void FUN_00e42190(VObj* a, unsigned char idx, Src* src, Dst* dst)
+{
+    float* table = a->f34->f08;
+    float slotA = table[idx * 12 + 8];
+    hkpVehicleWheelInfoE423* E2 = a->f48 + idx;
+
+    __m128 srcV = _mm_load_ps((float*)&src->v0);
+    __m128 oldV = _mm_load_ps((float*)&dst->v1);
+    __m128 t = _mm_unpackhi_ps(srcV, oldV);
+    __m128 r = _mm_shuffle_ps(srcV, t, 0xC4);
+    _mm_store_ps((float*)&dst->v1, r);
+    for (int key = 0; key < 8; ++key)
+        dst->shapeKeys[key] = src->shapeKeys[key];
+    Node50* np = src->f50;
+    IntegerTriple* link = (np->c18 == 1) ? (IntegerTriple*)((char*)np + np->c10) : 0;
+    dst->f24 = link;
+    float g = a->f1c->f8c[idx * 10];
+    float slotB = g;
+    slotB = (g + slotA) * src->f10;
+    float length = slotB - g;
+    dst->f48 = length;
+    __m128 bc0 = _mm_load_ss(&slotB);
+    __m128 bc = _mm_shuffle_ps(bc0, bc0, 0);
+    __m128 e80 = E2->m_vHardPointWs.m_vComponents;
+    __m128 p = _mm_mul_ps(bc, e80);
+    __m128 e50 = E2->m_vContactPoint[5].m_vComponents;
+    p = _mm_add_ps(p, e50);
+    _mm_store_ps((float*)&dst->v0, p);
+    dst->distance = length;
+    __m128 v1n = _mm_load_ps((float*)&dst->v1);
+    dst->f20 = dst->f24->friction;
+    __m128 e80b = E2->m_vHardPointWs.m_vComponents;
+    __m128 prod = _mm_mul_ps(v1n, e80b);
+    __m128 h1 = _mm_shuffle_ps(prod, prod, 0x55);
+    h1 = _mm_add_ss(h1, prod);
+    __m128 h2 = _mm_shuffle_ps(prod, prod, 0xAA);
+    h2 = _mm_add_ss(h2, h1);
+    float sum;
+    _mm_store_ss(&sum, h2);
+    if (sum < -a->f1c->f84)
+    {
+        IntegerTriple* W = a->f18;
+        VecWork d0;
+        d0.m_vComponents = dst->v0;
+        VecWork yVec;
+        PointVelocity(W->motion, d0, yVec);
+        VecWork xVec;
+        PointVelocity(link->motion, d0, xVec);
+        __m128 y0 = yVec.m_vComponents, x6 = xVec.m_vComponents;
+        float inv = (float)(-1.0 / sum);
+        y0 = _mm_sub_ps(y0, x6);
+        y0 = _mm_mul_ps(y0, v1n);
+        __m128 s1 = _mm_shuffle_ps(y0, y0, 0x55);
+        s1 = _mm_add_ss(s1, y0);
+        __m128 s2 = _mm_shuffle_ps(y0, y0, 0xAA);
+        s2 = _mm_add_ss(s2, s1);
+        float sum2;
+        _mm_store_ss(&sum2, s2);
+        dst->f4c = sum2 * inv;
+        dst->f50 = inv;
+    }
+    else
+    {
+        dst->f4c = 0.0f;
+        dst->f50 = 1.0f / a->f1c->f84;
+    }
+}

@@ -1601,4 +1601,263 @@ redoElemTemp:
     }
 }
 
+// Moved from hkpconstraintsolversetup_gs_nogs_variant.cpp (VEGAS-15).
+#include "fnv/symbols_00d88000.h"
+
+typedef hkVector4D886 hkVec4;
+
+struct hkAccum
+{
+    unsigned char m_type;
+    unsigned int m_uiDeactivationClass;
+    float m_fGravityFactor;
+    hkVec4 m_vLinearVelocity;
+    hkVec4 m_vAngularVelocity;
+    hkVec4 m_vInverseInertiaAndMass;
+    hkVec4 m_vCenterOfMass;
+    hkVec4 m_scratch1;
+    hkVec4 m_scratch2;
+    hkVec4 m_scratch3;
+};
+
+struct D88580World
+{
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
+    void* unk10;
+    void* unk14;
+    void* unk18;
+    void* unk1C;
+    void* unk20;
+    void* unk24;
+    void* unk28;
+    void* unk2C;
+    void* unk30;
+    void* unk34;
+    void* unk38;
+    void* unk3C;
+    void* unk40;
+    void* unk44;
+    void* unk48;
+    void* unk4C;
+    void* unk50;
+    void* unk54;
+    void* unk58;
+    void* unk5C;
+    void* unk60;
+    void* unk64;
+    void* unk68;
+    void* unk6C;
+    void* unk70;
+    void* unk74;
+    void* m78;
+};
+
+struct D88580Sub
+{
+    void* unk00;
+    void* unk04;
+    unsigned char unk08;
+    unsigned char m09;
+};
+
+struct D88580Entity
+{
+    int unk00;
+    int unk04;
+    D88580World* m08;
+    void* unk0C;
+    void* unk10;
+    void* unk14;
+    void* unk18;
+    void* unk1C;
+    void* unk20;
+    void* unk24;
+    void* unk28;
+    void* unk2C;
+    void* unk30;
+    void* unk34;
+    void* unk38;
+    void* unk3C;
+    void* unk40;
+    void* unk44;
+    void* unk48;
+    void* unk4C;
+    void* unk50;
+    void* unk54;
+    void* unk58;
+    void* unk5C;
+    void* unk60;
+    void* unk64;
+    void* unk68;
+    void* unk6C;
+    void* unk70;
+    void* unk74;
+    void* unk78;
+    void* unk7C;
+    void* unk80;
+    void* unk84;
+    void* unk88;
+    void* unk8C;
+    void* unk90;
+    void* unk94;
+    void* unk98;
+    void* unk9C;
+    void* unkA0;
+    char* m_a4;
+    void* unkA8;
+    void* unkAC;
+    void* unkB0;
+    void* unkB4;
+    void* unkB8;
+    void* unkBC;
+    void* unkC0;
+    void* unkC4;
+    void* unkC8;
+    void* unkCC;
+    void* unkD0;
+    void* unkD4;
+    void* unkD8;
+    void* unkDC;
+    D88580Sub m_e0;
+};
+
+
+// @fnv 0x00d88580
+void __cdecl FUN_00d88580(void* a0, void* a1, int offset, D88580Entity** entities, int count)
+{
+    for (int i = 0; i < count; ++i)
+    {
+        D88580Entity* entity = entities[i];
+        D88580Sub* sub = &entity->m_e0;
+        hkAccum acc = *(hkAccum*)(entity->m_a4 + offset);
+        acc.m_vCenterOfMass = acc.m_vLinearVelocity;
+        acc.m_scratch1 = acc.m_vAngularVelocity;
+        unsigned char saved = sub->m09;
+        sub->m09 = 0xff;
+        ::ApplyAccumulatorsPrivate::FUN_00d29bf0((*(const ::ApplyAccumulatorsPrivate::ConstraintSolverInfo *)(a0)), (*(const ::ApplyAccumulatorsPrivate::hkStepInfo *)(a1)), (const ::ApplyAccumulatorsPrivate::QuantizedBoundsData *)(::hkAccum *)(&acc), (::ApplyAccumulatorsPrivate::hkpMotion *const *)(::D88580Sub **)(&sub), 1, 0);
+        ::FUN_00d1a330((const ::CollisionContext *)(entity->m08->m78), (::EntityNode *const *)(::D88580Entity **)(&entity), 1);
+        sub->m09 = saved;
+    }
+}
+
+// Moved from hkpconstraintsolversetup_rtm_variant.cpp (VEGAS-15).
+
+
+struct VectorComponentValue
+{
+    __m128 m_vValue;
+
+    VectorComponentValue(const float& x)
+    {
+        m_vValue = _mm_load_ps1(&x);
+    }
+    VectorComponentValue(const __m128& x)
+    {
+        m_vValue = x;
+    }
+};
+
+struct hkVector4
+{
+    __m128 m_vComponents;
+
+    void operator=(const hkVector4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+    void setAdd4(const hkVector4& a, const hkVector4& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    void setSub4(const hkVector4& a, const hkVector4& b)
+    {
+        m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
+    }
+    void setMul4(const VectorComponentValue& r, const hkVector4& a)
+    {
+        m_vComponents = _mm_mul_ps(r.m_vValue, a.m_vComponents);
+    }
+    void setMul4(const hkVector4& a, const hkVector4& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    void add4(const hkVector4& a)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents);
+    }
+    void mul4(const hkVector4& a)
+    {
+        m_vComponents = _mm_mul_ps(m_vComponents, a.m_vComponents);
+    }
+    void addMul4(const VectorComponentValue& r, const hkVector4& a)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(r.m_vValue, a.m_vComponents));
+    }
+    VectorComponentValue getSimdAt0() const
+    {
+        return _mm_shuffle_ps(m_vComponents, m_vComponents, 0);
+    }
+};
+
+struct D892Params
+{
+    hkVector4 unk00;
+    hkVector4 unk10;
+    hkVector4 unk20;
+    hkVector4 m_fGain;
+};
+
+struct D892State
+{
+    int unk00;
+    int unk04;
+    float m_dt;
+    int unk0c;
+    hkVector4 m_vContactPosition;
+    hkVector4 m_fVelocity;
+    hkVector4 unk30;
+    hkVector4 m_errorA;
+    hkVector4 m_errorB;
+};
+
+// @fnv 0x00d892f0
+static __declspec(noinline) void FUN_00d892f0(const D892Params* params, bool update, D892State* state,
+                                              const hkVector4* vel, const hkVector4* damping)
+{
+    __m128 dt = _mm_load_ss(&state->m_dt);
+    hkVector4 dtVel;
+    dtVel.setMul4(VectorComponentValue(_mm_shuffle_ps(dt, dt, 0)), *vel);
+    hkVector4 d0;
+    d0.setSub4(state->m_vContactPosition, state->m_errorA);
+    hkVector4 d1;
+    d1.setSub4(state->m_fVelocity, state->m_errorB);
+    state->m_errorA.addMul4(params->m_fGain.getSimdAt0(), d0);
+    state->m_errorB.addMul4(params->m_fGain.getSimdAt0(), d1);
+    if (!update)
+    {
+        state->m_fVelocity.setAdd4(state->m_errorB, d1);
+        hkVector4 pos;
+        pos.setAdd4(d0, state->m_errorA);
+        pos.add4(dtVel);
+        state->m_vContactPosition = pos;
+    }
+    else
+    {
+        state->m_errorA.mul4(*damping);
+        {
+            hkVector4& eB = state->m_errorB;
+            eB.setMul4(*damping, eB);
+        }
+        state->m_fVelocity = d1;
+        state->m_vContactPosition = d0;
+    }
+}
+
+void D892_Entry(const D892Params* params, bool update, D892State* state, const hkVector4* vel, const hkVector4* damping)
+{
+    FUN_00d892f0(params, update, state, vel, damping);
+}
 #include "generated/data/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.inc"

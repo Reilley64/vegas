@@ -1011,4 +1011,959 @@ void __cdecl FUN_00d3a8c0(Body* apBodyA, Body* apBodyB, Input* input, Penetratio
     }
 }
 
+// Moved from hkpcapsuletriangleagent_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+// src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-31 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+
+// src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/symbols_00c85000.h"
+void FUN_00d3ab60(void* apObject);
+void __cdecl FUN_00d3ab90(void** apTable);
+void __cdecl TransformAndDispatch(char* a1, char* a2, char* pExtra, void* a4, int a5, int a6);
+int __cdecl FUN_00d39bf0(Obj* a, Obj* b, Par* volatile p, void* q, Contact* out);
+
+typedef float hkReal;
+typedef unsigned char hkUchar;
+typedef unsigned char hkUint8;
+typedef unsigned short hkUint16;
+typedef unsigned int hkUint32;
+typedef unsigned long __w64 hkUlong;
+typedef size_t hk_size_t;
+class FinishingFlag
+{
+public:
+FinishingFlag():m_bFinishing(0){}
+int m_bFinishing;
+};
+class hkClass;
+typedef int hkBool32;
+class hkBool
+{
+public:
+typedef char CompileTimeTrueType;inline hkBool(bool b)
+{
+m_cBooleanValue=static_cast<char>(b);
+}
+inline operator bool()const
+{
+return m_cBooleanValue !=0;
+}
+private:
+char m_cBooleanValue;};
+template<typename ENUM,typename STORAGE>
+class hkEnum
+{
+public:
+hkEnum()
+{
+}
+hkEnum(ENUM e)
+{
+m_kStorage=static_cast<STORAGE>(e);
+}
+private:
+STORAGE m_kStorage;};
+template<typename TYPE>
+class ValueWrapper
+{
+public:
+__forceinline ValueWrapper(){}
+__forceinline void operator=(TYPE e)
+{
+m_kStorage=e;
+}
+__forceinline TYPE val()const
+{
+return m_kStorage;
+}
+__forceinline operator TYPE()const
+{
+return val();
+}
+private:
+TYPE m_kStorage;};
+template<typename T>
+class hkThreadLocalData
+{
+public:
+hkThreadLocalData()
+{
+m_slotID=TlsAlloc();
+}
+__forceinline T getData()const
+{
+return(T)(hkUlong)TlsGetValue(m_slotID);
+}
+unsigned long m_slotID;};
+class hkMemoryAllocator
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t,void*p){return p;}
+virtual void*AllocateMemoryBlock(int numBytes)=0;
+virtual void ReleaseBlock(void*p,int numBytes)=0;public:
+enum MemoryState
+{
+MEMORY_STATE_OK,
+MEMORY_STATE_OUT_OF_MEMORY
+};};
+struct StringPointerTriple
+{
+public:
+__forceinline StringPointerTriple();protected:
+ValueWrapper<void*>m_next;};
+class NineIntegerRecord
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t,void*p){return p;}
+typedef hkMemoryAllocator Allocator;
+static NineIntegerRecord&__cdecl GetMonitorStream();inline Allocator&heap(){return*m_pStreamAllocator;}
+protected:
+StringPointerTriple m_aiEntries;
+Allocator*m_pStreamAllocator;
+Allocator*m_pDebugAllocator;};
+class hkBaseObject
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+__forceinline virtual ~hkBaseObject(){}
+public:
+__forceinline hkBaseObject(){}
+};
+class hkStatisticsCollector;
+class hkReferencedObject:public hkBaseObject
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
+virtual const hkClass*GetClassType()const;
+virtual void CalcContentStatistics(hkStatisticsCollector*collector,const hkClass*cls)const;
+public:
+enum
+{
+MASK_MEMSIZE=0x7fff
+};
+hkUint16 m_usMemSizeAndFlags;
+public:
+hkReferencedObject(class FinishingFlag flag){}
+};
+
+typedef __m128 hkQuadReal;
+class hkVector4_S;
+typedef const hkVector4_S&hkVector4Parameter;
+class Vector4Comparison;
+typedef const Vector4Comparison&hkVector4ComparisonParameter;
+class hkTransform;
+class hkVector4_S
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void operator=(const hkVector4_S&v);
+__forceinline void _setTransformedPos(const hkTransform&a,const hkVector4_S&b);
+__forceinline const hkReal&operator()(int i)const;
+private:
+hkQuadReal m_vComponents;
+public:
+operator hkQuadReal()const
+{
+return m_vComponents;
+}
+};
+class hkMatrix3
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline hkVector4_S&getColumn(int i);
+__forceinline const hkVector4_S&getColumn(int i)const;
+protected:
+hkVector4_S m_kColumn0;
+hkVector4_S m_kColumn1;
+hkVector4_S m_kColumn2;};
+class __declspec(align(16))hkRotation:public hkMatrix3
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}};
+class hkTransform
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline hkTransform(const hkTransform&r);
+__forceinline const hkVector4_S&getTranslation()const;
+__forceinline const hkRotation&getRotation()const;
+private:
+hkRotation m_rotation;
+hkVector4_S m_vTranslation;};
+inline void hkVector4_S::operator=(const hkVector4_S&v)
+{
+m_vComponents=v.m_vComponents;
+}
+inline void hkVector4_S::_setTransformedPos(const hkTransform&t,const hkVector4_S&b)
+{
+const hkRotation&r=t.getRotation();
+hkQuadReal b0=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
+hkQuadReal r0=_mm_mul_ps(r.getColumn(0).m_vComponents,b0);
+hkQuadReal b1=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
+hkQuadReal r1=_mm_mul_ps(r.getColumn(1).m_vComponents,b1);
+hkQuadReal b2=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
+hkQuadReal r2=_mm_mul_ps(r.getColumn(2).m_vComponents,b2);
+m_vComponents=_mm_add_ps(_mm_add_ps(r0,r1),_mm_add_ps(r2,t.getTranslation().m_vComponents));}
+inline const hkReal&hkVector4_S::operator()(int a)const
+{
+return reinterpret_cast<const hkReal*>(&m_vComponents)[a];
+}
+inline hkVector4_S&hkMatrix3::getColumn(int x)
+{
+return(&m_kColumn0)[x];
+}
+inline const hkVector4_S&hkMatrix3::getColumn(int x)const
+{
+return(&m_kColumn0)[x];
+}
+const hkVector4_S&hkTransform::getTranslation()const
+{
+return m_vTranslation;
+}
+const hkRotation&hkTransform::getRotation()const
+{
+return m_rotation;
+}
+hkTransform::hkTransform(const hkTransform&t)
+{
+const hkVector4_S r0=t.m_rotation.getColumn(0);
+const hkVector4_S r1=t.m_rotation.getColumn(1);
+const hkVector4_S r2=t.m_rotation.getColumn(2);
+const hkVector4_S r3=t.m_rotation.getColumn(3);
+m_rotation.getColumn(0)=r0;
+m_rotation.getColumn(1)=r1;
+m_rotation.getColumn(2)=r2;
+m_rotation.getColumn(3)=r3;}
+class StringCursor
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
+{
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
+}
+public:
+__forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
+__forceinline char*__cdecl GetStreamEnd(){return m_kRayEnd.val();}
+__forceinline char*__cdecl getCapacityMinus16(){return m_pCurrentCommand.val();}
+__forceinline hkBool __cdecl memoryAvailable()
+{
+return GetStreamEnd()<getCapacityMinus16();
+}
+__forceinline void __cdecl setEnd(char*ptr){m_kRayEnd=ptr;}
+public:
+static void __cdecl init();
+public:
+ValueWrapper<char*>m_kRayStart;
+ValueWrapper<char*>m_kRayEnd;
+ValueWrapper<char*>m_pRayCursor;
+ValueWrapper<char*>m_pCurrentCommand;
+public:
+struct Command
+{
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(StringCursor::Command));}}__forceinline void*__cdecl operator new(hk_size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](hk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+const char*m_pCommandName;
+};
+struct CommandTimingEntry:public StringCursor::Command
+{
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(StringCursor::CommandTimingEntry));}}__forceinline void*__cdecl operator new(hk_size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](hk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+hkUint32 m_uiStartTicks;
+hkUint32 m_uiEndTicks;
+__forceinline void setTime();
+};};
+void StringCursor::CommandTimingEntry::setTime()
+{
+hkUint32 ticks;
+ticks = static_cast<unsigned int>(__rdtsc());
+m_uiStartTicks=ticks;
+}
+class hkAabb
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+public:
+hkVector4_S m_kMinimumCorner;};
+class hkSphere
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+protected:
+hkVector4_S m_pos;};
+typedef hkUint16 hkContactPointId;
+class hkContactPoint
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+inline hkVector4_S&getPosition();
+inline hkVector4_S&getSeparatingNormal();
+inline void setNormal(const hkVector4_S&normal);
+inline hkReal getDistance()const;
+protected:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+hkVector4_S m_vContactPosition;
+hkVector4_S m_vSeparatingNormal;};
+inline hkVector4_S&hkContactPoint::getPosition()
+{
+return m_vContactPosition;
+}
+inline hkVector4_S&hkContactPoint::getSeparatingNormal()
+{
+return m_vSeparatingNormal;
+}
+inline hkReal hkContactPoint::getDistance()const
+{
+return m_vSeparatingNormal(3);
+}
+class Vector4WithInt24W:public hkVector4_S
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}};
+enum CollisionShapeType
+{
+HK_SHAPE_INVALID=0,
+HK_SHAPE_SPHERE,
+HK_FIRST_SHAPE_TYPE=HK_SHAPE_SPHERE,
+HK_SHAPE_CYLINDER,
+HK_SHAPE_TRIANGLE,
+HK_SHAPE_BOX,
+HK_SHAPE_CAPSULE,
+HK_SHAPE_CONVEX_VERTICES,
+HK_SHAPE_COLLECTION,
+HK_SHAPE_BV_TREE,
+HK_SHAPE_LIST,
+HK_SHAPE_MOPP,
+HK_SHAPE_CONVEX_TRANSLATE,
+HK_SHAPE_CONVEX_TRANSFORM,
+HK_SHAPE_SAMPLED_HEIGHT_FIELD,
+HK_SHAPE_EXTENDED_MESH,
+HK_SHAPE_TRANSFORM,
+HK_SHAPE_COMPRESSED_MESH,
+HK_SHAPE_MAX_ID_SPU=HK_SHAPE_COMPRESSED_MESH+1,
+HK_SHAPE_CONVEX,
+HK_SHAPE_PACKED_CONVEX_VERTICES,
+HK_SHAPE_MOPP_EMBEDDED,
+HK_SHAPE_CONVEX_PIECE,
+HK_SHAPE_MULTI_SPHERE,
+HK_SHAPE_CONVEX_LIST,
+HK_SHAPE_TRIANGLE_COLLECTION,
+HK_SHAPE_MULTI_RAY,
+HK_SHAPE_HEIGHT_FIELD,
+HK_SHAPE_SPHERE_REP,
+HK_SHAPE_BV,
+HK_SHAPE_PLANE,
+HK_SHAPE_PHANTOM_CALLBACK,
+HK_SHAPE_USER0,
+HK_SHAPE_USER1,
+HK_SHAPE_USER2,
+HK_SHAPE_MAX_ID,
+HK_SHAPE_ALL=-1
+};
+class hkpCollisionDispatcher;
+struct ShapeRayCastQuery;
+struct ShapeRayCastOutput;
+struct ShapeRayBundleCastInput;
+struct ShapeRayCastOutputArray;
+class hkpRayHitCollector;
+class hkpCdBody_S;
+class hkpShapeContainer;
+typedef hkUint16 hkpVertexId;
+typedef hkUint32 hkpShapeKey;
+class hkpShape_S:public hkReferencedObject
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+__forceinline hkpShape_S(CollisionShapeType type);
+virtual hkReal getMaximumProjection(const hkVector4_S&direction)const;
+virtual const hkpShapeContainer*GetShapeContainer()const{return 0;}
+virtual bool isConvex()const{return false;}
+struct PhysicsShape
+{
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(hkpShape_S::PhysicsShape));}}__forceinline void*__cdecl operator new(hk_size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](hk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+bool m_bIsConvex;
+bool m_bIsConvexPiece;
+bool m_bIsComposite;
+};
+virtual int CalcSizeForSpu(const PhysicsShape&input,int spuBufferSizeLeft)const;
+protected:
+virtual void CalculateAabb(const hkTransform&localToWorld,hkReal tolerance,hkAabb&out)const=0;
+virtual hkBool IntersectRayWithShape(const ShapeRayCastQuery&input,ShapeRayCastOutput&output)const=0;
+virtual void CastRayWithCollector(const ShapeRayCastQuery&input,const hkpCdBody_S&cdBody,hkpRayHitCollector&collector)const=0;
+virtual Vector4Comparison CastRayBundle(const ShapeRayBundleCastInput&input,ShapeRayCastOutputArray&output,hkVector4ComparisonParameter mask)const;
+public:
+static void __cdecl resetShapeFunctions();
+public:
+public:
+hkUlong m_ulUserData;
+public:
+hkEnum<::CollisionShapeType,hkUint32>m_type;
+public:
+hkpShape_S(class FinishingFlag flag):hkReferencedObject(flag)
+{
+if(flag.m_bFinishing)
+{
+m_type=HK_SHAPE_INVALID;
+}
+}
+};
+class hkpCdBody_S
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline const hkTransform&getTransform()const;
+__forceinline const hkpShape_S*getShape()const;
+public:
+explicit __forceinline hkpCdBody_S(const hkpCdBody_S*parent);
+public:
+const hkpShape_S*m_pCollisionShape;
+hkpShapeKey m_uiCollisionShapeKey;
+const void*m_pMotionState;};
+const hkTransform&hkpCdBody_S::getTransform()const
+{
+;
+return*static_cast<const hkTransform*>(m_pMotionState);
+}
+const hkpShape_S*hkpCdBody_S::getShape()const
+{
+return m_pCollisionShape;
+}
+struct GskAgentInput;
+class hkpContactMgr;
+struct WorldOperationEntry;
+class hkpConstraintOwner;
+class hkpCollisionAgent;
+struct CollisionAgentContext
+{
+public:
+hkReal getTolerance()const{return m_fScalar;}
+public:
+ValueWrapper<hkpCollisionDispatcher*>m_pCollisionDispatcher;
+ValueWrapper<hkBool32>m_collisionQuality;
+ValueWrapper<hkReal>m_fScalar;};
+class hkpContactMgrFactory;
+class hkpCdPointCollector;
+class hkpCdBodyPairCollector;
+struct ShapeSweepParameters;
+class hkpCollisionDispatcher:public hkReferencedObject
+{
+public:
+enum{
+HK_MAX_RESPONSE_TYPE=8,
+HK_MAX_SHAPE_TYPE=32,
+HK_MAX_AGENT2_TYPES=64,
+HK_MAX_AGENT3_TYPES=16,
+HK_MAX_COLLISION_QUALITIES=8
+};
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
+typedef hkpCollisionAgent*(__cdecl*CreateFunc)(const hkpCdBody_S&collA,const hkpCdBody_S&collB,const CollisionAgentContext&env,hkpContactMgr*mgr);
+typedef void(__cdecl*GetPenetrationsFunc)(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,hkpCdBodyPairCollector&collector);
+typedef void(__cdecl*GetClosestPointsFunc)(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,hkpCdPointCollector&output);
+typedef void(__cdecl*LinearCastFunc)(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const ShapeSweepParameters&input,hkpCdPointCollector&castCollector,hkpCdPointCollector*startCollector);
+struct CollisionAgentFunctionTable
+{
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(CollisionAgentFunctionTable));}}__forceinline void*__cdecl operator new(hk_size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](hk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+CreateFunc m_pCreateFunc;
+GetPenetrationsFunc m_pQueryPenetrationsFunc;
+GetClosestPointsFunc m_pGetPenetrationsFunc;
+LinearCastFunc m_pLinearCastFunc;
+hkBool m_bIsFlipped;
+hkBool m_bIsPredictive;
+CollisionAgentFunctionTable():m_bIsFlipped(false),m_bIsPredictive(false){}
+};
+public:
+hkpCollisionDispatcher(CreateFunc defaultCreationFunction,hkpContactMgrFactory*defaultContactMgrFactory);
+public:
+struct IntegerPair
+{
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(IntegerPair));}}__forceinline void*__cdecl operator new(hk_size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](hk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+CollisionShapeType m_iSecond;
+CollisionShapeType m_iFirst;
+};
+struct AgentTypePairPriority
+{
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(AgentTypePairPriority));}}__forceinline void*__cdecl operator new(hk_size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](hk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+char m_iAgentTypeA;
+char m_iAgentTypeB;
+char m_priority;
+};
+typedef AgentTypePairPriority DebugTable[HK_MAX_SHAPE_TYPE][HK_MAX_SHAPE_TYPE];
+protected:
+void internalRegisterCollisionAgent(hkUchar agentTypesTable[HK_MAX_SHAPE_TYPE][HK_MAX_SHAPE_TYPE],int agentType,CollisionShapeType typeA,CollisionShapeType typeB,CollisionShapeType origA,CollisionShapeType origB,DebugTable*debugTable,int recursionDepth);
+public:
+enum CollisionQualityLevel
+{
+COLLISION_QUALITY_INVALID,
+COLLISION_QUALITY_PSI,
+COLLISION_QUALITY_SIMPLIFIED_TOI,
+COLLISION_QUALITY_TOI,
+COLLISION_QUALITY_TOI_HIGHER,
+COLLISION_QUALITY_TOI_FORCED,
+COLLISION_QUALITY_CHARACTER,
+COLLISION_QUALITY_TMP_EXPAND_MANIFOLD
+};
+public:
+hkReal m_fExpectedMaxLinearVelocity;};
+struct ContactPointPair
+{
+ContactPointPair(const hkpCdBody_S&a,const hkpCdBody_S&b):m_pBodyA(a),m_pBodyB(b){}
+hkContactPoint m_kPoint;
+const hkpCdBody_S&m_pBodyA;
+const hkpCdBody_S&m_pBodyB;};
+class hkpCdPointCollector
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+inline virtual ~hkpCdPointCollector();
+virtual void AddCdPoint(const ContactPointPair&point)=0;
+protected:
+hkReal m_fEarlyOutDistance;};
+class hkpCollisionAgent:public hkReferencedObject
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
+public:
+virtual void ProcessAgent(const hkpCdBody_S&a,const hkpCdBody_S&b,const GskAgentInput&input,WorldOperationEntry&result)=0;
+protected:
+inline virtual ~hkpCollisionAgent();
+protected:
+hkpContactMgr*m_pContactManager;
+public:
+inline hkpContactMgr*getContactMgr();};
+class hkpIterativeLinearCastAgent:public hkpCollisionAgent
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}};
+struct MaterialIndexedTriangle
+{
+hkUint8 m_uiMaterialIndex;
+hkpVertexId m_auiVertexIds[3];
+};
+class TriangleDistanceUtility
+{
+public:
+static void __cdecl calcBarycentricCoordinates(hkVector4Parameter pos,hkVector4Parameter t0,hkVector4Parameter t1,hkVector4Parameter t2,ValueWrapper<hkReal>result[3]);
+struct PointTriangleCache
+{
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(TriangleDistanceUtility::PointTriangleCache));}}__forceinline void*__cdecl operator new(hk_size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](hk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+hkReal m_afCacheComponents[3];
+hkReal m_fFirstCacheValue;
+hkReal m_fSecondCacheValue;
+};
+protected:
+TriangleDistanceUtility();};
+class hkpCapsuleTriangleAgent:public hkpIterativeLinearCastAgent
+{
+public:
+static void __cdecl InitAgentFunc(hkpCollisionDispatcher::CollisionAgentFunctionTable&f);
+static void __cdecl initAgentFuncInverse(hkpCollisionDispatcher::CollisionAgentFunctionTable&f);
+static void __cdecl RegisterCapsuleCapsuleAgent(hkpCollisionDispatcher*dispatcher);
+static void __cdecl registerAgent2(hkpCollisionDispatcher*dispatcher);
+virtual inline void ProcessAgent(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const GskAgentInput&input,WorldOperationEntry&result);
+virtual void getClosestPoints(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,hkpCdPointCollector&pointDetails);
+static void __cdecl FUN_00d3a280(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,class hkpCdPointCollector&collector);
+virtual void getPenetrations(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,hkpCdBodyPairCollector&collector);
+static void __cdecl m_pVirtualFunction1(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,hkpCdBodyPairCollector&collector);
+virtual void cleanup(hkpConstraintOwner&constraintOwner);
+protected:
+friend class hkpCapsuleConvexWelderAgent;
+__forceinline hkpCapsuleTriangleAgent(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,hkpContactMgr*mgr);
+static hkpCollisionAgent*__cdecl createCapsuleTriangleAgent(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,hkpContactMgr*mgr);
+static hkpCollisionAgent*__cdecl createTriangleCapsuleAgent(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,hkpContactMgr*mgr);
+private:
+static void __cdecl getClosestPointsPublic(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,TriangleDistanceUtility::PointTriangleCache&cache,int searchManifold,hkContactPoint*points);
+static __forceinline void __cdecl getClosestPointsInl(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,TriangleDistanceUtility::PointTriangleCache&cache,int searchManifold,hkContactPoint*points,MaterialIndexedTriangle*featureOutput=0);
+public:
+enum ClosestPointResult
+{
+ST_CP_MISS,
+ST_CP_HIT,
+};
+private:
+static __forceinline ClosestPointResult getClosestPointInternal(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,TriangleDistanceUtility::PointTriangleCache&m_pAccessManager,hkContactPoint&cpoint);
+public:
+static ClosestPointResult __cdecl ComputeClosestPoints(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,TriangleDistanceUtility::PointTriangleCache&m_pAccessManager,hkContactPoint&cpoint);
+protected:
+hkContactPointId m_usContactPointId[3];
+TriangleDistanceUtility::PointTriangleCache m_kClosestPointCache;
+};
+class hkpSphereRepShape:public hkpShape_S
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+protected:
+virtual int GetNumCollisionSpheres()const=0;
+virtual const hkSphere*GetCollisionSpheres(hkSphere*sphereBuffer)const=0;
+public:
+hkpSphereRepShape(CollisionShapeType type):hkpShape_S(type){}
+hkpSphereRepShape(FinishingFlag flag):hkpShape_S(flag){m_type=HK_SHAPE_SPHERE_REP;}
+};
+class hkpConvexShape:public hkpSphereRepShape
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+virtual void GetFirstVertex(hkVector4_S&v)const=0;
+inline hkReal getRadius()const;enum WeldResult
+{
+WELD_RESULT_REJECT_CONTACT_POINT,
+WELD_RESULT_ACCEPT_CONTACT_POINT_MODIFIED,
+WELD_RESULT_ACCEPT_CONTACT_POINT_UNMODIFIED
+};
+__forceinline hkpConvexShape::WeldResult weldContactPoint(hkpVertexId*featurePoints,hkUint8&numFeaturePoints,
+hkVector4_S&contactPointWs,const hkTransform*thisObjTransform,
+const hkpConvexShape*collidingShape,const hkTransform*collidingTransform,hkVector4_S&separatingNormalInOut)const;
+protected:
+virtual void GetSupportVertex(hkVector4Parameter direction,Vector4WithInt24W&supportingVertexOut)const=0;
+virtual void GetVerticesFromIds(const hkpVertexId*ids,int numIds,Vector4WithInt24W*vertixArrayOut)const=0;
+virtual int WeldContactPoint(hkpVertexId*featurePoints,hkUint8&numFeaturePoints,hkVector4_S&contactPointWs,const hkTransform*thisObjTransform,const hkpConvexShape*collidingShape,const hkTransform*collidingTransform,hkVector4_S&separatingNormalInOut)const;
+protected:
+inline hkpConvexShape(CollisionShapeType type,hkReal radius);
+hkReal m_fSphereRadius;
+public:
+hkpConvexShape(FinishingFlag flag):hkpSphereRepShape(flag){m_type=HK_SHAPE_CONVEX;}
+};
+inline hkReal hkpConvexShape::getRadius()const
+{
+return m_fSphereRadius;
+}
+hkpConvexShape::WeldResult hkpConvexShape::weldContactPoint(hkpVertexId*featurePoints,hkUint8&numFeaturePoints,
+hkVector4_S&contactPointWs,const hkTransform*thisObjTransform,
+const hkpConvexShape*collidingShape,const hkTransform*collidingTransform,hkVector4_S&separatingNormalInOut)const
+{
+return(WeldResult)this->WeldContactPoint(featurePoints,numFeaturePoints,
+contactPointWs,thisObjTransform,
+collidingShape,collidingTransform,separatingNormalInOut);}
+class hkpCapsuleShape:public hkpConvexShape
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+inline const hkVector4_S*GetIndexedVertices()const;
+public:
+hkpCapsuleShape(FinishingFlag flag):hkpConvexShape(flag){m_type=HK_SHAPE_CAPSULE;}
+protected:
+hkVector4_S m_kVertexA;};
+const hkVector4_S*hkpCapsuleShape::GetIndexedVertices()const
+{
+return&m_kVertexA;
+}
+class hkpTriangleShape:public hkpConvexShape
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+__forceinline const hkVector4_S*GetIndexedVertices()const;
+protected:
+hkUint16 m_kWeldingInfo;
+hkVector4_S m_kVertexA;
+public:
+void setType(){m_type=HK_SHAPE_TRIANGLE;}
+};
+const hkVector4_S*hkpTriangleShape::GetIndexedVertices()const
+{
+return&m_kVertexA;
+}
+namespace hkVector4Util_S
+{
+__forceinline void __cdecl TransformPointArray(const hkTransform&t,const hkVector4_S*vectorsIn,int numVectors,hkVector4_S*vectorsOut);}
+inline void __cdecl hkVector4Util_S::TransformPointArray(const hkTransform&t,const hkVector4_S*vectorsIn,int numVectors,hkVector4_S*vectorsOut)
+{
+hkTransform unaliased=t;
+int i=numVectors-1;
+do
+{
+vectorsOut[i]._setTransformedPos(unaliased,vectorsIn[i]);
+}while(--i>=0);}
+__forceinline void __cdecl hkpCapsuleTriangleAgent::getClosestPointsInl(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,TriangleDistanceUtility::PointTriangleCache&cache,int searchManifold,hkContactPoint*points,MaterialIndexedTriangle*featureOutput)
+{
+const hkpCapsuleShape*capsuleA=static_cast<const hkpCapsuleShape*>(bodyA.getShape());
+const hkpTriangleShape*triB=static_cast<const hkpTriangleShape*>(bodyB.getShape());
+hkVector4_S endPoints[2];hkVector4Util_S::TransformPointArray(bodyA.getTransform(),capsuleA->GetIndexedVertices(),2,endPoints);
+hkVector4_S triVertices[3];hkVector4Util_S::TransformPointArray(bodyB.getTransform(),triB->GetIndexedVertices(),3,triVertices);
+::FUN_00cd6520((const ::ContactVector *)(endPoints),capsuleA->getRadius(),(const ::ContactVector *)(triVertices),triB->getRadius(),(const float *)&(cache),input.getTolerance(),searchManifold,(::ContactRecord *)(points),(::Feature *)(featureOutput));}
+__forceinline hkpCapsuleTriangleAgent::ClosestPointResult hkpCapsuleTriangleAgent::getClosestPointInternal(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,TriangleDistanceUtility::PointTriangleCache&cache,hkContactPoint&cpoint)
+{
+const hkpCapsuleShape*capsuleA=static_cast<const hkpCapsuleShape*>(bodyA.getShape());
+const hkpTriangleShape*triB=static_cast<const hkpTriangleShape*>(bodyB.getShape());
+hkContactPoint points[3];
+MaterialIndexedTriangle featureOutput[3];
+getClosestPointsInl(bodyA,bodyB,input,cache,0,points,featureOutput);
+const hkReal dist0=points[0].getDistance();
+const hkReal dist1=points[1].getDistance();
+int Id=-1;
+if(dist0<dist1)
+{
+if(input.getTolerance()>dist0)
+{
+Id=0;
+}
+}
+else
+{
+if(input.getTolerance()>dist1)
+{
+Id=1;
+}
+}
+if(Id !=-1)
+{
+hkUint8 numFeaturePoints=featureOutput[Id].m_uiMaterialIndex;
+if(input.m_collisionQuality.val()&&numFeaturePoints>0)
+{
+hkVector4_S weldedNormal=points[Id].getSeparatingNormal();
+hkpConvexShape::WeldResult result=triB->weldContactPoint(&featureOutput[Id].m_auiVertexIds[0],numFeaturePoints,points[Id].getPosition(),&bodyB.getTransform(),capsuleA,&bodyA.getTransform(),weldedNormal);
+if(result==hkpConvexShape::WELD_RESULT_REJECT_CONTACT_POINT)
+{
+return ST_CP_MISS;
+}
+else if(result==hkpConvexShape::WELD_RESULT_ACCEPT_CONTACT_POINT_MODIFIED)
+{
+points[Id].setNormal(weldedNormal);
+}
+}
+cpoint=points[Id];
+return ST_CP_HIT;
+}
+return ST_CP_MISS;}
+// @fnv 0x00d3a280
+void __cdecl hkpCapsuleTriangleAgent::FUN_00d3a280(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,class hkpCdPointCollector&collector)
+{
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "CapsTriangle";h->setTime();mStream.setEnd((char*)(h+1));}};
+TriangleDistanceUtility::PointTriangleCache cache;
+{
+const hkpTriangleShape*triB=static_cast<const hkpTriangleShape*>(bodyB.getShape());
+::ComputeInverseLengths((__m128 *)(triB->GetIndexedVertices()),(float *)&(cache));
+}
+ContactPointPair event(bodyA,bodyB);
+if(getClosestPointInternal(bodyA,bodyB,input,cache,event.m_kPoint))
+{
+collector.AddCdPoint(event);
+}
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
+}
+
+enum hkResult { HK_SUCCESS=0, HK_FAILURE=1 };
+typedef hkReal hkTime;
+struct FourByteState;
+
+class ConvexFeaturePairCache;
+class hkpContactMgr:public hkReferencedObject
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
+enum Type
+{
+TYPE_SIMPLE_CONSTRAINT_CONTACT_MGR,
+TYPE_REPORT_CONTACT_MGR,
+TYPE_CONVEX_LIST_CONTACT_MGR,
+TYPE_NULL_CONTACT_MGR,
+TYPE_USER_CONTACT_MGR,
+TYPE_MAX
+};__forceinline hkContactPointId addContactPoint(const hkpCdBody_S&a,const hkpCdBody_S&b,const GskAgentInput&input,WorldOperationEntry&output,const ConvexFeaturePairCache*contactCache,hkContactPoint&cp);
+__forceinline void removeContactPoint(hkContactPointId cpId,hkpConstraintOwner&constraintOwner);
+public:
+virtual hkContactPointId CreateContactPoint(const hkpCdBody_S&a,const hkpCdBody_S&b,const GskAgentInput&input,WorldOperationEntry&output,const ConvexFeaturePairCache*contactCache,hkContactPoint&cp)=0;
+virtual hkResult ReserveContactPoints(int numPoints)=0;
+virtual void removeContactPointImpl(hkContactPointId cpId,hkpConstraintOwner&constraintOwner)=0;public:
+Type m_type;};
+hkContactPointId hkpContactMgr::addContactPoint(const hkpCdBody_S&a,const hkpCdBody_S&b,const GskAgentInput&input,WorldOperationEntry&output,const ConvexFeaturePairCache*contactCache,hkContactPoint&cp)
+{
+return CreateContactPoint(a,b,input,output,contactCache,cp);
+}
+void hkpContactMgr::removeContactPoint(hkContactPointId cpId,hkpConstraintOwner&constraintOwner)
+{
+removeContactPointImpl(cpId,constraintOwner);
+}
+struct ContactPointWithId
+{
+hkContactPoint m_kPoint;
+ValueWrapper<hkUint32>m_usContactPointId;};
+
+class hkStepInfo
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}public:
+__declspec(align(16))ValueWrapper<hkTime>m_uiStartTime;};
+struct hkpAgent1nSector;
+struct GskAgentInput:public CollisionAgentContext
+{
+public:
+GskAgentInput():m_pAgent1nSector(0){}
+public:
+hkStepInfo m_pStepInfo;
+mutable hkpAgent1nSector*m_pAgent1nSector;};
+enum{HK_MAX_CONTACT_POINT=256};
+struct CollisionContactResults
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+public:
+ValueWrapper<ContactPointWithId*>m_pAlignedPairData;
+ValueWrapper<hkpConstraintOwner*>m_pConstraintOwner;};
+struct WorldOperationEntry:public CollisionContactResults
+{
+public:
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}inline ContactPointWithId*reserveContactPoints(int numberOfPoints=1)
+{
+return m_pAlignedPairData;
+}
+inline void commitContactPoints(int numberOfPoints=1)
+{
+m_pAlignedPairData=m_pAlignedPairData+numberOfPoints;
+;
+}
+public:
+struct ContactPointAgentEntry
+{
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(WorldOperationEntry::ContactPointAgentEntry));}}__forceinline void*__cdecl operator new(hk_size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](hk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+ContactPointWithId*m_vContactPoint;
+FourByteState*m_pAgentEntry;
+void*m_pUserData;
+};
+struct ContactPointBuffer
+{
+__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(WorldOperationEntry::ContactPointBuffer));}}__forceinline void*__cdecl operator new(hk_size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](hk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+void reset()
+{
+m_pFirstFreeContactPoint=&m_akContactRecords[0];
+m_ppFirstFreeContactPointer=&m_apContactPointPointers[0];
+}
+ContactPointAgentEntry*m_pFirstFreeContactPoint;
+ContactPointWithId**m_ppFirstFreeContactPointer;
+ContactPointWithId*m_apContactPointPointers[HK_MAX_CONTACT_POINT];
+ContactPointAgentEntry m_akContactRecords[HK_MAX_CONTACT_POINT];
+};
+public:
+ValueWrapper<ContactPointBuffer*>m_akContactRecords;};
+static __forceinline void updateXYZ(hkVector4_S& dst,const hkVector4_S& xyz) {
+    reinterpret_cast<hkQuadReal&>(dst)=_mm_shuffle_ps(xyz,_mm_unpackhi_ps(xyz,dst),0xc4);
+}
+inline void hkContactPoint::setNormal(const hkVector4_S& normal) { updateXYZ(m_vSeparatingNormal,normal); }
+static __forceinline void capsuleTriClosest(const hkpCdBody_S& a,const hkpCdBody_S& b,const CollisionAgentContext& input,TriangleDistanceUtility::PointTriangleCache& cache,int manifold,hkContactPoint* points,MaterialIndexedTriangle* features)
+{
+    const hkpCapsuleShape* capsule=static_cast<const hkpCapsuleShape*>(a.getShape());
+    const hkpTriangleShape* triangle=static_cast<const hkpTriangleShape*>(b.getShape());
+    hkVector4_S ends[2];
+    hkVector4Util_S::TransformPointArray(a.getTransform(),capsule->GetIndexedVertices(),2,ends);
+    hkVector4_S vertices[3];
+    hkVector4Util_S::TransformPointArray(b.getTransform(),triangle->GetIndexedVertices(),3,vertices);
+    ::FUN_00cd6520((const ::ContactVector *)(ends),capsule->getRadius(),(const ::ContactVector *)(vertices),triangle->getRadius(),(const float *)&(cache),input.getTolerance(),manifold,(::ContactRecord *)(points),(::Feature *)(features));
+}
+struct CapsuleTriProcess : hkpCapsuleTriangleAgent {
+    void FUN_00d3ad70(const hkpCdBody_S&,const hkpCdBody_S&,const GskAgentInput&,WorldOperationEntry&);
+};
+// @fnv 0x00d3ad70
+void CapsuleTriProcess::FUN_00d3ad70(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const GskAgentInput&input,WorldOperationEntry&result)
+{
+;
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "CapsuleTri";h->setTime();mStream.setEnd((char*)(h+1));}};
+const hkpCapsuleShape*capsuleA=static_cast<const hkpCapsuleShape*>(bodyA.getShape());
+const hkpTriangleShape*triB=static_cast<const hkpTriangleShape*>(bodyB.getShape());
+hkContactPoint points[3];
+MaterialIndexedTriangle featureOutput[3];
+capsuleTriClosest(bodyA,bodyB,input,m_kClosestPointCache,1,points,featureOutput);
+for(int p=0;p<3;p++)
+{
+if(points[p].getDistance()<input.getTolerance())
+{
+hkUint8 numFeaturePoints=featureOutput[p].m_uiMaterialIndex;
+if(numFeaturePoints>0)
+{
+hkVector4_S weldedNormal=points[p].getSeparatingNormal();
+hkpConvexShape::WeldResult weldResult=triB->weldContactPoint(&featureOutput[p].m_auiVertexIds[0],numFeaturePoints,points[p].getPosition(),&bodyB.getTransform(),capsuleA,&bodyA.getTransform(),weldedNormal);
+if(weldResult==hkpConvexShape::WELD_RESULT_REJECT_CONTACT_POINT)
+{
+if(m_usContactPointId[p]!=(0xffff))
+{
+m_pContactManager->removeContactPoint(m_usContactPointId[p],*result.m_pConstraintOwner.val());
+m_usContactPointId[p]=(0xffff);
+}
+continue;
+}
+else if(weldResult==hkpConvexShape::WELD_RESULT_ACCEPT_CONTACT_POINT_MODIFIED)
+{
+points[p].setNormal(weldedNormal);
+}
+}
+if(m_usContactPointId[p]==(0xffff))
+{
+m_usContactPointId[p]=m_pContactManager->addContactPoint(bodyA,bodyB,input,result,0,points[p]);
+}
+if(m_usContactPointId[p]!=(0xffff))
+{
+ContactPointWithId*point=result.reserveContactPoints(1);
+result.commitContactPoints(1);
+point->m_kPoint.getPosition()=points[p].getPosition();
+point->m_kPoint.getSeparatingNormal()=points[p].getSeparatingNormal();
+point->m_usContactPointId=m_usContactPointId[p];
+}
+}
+else
+{
+if(m_usContactPointId[p]!=(0xffff))
+{
+m_pContactManager->removeContactPoint(m_usContactPointId[p],*result.m_pConstraintOwner.val());
+m_usContactPointId[p]=(0xffff);
+}
+}
+}
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
+}
+
+// Moved from hkpcapsuletriangleagent_rtm_variant.cpp (VEGAS-15).
+#include "fnv/decl/FUN_00cfbcc0_cls.h"
+
+typedef void(__cdecl* FnA_d3a280)(void*, void*, void*, CallbackState*);
+typedef void(__cdecl* FnB_daf8e0)(unsigned int, unsigned int, MotionPacket*, MotionCallData*, MotionCallData*);
+__declspec(noinline) void FUN_00d3ab60(void* p)
+{
+    S_00d389f0_AgentFuncs* s = (S_00d389f0_AgentFuncs*)p;
+    s->m_pCreateFunc = (S_00d389f0_Func)((void (&)())::fnv_00d398c0::CreateObjectFromFactory);
+    s->m_pQueryPenetrationsFunc = (S_00d389f0_Func)((void (&)())::FUN_00d3a8c0);
+    s->m_getClosestPointsFunc = (S_00d389f0_Func)(FnA_d3a280)((void (&)(void *, void *, void *, CallbackState *))::hkpCapsuleTriangleAgent::FUN_00d3a280);
+    s->m_pLinearCastFunc = (S_00d389f0_Func)(FnB_daf8e0)((void (&)(unsigned int, unsigned int, MotionPacket *, MotionCallData *, MotionCallData *))::FUN_00daf8e0);
+    s->m_bIsFlipped = 0;
+    s->m_bIsPredictive = 0;
+}
+
+// @fnv 0x00d3abc0
+void __cdecl FUN_00d3abc0(S_00d389f0_Dispatcher* obj)
+{
+    S_00d389f0_AgentFuncs s;
+    s.m_bIsFlipped = 0;
+    s.m_bIsPredictive = 0;
+    FUN_00d3ab90((void**)&s);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((obj))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(s), 3, 5);
+    s.m_bIsFlipped = 0;
+    s.m_bIsPredictive = 0;
+    FUN_00d3ab60(static_cast<void*>(&s));
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((obj))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(s), 5, 3);
+}
+
+struct FNVHookStruct
+{
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    unsigned char unk10;
+    unsigned char unk11;
+};
+struct FNVHookOwner
+{
+};
+// @fnv 0x00d3ac20
+void FUN_00d3ac20(FNVHookOwner* p)
+{
+    FNVHookStruct h;
+    h.unk10 = 0;
+    h.unk11 = 0;
+    FUN_00d3ab90((void**)&h);
+    reinterpret_cast<::FUN_00cfbcc0_cls *>((p))->AddSpawnEntry((::SpawnRequest *)(void *)(&h), 3, 5);
+    h.unk10 = 0;
+    h.unk11 = 0;
+    FUN_00d3ab60(&h);
+    reinterpret_cast<::FUN_00cfbcc0_cls *>((p))->AddSpawnEntry((::SpawnRequest *)(void *)(&h), 5, 3);
+}
 #include "generated/data/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.inc"

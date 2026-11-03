@@ -100,6 +100,8 @@ void S_00cfb1f0_Obj::SetSlotPair(S_00cfb1f0_Ref* pRef, int iIndexA, int iIndexB)
 
 struct CFB240ContactMgrFactory
 {
+public:
+    void removeReference() const;
 };
 
 struct CFB240Dispatcher
@@ -279,6 +281,8 @@ class FUN_00cfbbe0_cls
 {
   public:
     void FUN_00cfbbe0(FUN_00cfbbe0_rec* a1, int a2, int a3);
+public:
+    void RegisterAgentType(void* p, int flag, int a2, int a3, int a4, int a5, int h, int g);
 };
 
 // Copies a record into the array at offset 0x9a0 at the current index, calls RegisterAgentType on several sub-objects, and increments the index.
@@ -337,6 +341,8 @@ struct SpawnEntry
 struct FUN_00cfbcc0_cls
 {
     void AddSpawnEntry(SpawnRequest* req, int a, int b);
+public:
+    void RegisterAgentType(char* p, int idx, int a, int b, int c, int d, int e, int f);
 };
 
 // @fnv 0x00cfbcc0
@@ -400,6 +406,8 @@ struct Ent
 struct FUN_00cfbd60_cls
 {
     int AddEntry(SrcRec* a1, int a2, int a3);
+public:
+    void RegisterAgentType(void* p, int i, int a, int b, int c, int d, int e, int f);
 };
 
 // @fnv 0x00cfbd60
@@ -4384,6 +4392,8 @@ void CFBF60Dispatcher::FUN_00cfbf60(int primaryType, int alternateType)
 extern "C" int DAT_010cc7c0;
 struct hkReferencedObject
 {
+public:
+    void removeReference();
 };
 struct CleanupAllocator
 {
@@ -6074,4 +6084,204 @@ Cls_cfcba0* Cls_cfcba0::FUN_00cfcba0(unsigned short a0, Src_cfcba0* a1, int a2, 
     else
         unk32 = 0;
     return this;
+}
+
+// Moved from hkpcollisiondispatcher_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/RequestReceiver.h"
+#include "fnv/decl/S00cfb080_State.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_01268000.h"
+struct DispatcherReferencedObject
+{
+    virtual ~DispatcherReferencedObject();
+    unsigned short m_usMemSizeAndFlags;
+    unsigned short m_sReferenceCount;
+    void removeReference();
+};
+struct hkError
+{
+    virtual ~hkError();
+    virtual void unk04();
+    virtual void unk08();
+    virtual void message(int type, int id, const char*, const char*, int);
+    virtual void unk10();
+    virtual void unk14();
+    virtual void unk18();
+    virtual void BeginSection(int id, const char*);
+    virtual void EndSection();
+};
+struct CleanupAllocator;
+struct StringTempRouter
+{
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    CleanupAllocator* m_pTemp;
+    CleanupAllocator* allocator;
+    CleanupAllocator& temp()
+    {
+        return *m_pTemp;
+    }
+    CleanupAllocator* tempPtr()
+    {
+        return m_pTemp;
+    }
+};
+struct DebugMemoryRouter
+{
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    CleanupAllocator* m_pStreamAllocator;
+};
+struct InlineStorageString
+{
+    char* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    char m_buffer[128];
+    InlineStorageString(const char*, const char* = 0, const char* = 0, const char* = 0, const char* = 0, const char* = 0);
+    ~InlineStorageString();
+};
+struct hkOstream : DispatcherReferencedObject
+{
+    void* m_pStreamWriter;
+    hkOstream(void*, int);
+    virtual ~hkOstream();
+};
+struct DispatcherAgentFuncs
+{
+    void* m_create;
+    void* m_getPenetrations;
+    void* m_getClosestPoints;
+    void* m_linearCast;
+    unsigned char m_bIsFlipped;
+    unsigned char m_bIsPredictive;
+    unsigned short unk12;
+};
+struct DispatcherAgent3Funcs
+{
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* unk10;
+    void* unk14;
+    void* unk18;
+    void* unk1c;
+    void* unk20;
+    void* unk24;
+    void* unk28;
+    void* unk2c;
+    unsigned char m_bIsPredictive;
+    unsigned char m_bAgentFlag1;
+    unsigned char m_bAgentFlag2;
+    unsigned char unk33;
+    unsigned unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
+};
+struct DispatcherQualityInfo
+{
+    __declspec(align(16)) float m_fMinimumCollisionSeparation;
+    float m_fMaximumExtraSeparation, m_fMinimumExtraSeparation, m_fTimeOfImpactSeparation;
+    int m_iQualityInfoValue10;
+    unsigned unk14;
+    float unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38;
+    unsigned short m_usValueAtOffset3C;
+    unsigned char unk3e, unk3f;
+};
+struct DebugTableDispatcher : DispatcherReferencedObject
+{
+    void* m_contactPointFactory;
+    CFB240ContactMgrFactory* m_apContactMgrFactoriesByResponsePair[8][8];
+    unsigned unk010c;
+    unsigned m_shapeInheritanceMasks[32];
+    int m_numAgentFuncs;
+    __declspec(align(16)) signed char m_discreteDispatchTable[32][32];
+    signed char m_continuousDispatchTable[32][32];
+    DispatcherAgentFuncs m_agentFuncs[64];
+    int m_numAgent3Funcs;
+    __declspec(align(16)) signed char m_discreteDispatchTable3[32][32];
+    signed char m_continuousDispatchTable3[32][32];
+    DispatcherAgent3Funcs m_agent3Funcs[16];
+    signed char m_aucByteGrid[10][10];
+    DispatcherQualityInfo m_pCollisionQualityInfo[8];
+    hkBool m_bEnableDeprecatedFeature;
+    char m_cUnknownByte, unk1e22;
+    hkBool m_debugWarnings;
+    IntegerPair* m_pShapeInheritance;
+    int m_numShapeInheritance;
+    int m_shapeInheritanceCapacity;
+    CollisionAgentEntry* m_tableDiscrete;
+    CollisionAgentEntry* m_tableContinuous;
+    CollisionAgentEntry* m_tableDiscrete3;
+    CollisionAgentEntry* m_tableContinuous3;
+    void RegisterAgentType(signed char (*)[32], signed char, int, int, signed char, signed char, CollisionAgentEntry (*)[32],
+                      int);
+    void FUN_00cfc1d0();
+};
+// @fnv 0x00cfc1d0
+void DebugTableDispatcher::FUN_00cfc1d0()
+{
+    ((hkError*)(*reinterpret_cast<int *>(&::DAT_01268360)))->BeginSection(0x5e4345e4, "hkpCollisionDispatcher::debugPrintTable");
+    if (!m_tableDiscrete || !m_tableContinuous)
+    {
+        return;
+    }
+    char buf[512];
+    for (int i = 0; i < 32; ++i)
+    {
+        InlineStorageString str("\nEntries for (continuous)", GetHavokShapeTypeName(i));
+        {
+            hkOstream stream(buf, 512);
+            reinterpret_cast<::RequestReceiver *>(&(stream))->InvokeFromRequest((void *)&(str));
+            ((hkError*)(*reinterpret_cast<int *>(&::DAT_01268360)))->message(0, -1, buf, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 547);
+        }
+        for (int j = 1; j < 32; ++j)
+        {
+            CollisionAgentEntry& entry = m_tableContinuous[i * 32 + j];
+            if (entry.m_priority < 100)
+            {
+                char lineBuf[255];
+                const char* other = GetHavokShapeTypeName(j);
+                const char* a = GetHavokShapeTypeName(entry.m_iAgentTypeA);
+                const char* b = GetHavokShapeTypeName(entry.m_iAgentTypeB);
+                Vsnprintf(lineBuf, 255, "vs %30s <%i:%s-%s>", other, entry.m_priority, a, b);
+                hkOstream stream(buf, 512);
+                reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(lineBuf);
+                ((hkError*)(*reinterpret_cast<int *>(&::DAT_01268360)))->message(0, -1, buf, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 562);
+            }
+        }
+    }
+    for (int i = 0; i < 32; ++i)
+    {
+        InlineStorageString str("\nEntries for (discrete)", GetHavokShapeTypeName(i));
+        {
+            hkOstream stream(buf, 512);
+            reinterpret_cast<::RequestReceiver *>(&(stream))->InvokeFromRequest((void *)&(str));
+            ((hkError*)(*reinterpret_cast<int *>(&::DAT_01268360)))->message(0, -1, buf, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 570);
+        }
+        for (int j = 1; j < 32; ++j)
+        {
+            CollisionAgentEntry& entry = m_tableDiscrete[i * 32 + j];
+            if (entry.m_priority < 100)
+            {
+                char lineBuf[255];
+                const char* other = GetHavokShapeTypeName(j);
+                const char* a = GetHavokShapeTypeName(entry.m_iAgentTypeA);
+                const char* b = GetHavokShapeTypeName(entry.m_iAgentTypeB);
+                Vsnprintf(lineBuf, 255, "vs %30s <%i:%s-%s>", other, entry.m_priority, a, b);
+                hkOstream stream(buf, 512);
+                reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(lineBuf);
+                ((hkError*)(*reinterpret_cast<int *>(&::DAT_01268360)))->message(0, -1, buf, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 585);
+            }
+        }
+    }
+    ((hkError*)(*reinterpret_cast<int *>(&::DAT_01268360)))->EndSection();
+}
+InlineStorageString::~InlineStorageString()
+{
+    CleanupAllocator& allocator = reinterpret_cast<StringTempRouter*>(_FUN_00c85750())->temp();
+    m_iElementCount = 0;
+    if ((m_iCapacityState & 0x80000000) == 0)
+        allocator.Free(m_data, m_iCapacityState & 0x3fffffff);
 }

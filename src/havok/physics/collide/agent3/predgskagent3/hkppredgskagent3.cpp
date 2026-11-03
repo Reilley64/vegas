@@ -566,4 +566,217 @@ fallback:
     goto complete;
 }
 
+// Moved from hkppredgskagent3_gs_nogs_variant.cpp (VEGAS-15).
+#include "fnv/decl/GapSolver.h"
+#include "fnv/decl/ThisClass.h"
+#include "fnv/symbols_00d40000.h"
+void __cdecl RegisterScriptHandlers(void* pScript);
+class hkpConvexShape_s
+{
+  public:
+    virtual void f00();
+    virtual void f04();
+    virtual void f08();
+    virtual void f0C();
+    virtual void f10();
+    virtual void f14();
+    virtual void f18();
+    virtual void f1C();
+    virtual void f20();
+    virtual void f24();
+    virtual void f28();
+    virtual void f2C();
+    virtual void f30();
+    virtual void f34();
+    virtual void f38();
+    virtual void GetVerticesForIds(const unsigned short* ids, int numIds, void* out) const;
+    int unk04;
+    int unk08;
+    int unk0C;
+    float m_fSphereRadius;
+};
+
+struct hkpCdBody_s
+{
+    hkpConvexShape_s* m_pCollisionShape;
+    int unk04;
+    void* m_kMotionState;
+};
+
+struct hkpGskCache_s
+{
+    unsigned short m_kVertices[4];
+    unsigned char m_ucDimensionA;
+    unsigned char m_ucDimensionB;
+    unsigned char m_verticesDim;
+    unsigned char m_flags;
+};
+
+struct Gsk_s
+{
+    int m_ucDimensionA;
+    int m_ucDimensionB;
+    int m_numA;
+    int m_numB;
+    int m_unk10;
+    int m_cacheChanged;
+    int m_pad18;
+    int m_pad1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+    int unkF0;
+    int unkF4;
+    int unkF8;
+    int unkFC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+
+};
+
+struct Input_s
+{
+    hkpCdBody_s* m_pBodyA;
+    hkpCdBody_s* m_pBodyB;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int m_kMotionTransform;
+};
+
+struct Output_s
+{
+    union
+    {
+        __m128 v;
+        struct
+        {
+            float nx;
+            float ny;
+            float nz;
+            float m_fClosestPointDistanceSquared;
+        };
+    };
+};
+
+struct SeparatingNormal
+{
+    __declspec(align(16)) float x;
+    float y;
+    float z;
+    float w;
+};
+
+// @fnv 0x00d41930
+void __cdecl FUN_00d41930(Input_s* input, int unused, hkpGskCache_s* cache, Output_s* output)
+{
+    hkpConvexShape_s* shapeA = input->m_pBodyA->m_pCollisionShape;
+    hkpConvexShape_s* shapeB = input->m_pBodyB->m_pCollisionShape;
+    SeparatingNormal norm;
+    Gsk_s gsk;
+    gsk.m_unk10 = 0;
+    gsk.m_ucDimensionB = cache->m_ucDimensionB;
+    gsk.m_ucDimensionA = cache->m_ucDimensionA;
+    gsk.m_numA = cache->m_verticesDim & 0xf;
+    gsk.m_numB = cache->m_verticesDim >> 4;
+    gsk.m_cacheChanged = 0;
+    shapeA->GetVerticesForIds(cache->m_kVertices, gsk.m_ucDimensionA, &gsk.unk20);
+    shapeB->GetVerticesForIds(&cache->m_kVertices[gsk.m_ucDimensionA], gsk.m_ucDimensionB, &gsk.unkE0);
+    reinterpret_cast<::GapSolver *>(&(gsk))->FUN_00daad40((const ::GapShape *)(shapeA), (const ::GapShape *)(shapeB), (*(const ::GapTransform *)(&input->m_kMotionTransform)), (*(::GapVector *)(&norm)));
+    if (gsk.m_cacheChanged)
+        reinterpret_cast<::ThisClass *>(&(gsk))->FUN_00da9790((::Dest *)(cache));
+    const float* rot = (const float*)input->m_pBodyA->m_kMotionState;
+    __m128 n = _mm_load_ps(&norm.x);
+    __m128 c0 = _mm_load_ps(rot);
+    __m128 c1 = _mm_load_ps(rot + 4);
+    __m128 c2 = _mm_load_ps(rot + 8);
+    __m128 ny = _mm_shuffle_ps(n, n, 0x55);
+    __m128 nx = _mm_shuffle_ps(n, n, 0x00);
+    __m128 nz = _mm_shuffle_ps(n, n, 0xaa);
+    __m128 res = _mm_add_ps(_mm_add_ps(_mm_mul_ps(ny, c1), _mm_mul_ps(nx, c0)), _mm_mul_ps(nz, c2));
+    output->v = res;
+    output->m_fClosestPointDistanceSquared = norm.w - (shapeB->m_fSphereRadius + shapeA->m_fSphereRadius);
+}
 #include "generated/data/havok/physics/collide/agent3/predgskagent3/hkppredgskagent3.inc"

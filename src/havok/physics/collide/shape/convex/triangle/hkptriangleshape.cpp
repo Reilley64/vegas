@@ -1381,4 +1381,42 @@ return true;
 return false;
 }
 
+// Moved from hkptriangleshape_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
+void __cdecl FUN_00d1fee0(char const* arg1, char const* const* arg2);
+static int __cdecl FUN_00d1fef0(unsigned short weldingInfo, int edge);
+int __cdecl ExtractEdge(unsigned short weldingInfo, int edge);
+
+extern "C" float DAT_011b3b20[];
+
+struct FUN_00d20370_Triangle
+{
+    __m128 unknown00;
+    __m128 unknown10;
+    __m128 vertexA;
+    __m128 vertexB;
+    __m128 vertexC;
+    __m128 extrusion;
+
+    void FUN_00d20370(const unsigned short* indexes, int count, __m128* output);
+};
+
+// @fnv 0x00d20370
+void FUN_00d20370_Triangle::FUN_00d20370(const unsigned short* indexes, int count, __m128* output)
+{
+    for (int remaining = count - 1; remaining >= 0; --remaining)
+    {
+        const __m128* src = (const __m128*)((const char*)this + (DAT_011b3b4c[*indexes] + 2) * 16);
+        __m128 original = *src;
+        *output = original;
+
+        __m128 a = _mm_load_ss(&DAT_011b3b20[*indexes]);
+        __m128 b = _mm_shuffle_ps(a, a, 0);
+        *output = _mm_add_ps(_mm_mul_ps(b, extrusion), original);
+        ((unsigned int*)output)[3] = (unsigned int)(*indexes) | 0x3f000000u;
+
+        output += 1;
+        indexes += 1;
+    }
+}
 #include "generated/data/havok/physics/collide/shape/convex/triangle/hkptriangleshape.inc"
+#include "generated/data/havok/physics/collide/shape/convex/triangle/hkptriangleshape_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

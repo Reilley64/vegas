@@ -819,3 +819,459 @@ S_00df8d60_Bool RayCaster_00df8aa0::FUN_00df8aa0(const void* apBody)
 {
     return castBody(apBody);
 }
+
+// Moved from hkpcpuworldraycastjob_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/LunaOwner.h"
+#include "fnv/decl/RayCaster_00df8aa0.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00df8000.h"
+#include "fnv/symbols_00e2a000.h"
+#include "fnv/symbols_00e2c000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_010c3000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_simd.h"
+namespace fnv_00df8df0 {
+#include <windows.h>
+#include <xmmintrin.h>
+
+extern "C" unsigned __int64 __rdtsc();
+extern "C" void _ReadWriteBarrier();
+extern const char DAT_010dbb0c[];
+struct __declspec(align(16)) Vec
+{
+    float x, y, z, w;
+};
+struct Allocator
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void Free(void*, int) throw();
+};
+struct Pool
+{
+    unsigned char* cursor;
+    int unk04, unk08, unk0c;
+    Allocator* allocator;
+};
+static __forceinline Pool* pool()
+{
+    return (Pool*)FUN_00c85750();
+}
+struct Finalizer
+{
+};
+struct Header
+{
+    int unk00, unk04, unk08, type;
+};
+struct Vertex
+{
+    Vec position, bounds, extra0, extra1;
+};
+struct PartVectors
+{
+    Vec position, bounds;
+};
+struct PartInfo
+{
+    __forceinline void copyTo(unsigned char& t, int& p) const;
+    unsigned char tag, tag1, tag2, tag3;
+    unsigned int property;
+    int unk08, unk0c;
+};
+struct FacePart : PartVectors, PartInfo
+{
+};
+struct FaceParts
+{
+    FacePart parts[4];
+};
+struct FaceInfo
+{
+    int count, unkc4;
+    int values[4];
+    int unkd8, unkdc;
+    int outputs[4];
+    unsigned int flags, unkf4, unkf8, unkfc;
+};
+struct Face : FaceParts, FaceInfo
+{
+};
+__forceinline void PartInfo::copyTo(unsigned char& t, int& p) const
+{
+    t = tag;
+    p = property;
+}
+struct MeshRequest
+{
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* unk10;
+    void* unk14;
+    void* unk18;
+    Header* header;
+    int unk20;
+    Vertex* vertices;
+    int vertexCount;
+    Face* faces;
+    int faceCount;
+    void* shapeBuilder;
+    void* passA;
+    void* passB;
+    void* finalPass;
+};
+struct OutputVertex
+{
+    Vec position, inverse;
+};
+struct VertexBuffer
+{
+    OutputVertex* data;
+    int count, capacity;
+    OutputVertex* storage;
+    __forceinline void Init(int n) throw()
+    {
+        data = 0;
+        count = 0;
+        capacity = 0x80000000;
+        Pool* p = pool();
+        OutputVertex* memory = (OutputVertex*)p->cursor;
+        p->cursor = (unsigned char*)memory + ((n * 32 + 127) & ~127);
+        data = memory;
+        capacity = n | 0x80000000;
+        storage = memory;
+        Allocator* a = *(Allocator* volatile*)&pool()->allocator;
+        int old = capacity & 0x3fffffff;
+        if (old < n)
+        {
+            int next = old * 2;
+            if (n >= next)
+                next = n;
+            ::FUN_00c908c0((::SpawnedObject *)(a), (::SpawnedArray *)(void *)(&data), next, 32);
+        }
+    }
+    __forceinline void Clear() throw()
+    {
+        OutputVertex* saved = storage;
+        if (saved == data)
+            count = 0;
+        pool()->cursor = (unsigned char*)saved;
+        Allocator* a = *(Allocator* volatile*)&pool()->allocator;
+        count = 0;
+        if ((capacity & 0x80000000u) == 0)
+            a->Free(data, (capacity & 0x3fffffff) * 32);
+    }
+};
+union QueryScratch
+{
+    VertexBuffer vertices;
+    Vec range;
+};
+struct __declspec(align(16)) Field
+{
+    const void* name0;
+    const void* name1;
+    const void* name2;
+    const void* name3;
+    int option;
+    float weight;
+    unsigned char dirty;
+    unsigned char selected;
+    short option1a;
+    int unused1c;
+    Vec vector20, vector30, vector40;
+    int property50, property54, property58, property5c, flags60, flags64, flags68, flags6c;
+    Vec vector70;
+    __forceinline void Init() throw()
+    {
+        name0 = &(*reinterpret_cast<const char *>(&::DAT_010dbaf8));
+        name1 = &(*reinterpret_cast<const char *>(&::DAT_010dbae4));
+        name2 = &(*reinterpret_cast<const char *>(&::DAT_010dbad8));
+        name3 = &(*reinterpret_cast<const char *>(&::DAT_010dbacc));
+        weight = 1.0f;
+        property50 = 0;
+        property54 = 0;
+        flags60 = 0;
+        dirty = 0;
+    }
+    __forceinline void Reset() throw()
+    {
+        name3 = &(*reinterpret_cast<const char *>(&::DAT_010ccfac));
+        name2 = &(*reinterpret_cast<const char *>(&::DAT_010ccfa0));
+        *(const void* volatile*)&name1 = &(*reinterpret_cast<const char *>(&::DAT_010ccf8c));
+        *(const void* volatile*)&name0 = &(*reinterpret_cast<const char *>(&::DAT_010c3bb8));
+    }
+};
+struct State
+{
+    const void* type;
+    float weight;
+    int a, b, c, d, e;
+    __forceinline void Init() throw()
+    {
+        type = &(*reinterpret_cast<const char *>(&::DAT_010dbb04));
+        weight = 1.0f;
+        a = 0;
+        b = 0;
+        c = 1;
+        d = 0;
+        e = 0;
+    }
+};
+union SharedState
+{
+    Vec unit;
+    State state;
+};
+struct __declspec(align(16)) Converted
+{
+    Vec position, bounds;
+    unsigned char tag;
+    unsigned char tag1, tag2, tag3;
+    int property, unk28, unk2c;
+    int value, kind, output;
+    unsigned char flags, flags1;
+    short flags2;
+};
+
+struct SimdValue
+{
+    __m128 v;
+    __forceinline void sub(const SimdValue& a, const SimdValue& b)
+    {
+        v = _mm_sub_ps(a.v, b.v);
+    }
+    __forceinline void eq(const SimdValue& a, const __m128& b)
+    {
+        v = _mm_cmpeq_ps(a.v, b);
+    }
+    __forceinline void select(const SimdValue& a, const __m128& b, const SimdValue& c)
+    {
+        v = _mm_or_ps(_mm_and_ps(c.v, b), _mm_andnot_ps(c.v, a.v));
+    }
+};
+struct TraceEntry
+{
+    const char* label;
+    unsigned int stamp;
+    unsigned int info;
+};
+struct TraceContext
+{
+    void* unk00;
+    TraceEntry* head;
+    void* unk08;
+    TraceEntry* end;
+};
+// @fnv 0x00df8df0
+void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
+{
+    {
+        TraceContext* t = (TraceContext*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+        TraceEntry* p = t->head;
+        if (p < t->end)
+        {
+            p->label = DAT_010dbb0c;
+            _ReadWriteBarrier();
+            volatile unsigned int tick = (unsigned int)__rdtsc();
+            p->stamp = tick;
+            t->head = p + 1;
+        }
+    }
+    union CountTemps
+    {
+        unsigned char* destination;
+        int count;
+        volatile unsigned int stamp;
+    } iteration;
+    union
+    {
+        int queryType;
+        FaceInfo* queryFaces;
+    };
+    union
+    {
+        int queryRemaining;
+        void* queryFinal;
+    };
+    union
+    {
+        Vertex* querySource;
+        int* queryOutputs;
+    };
+    QueryScratch scratch;
+    SharedState shared;
+    State finalState;
+    Field field;
+    Field fields[4];
+    if (request->shapeBuilder == 0)
+    {
+        queryType = request->header->type;
+        querySource = request->vertices;
+        int count = request->vertexCount;
+        VertexBuffer& vertices = scratch.vertices;
+        vertices.Init(count);
+        vertices.count = count;
+        fields[0].Init();
+        fields[1].Init();
+        fields[2].Init();
+        fields[3].Init();
+        Pool* p = pool();
+        iteration.destination = p->cursor;
+        p->cursor = iteration.destination + 128;
+        if (count > 0)
+        {
+            Vertex* v = querySource;
+            unsigned int offset = 0;
+            queryRemaining = count;
+            do
+            {
+                OutputVertex* out = (OutputVertex*)((char*)vertices.data + offset);
+                *(__m128*)&out->position = *(__m128*)&v->position;
+                SimdValue width;
+                width.sub(*(SimdValue*)&v->bounds, *(SimdValue*)&v->position);
+                SimdValue eq;
+                eq.eq(width, (*reinterpret_cast<__m128 *>(&::DAT_01267e30)));
+                SimdValue selected;
+                selected.select(width, ::DAT_010c7170, eq);
+                __m128 value = selected.v;
+                __m128 high = _mm_unpackhi_ps(value, ::DAT_010c7170);
+                value = _mm_shuffle_ps(value, high, 0xc4);
+                __m128 reciprocal = _mm_rcp_ps(value);
+                __m128 product = _mm_mul_ps(reciprocal, value);
+                product = _mm_mul_ps(product, reciprocal);
+                reciprocal = _mm_sub_ps(_mm_add_ps(reciprocal, reciprocal), product);
+                *(__m128*)&out->inverse = _mm_or_ps(_mm_andnot_ps(eq.v, reciprocal), _mm_and_ps(eq.v, ::DAT_010cd670));
+                offset += 32;
+                ++v;
+            } while (--queryRemaining != 0);
+        }
+        *(__m128*)&shared.unit = _mm_set1_ps(::DAT_01012068);
+        Field* __restrict at = fields;
+        queryRemaining = 4;
+        do
+        {
+            *(__m128*)&at->vector70 = *(__m128*)&shared.unit;
+            at->option = queryType;
+            ++at;
+        } while (queryRemaining-- != 1);
+        ::fnv_00e2c8a0::FUN_00e2c8a0((::fnv_00e2c8a0::Owner *)(request->passA), (int)(vertices.data), (int)(querySource), queryType, (int)(fields), (int)(iteration.destination), count);
+        ::FUN_00e2cc30((::SplitInput *)(request->passB), (int)(vertices.data), (int)(querySource), queryType, (int)(fields), (int)(iteration.destination), count);
+        pool()->cursor = iteration.destination;
+        Field* end = fields + 4;
+        int remaining = 3;
+        do
+        {
+            --end;
+            end->Reset();
+        } while (--remaining >= 0);
+        vertices.Clear();
+        queryFinal = request->finalPass;
+        Vertex* source = request->vertices;
+        finalState.Init();
+        int remainingVertices = request->vertexCount;
+        if (remainingVertices > 0)
+        {
+            iteration.count = remainingVertices;
+            do
+            {
+                ::FUN_00e2abf0(queryFinal, (::S_00df8990_Obj *)(source), queryType, (::CastOutput *)(void *)(&finalState));
+                ++source;
+            } while (--iteration.count != 0);
+        }
+        int remainingFaces = request->faceCount;
+        Face* face = request->faces;
+        if (remainingFaces > 0)
+        {
+            iteration.count = remainingFaces;
+            do
+            {
+                *(__m128*)&scratch.range = *(__m128*)&shared.unit;
+                ::FUN_00e2b070((const ::Input *)(request->passA), (::BundleCommand *)(face), (void *)(queryType), (*(::RayVector *)(&scratch.range)), (void *)(0), (void *)(0), (void *)(0), (void *)(0), (int *)(0));
+                ::FUN_00e2b510((::Owner *)(request->passB), (::RayBatch *)(face), queryType, (*(__m128 *)(&scratch.range)));
+                ::FUN_00e2acf0(queryFinal, (::InputStruct *)(face), (void *)(queryType), (float *)(void *)(&scratch.range));
+                ++face;
+            } while (--iteration.count != 0);
+        }
+    }
+    else
+    {
+        field.Init();
+        field.option = request->header->type;
+        Vertex* vertex = request->vertices;
+        shared.state.Init();
+        iteration.count = 0;
+        if (request->vertexCount > 0)
+            do
+            {
+                field.weight = 1.0f;
+                field.dirty = 0;
+                ::FUN_00df89b0((::Interface *)(request->shapeBuilder), (::Source *)(vertex), (::Output *)(void *)(&field), (::Spawned *)(void *)(&shared.state));
+                ++vertex;
+                ++iteration.count;
+            } while (iteration.count < request->vertexCount);
+        int bundleCount = request->faceCount;
+        Face* bundles = request->faces;
+        __assume(bundles != 0);
+        if (bundleCount > 0)
+        {
+            queryFaces = bundles;
+            queryRemaining = bundleCount;
+            do
+            {
+                iteration.count = 0;
+                if (queryFaces->count > 0)
+                {
+                    Face* inputs = &static_cast<Face&>(*queryFaces);
+                    __assume(inputs != 0);
+
+                    do
+                    {
+
+                        Converted converted;
+                        Converted& c = converted;
+                        __m128 position = *(__m128*)&(inputs->parts[iteration.count]).position;
+                        (inputs->parts[iteration.count]).copyTo(c.tag, c.property);
+                        c.value = queryFaces->values[iteration.count];
+                        c.flags = (unsigned char)queryFaces->flags;
+                        *(__m128*)&c.position = position;
+                        __m128 bounds = *(__m128*)&(inputs->parts[iteration.count]).bounds;
+                        c.flags1 = 0;
+                        *(__m128*)&c.bounds = bounds;
+                        c.kind = 1;
+                        c.output = 0;
+                        field.weight = 1.0f;
+                        field.dirty = 0;
+                        ::FUN_00df89b0((::Interface *)(request->shapeBuilder), (::Source *)(void *)(&c), (::Output *)(void *)(&field), (::Spawned *)(void *)(&shared.state));
+                        queryFaces->outputs[iteration.count] = c.output;
+                        ++iteration.count;
+                    } while (iteration.count < queryFaces->count);
+                }
+                queryFaces = reinterpret_cast<FaceInfo*>(reinterpret_cast<Face*>(queryFaces) + 1);
+            } while (--queryRemaining != 0);
+        }
+    }
+    {
+        TraceContext* t = (TraceContext*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+        TraceEntry* p = t->head;
+        if (p < t->end)
+        {
+            p->label = ::DAT_010c41f8;
+            _ReadWriteBarrier();
+            iteration.stamp = (unsigned int)__rdtsc();
+            p->stamp = iteration.stamp;
+            t->head = p + 1;
+        }
+    }
+    reinterpret_cast<::LunaOwner *>((((Finalizer*)result)))->ProcessCallback((int)(request), (int)(request), 0);
+}
+}  // namespace fnv_00df8df0
+#include "generated/data/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob_gs_ehsc_nogs_noehsc_variant.inc"

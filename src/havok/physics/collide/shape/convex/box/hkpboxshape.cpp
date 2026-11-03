@@ -475,4 +475,54 @@ BRBool RayBoxShape::FUN_00c9de40(const BRRayCastInput& input, BRRayCastOutput& r
     return true;
 }
 
+// Moved from hkpboxshape_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/fnv_00c9e120__hkAabbUtilC9E1.h"
+#include "fnv/symbols_00c85000.h"
+int __cdecl FUN_00c9db70();
+float __cdecl FUN_00c9e0f0(float a, float b);
+int FUN_00c9e1a0(int a1, int a2);
+void __cdecl FUN_00c9db60(int a, int* b);
+#include "fnv/symbols_simd.h"
+
+
+extern "C" const __m128 DAT_010c7030[];
+
+struct FUN_00c9dcd0_vertex
+{
+    union
+    {
+        __m128 quad;
+        struct
+        {
+            float x;
+            float y;
+            float z;
+            unsigned int id;
+        };
+    };
+};
+
+struct FUN_00c9dcd0_object
+{
+    unsigned char unknown00[0x20];
+    __m128 halfExtents;
+
+    void FUN_00c9dcd0(const unsigned short* ids, int count, FUN_00c9dcd0_vertex* output);
+};
+
+// @fnv 0x00c9dcd0
+void FUN_00c9dcd0_object::FUN_00c9dcd0(const unsigned short* ids, int count, FUN_00c9dcd0_vertex* output)
+{
+    for (int i = count - 1; i >= 0; --i)
+    {
+        unsigned int id = *ids;
+        __m128 value = _mm_mul_ps(DAT_010c7030[id], halfExtents);
+
+        output->quad = value;
+        output->id = id | 0x3f000000u;
+
+        ++output;
+        ++ids;
+    }
+}
 #include "generated/data/havok/physics/collide/shape/convex/box/hkpboxshape.inc"

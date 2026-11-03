@@ -149,7 +149,9 @@ int FUN_00d08390(void* self, int, int value)
     return value << 5;
 }
 
-struct HashEntryTable {  };
+struct HashEntryTable {  public:
+    void clear();
+};
 struct FUN_00d08550_Class {
     void FUN_00d08550();
 };
@@ -583,6 +585,8 @@ struct hkBoolRetD088 {
 
 class hkpEntityD088 {
 public:
+public:
+    hkBoolRetD088 FUN_00c9bff0() const throw();
 };
 
 struct hkpCollidableD088 {
@@ -2542,4 +2546,796 @@ FUN_00d9a040::FUN_00d9a040() throw()
 
 }
 
+// Moved from hkpaabbtreeworldmanager_ehsc_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/CollectorState.h"
+#include "fnv/decl/EntListSelf.h"
+#include "fnv/decl/S00d094a0_Owner.h"
+#include "fnv/decl/S00d9c610_AabbTree.h"
+void FUN_00d08ff0(FUN_00d08ff0_t* self, int arg);
+int FUN_00d08390(void* self, int, int value);
+void FUN_00d083e0(void* arg);
+void FUN_00d08380(int);
+void __cdecl DispatchToOffsetTarget(FUN_00d08400_cls* pkObject, unsigned short usValue);
+void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
+template <class T>
+class hkArrayD08C {
+public:
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
+    void AddBack(const T& t)
+    {
+        hkMemoryAllocatorD08C& kAlloc = FUN_00c85750().heap();
+        if (m_iElementCount == getCapacity())
+            ResizeAudioStream(&kAlloc, this, sizeof(T));
+        constructWithCopyD08C(m_data + m_iElementCount, 1, t);
+        m_iElementCount++;
+    }
+};
+__declspec(align(16)) struct S00d08740_coll {
+    int m_00;
+    int m_04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int m_24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    float m_80;
+};
+__declspec(align(16)) struct S00d0a490_Obj {
+    int m_00;
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+    int m_18;
+    int m_1c;
+    int m_20;
+    int m_24;
+    int m_28;
+    int m_2c;
+    int m_30;
+    int m_34;
+    int m_38;
+    int m_3c;
+    int m_40;
+    int m_44;
+    int m_48;
+    int m_4c;
+    int m_50;
+    int m_54;
+    int m_58;
+    int m_5c;
+    int m_60;
+    int m_64;
+    int m_68;
+    int m_6c;
+    int m_70;
+    int m_74;
+    int m_78;
+    int m_7c;
+    float m_80;
+    int m_84;
+    int m_88;
+    int m_8c;
+};
+void __cdecl FUN_00d083c0();
+void __cdecl FUN_00d08b90(hkArrayD08C<int*>& out, hkpWorldB90* world);
+
+struct PEv { const char* name; unsigned tick; unsigned extra; };
+struct PLEv : PEv { const char* first; };
+struct PCEv { const char* name; float value; };
+struct ProfileStream {
+    int unk00;
+    PEv* cursor;
+    int unk08;
+    PEv* end;
+    void begin(const char* name, const char* first) {
+        PLEv* event = (PLEv*)cursor;
+        if (event < (PLEv*)end) {
+            event->name = name;
+            event->first = first;
+            unsigned int ticks;
+            ticks = static_cast<unsigned int>(__rdtsc());
+            event->tick = ticks;
+            cursor = (PEv*)(event + 1);
+        }
+    }
+    void timerT(const char* name) {
+        PEv* event = cursor;
+        if (event < end) {
+            event->name = name;
+            unsigned int ticks;
+            ticks = static_cast<unsigned int>(__rdtsc());
+            event->tick = ticks;
+            cursor = event + 1;
+        }
+    }
+    void count(const char* name, float value) {
+        PCEv* event = (PCEv*)cursor;
+        if (event < (PCEv*)end) {
+            event->name = name;
+            event->value = value;
+            cursor = (PEv*)(event + 1);
+        }
+    }
+};
+
+extern "C" void* DAT_00fdf044;
+struct MemoryAllocator {
+    virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3();
+    virtual void release(void*, int);
+};
+struct ScratchAllocator { char* current; int unk04; int unk08; int unk0c; MemoryAllocator* allocator; };
+struct Node;
+struct NodeArrayBase {
+    Node** data;
+    int size;
+    int capacity;
+    NodeArrayBase() : data(0), size(0), capacity(0x80000000) {}
+    Node*& operator[](int index) { return data[index]; }
+    int GetLogicalSize() const { return size; }
+    void clear() { size=0; }
+    void pushBackUnchecked(Node* const& value) { data[size]=value; ++size; }
+    void removeAt(int index) { --size; if (size!=index) data[index]=data[size]; }
+    void ClearAndRelease(MemoryAllocator& alloc) {
+        clear();
+        if ((capacity&0x80000000)==0) alloc.release(data,(capacity&0x3fffffff)*4);
+        data=0;
+        capacity=0x80000000;
+    }
+};
+struct NodeHeapArray : NodeArrayBase {
+    ~NodeHeapArray() { ClearAndRelease(*((ScratchAllocator*)&FUN_00c85750())->allocator); }
+};
+struct NodeArray : NodeHeapArray {
+    char* saved;
+    NodeArray(int count) {
+        ScratchAllocator* allocator=(ScratchAllocator*)&FUN_00c85750();
+        char* memory=allocator->current;
+        allocator->current+=(count*4+127)&~127;
+        data=(Node**)memory;
+        capacity=count|0x80000000;
+        saved=memory;
+    }
+    ~NodeArray() {
+        if (saved==(char*)data) clear();
+        ((ScratchAllocator*)&FUN_00c85750())->current=saved;
+    }
+};
+struct __declspec(align(16)) Bounds { float minX,minY,minZ,minW,maxX,maxY,maxZ,maxW; };
+struct Shape {
+    virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3();
+    virtual void slot4(); virtual void slot5(); virtual void slot6();
+    virtual void getBounds(void*, float, Bounds*);
+};
+struct Node {
+    Shape* shape;
+    int unk04;
+    void* transform;
+    int unk0c; signed char ownerOffset; unsigned char unk11; unsigned short unk12; unsigned int tag;
+    unsigned char active;
+ void getBounds(Bounds& bounds) const { shape->getBounds(transform, 0.0f, &bounds); }
+};
+struct Tree {
+};
+struct ScanToken;
+struct ByteTruth {
+    char value;
+    ByteTruth(bool x) : value((char)x) {}
+    operator bool() const { return value != 0; }
+};
+struct TablePair { unsigned long key; unsigned long value; };
+struct MapStorage {
+    TablePair* elem; int numElems; int hashMod;
+    ScanToken* first() const {
+        int index=0;
+        for (; index <= hashMod; ++index) if (elem[index].key != (unsigned long)-1) break;
+        return (ScanToken*)(unsigned long)index;
+    }
+    ScanToken* next(ScanToken* token) const {
+        int index=(int)(unsigned long)token+1;
+        for (; index <= hashMod; ++index) if (elem[index].key != (unsigned long)-1) break;
+        return (ScanToken*)(unsigned long)index;
+    }
+    ByteTruth valid(ScanToken* token) const { return (int)(unsigned long)token <= hashMod; }
+    unsigned long key(ScanToken* token) const { return elem[(int)(unsigned long)token].key; }
+    unsigned long value(ScanToken* token) const { return elem[(int)(unsigned long)token].value; }
+};
+struct EntryMap {
+    MapStorage table;
+    ScanToken* GetFirstIterator() const { return table.first(); }
+    ScanToken* getNext(ScanToken* token) const { return table.next(token); }
+    ByteTruth isValid(ScanToken* token) const { return table.valid(token); }
+    Node* GetIteratorKey(ScanToken* token) const { return (Node*)table.key(token); }
+    int getValue(ScanToken* token) const { return (int)table.value(token); }
+};
+void __cdecl DispatchToOffsetTarget(Node*, unsigned short);
+struct ArrayHeader { int a; int b; int c; };
+struct UpdateState {
+    int unk00; int unk04; int unk08; Tree* tree;
+    FUN_00d08ff0_t gather;
+    int unk20;
+    unsigned char incremental;
+    int gatherMode;
+    int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40;
+    NodeHeapArray nodes;
+    EntryMap entries;
+    unsigned char fullScan; int scanStart; int scanLimit;
+    unsigned char unk68; unsigned char dirty;
+    __declspec(noinline) bool CheckCollidables(NodeArrayBase&);
+    unsigned short FUN_00d083e0(Node*);
+    bool isActive(int& value, Node* node) { unsigned short id = FUN_00d083e0(node); return value == 1 && id != 0xffff; }
+    void FUN_00d08c90(Node*);
+    void FUN_00d099d0(int, int);
+};
+struct CommandTimingEntry {
+    const char* m_pCommandName; unsigned m_uiStartTicks; unsigned m_uiEndTicks;
+    __forceinline void setTime() {
+        unsigned int ticks;
+        ticks = static_cast<unsigned int>(__rdtsc());
+        m_uiStartTicks = ticks;
+    }
+};
+struct TimedNameRecord : CommandTimingEntry { const char* m_pFirst; };
+struct CommandFilterEntry { const char* m_pCommandName; float m_uiFilterValue; };
+struct MonitorStreamD099 {
+    char* m_kRayStart; char* m_kRayEnd; char* m_pRayCursor; char* m_pCurrentCommand;
+    bool memoryAvailable() const { return m_kRayEnd < m_pCurrentCommand; }
+    char* GetStreamEnd() { return m_kRayEnd; }
+    void setEnd(char* e) { m_kRayEnd = e; }
+    static MonitorStreamD099& GetMonitorStream() { return *(MonitorStreamD099*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))); }
+};
+static __forceinline void hkTimerBeginList(const char* name, const char* first) {
+    MonitorStreamD099& mStream = MonitorStreamD099::GetMonitorStream();
+    if (mStream.memoryAvailable()) {
+        TimedNameRecord* h = (TimedNameRecord*)mStream.GetStreamEnd();
+        h->m_pCommandName = name;
+        h->m_pFirst = first;
+        h->setTime();
+        mStream.setEnd((char*)(h + 1));
+    }
+}
+static __forceinline void hkTimerSplit(const char* name) {
+    MonitorStreamD099& mStream = MonitorStreamD099::GetMonitorStream();
+    if (mStream.memoryAvailable()) {
+        CommandTimingEntry* h = (CommandTimingEntry*)mStream.GetStreamEnd();
+        h->m_pCommandName = name;
+        h->setTime();
+        mStream.setEnd((char*)(h + 1));
+    }
+}
+static __forceinline void hkAddValue(const char* name, float value) {
+    MonitorStreamD099& mStream = MonitorStreamD099::GetMonitorStream();
+    if (mStream.memoryAvailable()) {
+        CommandFilterEntry* h = (CommandFilterEntry*)mStream.GetStreamEnd();
+        h->m_pCommandName = name;
+        h->m_uiFilterValue = value;
+        mStream.setEnd((char*)(h + 1));
+    }
+}
+// @fnv 0x00d099d0
+void UpdateState::FUN_00d099d0(int arg1, int arg2) {
+    NodeArray inactive(nodes.GetLogicalSize());
+    bool changed = false;
+    if (incremental) {
+        hkTimerBeginList("LtIncrementalBuild", "StClear Tree");
+        hkTimerSplit("StFind Inactivated");
+        if (dirty) {
+            changed = reinterpret_cast<::hkpEntityListD088 *>(this)->CheckCollidables((::hkArrayD088< ::hkpCollidableD088 *> &)(inactive));
+            hkTimerSplit("StUpdate Inactive Tree");
+            Tree* t = tree;
+            for (int i=0;i<inactive.GetLogicalSize();++i) {
+                    Node* node = inactive[i];
+                    Bounds bounds;
+                    node->getBounds(bounds);
+                    hkAddValue("MiNum of Added Nodes", 1.0f);
+                    DispatchToOffsetTarget(inactive[i], reinterpret_cast<::S00d9c610_AabbTree *>((t))->FUN_00d9c610((*(const ::S00d9c610_Aabb *)(&bounds)), node));
+            }
+            dirty = false;
+        }
+        hkTimerSplit("StFind Activated");
+        Tree* currentTree = tree;
+        for (ScanToken* it = entries.GetFirstIterator(); entries.isValid(it); it = entries.getNext(it)) {
+            Node* node = entries.GetIteratorKey(it);
+            int state = entries.getValue(it);
+            if (isActive(state, node) && node->active == 1) {
+                hkAddValue("MiNum of Removed Nodes", 1.0f);
+                reinterpret_cast<::FUN_00d9c7d0_C *>((currentTree))->FUN_00d9c7d0((::NodeD9C7 *)(FUN_00d083e0(node)));
+                reinterpret_cast<::hkpEntityListD08C *>(this)->FUN_00d08c90((::hkpEntityD08C *)(node));
+            }
+        }
+        hkTimerSplit("StUpdate Active");
+        reinterpret_cast<::hkObjD099 *>(this)->FUN_00d099a0((void *)&(nodes), (void *)(arg1), (void *)(arg2));
+        hkTimerSplit("lt");
+    } else {
+        hkTimerBeginList("LtDynamicBuild", "StGather");
+        nodes.clear();
+        FUN_00d08ff0((FUN_00d08ff0_t*)&nodes, gatherMode);
+        hkTimerSplit("StClear");
+        hkTimerSplit("StRebuild");
+        reinterpret_cast<::S00d094a0_Owner *>(this)->FUN_00d094a0((::S00d094a0_Tree **)(::FUN_00d08ff0_t *)(&gather), (::S00d094a0_Input *)&(nodes), (::S00d094a0_Ctx *)(gatherMode), (::S00d094a0_Queue *)(arg1), (::S00d094a0_Sync *)(arg2));
+        hkTimerSplit("lt");
+    }
+    ((FUN_00d08550_Class*)this)->FUN_00d08550();
+    if (changed) dirty = true;
+}
+
+struct BodyOwner {
+    hkBoolRetD088 FUN_00c9bff0() const;
+};
+static __forceinline BodyOwner* getBodyOwner(Node* node) {
+    return node->active==1 ? (BodyOwner*)((char*)node+node->ownerOffset) : 0;
+}
+__declspec(noinline) bool UpdateState::CheckCollidables(NodeArrayBase& output) {
+    if (fullScan) {
+        for (int index=nodes.GetLogicalSize()-1;index>=0;--index) {
+            BodyOwner* owner=getBodyOwner(nodes[index]);
+            if (owner) {
+                bool active=owner->FUN_00c9bff0().m_cBooleanValue!=0;
+                if (!active) {
+                    output.pushBackUnchecked(nodes[index]);
+                    nodes.removeAt(index);
+                }
+            }
+        }
+        return true;
+    } else {
+        int last=nodes.GetLogicalSize()-1;
+        scanStart=scanStart<last?scanStart:last;
+        int scanned=0;
+        for (int count=0;count<scanLimit;++count) {
+            int index=scanStart--;
+            if (index<0) {scanStart=nodes.GetLogicalSize(); break;}
+            BodyOwner* owner=getBodyOwner(nodes[index]);
+            if (owner) {
+                bool active=owner->FUN_00c9bff0().m_cBooleanValue!=0;
+                if (!active) {
+                    output.pushBackUnchecked(nodes[index]);
+                    nodes.removeAt(index);
+                }
+            }
+            ++scanned;
+        }
+        return scanned==nodes.GetLogicalSize();
+    }
+}
+
+// Moved from hkpaabbtreeworldmanager_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/AabbTree16.h"
+#include "fnv/symbols_01011000.h"
+
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+
+class hkMemoryAllocatorD08C
+{
+  public:
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void ReturnMemory(void* p, int numBytes);
+};
+
+void __cdecl FUN_00c908c0(hkMemoryAllocatorD08C* alloc, void* arr, int newCap, int elemSize);
+
+struct S00d09020_Vec
+{
+    __m128 m_vComponents;
+    void mul(const S00d09020_Vec& b)
+    {
+        m_vComponents = _mm_mul_ps(m_vComponents, b.m_vComponents);
+    }
+    void mulR(const S00d09020_Vec& b)
+    {
+        m_vComponents = _mm_mul_ps(b.m_vComponents, m_vComponents);
+    }
+    void sub(const S00d09020_Vec& b)
+    {
+        m_vComponents = _mm_sub_ps(m_vComponents, b.m_vComponents);
+    }
+    void SetProduct(const S00d09020_Vec& a, const S00d09020_Vec& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+};
+
+struct S00d09020_Aabb
+{
+    S00d09020_Vec m_kMinimumCorner;
+    S00d09020_Vec m_kMaximumCorner;
+};
+
+struct S00d09020_Shape
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void getAabb(int a, float tol, S00d09020_Aabb* out);
+};
+
+struct S00d09020_Elem
+{
+    S00d09020_Shape* m_pCollisionShape;
+    int unk04;
+    int m_08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    unsigned int m_kMinimumCorner[4];
+    unsigned int m_kMaximumCorner[4];
+};
+
+struct S00d09020_Arg
+{
+    S00d09020_Elem** m_data;
+    int m_iElementCount;
+};
+
+template <class T> struct S00d09020_Arr
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    S00d09020_Arr() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    ~S00d09020_Arr()
+    {
+        hkMemoryAllocatorD08C& a = FUN_00c85750().heap();
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            a.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    void reserve(int n)
+    {
+        hkMemoryAllocatorD08C& a = FUN_00c85750().heap();
+        int cap = m_iCapacityState & 0x3fffffff;
+        if (cap < n)
+        {
+            int c = cap * 2;
+            FUN_00c908c0(&a, this, n < c ? c : n, sizeof(T));
+        }
+    }
+    void SetSizeAndGrow(int n)
+    {
+        reserve(n);
+        m_iElementCount = n;
+    }
+};
+
+template <class T> struct S00d09020_Local : public S00d09020_Arr<T>
+{
+    T* m_pStackAllocation;
+    S00d09020_Local(int n)
+    {
+        hkMemoryRouterD08C& r = FUN_00c85750();
+        char* top = (char*)r.m_00;
+        r.m_00 = (int)(top + ((n * sizeof(T) + 0x7f) & ~0x7f));
+        this->m_data = (T*)top;
+        this->m_iCapacityState = n | 0x80000000;
+        m_pStackAllocation = (T*)top;
+    }
+    ~S00d09020_Local()
+    {
+        T* mem = m_pStackAllocation;
+        if (mem == this->m_data)
+            this->m_iElementCount = 0;
+        FUN_00c85750().m_00 = (int)mem;
+    }
+};
+
+struct S00d09020_Builder
+{
+};
+
+struct D090Rows
+{
+    S00d09020_Vec m_offset;
+    S00d09020_Vec m_unused;
+    S00d09020_Vec m_vScale;
+};
+struct D090Phase
+{
+    S00d09020_Vec m_pHeadNode;
+    S00d09020_Vec m_iSecondInteger;
+    D090Rows m_rows;
+};
+struct S00d09020_Inner
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
+    int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
+    int unk60, unk64, unk68, unk6c, unk70, unk74;
+    D090Phase* m_78;
+};
+
+__forceinline void S00d09020_trace(const char* tag, volatile unsigned int& ticks)
+{
+    MonitorStream* s = (MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+    MonitorEvent* e = s->current;
+    if (e < s->end)
+    {
+        e->tag = tag;
+        _ReadWriteBarrier();
+        ticks = (unsigned int)__rdtsc();
+        e->time = ticks;
+        s->current = (MonitorEvent*)((char*)e + 12);
+    }
+}
+
+__forceinline void S00d09020_set(S00d09020_Vec& v, float x, float y, float z, float w)
+{
+    v.m_vComponents = _mm_setr_ps(x, y, z, w);
+}
+
+struct S00d09020_This
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    S00d09020_Builder* m_builder;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    S00d09020_Inner* m_inner;
+    void FUN_00d09020(S00d09020_Arg* arg, int p2, int p3);
+};
+
+// @fnv 0x00d09020
+void S00d09020_This::FUN_00d09020(S00d09020_Arg* arg, int p2, int p3)
+{
+    union BuilderTime
+    {
+        S00d09020_Builder* ptr;
+        volatile unsigned int tick;
+    } builder;
+    builder.ptr = m_builder;
+    volatile unsigned int timestamp;
+    int n = arg->m_iElementCount;
+
+    S00d09020_Local<S00d09020_Aabb> aabbs(n);
+    aabbs.SetSizeAndGrow(n);
+    S00d09020_Local<S00d09020_Elem*> elems(n);
+    elems.SetSizeAndGrow(n);
+
+    {
+        MonitorStream* s = (MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+        MonitorEvent* e = s->current;
+        if (e < s->end)
+        {
+            e->tag = "Ttprepare";
+            _ReadWriteBarrier();
+            timestamp = (unsigned int)__rdtsc();
+            e->time = timestamp;
+            s->current = e + 1;
+        }
+    }
+    const D090Rows& xf = m_inner->m_78->m_rows;
+    for (int i = 0; i < n; i++)
+    {
+        const unsigned int* q = arg->m_data[i]->m_kMinimumCorner;
+        S00d09020_Aabb* base = aabbs.m_data;
+        if (q[0] <= q[4])
+        {
+            S00d09020_Aabb* out = &base[i];
+            S00d09020_Vec retained;
+            S00d09020_set(retained, (float)q[0], (float)q[1], (float)q[2], 0.0f);
+            out->m_kMinimumCorner.m_vComponents = retained.m_vComponents;
+            S00d09020_set(out->m_kMaximumCorner, (float)q[4], (float)q[5], (float)q[6], 0.0f);
+            __m128 scale = xf.m_vScale.m_vComponents;
+            __m128 t = _mm_shuffle_ps(scale, _mm_unpackhi_ps(scale, ::DAT_010c7170), 0xc4);
+            __m128 r = _mm_rcp_ps(t);
+            __m128 inv = _mm_sub_ps(_mm_add_ps(r, r), _mm_mul_ps(_mm_mul_ps(r, t), r));
+            __m128 product = inv;
+            product = _mm_mul_ps(product, retained.m_vComponents);
+            out->m_kMinimumCorner.m_vComponents = product;
+            S00d09020_Vec* hi = (S00d09020_Vec*)out + 1;
+            hi->m_vComponents = _mm_mul_ps(hi->m_vComponents, inv);
+            out->m_kMinimumCorner.m_vComponents =
+                _mm_sub_ps(_mm_load_ps((const float*)&out->m_kMinimumCorner), xf.m_offset.m_vComponents);
+            out->m_kMaximumCorner.sub(xf.m_offset);
+        }
+        else
+        {
+            arg->m_data[i]->m_pCollisionShape->getAabb(arg->m_data[i]->m_08, 0.0f, &base[i]);
+        }
+        elems.m_data[i] = arg->m_data[i];
+    }
+    {
+        MonitorStream* s = (MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+        MonitorEvent* e = s->current;
+        if (e < s->end)
+        {
+            e->tag = DAT_010c41f8;
+            _ReadWriteBarrier();
+            timestamp = (unsigned int)__rdtsc();
+            e->time = timestamp;
+            s->current = e + 1;
+        }
+    }
+
+    S00d09020_Arr<unsigned short> ids;
+    {
+        MonitorStream* s = (MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+        MonitorEvent* e = s->current;
+        if (e < s->end)
+        {
+            e->tag = "Ttbuild";
+            _ReadWriteBarrier();
+            timestamp = (unsigned int)__rdtsc();
+            e->time = timestamp;
+            s->current = e + 1;
+        }
+    }
+    if (n > 0)
+        reinterpret_cast<::AabbTree16 *>((builder.ptr))->FUN_00d9ce50((const ::TreeAabb *)(aabbs.m_data), (const int *)(elems.m_data), n, (::TreeArray<unsigned short> *)(::S00d09020_Arr<unsigned short> *)(&ids));
+    {
+        MonitorStream* s = (MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+        MonitorEvent* e = s->current;
+        if (e < s->end)
+        {
+            e->tag = DAT_010c41f8;
+            _ReadWriteBarrier();
+            builder.tick = (unsigned int)__rdtsc();
+            e->time = builder.tick;
+            s->current = e + 1;
+        }
+    }
+
+    for (int j = 0; j < n; j++)
+        DispatchToOffsetTarget((FUN_00d08400_cls*)arg->m_data[j], ids.m_data[j]);
+}
+
+// Moved from hkpaabbtreeworldmanager_rtm_variant.cpp (VEGAS-15).
+#include "fnv/symbols_01016000.h"
+void ResizeAudioStream(void* alloc, void* array, int elemSize);
+template <typename T>
+struct hkArray {
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    void AddBack(AllocHolder* h, T val) {
+        if (m_iElementCount == (m_iCapacityState & 0x3fffffff)) {
+            ResizeAudioStream(h->m_alloc, this, sizeof(T));
+        }
+        T* slot = m_data + m_iElementCount;
+        __assume(slot != 0);
+        new (slot) T(val);
+        ++m_iElementCount;
+    }
+};
+void FUN_00d08ac0(hkArray<Target*>* out, int containerHandle);
+
+struct FloatPtr {float* p; FloatPtr(float* q):p(q){} };
+struct Scalar {
+ __m128 value;
+ Scalar(float f) { value=_mm_load_ss(&f); }
+ Scalar(__m128 v) { value=v; }
+ __m128 spread() const { return _mm_shuffle_ps(value,value,0); }
+ operator float() const { float f;_mm_store_ss(&f,value);return f; }
+};
+struct __declspec(align(16)) Vector {
+ union { __m128 value; float x; };
+ void set(__m128 a) { value=a; }
+ __m128 get() const { return value; }
+ void interpolate(const Vector& a,const Vector& b,const Scalar& scale);
+ void add(const Vector& a,const Vector& b) { value=_mm_add_ps(a.value,b.value); }
+ void sub(const Vector& a,const Vector& b) { value=_mm_sub_ps(a.value,b.value); }
+ void scale(const Scalar& s) { value=_mm_mul_ps(s.spread(),value); }
+};
+struct Triple { Vector avg,mid,half; };
+struct Pair { Vector low,high; };
+struct Vertex { __m128 value; float unk10; float unk14; };
+struct MatrixData {int f00,f04,f08,f0c,f10,f14;int f18,f1c;__m128 a,b,c;};
+struct Transform {int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c; __m128 m_vTranslation;};
+struct Obj;
+struct Engine {
+ virtual void f0(); virtual void f1(); virtual void f2(); virtual void f3();
+ virtual void f4(); virtual void f5(); virtual void f6();
+ virtual void getBounds(Transform* transform, float value, Pair* out);
+ int unk04,unk08,unk0c;
+};
+struct Obj {Engine* m_eng;int unk04;Transform* m_kMotionTransform;};
+struct CollectorState {
+ void* unk00;
+ Vertex* m_pVertex;
+ void* m_arg4;
+ void* volatile m_arg7;
+ void* m_arg8;
+ Obj* m_obj;
+ int m_18;
+ int unk1c;
+ int f20,f24; union { int f28bits; float f28; }; int f2c,f30,f34,f38,f3c;
+ __m128 m40,m50,m60,m70;
+ float f80,f84;
+ float* m_88;
+ void FUN_00d984b0(int arg1, Obj* arg2, Vertex* arg3, void* arg4, MatrixData* arg5, FloatPtr arg6, void* volatile arg7, void* volatile arg8);
+};
+extern "C" const __m128 DAT_010ec7f0={1,1,1,1};
+extern "C" const float DAT_01016248=0.5f;
+inline void Vector::interpolate(const Vector& a,const Vector& b,const Scalar& scale) {
+ __m128 weight=scale.spread();
+ __m128 opposite=_mm_sub_ps(DAT_010ec7f0,weight);
+ value=_mm_add_ps(_mm_mul_ps(opposite,a.value),_mm_mul_ps(b.value,weight));
+}
+__declspec(noalias) void __cdecl FUN_00df2750(void* output, int arg1, Triple* mid, CollectorState* self, float f);
+// @fnv 0x00d984b0
+void CollectorState::FUN_00d984b0(int arg1, Obj* arg2, Vertex* arg3, void* arg4, MatrixData* arg5, FloatPtr arg6, void* volatile arg7, void* volatile arg8)
+{
+    m_arg7=arg7;
+    m_arg8=arg8;
+    m_arg4=arg4;
+    m_pVertex=arg3;
+    m_obj=arg2;
+    m_18=arg2->m_eng->unk0c;
+    f20=arg5->f00; f24=arg5->f04; f28bits=arg5->f08; f2c=arg5->f0c; f30=arg5->f10; f34=arg5->f14;
+    m40=arg5->a; m50=arg5->b; m60=arg5->c;
+    m_88=arg6.p;
+    struct Metrics {float distance,radius;}; Metrics metrics;
+    metrics.radius = arg3->unk14;
+    Vector diff;
+    m70=_mm_sub_ps(arg3->value,arg2->m_kMotionTransform->m_vTranslation);
+    diff.set(m70);
+    __m128 sq=_mm_mul_ps(m70,m70);
+    __m128 y=_mm_shuffle_ps(sq,sq,0x55);
+    __m128 z=_mm_shuffle_ps(sq,sq,0xaa);
+    __m128 sum;
+    sum = _mm_add_ss(z,_mm_add_ss(y,sq));
+    __m128 root=_mm_sqrt_ss(sum);
+    _mm_store_ss(&metrics.distance,root);f84=metrics.distance;
+    Pair out;
+    f28=metrics.radius;
+    arg2->m_eng->getBounds(arg2->m_kMotionTransform,arg3->unk14,&out);
+
+    Pair* box=&out;
+    Triple temp;
+    temp.avg.interpolate(box->low,box->high,Scalar(DAT_01016248));
+    temp.mid.add(temp.avg,diff);
+    temp.half.sub(box->high,box->low);
+    temp.half.scale(Scalar(DAT_01016248));
+    f80=arg3->unk10;
+    unsigned char result;
+    FUN_00df2750(&result,arg1,&temp,this,*arg6.p);
+}
 #include "generated/data/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.inc"

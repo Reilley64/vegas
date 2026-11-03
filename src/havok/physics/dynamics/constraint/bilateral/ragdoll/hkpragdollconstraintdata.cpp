@@ -1002,3 +1002,32 @@ void hkpRagdollConstraintDataBodySpace::FUN_00cded30(const hkVector4& pivotA, co
     layout.m_kMotorAxes.m_kColumn1.m_vComponents = layout.m_kBodyBLocalFrame.m_rotation.m_kColumn1.m_vComponents;
     layout.m_kMotorAxes.m_kColumn2.m_vComponents = layout.m_kBodyBLocalFrame.m_rotation.m_kColumn2.m_vComponents;
 }
+
+// Moved from hkpragdollconstraintdata_decl_variant.cpp (VEGAS-15).
+
+// src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata_decl_variant.cpp - declaration variant unit created 2026-10-26 by decl_variants.py for paused function 0x00cdf090: the skeleton of src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp
+// with declarations corrected to what the original code does (hkBase.h: typedef char hkBool; -> class hkBool { public: __forceinline hkBool() {} _; hkpRagdollConstraintData.h: hkpRagdollConstraintData += hkBool FUN_00cdf090() const;; hkBase.h: struct hkRotation : hkMatrix3 {}; -> struct hkRotation : hkMatrix3 { hkBool FUN_00cb2e7). Move the function to its real unit once
+// that unit declares it this way.
+
+// src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d21000.h"
+#include "havok/hkpRagdollConstraintData_decl_hkpragdollconstraintdata.h"
+void FUN_00cde9d0(int* a, int* b);
+int __cdecl FUN_00cdead0();
+
+// @fnv 0x00cdf090
+hkBool hkpRagdollConstraintData::FUN_00cdf090() const
+{
+    hkBool valid = true;
+    valid = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(valid))->FUN_005609f0() && reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(m_kBridgeAtoms.m_kTransforms.m_kBodyALocalFrame.m_rotation.IsOrthonormal(0.001f)))->FUN_005609f0();
+    valid = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(valid))->FUN_005609f0() && reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(m_kBridgeAtoms.m_kTransforms.m_kBodyBLocalFrame.m_rotation.IsOrthonormal(0.001f)))->FUN_005609f0();
+    valid = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(valid))->FUN_005609f0() && m_kBridgeAtoms.m_kConeLimit.m_fMinAngle == -100.0;
+    valid = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(valid))->FUN_005609f0() && m_kBridgeAtoms.m_kConeLimit.m_fMaxAngle >= 0.0f;
+    valid = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(valid))->FUN_005609f0() && m_kBridgeAtoms.m_kConeLimit.m_fMaxAngle < 3.1415927410125732;
+    valid = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(valid))->FUN_005609f0() && m_kBridgeAtoms.m_kPlaneLimit.m_fMinAngle <= m_kBridgeAtoms.m_kPlaneLimit.m_fMaxAngle;
+    valid = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(valid))->FUN_005609f0() && m_kBridgeAtoms.m_kTwistLimit.m_fMinAngle <= m_kBridgeAtoms.m_kTwistLimit.m_fMaxAngle;
+    return valid;
+}

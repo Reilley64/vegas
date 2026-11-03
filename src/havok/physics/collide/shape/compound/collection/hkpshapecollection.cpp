@@ -454,6 +454,11 @@ struct S00d216e0_Ctx
     {
         return *(S00d216e0_Ctx*)TlsGetValue(DAT_0126835c);
     }
+public:
+    static S00d216e0_Ctx& GetMonitorStream()
+    {
+        return *(S00d216e0_Ctx*)TlsGetValue(::DAT_0126835c);
+    }
 };
 
 __forceinline void S00d216e0_timer(const char* name)
@@ -602,4 +607,71 @@ FUN_00d21410::FUN_00d21410(int type, char collectionType)
     : hkpShape_ctor(type), ShapeContainerLite(), m_info(collectionType)
 {}
 
+// Moved from hkpshapecollection_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_01268000.h"
+void FUN_00d213f0(int, int);
+void FUN_00d21400(int a1);
+
+#include <xmmintrin.h>
+struct Aabb
+{
+    __m128 minimum, maximum;
+};
+class ShapeAabb : public hkpShape
+{
+  public:
+    virtual void f1();
+    virtual void f2();
+    virtual void f3();
+    virtual void f4();
+    virtual void f5();
+    virtual void f6();
+    virtual void getAabb(const hkTransform&, float, Aabb&) const;
+};
+extern char DAT_010ce208;
+class CollectionAabb : public FUN_00d21450_Class
+{
+  public:
+    void FUN_00d215d0(const hkTransform& transform, float tolerance, Aabb& out) const;
+};
+// @fnv 0x00d215d0
+void CollectionAabb::FUN_00d215d0(const hkTransform& transform, float tolerance, Aabb& out) const
+{
+    StringCursor* stream = (StringCursor*)TlsGetValue(::DAT_0126835c);
+    char* event = stream->m_pTileTemplate;
+    if (event < stream->m_kRayEnd)
+    {
+        *(const char**)event = &DAT_010ce208;
+        _ReadWriteBarrier();
+        volatile unsigned int stamp = (unsigned int)__rdtsc();
+        *(unsigned int*)(event + 4) = stamp;
+        stream->m_pTileTemplate = event + 12;
+    }
+    out.minimum = _mm_set1_ps(3.40282e38f);
+    out.maximum = _mm_set1_ps(-3.40282e38f);
+    hkpShapeKey key = m_container.getFirstShapeKey();
+    while (key != (hkpShapeKey)-1)
+    {
+        __declspec(align(16)) char buffer[512];
+        Aabb child;
+        const ShapeAabb* shape = (const ShapeAabb*)m_container.GetShapeForKey(key, buffer);
+        shape->getAabb(transform, tolerance, child);
+        out.minimum = _mm_min_ps(out.minimum, child.minimum);
+        out.maximum = _mm_max_ps(out.maximum, child.maximum);
+        key = m_container.getNextShapeKey(key);
+    }
+    stream = (StringCursor*)TlsGetValue(::DAT_0126835c);
+    event = stream->m_pTileTemplate;
+    if (event < stream->m_kRayEnd)
+    {
+        *(const char**)event = &(*reinterpret_cast<char *>(&::DAT_010c41f8));
+        _ReadWriteBarrier();
+        volatile unsigned int stamp = (unsigned int)__rdtsc();
+        *(unsigned int*)(event + 4) = stamp;
+        stream->m_pTileTemplate = event + 12;
+    }
+}
 #include "generated/data/havok/physics/collide/shape/compound/collection/hkpshapecollection.inc"
+#include "generated/data/havok/physics/collide/shape/compound/collection/hkpshapecollection_gs_ehsc_nogs_noehsc_variant.inc"

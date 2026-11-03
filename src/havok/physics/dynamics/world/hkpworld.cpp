@@ -1200,6 +1200,16 @@ struct ScopedMemContext {
     int m_saved;
     ScopedMemContext(int ctx) { m_saved = g_tlsMemContext; g_tlsMemContext = ctx; }
     ~ScopedMemContext() { g_tlsMemContext = m_saved; }
+public:
+    ScopedMemContext(int ctx)
+    {
+        m_saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = ctx;
+    }
+    ~ScopedMemContext()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_saved;
+    }
 };
 
 struct C67Owner {
@@ -4887,6 +4897,18 @@ struct Guard9 {
         int* flag = (int*)((char*)&threadContext9 + 0x2b4);
         *flag = previous;
     }
+public:
+    Guard9()
+    {
+        int* flag = (int*)((char*)&(*reinterpret_cast<unsigned char *>(&::g_tlsBlock)) + 0x2b4);
+        previous = *flag;
+        *flag = 16;
+    }
+    ~Guard9()
+    {
+        int* flag = (int*)((char*)&(*reinterpret_cast<unsigned char *>(&::g_tlsBlock)) + 0x2b4);
+        *flag = previous;
+    }
 };
 struct Node9 { void* vtable; int value; int references; int previous; int next; };
 struct Class9 {
@@ -5214,6 +5236,16 @@ struct MemoryScope {
  int previous;
  MemoryScope() {previous=threadData.unk2B4;threadData.unk2B4=16;}
  ~MemoryScope() {threadData.unk2B4=previous;}
+public:
+    MemoryScope()
+    {
+        previous = (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).unk2B4;
+        (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).unk2B4 = 16;
+    }
+    ~MemoryScope()
+    {
+        (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).unk2B4 = previous;
+    }
 };
 struct Point3 { float x,y,z;  };
 struct Strings {
@@ -5268,6 +5300,8 @@ struct Owner {
  void AppendConstraintToStrings(Strings*);
 public:
     void ClearReferences();
+public:
+    ::Owner *FUN_00cf5ea0();
 };
 // @fnv 0x00caa960
 void Owner::AppendConstraintToStrings(Strings* strings) {
@@ -5453,6 +5487,16 @@ struct Guard676 {
     int m_saved;
     Guard676() { m_saved = g_tls676.m_2b4; g_tls676.m_2b4 = 0x10; }
     ~Guard676() { g_tls676.m_2b4 = m_saved; }
+public:
+    Guard676()
+    {
+        m_saved = (*reinterpret_cast<::Tls676 *>(&::g_tlsBlock)).m_2b4;
+        (*reinterpret_cast<::Tls676 *>(&::g_tlsBlock)).m_2b4 = 0x10;
+    }
+    ~Guard676()
+    {
+        (*reinterpret_cast<::Tls676 *>(&::g_tlsBlock)).m_2b4 = m_saved;
+    }
 };
 
 extern GC676* FUN_00c85ef0(GC676* out, Elem676* obj, void* rtti);
@@ -7522,6 +7566,8 @@ template <typename T, int N> struct hkInplaceArrayC97 : public hkArrayC97<T> {
 };
 
 struct hkSmallArrayUtilC97 {
+public:
+    static void __cdecl GrowArray(void* apvArray, int iSizeElem) throw();
 };
 template <typename T> struct hkSmallArrayC97 {
     int getCapacity() const { return m_iCapacityState & 0x3fff; }
@@ -8314,6 +8360,8 @@ struct CFB240ContactMgrFactory {
 struct FUN_00cfd450 : CFB240ContactMgrFactory {
     int unk08;
     FUN_00cfd450(void*) throw();
+public:
+    FUN_00cfd450(::hkWorldCFD4 *);
 };
 struct FUN_00cfca20 : CFB240ContactMgrFactory {
     int unk08;
@@ -11028,6 +11076,29 @@ struct S96_WorldShell : hkpWorld {
   return ((S96_Filter*)m_pCollisionFilter)->unk08.Check(c->unk10,c->unk14).value && ((char*)m_pDispatcher)[0x1bb0+c->unk10->unk1A*10+c->unk14->unk1A];
  }
  void FUN_00c96ff0(int mode,int update);
+public:
+    static __forceinline void S96_TimerBegin(const char* name) {
+  S96_Timer* timer=(S96_Timer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+  if(timer->unk04<timer->unk0C) {
+   S96_TimerEntry* entry=timer->unk04;
+   entry->name=name;
+   unsigned tick;
+   tick = static_cast<unsigned int>(__rdtsc());
+   entry->tick=tick;
+   timer->unk04=entry+1;
+  }
+ }
+    static __forceinline void S96_TimerEnd() {
+  S96_Timer* timer=(S96_Timer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+  if(timer->unk04<timer->unk0C) {
+   S96_TimerEntry* entry=timer->unk04;
+   entry->name=::DAT_010c41f8;
+   unsigned tick;
+   tick = static_cast<unsigned int>(__rdtsc());
+   entry->tick=tick;
+   timer->unk04=entry+1;
+  }
+ }
 };
 // @fnv 0x00c96ff0
 void S96_WorldShell::FUN_00c96ff0(int mode,int update) {
@@ -11143,6 +11214,8 @@ struct S97_MonitorStream {
     struct TimedNameRecord : public CommandTimingEntry {
         const char* m_pFirst;
     };
+public:
+    static __forceinline S97_MonitorStream& GetMonitorStream() { return *(S97_MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))); }
 };
 
 static __forceinline void S97_timerList(const char* name1, const char* name2)
@@ -12059,6 +12132,9 @@ __forceinline void setTime()throw(); } ; struct TimedNameRecord:public TMS::Comm
 const char*vnOFS; } ; struct CommandTimingStringEntry:public TMS::CommandTimingEntry{
 const char*voN; } ; struct PointerAndIntegerCommand:public TMS::Command{
 void*vp6; int vsAF; } ;
+public:
+    static TMS&GetMonitorStream()throw(){  return*(*reinterpret_cast<::TTLD< ::TMS *> *>(&::DAT_0126835c)).getData();
+}
 } ; void TMS::CommandTimingEntry::setTime()throw(){ TU32 ticks;
 ticks = static_cast<unsigned int>(__rdtsc());
  vt0=ticks; } class TTFH; class TWMAWD;
@@ -12226,7 +12302,9 @@ TU vsCFC; bool vsCR:2; bool vsE:2; bool vaLCN:2;
 bool vaIL:2; bool viIAIA:2; bool vaM:2; bool vtTIISM:2;
 bool viIJ:2; protected:mutable TMTC vmTC; public:TR vtSLHFC; TR vtSLLFC;
 TA2<TA1*>va1; TT vtOD; TIA<TE*,1>ve1; TANT vaT;
-; ; } ;
+; ; public:
+    FUN_00d07830(::hkpWorldQ *);
+} ;
 inline TB FUN_00d07830::isFixed()const throw(){ return vsI5==0xffff; } class THC;
 class TLF; class TRBC; extern const TC1 TRBC1; class TRB:public TE{
 public:virtual~TRB()throw(); inline const TT1&getTransform()const throw(); virtual void vs611()const throw(); public:inline TM5*getRigidMotion()const throw();
@@ -15026,4 +15104,1332 @@ int WorldAdvanceEntry::FUN_00c91bd0()
     return result;
 }
 
+// Moved from hkpworld_gs_nogs_variant.cpp (VEGAS-15).
+#include "fnv/decl/BatchAdd__WorldHelper.h"
+#include "fnv/decl/Cls_00c98780.h"
+#include "fnv/decl/FlagState.h"
+#include "fnv/decl/HostWorld_00c951b0.h"
+#include "fnv/decl/Mgr.h"
+#include "fnv/decl/S_00ce5290.h"
+#include "fnv/decl/TW.h"
+#include "fnv/decl/WorldAdvanceEntry.h"
+#include "fnv/decl/World_RemovePhantomBatch.h"
+#include "fnv/decl/fnv_00c91030__CpuObject.h"
+#include "fnv/decl/hkDebugDisplayHandlerC997.h"
+#include "fnv/decl/hkpWorldDecomp.h"
+#include "fnv/symbols_00c98000.h"
+#include "fnv/symbols_01272000.h"
+void FUN_00c90e40(void* self, int arg);
+void FUN_00c982a0(char* pFlag, int a2, int a3, int a4, int a5, int a6);
+void FUN_00c982b0(unsigned char* flag, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
+void* __cdecl FUN_00d06f80(void* array, unsigned int bytes);
+static __forceinline void SaveArray(ObjectWriter* writer, hkArrayRaw& array, char* name, unsigned int stride)
+{
+    if ((array.m_iCapacityState & 0x80000000u) == 0 || writer->m_writeAll10)
+    {
+        void* ptr = array.m_data;
+        unsigned int capacity = (array.m_iCapacityState & 0x3fffffff);
+        void* bounded = FUN_00d06f80(ptr, capacity * stride);
+        writer->WriteArray(3, name, array.m_data, array.m_iElementCount * stride, bounded);
+    }
+}
+extern void* FUN_00ec61c0(void* dst, int value, unsigned int size);
+static void InvokeOnAllOwners(FUN_00c928c0_Context* ctx, zzVal_c92860 value);
+void zz_call_c92860(void);
+void __cdecl FUN_00d06cb0(void* apvArray, int iSizeElem);
+template <class T> struct hkSmallArrayC92B
+{
+    T* m_data;
+    unsigned short m_iElementCount;
+    unsigned short m_iCapacityState;
+
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fff;
+    }
+    void AddBack(const T& e)
+    {
+        if (m_iElementCount == getCapacity())
+            FUN_00d06cb0(this, sizeof(T));
+        m_data[m_iElementCount++] = e;
+    }
+};
+template <typename T> struct hkRefPtrC93
+{
+    __forceinline ~hkRefPtrC93() throw()
+    {
+        if (m_pRetainedObject)
+            m_pRetainedObject->removeReference();
+        m_pRetainedObject = 0;
+    }
+    __forceinline void operator=(T* e) throw()
+    {
+        if (e)
+            e->RetainReference();
+        if (m_pRetainedObject)
+            m_pRetainedObject->removeReference();
+        m_pRetainedObject = e;
+    }
+    T* m_pRetainedObject;
+};
+template <typename T> struct hkSmallArrayC97
+{
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fff;
+    }
+    void AddBack(const T& t) throw()
+    {
+        if (m_iElementCount == getCapacity())
+            hkSmallArrayUtilC97::GrowArray(this, sizeof(T));
+        m_data[m_iElementCount++] = t;
+    }
+    T* m_data;
+    unsigned short m_iElementCount;
+    unsigned short m_iCapacityState;
+};
+void __cdecl ReleaseSharedObject(hkpWorldD0AD* pkWorld);
+
+struct FUN_00c98820_ArrayObject
+{
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0c();
+    virtual void vf10();
+    virtual void vf14();
+    virtual void vf18();
+    virtual void vf1c();
+    virtual void vf20();
+    virtual void vf24(void* first, void* second, void* third, void* fourth, void* fifth);
+};
+
+struct FUN_00c98820_Class
+{
+    int m_00;
+    int m_04;
+    FUN_00c98820_ArrayObject** m_08;
+    int m_0c;
+
+    void FUN_00c98820(void* first, void* second, void* third, void* fourth, void* fifth);
+};
+
+// @fnv 0x00c98820
+void FUN_00c98820_Class::FUN_00c98820(void* first, void* second, void* third, void* fourth, void* fifth)
+{
+    __m128 sum = _mm_add_ps(*(__m128*)second, *(__m128*)first);
+
+    for (int index = 0; index < m_0c; ++index)
+    {
+        FUN_00c98820_ArrayObject* object = m_08[index];
+        object->vf24(first, &sum, third, fourth, fifth);
+    }
+}
+
+// Moved from hkpworld_rtm_variant.cpp (VEGAS-15).
+#include <new>
+#include "fnv/decl/Big.h"
+#include "fnv/decl/CC0280Writer.h"
+#include "fnv/decl/FUN_009ba5f0_shell.h"
+#include "fnv/decl/FUN_00c90e60_cls.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cc02d0_cls.h"
+#include "fnv/decl/FUN_00cf6f90.h"
+#include "fnv/decl/FUN_00cf75c0.h"
+#include "fnv/decl/FUN_00cf87c0.h"
+#include "fnv/decl/FUN_00cfc030_cls.h"
+#include "fnv/decl/FUN_00d02c80.h"
+#include "fnv/decl/FUN_00d0b250.h"
+#include "fnv/decl/FUN_00d107d0_t.h"
+#include "fnv/decl/ListenerMgrD0A.h"
+#include "fnv/decl/S00ca8c90_Body.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/Stepper.h"
+#include "fnv/decl/bpb__hkpBroadPhaseBorder.h"
+#include "fnv/decl/fnv_00d08cf0__FUN_00d08cf0.h"
+#include "fnv/symbols_00cab000.h"
+#include "fnv/symbols_00d01000.h"
+#include "fnv/symbols_00d0b000.h"
+#include "fnv/symbols_00d10000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01019000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01031000.h"
+static void SyncOverlap(OverlapPhantom* phantom, OverlapCollidable* other, OverlapContext* context);
+void invokeOverlap();
+class hkWorldCFD4;
+static void RegisterContactMgrFactories(CFB240Dispatcher* dispatcher, void* world);
+void c912e0_caller(CFB240Dispatcher* d, void* w);
+static void FUN_00c92950(PhantomWorld* world, PhantomSink* out);
+void invokePhantomCopy();
+__forceinline void timer(const char* name, const char* first = 0) {
+    MonitorStream* stream = (MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+    char* current = stream->current;
+    if (current < stream->end) {
+        volatile MonitorRecord* record = (volatile MonitorRecord*)current;
+        record->name = name;
+        if (first) *(const char* volatile*)(current + sizeof(MonitorRecord)) = first;
+        _ReadWriteBarrier();
+        volatile unsigned int stamp = (unsigned int)__rdtsc();
+        record->time = stamp;
+        stream->current = current + (first ? 16 : 12);
+    }
+}
+void probeOverlapCaller();
+static BoolResult AddBodiesToSystem(Context_s* a2, ...);
+void retryCaller();
+static unsigned char FUN_00c927c0(MatchWorld* world, FUN_00d065e0* system);
+void CallMatchSystem();
+void FUN_00c982d0(unsigned char* out, int a2, int a3);
+const TA2<FUN_00d07830*>&TW::getActiveSimulationIslands()const throw(){ return vaSI;
+}
+struct hkpWorldQ;
+static __forceinline void doShift(Sbp_World* self,const __m128& rawShift, __m128& rawEffective, int update);
+
+
+class C91Simulation {
+public:
+    virtual void slot00();
+    virtual void slot04();
+    virtual void slot08();
+    virtual int SimulateForDeltaTime(float delta);
+};
+
+class C91World : public hkpWorld {
+public:
+    int FUN_00c91b10(float delta);
+};
+
+// @fnv 0x00c91b10
+int C91World::FUN_00c91b10(float delta)
+{
+    reinterpret_cast<::FUN_00c91180_Class *>(this)->IncrementCounter();
+    ::FUN_00d01d20((::Src *)(void *)(this));
+    int result = reinterpret_cast<C91Simulation*>(m_pSimulation)->SimulateForDeltaTime(delta);
+    if (m_pKdTreeManager) {
+        if (m_bUseKdTree)
+            reinterpret_cast<::FUN_00c91270_cls *>(this)->FUN_00c91270(0);
+        else
+            reinterpret_cast<FUN_00c91250_Class*>(this)->FUN_00c91250();
+    }
+    reinterpret_cast<FUN_00c91190_Class*>(this)->FUN_00c91190();
+    return result;
+}
+
+struct StepSimulationEntryC91C {
+};
+
+struct TreeUpdateEntryC91C {
+};
+
+struct WorldFinishEntryC91C : hkpWorld {
+    int FUN_00c91c00(void* queue, void* pool);
+};
+
+// @fnv 0x00c91c00
+int WorldFinishEntryC91C::FUN_00c91c00(void* queue, void* pool)
+{
+    int result = reinterpret_cast<::Stepper *>((reinterpret_cast<StepSimulationEntryC91C*>(m_pSimulation)))->FUN_00d03290((::Job *)(queue), (::Jobs *)(pool));
+    if (result != 0)
+        return result;
+    if (m_pKdTreeManager == 0)
+        return 0;
+    if (m_bUseKdTree != 0) {
+        reinterpret_cast<::FUN_00c91270_cls *>((reinterpret_cast<TreeUpdateEntryC91C*>(this)))->FUN_00c91270((int)(queue));
+        return 0;
+    }
+    reinterpret_cast<FUN_00c91250_Class*>(this)->FUN_00c91250();
+    return 0;
+}
+
+
+
+__declspec(align(16)) struct V4 {
+    union { __m128 q; float f[4]; };
+    V4() {}
+    V4(__m128 v) {q=v;}
+    void cross(const V4& a, const V4& b);
+    void normalize();
+    void plus(const V4& a,const V4& b) {q=_mm_add_ps(a.q,b.q);}
+    void minus(const V4& a,const V4& b) {q=_mm_sub_ps(a.q,b.q);}
+    void scaled(__m128 s, const V4& v) { q=_mm_mul_ps(_mm_shuffle_ps(s,s,0),v.q); }
+    void add(const V4& v) { q=_mm_add_ps(q,v.q); }
+    void absolute(const V4& a) { q = _mm_and_ps(a.q, ::DAT_01017d10); }
+    void scale(__m128 scalar) { q = _mm_mul_ps(_mm_shuffle_ps(scalar, scalar, 0), q); }
+};
+
+static __forceinline __m128 vload(const V4& v)
+{
+    return v.q;
+}
+
+static __forceinline void vstore(V4& v, __m128 q)
+{
+    v.q = q;
+}
+
+__forceinline void V4::cross(const V4& a, const V4& b)
+{
+    __m128 left = _mm_mul_ps(_mm_shuffle_ps(a.q,a.q,0xC9), _mm_shuffle_ps(b.q,b.q,0xD2));
+    __m128 right = _mm_mul_ps(_mm_shuffle_ps(a.q,a.q,0xD2), _mm_shuffle_ps(b.q,b.q,0xC9));
+    q = _mm_sub_ps(left,right);
+}
+__forceinline void V4::normalize()
+{
+    __m128 sq = _mm_mul_ps(q,q);
+    __m128 sum = _mm_add_ss(_mm_shuffle_ps(sq,sq,0x55),sq);
+    sum = _mm_add_ss(_mm_shuffle_ps(sq,sq,0xAA),sum);
+    __m128 r = _mm_rsqrt_ss(sum);
+    q = _mm_mul_ps(q,_mm_shuffle_ps(r,r,0));
+}
+
+struct PlaneDraw {
+    void FUN_00c98e60(const V4& plane, const V4& offset, float scale, int color, int id, int tag) throw();
+};
+
+struct TierQuotientCtor { double denominator; float threshold; __forceinline float value() const { return denominator/threshold; } };
+extern "C" void __debugbreak();
+struct WorldCtor;
+struct ObjectCtor;
+union WordCtor { int i; float f; ObjectCtor* p; void* raw; };
+struct ObjectVtableCtor {
+
+    void (* vf00)(ObjectCtor*);
+    void (* vf04)(ObjectCtor*);
+    void (* vf08)(ObjectCtor*);
+    void (* vf0c)(ObjectCtor*, WorldCtor*);
+    void (* vf10)(ObjectCtor*);
+    void (* vf14)(ObjectCtor*);
+    void (* vf18)(ObjectCtor*);
+    void (* vf1c)(ObjectCtor*);
+    void (* vf20)(ObjectCtor*);
+    void (* vf24)(ObjectCtor*);
+    void (* vf28)(ObjectCtor*);
+    void (* vf2c)(ObjectCtor*);
+    void (* vf30)(ObjectCtor*);
+    void (* vf34)(ObjectCtor*);
+    void (* vf38)(ObjectCtor*);
+    void (* vf3c)(ObjectCtor*);
+    void (* vf40)(ObjectCtor*);
+    void (* vf44)(ObjectCtor*);
+    void (* vf48)(ObjectCtor*);
+    void (* vf4c)(ObjectCtor*);
+    void (* vf50)(ObjectCtor*);
+    void (* vf54)(ObjectCtor*);
+    void (* vf58)(ObjectCtor*);
+    void (* vf5c)(ObjectCtor*);
+    void (* vf60)(ObjectCtor*);
+    void (* vf64)(ObjectCtor*);
+    void (* vf68)(ObjectCtor*);
+    void (* vf6c)(ObjectCtor*);
+    void (* vf70)(ObjectCtor*,::hkQuadReal*,::hkQuadReal*,::hkQuadReal*);
+};
+struct ObjectCtor {
+    ObjectVtableCtor* vtable;
+    unsigned short size;
+    short references;
+
+    WordCtor unk08;
+    WordCtor unk0c;
+    WordCtor unk10;
+    WordCtor unk14;
+    WordCtor unk18;
+    WordCtor unk1c;
+    union { WordCtor unk20; struct { unsigned short id20,id22; }; };
+    union { WordCtor unk24; struct { unsigned short id24; unsigned char flags26,flags27; }; };
+    WordCtor unk28;
+    WordCtor unk2c;
+    WordCtor unk30;
+    WordCtor unk34;
+    WordCtor unk38;
+    WordCtor unk3c;
+    WordCtor unk40;
+    WordCtor unk44;
+    WordCtor unk48;
+    WordCtor unk4c;
+    WordCtor unk50;
+    WordCtor unk54;
+    WordCtor unk58;
+    WordCtor unk5c;
+    WordCtor unk60;
+    WordCtor unk64;
+    WordCtor unk68;
+    union { WordCtor unk6c; struct { unsigned char flag6c,flag6d,flag6e,flag6f; }; };
+    WordCtor unk70;
+    WordCtor unk74;
+    WordCtor unk78;
+    WordCtor unk7c;
+    WordCtor unk80;
+    WordCtor unk84;
+    WordCtor unk88;
+    WordCtor unk8c;
+    WordCtor unk90;
+    WordCtor unk94;
+    WordCtor unk98;
+    WordCtor unk9c;
+    WordCtor unka0;
+    WordCtor unka4;
+    WordCtor unka8;
+    WordCtor unkac;
+    WordCtor unkb0;
+    WordCtor unkb4;
+    WordCtor unkb8;
+    WordCtor unkbc;
+    WordCtor unkc0;
+    WordCtor unkc4;
+    WordCtor unkc8;
+    WordCtor unkcc;
+    WordCtor unkd0;
+    WordCtor unkd4;
+    WordCtor unkd8;
+    WordCtor unkdc;
+    WordCtor unke0;
+    WordCtor unke4;
+    WordCtor unke8;
+    WordCtor unkec;
+    WordCtor unkf0;
+    WordCtor unkf4;
+    WordCtor unkf8;
+    WordCtor unkfc;
+    WordCtor unk100;
+    WordCtor unk104;
+    WordCtor unk108;
+    WordCtor unk10c;
+    WordCtor unk110;
+    WordCtor unk114;
+    WordCtor unk118;
+    WordCtor unk11c;
+    WordCtor unk120;
+    ObjectCtor* FUN_00cfd450(WorldCtor*);
+    ObjectCtor* FUN_00cbfba0();
+    ObjectCtor* FUN_00d0d020(WorldCtor*);
+    ObjectCtor* FUN_00d07830(WorldCtor*);
+    ObjectCtor* FUN_00cfca20(WorldCtor*);
+    void SetContactMgrFactory(ObjectCtor*,int);
+};
+struct AllocCtor { virtual void vf00(); virtual void* allocate(int); };
+struct RouterCtor { int unk00,unk04,unk08,unk0c; AllocCtor* allocator; __forceinline AllocCtor& heap() {return *allocator;} };
+static __forceinline void* worldAlloc(int size) {
+    return ((RouterCtor*)::FUN_00c85750())->heap().allocate(size);
+}
+template<class T> static __forceinline T* allocObject(int size) {
+    T* obj=(T*)worldAlloc(size);
+    obj->size=(unsigned short)size;
+    return obj;
+}
+static __forceinline void release(ObjectCtor* p) { reinterpret_cast<::hkReferencedObjectC905 *>((((::FUN_00d1df70*)p)))->FUN_00c905b0(); }
+
+struct RawArrayCtor {
+    ObjectCtor** data; int count; unsigned capacity;
+    __forceinline void push(ObjectCtor* value) {
+        RouterCtor* router=(RouterCtor*)::FUN_00c85750();
+        if(count==(capacity&0x3fffffffu)) ::ResizeAudioStream(router->allocator,this,4);
+        ObjectCtor** slot=data+count; for(int i=0;i<1;++i) slot[i]=value;
+        ++count;
+    }
+};
+struct RangeCtor { float start,end,delta,inverse; };
+struct DeactivationCtor { float inverseThreshold, inverseVelocity, damping, time; float distanceSquared, radiusSquared; unsigned short distanceHalf, radiusHalf; };
+struct SolverCtor {
+    float unk00,unk04,unk08,unk0c;
+    ::hkQuadReal unk10,unk20,unk30,unk40;
+    float unk50,unk54,unk58,unk5c,unk60;
+    DeactivationCtor tiers[6];
+    float unk10c,unk110;
+    int unk114,unk118;
+    float unk11c,unk120;
+    unsigned char unk124,unk125,unk126,unk127;
+    float unk128;
+    int unk12c;
+    __forceinline DeactivationCtor& configureTier(int tierIndex,float threshold,float speed,float magnitude,float gravityScale);
+};
+struct ManifoldCtor { float tolerance; int count,unk08,unk0c; };
+struct CollisionInputCtor {
+    ObjectCtor* dispatcher;
+    int unk04;
+    float tolerance;
+    ObjectCtor* filter;
+    ObjectCtor* convexFilter;
+    int unk14,unk18,unk1c;
+    ::hkQuadReal offset,extent,scale;
+    RangeCtor range;
+    void* agents;
+    int unk64;
+    RangeCtor* time;
+    unsigned char flag6c,flag6d;
+    unsigned short unk6e;
+    ManifoldCtor* manifold;
+    int unk74,unk78,unk7c;
+    static void* operator new(size_t n) { return worldAlloc(n); }
+    CollisionInputCtor() { unk64=0;unk04=0; }
+};
+
+struct WorldInfoCtor {
+
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    ::hkQuadReal gravity;
+    int querySize;
+    float solverFriction;
+    signed char borderBehavior;
+    unsigned char postponeBorder;
+    unsigned char unk2a;
+    unsigned char unk2b;
+    int unk2c;
+    ::hkQuadReal minimum;
+    ::hkQuadReal maximum;
+    unsigned char borderEnabled;
+    unsigned char borderAlternate;
+    signed char borderMode;
+    unsigned char borderFlag;
+    float tolerance;
+    ObjectCtor* filter;
+    ObjectCtor* convexFilter;
+    float config60;
+    int toiQueueSize;
+    float config68;
+    ObjectCtor* watchdog;
+    int markers;
+    signed char generation;
+    unsigned char quality;
+    unsigned char unk76;
+    unsigned char unk77;
+    float solverTau;
+    float solverDamping;
+    int iterations;
+    int microsteps;
+    float damping;
+    unsigned char flag8c;
+    unsigned char unk8d;
+    unsigned char unk8e;
+    unsigned char unk8f;
+    float snap;
+    float snapOther;
+    unsigned char weld;
+    unsigned char flag99;
+    unsigned char unk9a;
+    unsigned char unk9b;
+    float manifoldTolerance;
+    int manifoldCount;
+    unsigned char flagA4;
+    unsigned char flagA5;
+    unsigned char flagA6;
+    unsigned char activate;
+    float referenceDistance;
+    float rotateNormal;
+    int sectors;
+    unsigned char threadToi;
+    unsigned char unkb5;
+    unsigned char unkb6;
+    unsigned char unkb7;
+    int toiEntries;
+    int toiPairs;
+    float toi0;
+    float toi1;
+    float toi2;
+    float toi3;
+    unsigned char deactivate;
+    signed char simulationType;
+    unsigned char wantIslands;
+    unsigned char unkd3;
+    int minIsland;
+    unsigned char singleActions;
+    unsigned char unkd9;
+    unsigned char unkda;
+    unsigned char unkdb;
+    float simulationValue;
+    unsigned char flagE0;
+    unsigned char unke1;
+    unsigned char unke2;
+    unsigned char unke3;
+};
+struct WorldCtor {
+    void* vtable;
+    unsigned short size;
+    short references;
+    ObjectCtor* simulation;
+    int unk0c;
+    ::hkQuadReal gravity;
+    ObjectCtor* fixedIsland;
+    ObjectCtor* fixedBody;
+    RawArrayCtor active, inactive, dirty;
+    ObjectCtor* kdTree;
+    ObjectCtor* watchdog;
+    unsigned char assertMemory,unk55,unk56,unk57;
+    ObjectCtor* broadphase;
+    ObjectCtor* border;
+    unsigned char autoTree,unk61,unk62,unk63;
+    ObjectCtor* broadphaseDispatcher;
+    ObjectCtor* phantomListener;
+    ObjectCtor* entityListener;
+    ObjectCtor* borderListener;
+    ObjectCtor* jobs;
+    CollisionInputCtor* input;
+    ObjectCtor* filter;
+    ObjectCtor* dispatcher;
+    ObjectCtor* convexFilter;
+    ObjectCtor* pending;
+    int pendingCount,bodyCount,criticalCount,phantomCount;
+    unsigned char blockOperations, allowOperations;
+    unsigned short unk9e;
+    int pendingQueues,queueCount;
+    hkMultiThreadCheck threadCheck;
+    unsigned char singleActions, separateIntegration;
+    unsigned short unkB2;
+    int minIsland;
+    ObjectCtor* modifyLock;
+    int locked;
+    ObjectCtor* dirtyLock;
+    ObjectCtor* propertyLock;
+    unsigned char wantIslands,unkC9,unkCA,unkCB;
+    float snapConvex,snapConcave;
+    unsigned char weld,deactivate,activate,unkD7;
+    float referenceDistance,rotateNormal;
+    int sectors;
+    unsigned char threadToi,unkE5,unkE6,unkE7;
+    int toiEntries,toiPairs,simulationType;
+    float toi0,toi1,toi2,toi3;
+    int lastEntity,lastIsland,lastConstraint;
+    RawArrayCtor phantoms,actions,entities,phantomCallbacks,constraints,deletionCallbacks,
+                 islandCallbacks,postSimulation,postIntegrate,postCollide,islandIntegrate,
+                 islandCollide,contacts,impulseLimits;
+    ObjectCtor* violated;
+    ObjectCtor* broadphaseBorder;
+    ObjectCtor* callbackUtil;
+    ObjectCtor* destruction;
+    int unk1c8,unk1cc;
+    RangeCtor time;
+    SolverCtor solver;
+    ::hkQuadReal minimum,maximum;
+    int markers,toiQueueSize,querySize,updateSize;
+    unsigned char generation,unk341,unk342,unk343;
+    WorldCtor* FUN_00c95a80(WorldInfoCtor*,int);
+};
+namespace WorldCtorFactorySetup {
+static void RegisterContactMgrFactories(::CFB240Dispatcher* dispatcher, WorldCtor* world)
+{
+    ::FUN_00cfd450* first = new ::FUN_00cfd450(world);
+    ::FUN_00cfca20* second = new ::FUN_00cfca20(world);
+    ::FactoryThreeC912* third = new ::FactoryThreeC912;
+    dispatcher->SetContactMgrFactory(first, 1);
+    dispatcher->SetContactMgrFactory(second, 2);
+    dispatcher->SetContactMgrFactory(third, 3);
+    reinterpret_cast<::hkReferencedObjectC905 *>((((::FUN_00d1df70*)first)))->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((((::FUN_00d1df70*)second)))->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((((::FUN_00d1df70*)third)))->FUN_00c905b0();
+}
+}
+struct StreamCtor {
+    int unk00,unk04,unk08,unk0c;
+};
+struct ErrorCtor {
+    virtual void f0(); virtual void f1(); virtual void f2();
+    virtual int report(int,unsigned,const char*,const char*,int);
+};
+extern unsigned char DAT_012681dc;
+extern void UpdateSkyEntries(float,float);
+extern ObjectCtor* (__cdecl* DAT_011b37a0)(::hkQuadReal*,::hkQuadReal*,int);
+
+extern int DAT_010c6714;
+extern int DAT_010c63f0;
+extern int DAT_010c63e0;
+extern int DAT_010c6410;
+extern int DAT_010c6400;
+extern int DAT_010c646c;
+extern int DAT_010c6460;
+extern int DAT_010c644c;
+extern int DAT_010c6440;
+extern int DAT_010c6434;
+extern int DAT_010c63cc;
+extern float DAT_010c6840;
+extern float DAT_010c6844;
+extern float DAT_010c6848;
+extern float DAT_010c684c;
+extern float DAT_010c6850;
+extern float DAT_010c6860;
+extern float DAT_010c42e8;
+extern float DAT_0102d934;
+struct BodyInfoCtor {
+
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    float unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    unsigned char motionType,unkb5,unkb6,unkb7;
+    int unkb8;
+    int unkbc;
+};
+struct BuildConfigCtor {
+    float magnitude,tolerance,config68,config60,toi0,toi1,toi2,toi3;
+    unsigned short one,three,four,five;
+    unsigned char multithread,quality,contacts,weld;
+};
+static __forceinline float length3(::hkQuadReal v) {
+    ::hkQuadReal square=_mm_mul_ps(v,v);
+    ::hkQuadReal y=_mm_shuffle_ps(square,square,0x55);
+    ::hkQuadReal z=_mm_shuffle_ps(square,square,0xaa);
+    y=_mm_add_ss(y,square);
+    z=_mm_add_ss(z,y);
+    z=_mm_sqrt_ss(z);
+    float result;
+    _mm_store_ss(&result,z);
+    return result;
+}
+static __forceinline void initArray(RawArrayCtor& a) {
+    a.capacity=0x80000000u; a.data=0; a.count=0;
+}
+static __forceinline void setRange(RangeCtor& r,double a,double b) {
+ r.start=a; r.end=b; float d=b-a; r.delta=d; r.inverse=d==0.0f ? 0.0f : 1.0f/d;
+}
+
+struct DispatcherCtor {
+    int unk0000,unk0004,unk0008,unk000c,unk0010,unk0014,unk0018,unk001c,unk0020,unk0024,unk0028,unk002c,unk0030,unk0034,unk0038,unk003c;
+    int unk0040,unk0044,unk0048,unk004c,unk0050,unk0054,unk0058,unk005c,unk0060,unk0064,unk0068,unk006c,unk0070,unk0074,unk0078,unk007c;
+    int unk0080,unk0084,unk0088,unk008c,unk0090,unk0094,unk0098,unk009c,unk00a0,unk00a4,unk00a8,unk00ac,unk00b0,unk00b4,unk00b8,unk00bc;
+    int unk00c0,unk00c4,unk00c8,unk00cc,unk00d0,unk00d4,unk00d8,unk00dc,unk00e0,unk00e4,unk00e8,unk00ec,unk00f0,unk00f4,unk00f8,unk00fc;
+    int unk0100,unk0104,unk0108,unk010c,unk0110,unk0114,unk0118,unk011c,unk0120,unk0124,unk0128,unk012c,unk0130,unk0134,unk0138,unk013c;
+    int unk0140,unk0144,unk0148,unk014c,unk0150,unk0154,unk0158,unk015c,unk0160,unk0164,unk0168,unk016c,unk0170,unk0174,unk0178,unk017c;
+    int unk0180,unk0184,unk0188,unk018c,unk0190,unk0194,unk0198,unk019c,unk01a0,unk01a4,unk01a8,unk01ac,unk01b0,unk01b4,unk01b8,unk01bc;
+    int unk01c0,unk01c4,unk01c8,unk01cc,unk01d0,unk01d4,unk01d8,unk01dc,unk01e0,unk01e4,unk01e8,unk01ec,unk01f0,unk01f4,unk01f8,unk01fc;
+    int unk0200,unk0204,unk0208,unk020c,unk0210,unk0214,unk0218,unk021c,unk0220,unk0224,unk0228,unk022c,unk0230,unk0234,unk0238,unk023c;
+    int unk0240,unk0244,unk0248,unk024c,unk0250,unk0254,unk0258,unk025c,unk0260,unk0264,unk0268,unk026c,unk0270,unk0274,unk0278,unk027c;
+    int unk0280,unk0284,unk0288,unk028c,unk0290,unk0294,unk0298,unk029c,unk02a0,unk02a4,unk02a8,unk02ac,unk02b0,unk02b4,unk02b8,unk02bc;
+    int unk02c0,unk02c4,unk02c8,unk02cc,unk02d0,unk02d4,unk02d8,unk02dc,unk02e0,unk02e4,unk02e8,unk02ec,unk02f0,unk02f4,unk02f8,unk02fc;
+    int unk0300,unk0304,unk0308,unk030c,unk0310,unk0314,unk0318,unk031c,unk0320,unk0324,unk0328,unk032c,unk0330,unk0334,unk0338,unk033c;
+    int unk0340,unk0344,unk0348,unk034c,unk0350,unk0354,unk0358,unk035c,unk0360,unk0364,unk0368,unk036c,unk0370,unk0374,unk0378,unk037c;
+    int unk0380,unk0384,unk0388,unk038c,unk0390,unk0394,unk0398,unk039c,unk03a0,unk03a4,unk03a8,unk03ac,unk03b0,unk03b4,unk03b8,unk03bc;
+    int unk03c0,unk03c4,unk03c8,unk03cc,unk03d0,unk03d4,unk03d8,unk03dc,unk03e0,unk03e4,unk03e8,unk03ec,unk03f0,unk03f4,unk03f8,unk03fc;
+    int unk0400,unk0404,unk0408,unk040c,unk0410,unk0414,unk0418,unk041c,unk0420,unk0424,unk0428,unk042c,unk0430,unk0434,unk0438,unk043c;
+    int unk0440,unk0444,unk0448,unk044c,unk0450,unk0454,unk0458,unk045c,unk0460,unk0464,unk0468,unk046c,unk0470,unk0474,unk0478,unk047c;
+    int unk0480,unk0484,unk0488,unk048c,unk0490,unk0494,unk0498,unk049c,unk04a0,unk04a4,unk04a8,unk04ac,unk04b0,unk04b4,unk04b8,unk04bc;
+    int unk04c0,unk04c4,unk04c8,unk04cc,unk04d0,unk04d4,unk04d8,unk04dc,unk04e0,unk04e4,unk04e8,unk04ec,unk04f0,unk04f4,unk04f8,unk04fc;
+    int unk0500,unk0504,unk0508,unk050c,unk0510,unk0514,unk0518,unk051c,unk0520,unk0524,unk0528,unk052c,unk0530,unk0534,unk0538,unk053c;
+    int unk0540,unk0544,unk0548,unk054c,unk0550,unk0554,unk0558,unk055c,unk0560,unk0564,unk0568,unk056c,unk0570,unk0574,unk0578,unk057c;
+    int unk0580,unk0584,unk0588,unk058c,unk0590,unk0594,unk0598,unk059c,unk05a0,unk05a4,unk05a8,unk05ac,unk05b0,unk05b4,unk05b8,unk05bc;
+    int unk05c0,unk05c4,unk05c8,unk05cc,unk05d0,unk05d4,unk05d8,unk05dc,unk05e0,unk05e4,unk05e8,unk05ec,unk05f0,unk05f4,unk05f8,unk05fc;
+    int unk0600,unk0604,unk0608,unk060c,unk0610,unk0614,unk0618,unk061c,unk0620,unk0624,unk0628,unk062c,unk0630,unk0634,unk0638,unk063c;
+    int unk0640,unk0644,unk0648,unk064c,unk0650,unk0654,unk0658,unk065c,unk0660,unk0664,unk0668,unk066c,unk0670,unk0674,unk0678,unk067c;
+    int unk0680,unk0684,unk0688,unk068c,unk0690,unk0694,unk0698,unk069c,unk06a0,unk06a4,unk06a8,unk06ac,unk06b0,unk06b4,unk06b8,unk06bc;
+    int unk06c0,unk06c4,unk06c8,unk06cc,unk06d0,unk06d4,unk06d8,unk06dc,unk06e0,unk06e4,unk06e8,unk06ec,unk06f0,unk06f4,unk06f8,unk06fc;
+    int unk0700,unk0704,unk0708,unk070c,unk0710,unk0714,unk0718,unk071c,unk0720,unk0724,unk0728,unk072c,unk0730,unk0734,unk0738,unk073c;
+    int unk0740,unk0744,unk0748,unk074c,unk0750,unk0754,unk0758,unk075c,unk0760,unk0764,unk0768,unk076c,unk0770,unk0774,unk0778,unk077c;
+    int unk0780,unk0784,unk0788,unk078c,unk0790,unk0794,unk0798,unk079c,unk07a0,unk07a4,unk07a8,unk07ac,unk07b0,unk07b4,unk07b8,unk07bc;
+    int unk07c0,unk07c4,unk07c8,unk07cc,unk07d0,unk07d4,unk07d8,unk07dc,unk07e0,unk07e4,unk07e8,unk07ec,unk07f0,unk07f4,unk07f8,unk07fc;
+    int unk0800,unk0804,unk0808,unk080c,unk0810,unk0814,unk0818,unk081c,unk0820,unk0824,unk0828,unk082c,unk0830,unk0834,unk0838,unk083c;
+    int unk0840,unk0844,unk0848,unk084c,unk0850,unk0854,unk0858,unk085c,unk0860,unk0864,unk0868,unk086c,unk0870,unk0874,unk0878,unk087c;
+    int unk0880,unk0884,unk0888,unk088c,unk0890,unk0894,unk0898,unk089c,unk08a0,unk08a4,unk08a8,unk08ac,unk08b0,unk08b4,unk08b8,unk08bc;
+    int unk08c0,unk08c4,unk08c8,unk08cc,unk08d0,unk08d4,unk08d8,unk08dc,unk08e0,unk08e4,unk08e8,unk08ec,unk08f0,unk08f4,unk08f8,unk08fc;
+    int unk0900,unk0904,unk0908,unk090c,unk0910,unk0914,unk0918,unk091c,unk0920,unk0924,unk0928,unk092c,unk0930,unk0934,unk0938,unk093c;
+    int unk0940,unk0944,unk0948,unk094c,unk0950,unk0954,unk0958,unk095c,unk0960,unk0964,unk0968,unk096c,unk0970,unk0974,unk0978,unk097c;
+    int unk0980,unk0984,unk0988,unk098c,unk0990,unk0994,unk0998,unk099c,unk09a0,unk09a4,unk09a8,unk09ac,unk09b0,unk09b4,unk09b8,unk09bc;
+    int unk09c0,unk09c4,unk09c8,unk09cc,unk09d0,unk09d4,unk09d8,unk09dc,unk09e0,unk09e4,unk09e8,unk09ec,unk09f0,unk09f4,unk09f8,unk09fc;
+    int unk0a00,unk0a04,unk0a08,unk0a0c,unk0a10,unk0a14,unk0a18,unk0a1c,unk0a20,unk0a24,unk0a28,unk0a2c,unk0a30,unk0a34,unk0a38,unk0a3c;
+    int unk0a40,unk0a44,unk0a48,unk0a4c,unk0a50,unk0a54,unk0a58,unk0a5c,unk0a60,unk0a64,unk0a68,unk0a6c,unk0a70,unk0a74,unk0a78,unk0a7c;
+    int unk0a80,unk0a84,unk0a88,unk0a8c,unk0a90,unk0a94,unk0a98,unk0a9c,unk0aa0,unk0aa4,unk0aa8,unk0aac,unk0ab0,unk0ab4,unk0ab8,unk0abc;
+    int unk0ac0,unk0ac4,unk0ac8,unk0acc,unk0ad0,unk0ad4,unk0ad8,unk0adc,unk0ae0,unk0ae4,unk0ae8,unk0aec,unk0af0,unk0af4,unk0af8,unk0afc;
+    int unk0b00,unk0b04,unk0b08,unk0b0c,unk0b10,unk0b14,unk0b18,unk0b1c,unk0b20,unk0b24,unk0b28,unk0b2c,unk0b30,unk0b34,unk0b38,unk0b3c;
+    int unk0b40,unk0b44,unk0b48,unk0b4c,unk0b50,unk0b54,unk0b58,unk0b5c,unk0b60,unk0b64,unk0b68,unk0b6c,unk0b70,unk0b74,unk0b78,unk0b7c;
+    int unk0b80,unk0b84,unk0b88,unk0b8c,unk0b90,unk0b94,unk0b98,unk0b9c,unk0ba0,unk0ba4,unk0ba8,unk0bac,unk0bb0,unk0bb4,unk0bb8,unk0bbc;
+    int unk0bc0,unk0bc4,unk0bc8,unk0bcc,unk0bd0,unk0bd4,unk0bd8,unk0bdc,unk0be0,unk0be4,unk0be8,unk0bec,unk0bf0,unk0bf4,unk0bf8,unk0bfc;
+    int unk0c00,unk0c04,unk0c08,unk0c0c,unk0c10,unk0c14,unk0c18,unk0c1c,unk0c20,unk0c24,unk0c28,unk0c2c,unk0c30,unk0c34,unk0c38,unk0c3c;
+    int unk0c40,unk0c44,unk0c48,unk0c4c,unk0c50,unk0c54,unk0c58,unk0c5c,unk0c60,unk0c64,unk0c68,unk0c6c,unk0c70,unk0c74,unk0c78,unk0c7c;
+    int unk0c80,unk0c84,unk0c88,unk0c8c,unk0c90,unk0c94,unk0c98,unk0c9c,unk0ca0,unk0ca4,unk0ca8,unk0cac,unk0cb0,unk0cb4,unk0cb8,unk0cbc;
+    int unk0cc0,unk0cc4,unk0cc8,unk0ccc,unk0cd0,unk0cd4,unk0cd8,unk0cdc,unk0ce0,unk0ce4,unk0ce8,unk0cec,unk0cf0,unk0cf4,unk0cf8,unk0cfc;
+    int unk0d00,unk0d04,unk0d08,unk0d0c,unk0d10,unk0d14,unk0d18,unk0d1c,unk0d20,unk0d24,unk0d28,unk0d2c,unk0d30,unk0d34,unk0d38,unk0d3c;
+    int unk0d40,unk0d44,unk0d48,unk0d4c,unk0d50,unk0d54,unk0d58,unk0d5c,unk0d60,unk0d64,unk0d68,unk0d6c,unk0d70,unk0d74,unk0d78,unk0d7c;
+    int unk0d80,unk0d84,unk0d88,unk0d8c,unk0d90,unk0d94,unk0d98,unk0d9c,unk0da0,unk0da4,unk0da8,unk0dac,unk0db0,unk0db4,unk0db8,unk0dbc;
+    int unk0dc0,unk0dc4,unk0dc8,unk0dcc,unk0dd0,unk0dd4,unk0dd8,unk0ddc,unk0de0,unk0de4,unk0de8,unk0dec,unk0df0,unk0df4,unk0df8,unk0dfc;
+    int unk0e00,unk0e04,unk0e08,unk0e0c,unk0e10,unk0e14,unk0e18,unk0e1c,unk0e20,unk0e24,unk0e28,unk0e2c,unk0e30,unk0e34,unk0e38,unk0e3c;
+    int unk0e40,unk0e44,unk0e48,unk0e4c,unk0e50,unk0e54,unk0e58,unk0e5c,unk0e60,unk0e64,unk0e68,unk0e6c,unk0e70,unk0e74,unk0e78,unk0e7c;
+    int unk0e80,unk0e84,unk0e88,unk0e8c,unk0e90,unk0e94,unk0e98,unk0e9c,unk0ea0,unk0ea4,unk0ea8,unk0eac,unk0eb0,unk0eb4,unk0eb8,unk0ebc;
+    int unk0ec0,unk0ec4,unk0ec8,unk0ecc,unk0ed0,unk0ed4,unk0ed8,unk0edc,unk0ee0,unk0ee4,unk0ee8,unk0eec,unk0ef0,unk0ef4,unk0ef8,unk0efc;
+    int unk0f00,unk0f04,unk0f08,unk0f0c,unk0f10,unk0f14,unk0f18,unk0f1c,unk0f20,unk0f24,unk0f28,unk0f2c,unk0f30,unk0f34,unk0f38,unk0f3c;
+    int unk0f40,unk0f44,unk0f48,unk0f4c,unk0f50,unk0f54,unk0f58,unk0f5c,unk0f60,unk0f64,unk0f68,unk0f6c,unk0f70,unk0f74,unk0f78,unk0f7c;
+    int unk0f80,unk0f84,unk0f88,unk0f8c,unk0f90,unk0f94,unk0f98,unk0f9c,unk0fa0,unk0fa4,unk0fa8,unk0fac,unk0fb0,unk0fb4,unk0fb8,unk0fbc;
+    int unk0fc0,unk0fc4,unk0fc8,unk0fcc,unk0fd0,unk0fd4,unk0fd8,unk0fdc,unk0fe0,unk0fe4,unk0fe8,unk0fec,unk0ff0,unk0ff4,unk0ff8,unk0ffc;
+    int unk1000,unk1004,unk1008,unk100c,unk1010,unk1014,unk1018,unk101c,unk1020,unk1024,unk1028,unk102c,unk1030,unk1034,unk1038,unk103c;
+    int unk1040,unk1044,unk1048,unk104c,unk1050,unk1054,unk1058,unk105c,unk1060,unk1064,unk1068,unk106c,unk1070,unk1074,unk1078,unk107c;
+    int unk1080,unk1084,unk1088,unk108c,unk1090,unk1094,unk1098,unk109c,unk10a0,unk10a4,unk10a8,unk10ac,unk10b0,unk10b4,unk10b8,unk10bc;
+    int unk10c0,unk10c4,unk10c8,unk10cc,unk10d0,unk10d4,unk10d8,unk10dc,unk10e0,unk10e4,unk10e8,unk10ec,unk10f0,unk10f4,unk10f8,unk10fc;
+    int unk1100,unk1104,unk1108,unk110c,unk1110,unk1114,unk1118,unk111c,unk1120,unk1124,unk1128,unk112c,unk1130,unk1134,unk1138,unk113c;
+    int unk1140,unk1144,unk1148,unk114c,unk1150,unk1154,unk1158,unk115c,unk1160,unk1164,unk1168,unk116c,unk1170,unk1174,unk1178,unk117c;
+    int unk1180,unk1184,unk1188,unk118c,unk1190,unk1194,unk1198,unk119c,unk11a0,unk11a4,unk11a8,unk11ac,unk11b0,unk11b4,unk11b8,unk11bc;
+    int unk11c0,unk11c4,unk11c8,unk11cc,unk11d0,unk11d4,unk11d8,unk11dc,unk11e0,unk11e4,unk11e8,unk11ec,unk11f0,unk11f4,unk11f8,unk11fc;
+    int unk1200,unk1204,unk1208,unk120c,unk1210,unk1214,unk1218,unk121c,unk1220,unk1224,unk1228,unk122c,unk1230,unk1234,unk1238,unk123c;
+    int unk1240,unk1244,unk1248,unk124c,unk1250,unk1254,unk1258,unk125c,unk1260,unk1264,unk1268,unk126c,unk1270,unk1274,unk1278,unk127c;
+    int unk1280,unk1284,unk1288,unk128c,unk1290,unk1294,unk1298,unk129c,unk12a0,unk12a4,unk12a8,unk12ac,unk12b0,unk12b4,unk12b8,unk12bc;
+    int unk12c0,unk12c4,unk12c8,unk12cc,unk12d0,unk12d4,unk12d8,unk12dc,unk12e0,unk12e4,unk12e8,unk12ec,unk12f0,unk12f4,unk12f8,unk12fc;
+    int unk1300,unk1304,unk1308,unk130c,unk1310,unk1314,unk1318,unk131c,unk1320,unk1324,unk1328,unk132c,unk1330,unk1334,unk1338,unk133c;
+    int unk1340,unk1344,unk1348,unk134c,unk1350,unk1354,unk1358,unk135c,unk1360,unk1364,unk1368,unk136c,unk1370,unk1374,unk1378,unk137c;
+    int unk1380,unk1384,unk1388,unk138c,unk1390,unk1394,unk1398,unk139c,unk13a0,unk13a4,unk13a8,unk13ac,unk13b0,unk13b4,unk13b8,unk13bc;
+    int unk13c0,unk13c4,unk13c8,unk13cc,unk13d0,unk13d4,unk13d8,unk13dc,unk13e0,unk13e4,unk13e8,unk13ec,unk13f0,unk13f4,unk13f8,unk13fc;
+    int unk1400,unk1404,unk1408,unk140c,unk1410,unk1414,unk1418,unk141c,unk1420,unk1424,unk1428,unk142c,unk1430,unk1434,unk1438,unk143c;
+    int unk1440,unk1444,unk1448,unk144c,unk1450,unk1454,unk1458,unk145c,unk1460,unk1464,unk1468,unk146c,unk1470,unk1474,unk1478,unk147c;
+    int unk1480,unk1484,unk1488,unk148c,unk1490,unk1494,unk1498,unk149c,unk14a0,unk14a4,unk14a8,unk14ac,unk14b0,unk14b4,unk14b8,unk14bc;
+    int unk14c0,unk14c4,unk14c8,unk14cc,unk14d0,unk14d4,unk14d8,unk14dc,unk14e0,unk14e4,unk14e8,unk14ec,unk14f0,unk14f4,unk14f8,unk14fc;
+    int unk1500,unk1504,unk1508,unk150c,unk1510,unk1514,unk1518,unk151c,unk1520,unk1524,unk1528,unk152c,unk1530,unk1534,unk1538,unk153c;
+    int unk1540,unk1544,unk1548,unk154c,unk1550,unk1554,unk1558,unk155c,unk1560,unk1564,unk1568,unk156c,unk1570,unk1574,unk1578,unk157c;
+    int unk1580,unk1584,unk1588,unk158c,unk1590,unk1594,unk1598,unk159c,unk15a0,unk15a4,unk15a8,unk15ac,unk15b0,unk15b4,unk15b8,unk15bc;
+    int unk15c0,unk15c4,unk15c8,unk15cc,unk15d0,unk15d4,unk15d8,unk15dc,unk15e0,unk15e4,unk15e8,unk15ec,unk15f0,unk15f4,unk15f8,unk15fc;
+    int unk1600,unk1604,unk1608,unk160c,unk1610,unk1614,unk1618,unk161c,unk1620,unk1624,unk1628,unk162c,unk1630,unk1634,unk1638,unk163c;
+    int unk1640,unk1644,unk1648,unk164c,unk1650,unk1654,unk1658,unk165c,unk1660,unk1664,unk1668,unk166c,unk1670,unk1674,unk1678,unk167c;
+    int unk1680,unk1684,unk1688,unk168c,unk1690,unk1694,unk1698,unk169c,unk16a0,unk16a4,unk16a8,unk16ac,unk16b0,unk16b4,unk16b8,unk16bc;
+    int unk16c0,unk16c4,unk16c8,unk16cc,unk16d0,unk16d4,unk16d8,unk16dc,unk16e0,unk16e4,unk16e8,unk16ec,unk16f0,unk16f4,unk16f8,unk16fc;
+    int unk1700,unk1704,unk1708,unk170c,unk1710,unk1714,unk1718,unk171c,unk1720,unk1724,unk1728,unk172c,unk1730,unk1734,unk1738,unk173c;
+    int unk1740,unk1744,unk1748,unk174c,unk1750,unk1754,unk1758,unk175c,unk1760,unk1764,unk1768,unk176c,unk1770,unk1774,unk1778,unk177c;
+    int unk1780,unk1784,unk1788,unk178c,unk1790,unk1794,unk1798,unk179c,unk17a0,unk17a4,unk17a8,unk17ac,unk17b0,unk17b4,unk17b8,unk17bc;
+    int unk17c0,unk17c4,unk17c8,unk17cc,unk17d0,unk17d4,unk17d8,unk17dc,unk17e0,unk17e4,unk17e8,unk17ec,unk17f0,unk17f4,unk17f8,unk17fc;
+    int unk1800,unk1804,unk1808,unk180c,unk1810,unk1814,unk1818,unk181c,unk1820,unk1824,unk1828,unk182c,unk1830,unk1834,unk1838,unk183c;
+    int unk1840,unk1844,unk1848,unk184c,unk1850,unk1854,unk1858,unk185c,unk1860,unk1864,unk1868,unk186c,unk1870,unk1874,unk1878,unk187c;
+    int unk1880,unk1884,unk1888,unk188c,unk1890,unk1894,unk1898,unk189c,unk18a0,unk18a4,unk18a8,unk18ac,unk18b0,unk18b4,unk18b8,unk18bc;
+    int unk18c0,unk18c4,unk18c8,unk18cc,unk18d0,unk18d4,unk18d8,unk18dc,unk18e0,unk18e4,unk18e8,unk18ec,unk18f0,unk18f4,unk18f8,unk18fc;
+    int unk1900,unk1904,unk1908,unk190c,unk1910,unk1914,unk1918,unk191c,unk1920,unk1924,unk1928,unk192c,unk1930,unk1934,unk1938,unk193c;
+    int unk1940,unk1944,unk1948,unk194c,unk1950,unk1954,unk1958,unk195c,unk1960,unk1964,unk1968,unk196c,unk1970,unk1974,unk1978,unk197c;
+    int unk1980,unk1984,unk1988,unk198c,unk1990,unk1994,unk1998,unk199c,unk19a0,unk19a4,unk19a8,unk19ac,unk19b0,unk19b4,unk19b8,unk19bc;
+    int unk19c0,unk19c4,unk19c8,unk19cc,unk19d0,unk19d4,unk19d8,unk19dc,unk19e0,unk19e4,unk19e8,unk19ec,unk19f0,unk19f4,unk19f8,unk19fc;
+    int unk1a00,unk1a04,unk1a08,unk1a0c,unk1a10,unk1a14,unk1a18,unk1a1c,unk1a20,unk1a24,unk1a28,unk1a2c,unk1a30,unk1a34,unk1a38,unk1a3c;
+    int unk1a40,unk1a44,unk1a48,unk1a4c,unk1a50,unk1a54,unk1a58,unk1a5c,unk1a60,unk1a64,unk1a68,unk1a6c,unk1a70,unk1a74,unk1a78,unk1a7c;
+    int unk1a80,unk1a84,unk1a88,unk1a8c,unk1a90,unk1a94,unk1a98,unk1a9c,unk1aa0,unk1aa4,unk1aa8,unk1aac,unk1ab0,unk1ab4,unk1ab8,unk1abc;
+    int unk1ac0,unk1ac4,unk1ac8,unk1acc,unk1ad0,unk1ad4,unk1ad8,unk1adc,unk1ae0,unk1ae4,unk1ae8,unk1aec,unk1af0,unk1af4,unk1af8,unk1afc;
+    int unk1b00,unk1b04,unk1b08,unk1b0c,unk1b10,unk1b14,unk1b18,unk1b1c,unk1b20,unk1b24,unk1b28,unk1b2c,unk1b30,unk1b34,unk1b38,unk1b3c;
+    int unk1b40,unk1b44,unk1b48,unk1b4c,unk1b50,unk1b54,unk1b58,unk1b5c,unk1b60,unk1b64,unk1b68,unk1b6c,unk1b70,unk1b74,unk1b78,unk1b7c;
+    int unk1b80,unk1b84,unk1b88,unk1b8c,unk1b90,unk1b94,unk1b98,unk1b9c,unk1ba0,unk1ba4,unk1ba8,unk1bac,unk1bb0,unk1bb4,unk1bb8,unk1bbc;
+    int unk1bc0,unk1bc4,unk1bc8,unk1bcc,unk1bd0,unk1bd4,unk1bd8,unk1bdc,unk1be0,unk1be4,unk1be8,unk1bec,unk1bf0,unk1bf4,unk1bf8,unk1bfc;
+    int unk1c00,unk1c04,unk1c08,unk1c0c,unk1c10,unk1c14,unk1c18,unk1c1c,unk1c20,unk1c24,unk1c28,unk1c2c,unk1c30,unk1c34,unk1c38,unk1c3c;
+    int unk1c40,unk1c44,unk1c48,unk1c4c,unk1c50,unk1c54,unk1c58,unk1c5c;
+    int agents;
+};
+
+
+__forceinline DeactivationCtor& SolverCtor::configureTier(int tierIndex,float threshold,float speed,float magnitude,float gravityScale) {
+        TierQuotientCtor quotient;
+        quotient.denominator=speed*magnitude;
+        quotient.threshold=threshold;
+        float ratio=quotient.value();
+        DeactivationCtor& tier=tiers[tierIndex];
+        tier.damping=1.0f-(unk120*0.016f)*ratio;
+        tier.inverseThreshold=1.0f/threshold;
+        tier.inverseVelocity=1.0f/(threshold*gravityScale);
+        tier.time=(float)speed>0.0f ? unk120*0.016f/(float)speed : DAT_010c6848;
+    return tier;
+}
+// @fnv 0x00c95a80
+WorldCtor* WorldCtor::FUN_00c95a80(WorldInfoCtor* info, int version) {
+    vtable=&DAT_010c6714;
+    references=1;
+    int tierIndex=0;
+    initArray(active); initArray(inactive); initArray(dirty);
+    watchdog=0;
+    threadCheck.m_uiThreadId=0xfffffff1;
+    threadCheck.m_usMarkedForWrite=0x8000;
+    initArray(phantoms); initArray(actions); initArray(entities);
+    initArray(phantomCallbacks); initArray(constraints); initArray(deletionCallbacks);
+    initArray(islandCallbacks); initArray(postSimulation); initArray(postIntegrate);
+    initArray(postCollide); initArray(islandIntegrate); initArray(islandCollide);
+    initArray(contacts); initArray(impulseLimits);
+    lastEntity=-1; lastConstraint=-1; locked=0; assertMemory=1;
+    ObjectCtor* object=(ObjectCtor*)worldAlloc(0x204);
+    if(object) object->vtable=0; else object=0;
+    violated=object;
+    object=(ObjectCtor*)worldAlloc(0x28);
+    pending=object ? ((::ObjectCtor *)(new ((void *)(object)) ::FUN_00cf75c0((int)(this)))) : 0;
+    pendingQueues=0; pendingCount=0; bodyCount=0; criticalCount=0; phantomCount=0;
+    blockOperations=0; allowOperations=1;
+    modifyLock=0; propertyLock=0; dirtyLock=0;
+    queueCount=1; destruction=0;
+    minimum=info->minimum;
+    maximum=info->maximum;
+    markers=info->markers;
+    broadphase=DAT_011b37a0(&minimum,&maximum,info->markers);
+    int broadphaseQuerySize=info->querySize;
+    querySize=broadphaseQuerySize;
+    updateSize=broadphaseQuerySize/2;
+    toiQueueSize=info->toiQueueSize;
+    if(version!=0x111d4) {
+        int buffer[0x80];
+        StreamCtor stream;
+        new ((void *)&(stream)) ::FUN_00cb1600((char*)buffer,sizeof(buffer));
+        reinterpret_cast<::SinkOwner *>((((::StreamCtor *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::StreamCtor *)(reinterpret_cast<::SinkOwner *>((((::StreamCtor *)&(reinterpret_cast<::CC0280Writer *>((((::StreamCtor *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0("** Havok libs built with version [")))))->WriteInt(0x111d4)))))->FUN_00cc01c0("], used with code built with [")))))->FUN_00cc02d0(version)))))->FUN_00cc01c0("]. **");
+        if((*reinterpret_cast<::ErrorCtor * *>(&::DAT_01268360))->report(3,0x53c94b42,(char*)buffer,".\\World\\hkpWorld.cpp",0xbb5))
+            __debugbreak();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
+    }
+    gravity=info->gravity;
+    UpdateSkyEntries(info->snap,info->snapOther);
+    snapConvex=info->snap;
+    snapConcave=info->snap;
+    weld=info->weld;
+    activate=info->activate;
+    rotateNormal=info->rotateNormal;
+    sectors=info->sectors;
+    threadToi=info->threadToi;
+    toiEntries=info->toiEntries;
+    toiPairs=info->toiPairs;
+    referenceDistance=info->referenceDistance;
+    solver.unk00=1.0f;
+    reinterpret_cast<::FUN_00c90e60_cls *>(&(solver))->FUN_00c90e60(info->solverTau,info->solverDamping);
+    solver.unk60=info->solverFriction;
+    solver.unk114=info->iterations;
+    solver.unk120=1.0f/info->iterations;
+    solver.unk118=info->microsteps;
+    solver.unk128=info->damping*info->damping;
+    solver.unk11c=1.0f/info->microsteps;
+    solver.unk124=info->flag8c;
+    solver.unk125=info->flagA4;
+    solver.unk126=info->flagA5;
+    solver.unk127=info->flagA6;
+    solver.unk10c=0.0f; solver.unk110=0.0f;
+    float magnitude=length3(info->gravity);
+    if(magnitude==0.0f) magnitude=DAT_010c6860;
+    float gravityScale=magnitude*0.1f;
+    for(;tierIndex<6;++tierIndex) {
+        float threshold; float speed;
+        switch(tierIndex) {
+        case 0: case 1: threshold=1.1920928955078125e-7f; speed=0.0f; break;
+        case 2: threshold=0.01f; speed=DAT_010c6850; break;
+        case 3: threshold=0.017f; speed=DAT_0101df44; break;
+        case 4: threshold=0.02f; speed=DAT_01017870; break;
+        default: threshold=0.025f; speed=DAT_010231a8; break;
+        }
+        DeactivationCtor& tier=solver.configureTier(tierIndex,threshold*magnitude,speed,magnitude,gravityScale);
+        float distance=info->referenceDistance;
+        tier.distanceSquared=distance*distance;
+        tier.radiusSquared=(4.0f*distance)*(4.0f*distance);
+        union { float f; int bits; } halfDistance,halfRadius;
+        halfDistance.f=(2.0*distance)*(2.0*distance);
+        tier.distanceHalf=(unsigned short)(halfDistance.bits>>16);
+        halfRadius.f=(8.0f*distance)*(8.0f*distance);
+        tier.radiusHalf=(unsigned short)(halfRadius.bits>>16);
+    }
+    if(info->watchdog) reinterpret_cast<::FUN_00c90510_class *>((info->watchdog))->FUN_00c90510();
+    if(watchdog) release(watchdog);
+    watchdog=info->watchdog;
+    wantIslands=info->wantIslands;
+    deactivate=info->deactivate;
+    if(!wantIslands && deactivate) deactivate=wantIslands;
+    singleActions=info->singleActions;
+    separateIntegration=0;
+    object=(ObjectCtor*)worldAlloc(0x10c);
+    broadphaseDispatcher=object ? ((::ObjectCtor *)(new ((void *)(object)) ::FUN_00cf6f90())) : 0;
+    object=allocObject<ObjectCtor>(0xc);
+    object->references=1;
+    object->vtable=(ObjectVtableCtor*)&DAT_010c63f0;
+    object->unk08.raw=&DAT_010c63e0;
+    phantomListener=object;
+    object=allocObject<ObjectCtor>(0x10);
+    entityListener=((::ObjectCtor *)(reinterpret_cast<::FUN_00d107d0_t *>((object))->FUN_00d107d0((int)(this))));
+    object=allocObject<ObjectCtor>(0xc);
+    object->references=1;
+    object->vtable=(ObjectVtableCtor*)&DAT_010c6410;
+    object->unk08.raw=&DAT_010c6400;
+    borderListener=object;
+    broadphaseDispatcher->unk28.raw=phantomListener ? &phantomListener->unk08 : 0;
+    broadphaseDispatcher->unk44.raw=phantomListener ? &phantomListener->unk08 : 0;
+    broadphaseDispatcher->unk48.raw=phantomListener ? &phantomListener->unk08 : 0;
+    broadphaseDispatcher->unk24.raw=entityListener ? &entityListener->unk08 : 0;
+    broadphaseDispatcher->unk2c.raw=borderListener ? &borderListener->unk08 : 0;
+    broadphaseDispatcher->unk64.raw=borderListener ? &borderListener->unk08 : 0;
+    broadphaseDispatcher->unk4c.raw=borderListener ? &borderListener->unk08 : 0;
+    broadphaseDispatcher->unk68.raw=borderListener ? &borderListener->unk08 : 0;
+    broadphaseDispatcher->unk6c.raw=borderListener ? &borderListener->unk08 : 0;
+    ObjectCtor* agent=((::ObjectCtor *)(new ((void *)(allocObject<ObjectCtor>(0xc))) ::FUN_00cfd450((::hkWorldCFD4 *)(::WorldCtor *)(this))));
+    dispatcher=((::ObjectCtor *)(reinterpret_cast<::FUN_00cfc030_cls *>((allocObject<ObjectCtor>(0x1e50)))->FUN_00cfc030((unsigned int)((void*)&((void (&)())::FUN_00d10790)),(unsigned int)(agent))));
+    release(agent);
+    if(!info->filter) {
+        object=allocObject<ObjectCtor>(0x30);
+        new ((void *)(object)) ::FUN_00cbfba0();
+        object->vtable=(ObjectVtableCtor*)&DAT_010c646c;
+        object->unk08.raw=&DAT_010c6460;
+        object->unk0c.raw=&DAT_010c644c;
+        object->unk10.raw=&DAT_010c6440;
+        object->unk14.raw=&DAT_010c6434;
+        object->unk20.i=1;
+        filter=object;
+    } else {
+        filter=info->filter;
+        reinterpret_cast<::FUN_00c90510_class *>((filter))->FUN_00c90510();
+    }
+    if(!info->convexFilter) {
+        object=allocObject<ObjectCtor>(8);
+        object->references=1;
+        object->vtable=(ObjectVtableCtor*)&DAT_010c63cc;
+        convexFilter=object;
+    } else {
+        convexFilter=info->convexFilter;
+        reinterpret_cast<::FUN_00c90510_class *>((convexFilter))->FUN_00c90510();
+    }
+    CollisionInputCtor* in=new CollisionInputCtor;
+    input=in;
+    in->unk04=0;
+    in->dispatcher=dispatcher;
+    in->tolerance=info->tolerance;
+    in->filter=filter;
+    in->convexFilter=convexFilter;
+    generation=info->generation;
+    in->flag6d=info->quality;
+    ManifoldCtor* manifold=(ManifoldCtor*)worldAlloc(0x10);
+    if(manifold) { manifold->tolerance=DAT_01013ea4; manifold->count=20; } else manifold=0;
+    in->manifold=manifold;
+    manifold->tolerance=info->manifoldTolerance;
+    in->manifold->count=info->manifoldCount;
+    in->flag6c=info->flag99;
+    in->unk14=0;
+    in->agents=&((DispatcherCtor*)in->dispatcher)->agents;
+    setRange(in->range,0.0f,0.0f);
+    ::hkQuadReal extent=_mm_sub_ps(info->maximum,info->minimum);
+    float inverseX=1.0f/extent[0];
+    float inverseY=1.0f/extent[1];
+    float inverseZ=1.0f/extent[2];
+    in->scale=_mm_mul_ps(_mm_setr_ps(inverseX,inverseY,inverseZ,0.0f),_mm_shuffle_ps(_mm_load_ss(&DAT_010c6844),_mm_load_ss(&DAT_010c6844),0));
+    in->offset=_mm_xor_ps(info->minimum,::DAT_010c44d0);
+    ::hkQuadReal scalarCoeff=_mm_load_ss(&DAT_010c6840);
+    ::hkQuadReal splatCoeff=_mm_shuffle_ps(scalarCoeff,scalarCoeff,0);
+    _mm_store_ps(&in->extent[0],_mm_add_ps(_mm_mul_ps(splatCoeff,extent),in->offset));
+    ::hkQuadReal zero=_mm_setzero_ps();
+    in->scale=_mm_shuffle_ps(in->scale,_mm_unpackhi_ps(in->scale,zero),0xc4);
+    ::hkQuadReal voffset=_mm_load_ps(&in->offset[0]); _mm_store_ps(&in->offset[0],_mm_shuffle_ps(voffset,_mm_unpackhi_ps(voffset,zero),0xc4));
+    _mm_store_ps(&in->extent[0],_mm_shuffle_ps(in->extent,_mm_unpackhi_ps(in->extent,zero),0xc4));
+    broadphase->vtable->vf70(broadphase,&in->offset,&in->extent,&in->scale);
+    WorldCtorFactorySetup::RegisterContactMgrFactories((::CFB240Dispatcher*)dispatcher,this);
+    if(DAT_012681dc) info->simulationType=3;
+    minIsland=0;
+    simulationType=info->simulationType;
+    switch(simulationType) {
+    case 3:
+        object=(ObjectCtor*)worldAlloc(0x18);
+        modifyLock=object ? ((::ObjectCtor *)(reinterpret_cast<::FUN_00cf6da0_cls *>((object))->FUN_00cf6da0(4000))) : 0;
+        object=(ObjectCtor*)worldAlloc(0x18);
+        propertyLock=object ? ((::ObjectCtor *)(reinterpret_cast<::FUN_00cf6da0_cls *>((object))->FUN_00cf6da0(4000))) : 0;
+        simulation=((::ObjectCtor *)(new ((void *)(allocObject<ObjectCtor>(0x180))) ::FUN_00d02c80((::World *)(::WorldCtor *)(this))));
+        minIsland=info->minIsland;
+        break;
+    case 2: simulation=allocObject<ObjectCtor>(0x50)->FUN_00d0d020(this); break;
+    case 1: simulation=((::ObjectCtor *)(new ((void *)(allocObject<ObjectCtor>(0x2c))) ::FUN_00cf87c0(this))); break;
+    }
+    object=(ObjectCtor*)worldAlloc(0x18);
+    dirtyLock=object ? ((::ObjectCtor *)(reinterpret_cast<::FUN_00cf6da0_cls *>((object))->FUN_00cf6da0(4000))) : 0;
+    simulation->unk24.f=info->simulationValue;
+    magnitude=length3(gravity);
+    if(magnitude==0.0f) magnitude=DAT_010c6860;
+    toi0=info->toi0; toi1=info->toi1; toi2=info->toi2; toi3=info->toi3;
+    BuildConfigCtor config;
+    config.magnitude=magnitude;
+    config.tolerance=input->tolerance;
+    config.config68=info->config68;
+    config.config60=info->config60;
+    config.toi0=info->toi0;config.toi1=info->toi1;config.toi2=info->toi2;config.toi3=info->toi3;
+    config.multithread=info->simulationType>=2;
+    config.quality=info->generation==2;
+    config.contacts=info->generation>=1;
+    config.one=1;config.three=3;config.four=4;config.five=5;
+    config.weld=info->weld;
+    reinterpret_cast<::Big *>((dispatcher))->FUN_00cfb570((::Src *)(void *)(&config));
+    input->agents=&((DispatcherCtor*)dispatcher)->agents;
+    fixedIsland=((::ObjectCtor *)(new ((void *)(allocObject<ObjectCtor>(0x6c))) ::FUN_00d07830((::hkpWorldQ *)(::WorldCtor *)(this))));
+    fixedIsland->id20=0xffff;
+    fixedIsland->flags26 &= 0xf3;
+    fixedIsland->flags26 &= 0xfc;
+    if(!wantIslands) {
+        ObjectCtor* island=((::ObjectCtor *)(new ((void *)(allocObject<ObjectCtor>(0x6c))) ::FUN_00d07830((::hkpWorldQ *)(::WorldCtor *)(this))));
+        active.push(island);
+        island->id20=0;
+    }
+    BodyInfoCtor body;
+    reinterpret_cast<::Owner *>(&(body))->FUN_00cf5ea0();
+    body.unk90=0.0f;
+    body.motionType=5;
+    fixedBody=((::ObjectCtor *)(reinterpret_cast<::S00ca8c90_Body *>((allocObject<ObjectCtor>(0x220)))->FUN_00ca8c90((*(const ::CInfo181 *)(&body)))));
+    reinterpret_cast<::hkpWorldC914 *>(this)->FUN_00c914d0((::hkpEntityC914 *)(fixedBody),1);
+    release(fixedBody);
+    setRange(time,0.0f,0.016666668f);
+    input->time=&time;
+    if(info->borderBehavior!=3) {
+        ObjectCtor* pendingBorder=allocObject<ObjectCtor>(0x44);
+        int behavior=info->borderBehavior;
+        broadphaseBorder=((::ObjectCtor *)(new ((void *)(pendingBorder)) ::bpb::hkpBroadPhaseBorder((::bpb::hkpWorld *)(::WorldCtor *)(this),behavior,info->postponeBorder)));
+    } else broadphaseBorder=0;
+    kdTree=((::ObjectCtor *)(new ((void *)(allocObject<ObjectCtor>(0x10))) ::FUN_00d0b250()));
+    kdTree->vtable->vf0c(kdTree,this);
+    callbackUtil=0;
+    if(info->flagE0) ::fnv_00d0b040::FUN_00d0b040((::fnv_00d0b040::TargetClass *)(::WorldCtor *)(this));
+    if(info->borderEnabled) {
+        border=((::ObjectCtor *)(new ((void *)(allocObject<ObjectCtor>(0x24))) ::ListenerMgrD0A((::FUN_00d0a2d0 *)(::WorldCtor *)(this),0)));
+        autoTree=info->borderFlag;
+    } else if(info->borderAlternate) {
+        ObjectCtor* alternate=allocObject<ObjectCtor>(0x70); int borderMode=info->borderMode; border=((::ObjectCtor *)(new ((void *)(alternate)) ::fnv_00d08cf0::FUN_00d08cf0((::fnv_00d08cf0::ListenerManager *)(::WorldCtor *)(this),borderMode,0.0f)));
+        autoTree=info->borderFlag;
+    } else border=0;
+    if(info->simulationType!=3) ((FUN_00cf6d20_Class*)&threadCheck)->FUN_00cf6d20();
+    object=(ObjectCtor*)worldAlloc(0x120);
+    if(object) {
+        object->unkf4.i=0;
+        object->unk94.i=0;
+    } else object=0;
+    jobs=object;
+    return this;
+}
+
+namespace ArrowHeadRatios {extern const float DAT_010c69c4=0.14999997615814208984375f; extern const float DAT_010c69c0=-0.14999997615814208984375f;}
+namespace ArrowLengthLimit { extern const float DAT_0104da4c = 1.1920928955078125e-7f; }
+__forceinline ::hkQuadReal arrowSplat(float t) { ::hkQuadReal q = _mm_load_ss(&t); return _mm_shuffle_ps(q,q,0); }
+struct ArrowVectorView {
+    union { ::hkQuadReal q; float f[4]; };
+};
+
+
+__forceinline ::hkQuadReal arrowDot3(::hkQuadReal a, ::hkQuadReal b) {
+    ::hkQuadReal products = _mm_mul_ps(a,b);
+    ::hkQuadReal xy = _mm_add_ss(_mm_shuffle_ps(products,products,0x55),products);
+    return _mm_add_ss(_mm_shuffle_ps(products,products,0xaa),xy);
+}
+__forceinline float arrowScalar(::hkQuadReal q) { float out; _mm_store_ss(&out,q); return out; }
+__forceinline void arrowPerpendicular(ArrowVectorView* v, ArrowVectorView& out) {
+    int least=0, side=1, other=2;
+    float low=fabsf(v->f[0]);
+    float y=fabsf(v->f[1]);
+    float z=fabsf(v->f[2]);
+    if(y<low) { side=0; least=1; low=y; }
+    if(z<low) { other=least; }
+    out.q=_mm_setzero_ps();
+    out.f[side]=v->f[other];
+    out.f[other]=-v->f[side];
+}
+__forceinline void arrowCross(ArrowVectorView& out,const ArrowVectorView& left,const ArrowVectorView& right) {
+    ::hkQuadReal first=_mm_mul_ps(_mm_shuffle_ps(left.q,left.q,0xc9),_mm_shuffle_ps(right.q,right.q,0xd2));
+    ::hkQuadReal second=_mm_mul_ps(_mm_shuffle_ps(left.q,left.q,0xd2),_mm_shuffle_ps(right.q,right.q,0xc9));
+    out.q=_mm_sub_ps(first,second);
+}
+__forceinline void drawDebugArrow(::FUN_00c986c0_Obj* drawer, ArrowVectorView* a, ArrowVectorView* v, int a3, int a4, int a5)
+{
+    if (arrowScalar(arrowDot3(v->q,v->q)) < ::DAT_0104da4c) return;
+    ArrowVectorView sum;
+    sum.q = _mm_add_ps(_mm_load_ps(a->f),v->q);
+    ArrowVectorView u;
+    arrowPerpendicular(v,u);
+    float scaleValue0 = DAT_01019de0;
+    ::hkQuadReal uq = u.q;
+    ::hkQuadReal usq = _mm_mul_ps(uq, uq);
+    ::hkQuadReal t0 = _mm_shuffle_ps(usq, usq, 0x55);
+    ::hkQuadReal t1 = _mm_add_ss(t0, usq);
+    ::hkQuadReal t2 = _mm_shuffle_ps(usq, usq, 0xaa);
+    ::hkQuadReal tt = _mm_add_ss(t2, t1);
+    ::hkQuadReal r = _mm_rsqrt_ss(tt);
+    ::hkQuadReal fr = _mm_mul_ss(_mm_mul_ss(tt, r), r);
+    ::hkQuadReal eq = _mm_cmpeq_ss(tt, _mm_set_ss(::DAT_01011d78));
+    ::hkQuadReal factor = _mm_andnot_ps(eq, _mm_mul_ss(_mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248), r), _mm_sub_ss(_mm_set_ss(::DAT_01017718), fr)));
+    ::hkQuadReal n = _mm_mul_ps(uq, _mm_shuffle_ps(factor, factor, 0));
+    ArrowVectorView unit,cross; unit.q=n; arrowCross(cross,*v,unit);
+    ::hkQuadReal len = _mm_sqrt_ss(arrowDot3(v->q,v->q));
+    ::hkQuadReal scaledN = _mm_mul_ps(_mm_shuffle_ps(len, len, 0), n);
+    ::hkQuadReal aq = _mm_load_ps(a->f);
+    ::hkQuadReal c = arrowSplat(scaleValue0);
+    ::hkQuadReal base = _mm_add_ps(_mm_mul_ps(c, sum.q),
+                             _mm_mul_ps(_mm_sub_ps(_mm_load_ps((*reinterpret_cast<::ArrowVectorView *>((void *)&::DAT_010ec7f0)).f), c), aq));
+    ArrowVectorView o1, o2, o3, o4;
+    float scaleValue1 = ArrowHeadRatios::DAT_010c69c4;
+    o1.q = _mm_add_ps(base, _mm_mul_ps(arrowSplat(scaleValue1), scaledN));
+    float scaleValue2 = ::DAT_010c69c0;
+    o2.q = _mm_add_ps(base, _mm_mul_ps(arrowSplat(scaleValue2), scaledN));
+    float scaleValue3 = ArrowHeadRatios::DAT_010c69c4;
+    o3.q = _mm_add_ps(base, _mm_mul_ps(arrowSplat(scaleValue3), cross.q));
+    float scaleValue4 = ::DAT_010c69c0;
+    o4.q = _mm_add_ps(base, _mm_mul_ps(arrowSplat(scaleValue4), cross.q));
+    reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((int)(&a->q), (int)(&sum.q), a3, a4, a5);
+    reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((int)(&sum.q), (int)(&o1.q), a3, a4, a5);
+    reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((int)(&sum.q), (int)(&o2.q), a3, a4, a5);
+    reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((int)(&sum.q), (int)(&o3.q), a3, a4, a5);
+    reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((int)(&sum.q), (int)(&o4.q), a3, a4, a5);
+}
+struct DebugArrowEntry : ::hkDebugDisplay {
+    void FUN_00c98880(const ::hkVector4_S&, const ::hkVector4_S&, int, int, int);
+};
+// @fnv 0x00c98e60
+void PlaneDraw::FUN_00c98e60(const V4& plane, const V4& offset, float scale, int color, int id, int tag) throw()
+{
+    float negW = -plane.f[3];
+    V4 base;
+    base.scaled(_mm_load_ss(&negW), plane);
+    base.add(offset);
+
+    V4 basis;
+    basis.absolute(plane);
+
+    int axis;
+    if (basis.f[0] < basis.f[1]) {
+        if (basis.f[1] < basis.f[2])
+            axis = 2;
+        else
+            axis = 1;
+    } else {
+        if (basis.f[0] < basis.f[2])
+            axis = 2;
+        else
+            axis = 0;
+    }
+
+    vstore(basis, _mm_setzero_ps());
+    basis.f[(axis + 1) % 3] = 1.0f;
+
+    basis.cross(plane, basis);
+    basis.normalize();
+    basis.scale(_mm_load_ss(&scale));
+    V4 side;
+    side.cross(basis,plane);
+    side.normalize();
+    side.scale(_mm_load_ss(&scale));
+
+    int n = 1;
+    int left = 4;
+    do {
+        V4 a;
+        if ((n-1)&2) a.minus(base,side); else a.plus(side,base);
+        if ((n%4)/2) a.minus(a,basis); else a.plus(a,basis);
+        V4 c;
+        if ((n%4)/2) c.minus(base,side); else c.plus(side,base);
+        int n1=n+1;
+        if ((n1%4)/2) c.minus(c,basis); else c.plus(c,basis);
+        reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0((int)&(a), (int)&(c), color, id, tag);
+        n = n1;
+        --left;
+    } while (left != 0);
+
+    reinterpret_cast<::DebugArrowEntry *>(this)->FUN_00c98880((const ::hkVector4_S &)(base), (const ::hkVector4_S &)((const ::V4 &)(V4(_mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&scale), _mm_load_ss(&scale), 0), plane.q)))), color, id, tag);
+}
+// @fnv 0x00c98880
+void DebugArrowEntry::FUN_00c98880(const ::hkVector4_S& kFrom, const ::hkVector4_S& kWorldPosition, int uiColor, int aiSoundId, int aiAllocationTag)
+{
+    drawDebugArrow((::FUN_00c986c0_Obj*)this, (ArrowVectorView*)&kFrom, (ArrowVectorView*)&kWorldPosition, uiColor, aiSoundId, aiAllocationTag);
+}
+
+struct ScalarC992 {
+    ::hkQuadReal q;
+    ScalarC992() {}
+    ScalarC992(float f) { q = _mm_load_ss(&f); }
+    ScalarC992(const ::hkQuadReal& v) { q = v; }
+    ::hkQuadReal broadcast() const { return _mm_shuffle_ps(q,q,0); }
+    const ::hkQuadReal& value() const { return q; }
+};
+
+inline ScalarC992 operator*(const ScalarC992& a,const ScalarC992& b) { return _mm_mul_ss(a.value(),b.value()); }
+inline ScalarC992 operator+(const ScalarC992& a,const ScalarC992& b) { return _mm_add_ss(a.value(),b.value()); }
+struct Vec_c99210 {
+    ::hkQuadReal m_vComponents;
+    void setSub4(const Vec_c99210& a, const Vec_c99210& b) { m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents); }
+    void setColor(float x,float y,float z,float w) { m_vComponents = _mm_setr_ps(x,y,z,w); }
+    void set(float x, float y, float z, float w) { m_vComponents = _mm_setr_ps(x, y, z, w); }
+    __forceinline void setCross(const Vec_c99210& v1, const Vec_c99210& v2)
+    {
+        ::hkQuadReal cross0 = _mm_mul_ps(_mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xd2), _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9));
+        ::hkQuadReal cross1 = _mm_mul_ps(_mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xc9), _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+    __forceinline ScalarC992 dot3(const Vec_c99210& b) const
+    {
+        ::hkQuadReal x2 = _mm_mul_ps(m_vComponents, b.m_vComponents);
+        ::hkQuadReal xy = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), xy);
+    }
+    __forceinline ScalarC992 inverseLength3() const
+    {
+        ::hkQuadReal h = _mm_set_ss(0.5f), t = _mm_set_ss(3.0f), z = _mm_set_ss(0.0f);
+        ::hkQuadReal square = dot3(*this).q;
+        ::hkQuadReal mask = _mm_cmpeq_ss(square,z);
+        ::hkQuadReal guess = _mm_rsqrt_ss(square);
+        ::hkQuadReal adjusted = _mm_mul_ss(_mm_mul_ss(h,guess), _mm_sub_ss(t,_mm_mul_ss(_mm_mul_ss(square,guess),guess)));
+        return _mm_andnot_ps(mask,adjusted);
+    }
+    __forceinline void normalize3()
+    {
+        m_vComponents = _mm_mul_ps(inverseLength3().broadcast(), m_vComponents);
+    }
+    __forceinline void mulS(float s) { m_vComponents = _mm_mul_ps(m_vComponents, _mm_set_ps1(s)); }
+    void mul4(const ScalarC992& s) { m_vComponents = _mm_mul_ps(s.broadcast(), m_vComponents); }
+    void setMul4(const Vec_c99210& a, const Vec_c99210& b) { m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents); }
+    void scaled(const ScalarC992& f, const Vec_c99210& v) { m_vComponents = _mm_mul_ps(f.broadcast(), v.m_vComponents); }
+    void accumulate(const ScalarC992& f, const Vec_c99210& v) { m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(f.broadcast(), v.m_vComponents)); }
+    void add4(const Vec_c99210& a) { m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents); }
+};
+
+
+
+// @fnv 0x00c99210
+void FUN_00c99210(const ::hkVector4_S& vertexA, const ::hkVector4_S& vertexB, const ::hkVector4_S& vertexC, unsigned int color)
+{
+    const Vec_c99210& a = reinterpret_cast<const Vec_c99210&>(vertexA);
+    const Vec_c99210& b = reinterpret_cast<const Vec_c99210&>(vertexB);
+    const Vec_c99210& c = reinterpret_cast<const Vec_c99210&>(vertexC);
+    Vec_c99210 e1; e1.setSub4(b, a);
+    Vec_c99210 e2; e2.setSub4(c, a);
+    Vec_c99210 n; n.setCross(e1, e2);
+    n.normalize3();
+
+    Vec_c99210 l0; l0.set(0.5f, 2.0f, 1.0f, 0.0f);
+    l0.normalize3();
+    const ScalarC992 weight0(0.9f);
+    Vec_c99210 l1; l1.set(-3.0f, -2.0f, -1.0f, 0.0f);
+    l1.normalize3();
+    Vec_c99210 rgb;
+    rgb.set((unsigned char)(color >> 16) * (double(1.0f / 255.0f)), (unsigned char)(color >> 8) * (double(1.0f / 255.0f)), (unsigned char)color * (double(1.0f / 255.0f)), 0.0f);
+    Vec_c99210 c0; c0.set(0.75f, 0.75f, 0.75f, 0.0f); c0.setMul4(c0, rgb);
+    Vec_c99210 c1; c1.setColor(0.0f, 0.05f, DAT_010c6850, 0.0f); c1.setMul4(c1, rgb);
+    const ScalarC992 half(0.5f);
+    l1.mul4(ScalarC992(0.9f));
+    l0.mul4(weight0);
+    Vec_c99210 res;
+    res.scaled(l0.dot3(n) * half + half, c0);
+    res.accumulate(l1.dot3(n) * half + half, c1);
+    res.accumulate(ScalarC992(0.05f), rgb);
+    res.m_vComponents = _mm_min_ps(_mm_max_ps(res.m_vComponents, (*reinterpret_cast<const ::Vec_c99210 *>(&::DAT_01267e30)).m_vComponents), _mm_set_ps1(1.0f));
+    float alpha = (int)(color >> 24) * (double(1.0f / 255.0f));
+    unsigned int argb = PackColorBigEndian(res.m_vComponents[0], res.m_vComponents[1], res.m_vComponents[2], alpha);
+    (*reinterpret_cast<::C00c98720 * *>(&::DAT_012681e0))->FUN_00c98720(reinterpret_cast<int>(&vertexA), reinterpret_cast<int>(&vertexB), reinterpret_cast<int>(&vertexC), argb, 0, 0);
+}
 #include "generated/data/havok/physics/dynamics/world/hkpworld.inc"
+#include "generated/data/havok/physics/dynamics/world/hkpworld_rtm_variant.inc"

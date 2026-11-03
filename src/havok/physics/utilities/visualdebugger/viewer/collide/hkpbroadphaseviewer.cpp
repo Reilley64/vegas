@@ -572,4 +572,249 @@ FUN_00d6ada0::FUN_00d6ada0()
 {}
 }  // namespace fnv_00d6ada0
 
+// Moved from hkpbroadphaseviewer_ehsc_noehsc_variant.cpp (VEGAS-15).
+
+// src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer_ehsc_noehsc_variant.cpp - flag-variant unit created 2026-10-30 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS /EHs-c- /Gy (unit src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
+#include <windows.h>
+#include "fnv/decl/FUN_00de1210.h"
+#include "fnv/decl/FnvCpu_FUN_00de1170_CpuObject.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01268000.h"
+void __cdecl FUN_00d6ad40();
+int FUN_00d6ad60();
+
+
+struct S00d6a9b0_Rec
+{
+    const char* m_pName;
+    unsigned int m_uTick;
+    unsigned int unk08;
+};
+
+struct S00d6a9b0_Prof
+{
+    int unk00;
+    S00d6a9b0_Rec* m_pCur;
+    int unk08;
+    S00d6a9b0_Rec* m_pRecordEnd;
+};
+
+static inline void S00d6a9b0_Mark(const char* name)
+{
+    S00d6a9b0_Prof* p = (S00d6a9b0_Prof*)TlsGetValue(DAT_0126835c);
+    S00d6a9b0_Rec* r = p->m_pCur;
+    if (r < p->m_pRecordEnd)
+    {
+        r->m_pName = name;
+        unsigned int t;
+        t = static_cast<unsigned int>(__rdtsc());
+        r->m_uTick = t;
+        p->m_pCur = r + 1;
+    }
+}
+
+struct S00d6a9b0_Alloc
+{
+    virtual void a00();
+    virtual void a04();
+    virtual void a08();
+    virtual void* GetStack(int& nBytes);
+    virtual void FreeData(void* p, unsigned int size);
+};
+
+struct S00d6a9b0_Holder
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    S00d6a9b0_Alloc* m_pAllocationContext;
+    S00d6a9b0_Alloc& heap() { return *m_pAllocationContext; }
+};
+
+static inline S00d6a9b0_Alloc& S00d6a9b0_heap()
+{
+    return reinterpret_cast<S00d6a9b0_Holder*>(FUN_00c85750())->heap();
+}
+
+template <typename T>
+struct S00d6a9b0_Arr
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_capFlags;
+
+    S00d6a9b0_Arr() : m_data(0), m_iElementCount(0), m_capFlags((int)0x80000000) {}
+    ~S00d6a9b0_Arr()
+    {
+        S00d6a9b0_Alloc& a = S00d6a9b0_heap();
+        m_iElementCount = 0;
+        if ((m_capFlags & 0x80000000) == 0)
+            a.FreeData(m_data, (m_capFlags & 0x3fffffff) * sizeof(T));
+        m_data = 0;
+        m_capFlags = (int)0x80000000;
+    }
+    void SetSizeAndGrow(int n);
+    void setSizePod(int n)
+    {
+        reserve(n);
+        m_iElementCount = n;
+    }
+    void reserve(int n)
+    {
+        S00d6a9b0_Alloc& a = S00d6a9b0_heap();
+        int cap = m_capFlags & 0x3fffffff;
+        if (cap < n)
+        {
+            int cap2 = 2 * cap;
+            int nc = (n < cap2) ? cap2 : n;
+            ::FUN_00c908c0((::SpawnedObject *)(::S00d6a9b0_Alloc *)(&a), (::SpawnedArray *)(void *)(this), nc, sizeof(T));
+        }
+    }
+};
+
+struct __declspec(align(16)) S00d6a9b0_Vec
+{
+    float x, y, z, w;
+};
+
+struct __declspec(align(16)) S00d6a9b0_Cap
+{
+    int n;
+};
+
+struct S00d6a9b0_Blk
+{
+    S00d6a9b0_Vec m_kMinimumCorner;
+    S00d6a9b0_Vec m_kMaximumCorner;
+};
+
+template <typename T>
+static inline void S00d6a9b0_destruct(T* t, int n)
+{
+    for (int i = 0; i < n; i++)
+        t[i].v00(0);
+}
+
+template <typename T>
+static inline void S00d6a9b0_construct(T* t, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        T* p = t + i;
+        if (p)
+            new ((void *)(p)) ::FUN_00de1210();
+    }
+}
+
+template <typename T>
+__forceinline void S00d6a9b0_Arr<T>::SetSizeAndGrow(int n)
+{
+    reserve(n);
+    S00d6a9b0_destruct(m_data + n, m_iElementCount - n);
+    S00d6a9b0_construct(m_data + m_iElementCount, n - m_iElementCount);
+    m_iElementCount = n;
+}
+
+template <typename T>
+static __forceinline T* S00d6a9b0_bufAlloc(S00d6a9b0_Alloc& a, int n, int& nbytes)
+{
+    int req = n * (int)sizeof(T);
+    T* p = (T*)a.GetStack(req);
+    nbytes = req;
+    return p;
+}
+
+struct S00d6a9b0_Req : S00d6a9b0_Arr<S00d6a9b0_Blk>
+{
+    __forceinline S00d6a9b0_Req(int n)
+    {
+        int nbytes;
+        S00d6a9b0_Blk* p = S00d6a9b0_bufAlloc<S00d6a9b0_Blk>(S00d6a9b0_heap(), n, nbytes);
+        S00d6a9b0_Cap c;
+        c.n = nbytes / (int)sizeof(S00d6a9b0_Blk);
+        if (c.n == 0)
+            c.n = (int)0x80000000;
+        m_data = p;
+        m_capFlags = c.n;
+    }
+};
+
+struct S00d6a9b0_Item
+{
+    virtual void v00(int flags);
+    int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
+    int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c;
+    int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c;
+    int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c;
+};
+
+struct S00d6a9b0_Sub
+{
+    virtual void p00(); virtual void p04(); virtual void p08(); virtual void p0c();
+    virtual void p10(); virtual void p14(); virtual void p18(); virtual void p1c();
+    virtual void p20(); virtual void p24(); virtual void p28(); virtual void p2c();
+    virtual void p30(); virtual void p34();
+    virtual void Run(void* params);
+};
+
+struct S00d6a9b0_Ctx
+{
+    int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
+    int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c;
+    int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54;
+    S00d6a9b0_Sub* m_58;
+};
+
+struct S00d6a9b0_Owner
+{
+    virtual void o00(); virtual void o04(); virtual void o08(); virtual void o0c();
+    virtual void o10(); virtual void o14(); virtual void o18(); virtual void o1c();
+    virtual void o20(); virtual void o24(); virtual void o28(); virtual void o2c();
+    virtual void o30(); virtual void o34();
+    virtual void Fill(void* out, unsigned int mask, int zero, int flags);
+};
+
+struct S00d6a9b0_Obj
+{
+    int unk00;
+    S00d6a9b0_Arr<S00d6a9b0_Item> m_aiIndexedValues;
+
+    void FUN_00d6a9b0(S00d6a9b0_Ctx* a1);
+};
+
+struct ViewerPrefix { S00d6a9b0_Owner* m_pOwnerObject; int unk04; int unk08; int unk0c; };
+struct WholeViewer : ViewerPrefix, S00d6a9b0_Obj {};
+
+// @fnv 0x00d6a9b0
+void S00d6a9b0_Obj::FUN_00d6a9b0(S00d6a9b0_Ctx* a1)
+{
+    S00d6a9b0_Mark("TthkpBroadphaseViewer");
+
+    S00d6a9b0_Req req(0x400);
+    req.m_iElementCount = 0x400;
+    a1->m_58->Run(&req);
+
+    if (req.m_iElementCount > m_aiIndexedValues.m_iElementCount)
+        m_aiIndexedValues.SetSizeAndGrow(req.m_iElementCount);
+
+    S00d6a9b0_Arr<S00d6a9b0_Item*> ptrs;
+    ptrs.setSizePod(req.m_iElementCount);
+    for (int k = req.m_iElementCount - 1; k >= 0; k--)
+    {
+        S00d6a9b0_Blk* b = req.m_data + k;
+        reinterpret_cast<::FnvCpu_FUN_00de1170_CpuObject *>(&(m_aiIndexedValues.m_data[k]))->FUN_00de1170((::FnvCpu_FUN_00de1170_CpuData0 *)(void *)(&b->m_kMinimumCorner), (::FnvCpu_FUN_00de1170_CpuData1 *)(void *)(&b->m_kMaximumCorner));
+        ptrs.m_data[k] = m_aiIndexedValues.m_data + k;
+    }
+
+    static_cast<WholeViewer*>(this)->m_pOwnerObject->Fill(&ptrs, 0xffff0000, 0, DAT_01269028);
+
+    S00d6a9b0_Mark("Et");
+}
 #include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.inc"

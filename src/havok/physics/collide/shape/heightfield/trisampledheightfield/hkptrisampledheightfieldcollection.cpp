@@ -596,3 +596,54 @@ TtrcHeightFieldCollection::TtrcHeightFieldCollection()
 {}
 void TtrcHeightFieldCollection::key_fn()
 {}
+
+// Moved from hkptrisampledheightfieldcollection_gs_nogs_variant.cpp (VEGAS-15).
+#include "fnv/symbols_00c85000.h"
+int FUN_00d26390();
+int FUN_00d26440(int arg0);
+
+
+struct hkAabb_d26460
+{
+    __m128 m_kMinimumCorner;
+    __m128 m_kMaximumCorner;
+};
+struct hkTransform_d26460;
+struct hkShape_d26460
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0C();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void getAabb(const hkTransform_d26460& kTransform, float fTolerance, hkAabb_d26460& kAabbOut);
+};
+struct FUN_00d26460_cls
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    float m_fBoundRadius;
+    int unk24;
+    int unk28;
+    int unk2C;
+    __m128 m_kTranslation;
+    void FUN_00d26460(const hkTransform_d26460& kTransform, float fTolerance, hkAabb_d26460& kAabbOut);
+};
+// @fnv 0x00d26460
+void FUN_00d26460_cls::FUN_00d26460(const hkTransform_d26460& kTransform, float fTolerance, hkAabb_d26460& kAabbOut)
+{
+    hkAabb_d26460 kAabb;
+    ((::hkShape_d26460 *)(reinterpret_cast<::FUN_00d26450_Obj *>(this)->FUN_00d26450()))->getAabb(kTransform, m_fBoundRadius + fTolerance, kAabb);
+    __m128 kMaxPoint = _mm_add_ps(m_kTranslation, kAabb.m_kMaximumCorner);
+    __m128 kMinBoundsCur = _mm_add_ps(m_kTranslation, kAabb.m_kMinimumCorner);
+    kAabbOut.m_kMinimumCorner = _mm_min_ps(kAabb.m_kMinimumCorner, kMinBoundsCur);
+    kAabbOut.m_kMaximumCorner = _mm_max_ps(kAabb.m_kMaximumCorner, kMaxPoint);
+}

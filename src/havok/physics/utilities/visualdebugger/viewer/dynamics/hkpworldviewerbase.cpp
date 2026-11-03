@@ -389,3 +389,79 @@ Own_00ddcd60* make_00ddcd60()
     static Own_00ddcd60 o;
     return &o;
 }
+
+// Moved from hkpworldviewerbase_rtm_variant.cpp (VEGAS-15).
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00ddc000.h"
+int FindAngleIndex(float angle);
+
+#include "fnv/symbols_simd.h"
+
+struct __declspec(align(16)) hkVector4
+{
+    union
+    {
+        struct
+        {
+            float x, y, z, w;
+        };
+        __m128 q;
+    };
+    __forceinline const float& operator()(int i) const
+    {
+        return (&x)[i];
+    }
+};
+static __forceinline float dot3(__m128 a, __m128 b)
+{
+    __m128 product = _mm_mul_ps(a, b);
+    __m128 sum = _mm_add_ss(_mm_shuffle_ps(product, product, 0x55), product);
+    float r;
+    _mm_store_ss(&r, _mm_add_ss(_mm_shuffle_ps(product, product, 0xaa), sum));
+    return r;
+}
+struct Hit
+{
+    bool value;
+    __forceinline Hit(bool b) : value(b)
+    {}
+};
+// @fnv 0x00ddd0b0
+Hit __cdecl FUN_00ddd0b0(const hkVector4& start, const hkVector4& end, int planeCount, const hkVector4* planes,
+                         float* first, float* last)
+{
+    hkVector4 a = start;
+    hkVector4 b = end;
+    const __m128& ONE = (*reinterpret_cast<const __m128 *>((void *)&::DAT_010ec7f0));
+    for (int i = 0; i < planeCount; ++i)
+    {
+        hkVector4 plane = planes[i];
+        float w = plane(3);
+        float da = w + dot3(plane.q, a.q);
+        float db = w + dot3(b.q, plane.q);
+        if (da >= 0.0f && db >= 0.0f)
+        {
+            return Hit(false);
+        }
+        if (da * db < 0.0f)
+        {
+            float fraction = da / (da - db);
+            __m128 t = _mm_load_ss(&fraction);
+            t = _mm_shuffle_ps(t, t, 0);
+            __m128 p = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(ONE, t), a.q),
+                                                      _mm_mul_ps(t, b.q));
+            if (da > 0.0f)
+                a.q = p;
+            else
+                b.q = p;
+        }
+    }
+    __m128 origin = start.q;
+    __m128 direction = _mm_sub_ps(end.q, origin);
+    float lengthSquared = dot3(direction, direction);
+    float firstFraction = dot3(_mm_sub_ps(a.q, origin), direction) / lengthSquared;
+    float lastFraction = dot3(_mm_sub_ps(b.q, origin), direction) / lengthSquared;
+    *first = firstFraction;
+    *last = lastFraction;
+    return Hit(true);
+}

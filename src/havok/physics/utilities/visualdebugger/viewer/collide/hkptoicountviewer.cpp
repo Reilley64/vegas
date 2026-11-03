@@ -1101,4 +1101,207 @@ struct ToiCountThunkObject : ToiCountThunkPrimary, ToiCountThunkSecondary
 ToiCountThunkObject::ToiCountThunkObject()
 {}
 
+// Moved from hkptoicountviewer_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
+// src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer_gs_ehsc_nogs_noehsc_variant.cpp that match byte for byte only
+// with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
+
+
+// src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-29 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+#include <cmath>
+#include "fnv/symbols_01267000.h"
+void ClearTwoInts(int* a, int* b);
+int __cdecl FUN_00d67960();
+void RegisterToiCounter();
+
+class S00d67a50_Shape377
+{
+  public:
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void GetAabb(void* body, float zero, __m128* out);
+};
+class S00d67a50_Owner377
+{
+  public:
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c_unused();
+    virtual void v10_unused();
+    virtual void v14_unused();
+    virtual void v18_unused();
+    virtual void v1c_unused();
+    virtual void v20_unused();
+    virtual void v09(__m128* anchor, void* ctx140, int a1c, void* ctx10, int a2);
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c(int a18, __m128* pos, int a1c, void* ctx10, int a2);
+};
+__declspec(align(16)) struct Bounds377
+{
+    float mnx;
+    float mny;
+    float mnz;
+    float mnw;
+    float mxx;
+    float mxy;
+    float mxz;
+    float mxw;
+};
+__declspec(align(16)) struct Vector377
+{
+    float values[4];
+};
+struct S00d67a50_Context377
+{
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00c;
+    S00d67a50_Shape377* shape;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04c;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05c;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    unsigned int unk0d0;
+    unsigned int unk0d4;
+    unsigned int unk0d8;
+    unsigned int unk0dc;
+    unsigned int unk0e0;
+    unsigned int unk0e4;
+    unsigned int unk0e8;
+    unsigned int unk0ec;
+    __m128 rotation0, rotation1, rotation2;
+    __m128 translation;
+    unsigned int unk130, unk134, unk138, unk13c;
+    unsigned int unk140;
+};
+struct S00d67a50_Scalar377
+{
+    __m128 v;
+    S00d67a50_Scalar377(float x) : v(_mm_load_ss(&x))
+    {}
+    S00d67a50_Scalar377(__m128 x) : v(x)
+    {}
+    __m128 all() const
+    {
+        return _mm_shuffle_ps(v, v, 0);
+    }
+    operator float() const
+    {
+        float x;
+        _mm_store_ss(&x, v);
+        return x;
+    }
+};
+struct S00d67a50_MathVector377
+{
+    union
+    {
+        __m128 v;
+        float coordinates[4];
+    };
+    void sum(const S00d67a50_MathVector377& a, const S00d67a50_MathVector377& b)
+    {
+        v = _mm_add_ps(a.v, b.v);
+    }
+    void difference(const S00d67a50_MathVector377& a, const S00d67a50_MathVector377& b)
+    {
+        v = _mm_sub_ps(a.v, b.v);
+    }
+    void scale(const S00d67a50_Scalar377& s)
+    {
+        v = _mm_mul_ps(s.all(), v);
+    }
+    S00d67a50_Scalar377 dot(const S00d67a50_MathVector377& b) const
+    {
+        __m128 p = _mm_mul_ps(v, b.v);
+        __m128 y = _mm_shuffle_ps(p, p, 0x55);
+        __m128 z = _mm_shuffle_ps(p, p, 0xaa);
+        return S00d67a50_Scalar377(_mm_add_ss(z, _mm_add_ss(y, p)));
+    }
+    void offset(const S00d67a50_MathVector377& base, const S00d67a50_Scalar377& amount,
+                const S00d67a50_MathVector377& direction)
+    {
+        v = _mm_add_ps(base.v, _mm_mul_ps(amount.all(), direction.v));
+    }
+};
+inline double abs377(float x)
+{
+    return (float)fabs((double)x);
+}
+
+// @fnv 0x00d67a50
+void FUN_00d67a50(S00d67a50_Owner377* self, int a2, S00d67a50_Context377* ctx, int i, int a18, int a1c, float dist,
+                  unsigned char flag)
+{
+    Bounds377 box;
+    S00d67a50_Shape377** p10 = &ctx->shape;
+    (*p10)->GetAabb(&ctx->rotation0, 0.0f, (__m128*)&box);
+    S00d67a50_MathVector377 center, extent;
+    center.sum(*(S00d67a50_MathVector377*)&box.mxx, *(S00d67a50_MathVector377*)&box.mnx);
+    center.scale(S00d67a50_Scalar377(0.5f));
+    extent.difference(*(S00d67a50_MathVector377*)&box.mxx, center);
+    S00d67a50_MathVector377 direction;
+    direction.v = (*reinterpret_cast<__m128 *>(&::DAT_01267e30));
+    int q = i / 3;
+    int r = i - q * 3;
+    direction.coordinates[r] = 1.0f - 2.0f * (float)q;
+    S00d67a50_MathVector377 anchor, pos;
+    anchor.offset(center, S00d67a50_Scalar377(abs377((float)extent.dot(direction))), direction);
+    pos.offset(anchor, S00d67a50_Scalar377(dist), direction);
+    self->v0c(a18, (__m128*)&pos, a1c, p10, a2);
+    if (flag)
+        self->v09((__m128*)&anchor, &ctx->unk140, a1c, p10, a2);
+}
 #include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer.inc"

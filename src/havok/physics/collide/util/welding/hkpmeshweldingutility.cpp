@@ -357,6 +357,17 @@ struct S_00ddeab0
     }
 
     void SpliceElements(void* alloc, int index, int numdel, const S_00ddeab0_Elem* p, int numtoinsert);
+public:
+    __forceinline void GrowArrayCapacity(void* alloc, int numElems)
+    {
+        int cap = m_iCapacityState & 0x3fffffff;
+        if (cap < numElems)
+        {
+            int cap2 = cap + cap;
+            int newcap = (numElems < cap2) ? cap2 : numElems;
+            FUN_00c908c0(alloc, this, newcap, 12);
+        }
+    }
 };
 // @fnv 0x00ddecb0
 void DynamicArray::FUN_00ddecb0(int a, int b, int c, int d)
@@ -795,6 +806,18 @@ struct NormalVector
     {
         q = _mm_mul_ps(inverseLength().broadcast(), q);
     }
+public:
+    __forceinline ScalarNormal inverseLength() const
+    {
+        __m128 half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
+        __m128 three = _mm_set_ss(DAT_01017718);
+        __m128 zero = _mm_set_ss(DAT_01011d78);
+        __m128 len = dot(*this).q;
+        __m128 mask = _mm_cmpeq_ss(len, zero);
+        __m128 approx = _mm_rsqrt_ss(len);
+        __m128 correction = _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(len, approx), approx));
+        return ScalarNormal(_mm_andnot_ps(mask, _mm_mul_ss(_mm_mul_ss(half, approx), correction)));
+    }
 };
 // Computes the normalized cross product of two triangle edge vectors (b-a) and (c-b) and stores the result in out.
 // @fnv 0x00ddd620
@@ -1156,4 +1179,781 @@ void __cdecl FUN_00dde760(int a, int aiPayload, int c, int d)
         currentAllocator->ReturnMemory(vector.elements, (vector.encodedCapacity & 0x3fffffff) * 0x50);
 }
 
+// Moved from hkpmeshweldingutility_ehsc_noehsc_variant.cpp (VEGAS-15).
+#include <new>
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00ceb000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0103c000.h"
+#include "fnv/symbols_010d7000.h"
+void FUN_00ddeb70(Record* records, int left, int right, int comparator);
+float FUN_00ddd7e0(int a1, int* pOut, float* pF);
+int GetIndexForValue(int aiArg);
+int FUN_00dde4c0(Iface* self, void* a, void* b, int idx, int zero, int* out);
+bool* CheckSubQueries(bool* result, void* key, Iface* self);
+void* FUN_00c908c0(void* alloc, void* arr, int numElems, int elemSize);
+int FUN_00dde4c0(ObjOuter* p2, Transform* trans, void* p1, int i, void* p3, int* outLocal);
+int __cdecl CheckTransformAndProcess(void* p1, ObjOuter* pOuter, void* p3, short* outWord);
+void FUN_00ddd620(const NormalVector* a, const NormalVector* b, const NormalVector* c, NormalVector* out);
+void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize) throw();
+void __cdecl FUN_00ddeb70(S_00ddecf0_Key* keys, int left, int right, KeyLess cmp) throw();
+template <typename T, typename L> inline void quickSort(T* pArr, int size, L cmpLess)
+{
+    if (size > 1)
+        FUN_00ddeb70(pArr, 0, size - 1, cmpLess);
+}
+template <typename T> struct SpanStorage
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline SpanStorage() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    __forceinline int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    __forceinline int capacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    __forceinline T& operator[](int i)
+    {
+        return m_data[i];
+    }
+    __forceinline void dispose(S_00ddecf0_Heap& alloc)
+    {
+        m_iElementCount = 0;
+        if (!(m_iCapacityState & 0x80000000))
+            alloc._bufFree<T>(m_data, capacity());
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    __forceinline void append(S_00ddecf0_Heap& alloc, const T& value)
+    {
+        if (m_iElementCount == capacity())
+            ResizeAudioStream(&alloc, this, sizeof(T));
+        T* dest = m_data + m_iElementCount;
+        new (dest) T(value);
+        ++m_iElementCount;
+    }
+};
+
+
+extern char DAT_010d7f80;
+
+class hkSimdRealW
+{
+  public:
+    hkSimdRealW(const __m128& x) : m_vValue(x)
+    {}
+    __forceinline __m128 broadcast() const
+    {
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
+    }
+    __forceinline const __m128& getQuad() const
+    {
+        return m_vValue;
+    }
+
+  private:
+    __m128 m_vValue;
+};
+
+class hkBoolW
+{
+  public:
+    inline hkBoolW()
+    {}
+    inline hkBoolW(bool b)
+    {
+        m_cBooleanValue = static_cast<char>(b);
+    }
+    inline operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+    inline hkBoolW& operator=(bool e)
+    {
+        m_cBooleanValue = static_cast<char>(e);
+        return *this;
+    }
+
+  private:
+    char m_cBooleanValue;
+};
+
+template <typename ENUM, typename STORAGE> class hkEnumW
+{
+  public:
+    operator ENUM() const
+    {
+        return static_cast<ENUM>(m_kStorage);
+    }
+    hkBoolW operator==(ENUM e) const
+    {
+        return m_kStorage == static_cast<STORAGE>(e);
+    }
+    hkBoolW operator!=(ENUM e) const
+    {
+        return m_kStorage != static_cast<STORAGE>(e);
+    }
+
+  private:
+    STORAGE m_kStorage;
+};
+
+enum hkpShapeTypeW
+{
+    HK_SHAPE_TRIANGLE_W = 3
+};
+enum hkCollectionTypeW
+{
+    COLLECTION_LIST_W = 1,
+    COLLECTION_EXTENDED_MESH_W = 2,
+    COLLECTION_TRISAMPLED_HEIGHTFIELD_W = 4,
+    COLLECTION_USER_W = 5,
+    COLLECTION_SIMPLE_MESH_W = 6
+};
+
+struct hkRotationW;
+struct hkTransformW;
+
+// hkVector4 (hkSseVector4.inl)
+struct hkVector4W
+{
+    __m128 m_vComponents;
+
+    inline void SetAllComponents(float a)
+    {
+        m_vComponents = _mm_set_ps1(a);
+    }
+    inline void setSub4(const hkVector4W& v0, const hkVector4W& v1)
+    {
+        m_vComponents = _mm_sub_ps(v0.m_vComponents, v1.m_vComponents);
+    }
+    inline void setMin4(const hkVector4W& a, const hkVector4W& b)
+    {
+        m_vComponents = _mm_min_ps(a.m_vComponents, b.m_vComponents);
+    }
+    inline void setMax4(const hkVector4W& a, const hkVector4W& b)
+    {
+        m_vComponents = _mm_max_ps(a.m_vComponents, b.m_vComponents);
+    }
+    inline void setCross(const hkVector4W& v0, const hkVector4W& v1)
+    {
+        __m128 cross0;
+        cross0 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xc9),
+                            _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2));
+        __m128 cross1;
+        cross1 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xd2),
+                            _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+    inline hkSimdRealW dot3(const hkVector4W& a) const
+    {
+        __m128 x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+        __m128 xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), xySum);
+    }
+    inline hkSimdRealW lengthInverse3() const
+    {
+        const __m128 half = _mm_set_ss(0.5f);
+        const __m128 three = _mm_set_ss(3.0f);
+        const __m128 zero = _mm_set_ss(0.0f);
+        const __m128 len2 = this->dot3(*this).getQuad();
+        const __m128 len2EqualsZero = _mm_cmpeq_ss(len2, zero);
+        const __m128 approx = _mm_rsqrt_ss(len2);
+        const __m128 refined =
+            _mm_mul_ss(_mm_mul_ss(half, approx), _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(len2, approx), approx)));
+        return _mm_andnot_ps(len2EqualsZero, refined);
+    }
+    inline void normalize3()
+    {
+        __m128 lenInv = lengthInverse3().broadcast();
+        m_vComponents = _mm_mul_ps(lenInv, m_vComponents);
+    }
+    inline void _setMul3(const hkRotationW& a, const hkVector4W& b);
+    inline void _setRotatedDir(const hkRotationW& r, const hkVector4W& v)
+    {
+        _setMul3(r, v);
+    }
+    inline void _setTransformedPos(const hkTransformW& t, const hkVector4W& b);
+};
+
+struct hkRotationW
+{
+    hkVector4W m_kColumn0;
+    hkVector4W m_kColumn1;
+    hkVector4W m_kColumn2;
+    const hkVector4W& getColumn(int i) const
+    {
+        return (&m_kColumn0)[i];
+    }
+};
+
+struct hkTransformW
+{
+    hkRotationW m_rotation;
+    hkVector4W m_vTranslation;
+    hkTransformW()
+    {}
+    const hkRotationW& getRotation() const
+    {
+        return m_rotation;
+    }
+    const hkVector4W& getTranslation() const
+    {
+        return m_vTranslation;
+    }
+};
+
+inline void hkVector4W::_setMul3(const hkRotationW& a, const hkVector4W& b)
+{
+    const __m128 b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
+    const __m128 r0 = _mm_mul_ps(a.getColumn(0).m_vComponents, b0);
+    const __m128 b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
+    const __m128 r1 = _mm_mul_ps(a.getColumn(1).m_vComponents, b1);
+    const __m128 b2 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
+    const __m128 r2 = _mm_mul_ps(a.getColumn(2).m_vComponents, b2);
+    m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), r2);
+}
+
+inline void hkVector4W::_setTransformedPos(const hkTransformW& t, const hkVector4W& b)
+{
+    const hkRotationW& r = t.getRotation();
+    __m128 b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
+    __m128 r0 = _mm_mul_ps(r.getColumn(0).m_vComponents, b0);
+    __m128 b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
+    __m128 r1 = _mm_mul_ps(r.getColumn(1).m_vComponents, b1);
+    __m128 b2 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
+    __m128 r2 = _mm_mul_ps(r.getColumn(2).m_vComponents, b2);
+    m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), _mm_add_ps(r2, t.getTranslation().m_vComponents));
+}
+
+struct hkAabbW
+{
+    hkVector4W m_kMinimumCorner;
+    hkVector4W m_kMaximumCorner;
+    hkAabbW()
+    {}
+    inline hkAabbW(const hkVector4W& p0, const hkVector4W& p1)
+    {
+        setEmpty();
+        includePoint(p0);
+        includePoint(p1);
+    }
+    inline void setEmpty()
+    {
+        m_kMinimumCorner.SetAllComponents(3.40282e+38f);
+        m_kMaximumCorner.SetAllComponents(-3.40282e+38f);
+    }
+    inline void includePoint(const hkVector4W& point)
+    {
+        m_kMinimumCorner.setMin4(m_kMinimumCorner, point);
+        m_kMaximumCorner.setMax4(m_kMaximumCorner, point);
+    }
+};
+
+struct hkpTriangleShapeW
+{
+    int vtbl;
+    int m_usMemSizeAndFlags;
+    int m_ulUserData;
+    hkEnumW<hkpShapeTypeW, unsigned int> m_type;
+    int unk10, unk14, unk18, unk1c;
+    hkVector4W m_kVertexA;
+    hkVector4W m_kVertexB;
+    hkVector4W m_kVertexC;
+    hkpShapeTypeW getType() const
+    {
+        return m_type;
+    }
+    const hkVector4W& getVertex(int i) const
+    {
+        return (&m_kVertexA)[i];
+    }
+};
+
+struct hkInplaceArrayW
+{
+    unsigned int* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    unsigned int m_kStorage[128];
+    inline hkInplaceArrayW(int size)
+    {
+        m_data = m_kStorage;
+        m_iElementCount = size;
+        m_iCapacityState = 128 | 0x80000000;
+    }
+    inline ~hkInplaceArrayW()
+    {
+        S_00ddecf0_Heap& alloc = FUN_00c85750()->heap();
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(unsigned int));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    unsigned int& operator[](int i)
+    {
+        return m_data[i];
+    }
+};
+
+struct hkEntryW
+{
+    float a, b, c;
+};
+
+struct hkHistogramW
+{
+    float m_fScalar;
+    hkEntryW* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    inline hkHistogramW(bool zeroTolerance)
+    {
+        m_data = 0;
+        m_iElementCount = 0;
+        m_iCapacityState = 0x80000000;
+        m_fScalar = zeroTolerance ? 0.0f : 3.14159265f;
+    }
+    inline ~hkHistogramW()
+    {
+        S_00ddecf0_Heap& alloc = FUN_00c85750()->heap();
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(hkEntryW));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+};
+
+struct hkpShapeContainerW
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual const hkpTriangleShapeW* GetShapeForKey(unsigned int key, QueryBuffer& buffer) const;
+};
+
+struct hkpBvTreeShapeW
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual const hkpShapeContainerW* GetShapeContainer() const;
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void GetAabbHits(const hkAabbW& aabb, hkInplaceArrayW& hits) const;
+};
+
+struct hkShapeInfoW
+{
+    hkTransformW m_kMotionTransform;
+    const hkpBvTreeShapeW* m_pCollisionShape;
+};
+
+struct hkShapeInfoArrayW
+{
+    hkShapeInfoW* m_data;
+    int m_iElementCount;
+    int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    hkShapeInfoW& operator[](int i)
+    {
+        return m_data[i];
+    }
+};
+
+struct hkpShapeCollectionContainerW
+{
+    virtual void v0();
+    virtual void v1();
+    virtual int GetFirstKey() const;
+    virtual int GetNextShapeKey(int) const;
+    virtual void v4();
+    virtual const hkpTriangleShapeW* GetShapeForKey(int, QueryBuffer&) const;
+};
+
+struct hkpShapeCollectionW
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void SetWeldingMode(int weldingType);
+    virtual void SetWeldingInfo(int key, unsigned int weldingInfo);
+    int unk04;
+    int unk08;
+    int unk0c;
+    hkpShapeCollectionContainerW m_container;
+    hkBoolW m_bDisableWelding;
+    hkEnumW<hkCollectionTypeW, unsigned char> m_eCollectionType;
+};
+
+struct TextFormat
+{
+    char* data;
+    int size;
+    int capacityFlags;
+};
+
+struct ErrorManager
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual int Report(int, unsigned, char*, const char*, int);
+};
+
+// hkpMeshWeldingUtility::calcAntiClockwiseTriangleNormal
+__declspec(noinline) void __cdecl FUN_00ddd620(const hkVector4W& v0, const hkVector4W& v1, const hkVector4W& v2,
+                                               hkVector4W& normal)
+{
+    hkVector4W e0;
+    e0.setSub4(v1, v0);
+    hkVector4W e1;
+    e1.setSub4(v2, v1);
+    normal.setCross(e0, e1);
+    normal.normalize3();
+}
+hkBoolW __cdecl FUN_00ddcf60(const hkVector4W& v0, const hkVector4W& v1, const hkpTriangleShapeW* triangle);
+float __cdecl FUN_00ddd5a0(const hkVector4W& normal, const hkVector4W& perp, const hkVector4W& otherNormal);
+void __cdecl GenerateTrianglePlanes(hkVector4W* planes, const hkpTriangleShapeW* triangle, float tolerance);
+hkBoolW __cdecl FUN_00ddd0b0(const hkVector4W& a, const hkVector4W& b, int numPlanes, const hkVector4W* planes,
+                             float& tmin, float& tmax);
+int __cdecl FindAngleIndex(float angle);
+unsigned int __cdecl FUN_00ddcdd0(unsigned int combined, int edgeIndex, unsigned int code);
+
+// hkIsEdgeInTrianglePlane
+__declspec(noinline) hkBoolW __cdecl IsDotProductBelowThreshold(const hkVector4W& edge, const hkVector4W& normal)
+{
+    __m128 product = _mm_mul_ps(edge.m_vComponents, normal.m_vComponents);
+    __m128 sum = _mm_add_ss(_mm_shuffle_ps(product, product, 85), product);
+    sum = _mm_add_ss(_mm_shuffle_ps(product, product, 170), sum);
+    float scalar;
+    _mm_store_ss(&scalar, sum);
+    float magnitude = (float)fabs((double)scalar);
+    return hkBoolW(magnitude < DAT_0103c7c8);
+}
+
+// @fnv 0x00dddcd0
+void __cdecl FUN_00dddcd0(const hkTransformW& transform, hkpShapeCollectionW* collection, int weldingType,
+                          hkShapeInfoArrayW& allShapes, bool weldOpenEdges)
+{
+    if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(collection->m_eCollectionType != COLLECTION_LIST_W))->FUN_005609f0() &&
+        reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(collection->m_eCollectionType != COLLECTION_EXTENDED_MESH_W))->FUN_005609f0() &&
+        reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(collection->m_eCollectionType != COLLECTION_SIMPLE_MESH_W))->FUN_005609f0() &&
+        reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(collection->m_eCollectionType != COLLECTION_TRISAMPLED_HEIGHTFIELD_W))->FUN_005609f0() &&
+        reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(collection->m_eCollectionType != COLLECTION_USER_W))->FUN_005609f0())
+    {
+        QueryBuffer messageStorage;
+        char* message = reinterpret_cast<char*>(&messageStorage);
+        TextFormat formatted;
+        new ((void *)&(formatted)) ::FUN_00cb1600(message, 512);
+        reinterpret_cast<::SinkOwner *>(&(formatted))->FUN_00cc01c0(&DAT_010d7f80);
+        ((ErrorManager*)(*reinterpret_cast<::Mgr * *>(&::DAT_01268360)))->Report(1, 0x3f508c6a, message, &DAT_010d7f50, 271);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(formatted))->FUN_00cc00e0::~FUN_00cc00e0();
+        return;
+    }
+
+    collection->SetWeldingMode(weldingType);
+    if (weldingType == 6)
+        return;
+    collection->m_bDisableWelding = true;
+    hkpShapeCollectionContainerW* container = &collection->m_container;
+    for (int key = container->GetFirstKey(); key != -1; key = container->GetNextShapeKey(key))
+    {
+        QueryBuffer buffer;
+        const hkpTriangleShapeW* triangle = container->GetShapeForKey(key, buffer);
+        if (triangle->getType() != HK_SHAPE_TRIANGLE_W)
+            continue;
+
+        unsigned int weldingInfo = 0;
+        hkVector4W triangleNormal;
+        FUN_00ddd620(triangle->getVertex(0), triangle->getVertex(1), triangle->getVertex(2), triangleNormal);
+
+        for (int edgeIndex = 0; edgeIndex < 3; edgeIndex++)
+        {
+            hkHistogramW histogram(weldOpenEdges);
+            hkVector4W v0 = triangle->getVertex(edgeIndex);
+            hkVector4W v1 = triangle->getVertex((edgeIndex + 1) % 3);
+            hkVector4W v2 = triangle->getVertex((edgeIndex + 2) % 3);
+
+            for (int shapeIndex = 0; shapeIndex < allShapes.GetLogicalSize(); shapeIndex++)
+            {
+                const hkShapeInfoW& info = allShapes[shapeIndex];
+                const hkpBvTreeShapeW* bvTree = allShapes[shapeIndex].m_pCollisionShape;
+                hkTransformW t;
+                reinterpret_cast<::hkTransformCB22 *>(&(t))->FUN_00cb22f0((const ::hkTransformCB22 &)(info.m_kMotionTransform), (const ::hkTransformCB22 &)(transform));
+
+                hkVector4W normal;
+                normal._setRotatedDir(t.getRotation(), triangleNormal);
+                hkVector4W a;
+                a._setTransformedPos(t, v0);
+                hkVector4W b;
+                b._setTransformedPos(t, v1);
+                hkVector4W c;
+                c._setTransformedPos(t, v2);
+                hkVector4W edge;
+                edge.m_vComponents = _mm_sub_ps(b.m_vComponents, a.m_vComponents);
+                edge.normalize3();
+
+                hkInplaceArrayW hits(0);
+                bvTree->GetAabbHits(hkAabbW(a, b), hits);
+
+                for (int j = 0; j < hits.GetLogicalSize(); j++)
+                {
+                    unsigned int hitKey = hits[j];
+                    const hkpShapeContainerW* shapeContainer = bvTree->GetShapeContainer();
+                    QueryBuffer shapeBuffer;
+                    const hkpTriangleShapeW* other = shapeContainer->GetShapeForKey(hitKey, shapeBuffer);
+                    if (other->getType() != HK_SHAPE_TRIANGLE_W)
+                        continue;
+
+                    if (hkUtilDDCE::FUN_00ddced0(*(const hkTransformHolderDDCE*)triangle,
+                                                 *(const hkTransformHolderDDCE*)other)
+                            .m_cBooleanValue ||
+                        reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(FUN_00ddcf60(b, c, other)))->FUN_005609f0() || reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(FUN_00ddcf60(c, a, other)))->FUN_005609f0())
+                        continue;
+
+                    hkVector4W otherNormal;
+                    FUN_00ddd620(other->getVertex(0), other->getVertex(1), other->getVertex(2), otherNormal);
+                    if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(IsDotProductBelowThreshold(edge, otherNormal)))->FUN_005609f0())
+                        continue;
+
+                    hkVector4W perp;
+                    perp.setCross(edge, normal);
+                    perp.normalize3();
+                    float angle = FUN_00ddd5a0(normal, perp, otherNormal);
+
+                    hkVector4W planes[5];
+                    GenerateTrianglePlanes(planes, other, 0.05f);
+                    float tmin, tmax;
+                    if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(FUN_00ddd0b0(a, b, 5, planes, tmin, tmax)))->FUN_005609f0())
+                        reinterpret_cast<::S_00ddecf0 *>(&(histogram))->InsertKey(tmin, tmax, angle);
+                }
+            }
+            weldingInfo = (unsigned short)FUN_00ddcdd0(weldingInfo, edgeIndex, FindAngleIndex(reinterpret_cast<::Track *>(&(histogram))->FUN_00dded60()));
+        }
+        collection->SetWeldingInfo(key, weldingInfo);
+    }
+}
+
+// Moved from hkpmeshweldingutility_rtm_variant.cpp (VEGAS-15).
+#include "fnv/decl/FUN_00cc02d0_cls.h"
+#include "fnv/symbols_00ddc000.h"
+#include "fnv/symbols_01014000.h"
+volatile unsigned char* __cdecl FUN_00ddcf60(volatile unsigned char* out, const Vec4* a, const Vec4* b, const Shape* s);
+void __cdecl FUN_00dde760(int a, int b, int c, int d);
+
+
+extern const char str_010d7fc8[];
+extern const char str_010d8004[];
+extern const char str_010d8014[];
+
+struct S00dde4c0_Vec
+{
+    __m128 q;
+    __forceinline void setAll3(float v)
+    {
+        q = _mm_setr_ps(v, v, v, ::DAT_01011d78);
+    }
+};
+struct S00dde4c0_Tri
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    S00dde4c0_Vec v[3];
+};
+struct S00dde4c0_Aabb
+{
+    S00dde4c0_Vec mn;
+    S00dde4c0_Vec mx;
+};
+
+struct S00dde4c0_Shape
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int type;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int data;
+};
+struct S00dde4c0_Src
+{
+    virtual void s0();
+    virtual void s1();
+    virtual void s2();
+    virtual void s3();
+    virtual void s4();
+    virtual S00dde4c0_Shape* getShape(int index, void* buffer);
+};
+struct S00dde4c0_Mesh
+{
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual S00dde4c0_Src* getSource();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual void m8();
+    virtual void m9();
+    virtual void m10();
+    virtual void m11();
+    virtual void query(S00dde4c0_Aabb* aabb, void* outArray);
+};
+struct S00dde4c0_Out
+{
+    __m128 a;
+    __m128 b;
+    __m128 c;
+    __m128 d;
+    __m128 e;
+    __m128 f;
+};
+
+struct S00dde4c0_Array
+{
+    int* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    int m_kStorage[128];
+    __forceinline S00dde4c0_Array()
+    {
+        m_data = m_kStorage;
+        m_iElementCount = 0;
+        m_iCapacityState = 0x80000080;
+    }
+    __forceinline void finish()
+    {
+        release(::FUN_00c85750()->heap());
+    }
+    __forceinline void release(::S_00ddecf0_Heap& a)
+    {
+        m_iElementCount = 0;
+        if (!(m_iCapacityState & 0x80000000))
+            a._bufFree<int>(m_data, m_iCapacityState & 0x3fffffff);
+    }
+};
+struct S00dde4c0_Buf
+{
+    int b[128];
+};
+
+struct S00dde4c0_Str
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+};
+struct S00dde4c0_Err
+{
+    virtual void e0();
+    virtual void e1();
+    virtual void e2();
+    virtual void report(int a, unsigned int id, const char* msg, const char* file, int line);
+};
+
+unsigned int __cdecl FUN_00ddcdd0(unsigned int f, unsigned int idx, unsigned int v);
+
+// @fnv 0x00dde4c0
+int __cdecl FUN_00dde4c0(S00dde4c0_Mesh* mesh, S00dde4c0_Tri* tri, int skip, int idx, int checkWinding,
+                         unsigned short* flags)
+{
+    const S00dde4c0_Vec* verts = tri->v;
+    S00dde4c0_Array hits;
+    {
+        S00dde4c0_Aabb aabb;
+        struct BoundsWork
+        {
+            S00dde4c0_Vec center;
+            S00dde4c0_Vec lo;
+        } work;
+        work.center = verts[idx % 3];
+        float eps = ::DAT_010141cc;
+        work.lo.setAll3(-eps);
+        __m128 low = work.lo.q;
+        S00dde4c0_Vec hi;
+        hi.setAll3(eps);
+        aabb.mn.q = _mm_add_ps(low, work.center.q);
+        aabb.mx.q = _mm_add_ps(hi.q, work.center.q);
+        mesh->query(&aabb, &hits);
+    }
+    bool first = true;
+    for (int i = hits.m_iElementCount - 1; i >= 0; i--)
+    {
+        int other = hits.m_data[i];
+        if (other == skip)
+            continue;
+        S00dde4c0_Buf buffer;
+        S00dde4c0_Shape* shape = mesh->getSource()->getShape(other, &buffer);
+        if (shape->type != 3)
+            continue;
+        int winding[2];
+        S00dde4c0_Out out;
+        if (::FUN_00ddd6f0((const __m128 *)(verts), (const __m128 *)(const void *)(&shape->data), idx, (__m128 *)(::S00dde4c0_Out *)(&out), winding) != 4)
+            continue;
+        if (checkWinding && winding[0] != (winding[1] + 1) % 3)
+        {
+            if (first)
+            {
+                S00dde4c0_Str sb;
+                new ((void *)&(sb)) ::FUN_00cb1600(&buffer, 0x200);
+                reinterpret_cast<::SinkOwner *>(&((*(::S00dde4c0_Str *)(reinterpret_cast<::FUN_00cc02d0_cls *>(&((*(::S00dde4c0_Str *)(reinterpret_cast<::SinkOwner *>(&((*(::S00dde4c0_Str *)(reinterpret_cast<::FUN_00cc02d0_cls *>(&((*(::S00dde4c0_Str *)(reinterpret_cast<::SinkOwner *>(&(sb))->FUN_00cc01c0(str_010d7fc8)))))->FUN_00cc02d0(skip)))))->FUN_00cc01c0(str_010d8004)))))->FUN_00cc02d0(other)))))->FUN_00cc01c0(str_010d8014);
+                ((S00dde4c0_Err*)(*reinterpret_cast<::Mgr * *>(&::DAT_01268360)))->report(1, 0xabba751e, (const char*)&buffer, (*reinterpret_cast<const char (*)[]>(&::DAT_010d7f50)), 0x2c9);
+                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(sb))->FUN_00cc00e0::~FUN_00cc00e0();
+            }
+            first = false;
+        }
+        *flags = (unsigned short)FUN_00ddcdd0(*flags, idx, ::GetIndexForValue((int)&out));
+    }
+    int result = !first;
+    hits.finish();
+    return result;
+}
 #include "generated/data/havok/physics/collide/util/welding/hkpmeshweldingutility.inc"
+#include "generated/data/havok/physics/collide/util/welding/hkpmeshweldingutility_ehsc_noehsc_variant.inc"
+#include "generated/data/havok/physics/collide/util/welding/hkpmeshweldingutility_rtm_variant.inc"

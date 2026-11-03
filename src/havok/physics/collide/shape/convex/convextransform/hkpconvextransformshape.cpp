@@ -896,4 +896,64 @@ float TransformShape_d5d8::FUN_00d5d840(const __m128& direction)
     return result;
 }
 
+// Moved from hkpconvextransformshape_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+
+struct __declspec(align(16)) V4
+{
+    float x, y, z, w;
+};
+
+struct ChildShape
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void GetSupportPoint(const V4& dir, V4& out);
+};
+
+struct XformShape
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14;
+    ChildShape* m_pChildAtom;
+    int unk1c;
+    __m128 m_c0, m_c1, m_c2, m_t;
+    void FUN_00d5dc70(const V4& dir, V4& out);
+};
+
+// @fnv 0x00d5dc70
+void XformShape::FUN_00d5dc70(const V4& dir, V4& out)
+{
+    __m128 a = m_c0, b = m_c1, c = m_c2;
+    __m128 tmp = _mm_unpacklo_ps(a, b);
+    __m128 ctmp = _mm_shuffle_ps(_mm_unpackhi_ps(a, b), c, 0xe4);
+    a = _mm_movelh_ps(tmp, c);
+    tmp = _mm_movehl_ps(a, tmp);
+    b = _mm_shuffle_ps(tmp, c, 0xd4);
+    c = ctmp;
+    __m128 d = *(const __m128*)&dir;
+    V4 localDir;
+    *(__m128*)&localDir =
+        _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(*(const __m128*)&dir, *(const __m128*)&dir, 0x00), a),
+                              _mm_mul_ps(_mm_shuffle_ps(d, d, 0x55), b)),
+                   _mm_mul_ps(_mm_shuffle_ps(d, d, 0xaa), c));
+    V4 v;
+    m_pChildAtom->GetSupportPoint(localDir, v);
+    __m128 s = *(__m128*)&v;
+    __m128 r = _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(s, s, 0x55), _mm_load_ps((const float*)&m_c1)),
+                                     _mm_mul_ps(_mm_shuffle_ps(s, s, 0x00), _mm_load_ps((const float*)&m_c0))),
+                          _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(s, s, 0xaa), _mm_load_ps((const float*)&m_c2)),
+                                     _mm_load_ps((const float*)&m_t)));
+    *(__m128*)&out = _mm_shuffle_ps(r, _mm_unpackhi_ps(r, s), 0xc4);
+}
 #include "generated/data/havok/physics/collide/shape/convex/convextransform/hkpconvextransformshape.inc"

@@ -5684,6 +5684,17 @@ struct S00cb5100_Arr
             out[k] = e;
         ++m_iElementCount;
     }
+public:
+    void AddBack(S00cb5100_Body* const& e)
+    {
+        S_00c6aca0_Router* r = FUN_00c85750();
+        if (m_iElementCount == (m_cap & 0x3fffffff))
+            ResizeAudioStream(r->m10, this, 4);
+        S00cb5100_Body** out = m_data + m_iElementCount;
+        for (int k = 0; k < 1; ++k)
+            out[k] = e;
+        ++m_iElementCount;
+    }
 };
 struct S00cb5100_World
 {
@@ -8714,4 +8725,1247 @@ void __cdecl FUN_00cb4640(TaskCtx* apParent, TaskCtx* apChild, int mode)
 
 }
 
+// Moved from hkpworldoperationutil_rtm_variant.cpp (VEGAS-15).
+#include "fnv/decl/FUN_00c911f0_Class.h"
+#include "fnv/decl/FUN_00c91230_World.h"
+#include "fnv/decl/FUN_00d27f70.h"
+#include "fnv/decl/FUN_00d9ec10_cls.h"
+#include "fnv/decl/IndexRemapper.h"
+#include "fnv/decl/S00d281b0_Target.h"
+#include "fnv/decl/S_00d074c0_Island.h"
+#include "fnv/decl/fnv_00d282c0__IndexRemap.h"
+#include "fnv/symbols_00cb5000.h"
+void __cdecl FUN_00cb3e90(CleanupList* apCleanupList);
+S_00cb3f90_Bool FUN_00cb3f90(S_00cb3f90_Obj* pObjA, S_00cb3f90_Obj* pObjB);
+void ResizeAudioStream(void* alloc, S00cb5310_List* list, int n);
+static Item_cb3d10* FindItemForThreshold(Owner_cb3d10* owner, List_cb3d10* list, int threshold, Item_cb3d10* target);
+void CallTarget_cb3d10();
+static void MarkIndexedValues(int count, B10293_List* list, int** out, B10293_Chain* chain, B10293_Ctx* ctx);
+int keep_alive_b10293(int count, B10293_List* list, int** out, B10293_Chain* chain, B10293_Ctx* ctx);
+static void FUN_00cb41e0(int*** indexMap, int** counts, ShapeList* list, int** flags);
+int keep_alive_b11420(ShapeList* list, int** flags, int*** indexMap, int** counts);
+void __cdecl FUN_00c908c0(void*, void*, int, int);
+void __cdecl ResizeAudioStream(void*, void*, int);
+template <class T> struct hkArrayNative
+{
+    T* data;
+    int count;
+    unsigned int capRaw;
+    int getCapacity() const
+    {
+        return capRaw & 0x3fffffff;
+    }
+    void reserve(int n)
+    {
+        S_00c6aca0_Heap& a = FUN_00c85750()->heap();
+        const int cap = getCapacity();
+        if (cap < n)
+        {
+            int cap2 = 2 * cap;
+            int newSize = (n < cap2) ? cap2 : n;
+            FUN_00c908c0(&a, this, newSize, sizeof(T));
+        }
+    }
+    void AddBack(const T& t)
+    {
+        S_00c6aca0_Router* r = FUN_00c85750();
+        if (count == getCapacity())
+            ResizeAudioStream(&r->heap(), this, sizeof(T));
+        S00cb4c60_copy(data + count, 1, t);
+        count++;
+    }
+    void SetSize(int size)
+    {
+        reserve(size);
+        count = size;
+    }
+};
+static void RemapElements(const Cb4890_ElemArray& list, Cb4890_RemapTable* remap, Cb4890_Owner* owner,
+                          Cb4890_IntArray* src, Cb4890_CharArray* out);
+void Cb4890_caller();
+void ResizeAudioStream(void* heap, void* arr, int elemSize);
+static void UpdateGroupActivity(const Groups4120& map, const View4120<Entry4120*>& entries, int unusedGroups,
+                                View4120<int>& active, View4120<int>& sizes, unsigned char* flags);
+void caller4120();
+void FUN_00cb49e0(MergeWorld* owner, int remap_, MergeListArg listArg, Cb4890_IntArray* src, Cb4890_CharArray* out);
+void FUN_00cb3ee0(void* m, MotionObj* motion, void* w, int mode);
+void __cdecl FUN_00c908c0(S_00c6aca0_Heap& a, void* array, int reqCapacity, int sizeElem);
+template <typename T>
+
+__forceinline void S55Array<T>::GrowArrayCapacity(S_00c6aca0_Heap& a, int n)
+
+{
+
+    const int capacity = getCapacity();
+
+    if (capacity < n)
+    {
+
+        int cap2 = 2 * capacity;
+
+        int newSize = (n < cap2) ? cap2 : n;
+
+        FUN_00c908c0(a, this, newSize, sizeof(T));
+    }
+}
+
+struct SplitIsland_Target;
+struct SplitIsland_Node2;
+extern "C" void _ReadWriteBarrier(void);
+// Partition physics island nodes into groups, relink owners, and redistribute stream records.
+struct SplitIsland_CursorObj
+{
+    int cur;
+    int unk04;
+    int unk08;
+    int unk0c;
+    struct SplitIsland_Alloc* alloc;
+};
+struct SplitIsland_Alloc
+{
+    virtual void V00();
+    virtual void V04();
+    virtual void V08(void* p, int n);
+    virtual void V0c();
+    virtual void FreeLike(void* p, int size);
+};
+__forceinline int* SplitIsland_cursor()
+{
+    return &FUN_00c85750()->unk00;
+}
+void FUN_00c908c0(void* alloc, void* vec, int cap, int elemsz);
+void ResizeAudioStream(void* alloc, void* vec, int elemsz);
+void FUN_00c909d0(void* alloc, void* vec, int elemsz, void* p, int n);
+struct SplitIsland_AllocB
+{
+    virtual void V00();
+    virtual void* AllocSz(int sz);
+};
+template <class T> __forceinline void SplitIsland_copyItems(T* destination, int n, const T& value)
+{
+    for (int i = 0; i < n; ++i)
+    {
+        __assume(destination + i != 0);
+        new (destination + i) T(value);
+    }
+}
+struct SplitIsland_Vec48
+{
+    __forceinline void SplitIsland_appendNodeUnchecked(SplitIsland_Node2* const&);
+    int* data;
+    int cnt;
+    int cap;
+    __forceinline void SplitIsland_reserve(int n)
+    {
+        SplitIsland_CursorObj* router = (SplitIsland_CursorObj*)SplitIsland_cursor();
+        if ((cap & 0x3fffffff) < n)
+            FUN_00c908c0(router->alloc, this, n, 4);
+    }
+    __forceinline void SplitIsland_append(int value)
+    {
+        SplitIsland_CursorObj* router = (SplitIsland_CursorObj*)SplitIsland_cursor();
+        if (cnt == (cap & 0x3fffffff))
+            ResizeAudioStream(router->alloc, this, 4);
+        int* destination = data + cnt;
+        __assume(destination != 0);
+        new (destination) int(value);
+        ++cnt;
+    }
+    __forceinline void SplitIsland_appendUnchecked(const int& value)
+    {
+        SplitIsland_copyItems(data + cnt, 1, value);
+        ++cnt;
+    }
+    __forceinline void SplitIsland_compact()
+    {
+        int capacity = cap;
+        if ((capacity & 0x80000000) == 0)
+        {
+            unsigned int v = cnt + 3;
+            v |= v >> 16;
+            v |= v >> 8;
+            v |= v >> 4;
+            v |= v >> 2;
+            int wanted = (v | (v >> 1)) + 1;
+            if (wanted < 1)
+            {
+                FUN_00c909d0(((SplitIsland_CursorObj*)SplitIsland_cursor())->alloc, this, 4, this + 1, 1);
+            }
+            else if (wanted < (capacity & 0x3fffffff))
+            {
+                FUN_00c909d0(((SplitIsland_CursorObj*)SplitIsland_cursor())->alloc, this, 4, 0, wanted);
+            }
+        }
+    }
+};
+struct SplitIsland_Arg2Vec
+{
+    int* data;
+    int cnt;
+    int cap;
+};
+struct SplitIsland_Obj38
+{
+    int** f00;
+    int unk04;
+};
+struct SplitIsland_L60
+{
+    int* f00;
+    int f04;
+    int f08;
+    int data[32];
+};
+struct SplitIsland_H44;
+struct SplitIsland_Arg0
+{
+    inline void SplitIsland_removeTransfer(SplitIsland_Target*, SplitIsland_H44&);
+    int unk00;
+    short f04;
+    short unk06;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    unsigned short unk20;
+    short unk22;
+    unsigned char unk24;
+    union
+    {
+        unsigned char f25;
+        struct
+        {
+            unsigned char stateLow : 2;
+            unsigned char groupState : 2;
+            unsigned char stateHigh : 4;
+        };
+    };
+    union
+    {
+        unsigned char f26;
+        struct
+        {
+            unsigned char type26 : 2;
+            unsigned char active26 : 1;
+            unsigned char pending26 : 1;
+            unsigned char high26 : 4;
+        };
+    };
+    unsigned char unk27;
+    int field28;
+    int field2C;
+    int field30;
+    int field34;
+    SplitIsland_Vec48 f38v;
+    int unk44;
+    SplitIsland_Vec48 f48v;
+    int field54;
+    int f58;
+    SplitIsland_Vec48 v5c;
+    int inline68;
+    inline void AccumulateStats(SplitIsland_Target*, SplitIsland_H44&);
+};
+struct SplitIsland_H44
+{
+    int f00;
+    int f04;
+    int f06;
+    int f08;
+};
+struct SplitIsland_Sub30
+{
+    inline void SplitIsland_readTransfer(SplitIsland_H44&) const;
+    inline void SplitIsland_debitTransfer(const SplitIsland_H44&);
+    SplitIsland_Target* f00;
+    int field04;
+    int field08;
+    int field0C;
+    int field10;
+    unsigned short f14;
+    unsigned short f16;
+    unsigned short f18;
+    short unk1a;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+};
+struct SplitIsland_Target
+{
+    inline void SplitIsland_assignOwner(SplitIsland_Arg0*);
+    int unk00;
+    int unk04;
+    SplitIsland_Arg0* SplitIsland_owner;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    SplitIsland_Sub30* f30;
+};
+struct SplitIsland_Node2
+{
+    int field00;
+    int field04;
+    int field08;
+    int field0C;
+    int field10;
+    int field14;
+    int field18;
+    int field1C;
+    int field20;
+    int field24;
+    int field28;
+    int field2C;
+    int field30;
+    int field34;
+    int field38;
+    int field3C;
+    int field40;
+    int field44;
+    int field48;
+    int field4C;
+    int field50;
+    int field54;
+    int field58;
+    int field5C;
+    int field60;
+    int field64;
+    int field68;
+    int field6C;
+    int field70;
+    int field74;
+    int field78;
+    int field7C;
+    int field80;
+    int field84;
+    int field88;
+    int field8C;
+    int field90;
+    int field94;
+    int field98;
+    int field9C;
+    int fieldA0;
+    int fieldA4;
+    short fA8;
+    short unkAA;
+    int fAC;
+    short fB0;
+    unsigned short fieldB2;
+    int fieldB4;
+    int fieldB8;
+    int fieldBC;
+    int fieldC0;
+    int fieldC4;
+    int fieldC8;
+    int fCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    short unkE8;
+    unsigned short fEA;
+    unsigned short fEC;
+};
+struct SplitIsland_TempEC
+{
+    int* f00;
+    int f04;
+    int f08;
+    int data[16];
+};
+struct SplitIsland_Elem2
+{
+    virtual void V00();
+    virtual void V04();
+    virtual void V08(void* p, int n);
+    virtual void V0c();
+    virtual void GetList(SplitIsland_TempEC* t);
+    int unk04;
+    int unk08;
+    int f0c;
+};
+struct SplitIsland_Head58
+{
+    int hdr;
+    SplitIsland_Vec48 vec;
+    int inlineBuf;
+};
+struct SplitIsland_Arg1
+{
+    int field00;
+    int field04;
+    int field08;
+    int field0C;
+    int field10;
+    int field14;
+    int field18;
+    int field1C;
+    int f20;
+    int field24;
+    int field28;
+    int field2C;
+    int field30;
+    int field34;
+    int field38;
+    int field3C;
+    int field40;
+    int field44;
+    int field48;
+    int field4C;
+    int field50;
+    int field54;
+    int field58;
+    int field5C;
+    int field60;
+    int field64;
+    int field68;
+    int field6C;
+    int field70;
+    int field74;
+    int field78;
+    int field7C;
+    int field80;
+    int field84;
+    int field88;
+    int field8C;
+    int field90;
+    int field94;
+    int field98;
+    int field9C;
+    int fieldA0;
+    int fieldA4;
+    int fieldA8;
+    int fieldAC;
+    int fieldB0;
+    int fB4;
+    int fieldB8;
+    int fieldBC;
+    int fieldC0;
+    int fieldC4;
+    int fieldC8;
+    int fieldCC;
+    int fieldD0;
+    unsigned char fieldD4;
+    unsigned char fD5;
+    unsigned short fieldD6;
+    int fieldD8;
+    int fieldDC;
+    int fieldE0;
+    int fieldE4;
+    int fieldE8;
+    int fieldEC;
+    int fieldF0;
+    int fieldF4;
+    int fieldF8;
+    int fieldFC;
+    int field100;
+    int field104;
+    int field108;
+    int field10C;
+    int field110;
+    int field114;
+    int field118;
+    int field11C;
+    int field120;
+    int field124;
+    int field128;
+    int field12C;
+    int field130;
+    int field134;
+    int field138;
+    int field13C;
+    int field140;
+    int field144;
+    int field148;
+    int field14C;
+    int field150;
+    int field154;
+    int field158;
+    int field15C;
+    int field160;
+    int field164;
+    int field168;
+    int field16C;
+    int field170;
+    int field174;
+    int field178;
+    int field17C;
+    int field180;
+    int field184;
+    int field188;
+    int field18C;
+    int field190;
+    int field194;
+    int field198;
+    int field19C;
+    int field1A0;
+    int field1A4;
+    int field1A8;
+    int field1AC;
+    int field1B0;
+    int field1B4;
+    int field1B8;
+    int field1BC;
+    int field1C0;
+    int field1C4;
+    int field1C8;
+    int field1CC;
+    int field1D0;
+    int field1D4;
+    int field1D8;
+    int field1DC;
+    int field1E0;
+    int field1E4;
+    int field1E8;
+    int field1EC;
+    int field1F0;
+    int field1F4;
+    int field1F8;
+    int field1FC;
+    int field200;
+    int field204;
+    int field208;
+    int field20C;
+    int field210;
+    int field214;
+    int field218;
+    int field21C;
+    int field220;
+    int field224;
+    int field228;
+    int field22C;
+    int field230;
+    int field234;
+    int field238;
+    int field23C;
+    int field240;
+    int field244;
+    int field248;
+    int field24C;
+    int field250;
+    int field254;
+    int field258;
+    int field25C;
+    int field260;
+    int field264;
+    int field268;
+    int field26C;
+    int field270;
+    int field274;
+    int field278;
+    int field27C;
+    int field280;
+    int field284;
+    int field288;
+    int field28C;
+    int field290;
+    int field294;
+    int field298;
+    int field29C;
+    int field2A0;
+    int field2A4;
+    int field2A8;
+    int field2AC;
+    int field2B0;
+    int field2B4;
+    int field2B8;
+    int field2BC;
+    int field2C0;
+    int field2C4;
+    int field2C8;
+    int field2CC;
+    int field2D0;
+    int field2D4;
+    int field2D8;
+    int field2DC;
+    int field2E0;
+    int field2E4;
+    int field2E8;
+    int field2EC;
+    int field2F0;
+    int field2F4;
+    int field2F8;
+    int field2FC;
+    int field300;
+    unsigned char field304;
+    unsigned char f305;
+    unsigned char f306;
+};
+struct SplitIsland_StreamLink
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    signed char ownerOffset;
+    __forceinline SplitIsland_Arg0* SplitIsland_owner()
+    {
+        return (SplitIsland_Arg0*)((SplitIsland_Node2*)((char*)this + ownerOffset))->fCC;
+    }
+};
+struct SplitIsland_StreamRecord
+{
+    unsigned char unk00;
+    unsigned char unk01;
+    unsigned char unk02;
+    unsigned char size;
+    int unk04;
+    int unk08;
+    int unk0c;
+    SplitIsland_StreamLink* link10;
+    SplitIsland_StreamLink* link14;
+};
+template <class T> class SplitIsland_CursorValue
+{
+    T value;
+
+  public:
+    __forceinline SplitIsland_CursorValue()
+    {}
+    __forceinline SplitIsland_CursorValue(T p) : value(p)
+    {}
+    __forceinline void operator=(T p)
+    {
+        value = p;
+    }
+    __forceinline T SplitIsland_val() const
+    {
+        return value;
+    }
+    __forceinline operator T() const
+    {
+        return SplitIsland_val();
+    }
+};
+template <class T> __forceinline T* SplitIsland_memoryAdvance(T* p, long size)
+{
+    return (T*)((char*)p + size);
+}
+struct SplitIsland_ScratchArena
+{
+    SplitIsland_CursorValue<void*> next;
+    SplitIsland_CursorValue<void*> start;
+    SplitIsland_CursorValue<void*> end;
+    __forceinline void* SplitIsland_allocateRaw(int rounded)
+    {
+        void* p = next;
+        next = SplitIsland_memoryAdvance(p, rounded);
+        return p;
+    }
+    __forceinline void* SplitIsland_allocateRound(int n)
+    {
+        int rounded = (n + 127) & ~127;
+        return SplitIsland_allocateRaw(rounded);
+    }
+};
+__forceinline SplitIsland_ScratchArena& SplitIsland_scratch()
+{
+    return *(SplitIsland_ScratchArena*)SplitIsland_cursor();
+}
+template <class T> __forceinline T* SplitIsland_allocateWords(int n)
+{
+    return (T*)SplitIsland_scratch().SplitIsland_allocateRound(n * sizeof(T));
+}
+template <class T> struct SplitIsland_StackBuffer
+{
+    T* data;
+    __forceinline SplitIsland_StackBuffer()
+    {}
+    __forceinline SplitIsland_StackBuffer(int n)
+    {
+        SplitIsland_allocate(n);
+    }
+    __forceinline void SplitIsland_allocate(int n)
+    {
+        int* cur = SplitIsland_cursor();
+        int address = *cur;
+        *cur = address + ((n * sizeof(T) + 127) & ~127);
+        data = (T*)address;
+    }
+    __forceinline SplitIsland_StackBuffer(int n, bool includeSentinel)
+    {
+        int* cur = SplitIsland_cursor();
+        int address = *cur;
+        int elements = n + (includeSentinel ? 1 : 0);
+        *cur = address + ((elements * sizeof(T) + 127) & ~127);
+        data = (T*)address;
+    }
+    __forceinline void SplitIsland_release()
+    {
+        T* p = data;
+        *SplitIsland_cursor() = (int)p;
+    }
+};
+template <class T> struct SplitIsland_CountedBuffer : SplitIsland_StackBuffer<T>
+{
+    int debugCount;
+    __forceinline SplitIsland_CountedBuffer(int n) : SplitIsland_StackBuffer<T>(n)
+    {}
+    __forceinline SplitIsland_CountedBuffer(int n, bool sentinel) : SplitIsland_StackBuffer<T>(n, sentinel)
+    {}
+};
+__forceinline int SplitIsland_packedLevel(unsigned short encoded, unsigned char generation)
+{
+    int value = encoded;
+    if (generation == (value >> 14))
+        return (value >> 7) & 127;
+    return value & 127;
+}
+__forceinline int SplitIsland_strongerLevel(int e, int a)
+{
+    e &= 127;
+    a &= 127;
+    return a > e ? a : e;
+}
+struct SplitIsland_WorkArrays
+{
+    SplitIsland_L60 groups;
+    SplitIsland_TempEC members;
+};
+struct SplitIsland_MapWord
+{
+    __forceinline void SplitIsland_allocatePlain(int n)
+    {
+        int* at = SplitIsland_cursor();
+        int start = *at;
+        *at = start + ((n * 4 + 127) & ~127);
+        data = (int*)start;
+    }
+
+    int* data;
+    int debugCount;
+    __forceinline void SplitIsland_allocate(int n)
+    {
+        data = SplitIsland_allocateWords<int>(n);
+    }
+    __forceinline void SplitIsland_release()
+    {
+        int* old = data;
+        *SplitIsland_cursor() = (int)old;
+    }
+};
+union SplitIsland_MapReuse
+{
+    SplitIsland_MapWord map;
+    int biggest;
+};
+__forceinline int SplitIsland_boundedWeight(int minimum, int actual)
+{
+    return minimum > actual ? minimum : actual;
+}
+__forceinline void SplitIsland_combineGroups(SplitIsland_Arg1* world, SplitIsland_Obj38& find, SplitIsland_Vec48& nodes,
+                                             SplitIsland_L60& sizes, SplitIsland_StackBuffer<char>& flags)
+{
+    int count = sizes.f04;
+    SplitIsland_CountedBuffer<int> totals(count);
+    SplitIsland_MapWord active;
+    active.SplitIsland_allocate(count);
+    for (int i = 0; i < count; ++i)
+    {
+        active.data[i] = 0;
+        totals.data[i] = 0;
+    }
+    if (world->fD5)
+    {
+        for (int i = 0; i < nodes.cnt; ++i)
+        {
+            SplitIsland_Node2* node = (SplitIsland_Node2*)nodes.data[i];
+            int group = (*find.f00)[i];
+            int q = SplitIsland_packedLevel(node->fEC, world->f306);
+            int a = SplitIsland_packedLevel(node->fEA, world->f305);
+            int level = SplitIsland_strongerLevel(q, a);
+            if (level <= 5)
+                active.data[group] = 1;
+            totals.data[group] += SplitIsland_boundedWeight(1, (unsigned short)node->fB0);
+        }
+    }
+    else
+    {
+        for (int i = 0; i < nodes.cnt; ++i)
+        {
+            SplitIsland_Node2* node = (SplitIsland_Node2*)nodes.data[i];
+            int group = (*find.f00)[i];
+            active.data[group] = 1;
+            totals.data[group] += SplitIsland_boundedWeight(1, (unsigned short)node->fB0);
+        }
+    }
+    for (int i = 0; i < count; ++i)
+        if (!active.data[i])
+            totals.data[i] = -1;
+    int* map = active.data;
+    int outputs = 0;
+    if (count > 0)
+    {
+        for (int i = 0, *outMap = map; i < count; ++i, ++outMap)
+        {
+            int weight = totals.data[i];
+            if (weight == -2)
+                continue;
+            int group = outputs++;
+            flags.data[group] = 0;
+            *outMap = group;
+            if (weight < 0)
+                continue;
+            for (int j = i + 1; j < count; ++j)
+            {
+                if (weight + 10 >= world->fB4)
+                    break;
+                int next = totals.data[j];
+                if (next < 0)
+                    continue;
+                int sum = next + weight;
+                if (sum >= world->fB4)
+                    continue;
+                flags.data[group] = 1;
+                map[j] = group;
+                weight = sum;
+                totals.data[j] = -2;
+            }
+        }
+    }
+    reinterpret_cast<::fnv_00d282c0::IndexRemap *>(&(find))->RemapAndAccumulate((*(const ::fnv_00d282c0::hkArr *)((int*)&active.data)), outputs, (*(::fnv_00d282c0::hkArr *)(&sizes)));
+    active.SplitIsland_release();
+    totals.SplitIsland_release();
+}
+__forceinline void SplitIsland_classifyParts(SplitIsland_Arg1* world, SplitIsland_Obj38& find, SplitIsland_Vec48& nodes,
+                                             SplitIsland_L60& sizes, SplitIsland_StackBuffer<char>& flags)
+{
+    int count = sizes.f04;
+    SplitIsland_MapWord mark;
+    mark.SplitIsland_allocatePlain(count);
+    for (int i = 0; i < count; ++i)
+        mark.data[i] = 0;
+    for (int i = 0; i < nodes.cnt; ++i)
+    {
+        SplitIsland_Node2* node = (SplitIsland_Node2*)nodes.data[i];
+        int q = SplitIsland_packedLevel(node->fEC, world->f306);
+        int a = SplitIsland_packedLevel(node->fEA, world->f305);
+        if (SplitIsland_strongerLevel(q, a) <= 5)
+            mark.data[(*find.f00)[i]] = 1;
+    }
+    int* map = mark.data;
+    int outputs = 1;
+    flags.data[0] = (char)outputs;
+    for (int i = 0; i < count; ++i)
+    {
+        if (mark.data[i])
+            map[i] = 0;
+        else
+        {
+            map[i] = outputs;
+            flags.data[outputs] = 0;
+            ++outputs;
+        }
+    }
+    if (outputs > count)
+    {
+        flags.data[0] = 0;
+        mark.SplitIsland_release();
+    }
+    else
+    {
+        reinterpret_cast<::fnv_00d282c0::IndexRemap *>(&(find))->RemapAndAccumulate((*(const ::fnv_00d282c0::hkArr *)((int*)&mark.data)), outputs, (*(::fnv_00d282c0::hkArr *)(&sizes)));
+        mark.SplitIsland_release();
+    }
+}
+
+inline void SplitIsland_Sub30::SplitIsland_readTransfer(SplitIsland_H44& info) const
+{
+    info.f00 = f14;
+    info.f04 = f14;
+    info.f06 = f16;
+    info.f08 = f18;
+}
+inline void SplitIsland_Sub30::SplitIsland_debitTransfer(const SplitIsland_H44& info)
+{
+    f16 -= info.f06;
+    f18 -= info.f08;
+    f14 -= info.f04;
+}
+inline void SplitIsland_Arg0::SplitIsland_removeTransfer(SplitIsland_Target* constraint, SplitIsland_H44& info)
+{
+    if (constraint->f30)
+    {
+        unk0c -= info.f04;
+        unk10 -= info.f06;
+        unk14 -= info.f08;
+        constraint->f30->SplitIsland_debitTransfer(info);
+    }
+}
+inline void SplitIsland_Target::SplitIsland_assignOwner(SplitIsland_Arg0* p)
+{
+    SplitIsland_owner = p;
+}
+__forceinline void SplitIsland_Vec48::SplitIsland_appendNodeUnchecked(SplitIsland_Node2* const& value)
+{
+    int* destination = data + cnt;
+    __assume(destination != 0);
+    new (destination) int((int)value);
+    ++cnt;
+}
+// @fnv 0x00cb6060
+void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Vec* a2, void* a3)
+{
+    SplitIsland_L60 groups;
+    SplitIsland_Obj38 sel;
+    SplitIsland_CountedBuffer<int> cand(a0->f48v.cnt);
+    new ((void *)&(sel)) ::FUN_00d27f70((int **)(int *)((int*)&cand.data), a0->f48v.cnt);
+    if (((char)(reinterpret_cast<::S_00d074c0_Island *>((a0))->CheckConnectivity((*(::S_00d074c0_UnionFind *)(&sel))))))
+    {
+        a0->f25 &= 0xf3;
+        cand.SplitIsland_release();
+        return;
+    }
+    groups.f00 = groups.data;
+    groups.f04 = 0;
+    groups.f08 = 0x80000020;
+    reinterpret_cast<::IndexRemapper *>(&(sel))->RemapIndices((::IndexBuffer *)(::SplitIsland_L60 *)(&groups));
+    SplitIsland_StackBuffer<char> states(groups.f04, true);
+    if (a0->f25 & 0xc)
+    {
+        if (!!a1->fD5)
+        {
+            SplitIsland_classifyParts(a1, sel, a0->f48v, groups, states);
+            if (groups.f04 != 1)
+            {
+            }
+            else
+            {
+                {
+                    int released = (int)states.data;
+                    int* z = SplitIsland_cursor();
+                    *z = released;
+                }
+                int* aPtr = SplitIsland_cursor();
+                unsigned long origin;
+                SplitIsland_Alloc* ale = (SplitIsland_Alloc*)((SplitIsland_CursorObj*)aPtr)->alloc;
+                origin = groups.f08;
+                groups.f04 = 0;
+                if ((origin & 0x80000000) == 0)
+                {
+                    ale->FreeLike(groups.f00, (origin & 0x3fffffff) * 4);
+                }
+                groups.f00 = 0;
+                groups.f08 = (int)0x80000000;
+                cand.SplitIsland_release();
+                return;
+            }
+        }
+        else
+        {
+            SplitIsland_combineGroups(a1, sel, a0->f48v, groups, states);
+        }
+    }
+    else
+    {
+        if (!!a1->fB4)
+        {
+            SplitIsland_combineGroups(a1, sel, a0->f48v, groups, states);
+        }
+        else
+        {
+            ::FUN_00cb1280(states.data, 0, groups.f04 + 1);
+        }
+    }
+    int arrays;
+    arrays = reinterpret_cast<::S00d281b0_Target *>(&(sel))->MoveLargestToFirst((::S00d281b0_IntArray *)(::SplitIsland_L60 *)(&groups));
+    {
+        char* av = (char*)(int)states.data;
+        char r = av[0];
+        char first = av[arrays];
+        av[0] = first;
+        av[arrays] = r;
+        int kIter = *groups.f00;
+        int originalCount = a0->f48v.cnt;
+        long alV = groups.f04;
+        int* generation = SplitIsland_cursor();
+        if (alV == 1)
+        {
+            *generation = (int)states.data;
+            {
+                int* aPtr = SplitIsland_cursor();
+                unsigned long origin;
+                SplitIsland_Alloc* ale = (SplitIsland_Alloc*)((SplitIsland_CursorObj*)aPtr)->alloc;
+                origin = groups.f08;
+                groups.f04 = 0;
+                if ((origin & 0x80000000) == 0)
+                {
+                    ale->FreeLike(groups.f00, (origin & 0x3fffffff) * 4);
+                }
+                groups.f00 = 0;
+                groups.f08 = (int)0x80000000;
+                cand.SplitIsland_release();
+                return;
+            }
+        }
+        else
+        {
+            int tmp = *generation;
+            *generation = tmp + (((alV * 4) + 0x7f) & ~0x7f);
+            a0->groupState = av[0] != 0;
+            *(int*)tmp = (int)a0;
+            for (int i = 1; i < alV; i++)
+            {
+                int* firstElem = SplitIsland_cursor();
+                SplitIsland_AllocB* alL = (SplitIsland_AllocB*)((SplitIsland_CursorObj*)firstElem)->alloc;
+                SplitIsland_Arg0* no = (SplitIsland_Arg0*)alL->AllocSz(0x6c);
+                no->f04 = 0x6c;
+                no = ((::SplitIsland_Arg0 *)(new ((void *)(no)) ::FUN_00d07830((::hkpWorldQ *)(a1))));
+                no->type26 = 1;
+                no->pending26 = 0;
+                no->active26 = 1;
+                no->groupState = av[i] != 0;
+                no->unk20 = (short)a2->cnt;
+                ((SplitIsland_Vec48*)a2)->SplitIsland_append((int)no);
+                ((int*)tmp)[i] = (int)no;
+                no->f48v.SplitIsland_reserve(groups.f00[i]);
+            }
+            // cb68cc: reset a0 f48 vector, relink elements
+            {
+                int* c = a0->f48v.data;
+                int j = a0->f48v.cnt;
+                if ((bool)a3)
+                {
+                    reinterpret_cast<::FUN_00d9ec10_cls *>(&(a0->f48v))->SwapThreeInts((int *)((int)a3));
+                    a0->f48v.cnt = 0;
+                    int a = *groups.f00;
+                    a0->f48v.SplitIsland_reserve(a);
+                }
+                else
+                {
+                    a0->f48v.cnt = 0;
+                }
+
+                for (int k = 0; k < j; ++k)
+                {
+                    SplitIsland_Arg0* el = (SplitIsland_Arg0*)((int*)tmp)[cand.data[k]];
+                    SplitIsland_Node2* cpF = (SplitIsland_Node2*)c[k];
+                    cpF->fCC = (int)el;
+                    cpF->fA8 = (short)el->f48v.cnt;
+                    el->f48v.SplitIsland_appendNodeUnchecked(cpF);
+                    if (a0 != el)
+                    {
+                        SplitIsland_Sub30* y = (SplitIsland_Sub30*)cpF->fAC;
+                        for (int si = 0; si < (unsigned short)cpF->fB0; ++y, ++si)
+                        {
+                            SplitIsland_H44 h;
+                            y->SplitIsland_readTransfer(h);
+                            h.f00 = a0->unk08;
+                            --a0->unk1c;
+                            a0->SplitIsland_removeTransfer(y->f00, h);
+                            ++el->unk1c;
+                            y->f00->SplitIsland_owner = el;
+                            reinterpret_cast<::Stats *>((el))->AccumulateStats((::Holder *)(y->f00), (const int *)&(h));
+                        }
+                    }
+                }
+            }
+            {
+                // cb6a19: walk a0 f38 vector with temp small-vector
+                {
+                    int savedA1f20 = a1->f20;
+                    int* f38data;
+                    f38data = a0->f38v.data;
+                    long n = a0->f38v.cnt;
+                    a0->f38v.cnt = 0;
+                    for (int saved38B = 0; saved38B < n; saved38B++)
+                    {
+                        SplitIsland_Elem2* e2 = (SplitIsland_Elem2*)f38data[saved38B];
+                        if (e2 == 0)
+                            continue;
+                        int base;
+                        base = 0;
+                        {
+                            SplitIsland_TempEC members;
+                            members.f04 = 0;
+                            members.f00 = members.data;
+                            members.f08 = (int)0x80000010;
+                            e2->GetList(&members);
+                            for (int i = 0; i < members.f04; i++)
+                            {
+                                base = ((SplitIsland_Node2*)members.f00[i])->fCC;
+                                if (base != savedA1f20)
+                                    break;
+                            }
+                            int* SplitIsland_val;
+                            SplitIsland_val = SplitIsland_cursor();
+                            SplitIsland_Alloc* deallocate =
+                                (SplitIsland_Alloc*)((SplitIsland_CursorObj*)SplitIsland_val)->alloc;
+                            unsigned int ptr = members.f08;
+                            members.f04 = 0;
+                            if ((ptr & 0x80000000) == 0)
+                            {
+                                deallocate->FreeLike(members.f00, (ptr & 0x3fffffff) * 4);
+                            }
+                            members.f00 = 0;
+                            members.f08 = (int)0x80000000;
+                        }
+                        e2->f0c = base;
+                        SplitIsland_Arg0* head = (SplitIsland_Arg0*)base;
+                        head->f38v.SplitIsland_append((int)e2);
+                    }
+                    reinterpret_cast<::FUN_00c911f0_Class *>((a1))->FUN_00c911f0(a0);
+                }
+                // cb6b6a / cb6c2d: walk a0 ox vec at +0x5c
+                if (((originalCount - kIter) * 8) < originalCount)
+                {
+                    SplitIsland_Head58* ox = (SplitIsland_Head58*)&a0->f58;
+                    for (int saved38B = 0; saved38B < ox->vec.cnt; saved38B++)
+                    {
+                        char* elem = (char*)ox->vec.data[saved38B];
+                        char* len;
+                        len = elem + ((FUN_00cb7460_class*)ox)->FUN_00cb7460(saved38B);
+                        char* s = elem;
+                        while (s < len)
+                        {
+                            int buf18 = (int)((SplitIsland_StreamRecord*)s)->link10->SplitIsland_owner();
+                            if (((SplitIsland_Arg0*)buf18)->unk20 == 0xffff)
+                            {
+                                buf18 = (int)((SplitIsland_StreamRecord*)s)->link14->SplitIsland_owner();
+                            }
+                            if (buf18 == (int)a0)
+                            {
+                                s += ((SplitIsland_StreamRecord*)s)->size;
+                            }
+                            else
+                            {
+                                int b = s - elem;
+                                ::fnv_00cfeca0::CloneRecord((::fnv_00cfeca0::State *)(int *)(&((SplitIsland_Arg0*)buf18)->f58), (const ::fnv_00cfeca0::Record *)(s));
+                                ::FUN_00cfe020((::S_cfe020_Pool *)(ox), (::S_cfe020_Entry *)(s));
+                                if (saved38B >= ox->vec.cnt)
+                                    break;
+                                elem = (char*)ox->vec.data[saved38B];
+                                s = elem + b;
+                            }
+                            len = elem + ((FUN_00cb7460_class*)ox)->FUN_00cb7460(saved38B);
+                        }
+                    }
+                }
+                else
+                {
+                    SplitIsland_Head58 idx;
+                    idx.vec.data = &idx.inlineBuf;
+                    idx.vec.cnt = 0;
+                    idx.vec.cap = (int)0x80000001;
+                    idx.hdr = 0x200;
+                    if (a0->v5c.cnt == 1)
+                    {
+                        idx.vec.SplitIsland_appendUnchecked(a0->v5c.data[0]);
+                        a0->v5c.cnt = 0;
+                    }
+                    else if (a0->v5c.cnt > 1)
+                    {
+                        idx.vec.SplitIsland_reserve(2);
+                        reinterpret_cast<::FUN_00d9ec10_cls *>(&(idx.vec))->SwapThreeInts((int *)((int)&a0->v5c));
+                    }
+                    {
+                        long cpV = idx.hdr;
+                        idx.hdr = a0->f58;
+                        a0->f58 = cpV;
+                    }
+                    for (int saved38B = 0; saved38B < idx.vec.cnt; saved38B++)
+                    {
+                        int span = 0;
+                        unsigned int elem = idx.vec.data[saved38B];
+                        char* s = (char*)elem;
+                        span = (saved38B + 1 == idx.vec.cnt) ? idx.hdr : 0x200;
+                        char* endp = (char*)(span + elem);
+                        while (s < endp)
+                        {
+                            int buf18 = (int)((SplitIsland_StreamRecord*)s)->link10->SplitIsland_owner();
+                            if (((SplitIsland_Arg0*)buf18)->unk20 == 0xffff)
+                            {
+                                buf18 = (int)((SplitIsland_StreamRecord*)s)->link14->SplitIsland_owner();
+                            }
+                            ::fnv_00cfeca0::CloneRecord((::fnv_00cfeca0::State *)(int *)(&((SplitIsland_Arg0*)buf18)->f58), (const ::fnv_00cfeca0::Record *)(s));
+                            s += ((SplitIsland_StreamRecord*)s)->size;
+                        }
+                        int* t2 = SplitIsland_cursor();
+                        SplitIsland_Alloc* cntL = (SplitIsland_Alloc*)((SplitIsland_CursorObj*)t2)->alloc;
+                        cntL->V08((void*)elem, 0x200);
+                    }
+                    idx.vec.cnt = 0;
+                    {
+                        int* cpL = SplitIsland_cursor();
+                        SplitIsland_Alloc* ala = (SplitIsland_Alloc*)((SplitIsland_CursorObj*)cpL)->alloc;
+                        int pForm = idx.vec.cap;
+                        idx.vec.cnt = 0;
+                        if ((pForm & 0x80000000) == 0)
+                        {
+                            ala->FreeLike(idx.vec.data, (pForm & 0x3fffffff) * 4);
+                        }
+                    }
+                }
+                // cb6d6d: c91230 + pow2-spread grow on a0 vec5c
+                reinterpret_cast<::FUN_00c91230_World *>((a1))->FUN_00c91230(a0);
+                a0->v5c.SplitIsland_compact();
+                // cb6dee: final byte-accumulate loop over SplitIsland_cursor array
+                for (int i = 1; i < alV; i++)
+                {
+                    char cp3 = a0->unk24;
+                    SplitIsland_Arg0* z = (SplitIsland_Arg0*)((int*)tmp)[i];
+                    cp3 += i;
+                    z->unk24 = cp3;
+                }
+                {
+                    int released = tmp;
+                    int* z = SplitIsland_cursor();
+                    *z = released;
+                }
+            }
+        }
+    }
+cleanup: {
+    int released = (int)states.data;
+    int* z = SplitIsland_cursor();
+    *z = released;
+}
+obj:
+    int* aPtr = SplitIsland_cursor();
+    unsigned long origin;
+    SplitIsland_Alloc* ale = (SplitIsland_Alloc*)((SplitIsland_CursorObj*)aPtr)->alloc;
+    origin = groups.f08;
+    groups.f04 = 0;
+    if ((origin & 0x80000000) == 0)
+    {
+        ale->FreeLike(groups.f00, (origin & 0x3fffffff) * 4);
+    }
+    groups.f00 = 0;
+    groups.f08 = (int)0x80000000;
+    cand.SplitIsland_release();
+}
+
+__forceinline int SplitIsland_largerContribution(int a, int b)
+{
+    return a > b ? a : b;
+}
+inline void SplitIsland_Arg0::AccumulateStats(SplitIsland_Target* constraint, SplitIsland_H44& info)
+{
+    if (constraint->f30)
+    {
+        unk08 = SplitIsland_largerContribution(unk08, info.f00);
+        unk08 = SplitIsland_largerContribution(unk08, info.f04);
+        unk0c += info.f04;
+        unk10 += info.f06;
+        unk14 += info.f08;
+        SplitIsland_Sub30* rec = constraint->f30;
+        const unsigned int r = rec->f16 + info.f06;
+        const unsigned int t = rec->f18 + info.f08;
+        const unsigned int b = rec->f14 + info.f04;
+        rec->f16 = (unsigned short)r;
+        rec->f18 = (unsigned short)t;
+        rec->f14 = (unsigned short)b;
+        unk08 = SplitIsland_largerContribution(unk08, (int)constraint->f30->f14);
+    }
+}
 #include "generated/data/havok/physics/dynamics/world/util/hkpworldoperationutil.inc"

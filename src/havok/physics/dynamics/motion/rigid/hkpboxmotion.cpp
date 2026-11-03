@@ -683,3 +683,163 @@ void hkpSphereMotionD1E6F::FUN_00d1e6f0(hkMatrix3D1E6F& kInertiaInv) const
     _mm_store_ps(afInertia, _mm_max_ps(_mm_load_ps1(&DAT_0104da4c), m));
     kInertiaInv.setDiagonal(1.0f / afInertia[0], 1.0f / afInertia[1], 1.0f / afInertia[2]);
 }
+
+// Moved from hkpboxmotion_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/MatrixProduct.h"
+
+
+struct __declspec(align(16)) Vector4D1E850
+{
+    float x;
+    float y;
+    float z;
+    float w;
+    __m128& Vector4f()
+    {
+        return *reinterpret_cast<__m128*>(this);
+    }
+    const __m128& Vector4f() const
+    {
+        return *reinterpret_cast<const __m128*>(this);
+    }
+};
+struct RotationD1E850
+{
+    Vector4D1E850 m_kColumn0;
+    Vector4D1E850 m_kColumn1;
+    Vector4D1E850 m_kColumn2;
+};
+struct PairOutD1E850
+{
+};
+struct ShapeD1E850 : hkpBoxMotion
+{
+    void FUN_00d1e850(int pkOutRaw);
+};
+
+static const __m128& QuadD1E850(const hkVector4& value)
+{
+    return *reinterpret_cast<const __m128*>(&value);
+}
+
+// @fnv 0x00d1e850
+void ShapeD1E850::FUN_00d1e850(int pkOutRaw)
+{
+    RotationD1E850 kScaled;
+    kScaled.m_kColumn0.Vector4f() =
+        _mm_mul_ps(_mm_shuffle_ps(QuadD1E850(m_kInertiaAndMassInv), QuadD1E850(m_kInertiaAndMassInv), 0x00),
+                   QuadD1E850(m_kMotionState.m_kMotionTransform.m_rotation.m_kColumn0));
+    kScaled.m_kColumn1.Vector4f() =
+        _mm_mul_ps(_mm_shuffle_ps(QuadD1E850(m_kInertiaAndMassInv), QuadD1E850(m_kInertiaAndMassInv), 0x55),
+                   QuadD1E850(m_kMotionState.m_kMotionTransform.m_rotation.m_kColumn1));
+    kScaled.m_kColumn2.Vector4f() =
+        _mm_mul_ps(_mm_shuffle_ps(QuadD1E850(m_kInertiaAndMassInv), QuadD1E850(m_kInertiaAndMassInv), 0xaa),
+                   QuadD1E850(m_kMotionState.m_kMotionTransform.m_rotation.m_kColumn2));
+    reinterpret_cast<::MatrixProduct *>(((reinterpret_cast<PairOutD1E850*>(*(volatile int*)&pkOutRaw))))->FUN_00cd5610((*(const ::hkMatrix3CD4B *)(&kScaled)), (*(const ::CD4BA0Matrix3 *)(&m_kMotionState.m_kMotionTransform.m_rotation.m_kColumn0)));
+}
+
+// Moved from hkpboxmotion_rtm_variant.cpp (VEGAS-15).
+#include "fnv/symbols_01012000.h"
+
+
+class FUN_00d1e970_cls
+{
+  public:
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20(hkVector4& out, int arg3);
+    void FUN_00d1e970(float s, const hkVector4& v, int arg3);
+};
+
+// @fnv 0x00d1e970
+void FUN_00d1e970_cls::FUN_00d1e970(float s, const hkVector4& v, int arg3)
+{
+    __declspec(align(16)) hkVector4 t;
+    __m128 x = _mm_load_ss(&s);
+    __m128 k = _mm_shuffle_ps(x, x, 0);
+    __m128 r = _mm_mul_ps(k, _mm_load_ps(&v.x));
+    _mm_store_ps(&t.x, r);
+    this->v20(t, arg3);
+}
+
+
+struct FUN_00d1e9b0_cls
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21(float* pOut);
+    void FUN_00d1e9b0(float f, float* v);
+};
+
+// @fnv 0x00d1e9b0
+void FUN_00d1e9b0_cls::FUN_00d1e9b0(float f, float* v)
+{
+    __declspec(align(16)) float out[4];
+    float* pOut = out;
+    __m128 splat = _mm_shuffle_ps(_mm_load_ss(&f), _mm_load_ss(&f), 0);
+    __m128 vec = _mm_load_ps(v);
+    *(__m128*)pOut = _mm_mul_ps(splat, vec);
+    v21(pOut);
+}
+
+
+extern "C" void _ReadWriteBarrier();
+class BoxMotionCandidate : public hkpBoxMotion
+{
+  public:
+    void FUN_00d1e920(float amount, const hkVector4* direction);
+};
+// @fnv 0x00d1e920
+void BoxMotionCandidate::FUN_00d1e920(float amount, const hkVector4* direction)
+{
+    __m128 a = _mm_load_ss(&amount);
+    a = _mm_shuffle_ps(a, a, 0);
+    _ReadWriteBarrier();
+    __m128 d = _mm_load_ps(&direction->x);
+    __m128 p = _mm_mul_ps(a, d);
+    _ReadWriteBarrier();
+    __m128 m = *(const __m128*)&m_kInertiaAndMassInv;
+    __m128 w = _mm_shuffle_ps(m, m, 255);
+    __m128 b = _mm_shuffle_ps(w, w, 0);
+    __m128 r = _mm_mul_ps(b, p);
+    __m128 v = *(const __m128*)&m_kTranslationalVelocity;
+    r = _mm_add_ps(r, v);
+    *(__m128*)&m_kTranslationalVelocity = r;
+}

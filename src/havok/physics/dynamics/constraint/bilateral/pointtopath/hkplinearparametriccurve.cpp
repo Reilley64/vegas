@@ -118,6 +118,16 @@ struct hkVector4E474
         const __m128 kOneMinusT = _mm_sub_ps(DAT_010ec7f0, t.m_vValue);
         m_vComponents = _mm_add_ps(_mm_mul_ps(kOneMinusT, a.m_vComponents), _mm_mul_ps(b.m_vComponents, t.m_vValue));
     }
+public:
+    void operator=(const hkVector4E474& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+    void setInterpolate4(const hkVector4E474& a, const hkVector4E474& b, const hkSimdRealE474& t)
+    {
+        const __m128 kOneMinusT = _mm_sub_ps(::DAT_010ec7f0, t.m_vValue);
+        m_vComponents = _mm_add_ps(_mm_mul_ps(kOneMinusT, a.m_vComponents), _mm_mul_ps(b.m_vComponents, t.m_vValue));
+    }
 };
 
 template <class T> struct hkArrayE474
@@ -827,4 +837,111 @@ void LinearCurve::FUN_00e47cb0(hkReal t, hkVector4& up) const
     hkNormalize3(out);
 }
 
+// Moved from hkplinearparametriccurve_rtm_variant.cpp (VEGAS-15).
+#include "fnv/decl/fnv_00e48030__FUN_00e48030.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01011000.h"
+float __cdecl GetZeroFloat();
+#include "fnv/symbols_simd.h"
+
+
+
+struct S00e47e80_hkMemoryRouterE47E
+{
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
+    void* m_pStreamAllocator;
+};
+
+struct __declspec(align(16)) hkVector4E47E
+{
+    float x, y, z, w;
+    const __m128& getQuad() const
+    {
+        return *(const __m128*)&x;
+    }
+    __m128& getQuad()
+    {
+        return *(__m128*)&x;
+    }
+    void operator=(const hkVector4E47E& v)
+    {
+        getQuad() = v.getQuad();
+    }
+};
+
+template <class T> struct S00e47e80_hkArrayE47E
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    T& operator[](int i)
+    {
+        return m_data[i];
+    }
+    const T& operator[](int i) const
+    {
+        return m_data[i];
+    }
+
+    __forceinline T* _pushBack(void* pvAllocator, const T& t)
+    {
+        if (m_iElementCount == getCapacity())
+            ::ResizeAudioStream((::AudioAllocator *)(pvAllocator), (::AudioStream *)(void *)(this), sizeof(T));
+        T* p = &m_data[m_iElementCount];
+        *p = t;
+        m_iElementCount++;
+        return p;
+    }
+    __forceinline T* AddBack(const T& t)
+    {
+        S00e47e80_hkMemoryRouterE47E* pkRouter = (S00e47e80_hkMemoryRouterE47E*)FUN_00c85750();
+        return _pushBack(pkRouter->m_pStreamAllocator, t);
+    }
+};
+
+class S00e47e80_hkpLinearParametricCurveE47E
+{
+  public:
+    void* m_ppVirtualMethodTable;
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+    float m_fSmoothingValue;
+    char m_bClosedLoop;
+    hkVector4E47E m_kVector4;
+    S00e47e80_hkArrayE47E<hkVector4E47E> m_kPoints;
+    S00e47e80_hkArrayE47E<float> m_fClosestPointDistanceSquared;
+
+    float* FUN_00e47e80(const hkVector4E47E& kPoint) throw();
+};
+
+// @fnv 0x00e47e80
+float* S00e47e80_hkpLinearParametricCurveE47E::FUN_00e47e80(const hkVector4E47E& kPoint) throw()
+{
+    m_kPoints.AddBack(kPoint);
+    if (m_kPoints.GetLogicalSize() == 1)
+        return m_fClosestPointDistanceSquared.AddBack(0.0f);
+
+    hkVector4E47E kPrev = m_kPoints[m_kPoints.GetLogicalSize() - 2];
+    __m128 kDiff = _mm_sub_ps(kPoint.getQuad(), kPrev.getQuad());
+    __m128 kSq = _mm_mul_ps(kDiff, kDiff);
+    __m128 kSum = _mm_add_ss(_mm_shuffle_ps(kSq, kSq, 0xaa), _mm_add_ss(_mm_shuffle_ps(kSq, kSq, 0x55), kSq));
+    __m128 kLen =
+        _mm_add_ss(_mm_sqrt_ss(kSum),
+                   _mm_load_ss(&m_fClosestPointDistanceSquared[m_fClosestPointDistanceSquared.GetLogicalSize() - 1]));
+    float fDist;
+    _mm_store_ss(&fDist, kLen);
+    return m_fClosestPointDistanceSquared.AddBack(fDist);
+}
 #include "generated/data/havok/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.inc"

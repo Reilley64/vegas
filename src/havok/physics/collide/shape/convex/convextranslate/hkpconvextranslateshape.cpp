@@ -380,3 +380,313 @@ void FNV_dd6060_Class::FUN_00dd6060(const hkRotation* rotation, float distance, 
 
     output[1] = _mm_add_ps(output[1], moved);
 }
+
+// Moved from hkpconvextranslateshape_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+struct FUN_00dd5eb0_Sub
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual float v0C(__m128* a);
+};
+struct FUN_00dd5eb0_cls
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    FUN_00dd5eb0_Sub* m_18;
+    int unk1C;
+    __m128 unk20;
+    float FUN_00dd5eb0(__m128* a);
+};
+// @fnv 0x00dd5eb0
+float FUN_00dd5eb0_cls::FUN_00dd5eb0(__m128* a)
+{
+    float d = m_18->v0C(a);
+    __m128 m = _mm_mul_ps(*a, unk20);
+    __m128 sum = _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m));
+    float dot;
+    _mm_store_ss(&dot, sum);
+    d += dot;
+    return d;
+}
+
+struct Sub_dd5f10
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0C();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1C();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2C();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38(float* a, float* b);
+};
+
+struct Own_dd5f10
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    Sub_dd5f10* m_sub;
+    int unk1C;
+    __m128 m_trans;
+    void FUN_00dd5f10(float* a, float* b);
+};
+// @fnv 0x00dd5f10
+void Own_dd5f10::FUN_00dd5f10(float* a, float* b)
+{
+    Sub_dd5f10* s = m_sub;
+    s->v38(a, b);
+    __m128* pb = (__m128*)b;
+    *pb = _mm_add_ps(m_trans, *pb);
+}
+
+struct __declspec(align(16)) hkVector4DD60
+{
+    __m128 m_vComponents;
+    void setAdd4(const hkVector4DD60& a, const hkVector4DD60& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+};
+
+class hkpConvexVerticesShapeDD60
+{
+  public:
+    virtual void V0() throw();
+    virtual void V1() throw();
+    virtual void V2() throw();
+    virtual void V3() throw();
+    virtual void V4() throw();
+    virtual void V5() throw();
+    virtual void V6() throw();
+    virtual void V7() throw();
+    virtual void V8() throw();
+    virtual void V9() throw();
+    virtual void V10() throw();
+    virtual int getNumVertices() const throw();
+    virtual const hkVector4DD60* GetIndexedVertices(hkVector4DD60* pBuffer) const throw();
+};
+
+class hkpTranslateShapeDD60
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    const hkpConvexVerticesShapeDD60* m_pContainedShape;
+    int unk1C;
+    hkVector4DD60 m_vTranslation;
+
+    hkVector4DD60* FUN_00dd6000(hkVector4DD60* pBuffer) const;
+};
+
+// @fnv 0x00dd6000
+hkVector4DD60* hkpTranslateShapeDD60::FUN_00dd6000(hkVector4DD60* pBuffer) const
+{
+    hkVector4DD60* pDst = pBuffer;
+    const hkVector4DD60* m_pkDeltas = m_pContainedShape->GetIndexedVertices(pDst);
+    int iEntryIndex = m_pContainedShape->getNumVertices();
+    for (int i = 0; i < iEntryIndex; ++i)
+    {
+        pDst->setAdd4(*m_pkDeltas, m_vTranslation);
+        ++m_pkDeltas;
+        ++pDst;
+    }
+    return pBuffer;
+}
+
+#include <string.h>
+struct __declspec(align(16)) MyVec
+{
+    union
+    {
+        __m128 quad;
+        struct
+        {
+            float x, y, z, w;
+        };
+    };
+};
+
+struct __declspec(align(16)) MyTransform
+{
+    MyVec col0;
+    MyVec col1;
+    MyVec col2;
+    MyVec col3;
+};
+
+struct LocalCdBody
+{
+    MyTransform m_kMotionTransform;
+    void FUN_00cb2240(const void*, const MyTransform*);
+};
+
+struct Context2
+{
+    void* m_pContainedShape;
+    int m_zero;
+    const void* m_localBody;
+    const Context2* m_parentContext;
+};
+
+struct ChildShape
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24(MyVec* vectors, const Context2* c2, int value);
+};
+
+struct Dummy
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    ChildShape* m_pContainedShape;
+    MyVec m_vTranslation;
+
+    void FUN_00dd61b0(const MyVec* points, const Context2* context, int value);
+};
+
+// @fnv 0x00dd61b0
+void Dummy::FUN_00dd61b0(const MyVec* points, const Context2* context, int value)
+{
+    __m128 p1 = m_vTranslation.quad;
+    __m128 s = _mm_sub_ps(points[0].quad, p1);
+
+    MyVec localBody[3];
+    memcpy(localBody, points, 48);
+
+    const void* motion = context->m_localBody;
+
+    localBody[0].quad = s;
+    __m128 t = _mm_sub_ps(points[1].quad, p1);
+
+    MyTransform c;
+    localBody[1].quad = t;
+
+    c.col0.quad = _mm_setzero_ps();
+    c.col0.x = 1.0f;
+    c.col1.quad = _mm_setzero_ps();
+    c.col1.y = 1.0f;
+    c.col2.quad = _mm_setzero_ps();
+    c.col3.quad = p1;
+    c.col2.z = 1.0f;
+
+    LocalCdBody r;
+    r.FUN_00cb2240(motion, &c);
+
+    Context2 trans;
+    trans.m_localBody = &r;
+    trans.m_parentContext = context;
+    trans.m_pContainedShape = m_pContainedShape;
+    trans.m_zero = 0;
+
+    m_pContainedShape->v24(localBody, &trans, value);
+}
+
+// Moved from hkpconvextranslateshape_gs_nogs_variant.cpp (VEGAS-15).
+struct FUN_00dd5fa0_VTable
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0C();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1C();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2C();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3C();
+    virtual void v40();
+    virtual void v44(void* value);
+};
+
+struct FUN_00dd5fa0_Object
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    FUN_00dd5fa0_VTable* m_sub;
+    __m128 m_vTranslation;
+
+    void FUN_00dd5fa0(__m128* value);
+};
+
+// @fnv 0x00dd5fa0
+void FUN_00dd5fa0_Object::FUN_00dd5fa0(__m128* value)
+{
+    m_sub->v44(value);
+    *value = _mm_add_ps(m_vTranslation, *value);
+}
+
+struct Child_dd5fd0
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0C();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1C();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2C();
+    virtual void v30();
+    virtual void v34(hkVector4* v);
+};
+
+struct Struct_dd5fd0 : public hkpConvexTranslateShape
+{
+    void FUN_00dd5fd0(hkVector4* v);
+};
+
+// @fnv 0x00dd5fd0
+void Struct_dd5fd0::FUN_00dd5fd0(hkVector4* v)
+{
+    Child_dd5fd0* child = (Child_dd5fd0*)m_pContainedShape.m_pContainedShape;
+    child->v34(v);
+
+    __m128 translation = *(__m128*)&m_vTranslation;
+    __m128 value = *(__m128*)v;
+    *(__m128*)v = _mm_add_ps(translation, value);
+}

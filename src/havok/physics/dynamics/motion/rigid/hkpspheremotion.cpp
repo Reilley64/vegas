@@ -426,3 +426,173 @@ void TestMotion::FUN_00d1e390(hkMatrix3& inertiaInvOut)
     inertiaInvOut.m_kColumn1.y = val;
     inertiaInvOut.m_kColumn2.z = val;
 }
+
+// Moved from hkpspheremotion_gs_nogs_variant.cpp (VEGAS-15).
+
+struct C
+{
+    char pad[0xc0];
+    float m_vScale;
+    void FUN_00d1e230(float* out);
+};
+// @fnv 0x00d1e230
+void C::FUN_00d1e230(float* out)
+{
+    float t = m_vScale;
+    float s;
+    if (::DAT_010c9300 > t)
+        s = ::DAT_0104da4c;
+    else
+        s = t;
+    float inv = 1.0f / s;
+    __m128 zero = _mm_setzero_ps();
+    _mm_store_ps(out, zero);
+    _mm_store_ps(out + 4, zero);
+    _mm_store_ps(out + 8, zero);
+    out[0] = inv;
+    out[5] = inv;
+    out[10] = inv;
+}
+
+// Moved from hkpspheremotion_rtm_variant.cpp (VEGAS-15).
+
+
+struct hkSimdRealD1E5
+{
+    __m128 m_vValue;
+
+    hkSimdRealD1E5(const float& f) : m_vValue(_mm_shuffle_ps(_mm_load_ss(&f), _mm_load_ss(&f), 0))
+    {}
+};
+
+struct hkVector4D1E5
+{
+    __m128 m_vComponents;
+
+    void setMul4(const hkSimdRealD1E5& s, const hkVector4D1E5& b)
+    {
+        m_vComponents = _mm_mul_ps(s.m_vValue, b.m_vComponents);
+    }
+};
+
+class hkpMotionD1E5
+{
+  public:
+    virtual ~hkpMotionD1E5() throw();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0C();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1C();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2C();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3C();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4C();
+    virtual void v50();
+    virtual void SetCollisionShape(const hkVector4D1E5& kImpulse);
+
+    void FUN_00d1e560(float fMoveElapsedTime, const hkVector4D1E5& kForce);
+};
+
+// @fnv 0x00d1e560
+void hkpMotionD1E5::FUN_00d1e560(float fMoveElapsedTime, const hkVector4D1E5& kForce)
+{
+    hkVector4D1E5 kImpulse;
+    kImpulse.setMul4(fMoveElapsedTime, kForce);
+    SetCollisionShape(kImpulse);
+}
+
+// Moved from hkpspheremotion_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
+
+extern "C" void _ReadWriteBarrier();
+struct ScalarE4
+{
+    __m128 value;
+    ScalarE4(float f) : value(_mm_load_ss(&f))
+    {}
+    ScalarE4(const __m128& v) : value(v)
+    {}
+    __m128 splat() const
+    {
+        return _mm_shuffle_ps(value, value, 0);
+    }
+};
+struct VectorE4
+{
+    __m128 value;
+    void scale(const ScalarE4& s, const VectorE4& v)
+    {
+        value = _mm_mul_ps(s.splat(), v.value);
+    }
+    void add(const VectorE4& v)
+    {
+        value = _mm_add_ps(value, v.value);
+    }
+};
+struct SphereE4 : hkpSphereMotion
+{
+    void FUN_00d1e4d0(float dt, const VectorE4& force);
+    void impulse(const VectorE4& v)
+    {
+        VectorE4 change;
+        __m128 mass = _mm_load_ps(&m_kInertiaAndMassInv.x);
+        change.scale(ScalarE4(_mm_shuffle_ps(mass, mass, 255)), v);
+        ((VectorE4&)m_kTranslationalVelocity).add(change);
+    }
+};
+// @fnv 0x00d1e4d0
+void SphereE4::FUN_00d1e4d0(float dt, const VectorE4& force)
+{
+    VectorE4 v;
+    ScalarE4 time(dt);
+    _ReadWriteBarrier();
+    v.scale(time, force);
+    _ReadWriteBarrier();
+    impulse(v);
+}
+
+
+struct FUN_00d1e520_cls
+{
+    virtual void vf00();
+    virtual void vf01();
+    virtual void vf02();
+    virtual void vf03();
+    virtual void vf04();
+    virtual void vf05();
+    virtual void vf06();
+    virtual void vf07();
+    virtual void vf08();
+    virtual void vf09();
+    virtual void vf0a();
+    virtual void vf0b();
+    virtual void vf0c();
+    virtual void vf0d();
+    virtual void vf0e();
+    virtual void vf0f();
+    virtual void vf10();
+    virtual void vf11();
+    virtual void vf12();
+    virtual void vf13();
+    virtual void Dispatch(const __m128& t, int b);
+    void FUN_00d1e520(float f, const __m128* a, int b);
+};
+
+// @fnv 0x00d1e520
+void FUN_00d1e520_cls::FUN_00d1e520(float f, const __m128* a, int b)
+{
+    __m128 s = _mm_load_ss(&f);
+    __m128 bc = _mm_shuffle_ps(s, s, 0);
+    __m128 t = _mm_mul_ps(bc, *a);
+    Dispatch(t, b);
+}

@@ -494,4 +494,527 @@ void IslandWorldRemoval::FUN_00d64a20(S_Elem2* world)
     reinterpret_cast<::SearchArray *>((world))->ClearValue((int)(static_cast<hkListenerD64A*>(this)));
 }
 
+// Moved from hkpsimulationislandviewer_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/FnvCpu_FUN_00de1170_CpuObject.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_010c4000.h"
+int __cdecl FUN_00d651e0();
+void FUN_00d651c0();
+
+#include <xmmintrin.h>
+#include <windows.h>
+inline void* operator new(size_t, void* p)
+{
+    return p;
+}
+
+extern "C" void _ReadWriteBarrier(void);
+unsigned __int64 __cdecl __rdtsc(void);
+
+struct TraceRecord
+{
+    const char* m_pTag;
+    DWORD m_dwTime;
+    DWORD unk08;
+};
+struct TraceBuffer
+{
+    DWORD unk00;
+    TraceRecord* m_pCurrent;
+    DWORD unk08;
+    TraceRecord* m_pRecordEnd;
+};
+
+struct Count
+{
+    int value;
+    Count(int n) : value(n)
+    {}
+    ~Count()
+    {}
+    operator int() const
+    {
+        return value;
+    }
+    int operator--()
+    {
+        return --value;
+    }
+};
+struct Vec;
+struct DeallocCtx
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4(void* pData, int iSize);
+    __forceinline void Grow(Vec* v, int need, int elemSize);
+};
+
+struct Singleton
+{
+    int m_00;
+    int m_04;
+    int m_08;
+    DeallocCtx* m_0c;
+    DeallocCtx* m_10;
+};
+
+struct Vec
+{
+    void* m_pData;
+    int m_iArrayLength;
+    int m_iCapacity;
+};
+
+__forceinline void DeallocCtx::Grow(Vec* v, int need, int elemSize)
+{
+    _ReadWriteBarrier();
+    int cap = v->m_iCapacity & 0x3fffffff;
+    if (cap < need)
+    {
+        int g = cap + cap;
+        if (need >= g)
+            g = need;
+        ::FUN_00c908c0((::SpawnedObject *)this, (::SpawnedArray *)(v), g, elemSize);
+    }
+}
+inline void GrowVec10(Vec* v, int need, int elemSize)
+{
+    Singleton* router = (Singleton*)FUN_00c85750();
+    DeallocCtx* ctx = router->m_10;
+    _ReadWriteBarrier();
+    ctx->Grow(v, need, elemSize);
+}
+inline void GrowVec0c(Vec* v, int need, int elemSize)
+{
+    Singleton* router = (Singleton*)FUN_00c85750();
+    DeallocCtx* ctx = router->m_0c;
+    _ReadWriteBarrier();
+    ctx->Grow(v, need, elemSize);
+}
+
+struct Vec4
+{
+    union
+    {
+        __m128 v;
+        float elements[4];
+    };
+};
+
+struct FUN_00de1210
+{
+    virtual ~FUN_00de1210();
+    FUN_00de1210();
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+};
+
+typedef FUN_00de1210 Elem;
+
+__forceinline void ConstructRange(Elem* first, int total)
+{
+    for (int n = 0; n < total; ++n)
+    {
+        if (first + n)
+            new (first + n) Elem;
+    }
+}
+
+struct Cont
+{
+    Elem* m_pData;
+    int m_iArrayLength;
+    int m_iCapacity;
+    __forceinline void Resize(int need);
+};
+
+__forceinline void Cont::Resize(int need)
+{
+    Cont* cont = this;
+    GrowVec10((Vec*)cont, need, 0x80);
+    int n = cont->m_iArrayLength - need;
+    Elem* e = cont->m_pData + need;
+    for (int k = 0; k < n; ++k)
+    {
+        e->~Elem();
+        ++e;
+    }
+    ConstructRange(cont->m_pData + cont->m_iArrayLength, need - cont->m_iArrayLength);
+    cont->m_iArrayLength = need;
+}
+
+struct VecI
+{
+    int* m_pData;
+    int m_iArrayLength;
+    int m_iCapacity;
+};
+
+struct Elem20
+{
+    Vec4 m_ucLowNibble;
+    Vec4 m_ucHighNibble;
+};
+struct Vec20
+{
+    Elem20* m_pData;
+    int m_iArrayLength;
+    int m_iCapacity;
+};
+
+struct Obj58
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15(void* pElem, void* pOut);
+};
+
+struct ItemHeader;
+struct Src
+{
+    ItemHeader** m_pItems;
+    int m_iArrayLength;
+};
+
+struct SrcOwner
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    Src items;
+};
+
+struct WorldList
+{
+    SrcOwner** data;
+    int count;
+    int capacity;
+    __forceinline int size() const
+    {
+        return count;
+    }
+    __forceinline SrcOwner*& operator[](int i) const
+    {
+        return data[i];
+    }
+};
+
+struct Param
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    WorldList active;
+    WorldList inactive;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    Obj58* m_58;
+    __forceinline const WorldList& Active() const
+    {
+        return active;
+    }
+    __forceinline const WorldList& Inactive() const
+    {
+        return inactive;
+    }
+    __forceinline Obj58* Helper() const
+    {
+        return m_58;
+    }
+};
+
+struct EmitObj
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14(VecI* pVec, int iColor, int iZero, int iGlob);
+};
+
+struct Parent
+{
+    EmitObj* m_00;
+    int unk04, unk08, unk0c;
+};
+
+struct Item
+{
+    int m_00;
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+};
+
+struct ItemHeader
+{
+    int unk00, unk04, unk08, unk0c;
+    Item item;
+};
+
+struct OutPair
+{
+    Vec4 m_ucLowNibble;
+    Vec4 m_ucHighNibble;
+};
+
+struct ParentObject;
+struct ParamArg
+{
+    Param* volatile p;
+    ParamArg(Param* arg) : p(arg)
+    {}
+    ~ParamArg()
+    {}
+};
+
+struct ThisCls
+{
+    int m_00;
+    char m_04;
+    char m_05;
+    unsigned short unk06;
+    Cont m_contB;
+    Cont m_contA;
+    void FUN_00d64c00(Param* pParam);
+};
+
+struct ParentObject : Parent, ThisCls
+{
+};
+
+// @fnv 0x00d64c00
+void ThisCls::FUN_00d64c00(Param* pParam)
+{
+    TraceBuffer* pForm = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+    if (pForm->m_pCurrent < pForm->m_pRecordEnd)
+    {
+        TraceRecord* acc = pForm->m_pCurrent;
+        acc->m_pTag = "TthkpSimulationIslandViewer";
+        _ReadWriteBarrier();
+        volatile DWORD tick = (DWORD)__rdtsc();
+        acc->m_dwTime = tick;
+        pForm->m_pCurrent = acc + 1;
+    }
+    Vec4 currentLo, currentHi;
+    OutPair out;
+    __m128 seedLo;
+    __m128 seedHi;
+    VecI offsets;
+    int eo;
+    if (m_04)
+    {
+        eo = 0;
+        int freeBounds = pParam->active.count;
+        if (freeBounds > m_contA.m_iArrayLength)
+            m_contA.Resize(freeBounds);
+        int pRec = pParam->active.count;
+        offsets.m_pData = 0;
+        offsets.m_iArrayLength = 0;
+        offsets.m_iCapacity = (int)0x80000000;
+        GrowVec0c((Vec*)&offsets, pRec, 4);
+        offsets.m_iArrayLength = pRec;
+        int boundsCount = pParam->active.count;
+        Vec20 item;
+        item.m_pData = 0;
+        item.m_iArrayLength = 0;
+        item.m_iCapacity = (int)0x80000000;
+        GrowVec0c((Vec*)&item, boundsCount, 0x20);
+        item.m_iArrayLength = boundsCount;
+        int z = 0;
+        if (z < pParam->active.count)
+        {
+            seedHi = _mm_set1_ps(::DAT_0104e148);
+            seedLo = _mm_set1_ps(::DAT_0104da48);
+            int off = 0;
+            do
+            {
+                Src* src = &pParam->active.data[z]->items;
+                item.m_pData[off].m_ucHighNibble.v = seedHi;
+                item.m_pData[off].m_ucLowNibble.v = seedLo;
+                currentHi.v = seedHi;
+                currentLo.v = seedLo;
+                for (int j = 0; j < src->m_iArrayLength; ++j)
+                {
+                    Item* boundsVec = &src->m_pItems[j]->item;
+                    if (!boundsVec->m_00)
+                    {
+                        continue;
+                    }
+                    pParam->m_58->v15(&boundsVec->m_14, &out);
+                    currentHi.v = _mm_max_ps(currentHi.v, out.m_ucHighNibble.v);
+                    currentLo.v = _mm_min_ps(currentLo.v, out.m_ucLowNibble.v);
+                }
+                Elem* a = m_contA.m_pData + eo;
+                reinterpret_cast<::FnvCpu_FUN_00de1170_CpuObject *>((a))->FUN_00de1170((::FnvCpu_FUN_00de1170_CpuData0 *)(::Vec4 *)(&currentLo), (::FnvCpu_FUN_00de1170_CpuData1 *)(::Vec4 *)(&currentHi));
+                offsets.m_pData[z] = (int)(m_contA.m_pData + eo);
+                eo += 1;
+                off++;
+            } while (++z < pParam->active.count);
+        }
+        EmitObj* i = static_cast<ParentObject*>(this)->Parent::m_00;
+        i->v14(&offsets, (int)0xff0000ff, 0, (int)(*reinterpret_cast<void * *>(&::g_D651E0Value)));
+        Singleton* freeBoundsRouter;
+        freeBoundsRouter = (Singleton*)FUN_00c85750();
+        DeallocCtx* need = freeBoundsRouter->m_0c;
+        item.m_iArrayLength = 0;
+        if ((item.m_iCapacity & 0x80000000) == 0)
+        {
+            need->v4(item.m_pData, (item.m_iCapacity & 0x3fffffff) * 32);
+        }
+        item.m_pData = 0;
+        item.m_iCapacity = (int)0x80000000;
+        Singleton* offsetCount = (Singleton*)FUN_00c85750();
+        DeallocCtx* val = offsetCount->m_0c;
+        offsets.m_iArrayLength = 0;
+        if ((offsets.m_iCapacity & 0x80000000) == 0)
+        {
+            val->v4(offsets.m_pData, (offsets.m_iCapacity & 0x3fffffff) * 4);
+        }
+    }
+    if (m_05)
+    {
+        const WorldList& islandsB = pParam->Inactive();
+        int freeBounds = islandsB.size();
+        if (freeBounds > m_contB.m_iArrayLength)
+            m_contB.Resize(freeBounds);
+        int pRec;
+        pRec = islandsB.size();
+        offsets.m_pData = 0;
+        offsets.m_iArrayLength = 0;
+        offsets.m_iCapacity = (int)0x80000000;
+        GrowVec10((Vec*)&offsets, pRec, 4);
+        offsets.m_iArrayLength = pRec;
+        int z = 0;
+        if (z < islandsB.size())
+        {
+            eo = 0;
+            do
+            {
+                Src* src = &islandsB[z]->items;
+                currentLo.v = _mm_set1_ps(-3.402820018375656e+38f);
+                currentHi.v = _mm_set1_ps(3.402820018375656e+38f);
+                for (int j = 0; j < src->m_iArrayLength; ++j)
+                {
+                    Item* boundsVec = &src->m_pItems[j]->item;
+                    if (!boundsVec->m_00)
+                    {
+                        continue;
+                    }
+                    pParam->m_58->v15(&boundsVec->m_14, &out);
+                    currentLo.v = _mm_max_ps(currentLo.v, out.m_ucHighNibble.v);
+                    currentHi.v = _mm_min_ps(currentHi.v, out.m_ucLowNibble.v);
+                }
+                Elem* a = m_contB.m_pData + eo;
+                reinterpret_cast<::FnvCpu_FUN_00de1170_CpuObject *>((a))->FUN_00de1170((::FnvCpu_FUN_00de1170_CpuData0 *)(::Vec4 *)(&currentHi), (::FnvCpu_FUN_00de1170_CpuData1 *)(::Vec4 *)(&currentLo));
+                offsets.m_pData[z] = (int)(m_contB.m_pData + eo);
+                ++eo;
+            } while (++z < islandsB.size());
+        }
+        EmitObj* i = static_cast<ParentObject*>(this)->Parent::m_00;
+        i->v14(&offsets, (int)0xff008000, 0, (int)(*reinterpret_cast<void * *>(&::g_D651E0Value)));
+        Singleton* offsetCount = (Singleton*)FUN_00c85750();
+        DeallocCtx* val = offsetCount->m_10;
+        offsets.m_iArrayLength = 0;
+        if ((offsets.m_iCapacity & 0x80000000) == 0)
+        {
+            val->v4(offsets.m_pData, (offsets.m_iCapacity & 0x3fffffff) * 4);
+        }
+    }
+    TraceBuffer* pBuf2 = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+    if (pBuf2->m_pCurrent < pBuf2->m_pRecordEnd)
+    {
+        TraceRecord* acc = pBuf2->m_pCurrent;
+        acc->m_pTag = ::DAT_010c41f8;
+        _ReadWriteBarrier();
+        volatile DWORD tick = (DWORD)__rdtsc();
+        acc->m_dwTime = tick;
+        pBuf2->m_pCurrent = acc + 1;
+    }
+}
 #include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.inc"

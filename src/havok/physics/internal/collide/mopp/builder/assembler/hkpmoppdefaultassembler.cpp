@@ -2763,6 +2763,15 @@ struct P154Array
         data = 0;
         capacity = 0x80000000;
     }
+public:
+    void append(const int& v)
+    {
+        P154System* s = P154Memory::FUN_00c85750();
+        if (count == int(capacity & 0x3fffffff))
+            ResizeAudioStream(s->allocator, this, 4);
+        constructCopy(data + count, 1, v);
+        ++count;
+    }
 };
 struct P154Pair
 {
@@ -2778,6 +2787,16 @@ struct P154PairArray
         P154System* s = P154Memory::FUN_00c85750();
         if (count == int(capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(s->allocator), (::AudioStream *)(void *)(this), 8);
+        for (int i = 0; i < 1; ++i)
+            new (data + count + i) P154Pair;
+        return data[count++];
+    }
+public:
+    P154Pair& grow()
+    {
+        P154System* s = P154Memory::FUN_00c85750();
+        if (count == int(capacity & 0x3fffffff))
+            ResizeAudioStream(s->allocator, this, 8);
         for (int i = 0; i < 1; ++i)
             new (data + count + i) P154Pair;
         return data[count++];
@@ -3541,4 +3560,775 @@ void Tree::FUN_00e08cc0(S_00e07da0_Node* node, int arg2, int arg3)
     }
 }
 
+// Moved from hkpmoppdefaultassembler_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/fnv_00e06db0__FUN_00e06db0_class.h"
+#include "fnv/decl/fnv_00e08470__S_00e08470_Class.h"
+void FUN_00e07b90(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vector* result);
+void __cdecl ResizeAudioStream(e083::Alloc* a, void* arr, int elemSize);
+static void FUN_00e08320(e083::PairArray* srcp, e083::PairArray* dst, int delta);
+void e08320_caller(e083::SrcW sw, e083::PairArray* dst, int delta);
+void __cdecl ResizeAudioStream(void*, void*, int);
+template <class T> struct BvArray
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    void clear()
+    {
+        for (int i = 0; i < m_iElementCount; ++i)
+            m_data[i].~T();
+        m_iElementCount = 0;
+    }
+    void ClearAndRelease(BvAllocator& alloc)
+    {
+        clear();
+        if ((m_iCapacityState & 0x80000000u) == 0)
+            alloc.ReleaseBlock(m_data, getCapacity() * sizeof(T));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    void AddBack(Router& router, const T& t)
+    {
+        if (m_iElementCount == getCapacity())
+            ResizeAudioStream(router.allocator, this, sizeof(T));
+        T* p = m_data + m_iElementCount;
+        for (int i = 0; i < 1; i++)
+            p[i] = t;
+        m_iElementCount++;
+    }
+};
+static void FUN_00e08320(BvArray<BvFixup>* destination, BvArray<BvFixup>* source, int adjustment)
+{
+    for (int i = 0; i < source->m_iElementCount; ++i)
+    {
+        BvAllocator& heap = GetHeap();
+        if (destination->m_iElementCount == destination->getCapacity())
+            ResizeAudioStream(&heap, destination, sizeof(BvFixup));
+        BvFixup* out = destination->m_data + destination->m_iElementCount;
+        ++destination->m_iElementCount;
+        out->value = source->m_data[i].value;
+        out->offset = source->m_data[i].offset + adjustment;
+    }
+}
+static int FUN_00e08380(BvTree* tree, FUN_00e065f0* source, BvArray<int>* refs, FUN_00e065f0* destination);
+void __cdecl ResizeAudioStream(P154Allocator*, void*, int);
+
+typedef signed char hkInt8;
+typedef signed short hkInt16;
+typedef unsigned char hkUint8;
+typedef unsigned short hkUint16;
+typedef size_t hk_size_t;
+class FinishingFlag
+{
+  public:
+    FinishingFlag() : m_bFinishing(0)
+    {}
+    int m_bFinishing;
+};
+class hkClass;
+class hkBool
+{
+  public:
+    typedef char CompileTimeTrueType;
+    inline hkBool& operator=(bool e)
+    {
+        m_cBooleanValue = static_cast<char>(e);
+        return *this;
+    }
+
+  private:
+    char m_cBooleanValue;
+};
+template <typename ENUM, typename STORAGE> class hkEnum
+{
+  public:
+    hkEnum()
+    {}
+    hkEnum(ENUM e)
+    {
+        m_kStorage = static_cast<STORAGE>(e);
+    }
+
+  private:
+    STORAGE m_kStorage;
+};
+template <typename TYPE> class ValueWrapper
+{
+  public:
+    __forceinline ValueWrapper()
+    {}
+
+  private:
+    TYPE m_kStorage;
+};
+template <typename T> struct TypeSizeConstant
+{
+    enum
+    {
+        val = sizeof(T)
+    };
+};
+class hkMemoryAllocator
+{
+  public:
+    __forceinline void* __cdecl operator new(hk_size_t, void* p)
+    {
+        return p;
+    }
+    virtual ~hkMemoryAllocator();
+    virtual void* AllocateMemoryBlock(int numBytes) = 0;
+    virtual void ReleaseBlock(void* p, int numBytes) = 0;
+    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
+    template <typename TYPE> inline TYPE* _bufAlloc(int& reqNumInOut)
+    {
+        const int SIZE_ELEM = TypeSizeConstant<TYPE>::val;
+        int n = reqNumInOut * SIZE_ELEM;
+        void* p = AllocateBufferWithSize(n);
+        reqNumInOut = n / SIZE_ELEM;
+        return static_cast<TYPE*>(p);
+    }
+
+  public:
+    enum MemoryState
+    {
+        MEMORY_STATE_OK,
+        MEMORY_STATE_OUT_OF_MEMORY
+    };
+};
+struct StringPointerTriple
+{
+  public:
+    __forceinline StringPointerTriple();
+
+  protected:
+    ValueWrapper<void*> m_next;
+    ValueWrapper<void*> m_kRayStart;
+    ValueWrapper<void*> m_kRayEnd;
+};
+class NineIntegerRecord
+{
+  public:
+    __forceinline void* __cdecl operator new(hk_size_t, void* p)
+    {
+        return p;
+    }
+    typedef hkMemoryAllocator Allocator;
+    static NineIntegerRecord& __cdecl GetMonitorStream();
+    inline Allocator& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+
+  protected:
+    StringPointerTriple m_aiEntries;
+    Allocator* m_pTemp;
+    Allocator* m_pStreamAllocator;
+    Allocator* m_pDebugAllocator;
+};
+class hkBaseObject
+{
+  public:
+    static const struct ClassMemberDescriptor Members[];
+
+  public:
+    __forceinline hkBaseObject()
+    {}
+};
+class hkReferencedObject : public hkBaseObject
+{
+  public:
+    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    {
+        ;
+        hkReferencedObject* b = static_cast<hkReferencedObject*>(
+            NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
+        b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
+        ;
+        return b;
+    }
+    __forceinline hkReferencedObject();
+    virtual ~hkReferencedObject()
+    {}
+
+  public:
+    enum
+    {
+        MASK_MEMSIZE = 0x7fff
+    };
+    hkUint16 m_usMemSizeAndFlags;
+    mutable hkInt16 m_sReferenceCount;
+
+  public:
+    hkReferencedObject(class FinishingFlag flag)
+    {}
+};
+__forceinline hkReferencedObject::hkReferencedObject() : m_sReferenceCount(1)
+{}
+template <bool N> struct BooleanTypeConstant
+{
+    typedef BooleanTypeConstant<N> type;
+    enum
+    {
+        result = N
+    };
+};
+typedef BooleanTypeConstant<true> hkTypeIsPod;
+struct RouterHeapAllocatorProvider
+{
+    hkMemoryAllocator& get(const void*)
+    {
+        return NineIntegerRecord::GetMonitorStream().heap();
+    }
+};
+template <typename T> class HavokElementArray
+{
+  public:
+    typedef HavokElementArray<T> ThisType;
+    __forceinline HavokElementArray();
+
+  protected:
+    __forceinline HavokElementArray(const HavokElementArray& a)
+    {
+        ;
+    }
+
+  public:
+    __forceinline void _useExternalArray(T*, int cap);
+    __forceinline T& operator[](int i);
+    __forceinline void setOwnedData(T* ptr, int size, int capacity);
+
+  protected:
+    __forceinline HavokElementArray<T>& copyFromArray(hkMemoryAllocator&, const HavokElementArray<T>& src, hkTypeIsPod);
+
+  public:
+    enum
+    {
+        CAPACITY_MASK = int(0x3FFFFFFF),
+        FLAG_MASK = int(0xC0000000),
+        DONT_DEALLOCATE_FLAG = int(0x80000000),
+        FORCE_SIGNED = -1
+    };
+
+  protected:
+    friend class hkStatisticsCollector;
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+  public:
+    HavokElementArray(FinishingFlag f)
+    {}
+};
+template <typename T, typename Allocator = RouterHeapAllocatorProvider> class hkArray : public HavokElementArray<T>
+{
+  public:
+    typedef Allocator AllocatorType;
+    __forceinline hkArray() : HavokElementArray<T>()
+    {}
+    explicit __forceinline hkArray(int size);
+
+  protected:
+    __forceinline hkArray(const hkArray& a);
+
+  public:
+    __forceinline hkArray& operator=(const HavokElementArray<T>& a);
+};
+template <typename T> __forceinline T& HavokElementArray<T>::operator[](int i)
+{
+    ;
+    return m_data[i];
+}
+template <typename T>
+__forceinline HavokElementArray<T>::HavokElementArray() : m_data(0), m_iElementCount(0), m_iCapacityState(DONT_DEALLOCATE_FLAG)
+{}
+template <typename T> void HavokElementArray<T>::setOwnedData(T* ptr, int size, int capacity)
+{
+    ;
+    ;
+    m_data = ptr;
+    m_iElementCount = size;
+    m_iCapacityState = capacity;
+}
+template <typename T, typename Allocator> __forceinline hkArray<T, Allocator>::hkArray(int n) : HavokElementArray<T>()
+{
+    hkMemoryAllocator& a = Allocator().get(this);
+    T* p = n ? a._bufAlloc<T>(n) : 0;
+    int cap = n ? n : HavokElementArray<T>::DONT_DEALLOCATE_FLAG;
+    HavokElementArray<T>::setOwnedData(p, n, cap);
+}
+typedef float hkReal;
+typedef __m128 hkQuadReal;
+class VectorComponentValue
+{
+  public:
+    VectorComponentValue(const hkQuadReal& x) : m_vValue(x)
+    {}
+    __forceinline hkQuadReal broadcast() const
+    {
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
+    }
+    __forceinline const hkQuadReal& getQuad() const
+    {
+        return m_vValue;
+    }
+
+  private:
+    hkQuadReal m_vValue;
+};
+class hkVector4
+{
+  public:
+    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    {
+        ;
+        void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        ;
+        return obj;
+    }
+    __forceinline void set(hkReal x, hkReal y, hkReal z, hkReal w = 0);
+    __forceinline void setZero4();
+    __forceinline VectorComponentValue dot3(const hkVector4& a) const;
+    __forceinline VectorComponentValue lengthInverse3() const;
+    __forceinline void normalize3();
+
+  private:
+    hkQuadReal m_vComponents;
+
+  public:
+    operator hkQuadReal() const
+    {
+        return m_vComponents;
+    }
+};
+inline void hkVector4::set(hkReal a, hkReal b, hkReal c, hkReal d)
+{
+    m_vComponents = _mm_setr_ps(a, b, c, d);
+}
+inline VectorComponentValue hkVector4::dot3(const hkVector4& a) const
+{
+    hkQuadReal x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+    hkQuadReal xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, (((1) << 6) | ((1) << 4) | ((1) << 2) | ((1)))), x2);
+    return _mm_add_ss(_mm_shuffle_ps(x2, x2, (((2) << 6) | ((2) << 4) | ((2) << 2) | ((2)))), xySum);
+}
+inline VectorComponentValue hkVector4::lengthInverse3() const
+{
+    const hkQuadReal half = _mm_set_ss(0.5f);
+    const hkQuadReal three = _mm_set_ss(3.0f);
+    const hkQuadReal zero = _mm_set_ss(0.0f);
+    const hkQuadReal len2 = this->dot3(*this).getQuad();
+    const hkQuadReal len2EqualsZero = _mm_cmpeq_ss(len2, zero);
+    const hkQuadReal approx = _mm_rsqrt_ss(len2);
+    const hkQuadReal refined =
+        _mm_mul_ss(_mm_mul_ss(half, approx), _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(len2, approx), approx)));
+    return _mm_andnot_ps(len2EqualsZero, refined);
+}
+inline void hkVector4::normalize3()
+{
+    hkQuadReal lenInv = lengthInverse3().broadcast();
+    m_vComponents = _mm_mul_ps(lenInv, m_vComponents);
+}
+class hkpMoppCode : public hkReferencedObject
+{
+  public:
+    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    {
+        ;
+        hkReferencedObject* b = static_cast<hkReferencedObject*>(
+            NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
+        b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
+        ;
+        return b;
+    }
+    enum BuildType
+    {
+        BUILT_WITH_CHUNK_SUBDIVISION,
+        BUILT_WITHOUT_CHUNK_SUBDIVISION,
+        BUILD_NOT_SET
+    };
+    struct CodeInfo
+    {
+        __forceinline void* __cdecl operator new(hk_size_t nbytes)
+        {
+            ;
+            void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+            ;
+            return obj;
+        }
+        __forceinline void __cdecl operator delete(void* p)
+        {
+            if (p)
+            {
+                ;
+                NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(hkpMoppCode::CodeInfo));
+            }
+        }
+        __forceinline void* __cdecl operator new(hk_size_t n, void* p)
+        {
+            ;
+            return p;
+        }
+        __forceinline void* __cdecl operator new[](hk_size_t, void* p)
+        {
+            return p;
+        }
+        __forceinline void __cdecl operator delete(void*, void*)
+        {}
+        __forceinline void __cdecl operator delete[](void*, void*)
+        {}
+        class CommandArgument;
+        static const struct ClassMemberDescriptor Members[];
+        static const hkClass& __cdecl staticClass();
+        struct DefaultStruct;
+        inline hkReal getScale() const;
+        inline void setScale(hkReal inVal);
+        hkVector4 m_offset;
+    };
+
+  public:
+    hkpMoppCode()
+    {
+        m_info.m_offset.setZero4();
+        m_eBuildType = BUILD_NOT_SET;
+    }
+
+  public:
+    struct CodeInfo m_info;
+    hkArray<hkUint8> m_data;
+    hkEnum<BuildType, hkInt8> m_eBuildType;
+};
+class hkpMoppMediator;
+class hkpMoppNodeMgr;
+class hkpMoppCodeGenerator;
+class MoppBuildComponent;
+struct MoppSplitPlane
+{
+    hkVector4 m_direction;
+    hkReal m_fSplitOffset;
+    int m_uiEdgeIndex;
+};
+class hkpMoppAssembler : public hkReferencedObject
+{
+  public:
+    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    {
+        ;
+        hkReferencedObject* b = static_cast<hkReferencedObject*>(
+            NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
+        b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
+        ;
+        return b;
+    }
+    struct MoppAssemblerSettings
+    {
+        __forceinline void* __cdecl operator new(hk_size_t nbytes)
+        {
+            ;
+            void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+            ;
+            return obj;
+        }
+        __forceinline void __cdecl operator delete(void* p)
+        {
+            if (p)
+            {
+                ;
+                NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(
+                    p, sizeof(hkpMoppAssembler::MoppAssemblerSettings));
+            }
+        }
+        __forceinline void* __cdecl operator new(hk_size_t n, void* p)
+        {
+            ;
+            return p;
+        }
+        __forceinline void* __cdecl operator new[](hk_size_t, void* p)
+        {
+            return p;
+        }
+        __forceinline void __cdecl operator delete(void*, void*)
+        {}
+        __forceinline void __cdecl operator delete[](void*, void*)
+        {}
+        class CommandArgument;
+        MoppAssemblerSettings()
+            : m_fFirstParameter(0.5f), m_fSecondaryScalar(0.2f), m_fTertiaryScalar(1.0f), m_iIntegerParameter(5)
+        {
+            m_kParameterVector.set(0.2f, 0.2f, 0.05f, 0.0f);
+            m_bOptionEnabled = true;
+        }
+        hkReal m_fFirstParameter;
+        hkReal m_fSecondaryScalar;
+        hkReal m_fTertiaryScalar;
+        hkVector4 m_kParameterVector;
+        int m_iIntegerParameter;
+        hkBool m_bOptionEnabled;
+    };
+};
+class FUN_00e090c0 : public hkpMoppAssembler
+{
+  public:
+    FUN_00e090c0(const MoppAssemblerSettings& ap, hkpMoppCodeGenerator* code, hkpMoppMediator* mediator);
+    ~FUN_00e090c0();
+    hkpMoppMediator* m_pMoppMediator;
+    hkpMoppNodeMgr* m_pNodeManager;
+    hkpMoppCodeGenerator* m_pMoppCode;
+    MoppBuildComponent* m_pAdditionalAssemblerData;
+    int m_iFirstValue;
+    int m_iSecondValue;
+    int m_iThirdValue;
+    hkpMoppCode::CodeInfo m_kMoppInfo;
+    hkArray<MoppSplitPlane, RouterHeapAllocatorProvider> kMoppArray;
+    MoppAssemblerSettings m_params;
+};
+// @fnv 0x00e090c0
+FUN_00e090c0::FUN_00e090c0(const MoppAssemblerSettings& ap, hkpMoppCodeGenerator* code, hkpMoppMediator* mediator)
+    : kMoppArray(13)
+{
+    kMoppArray[0].m_direction.set(1.0f, 0.0f, 0.0f, 0.0f);
+    kMoppArray[1].m_direction.set(0.0f, 1.0f, 0.0f, 0.0f);
+    kMoppArray[2].m_direction.set(0.0f, 0.0f, 1.0f, 0.0f);
+    kMoppArray[0].m_fSplitOffset = 0.0f;
+    kMoppArray[1].m_fSplitOffset = 0.0f;
+    kMoppArray[2].m_fSplitOffset = 0.0f;
+    kMoppArray[3].m_direction.set(0.0f, 1.0f, 1.0f, 0.0f);
+    kMoppArray[4].m_direction.set(1.0f, 0.0f, 1.0f, 0.0f);
+    kMoppArray[5].m_direction.set(1.0f, 1.0f, 0.0f, 0.0f);
+    kMoppArray[3].m_fSplitOffset = 0.2f;
+    kMoppArray[4].m_fSplitOffset = 0.2f;
+    kMoppArray[5].m_fSplitOffset = 0.2f;
+    kMoppArray[6].m_direction.set(0.0f, 1.0f, -1.0f, 0.0f);
+    kMoppArray[7].m_direction.set(1.0f, 0.0f, -1.0f, 0.0f);
+    kMoppArray[8].m_direction.set(1.0f, -1.0f, 0.0f, 0.0f);
+    kMoppArray[6].m_fSplitOffset = 0.25f;
+    kMoppArray[7].m_fSplitOffset = 0.25f;
+    kMoppArray[8].m_fSplitOffset = 0.25f;
+    kMoppArray[9].m_direction.set(1.0f, 1.0f, 1.0f, 0.0f);
+    kMoppArray[10].m_direction.set(1.0f, 1.0f, -1.0f, 0.0f);
+    kMoppArray[11].m_direction.set(1.0f, -1.0f, 1.0f, 0.0f);
+    kMoppArray[12].m_direction.set(1.0f, -1.0f, -1.0f, 0.0f);
+    kMoppArray[9].m_fSplitOffset = 0.3f;
+    kMoppArray[10].m_fSplitOffset = 0.32f;
+    kMoppArray[11].m_fSplitOffset = 0.32f;
+    kMoppArray[12].m_fSplitOffset = 0.34f;
+    for (int i = 0; i < 13; i++)
+    {
+        kMoppArray[i].m_direction.normalize3();
+        kMoppArray[i].m_uiEdgeIndex = i;
+    }
+    reinterpret_cast<::S_00e07d60 *>(this)->FUN_00e07d60((const ::S_00e07d60_Info &)(ap));
+    m_pMoppCode = code;
+    m_pMoppMediator = mediator;
+    m_pNodeManager = 0;
+}
+
+// Moved from hkpmoppdefaultassembler_rtm_variant.cpp (VEGAS-15).
+#include "fnv/decl/fnv_00e08040__TreeOptimizer.h"
+#include "fnv/decl/fnv_00e08240__FUN_00e08240_cls.h"
+static int FUN_00e08380(BvTree* tree, CodeCopySource* source, BvArray<int>* refs, FUN_00e065f0* destination);
+int copy_code_caller(BvTree* tree, CodeCopySource* source, BvArray<int>* refs, FUN_00e065f0* destination);
+
+typedef __m128 E078Quad;
+
+struct ScalarLane
+{
+    E078Quad data;
+    __forceinline ScalarLane(float x)
+    {
+        data = _mm_load_ss(&x);
+    }
+    __forceinline E078Quad splat() const
+    {
+        return _mm_shuffle_ps(data, data, 0);
+    }
+};
+
+struct hkVector4Unaligned
+{
+    hkReal x, y, z, w;
+};
+
+union hkVector4Copy
+{
+    hkVector4Unaligned m_v;
+    E078Quad m_q;
+};
+
+hkReal FUN_00cbfd80(hkReal f);
+int FUN_00cbfe20(hkReal f);
+extern "C" const double DAT_010ea5c0;
+
+struct QuantNode
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    const hkVector4* m_vHitNormal;
+    hkReal m_kMinimumCorner;
+    hkReal m_kMaximumCorner;
+};
+
+struct KdRegion
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int m_iIndex;
+    int m_offset[3];
+};
+
+struct KdQuantizer
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    hkVector4Unaligned m_vRayOrigins;
+
+    void FUN_00e07880(const QuantNode* node, const KdRegion* region, int* hiOut, int* loOut);
+};
+
+static __forceinline int toCell(hkReal scale, double x)
+{
+    return FUN_00cbfef0(FUN_00cbfd80(x * scale));
+}
+
+static __forceinline int clampIndex(int i)
+{
+    if (i <= 0)
+    {
+        return 0;
+    }
+    if (i >= 255)
+    {
+        return 255;
+    }
+    return i;
+}
+
+// @fnv 0x00e07880
+void KdQuantizer::FUN_00e07880(const QuantNode* node, const KdRegion* region, int* hiOut, int* loOut)
+{
+    const hkReal* n = &node->m_vHitNormal->m_vComponents[0];
+    int numNonZero = 0;
+    int numNegative = 0;
+    int axis = 0;
+    for (int i = 0; i < 3; i++)
+    {
+        hkReal c = n[i];
+        if (c != 0.0f)
+        {
+            numNonZero++;
+            axis = i;
+            if (c < 0.0f)
+            {
+                numNegative++;
+            }
+        }
+    }
+
+    double minDist = node->m_kMinimumCorner;
+    double maxDist = node->m_kMaximumCorner;
+
+    if (numNonZero == 1)
+    {
+        const hkReal* origin = &m_vRayOrigins.x;
+        int lo = toCell(m_vRayOrigins.w, minDist - origin[axis]);
+        int hi = toCell(m_vRayOrigins.w, maxDist - origin[axis]);
+        int offset = region->m_offset[axis];
+        lo = (lo - offset) >> region->m_iIndex;
+        hi = ((hi - offset) >> region->m_iIndex) + 1;
+        lo = clampIndex(lo);
+        hi = clampIndex(hi);
+        *loOut = lo;
+        *hiOut = hi;
+        if (*loOut < 0)
+        {
+            *loOut = 0;
+        }
+        return;
+    }
+
+    hkReal scale = m_vRayOrigins.w;
+    hkVector4Copy origin;
+    origin.m_v = m_vRayOrigins;
+
+    hkVector4 p;
+    p.set((hkReal)region->m_offset[0], (hkReal)region->m_offset[1], (hkReal)region->m_offset[2], 0.0f);
+    p.mul4(1.0f / scale);
+    p.add4(origin.m_q);
+    double d = p.dot3(*node->m_vHitNormal);
+
+    hkReal cellSize = (hkReal)(1 << region->m_iIndex);
+    double lo = (minDist - d) * m_vRayOrigins.w / cellSize;
+    maxDist = (maxDist - d) * m_vRayOrigins.w / cellSize;
+
+    double stretch = 1.0;
+    double norm = 1.0;
+    if (numNonZero == 2)
+    {
+        stretch = 1.4142135381698608;
+        norm = 0.5;
+    }
+    else if (numNonZero == 3)
+    {
+        stretch = DAT_010ea5c0;
+        norm = 0.3333333432674408;
+    }
+
+    double dlo = lo * stretch;
+    maxDist *= stretch;
+    if (numNegative)
+    {
+        dlo += numNegative * 255;
+        maxDist += numNegative * 255;
+    }
+
+    int ilo = FUN_00cbfe20((hkReal)(dlo * norm));
+    int ihi = FUN_00cbfe20((hkReal)(maxDist * norm)) + 1;
+    ilo = clampIndex(ilo);
+    ihi = clampIndex(ihi);
+    *loOut = ilo;
+    *hiOut = ihi;
+}
 #include "generated/data/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.inc"
+#include "generated/data/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler_rtm_variant.inc"

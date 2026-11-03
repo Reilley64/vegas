@@ -1839,3 +1839,687 @@ void WheelPhantomCollector::FUN_00e36ab0(hkArray<hkpPhantomE36C*>* output)
         ++output->m_iElementCount;
     }
 }
+
+// Moved from hkpvehiclelinearcastwheelcollide_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+void __cdecl FUN_00e36aa0();
+void __cdecl FUN_00c908c0(hkMemoryAllocatorE36& alloc, void* array, int numElem, int sizeElem) throw();
+template <class T> class hkArrayE36
+{
+  public:
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    T& operator[](int i)
+    {
+        return m_data[i];
+    }
+    const T& operator[](int i) const
+    {
+        return m_data[i];
+    }
+    __forceinline void reserve(hkMemoryAllocatorE36& alloc, int n)
+    {
+        const int cap = getCapacity();
+        if (cap < n)
+        {
+            int cap2 = 2 * cap;
+            int newCap = (n < cap2) ? cap2 : n;
+            FUN_00c908c0(alloc, this, newCap, sizeof(T));
+        }
+    }
+    __forceinline void SetSizeAndGrow(int n)
+    {
+        reserve(hkRouterE36::FUN_00c85750().heap(), n);
+        m_iElementCount = n;
+    }
+};
+
+void __cdecl FUN_00c908c0(hkAllocatorE36C& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+template <typename T> struct hkArrayE36C
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    T& operator[](int i)
+    {
+        return m_data[i];
+    }
+    const T& operator[](int i) const
+    {
+        return m_data[i];
+    }
+    void GrowArrayCapacity(hkAllocatorE36C& kAlloc, int n)
+    {
+        const int iCapacity = getCapacity();
+        if (iCapacity < n)
+        {
+            int iCap2 = 2 * iCapacity;
+            int iNewSize = (n < iCap2) ? iCap2 : n;
+            FUN_00c908c0(kAlloc, this, iNewSize, sizeof(T));
+        }
+    }
+    void SetSizeAndGrow(int n)
+    {
+        GrowArrayCapacity(fnvc_adapt::FUN_00c85750().heap(), n);
+        m_iElementCount = n;
+    }
+};
+
+
+struct FUN_00ca0c40_host
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    float m_fSlipAngle;  // at 0x90
+    void FUN_00ca0c40(const hkVector4& point, hkVector4& velOut);
+};
+
+struct CollidableStandIn
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    signed char m_iOwnerOffset;  // at 0x10
+    char unk11;
+    char unk12;
+    char unk13;
+    int unk14;
+    char m_cBroadPhaseType;  // at 0x18
+    char unk19;
+    char unk1a;
+    char unk1b;
+};
+
+struct HitStandIn
+{
+    __m128 m_vContactPoint;
+    union
+    {
+        __m128 m_contactNormal;
+        struct
+        {
+            float m_nx;
+            float m_ny;
+            float m_nz;
+            float m_fHitDistance;
+        };
+    };
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    CollidableStandIn* m_kCollidable;  // at 0x48
+    unsigned int m_uiCollisionShapeKey;           // at 0x4c
+};
+
+struct WheelCollideOutputStandIn
+{
+    __m128 m_vContactPoint;
+    __m128 m_contactNormal;
+    float m_fSlipAngle;
+    FUN_00ca0c40_host* m_pUserData;
+    unsigned int m_uiCollisionShapeKey;
+    int m_hardpointIndex;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    float m_suspensionLength;
+    float m_suspensionClosingVelocity;
+    float m_invSuspensionClosingVelocity;
+};
+
+struct WheelSuspensionInfoStandIn
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    float m_fRestLength;  // at 0x20
+    int unk24;
+    int unk28;
+    int unk2c;  // sizeof = 0x30
+};
+
+struct SuspensionStandIn
+{
+    int unk00;
+    int unk04;
+    WheelSuspensionInfoStandIn* m_wheelData;  // at 0x08
+};
+
+struct WheelStateStandIn
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    __m128 m_dir;  // at 0x80
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;  // sizeof = 0xe0
+};
+
+struct VehicleDataStandIn
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    float m_pFreeList;  // at 0x84
+};
+
+struct VehicleInstanceStandIn
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    FUN_00ca0c40_host* m_pChassisCollidable;  // at 0x18
+    VehicleDataStandIn* m_data;               // at 0x1c
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    SuspensionStandIn* m_pSuspension;  // at 0x34
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    WheelStateStandIn* m_kWheelStates;  // at 0x48
+};
+
+extern "C" void _ReadWriteBarrier(void);
+
+inline float dot3(__m128 a, __m128 b)
+{
+    __m128 mul = _mm_mul_ps(a, b);
+    __m128 y = _mm_shuffle_ps(mul, mul, 0x55);
+    __m128 z = _mm_shuffle_ps(mul, mul, 0xaa);
+    __m128 sum = _mm_add_ss(y, mul);
+    sum = _mm_add_ss(z, sum);
+    float res;
+    _mm_store_ss(&res, sum);
+    return res;
+}
+
+// @fnv 0x00e36510
+void FUN_00e36510(VehicleInstanceStandIn* vehicle, unsigned char wheelIndex, HitStandIn* hit,
+                            WheelCollideOutputStandIn* out)
+{
+    float velChassis = vehicle->m_pSuspension->m_wheelData[wheelIndex].m_fRestLength;
+    WheelStateStandIn* velGround = &vehicle->m_kWheelStates[wheelIndex];
+
+    out->m_vContactPoint = hit->m_vContactPoint;
+    out->m_contactNormal = hit->m_contactNormal;
+
+    FUN_00ca0c40_host* val;
+    CollidableStandIn* i;
+    i = hit->m_kCollidable;
+    if (i->m_cBroadPhaseType == 1)
+    {
+        val = (FUN_00ca0c40_host*)((char*)i + i->m_iOwnerOffset);
+    }
+    else
+    {
+        val = 0;
+    }
+    out->m_pUserData = val;
+    out->m_fSlipAngle = val->m_fSlipAngle;
+    out->m_uiCollisionShapeKey = hit->m_uiCollisionShapeKey;
+    out->m_hardpointIndex = -1;
+    out->m_suspensionLength = hit->m_fHitDistance * velChassis;
+
+    float pObj;
+    pObj = dot3(velGround->m_dir, out->m_contactNormal);
+    if (pObj < -vehicle->m_data->m_pFreeList)
+    {
+        hkVector4 z;
+        hkVector4 len;
+        vehicle->m_pChassisCollidable->FUN_00ca0c40((const hkVector4&)out->m_vContactPoint, len);
+        out->m_pUserData->FUN_00ca0c40((const hkVector4&)out->m_vContactPoint, z);
+        __m128 idx;
+        idx = _mm_load_ps(&z.x);
+        __m128 wheelState;
+        wheelState = _mm_load_ps(&len.x);
+        float vc;
+        vc = dot3(_mm_sub_ps(wheelState, idx), out->m_contactNormal);
+        float q;
+        q = (float)(-1.0 / pObj);
+        out->m_suspensionClosingVelocity = q * vc;
+        out->m_invSuspensionClosingVelocity = q;
+    }
+    else
+    {
+        out->m_suspensionClosingVelocity = 0.0f;
+        out->m_invSuspensionClosingVelocity = 1.0f / vehicle->m_data->m_pFreeList;
+    }
+}
+
+// Moved from hkpvehiclelinearcastwheelcollide_rtm_variant.cpp (VEGAS-15).
+#include "fnv/symbols_00d26000.h"
+void __cdecl ResizeAudioStream(void* heap, void* arr, int elementSize);
+
+
+struct E367_Vehicle : hkpVehicleInstanceE36C
+{
+    unsigned int unk20, unk24, unk28, unk2C, unk30;
+    hkpVehicleSuspensionE366* m_pSuspension;
+};
+
+class E367_Class : public hkpVehicleLinearCastWheelCollide
+{
+  public:
+    void FUN_00e36700(const E367_Vehicle* vehicle, unsigned char wheelIndex, hkAabbE36C& output);
+};
+
+// @fnv 0x00e36700
+void E367_Class::FUN_00e36700(const E367_Vehicle* vehicle, unsigned char wheelIndex, hkAabbE36C& output)
+{
+    int index = wheelIndex;
+    const hkpVehicleDataWheelComponentParamsE36C* wheel = vehicle->m_data->m_kWheelParams.m_data + index;
+    const hkpVehicleSuspensionWheelParamsE366* suspension = vehicle->m_pSuspension->m_kWheelParams + index;
+
+    double zero = 0.0;
+    float halfHeight = static_cast<float>((suspension->m_fRestLength + wheel->m_fSphereRadius) * 0.5);
+    float halfWidth = static_cast<float>(0.5 * wheel->m_fMaxFriction);
+    Vector4E36120 extents;
+    extents.set(wheel->m_fSphereRadius, halfHeight, halfWidth, 0.0f);
+    Vector4E36120 center;
+    center.set(0.0f, -halfHeight, 0.0f, 0.0f);
+
+    int transform = reinterpret_cast<int>(&m_kWheelStates.m_data[index].m_pos);
+    ::FUN_00d26230((*(const ::hkTransformD262 *)(transform)), (*(const ::hkVector4D262 *)(reinterpret_cast<int>(&extents))), (*(const ::hkVector4D262 *)(reinterpret_cast<int>(&center))), zero,
+                 (*(::hkAabbD262 *)(reinterpret_cast<int>(&output))));
+}
+
+// Moved from hkpvehiclelinearcastwheelcollide_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
+#include "fnv/decl/RotationRows.h"
+void FUN_00e36510(VehicleInstanceStandIn* vehicle, unsigned char wheelIndex, HitStandIn* hit,
+                            WheelCollideOutputStandIn* out);
+
+
+namespace WheelStateUpdate {
+
+struct __declspec(align(16)) LcQuat
+{
+    float x, y, z, w;
+};
+
+struct LcRotation
+{
+    __m128 m_kColumn0, m_kColumn1, m_kColumn2;
+};
+
+struct LcTransform
+{
+    LcRotation m_rotation;
+    __m128 m_vTranslation;
+};
+
+struct LcWheelInfo
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    __m128 m_vContactPointVelocity;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    __m128 m_vHardPointWs;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    LcQuat m_steeringOrientation;
+    __m128 unkC0;
+    __m128 unkD0;
+};
+
+struct LcWheelState
+{
+    void* m_pPhantom;
+    void* m_pCollisionShape;
+    int unk08;
+    int unk0C;
+    LcTransform m_kMotionTransform;
+    __m128 m_vTo;
+};
+
+struct LcSuspensionWheel
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    float m_fRestLength;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct LcSuspension
+{
+    int unk00;
+    int unk04;
+    LcSuspensionWheel* m_kWheelParams;
+};
+
+struct LcChassis
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+    int unkF0;
+    int unkF4;
+    int unkF8;
+    int unkFC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    LcQuat m_rotation;
+};
+
+struct LcVehicle
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    LcChassis* m_pChassisCollidable;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    LcSuspension* m_pSuspension;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    LcWheelInfo* m_kWheelInfoArray;
+};
+
+struct WheelCollide
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    LcWheelState* m_kWheelStates;
+    void FUN_00e367d0(LcVehicle* vehicle, unsigned char wheelNum);
+};
+
+static inline __m128 splat(const float& r)
+{
+    __m128 q = _mm_load_ss((const float*)&r);
+    return _mm_shuffle_ps(q, q, 0);
+}
+
+// @fnv 0x00e367d0
+void WheelCollide::FUN_00e367d0(LcVehicle* vehicle, unsigned char wheelNum)
+{
+    LcWheelInfo& wheelInfo = vehicle->m_kWheelInfoArray[wheelNum];
+    LcWheelState& wheelState = m_kWheelStates[wheelNum];
+
+    LcQuat rotation;
+    ::fnv_00c66320::FUN_00c66320((__m128 *)&(rotation), (void *)(&vehicle->m_pChassisCollidable->m_rotation), (const __m128 *)(const void *)(&wheelInfo.m_steeringOrientation), {});
+
+    LcTransform& transform = wheelState.m_kMotionTransform;
+    reinterpret_cast<::RotationRows *>(&(transform.m_rotation))->FUN_00cb2d90(&rotation);
+    transform.m_vTranslation = wheelInfo.m_vContactPointVelocity;
+
+    __m128 length = splat(vehicle->m_pSuspension->m_kWheelParams[wheelNum].m_fRestLength);
+    wheelState.m_vTo = _mm_add_ps(_mm_mul_ps(length, wheelInfo.m_vHardPointWs), wheelInfo.m_vContactPointVelocity);
+}
+
+}

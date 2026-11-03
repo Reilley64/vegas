@@ -347,3 +347,321 @@ void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
             alloc->Free(arr.m_data, (cap & 0x3fffffff) * 96);
     }
 }
+
+// Moved from hkpvehiclelinearcastbatchingmanager_ctx_variant.cpp (VEGAS-15).
+
+// hkpvehiclelinearcastbatchingmanager_ctx_variant.cpp: context variant of src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp: its stripped skeleton, as these functions were checked
+// against, for verified matches whose own declarations clash with the unit's current types.
+// src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
+#include "fnv/decl/D04B90World.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d05000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_0104d000.h"
+
+struct E430B0Coll
+{
+	int unk00;
+	int unk04;
+	int unk08;
+	int unk0c;
+	int unk10;
+	int unk14;
+	int unk18;
+	int unk1c;
+	int unk20;
+	int unk24;
+	int unk28;
+	int unk2c;
+	int unk30;
+	int unk34;
+	int unk38;
+	int unk3c;
+	int unk40;
+	int unk44;
+	int unk48;
+	int unk4c;
+};
+struct E430B0Cmd
+{
+	int unk00;
+	int unk04;
+	int unk08;
+	int unk0c;
+	int unk10;
+	int unk14;
+	int unk18;
+	int unk1c;
+	int unk20;
+	int unk24;
+	int unk28;
+	int unk2c;
+	int unk30;
+	int unk34;
+	int unk38;
+	int unk3c;
+};
+struct E430B0Out
+{
+	int unk00;
+	int unk04;
+	int unk08;
+	int unk0c;
+	int unk10;
+	int unk14;
+	int unk18;
+	int unk1c;
+	int unk20;
+	int unk24;
+	int unk28;
+	int unk2c;
+	int unk30;
+	int unk34;
+	int unk38;
+	int unk3c;
+	int unk40;
+	int unk44;
+	int unk48;
+	int unk4c;
+	int unk50;
+	int unk54;
+	int unk58;
+	int unk5c;
+	int unk60;
+	int unk64;
+	int unk68;
+	int unk6c;
+};
+
+struct E430B0Hdr { int numTasks; int unk04; int unk08; int unk0c; };
+
+struct E430B0Mon
+{
+	void* start;
+	char* end;
+	void* capacity;
+	char* limit;
+};
+
+struct E430B0VehicleData
+{
+	int unk00;
+	int unk04;
+	int unk08;
+	int unk0c;
+	int unk10;
+	int unk14;
+	int unk18;
+	int unk1c;
+	unsigned char numWheels;
+};
+
+struct E430B0Wheel
+{
+	virtual void v00() = 0;
+	virtual void v01() = 0;
+	virtual void v02() = 0;
+	virtual void v03() = 0;
+	virtual void v04() = 0;
+	virtual void v05() = 0;
+	virtual void v06() = 0;
+	virtual void v07() = 0;
+	virtual void v08() = 0;
+	virtual void v09() = 0;
+	virtual void v0a() = 0;
+	virtual void v0b() = 0;
+	virtual void v0c() = 0;
+	virtual void v0d() = 0;
+	virtual int PerformWheelRaycast(void* vehicle, void* filter, E430B0Coll* collidable, E430B0Cmd* command, E430B0Out* output) = 0;
+};
+
+struct E430B0Vehicle
+{
+	int unk00;
+	int unk04;
+	int unk08;
+	int unk0c;
+	int unk10;
+	int unk14;
+	int unk18;
+	E430B0VehicleData* data;
+	int unk20;
+	int unk24;
+	int unk28;
+	int unk2c;
+	int unk30;
+	int unk34;
+	int unk38;
+	E430B0Wheel* wheelCollide;
+};
+
+struct E430B0World
+{
+	int unk00, unk04, unk08, unk0c;
+	int unk10, unk14, unk18, unk1c;
+	int unk20, unk24, unk28, unk2c;
+	int unk30, unk34, unk38, unk3c;
+	int unk40, unk44, unk48, unk4c;
+	int unk50, unk54, unk58, unk5c;
+	int unk60, unk64, unk68, unk6c;
+	int unk70, unk74;
+	void* collisionInput;
+	void* collisionFilter;
+};
+
+
+struct E430B0Batch
+{
+	E430B0Coll* collidable;
+	E430B0Cmd* command;
+	E430B0Out* output;
+	E430B0Hdr* headers;
+};
+
+struct E430B0BaseJob
+{
+	unsigned char subType;
+	unsigned char jobType;
+	unsigned char spuType;
+	unsigned char unk03;
+	unsigned short size;
+	short affinity;
+
+	E430B0BaseJob(unsigned char t, unsigned char st, unsigned short sz)
+	{
+		subType = st;
+		jobType = t;
+		spuType = 2;
+		size = sz;
+		affinity = -1;
+	}
+};
+
+struct E430B0QueryJob : public E430B0BaseJob
+{
+	int unk08;
+	int unk0c;
+	void* semaphore;
+	E430B0Hdr* header;
+	void* collisionInput;
+	int* jobDoneFlag;
+
+	E430B0QueryJob(unsigned char st, unsigned short sz) : E430B0BaseJob(2, st, sz)
+	{
+		jobDoneFlag = 0;
+	}
+};
+
+__declspec(align(16)) struct E430B0Job : public E430B0QueryJob
+{
+	float tolerance;
+	float maxExtraPenetration;
+	float earlyOutDistance;
+	int maxIterations;
+	int numCommandsPerTask;
+	E430B0Cmd* commandArray;
+	int numCommands;
+	int unk3c;
+
+	E430B0Job(void* input, E430B0Hdr* jobHeader, E430B0Cmd* cmds, int n, void* sem, int perTask)
+		: E430B0QueryJob(3, 0x40)
+	{
+		tolerance = 0.0f;
+		maxExtraPenetration = ::DAT_0104da4c;
+		earlyOutDistance = 0.01f;
+		collisionInput = input;
+		semaphore = sem;
+		commandArray = cmds;
+		header = jobHeader;
+		numCommandsPerTask = perTask;
+		numCommands = n;
+		maxIterations = 10;
+		header->numTasks = (n - 1) / perTask + 1;
+	}
+};
+
+struct FUN_00d05db0_class
+{
+};
+
+struct FUN_00d04b90_class
+{
+};
+
+struct E430B0Mgr
+{
+	int unk00;
+	int unk04;
+	E430B0Vehicle** vehicles;
+	int count;
+
+	int FUN_00e430b0(E430B0World* world, int filterSize, int numJobs, FUN_00d04b90_class* jobQueue, void* semaphore, void* buffer);
+};
+
+static inline void E430B0Timer(E430B0Mon* mon, const char* name)
+{
+	char* cur = mon->end;
+	if (cur < mon->limit)
+	{
+		*(const char**)cur = name;
+		unsigned int stamp;
+		stamp = static_cast<unsigned int>(__rdtsc());
+		*(unsigned int*)(cur + 4) = stamp;
+		mon->end = cur + 12;
+	}
+}
+
+// @fnv 0x00e430b0
+int E430B0Mgr::FUN_00e430b0(E430B0World* world, int filterSize, int numJobs, FUN_00d04b90_class* jobQueue, void* semaphore, void* buffer)
+{
+
+	E430B0Timer((E430B0Mon*)TlsGetValue(DAT_0126835c), "TtBuildAndAddLinearCastJobs");
+
+	void* filter = world->collisionFilter;
+	int vehicleCount = count;
+	const int& countRef = vehicleCount;
+	E430B0Batch batch;
+	((FUN_00e43060*)this)->DoWork((int)buffer, numJobs, (int*)&batch);
+
+	int total = 0;
+	E430B0Timer((E430B0Mon*)TlsGetValue(DAT_0126835c), "TtBuildCommands");
+
+	E430B0Coll* collidable = batch.collidable;
+	E430B0Cmd* command = batch.command;
+	E430B0Out* output = batch.output;
+	for (int i = 0; i < countRef; ++i)
+	{
+		E430B0Vehicle* vehicle = vehicles[i];
+		int n = vehicle->wheelCollide->PerformWheelRaycast(vehicle, filter, collidable, command, output);
+		collidable += vehicle->data->numWheels;
+		total += n;
+		command += n;
+		output += n;
+	}
+
+	E430B0Timer((E430B0Mon*)TlsGetValue(DAT_0126835c), "Et");
+
+	if (numJobs >= total)
+	{
+		numJobs = total;
+	}
+	int perJob = total / numJobs;
+	int rem = total % numJobs;
+
+	E430B0Cmd* cmdPtr = batch.command;
+	E430B0Hdr* header = batch.headers;
+	for (int j = 0; j < numJobs; ++j)
+	{
+		int n = perJob + (j < rem);
+		E430B0Job job(world->collisionInput, header, cmdPtr, n, semaphore, 128);
+		::FUN_00d05db0();
+		reinterpret_cast<::D04B90World *>((jobQueue))->AddObjectCopy((const ::D04B90Object *)(void *)(&job), (void *)(1));
+		cmdPtr += n;
+		header++;
+	}
+
+	E430B0Timer((E430B0Mon*)TlsGetValue(DAT_0126835c), "Et");
+	return numJobs;
+}

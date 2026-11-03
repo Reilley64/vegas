@@ -437,3 +437,144 @@ S00d4d4a0_Obj* S00d4d4a0_Obj::FUN_00d4d4a0(const hkpCloneArgD4A0& argA, const hk
     return clone;
 }
 }  // namespace fnv_00d4d4a0
+
+// Moved from hkpspringaction_rtm_variant.cpp (VEGAS-15).
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_01017000.h"
+int* __cdecl FUN_00cf4ef0();
+void* __cdecl _fnv_zlib_memset(void* pvDst, int iValue, unsigned int uiNumBytes);
+
+struct __declspec(align(16)) SpringVector
+{
+    __m128 q;
+    __m128 get() const
+    {
+        return q;
+    }
+    void set(__m128 v)
+    {
+        q = v;
+    }
+    void FUN_00c7f640(const void* transform, const hkVector4* local);
+};
+struct SpringMotion
+{
+    virtual void unk00();
+    virtual void unk04();
+    virtual void unk08();
+    virtual void unk0C();
+    virtual void unk10();
+    virtual void unk14();
+    virtual void unk18();
+    virtual void unk1C();
+    virtual void unk20();
+    virtual void unk24();
+    virtual void unk28();
+    virtual void unk2C();
+    virtual void unk30();
+    virtual void unk34();
+    virtual void unk38();
+    virtual void unk3C();
+    virtual void unk40();
+    virtual void unk44();
+    virtual void unk48();
+    virtual void unk4C();
+    virtual void unk50();
+    virtual void unk54();
+    virtual void apply(float dt, const hkVector4* force, const SpringVector* point);
+};
+class hkpEntity
+{
+  public:
+    unsigned unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
+    unsigned unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
+    unsigned unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
+    unsigned unk60, unk64, unk68, unk6C, unk70, unk74, unk78, unk7C;
+    unsigned unk80, unk84, unk88, unk8C, unk90, unk94, unk98, unk9C;
+    unsigned unkA0, unkA4, unkA8, unkAC, unkB0, unkB4, unkB8, unkBC;
+    unsigned unkC0, unkC4, unkC8, unkCC, unkD0, unkD4, unkD8, unkDC;
+    SpringMotion motion;
+    unsigned unkE4, unkE8, unkEC;
+    hkTransform transform;
+    void FUN_00ca0c40(const SpringVector* point, SpringVector* velocity);
+    void ApplyForceAtPoint(float dt, const hkVector4& force, const SpringVector& point)
+    {
+        reinterpret_cast<::hkpEntityC9C *>(this)->FUN_00c9c1d0();
+        motion.apply(dt, &force, &point);
+    }
+};
+struct SpringStep
+{
+    float unk00, unk04, deltaTime;
+};
+struct SpringAction : hkpSpringAction
+{
+    void FUN_00d4d530(const SpringStep& step);
+};
+static __m128 dot3(__m128 a, __m128 b)
+{
+    __m128 p = _mm_mul_ps(a, b);
+    __m128 y = _mm_shuffle_ps(p, p, 0x55);
+    __m128 z = _mm_shuffle_ps(p, p, 0xaa);
+    y = _mm_add_ss(y, p);
+    z = _mm_add_ss(z, y);
+    return z;
+}
+static float SpringLength3(__m128 v)
+{
+    float r;
+    _mm_store_ss(&r, _mm_sqrt_ss(dot3(v, v)));
+    return r;
+}
+static float SpringDot3(__m128 a, __m128 b)
+{
+    float r;
+    _mm_store_ss(&r, dot3(a, b));
+    return r;
+}
+static __m128 SpringSplat(float v)
+{
+    __m128 s = _mm_set_ss(v);
+    return _mm_shuffle_ps(s, s, 0);
+}
+static __m128 SpringSplatRef(const float& v)
+{
+    __m128 s = _mm_load_ss(&v);
+    return _mm_shuffle_ps(s, s, 0);
+}
+static __m128 SpringSplatMem(float v)
+{
+    __m128 s = _mm_load_ss(&v);
+    return _mm_shuffle_ps(s, s, 0);
+}
+static __m128 broadcast(float v)
+{
+    return _mm_load_ps1(&v);
+}
+// @fnv 0x00d4d530
+void SpringAction::FUN_00d4d530(const SpringStep& step)
+{
+    hkpEntity* a = m_pEntityA;
+    hkpEntity* b = m_pEntityB;
+    SpringVector pointA, pointB, direction, velocityA, velocityB;
+    pointA.FUN_00c7f640(&a->transform, &m_kPositionA);
+    pointB.FUN_00c7f640(&b->transform, &m_kPositionB);
+    float tolerance = ::AngularDashpotApplyD4DCB0::DAT_01017d00;
+    __m128 displacement = _mm_sub_ps(pointB.get(), pointA.get());
+    float length = SpringLength3(displacement);
+    if (tolerance > length)
+        return;
+    direction.set(_mm_mul_ps(broadcast(1.0f / length), displacement));
+    if (!m_bSpringEnabled && length < m_fRestLength)
+        return;
+    if (!m_bElastic && length > m_fRestLength)
+        return;
+    a->FUN_00ca0c40(&pointA, &velocityA);
+    b->FUN_00ca0c40(&pointB, &velocityB);
+    float force = (length - m_fRestLength) * m_fSpringStrength +
+                  m_fMotorDamping * SpringDot3(_mm_sub_ps(velocityB.get(), velocityA.get()), direction.get());
+    _mm_store_ps(&m_kLastForce.x, _mm_mul_ps(SpringSplatRef(-force), direction.get()));
+    b->ApplyForceAtPoint(step.deltaTime, m_kLastForce, pointB);
+    _mm_store_ps(&m_kLastForce.x, _mm_mul_ps(SpringSplatRef(force), direction.get()));
+    a->ApplyForceAtPoint(step.deltaTime, m_kLastForce, pointA);
+}

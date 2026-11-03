@@ -334,3 +334,393 @@ FUN_00d98360::~FUN_00d98360()
 
 FUN_00d98360::FUN_00d98360()
 {}
+
+// Moved from hkpkdtreecollidableraycaster_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_010c9000.h"
+
+#include <xmmintrin.h>
+struct Vec4
+{
+    __m128 q;
+};
+struct Mat4
+{
+    __m128 r0;
+    __m128 r1;
+    __m128 r2;
+    __m128 r3;
+};
+struct Entry30
+{
+    __m128 a;
+    __m128 b;
+    int f20;
+    int f24;
+    int f28;
+};
+struct SubObj
+{
+    virtual void Vf0();
+    virtual char* Query(char* out, Entry30* e, void* a0);
+};
+struct __declspec(align(16)) CandF
+{
+    float v0[4];
+    float score;
+    int f14;
+    int f18;
+    int f1c;
+    int f20;
+    int f24;
+    int f28;
+    int f2c;
+    int f30;
+    int f34;
+    int f38;
+    int f3c;
+    int f40;
+    int f44;
+    int f48;
+    int f4c;
+};
+struct DestEnt
+{
+    CandF c;
+    void* owner;
+    int f58;
+    int f5c;
+    __forceinline void Copy(const DestEnt& source)
+    {
+        DestEnt& d = *this;
+        const CandF& c = source.c;
+        _mm_store_ps(d.c.v0, _mm_load_ps(c.v0));
+        d.c.score = c.score;
+        d.c.f14 = c.f14;
+        d.c.f18 = c.f18;
+        d.c.f1c = c.f1c;
+        d.c.f20 = c.f20;
+        d.c.f24 = c.f24;
+        d.c.f28 = c.f28;
+        d.c.f2c = c.f2c;
+        d.c.f30 = c.f30;
+        d.c.f34 = c.f34;
+        d.c.f38 = c.f38;
+        d.c.f3c = c.f3c;
+        d.c.f40 = c.f40;
+        d.owner = source.owner;
+    }
+};
+struct __declspec(align(16)) PtsBlockF
+{
+    Vec4 v[6];
+    int t60;
+    int t64;
+    int t68;
+    int t6c;
+};
+struct HeadObj
+{
+    virtual void Vf0();
+    virtual void Vf1();
+    virtual void Vf2();
+    virtual void Vf3();
+    virtual void Vf4();
+    virtual void Vf5();
+    virtual void Vf6();
+    virtual void Vf7();
+    virtual void Vf8();
+    virtual void Vf9();
+    virtual Vec4 Eval(PtsBlockF* pts, CandF* cands, float* mask);
+};
+struct Arg0
+{
+    HeadObj* head;
+    int unk04;
+    Mat4* mat;
+};
+static __forceinline Vec4 Xform(const Mat4& m, __m128 p)
+{
+    __m128 d = _mm_sub_ps(p, m.r3);
+    __m128 r0 = m.r0;
+    __m128 r1 = m.r1;
+    __m128 r2 = m.r2;
+    __m128 low = _mm_unpacklo_ps(r0, r1);
+    __m128 high = _mm_unpackhi_ps(r0, r1);
+    r0 = _mm_movelh_ps(low, r2);
+    r1 = _mm_shuffle_ps(_mm_movehl_ps(r0, low), r2, 0xd4);
+    r2 = _mm_shuffle_ps(high, r2, 0xe4);
+    __m128 mx = _mm_mul_ps(r0, _mm_shuffle_ps(d, d, 0));
+    __m128 my = _mm_mul_ps(r1, _mm_shuffle_ps(d, d, 0x55));
+    __m128 mz = _mm_mul_ps(r2, _mm_shuffle_ps(d, d, 0xaa));
+    Vec4 result;
+    result.q = _mm_add_ps(_mm_add_ps(mx, my), mz);
+    return result;
+}
+static __forceinline __m128 Rotate(const Mat4& m, __m128 p)
+{
+    return _mm_add_ps(
+        _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(p, p, 0x55), m.r1), _mm_mul_ps(_mm_shuffle_ps(p, p, 0), m.r0)),
+        _mm_mul_ps(_mm_shuffle_ps(p, p, 0xaa), m.r2));
+}
+
+extern "C" void _WriteBarrier();
+struct __declspec(align(16)) ScalarColumn
+{
+    float x, y, z, w;
+};
+static __forceinline Vec4 Column(const __m128& a, const __m128& b)
+{
+    Vec4 r;
+    r.q = _mm_shuffle_ps(a, b, 0x88);
+    return r;
+}
+struct ThisCls
+{
+    int unk00;
+    Entry30* entries;
+    SubObj* sub;
+    int m_0c;
+    DestEnt* dest;
+    void FUN_00d97c90(Arg0* a0, __m128* a1);
+};
+// @fnv 0x00d97c90
+void ThisCls::FUN_00d97c90(Arg0* a0, __m128* a1)
+{
+    HeadObj* head = a0->head;
+    if (head == 0)
+        return;
+    {
+        __declspec(align(16)) CandF cands[4];
+        Mat4* mat = a0->mat;
+        float one = 1.0f;
+        PtsBlockF pts;
+        pts.t60 = 0;
+        pts.t64 = 0;
+        __m128 valsV;
+        if (sub != 0)
+        {
+            __declspec(align(16)) float vals[4];
+            for (int i = 0; i < 4; i++)
+            {
+                int mask = _mm_movemask_ps(*a1);
+                char outb;
+                if (((*reinterpret_cast<int (*)[4]>(&::DAT_010c92e0))[i] & mask) != 0 && *sub->Query(&outb, &entries[i], a0) != 0)
+                    vals[i] = one;
+                else
+                    vals[i] = -1.0f;
+            }
+            valsV = _mm_load_ps(vals);
+        }
+        else
+        {
+            valsV = _mm_set1_ps(1.0f);
+        }
+        __declspec(align(16)) float maskF[4];
+        _mm_store_ps(maskF, _mm_cmple_ps(_mm_setzero_ps(), valsV));
+        {
+            pts.v[0].q = Xform(*mat, entries[0].a).q;
+            pts.v[3].q = Xform(*mat, entries[0].b).q;
+            pts.v[1].q = Xform(*mat, entries[1].a).q;
+            pts.v[4].q = Xform(*mat, entries[1].b).q;
+            __m128 t4 = Xform(*mat, entries[2].a).q;
+            pts.v[2].q = t4;
+            __m128 t5 = Xform(*mat, entries[2].b).q;
+            pts.v[5].q = t5;
+            __m128 t6 = Xform(*mat, entries[3].a).q;
+            __m128 t7 = Xform(*mat, entries[3].b).q;
+            __m128 t0 = pts.v[0].q;
+            const __m128& t1 = pts.v[3].q;
+            __m128 t2 = pts.v[1].q;
+            __m128 t3 = pts.v[4].q;
+            __m128 low02 = _mm_shuffle_ps(t0, t2, 0x44);
+            _WriteBarrier();
+            __m128 high02 = _mm_shuffle_ps(_mm_load_ps(reinterpret_cast<const float*>(&pts.v[0].q)),
+                                           _mm_load_ps(reinterpret_cast<const float*>(&pts.v[1].q)), 0xee);
+            __m128 low46 = _mm_shuffle_ps(_mm_load_ps(reinterpret_cast<const float*>(&pts.v[2].q)), t6, 0x44);
+            const __m128& firstColumn = _mm_shuffle_ps(low02, low46, 0x88);
+            __m128 high46 = _mm_shuffle_ps(t4, t6, 0xee);
+            pts.v[1].q = _mm_shuffle_ps(low02, low46, 0xdd);
+            pts.v[2].q = _mm_shuffle_ps(high02, high46, 0x88);
+            __m128 low13 = _mm_shuffle_ps(t1, t3, 0x44);
+            __m128 high13 = _mm_shuffle_ps(_mm_load_ps(reinterpret_cast<const float*>(&pts.v[3].q)),
+                                           _mm_load_ps(reinterpret_cast<const float*>(&pts.v[4].q)), 0xee);
+            pts.v[0].q = firstColumn;
+            __m128 low57 = _mm_shuffle_ps(t5, t7, 0x44);
+            __m128 high57 = _mm_shuffle_ps(t5, t7, 0xee);
+            pts.v[3].q = _mm_shuffle_ps(low13, low57, 0x88);
+            pts.v[4].q = _mm_shuffle_ps(low13, low57, 0xdd);
+            pts.v[5].q = _mm_shuffle_ps(high13, high57, 0x88);
+            _WriteBarrier();
+        }
+        pts.t60 = entries[0].f24;
+        pts.t64 = m_0c;
+        for (int i = 0; i < 4; i++)
+        {
+            cands[i].score = one;
+            cands[i].f14 = -1;
+            cands[i].f20 = -1;
+            cands[i].f40 = 0;
+        }
+        head->Eval(&pts, cands, maskF);
+        for (int i = 0; i < 4; i++)
+        {
+            if (cands[i].score < one && cands[i].score < dest[i].c.score)
+            {
+                dest[i].Copy(*static_cast<DestEnt*>(static_cast<void*>(&cands[i])));
+                dest[i].owner = a0;
+                *reinterpret_cast<__m128*>(dest[i].c.v0) = Rotate(*mat, _mm_load_ps(cands[i].v0));
+            }
+        }
+    }
+}
+
+// Moved from hkpkdtreecollidableraycaster_gs_nogs_variant.cpp (VEGAS-15).
+
+struct Ray
+{
+    struct Node* m_00;
+    int unk04;
+    Mat4* m_08;
+};
+
+struct Frame;
+
+struct Node
+{
+    virtual void unk00();
+    virtual void unk04();
+    virtual void unk08();
+    virtual void unk0C();
+    virtual void unk10();
+    virtual void unk14();
+    virtual void unk18();
+    virtual void unk1C();
+    virtual bool* unk20(bool* flag, Frame* f, void* p);
+    virtual void unk24(Frame* f, Ray* a, int b);
+};
+
+struct Helper
+{
+    virtual void unk00();
+    virtual bool* unk04(bool* const out, void* key, Ray* a1);
+};
+
+__declspec(align(16)) struct Vec4
+{
+    float x;
+    float y;
+    float z;
+    float w;
+};
+
+struct Frame
+{
+    Frame() : k40(0), k44(0)
+    {}
+    Vec4 r0;
+    Vec4 r1;
+    int k40;
+    int k44;
+};
+
+struct Pair
+{
+    __m128 v0;
+    __m128 v1;
+    int unk20;
+    int m_24;
+};
+
+struct Hdr2
+{
+    __m128 m_00;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    Ray* m_50;
+};
+
+static __forceinline void Xform3(Vec4* out, const __m128& pt, const Mat4* M)
+{
+    __m128 d = _mm_sub_ps(pt, M->r3);
+    __m128 r0 = M->r0;
+    __m128 r1 = M->r1;
+    __m128 r2 = M->r2;
+    __m128 lo = _mm_unpacklo_ps(r0, r1);
+    __m128 hi = _mm_unpackhi_ps(r0, r1);
+    r0 = _mm_movelh_ps(lo, r2);
+    r1 = _mm_shuffle_ps(_mm_movehl_ps(r0, lo), r2, 0xd4);
+    r2 = _mm_shuffle_ps(hi, r2, 0xe4);
+    __m128 y = _mm_mul_ps(_mm_shuffle_ps(d, d, 0x55), r1);
+    __m128 x = _mm_mul_ps(_mm_shuffle_ps(d, d, 0), r0);
+    __m128 z = _mm_mul_ps(r2, _mm_shuffle_ps(d, d, 0xaa));
+    _mm_store_ps(&out->x, _mm_add_ps(_mm_add_ps(y, x), z));
+}
+
+struct Raycaster
+{
+    int unk00;
+    Pair* m_04;
+    Helper* m_08;
+    int m_0C;
+    Hdr2* m_10;
+    int m_14;
+
+    bool* FUN_00d97a40(bool* const out, Ray* a1);
+};
+
+// @fnv 0x00d97a40
+bool* Raycaster::FUN_00d97a40(bool* const out, Ray* a1)
+{
+    Node* v = a1->m_00;
+    if (v)
+    {
+        bool flag;
+        if (!m_08 || *m_08->unk04(&flag, m_04, a1))
+        {
+            Pair* A = m_04;
+            Mat4* M = a1->m_08;
+            Frame f;
+            Xform3(&f.r0, A->v0, M);
+            Xform3(&f.r1, A->v1, M);
+            f.k40 = A->m_24;
+            f.k44 = m_0C;
+            if (m_14)
+            {
+                v->unk24(&f, a1, m_14);
+            }
+            else
+            {
+                v->unk20(&flag, &f, m_10);
+                if (flag)
+                {
+                    m_10->m_50 = a1;
+                    __m128& dst = m_10->m_00;
+                    __m128 q = dst;
+                    __m128 t = _mm_mul_ps(_mm_shuffle_ps(q, q, 0), M->r0);
+                    t = _mm_add_ps(t, _mm_mul_ps(_mm_shuffle_ps(q, q, 0x55), M->r1));
+                    t = _mm_add_ps(t, _mm_mul_ps(_mm_shuffle_ps(q, q, 0xaa), M->r2));
+                    dst = t;
+                    *out = true;
+                    return out;
+                }
+            }
+        }
+    }
+    *out = false;
+    return out;
+}

@@ -534,3 +534,81 @@ void Owner::FUN_00dd55f0(OutRecord* out)
         current = collection->Next(current);
     }
 }
+
+// Moved from hkpmoppcachedshapemediator_rtm_variant.cpp (VEGAS-15).
+int InitIntToZero(int, int* piValue);
+void CopyFivePointers(const void* apSource, void* apUnused1, void* apUnused2, void* apUnused3, void* apDest);
+
+struct Entry
+{
+    int unk00;
+    int index;
+    Range_00dd5b00 iv;
+    int unk10;
+};
+
+struct IntervalSet : Obj_00dd5b00
+{
+
+    void GetRange(const Entry& e, int axis, float& lo, float& hi) const
+    {
+        lo = m_kNode.m_pData[e.index].m_ranges[axis].m_fLo;
+        hi = m_kNode.m_pData[e.index].m_ranges[axis].m_fHi;
+    }
+
+    void FUN_00dd5670(int a1, int axis, Entry* entries, int count, float* outMin, float* outMax);
+};
+
+// @fnv 0x00dd5670
+void IntervalSet::FUN_00dd5670(int a1, int axis, Entry* entries, int count, float* outMin, float* outMax)
+{
+    float lo, hi;
+    GetRange(entries[0], axis, lo, hi);
+    entries[0].iv.m_fLo = lo;
+    entries[0].iv.m_fHi = hi;
+    float mn = lo;
+    float mx = hi;
+    for (int i = 1; i < count; i++)
+    {
+        GetRange(entries[i], axis, lo, hi);
+        entries[i].iv.m_fLo = lo;
+        entries[i].iv.m_fHi = hi;
+        mn = (mn < lo) ? mn : lo;
+        mx = (mx > hi) ? mx : hi;
+    }
+    *outMin = mn;
+    *outMax = mx;
+}
+
+struct Ent
+{
+    int idx;
+    int unk04, unk08, unk0c, unk10;
+};
+struct Lst
+{
+    int a;
+    Ent e[1];
+};
+struct CachedRangeMediator : Obj_00dd5b00
+{
+    void FUN_00dd58d0(int unused, int k, Lst* l, int count, float* outMin, float* outMax);
+};
+// @fnv 0x00dd58d0
+void CachedRangeMediator::FUN_00dd58d0(int unused, int k, Lst* l, int count, float* outMin, float* outMax)
+{
+    float mn = m_kNode.m_pData[l->e[0].idx].m_ranges[k].m_fLo;
+    float mx = m_kNode.m_pData[l->e[0].idx].m_ranges[k].m_fHi;
+    Ent* p = l->e;
+    for (int i = 1; i < count; i++)
+    {
+        float a0 = m_kNode.m_pData[p[i].idx].m_ranges[k].m_fLo;
+        float a1 = m_kNode.m_pData[p[i].idx].m_ranges[k].m_fHi;
+        if (!(mn < a0))
+            mn = a0;
+        if (!(mx > a1))
+            mx = a1;
+    }
+    *outMin = mn;
+    *outMax = mx;
+}

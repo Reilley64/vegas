@@ -1748,3 +1748,412 @@ ShapesSubpartS* ShapesSubpartS::FUN_00d56500(hkConvexShapeS* const* childShapes,
 }
 }  // namespace fnv_00d56500
 #include "fnv/symbols_simd.h"
+
+// Moved from hkpstorageextendedmeshshape_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/Cb0StringCopy.h"
+#include "fnv/decl/OwnerD562.h"
+#include "fnv/decl/fnv_00d56160__FUN_00d56160_cls.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_01269000.h"
+template <typename T> inline void hkDestructD49C(T* t, int n)
+{
+    for (int i = 0; i < n; ++i)
+        t[i].~T();
+}
+
+enum hkPlacementNewArg
+{
+    hkPlacementNew
+};
+inline void* operator new(size_t, void* p, hkPlacementNewArg)
+{
+    return p;
+}
+
+struct Subpart
+{
+    unsigned char type;
+    signed char materialIndexType;
+    short materialStride;
+    void* materialIndexBase;
+    unsigned short materialIndexStride, numMaterials;
+    const char* materialBase;
+    const void* materialClass;
+    int numTriangles;
+    const char* vertexBase;
+    int vertexStride, numVertices;
+    __m128 extrusionVector;
+    const char* indexBase;
+    unsigned int indexStride;
+    unsigned char indexType, extrusion;
+    unsigned short flags;
+};
+struct MaterialName
+{
+    const char* value;
+    MaterialName(const char*) throw();
+    MaterialName& operator=(const MaterialName&);
+};
+struct NamedMaterial
+{
+    int filterInfo;
+    MaterialName name;
+    NamedMaterial() throw() : name("Default")
+    {
+        filterInfo = 0;
+    }
+};
+struct MeshMaterial
+{
+    int filterInfo;
+    union
+    {
+        struct
+        {
+            short restitution, friction;
+        };
+        int properties;
+    };
+    int userData;
+};
+struct AllocationRouter
+{
+    virtual void Unused();
+    virtual void* Allocate(int);
+};
+static __declspec(noinline) int FUN_00d49c20(int stride, int triangles)
+{
+    switch (stride)
+    {
+    case 1:
+        return triangles + 2;
+    case 2:
+        return triangles * 2 + 1;
+    default:
+        return triangles * 4;
+    }
+}
+class GlobalObjectO2_00d472a0;
+
+template <class T> inline void initializeItems(T*, int)
+{}
+inline void initializeItems(NamedMaterial* destination, int count)
+{
+    for (int i = 0; i < count; ++i)
+        new (destination + i, hkPlacementNew) NamedMaterial;
+}
+template <class T> struct Buffer
+{
+    T* m_data;
+    int m_iElementCount, m_iCapacityState;
+    inline void reserveUsing(hkMemoryAllocatorD4AC& allocator, int requested)
+    {
+        int available = m_iCapacityState & 0x3fffffff;
+        if (available < requested)
+        {
+            int next = requested < available * 2 ? available * 2 : requested;
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&allocator), (::SpawnedArray *)(void *)(this), next, sizeof(T));
+        }
+    }
+    inline T* growUsing(hkMemoryAllocatorD4AC& allocator, int count)
+    {
+        int offset = m_iElementCount;
+        reserveUsing(allocator, offset + count);
+        initializeItems(m_data + m_iElementCount, count);
+        m_iElementCount += count;
+        return m_data + offset;
+    }
+    inline T* grow(int count)
+    {
+        return growUsing(fnvc_adapt::FUN_00c85750().heap(), count);
+    }
+};
+struct FUN_00d4aef0
+{
+    int vtable;
+    unsigned short size, flags;
+    Buffer<__m128> vertices;
+    Buffer<unsigned char> indices8;
+    Buffer<unsigned short> indices16;
+    Buffer<unsigned int> indices32;
+    Buffer<unsigned char> materialIndices8;
+    Buffer<MeshMaterial> materials;
+    Buffer<NamedMaterial> namedMaterials;
+    Buffer<unsigned short> materialIndices16;
+    FUN_00d4aef0() throw();
+    static void* operator new(size_t bytes)
+    {
+        hkMemoryAllocatorD4AC& allocator = fnvc_adapt::FUN_00c85750().heap();
+        FUN_00d4aef0* memory = static_cast<FUN_00d4aef0*>(allocator.AllocateMemoryBlock(bytes));
+        memory->size = static_cast<unsigned short>(bytes);
+        return memory;
+    }
+};
+
+template <class T> inline void copyItems(T* destination, int count, const T& value)
+{
+    for (int i = 0; i < count; ++i)
+        destination[i] = value;
+}
+template <class T, template <class> class A> inline void append(A<T>& a, const T& value)
+{
+    hkMemoryRouterD49C* manager = FUN_00c85750();
+    if (a.m_iElementCount == (a.m_iCapacityState & 0x3fffffff))
+        ::ResizeAudioStream((::AudioAllocator *)(manager->m_pkHeap), (::AudioStream *)(void *)(&a), sizeof(T));
+    copyItems(a.m_data + a.m_iElementCount, 1, value);
+    ++a.m_iElementCount;
+}
+inline void append(Buffer<unsigned char>& a, const unsigned char& value)
+{
+    hkMemoryRouterD49C* manager = FUN_00c85750();
+    if (a.m_iElementCount == (a.m_iCapacityState & 0x3fffffff))
+        ::ResizeAudioStream((::AudioAllocator *)(manager->m_pkHeap), (::AudioStream *)(void *)(&a), sizeof(unsigned char));
+    unsigned char* slot = a.m_data;
+    _ReadWriteBarrier();
+    slot += a.m_iElementCount;
+    copyItems(slot, 1, value);
+    ++a.m_iElementCount;
+}
+inline void append(Buffer<unsigned short>& a, const unsigned short& value)
+{
+    hkMemoryRouterD49C* manager = FUN_00c85750();
+    if (a.m_iElementCount == (a.m_iCapacityState & 0x3fffffff))
+        ::ResizeAudioStream((::AudioAllocator *)(manager->m_pkHeap), (::AudioStream *)(void *)(&a), sizeof(unsigned short));
+    copyItems(a.m_data + a.m_iElementCount, 1, value);
+    _ReadWriteBarrier();
+    ++a.m_iElementCount;
+    _ReadWriteBarrier();
+}
+inline short halfValue(const float& value)
+{
+    return short(*reinterpret_cast<const int*>(&value) >> 16);
+}
+struct SourceArg
+{
+    const Subpart* p;
+    SourceArg(const Subpart* q) : p(q)
+    {}
+};
+struct StorageShape : hkpStorageExtendedMeshShape
+{
+    void FUN_00d4a2b0(SourceArg sourceArg);
+};
+
+// @fnv 0x00d4a2b0
+void StorageShape::FUN_00d4a2b0(SourceArg sourceArg)
+{
+    Subpart* destination = ((::Subpart *)(reinterpret_cast<::OwnerD562 *>(this)->FUN_00d562f0()));
+    const Subpart& source = *sourceArg.p;
+    reinterpret_cast<::hkpExtendedMeshShapeTrianglesSubpartD4AB *>((destination))->FUN_00d4abf0((const ::hkpExtendedMeshShapeTrianglesSubpartD4AB &)(source));
+    FUN_00d4aef0* created = new FUN_00d4aef0;
+    hkArray<hkpStorageExtendedMeshShapeMeshSubpartStorage*>& mesh = m_kMeshSubparts;
+    append(mesh, reinterpret_cast<hkpStorageExtendedMeshShapeMeshSubpartStorage*>(created));
+    _ReadWriteBarrier();
+    FUN_00d4aef0* storage = reinterpret_cast<FUN_00d4aef0*>(mesh.m_data[mesh.m_iElementCount - 1]);
+    __m128* vertices = storage->vertices.grow(source.numVertices);
+    const char* vertex = source.vertexBase;
+    for (int i = 0; i < source.numVertices; ++i)
+    {
+        const float* v = reinterpret_cast<const float*>(vertex);
+        *vertices++ = _mm_setr_ps(v[0], v[1], v[2], 0.0f);
+        vertex += source.vertexStride;
+    }
+    destination->vertexBase = reinterpret_cast<const char*>(storage->vertices.m_data);
+    destination->vertexStride = 16;
+    destination->numVertices = source.numVertices;
+    void* indices;
+    if (source.indexType == 1)
+    {
+        const int inputStride = source.indexStride;
+        const int stride = inputStride <= 2 ? inputStride : 4;
+        destination->indexStride = stride * sizeof(unsigned char);
+        int count = FUN_00d49c20(inputStride, source.numTriangles);
+        unsigned char* data = storage->indices8.grow(count);
+        ::FUN_00cb1280(data, 0, count * sizeof(unsigned char));
+        const char* input = source.indexBase;
+        indices = data;
+        for (int i = 0; i < source.numTriangles; ++i)
+        {
+            const unsigned char* p = reinterpret_cast<const unsigned char*>(input);
+            unsigned char* q = reinterpret_cast<unsigned char*>(data);
+            q[0] = p[0];
+            q[1] = p[1];
+            q[2] = p[2];
+            data = reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(data) + destination->indexStride);
+            input += source.indexStride;
+        }
+    }
+    else if (source.indexType == 2)
+    {
+        const unsigned int inputStride = source.indexStride >> 1;
+        const int stride = static_cast<int>(inputStride) <= 2 ? inputStride : 4;
+        destination->indexStride = stride * sizeof(unsigned short);
+        int count = FUN_00d49c20(inputStride, source.numTriangles);
+        unsigned short* data = storage->indices16.grow(count);
+        ::FUN_00cb1280(data, 0, count * sizeof(unsigned short));
+        const char* input = source.indexBase;
+        indices = data;
+        for (int i = 0; i < source.numTriangles; ++i)
+        {
+            const unsigned short* p = reinterpret_cast<const unsigned short*>(input);
+            unsigned short* q = reinterpret_cast<unsigned short*>(data);
+            q[0] = p[0];
+            q[1] = p[1];
+            q[2] = p[2];
+            data = reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(data) + destination->indexStride);
+            input += source.indexStride;
+        }
+    }
+    else
+    {
+        const unsigned int inputStride = source.indexStride >> 2;
+        const int stride = static_cast<int>(inputStride) <= 2 ? inputStride : 4;
+        destination->indexStride = stride * sizeof(unsigned int);
+        int count = FUN_00d49c20(inputStride, source.numTriangles);
+        unsigned int* data = storage->indices32.grow(count);
+        ::FUN_00cb1280(data, 0, count * sizeof(unsigned int));
+        const char* input = source.indexBase;
+        indices = data;
+        for (int i = 0; i < source.numTriangles; ++i)
+        {
+            const unsigned int* p = reinterpret_cast<const unsigned int*>(input);
+            unsigned int* q = reinterpret_cast<unsigned int*>(data);
+            q[0] = p[0];
+            q[1] = p[1];
+            q[2] = p[2];
+            data = reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(data) + destination->indexStride);
+            input += source.indexStride;
+        }
+    }
+    destination->indexType = source.indexType;
+    destination->numTriangles = source.numTriangles;
+    destination->extrusion = source.extrusion;
+    destination->indexBase = static_cast<const char*>(indices);
+    destination->materialIndexType = source.materialIndexType;
+    if (source.materialIndexBase)
+    {
+        if (source.materialIndexType == 1)
+        {
+            Buffer<unsigned char>& materialIndices = storage->materialIndices8;
+            if (source.materialIndexStride == 0)
+            {
+                append(materialIndices, *static_cast<const unsigned char*>(source.materialIndexBase));
+                destination->materialIndexBase = materialIndices.m_data + materialIndices.m_iElementCount - 1;
+            }
+            else
+            {
+                unsigned char* data = materialIndices.grow(source.numTriangles);
+                destination->materialIndexBase = data;
+                const char* input = static_cast<const char*>(source.materialIndexBase);
+                for (int i = 0; i < source.numTriangles; ++i)
+                {
+                    data[i] = *reinterpret_cast<const unsigned char*>(input);
+                    input += source.materialIndexStride;
+                }
+            }
+        }
+        else
+        {
+            Buffer<unsigned short>& materialIndices = storage->materialIndices16;
+            if (source.materialIndexStride == 0)
+            {
+                append(materialIndices, *static_cast<const unsigned short*>(source.materialIndexBase));
+                destination->materialIndexBase = materialIndices.m_data + materialIndices.m_iElementCount - 1;
+            }
+            else
+            {
+                unsigned short* data = materialIndices.grow(source.numTriangles);
+                destination->materialIndexBase = data;
+                const char* input = static_cast<const char*>(source.materialIndexBase);
+                for (int i = 0; i < source.numTriangles; ++i)
+                {
+                    data[i] = *reinterpret_cast<const unsigned short*>(input);
+                    input += source.materialIndexStride;
+                }
+            }
+        }
+        destination->materialIndexStride = source.materialIndexStride;
+        if (destination->materialIndexStride)
+        {
+            switch (destination->materialIndexType)
+            {
+            case 1:
+                destination->materialIndexStride = 1;
+                break;
+            case 2:
+                destination->materialIndexStride = 2;
+                break;
+            }
+        }
+    }
+    else
+    {
+        destination->materialIndexBase = 0;
+        destination->materialIndexStride = 0;
+    }
+    if (destination->materialIndexBase)
+    {
+        if (source.materialClass == &g_01269bb4)
+        {
+            NamedMaterial* data = storage->namedMaterials.grow(source.numMaterials);
+            const char* input = source.materialBase;
+            for (int i = 0; i < source.numMaterials; ++i)
+            {
+                NamedMaterial* material = new (data + i, hkPlacementNew) NamedMaterial;
+                const NamedMaterial* original = reinterpret_cast<const NamedMaterial*>(input);
+                material->filterInfo = original->filterInfo;
+                reinterpret_cast<::Cb0StringCopy *>((void *)&(const ::MaterialName &)(material->name))->FUN_00cb0c30((const ::CB0StringPtr &)(original->name));
+                input += source.materialStride;
+            }
+            destination->materialBase = reinterpret_cast<const char*>(storage->namedMaterials.m_data);
+            if (source.materialStride)
+            {
+                destination->materialStride = 8;
+                destination->numMaterials = source.numMaterials;
+            }
+            else
+            {
+                destination->materialStride = 0;
+                destination->numMaterials = 1;
+            }
+        }
+        else
+        {
+            MeshMaterial* data = storage->materials.grow(source.numMaterials);
+            const char* input = source.materialBase;
+            for (int i = 0; i < source.numMaterials; ++i)
+            {
+                const MeshMaterial* original = reinterpret_cast<const MeshMaterial*>(input);
+                if (source.materialClass == &g_01268c8c)
+                {
+                    data->filterInfo = original->filterInfo;
+                    data->properties = original->properties;
+                    data->userData = original->userData;
+                }
+                else
+                {
+                    data->filterInfo = original->filterInfo;
+                    data->friction = halfValue(1.0f);
+                    data->restitution = halfValue(0.0f);
+                }
+                input += source.materialStride;
+                ++data;
+            }
+            destination->materialBase = reinterpret_cast<const char*>(storage->materials.m_data);
+            if (source.materialStride)
+            {
+                destination->materialStride = 12;
+                destination->numMaterials = source.numMaterials;
+            }
+            else
+            {
+                destination->materialStride = 0;
+                destination->numMaterials = 1;
+            }
+        }
+    }
+    reinterpret_cast<::S_00d55950 *>(this)->FUN_00d55950();
+    FUN_00d49cb0* fields = reinterpret_cast<FUN_00d49cb0*>(this);
+    int last = reinterpret_cast<FUN_00d56f10*>(this)->m_kTrianglesSubparts.m_iElementCount - 1;
+    fields->m_aiUnkCC[5] += reinterpret_cast<::fnv_00d56160::FUN_00d56160_cls *>(this)->Vec4((::fnv_00d56160::FUN_00d56160_items *)(destination), last);
+}

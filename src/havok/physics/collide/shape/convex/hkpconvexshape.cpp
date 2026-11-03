@@ -228,3 +228,53 @@ void FN::FUN_00c9e2a0(int p1, int p2, Cb* apCb)
         fn(apCb, pP2, &out.v);
     }
 }
+
+// Moved from hkpconvexshape_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01268000.h"
+int FUN_00c9e1e0(int a1, int a2, int a3, int a4, int a5, int a6, int a7);
+#include <emmintrin.h>
+
+
+struct CenterVector
+{
+    __m128 quad;
+    void SetAdd(const CenterVector& a, const CenterVector& b)
+    {
+        quad = _mm_add_ps(a.quad, b.quad);
+    }
+    void Scale(const float& scale)
+    {
+        __m128 scalar = _mm_load_ss(&scale);
+        __m128 factor = _mm_shuffle_ps(scalar, scalar, 0);
+        quad = _mm_mul_ps(factor, quad);
+    }
+};
+struct __declspec(align(16)) CenterAabb
+{
+    CenterVector m_kMinimumCorner;
+    CenterVector m_kMaximumCorner;
+};
+
+class DummyClass
+{
+  public:
+    virtual ~DummyClass();
+    virtual void vfn1();
+    virtual void vfn2();
+    virtual void vfn3();
+    virtual void vfn4();
+    virtual void vfn5();
+    virtual void vfn6();
+    virtual void getAabb(const hkTransform& localToWorld, float tolerance, CenterAabb& out) const;
+    void FUN_00c9e250(CenterVector* centreOut);
+};
+
+// @fnv 0x00c9e250
+void DummyClass::FUN_00c9e250(CenterVector* centreOut)
+{
+    CenterAabb aabb;
+    getAabb((*reinterpret_cast<const ::hkTransform *>(&::DAT_01268370)), 0.0f, aabb);
+    centreOut->SetAdd(aabb.m_kMaximumCorner, aabb.m_kMinimumCorner);
+    centreOut->Scale(::fnv_00c88020::DAT_01016248);
+}

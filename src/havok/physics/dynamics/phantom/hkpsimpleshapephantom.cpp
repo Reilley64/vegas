@@ -363,6 +363,16 @@ class hkStatisticsCollectorD1F6
             AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
         }
     }
+public:
+    template <class T> void addArray(const char* pcName, const hkArrayD1F6<T>& kArray)
+    {
+        if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
+        {
+            const T* pData = kArray.m_data;
+            int iAllocated = FUN_00d06f80(pData, kArray.getCapacity() * sizeof(T));
+            AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
+        }
+    }
 };
 
 class hkOverlapD1F6;
@@ -1620,3 +1630,648 @@ void C::FUN_00d1f960()
     ::FUN_00c9e820();
 }
 }  // namespace fnv_00d1f960
+
+// Moved from hkpsimpleshapephantom_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/hkpAabbPhantomD07.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_0104d000.h"
+int FUN_00d1f220();
+int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
+struct LcVec4
+{
+    __m128 m_vComponents;
+    void operator=(const LcVec4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+};
+struct LcAabb
+{
+    LcVec4 unk00;
+    LcVec4 unk10;
+};
+
+struct LcCollidable;
+struct LcPadReal
+{
+    float m_kStorage;
+    void operator=(const float& t)
+    {
+        m_kStorage = t;
+    }
+    operator float() const
+    {
+        return m_kStorage;
+    }
+};
+struct LcShape
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void getAabb(const void* transform, float tolerance, LcAabb& aabbOut);
+    int unk04;
+    int unk08;
+    int unk0c;
+};
+struct LcCollidable
+{
+    LcShape* unk00;
+};
+
+struct LcCollisionInput
+{
+    int unk00;
+    int unk04;
+    LcPadReal unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    LcVec4 unk20;
+    LcVec4 unk30;
+    LcVec4 unk40;
+};
+struct LcProcessInput : LcCollisionInput
+{
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+};
+struct LcCastInput : LcCollisionInput
+{
+    LcVec4 unk50;
+    float unk60;
+    float unk64;
+    int unk68;
+    LcCastInput()
+    {
+        unk04 = 0;
+        unk60 = ::DAT_0104da4c;
+    }
+};
+
+typedef void (*LcCastFunc)(const LcCollidable&, const LcCollidable&, const LcCastInput&, void*, void*);
+struct LcAgentFuncs
+{
+    LcCastFunc unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+};
+struct LcDispatcher
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    int unke0;
+    int unke4;
+    int unke8;
+    int unkec;
+    int unkf0;
+    int unkf4;
+    int unkf8;
+    int unkfc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    unsigned char unk1a0[32][32];
+    int unk5a0;
+    int unk5a4;
+    int unk5a8;
+    int unk5ac;
+    int unk5b0;
+    int unk5b4;
+    int unk5b8;
+    int unk5bc;
+    int unk5c0;
+    int unk5c4;
+    int unk5c8;
+    int unk5cc;
+    int unk5d0;
+    int unk5d4;
+    int unk5d8;
+    int unk5dc;
+    int unk5e0;
+    int unk5e4;
+    int unk5e8;
+    int unk5ec;
+    int unk5f0;
+    int unk5f4;
+    int unk5f8;
+    int unk5fc;
+    int unk600;
+    int unk604;
+    int unk608;
+    int unk60c;
+    int unk610;
+    int unk614;
+    int unk618;
+    int unk61c;
+    int unk620;
+    int unk624;
+    int unk628;
+    int unk62c;
+    int unk630;
+    int unk634;
+    int unk638;
+    int unk63c;
+    int unk640;
+    int unk644;
+    int unk648;
+    int unk64c;
+    int unk650;
+    int unk654;
+    int unk658;
+    int unk65c;
+    int unk660;
+    int unk664;
+    int unk668;
+    int unk66c;
+    int unk670;
+    int unk674;
+    int unk678;
+    int unk67c;
+    int unk680;
+    int unk684;
+    int unk688;
+    int unk68c;
+    int unk690;
+    int unk694;
+    int unk698;
+    int unk69c;
+    int unk6a0;
+    int unk6a4;
+    int unk6a8;
+    int unk6ac;
+    int unk6b0;
+    int unk6b4;
+    int unk6b8;
+    int unk6bc;
+    int unk6c0;
+    int unk6c4;
+    int unk6c8;
+    int unk6cc;
+    int unk6d0;
+    int unk6d4;
+    int unk6d8;
+    int unk6dc;
+    int unk6e0;
+    int unk6e4;
+    int unk6e8;
+    int unk6ec;
+    int unk6f0;
+    int unk6f4;
+    int unk6f8;
+    int unk6fc;
+    int unk700;
+    int unk704;
+    int unk708;
+    int unk70c;
+    int unk710;
+    int unk714;
+    int unk718;
+    int unk71c;
+    int unk720;
+    int unk724;
+    int unk728;
+    int unk72c;
+    int unk730;
+    int unk734;
+    int unk738;
+    int unk73c;
+    int unk740;
+    int unk744;
+    int unk748;
+    int unk74c;
+    int unk750;
+    int unk754;
+    int unk758;
+    int unk75c;
+    int unk760;
+    int unk764;
+    int unk768;
+    int unk76c;
+    int unk770;
+    int unk774;
+    int unk778;
+    int unk77c;
+    int unk780;
+    int unk784;
+    int unk788;
+    int unk78c;
+    int unk790;
+    int unk794;
+    int unk798;
+    int unk79c;
+    int unk7a0;
+    int unk7a4;
+    int unk7a8;
+    int unk7ac;
+    int unk7b0;
+    int unk7b4;
+    int unk7b8;
+    int unk7bc;
+    int unk7c0;
+    int unk7c4;
+    int unk7c8;
+    int unk7cc;
+    int unk7d0;
+    int unk7d4;
+    int unk7d8;
+    int unk7dc;
+    int unk7e0;
+    int unk7e4;
+    int unk7e8;
+    int unk7ec;
+    int unk7f0;
+    int unk7f4;
+    int unk7f8;
+    int unk7fc;
+    int unk800;
+    int unk804;
+    int unk808;
+    int unk80c;
+    int unk810;
+    int unk814;
+    int unk818;
+    int unk81c;
+    int unk820;
+    int unk824;
+    int unk828;
+    int unk82c;
+    int unk830;
+    int unk834;
+    int unk838;
+    int unk83c;
+    int unk840;
+    int unk844;
+    int unk848;
+    int unk84c;
+    int unk850;
+    int unk854;
+    int unk858;
+    int unk85c;
+    int unk860;
+    int unk864;
+    int unk868;
+    int unk86c;
+    int unk870;
+    int unk874;
+    int unk878;
+    int unk87c;
+    int unk880;
+    int unk884;
+    int unk888;
+    int unk88c;
+    int unk890;
+    int unk894;
+    int unk898;
+    int unk89c;
+    int unk8a0;
+    int unk8a4;
+    int unk8a8;
+    int unk8ac;
+    int unk8b0;
+    int unk8b4;
+    int unk8b8;
+    int unk8bc;
+    int unk8c0;
+    int unk8c4;
+    int unk8c8;
+    int unk8cc;
+    int unk8d0;
+    int unk8d4;
+    int unk8d8;
+    int unk8dc;
+    int unk8e0;
+    int unk8e4;
+    int unk8e8;
+    int unk8ec;
+    int unk8f0;
+    int unk8f4;
+    int unk8f8;
+    int unk8fc;
+    int unk900;
+    int unk904;
+    int unk908;
+    int unk90c;
+    int unk910;
+    int unk914;
+    int unk918;
+    int unk91c;
+    int unk920;
+    int unk924;
+    int unk928;
+    int unk92c;
+    int unk930;
+    int unk934;
+    int unk938;
+    int unk93c;
+    int unk940;
+    int unk944;
+    int unk948;
+    int unk94c;
+    int unk950;
+    int unk954;
+    int unk958;
+    int unk95c;
+    int unk960;
+    int unk964;
+    int unk968;
+    int unk96c;
+    int unk970;
+    int unk974;
+    int unk978;
+    int unk97c;
+    int unk980;
+    int unk984;
+    int unk988;
+    int unk98c;
+    int unk990;
+    int unk994;
+    int unk998;
+    int unk99c;
+    int unk9a0;
+    int unk9a4;
+    int unk9a8;
+    LcAgentFuncs unk9ac[32];
+};
+struct LcWorld
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    LcProcessInput* unk78;
+    int unk7c;
+    LcDispatcher* unk80;
+};
+struct LcCollidableArray
+{
+    LcCollidable** unk00;
+    int unk04;
+    LcCollidable*& operator[](int i)
+    {
+        return unk00[i];
+    }
+    int GetLogicalSize() const
+    {
+        return unk04;
+    }
+};
+struct LcCastIn
+{
+    LcVec4 unk00;
+    float unk10;
+    float unk14;
+};
+
+struct LcPhantom
+{
+    int unk00;
+    int unk04;
+    LcWorld* unk08;
+    int unk0c;
+    LcCollidable unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    LcVec4 unkb0;
+    LcVec4 unkc0;
+    LcVec4 unkd0;
+    LcVec4 unke0;
+    int unkf0;
+    int unkf4;
+    int unkf8;
+    int unkfc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    LcCollidableArray unk160;
+    void FUN_00d1f270(const LcVec4& position, const LcCastIn& input, void* castCollector, void* startCollector);
+};
+
+// @fnv 0x00d1f270
+void LcPhantom::FUN_00d1f270(const LcVec4& position, const LcCastIn& input, void* castCollector, void* startCollector)
+{
+    unke0.m_vComponents = position.m_vComponents;
+    LcAabb aabb;
+    LcCollidable* collidable = &unk10;
+    float halfTolerance = unk08->unk78->unk08 * 0.5;
+    unk10.unk00->getAabb(&unkb0, halfTolerance + input.unk14, aabb);
+
+    LcVec4 path;
+    path.m_vComponents = _mm_sub_ps(input.unk00.m_vComponents, position.m_vComponents);
+    __m128 zero = _mm_setzero_ps();
+    __m128 pathMin = _mm_min_ps(zero, path.m_vComponents);
+    __m128 pathMax = _mm_max_ps(zero, path.m_vComponents);
+    aabb.unk00.m_vComponents = _mm_add_ps(aabb.unk00.m_vComponents, pathMin);
+    aabb.unk10.m_vComponents = _mm_add_ps(aabb.unk10.m_vComponents, pathMax);
+    reinterpret_cast<::hkpAabbPhantomD07 *>(this)->FUN_00d07ec0((*(const ::hkAabbD07 *)(&aabb)));
+
+    LcCastInput lcInput;
+    const LcProcessInput* in = unk08->unk78;
+    static_cast<LcCollisionInput&>(lcInput) = *in;
+    lcInput.unk68 = in->unk70;
+    lcInput.unk50 = path;
+    __m128 x2 = _mm_mul_ps(path.m_vComponents, path.m_vComponents);
+    __m128 len = _mm_sqrt_ss(_mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2)));
+    float l;
+    _mm_store_ss(&l, len);
+    lcInput.unk64 = l;
+    lcInput.unk08 = input.unk14;
+    lcInput.unk60 = input.unk10;
+
+    LcDispatcher* dispatcher = unk08->unk80;
+    for (int i = unk160.GetLogicalSize() - 1; i >= 0; i--)
+    {
+        LcCollidable* const& collidableB = unk160[i];
+        LcCastFunc func =
+            dispatcher->unk9ac[dispatcher->unk1a0[collidable->unk00->unk0c][collidableB->unk00->unk0c]].unk00;
+        func(*collidable, *collidableB, lcInput, castCollector, startCollector);
+    }
+}

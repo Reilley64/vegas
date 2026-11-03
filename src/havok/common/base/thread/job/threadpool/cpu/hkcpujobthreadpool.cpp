@@ -282,7 +282,16 @@ void ClsD2C::FUN_00d2cf00()
         ::FUN_00d87a70();
     } while (--k >= 0);
     *(void**)this = (void*)&(*reinterpret_cast<char *>(&::DAT_0102e388));
-}
+}struct Thr_00d87940
+{
+    uintptr_t m0;
+    unsigned int m4;
+    uintptr_t m8;
+    unsigned int mC;
+    int FUN_00d87940(uintptr_t a0, uintptr_t a1, const char* a2, unsigned long a3);
+};
+
+
 
 namespace fnv_00d2d110 {
 struct SYSTEM_INFO_D2D1
@@ -784,37 +793,30 @@ struct THREADNAME_INFO
 {
     unsigned long dwType;
     const char* szName;
-    uintptr_t dwThreadID;
+    unsigned long dwThreadID;
     unsigned long dwFlags;
 };
 
-struct Thr_00d87940
-{
-    uintptr_t m0;
-    unsigned int m4;
-    uintptr_t m8;
-    unsigned int mC;
-    int FUN_00d87940(uintptr_t a0, uintptr_t a1, const char* a2, unsigned long a3);
-};
 
 // @fnv 0x00d87940
 int Thr_00d87940::FUN_00d87940(uintptr_t a0, uintptr_t a1, const char* a2, unsigned long a3)
 {
-    m0 = (uintptr_t)CreateThread(0, a3, (unsigned long(*)(void*))a0, (void*)a1, 0, &a1);
+    unsigned long threadId;
+    m0 = (uintptr_t)CreateThread(0, a3, (unsigned long(*)(void*))a0, (void*)a1, 0, &threadId);
     if (m0 == 0)
     {
         return 1;
     }
-    m8 = a1;
+    m8 = threadId;
     mC = 0;
     THREADNAME_INFO info;
     info.dwType = 0x1000;
     info.szName = a2;
-    info.dwThreadID = a1;
+    info.dwThreadID = threadId;
     info.dwFlags = 0;
     __try
     {
-        RaiseException(0x406D1388, 0, 4, (const unsigned long*)&info);
+        RaiseException(0x406D1388, 0, sizeof(info) / sizeof(ULONG_PTR), (const ULONG_PTR*)&info);
     }
     __except (_exception_code() == 0x406D1388 ? -1 : 1)
     {}

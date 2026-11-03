@@ -122,7 +122,7 @@ int ElemPool::AllocElem(intptr_t aiArg1, intptr_t aiArg2, const Elem& arElem)
 
 struct FUN_00d9ce00_Class
 {
-    int base;
+    char* base;
     int value;
     int unk08;
     int* items;
@@ -138,7 +138,7 @@ int* FUN_00d9ce00_Class::PopItem(intptr_t first, intptr_t second, int* output)
         FUN_00d9c450(value + 0x80, first, second);
     *output = items[count - 1];
     --count;
-    return (int*)(((*output * 3) << 4) + base);
+    return (int*)(base + ((*output * 3) << 4));
 }
 
 struct UnsignedShortArray { unsigned short* elements; unsigned int count; unsigned int capacity; };
@@ -851,12 +851,12 @@ void FUN_00d9c7d0_C::FUN_00d9c7d0(NodeD9C7* pkNode)
     if (!(m_pkTreeNode->m_usFlags & 0x8000)) {
         NodeD9C7* pkOther;
         FUN_00d9bb50(pkNode, &pkOther);
-        ::FUN_00d9c2d0((intptr_t)&(m_kFreeList), (unsigned short)(pkOther));
+        ::FUN_00d9c2d0((intptr_t)&(m_kFreeList), (unsigned short)(uintptr_t)(pkOther));
     } else {
         m_sValue = 0x7fff;
         m_pkTreeNode = 0;
     }
-    ::FUN_00d9c2d0((intptr_t)&(m_kFreeList), (unsigned short)(pkNode));
+    ::FUN_00d9c2d0((intptr_t)&(m_kFreeList), (unsigned short)(uintptr_t)(pkNode));
     m_iArrayLength--;
 }
 
@@ -1424,7 +1424,7 @@ template<class B,class I> typename CurrentTree<B,I>::Node* CurrentTree<B,I>::FUN
     Node* parent = parentOf(leaf);
     Node* prev = parentOf(parent);
     I prevIdx = parent->parentIndex();
-    Node* sib = (Node*)((unsigned int)childOf(parent, 0) ^ (unsigned int)childOf(parent, 1) ^ (uintptr_t)leaf);
+    Node* sib = (Node*)((uintptr_t)childOf(parent, 0) ^ (uintptr_t)childOf(parent, 1) ^ (uintptr_t)leaf);
     I sibIdx = parent->childIndex(0) ^ parent->childIndex(1) ^ leafIdx;
     *outParent = leaf->parentIndex();
     Node* root;

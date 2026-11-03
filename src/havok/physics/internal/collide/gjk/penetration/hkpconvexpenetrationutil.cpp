@@ -6,10 +6,7 @@
 #include "havok/hkMemoryRouter.h"
 #include <xmmintrin.h>
 #include "fnv/decl/DFB0B0_Owner.h"
-#include "fnv/decl/Host.h"
 #include "fnv/decl/Hull.h"
-#include "fnv/decl/Tester.h"
-#include "fnv/decl/hkpMinkowskiDF9B.h"
 #include "fnv/symbols_00e2d000.h"
 #include "fnv/symbols_01032000.h"
 #include "fnv/symbols_010db000.h"
@@ -134,18 +131,6 @@ struct S00cd7530_Vec
     }
 };
 
-struct P
-{
-    const S00cd7530_Vec* p;
-    P()
-    {}
-};
-struct Mid
-{
-    const S00cd7530_Vec* p;
-    Mid()
-    {}
-};
 __forceinline void scalarDots(const S00cd7530_Vec& Q, const S00cd7530_Vec& R, float& QQ, float& RR, float& QR)
 {
     QQ = Q.dot3(Q);
@@ -154,22 +139,13 @@ __forceinline void scalarDots(const S00cd7530_Vec& Q, const S00cd7530_Vec& R, fl
 }
 // Computes barycentric coordinates of a point relative to a triangle defined by three vertices and stores the result in a float array.
 // @fnv 0x00cd7530
-void FUN_00cd7530(P pos, P t0, Mid t1, __int64 packedTail)
+void FUN_00cd7530(const S00cd7530_Vec* pos, const S00cd7530_Vec* t0, const S00cd7530_Vec* t1, const S00cd7530_Vec* t2,
+                  float* result)
 {
-    union
-    {
-        __int64 pair;
-        struct
-        {
-            const S00cd7530_Vec* t2;
-            float* result;
-        } v;
-    } tail;
-    tail.pair = packedTail;
     S00cd7530_Vec Q;
-    Q.setSub4((*t0.p), *t1.p);
+    Q.setSub4((*t0), *t1);
     S00cd7530_Vec R;
-    R.setSub4((*tail.v.t2), *t1.p);
+    R.setSub4((*t2), *t1);
     float QQ, RR, QR;
     scalarDots(Q, R, QQ, RR, QR);
 
@@ -180,47 +156,47 @@ void FUN_00cd7530(P pos, P t0, Mid t1, __int64 packedTail)
     {
         const float invDet = 1.0f / Det;
         S00cd7530_Vec relPos;
-        relPos.setSub4(*t1.p, (*pos.p));
+        relPos.setSub4(*t1, (*pos));
         const float sq = relPos.dot3(Q);
         const float sr = relPos.dot3(R);
         const float q = sr * QR - RR * sq;
         const float r = sq * QR - QQ * sr;
-        tail.v.result[0] = invDet * q;
-        tail.v.result[1] = invDet * (Det - q - r);
-        tail.v.result[2] = invDet * r;
+        result[0] = invDet * q;
+        result[1] = invDet * (Det - q - r);
+        result[2] = invDet * r;
     }
     else
     {
         S00cd7530_Vec S;
-        S.setSub4((*t0.p), (*tail.v.t2));
+        S.setSub4((*t0), (*t2));
         const float SS = S.dot3(S);
         if (QQ >= RR)
         {
             if (SS >= QQ)
             {
-                tail.v.result[1] = 0.0f;
+                result[1] = 0.0f;
                 if (SS > 0.0f)
                 {
                     S00cd7530_Vec relPos;
-                    relPos.setSub4((*pos.p), (*tail.v.t2));
+                    relPos.setSub4((*pos), (*t2));
                     const float t = relPos.dot3(S) / SS;
-                    tail.v.result[0] = t;
-                    tail.v.result[2] = 1.0f - t;
+                    result[0] = t;
+                    result[2] = 1.0f - t;
                 }
                 else
                 {
-                    tail.v.result[0] = 0.0f;
-                    tail.v.result[2] = 0.0f;
+                    result[0] = 0.0f;
+                    result[2] = 0.0f;
                 }
             }
             else
             {
                 S00cd7530_Vec relPos;
-                relPos.setSub4((*pos.p), *t1.p);
+                relPos.setSub4((*pos), *t1);
                 const float t = relPos.dot3(Q) / QQ;
-                tail.v.result[0] = t;
-                tail.v.result[1] = 1.0f - t;
-                tail.v.result[2] = 0.0f;
+                result[0] = t;
+                result[1] = 1.0f - t;
+                result[2] = 0.0f;
             }
         }
         else
@@ -228,21 +204,21 @@ void FUN_00cd7530(P pos, P t0, Mid t1, __int64 packedTail)
             if (SS >= RR)
             {
                 S00cd7530_Vec relPos;
-                relPos.setSub4((*pos.p), (*tail.v.t2));
+                relPos.setSub4((*pos), (*t2));
                 const float t = relPos.dot3(S) / SS;
-                tail.v.result[0] = t;
-                tail.v.result[1] = 0.0f;
-                tail.v.result[2] = 1.0f - t;
+                result[0] = t;
+                result[1] = 0.0f;
+                result[2] = 1.0f - t;
             }
             else
             {
                 S00cd7530_Vec relPos;
-                relPos.setSub4((*pos.p), *t1.p);
+                relPos.setSub4((*pos), *t1);
                 const S00cd7530_SimdReal dot = relPos.dot3(R);
-                tail.v.result[0] = 0.0f;
+                result[0] = 0.0f;
                 const float t = float(dot) / RR;
-                tail.v.result[2] = t;
-                tail.v.result[1] = 1.0f - t;
+                result[2] = t;
+                result[1] = 1.0f - t;
             }
         }
     }
@@ -274,111 +250,6 @@ struct S00dfa940_Simplex
     int m_t3;
 
 };
-
-double FUN_00df9ae0();
-
-struct S00dfa940_Solver
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    hkVector4 m_30;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int m_5c;
-    const hkVector4* m_60;
-    const hkVector4* m_64;
-    const hkVector4* m_68;
-    int m_6c;
-
-    int FUN_00dfa940(int a1);
-    void FUN_00df9d90(S00dfa940_Simplex* o, int idx, int a1);
-};
-
-// Loops building simplex entries until FUN_00df9fe0/FUN_00df9c90 give a result; on result 3 retries up to 0x14 times, adding an offset to m_30; returns status.
-// @fnv 0x00dfa940
-int S00dfa940_Solver::FUN_00dfa940(int a1)
-{
-    S00dfa940_Simplex simplex;
-    hkVector4 tmp;
-    int res;
-    int vi;
-    int ret;
-    S00dfa940_Entry* e;
-
-    for (;;)
-    {
-        res = 0;
-        if (reinterpret_cast<::Host *>(this)->FUN_00df9fe0((::Output *)(a1), &res) == 1)
-        {
-            ret = res;
-            if (ret != 3)
-                goto out;
-        }
-        else
-        {
-            reinterpret_cast<::Obj *>(&(simplex))->SetEntries(m_60, m_64, m_68);
-            vi = ((int)(reinterpret_cast<::DFB0B0_Owner *>(&(simplex))->GetNearestEntry()));
-            e = &simplex.m_usTrailingValue[simplex.m_num++];
-            e->m_flag = 0;
-            reinterpret_cast<::hkpMinkowskiDF9B *>(this)->FUN_00df9b50((*(const ::hkVector4DF9B *)(vi)), (*(::hkpCdVertexPairDF9B *)(e)));
-            if (reinterpret_cast<::Tester *>(this)->FUN_00df9c90((::Shape *)(::S00dfa940_Simplex *)(&simplex), (const ::Tri *)(vi), (const ::Vec4 *)(e), &res) != 1)
-            {
-                for (;;)
-                {
-                    int n = simplex.m_num;
-                    if (n >= 0x37)
-                    {
-                        ret = 2;
-                        goto done;
-                    }
-                    vi = ((int)(reinterpret_cast<::DFB0B0_Owner *>(&(simplex))->GetNearestEntry()));
-                    simplex.m_num++;
-                    e = &simplex.m_usTrailingValue[n];
-                    e->m_flag = 0;
-                    reinterpret_cast<::hkpMinkowskiDF9B *>(this)->FUN_00df9b50((*(const ::hkVector4DF9B *)(vi)), (*(::hkpCdVertexPairDF9B *)(e)));
-                    if (reinterpret_cast<::Tester *>(this)->FUN_00df9c90((::Shape *)(::S00dfa940_Simplex *)(&simplex), (const ::Tri *)(vi), (const ::Vec4 *)(e), &res) == 1)
-                        break;
-                }
-            }
-            ret = res;
-            if (ret != 3)
-                goto done;
-        }
-        if (++m_5c == 1)
-        {
-            m_6c = 1;
-            continue;
-        }
-        if (m_5c >= 0x14)
-            goto out;
-        m_6c = 0;
-        float f = (float)((FUN_00df9ae0() - ::DAT_01032980) * DAT_010dbb40);
-        tmp.x = f;
-        tmp.y = f;
-        tmp.z = f;
-        *(__m128*)&tmp = _mm_add_ps(*(__m128*)&m_30, *(__m128*)&tmp);
-        m_30 = tmp;
-    }
-done:
-    FUN_00df9d90(&simplex, vi, a1);
-out:
-    return ret;
-}
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
@@ -419,65 +290,11 @@ struct S_00dfaac0_MonitorStream
             h->m_pCommandName = name;
             _ReadWriteBarrier();
             h->setTime();
-            m_kRayEnd = (char*)(h + 1);
+            m_kRayEnd = reinterpret_cast<char*>(h + 1);
         }
     }
 };
 
-struct S_00dfaac0_Transform
-{
-    float m[16];
-};
-
-struct __declspec(align(16)) S_00dfaac0_Penetration
-{
-    int unk00;
-    S_00dfaac0_Penetration(int a, int b, const S_00dfaac0_Transform& t, float f, int c, int d, int e, int g);
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-};
-
-
-// Constructs a Penetration object and calls FUN_00dfa940; if it returns 3, calls FUN_00e2db70 and returns 1, otherwise returns the original result.
-// @fnv 0x00dfaac0
-int __cdecl TestPenetration(int a, int b, const S_00dfaac0_Transform& t, float f, int c, int d, int e, int g, int out)
-{
-    S_00dfaac0_MonitorStream::GetMonitorStream().timer("TtPenetration");
-    S_00dfaac0_Penetration penetration(a, b, t, f, c, d, e, g);
-    int result = reinterpret_cast<::S00dfa940_Solver *>(&(penetration))->FUN_00dfa940(out);
-    if (result == 3)
-    {
-        ::FUN_00e2db70((const ::S2db70_Shape *)(a), (const ::S2db70_Shape *)(b), (const ::S2db70_Transform &)(t), (*(::S2db70_Vector4 *)(c)), (*(::S2db70_Vector4 *)(d)), (*(::S2db70_Out *)(out)));
-        result = 1;
-    }
-    S_00dfaac0_MonitorStream::GetMonitorStream().timer("Et");
-    return result;
-}
 
 extern "C"
 {
@@ -568,7 +385,7 @@ struct Item
     OutItem* m_arg5;
     int unk138, unk13c;
     WorkObject m_obj;
-    int m_field2ff0;
+    DFB0B0_Entry* m_nearest;
     int unk2ff4, unk2ff8, unk2ffc;
 
     void init(Arg1* a1, Arg2* a2, const hkTransform& trans, float eps, hkVector4* v70, hkVector4* vB0, hkVector4* vF0,
@@ -586,7 +403,6 @@ struct Item
         m_unk6C = u6c;
     }
 
-    void FUN_00df9d90(WorkObject* obj, int field2ff0, LocalStruct70* s);
 };
 
 struct WorkArray
@@ -602,120 +418,6 @@ struct WorkArray
     }
 };
 
-// @fnv 0x00dfaba0
-int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int count, const hkTransform* arg4,
-                 OutItem** arg5)
-{
-    WorkArray storage;
-    hkMemoryRouter& router = hkMemoryRouter::getInstance();
-    storage.data = static_cast<Item*>(static_cast<void*>(router.m_stackCurrent));
-    router.m_stackCurrent += (count * sizeof(Item) + 127) & ~127;
-    Item* buffer = storage.begin();
-
-    LocalStruct70 local_s;
-    hkVector4 out_vec;
-
-    {
-        int arr[2];
-        int workId = 0;
-        for (int i = 0; i < count; ++i)
-        {
-            Item* item = &storage[workId];
-            item->m_arg2_copy = arg2[i];
-            item->m_arg5 = arg5[i];
-            item->init(arg1, arg2[i], *arg4, 0.0001f, item->m_vec70, item->m_vecB0, item->m_vecF0, 0);
-
-            if (reinterpret_cast<::Host *>((item))->FUN_00df9fe0((::Output *)(::LocalStruct70 *)(&local_s), arr) == 1)
-            {
-                count--;
-            }
-            else
-            {
-                Item* p = item;
-                ++workId;
-                reinterpret_cast<::Obj *>(&(p->m_obj))->SetEntries(p->m_vec70, p->m_vecB0, p->m_vecF0);
-            }
-        }
-
-        if (count > 2)
-        {
-            count = 2;
-        }
-        else if (count < 2)
-        {
-            hkMemoryRouter::getInstance().m_stackCurrent = static_cast<char*>(static_cast<void*>(buffer));
-            return 1;
-        }
-
-        arr[0] = 0;
-        arr[1] = 0;
-
-        bool flag;
-        do
-        {
-            FUN_00e2d6c0(&buffer[0].m_obj, &buffer[1].m_obj, &out_vec, &buffer[0].m_field2ff0, &buffer[1].m_field2ff0);
-            flag = false;
-            Item* pItem = buffer;
-            for (int i = 0; i < count; ++i, ++pItem)
-            {
-                if (arr[i] == 2 || pItem->m_obj.m_num < 55)
-                {
-                    continue;
-                }
-                Entry* entry = pItem->m_obj.allocEntry();
-                reinterpret_cast<::hkpMinkowskiDF9B *>((pItem))->FUN_00df9b50((*(const ::hkVector4DF9B *)(pItem->m_field2ff0)), (*(::hkpCdVertexPairDF9B *)(entry)));
-                if (reinterpret_cast<::Tester *>((pItem))->FUN_00df9c90((::Shape *)&(pItem->m_obj), (const ::Tri *)(pItem->m_field2ff0), (const ::Vec4 *)(entry), &arr[i]) == 1)
-                {
-                    if (arr[i] == 3)
-                    {
-                        hkMemoryRouter::getInstance().m_stackCurrent = static_cast<char*>(static_cast<void*>(buffer));
-                        return 1;
-                    }
-                }
-                else
-                {
-                    flag = true;
-                }
-            }
-        } while (flag);
-    }
-
-    float neg_w = -out_vec.w;
-    hkVector4 neg_vec_v;
-    neg_vec_v = out_vec;
-    __m128 neg_vec = _mm_xor_ps(*(__m128*)&neg_vec_v, ::DAT_010c44d0);
-    float f10 = arg1->float10;
-
-    Item* pItem = buffer;
-    for (int i = 0; i < count; ++i, ++pItem)
-    {
-        pItem->FUN_00df9d90(&pItem->m_obj, pItem->m_field2ff0, &local_s);
-
-        __m128 normal_y;
-        __m128 normal_x, normal_z;
-        normal_y = _mm_shuffle_ps(neg_vec, neg_vec, 0x55);
-        normal_z = _mm_shuffle_ps(neg_vec, neg_vec, 0xAA);
-        normal_x = _mm_shuffle_ps(neg_vec, neg_vec, 0x00);
-        *(__m128*)&pItem->m_arg5->direction =
-            _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_load_ps((const float*)&normal_y), *(__m128*)&transform->m_rotation[1]),
-                                  _mm_mul_ps(normal_x, *(__m128*)&transform->m_rotation[0])),
-                       _mm_mul_ps(_mm_load_ps((const float*)&normal_z), *(__m128*)&transform->m_rotation[2]));
-
-        __m128 pt_y = _mm_mul_ps(_mm_shuffle_ps(*(__m128*)&local_s.m_v1, *(__m128*)&local_s.m_v1, 0x55),
-                                 *(__m128*)&transform->m_rotation[1]);
-        __m128 pt_x = _mm_mul_ps(_mm_shuffle_ps(*(__m128*)&local_s.m_v1, *(__m128*)&local_s.m_v1, 0x00),
-                                 *(__m128*)&transform->m_rotation[0]);
-        __m128 pt_z = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(*(__m128*)&local_s.m_v1, *(__m128*)&local_s.m_v1, 0xAA),
-                                            *(__m128*)&transform->m_rotation[2]),
-                                 *(__m128*)&transform->m_vTranslation);
-        float w = neg_w - f10 - pItem->m_arg2_copy->getRadius();
-        *(__m128*)&pItem->m_arg5->point = _mm_add_ps(_mm_add_ps(pt_y, pt_x), pt_z);
-        pItem->m_arg5->direction.w = w;
-    }
-
-    hkMemoryRouter::getInstance().m_stackCurrent = static_cast<char*>(static_cast<void*>(buffer));
-    return 0;
-}
 
 // Moved from hkpconvexpenetrationutil_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
 #include "fnv/decl/FUN_004b4ab0_Class.h"
@@ -916,19 +618,6 @@ struct __declspec(align(16)) S00df9ef0_Vec4
     float w;
 };
 
-template <class T> struct S00df9ef0_Pad
-{
-    T* m_p;
-    __forceinline T* val() const
-    {
-        return m_p;
-    }
-    __forceinline T* operator->() const
-    {
-        return m_p;
-    }
-};
-
 struct S00df9ef0_Hit
 {
     S00df9ef0_Vec4 a;
@@ -940,7 +629,7 @@ struct S00df9ef0_Hit
 struct S00df9ef0_Obj
 {
 
-    void FUN_00df9ef0(S00df9ef0_Vec4* p, S00df9ef0_Pad<S00df9ef0_Vec4> r, S00df9ef0_Hit* q, S00df9ef0_Pad<float> outF);
+    void FUN_00df9ef0(S00df9ef0_Vec4* p, const S00df9ef0_Vec4* r, S00df9ef0_Hit* q, float* outF);
 };
 
 static float S00df9ef0_Dot3(__m128 v)
@@ -953,8 +642,7 @@ static float S00df9ef0_Dot3(__m128 v)
 }
 
 // @fnv 0x00df9ef0
-void S00df9ef0_Obj::FUN_00df9ef0(S00df9ef0_Vec4* p, S00df9ef0_Pad<S00df9ef0_Vec4> r, S00df9ef0_Hit* q,
-                                 S00df9ef0_Pad<float> outF)
+void S00df9ef0_Obj::FUN_00df9ef0(S00df9ef0_Vec4* p, const S00df9ef0_Vec4* r, S00df9ef0_Hit* q, float* outF)
 {
     S00df9ef0_Hit h;
     S00df9ef0_Vec4 neg;
@@ -973,11 +661,11 @@ void S00df9ef0_Obj::FUN_00df9ef0(S00df9ef0_Vec4* p, S00df9ef0_Pad<S00df9ef0_Vec4
         _mm_store_ps(&qq->b.x, vb);
         _mm_store_ps(&qq->c.x, _mm_load_ps(&h.c.x));
         qq->d = h.d;
-        *outF.val() = f1;
+        *outF = f1;
     }
     else
     {
-        *outF.val() = f2;
+        *outF = f2;
     }
 }
 
@@ -1055,15 +743,15 @@ int Tester::FUN_00df9c90(Shape* shape, const Tri* tri, const Vec4* pos, int* res
     *(__m128*)&edges.e1 = _mm_sub_ps(p, *(const __m128*)tri->m_p1);
     *(__m128*)&edges.e2 = _mm_sub_ps(p, *(const __m128*)tri->m_p2);
     Result4 bary;
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(bary))->FUN_004b4ab0((int)(&edges), (int)(tri));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(bary))->FUN_004b4ab0(reinterpret_cast<intptr_t>(&edges), reinterpret_cast<intptr_t>(tri));
     if (_mm_movemask_ps(_mm_cmplt_ps(*(__m128*)&bary, *(__m128*)&m_40)) & 7)
     {
         *result = 0;
         return 1;
     }
     int a = 0;
-    int b;
-    if (reinterpret_cast<::FloatPair *>((shape))->FUN_00dfb040((::ParserContext *)(tri), (int)(pos), &a, (::ParserContext **)(int *)(&b)))
+    ::ParserContext* b;
+    if (reinterpret_cast<::FloatPair *>((shape))->FUN_00dfb040((::ParserContext *)(tri), pos, &a, &b))
     {
         *result = 3;
         return 1;
@@ -1073,7 +761,7 @@ int Tester::FUN_00df9c90(Shape* shape, const Tri* tri, const Vec4* pos, int* res
         *result = 2;
         return 1;
     }
-    if (reinterpret_cast<::FanSpace::FanBuilder *>((shape))->FUN_00e2d1b0(a, (::FanSpace::FanEdge *)(b), (::FanSpace::FanVertex *)(pos)))
+    if (reinterpret_cast<::FanSpace::FanBuilder *>((shape))->FUN_00e2d1b0(a, reinterpret_cast<::FanSpace::FanEdge *>(b), (::FanSpace::FanVertex *)(pos)))
     {
         *result = 3;
         return 1;
@@ -1160,7 +848,10 @@ struct S_00df9d90_This
     int unk20, unk24, unk28, unk2c;
     int unk30, unk34, unk38, unk3c;
     int unk40, unk44, unk48, unk4c;
-    int unk50, unk54, unk58, unk5c;
+    int unk50;
+    const void* m_shapeA;
+    const void* m_shapeB;
+    int unk5c;
     __m128* unk60;
     __m128* unk64;
     __m128* unk68;
@@ -1177,7 +868,8 @@ S_00df9d90_Out* S_00df9d90_This::FUN_00df9d90(S_00df9d90_OwnerP owner, S_00df9d9
         unk68[0] = s->unk10[0];
         unk68[1] = s->unk20[0];
         unk68[2] = s->unk30[0];
-        ::FUN_00cd7530((::P)(&DAT_01267e30), (::P)(&unk68[0]), (::Mid)(&unk68[1]), (long long)(&unk68[2]));
+        const S00cd7530_Vec* corners = reinterpret_cast<const S00cd7530_Vec*>(unk68);
+        ::FUN_00cd7530(reinterpret_cast<const S00cd7530_Vec*>(&DAT_01267e30), &corners[0], &corners[1], &corners[2], bary.v);
         if (!(bary.v[0] < 0.0f || bary.v[1] < 0.0f || bary.v[2] < 0.0f))
             break;
         s = ((::S_00df9d90_Src *)(reinterpret_cast<::fnv_00e2d550::HullWalker *>((owner.val()))->FUN_00e2d550((::fnv_00e2d550::HullFace *)(s))));
@@ -1213,7 +905,6 @@ S_00df9d90_Out* S_00df9d90_This::FUN_00df9d90(S_00df9d90_OwnerP owner, S_00df9d9
 extern "C" void _ReadWriteBarrier();
 extern "C" void _ReadBarrier();
 #include <math.h>
-void __cdecl FUN_00cd7530(const void* g, void* a, void* b, void* c, void* out);
 
 struct Scalar
 {
@@ -1304,11 +995,11 @@ struct Host
     int unk48;
     int unk4c;
     float thresh;
-    int unk54;
-    int unk58;
+    const void* m_shapeA;
+    const void* m_shapeB;
     int unk5c;
     Vector* mat;
-    int unk64;
+    Vector* m_verticesB;
     Vector* pts;
     int feat;
     void PushVectorTriple(const Support* support);
@@ -1480,8 +1171,8 @@ lineSupport: {
     perp.normalize();
     second.normalize();
     float d1, d2;
-    reinterpret_cast<::S00df9ef0_Obj *>(this)->FUN_00df9ef0((::S00df9ef0_Vec4 *)(&perp), (::S00df9ef0_Pad< ::S00df9ef0_Vec4>)(pts), (::S00df9ef0_Hit *)(::Support *)(&support), (::S00df9ef0_Pad<float>)(&d1));
-    reinterpret_cast<::S00df9ef0_Obj *>(this)->FUN_00df9ef0((::S00df9ef0_Vec4 *)(&second), (::S00df9ef0_Pad< ::S00df9ef0_Vec4>)(pts), (::S00df9ef0_Hit *)(::Support *)(&support2), (::S00df9ef0_Pad<float>)(&d2));
+    reinterpret_cast<::S00df9ef0_Obj *>(this)->FUN_00df9ef0((::S00df9ef0_Vec4 *)(&perp), reinterpret_cast<const ::S00df9ef0_Vec4 *>(pts), (::S00df9ef0_Hit *)(::Support *)(&support), &d1);
+    reinterpret_cast<::S00df9ef0_Obj *>(this)->FUN_00df9ef0((::S00df9ef0_Vec4 *)(&second), reinterpret_cast<const ::S00df9ef0_Vec4 *>(pts), (::S00df9ef0_Hit *)(::Support *)(&support2), &d2);
     if (d1 > d2)
     {
         PushVectorTriple(&support);
@@ -1494,7 +1185,7 @@ triangleSupport: {
     best = 3;
     normal.normalize();
     float distance;
-    reinterpret_cast<::S00df9ef0_Obj *>(this)->FUN_00df9ef0((::S00df9ef0_Vec4 *)(&normal), (::S00df9ef0_Pad< ::S00df9ef0_Vec4>)(pts), (::S00df9ef0_Hit *)(::Support *)(&support), (::S00df9ef0_Pad<float>)(&distance));
+    reinterpret_cast<::S00df9ef0_Obj *>(this)->FUN_00df9ef0((::S00df9ef0_Vec4 *)(&normal), reinterpret_cast<const ::S00df9ef0_Vec4 *>(pts), (::S00df9ef0_Hit *)(::Support *)(&support), &distance);
     if (distance < f40)
         goto outTriangle;
     PushVectorTriple(&support);
@@ -1531,7 +1222,8 @@ outLine: {
 outTriangle: {
     out->distance = 0.0f;
     out->direction = normal;
-    FUN_00cd7530(&(*reinterpret_cast<const int *>(&::DAT_01267e30)), pts, &pts[1], &pts[2], &scratch);
+    const S00cd7530_Vec* corners = reinterpret_cast<const S00cd7530_Vec*>(pts);
+    FUN_00cd7530(reinterpret_cast<const S00cd7530_Vec*>(&::DAT_01267e30), &corners[0], &corners[1], &corners[2], scratch.f);
     __m128 c0 = _mm_load_ss(&scratch.f[0]);
     __m128 c1, c2;
     {
@@ -1554,4 +1246,263 @@ failedDefault:
     *pfeat = 3;
     return 1;
 }
+// Moved below the stand-in views it uses (VEGAS-15).
+// @fnv 0x00dfaba0
+int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int count, const hkTransform* arg4,
+                 OutItem** arg5)
+{
+    WorkArray storage;
+    hkMemoryRouter& router = hkMemoryRouter::getInstance();
+    storage.data = static_cast<Item*>(static_cast<void*>(router.m_stackCurrent));
+    router.m_stackCurrent += (count * sizeof(Item) + 127) & ~127;
+    Item* buffer = storage.begin();
+
+    LocalStruct70 local_s;
+    hkVector4 out_vec;
+
+    {
+        int arr[2];
+        int workId = 0;
+        for (int i = 0; i < count; ++i)
+        {
+            Item* item = &storage[workId];
+            item->m_arg2_copy = arg2[i];
+            item->m_arg5 = arg5[i];
+            item->init(arg1, arg2[i], *arg4, 0.0001f, item->m_vec70, item->m_vecB0, item->m_vecF0, 0);
+
+            if (reinterpret_cast<::Host *>((item))->FUN_00df9fe0((::Output *)(::LocalStruct70 *)(&local_s), arr) == 1)
+            {
+                count--;
+            }
+            else
+            {
+                Item* p = item;
+                ++workId;
+                reinterpret_cast<::Obj *>(&(p->m_obj))->SetEntries(p->m_vec70, p->m_vecB0, p->m_vecF0);
+            }
+        }
+
+        if (count > 2)
+        {
+            count = 2;
+        }
+        else if (count < 2)
+        {
+            hkMemoryRouter::getInstance().m_stackCurrent = static_cast<char*>(static_cast<void*>(buffer));
+            return 1;
+        }
+
+        arr[0] = 0;
+        arr[1] = 0;
+
+        bool flag;
+        do
+        {
+            FUN_00e2d6c0(&buffer[0].m_obj, &buffer[1].m_obj, &out_vec, &buffer[0].m_nearest, &buffer[1].m_nearest);
+            flag = false;
+            Item* pItem = buffer;
+            for (int i = 0; i < count; ++i, ++pItem)
+            {
+                if (arr[i] == 2 || pItem->m_obj.m_num < 55)
+                {
+                    continue;
+                }
+                Entry* entry = pItem->m_obj.allocEntry();
+                reinterpret_cast<::hkpMinkowskiDF9B *>((pItem))->FUN_00df9b50(*reinterpret_cast<const ::hkVector4DF9B *>(pItem->m_nearest), (*(::hkpCdVertexPairDF9B *)(entry)));
+                if (reinterpret_cast<::Tester *>((pItem))->FUN_00df9c90((::Shape *)&(pItem->m_obj), reinterpret_cast<const ::Tri *>(pItem->m_nearest), (const ::Vec4 *)(entry), &arr[i]) == 1)
+                {
+                    if (arr[i] == 3)
+                    {
+                        hkMemoryRouter::getInstance().m_stackCurrent = static_cast<char*>(static_cast<void*>(buffer));
+                        return 1;
+                    }
+                }
+                else
+                {
+                    flag = true;
+                }
+            }
+        } while (flag);
+    }
+
+    float neg_w = -out_vec.w;
+    hkVector4 neg_vec_v;
+    neg_vec_v = out_vec;
+    __m128 neg_vec = _mm_xor_ps(*(__m128*)&neg_vec_v, ::DAT_010c44d0);
+    float f10 = arg1->float10;
+
+    Item* pItem = buffer;
+    for (int i = 0; i < count; ++i, ++pItem)
+    {
+        reinterpret_cast<::S_00df9d90_This *>(pItem)->FUN_00df9d90(
+            S_00df9d90_OwnerP{reinterpret_cast<::S_00df9d90_Owner *>(&pItem->m_obj)},
+            reinterpret_cast<::S_00df9d90_Src *>(pItem->m_nearest), S_00df9d90_OutP{reinterpret_cast<::S_00df9d90_Out *>(&local_s)});
+
+        __m128 normal_y;
+        __m128 normal_x, normal_z;
+        normal_y = _mm_shuffle_ps(neg_vec, neg_vec, 0x55);
+        normal_z = _mm_shuffle_ps(neg_vec, neg_vec, 0xAA);
+        normal_x = _mm_shuffle_ps(neg_vec, neg_vec, 0x00);
+        *(__m128*)&pItem->m_arg5->direction =
+            _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_load_ps((const float*)&normal_y), *(__m128*)&transform->m_rotation[1]),
+                                  _mm_mul_ps(normal_x, *(__m128*)&transform->m_rotation[0])),
+                       _mm_mul_ps(_mm_load_ps((const float*)&normal_z), *(__m128*)&transform->m_rotation[2]));
+
+        __m128 pt_y = _mm_mul_ps(_mm_shuffle_ps(*(__m128*)&local_s.m_v1, *(__m128*)&local_s.m_v1, 0x55),
+                                 *(__m128*)&transform->m_rotation[1]);
+        __m128 pt_x = _mm_mul_ps(_mm_shuffle_ps(*(__m128*)&local_s.m_v1, *(__m128*)&local_s.m_v1, 0x00),
+                                 *(__m128*)&transform->m_rotation[0]);
+        __m128 pt_z = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(*(__m128*)&local_s.m_v1, *(__m128*)&local_s.m_v1, 0xAA),
+                                            *(__m128*)&transform->m_rotation[2]),
+                                 *(__m128*)&transform->m_vTranslation);
+        float w = neg_w - f10 - pItem->m_arg2_copy->getRadius();
+        *(__m128*)&pItem->m_arg5->point = _mm_add_ps(_mm_add_ps(pt_y, pt_x), pt_z);
+        pItem->m_arg5->direction.w = w;
+    }
+
+    hkMemoryRouter::getInstance().m_stackCurrent = static_cast<char*>(static_cast<void*>(buffer));
+    return 0;
+}
+
+double FUN_00df9ae0();
+
+struct S00dfa940_Solver
+{
+    hkTransform m_transform;
+    __m128 m_tolerance;
+    float m_toleranceSq;
+    const void* m_shapeA;
+    const void* m_shapeB;
+    int m_5c;
+    const hkVector4* m_60;
+    const hkVector4* m_64;
+    const hkVector4* m_68;
+    int m_6c;
+
+    // Same field setup as Item::init.
+    void init(const void* shapeA, const void* shapeB, const hkTransform& transform, float epsilon,
+              const hkVector4* verticesA, const hkVector4* verticesB, const hkVector4* differences, int count)
+    {
+        m_transform = transform;
+        m_tolerance = _mm_set_ps1(epsilon);
+        m_toleranceSq = epsilon * epsilon;
+        m_shapeA = shapeA;
+        m_shapeB = shapeB;
+        m_5c = 0;
+        m_60 = verticesA;
+        m_64 = verticesB;
+        m_68 = differences;
+        m_6c = count;
+    }
+
+    int FUN_00dfa940(Output* out);
+};
+
+// Loops building simplex entries until FUN_00df9fe0/FUN_00df9c90 give a result; on result 3 retries up to 0x14 times, adding an offset to m_30; returns status.
+// @fnv 0x00dfa940
+int S00dfa940_Solver::FUN_00dfa940(Output* out)
+{
+    S00dfa940_Simplex simplex;
+    hkVector4 tmp;
+    int res;
+    DFB0B0_Entry* nearest;
+    int ret;
+    S00dfa940_Entry* e;
+
+    for (;;)
+    {
+        res = 0;
+        if (reinterpret_cast<::Host *>(this)->FUN_00df9fe0(out, &res) == 1)
+        {
+            ret = res;
+            if (ret != 3)
+                goto out;
+        }
+        else
+        {
+            reinterpret_cast<::Obj *>(&(simplex))->SetEntries(m_60, m_64, m_68);
+            nearest = reinterpret_cast<::DFB0B0_Owner *>(&(simplex))->GetNearestEntry();
+            e = &simplex.m_usTrailingValue[simplex.m_num++];
+            e->m_flag = 0;
+            reinterpret_cast<::hkpMinkowskiDF9B *>(this)->FUN_00df9b50(*reinterpret_cast<const ::hkVector4DF9B *>(nearest), *reinterpret_cast<::hkpCdVertexPairDF9B *>(e));
+            if (reinterpret_cast<::Tester *>(this)->FUN_00df9c90((::Shape *)(::S00dfa940_Simplex *)(&simplex), reinterpret_cast<const ::Tri *>(nearest), (const ::Vec4 *)(e), &res) != 1)
+            {
+                for (;;)
+                {
+                    int n = simplex.m_num;
+                    if (n >= 0x37)
+                    {
+                        ret = 2;
+                        goto done;
+                    }
+                    nearest = reinterpret_cast<::DFB0B0_Owner *>(&(simplex))->GetNearestEntry();
+                    simplex.m_num++;
+                    e = &simplex.m_usTrailingValue[n];
+                    e->m_flag = 0;
+                    reinterpret_cast<::hkpMinkowskiDF9B *>(this)->FUN_00df9b50(*reinterpret_cast<const ::hkVector4DF9B *>(nearest), *reinterpret_cast<::hkpCdVertexPairDF9B *>(e));
+                    if (reinterpret_cast<::Tester *>(this)->FUN_00df9c90((::Shape *)(::S00dfa940_Simplex *)(&simplex), reinterpret_cast<const ::Tri *>(nearest), (const ::Vec4 *)(e), &res) == 1)
+                        break;
+                }
+            }
+            ret = res;
+            if (ret != 3)
+                goto done;
+        }
+        if (++m_5c == 1)
+        {
+            m_6c = 1;
+            continue;
+        }
+        if (m_5c >= 0x14)
+            goto out;
+        m_6c = 0;
+        float f = (float)((FUN_00df9ae0() - ::DAT_01032980) * DAT_010dbb40);
+        tmp.x = f;
+        tmp.y = f;
+        tmp.z = f;
+        *(__m128*)&tmp = _mm_add_ps(*(__m128*)&m_transform.m_vTranslation, *(__m128*)&tmp);
+        m_transform.m_vTranslation = tmp;
+    }
+done:
+    reinterpret_cast<::S_00df9d90_This *>(this)->FUN_00df9d90(
+        S_00df9d90_OwnerP{reinterpret_cast<::S_00df9d90_Owner *>(&simplex)}, reinterpret_cast<::S_00df9d90_Src *>(nearest),
+        S_00df9d90_OutP{reinterpret_cast<::S_00df9d90_Out *>(out)});
+out:
+    return ret;
+}
+
+struct S_00dfaac0_Transform
+{
+    float m[16];
+};
+
+struct S_00dfaac0_Penetration : S00dfa940_Solver
+{
+    S_00dfaac0_Penetration(const ::S2db70_Shape* shapeA, const ::S2db70_Shape* shapeB, const S_00dfaac0_Transform& t,
+                           float epsilon, ::S2db70_Vector4* verticesA, ::S2db70_Vector4* verticesB,
+                           ::S2db70_Vector4* differences, int count)
+    {
+        init(shapeA, shapeB, reinterpret_cast<const hkTransform&>(t), epsilon, reinterpret_cast<const hkVector4*>(verticesA),
+             reinterpret_cast<const hkVector4*>(verticesB), reinterpret_cast<const hkVector4*>(differences), count);
+    }
+};
+
+
+// Constructs a Penetration object and calls FUN_00dfa940; if it returns 3, calls FUN_00e2db70 and returns 1, otherwise returns the original result.
+// @fnv 0x00dfaac0
+int __cdecl TestPenetration(const ::S2db70_Shape* a, const ::S2db70_Shape* b, const S_00dfaac0_Transform& t, float f,
+                            ::S2db70_Vector4* c, ::S2db70_Vector4* d, ::S2db70_Vector4* e, int g, ::S2db70_Out* out)
+{
+    S_00dfaac0_MonitorStream::GetMonitorStream().timer("TtPenetration");
+    S_00dfaac0_Penetration penetration(a, b, t, f, c, d, e, g);
+    int result = penetration.FUN_00dfa940(reinterpret_cast<::Output *>(out));
+    if (result == 3)
+    {
+        ::FUN_00e2db70(a, b, reinterpret_cast<const ::S2db70_Transform &>(t), *c, *d, *out);
+        result = 1;
+    }
+    S_00dfaac0_MonitorStream::GetMonitorStream().timer("Et");
+    return result;
+}
+
 #include "generated/data/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.inc"

@@ -2966,11 +2966,11 @@ struct ParserContext
 struct FloatPair
 {
     float first, second;
-    int FUN_00dfb040(ParserContext*, int, int*, ParserContext**);
+    int FUN_00dfb040(ParserContext*, const void*, int*, ParserContext**);
 };
 // Initialises first/second from constants, calls ctx->FUN_00e63af0 and, if it returns 1, delegates to TraverseNode; otherwise returns 2.
 // @fnv 0x00dfb040
-int FloatPair::FUN_00dfb040(ParserContext* ctx, int input, int* outA, ParserContext** outB)
+int FloatPair::FUN_00dfb040(ParserContext* ctx, const void* input, int* outA, ParserContext** outB)
 {
     double initial = DAT_010dbb3c;
     *outB = 0;

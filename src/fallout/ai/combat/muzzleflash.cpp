@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/muzzleflash.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/muzzleflash.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/av_object_fields.h"
 #include "fnv/vats_camera_data_view.h"
 #include <cstdint>
 #include "fnv/decl/Actor.h"
@@ -711,6 +712,9 @@ struct ThisCls
     int m_04;
     int m_08;
     NiPtrC m_0c;
+    void* m_10;
+    void* m_14;
+    void* m_18;
     void UpdateMuzzleFlash(ParamCls*);
 };
 struct SpawnedItem;
@@ -1242,7 +1246,7 @@ void __cdecl FUN_009bb6d0(ProjTarget* pTarget, Projectile* pProjectile)
             if (item != 0)
             {
                 if (!(item->v6b8() != 0 &&
-                      ((void *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((FUN_00825c00_cls*)item->v6b8())))->FUN_00825c00())) == ((::ProjectileData *)(reinterpret_cast<::Actor *>((pProjectile))->GetActorBase())) &&
+                      reinterpret_cast<::ThisCls*>(item->v6b8())->m_14 == ((::ProjectileData *)(reinterpret_cast<::Actor *>((pProjectile))->GetActorBase())) &&
                       ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((FUN_009611e0_cls*)item->v6b8())))->FUN_009611e0())) == reinterpret_cast<::FUN_00476c90_Class *>((pProjectile))->FUN_00476c90()))
                 {
                     item->v6c4();
@@ -1344,8 +1348,8 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
     NodeCls* node2 =
         apParam->v64()
             ? (NodeCls*)apParam->v131()
-            : (((FUN_009611e0_shell*)this)->FUN_009611e0()
-                   ? (NodeCls*)((::NodeCls *)(reinterpret_cast<::UnkClass25700 *>((((NodeSrc*)((FUN_009611e0_shell*)this)->FUN_009611e0())))->FUN_00525700((::NiAVObject *)(void *)(apParam->v116()))))
+            : (m_18
+                   ? (NodeCls*)((::NodeCls *)(reinterpret_cast<::UnkClass25700 *>(((NodeSrc*)m_18))->FUN_00525700((::NiAVObject *)(void *)(apParam->v116()))))
                    : (NodeCls*)0);
     bool _flag = false;
     float fResultTmp = 0.0f;
@@ -1391,7 +1395,7 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
         }
         if (target2)
         {
-            if (target2 != (void*)((FUN_009611e0_shell*)((::NiAVObject *)(::FUN_00559450((int *)&(m_0c)))))->FUN_009611e0())
+            if (target2 != (void*)reinterpret_cast<NiAVObjectFields*>(::FUN_00559450((int *)&(m_0c)))->m_pkParent)
             {
                 if (!FUN_008c7aa0())
                 {

@@ -1,5 +1,6 @@
 // fallout/ai/combat/combatstate.cpp: CombatState, Host, Holder, NavMeshSearchLOSArray and more (141 functions)
 
+#include "fnv/decl/S_009a7670_P3.h"
 #include "fnv/combat_manager_fields.h"
 #include "fnv/inventory_entry_fields.h"
 #include "fnv/combat_controller_fields.h"
@@ -7816,7 +7817,7 @@ void FUN_0099d310_shell::FUN_0099d310(FUN_0099d310_arg* param)
     {
         if (FUN_0097ee90() && (unsigned char)_pad[0x74] == 0)
         {
-            reinterpret_cast<::FUN_006e4f10_class *>((param))->FUN_006e4f10((*(const ::NiPoint3 *)(((int(*)(void*))(*(void***)item)[0x1f4 / 4])(item))));
+            reinterpret_cast<::FUN_006e4f10_class *>((param))->FUN_006e4f10((*((const ::NiPoint3 *(*)(void*))(*(void***)item)[0x1f4 / 4])(item)));
         }
         reinterpret_cast<::fnv_0099cb70::FUN_0099cb70_struct *>(this)->CollectCastSoundPositions((::fnv_0099cb70::Arr_006cee30 *)(((intptr_t)(reinterpret_cast<::FUN_006e4fb0_shell *>((param))->GetOffsetF4()))));
     }
@@ -9357,7 +9358,6 @@ struct A1_99
 
 
 void __cdecl FUN_009a8050(Vec3*, void*);
-bool __cdecl FUN_009a7670(void*, void*, Ammo99*, Vec3, P3, Vec3, char*, P3*, float);
 
 struct FUN_0099b5a0_holder
 {
@@ -9419,7 +9419,7 @@ bool FUN_0099b5a0_holder::FUN_0099b5a0(A1_99* a1, char* acArg, Weap99* apWeapon)
                 continue;
         }
         P3 tB;
-        if (FUN_009a7670(mobj3, spellB, ammoA, posVal, v9, (*reinterpret_cast<::fnv_0099b5a0::Vec3 *>((void *)&::NiPoint3::ZERO)), acArg, &tB, -1.0f))
+        if (::FUN_009a7670(mobj3, spellB, (::FUN_009a7f00_obj *)(ammoA), *reinterpret_cast<::S_009a7670_P3 *>(&posVal), *reinterpret_cast<::S_009a7670_P3 *>(&v9), *reinterpret_cast<const ::S_009a7670_P3 *>(&::NiPoint3::ZERO), (unsigned char *)(acArg), reinterpret_cast<::S_009a7670_P3 *>(&tB), -1.0f))
         {
             if (snd2)
             {

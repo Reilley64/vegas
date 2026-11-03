@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatgroup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatgroup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/form_fields.h"
 #include "fnv/combat_controller_fields.h"
 #include "fnv/simple_array_item.h"
 #include "fnv/result_slot.h"
@@ -10545,6 +10546,7 @@ struct Target_9862e0
 {
     virtual void v0();
     virtual void v4(Owner_9862e0* owner, void* ctx);
+    int unk04;
 };
 struct CombatCtx
 {
@@ -10597,7 +10599,7 @@ void Owner_9862e0::FUN_009862e0(Target_9862e0* target)
         CombatCtx ctx(this);
         reinterpret_cast<::FUN_0098a3c0_shell *>(this)->FUN_0098a3c0();
         m28->v4(this, &ctx);
-        m40 = ((int)(reinterpret_cast<::Callees *>((m28))->FUN_00726070()));
+        m40 = m28->unk04;
         TimeValue t;
         reinterpret_cast<::FUN_00435de0_ctor *>(&(t))->FUN_00435de0(FUN_00435dd0());
         m44 = t;
@@ -10790,6 +10792,6 @@ void FUN_0096a2b0_stub::FUN_0096a2b0(int state)
 // @fnv 0x009865f0
 intptr_t FUN_009865f0_shell::FUN_009865f0(intptr_t a1)
 {
-    return (int)((C00986670*)this)->FUN_00986670(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((a1))->FUN_0084e3a0())));
+    return (intptr_t)((C00986670*)this)->FUN_00986670(reinterpret_cast<FormFields*>(a1)->iFormID);
 }
 #include "generated/data/fallout/ai/combat/combatgroup.inc"

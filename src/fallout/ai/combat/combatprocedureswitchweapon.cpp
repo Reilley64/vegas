@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatprocedureswitchweapon.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureswitchweapon.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/inventory_entry_fields.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -453,7 +454,7 @@ void CombatProcedureSW::UpdateWeaponDraw()
     if (reinterpret_cast<::FUN_008a7570_shell *>((actor))->FUN_008a7570() != -1)
         return;
     InvEntry* entry = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetWeaponEntry();
-    TESForm* weap = entry ? ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) : 0;
+    TESForm* weap = entry ? ((::TESForm *)reinterpret_cast<InventoryEntryFields*>(entry)->pObject) : 0;
     if (!m_ucWeaponState && weap != pWeapon)
     {
         if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->IsWeaponOut())
@@ -470,7 +471,7 @@ void CombatProcedureSW::UpdateWeaponDraw()
         }
         else
         {
-            reinterpret_cast<::s88c790::Actor *>((actor))->FUN_0088c790((intptr_t)(weap), (int)(((::ExtraDataList *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070()))), false, false, false, true);
+            reinterpret_cast<::s88c790::Actor *>((actor))->FUN_0088c790((intptr_t)(weap), reinterpret_cast<InventoryEntryFields*>(entry)->iCountDelta, false, false, false, true);
         }
         m_ucWeaponState = true;
     }

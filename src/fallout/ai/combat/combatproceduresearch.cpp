@@ -1179,7 +1179,7 @@ void SearchProcedure::UpdateSearchState()
                     }
                     else
                     {
-                        void* p360 = ((void *)(reinterpret_cast<::FUN_009d8d20_Class *>((pContext))->GetFieldEC()));
+                        void* p360 = *reinterpret_cast<void **>(reinterpret_cast<char *>(pContext) + 0xec);
                         if (p360 && p360 != pActor2)
                         {
                             break;

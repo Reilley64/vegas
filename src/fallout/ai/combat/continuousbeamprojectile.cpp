@@ -1,5 +1,6 @@
 // fallout/ai/combat/continuousbeamprojectile.cpp: ContinuousBeamProjectile, ScScaler, AlignOwner (7 functions)
 
+#include "fnv/geometry_data_fields.h"
 #include <cstdint>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BGSMessageInitAccess.h"
@@ -732,7 +733,7 @@ void ScScaler::ScaleObject(ScAVObject* pkObject, float fScale)
                 for (int k = 0; k < reinterpret_cast<::TESActorBaseData *>((pkGeom))->GetFatigue(); k++)
                 {
                     ((::ScPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkGeom))->FUN_007af430()))[k].y *= fScale;
-                    ((::ScPoint2 *)(reinterpret_cast<::BGSMessageInitAccess *>((pkGeom))->GetIconFormID()))[k].y *= fScale;
+                    ((::ScPoint2 *)reinterpret_cast<GeometryDataFields*>(pkGeom)->m_pkTexture)[k].y *= fScale;
                 }
                 pkObject->FUN_vd8(((void *)(::FUN_0043c4b0())));
             }

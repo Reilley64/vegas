@@ -1,5 +1,6 @@
 // fallout/ai/movement/actormover.cpp: ActorMover, Mover, Tgt_b, MobileObject and more (79 functions)
 
+#include "fnv/pathing_location_fields.h"
 #include "fnv/simple_array_item.h"
 #include <cstdint>
 #include "fnv/result_slot.h"
@@ -4920,7 +4921,7 @@ void Mover::SetEnabled(bool abEnabled)
                 !((intptr_t)(reinterpret_cast<::fnv_006b7850::FUN_006b7850_shell *>((((::ActorMovement::Area *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::ActorMovement::Map * *>(&::g_TES))))->FUN_0045af00()))))->FUN_006b7850({}, {}))))
                 reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>((actor))->FUN_008ad1c0((intptr_t)&(const ::ActorMovement::Vec &)(((::ActorMovement::Reference *)(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))->FUN_005c3420()), 0.0f,
                                     (::TESObjectCELL *)(reinterpret_cast<::FUN_009611e0_shell *>((((::ActorMovement::Reference *)(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))))->FUN_009611e0()),
-                                    (::TESWorldSpace *)(((int)(reinterpret_cast<::BGSTerrainManager *>((((::ActorMovement::Reference *)(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))))->GetMinLevel()))), 0, 1);
+                                    (::TESWorldSpace *)(reinterpret_cast<PathingLocationFields*>(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request)))))))->m_pContainingWorldspace), 0, 1);
         }
         float intervalSlot1 = reinterpret_cast<::Actor *>((actor))->IsVisible(7) ? DAT_0109222c : DAT_01092230;
         if (((::ActorMovement::Request *)(::FUN_00559450((int *)&(request)))))

@@ -6803,7 +6803,7 @@ bool Host810::FUN_009b1810(Vec810 pos, Actor810* actor)
         Vec810 delta = FUN_004a3760(hit.unk10, dir);
         if (!(*reinterpret_cast<::FUN_004a51b0_shell *>(&(array))->FUN_004a51b0(2) < -0.98) || !(((double)(reinterpret_cast<::NiPoint3 *>(&(delta))->ComputeMagnitude())) < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting810 *>(&::originalRuntimeFloatSetting1029))))))))
         {
-            if (!((::Test810 *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8())) || !reinterpret_cast<::FUN_00452370_shell *>((((::Test810 *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()))))->FUN_00452370())
+            if (!(*reinterpret_cast<::Test810 **>(reinterpret_cast<char *>(this) + 0xc8)) || !reinterpret_cast<::FUN_00452370_shell *>(((*reinterpret_cast<::Test810 **>(reinterpret_cast<char *>(this) + 0xc8))))->FUN_00452370())
             {
                 if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting810 *>(&::g_011d0a78)))))) > 0)
                     ::FUN_005b5e40();
@@ -7930,7 +7930,7 @@ void ProjCls::FUN_009ae6e0()
                                     reinterpret_cast<::Owner623 *>((qq))->FUN_006231a0((::NiNode623 *)(t));
                                     NodeList nl;
                                     reinterpret_cast<::fnv_00623090::Host *>((qq))->FUN_00623090((void *)(&pos), (::fnv_00623090::Vir *)(::NodeList *)(&nl));
-                                    int n = ((int)(reinterpret_cast<::Callees *>((((::NodeList *)(reinterpret_cast<::TESTopicInfoData *>(&(nl))->GetLinkToList()))))->FUN_00726070()));
+                                    int n = HavokArraySize(reinterpret_cast<::TESTopicInfoData *>(&(nl))->GetLinkToList());
                                     float fade = ((float)(::FUN_004a4240()));
                                     char cc = (char)FUN_00406cc0(::RandomFloat(0.0f, ::DAT_0101e570));
                                     for (int k = 0; k < n; k++)
@@ -8046,7 +8046,7 @@ void ProjCls::FUN_009ae6e0()
                                     ::FUN_006890b0((::World *)(void *)(((::Proc2 *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), reinterpret_cast<::FUN_00508100_shell *>((wt))->FUN_00508100(), (intptr_t)(name), dv, pos, 1.0f, 7, 0);
                                 }
                             }
-                            SndSrc* s1 = ((::SndSrc *)(reinterpret_cast<::FUN_0068a810_class *>((wt))->GetField4C()));
+                            SndSrc* s1 = *reinterpret_cast<::SndSrc **>(reinterpret_cast<char *>(wt) + 0x4c);
                             if (s1)
                             {
                                 Snd snd = ((::AudioMgr *)(::FUN_00453a70()))->FUN_00ad7480(((void *)(::FUN_00511840((char *)(s1)))), s1);

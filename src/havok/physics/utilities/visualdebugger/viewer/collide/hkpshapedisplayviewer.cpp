@@ -180,16 +180,6 @@ int FUN_00d655e0_class::FindItemIndex(int key)
     return -1;
 }
 
-struct Allocator
-{
-    virtual void reserved();
-    virtual void* allocate(unsigned int);
-};
-struct BSAudio
-{
-    int unk00, unk04, unk08, unk0c;
-    Allocator* allocator;
-};
 struct FUN_00d657d0_class
 {
     FUN_00d657d0_class* FUN_00d657d0(int);
@@ -198,8 +188,8 @@ struct FUN_00d657d0_class
 // @fnv 0x00d65910
 void* __cdecl FUN_00d65910(void* context)
 {
-    BSAudio* audio = (BSAudio*)&hkMemoryRouter::getInstance();
-    FUN_00d657d0_class* result = (FUN_00d657d0_class*)audio->allocator->allocate(0x74);
+    hkMemoryRouter* audio = &hkMemoryRouter::getInstance();
+    FUN_00d657d0_class* result = (FUN_00d657d0_class*)audio->m_heap->blockAlloc(0x74);
     *(unsigned short*)((char*)result + 4) = 0x74;
     result = result->FUN_00d657d0((int)context);
     if (result)
@@ -262,25 +252,9 @@ void FUN_00d652a0_cls::FUN_00d652a0(int arg)
 }
 
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-    virtual void v0c();
-    virtual void FreeArray(void* apMemory, int aiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-struct BSAudio;
+struct hkMemoryRouter;
 
 struct SpawnedBuf
 {
@@ -398,20 +372,7 @@ void* __cdecl GetProperty1134(D66180Entity* entity)
     return &entity->unk10;
 }
 
-struct SpawnAlloc
-{
-    virtual void v00();
-    virtual void* Alloc(unsigned int size);
-};
 
-struct AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    SpawnAlloc* m_pAllocator;
-};
 
 struct SpawnSub
 {
@@ -468,9 +429,9 @@ struct PendingNode
     }
     void* operator new(size_t size) throw()
     {
-        AllocHolder* holder = (AllocHolder*)&hkMemoryRouter::getInstance();
-        SpawnAlloc* alloc = holder->m_pAllocator;
-        return alloc->Alloc(size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* alloc = holder->m_heap;
+        return alloc->blockAlloc(size);
     }
 };
 
@@ -527,10 +488,10 @@ void FUN_00d64650_cls::FUN_00d64650(SpawnOwner* apOwner)
     node->m_pSharedOwner = apOwner;
 
     SpawnList* list = &m_30;
-    AllocHolder* holder = (AllocHolder*)&hkMemoryRouter::getInstance();
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
     if (list->m_uiItemCount == (int)(list->m_capBits & 0x3fffffffu))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(list), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(list), 4);
     }
     hkArrayConstruct((PendingNode**)list->m_data + list->m_uiItemCount, 1, node);
     list->m_uiItemCount++;
@@ -880,30 +841,30 @@ void FUN_00d66080_cls::Destroy()
 
     {
         SpawnedBuf* pBuf = &m_buf54;
-        AudioHolder* pHolder = (AudioHolder*)&hkMemoryRouter::getInstance();
-        reinterpret_cast<::CB1A90Owner *>((pBuf))->ProcessArgument((::CB1A90Argument *)(pHolder->m_pAllocator));
+        hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+        reinterpret_cast<::CB1A90Owner *>((pBuf))->ProcessArgument((::CB1A90Argument *)(pHolder->m_heap));
         ::FUN_00a29680();
     }
     {
         SpawnedBuf* pBuf = &m_buf48;
-        AudioHolder* pHolder = (AudioHolder*)&hkMemoryRouter::getInstance();
-        reinterpret_cast<::CB1A90Owner *>((pBuf))->ProcessArgument((::CB1A90Argument *)(pHolder->m_pAllocator));
+        hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+        reinterpret_cast<::CB1A90Owner *>((pBuf))->ProcessArgument((::CB1A90Argument *)(pHolder->m_heap));
         ::FUN_00a29680();
     }
     {
         SpawnedBuf* pBuf = &m_buf3c;
-        AudioHolder* pHolder = (AudioHolder*)&hkMemoryRouter::getInstance();
-        reinterpret_cast<::CB1A90Owner *>((pBuf))->ProcessArgument((::CB1A90Argument *)(pHolder->m_pAllocator));
+        hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+        reinterpret_cast<::CB1A90Owner *>((pBuf))->ProcessArgument((::CB1A90Argument *)(pHolder->m_heap));
         ::FUN_00a29680();
     }
 
-    AudioHolder* pHolder = (AudioHolder*)&hkMemoryRouter::getInstance();
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator = pHolder->m_heap;
     unsigned int uiFlags = m_uiObjectFlags;
     m_iArrayLength = 0;
     if ((uiFlags & 0x80000000u) == 0)
     {
-        pAllocator->FreeArray(m_pData, (int)((uiFlags & 0x3fffffffu) * 4));
+        pAllocator->bufFree(m_pData, (int)((uiFlags & 0x3fffffffu) * 4));
     }
     m_pData = 0;
     // the original stores the new flag value AFTER the m_pData=0 store and
@@ -1660,8 +1621,8 @@ void AudioNodeSub::FUN_00d65640(AudioParam* pParam)
         }
         else
         {
-            AudioHolder* pHolder = (AudioHolder*)&hkMemoryRouter::getInstance();
-            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(self->m_buffer))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(pHolder->m_pAllocator)), iResult, iCount);
+            hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(self->m_buffer))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(pHolder->m_heap)), iResult, iCount);
         }
     }
 
@@ -1673,24 +1634,7 @@ void AudioNodeSub::FUN_00d65640(AudioParam* pParam)
     }
 }
 
-struct S_00d65970_Heap
-{
-    virtual void vfn0();
-    virtual void* AllocateMemoryBlock(int n);
-};
 
-struct S_00d65970_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S_00d65970_Heap* unk10;
-    S_00d65970_Heap& heap()
-    {
-        return *unk10;
-    }
-};
 
 struct S_00d65970_Item;
 
@@ -1818,14 +1762,14 @@ void S_00d65970_Obj::FUN_00d65970(S_00d65970_Arg* arg)
 {
     reinterpret_cast<::fnv_00c93820::hkpWorldC938 *>((arg))->FUN_00c93820((::fnv_00c93820::hkpEntityListenerC938 *)(::S_00d65970_B28 *)(this));
     reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((arg))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(::S_00d65970_B2c *)(this));
-    S_00d65970_Heap& heap = ((S_00d65970_Router*)&hkMemoryRouter::getInstance())->heap();
-    void* mem = heap.AllocateMemoryBlock(0x10);
+    hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
+    void* mem = heap.blockAlloc(0x10);
     S_00d65970_Node* node = new (mem) S_00d65970_Node;
     node->arg = arg;
     S_00d65970_NodeArray& arr = nodes;
-    S_00d65970_Router* router = (S_00d65970_Router*)&hkMemoryRouter::getInstance();
+    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
     if (arr.size == (arr.capacityAndFlags & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(::S_00d65970_Heap *)(&router->heap()), (::AudioStream *)(void *)(&arr), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(::hkMemoryAllocator *)(&router->heap()), (::AudioStream *)(void *)(&arr), 4);
     S_00d65970_Node** p = arr.data + arr.size;
     for (int k = 0; k < 1; k++)
         p[k] = node;
@@ -2207,7 +2151,7 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
     }
     void* nv = GetProperty1134((D66180Entity*)param);
     S65_IntArr* arr = &item->arr;
-    hkMemoryRouter* heap = (hkMemoryRouter*)&hkMemoryRouter::getInstance();
+    hkMemoryRouter* heap = &hkMemoryRouter::getInstance();
     if (arr->count == (arr->cap & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(heap->m_heap), (::AudioStream *)(arr), 4);
     int* slot = arr->data + arr->count;

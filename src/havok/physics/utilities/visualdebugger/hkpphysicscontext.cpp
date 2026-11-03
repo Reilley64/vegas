@@ -360,22 +360,6 @@ append:
 }
 
 namespace fnv_00cd27f0 {
-struct Device
-{
-    virtual void slot00() = 0;
-    virtual void slot04() = 0;
-    virtual void slot08() = 0;
-    virtual void slot0c() = 0;
-    virtual void Release(void* handle, unsigned int bytes) = 0;
-};
-struct Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Device* device;
-};
 struct FUN_00cd27f0
 {
     virtual void v0() = 0;
@@ -397,28 +381,28 @@ struct FUN_00cd27f0
 // @fnv 0x00cd27f0
 FUN_00cd27f0::~FUN_00cd27f0()
 {
-    Holder* holder = (Holder*)&hkMemoryRouter::getInstance();
-    Device* device = holder->device;
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* device = holder->m_heap;
     int count = count1;
     unk30 = 0;
     if ((unsigned int)count & 0x80000000)
         goto skipFirstRelease;
     {
         unsigned int bytes = (count & 0x3fffffff) * 4;
-        device->Release((void*)buffer1, bytes);
+        device->bufFree((void*)buffer1, bytes);
     }
 skipFirstRelease:
     buffer1 = 0;
     count1 = 0x80000000;
-    holder = (Holder*)&hkMemoryRouter::getInstance();
-    device = holder->device;
+    holder = &hkMemoryRouter::getInstance();
+    device = holder->m_heap;
     int secondCount = count2;
     unk0c = 0;
     if ((unsigned int)secondCount & 0x80000000)
         goto skipSecondRelease;
     {
         unsigned int bytes = (secondCount & 0x3fffffff) * 4;
-        device->Release((void*)buffer2, bytes);
+        device->bufFree((void*)buffer2, bytes);
     }
 skipSecondRelease:
     buffer2 = 0;

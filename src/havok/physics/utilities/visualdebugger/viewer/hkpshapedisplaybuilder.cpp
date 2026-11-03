@@ -67,20 +67,7 @@ struct HkArrayPairBlock
     HkArrayRaw m_arrB;
 };
 
-struct HkAllocator
-{
-    virtual void v00();
-    virtual void* Alloc(unsigned int cb);
-};
 
-struct HkAllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    HkAllocator* m_pAllocator;
-};
 
 struct HkDisplayConvexObj
 {
@@ -110,8 +97,8 @@ HkDisplayConvexObj* FUN_00ddfc30_cls::FUN_00ddfc30(HkArrayRaw* apArray)
     if (m_pConvex == (HkDisplayConvexObj*)zero)
     {
         HkArrayPairBlock* pBlock = (HkArrayPairBlock*)zero;
-        HkAllocHolder* pHolder = (HkAllocHolder*)&hkMemoryRouter::getInstance();
-        void* mem = pHolder->m_pAllocator->Alloc(0x18);
+        hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+        void* mem = pHolder->m_heap->blockAlloc(0x18);
         if (mem != (void*)zero)
         {
             HkArrayPairBlock* p = (HkArrayPairBlock*)mem;
@@ -125,15 +112,15 @@ HkDisplayConvexObj* FUN_00ddfc30_cls::FUN_00ddfc30(HkArrayRaw* apArray)
             pBlock = p;
         }
 
-        pHolder = (HkAllocHolder*)&hkMemoryRouter::getInstance();
-        mem = pHolder->m_pAllocator->Alloc(0x60);
+        pHolder = &hkMemoryRouter::getInstance();
+        mem = pHolder->m_heap->blockAlloc(0x60);
         ((HkDisplayConvexObj*)mem)->m_u04 = 0x60;
         m_pConvex = ((::HkDisplayConvexObj *)(new ((void *)(((HkDisplayConvexObj*)mem))) ::FUN_00de1d20(pBlock)));
 
-        pHolder = (HkAllocHolder*)&hkMemoryRouter::getInstance();
+        pHolder = &hkMemoryRouter::getInstance();
         if (apArray->m_iArrayLength == (int)(apArray->m_uCapFlags & 0x3fffffffu))
         {
-            ::ResizeAudioStream((::AudioAllocator *)(pHolder->m_pAllocator), (::AudioStream *)(apArray), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(pHolder->m_heap), (::AudioStream *)(apArray), 4);
         }
         int idx = apArray->m_iArrayLength;
         HkDisplayConvexObj** pArrayData = (HkDisplayConvexObj**)apArray->m_pData;

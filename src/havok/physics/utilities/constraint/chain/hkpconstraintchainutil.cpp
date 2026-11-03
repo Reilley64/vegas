@@ -361,7 +361,7 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
 }
 
 
-struct S_00e5c370_Alloc;
+struct hkMemoryAllocator;
 struct __declspec(align(16)) S_00e5c370_Vec
 {
     float x, y, z, w;
@@ -386,7 +386,7 @@ template <typename T> struct S_00e5c370_ArrayBase
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    __forceinline void GrowArrayCapacity(S_00e5c370_Alloc& a, int n)
+    __forceinline void GrowArrayCapacity(hkMemoryAllocator& a, int n)
     {
         const int cap = getCapacity();
         if (cap < n)
@@ -398,7 +398,7 @@ template <typename T> struct S_00e5c370_ArrayBase
     }
     // Removes numdel elements at index, inserts numtoinsert elements from p, and shifts the remaining elements to keep the array contiguous.
 // @fnv 0x00e5c370
-    void InsertAndDelete(S_00e5c370_Alloc& alloc, int index, int numdel, const T* apElements, int numtoinsert)
+    void InsertAndDelete(hkMemoryAllocator& alloc, int index, int numdel, const T* apElements, int numtoinsert)
     {
         int newsize = m_iElementCount + numtoinsert - numdel;
         int numtomove = m_iElementCount - index - numdel;
@@ -551,20 +551,10 @@ struct Record
     Body* third;
     unsigned char reversed;
 };
-struct Alloc
-{
-    virtual void v00();
-    virtual void* allocate(int);
-};
-struct MemoryHolder
-{
-    int unk00, unk04, unk08, unk0c;
-    Alloc* allocator;
-};
 inline void* allocateObject(unsigned int size)
 {
-    MemoryHolder* holder = reinterpret_cast<MemoryHolder*>(&hkMemoryRouter::getInstance());
-    void* memory = holder->allocator->allocate(size);
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    void* memory = holder->m_heap->blockAlloc(size);
     static_cast<RefObject*>(memory)->sizeFlags = (unsigned short)size;
     return memory;
 }
@@ -733,41 +723,13 @@ enum S5ba30_Result
     S5ba30_FAILURE = 1
 };
 
-struct S_00e5c370_Alloc
-{
-    virtual ~S_00e5c370_Alloc();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
-    virtual void ReturnMemory(void* p, int numBytes);
-    template <typename T> inline void _bufFree(void* p, int numElem)
-    {
-        ReturnMemory(p, numElem * (int)sizeof(T));
-    }
-};
 
-struct S5ba30_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S_00e5c370_Alloc* m_pStreamAllocator;
-    S_00e5c370_Alloc& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-    static S5ba30_Router& GetMonitorStream()
-    {
-        return *reinterpret_cast<S5ba30_Router*>(&hkMemoryRouter::getInstance());
-    }
-};
 
 struct S5ba30_HeapAllocator
 {
-    S_00e5c370_Alloc& get(const void*)
+    hkMemoryAllocator& get(const void*)
     {
-        return S5ba30_Router::GetMonitorStream().heap();
+        return hkMemoryRouter::getInstance().heap();
     }
 };
 
@@ -831,7 +793,7 @@ template <typename T> struct S5ba30_ArrayOps
         S5ba30_ArrayUtil::destruct(m_data + m_iElementCount - numToRemove, numToRemove, S5ba30_IsPod());
         m_iElementCount -= numToRemove;
     }
-    __forceinline void GrowArrayCapacity(S_00e5c370_Alloc& alloc, int n)
+    __forceinline void GrowArrayCapacity(hkMemoryAllocator& alloc, int n)
     {
         const int capacity = getCapacity();
         if (capacity < n)
@@ -841,14 +803,14 @@ template <typename T> struct S5ba30_ArrayOps
             ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
-    __forceinline void _setSize(S_00e5c370_Alloc& alloc, int n)
+    __forceinline void _setSize(hkMemoryAllocator& alloc, int n)
     {
         GrowArrayCapacity(alloc, n);
         S5ba30_ArrayUtil::destruct(m_data + n, m_iElementCount - n, S5ba30_IsPod());
         S5ba30_ArrayUtil::construct(m_data + m_iElementCount, n - m_iElementCount, S5ba30_IsPod());
         m_iElementCount = n;
     }
-    __forceinline void _pushBack(S_00e5c370_Alloc& alloc, const T& t)
+    __forceinline void _pushBack(hkMemoryAllocator& alloc, const T& t)
     {
         if (m_iElementCount == getCapacity())
         {
@@ -857,7 +819,7 @@ template <typename T> struct S5ba30_ArrayOps
         S5ba30_ArrayUtil::constructWithCopy(m_data + m_iElementCount, 1, t, S5ba30_IsPod());
         m_iElementCount++;
     }
-    __forceinline void _clearAndDeallocate(S_00e5c370_Alloc& alloc)
+    __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
         clear();
         if ((m_iCapacityState & DONT_DEALLOCATE_FLAG) == 0)

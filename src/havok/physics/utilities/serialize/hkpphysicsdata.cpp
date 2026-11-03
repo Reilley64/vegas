@@ -606,19 +606,6 @@ public:
     void FUN_00d065e0(void);
 };
 
-struct AllocType
-{
-    virtual void vf00(void);
-    virtual void* vf04(int);
-};
-struct HolderType
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    AllocType* m_10;
-};
 struct ClientType
 {
 };
@@ -643,8 +630,8 @@ void HostType::FUN_00d4c2d0(ClientType* client, unsigned char ubFlag)
 {
     if (m_08 == 0)
     {
-        HolderType* holder = (HolderType*)&hkMemoryRouter::getInstance();
-        BigType* big = (BigType*)holder->m_10->vf04(0xF0);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        BigType* big = (BigType*)holder->m_heap->blockAlloc(0xF0);
         big->m_04 = 0xF0;
         m_08 = ((void *)(new ((void *)(big)) ::FUN_00c90b80()));
     }
@@ -664,8 +651,8 @@ void HostType::FUN_00d4c2d0(ClientType* client, unsigned char ubFlag)
         local.m_flag = 0;
         local.m_uiFilterValue = 0;
 
-        HolderType* holder = (HolderType*)&hkMemoryRouter::getInstance();
-        SmallType* small = (SmallType*)holder->m_10->vf04(0x50);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        SmallType* small = (SmallType*)holder->m_heap->blockAlloc(0x50);
         small->m_04 = 0x50;
         new ((void *)(small)) ::FUN_00d065e0();
 
@@ -676,10 +663,10 @@ void HostType::FUN_00d4c2d0(ClientType* client, unsigned char ubFlag)
 
         small->m_40 = 0;
 
-        holder = (HolderType*)&hkMemoryRouter::getInstance();
+        holder = &hkMemoryRouter::getInstance();
         if (array->m_iElementCount == (array->m_cap & 0x3fffffff))
         {
-            ::ResizeAudioStream((::AudioAllocator *)(holder->m_10), (::AudioStream *)(array), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(array), 4);
         }
 
         new (array->m_data + array->m_iElementCount, D4C2Place()) SmallType*(small);
@@ -875,32 +862,11 @@ class SplitBool
     }
 };
 
-struct SplitAllocator
-{
-    virtual void vf00();
-    virtual void* alloc(int);
-    virtual void vf08();
-    virtual void vf0c();
-    virtual void freeBuffer(void*, int);
-    template <class T> inline void freeItems(void* p, int count)
-    {
-        freeBuffer(p, count * sizeof(T));
-    }
-};
-struct SplitRouter
-{
-    int unk00, unk04, unk08, unk0c;
-    SplitAllocator* heap;
-    inline SplitAllocator& allocator()
-    {
-        return *heap;
-    }
-};
 struct SplitHeap
 {
-    inline SplitAllocator& get(const void*)
+    inline hkMemoryAllocator& get(const void*)
     {
-        return ((SplitRouter*)&hkMemoryRouter::getInstance())->allocator();
+        return hkMemoryRouter::getInstance().heap();
     }
 };
 template <class T> static __forceinline void copyItems(T* dest, int count, const T& item)
@@ -915,11 +881,11 @@ template <class T> struct SplitArrayBase
     int capacity;
     __forceinline SplitArrayBase() : data(0), size(0), capacity(0x80000000)
     {}
-    __forceinline void clearWith(SplitAllocator& alloc)
+    __forceinline void clearWith(hkMemoryAllocator& alloc)
     {
         size = 0;
         if (!(capacity & 0x80000000))
-            alloc.freeItems<T>(data, getCapacity());
+            alloc._bufFree<T>(data, getCapacity());
         data = 0;
         capacity = 0x80000000;
     }
@@ -948,7 +914,7 @@ template <class T> struct SplitArrayBase
     {
         return data[i];
     }
-    __forceinline void appendWith(SplitAllocator& alloc, const T& item)
+    __forceinline void appendWith(hkMemoryAllocator& alloc, const T& item)
     {
         if (size == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
@@ -1017,7 +983,7 @@ struct SplitSystem : SplitRef
     SplitBool active;
     static __forceinline void* operator new(size_t bytes)
     {
-        SplitRef* p = (SplitRef*)((SplitRouter*)&hkMemoryRouter::getInstance())->allocator().alloc(bytes);
+        SplitRef* p = (SplitRef*)hkMemoryRouter::getInstance().heap().blockAlloc(bytes);
         p->m_usMemSizeAndFlags = (unsigned short)bytes;
         return p;
     }

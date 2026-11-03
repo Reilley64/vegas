@@ -33,13 +33,6 @@ void FUN_00db0920::RemoveValueAt(int index)
 
 #include "fnv/symbols_simd.h"
 
-extern "C++"
-{
-    inline float __cdecl fabs(float _X)
-    {
-        return ((float)fabs((double)(_X)));
-    }
-}
 
 struct hkBool
 {
@@ -247,56 +240,6 @@ hkBool BoxBoxCollisionDetection::TestEdgeEdgeContact(BoxBoxEdgeContact* contact)
 // RemoveValueAt - drops slot <index> of the eight-slot table held by
 // FUN_00db0920: the last slot in use is moved into the hole and the used-slot
 // counter goes down by one.
-#include "fnv/decl/Owner.h"
-struct KeyEntry
-{
-    unsigned char k0;
-    unsigned char k1;
-    unsigned short unk02;
-};
-
-struct __declspec(align(16)) Vec4
-{
-    float x, y, z, w;
-};
-
-struct Obj
-{
-    void FUN_00db1d90(void* a1, int idxA, int idxB, int axisA, int axisB, const Vec4& vecA, const Vec4& vecB,
-                      float scale);
-};
-
-// @fnv 0x00db1d90
-void Obj::FUN_00db1d90(void* a1, int idxA, int idxB, int axisA, int axisB, const Vec4& vecA, const Vec4& vecB,
-                       float scale)
-{
-    const float one = 1.0f;
-    KeyEntry key;
-    key.unk02 = 0;
-    Vec4 tmpA = vecA;
-    Vec4 tmpB = vecB;
-    (&tmpA.x)[idxA] = one;
-    (&tmpB.x)[idxB] = one;
-    __m128 zero = _mm_setzero_ps();
-    int maskA = _mm_movemask_ps(_mm_cmplt_ps(*(__m128*)&tmpA, zero));
-    int maskB = _mm_movemask_ps(_mm_cmplt_ps(*(__m128*)&tmpB, zero));
-    key.k0 = (unsigned char)(((maskA | 0xf8) << 4) | idxA);
-    key.k1 = (unsigned char)((((~maskB) & 7) << 4) + idxB);
-    reinterpret_cast<::Owner *>(this)->FUN_00db1990((::ContactList *)(a1), (::Input *)(::KeyEntry *)(&key), scale);
-
-    int stepA = (axisA == 0) ? 0 : ((axisA != 1) + 1);
-    int bitA = 1 << (stepA + 4);
-    int stepB = (axisB == 0) ? 0 : ((axisB != 1) + 1);
-
-    key.k0 ^= bitA;
-    reinterpret_cast<::Owner *>(this)->FUN_00db1990((::ContactList *)(a1), (::Input *)(::KeyEntry *)(&key), scale);
-
-    key.k1 ^= (unsigned char)(1 << (stepB + 4));
-    reinterpret_cast<::Owner *>(this)->FUN_00db1990((::ContactList *)(a1), (::Input *)(::KeyEntry *)(&key), scale);
-
-    key.k0 ^= bitA;
-    reinterpret_cast<::Owner *>(this)->FUN_00db1990((::ContactList *)(a1), (::Input *)(::KeyEntry *)(&key), scale);
-}
 
 // Moved from hkpboxboxcollisiondetection_rtm_variant.cpp (VEGAS-15).
 // src/havok/physics/collide/boxbox/hkpboxboxcollisiondetection_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/havok/physics/collide/boxbox/hkpboxboxcollisiondetection.cpp that match byte for byte only
@@ -662,8 +605,8 @@ struct VtObj
     virtual void v0() = 0;
     virtual void v1() = 0;
     virtual void v2() = 0;
-    virtual unsigned int Impl(int a, int b, int c, Stream* s, int z, Record* out) = 0;
-    __forceinline unsigned int Call(int a, int b, int c, Stream* s, int z, Record* out)
+    virtual unsigned int Impl(const void* a, const void* b, const void* c, Stream* s, int z, Record* out) = 0;
+    __forceinline unsigned int Call(const void* a, const void* b, const void* c, Stream* s, int z, Record* out)
     {
         return Impl(a, b, c, s, z, out);
     }
@@ -709,9 +652,9 @@ struct ContactList
 
 struct Owner
 {
-    int m_00;
-    int m_04;
-    int m_08;
+    const void* m_00;
+    const void* m_04;
+    const void* m_08;
     VtObj* m_0c;
     Stream* m_10;
     Mat* m_14;
@@ -726,6 +669,56 @@ struct Owner
     unsigned char* Compute(unsigned char* flag, Blob* out);
     __declspec(noinline) void FUN_00db1990(ContactList* p0, Input* p1, float p2);
 };
+
+struct KeyEntry
+{
+    unsigned char k0;
+    unsigned char k1;
+    unsigned short unk02;
+};
+
+struct __declspec(align(16)) Vec4
+{
+    float x, y, z, w;
+};
+
+struct Obj
+{
+    void FUN_00db1d90(void* a1, int idxA, int idxB, int axisA, int axisB, const Vec4& vecA, const Vec4& vecB,
+                      float scale);
+};
+
+// @fnv 0x00db1d90
+void Obj::FUN_00db1d90(void* a1, int idxA, int idxB, int axisA, int axisB, const Vec4& vecA, const Vec4& vecB,
+                       float scale)
+{
+    const float one = 1.0f;
+    KeyEntry key;
+    key.unk02 = 0;
+    Vec4 tmpA = vecA;
+    Vec4 tmpB = vecB;
+    (&tmpA.x)[idxA] = one;
+    (&tmpB.x)[idxB] = one;
+    __m128 zero = _mm_setzero_ps();
+    int maskA = _mm_movemask_ps(_mm_cmplt_ps(*(__m128*)&tmpA, zero));
+    int maskB = _mm_movemask_ps(_mm_cmplt_ps(*(__m128*)&tmpB, zero));
+    key.k0 = (unsigned char)(((maskA | 0xf8) << 4) | idxA);
+    key.k1 = (unsigned char)((((~maskB) & 7) << 4) + idxB);
+    reinterpret_cast<::Owner *>(this)->FUN_00db1990((::ContactList *)(a1), (::Input *)(::KeyEntry *)(&key), scale);
+
+    int stepA = (axisA == 0) ? 0 : ((axisA != 1) + 1);
+    int bitA = 1 << (stepA + 4);
+    int stepB = (axisB == 0) ? 0 : ((axisB != 1) + 1);
+
+    key.k0 ^= bitA;
+    reinterpret_cast<::Owner *>(this)->FUN_00db1990((::ContactList *)(a1), (::Input *)(::KeyEntry *)(&key), scale);
+
+    key.k1 ^= (unsigned char)(1 << (stepB + 4));
+    reinterpret_cast<::Owner *>(this)->FUN_00db1990((::ContactList *)(a1), (::Input *)(::KeyEntry *)(&key), scale);
+
+    key.k0 ^= bitA;
+    reinterpret_cast<::Owner *>(this)->FUN_00db1990((::ContactList *)(a1), (::Input *)(::KeyEntry *)(&key), scale);
+}
 
 __forceinline __m128 LdV(const unsigned int* p)
 {
@@ -2401,7 +2394,7 @@ __forceinline NBool NDetector::query(NManifold& m) const
     if (!m.normalSet)
     {
         NV n;
-        reinterpret_cast<::FUN_004b4ab0_Class *>((((NInverse*)&n)))->FUN_004b4ab0((int)&(aTb.getRotation()), (int)&(m.normal));
+        reinterpret_cast<::FUN_004b4ab0_Class *>((((NInverse*)&n)))->FUN_004b4ab0(reinterpret_cast<intptr_t>(&(aTb.getRotation())), reinterpret_cast<intptr_t>(&(m.normal)));
         m.normalSet = true;
         m.packed = ::PackFloatsToUInt((const __m128 *)&(n));
         return true;
@@ -2490,7 +2483,7 @@ __forceinline int NDetector::AddContactPoint(NManifold& m, const NCache& c, NFea
     }
     if (m.full())
         return 1;
-    int index = reinterpret_cast<::BoxPointInsertion *>(&(m))->FUN_00db0960((unsigned int)&(bodyA), (unsigned int)&(bodyB), (const unsigned char *)&(f));
+    int index = reinterpret_cast<::BoxPointInsertion *>(&(m))->FUN_00db0960(&(bodyA), &(bodyB), (const unsigned char *)&(f));
     if (index >= 0)
     {
         NRecord* out = output->reserve();
@@ -2543,7 +2536,7 @@ __forceinline int NDetector::addScan(NManifold& m, const NCache& c, NFeature& f)
     }
     if (m.full())
         return 1;
-    int index = reinterpret_cast<::BoxPointInsertion *>(&(m))->FUN_00db0960((unsigned int)&(bodyA), (unsigned int)&(bodyB), (const unsigned char *)&(f));
+    int index = reinterpret_cast<::BoxPointInsertion *>(&(m))->FUN_00db0960(&(bodyA), &(bodyB), (const unsigned char *)&(f));
     if (index >= 0)
     {
         NRecord* out = output->reserve();
@@ -2584,7 +2577,7 @@ static __forceinline NBool NValidateScan(const NDetector& d, NCache& c, int axis
 }
 __forceinline void NDetector::scanA(NManifold& m, NFeature key, unsigned short mask, float minimum) const
 {
-    for (const unsigned short* iter = &DAT_010d5350; (int)iter < (int)(&DAT_010d5350 + 7); ++iter)
+    for (const unsigned short* iter = &DAT_010d5350; iter < &DAT_010d5350 + 7; ++iter)
     {
         unsigned int cycle = *iter;
         if ((unsigned short)(mask & cycle) == 0)
@@ -2604,7 +2597,7 @@ __forceinline void NDetector::scanA(NManifold& m, NFeature key, unsigned short m
 }
 __forceinline void NDetector::scanB(NManifold& m, NFeature key, unsigned short mask, float minimum) const
 {
-    for (const unsigned short* iter = &DAT_010d5350; (int)iter < (int)(&DAT_010d5350 + 7); ++iter)
+    for (const unsigned short* iter = &DAT_010d5350; iter < &DAT_010d5350 + 7; ++iter)
     {
         unsigned int cycle = *iter;
         if ((unsigned short)(mask & cycle) == 0)
@@ -2689,7 +2682,7 @@ __forceinline void NDetector::extra(NManifold& m, NFeature keyA) const
     if (m.faces >= 4)
         m.complete = true;
     else
-        ::CheckFeatureCacheCoverage((::FeatureCache *)this, (int)&(m), maskA);
+        ::CheckFeatureCacheCoverage(reinterpret_cast<::FeatureCache *>(&m), maskA, maskB);
 }
 // @fnv 0x00db2960
 __declspec(noinline) void NDetector::FUN_00db2960(NManifold& m) const

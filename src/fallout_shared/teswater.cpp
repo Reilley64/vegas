@@ -1,6 +1,7 @@
 // fallout_shared/teswater.cpp: BGSPlaceableWater, TESObjectCELL, WaterZoneManager, Owner and more (135 functions)
 
 #include "fnv_result_slot.h"
+#include "fnv/water_shader_property.h"
 #include "fnv/simple_array_item.h"
 #include <cstdint>
 #include <new>
@@ -6824,26 +6825,6 @@ struct SpRef4e8
     SpRef4e8& FUN_0066b0d0(void* pkObject);
 };
 
-class FUN_00b6abb0 : public NiMemObject
-{
-  public:
-    char pad000[0x60];
-    unsigned char b60;
-    char pad061[0x6c - 0x61];
-    float f6c;
-    float f70;
-    char pad074[0x84 - 0x74];
-    unsigned int ui84;
-    char pad088[0x138 - 0x88];
-    SpRef4e8 sp138;
-    SpRef4e8 sp13c;
-    char pad140[4];
-    SpRef4e8 sp144;
-    SpRef4e8 sp148;
-    char pad14c[4];
-
-    FUN_00b6abb0();
-};
 
 struct Prop4e8
 {
@@ -6985,7 +6966,7 @@ Node4e8* FUN_004e8160_shell::CreateWaterShaderNode(Water4e8* pkWater, int iUnuse
     FUN_00b6abb0* pkShader = new FUN_00b6abb0;
     reinterpret_cast<::FUN_00439410_cls *>((pkANode))->FUN_00439410((::ArgObject *)(pkShader));
     ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(pkANode), 0, 0);
-    pkShader->f70 = 1.0f;
+    pkShader->m_f70 = 1.0f;
     void* pkRef = *((void **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(pkWater->kItem))->FUN_0073ac90()));
     if (pkRef)
     {
@@ -7003,17 +6984,17 @@ Node4e8* FUN_004e8160_shell::CreateWaterShaderNode(Water4e8* pkWater, int iUnuse
         }
     }
     if (((std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>((((TES4e8*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetPrevPath())))
-        pkShader->sp13c.FUN_006e5cc0(pkWater->sp54);
+        reinterpret_cast<SpRef4e8*>(&pkShader->m_sp13c)->FUN_006e5cc0(pkWater->sp54);
     else if (pkWater->b5c)
-        pkShader->sp13c.FUN_006e5cc0((SpRef4e8&)(*reinterpret_cast<::Settings *>(&::g_011c7ad4)));
+        reinterpret_cast<SpRef4e8*>(&pkShader->m_sp13c)->FUN_006e5cc0((SpRef4e8&)(*reinterpret_cast<::Settings *>(&::g_011c7ad4)));
     else
-        pkShader->sp13c.FUN_006e5cc0((SpRef4e8&)(*reinterpret_cast<::Settings *>(&::g_011c7c2c)));
-    pkShader->sp144.FUN_006e5cc0((*reinterpret_cast<::SpRef4e8 *>(&::g_011c7b68)));
-    pkShader->sp138.FUN_006e5cc0(pkWater->pkBase->sp30);
-    pkShader->sp148.FUN_0066b0d0(((void *)(reinterpret_cast<::FUN_004bc320_shell *>((((::Texture4e8 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Name4e8 *>(&::g_011c7b64))))))))->FUN_004bc320(0))));
-    pkShader->b60 = 1;
-    pkShader->f6c = 1.0f;
-    pkShader->ui84 = pkWater->uiac;
+        reinterpret_cast<SpRef4e8*>(&pkShader->m_sp13c)->FUN_006e5cc0((SpRef4e8&)(*reinterpret_cast<::Settings *>(&::g_011c7c2c)));
+    reinterpret_cast<SpRef4e8*>(&pkShader->m_sp144)->FUN_006e5cc0((*reinterpret_cast<::SpRef4e8 *>(&::g_011c7b68)));
+    reinterpret_cast<SpRef4e8*>(&pkShader->m_sp138)->FUN_006e5cc0(pkWater->pkBase->sp30);
+    reinterpret_cast<SpRef4e8*>(&pkShader->m_sp148)->FUN_0066b0d0(((void *)(reinterpret_cast<::FUN_004bc320_shell *>((((::Texture4e8 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Name4e8 *>(&::g_011c7b64))))))))->FUN_004bc320(0))));
+    pkShader->m_b60 = 1;
+    pkShader->m_f6c = 1.0f;
+    pkShader->m_i84 = pkWater->uiac;
     f98 = 0.0f;
     return pkANode;
 }

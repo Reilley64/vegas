@@ -3,6 +3,8 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00ba8000.h"
+#include "fnv/water_shader_property.h"
+#include "fnv/decl/CopyObject.h"
 #include "fnv/symbols_00bc3000.h"
 #include "fnv/tls.h"
 #include <cstdint>
@@ -383,7 +385,7 @@ void* FUN_00b6adb0_class::FUN_00b6adb0(int flags)
 {
     FUN_00b6a520();
     if (flags & 1)
-        operator delete(this, 336);
+        water::NiMemObject::operator delete(this, sizeof(FUN_00b6abb0));
     return this;
 }
 
@@ -7934,138 +7936,29 @@ FUN_00b60cb0_Clone* CloneSource::CloneObject(void* pvCloningProcess)
     return pkClone;
 }
 
-struct CopyObject;
-struct RefCopy
-{
-    virtual void v0();
-    virtual void DeleteThis();
-    long refs;
-};
-struct CopyBase
-{
-};
 struct CopyNode
 {
     CopyNode* next;
     CopyNode* prev;
     void* data;
 };
-struct CopyList
-{
-    CopyNode* head;
-    CopyNode* tail;
-    unsigned count;
-    void RemoveAll();
-};
 extern unsigned DAT_011c5f80;
 extern unsigned DAT_011c5f84;
-struct CopyObject : CopyBase
+static __forceinline void AssignRef(CmPointer<CmObject>& target, const CmPointer<CmObject>& source)
 {
-    unsigned f000;
-    unsigned f004;
-    unsigned f008;
-    unsigned f00c;
-    unsigned f010;
-    unsigned f014;
-    unsigned f018;
-    unsigned f01c;
-    unsigned f020;
-    unsigned f024;
-    unsigned f028;
-    unsigned f02c;
-    unsigned f030;
-    unsigned f034;
-    unsigned f038;
-    unsigned f03c;
-    unsigned f040;
-    unsigned f044;
-    unsigned f048;
-    unsigned f04c;
-    unsigned f050;
-    unsigned f054;
-    unsigned f058;
-    unsigned f05c;
-    unsigned char f060;
-    unsigned char f061;
-    unsigned char f062;
-    unsigned char f063;
-    unsigned f064;
-    unsigned f068;
-    float f06c;
-    float f070;
-    float f074;
-    float f078;
-    unsigned char f07c;
-    unsigned char f07d;
-    unsigned char f07e;
-    unsigned char f07f;
-    unsigned char f080;
-    unsigned char f081;
-    unsigned char f082;
-    unsigned char f083;
-    unsigned f084;
-    unsigned f088;
-    unsigned f08c;
-    unsigned f090;
-    unsigned f094;
-    unsigned f098;
-    unsigned f09c;
-    unsigned f0a0;
-    unsigned f0a4;
-    unsigned f0a8;
-    unsigned f0ac;
-    unsigned f0b0;
-    unsigned f0b4;
-    unsigned f0b8;
-    unsigned f0bc;
-    unsigned f0c0;
-    unsigned f0c4;
-    unsigned f0c8;
-    unsigned f0cc;
-    unsigned f0d0;
-    unsigned f0d4;
-    unsigned f0d8;
-    unsigned f0dc;
-    unsigned f0e0;
-    unsigned f0e4;
-    unsigned f0e8;
-    unsigned f0ec;
-    unsigned f0f0;
-    unsigned f0f4;
-    unsigned f0f8;
-    unsigned f0fc;
-    unsigned f100;
-    unsigned f104;
-    unsigned f108;
-    unsigned f10c;
-    unsigned f110;
-    unsigned f114;
-    float f118;
-    float f11c;
-    float f120;
-    float f124;
-    CopyList list;
-    unsigned f134;
-    RefCopy* f138;
-    RefCopy* f13c;
-    RefCopy* f140;
-    RefCopy* f144;
-    RefCopy* f148;
-    void FUN_00b6a6c0(CopyObject* dst, std::intptr_t arg);
-};
-static __forceinline void AssignRef(RefCopy*& dst, RefCopy* const& src)
-{
-    RefCopy* old = dst;
+    CmObject*& dst = target.m_pObject;
+    CmObject* src = source.m_pObject;
+    CmObject* old = dst;
     if (old != src)
     {
-        if (old && !InterlockedDecrement(&old->refs))
+        if (old && !InterlockedDecrement(&old->m_uiRefCount))
             old->DeleteThis();
         dst = src;
         if (dst)
-            InterlockedIncrement(&dst->refs);
+            InterlockedIncrement(&dst->m_uiRefCount);
     }
 }
-static __forceinline void AppendCopy(CopyList* dest, void* const& value, unsigned count)
+static __forceinline void AppendCopy(CmList* dest, void* const& value, unsigned count)
 {
     void* data = value;
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(g_011c5f80))->FUN_0040fbf0((char *)(0));
@@ -8085,89 +7978,67 @@ static __forceinline void AppendCopy(CopyList* dest, void* const& value, unsigne
     CopyNode* item = (CopyNode*)raw;
     item->data = data;
     item->next = 0;
-    item->prev = dest->tail;
-    if (dest->tail)
+    item->prev = static_cast<CopyNode*>(dest->m_pTail);
+    if (dest->m_pTail)
     {
-        dest->tail->next = item;
-        dest->count += count;
+        static_cast<CopyNode*>(dest->m_pTail)->next = item;
+        dest->m_uiCount += count;
     }
     else
     {
-        dest->head = item;
-        dest->count += count;
+        dest->m_pHead = item;
+        dest->m_uiCount += count;
     }
-    dest->tail = item;
+    dest->m_pTail = item;
 }
 // Copies base fields and a fixed set of member values into dst, reassigns the reference-counted pointers, and deep-copies the list into dst->list.
 // @fnv 0x00b6a6c0
 void CopyObject::FUN_00b6a6c0(CopyObject* dst, std::intptr_t arg)
 {
+    auto* source = reinterpret_cast<FUN_00b6abb0*>(this);
+    auto* target = reinterpret_cast<FUN_00b6abb0*>(dst);
     ::FUN_00ba8b10((::BSSP_stub4 *)this, 0, (::BSSP_stub4 *)(dst), (::CloningProcess *)(arg));
-    AssignRef(dst->f148, f148);
-    dst->f061 = f061;
-    dst->f062 = f062;
-    dst->f063 = f063;
-    dst->f064 = f064;
-    dst->f068 = f068;
-    dst->f06c = f06c;
-    dst->f070 = f070;
-    dst->f07d = f07d;
-    dst->f07c = f07c;
-    dst->f07f = f07f;
-    dst->f080 = f080;
-    dst->f081 = f081;
-    dst->f088 = f088;
-    dst->f08c = f08c;
-    dst->f090 = f090;
-    dst->f094 = f094;
-    dst->f098 = f098;
-    dst->f09c = f09c;
-    dst->f0a0 = f0a0;
-    dst->f0a4 = f0a4;
-    dst->f0a8 = f0a8;
-    dst->f0ac = f0ac;
-    dst->f0b0 = f0b0;
-    dst->f0b4 = f0b4;
-    dst->f0b8 = f0b8;
-    dst->f0bc = f0bc;
-    dst->f0c0 = f0c0;
-    dst->f0c4 = f0c4;
-    dst->f0c8 = f0c8;
-    dst->f0cc = f0cc;
-    dst->f0d0 = f0d0;
-    dst->f0d4 = f0d4;
-    dst->f0d8 = f0d8;
-    dst->f0dc = f0dc;
-    dst->f0e0 = f0e0;
-    dst->f0e4 = f0e4;
-    dst->f0e8 = f0e8;
-    dst->f0ec = f0ec;
-    dst->f0f0 = f0f0;
-    dst->f0f4 = f0f4;
-    dst->f0f8 = f0f8;
-    dst->f0fc = f0fc;
-    dst->f100 = f100;
-    dst->f104 = f104;
-    dst->f108 = f108;
-    dst->f10c = f10c;
-    dst->f110 = f110;
-    dst->f114 = f114;
-    dst->f118 = f118;
-    dst->f124 = f124;
-    dst->f11c = f11c;
-    dst->f120 = f120;
-    dst->f074 = f074;
-    dst->f078 = f078;
-    dst->f082 = f082;
-    AssignRef(dst->f13c, f13c);
-    AssignRef(dst->f140, f140);
-    AssignRef(dst->f138, f138);
-    AssignRef(dst->f144, f144);
-    dst->f084 = f084;
-    dst->f083 = f083;
-    CopyList* dest = &dst->list;
+    AssignRef(target->m_sp148, source->m_sp148);
+    target->m_b61 = source->m_b61;
+    target->m_b62 = source->m_b62;
+    target->m_b63 = source->m_b63;
+    target->m_i64 = source->m_i64;
+    target->m_i68 = source->m_i68;
+    target->m_f6c = source->m_f6c;
+    target->m_f70 = source->m_f70;
+    target->m_b7d = source->m_b7d;
+    target->m_b7c = source->m_b7c;
+    target->m_b7f = source->m_b7f;
+    target->m_b80 = source->m_b80;
+    target->m_b81 = source->m_b81;
+    target->m_kPt0 = source->m_kPt0;
+    target->m_kPt1 = source->m_kPt1;
+    target->m_kPt2 = source->m_kPt2;
+    target->m_kPt3 = source->m_kPt3;
+    target->m_kPt4 = source->m_kPt4;
+    target->m_kPt5 = source->m_kPt5;
+    target->m_kPt6 = source->m_kPt6;
+    target->m_kPt7 = source->m_kPt7;
+    target->m_kPt8 = source->m_kPt8;
+    target->m_kPt9 = source->m_kPt9;
+    target->m_kPt10 = source->m_kPt10;
+    target->m_kPt11 = source->m_kPt11;
+    target->m_f118 = source->m_f118;
+    target->m_f124 = source->m_f124;
+    target->m_f11c = source->m_f11c;
+    target->m_f120 = source->m_f120;
+    target->m_f74 = source->m_f74;
+    target->m_f78 = source->m_f78;
+    target->m_b82 = source->m_b82;
+    AssignRef(target->m_sp13c, source->m_sp13c);
+    AssignRef(target->m_sp140, source->m_sp140);
+    AssignRef(target->m_sp138, source->m_sp138);
+    AssignRef(target->m_sp144, source->m_sp144);
+    target->m_i84 = source->m_i84;
+    target->m_b83 = source->m_b83;
+    CmList* dest = &target->m_kList;
     reinterpret_cast<::NiTPointerListBaseRaw *>((dest))->FUN_004ed900();
-    CopyNode* pos = list.head;
+    CopyNode* pos = static_cast<CopyNode*>(source->m_kList.m_pHead);
     while (pos)
     {
         void*& data = pos->data;
@@ -8530,15 +8401,6 @@ void FUN_00b6a510_shell::FUN_00b6a510()
     reinterpret_cast<::NiTPointerListBaseRaw *>(this)->FUN_004ed900();
 }
 
-struct FUN_00b6abb0
-{
-    FUN_00b6abb0();
-    static void* operator new(std::size_t size, unsigned int requestedSize)
-    {
-        return FUN_00aa13e0(requestedSize);
-    }
-    unsigned int m_type;
-};
 struct EntityManagerB6
 {
     FUN_00b6abb0* CreateObject(int context);
@@ -8546,7 +8408,7 @@ struct EntityManagerB6
 // @fnv 0x00b6ade0
 FUN_00b6abb0* EntityManagerB6::CreateObject(int context)
 {
-    FUN_00b6abb0* object = new (0x150) FUN_00b6abb0();
+    FUN_00b6abb0* object = new FUN_00b6abb0();
     reinterpret_cast<::CopyObject *>(this)->FUN_00b6a6c0((::CopyObject *)(object), context);
     return object;
 }

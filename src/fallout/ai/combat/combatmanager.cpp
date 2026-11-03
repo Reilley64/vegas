@@ -2384,12 +2384,6 @@ struct int64
     unsigned int lo;
     unsigned int hi;
 };
-struct CMView
-{
-    char pad[0x10];
-    CombatTarget* m_pActorCombatGroupMap;
-    ThreatShim* m_pThreatMap;
-};
 // @fnv 0x00993440
 void FUN_00993440_shell::LoadCombatState(BGSLoadGameBuffer* apLoadGameBuffer)
 {
@@ -2409,7 +2403,8 @@ void FUN_00993440_shell::LoadCombatState(BGSLoadGameBuffer* apLoadGameBuffer)
         reinterpret_cast<::GroupLoad *>((((GroupShim*)pgroup)))->FUN_0098e3d0((::LoadBuf *)(apLoadGameBuffer));
         ((Arr86*)this)->SetAt(igroupNum, *(BGSAddonNode**)&pgroup);
     }
-    reinterpret_cast<::fnv_009a5a70::FUN_009a5a70_cls *>((((CMView*)this)->m_pThreatMap))->FUN_009a5a70((::fnv_009a5a70::ItemList *)(apLoadGameBuffer));
+    reinterpret_cast<::fnv_009a5a70::FUN_009a5a70_cls*>(m_pThreatMap)->FUN_009a5a70(
+        reinterpret_cast<::fnv_009a5a70::ItemList*>(apLoadGameBuffer));
     icount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((((BGSLoadFormBuffer*)apLoadGameBuffer)))->FUN_00864a60();
     for (unsigned int i = 0; i < icount; i++)
     {
@@ -2418,8 +2413,8 @@ void FUN_00993440_shell::LoadCombatState(BGSLoadGameBuffer* apLoadGameBuffer)
         itargetingBitfield.lo = 0;
         itargetingBitfield.hi = 0;
         reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((((BGSLoadFormBuffer*)apLoadGameBuffer)))->FUN_008648e0((unsigned int *)(void *)(&pactor));
-        ((CMView*)this)
-            ->m_pActorCombatGroupMap->SetValue((uintptr_t)pactor, itargetingBitfield.lo, itargetingBitfield.hi);
+        reinterpret_cast<CombatTarget*>(m_pActorCombatGroupMap)->SetValue(
+            (uintptr_t)pactor, itargetingBitfield.lo, itargetingBitfield.hi);
     }
     reinterpret_cast<::CombatTargetTimestamp *>((((StampShim*)&this->m_kFourByteManagerData.fTimeStamp)))->LoadGame((::BGSLoadGameBuffer *)(apLoadGameBuffer));
     reinterpret_cast<::TimeoutTimer *>((((TimerShim*)&this->m_kFirstEightByteManagerData.m_fStartTime)))->LoadGame((::BGSLoadFormBuffer *)(::fnv_00993440::BGSLoadFormBuffer *)((BGSLoadFormBuffer*)apLoadGameBuffer));
@@ -2468,15 +2463,16 @@ struct FUN_009932d0_shell
 // @fnv 0x009932d0
 void FUN_009932d0_shell::FUN_009932d0(BGSSaveFormBuffer* apBuffer)
 {
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x34, 4, 0);
+    auto* manager = reinterpret_cast<::CombatManager*>(this);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&manager->m_uiDebugFlags, 4, 0);
     unsigned int uiSavedCount = 0;
     unsigned int uiPos = reinterpret_cast<::FUN_00865f20_shell *>((apBuffer))->FUN_00865f20();
     {
         unsigned int uiMapCount;
         unsigned int uiPos2;
-        for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>((((Arr*)this)))->GetShortAtOffsetA(); i++)
+        for (unsigned int i = 0; i < manager->m_kCombatGroups.m_usSize; i++)
         {
-            Flt* pItem = SimpleArrayItem<Flt*>(this, i);
+            Flt* pItem = reinterpret_cast<Flt*>(manager->m_kCombatGroups.m_pBase[i]);
             if (pItem)
             {
                 unsigned int uiNext;
@@ -2491,23 +2487,28 @@ void FUN_009932d0_shell::FUN_009932d0(BGSSaveFormBuffer* apBuffer)
             }
         }
         reinterpret_cast<::FUN_00865ff0_shell *>((apBuffer))->FUN_00865ff0(uiSavedCount, uiPos);
-        reinterpret_cast<::CombatThreatMap *>((((S009a59e0*)*(void**)((char*)this + 0x14))))->SaveThreats((::BGSSaveFormBuffer *)(apBuffer));
+        manager->m_pThreatMap->SaveThreats(reinterpret_cast<::BGSSaveFormBuffer*>(apBuffer));
         uiMapCount = 0;
         uiPos2 = reinterpret_cast<::FUN_00865f20_shell *>((apBuffer))->FUN_00865f20();
-        for (CPMapItem00993a80* pMapPos = (CPMapItem00993a80*)reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)*(void**)((char*)this + 0x10))))->GetFirstPos();
+        for (CPMapItem00993a80* pMapPos = static_cast<CPMapItem00993a80*>(
+                 reinterpret_cast<::BGSReconstructFormsInAllFilesMap*>(manager->m_pActorCombatGroupMap)->GetFirstPos());
              pMapPos;)
         {
             uintptr_t uiKey;
             unsigned __int64 uiValue;
-            reinterpret_cast<::CPMap00993a80 *>((((CPMap00993a80*)*(void**)((char*)this + 0x10))))->GetNextEntry((::CPMapItem00993a80 *&)(pMapPos), &uiKey, &uiValue);
+            reinterpret_cast<::CPMap00993a80*>(manager->m_pActorCombatGroupMap)->GetNextEntry(
+                reinterpret_cast<::CPMapItem00993a80*&>(pMapPos), &uiKey, &uiValue);
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)((void*)uiKey), 0);
             uiMapCount++;
         }
         reinterpret_cast<::FUN_00865ff0_shell *>((apBuffer))->FUN_00865ff0(uiMapCount, uiPos2);
     }
-    reinterpret_cast<::fnv_009a5f90::FUN_009a5f90_shell *>((((S009a5f90*)((char*)this + 0x20))))->SaveTimeStamp((::fnv_009a5f90::BGSSaveFormBuffer *)(apBuffer));
-    reinterpret_cast<::FUN_009a5eb0_shell *>((((FUN_009a5eb0_shell*)((char*)this + 0x24))))->FUN_009a5eb0((::BGSSaveFormBuffer *)(apBuffer));
-    reinterpret_cast<::FUN_009a5eb0_shell *>((((FUN_009a5eb0_shell*)((char*)this + 0x2c))))->FUN_009a5eb0((::BGSSaveFormBuffer *)(apBuffer));
+    reinterpret_cast<::fnv_009a5f90::FUN_009a5f90_shell*>(&manager->m_kFourByteManagerData)->SaveTimeStamp(
+        reinterpret_cast<::fnv_009a5f90::BGSSaveFormBuffer*>(apBuffer));
+    reinterpret_cast<::FUN_009a5eb0_shell*>(&manager->m_kFirstEightByteManagerData)->FUN_009a5eb0(
+        reinterpret_cast<::BGSSaveFormBuffer*>(apBuffer));
+    reinterpret_cast<::FUN_009a5eb0_shell*>(&manager->m_kSecondEightByteManagerData)->FUN_009a5eb0(
+        reinterpret_cast<::BGSSaveFormBuffer*>(apBuffer));
 }
 }  // namespace fnv_009932d0
 

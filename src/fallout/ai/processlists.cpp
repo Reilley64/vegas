@@ -780,10 +780,10 @@ void FUN_0096c710(ProcessLists* pProcessLists)
     }
 
     for (unsigned int i =
-             reinterpret_cast<::fnv_005de0f0::FUN_005de0f0_shell *>((void *)(((MobileObjectProcessArray*)((char*)pProcessLists + 4))))->FUN_005de0f0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_HIGH)));
-         i < reinterpret_cast<::FUN_005be5c0_shell *>((void *)(((MobileObjectProcessArray*)((char*)pProcessLists + 4))))->FUN_005be5c0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_HIGH))); ++i)
+             reinterpret_cast<::fnv_005de0f0::FUN_005de0f0_shell *>((void *)((&pProcessLists->m_kMobileObjectProcessList)))->FUN_005de0f0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_HIGH)));
+         i < reinterpret_cast<::FUN_005be5c0_shell *>((void *)((&pProcessLists->m_kMobileObjectProcessList)))->FUN_005be5c0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_HIGH))); ++i)
     {
-        MobileObject* pObject = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((void *)(((MobileObjectProcessArray*)((char*)pProcessLists + 4))))->FUN_00968670(i)));
+        MobileObject* pObject = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((void *)((&pProcessLists->m_kMobileObjectProcessList)))->FUN_00968670(i)));
         if (pObject && pObject->IsActor())
         {
             reinterpret_cast<::HighProcessWorker *>((((FUN_008f63e0_wrap*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(pObject))->GetBaseTexture())))))->ProcessDetectionStateLists((::Actor *)(pObject));
@@ -906,11 +906,11 @@ int __cdecl FUN_00970ee0(Actor*, Actor*);
 // @fnv 0x0096e570
 void FUN_0096e570_shell::FUN_0096e570()
 {
-    reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)this + 0x10300))))->FUN_0040fbf0((char *)(0));
+    reinterpret_cast<::FUN_0040fbf0_shell *>(((&this->m_kActorListLock)))->FUN_0040fbf0((char *)(0));
 
     int igap = 0;
     int ileft = 0;
-    int iright = *(int*)((char*)this + 0x150) - 1;
+    int iright = this->m_iActorCount - 1;
 
     for (igap = 1; igap <= (iright - ileft) / 9; igap = igap * 3 + 1)
     {
@@ -921,23 +921,23 @@ void FUN_0096e570_shell::FUN_0096e570()
         for (int i = ileft + igap; i <= iright; ++i)
         {
             int j = i;
-            Actor* pActor = ((Actor**)((char*)this + 0x88))[i];
-            while (j >= ileft + igap && FUN_00970ee0(pActor, ((Actor**)((char*)this + 0x88))[j - igap]) < 0)
+            Actor* pActor = m_apActorCache[i];
+            while (j >= ileft + igap && FUN_00970ee0(pActor, m_apActorCache[j - igap]) < 0)
             {
-                ((Actor**)((char*)this + 0x88))[j] = ((Actor**)((char*)this + 0x88))[j - igap];
+                m_apActorCache[j] = m_apActorCache[j - igap];
                 j -= igap;
             }
-            ((Actor**)((char*)this + 0x88))[j] = pActor;
+            m_apActorCache[j] = pActor;
         }
     }
 
-    while (*(int*)((char*)this + 0x150) > *((int *)&(::FUN_0043d4d0((int *)&(::g_011cde2c)))))
+    while (this->m_iActorCount > *((int *)&(::FUN_0043d4d0((int *)&(::g_011cde2c)))))
     {
-        ((Actor**)((char*)this + 0x88))[*(int*)((char*)this + 0x150) - 1] = 0;
-        *(int*)((char*)this + 0x150) = *(int*)((char*)this + 0x150) - 1;
+        m_apActorCache[this->m_iActorCount - 1] = 0;
+        this->m_iActorCount = this->m_iActorCount - 1;
     }
 
-    ((RecursiveSpinLock*)((char*)this + 0x10300))->FUN_0040fba0();
+    this->m_kActorListLock.FUN_0040fba0();
 }
 
 struct FUN_0096e6f0_shell : public ProcessLists
@@ -950,23 +950,20 @@ void __cdecl FUN_008661e0(void*, unsigned int, const void*, unsigned int);
 // @fnv 0x0096e6f0
 void FUN_0096e6f0_shell::RemoveActor(Actor* pactor)
 {
-    reinterpret_cast<::FUN_0040fbf0_shell *>((reinterpret_cast<RecursiveSpinLock*>(reinterpret_cast<char*>(this) + 0x10300)))->FUN_0040fbf0((char *)(0));
-    for (int icurActor = 0; icurActor < *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150); ++icurActor)
+    reinterpret_cast<::FUN_0040fbf0_shell *>((&this->m_kActorListLock))->FUN_0040fbf0((char *)(0));
+    for (int icurActor = 0; icurActor < this->m_iActorCount; ++icurActor)
     {
-        if (reinterpret_cast<Actor**>(reinterpret_cast<char*>(this) + 0x88)[icurActor] == pactor)
+        if (m_apActorCache[icurActor] == pactor)
         {
-            int inumElementsToCopy = 50 - icurActor - 1;
-            ::fnv_008661e0::FUN_008661e0(&reinterpret_cast<Actor**>(reinterpret_cast<char*>(this) + 0x88)[icurActor], 200,
-                         &reinterpret_cast<Actor**>(reinterpret_cast<char*>(this) + 0x88)[icurActor + 1],
-                         inumElementsToCopy * sizeof(Actor*));
-            reinterpret_cast<Actor**>(reinterpret_cast<char*>(this) +
-                                      0x88)[*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150) - 1] = 0;
-            *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150) =
-                *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150) - 1;
+            const auto bytesRemaining = sizeof(m_apActorCache) - icurActor * sizeof(m_apActorCache[0]);
+            ::fnv_008661e0::FUN_008661e0(&m_apActorCache[icurActor], bytesRemaining,
+                                       &m_apActorCache[icurActor + 1], bytesRemaining - sizeof(m_apActorCache[0]));
+            m_apActorCache[this->m_iActorCount - 1] = 0;
+            --m_iActorCount;
             break;
         }
     }
-    reinterpret_cast<RecursiveSpinLock*>(reinterpret_cast<char*>(this) + 0x10300)->FUN_0040fba0();
+    this->m_kActorListLock.FUN_0040fba0();
 }
 
 extern double DAT_0102c188;
@@ -2453,7 +2450,7 @@ void FUN_00977cb0_shell::StartActorDialogue(int eaction, TESObjectREFR* apObject
     if (!eaction)
         return;
     int iElementIndex = 0;
-    if (*(float*)((char*)this + 0x154) <= ::_DAT_01012060 || abMakecomment)
+    if (this->m_fProcessListValue2 <= ::_DAT_01012060 || abMakecomment)
     {
         Actor* pTalk = 0;
         bool blineofsight = false;
@@ -2478,11 +2475,11 @@ void FUN_00977cb0_shell::StartActorDialogue(int eaction, TESObjectREFR* apObject
         }
         else
         {
-            reinterpret_cast<::FUN_0040fbf0_shell *>((((BSSpinLockS*)((char*)this + 0x10300))))->FUN_0040fbf0((char *)(0));
+            reinterpret_cast<::FUN_0040fbf0_shell *>(&m_kActorListLock)->FUN_0040fbf0((char *)(0));
             int icurActor = 0;
-            while (icurActor < *(int*)((char*)this + 0x150) && !pTalk)
+            while (icurActor < this->m_iActorCount && !pTalk)
             {
-                Actor* pact = ((Actor**)((char*)this + 0x88))[icurActor];
+                Actor* pact = m_apActorCache[icurActor];
                 bool bsetactor = true;
                 bool bisTeammate = pact ? pact->IsPlayerTeammate() : false;
                 if (pact && ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(pact))->GetBaseTexture())) && pact->Unk_85() != 9 &&
@@ -2497,22 +2494,22 @@ void FUN_00977cb0_shell::StartActorDialogue(int eaction, TESObjectREFR* apObject
                     if (eaction == 7 || eaction == 5)
                     {
                         if (!apObject || !reinterpret_cast<::OwnershipReferenceView *>((((RefUse*)apObject)))->FUN_005785e0(pact, true) ||
-                            *(float*)((char*)this + 0x158) > ::_DAT_01012060)
+                            this->m_fProcessUpdateTimer > ::_DAT_01012060)
                             bsetactor = false;
                         else
-                            *(float*)((char*)this + 0x158) = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00977cb0::Setting_S *>(&::originalRuntimeFloatSetting1062))))));
+                            this->m_fProcessUpdateTimer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00977cb0::Setting_S *>(&::originalRuntimeFloatSetting1062))))));
                     }
                     if (bsetactor)
                         pTalk = pact;
                 }
                 icurActor++;
-                if (icurActor >= *(int*)((char*)this + 0x150) && idistance < 1000 && !pTalk)
+                if (icurActor >= this->m_iActorCount && idistance < 1000 && !pTalk)
                 {
                     icurActor = 0;
                     idistance += 200;
                 }
             }
-            reinterpret_cast<::RecursiveSpinLock *>((((BSSpinLockS*)((char*)this + 0x10300))))->FUN_0040fba0();
+            reinterpret_cast<::RecursiveSpinLock *>(&m_kActorListLock)->FUN_0040fba0();
         }
         switch (eaction)
         {
@@ -2560,7 +2557,7 @@ void FUN_00977cb0_shell::StartActorDialogue(int eaction, TESObjectREFR* apObject
         {
             TESTopic* pTopic = ((::TESTopic *)(::fnv_0061a2d0::GetTopicSubTypeName((*(int *)&(const ::DIALOGUE_TYPE &)(DIALOGUE_TYPE_DT_TOPIC)), iElementIndex)));
             reinterpret_cast<::Stub8bc3d0Obj *>((((FUN_008bc3d0_shell*)pTalk)))->FUN_008bc3d0((::Stub8bc3d0Arg *)(pTopic));
-            *(float*)((char*)this + 0x154) = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00977cb0::Setting_S *>(&::originalRuntimeFloatSetting1060))))));
+            this->m_fProcessListValue2 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00977cb0::Setting_S *>(&::originalRuntimeFloatSetting1060))))));
         }
     }
 }
@@ -2862,10 +2859,10 @@ struct ActorDialogueHelper
 // @fnv 0x0096cb50
 void FUN_0096cb50_shell::UpdateHighProcessActors()
 {
-    for (unsigned int i = reinterpret_cast<::fnv_005de0f0::FUN_005de0f0_shell *>((void *)(((MobileObjectProcessArray*)((char*)this + 4))))->FUN_005de0f0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_HIGH)));
-         i < reinterpret_cast<::FUN_005be5c0_shell *>((void *)(((MobileObjectProcessArray*)((char*)this + 4))))->FUN_005be5c0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_HIGH))); ++i)
+    for (unsigned int i = reinterpret_cast<::fnv_005de0f0::FUN_005de0f0_shell *>((void *)((&this->m_kMobileObjectProcessList)))->FUN_005de0f0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_HIGH)));
+         i < reinterpret_cast<::FUN_005be5c0_shell *>((void *)((&this->m_kMobileObjectProcessList)))->FUN_005be5c0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_HIGH))); ++i)
     {
-        MobileObject* pmobile = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((void *)(((MobileObjectProcessArray*)((char*)this + 4))))->FUN_00968670(i)));
+        MobileObject* pmobile = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((void *)((&this->m_kMobileObjectProcessList)))->FUN_00968670(i)));
         if (pmobile && pmobile->IsActor())
         {
             Actor* pactor = (Actor*)pmobile;
@@ -3020,16 +3017,16 @@ struct ProcessListsInsertHelper
 // @fnv 0x00977660
 void FUN_00977660_shell::FUN_00977660()
 {
-    reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)this + 0x10300))))->FUN_0040fbf0((char *)(0));
-    *(unsigned int*)((char*)this + 0x150) = 0;
-    ::MemsetWrapper((char*)this + 0x88, 0, 200);
-    ((RecursiveSpinLock*)((char*)this + 0x10300))->FUN_0040fba0();
+    reinterpret_cast<::FUN_0040fbf0_shell *>(((&this->m_kActorListLock)))->FUN_0040fbf0((char *)(0));
+    m_iActorCount = 0;
+    ::MemsetWrapper(reinterpret_cast<char*>(m_apActorCache), 0, sizeof(m_apActorCache));
+    this->m_kActorListLock.FUN_0040fba0();
     MobileObject* pCurrentObject = 0;
     Actor* pactor = 0;
     for (unsigned int i = 0;
-         i < reinterpret_cast<::FUN_005be5c0_shell *>((void *)(((MobileObjectProcessArray*)((char*)this + 4))))->FUN_005be5c0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_HIGH))); ++i)
+         i < reinterpret_cast<::FUN_005be5c0_shell *>((void *)((&this->m_kMobileObjectProcessList)))->FUN_005be5c0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_HIGH))); ++i)
     {
-        pCurrentObject = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((void *)(((MobileObjectProcessArray*)((char*)this + 4))))->FUN_00968670(i)));
+        pCurrentObject = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((void *)((&this->m_kMobileObjectProcessList)))->FUN_00968670(i)));
         if (pCurrentObject && pCurrentObject->IsActor())
             pactor = (Actor*)pCurrentObject;
         if (pactor)
@@ -3188,10 +3185,10 @@ struct FUN_0096c860_shell : ProcessLists
 // @fnv 0x0096c860
 void FUN_0096c860_shell::FUN_0096c860()
 {
-    unsigned int i = reinterpret_cast<::fnv_005de0f0::FUN_005de0f0_shell *>((void *)(((MobileObjectProcessArray*)((char*)this + 4))))->FUN_005de0f0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_HIGH)));
-    for (; i < reinterpret_cast<::FUN_005be5c0_shell *>((void *)(((MobileObjectProcessArray*)((char*)this + 4))))->FUN_005be5c0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_MIDDLE_HIGH))); ++i)
+    unsigned int i = reinterpret_cast<::fnv_005de0f0::FUN_005de0f0_shell *>((void *)((&this->m_kMobileObjectProcessList)))->FUN_005de0f0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_HIGH)));
+    for (; i < reinterpret_cast<::FUN_005be5c0_shell *>((void *)((&this->m_kMobileObjectProcessList)))->FUN_005be5c0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_MIDDLE_HIGH))); ++i)
     {
-        MobileObject* pMobile = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((void *)(((MobileObjectProcessArray*)((char*)this + 4))))->FUN_00968670(i)));
+        MobileObject* pMobile = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((void *)((&this->m_kMobileObjectProcessList)))->FUN_00968670(i)));
         if (pMobile && pMobile->IsActor())
         {
             AnimData* panim = pMobile->GetAnimData();
@@ -4496,8 +4493,8 @@ struct HighProcess
 // @fnv 0x00977130
 void FUN_00977130_shell::FUN_00977130(float afDeltaTime)
 {
-    *(float*)((char*)this + 0x103bc) -= afDeltaTime;
-    if (*(float*)((char*)this + 0x103bc) <= ::_DAT_01012060)
+    this->SemaphoreTimingState -= afDeltaTime;
+    if (this->SemaphoreTimingState <= ::_DAT_01012060)
     {
         MobileObject* pCurrentObject;
         bool bcomplex;
@@ -4508,9 +4505,9 @@ void FUN_00977130_shell::FUN_00977130(float afDeltaTime)
         int iactorsTotal;
         pCurrentObject = 0;
         for (unsigned int i = 0;
-             i < reinterpret_cast<::FUN_005be5c0_shell *>((void *)(((MobileObjectProcessArray*)((char*)this + 4))))->FUN_005be5c0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_HIGH))); i++)
+             i < reinterpret_cast<::FUN_005be5c0_shell *>((void *)((&this->m_kMobileObjectProcessList)))->FUN_005be5c0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_HIGH))); i++)
         {
-            pCurrentObject = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((void *)(((MobileObjectProcessArray*)((char*)this + 4))))->FUN_00968670(i)));
+            pCurrentObject = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((void *)((&this->m_kMobileObjectProcessList)))->FUN_00968670(i)));
             Actor* pactor = 0;
             if (pCurrentObject && pCurrentObject->IsActor() && !reinterpret_cast<::FUN_00576d30_shell *>((void *)(pCurrentObject))->FUN_00576d30())
             {
@@ -4540,7 +4537,7 @@ void FUN_00977130_shell::FUN_00977130(float afDeltaTime)
         bcomplex = ((bool)(::FUN_00525420()));
         if (iactorCount < 25)
             bcomplex = false;
-        *(float*)((char*)this + 0x103bc) =
+        this->SemaphoreTimingState =
             bcomplex ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00977130::Setting_S *>(&::originalRuntimeFloatSetting1024)))))) : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00977130::Setting_S *>(&::originalRuntimeFloatSetting1023))))));
         iactorsDead = bcomplex ? *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00977130::GlobalObject2_0040c150 *>(&::g_011d0964)))))) : *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00977130::GlobalObject2_0040c150 *>(&::g_011d0cd8))))));
         iactorsTotal = bcomplex ? *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00977130::GlobalObject2_0040c150 *>(&::g_011d08f8)))))) : *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00977130::GlobalObject2_0040c150 *>(&::g_011d09a0))))));

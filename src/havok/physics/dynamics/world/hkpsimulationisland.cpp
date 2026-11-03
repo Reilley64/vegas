@@ -31,7 +31,7 @@ struct S_00d070c0
 // @fnv 0x00d070c0
 void FUN_00d070c0(S_00d070c0* obj)
 {
-    ::FUN_00cb3c80((int)(obj->unk14->unk08), (int)(obj));
+    ::FUN_00cb3c80(obj->unk14->unk08, obj);
 }
 
 struct Holder

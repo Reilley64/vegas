@@ -228,7 +228,10 @@ __m128* FUN_00e2ab00(__m128* src, __m128* out1, __m128* out2) {
 
 
 struct Router_e3a1 {
-    int unk00, unk04, unk08, unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pStreamAllocator;
 };
 

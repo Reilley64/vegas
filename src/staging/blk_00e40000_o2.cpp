@@ -467,9 +467,9 @@ void FUN_00e406d0_cls::ClampBoundsAt(int index, float value)
 
 struct HolderStub {
     char* unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     void* m_pAllocator;
 };
 
@@ -945,10 +945,10 @@ struct AudioAllocator {
 };
 
 struct AudioHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -1963,10 +1963,10 @@ struct AudioAllocator {
 };
 
 struct AudioHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -2025,10 +2025,10 @@ namespace fnv_00e58c30 {
 extern "C" void _ReadWriteBarrier(void);
 
 struct AllocHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     void* m_pAllocator;
 };
 
@@ -2096,10 +2096,10 @@ struct AllocatorIface
 
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AllocatorIface* m_pAllocator;
 };
 
@@ -2149,10 +2149,10 @@ FUN_00e58cf0_cls* FUN_00e58cf0_cls::InitFloatArray(int count, int stride, float 
 
 namespace fnv_00e58df0 {
 struct HkHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pAllocator;
 };
 
@@ -4098,10 +4098,10 @@ struct FUN_00e47390_obj {
 };
 
 struct UnkRet {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FUN_00e47390_obj* m_10;
 };
 
@@ -4738,7 +4738,10 @@ struct CopyEntry {
     CopyEntry& operator=(const CopyEntry& other) { m_00 = other.m_00; reinterpret_cast<::Cb0StringCopy *>(&(m_04))->FUN_00cb0c30((*(const ::CB0StringPtr *)(&other.m_04))); return *this; }
     ~CopyEntry() { ::FUN_00cb0c00((intptr_t)&(m_04)); }
 };
-struct CopyAllocator { int m_00, m_04, m_08, m_0c; void* m_10; };
+struct CopyAllocator { char* m_00;
+ void* m_04;
+ void* m_08;
+ void* m_0c; void* m_10; };
 static __forceinline void destroyEntries(CopyEntry* p, int count) {
     for (int i = 0; i < count; ++i) p[i].~CopyEntry();
 }
@@ -7093,10 +7096,10 @@ namespace se49e00 {
 struct Allocator;
 
 struct AllocatorHolder {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
+    char* unk000;
+    void* unk004;
+    void* unk008;
+    void* unk00c;
     Allocator* m_pHeapAllocator;
 };
 

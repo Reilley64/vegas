@@ -9,4 +9,4 @@ unsigned char ScaleToByte(float, float, float);
 // 0x00e30fb0
 unsigned short NormalizeToUShort(float, float, float);
 // 0x00e30ff0
-namespace fnv_00e30ff0 { void FUN_00e30ff0(int, int); }
+namespace fnv_00e30ff0 { void FUN_00e30ff0(int, void *); }

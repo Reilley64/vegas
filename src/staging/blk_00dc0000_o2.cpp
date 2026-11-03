@@ -462,7 +462,9 @@ struct ArrayBlock
 };
 struct AllocatorState
 {
-    int unk00, unk04, unk08;
+    char* unk00;
+    void* unk04;
+    void* unk08;
     void* unk0C;
     void* pool;
     void* GetPool() const
@@ -512,10 +514,10 @@ struct AllocatorIface
 
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AllocatorIface* m_pAllocator;
 };
 
@@ -650,10 +652,10 @@ struct AllocIface
 
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AllocIface* m_pAllocator;
 };
 
@@ -699,10 +701,10 @@ struct AllocIface
 
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AllocIface* m_pAllocator;
 };
 
@@ -751,9 +753,9 @@ struct S_00dcc9c0_Allocator
 
 struct S_00dcc9c0_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    char* unk00;
+    void* unk04;
+    void* unk08;
     S_00dcc9c0_Allocator* unk0C;
     S_00dcc9c0_Allocator& temp()
     {
@@ -822,10 +824,10 @@ struct FnvCpu_FUN_00dcd480_CpuAllocator
 };
 struct FnvCpu_FUN_00dcd480_CpuAllocatorHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FnvCpu_FUN_00dcd480_CpuAllocator* allocator;
 };
 struct FnvCpu_FUN_00dcd480_CpuObject
@@ -1257,10 +1259,10 @@ struct RecArray
 
 struct AllocHolder
 {
-    unsigned int m_00;
-    unsigned int m_04;
-    unsigned int m_08;
-    unsigned int m_0c;
+    char* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     void* m_pAllocator;
 };
 
@@ -1300,10 +1302,10 @@ struct S_00dd8fa0_S
 
 struct S_00dd8fa0_Caller
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     S_00dd8fa0_S* unk10;
 };
 
@@ -1368,10 +1370,10 @@ struct DD91A0Allocator
 
 struct DD91A0MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     DD91A0Allocator* m_pStreamAllocator;
 
     DD91A0Allocator& heap()
@@ -1441,10 +1443,10 @@ struct DDC160Allocator
 
 struct DDC160MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     DDC160Allocator* m_pStreamAllocator;
 
     DDC160Allocator& heap()
@@ -1877,10 +1879,10 @@ class hkMemoryAllocatorDDFB;
 
 struct hkMemoryRouterDDFB
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    char* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorDDFB* m_pStreamAllocator;
     hkMemoryAllocatorDDFB& heap()
     {

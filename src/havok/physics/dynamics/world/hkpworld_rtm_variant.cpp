@@ -496,7 +496,7 @@ struct FUN_00c98350_Class {
     void* InitAndMaybeFree(int);
 };
 struct FUN_00c983e0_Class {
-    void ForEachCall(int a, int b, int c, int d, int e);
+    void ForEachCall(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e);
 };
 struct FUN_00c984a0_Class {
     unsigned int unk00;

@@ -698,18 +698,18 @@ void* FUN_00c98350_Class::InitAndMaybeFree(int flags)
 
 
 struct FUN_00c983e0_Class {
-    void ForEachCall(int a, int b, int c, int d, int e);
+    void ForEachCall(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e);
 };
 
 // Locks the critical section, calls the second virtual method of each object in the array with the five arguments, then unlocks.
 // @fnv 0x00c983e0
-void FUN_00c983e0_Class::ForEachCall(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5)
+void FUN_00c983e0_Class::ForEachCall(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, intptr_t aiArg4, intptr_t aiArg5)
 {
     EnterCriticalSection(*(void**)((char*)this + 0x14));
     for (int i = 0; i < *(int*)((char*)this + 0xc); ++i) {
-        void* obj = *(void**)(*(char**)((char*)this + 8) + i * 4);
+        void* obj = (*(void***)((char*)this + 8))[i];
         void** vtbl = *(void***)obj;
-        typedef void (* Fn)(void*, int, int, int, int, int);
+        typedef void (* Fn)(void*, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t);
         ((Fn)vtbl[1])(obj, aiArg1, aiArg2, aiArg3, aiArg4, aiArg5);
     }
     LeaveCriticalSection(*(void**)((char*)this + 0x14));

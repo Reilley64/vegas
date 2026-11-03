@@ -1076,10 +1076,10 @@ struct DBA3D0Allocator
 
 struct DBA3D0MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     DBA3D0Allocator* m_pStreamAllocator;
 
     DBA3D0Allocator& heap()
@@ -1345,9 +1345,9 @@ struct DBA430Inner
 struct BSAudio
 {
     virtual void vf00();
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     DBA430Listener* m_10;
 };
 
@@ -4089,7 +4089,10 @@ class hkMemoryAllocatorDA24
 
 struct hkMemoryRouterDA24
 {
-    int unk00, unk04, unk08, unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorDA24* m_pStreamAllocator;
     hkMemoryAllocatorDA24& heap()
     {

@@ -57,11 +57,11 @@ struct FUN_00d21de0_cls
     unsigned char unk08;
     unsigned char unk09;
     unsigned char unk0A;
-    FUN_00d21de0_cls* FUN_00d21de0(int a);
+    FUN_00d21de0_cls* FUN_00d21de0(intptr_t a);
 };
 
 // @fnv 0x00d21de0
-FUN_00d21de0_cls* FUN_00d21de0_cls::FUN_00d21de0(int a)
+FUN_00d21de0_cls* FUN_00d21de0_cls::FUN_00d21de0(intptr_t a)
 {
     if (a != 0)
     {

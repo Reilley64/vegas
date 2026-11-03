@@ -154,7 +154,7 @@ void __cdecl FUN_00dfc3e0(void** ppObject, void* a2)
     if (ppObject)
     {
         *ppObject = &DAT_010d77d8;
-        reinterpret_cast<::FUN_00d21de0_cls *>((((FUN_00d21de0_Class*)(ppObject + 8))))->FUN_00d21de0((int)(a2));
+        reinterpret_cast<::FUN_00d21de0_cls *>((((FUN_00d21de0_Class*)(ppObject + 8))))->FUN_00d21de0((intptr_t)(a2));
     }
 }
 
@@ -238,7 +238,7 @@ struct FUN_00cb0a70_Class
     int m_iThirdValue;
     int m_10;
     int m_14;
-    void FUN_00cb0a70(int a);
+    void* FUN_00cb0a70(intptr_t a);
 };
 
 // @fnv 0x00dfef50
@@ -255,7 +255,7 @@ void FUN_00dfef50(int* pObject, int aiValue)
 
 struct FUN_00dff0f0_class
 {
-    int m;
+    const void* m;
     void FUN_00cb0a70(int);
 };
 
@@ -265,9 +265,9 @@ void FUN_00dff0f0(FUN_00dff0f0_class* p, int aiValue)
 {
     if (p)
     {
-        p->m = (int)&DAT_010cc2fc;
+        p->m = &DAT_010cc2fc;
         ((FUN_00dff0f0_class*)((char*)p + 0x14))->FUN_00cb0a70(aiValue);
-        p->m = (int)&DAT_010e6834;
+        p->m = &DAT_010e6834;
     }
 }
 
@@ -802,17 +802,13 @@ void __cdecl FUN_00dff0d0(int* p)
 }
 
 extern int DAT_010c8e94;
-struct FUN_00cb0a70_m_helper
-{
-    void m(int);
-};
 // @fnv 0x00dff270
 void __cdecl FUN_00dff270(void* pObject, void* b)
 {
     if (pObject)
     {
         *(void**)pObject = (void*)&DAT_010cc2fc;
-        ((FUN_00cb0a70_m_helper*)((char*)pObject + 0x14))->m((int)b);
+        ((FUN_00cb0a70_Class*)((char*)pObject + 0x14))->FUN_00cb0a70((intptr_t)b);
         *(void**)pObject = (void*)&DAT_010c8e94;
         *(int*)((char*)pObject + 0x54) = 0;
         *(int*)((char*)pObject + 0x58) = 0;
@@ -984,7 +980,7 @@ void FUN_00de87c0_class::SwapFields()
 void __cdecl FUN_00de81a0(void* pObject, void* arg)
 {
     if (pObject)
-        reinterpret_cast<::FUN_00d21de0_cls *>((((FUN_00d21de0_Class*)pObject)))->FUN_00d21de0((int)(arg));
+        reinterpret_cast<::FUN_00d21de0_cls *>((((FUN_00d21de0_Class*)pObject)))->FUN_00d21de0((intptr_t)(arg));
 }
 
 struct FUN_00d21ce0_cls
@@ -1082,12 +1078,12 @@ int __cdecl FUN_00dfb270(void* p)
 
 // If a is non-null, calls m(v) on a and on the helper at a+4.
 // @fnv 0x00dfb390
-void __cdecl CallMethodOnBothHelpers(FUN_00cb0a70_m_helper* pHelper, int iValue)
+void __cdecl CallMethodOnBothHelpers(FUN_00cb0a70_Class* pHelper, int iValue)
 {
     if (pHelper)
     {
-        pHelper->m(iValue);
-        ((FUN_00cb0a70_m_helper*)((char*)pHelper + 4))->m(iValue);
+        pHelper->FUN_00cb0a70(iValue);
+        ((FUN_00cb0a70_Class*)((char*)pHelper + 4))->FUN_00cb0a70(iValue);
     }
 }
 
@@ -1125,7 +1121,7 @@ void FUN_00dfb9f0(int* pTarget, int iValue)
     if (pTarget)
     {
         *(void**)pTarget = (void*)&DAT_010c4dec;
-        ((FUN_00cb0a70_m_helper*)(pTarget + 2))->m(iValue);
+        ((FUN_00cb0a70_Class*)(pTarget + 2))->FUN_00cb0a70(iValue);
     }
 }
 
@@ -1148,7 +1144,7 @@ void __cdecl FUN_00dfbb30(void* p)
 void __cdecl FUN_00dfbbf0(void* pObject, int a)
 {
     if (pObject)
-        ((FUN_00cb0a70_m_helper*)pObject)->m(a);
+        ((FUN_00cb0a70_Class*)pObject)->FUN_00cb0a70(a);
 }
 
 struct S_00d49310_Lock
@@ -1165,14 +1161,14 @@ void __cdecl FUN_00dfbc20(S_00d49310_Lock* self)
 void __cdecl FUN_00dfbc30(void* pTarget, void* b)
 {
     if (pTarget)
-        ((FUN_00cb0a70_m_helper*)((char*)pTarget + 4))->m((int)b);
+        ((FUN_00cb0a70_Class*)((char*)pTarget + 4))->FUN_00cb0a70((intptr_t)b);
 }
 
 // @fnv 0x00dfbc80
 void __cdecl DispatchToHelper(void* pHelper, int iValue)
 {
     if (pHelper)
-        reinterpret_cast<FUN_00cb0a70_m_helper*>(pHelper)->m(iValue);
+        reinterpret_cast<FUN_00cb0a70_Class*>(pHelper)->FUN_00cb0a70(iValue);
 }
 
 struct S_00dfb720_Elem
@@ -1220,8 +1216,7 @@ void __cdecl FUN_00dfc790(void** p)
 // @fnv 0x00dfc7f0
 void __cdecl FUN_00dfc7f0(int* p)
 {
-    int* vt = (int*)(*(void**)p);
-    ((void(*)(void*, int))(*vt))((void*)p, 0);
+    (**(void(***)(void*, int))p)((void*)p, 0);
 }
 
 // @fnv 0x00dfc8d0
@@ -1315,8 +1310,8 @@ void FUN_00dfd7d0(int* pObject, int aiValue)
     if (pObject)
     {
         *(void**)pObject = (void*)&DAT_010e311c;
-        ((FUN_00cb0a70_m_helper*)(pObject + 5))->m(aiValue);
-        ((FUN_00cb0a70_m_helper*)(pObject + 16))->m(aiValue);
+        ((FUN_00cb0a70_Class*)(pObject + 5))->FUN_00cb0a70(aiValue);
+        ((FUN_00cb0a70_Class*)(pObject + 16))->FUN_00cb0a70(aiValue);
     }
 }
 
@@ -1331,7 +1326,7 @@ void __cdecl FUN_00dfda70(void* p)
 void FUN_00dfdad0(int* a, int iValue)
 {
     if (a)
-        ((FUN_00cb0a70_m_helper*)(a + 1))->m(iValue);
+        ((FUN_00cb0a70_Class*)(a + 1))->FUN_00cb0a70(iValue);
 }
 
 // @fnv 0x00dfdb00
@@ -1351,10 +1346,10 @@ void __cdecl FUN_00dfdb20(FUN_00dfdb20_vt* p)
 }
 
 // @fnv 0x00dfdd30
-void __cdecl CallHelperMethod(FUN_00cb0a70_m_helper* apHelper, int aiValue)
+void __cdecl CallHelperMethod(FUN_00cb0a70_Class* apHelper, int aiValue)
 {
     if (apHelper)
-        apHelper->m(aiValue);
+        apHelper->FUN_00cb0a70(aiValue);
 }
 
 struct S_00e3eaa0_Elem
@@ -1379,10 +1374,10 @@ void __cdecl FUN_00dfdd60(FUN_00e3f900_class* p, int a)
 }
 
 // @fnv 0x00dfdf70
-void CallHelperWithInt(FUN_00cb0a70_m_helper* pHelper, int aiValue)
+void CallHelperWithInt(FUN_00cb0a70_Class* pHelper, int aiValue)
 {
     if (pHelper)
-        pHelper->m(aiValue);
+        pHelper->FUN_00cb0a70(aiValue);
 }
 
 namespace fnv_00dfdfa0 {
@@ -1484,8 +1479,8 @@ void __cdecl FUN_00dfe5b0(void* pObject, int iValue)
     if (pObject)
     {
         *(void**)pObject = (void*)&DAT_010e587c;
-        ((FUN_00cb0a70_m_helper*)((char*)pObject + 8))->m(iValue);
-        ((FUN_00cb0a70_m_helper*)((char*)pObject + 0x54))->m(iValue);
+        ((FUN_00cb0a70_Class*)((char*)pObject + 8))->FUN_00cb0a70(iValue);
+        ((FUN_00cb0a70_Class*)((char*)pObject + 0x54))->FUN_00cb0a70(iValue);
     }
 }
 
@@ -1496,7 +1491,7 @@ void __cdecl FUN_00dfe990(void* apObject, int aiValue)
     if (apObject)
     {
         *(void**)(char*)apObject = (void*)&DAT_010e5a58;
-        ((FUN_00cb0a70_m_helper*)((char*)apObject + 8))->m(aiValue);
+        ((FUN_00cb0a70_Class*)((char*)apObject + 8))->FUN_00cb0a70(aiValue);
     }
 }
 
@@ -1695,10 +1690,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -1799,10 +1794,10 @@ class BDE43E0Allocator
 
 struct BDE43E0Memory
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     BDE43E0Allocator* m_pHeapAllocator;
 
     BDE43E0Allocator& heap()
@@ -2633,7 +2628,7 @@ struct FUN_00de8570_cls
 {
     int m_00;
     int m_04;
-    int m_08;
+    void* m_08;
 };
 
 // @fnv 0x00de8570
@@ -2643,7 +2638,7 @@ void __cdecl FUN_00de8570(FUN_00de8570_cls* pTarget, int nIndex)
     {
         if (nIndex != 0)
         {
-            reinterpret_cast<::FUN_00d21ce0_cls *>((pTarget))->FUN_00d21ce0((void *)(pTarget->m_08));
+            reinterpret_cast<::FUN_00d21ce0_cls *>((pTarget))->FUN_00d21ce0(pTarget->m_08);
         }
     }
 }
@@ -2796,7 +2791,7 @@ struct DF25D0Owner
 // @fnv 0x00df25d0
 static __declspec(noinline) void SetOwnerStateFlags(void* pkItem, DF25D0Owner* pkOwner, unsigned char m_ucEntryType)
 {
-    ::FUN_00cb3c80((int)(pkItem), (int)(pkOwner));
+    ::FUN_00cb3c80(pkItem, pkOwner);
     pkOwner->m_pkState->m_ucFlags |= m_ucEntryType;
 }
 
@@ -3331,10 +3326,10 @@ struct FreeAllocator
 
 struct FreeHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FreeAllocator* m_pAllocator;
 };
 
@@ -3648,10 +3643,10 @@ struct Allocator
 
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     Allocator* m_pAllocator;
 };
 
@@ -4749,10 +4744,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -4994,10 +4989,10 @@ struct SpawnedAllocator
 
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     SpawnedAllocator* m_pAllocator;
 };
 
@@ -5366,7 +5361,7 @@ struct EngineHeap
 };
 struct EngineMemoryManager
 {
-    void* unknown00;
+    char* unknown00;
     void* unknown04;
     void* unknown08;
     void* unknown0C;
@@ -5519,27 +5514,35 @@ struct FUN_00dfe210_allocator
 
 struct FUN_00dfe210_manager
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     FUN_00dfe210_allocator* unk10;
 };
 
 
-// @fnv 0x00dfe210
-void __cdecl ClearArray(int* array)
+struct DFE210Array
 {
+    void* volatile m_data;
+    int m_size;
+    volatile int m_capacityAndFlags;
+};
+
+// @fnv 0x00dfe210
+void __cdecl ClearArray(int* pArray)
+{
+    DFE210Array* array = reinterpret_cast<DFE210Array*>(pArray);
     FUN_00dfe210_manager* manager = static_cast<FUN_00dfe210_manager*>(::FUN_00c85750());
     FUN_00dfe210_allocator* allocator = manager->unk10;
-    int capacity = array[2];
+    int capacity = array->m_capacityAndFlags;
 
-    array[1] = 0;
+    array->m_size = 0;
     if ((capacity & 0x80000000) == 0)
-        allocator->Free((void*)array[0], (unsigned int)(capacity & 0x3fffffff) * 4);
+        allocator->Free(array->m_data, (unsigned int)(capacity & 0x3fffffff) * 4);
 
-    ((volatile int*)array)[2] = 0x80000000;
-    ((volatile int*)array)[0] = 0;
+    array->m_capacityAndFlags = 0x80000000;
+    array->m_data = 0;
 }
 }  // namespace fnv_00dfe210
 
@@ -5715,26 +5718,37 @@ void* __cdecl FUN_00dfeab0()
 extern int DAT_010dec04;
 extern int DAT_010e5ae4;
 
+struct DFEAC0Object
+{
+    const void* volatile m_vptr;
+    char m_04[5];
+    unsigned char m_09;
+    char m_0a[10];
+    const void* m_vptr14;
+    char m_18[4];
+    const void* volatile m_vptr1c;
+};
+
 // @fnv 0x00dfeac0
 void __cdecl InitObjectVtables(int* pObject, int bFlag)
 {
     if (pObject == 0)
         return;
 
-    volatile int* vp = (volatile int*)pObject;
+    DFEAC0Object* o = reinterpret_cast<DFEAC0Object*>(pObject);
 
-    *(void**)vp = (void*)&DAT_010dec04;
-
-    if (bFlag != 0)
-        ((unsigned char*)pObject)[9] = 0;
-
-    *(void**)vp = (void*)&DAT_010e5ae4;
-    *(volatile int*)((unsigned char*)pObject + 0x1c) = (int)&DAT_010c925c;
-    *(int*)((unsigned char*)pObject + 0x14) = (int)&DAT_010debf4;
-    *(volatile int*)((unsigned char*)pObject + 0x1c) = (int)&DAT_010debe4;
+    o->m_vptr = &DAT_010dec04;
 
     if (bFlag != 0)
-        ((unsigned char*)pObject)[9] = 1;
+        o->m_09 = 0;
+
+    o->m_vptr = &DAT_010e5ae4;
+    o->m_vptr1c = &DAT_010c925c;
+    o->m_vptr14 = &DAT_010debf4;
+    o->m_vptr1c = &DAT_010debe4;
+
+    if (bFlag != 0)
+        o->m_09 = 1;
 }
 
 extern int DAT_010e5ae4;
@@ -5768,10 +5782,10 @@ struct FnvCpu_FUN_00dfeb80_CpuAllocator
 };
 struct FnvCpu_FUN_00dfeb80_CpuAllocatorHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FnvCpu_FUN_00dfeb80_CpuAllocator* allocator;
 };
 struct FnvCpu_FUN_00dfeb80_CpuObject
@@ -6246,10 +6260,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -6896,7 +6910,7 @@ struct SpawnedSub
 {
     int unk00;
     int unk04;
-    unsigned int unk08;
+    void* unk08;
 };
 
 struct SpawnedObject
@@ -6916,7 +6930,7 @@ void __cdecl InitSpawnedObject(SpawnedObject* pObject, int iNotifyFlag)
         pObject->vptr = &DAT_010da004;
         SpawnedSub* sub = &pObject->m_0c;
         if (iNotifyFlag != 0)
-            reinterpret_cast<::FUN_00d21ce0_cls *>((sub))->FUN_00d21ce0((void *)(sub->unk08));
+            reinterpret_cast<::FUN_00d21ce0_cls *>((sub))->FUN_00d21ce0(sub->unk08);
     }
 }
 
@@ -7369,14 +7383,14 @@ struct DF6500FinishFlag
 };
 struct DF6500Collidable
 {
-    int m_pCollisionShape;
+    const void* m_pCollisionShape;
     char m_type;
     signed char m_iOwnerOffset;
     short m_pad06;
     int m_unk08;
     void SetOwnerPointer(void* owner)
     {
-        m_iOwnerOffset = (signed char)((unsigned int)owner - (unsigned int)this);
+        m_iOwnerOffset = (signed char)((char*)owner - (char*)this);
     }
 };
 struct DF6500Object
@@ -7925,8 +7939,8 @@ struct KdJob
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     int m_20;
-    int m_24;
-    int m_28;
+    int* m_24;
+    intptr_t m_28;
     int* m_2c;
     int m_30;
     int m_34;
@@ -7941,7 +7955,7 @@ int __cdecl FinishJobWithPair(KdQueue* queue, KdJob* job)
     TimerCommandKdWrite(DAT_010dba3c);
     KdPair pair = job->m_38;
     int out = 0;
-    ::MixChannels(&pair, (int *)(job->m_24), job->m_28, job->m_30, job->m_20, job->m_34, &out);
+    ::MixChannels(&pair, job->m_24, job->m_28, job->m_30, job->m_20, job->m_34, &out);
     *job->m_2c = out;
     TimerCommandKdWrite(DAT_010c41f8);
     return reinterpret_cast<::LunaOwner *>((queue))->ProcessCallback((intptr_t)(job), (intptr_t)(job), 0);
@@ -8462,7 +8476,7 @@ void __cdecl FUN_00de0fe0(intptr_t arg1, int arg2, int arg3, int arg4)
     local.arr.cap = 0x80000000;
     reinterpret_cast<::Node *>(&(local.o))->FUN_00de0f90((void *)(arg1), (::XfResult *)(::S00de0fe0_Element ***)(&local.arr.data));
 
-    reinterpret_cast<::FUN_00c983e0_Class *>((((S00de0fe0_C983Obj*)DAT_012681e0)))->ForEachCall((int)((int*)&local.arr), arg2, arg3, 0, arg1);
+    reinterpret_cast<::FUN_00c983e0_Class *>((((S00de0fe0_C983Obj*)DAT_012681e0)))->ForEachCall((intptr_t)&local.arr, arg2, arg3, 0, arg1);
 
     if (local.arr.count != 0)
     {
@@ -8716,9 +8730,9 @@ struct Job
     unsigned char m_type;
     unsigned char m_slot;
     unsigned char m_gap[0x16];
-    int m_18;
+    const void* m_18;
     unsigned char m_gap2[0xc];
-    int m_28;
+    void* m_28;
     int m_2c;
 };
 
@@ -9418,17 +9432,18 @@ extern char DAT_010dba24[];
 struct KdJob2
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    int m_20;
+    int* m_20;
     int m_24;
     int m_28;
-    int m_2c;
-    int m_30;
+    void* m_2c;
+    void* m_30;
     int m_34;
     float m_38;
     float m_3c;
-    KdPair m_40;
+    void* m_40;
+    void* m_44;
     int m_48;
-    int m_4c;
+    void* m_4c;
     int m_50;
 };
 struct KdQueue2
@@ -9442,11 +9457,11 @@ int __cdecl ExecuteJob(KdQueue2* queue, KdJob2* job)
     job->m_48 = 0;
     job->m_50 = 0;
     if (job->m_20)
-        ::FUN_00e29cd0((int *)(job->m_20), job->m_28, (const ::S29cd0_hkVector4 *)(job->m_2c), (const ::S29cd0_hkVector4 *)(job->m_30), job->m_34, job->m_38, job->m_3c, (*(::S29cd0_hkpWorldRayCastOutput * *)&(const ::KdPair &)(job->m_40)), (::S29cd0_hkpWorldRayCastCommand *)(int *)(&job->m_48),
-                     job->m_4c, (::S29cd0_hkpWorldRayCastBundleCommand *)(int *)(&job->m_50), *(int *)nullptr);
+        ::FUN_00e29cd0(job->m_20, job->m_28, (const ::S29cd0_hkVector4 *)(job->m_2c), (const ::S29cd0_hkVector4 *)(job->m_30), job->m_34, job->m_38, job->m_3c, (::S29cd0_hkpWorldRayCastOutput *)(job->m_40), (::S29cd0_hkpWorldRayCastCommand *)(job->m_44),
+                     job->m_48, (::S29cd0_hkpWorldRayCastBundleCommand *)(job->m_4c), job->m_50);
     else
-        ::FUN_00e2a010(job->m_24, (::FNV_Vec4 *)(job->m_2c), (::FNV_Vec4 *)(job->m_30), job->m_34, job->m_38, job->m_3c, (*(char * *)&(const ::KdPair &)(job->m_40)), (::E29Out1 *)(int *)(&job->m_48), (int *)(job->m_4c),
-                     (::E29Out2 *)(int *)(&job->m_50), {});
+        ::FUN_00e2a010(job->m_24, (::FNV_Vec4 *)(job->m_2c), (::FNV_Vec4 *)(job->m_30), job->m_34, job->m_38, job->m_3c, (char *)(job->m_40), (::E29Out1 *)(job->m_44), &job->m_48,
+                     (::E29Out2 *)(job->m_4c), &job->m_50);
     TimerCommandKdWrite(DAT_010c41f8);
     return reinterpret_cast<::LunaOwner *>((queue))->ProcessCallback((intptr_t)(job), (intptr_t)(job), 0);
 }
@@ -9474,7 +9489,7 @@ struct InDF8800
     int unk48;
     int unk4c;
     void** m_ppGeometries;  // 0x50
-    int m_i0x54;
+    void* m_i0x54;
     int m_i0x58;
     int m_iArrayLength;  // 0x5c
 };
@@ -9512,7 +9527,7 @@ struct WorldDF8800
 
 // Logs a TtCpuKdTreeBuildSetup timer entry, runs FillAabbArray and pkWorld->ProcessCallback, logs an Et entry, and returns the ProcessCallback result.
 // @fnv 0x00df8800
-void* FUN_00df8800(WorldDF8800* pkWorld, InDF8800* pkInput)
+int FUN_00df8800(WorldDF8800* pkWorld, InDF8800* pkInput)
 {
     {
         MonitorStreamKd* pkStream = (MonitorStreamKd*)TlsGetValue(DAT_0126835c);
@@ -9527,7 +9542,7 @@ void* FUN_00df8800(WorldDF8800* pkWorld, InDF8800* pkInput)
         }
     }
 
-    void* pvResult;
+    int iResult;
     {
         ArrDF8800 kItems;
         kItems.m_ppGeometries = pkInput->m_ppGeometries;
@@ -9535,7 +9550,7 @@ void* FUN_00df8800(WorldDF8800* pkWorld, InDF8800* pkInput)
         kItems.m_iCapacityAndFlags = pkInput->m_iArrayLength | 0x80000000;
         CollDF8800 kCollector(kItems, 0);
         ::FillAabbArray((::S_00d9dab0_Coll *)(::CollDF8800 *)(&kCollector), pkInput->m_i0x58, pkInput->m_iArrayLength, (::S_00d9dab0_Aabb16 *)(pkInput->m_i0x54));
-        pvResult = ((void *)(reinterpret_cast<::LunaOwner *>((pkWorld))->ProcessCallback((intptr_t)(pkInput), (intptr_t)(pkInput), 0)));
+        iResult = reinterpret_cast<::LunaOwner *>((pkWorld))->ProcessCallback((intptr_t)(pkInput), (intptr_t)(pkInput), 0);
     }
 
     {
@@ -9550,7 +9565,7 @@ void* FUN_00df8800(WorldDF8800* pkWorld, InDF8800* pkInput)
             pkStream->m_kRayEnd = (char*)(pkCommand + 1);
         }
     }
-    return pvResult;
+    return iResult;
 }
 
 struct Param3Struct
@@ -10742,7 +10757,10 @@ struct Heap
 };
 struct Manager
 {
-    int unk00, unk04, unk08, unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Heap* volatile heap;
 };
 struct Holder
@@ -11613,11 +11631,11 @@ class TaskTarget
 {
   public:
     unsigned long unk00, unk04, unk08, unk0C, unk10, unk14;
-    unsigned long m_18;
+    void* m_18;
     unsigned long unk1C, unk20, unk24, unk28, unk2C;
     unsigned long unk30;
-    unsigned long m_34;
-    unsigned long m_38;
+    void* m_34;
+    void* m_38;
 };
 
 struct FUN_00d04e80_cls
@@ -11642,7 +11660,7 @@ void __cdecl FUN_00df79d0(void* a1, TaskTarget* a2)
         pBuf->m_pCur = pRec + 1;
     }
 
-    ::FUN_00df7760((const ::CastSettings *)(a2), (const ::CollisionAgentContext *)(void *)((void*)a2->m_18), (::CastJob *)(void *)((void*)a2->m_34), (intptr_t)((void*)a2->m_38));
+    ::FUN_00df7760((const ::CastSettings *)(a2), (const ::CollisionAgentContext *)(a2->m_18), (::CastJob *)(a2->m_34), (intptr_t)(a2->m_38));
 
     pBuf = (ProfBuf*)pfnTls(DAT_0126835c);
     if (pBuf->m_pCur < pBuf->m_pRecordEnd)
@@ -12347,7 +12365,7 @@ class PNode
     }
     __forceinline PNode* left() const
     {
-        return (PNode*)((unsigned)this + (children & 0x7ffffffc));
+        return (PNode*)((uintptr_t)this + (children & 0x7ffffffc));
     }
     __forceinline PNode* right() const
     {
@@ -12396,7 +12414,7 @@ template <class T> static __forceinline T* reserveStack(int count)
 }
 template <class T> static __forceinline void restoreStack(T* p)
 {
-    static_cast<AudioHolder*>(::FUN_00c85750())->unk00 = (int)p;
+    static_cast<AudioHolder*>(::FUN_00c85750())->unk00 = (char*)p;
 }
 static __forceinline float pmin(float a, float b)
 {
@@ -12712,7 +12730,7 @@ void __cdecl FUN_00de81a0(void* self, void* arg);
 
 void __cdecl FUN_00de8550(FUN_00de8550_t* a, int b);
 
-void __cdecl CallMethodOnBothHelpers(FUN_00cb0a70_m_helper* a, int v);
+void __cdecl CallMethodOnBothHelpers(FUN_00cb0a70_Class* a, int v);
 
 void __cdecl FUN_00dfbbf0(void* p, int a);
 
@@ -12734,13 +12752,13 @@ void __cdecl FUN_00dfd670(DFD680MeshData* p);
 
 void FUN_00dfdad0(int* a, int b);
 
-void __cdecl CallHelperMethod(FUN_00cb0a70_m_helper* a, int b);
+void __cdecl CallHelperMethod(FUN_00cb0a70_Class* a, int b);
 
 void __cdecl FUN_00dfdd50(S_00e3eaa0_Elem* p);
 
 void __cdecl FUN_00dfdd60(FUN_00e3f900_class* p, int a);
 
-void CallHelperWithInt(FUN_00cb0a70_m_helper* p, int a);
+void CallHelperWithInt(FUN_00cb0a70_Class* p, int a);
 
 void __cdecl FUN_00dfe0c0(ArrayPair* p);
 
@@ -13895,7 +13913,7 @@ typedef unsigned short hkUint16;
 
 typedef unsigned int hkUint32;
 
-typedef unsigned long __w64 hkUlong;
+typedef uintptr_t hkUlong;
 
 typedef unsigned __w64 hk_size_t;
 

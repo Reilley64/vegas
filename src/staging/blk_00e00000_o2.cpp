@@ -1357,10 +1357,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -1906,10 +1906,10 @@ struct S_00e00830_Allocator
 
 struct S_00e00830_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    char* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00e00830_Allocator* m_pStreamAllocator;
     S_00e00830_Allocator& heap()
     {
@@ -2053,10 +2053,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -2795,10 +2795,10 @@ struct S_Alloc
 };
 struct S_Heap
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkc;
+    char* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkc;
     S_Alloc* a;
     S_Alloc& heap()
     {
@@ -2905,10 +2905,10 @@ struct S_00e01a50_Heap
 };
 struct S_00e01a50_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     S_00e01a50_Heap* m_pStreamAllocator;
     S_00e01a50_Heap& heap() throw()
     {
@@ -2982,10 +2982,10 @@ struct S_00e01b30_Allocator
 };
 struct S_00e01b30_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     S_00e01b30_Allocator* m_pStreamAllocator;
     S_00e01b30_Allocator& heap() throw()
     {
@@ -3240,10 +3240,10 @@ struct FUN_00e021d0_allocator
 
 struct FUN_00e021d0_manager
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     FUN_00e021d0_allocator* unk10;
 };
 
@@ -3346,10 +3346,10 @@ struct E023C0Allocator
 
 struct E023C0MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     E023C0Allocator* m_pStreamAllocator;
 
     E023C0Allocator& heap()
@@ -3514,10 +3514,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -3687,10 +3687,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -7305,10 +7305,10 @@ template <int SIZE> __forceinline void memCpyOneAlignedE030(void* dst, const voi
 
 struct hkMemoryRouterE030
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pStreamAllocator;
 };
 
@@ -7624,7 +7624,10 @@ struct ExportRecord
 };
 struct ExportHeap
 {
-    int unk00, unk04, unk08, unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     void* heap;
 };
 struct ExportAlloc
@@ -7695,7 +7698,10 @@ struct Allocator;
 class BSAudio
 {
   public:
-    int unk00, unk04, unk08, unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Allocator* unk10;
     Allocator& heap()
     {

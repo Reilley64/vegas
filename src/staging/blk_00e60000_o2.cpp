@@ -1044,10 +1044,10 @@ struct FUN_00e611d0_Object
 
 struct FUN_00c85750_Result
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* unk10;
 };
 
@@ -6838,7 +6838,10 @@ class AllocatorE60F;
 
 struct RouterE60F
 {
-    int unk00, unk04, unk08, unk0C;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     AllocatorE60F* m_pStreamAllocator;
 
     AllocatorE60F& heap()

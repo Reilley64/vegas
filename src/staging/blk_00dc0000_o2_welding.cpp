@@ -12,10 +12,10 @@
 struct S_00ddecf0_Heap;
 struct S_00ddecf0_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    char* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00ddecf0_Heap* m_pStreamAllocator;
     S_00ddecf0_Heap& heap()
     {

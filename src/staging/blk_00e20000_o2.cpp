@@ -109,12 +109,12 @@ void __cdecl FUN_00e2ba90()
 
 
 // @fnv 0x00e31010
-void __cdecl AlignAndAdvance(char flags, int aiCount, int aiIndex, int* p)
+void __cdecl AlignAndAdvance(char flags, int aiCount, int aiIndex, uintptr_t* p)
 {
     if (!flags)
         return;
 
-    int align = DAT_010eb3b8[aiIndex];
+    uintptr_t align = DAT_010eb3b8[aiIndex];
     *p = (*p + align - 1) & ~(align - 1);
 
     if (flags & 0xf0)
@@ -124,14 +124,14 @@ void __cdecl AlignAndAdvance(char flags, int aiCount, int aiIndex, int* p)
         int count = aiCount + 1;
         do
         {
-            ::fnv_00e30ff0::FUN_00e30ff0(aiIndex, *p);
+            ::fnv_00e30ff0::FUN_00e30ff0(aiIndex, (void*)*p);
             *p += DAT_010eb3d0[aiIndex];
             count--;
         } while (count);
     }
     else
     {
-        ::fnv_00e30ff0::FUN_00e30ff0(aiIndex, *p);
+        ::fnv_00e30ff0::FUN_00e30ff0(aiIndex, (void*)*p);
         *p += DAT_010eb3d0[aiIndex];
     }
 }
@@ -1541,25 +1541,25 @@ void __cdecl FillInterpolatedValues(int count, float** array, float first, float
 
 
 // @fnv 0x00e31740
-void __cdecl FUN_00e31740(unsigned char flag, unsigned int uiValue, unsigned int* puiOut)
+void __cdecl FUN_00e31740(unsigned char flag, unsigned int uiValue, uintptr_t* puiOut)
 {
     if (flag != 0)
     {
         unsigned int r = ::fnv_00e31570::FUN_00e31570(flag, puiOut);
         ::FUN_00e315a0(flag, r, uiValue, puiOut);
-        *puiOut = (*puiOut + 3) & 0xfffffffcu;
+        *puiOut = (*puiOut + 3) & ~(uintptr_t)3;
     }
 }
 
 
 // @fnv 0x00e31780
-void __cdecl FUN_00e31780(int a, int b, int* c)
+void __cdecl FUN_00e31780(int a, int b, uintptr_t* c)
 {
     if ((a & 0xff) != 0)
     {
-        int result = ((int)(::fnv_00e31570::FUN_00e31570(a, (unsigned int *)(c))));
+        int result = ((int)(::fnv_00e31570::FUN_00e31570(a, c)));
         ::AlignAndAdvance(a, result, b, c);
-        *c = (*c + 3) & 0xfffffffc;
+        *c = (*c + 3) & ~(uintptr_t)3;
     }
 }
 
@@ -1789,9 +1789,9 @@ struct S_00e3ae70_Alloc
 struct S_00e3ae70_Holder
 {
     char* unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     S_00e3ae70_Alloc* m_pAllocator;
 };
 
@@ -1896,10 +1896,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -2383,7 +2383,7 @@ struct E3F0F0Owner
     int unk10;
     int unk14;
     int* m_piFirst;
-    int* m_piLast;
+    int m_iCount;
 
     void FUN_00e3f0f0();
 };
@@ -2392,7 +2392,7 @@ struct E3F0F0Owner
 void E3F0F0Owner::FUN_00e3f0f0()
 {
     E3F0F0Less kPred;
-    ::HeapSort((::SortEntry *)(m_piFirst), (int)(m_piLast), (*(int *)&(const ::E3F0F0Less &)(kPred)));
+    ::HeapSort((::SortEntry *)(m_piFirst), m_iCount, (*(int *)&(const ::E3F0F0Less &)(kPred)));
 }
 
 namespace fnv_00e3f110 {
@@ -2407,10 +2407,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -2591,10 +2591,10 @@ int FUN_00e3f230_cls::FindEntryByKey(intptr_t arg)
 }
 
 namespace fnv_00e30ff0 {
-extern int(__cdecl* DAT_011be4a0[])(int);
+extern int(__cdecl* DAT_011be4a0[])(void*);
 
 // @fnv 0x00e30ff0
-void __cdecl FUN_00e30ff0(int index, int arg)
+void __cdecl FUN_00e30ff0(int index, void* arg)
 {
     DAT_011be4a0[index](arg);
 }
@@ -4634,12 +4634,12 @@ HullFace* HullWalker::FUN_00e2d550(HullFace* start)
 namespace fnv_00e31570 {
 // If flags & 0xf0, calls FUN_00e31510(2, pp), advances *pp by the byte at *pp plus the short at *pp-2 plus 3 and returns that short; otherwise returns -1.
 // @fnv 0x00e31570
-unsigned int __cdecl FUN_00e31570(unsigned char flags, unsigned int* pp)
+unsigned int __cdecl FUN_00e31570(unsigned char flags, uintptr_t* pp)
 {
     if (flags & 0xf0)
     {
         ::SwapBytesAndAdvance(2, (unsigned char**)pp);
-        unsigned int& p = *pp;
+        uintptr_t& p = *pp;
         unsigned int b = *(unsigned char*)p;
         unsigned int len = *(unsigned short*)(p - 2);
         p = p + b + len + 3;
@@ -4904,17 +4904,17 @@ extern "C" bool __cdecl FUN_00e29920(const RayVector& a, const RayVector& b, con
 void __cdecl CallHandlerByIndex(int a, int b, int c);
 
 
-void __cdecl FUN_00e315a0(unsigned char a1, unsigned int a2, unsigned int a3, unsigned int* a4);
+void __cdecl FUN_00e315a0(unsigned char a1, unsigned int a2, unsigned int a3, uintptr_t* a4);
 
 
 extern "C" unsigned int __cdecl _rotl(unsigned int, int);
 
 // @fnv 0x00e315a0
-void __cdecl FUN_00e315a0(unsigned char flags, unsigned int count, unsigned int wide, unsigned int* cursor)
+void __cdecl FUN_00e315a0(unsigned char flags, unsigned int count, unsigned int wide, uintptr_t* cursor)
 {
     if (!flags)
         return;
-    *cursor = (*cursor + 3) & ~3u;
+    *cursor = (*cursor + 3) & ~(uintptr_t)3;
     int paired = 0;
     unsigned int mask = 1;
     for (int i = 0; i < 3; ++i)

@@ -8,7 +8,7 @@ struct S_00cb3da0_Ctx;
 // 0x00cb39d0
 void FUN_00cb39d0(void *, void *, void *, void *);
 // 0x00cb3c80
-void FUN_00cb3c80(int, int);
+void FUN_00cb3c80(void *, void *);
 // 0x00cb3ca0
 int *FUN_00cb3ca0(::FUN_00cb3ca0_object *, int *, int);
 // 0x00cb3da0

@@ -148,7 +148,10 @@ struct Allocator
 
 struct Holder
 {
-    int unk00, unk04, unk08, unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Allocator* allocator;
     Allocator& heap()
     {
@@ -364,7 +367,10 @@ struct Alloc_00dd6c10
 
 struct Holder_00dd6c10
 {
-    int unk00, unk04, unk08, unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Alloc_00dd6c10* allocator;
     __forceinline Alloc_00dd6c10& heap()
     {
@@ -631,7 +637,7 @@ struct Contact
 
 struct MemoryRouter
 {
-    void* unk00;
+    char* unk00;
     void* unk04;
     void* unk08;
     void* unk0c;

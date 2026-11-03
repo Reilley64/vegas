@@ -892,7 +892,7 @@ void ShapeQ::FUN_00e11b40(const RotationQ* r)
     *(__m128*)&t.m_rot[0] = *(const __m128*)&r->m_col[0];
     *(__m128*)&t.m_rot[4] = *(const __m128*)&r->m_col[4];
     *(__m128*)&t.m_rot[8] = *(const __m128*)&r->m_col[8];
-    reinterpret_cast<::S_00e11a90_Class *>(this)->FUN_00e11a90((int)(&t));
+    reinterpret_cast<::S_00e11a90_Class *>(this)->FUN_00e11a90((intptr_t)(&t));
 }
 
 struct __declspec(align(16)) Rot
@@ -928,7 +928,7 @@ void Owner::FUN_00e11ca0(const __m128* src)
     *(__m128*)xf.r1 = *(__m128*)&rot.d[2];
     *(__m128*)xf.r2 = *(__m128*)&rot.d[4];
     *(__m128*)xf.t = *src;
-    reinterpret_cast<::S_00e11a90_Class *>(this)->FUN_00e11a90((int)(&xf));
+    reinterpret_cast<::S_00e11a90_Class *>(this)->FUN_00e11a90((intptr_t)(&xf));
 }
 
 struct S00e00d70_Arg
@@ -1147,10 +1147,10 @@ struct EdgeAllocator
 
 struct EdgeMemory
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     EdgeAllocator* allocator;
 };
 
@@ -1548,7 +1548,7 @@ void MatrixOwnerE1::FUN_00e11ba0(const void* input)
     matrix.c2 = *reinterpret_cast<const __m128*>(&identity.c2);
     matrix.c3 = *reinterpret_cast<const __m128*>(&identity.c3);
     reinterpret_cast<::RotationRows *>(&(matrix))->FUN_00cb2d90((void *)(input));
-    reinterpret_cast<::S_00e11a90_Class *>(this)->FUN_00e11a90((int)&(matrix));
+    reinterpret_cast<::S_00e11a90_Class *>(this)->FUN_00e11a90((intptr_t)&(matrix));
 }
 
 void* __cdecl FUN_00e005f0();

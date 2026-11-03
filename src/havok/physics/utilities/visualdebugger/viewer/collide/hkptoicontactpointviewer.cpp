@@ -296,11 +296,11 @@ struct FUN_00d68270_Derived : public FUN_00d68270_Base0, public FUN_00d68270_Bas
 };
 struct FUN_00d68270_Arg {
 };
-// Calls arg->FUN_00c93a20 with the address 8 bytes past this, treated as the Base2 part of the enclosing Derived object.
+// Calls arg->FUN_00c93a20 with the Base2 part of the enclosing Derived object.
 // @fnv 0x00d68270
 void FUN_00d68270_Base1::FUN_00d68270(FUN_00d68270_Arg* arg)
 {
-    reinterpret_cast<::fnv_00c93a20::hkpWorldXc93a20 *>((arg))->FUN_00c93a20((::fnv_00c93a20::hkpEntityListenerXc93a20 *)(::FUN_00d68270_Base2 *)(reinterpret_cast<FUN_00d68270_Derived*>(reinterpret_cast<char*>(this) - sizeof(FUN_00d68270_Base0))));
+    reinterpret_cast<::fnv_00c93a20::hkpWorldXc93a20 *>((arg))->FUN_00c93a20((::fnv_00c93a20::hkpEntityListenerXc93a20 *)(static_cast<FUN_00d68270_Base2*>(static_cast<FUN_00d68270_Derived*>(this))));
 }
 
 // sub ecx,0x20; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases

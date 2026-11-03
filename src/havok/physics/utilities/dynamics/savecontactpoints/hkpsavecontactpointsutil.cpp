@@ -2036,32 +2036,15 @@ void __cdecl RunWithLocalContext(::Resolver* first, ::ListOwner* second, ::Ctx* 
     ::FUN_00dcea10(first, second, third, (::Visitor *)(::LocalContext *)(&local));
 }
 
-struct FUN_00dce7e0_local
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void FUN_00dce840(void*, void*);
-};
-// Reads a value from *p, initializes a local via FUN_00dce840, calls FUN_00dcea10, then invokes two methods on the local using a value from FUN_00c85750.
-// @fnv 0x00dce7e0
+// Reads the world from the first entity of p, builds an entity set (fnv_00dce840::FUN_00dce840) from the d entities in
+// p, calls FUN_00dcea10 with it, then frees the set's map (definition after fnv_00dce840).
 struct FUN_00dce7e0_Source
 {
     int unk00;
     int unk04;
     ::Ctx* m_08;
 };
-void __cdecl FUN_00dce7e0(::Resolver* aiArg1, ::ListOwner* aiArg2, FUN_00dce7e0_Source** p, void* d)
-{
-    FUN_00dce7e0_local local;
-    ::Ctx* value = (*p)->m_08;
-    local.FUN_00dce840(p, d);
-    ::FUN_00dcea10(aiArg1, aiArg2, value, (::Visitor *)(void *)(&local));
-    hkMemoryAllocator* heap = hkMemoryRouter::getInstance().m_heap;
-    reinterpret_cast<::CB1A90Owner *>((((FUN_00dce7e0_local*)((char*)&local + 4))))->ProcessArgument((::CB1A90Argument *)(heap));
-    ::FUN_00a29680();
-}
+void __cdecl FUN_00dce7e0(::Resolver* aiArg1, ::ListOwner* aiArg2, FUN_00dce7e0_Source** p, int d);
 
 namespace fnv_00dce840 {
 
@@ -2104,6 +2087,17 @@ FUN_00dce840::FUN_00dce840(void* const* keys, int numKeys)
     }
 }
 }  // namespace fnv_00dce840
+
+// @fnv 0x00dce7e0
+void __cdecl FUN_00dce7e0(::Resolver* aiArg1, ::ListOwner* aiArg2, FUN_00dce7e0_Source** p, int d)
+{
+    ::Ctx* value = (*p)->m_08;
+    fnv_00dce840::FUN_00dce840 local(reinterpret_cast<void* const*>(p), d);
+    ::FUN_00dcea10(aiArg1, aiArg2, value, (::Visitor *)(void *)(&local));
+    hkMemoryAllocator* heap = hkMemoryRouter::getInstance().m_heap;
+    reinterpret_cast<::CB1A90Owner *>(&local.m_map)->ProcessArgument((::CB1A90Argument *)(heap));
+    ::FUN_00a29680();
+}
 
 
 
@@ -7376,7 +7370,6 @@ extern "C" DCEEntryInit* FUN_00dce930(void* storage, void*)
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00d40000.h"
 void FUN_00dcdd80(void* a, S_00dcdd80_Item** items, int count, S_00dcdd80_Listener* listener);
-void __cdecl FUN_00dce7e0(int a, int b, int* p, int d);
 
 struct LinkedCollidable;
 

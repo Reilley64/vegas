@@ -248,46 +248,15 @@ struct GlobalObjectO2_00d472a0
 struct FUN_00cd12b0_cls
 {
 };
-struct Prefix
+struct Context : ::PhysicsContextListener68
 {
-    FUN_00cd12b0_cls* owner;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-};
-struct Context
-{
-    int contextState;
     void FUN_00cd2020(void* value);
 };
-struct Owner : Prefix, Context
-{
-};
-// Forwards value to the owner object's AddElementAndNotify with the Actions category and zero flags, if an owner exists.
+// Forwards value to the context owner's AddElementAndNotify with the Actions category and zero flags, if an owner exists.
 // @fnv 0x00cd2020
 void Context::FUN_00cd2020(void* value)
 {
-    Owner* object = reinterpret_cast<Owner*>(reinterpret_cast<char*>(this) - sizeof(Prefix));
-    FUN_00cd12b0_cls* target = object->owner;
+    FUN_00cd12b0_cls* target = reinterpret_cast<FUN_00cd12b0_cls*>(context()->m_owner);
     if (target)
         reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((target))->AddElementAndNotify(value, &::g_012690d4, "Actions", 0);
 }
@@ -502,30 +471,15 @@ class Handler
 {
   public:
 };
-struct Receiver
+struct Receiver : PhysicsContextListener5c
 {
     void DispatchEntityPayload(void* input);
 };
-struct UnknownBlock
-{
-    unsigned int unk00, unk04, unk08, unk0c;
-};
-struct Container
-{
-    struct Prefix
-    {
-        Handler* handler;
-        unsigned int unk04, unk08, unk0c;
-        UnknownBlock unk10, unk20, unk30, unk40;
-    } prefix;
-    Receiver receiver;
-};
-// Recovers the enclosing Container from this, and if its handler is set, forwards input, a global, "Entities" and input+0x10 to the handler.
+// If the context's owner is set, forwards input, a global, "Entities" and the id input+0x10 (the entity's collidable) to it.
 // @fnv 0x00cd1f30
 void Receiver::DispatchEntityPayload(void* input)
 {
-    Container* owner = reinterpret_cast<Container*>(reinterpret_cast<char*>(this) - sizeof(Container::Prefix));
-    Handler* handler = owner->prefix.handler;
+    Handler* handler = reinterpret_cast<Handler*>(context()->m_owner);
     if (handler)
         reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((handler))->AddElementAndNotify(input, &g_012688c8, "Entities", reinterpret_cast<hkUlong>(input) + 0x10);
 }

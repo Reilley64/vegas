@@ -31,22 +31,21 @@ struct Secondary
 {
     int unk00;
     int unk04;
-    int child;
     void FUN_00de2950(Context* context);
 };
-struct Owner : Prefix32, Secondary
+// The listener part after Secondary.
+struct SecondaryListener
+{
+    int child;
+};
+struct Owner : Prefix32, Secondary, SecondaryListener
 {
 };
-// Computes the address of the child member (or null if the owner is null) and passes it to context->FUN_00c93920.
+// Passes the owner's listener part to context->FUN_00c93920.
 // @fnv 0x00de2950
 void Secondary::FUN_00de2950(Context* context)
 {
-    Owner* owner = reinterpret_cast<Owner*>(reinterpret_cast<char*>(this) - sizeof(Prefix32));
-    void* value;
-    if (owner)
-        value = &child;
-    else
-        value = 0;
+    SecondaryListener* value = static_cast<Owner*>(this);
     reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((context))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(value));
 }
 

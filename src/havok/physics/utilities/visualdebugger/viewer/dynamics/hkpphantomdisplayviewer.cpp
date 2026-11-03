@@ -58,11 +58,32 @@ struct PhantomListenerVtableD66
 
 // hkpPhantomDisplayViewer: referenced-object header, the hkProcess part at +8, the phantom listener at +0x28 and the
 // world-deletion listener at +0x2c (32-bit offsets).
-struct PhantomViewerD66
+struct ListenerCollection;
+struct PhantomViewerHeadD66
 {
     void* m_vtable;
     int m_memSizeAndFlags;
-    unsigned char m_process[0x20];
+};
+// The viewer's hkProcess part.
+struct FUN_00d66330_StandIn
+{
+    void* m_ppVirtualMethodTable;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
+    void* unk10;
+    void* unk14;
+    void FUN_00d66330();
+};
+// The viewer's world listener part.
+struct FnvCpu_FUN_00d66370_CpuOwner
+{
+    void* m_worldListenerVtable;
+    ListenerCollection* m_pShapeCollection;
+    void FUN_00d66370();
+};
+struct PhantomViewerD66 : PhantomViewerHeadD66, FUN_00d66330_StandIn, FnvCpu_FUN_00d66370_CpuOwner
+{
     const PhantomListenerVtableD66* m_phantomListener;
     void* m_worldDeletionListener;
 };
@@ -221,17 +242,10 @@ void* hkpPhantomDisplayViewer::Destroy(int flags)
 }
 }  // namespace fnv_00d66b60
 
-struct FnvCpu_FUN_00d66370_CpuTarget
-{
-};
-struct FnvCpu_FUN_00d66370_CpuOwner
-{
-    void FUN_00d66370();
-};
 // @fnv 0x00d66370
 void FnvCpu_FUN_00d66370_CpuOwner::FUN_00d66370()
 {
-    reinterpret_cast<::hkpPhantomDisplayViewer *>((reinterpret_cast<FnvCpu_FUN_00d66370_CpuTarget*>(reinterpret_cast<char*>(this) + (-32))))->FUN_00d66250({});
+    static_cast<::hkpPhantomDisplayViewer *>(static_cast<PhantomViewerD66*>(this))->FUN_00d66250({});
 }
 
 // add ecx,-0x20; jmp AttachToIsland : override in Derived forwards to the primary base's virtual.
@@ -307,27 +321,16 @@ struct ListenerCollection
     void** m_items;
     int m_uiItemCount;
 };
-struct FUN_00d66330_StandIn
-{
-    void* m_ppVirtualMethodTable;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    void* unk10;
-    void* unk14;
-    void* unk18;
-    ListenerCollection* m_pShapeCollection;
-    void FUN_00d66330();
-};
 // @fnv 0x00d66330
 void FUN_00d66330_StandIn::FUN_00d66330()
 {
-    if (m_pShapeCollection)
+    FUN_00d662c0_stub* viewer = static_cast<FUN_00d662c0_stub*>(static_cast<PhantomViewerD66*>(this));
+    ListenerCollection* collection = viewer->m_pShapeCollection;
+    if (collection)
     {
-        for (int i = 0; i < m_pShapeCollection->m_uiItemCount; ++i)
+        for (int i = 0; i < collection->m_uiItemCount; ++i)
         {
-            reinterpret_cast<FUN_00d662c0_stub*>(reinterpret_cast<char*>(this) - offsetof(PhantomViewerD66, m_process))
-                ->AttachToIsland(m_pShapeCollection->m_items[i]);
+            viewer->AttachToIsland(collection->m_items[i]);
         }
     }
 }

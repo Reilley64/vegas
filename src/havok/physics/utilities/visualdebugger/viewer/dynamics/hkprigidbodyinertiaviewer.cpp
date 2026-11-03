@@ -141,20 +141,15 @@ void Owner::ProcessCollectionItems() {
     }
 }
 
-struct Prefix32 {
-    int unk00; int unk04; int unk08; int unk0C;
-    int unk10; int unk14; int unk18; int unk1C;
-};
-struct SecondaryBase {
+// The viewer's world listener part, as TargetClass.
+struct SecondaryBase : TargetClass {
     void FUN_00d67160();
 };
-struct CompleteObject : Prefix32, SecondaryBase {
-};
-// Adjusts this to the enclosing CompleteObject and calls its VisitSubObjects method.
+// Calls the viewer's VisitSubObjects method.
 // @fnv 0x00d67160
 void SecondaryBase::FUN_00d67160() {
-    CompleteObject* pCompleteObject = reinterpret_cast<CompleteObject*>(reinterpret_cast<char*>(this) - sizeof(Prefix32));
-    reinterpret_cast<::FUN_00d67020_class *>((pCompleteObject))->VisitSubObjects({});
+    InertiaViewer* viewer = static_cast<InertiaViewer*>(static_cast<TargetClass*>(this));
+    reinterpret_cast<::FUN_00d67020_class *>(viewer)->VisitSubObjects({});
 }
 
 struct S_00d67170_Array {

@@ -62,7 +62,7 @@ struct Derived : Prefix, Item
 // @fnv 0x00d67bc0
 void Item::FUN_00d67bc0(Sink* sink)
 {
-    reinterpret_cast<::HostC9C6 *>((sink))->FUN_00c9c670(static_cast<Item*>(reinterpret_cast<Derived*>(reinterpret_cast<char*>(this) - sizeof(Prefix))));
+    reinterpret_cast<::HostC9C6 *>((sink))->FUN_00c9c670(this);
     reinterpret_cast<::FUN_00cb18f0_t *>(&(link))->FUN_00cb1fb0(reinterpret_cast<intptr_t>(sink));
 }
 

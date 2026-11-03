@@ -202,8 +202,7 @@ extern void* __cdecl FUN_00d65910(void*);
 // @fnv 0x00d65950
 void RegisterShapesProcess()
 {
-    void* process = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::hkProcessFactory * *>(&::DAT_01269cd0))))->FUN_00dd9380("Shapes", reinterpret_cast<intptr_t>((void*)&FUN_00d65910))));
-    *(void**)((char*)&::g_01268f2c + 0xB4) = process;
+    ::DAT_01268fe0 = (int)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::hkProcessFactory * *>(&::DAT_01269cd0))))->FUN_00dd9380("Shapes", reinterpret_cast<intptr_t>((void*)&FUN_00d65910)));
 }
 
 struct Target

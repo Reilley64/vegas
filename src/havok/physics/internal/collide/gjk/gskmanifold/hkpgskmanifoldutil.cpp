@@ -173,26 +173,17 @@ class Scalar
     {
         return _mm_shuffle_ps(q, q, 0);
     }
-public:
-    Scalar(const __m128& input) : value(input)
-    {}
     Scalar(float input)
     {
-        value = _mm_load_ss(&input);
-    }
-    operator float() const
-    {
-        float result;
-        _mm_store_ss(&result, value);
-        return result;
+        q = _mm_load_ss(&input);
     }
     __forceinline const __m128& getQuad() const
     {
-        return value;
+        return q;
     }
     __forceinline __m128 broadcast() const
     {
-        return _mm_shuffle_ps(value, value, 0);
+        return _mm_shuffle_ps(q, q, 0);
     }
 };
 __forceinline Scalar operator+(const Scalar& a, const Scalar& b)
@@ -257,7 +248,7 @@ class Vector
     }
     __forceinline float& operator()(int n)
     {
-        return q[n];
+        return reinterpret_cast<float*>(&q)[n];
     }
     __forceinline const float& operator()(int n) const
     {
@@ -880,9 +871,9 @@ static __declspec(noinline) int FUN_00dad720(S_00dad720_Rec* rec, S_00dad720_Vec
     }
     return 1;
 }
-volatile int g_rec;
-volatile int g_vecs;
-volatile int g_out;
+void* volatile g_rec;
+void* volatile g_vecs;
+void* volatile g_out;
 volatile int g_res;
 void CallTarget_dad720()
 {
@@ -1014,9 +1005,9 @@ namespace hkVector4Util_S {
 __forceinline void dot3_3vs3(const hkVector4& a0, const hkVector4& b0, const hkVector4& a1, const hkVector4& b1,
                              const hkVector4& a2, const hkVector4& b2, hkVector4& dotsOut)
 {
-    register hkQuadReal c0 = _mm_mul_ps(a0.m_vComponents, b0.m_vComponents);
-    register hkQuadReal c1 = _mm_mul_ps(a1.m_vComponents, b1.m_vComponents);
-    register hkQuadReal c2 = _mm_mul_ps(a2.m_vComponents, b2.m_vComponents);
+    hkQuadReal c0 = _mm_mul_ps(a0.m_vComponents, b0.m_vComponents);
+    hkQuadReal c1 = _mm_mul_ps(a1.m_vComponents, b1.m_vComponents);
+    hkQuadReal c2 = _mm_mul_ps(a2.m_vComponents, b2.m_vComponents);
     {
         hkQuadReal _tmp, _ctmp;
         _tmp = _mm_unpacklo_ps(c0, c1);
@@ -1473,18 +1464,6 @@ void CallTarget_dad6a0()
 static int FUN_00dad720(S_00dad720_Rec* rec, S_00dad720_Vec* vecs, S_00dad720_Out* out);
 void CallTarget_dad720();
 void FUN_00dae220(int unused, S_00dae220_Set* set);
-__forceinline Scalar operator+(const Scalar& a, const Scalar& b)
-{
-    return _mm_add_ss(a.getQuad(), b.getQuad());
-}
-__forceinline Scalar operator-(const Scalar& a, const Scalar& b)
-{
-    return _mm_sub_ss(a.getQuad(), b.getQuad());
-}
-__forceinline Scalar operator/(const Scalar& a, const Scalar& b)
-{
-    return _mm_div_ss(a.getQuad(), b.getQuad());
-}
 class Mask
 {
     __m128 bits;
@@ -1647,9 +1626,9 @@ namespace Parallel {
 __forceinline void dot3_3vs3(const Vec& a, const Vec& b, const Vec& c, const Vec& d, const Vec& e, const Vec& f,
                              Vec& result)
 {
-    register __m128 ab = _mm_mul_ps(a.getQuad(), b.getQuad());
-    register __m128 cd = _mm_mul_ps(c.getQuad(), d.getQuad());
-    register __m128 ef = _mm_mul_ps(e.getQuad(), f.getQuad());
+    __m128 ab = _mm_mul_ps(a.getQuad(), b.getQuad());
+    __m128 cd = _mm_mul_ps(c.getQuad(), d.getQuad());
+    __m128 ef = _mm_mul_ps(e.getQuad(), f.getQuad());
     __m128 lower = _mm_unpacklo_ps(ab, cd);
     __m128 upper = _mm_shuffle_ps(_mm_unpackhi_ps(ab, cd), ef, 0xe4);
     ab = _mm_movelh_ps(lower, ef);
@@ -1659,10 +1638,10 @@ __forceinline void dot3_3vs3(const Vec& a, const Vec& b, const Vec& c, const Vec
 }
 __forceinline void dot3_1vs4(const Vec& v, const Vec& a, const Vec& b, const Vec& c, const Vec& d, Vec& result)
 {
-    register __m128 va = _mm_mul_ps(a.getQuad(), v.getQuad());
-    register __m128 vb = _mm_mul_ps(b.getQuad(), v.getQuad());
-    register __m128 vc = _mm_mul_ps(c.getQuad(), v.getQuad());
-    register __m128 vd = _mm_mul_ps(d.getQuad(), v.getQuad());
+    __m128 va = _mm_mul_ps(a.getQuad(), v.getQuad());
+    __m128 vb = _mm_mul_ps(b.getQuad(), v.getQuad());
+    __m128 vc = _mm_mul_ps(c.getQuad(), v.getQuad());
+    __m128 vd = _mm_mul_ps(d.getQuad(), v.getQuad());
     __m128 abLo = _mm_shuffle_ps(va, vb, 0x44);
     __m128 abHi = _mm_shuffle_ps(va, vb, 0xee);
     __m128 cdLo = _mm_shuffle_ps(vc, vd, 0x44);
@@ -1675,10 +1654,10 @@ __forceinline void dot3_1vs4(const Vec& v, const Vec& a, const Vec& b, const Vec
 }
 __forceinline void dot3_2vs2(const Vec& a, const Vec& b, const Vec& c, const Vec& d, Vec& result)
 {
-    register __m128 ac = _mm_mul_ps(a.getQuad(), c.getQuad());
-    register __m128 ad = _mm_mul_ps(a.getQuad(), d.getQuad());
-    register __m128 bc = _mm_mul_ps(b.getQuad(), c.getQuad());
-    register __m128 bd = _mm_mul_ps(b.getQuad(), d.getQuad());
+    __m128 ac = _mm_mul_ps(a.getQuad(), c.getQuad());
+    __m128 ad = _mm_mul_ps(a.getQuad(), d.getQuad());
+    __m128 bc = _mm_mul_ps(b.getQuad(), c.getQuad());
+    __m128 bd = _mm_mul_ps(b.getQuad(), d.getQuad());
     __m128 aLo = _mm_shuffle_ps(ac, ad, 0x44);
     __m128 aHi = _mm_shuffle_ps(ac, ad, 0xee);
     __m128 bLo = _mm_shuffle_ps(bc, bd, 0x44);

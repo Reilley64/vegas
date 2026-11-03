@@ -108,13 +108,12 @@ void* FUN_00d2f220_class::InitializeWithGlobal(void* aiValue)
     return this;
 }
 
-void __cdecl FUN_00d365d0();
-
 // @fnv 0x00d367b0
 void __cdecl FUN_00d367b0(intptr_t pObject)
 {
     ::FUN_00da6fd0((void *)(pObject));
-    *(void (**)(void))(pObject + 0x2c) = &FUN_00d365d0;
+    // agent3 function table: slot 11 is the process function
+    ((void**)pObject)[11] = (void*)&::FUN_00d365d0;
 }
 
 // Fills the four function pointers at p[0..3] and sets the bytes at offsets 0x10 and 0x11 to 0 and 1.
@@ -3914,7 +3913,7 @@ struct BroadPhaseHandle
     int unk1C;
     __forceinline void SetOwnerPointer(void* owner)
     {
-        unk19 = (unsigned char)((unsigned int)owner - (unsigned int)this);
+        unk19 = (unsigned char)((char*)owner - (char*)this);
     }
 };
 struct __declspec(align(16)) ZT
@@ -4083,11 +4082,11 @@ struct hkTimerCommandD365
     unsigned int m_time1;
 };
 
-int FUN_00d365d0(A1Rec* a1, intptr_t a2, intptr_t a3, intptr_t a4, intptr_t a5)
+void* FUN_00d365d0(A1Rec* a1, intptr_t a2, intptr_t a3, intptr_t a4, intptr_t a5)
 {
     int nameid;
     unsigned int stamped;
-    int result;
+    void* result;
     O1T o1;
     CF56Obj obj;
     hkMonitorStreamD365* tlsblk = (hkMonitorStreamD365*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
@@ -4120,7 +4119,7 @@ int FUN_00d365d0(A1Rec* a1, intptr_t a2, intptr_t a3, intptr_t a4, intptr_t a5)
     o1.unk00 = &cb.z;
     cb.z.unk00 = cfret;
     cb.z.unk04 = -1;
-    result = ((int)(::hkpCollectionCollectionAgent3::FUN_00d35770((*(const ::AgentSubtypeMarker *)(&o1)), (::FourByteState *)(a2), (void *)(a3), (::hkVector4 *)(a4), (*(::WorldOperationEntry *)(a5)))));
+    result = ((::hkpCollectionCollectionAgent3::FUN_00d35770((*(const ::AgentSubtypeMarker *)(&o1)), (::FourByteState *)(a2), (void *)(a3), (::hkVector4 *)(a4), (*(::WorldOperationEntry *)(a5)))));
     int* r18 = &shape->r18_00;
     AllocationManager* q = static_cast<AllocationManager*>(::FUN_00c85750());
     void* mgr = q->allocator;
@@ -4203,7 +4202,7 @@ FUN_00d36b20* FUN_00d36b70(int param1, int param2, int* param3, int param4);
 
 void FUN_00d24650(int _param);
 
-int FUN_00d365d0(A1Rec* a1, int a2, int a3, int a4, int a5);
+void* FUN_00d365d0(A1Rec* a1, intptr_t a2, intptr_t a3, intptr_t a4, intptr_t a5);
 
 __declspec(noinline) void __cdecl FUN_00d36c30(void* apObject);
 
@@ -4726,7 +4725,7 @@ static __declspec(noinline) float FUN_00d284f0(float t, Obj_d284f0* obj)
     return t * t * b + a;
 }
 
-volatile int g_in_d284f0;
+Obj_d284f0* volatile g_in_d284f0;
 
 volatile float g_t_d284f0;
 
@@ -4734,7 +4733,7 @@ volatile float g_out_d284f0;
 
 void caller_d284f0()
 {
-    g_out_d284f0 = FUN_00d284f0(g_t_d284f0, (Obj_d284f0*)g_in_d284f0);
+    g_out_d284f0 = FUN_00d284f0(g_t_d284f0, g_in_d284f0);
 }
 
 struct FourFloatVector { __m128 value; };

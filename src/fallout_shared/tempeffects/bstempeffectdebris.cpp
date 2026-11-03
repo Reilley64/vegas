@@ -1014,7 +1014,7 @@ void FUN_006833b0()
             n = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->FUN_0084e3a0())) -
                 *((unsigned int *)&(::FUN_0043d4d0((int *)(reinterpret_cast<FUN_006833b0_cf*>(&(*reinterpret_cast<void * *>(&::g_011cf3e4)))))));
             for (p2 = ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->GetName())); p2 != 0 && n > 0;
-                 p2 = ((void *)(reinterpret_cast<::FUN_007b5300_shell *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->GetSecondField((::FUN_007b5300_param *)(p2)))))
+                 p2 = ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_007b5300_shell *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->GetSecondField((::FUN_007b5300_param *)(p2)))))
             {
                 r = *((void **)(reinterpret_cast<::FUN_006317a0_struct *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->AddEight((std::intptr_t)(p2))));
                 if (r != 0)

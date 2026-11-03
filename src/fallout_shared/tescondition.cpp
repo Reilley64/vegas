@@ -123,7 +123,7 @@ bool PerkEntryConditionSet::ContainsTrait(TESObjectREFR* subject, TESObjectREFR*
     state.definiteFalse = false;
     if (target)
     {
-        state.replacement = ((::TESObjectREFR *)(reinterpret_cast<::s5693d0::Owner *>((target))->FUN_005693d0()));
+        state.replacement = ((::TESObjectREFR *)(std::uintptr_t)(reinterpret_cast<::s5693d0::Owner *>((target))->FUN_005693d0()));
         if (state.replacement)
             target = state.replacement;
     }

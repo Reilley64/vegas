@@ -460,7 +460,7 @@ void FUN_004de8e0(unsigned int ItemUpdateArray, float fAlpha, int iUnused, float
             kParams2.ItemUpdateArray = uiNum_2;
             SplatterExtraData* pExtraData = new SplatterExtraData(&kParams2);
             reinterpret_cast<::FUN_00a5bca0_shell *>((pGeom))->SetExtraDataName((::NiExtraData *)(pExtraData));
-            ::AssignFixedString((char *)(pGeom), (int)&(const ::NiFixedString &)(NiFixedString("ScreenSplatterRoot")), {});
+            ::AssignFixedString((char *)(pGeom), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("ScreenSplatterRoot")), {});
             (*reinterpret_cast<::NiPointer< ::SplatterRoot> *>(&::g_011c7810))->AttachChildInAvailableSlot(pGeom, true);
             ::FUN_00b81420((::S_00b81420_AVObject *)(pGeom), (std::intptr_t)(((void *)(reinterpret_cast<::NonActorMagicTarget *>((pExtraData))->GetActiveEffectList()))));
             NiUpdateData kUpdate(0.0f, false, false);

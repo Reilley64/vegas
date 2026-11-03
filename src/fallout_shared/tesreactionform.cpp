@@ -93,7 +93,7 @@ void TESReactionForm::InitLoadGame(BGSLoadFormBuffer* buffer)
             if (reaction)
             {
                 reaction->formID = reaction->formID
-                                       ? reinterpret_cast<unsigned int>(::FUN_004839c0(reaction->formID))
+                                       ? reinterpret_cast<std::uintptr_t>(::FUN_004839c0(reaction->formID))
                                        : 0;
                 if (!reaction->formID)
                 {
@@ -141,7 +141,7 @@ void TESReactionForm::InitItem(TESForm* form)
         ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>((pList->item));
         unsigned int formID = reaction->formID;
         ::ResolveFormID((unsigned int *)&(formID), pPrev);
-        reaction->formID = (unsigned int)(std::uintptr_t)(::FUN_004839c0(formID));
+        reaction->formID = reinterpret_cast<std::uintptr_t>(::FUN_004839c0(formID));
         if (reaction->formID)
         {
             pList = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));

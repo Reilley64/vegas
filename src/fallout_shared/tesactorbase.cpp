@@ -867,7 +867,7 @@ void SaveActorBase::FUN_005f18c0(unsigned int flags)
     {
         unsigned int tag = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_005f18c0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&tag, 4);
-        pos2 = (unsigned short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_005f18c0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        pos2 = (unsigned short*)(std::uintptr_t)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_005f18c0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_005f18c0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&size, 2);
     }
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_005f18c0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 109)

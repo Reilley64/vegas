@@ -15,7 +15,7 @@
 class ReactionInfo
 {
   public:
-    unsigned int formID;
+    std::uintptr_t formID;
 };
 class BGSLoadFormBuffer;
 class TESForm;

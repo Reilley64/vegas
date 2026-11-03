@@ -1346,7 +1346,7 @@ void ContainerOperation::FUN_004821a0(TESObjectREFR* target, bool silent)
 struct FUN_00482910_rec
 {
     int unk00;
-    int unk04;
+    std::intptr_t unk04;
 };
 
 struct FUN_00482910_node
@@ -1357,7 +1357,7 @@ struct FUN_00482910_obj
 {
 };
 
-int __cdecl FUN_00ec43fb(int a, int b, void* c, void* d, int e);
+std::intptr_t __cdecl FUN_00ec43fb(std::intptr_t a, int b, void* c, void* d, int e);
 
 class FUN_00482910_cls
 {

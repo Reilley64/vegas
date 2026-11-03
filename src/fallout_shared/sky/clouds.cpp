@@ -120,7 +120,7 @@ void Clouds::Update(Sky* sky, float time)
 {
     reinterpret_cast<::FUN_008d0600_s *>(this)->FUN_008d0600((std::intptr_t)(sky), time);
     TESWeather* m_pWeatherObject = ((::TESWeather *)(reinterpret_cast<::MagicCaster_shell *>((sky))->FUN_0044edb0()));
-    TESWeather* m_pPreviousWeather = ((::TESWeather *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((sky))->FUN_00825c00()));
+    TESWeather* m_pPreviousWeather = ((::TESWeather *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((sky))->FUN_00825c00()));
     if (!m_pWeatherObject)
         return;
     for (int i = 0; i < ((int)(reinterpret_cast<::FUN_00634830_cls *>(this)->GetOffset58())); ++i)

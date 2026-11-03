@@ -741,7 +741,7 @@ bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
             unsigned int count8 = 0;
             KeySound* keys2 = 0;
             if (sequence->FUN_00700300())
-                keys2 = (KeySound*)((::TimedTextEntry *)(reinterpret_cast<::FUN_00495f30_shell *>((sequence->FUN_00700300()))->FUN_00495f30((int *)(unsigned int *)(&count8))));
+                keys2 = (KeySound*)((::TimedTextEntry *)(std::uintptr_t)(reinterpret_cast<::FUN_00495f30_shell *>((sequence->FUN_00700300()))->FUN_00495f30((int *)(unsigned int *)(&count8))));
             for (unsigned int index = 0; index < count8; index++)
             {
                 char* text_2 = (char*)(const char*)(*(::NiFixedString *)(reinterpret_cast<::BaseProcess *>(&(keys2[index]))->GetCurrentProcessData()));

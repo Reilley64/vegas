@@ -249,7 +249,7 @@ struct FUN_005e79a0_t
 };
 struct PlayerMover
 {
-    unsigned int GetActorStateFlags();
+    std::uintptr_t GetActorStateFlags();
 };
 class Actor;
 struct FUN_00516bf0_shell

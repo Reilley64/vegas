@@ -264,9 +264,9 @@ void FUN_004ee390_shell::InitNameAndData()
     pGlobalForm = new GlobalObject_004ee810;
 
     if (flag)
-        ::AssignFixedString((char *)this, (int)&(FUN_004a2c60()), {});
+        ::AssignFixedString((char *)this, (std::intptr_t)&(FUN_004a2c60()), {});
     else
-        ::AssignFixedString((char *)this, (int)&(FUN_004ee440()), {});
+        ::AssignFixedString((char *)this, (std::intptr_t)&(FUN_004ee440()), {});
 }
 
 struct NiObject

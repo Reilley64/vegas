@@ -88,7 +88,7 @@ float FUN_00db4ca0(void *, const float *, const ::__m128 *, float, float, float,
 // 0x00dced90
 namespace fnv_00dced90 { void FUN_00dced90(const ::__m128 *, const ::__m128 *, char **); }
 // 0x00dcedd0
-void FUN_00dcedd0(const ::__m128 *, void *, ::FUN_00dcedd0_Record **);
+void FUN_00dcedd0(const ::__m128 *, unsigned int, ::FUN_00dcedd0_Record **);
 // 0x00dcee10
 void WriteVector(::__m128 *, ::__m128 *, ::__m128 **);
 // 0x00dd62e0

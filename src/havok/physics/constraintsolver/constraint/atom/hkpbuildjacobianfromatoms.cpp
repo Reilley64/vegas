@@ -7,6 +7,8 @@
 
 // arg1: the six float vector
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+#include <xmmintrin.h>
 #include <cmath>
 #include "fnv/decl/FUN_00c7f750_shell.h"
 #include "fnv/decl/FUN_00d72030_cls.h"
@@ -177,8 +179,8 @@ struct WriterContext
     int unk24;
     int unk28;
     int unk2c;
-    int unk30;
-    int unk34;
+    void* unk30;
+    void* unk34;
     int unk38;
     int unk3c;
     int unk40;
@@ -190,7 +192,7 @@ struct WriterContext
     int unk58;
     int unk5c;
     int unk60;
-    int unk64;
+    void* unk64;
     int unk68;
     int unk6c;
     int unk70;
@@ -253,7 +255,7 @@ struct S00d6d990_Src
 struct S00d6d990_Tmp
 {
     int key;
-    int ctx;
+    void* ctx;
     float f;
     unsigned int val;
 };
@@ -467,7 +469,7 @@ struct S6edf0_Rot
 struct S6edf0_Quat
 {
     S6edf0_Vec v;
-    void FUN_00c7f700(unsigned int a, const S6edf0_Vec* b);
+    void FUN_00c7f700(const void* a, const S6edf0_Vec* b);
 };
 
 struct S6edf0_Motion
@@ -478,7 +480,7 @@ struct S6edf0_Motion
     S6edf0_Vec m30;
     S6edf0_Vec m40;
     S6edf0_Rot m50;
-    void FUN_00d71f90(unsigned int a);
+    void FUN_00d71f90(const void* a);
 };
 
 struct S6edf0_Blob
@@ -495,10 +497,10 @@ struct S6edf0_Blob
     unsigned int u24;
     unsigned int u28;
     unsigned int u2c;
-    unsigned int u30;
-    unsigned int u34;
-    unsigned int u38;
-    unsigned int u3c;
+    void* u30;
+    void* u34;
+    const void* u38;
+    const void* u3c;
     unsigned int u40;
     unsigned int u44;
     unsigned int u48;
@@ -566,7 +568,7 @@ union S6edf0_Tag
 
 // Builds motion data from src and ctx, then calls FUN_00d72190 if *ctx->m14 is 0x16 or FUN_00d6f460 otherwise, bracketed by two WriteVector calls.
 // @fnv 0x00d6edf0
-void FUN_00d6edf0(S6edf0_Ctx* ctx, S6edf0_Blob* src, unsigned int arg3)
+void FUN_00d6edf0(S6edf0_Ctx* ctx, S6edf0_Blob* src, void* arg3)
 {
     S6edf0_Tag tag;
     S6edf0_F4 neg;
@@ -587,8 +589,8 @@ void FUN_00d6edf0(S6edf0_Ctx* ctx, S6edf0_Blob* src, unsigned int arg3)
 
     ma.m40.add4(frames.qa.v);
     mb.m40.add4(frames.qb.v);
-    blob.u30 = (unsigned int)&ma;
-    blob.u34 = (unsigned int)&mb;
+    blob.u30 = &ma;
+    blob.u34 = &mb;
 
     reinterpret_cast<::S00cd4cc0_M *>(&(frames.ra))->FUN_00cd4cc0((const float *)(const ::S6edf0_Vec *)(&frames.qa.v));
     reinterpret_cast<::S00cd4cc0_M *>(&(frames.rb))->FUN_00cd4cc0((const float *)(const ::S6edf0_Vec *)(&frames.qb.v));
@@ -727,11 +729,11 @@ struct __declspec(align(16)) FUN_00dcedd0_Record
         FUN_00dcedd0_Fields fields;
         unsigned char type;
     };
-    void* object;
+    unsigned int object;
 };
 // Stores value, object, and type 0x1a into the record at cursor, adds a small epsilon to x, and advances cursor.
 // @fnv 0x00dcedd0
-void __cdecl FUN_00dcedd0(const __m128* value, void* object, FUN_00dcedd0_Record** cursor)
+void __cdecl FUN_00dcedd0(const __m128* value, unsigned int object, FUN_00dcedd0_Record** cursor)
 {
     FUN_00dcedd0_Record* record = *cursor;
     record->value = *value;
@@ -767,13 +769,13 @@ struct Buf
 
 extern "C" Aux* stub_aux(void);
 extern "C" Self* stub_self(void);
-extern "C" unsigned int stub_a1(void);
+extern "C" const void* stub_a1(void);
 extern "C" Self* stub_p30(void);
-extern "C" unsigned int stub_a3(void);
+extern "C" void* stub_a3(void);
 
 // Stores p30->grid[3], self->grid[3], self->grid[aux->idx] and aux's two floats in a local buffer, then calls ComputeAngularJacobian with a1 and a3.
 // @fnv 0x00d6d220
-static __declspec(noinline) void FUN_00d6d220(Aux* aux, Self* self, unsigned int a1, const Self* p30, unsigned int a3)
+static __declspec(noinline) void FUN_00d6d220(Aux* aux, Self* self, const void* a1, const Self* p30, void* a3)
 {
     __declspec(align(16)) Buf b;
     _mm_store_ps(b.g0, p30->grid[3]);
@@ -797,7 +799,7 @@ struct F4
 
 // Builds a local buffer of three vectors and two floats from b, d and a2, then calls FUN_00dcfa30 with it, a1 and a3.
 // @fnv 0x00d6d280
-static __declspec(noinline) void FUN_00d6d280(char* b, char* d, unsigned int a1, char* a2, unsigned int a3)
+static __declspec(noinline) void FUN_00d6d280(char* b, char* d, void* a1, char* a2, void* a3)
 {
     __declspec(align(16)) struct Buf
     {
@@ -817,7 +819,7 @@ static __declspec(noinline) void FUN_00d6d280(char* b, char* d, unsigned int a1,
     ::FUN_00dcfa30((::Info_dcf880 *)(void *)((void*)&buf), (::S_00dcf100_Cfg *)(a1), (::Jac_dcf880 **)(a3));
 }
 
-void S00d6d280_Entry(char* d, char* b, unsigned int a1, char* a2, unsigned int a3)
+void S00d6d280_Entry(char* d, char* b, void* a1, char* a2, void* a3)
 {
     FUN_00d6d280(b, d, a1, a2, a3);
 }
@@ -1453,13 +1455,13 @@ static __declspec(noinline) void FUN_00d6f0c0(S6f0c0_Ctx* ctx, S6f0c0_Blob* src,
     d = _mm_add_ss(_mm_shuffle_ps(d, d, 0xaa), t);
     v = _mm_xor_ps(_mm_sub_ps(vDir, _mm_mul_ps(_mm_shuffle_ps(d, d, 0), axis)), DAT_010c44d0);
     unsigned int flag = neg != 0;
-    ::FUN_00dcedd0(&v, (void *)(flag), (::FUN_00dcedd0_Record **)(cursor));
+    ::FUN_00dcedd0(&v, flag, (::FUN_00dcedd0_Record **)(cursor));
     link.vel = _mm_add_ps(link.vel, v);
     S6f0c0_Tag tag;
     tag.b = 0;
     ::FUN_00d72190((::Node *)(bone), (::Buffer *)(::S6f0c0_Blob *)(&blobCopy), (*(int *)&(const ::S6f0c0_Tag &)(tag)), (int *)(cursor));
     v = _mm_xor_ps(v, DAT_010c44d0);
-    ::FUN_00dcedd0(&v, (void *)(flag), (::FUN_00dcedd0_Record **)(cursor));
+    ::FUN_00dcedd0(&v, flag, (::FUN_00dcedd0_Record **)(cursor));
 }
 
 void S6f0c0_Caller(S6f0c0_Ctx* ctx, S6f0c0_Blob* src, S6f0c0_Rec** cursor)
@@ -2036,7 +2038,7 @@ union __declspec(align(16)) FUN_004b4ab0_Class
     {
         return *(const __m128*)this;
     }
-    void FUN_004b4ab0(int, int);
+    void FUN_004b4ab0(intptr_t, intptr_t);
 };
 struct Record
 {
@@ -2103,8 +2105,8 @@ static void __declspec(noinline)
     V4 rb;
     rb.simd() = _mm_sub_ps(pb.simd(), bodyB->center.simd());
     FUN_004b4ab0_Class wa, wb;
-    wa.FUN_004b4ab0((int)&bodyA->rot, (int)&bodyA->linear);
-    wb.FUN_004b4ab0((int)&bodyB->rot, (int)&bodyB->linear);
+    wa.FUN_004b4ab0(reinterpret_cast<intptr_t>(&bodyA->rot), reinterpret_cast<intptr_t>(&bodyA->linear));
+    wb.FUN_004b4ab0(reinterpret_cast<intptr_t>(&bodyB->rot), reinterpret_cast<intptr_t>(&bodyB->linear));
     __m128 scale = _mm_shuffle_ps(inverseV.simd(), inverseV.simd(), 0);
     V4 velocity;
     velocity.simd() =
@@ -2284,9 +2286,9 @@ static __declspec(noinline) void FUN_00d6da00(WriterContext* apContext, AngularR
     if (solver && record->enabled)
     {
         unsigned axis = record->axis;
-        const __m128* pa = (const __m128*)((unsigned)aa.p + DAT_010d33c1[axis]);
-        const __m128* pb = (const __m128*)((unsigned)ab.p + DAT_010d33c2[axis]);
-        const __m128* pc = (const __m128*)((unsigned)ab.p + (axis << 4));
+        const __m128* pa = (const __m128*)((const char*)aa.p + DAT_010d33c1[axis]);
+        const __m128* pb = (const __m128*)((const char*)ab.p + DAT_010d33c2[axis]);
+        const __m128* pc = &ab.p[axis];
         float dot;
         AngularDot(&dot, *pa, *pb);
         __m128 cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(*pc, *pc, 0xd2), _mm_shuffle_ps(*pb, *pb, 0xc9)),
@@ -2308,7 +2310,7 @@ static __declspec(noinline) void FUN_00d6da00(WriterContext* apContext, AngularR
         AngularInput input;
         input.base.f00 = 0.0f;
         input.base.f04 = 0.0f;
-        const __m128* directionPtr = (const __m128*)((unsigned)aa.p + (record->axis << 4));
+        const __m128* directionPtr = &aa.p[record->axis];
         AngularMatrix* matrixB = (AngularMatrix*)apContext->unk34;
         AngularMatrix* matrixA = (AngularMatrix*)apContext->unk30;
         __m128 neg = _mm_xor_ps(*directionPtr, DAT_010c44d0);
@@ -2779,7 +2781,7 @@ struct QueryIn
     int unk5c;
     int unk60;
     SolverResults* m_pByteBuffer;
-    int unk68;
+    int* unk68;
     int unk6c;
     int unk70;
     SolverResults* m_pUserData;
@@ -3165,7 +3167,7 @@ void __cdecl ComputeJacobian(const hkVec4* axis, const hkVec4* pivot, const Quer
 void __cdecl FUN_00dd03c0(MotorOutput* mout, const QueryIn* in, char* schemas, QueryOut* out);
 void __cdecl FUN_00d6f460(const Atom* atoms, int sizeOfAllAtoms, const QueryIn* queryIn, QueryOut* out);
 
-extern "C" int bs_index(int handle, int flag);
+extern "C" int bs_index(int* handle, int flag);
 static __declspec(noinline) void FUN_00d6ced0(const BallSocketAtom* atom, const QueryIn* in, const hkTrans* baseA,
                                               const hkTrans* baseB, QueryOut* out)
 {
@@ -3179,16 +3181,16 @@ static __declspec(noinline) void FUN_00d6ced0(const BallSocketAtom* atom, const 
     hkVec4 rB;
     rB.q = _mm_sub_ps(baseB->col(3).q, bodyB->m_kCenterPosition.q);
     FUN_004b4ab0_Class mA;
-    mA.FUN_004b4ab0((int)&bodyA->m_rot[0], (int)&bodyA->m_vAngularVelocity);
+    mA.FUN_004b4ab0(reinterpret_cast<intptr_t>(&bodyA->m_rot[0]), reinterpret_cast<intptr_t>(&bodyA->m_vAngularVelocity));
     FUN_004b4ab0_Class mB;
-    mB.FUN_004b4ab0((int)&bodyB->m_rot[0], (int)&bodyB->m_vAngularVelocity);
-    int handle = in->unk68;
+    mB.FUN_004b4ab0(reinterpret_cast<intptr_t>(&bodyB->m_rot[0]), reinterpret_cast<intptr_t>(&bodyB->m_vAngularVelocity));
+    int* handle = in->unk68;
     if (handle)
     {
         int r = bs_index(handle, 1);
         if (r < 0x80)
         {
-            ((int*)in->unk68)[r + 1] = in->unk60;
+            in->unk68[r + 1] = in->unk60;
         }
     }
     SchemaNop* s = (SchemaNop*)schemas;
@@ -4423,11 +4425,11 @@ static __forceinline void case26(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     __m128 d = dot3(n, v);
     SurfaceAxis tangent;
     tangent = _mm_xor_ps(_mm_sub_ps(v, _mm_mul_ps(_mm_shuffle_ps(d, d, 0), n)), DAT_010c44d0);
-    ::FUN_00dcedd0((const __m128 *)(const ::hkVec4 *)((const hkVec4*)&tangent), (void *)(which), (::FUN_00dcedd0_Record **)(out));
+    ::FUN_00dcedd0((const __m128 *)(const ::hkVec4 *)((const hkVec4*)&tangent), which, (::FUN_00dcedd0_Record **)(out));
     acc.m_vLinearVelocity.q = _mm_add_ps(acc.m_vLinearVelocity.q, tangent);
     ::FUN_00d72190((::Node *)((const Atom*)contact), (::Buffer *)(&in5), (*(int *)&(const ::hkBool &)(hkBool(false))), (int *)(out));
     tangent = _mm_xor_ps(tangent, DAT_010c44d0);
-    ::FUN_00dcedd0((const __m128 *)(const ::hkVec4 *)((const hkVec4*)&tangent), (void *)(which), (::FUN_00dcedd0_Record **)(out));
+    ::FUN_00dcedd0((const __m128 *)(const ::hkVec4 *)((const hkVec4*)&tangent), which, (::FUN_00dcedd0_Record **)(out));
     atoms = (const Atom*)((const char*)a + 0x30);
 }
 struct AngularStorage : AngLimitInfo
@@ -4456,7 +4458,7 @@ void __cdecl FUN_00d6f460(const Atom* atoms, int sizeOfAllAtoms, const QueryIn* 
         switch (atoms->m_type)
         {
         case 0:
-            atoms = (const Atom*)(((unsigned int)atoms + 15) & ~15u);
+            atoms = (const Atom*)(((uintptr_t)atoms + 15) & ~(uintptr_t)15);
             goto nextAtom;
         case 1:
             case1(atoms, in, baseA, baseB, out);
@@ -5016,7 +5018,7 @@ static __declspec(noinline) void FUN_00d6ecb0(FnvPacket* arg1, void* arg2, FnvNo
 }
 extern "C" FnvNode* FetchNode();
 void* volatile sourceDest;
-void TargetCaller()
+void TargetCaller_d6ecb0()
 {
     FUN_00d6ecb0(sourcePacket, sourceDest, FetchNode());
 }
@@ -5095,7 +5097,7 @@ struct Mat
 {
     __m128 rows[4];
 };
-struct Out
+struct AxisRowOut
 {
     __m128 row;
     float f10, f14, f18, f1c;
@@ -5122,7 +5124,7 @@ static float sum3(__m128 v)
 }
 
 // @fnv 0x00d6d2e0
-static __declspec(noinline) int FUN_00d6d2e0(Obj* self, Src* src, Mat* a2, Mat* a3, Out* out)
+static __declspec(noinline) int FUN_00d6d2e0(Obj* self, Src* src, Mat* a2, Mat* a3, AxisRowOut* out)
 {
     if (self->flag != 0)
     {
@@ -5155,7 +5157,7 @@ extern Obj* g_obj;
 extern Src* g_src;
 extern Mat* g_a2;
 extern Mat* g_a3;
-extern Out* g_out;
+extern AxisRowOut* g_out;
 int g_sink;
 
 void zz_probe_call()

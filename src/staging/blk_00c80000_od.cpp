@@ -65,6 +65,7 @@
 #include "fnv/symbols_01204000.h"
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01268000.h"
+#include "fnv/tls.h"
 #include "fnv/symbols_01272000.h"
 #include <xmmintrin.h>
 #include <xmmintrin.h>
@@ -426,6 +427,12 @@ struct FUN_00c99ff0_base
     char m_auiShapeKeys[0xa0];
 };
 
+struct FUN_00c99ff0_arg
+{
+    char pad[0x40];
+    __m128 m_40;
+};
+
 struct FUN_00c99ff0_cls : FUN_00c99ff0_base
 {
     __m128 m_a0;
@@ -441,7 +448,7 @@ FUN_00c99ff0_cls* FUN_00c99ff0_cls::FUN_00c99ff0(void* a1, __m128* a2, __m128* a
     *(void**)this = (void*)&DAT_010c69f4;
     m_a0 = *a2;
     m_b0 = *a3;
-    m_c0 = *(__m128*)((char*)a1 + 0x40);
+    m_c0 = static_cast<FUN_00c99ff0_arg*>(a1)->m_40;
     return this;
 }
 
@@ -745,12 +752,12 @@ void __cdecl FUN_00c88520(SceneObject* a0, SceneObject* a1)
 
 inline int GetMemContext()
 {
-    return (*reinterpret_cast<int *>(&::currentAllocationContext));
+    return g_tlsBlock.memoryContext;
 }
 
 inline void SetMemContext(int aiMemoryContext)
 {
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+    g_tlsBlock.memoryContext = aiMemoryContext;
 }
 
 struct MemContextGuard
@@ -855,358 +862,6 @@ void KeyData::FUN_00c9bbb0(StrArr* strings)
     }
 }
 
-struct TlsBlock
-{
-
-    unsigned int unk000;
-
-    unsigned int unk004;
-
-    unsigned int unk008;
-
-    unsigned int unk00c;
-
-    unsigned int unk010;
-
-    unsigned int unk014;
-
-    unsigned int unk018;
-
-    unsigned int unk01c;
-
-    unsigned int unk020;
-
-    unsigned int unk024;
-
-    unsigned int unk028;
-
-    unsigned int unk02c;
-
-    unsigned int unk030;
-
-    unsigned int unk034;
-
-    unsigned int unk038;
-
-    unsigned int unk03c;
-
-    unsigned int unk040;
-
-    unsigned int unk044;
-
-    unsigned int unk048;
-
-    unsigned int unk04c;
-
-    unsigned int unk050;
-
-    unsigned int unk054;
-
-    unsigned int unk058;
-
-    unsigned int unk05c;
-
-    unsigned int unk060;
-
-    unsigned int unk064;
-
-    unsigned int unk068;
-
-    unsigned int unk06c;
-
-    unsigned int unk070;
-
-    unsigned int unk074;
-
-    unsigned int unk078;
-
-    unsigned int unk07c;
-
-    unsigned int unk080;
-
-    unsigned int unk084;
-
-    unsigned int unk088;
-
-    unsigned int unk08c;
-
-    unsigned int unk090;
-
-    unsigned int unk094;
-
-    unsigned int unk098;
-
-    unsigned int unk09c;
-
-    unsigned int unk0a0;
-
-    unsigned int unk0a4;
-
-    unsigned int unk0a8;
-
-    unsigned int unk0ac;
-
-    unsigned int unk0b0;
-
-    unsigned int unk0b4;
-
-    unsigned int unk0b8;
-
-    unsigned int unk0bc;
-
-    unsigned int unk0c0;
-
-    unsigned int unk0c4;
-
-    unsigned int unk0c8;
-
-    unsigned int unk0cc;
-
-    unsigned int unk0d0;
-
-    unsigned int unk0d4;
-
-    unsigned int unk0d8;
-
-    unsigned int unk0dc;
-
-    unsigned int unk0e0;
-
-    unsigned int unk0e4;
-
-    unsigned int unk0e8;
-
-    unsigned int unk0ec;
-
-    unsigned int unk0f0;
-
-    unsigned int unk0f4;
-
-    unsigned int unk0f8;
-
-    unsigned int unk0fc;
-
-    unsigned int unk100;
-
-    unsigned int unk104;
-
-    unsigned int unk108;
-
-    unsigned int unk10c;
-
-    unsigned int unk110;
-
-    unsigned int unk114;
-
-    unsigned int unk118;
-
-    unsigned int unk11c;
-
-    unsigned int unk120;
-
-    unsigned int unk124;
-
-    unsigned int unk128;
-
-    unsigned int unk12c;
-
-    unsigned int unk130;
-
-    unsigned int unk134;
-
-    unsigned int unk138;
-
-    unsigned int unk13c;
-
-    unsigned int unk140;
-
-    unsigned int unk144;
-
-    unsigned int unk148;
-
-    unsigned int unk14c;
-
-    unsigned int unk150;
-
-    unsigned int unk154;
-
-    unsigned int unk158;
-
-    unsigned int unk15c;
-
-    unsigned int unk160;
-
-    unsigned int unk164;
-
-    unsigned int unk168;
-
-    unsigned int unk16c;
-
-    unsigned int unk170;
-
-    unsigned int unk174;
-
-    unsigned int unk178;
-
-    unsigned int unk17c;
-
-    unsigned int unk180;
-
-    unsigned int unk184;
-
-    unsigned int unk188;
-
-    unsigned int unk18c;
-
-    unsigned int unk190;
-
-    unsigned int unk194;
-
-    unsigned int unk198;
-
-    unsigned int unk19c;
-
-    unsigned int unk1a0;
-
-    unsigned int unk1a4;
-
-    unsigned int unk1a8;
-
-    unsigned int unk1ac;
-
-    unsigned int unk1b0;
-
-    unsigned int unk1b4;
-
-    unsigned int unk1b8;
-
-    unsigned int unk1bc;
-
-    unsigned int unk1c0;
-
-    unsigned int unk1c4;
-
-    unsigned int unk1c8;
-
-    unsigned int unk1cc;
-
-    unsigned int unk1d0;
-
-    unsigned int unk1d4;
-
-    unsigned int unk1d8;
-
-    unsigned int unk1dc;
-
-    unsigned int unk1e0;
-
-    unsigned int unk1e4;
-
-    unsigned int unk1e8;
-
-    unsigned int unk1ec;
-
-    unsigned int unk1f0;
-
-    unsigned int unk1f4;
-
-    unsigned int unk1f8;
-
-    unsigned int unk1fc;
-
-    unsigned int unk200;
-
-    unsigned int unk204;
-
-    unsigned int unk208;
-
-    unsigned int unk20c;
-
-    unsigned int unk210;
-
-    unsigned int unk214;
-
-    unsigned int unk218;
-
-    unsigned int unk21c;
-
-    unsigned int unk220;
-
-    unsigned int unk224;
-
-    unsigned int unk228;
-
-    unsigned int unk22c;
-
-    unsigned int unk230;
-
-    unsigned int unk234;
-
-    unsigned int unk238;
-
-    unsigned int unk23c;
-
-    unsigned int unk240;
-
-    unsigned int unk244;
-
-    unsigned int unk248;
-
-    unsigned int unk24c;
-
-    unsigned int unk250;
-
-    unsigned int unk254;
-
-    unsigned int unk258;
-
-    unsigned int unk25c;
-
-    unsigned int unk260;
-
-    unsigned int unk264;
-
-    unsigned int unk268;
-
-    unsigned int unk26c;
-
-    unsigned int unk270;
-
-    unsigned int unk274;
-
-    unsigned int unk278;
-
-    unsigned int unk27c;
-
-    unsigned int unk280;
-
-    unsigned int unk284;
-
-    unsigned int unk288;
-
-    unsigned int unk28c;
-
-    unsigned int unk290;
-
-    unsigned int unk294;
-
-    unsigned int unk298;
-
-    unsigned int unk29c;
-
-    unsigned int unk2a0;
-
-    unsigned int unk2a4;
-
-    unsigned int unk2a8;
-
-    unsigned int unk2ac;
-
-    unsigned int unk2b0;
-
-    unsigned int context;
-};
-
 struct ContextScope
 {
 
@@ -1214,13 +869,13 @@ struct ContextScope
 
     ContextScope(unsigned int value)
     {
-        previous = (*reinterpret_cast<::TlsBlock *>(&::g_tlsBlock)).context;
-        (*reinterpret_cast<::TlsBlock *>(&::g_tlsBlock)).context = value;
+        previous = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = value;
     }
 
     ~ContextScope()
     {
-        (*reinterpret_cast<::TlsBlock *>(&::g_tlsBlock)).context = previous;
+        g_tlsBlock.memoryContext = previous;
     }
 };
 
@@ -1985,7 +1640,7 @@ void __cdecl FUN_00c88a40(bool create, Filter filter, SceneNode* first, SceneNod
                     }
                 }
 
-                reinterpret_cast<::FUN_009ba320_shell *>(&(info))->FUN_009ba320((unsigned int)(sourceBody), (unsigned int)(targetBody));
+                reinterpret_cast<::FUN_009ba320_shell *>(&(info))->FUN_009ba320((uintptr_t)(sourceBody), (uintptr_t)(targetBody));
 
                 Transform sourceTransform = (sourceBody ? sourceBody->underlying : 0)->transform;
 
@@ -2413,7 +2068,7 @@ void __cdecl FUN_00c9b670(NiAVObject* object, const NiPoint3& velocity, unsigned
                     {
                         new (&sharedPoint) NiPoint3(static_cast<const NiPoint3_helper&>(velocity) * DAT_011b0f88);
                         NiPoint3& scaled = sharedPoint;
-                        reinterpret_cast<::FUN_00631100_shell *>((((PhysicsMotion*)body->body)))->FUN_00631100(DAT_011afe64, (int)&((*(::hkVector4 *)&(::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(work.vector), (const ::fnv_004a3e00::NiPoint3 &)(scaled))))));
+                        reinterpret_cast<::FUN_00631100_shell *>((((PhysicsMotion*)body->body)))->FUN_00631100(DAT_011afe64, (intptr_t)&((*(::hkVector4 *)&(::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(work.vector), (const ::fnv_004a3e00::NiPoint3 &)(scaled))))));
                     }
                 }
             }

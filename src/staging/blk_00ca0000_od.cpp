@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include "../../include/layout_support.h"
 #include <cstddef>
 #include <new>
@@ -22,6 +23,7 @@
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_010c7000.h"
 #include "fnv/symbols_01268000.h"
+#include "fnv/tls.h"
 #include "fnv/symbols_01272000.h"
 #include <windows.h>
 #include <xmmintrin.h>
@@ -1016,214 +1018,17 @@ void CacObj::FUN_00cac960(const CacV4* pv)
 
 extern unsigned long DAT_0126fd98;
 
-struct F7_Ctx
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19C;
-    int unk1A0;
-    int unk1A4;
-    int unk1A8;
-    int unk1AC;
-    int unk1B0;
-    int unk1B4;
-    int unk1B8;
-    int unk1BC;
-    int unk1C0;
-    int unk1C4;
-    int unk1C8;
-    int unk1CC;
-    int unk1D0;
-    int unk1D4;
-    int unk1D8;
-    int unk1DC;
-    int unk1E0;
-    int unk1E4;
-    int unk1E8;
-    int unk1EC;
-    int unk1F0;
-    int unk1F4;
-    int unk1F8;
-    int unk1FC;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20C;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21C;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22C;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23C;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24C;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25C;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26C;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27C;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28C;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29C;
-    int unk2A0;
-    int unk2A4;
-    int unk2A8;
-    int unk2AC;
-    int unk2B0;
-    int unk2b4;
-};
-
 struct F7_Scope
 {
     int saved;
     F7_Scope()
     {
-        saved = (*reinterpret_cast<::F7_Ctx *>(&::g_tlsBlock)).unk2b4;
-        (*reinterpret_cast<::F7_Ctx *>(&::g_tlsBlock)).unk2b4 = 0x10;
+        saved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = 0x10;
     }
     ~F7_Scope()
     {
-        (*reinterpret_cast<::F7_Ctx *>(&::g_tlsBlock)).unk2b4 = saved;
-    }
-};
-
-struct F7_Alloc
-{
-    virtual void slot0();
-    virtual void* alloc(int bytes);
-};
-
-struct F7_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    F7_Alloc* m_pStreamAllocator;
-    F7_Alloc& heap()
-    {
-        return *m_pStreamAllocator;
+        g_tlsBlock.memoryContext = saved;
     }
 };
 
@@ -1245,7 +1050,7 @@ struct F7_Shape
     F7_Shape();
     static void* operator new(std::size_t amount)
     {
-        void* r = static_cast<F7_Router*>(::FUN_00c85750())->heap().alloc(amount);
+        void* r = hkMemoryRouter::getInstance().heap().blockAlloc(int(amount));
         ((F7_Shape*)r)->size = (unsigned short)amount;
         return r;
     }
@@ -1394,24 +1199,6 @@ struct NiStream
         reader->ReadScalar(&value, sizeof(T));
     }
 };
-struct Allocator
-{
-    virtual void unk00() = 0;
-    virtual void unk04() = 0;
-    virtual void unk08() = 0;
-    virtual void unk0c() = 0;
-    virtual void Free(void*, unsigned) = 0;
-    template <class T> void FreeArray(T* data, unsigned capacity)
-    {
-        if (!(capacity & 0x80000000u))
-            Free(data, (capacity & 0x3fffffffu) * sizeof(T));
-    }
-};
-struct MemoryRouter
-{
-    unsigned unk00, unk04, unk08, unk0c;
-    Allocator* heap;
-};
 template <class T> struct LegacyArray
 {
     T* data;
@@ -1423,17 +1210,17 @@ template <class T> struct LegacyArray
             data[i].~T();
         size = 0;
     }
-    void ClearAndDeallocate(Allocator& allocator)
+    void ClearAndDeallocate(hkMemoryAllocator& allocator)
     {
         Clear();
-        allocator.FreeArray(data, capacity);
+        if (!(capacity & 0x80000000u))
+            allocator.bufFree(data, int((capacity & 0x3fffffffu) * sizeof(T)));
         data = 0;
         capacity = 0x80000000u;
     }
     void ClearAndDeallocate()
     {
-        MemoryRouter* router = static_cast<MemoryRouter*>(::FUN_00c85750());
-        ClearAndDeallocate(*router->heap);
+        ClearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 struct __declspec(align(16)) FUN_00ca7310
@@ -1709,7 +1496,7 @@ struct __declspec(align(16)) CbfRayIn
     int m_iCachedVertexCount;
     void* m_vTo;
     int m_ten;
-    int m_iFilter;
+    intptr_t m_iFilter;
 };
 
 struct __declspec(align(16)) CbfSrc
@@ -1751,12 +1538,23 @@ class CbfTarget
     virtual void Cast(CbfRayIn* args, void* owner, int flag);
 };
 
+// The collision filter: a referenced object followed by the vtables of its four filter interfaces.
+struct CbfFilter
+{
+    void* vtable;
+    int memSizeAndRefCount;
+    void* collidableCollidableFilter;
+    void* shapeCollectionFilter;
+    void* rayShapeCollectionFilter;
+    void* rayCollidableFilter;
+};
+
 struct CbfOwner
 {
     int unk00;
     CbfSrc* m_04;
-    intptr_t m_08;
-    int m_0C;
+    void* m_08;
+    intptr_t m_0C;
     int m_10;
     int unk14;
     int unk18;
@@ -1770,7 +1568,7 @@ struct CbfOwner
     int unk38;
     int unk3C;
     int unk40;
-    intptr_t m_44;
+    void* m_44;
     void FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, intptr_t p4, intptr_t p5);
 };
 
@@ -1781,9 +1579,10 @@ void CbfOwner::FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, intptr_t p4, i
     m_04 = src;
     m_0C = p5;
     m_10 = 0;
-    m_08 = p3 != 0 ? (intptr_t)p3 + 0x14 : 0;
+    CbfFilter* filter = reinterpret_cast<CbfFilter*>(p3);
+    m_08 = filter != 0 ? &filter->rayCollidableFilter : 0;
     if (src->unk20 != 0)
-        m_44 = p3 != 0 ? (intptr_t)p3 + 0x10 : 0;
+        m_44 = filter != 0 ? &filter->rayShapeCollectionFilter : 0;
     else
         m_44 = 0;
     CbfRayIn local;

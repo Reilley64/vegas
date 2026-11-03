@@ -32068,7 +32068,7 @@ void TransferOwner::FUN_00953ff0(TransferReference* ref, int amount, bool notify
         break;
     }
     reinterpret_cast<::ActorSoundStub *>(this)->PlayActorSound((int)(((::fnv_00953ff0::TransferForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))), true, false);
-    ::FUN_00c6a270((int)(ref->Scene()), true, true, false);
+    ::FUN_00c6a270((intptr_t)(ref->Scene()), true, true, false);
     TransferNode* cursor = ((::fnv_00953ff0::TransferNode *)(reinterpret_cast<::Target96 *>(&((*reinterpret_cast<::fnv_00953ff0::TransferManager *>(&::g_011e0e80))))->FUN_0096f450(reinterpret_cast<::FUN_0084e3a0_Class *>((ref))->FUN_0084e3a0(), (::Actor96 *)(::fnv_00953ff0::TransferOwner *)(this))));
     TransferNode* extra = cursor;
     while (cursor && *cursor->Data())
@@ -67878,17 +67878,17 @@ void* FUN_00954610_cls::FUN_00954610(Obj* a1, Obj* a2, void* a3, void* a4, void*
         X = RU->v116();
         if (X != 0)
         {
-            ::FUN_00c6a040((int)(X), 0, 1, 1);
+            ::FUN_00c6a040((intptr_t)(X), 0, 1, 1);
             new ((void *)&(ETmp)) ::NiUpdateData(0.0f, 0, 0);
             reinterpret_cast<::FUN_00a59c60_cls *>((X))->FUN_00a59c60((std::intptr_t)(&ETmp));
-            ::FUN_00c6a040((int)(X), 1, 1, 1);
+            ::FUN_00c6a040((intptr_t)(X), 1, 1, 1);
             RTmp = *RU->v125();
             reinterpret_cast<::FUN_00439ef0_class *>(&(RTmp))->FUN_00439ef0((::NiPoint3 *)(void *)(&PTmp), (*(const ::NiPoint3 *)(((void *)(new ((void *)(((::Obj *)(reinterpret_cast<::FUN_0043d450_Owner *>((X))->FUN_0043d450())))) ::Vec3())))));
             reinterpret_cast<::FUN_0063c8a0_shell *>(&(RTmp))->FUN_0063c8a0(&PTmp);
             reinterpret_cast<::FUN_00440460_S *>((X))->FUN_00440460((const ::V3 *)(void *)(&RTmp));
             reinterpret_cast<::Reference *>((RU))->FUN_00575830((::Position *)(void *)(&RTmp));
             ::FUN_00c6bd00((::TreeNode_cls *)(X), 1);
-            ::FUN_00c6a270((int)(X), 1, 1, 0);
+            ::FUN_00c6a270((intptr_t)(X), 1, 1, 0);
         }
         else
         {

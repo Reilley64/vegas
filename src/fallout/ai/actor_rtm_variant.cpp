@@ -1023,7 +1023,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
                 if (::FUN_008c7aa0())
                     reinterpret_cast<::S0087ab50 *>((((::ActorUpdate3D::FaceAnim *)(::TaskQueueInterface::GetSingleton()))))->SetPairIfEnabled({}, {});
                 else
-                    ::SetTlsValueAndReset((int)(pObject), 2);
+                    ::SetTlsValueAndReset((intptr_t)(pObject), 2);
             }
         }
         pObject = FUN_004ade00(pFaceRoot, ((const char *)(::FUN_00887a00())));
@@ -1065,7 +1065,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
                 if (::FUN_008c7aa0())
                     reinterpret_cast<::S0087ab50 *>((((::ActorUpdate3D::FaceAnim *)(::TaskQueueInterface::GetSingleton()))))->SetPairIfEnabled({}, {});
                 else
-                    ::SetTlsValueAndReset((int)(pObject), 2);
+                    ::SetTlsValueAndReset((intptr_t)(pObject), 2);
             }
         }
         if (bChanged)

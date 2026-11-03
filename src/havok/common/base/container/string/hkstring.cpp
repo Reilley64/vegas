@@ -305,7 +305,7 @@ int __cdecl Vsnprintf(char* buf, intptr_t n, const char* fmt, ...)
 #include <string.h>
 namespace fnv_00cb10d0 {
 // @fnv 0x00cb10d0
-intptr_t __cdecl FUN_00cb10d0(const char* apString)
+int __cdecl FUN_00cb10d0(const char* apString)
 {
     return (int)strlen(apString);
 }

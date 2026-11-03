@@ -962,7 +962,7 @@ void FUN_00e7e8d0(intptr_t pObject)
     }
 }
 
-extern int DAT_0126f9a0;
+extern void* DAT_0126f9a0;
 
 // @fnv 0x00e89670
 void ResetAndRegister(D3DRenderStateGroup* apObject)

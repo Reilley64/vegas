@@ -1468,7 +1468,7 @@ void Actor::FUN_009b90b0()
                                 {
                                     Path path;
                                     reinterpret_cast<::fnv_00cbdcb0::CBDCB0Owner *>(&(path))->EnsureChild();
-                                    reinterpret_cast<::FUN_009ba320_shell *>(&(path))->FUN_009ba320((unsigned int)(p63c), (unsigned int)(p630));
+                                    reinterpret_cast<::FUN_009ba320_shell *>(&(path))->FUN_009ba320((uintptr_t)(p63c), (uintptr_t)(p630));
                                     Name n690(::FUN_004b4f00((::TESDataHandler *)(((::fnv_009b90b0::Obj *)(::FUN_004ae750((void *)(p63c)))))));
                                     Name n6d0(::FUN_004b4f00((::TESDataHandler *)(((::fnv_009b90b0::Obj *)(::FUN_004ae750((void *)(p630)))))));
                                     reinterpret_cast<::CB2FC0Object *>((((::fnv_009b90b0::Obj *)(new ((void *)&(n690)) ::Vec3()))))->FUN_00cb2fc0();

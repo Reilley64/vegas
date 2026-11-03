@@ -1,6 +1,7 @@
 // staging/blk_00da0000_o2.cpp: Holder, MapHolder, SpawnedOuter, SearchObject and more (113 functions)
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include <cstddef>
 #include "generated/data/vtables.h"
 #include <windows.h>
@@ -48,6 +49,12 @@ struct FUN_00da07b0_class
 {
     void FUN_00cb0a70(void*);
 };
+struct DA07B0Object
+{
+    void* m_pVtbl;
+    char m_pad04[0x60];
+    const char* m_kMember;
+};
 
 // @fnv 0x00da07b0
 void __cdecl FUN_00da07b0(void* apObject, void* b)
@@ -55,22 +62,32 @@ void __cdecl FUN_00da07b0(void* apObject, void* b)
     if (apObject)
     {
         *(void**)apObject = (void*)&DAT_010d461c;
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00da07b0_class*)((char*)apObject + 0x64))))->FUN_00cb0a70((intptr_t)(b));
+        reinterpret_cast<::FUN_00cb0a70_Class *>(&static_cast<DA07B0Object*>(apObject)->m_kMember)->FUN_00cb0a70((intptr_t)(b));
     }
 }
 
 
+struct DA6FA0Pool
+{
+    void* m_pData;
+    int m_iSize;
+    int m_iCapacityAndFlags;
+    int unk0c;
+    char m_kTail[1];
+};
+
 // @fnv 0x00da6fa0
 void* __cdecl InitAndReturnTail(void* apUnused1, void* apUnused2, void* apStruct)
 {
-    if (apStruct)
+    DA6FA0Pool* pkPool = static_cast<DA6FA0Pool*>(apStruct);
+    if (pkPool)
     {
-        *(int*)apStruct = 0;
-        *(int*)((char*)apStruct + 4) = 0;
-        *(int*)((char*)apStruct + 8) = 0x80000000;
+        pkPool->m_pData = 0;
+        pkPool->m_iSize = 0;
+        pkPool->m_iCapacityAndFlags = 0x80000000;
     }
-    ::InitBlockPool((::BlockPoolArray *)(apStruct));
-    return (char*)apStruct + 16;
+    ::InitBlockPool((::BlockPoolArray *)(pkPool));
+    return pkPool->m_kTail;
 }
 
 // @fnv 0x00da08c0
@@ -82,6 +99,12 @@ void __cdecl FUN_00da08c0(void** a)
 extern int DAT_010c6bec;
 
 // If a is non-null, sets its vtable pointer to DAT_010c59f4, optionally writes a 16-bit value at offset 0x11e, then sets the vtable to DAT_010c6bec.
+struct DA08E0Object
+{
+    void* m_pVtbl;
+    char m_pad04[0x11a];
+    unsigned short m_usHalfOne;
+};
 // @fnv 0x00da08e0
 void __cdecl FUN_00da08e0(void* pObject, int bSetField)
 {
@@ -92,7 +115,7 @@ void __cdecl FUN_00da08e0(void* pObject, int bSetField)
         {
             float f = 1.0f;
             *(float*)&f = f;
-            *(unsigned short*)((char*)pObject + 0x11e) = (unsigned short)(*(int*)&f >> 0x10);
+            static_cast<DA08E0Object*>(pObject)->m_usHalfOne = (unsigned short)(*(int*)&f >> 0x10);
         }
         *(void**)pObject = &DAT_010c6bec;
     }
@@ -228,13 +251,19 @@ struct FUN_00cb0a70_class
 {
     void FUN_00cb0a70(int);
 };
+struct DA0760Object
+{
+    void* m_pVtbl;
+    int unk04;
+    const char* m_kMember;
+};
 // @fnv 0x00da0760
 void __cdecl FUN_00da0760(void* pObject, void* b)
 {
     if (pObject)
     {
         *(void**)((char*)pObject + 0) = (void*)fnv_vftable_S00da0780_Object;
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70_class*)((char*)pObject + 8))))->FUN_00cb0a70((intptr_t)b);
+        reinterpret_cast<::FUN_00cb0a70_Class *>(&static_cast<DA0760Object*>(pObject)->m_kMember)->FUN_00cb0a70((intptr_t)b);
     }
 }
 
@@ -813,25 +842,6 @@ void FUN_00db78a0_cls::FUN_00db78a0(FUN_00db78a0_item** apItems, void** apValues
     } while (*p != 0);
 }
 
-struct hkMemoryAllocator;
-
-struct AudioMgr
-{
-    int unk00, unk04, unk08;
-    hkMemoryAllocator* unk0c;
-    hkMemoryAllocator* unk10;
-    hkMemoryAllocator& heap()
-    {
-        return *unk10;
-    }
-};
-
-struct BSAudio;
-inline AudioMgr* audio()
-{
-    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
-}
-
 struct MapPair
 {
     unsigned int key;
@@ -892,19 +902,16 @@ struct MapHolder
 void MapHolder::CopyMapEntries(const MapHolder& other)
 {
     for (int it = other.m_map.GetFirstIterator(); other.m_map.isValid(it); it = other.m_map.getNext(it))
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(audio()->heap()), other.m_map.GetIteratorKey(it), other.m_map.getValue(it));
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(hkMemoryRouter::getInstance().heap()), other.m_map.GetIteratorKey(it), other.m_map.getValue(it));
 }
 
 namespace fnv_00db7960 {
 
-struct FUN_00db7960_Target
-{
-    virtual void vf00();
-    virtual void* vf04(int a);
-};
-
 struct FUN_00db7960_Data
 {
+    void* m_pElements;
+    int m_iNumElements;
+    int m_iHashMod;
 };
 
 struct FUN_00db7960_Result
@@ -912,34 +919,29 @@ struct FUN_00db7960_Result
     void* unk00;
     unsigned short unk04;
     unsigned short unk06;
-    int unk08;
-    int unk0C;
-    int unk10;
+    FUN_00db7960_Data m_kData;
 };
 
 // Allocates a 0x14-byte result via the audio target's vf04, initialises its header and data fields, then calls EnsureCapacity on the data and returns it.
 // @fnv 0x00db7960
 void* __cdecl CreateAudioResult()
 {
-    void* audio = static_cast<BSAudio*>(::FUN_00c85750());
-    FUN_00db7960_Target* target = *reinterpret_cast<FUN_00db7960_Target**>(reinterpret_cast<char*>(audio) + 0x10);
+    hkMemoryAllocator& target = hkMemoryRouter::getInstance().heap();
 
-    void* allocated = target->vf04(0x14);
+    void* allocated = target.blockAlloc(sizeof(FUN_00db7960_Result));
     FUN_00db7960_Result* result = reinterpret_cast<FUN_00db7960_Result*>(allocated);
 
-    result->unk04 = 0x14;
+    result->unk04 = sizeof(FUN_00db7960_Result);
     result->unk06 = 1;
     result->unk00 = &::fnv_00d47d70::DAT_010cf844;
 
-    int* data = reinterpret_cast<int*>(reinterpret_cast<char*>(allocated) + 8);
-    data[0] = 0;
-    data[1] = 0;
-    data[2] = -1;
+    result->m_kData.m_pElements = 0;
+    result->m_kData.m_iNumElements = 0;
+    result->m_kData.m_iHashMod = -1;
 
-    void* audio2 = static_cast<BSAudio*>(::FUN_00c85750());
-    void* target2 = *reinterpret_cast<void**>(reinterpret_cast<char*>(audio2) + 0x10);
+    void* target2 = hkMemoryRouter::getInstance().m_heap;
 
-    FUN_00db7960_Data* dataObject = reinterpret_cast<FUN_00db7960_Data*>(reinterpret_cast<char*>(allocated) + 8);
+    FUN_00db7960_Data* dataObject = &result->m_kData;
     reinterpret_cast<::FUN_00cb1fe0_t *>((dataObject))->EnsureCapacity((intptr_t)(target2), 0);
 
     return allocated;
@@ -947,24 +949,6 @@ void* __cdecl CreateAudioResult()
 }  // namespace fnv_00db7960
 
 namespace fnv_00db7a20 {
-struct hkMemoryAllocator
-{
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
-
-struct AudioMgr
-{
-    int unk00[4];
-    hkMemoryAllocator* unk10;
-    hkMemoryAllocator& heap()
-    {
-        return *unk10;
-    }
-};
-
-struct BSAudio;
-
 struct hkBool
 {
     char m_cBooleanValue;
@@ -989,7 +973,7 @@ class RefObj
 
     static void* operator new(std::size_t nbytes)
     {
-        RefObj* b = (RefObj*)((AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750()))->heap().AllocateMemoryBlock(nbytes);
+        RefObj* b = (RefObj*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -1065,27 +1049,9 @@ int DBA340Object::FUN_00dba340(void* pvA, void* pvB, void* pvC)
 }
 
 namespace fnv_00dba3d0 {
-struct DBA3D0Allocator
+// Kept for the decorated name of ClearAndRelease (0x00cb1e40).
+struct DBA3D0Allocator : hkMemoryAllocator
 {
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void ReturnMemory(void* p, int numBytes) throw();
-};
-
-struct DBA3D0MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    DBA3D0Allocator* m_pStreamAllocator;
-
-    DBA3D0Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
 };
 
 
@@ -1108,10 +1074,10 @@ template <class T> struct DBA3D0Array
 
     ~DBA3D0Array() throw()
     {
-        DBA3D0Allocator& alloc = (*static_cast<DBA3D0MemoryRouter*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+            alloc._bufFree<T>(m_data, getCapacity());
         m_iCapacityState = 0x80000000;
         m_data = 0;
     }
@@ -1133,7 +1099,7 @@ class DBA3D0Map : public DBA3D0MapBase
   public:
     ~DBA3D0Map() throw()
     {
-        ClearAndRelease((*static_cast<DBA3D0MemoryRouter*>(::FUN_00c85750())).heap());
+        ClearAndRelease(static_cast<DBA3D0Allocator&>(hkMemoryRouter::getInstance().heap()));
     }
 };
 
@@ -1189,23 +1155,6 @@ void DBB100WriteClassNames(const DBB100Registry* registry, const void** objects,
     FUN_00dbb100(registry, objects[1], writer);
 }
 
-struct hkMemoryAllocator
-{
-    virtual void vSlot00();
-    virtual void vSlot04();
-    virtual void vSlot08();
-    virtual void vSlot0C(void* field, void* item);
-    virtual void free(void* p, unsigned int nbytes);
-};
-struct AudioRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocator* unk10;
-};
-AudioRouter* __cdecl da06d0_getRouter();
 struct Elem
 {
     int unk00;
@@ -1242,12 +1191,11 @@ void __cdecl FUN_00da06d0(Buffer* self)
 {
     int* pSize = &self->m_iElementCount;
     int* piCapacity = &self->m_pRayCursor;
-    AudioRouter* router = da06d0_getRouter();
-    hkMemoryAllocator* alloc = router->unk10;
+    hkMemoryAllocator* alloc = hkMemoryRouter::getInstance().m_heap;
     int iCapacity = self->m_pRayCursor;
     *pSize = 0;
     if ((iCapacity & (int)0x80000000) == 0)
-        alloc->free(self->m_ppData, (iCapacity & 0x3fffffff) * sizeof(Elem));
+        alloc->_bufFree<Elem>(self->m_ppData, iCapacity & 0x3fffffff);
     *piCapacity = (int)0x80000000;
     self->m_ppData = 0;
 }
@@ -1329,32 +1277,14 @@ int __cdecl SweepCollidePairs(const SweepBounds* bounds, int count, SweepPair* p
     return int(out - pairs);
 }
 
-struct DBA430Listener
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0c();
-    virtual void vslot10(int a, int b);
-};
-
 struct DBA430Inner
 {
-};
-
-struct BSAudio
-{
-    virtual void vf00();
-    int unk04;
-    int unk08;
-    int unk0c;
-    DBA430Listener* m_10;
 };
 
 
 struct DBA430Owner
 {
-    int m_00;
+    void* m_00;
     int m_04;
     int m_08;
     DBA430Inner m_0C;
@@ -1366,10 +1296,9 @@ struct DBA430Owner
 void DBA430Owner::Reset()
 {
     DBA430Inner* p = &m_0C;
-    reinterpret_cast<::CB1A90Owner *>((p))->ProcessArgument((::CB1A90Argument *)(static_cast<BSAudio*>(::FUN_00c85750())->m_10));
+    reinterpret_cast<::CB1A90Owner *>((p))->ProcessArgument((::CB1A90Argument *)(hkMemoryRouter::getInstance().m_heap));
     ::FUN_00a29680();
-    BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
-    DBA430Listener* listener = audio->m_10;
+    hkMemoryAllocator* listener = hkMemoryRouter::getInstance().m_heap;
     m_04 = 0;
     if (!(m_08 & (int)0x80000000))
     {
@@ -1377,7 +1306,7 @@ void DBA430Owner::Reset()
         n = n + n;
         n = n + n;
         n = n + n;
-        listener->vslot10(m_00, n);
+        listener->bufFree(m_00, n);
     }
     m_08 = (int)0x80000000;
     m_00 = 0;
@@ -1599,22 +1528,6 @@ unsigned int* FUN_00da2b90_Obj::Initialize()
     return reinterpret_cast<unsigned int*>(this);
 }
 
-struct DA2D70Listener
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08(void* object, int value);
-};
-
-struct DA2D70Audio
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    DA2D70Listener* m_10;
-};
-
 struct DA2D70Object
 {
     int unk00;
@@ -1643,21 +1556,6 @@ void* __cdecl FUN_00da6e10(void* apUnused, void* b, void* c)
     return FUN_00da3510(b, c);
 }
 
-
-struct Allocator
-{
-    virtual void Reserved();
-    virtual void* Alloc(unsigned int bytes);
-};
-
-struct Manager
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    Allocator* heap;
-};
 
 struct SubObject
 {
@@ -1699,8 +1597,7 @@ struct CreatedObject
 // @fnv 0x00db79c0
 void* __cdecl FUN_00db79c0()
 {
-    Manager* manager = (Manager*)static_cast<BSAudio*>(::FUN_00c85750());
-    CreatedObject* object = (CreatedObject*)manager->heap->Alloc(0x20);
+    CreatedObject* object = (CreatedObject*)hkMemoryRouter::getInstance().heap().blockAlloc(0x20);
     object->Init();
     return object;
 }
@@ -2101,55 +1998,29 @@ void __cdecl RadixSort(RadixRecord* records, int count, RadixRecord* scratch)
     }
     if (count > 0)
     {
-        const unsigned char* key = reinterpret_cast<const unsigned char*>(records) + 2;
-        int diff = reinterpret_cast<const char*>(scratch) - reinterpret_cast<const char*>(records);
+        const RadixRecord* rec = records;
         unsigned int blocks = (static_cast<unsigned int>(count - 1) >> 2) + 1;
         do
         {
+            for (int k = 0; k < 2; ++k)
             {
-                unsigned int byte0 = key[-2];
-                unsigned int byte1 = key[-1];
-                unsigned int byte2 = key[0];
-                unsigned int byte3 = key[1];
-                ++histogram0[byte0];
-                ++histogram1[byte1];
-                ++histogram2[byte2];
-                ++histogram3[byte3];
+                unsigned int key = rec[k].key;
+                ++histogram0[key & 0xff];
+                ++histogram1[(key >> 8) & 0xff];
+                ++histogram2[(key >> 16) & 0xff];
+                ++histogram3[key >> 24];
             }
+            _mm_prefetch(reinterpret_cast<const char*>(scratch + (rec - records) + 128), 0);
+            _mm_prefetch(reinterpret_cast<const char*>(rec + 128), 0);
+            for (int k = 2; k < 4; ++k)
             {
-                unsigned int byte0 = key[6];
-                unsigned int byte1 = key[7];
-                unsigned int byte2 = key[8];
-                unsigned int byte3 = key[9];
-                ++histogram0[byte0];
-                ++histogram1[byte1];
-                ++histogram2[byte2];
-                ++histogram3[byte3];
+                unsigned int key = rec[k].key;
+                ++histogram0[key & 0xff];
+                ++histogram1[(key >> 8) & 0xff];
+                ++histogram2[(key >> 16) & 0xff];
+                ++histogram3[key >> 24];
             }
-            const char* ahead = reinterpret_cast<const char*>(key) + 1022;
-            _mm_prefetch(ahead + diff, 0);
-            _mm_prefetch(ahead, 0);
-            {
-                unsigned int byte0 = key[14];
-                unsigned int byte1 = key[15];
-                unsigned int byte2 = key[16];
-                unsigned int byte3 = key[17];
-                ++histogram0[byte0];
-                ++histogram1[byte1];
-                ++histogram2[byte2];
-                ++histogram3[byte3];
-            }
-            {
-                unsigned int byte0 = key[22];
-                unsigned int byte1 = key[23];
-                unsigned int byte2 = key[24];
-                unsigned int byte3 = key[25];
-                ++histogram0[byte0];
-                ++histogram1[byte1];
-                ++histogram2[byte2];
-                ++histogram3[byte3];
-            }
-            key += 32;
+            rec += 4;
         } while (--blocks);
     }
     cursor0[0] = scratch;
@@ -2166,22 +2037,22 @@ void __cdecl RadixSort(RadixRecord* records, int count, RadixRecord* scratch)
     for (int i = 0; i < count; i += 4)
     {
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 0].key)[0];
+            unsigned int bucket = ((records[i + 0].key >> 0) & 0xff);
             *cursor0[bucket] = records[i + 0];
             cursor0[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 1].key)[0];
+            unsigned int bucket = ((records[i + 1].key >> 0) & 0xff);
             *cursor0[bucket] = records[i + 1];
             cursor0[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 2].key)[0];
+            unsigned int bucket = ((records[i + 2].key >> 0) & 0xff);
             *cursor0[bucket] = records[i + 2];
             cursor0[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 3].key)[0];
+            unsigned int bucket = ((records[i + 3].key >> 0) & 0xff);
             *cursor0[bucket] = records[i + 3];
             cursor0[bucket] += 1;
         }
@@ -2189,22 +2060,22 @@ void __cdecl RadixSort(RadixRecord* records, int count, RadixRecord* scratch)
     for (int i = 0; i < count; i += 4)
     {
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 0].key)[1];
+            unsigned int bucket = ((scratch[i + 0].key >> 8) & 0xff);
             *cursor1[bucket] = scratch[i + 0];
             cursor1[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 1].key)[1];
+            unsigned int bucket = ((scratch[i + 1].key >> 8) & 0xff);
             *cursor1[bucket] = scratch[i + 1];
             cursor1[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 2].key)[1];
+            unsigned int bucket = ((scratch[i + 2].key >> 8) & 0xff);
             *cursor1[bucket] = scratch[i + 2];
             cursor1[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 3].key)[1];
+            unsigned int bucket = ((scratch[i + 3].key >> 8) & 0xff);
             *cursor1[bucket] = scratch[i + 3];
             cursor1[bucket] += 1;
         }
@@ -2212,22 +2083,22 @@ void __cdecl RadixSort(RadixRecord* records, int count, RadixRecord* scratch)
     for (int i = 0; i < count; i += 4)
     {
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 0].key)[2];
+            unsigned int bucket = ((records[i + 0].key >> 16) & 0xff);
             *cursor2[bucket] = records[i + 0];
             cursor2[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 1].key)[2];
+            unsigned int bucket = ((records[i + 1].key >> 16) & 0xff);
             *cursor2[bucket] = records[i + 1];
             cursor2[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 2].key)[2];
+            unsigned int bucket = ((records[i + 2].key >> 16) & 0xff);
             *cursor2[bucket] = records[i + 2];
             cursor2[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 3].key)[2];
+            unsigned int bucket = ((records[i + 3].key >> 16) & 0xff);
             *cursor2[bucket] = records[i + 3];
             cursor2[bucket] += 1;
         }
@@ -2235,22 +2106,22 @@ void __cdecl RadixSort(RadixRecord* records, int count, RadixRecord* scratch)
     for (int i = 0; i < count; i += 4)
     {
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 0].key)[3];
+            unsigned int bucket = ((scratch[i + 0].key >> 24) & 0xff);
             *cursor3[bucket] = scratch[i + 0];
             cursor3[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 1].key)[3];
+            unsigned int bucket = ((scratch[i + 1].key >> 24) & 0xff);
             *cursor3[bucket] = scratch[i + 1];
             cursor3[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 2].key)[3];
+            unsigned int bucket = ((scratch[i + 2].key >> 24) & 0xff);
             *cursor3[bucket] = scratch[i + 2];
             cursor3[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 3].key)[3];
+            unsigned int bucket = ((scratch[i + 3].key >> 24) & 0xff);
             *cursor3[bucket] = scratch[i + 3];
             cursor3[bucket] += 1;
         }
@@ -2342,7 +2213,7 @@ __declspec(noinline) int Holder::FindOrAddCallTrace(int* buffer, int count)
 int Holder::FUN_00da2d20(ArgObj* param)
 {
     int buffer[0x40];
-    int count = ::FUN_00da2b20((intptr_t)(param), (intptr_t)(buffer));
+    int count = (int)::FUN_00da2b20((intptr_t)(param), (intptr_t)(buffer));
     if (count > 0)
         return reinterpret_cast<::S_00da2bd0_CallTree *>(this)->FindOrAddCallTrace((const unsigned int *)(int *)(buffer + 1), count - 1);
     return 0;
@@ -2358,11 +2229,15 @@ struct Record
     unsigned char m_ucSize;
     int m_iKey1;
     int m_iKey2;
+    int unk0c;
 };
 
 struct Block
 {
     int m_uiLogicalSize;
+    int unk04;
+    int unk08;
+    int unk0c;
 };
 
 // Searches blocks for a record matching iKey1 and iKey2, sets *ppvData to the record data, and returns the record or null.
@@ -2371,8 +2246,8 @@ Record* FindRecordByKey(Block*** pppBlocks, int iKey1, int iKey2, void** ppvData
 {
     Block** ppBlock = *pppBlocks;
     Block* pkBlock = *ppBlock;
-    Record* pkRecord = (Record*)((char*)pkBlock + 0x10);
-    Record* pkEnd = (Record*)((char*)pkBlock + pkBlock->m_uiLogicalSize + 0x10);
+    Record* pkRecord = (Record*)(pkBlock + 1);
+    Record* pkEnd = (Record*)((char*)(pkBlock + 1) + pkBlock->m_uiLogicalSize);
     ++ppBlock;
     for (;;)
     {
@@ -2387,7 +2262,7 @@ Record* FindRecordByKey(Block*** pppBlocks, int iKey1, int iKey2, void** ppvData
         case 10:
         case 11:
         case 14:
-            pvData = (char*)pkRecord + 0x10;
+            pvData = pkRecord + 1;
             if (pkRecord->m_iKey2 == iKey2 && pkRecord->m_iKey1 == iKey1)
             {
                 *ppvData = pvData;
@@ -2398,7 +2273,7 @@ Record* FindRecordByKey(Block*** pppBlocks, int iKey1, int iKey2, void** ppvData
         case 5:
         case 12:
         case 13:
-            pvData = (char*)pkRecord + 0x20;
+            pvData = pkRecord + 2;
             if (pkRecord->m_iKey2 == iKey2 && pkRecord->m_iKey1 == iKey1)
             {
                 *ppvData = pvData;
@@ -2415,8 +2290,8 @@ Record* FindRecordByKey(Block*** pppBlocks, int iKey1, int iKey2, void** ppvData
         if (pkRecord >= pkEnd)
         {
             pkBlock = *ppBlock;
-            pkRecord = (Record*)((char*)pkBlock + 0x10);
-            pkEnd = (Record*)((char*)pkBlock + pkBlock->m_uiLogicalSize + 0x10);
+            pkRecord = (Record*)(pkBlock + 1);
+            pkEnd = (Record*)((char*)(pkBlock + 1) + pkBlock->m_uiLogicalSize);
             ++ppBlock;
         }
     }
@@ -2436,35 +2311,6 @@ void __cdecl FUN_00da6dc0(void* aUnused, void* arg2, void* arg3, void* arg4, voi
 void __cdecl FUN_00da82c0()
 {}
 
-struct S06c0_Alloc
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual void* AllocateBufferWithSize(int& bytes);
-    virtual void ReturnMemory(void* memory, int bytes);
-
-    template <class T> __forceinline T* bufAllocT(int& num)
-    {
-        int bytes = num * (int)sizeof(T);
-        T* p = static_cast<T*>(AllocateBufferWithSize(bytes));
-        num = bytes / (int)sizeof(T);
-        return p;
-    }
-};
-struct S06c0_Mgr
-{
-    int unk00, unk04, unk08;
-    S06c0_Alloc* unk0c;
-    S06c0_Alloc& heap()
-    {
-        return *unk0c;
-    }
-};
-inline S06c0_Mgr* s06c0_mgr()
-{
-    return (S06c0_Mgr*)static_cast<BSAudio*>(::FUN_00c85750());
-}
 struct S06c0_Key
 {
     unsigned int key;
@@ -2481,12 +2327,12 @@ struct S06c0_Rec
 
 template <class T> __forceinline void s06c0_allocArray(int n, int& capacity, T*& data)
 {
-    S06c0_Alloc& a = s06c0_mgr()->heap();
+    hkMemoryAllocator& a = hkMemoryRouter::getInstance().temp();
     int num;
     if (n)
     {
         num = n;
-        data = a.bufAllocT<T>(num);
+        data = a._bufAlloc<T>(num);
     }
     else
     {
@@ -2497,9 +2343,9 @@ template <class T> __forceinline void s06c0_allocArray(int n, int& capacity, T*&
 }
 template <class T> __forceinline void s06c0_freeArray(T* data, int capacity)
 {
-    S06c0_Alloc& a = s06c0_mgr()->heap();
+    hkMemoryAllocator& a = hkMemoryRouter::getInstance().temp();
     if (!(capacity & 0x80000000))
-        a.ReturnMemory(data, (capacity & 0x3fffffff) * sizeof(T));
+        a._bufFree<T>(data, capacity & 0x3fffffff);
 }
 inline void s06c0_memCpy16NonEmpty(void* dst, const void* src, int numQuads)
 {
@@ -2696,7 +2542,7 @@ struct S_00db7c70_class
 // @fnv 0x00db7c90
 void SpawnedOuter::ForwardToInner(__int64 v)
 {
-    reinterpret_cast<::S_00db7c70_class *>((m_08))->FUN_00db7c70(v, {});
+    reinterpret_cast<::S_00db7c70_class *>((m_08))->FUN_00db7c70((int)v, (int)(v >> 32));
 }
 
 // @fnv 0x00db7c70
@@ -2880,11 +2726,6 @@ struct S00da6eb0_Ctx
     S00da6eb0_Router* m_pRouter;
 };
 
-struct S00da6eb0_Alloc
-{
-    char* m_pCur;
-};
-
 extern char str_010d50b8[];
 
 extern "C" void _ReadWriteBarrier(void);
@@ -2899,7 +2740,7 @@ inline void S00da6eb0_TimerMark(const char* pName)
     {
         pCur->m_pName = pName;
         _ReadWriteBarrier();
-        volatile unsigned int t = __rdtsc();
+        volatile unsigned int t = (unsigned int)__rdtsc();
         pCur->m_uiEventId = t;
         ++pCur;
         pBuf->m_pCur = pCur;
@@ -2912,6 +2753,14 @@ inline void* S00da6eb0_ListData(S00da6eb0_List* pList)
 }
 
 // Builds an index array from set bits in the router's hash table, passes it to FUN_00da4aa0, and returns an offset from a3.
+struct DA6EB0Out
+{
+    void* m_pSectors;
+    int m_iSize;
+    int m_iCapacityAndFlags;
+    int unk0c;
+    char m_kNext[1];
+};
 // @fnv 0x00da6eb0
 void* __cdecl BuildEventIndex(void* apCtx, void* apUnused, void* apOut, void* apUnused2, void* a5)
 {
@@ -2920,10 +2769,7 @@ void* __cdecl BuildEventIndex(void* apCtx, void* apUnused, void* apOut, void* ap
     S00da6eb0_List* pList = static_cast<S00da6eb0_Ctx*>(apCtx)->m_pRouter->m_pEntries;
     int iSize = pList->m_uiSize;
 
-    S00da6eb0_Alloc* pAlloc = reinterpret_cast<S00da6eb0_Alloc*>(static_cast<BSAudio*>(::FUN_00c85750()));
-    unsigned int* pEventIndex = reinterpret_cast<unsigned int*>(pAlloc->m_pCur);
-
-    pAlloc->m_pCur += (iSize * 4 + 0x83) & 0xffffff80;
+    unsigned int* pEventIndex = static_cast<unsigned int*>(hkMemoryRouter::getInstance().allocateStack(int((iSize * 4 + 0x83) & 0xffffff80)));
 
     unsigned int iIndexCount = 0;
     unsigned int uiBitMask = 1;
@@ -2944,9 +2790,9 @@ void* __cdecl BuildEventIndex(void* apCtx, void* apUnused, void* apOut, void* ap
 
     S00da6eb0_TimerMark(::DAT_010c41f8);
 
-    reinterpret_cast<S00da6eb0_Alloc*>(static_cast<BSAudio*>(::FUN_00c85750()))->m_pCur = reinterpret_cast<char*>(pEventIndex);
+    hkMemoryRouter::getInstance().deallocateStack(pEventIndex);
 
-    return reinterpret_cast<char*>(apOut) + 0x10;
+    return static_cast<DA6EB0Out*>(apOut)->m_kNext;
 }
 
 namespace CleanSimd {
@@ -3521,9 +3367,8 @@ void* DA2D70Object::NotifyAudioListener(int flags)
 
     if (flags & 1)
     {
-        DA2D70Audio* audio = reinterpret_cast<DA2D70Audio*>(static_cast<BSAudio*>(::FUN_00c85750()));
-        DA2D70Listener* listener = audio->m_10;
-        listener->vf08(this, static_cast<int>(unk04));
+        hkMemoryAllocator* listener = hkMemoryRouter::getInstance().m_heap;
+        listener->blockFree(this, static_cast<int>(unk04));
     }
 
     return this;
@@ -4077,26 +3922,6 @@ static int* FUN_00db0db0(unsigned int a);
 
 int* stub_caller(void);
 
-class hkMemoryAllocatorDA24
-{
-  public:
-    virtual ~hkMemoryAllocatorDA24() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytes) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterDA24
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorDA24* m_pStreamAllocator;
-    hkMemoryAllocatorDA24& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 namespace hkRouterDA24 {
 }
 
@@ -4126,19 +3951,19 @@ template <class T> class hkArrayDA24
         return m_iCapacityState & CAPACITY_MASK;
     }
 
-    __forceinline void _clearAndDeallocate(hkMemoryAllocatorDA24& alloc)
+    __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
         hkArrayUtilDA24::destruct(m_data, m_iElementCount);
         m_iElementCount = 0;
         if ((m_iCapacityState & DONT_DEALLOCATE_FLAG) == 0)
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+            alloc._bufFree<T>(m_data, getCapacity());
         m_data = 0;
         m_iCapacityState = DONT_DEALLOCATE_FLAG;
     }
 
     ~hkArrayDA24() throw()
     {
-        _clearAndDeallocate((*static_cast<hkMemoryRouterDA24*>(::FUN_00c85750())).heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 
     hkArrayDA24() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(DONT_DEALLOCATE_FLAG)

@@ -71,13 +71,13 @@ void FUN_00d97710_class::ClearEntryByKey(int key)
 struct DrawParams
 {
     intptr_t m_i00;
-    intptr_t m_i04;
+    int m_i04;
     int unk08;
     int m_i0c;
     int m_iArrayLength;
     int unk14;
-    intptr_t m_i18;
-    int m_i1c;
+    int m_i18;
+    intptr_t m_i1c;
 };
 
 
@@ -86,7 +86,7 @@ struct DrawParams
 void __cdecl DrawIfCountPositive(void* apTarget, DrawParams* apParams)
 {
     if (apParams->m_iArrayLength > 0)
-        ::MixChannels(apTarget, (int *)(apParams->m_i00), apParams->m_i1c, (void *)(apParams->m_i04), apParams->m_iArrayLength, (int *)(apParams->m_i18),
+        ::MixChannels(apTarget, (int *)(apParams->m_i00), apParams->m_i1c, apParams->m_i04, apParams->m_iArrayLength, apParams->m_i18,
                     &apParams->m_i0c);
 }
 

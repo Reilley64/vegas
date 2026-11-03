@@ -12,7 +12,7 @@ PFN DAT_0126fa84;
 PFN DAT_0126fa88;
 PFN DAT_0126fa8c;
 PFN DAT_0126fa90;
-bool (**DAT_0126fa94)(float, void *, unsigned int, void *, unsigned int);
+bool (**DAT_0126fa94)(float, void *, uintptr_t, void *, uintptr_t);
 int (**DAT_0126fa98)(float, void *, int, void *, int, int, int, int, int, int);
 void (**DAT_0126fa9c)(float, DispatchObj_b4010 *, int, int, int, int, int);
 void **DAT_0126faa0;

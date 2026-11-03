@@ -869,7 +869,7 @@ extern "C" void fnv_fn_00c89d10() __asm__("?FUN_00c89d10@FUN_00c89d10_cls@fnv_00
 extern "C" void fnv_fn_00c89dd0() __asm__("?SpawnAndAttach@Dispatch_00c89dd0@@QEAAXH@Z");
 extern "C" void fnv_fn_00c89ec0() __asm__("?FUN_00c89ec0@S00c89ec0_cls@@QEAA_NXZ");
 extern "C" void fnv_fn_00c89f90() __asm__("?AddOrRemoveConstraint@AttachObject@@QEAA_NPEAU1@_N@Z");
-extern "C" void fnv_fn_00c8a1b0() __asm__("?ReleaseObject@FUN_009ba5f0_shell@@QEAAXPEAUhkReferencedObject@@H@Z");
+extern "C" void fnv_fn_00c8a1b0() __asm__("?ReleaseObject@FUN_009ba5f0_shell@@QEAAXPEAUhkReferencedObject@@_J@Z");
 extern "C" void fnv_fn_00c8a230() __asm__("?FUN_00c8a230@FUN_00d53200_class@@QEAAXAEAUNiStream@@@Z");
 extern "C" void fnv_fn_00c8a280() __asm__("?FUN_00c8a280@S_00c8a280_Obj@@QEAAXAEAUS_00c8a280_Stream@@@Z");
 extern "C" void fnv_fn_00c8a560() __asm__("?FUN_00c8a560@ViewerConstraint@@QEAAXPEAVBC8AD40StringArray@@@Z");

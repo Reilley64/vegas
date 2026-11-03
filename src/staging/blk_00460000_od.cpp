@@ -4217,7 +4217,7 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
                             ::fnv_00562020::FUN_00562020((::TESObjectREFR *)(ref));
                         }
                     }
-                    ::FUN_00c6a270((int)(intptr_t)(q), true, true, 0);
+                    ::FUN_00c6a270((intptr_t)(q), true, true, 0);
                 }
                 if (total)
                     reinterpret_cast<::FUN_004778a0_cls *>(this)->ReleaseScriptRunLock();

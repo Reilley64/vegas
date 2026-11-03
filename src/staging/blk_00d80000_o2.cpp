@@ -1,5 +1,6 @@
 // staging/blk_00d80000_o2.cpp: IdxStand_, ObjD9A4, MonitorBuffer (124 functions)
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include <xmmintrin.h>
 #include <emmintrin.h>
 #include <cstdint>
@@ -11,6 +12,8 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include "havok/hkpConstraintInstance.h"
+#include "fnv/decl/FUN_00d61680_Obj.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00cb9090.h"
@@ -91,15 +94,16 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_00d1c000.h"
 #include "fnv/decl/FUN_009ba5f0_shell.h"
+#include "fnv/tls.h"
 #include "fnv/symbols_01272000.h"
 
 extern int DAT_010cc4f4;
 
 // @fnv 0x00d9f6d0
-void __cdecl FUN_00d9f6d0(int* p)
+void __cdecl FUN_00d9f6d0(void** p)
 {
     if (p)
-        *p = (int)&DAT_010cc4f4;
+        *p = (void*)&DAT_010cc4f4;
 }
 
 struct FUN_00d85300_Stub {
@@ -108,25 +112,32 @@ struct FUN_00d85300_Stub {
 struct FUN_00d85a20_Stub : FUN_00d85300_Stub {
     int* CopyStateFrom(int* p);
 };
+// The state FUN_00d85a20 copies after the base part (FUN_00d85300 copies up to 0x90).
+struct D85A20State {
+    char pad00[0x90];
+    int m_ai90[15];
+};
 // @fnv 0x00d85a20
 int* FUN_00d85a20_Stub::CopyStateFrom(int* p)
 {
     reinterpret_cast<::StandinClass *>(this)->FUN_00d85300((const ::StandinClass *)(p));
-    *(int*)((char*)this + 0x90) = *(int*)((char*)p + 0x90);
-    *(int*)((char*)this + 0x94) = *(int*)((char*)p + 0x94);
-    *(int*)((char*)this + 0x98) = *(int*)((char*)p + 0x98);
-    *(int*)((char*)this + 0x9c) = *(int*)((char*)p + 0x9c);
-    *(int*)((char*)this + 0xa0) = *(int*)((char*)p + 0xa0);
-    *(int*)((char*)this + 0xa4) = *(int*)((char*)p + 0xa4);
-    *(int*)((char*)this + 0xa8) = *(int*)((char*)p + 0xa8);
-    *(int*)((char*)this + 0xac) = *(int*)((char*)p + 0xac);
-    *(int*)((char*)this + 0xb0) = *(int*)((char*)p + 0xb0);
-    *(int*)((char*)this + 0xb4) = *(int*)((char*)p + 0xb4);
-    *(int*)((char*)this + 0xb8) = *(int*)((char*)p + 0xb8);
-    *(int*)((char*)this + 0xbc) = *(int*)((char*)p + 0xbc);
-    *(int*)((char*)this + 0xc0) = *(int*)((char*)p + 0xc0);
-    *(int*)((char*)this + 0xc4) = *(int*)((char*)p + 0xc4);
-    *(int*)((char*)this + 0xc8) = *(int*)((char*)p + 0xc8);
+    D85A20State* dst = reinterpret_cast<D85A20State*>(this);
+    const D85A20State* src = reinterpret_cast<const D85A20State*>(p);
+    dst->m_ai90[0] = src->m_ai90[0];
+    dst->m_ai90[1] = src->m_ai90[1];
+    dst->m_ai90[2] = src->m_ai90[2];
+    dst->m_ai90[3] = src->m_ai90[3];
+    dst->m_ai90[4] = src->m_ai90[4];
+    dst->m_ai90[5] = src->m_ai90[5];
+    dst->m_ai90[6] = src->m_ai90[6];
+    dst->m_ai90[7] = src->m_ai90[7];
+    dst->m_ai90[8] = src->m_ai90[8];
+    dst->m_ai90[9] = src->m_ai90[9];
+    dst->m_ai90[10] = src->m_ai90[10];
+    dst->m_ai90[11] = src->m_ai90[11];
+    dst->m_ai90[12] = src->m_ai90[12];
+    dst->m_ai90[13] = src->m_ai90[13];
+    dst->m_ai90[14] = src->m_ai90[14];
     return (int*)this;
 }
 
@@ -150,6 +161,9 @@ public:
     unsigned int unk10;
     unsigned int unk14;
     FNVDispatchNode* m_18;
+    unsigned int unk1C;
+    char m_ac20[0x30];
+    char m_c50;
 };
 
 // @fnv 0x00d84ca0
@@ -159,11 +173,11 @@ char* GetDispatchTarget(FNVDispatchNode* pNode)
     while (idx <= 0xf) {
         switch (idx) {
         case 0:
-            return (char*)pNode + 0x20;
+            return pNode->m_ac20;
         case 1:
-            return (char*)pNode + 0x50;
+            return &pNode->m_c50;
         case 2:
-            return (char*)pNode + 0x50;
+            return &pNode->m_c50;
         case 3:
             return &(*reinterpret_cast<char *>(&::DAT_01267e30));
         case 4:
@@ -171,13 +185,13 @@ char* GetDispatchTarget(FNVDispatchNode* pNode)
         case 5:
             return &(*reinterpret_cast<char *>(&::DAT_01267e30));
         case 6:
-            return (char*)pNode + 0x50;
+            return &pNode->m_c50;
         case 7:
-            return (char*)pNode + 0x50;
+            return &pNode->m_c50;
         case 8:
-            return (char*)pNode + 0x20;
+            return pNode->m_ac20;
         case 9:
-            return (char*)pNode + 0x50;
+            return &pNode->m_c50;
         case 10:
             return &(*reinterpret_cast<char *>(&::DAT_01267e30));
         case 11:
@@ -189,9 +203,9 @@ char* GetDispatchTarget(FNVDispatchNode* pNode)
             pNode = ((::FNVDispatchNode *)(reinterpret_cast<::FUN_00cdf6d0_t *>((pNode))->FUN_00cdf6d0()));
             break;
         case 14:
-            return (char*)pNode + 0x50;
+            return &pNode->m_c50;
         case 15:
-            return (char*)pNode + 0x20;
+            return pNode->m_ac20;
         default:
             return &(*reinterpret_cast<char *>(&::DAT_01267e30));
         }
@@ -199,19 +213,6 @@ char* GetDispatchTarget(FNVDispatchNode* pNode)
     }
     return &(*reinterpret_cast<char *>(&::DAT_01267e30));
 }
-
-struct AllocIface {
-    virtual void unk00();
-    virtual void* Alloc(unsigned int size);
-};
-
-struct AllocHolder {
-    intptr_t unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AllocIface* m_pAllocator;
-};
 
 
 struct FUN_00d85360_cls {
@@ -242,28 +243,15 @@ struct FUN_00d85360_cls {
 // @fnv 0x00d85360
 FUN_00d85360_cls* __cdecl FUN_00d85360(intptr_t pSource)
 {
-    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-    FUN_00d85360_cls* obj = (FUN_00d85360_cls*)holder->m_pAllocator->Alloc(0x50);
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    FUN_00d85360_cls* obj = (FUN_00d85360_cls*)holder->m_heap->blockAlloc(0x50);
     obj->m_w04 = 0x50;
     obj = ((::FUN_00d85360_cls *)(new ((void *)(obj)) ::FUN_00d54290()));
-    FUN_00cb1260((char*)&obj->m_i10, (char*)pSource + 0x10, 0x38);
+    FUN_00cb1260((char*)&obj->m_i10, (char*)&((FUN_00d85360_cls*)pSource)->m_i10, 0x38);
     return obj;
 }
 
 namespace fnv_00d853a0 {
-struct AllocIface {
-    virtual void unk00();
-    virtual void* Alloc(unsigned int size);
-};
-
-struct AllocHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AllocIface* m_pAllocator;
-};
-
 
 struct FUN_00d853a0_cls {
     void* m_vptr;
@@ -318,59 +306,37 @@ struct FUN_00d853a0_cls {
 // @fnv 0x00d853a0
 FUN_00d853a0_cls* __cdecl FUN_00d853a0(intptr_t a1)
 {
-    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-    FUN_00d853a0_cls* obj = (FUN_00d853a0_cls*)holder->m_pAllocator->Alloc(0xb0);
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    FUN_00d853a0_cls* obj = (FUN_00d853a0_cls*)holder->m_heap->blockAlloc(0xb0);
     obj->m_w04 = 0xb0;
     obj = ((::fnv_00d853a0::FUN_00d853a0_cls *)(reinterpret_cast<::S00cbe7b0_Obj *>((obj))->FUN_00cbe7b0()));
-    FUN_00cb1260((char*)&obj->m_i10, (char*)a1 + 0x10, 0x9c);
+    FUN_00cb1260((char*)&obj->m_i10, (char*)&((FUN_00d853a0_cls*)a1)->m_i10, 0x9c);
     return obj;
 }
 }  // namespace fnv_00d853a0
 
 namespace fnv_00d853f0 {
-struct MemAllocD853 {
-    virtual void v0();
-    virtual void* Alloc(unsigned int uiSize);
-};
-struct SingD853 {
-    char pad000[0x10];
-    MemAllocD853* m_pAllocationContext;
-};
 struct ObjD853 {
     void* m_vtbl;
     unsigned short m_usSize;
     char pad006[0x0a];
+    char m_ac10[0xcc];
 };
 
 // @fnv 0x00d853f0
 ObjD853* __cdecl FUN_00d853f0(char* pSource)
 {
-    SingD853* pSingleton = static_cast<SingD853*>(::FUN_00c85750());
-    MemAllocD853* pAllocator = pSingleton->m_pAllocationContext;
-    ObjD853* pObj = (ObjD853*)pAllocator->Alloc(0xe0);
+    hkMemoryRouter* pSingleton = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator = pSingleton->m_heap;
+    ObjD853* pObj = (ObjD853*)pAllocator->blockAlloc(0xe0);
     pObj->m_usSize = 0xe0;
     ObjD853* pResult = ((::fnv_00d853f0::ObjD853 *)(new ((void *)(pObj)) ::FUN_00cb9090()));
-    FUN_00cb1260((char*)pResult + 0x10, pSource + 0x10, 0xcc);
+    FUN_00cb1260(pResult->m_ac10, reinterpret_cast<ObjD853*>(pSource)->m_ac10, 0xcc);
     return pResult;
 }
 }  // namespace fnv_00d853f0
 
 namespace fnv_00d85440 {
-struct D85440Allocator {
-    virtual void unk00();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
-
-struct D85440MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    D85440Allocator* m_pStreamAllocator;
-
-    D85440Allocator& heap() { return *m_pStreamAllocator; }
-};
-
 
 void D85440MemCpy(void* dst, const void* src, int nbytes);
 
@@ -378,7 +344,7 @@ class D85440ReferencedObject {
 public:
     static void* operator new(std::size_t nbytes)
     {
-        D85440ReferencedObject* b = static_cast<D85440ReferencedObject*>((*static_cast<D85440MemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
+        D85440ReferencedObject* b = static_cast<D85440ReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
@@ -422,19 +388,6 @@ D85440Shape* CloneShape(const D85440Shape* pkSource)
 namespace fnv_00d85490 {
 extern int DAT_010cc4f4;
 
-struct FUN_00d85490_Allocator {
-    virtual void FUN_00d85490_Alloc0();
-    virtual void* FUN_00d85490_Alloc1(unsigned int size);
-};
-
-struct FUN_00d85490_Manager {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    FUN_00d85490_Allocator* unk10;
-};
-
 struct FUN_00d4fe80_Stub {
     int unk00;
     unsigned short unk04;
@@ -447,18 +400,18 @@ struct FUN_00d4fe80_Stub {
 // @fnv 0x00d85490
 void* __cdecl CloneAllocatedObject(int* source)
 {
-    FUN_00d85490_Manager* manager =
-        reinterpret_cast<FUN_00d85490_Manager*>(FUN_00c85750());
+    hkMemoryRouter* manager =
+        &hkMemoryRouter::getInstance();
     FUN_00d4fe80_Stub* result =
         reinterpret_cast<FUN_00d4fe80_Stub*>(
-            manager->unk10->FUN_00d85490_Alloc1(0xD0));
+            manager->m_heap->blockAlloc(0xD0));
 
     result->unk04 = 0xD0;
     result = reinterpret_cast<FUN_00d4fe80_Stub*>(((void *)(new ((void *)(result)) ::FUN_00d4fe80())));
 
     FUN_00cb1260(
         reinterpret_cast<unsigned char*>(&result->unk10),
-        reinterpret_cast<const unsigned char*>(source) + 0x10,
+        reinterpret_cast<const unsigned char*>(&reinterpret_cast<FUN_00d4fe80_Stub*>(source)->unk10),
         0xC0);
 
     return result;
@@ -470,7 +423,7 @@ namespace fnv_00d854e0 {
 //
 // Reconstructed behavior:
 //   A* a          = FUN_00c85750();              // cdecl, no args
-//   C* obj        = a->unk10->Create(0x140);     // virtual slot +4,
+//   C* obj        = a->m_heap->blockAlloc(0x140);     // virtual slot +4,
 //   obj->unk04    = 0x140;                       // u16 field at +4
 //   D* result     = obj->FUN_00cdf2f0();         // , no stack args
 //   FUN_00cb1260(&result->unk10, &src->unk10, 0x130);  // cdecl, 3 args
@@ -480,19 +433,6 @@ struct C_Stub;
 struct D_Stub;
 
 // polymorphic stand-in reached through A_Stub::unk10; Create sits in vtable slot +4
-struct B_Stub {
-    virtual void* virt0();
-    virtual C_Stub* Create(int size);
-};
-
-struct A_Stub {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    B_Stub* unk10;
-};
-
 struct C_Stub {
     int unk00;
     unsigned short unk04;
@@ -517,12 +457,12 @@ struct Src_Stub {
 };
 
 
-// Allocates a 0x140-byte object via a->unk10->Create, sets its unk04 to 0x140, then copies 0x130 bytes from src->unk10 into the result's unk10 and returns it.
+// Allocates a 0x140-byte object via the heap allocator's blockAlloc, sets its unk04 to 0x140, then copies 0x130 bytes from src->unk10 into the result's unk10 and returns it.
 // @fnv 0x00d854e0
 D_Stub* __cdecl CloneStub(Src_Stub* src)
 {
-    A_Stub* a = static_cast<A_Stub*>(::FUN_00c85750());
-    C_Stub* obj = a->unk10->Create(0x140);
+    hkMemoryRouter* a = &hkMemoryRouter::getInstance();
+    C_Stub* obj = static_cast<C_Stub*>(a->m_heap->blockAlloc(0x140));
     obj->unk04 = 0x140;
     D_Stub* result = ((::fnv_00d854e0::D_Stub *)(new ((void *)(obj)) ::FUN_00cdf2f0()));
     FUN_00cb1260(&result->unk10, &src->unk10, 0x130);
@@ -531,19 +471,6 @@ D_Stub* __cdecl CloneStub(Src_Stub* src)
 }  // namespace fnv_00d854e0
 
 namespace fnv_00d85530 {
-struct SpawnedAllocator {
-    virtual void v00();
-    virtual void* Alloc(unsigned int size);
-};
-
-struct SpawnedHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    SpawnedAllocator* m_pAllocator;
-};
-
 struct SpawnedObject {
     int unk00;
     unsigned short m_usSize;
@@ -580,9 +507,9 @@ struct SpawnedSource {
 // @fnv 0x00d85530
 SpawnedObject* __cdecl FUN_00d85530(SpawnedSource* pSrc)
 {
-    SpawnedHolder* pHolder = static_cast<SpawnedHolder*>(::FUN_00c85750());
-    SpawnedAllocator* pAllocator = pHolder->m_pAllocator;
-    SpawnedObject* pObj = (SpawnedObject*)pAllocator->Alloc(0x50);
+    hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator = pHolder->m_heap;
+    SpawnedObject* pObj = (SpawnedObject*)pAllocator->blockAlloc(0x50);
     pObj->m_usSize = 0x50;
     pObj = ((::fnv_00d85530::SpawnedObject *)(new ((void *)(pObj)) ::FUN_00d4f0f0()));
     FUN_00cb1260(&pObj->unk10, (char*)&pSrc->unk10, 0x38);
@@ -591,19 +518,6 @@ SpawnedObject* __cdecl FUN_00d85530(SpawnedSource* pSrc)
 }  // namespace fnv_00d85530
 
 namespace fnv_00d85570 {
-struct AllocIface {
-    virtual void unk00();
-    virtual void* Alloc(unsigned int size);
-};
-
-struct AllocHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AllocIface* m_pAllocator;
-};
-
 
 struct FUN_00d85570_cls {
     void* m_vptr;
@@ -701,32 +615,21 @@ struct FUN_00d85570_cls {
 // @fnv 0x00d85570
 FUN_00d85570_cls* __cdecl CloneWithInit(intptr_t apSource)
 {
-    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-    FUN_00d85570_cls* obj = (FUN_00d85570_cls*)holder->m_pAllocator->Alloc(0x160);
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    FUN_00d85570_cls* obj = (FUN_00d85570_cls*)holder->m_heap->blockAlloc(0x160);
     obj->m_w04 = 0x160;
     obj = ((::fnv_00d85570::FUN_00d85570_cls *)(new ((void *)(obj)) ::FUN_00d4edc0()));
-    FUN_00cb1260((char*)&obj->m_i10, (char*)apSource + 0x10, 0x124);
+    FUN_00cb1260((char*)&obj->m_i10, (char*)&((FUN_00d85570_cls*)apSource)->m_i10, 0x124);
     return obj;
 }
 }  // namespace fnv_00d85570
 
 namespace fnv_00d855c0 {
-struct FUN_00d855c0_Factory {
-    virtual void FUN_00d85300_Unused() = 0;
-    virtual void* FUN_00d85300(int size);
-};
-
-struct FUN_00d855c0_Manager {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    FUN_00d855c0_Factory* unk10;
-};
-
 struct FUN_00d855c0_Data {
     int unk00;
     unsigned short unk04;
+    char pad06[0x0a];
+    unsigned char m_ac10[0x94];
 };
 
 extern "C" void* FUN_00d84bd0(void* object);
@@ -734,16 +637,16 @@ extern "C" void* FUN_00d84bd0(void* object);
 // @fnv 0x00d855c0
 void* __cdecl CloneDataBlock(void* source)
 {
-    FUN_00d855c0_Manager* manager = static_cast<FUN_00d855c0_Manager*>(::FUN_00c85750());
+    hkMemoryRouter* manager = &hkMemoryRouter::getInstance();
     FUN_00d855c0_Data* data = static_cast<FUN_00d855c0_Data*>(
-        manager->unk10->FUN_00d85300(0xB0));
+        manager->m_heap->blockAlloc(0xB0));
 
     data->unk04 = 0xB0;
 
     void* result = FUN_00d84bd0(data);
     FUN_00cb1260(
-        static_cast<unsigned char*>(result) + 0x10,
-        static_cast<unsigned char*>(source) + 0x10,
+        static_cast<FUN_00d855c0_Data*>(result)->m_ac10,
+        static_cast<FUN_00d855c0_Data*>(source)->m_ac10,
         0x94);
 
     return result;
@@ -751,19 +654,6 @@ void* __cdecl CloneDataBlock(void* source)
 }  // namespace fnv_00d855c0
 
 namespace fnv_00d85610 {
-struct AllocIface {
-    virtual void unk00();
-    virtual void* Alloc(unsigned int size);
-};
-
-struct AllocHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AllocIface* m_pAllocator;
-};
-
 
 struct FUN_00d85610_cls {
     void* m_vptr;
@@ -806,29 +696,16 @@ struct FUN_00d85610_cls {
 // @fnv 0x00d85610
 FUN_00d85610_cls* __cdecl CloneWithCopiedPayload(intptr_t apSource)
 {
-    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-    FUN_00d85610_cls* obj = (FUN_00d85610_cls*)holder->m_pAllocator->Alloc(0x80);
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    FUN_00d85610_cls* obj = (FUN_00d85610_cls*)holder->m_heap->blockAlloc(0x80);
     obj->m_w04 = 0x80;
     obj = ((::fnv_00d85610::FUN_00d85610_cls *)(new ((void *)(obj)) ::FUN_00deefd0()));
-    FUN_00cb1260((char*)&obj->m_i10, (char*)apSource + 0x10, 0x70);
+    FUN_00cb1260((char*)&obj->m_i10, (char*)&((FUN_00d85610_cls*)apSource)->m_i10, 0x70);
     return obj;
 }
 }  // namespace fnv_00d85610
 
 namespace fnv_00d856b0 {
-struct AllocIface {
-    virtual void unk00();
-    virtual void* Alloc(unsigned int size);
-};
-
-struct AllocHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AllocIface* m_pAllocator;
-};
-
 
 struct FUN_00d856b0_cls {
     void* m_vptr;
@@ -886,11 +763,11 @@ struct FUN_00d856b0_cls {
 // @fnv 0x00d856b0
 FUN_00d856b0_cls* __cdecl CloneWithAllocatedCopy(intptr_t apSource)
 {
-    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-    FUN_00d856b0_cls* obj = (FUN_00d856b0_cls*)holder->m_pAllocator->Alloc(0xc0);
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    FUN_00d856b0_cls* obj = (FUN_00d856b0_cls*)holder->m_heap->blockAlloc(0xc0);
     obj->m_w04 = 0xc0;
     obj = ((::fnv_00d856b0::FUN_00d856b0_cls *)(new ((void *)(obj)) ::FUN_00d4f2a0()));
-    FUN_00cb1260((char*)&obj->m_i10, (char*)apSource + 0x10, 0xac);
+    FUN_00cb1260((char*)&obj->m_i10, (char*)&((FUN_00d856b0_cls*)apSource)->m_i10, 0xac);
     return obj;
 }
 }  // namespace fnv_00d856b0
@@ -974,8 +851,8 @@ CpuOpaque* __cdecl FUN_00d9f6c0()
 extern int DAT_010cc4f4;
 
 // @fnv 0x00d9f6e0
-unsigned int __cdecl FUN_00d9f6e0() {
-    return reinterpret_cast<unsigned int>(&DAT_010cc4f4);
+void* __cdecl FUN_00d9f6e0() {
+    return &DAT_010cc4f4;
 }
 
 // Havok object clone: allocate a default instance and copy the payload (everything after the header).
@@ -986,16 +863,15 @@ struct D85660Allocator {
 };
 
 struct D85660MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D85660Allocator* m_pStreamAllocator;
 
     D85660Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" D85660MemoryRouter& __cdecl D85660GetMemoryRouter() throw();
 void __cdecl D85660MemCpy(void* pvDst, const void* pvSrc, int iNumBytes) throw();
 
 class D85660Object {
@@ -1005,7 +881,7 @@ public:
 
     static void* operator new(std::size_t nbytes) throw()
     {
-        D85660Object* p = static_cast<D85660Object*>(D85660GetMemoryRouter().heap().AllocateMemoryBlock(nbytes));
+        D85660Object* p = static_cast<D85660Object*>(hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes));
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -1063,7 +939,7 @@ D85660Object* __cdecl FUN_00d85660(const D85660Object* pkSource)
 
 extern int DAT_010d3838;
 struct FUN_00d86260_Class {
-    unsigned int m_vptr;
+    void* m_vptr;
     unsigned short m_word04;
     unsigned short m_word06;
     volatile unsigned char m_byte08;
@@ -1079,7 +955,7 @@ FUN_00d86260_Class::FUN_00d86260_Class(float a, float b, float c)
     m_word06 = 1;
     m_byte08 = 0;
     m_float0C = -c;
-    m_vptr = (unsigned int)&DAT_010d3838;
+    m_vptr = (void*)&DAT_010d3838;
     m_float10 = c;
     m_byte08 = 3;
     m_float14 = a;
@@ -1464,19 +1340,19 @@ int __cdecl GetTypeCode(const char* typeName) {
 
     const char* bracket = FUN_00cb1140(typeName, '[');
     if (bracket != 0) {
-        reinterpret_cast<::fnv_00d61fc0::hkStringBufD61F *>(&(buf))->FUN_00d61fc0(0, bracket - typeName);
+        reinterpret_cast<::fnv_00d61fc0::hkStringBufD61F *>(&(buf))->FUN_00d61fc0(0, (int)(bracket - typeName));
     }
 
     int i = 0;
     TypeEntry* pEntry = DAT_011b6ab4;
     do {
-        if (::FUN_00d616e0((unsigned int)&(buf))) {
+        if (reinterpret_cast<::FUN_00d61680_Obj *>(&(buf))->FUN_00d616e0(pEntry->name)) {
             reinterpret_cast<::FUN_00cbbd40_cls *>(&(buf))->FUN_00cbbd40();
             return i;
         }
         ++pEntry;
         ++i;
-    } while ((int)pEntry < (int)DAT_011b6c4c);
+    } while (pEntry < DAT_011b6c4c);
 
     reinterpret_cast<::FUN_00cbbd40_cls *>(&(buf))->FUN_00cbbd40();
     return 0;
@@ -1496,12 +1372,12 @@ m0 = uiValue + b->w12; m4 = b;
 struct D871A0Buffer {
 };
 struct FUN_00d871c0_class {
-    FUN_00d871c0_class* Append(FUN_00d871c0_class* a, int b, const void* p);
+    FUN_00d871c0_class* Append(FUN_00d871c0_class* a, intptr_t b, const void* p);
 };
 // @fnv 0x00d871c0
-FUN_00d871c0_class* FUN_00d871c0_class::Append(FUN_00d871c0_class* apData, int b, const void* p)
+FUN_00d871c0_class* FUN_00d871c0_class::Append(FUN_00d871c0_class* apData, intptr_t b, const void* p)
 {
-    reinterpret_cast<::FUN_00d87150_class *>((((D871A0Buffer*)this)))->InitBitOffset((intptr_t)(apData), (::FUN_00d46fe0_class *)(b), (const char *)((int)p));
+    reinterpret_cast<::FUN_00d87150_class *>((((D871A0Buffer*)this)))->InitBitOffset((intptr_t)(apData), (::FUN_00d46fe0_class *)(b), (const char *)(p));
     return this;
 }
 
@@ -1512,16 +1388,16 @@ struct MemberClass {
 };
 
 struct FUN_00d87380_Class {
-    int unk00;
+    void* unk00;
     MemberClass* unk04;
 
-    TargetClass* CallTargetMethod(TargetClass* target, int arg2);
+    TargetClass* CallTargetMethod(TargetClass* target, intptr_t arg2);
 };
 
 // Calls Append on target with this->unk00, the result of this->unk04->FUN_00d86910(), and arg2, then returns target.
 // @fnv 0x00d87380
-TargetClass* FUN_00d87380_Class::CallTargetMethod(TargetClass* target, int aiArg) {
-    reinterpret_cast<::FUN_00d871c0_class *>((target))->Append((::FUN_00d871c0_class *)(this->unk00), ((int)(reinterpret_cast<::TestClass *>((this->unk04))->FUN_00d86910())), (const void *)(aiArg));
+TargetClass* FUN_00d87380_Class::CallTargetMethod(TargetClass* target, intptr_t aiArg) {
+    reinterpret_cast<::FUN_00d871c0_class *>((target))->Append((::FUN_00d871c0_class *)(this->unk00), ((intptr_t)(reinterpret_cast<::TestClass *>((this->unk04))->FUN_00d86910())), (const void *)(aiArg));
     return target;
 }
 
@@ -1532,7 +1408,7 @@ struct FUN_00d873b0_Obj {
 };
 
 struct FUN_00d873f0_Holder {
-    int unk00;
+    void* unk00;
     FUN_00d86910_Obj* unk04;
     FUN_00d873b0_Obj* FUN_00d873f0(FUN_00d873b0_Obj* a);
 };
@@ -1540,8 +1416,8 @@ struct FUN_00d873f0_Holder {
 // Calls unk04's method to get a value, passes unk00 and that value to a's method, and returns a.
 // @fnv 0x00d873f0
 FUN_00d873b0_Obj* FUN_00d873f0_Holder::FUN_00d873f0(FUN_00d873b0_Obj* pTarget) {
-    int r = ((int)(reinterpret_cast<::TestClass *>((unk04))->FUN_00d86910()));
-    new ((void *)(pTarget)) ::FUN_00d873b0_t(unk00, r);
+    intptr_t r = ((intptr_t)(reinterpret_cast<::TestClass *>((unk04))->FUN_00d86910()));
+    new ((void *)(pTarget)) ::FUN_00d873b0_t((intptr_t)unk00, r);
     return pTarget;
 }
 
@@ -1612,7 +1488,7 @@ extern int DAT_010d3cc0;
 // @fnv 0x00d87b90
 D85660Object* __cdecl CreateD85660Object()
 {
-    D85660Object* p = static_cast<D85660Object*>(D85660GetMemoryRouter().heap().AllocateMemoryBlock(0x1c));
+    D85660Object* p = static_cast<D85660Object*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x1c));
     p->m_usMemSizeAndFlags = 0x1c;
     p->m_sReferenceCount = 1;
     *reinterpret_cast<void**>(p) = &DAT_010d3cc0;
@@ -1646,25 +1522,15 @@ void __cdecl FUN_00d88060()
 {
 }
 
-struct AllocIfaceFree : AllocIface
-{
-    virtual void Free(void* block, unsigned int size);
-};
-
 extern void* DAT_012691fc;
 
-// Frees the 60-byte block stored in DAT_012691fc through the allocator from FUN_00c85750, then clears DAT_012691fc.
+// Frees the 60-byte block stored in DAT_012691fc with the heap allocator's blockFree, then clears DAT_012691fc.
 // @fnv 0x00d88070
 void __cdecl FreeGlobalBlock()
 {
     void* block = DAT_012691fc;
     if (block)
-    {
-        AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-        AllocIfaceFree* allocator =
-            static_cast<AllocIfaceFree*>(holder->m_pAllocator);
-        allocator->Free(block, 60);
-    }
+        hkMemoryRouter::getInstance().heap().blockFree(block, 60);
     DAT_012691fc = 0;
 }
 
@@ -1992,7 +1858,7 @@ void LogIntegrateVelocity(Arg0* a1, Arg1* a2, Arg2* a3) {
         stream2->m_cur = cur2;
     }
 
-    reinterpret_cast<::LunaOwner *>((a2))->ProcessCallback((int)(a3), (int)(a3), 0);
+    reinterpret_cast<::LunaOwner *>((a2))->ProcessCallback((intptr_t)(a3), (intptr_t)(a3), 0);
 }
 
 extern "C" char str_010d4030[];
@@ -2188,7 +2054,7 @@ struct FUN_00d9fb30_Stub {
 // @fnv 0x00d9fb30
 void FUN_00d9fb30_Stub::FUN_00d9fb30()
 {
-    *(int*)this = (int)&(*reinterpret_cast<char *>(&::DAT_0102e388));
+    *(void**)this = (void*)&(*reinterpret_cast<char *>(&::DAT_0102e388));
 }
 
 // @fnv 0x00d9fb40
@@ -2221,13 +2087,9 @@ void FUN_00d9fce0(int) {
 typedef void* (* D85TlsFn)(unsigned long);
 extern D85TlsFn DAT_00fdf044;
 
-struct D85Ctn {
-    void** entries;
-    unsigned short count;
-};
 
 struct D85Ev {
-    unsigned int tag;
+    const char* tag;
     unsigned int time;
     int unk08;
 };
@@ -2240,8 +2102,8 @@ struct D85Prof {
 };
 
 struct D85A0 {
-    int unk00;
-    unsigned int unk04;
+    void* unk00;
+    hkpConstraintInstance* m_constraint;
 };
 
 struct D85Msg {
@@ -2280,26 +2142,26 @@ static __declspec(noinline) void FUN_00d85d40(ListenerArray* pArr)
 // @fnv 0x00d85fa0
 void __cdecl FUN_00d85fa0(D85Msg a) {
     volatile unsigned int stamps[2];
-    D85Ctn* ctn = (D85Ctn*)(a.p->unk04 + 0x20);
-    int i = ctn->count - 1;
+    hkpConstraintInstanceSmallArraySerializeOverrideType* ctn = &a.p->m_constraint->m_kListeners;
+    int i = ctn->m_iElementCount - 1;
     if (i >= 0) {
         D85TlsFn tls = DAT_00fdf044;
         do {
-            if (ctn->entries[i] != 0) {
+            if (((void**)ctn->m_data)[i] != 0) {
                 D85Prof* prof = (D85Prof*)tls(DAT_0126835c);
                 D85Ev* ev = prof->head;
                 if (ev < prof->end) {
-                    ev->tag = (unsigned int)"TtconBrokenCb";
+                    ev->tag = "TtconBrokenCb";
                     _ReadWriteBarrier();
                     stamps[0] = (unsigned int)__rdtsc();
                     ev->time = stamps[0];
                     prof->head = ev + 1;
                 }
-                ((D85Node5*)ctn->entries[i])->v05(a);
+                ((D85Node5*)((void**)ctn->m_data)[i])->v05(a);
                 D85Prof* p2 = (D85Prof*)tls(DAT_0126835c);
                 D85Ev* e2 = p2->head;
                 if (e2 < p2->end) {
-                    e2->tag = (unsigned int)"Et";
+                    e2->tag = "Et";
                     _ReadWriteBarrier();
                     stamps[1] = (unsigned int)__rdtsc();
                     e2->time = stamps[1];
@@ -2393,7 +2255,7 @@ void __cdecl FUN_00d86160(NiStreamD8616& kStream, DataD8616* pkData)
 
 extern int DAT_010d3838;
 struct FUN_00d86220_Class {
-    unsigned int m_vptr;
+    void* m_vptr;
     unsigned short m_word04;
     unsigned short m_word06;
     volatile unsigned char m_byte08;
@@ -2411,7 +2273,7 @@ FUN_00d86220_Class::FUN_00d86220_Class()
     m_byte08 = 0;
     m_float0C = -1000000.0f;
     m_float10 = 1000000.0f;
-    m_vptr = (unsigned int)&DAT_010d3838;
+    m_vptr = (void*)&DAT_010d3838;
     m_byte08 = 3;
     m_float14 = 0.0f;
     m_float18 = 0.0f;
@@ -2423,10 +2285,10 @@ public:
 
     AutoMemContext()
     {
-        m_saved = (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xaf];
-        (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xaf] = 0x10;
+        m_saved = ::g_tlsBlock.renderThreadIndex;
+        ::g_tlsBlock.renderThreadIndex = 0x10;
     }
-    ~AutoMemContext() { (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xaf] = m_saved; }
+    ~AutoMemContext() { ::g_tlsBlock.renderThreadIndex = m_saved; }
 };
 
 void __cdecl FUN_00c9eae0(void* p);
@@ -2480,9 +2342,9 @@ struct FUN_00dee750 {
 
     static void* operator new(std::size_t sz)
     {
-        AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-        AllocIface* alloc = holder->m_pAllocator;
-        void* p = alloc->Alloc(sz);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* alloc = holder->m_heap;
+        void* p = alloc->blockAlloc((unsigned int)sz);
         ((FUN_00dee750*)p)->m_usMemorySizeAndFlags = (unsigned short)sz;
         return p;
     }
@@ -2593,23 +2455,6 @@ bool FUN_00d88100_Class::FUN_00d88100(int iIndex)
 }
 
 namespace fnv_00d88150 {
-class hkMemoryAllocatorD881 {
-public:
-    virtual ~hkMemoryAllocatorD881() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterD881 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorD881* m_pStreamAllocator;
-
-    hkMemoryAllocatorD881& heap() { return *m_pStreamAllocator; }
-};
-
 namespace hkRouterD881 {
 }
 
@@ -2620,8 +2465,8 @@ public:
     FUN_00d88050() throw();
     ~FUN_00d88050() throw() {}
 
-    static void* operator new(std::size_t nbytes) { return (*static_cast<hkMemoryRouterD881*>(::FUN_00c85750())).heap().AllocateMemoryBlock(0x3c); }
-    static void operator delete(void* p) { (*static_cast<hkMemoryRouterD881*>(::FUN_00c85750())).heap().ReleaseBlock(p, 0x3c); }
+    static void* operator new(std::size_t nbytes) { return hkMemoryRouter::getInstance().heap().blockAlloc(0x3c); }
+    static void operator delete(void* p) { hkMemoryRouter::getInstance().heap().blockFree(p, 0x3c); }
 };
 
 namespace hkGlobalsD881 {
@@ -2669,7 +2514,7 @@ struct S00d881a0_Leaf {
     int unk6C;
     int unk70;
     int unk74;
-    int m78;
+    const ::CollisionContext* m78;
 };
 struct S00d881a0_Mid {
     int unk00;
@@ -2682,10 +2527,10 @@ struct S00d881a0_Obj {
 
 // Calls FUN_00d29bf0 with eaxv + 0x80 and 0xe0, then FUN_00d1a330 with esi->m00->m08->m78, esi and edi, and returns the first call's result.
 // @fnv 0x00d881a0
-static __declspec(noinline) int FUN_00d881a0(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, void* edi)
+static __declspec(noinline) int FUN_00d881a0(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, int edi)
 {
-    int r = ::ApplyAccumulatorsPrivate::FUN_00d29bf0((*(const ::ApplyAccumulatorsPrivate::ConstraintSolverInfo *)(p)), (*(const ::ApplyAccumulatorsPrivate::hkStepInfo *)(ecxv)), (const ::ApplyAccumulatorsPrivate::QuantizedBoundsData *)(void *)(eaxv + 0x80), (::ApplyAccumulatorsPrivate::hkpMotion *const *)(esi), (int)(edi), 0xe0);
-    ::FUN_00d1a330((const ::CollisionContext *)(esi->m00->m08->m78), (::EntityNode *const *)(esi), (int)(edi));
+    int r = ::ApplyAccumulatorsPrivate::FUN_00d29bf0((*(const ::ApplyAccumulatorsPrivate::ConstraintSolverInfo *)(p)), (*(const ::ApplyAccumulatorsPrivate::hkStepInfo *)(ecxv)), (const ::ApplyAccumulatorsPrivate::QuantizedBoundsData *)(void *)(eaxv + 0x80), (::ApplyAccumulatorsPrivate::hkpMotion *const *)(esi), edi, 0xe0);
+    ::FUN_00d1a330(esi->m00->m08->m78, (::EntityNode *const *)(esi), edi);
     return r;
 }
 
@@ -2694,41 +2539,6 @@ int S00d881a0_Wrap(void* p)
     return FUN_00d881a0(p, 0, 0, 0, 0);
 }
 
-static unsigned char* S00d96870_outp;
-
-// Fills the block at out+0x10 from src and self fields, then sets *self from self+0x6c, clears *out, and sets out[0x12] to 1.
-// @fnv 0x00d96870
-static __declspec(noinline) void FUN_00d96870(unsigned char* self, int* src, unsigned char* out)
-{
-    unsigned char* dst = out + 0x10;
-    if (dst) {
-        int v68 = *(int*)(self + 0x68);
-        dst[0] = 4;
-        dst[1] = 0;
-        dst[2] = 1;
-        _ReadWriteBarrier();
-        short w = 0x30;
-        *(short*)(dst + 4) = w;
-        w = -1;
-        *(short*)(dst + 6) = w;
-        *(unsigned short*)(dst + 0x10) = *(unsigned short*)((unsigned char*)src + 0x10);
-        *(int*)(dst + 0x14) = *(int*)((unsigned char*)src + 0x14);
-        *(int*)(dst + 0x18) = *(int*)((unsigned char*)src + 0x18);
-        *(int*)(dst + 0x1c) = *(int*)((unsigned char*)src + 0x1c);
-        *(int*)(dst + 0x24) = *(int*)(self + 0x4c);
-        unsigned char flag = *(unsigned char*)(self + 0x58);
-        *(int*)(dst + 0x20) = v68;
-        *(unsigned char*)(dst + 0x28) = flag;
-    }
-    *(int*)self = *(int*)(self + 0x6c);
-    *(int*)out = 0;
-    *(unsigned char*)(out + 0x12) = 1;
-}
-
-void S00d96870_Entry(unsigned char* self, int* src)
-{
-    FUN_00d96870(self, src, S00d96870_outp);
-}
 
 
 struct D99FC0Quad { int a; int b; int c; int d; };
@@ -2741,7 +2551,7 @@ struct D99FC0Object {
     int unk10;
     int unk14;
     int unk18;
-    int unk1C;
+    const ::QuantizedBounds* unk1C;
     int unk20;
     int unk24;
     int unk28;
@@ -2753,23 +2563,23 @@ struct D99FC0Object {
 
 // Computes the difference between v40 and q30, then passes it to IntersectTree along with obj->unk1C and the input parameters.
 // @fnv 0x00d99fc0
-void __cdecl ComputeAndDispatchDelta(D99FC0Object* obj, int a2, int a3, float a4,
-                          float a5, float a6, int a7)
+void __cdecl ComputeAndDispatchDelta(D99FC0Object* obj, const ::TreeVector* a2, const ::TreeVector* a3, float a4,
+                          float a5, float a6, ::TreeCollector* a7)
 {
     D99FC0Quad values;
     __m128 delta;
 
-    int p = reinterpret_cast<int>(obj->unk00);
+    void* p = obj->unk00;
     values = obj->q30;
     delta = _mm_sub_ps(obj->v40, *reinterpret_cast<__m128*>(&obj->q30));
 
     ::IntersectTree(
         (void *)(p),
         (const ::TreeNode *)(p),
-        (const ::QuantizedBounds *)(obj->unk1C),
+        obj->unk1C,
         (const ::TreeVector *)(float *)(reinterpret_cast<float*>(&delta)),
         (const ::TreeVector *)(int *)(&values.a),
-        (const ::TreeVector *)(a2), (const ::TreeVector *)(a3), a4, a5, a6, (::TreeCollector *)(a7));
+        a2, a3, a4, a5, a6, a7);
 }
 
 struct FUN_00d9a410_Target {
@@ -2812,7 +2622,7 @@ struct FUN_00d9a410_Stub {
 // @fnv 0x00d9a410
 void FUN_00d9a410_Stub::InvokeCallback(int* param)
 {
-    FUN_00d9a410_Object* object = (FUN_00d9a410_Object*)param[0];
+    FUN_00d9a410_Object* object = *reinterpret_cast<FUN_00d9a410_Object**>(param);
 
     if (object != 0 && unk18 != param) {
         char buffer;
@@ -2834,7 +2644,8 @@ void FUN_00d9a410_Stub::InvokeCallback(int* param)
 }
 
 struct ArgD9A4 {
-    int unk00, unk04, unk08, unk0C;
+    int unk00, unk04, unk08;
+    int* unk0C;
 };
 
 struct InnerD9A4 {
@@ -2864,7 +2675,7 @@ public:
 // @fnv 0x00d9a480
 float ObjD9A4::FUN_00d9a480(ArgD9A4* pkArg)
 {
-    reinterpret_cast<::FUN_00d9a410_Stub *>(this)->InvokeCallback((int *)(pkArg->unk0C));
+    reinterpret_cast<::FUN_00d9a410_Stub *>(this)->InvokeCallback(pkArg->unk0C);
     return m_pkInner->m_fValue;
 }
 
@@ -2954,7 +2765,9 @@ public:
     int unk10;
     int unk14;
     ShapeD84D* m_pkChild;
-
+    char pad1c[0x14];
+    char m_ac30[0x60];
+    char m_c90;
 };
 
 // Returns a pointer to shape data based on the shape type, following child shapes for types 12 and 13.
@@ -2964,11 +2777,11 @@ void* __cdecl GetShapeData(ShapeD84D* pkShape)
     for (unsigned int t = pkShape->getType(); t <= 15; t = pkShape->getType()) {
         switch (t) {
         case 0:
-            return (char*)pkShape + 0x30;
+            return pkShape->m_ac30;
         case 1:
-            return (char*)pkShape + 0x90;
+            return &pkShape->m_c90;
         case 2:
-            return (char*)pkShape + 0x90;
+            return &pkShape->m_c90;
         case 3:
             return &(*reinterpret_cast<char *>(&::DAT_01267e30));
         case 4:
@@ -2976,13 +2789,13 @@ void* __cdecl GetShapeData(ShapeD84D* pkShape)
         case 5:
             return &(*reinterpret_cast<char *>(&::DAT_01267e30));
         case 6:
-            return (char*)pkShape + 0x90;
+            return &pkShape->m_c90;
         case 7:
-            return (char*)pkShape + 0x90;
+            return &pkShape->m_c90;
         case 8:
-            return (char*)pkShape + 0x30;
+            return pkShape->m_ac30;
         case 9:
-            return (char*)pkShape + 0x90;
+            return &pkShape->m_c90;
         case 10:
             return &(*reinterpret_cast<char *>(&::DAT_01267e30));
         case 11:
@@ -2994,9 +2807,9 @@ void* __cdecl GetShapeData(ShapeD84D* pkShape)
             pkShape = ((::ShapeD84D *)(reinterpret_cast<::FUN_00cdf6d0_t *>((pkShape))->FUN_00cdf6d0()));
             break;
         case 14:
-            return (char*)pkShape + 0x90;
+            return &pkShape->m_c90;
         case 15:
-            return (char*)pkShape + 0x30;
+            return pkShape->m_ac30;
         }
     }
     return &(*reinterpret_cast<char *>(&::DAT_01267e30));
@@ -3113,18 +2926,13 @@ void __cdecl SetPivotAtom(PivotCData* data, const __m128* pivot, int pivotIndex)
 typedef void* (* D90TlsFn)(unsigned long);
 extern D90TlsFn DAT_00fdf044;
 
-struct D90Ctn {
-    void** entries;
-    unsigned short count;
-};
+typedef hkpConstraintInstanceSmallArraySerializeOverrideType D90Ctn;
 
-struct D90Owner {
-    unsigned int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
-    D90Ctn m_kListeners;
+struct D90Owner : hkpConstraintInstance {
 };
 
 struct D90Ev {
-    unsigned int tag;
+    const char* tag;
     unsigned int time;
     int unk08;
 };
@@ -3149,25 +2957,25 @@ struct D90Node {
 D90Ctn* __cdecl FUN_00d85d90(D90Owner* pOwner) {
     volatile unsigned int ticks[2];
     D90Ctn* ctn = &pOwner->m_kListeners;
-    int i = ctn->count - 1;
+    int i = ctn->m_iElementCount - 1;
     if (i >= 0) {
         D90TlsFn tls = DAT_00fdf044;
         do {
-            if (ctn->entries[i] != 0) {
+            if (((void**)ctn->m_data)[i] != 0) {
                 D90Prof* prof = (D90Prof*)tls(DAT_0126835c);
                 D90Ev* ev = prof->head;
                 if (ev < prof->end) {
-                    ev->tag = (unsigned int)"TtconAddCb";
+                    ev->tag = "TtconAddCb";
                     _ReadWriteBarrier();
                     ticks[0] = (unsigned int)__rdtsc();
                     ev->time = ticks[0];
                     prof->head = ev + 1;
                 }
-                ((D90Node*)ctn->entries[i])->v01(pOwner);
+                ((D90Node*)((void**)ctn->m_data)[i])->v01(pOwner);
                 D90Prof* p2 = (D90Prof*)tls(DAT_0126835c);
                 D90Ev* e2 = p2->head;
                 if (e2 < p2->end) {
-                    e2->tag = (unsigned int)"Et";
+                    e2->tag = "Et";
                     _ReadWriteBarrier();
                     ticks[1] = (unsigned int)__rdtsc();
                     e2->time = ticks[1];
@@ -3216,17 +3024,10 @@ struct ResizableArray {
     }
 };
 
-struct hkpConstraintInstance;
-
 struct hkpConstraintListener {
     virtual ~hkpConstraintListener();
     virtual void ConstraintAddedCallback(hkpConstraintInstance* constraint);
     virtual void ConstraintRemovedCallback(hkpConstraintInstance* constraint);
-};
-
-struct hkpConstraintInstance {
-    char pad[0x20];
-    ResizableArray<hkpConstraintListener*> m_kListeners;
 };
 
 
@@ -3234,7 +3035,8 @@ struct hkpConstraintInstance {
 // @fnv 0x00d85e40
 void __cdecl NotifyConstraintRemoved(hkpConstraintInstance* constraint)
 {
-    ResizableArray<hkpConstraintListener*>& listen = constraint->m_kListeners;
+    // hkSmallArray<hkpConstraintListener*>: the same layout as the reflected override type
+    ResizableArray<hkpConstraintListener*>& listen = reinterpret_cast<ResizableArray<hkpConstraintListener*>&>(constraint->m_kListeners);
     for (int i = listen.GetLogicalSize() - 1; i >= 0; i--) {
         if (listen[i] != 0) {
             volatile unsigned int ticks[2];
@@ -3255,7 +3057,7 @@ public:
     int m_iCapacityState;
 
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
-    __forceinline void reserve(AllocIface& kAlloc, int n)
+    __forceinline void reserve(hkMemoryAllocator& kAlloc, int n)
     {
         const int iCap = getCapacity();
         if (iCap < n) {
@@ -3266,7 +3068,7 @@ public:
     }
     __forceinline void SetSizeAndGrow(int n, const T& fill)
     {
-        AllocIface* a; AllocHolder* h; h = static_cast<AllocHolder*>(::FUN_00c85750()); a=h->m_pAllocator; reserve(*a,n);
+        reserve(hkMemoryRouter::getInstance().heap(), n);
         int i = n - m_iElementCount;
         T* p = m_data + m_iElementCount;
         while (i-- > 0)
@@ -3300,14 +3102,6 @@ const char* __cdecl FUN_00cb1140(const char*, int) throw();
 int __cdecl CallWithZeroMiddleArg(const char*, int) throw();
 int __cdecl GetTypeCode(const char*) throw();
 
-struct HkTempAllocator {
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual void slot0c();
-    virtual void ReturnMemory(void*, int) throw();
-};
-
 struct HkBytes16 {
     int a;
     int b;
@@ -3336,12 +3130,12 @@ struct FUN_00d61b10 {
 
     FUN_00d61b10(const char*, int) throw();
     ~FUN_00d61b10() throw() {
-        AllocHolder* router = static_cast<AllocHolder*>(::FUN_00c85750());
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
         int cap = m_kStringBuffer.m_iCapacityState;
-        HkTempAllocator* allocator = reinterpret_cast<HkTempAllocator*>(router->unk0c);
+        hkMemoryAllocator* allocator = router->m_temp;
         m_kStringBuffer.m_iElementCount = 0;
         if ((cap & 0x80000000) == 0)
-            allocator->ReturnMemory(m_kStringBuffer.m_data, cap & 0x3fffffff);
+            allocator->bufFree(m_kStringBuffer.m_data, cap & 0x3fffffff);
         m_kStringBuffer.m_iCapacityState = int(0x80000000u);
         m_kStringBuffer.m_data = 0;
     }
@@ -3438,7 +3232,7 @@ struct hkpConstraintSolverResourcesD881 {
     BufferStateD881 m_akBufferStates[3];
 };
 
-static inline char* alignDownD881(char* p) { return (char*)((unsigned int)p & ~15); }
+static inline char* alignDownD881(char* p) { return (char*)((uintptr_t)p & ~(uintptr_t)15); }
 
 // Stores step, solver, and query pointers, then carves the aligned buffer into velocity accumulators and three buffer states with computed ray start/end offsets.
 // @fnv 0x00d881d0
@@ -3452,7 +3246,7 @@ void __cdecl InitializeConstraintSolverResources(hkStepInfoD881* pkStepInfo, hkp
     const float fFactorA = -0.6f;
     const float fFactorB = -(1.0f + fFactorA);
 
-    char* p = (char*)(((unsigned int)pcBuffer + 15) & ~15);
+    char* p = (char*)(((uintptr_t)pcBuffer + 15) & ~(uintptr_t)15);
     pkOut->m_pVelocityAccumulatorA = p;
     p = alignDownD881(p + iBufferSize * 10 / 64);
     pkOut->m_pVelocityAccumulatorB = p;
@@ -3647,7 +3441,10 @@ inline CreateFuncD923 hkpCollisionDispatcherD923::findCreateFunc(const hkpCdBody
     return m_agent2Funcs[agentType].m_pCreateFunc;
 }
 
-// Creates a collision agent via the dispatcher's create function, stores it in freeMemory, and returns a pointer to the agent data at offset 16.
+// The 16-byte agent data slot: the agent pointer, then the next slot.
+struct alignas(16) D923AgentSlot { hkpCollisionAgentD923* m_pAgent; };
+
+// Creates a collision agent via the dispatcher's create function, stores it in freeMemory, and returns a pointer to the agent data in the next slot.
 // @fnv 0x00d92300
 hkpAgentDataD923* __cdecl CreateAgent(const hkpAgent3InputD923& input,
                                        hkpAgentEntryD923* apAgentEntry,
@@ -3661,28 +3458,11 @@ hkpAgentDataD923* __cdecl CreateAgent(const hkpAgent3InputD923& input,
     hkpCollisionDispatcherD923* pDispatcher = in->m_pCollisionDispatcher;
     CreateFuncD923 f = pDispatcher->findCreateFunc(*bodyA, *bodyB, *in);
     hkpCollisionAgentD923* agent = f(*bodyA, *bodyB, *in, pContactMgr);
-    *reinterpret_cast<hkpCollisionAgentD923**>(freeMemory) = agent;
+    D923AgentSlot* pSlot = reinterpret_cast<D923AgentSlot*>(freeMemory);
+    pSlot->m_pAgent = agent;
     apAgentEntry->m_usNumContactPoints = 0xff;
-    return reinterpret_cast<hkpAgentDataD923*>(reinterpret_cast<char*>(freeMemory) + 16);
+    return reinterpret_cast<hkpAgentDataD923*>(pSlot + 1);
 }
-
-struct CleanupAllocator {
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08(void* object, unsigned int size);
-    virtual void unk0C();
-    virtual void unk10(void* object, unsigned int size);
-};
-
-struct CleanupRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    CleanupAllocator* m_pThreadAllocator;
-    int unk14;
-    CleanupAllocator* m_allocator2;
-};
 
 struct CleanupObject {
     int unk00;
@@ -3728,27 +3508,27 @@ static __declspec(noinline) void FUN_00d93ab0(CleanupObject* self) {
         void* block = self->unk68;
         self->unk68 = *reinterpret_cast<void**>(block);
 
-        CleanupRouter* holder =
-            reinterpret_cast<CleanupRouter*>(static_cast<AllocHolder*>(::FUN_00c85750()));
-        holder->m_pThreadAllocator->unk08(block, 0x1000);
+        hkMemoryRouter* holder =
+            &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(block, 0x1000);
     }
 
     while (self->unk78 != 0) {
         void* block = self->unk78;
         self->unk78 = *reinterpret_cast<void**>(block);
 
-        CleanupRouter* holder =
-            reinterpret_cast<CleanupRouter*>(static_cast<AllocHolder*>(::FUN_00c85750()));
-        holder->m_pThreadAllocator->unk08(block, 0x30);
+        hkMemoryRouter* holder =
+            &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(block, 0x30);
     }
 
     if (self->unk14 != 0) {
         void* block = self->unk14;
         int size = self->unk1C;
 
-        CleanupRouter* holder =
-            reinterpret_cast<CleanupRouter*>(static_cast<AllocHolder*>(::FUN_00c85750()));
-        holder->m_allocator2->unk10(block, size);
+        hkMemoryRouter* holder =
+            &hkMemoryRouter::getInstance();
+        holder->m_solver->bufFree(block, size);
 
         self->unk14 = 0;
     }
@@ -3757,23 +3537,23 @@ static __declspec(noinline) void FUN_00d93ab0(CleanupObject* self) {
         unsigned int size = static_cast<unsigned int>(self->unk56);
         void* block = self->unk50;
 
-        CleanupRouter* holder =
-            reinterpret_cast<CleanupRouter*>(static_cast<AllocHolder*>(::FUN_00c85750()));
-        holder->m_pThreadAllocator->unk10(block, size * 4);
+        hkMemoryRouter* holder =
+            &hkMemoryRouter::getInstance();
+        holder->m_heap->bufFree(block, size * 4);
 
         self->unk50 = 0;
     }
 
-    CleanupRouter* holder =
-        reinterpret_cast<CleanupRouter*>(static_cast<AllocHolder*>(::FUN_00c85750()));
-    CleanupAllocator* allocator = holder->m_pThreadAllocator;
+    hkMemoryRouter* holder =
+        &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* allocator = holder->m_heap;
 
     int count = self->unk64;
     self->unk60 = 0;
 
     if ((static_cast<unsigned int>(count) & 0x80000000u) == 0) {
         void* block = self->unk5C;
-        allocator->unk10(
+        allocator->bufFree(
             block,
             static_cast<unsigned int>(count & 0x3FFFFFFF) * 4);
     }
@@ -3781,9 +3561,9 @@ static __declspec(noinline) void FUN_00d93ab0(CleanupObject* self) {
     self->unk5C = 0;
     self->unk64 = 0x80000000;
 
-    CleanupRouter* pRouter =
-        reinterpret_cast<CleanupRouter*>(static_cast<AllocHolder*>(::FUN_00c85750()));
-    pRouter->m_pThreadAllocator->unk08(self, 0x80);
+    hkMemoryRouter* pRouter =
+        &hkMemoryRouter::getInstance();
+    pRouter->m_heap->blockFree(self, 0x80);
 }
 
 CleanupObject* volatile cleanupInput;
@@ -3820,6 +3600,8 @@ struct S00d944d0_Ent12 {
 
 struct S00d944d0_Sub {
     int unk00;
+    char pad004[0x1dc];
+    char m_kSolverInfo;
 };
 
 struct S00d944d0_Obj {
@@ -3865,7 +3647,7 @@ void __cdecl FUN_00d944d0(S00d944d0_Obj* apObj, S00d944d0_Arg1* a2,
         stream->m_cur = (char*)(entry + 1);
     }
 
-    FUN_00d89ed0((char*)apObj->m_sub + 0x1e0,
+    FUN_00d89ed0(&apObj->m_sub->m_kSolverInfo,
                  a3->m_20, a3->m_24);
 
     stream = (S00d944d0_Stream*)TlsGetValue(DAT_0126835c);
@@ -3884,7 +3666,7 @@ void __cdecl FUN_00d944d0(S00d944d0_Obj* apObj, S00d944d0_Arg1* a2,
         stream->m_cur = (char*)(entry2 + 1);
     }
 
-    reinterpret_cast<::LunaOwner *>((a2))->ProcessCallback((int)(a3), (int)(a3), 0);
+    reinterpret_cast<::LunaOwner *>((a2))->ProcessCallback((intptr_t)(a3), (intptr_t)(a3), 0);
 }
 
 namespace fnv_00d94570 {
@@ -4093,9 +3875,9 @@ struct __declspec(align(16)) Fnv94570_Quad {
 struct Fnv94570_Data {
     int unk00;
     int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
+    void* unk08;
+    void* unk0C;
+    void* unk10;
     int unk14;
     int unk18;
 };
@@ -4126,7 +3908,7 @@ struct Fnv94570_Tls {
 
 // Writes timestamped entries to a per-thread buffer, zeroes the d10 block if a3->unk20 is 0, calls FUN_00d8fb70, then a2->ProcessCallback(a3, a3, 0).
 // @fnv 0x00d94570
-void __cdecl FUN_00d94570(Fnv94570_Obj** a1, int a2, Fnv94570_Ctx* apCtx)
+void __cdecl FUN_00d94570(Fnv94570_Obj** a1, void* a2, Fnv94570_Ctx* apCtx)
 {
     Fnv94570_Tls* tls;
     char* cursor;
@@ -4134,9 +3916,9 @@ void __cdecl FUN_00d94570(Fnv94570_Obj** a1, int a2, Fnv94570_Ctx* apCtx)
     Fnv94570_Data* data;
     int count;
     int* p;
-    int d0c;
-    int d08;
-    int d10;
+    void* d0c;
+    void* d08;
+    void* d10;
     unsigned int blocks;
     Fnv94570_Quad zero;
 
@@ -4166,12 +3948,12 @@ void __cdecl FUN_00d94570(Fnv94570_Obj** a1, int a2, Fnv94570_Ctx* apCtx)
         _ReadWriteBarrier();
         count = (int)(blocks / 16u);
         if (count > 0) {
-            p = (int*)d10 + 2;
+            p = (int*)d10;
             do {
-                p[-2] = 0;
-                p[-1] = 0;
                 p[0] = 0;
                 p[1] = 0;
+                p[2] = 0;
+                p[3] = 0;
                 p += 4;
             } while (--count != 0);
         }
@@ -4195,7 +3977,7 @@ void __cdecl FUN_00d94570(Fnv94570_Obj** a1, int a2, Fnv94570_Ctx* apCtx)
         tls->unk04 = cursor + 0x0C;
     }
 
-    reinterpret_cast<::LunaOwner *>((((Fnv94570_Ctx*)a2)))->ProcessCallback((int)apCtx, (int)apCtx, 0);
+    reinterpret_cast<::LunaOwner *>(a2)->ProcessCallback((intptr_t)apCtx, (intptr_t)apCtx, 0);
 }
 }  // namespace fnv_00d94570
 
@@ -4245,7 +4027,7 @@ void __cdecl FUN_00d94730(Arg0* world, Arg1* context, SolverObject* object)
         record->time = time;
         stream->m_cur = reinterpret_cast<char*>(record + 1);
     }
-    reinterpret_cast<::LunaOwner *>((context))->ProcessCallback((int)(reinterpret_cast<Arg2*>(object)), (int)(reinterpret_cast<Arg2*>(object)), 0);
+    reinterpret_cast<::LunaOwner *>((context))->ProcessCallback((intptr_t)(reinterpret_cast<Arg2*>(object)), (intptr_t)(reinterpret_cast<Arg2*>(object)), 0);
 }
 
 struct StructItem {
@@ -4263,9 +4045,9 @@ struct StructItem {
 struct StructA {
     StructItem* items;
     int count;
-    int unk08;
+    char* unk08;
     int* ptrC;
-    int unk10;
+    char* unk10;
     int unk14;
     char unk18;
 };
@@ -4274,8 +4056,8 @@ struct StructB {
     int unk00; int unk04; int unk08; int unk0C;
     int unk10; int unk14; int unk18; int unk1C;
     int unk20; int unk24; int unk28; int unk2C;
-    int unk30;
-    int unk34;
+    char* unk30;
+    char* unk34;
     int unk38;
     int unk3C;
     int unk40; int unk44; int unk48; int unk4C;
@@ -4325,7 +4107,7 @@ static __declspec(noinline) void WriteItems(StructA* apSource, StructB* apDest)
     if (!apSource->unk18) {
         *out = 0;
     } else {
-        int diff = apSource->unk10 - (int)out;
+        int diff = (int)(apSource->unk10 - (char*)out);
         if (diff > 0) {
             out[1] = diff;
             *(float*)out += DAT_010c9300;
@@ -4459,7 +4241,7 @@ struct S00d96970_Obj {
 };
 
 // @fnv 0x00d96970
-static __declspec(noinline) void FUN_00d96970(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value)
+static __declspec(noinline) void FUN_00d96970(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, ::PoolSet* value)
 {
     if (self->unk21 != 0) {
         S00d96970_Local local;
@@ -4472,11 +4254,11 @@ static __declspec(noinline) void FUN_00d96970(S00d96970_Obj* self, const S00d969
         local.unk14 = src->unk14;
         local.unk18 = src->unk18;
         local.unk1C = src->unk1C;
-        reinterpret_cast<::Mgr *>((target))->InsertItemAndNotify((::PoolSet *)(value), (*(const ::Item *)(&local)), 0);
+        reinterpret_cast<::Mgr *>((target))->InsertItemAndNotify(value, (*(const ::Item *)(&local)), 0);
     }
 }
 
-void S00d96970_Entry(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value)
+void S00d96970_Entry(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, ::PoolSet* value)
 {
     FUN_00d96970(self, src, target, value);
 }
@@ -4486,30 +4268,7 @@ struct State;
 struct M20;
 struct Sub;
 
-struct Ev {
-    unsigned char type;
-    unsigned char b01;
-    unsigned char b02;
-    unsigned char unk03;
-    unsigned short w04;
-    short w06;
-    int unk08;
-    int unk0c;
-    unsigned short w10;
-    unsigned short unk12;
-    int m_14;
-    State* m_18;
-    int m_1c;
-    union { M20* m_20; unsigned short w20; };
-    int m_24;
-    union { int m_28; M20* ptr28; };
-    union { Sub* m_2c; int i2c; unsigned char b2c; };
-    int m_30;
-    union { int m_34; struct { unsigned short w34; unsigned short w36; }; };
-    int m_38;
-    union { int m_3c; unsigned char b3c; };
-};
-
+// The first 0x30 bytes of an event; FUN_00d969e0 copies them from one event to the next.
 struct Ev30 {
     unsigned char type;
     unsigned char b01;
@@ -4524,11 +4283,19 @@ struct Ev30 {
     int m_14;
     State* m_18;
     int m_1c;
-    M20* m_20;
+    union { M20* m_20; unsigned short w20; intptr_t i20; };
     int m_24;
-    int m_28;
-    Sub* m_2c;
+    union { int m_28; M20* ptr28; unsigned char b28; };
+    union { Sub* m_2c; int i2c; unsigned char b2c; };
 };
+
+struct Ev : Ev30 {
+    union { int m_30; char* p30; };
+    union { int m_34; struct { unsigned short w34; unsigned short w36; }; };
+    int m_38;
+    union { int m_3c; unsigned char b3c; };
+};
+
 
 
 struct Ev20 {
@@ -4549,7 +4316,7 @@ struct Ev20 {
 
 struct Node {
     int m_00;
-    int m_04;
+    Node* m_04;
 };
 
 struct M20 {
@@ -4569,7 +4336,7 @@ struct Sub {
     int unk18;
     unsigned short unk1c;
     unsigned short m_1e;
-    int m_20;
+    Sub* m_20;
 };
 
 struct State {
@@ -4578,7 +4345,7 @@ struct State {
     int m_08;
     int unk0c;
     int unk10;
-    int m_14;
+    char* m_14;
     int m_18;
     int unk1c;
     unsigned char m_20;
@@ -4587,12 +4354,12 @@ struct State {
     Node* m_24;
     int unk28;
     int unk2c;
-    int m_30;
+    char* m_30;
     int m_34;
     unsigned short m_38;
     unsigned short m_3a;
-    int m_3c;
-    int m_40;
+    char* m_3c;
+    char* m_40;
     int m_44;
     int m_48;
     int unk4c;
@@ -4609,7 +4376,7 @@ struct State {
     int m_6c;
     int unk70;
     int m_74;
-    int m_78;
+    Sub* m_78;
     unsigned short m_7c;
     unsigned short unk7e;
 };
@@ -4642,17 +4409,17 @@ static __forceinline void InitEv(Ev* e, Ev* ev, unsigned char type, unsigned cha
 
 struct Placed2 : Ev { __forceinline Placed2(Ev* ev, State* s) {
                     InitEv(this, ev, 8, 1, 0x30);
-                    *(Ev30*)this = *(Ev30*)ev;
-                    this->i2c = ev->m_2c->m_20;
+                    static_cast<Ev30&>(*this) = *ev;
+                    this->m_2c = ev->m_2c->m_20;
                 
 } };
 struct EmptyScope { EmptyScope() { _ReadWriteBarrier(); } ~EmptyScope() { _ReadWriteBarrier(); } };
 struct Stage0 : Ev { __forceinline Stage0(Ev* ev, State* s){
                     InitEv(this, ev, 6, 1, 0x40);
                     this->m_20 = (M20*)s->m_14;
-                    this->m_28 = s->m_30 - (int)this->m_20;
-                    this->i2c = s->m_3c - (int)this->m_20; _ReadWriteBarrier();
-                    this->m_30 = s->m_40 - (int)this->m_20;
+                    this->m_28 = (int)(s->m_30 - (char*)this->m_20);
+                    this->i2c = (int)(s->m_3c - (char*)this->m_20); _ReadWriteBarrier();
+                    this->m_30 = (int)(s->m_40 - (char*)this->m_20);
                     this->m_24 = s->m_18;
                     this->m_34 = s->m_44;
                     this->m_38 = s->m_48;
@@ -4664,9 +4431,38 @@ struct Stage1 : Ev { __forceinline Stage1(Ev* ev, State* s){
                     this->m_24 = s->m_34;
                 
 } };
+// Fills the event at out->m_kEvent from src and self fields, then sets self->ref from self->m_6c, clears out->m_00, and sets out->m_kEvent.b02 to 1.
+// @fnv 0x00d96870
+static __declspec(noinline) void FUN_00d96870(State* self, Ev* src, Out* out)
+{
+    Ev* dst = &out->m_kEvent;
+    if (dst) {
+        int v68 = self->unk68;
+        dst->type = 4;
+        dst->b01 = 0;
+        dst->b02 = 1;
+        _ReadWriteBarrier();
+        short w = 0x30;
+        dst->w04 = w;
+        w = -1;
+        dst->w06 = w;
+        dst->w10 = src->w10;
+        dst->m_14 = src->m_14;
+        dst->m_18 = src->m_18;
+        dst->m_1c = src->m_1c;
+        dst->m_24 = self->unk4c;
+        unsigned char flag = self->m_58;
+        dst->i20 = v68;
+        dst->b28 = flag;
+    }
+    self->ref = self->m_6c;
+    out->m_00 = 0;
+    out->m_kEvent.b02 = 1;
+}
+
 // Dispatches on ev->type, decrements the State reference count, and constructs the next event in out->m_kEvent when the count reaches zero.
 // @fnv 0x00d969e0
-int __cdecl FUN_00d969e0(A0Cls* a0, int a1, Ev* apEvent, Out* out)
+int __cdecl FUN_00d969e0(A0Cls* a0, ::PoolSet* a1, Ev* apEvent, Out* out)
 {
     int result = 1;
     State* s = apEvent->m_18;
@@ -4680,13 +4476,13 @@ int __cdecl FUN_00d969e0(A0Cls* a0, int a1, Ev* apEvent, Out* out)
                 out->m_00 = 0;
                 return 0;
             } else {
-                FUN_00d96870((unsigned char*)s, (int*)apEvent, (unsigned char*)out);
+                FUN_00d96870(s, apEvent, out);
                 return 0;
             }
         }
         goto Fail;
     case 3: { EmptyScope scope;
-        FUN_00d96870((unsigned char*)s, (int*)apEvent, (unsigned char*)out);
+        FUN_00d96870(s, apEvent, out);
         return 0;
         goto Fail;
     }
@@ -4718,7 +4514,7 @@ int __cdecl FUN_00d969e0(A0Cls* a0, int a1, Ev* apEvent, Out* out)
                 temp.b01 = 0;
                 temp.b02 = 2;
                 temp.m_1c = saved;
-                reinterpret_cast<::Mgr *>((a0))->InsertItemAndNotify((::PoolSet *)(a1), (*(const ::Item *)(&temp)), 0);
+                reinterpret_cast<::Mgr *>((a0))->InsertItemAndNotify(a1, (*(const ::Item *)(&temp)), 0);
                 return 0;
             }
             goto ReturnZero;
@@ -4735,7 +4531,7 @@ int __cdecl FUN_00d969e0(A0Cls* a0, int a1, Ev* apEvent, Out* out)
             Ev* e = &out->m_kEvent;
             if (e) {
                 InitEv(e, apEvent, 8, 1, 0x30);
-                e->i2c = s->m_78;
+                e->m_2c = s->m_78;
                 e->m_20 = 0;
                 e->m_28 = 0;
             }
@@ -4753,14 +4549,14 @@ int __cdecl FUN_00d969e0(A0Cls* a0, int a1, Ev* apEvent, Out* out)
                 Ev* e = &out->m_kEvent;
                 if (e) {
                     InitEv(e, apEvent, 8, 1, 0x30);
-                    *(Ev30*)e = *(Ev30*)apEvent;
-                    e->i2c = apEvent->m_2c->m_20;
+                    static_cast<Ev30&>(*e) = *apEvent;
+                    e->m_2c = apEvent->m_2c->m_20;
                 }
                 newref = saved;
             } else if ((unsigned int)(apEvent->m_28 + 1) < (unsigned int)apEvent->m_24) {
                 Ev* e = new(&out->m_kEvent) Placed2(apEvent,s);
                 e->m_28++;
-                e->i2c = s->m_78;
+                e->m_2c = s->m_78;
                 newref = s->m_7c;
             } else {
                 Ev* e = &out->m_kEvent;
@@ -4786,8 +4582,8 @@ int __cdecl FUN_00d969e0(A0Cls* a0, int a1, Ev* apEvent, Out* out)
                 Ev* e = &out->m_kEvent;
                 if (e) {
                     InitEv(e, apEvent, 8, 1, 0x30);
-                    e->i2c = s->m_78;
-                    e->m_20 = (M20*)(apEvent->m_28 + 1);
+                    e->m_2c = s->m_78;
+                    e->i20 = apEvent->m_28 + 1;
                     e->m_28 = 0;
                 }
                 count = s->m_7c;
@@ -4799,7 +4595,7 @@ int __cdecl FUN_00d969e0(A0Cls* a0, int a1, Ev* apEvent, Out* out)
                     e->m_20 = (M20*)s->m_78;
                     e->w36 = 0;
                     e->w34 = s->m_54;
-                    e->m_30 = s->m_14;
+                    e->p30 = s->m_14;
                     e->b3c = 0;
                 }
                 count = s->m_6c;
@@ -4816,7 +4612,7 @@ ReturnZero:
         s->ref--;
         Node* n = apEvent->m_20->m_0c;
         if (n->m_00 != 0) {
-            n->m_04 = (int)s->m_24;
+            n->m_04 = s->m_24;
             s->m_24 = n;
         }
         if (s->ref == 0)
@@ -4826,7 +4622,7 @@ ReturnZero:
     case 11: {
         if (apEvent->m_38 <= 5)
             s->m_08 = 0;
-        result = (int)(((unsigned int)(unsigned short)apEvent->m_34 - 1) >> 7) + 1;
+        result = (int)(((unsigned int)apEvent->w34 - 1) >> 7) + 1;
 ProcessAmount:
         _ReadWriteBarrier();
         int* count = &apEvent->m_18->m_04;
@@ -4886,6 +4682,13 @@ Finish:
     goto Finish;
 }
 }  // namespace fnv_00d969e0
+
+static unsigned char* S00d96870_outp;
+
+void S00d96870_Entry(unsigned char* self, int* src)
+{
+    fnv_00d969e0::FUN_00d96870(reinterpret_cast<fnv_00d969e0::State*>(self), reinterpret_cast<fnv_00d969e0::Ev*>(src), reinterpret_cast<fnv_00d969e0::Out*>(S00d96870_outp));
+}
 
 extern double DAT_01035718;
 
@@ -4952,7 +4755,7 @@ void __cdecl FUN_00d87aa0(D87aa0Reporter* apReporter, const char* id, const char
 {
     for (int i = 0; i < apReporter->m_numFilters; i++) {
         D87aa0Name& e = apReporter->m_filters[i];
-        if (::fnv_00cb0fa0::FUN_00cb0fa0((const char *)((int)e.m_name), (const char *)((int)id)) == 0)
+        if (::fnv_00cb0fa0::FUN_00cb0fa0(e.m_name, id) == 0)
             return;
     }
     int n = ++apReporter->m_uiItemCount;
@@ -4963,11 +4766,11 @@ void __cdecl FUN_00d87aa0(D87aa0Reporter* apReporter, const char* id, const char
         va_list args;
         va_start(args, fmt);
         if (*fmt == '#') {
-            ::FUN_00cb0f80((char*)buf, DAT_010d3cb4, (char *)(n));
+            ::FUN_00cb0f80((char*)buf, DAT_010d3cb4, (char *)(intptr_t)(n)); // the "%4i" argument of a varargs format
             reinterpret_cast<::Own_00cc0470 *>((apReporter->m_stream))->FUN_00cc0470((void *)((char*)buf));
-            ::FUN_00cb0f50((int)((char*)buf), 0x400, (int)(fmt + 1), (int)(args));
+            ::FUN_00cb0f50((intptr_t)((char*)buf), 0x400, (intptr_t)(fmt + 1), (intptr_t)(args));
         } else {
-            ::FUN_00cb0f50((int)((char*)buf), 0x400, (int)(fmt), (int)(args));
+            ::FUN_00cb0f50((intptr_t)((char*)buf), 0x400, (intptr_t)(fmt), (intptr_t)(args));
         }
         reinterpret_cast<::Own_00cc0470 *>((apReporter->m_stream))->FUN_00cc0470((void *)((char*)buf));
     }
@@ -5131,7 +4934,7 @@ struct D94Sub {
     int u24;
     int u28;
     int u2c;
-    int m30;
+    char* m30;
 };
 struct D94Body {
     int u00;
@@ -5142,7 +4945,7 @@ struct D94Body {
     int u14;
     D94Sub* m18;
     int u1c;
-    int* p20;
+    ::SourceItem** p20;
     unsigned short us24;
     unsigned short us26;
 };
@@ -5164,7 +4967,7 @@ int __cdecl FUN_00d94df0(char* a1, D94Obj* a2, D94Body* a3)
         cur++;
         tp->pCur = cur;
     }
-    ::FUN_00d29830((::ContextA0 *)(char *)(a1 + 0xe0), (::SourceItem **)((unsigned int)(a3->p20 + a3->us24)), a3->us26, 0xe0, (::TargetItem *)(((a3->us24 + 1) << 7) + a3->m18->m30));
+    ::FUN_00d29830((::ContextA0 *)(char *)(a1 + 0xe0), a3->p20 + a3->us24, a3->us26, 0xe0, (::TargetItem *)((((a3->us24 + 1) << 7) + a3->m18->m30)));
     D94Tls* tp2 = (D94Tls*)fn(DAT_0126835c);
     D94Rec12* r = (D94Rec12*)tp2->pCur;
     if (r < (D94Rec12*)tp2->pEnd) {
@@ -5175,7 +4978,7 @@ int __cdecl FUN_00d94df0(char* a1, D94Obj* a2, D94Body* a3)
         r++;
         tp2->pCur = (D94Rec16*)r;
     }
-    return reinterpret_cast<::LunaOwner *>((a2))->ProcessCallback((int)(a3), (int)(a3), 0);
+    return reinterpret_cast<::LunaOwner *>((a2))->ProcessCallback((intptr_t)(a3), (intptr_t)(a3), 0);
 }
 
 struct S00d967a0_Obj {
@@ -5601,7 +5404,10 @@ extern char str_010d3ec8[];
 
 struct S00d94a80_Ctx {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    unsigned int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
+    unsigned int unk20, unk24, unk28, unk2c;
+    char* unk30;
+    char* unk34;
+    unsigned int unk38, unk3c;
     unsigned int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
     unsigned int unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
 };
@@ -5698,8 +5504,8 @@ static __forceinline void S00d94a80_Process(Arg0* a1, Arg2* p)
         S00d94a80_Rec* r = rec++;
         base.head.unk38 = r->unk0c;
         base.head.unk3c = r->unk10;
-        base.head.unk30 = (unsigned int)(end + r->unk18 * 128);
-        base.head.unk34 = (unsigned int)(end + r->unk1a * 128);
+        base.head.unk30 = end + r->unk18 * 128;
+        base.head.unk34 = end + r->unk1a * 128;
         base.head.unk6c = r->unk18;
         base.head.unk70 = r->unk1a;
         base.head.unk60 = r->unk04;
@@ -5751,7 +5557,7 @@ void __cdecl FUN_00d94a80(Arg0* a1, Arg1* a2, Arg2* a3)
         stream->m_cur = cur + 0xc;
     }
 
-    reinterpret_cast<::LunaOwner *>((a2))->ProcessCallback((int)(a3), (int)(a3), 0);
+    reinterpret_cast<::LunaOwner *>((a2))->ProcessCallback((intptr_t)(a3), (intptr_t)(a3), 0);
 }
 
 namespace fnv_00d86050 {
@@ -5872,7 +5678,7 @@ struct T00d94340_Stream {
 
 struct Arg_00d94340 {
     int unk00, unk04, unk08, unk0C, unk10;
-    int m_iA;
+    ::D942F0Island* m_iA;
     char* m_pcB;
 };
 
@@ -5894,7 +5700,7 @@ void FUN_00d94340(int unusedA, Target_00d94340* pkTarget, Arg_00d94340* pkArg)
         c->m_uiStartTicks = t;
         s->m_kRayEnd = c + 1;
     }
-    ::ClearFlagsAndMarkDirty((::D942F0Island *)(pkArg->m_iA), pkArg->m_pcB + 0x5c);
+    ::ClearFlagsAndMarkDirty(pkArg->m_iA, pkArg->m_pcB + 0x5c);
     T00d94340_Stream* s2 = (T00d94340_Stream*)TlsGetValue(DAT_0126835c);
     T00d94340_Cmd* c2 = s2->m_kRayEnd;
     if (c2 < s2->m_pRayCursor) {
@@ -5904,7 +5710,7 @@ void FUN_00d94340(int unusedA, Target_00d94340* pkTarget, Arg_00d94340* pkArg)
         c2->m_uiStartTicks = t2;
         s2->m_kRayEnd = c2 + 1;
     }
-    reinterpret_cast<::LunaOwner *>((pkTarget))->ProcessCallback((int)(pkArg), (int)(pkArg), 0);
+    reinterpret_cast<::LunaOwner *>((pkTarget))->ProcessCallback((intptr_t)(pkArg), (intptr_t)(pkArg), 0);
 }
 }  // namespace fnv_00d94340
 
@@ -6060,7 +5866,6 @@ struct RayCollector {
 struct VectorRef { unsigned address; const RayVector* get() const { return reinterpret_cast<const RayVector*>(address); } const RayVector* operator->() const { return get(); } };
 struct CollectorRef { RayCollector* p; RayCollector* operator->() const { return p; } };
 struct OutputRef { unsigned address; void* get() const { return reinterpret_cast<void*>(address); } };
-struct TraversalArena { unsigned char* current; };
 struct TraversalEntry { TreeNode* node; float nearT, farT; unsigned reserved; };
 extern const float DAT_010d4080, DAT_010cd644, DAT_0104e148, DAT_0104da48;
 
@@ -6157,11 +5962,9 @@ extern "C" FNV_00d99f50_Result __cdecl FUN_00d98ca0(const TreeData* tree, const 
     int capacity = tree->stackCapacity;
     if (capacity <= 0) capacity = 128;
     TreeNode state = readNode(node);
-    TraversalArena* arena = reinterpret_cast<TraversalArena*>(static_cast<AllocHolder*>(::FUN_00c85750()));
     float nearT = 0.0f;
-    TraversalEntry* stackBase = reinterpret_cast<TraversalEntry*>(arena->current);
+    TraversalEntry* stackBase = static_cast<TraversalEntry*>(hkMemoryRouter::getInstance().allocateStack((capacity * 16 + 127) & -128));
     TraversalEntry* stackTop = stackBase;
-    arena->current += (capacity * 16 + 127) & -128;
 
     __m128 delta = _mm_sub_ps(end.get(),start.get());
     __m128 squared = _mm_mul_ps(delta,delta);
@@ -6286,7 +6089,7 @@ extern "C" FNV_00d99f50_Result __cdecl FUN_00d98ca0(const TreeData* tree, const 
             break;
         }
     }
-    reinterpret_cast<TraversalArena*>(static_cast<AllocHolder*>(::FUN_00c85750()))->current = reinterpret_cast<unsigned char*>(stackBase);
+    hkMemoryRouter::getInstance().deallocateStack(stackBase);
     return collector->finish();
 }
 
@@ -6341,11 +6144,9 @@ static int FUN_00d881a0(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, voi
 
 int S00d881a0_Wrap(void* p);
 
-static void FUN_00d96870(unsigned char* self, int* src, unsigned char* out);
-
 void S00d96870_Entry(unsigned char* self, int* src);
 
-void __cdecl ComputeAndDispatchDelta(D99FC0Object* obj, int a2, int a3, float a4, float a5, float a6, int a7);
+void __cdecl ComputeAndDispatchDelta(D99FC0Object* obj, const ::TreeVector* a2, const ::TreeVector* a3, float a4, float a5, float a6, ::TreeCollector* a7);
 
 void __cdecl SetPivotAtom(PivotCData* data, const __m128* pivot, int pivotIndex);
 
@@ -6374,7 +6175,7 @@ void d94eb0_caller(void);
 
 static void FUN_00d96970(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value);
 
-void S00d96970_Entry(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value);
+void S00d96970_Entry(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, ::PoolSet* value);
 
 float FUN_00d974f0();
 
@@ -6394,19 +6195,6 @@ extern "C" char str_010d3b50[], str_010d3a88[], str_010d3b48[], str_010d3b40[], 
 
 struct TextD86 : StringBuf {
     void FUN_00d61c10(const char*) throw();
-};
-
-struct FreeD86 {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void freeBlock(void*, int);
-};
-
-struct RouterD86 {
-    int unk00, unk04, unk08;
-    FreeD86* heap;
 };
 
 static __declspec(noinline) unsigned char FUN_00d868b0(int t) {
@@ -6459,11 +6247,11 @@ extern "C" int FUN_00d86ec0(MemberD86* self, void*, char* output, int capacity) 
     }
     ::CopyIfNonEmpty(output, text.m_kStringBuffer, capacity);
     int result = text.m_fRestLength - 1;
-    RouterD86* router = (RouterD86*)static_cast<AllocHolder*>(::FUN_00c85750());
-    FreeD86* heap = router->heap;
+    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* heap = router->m_temp;
     text.m_fRestLength = 0;
     if ((text.m_iCapacityState & 0x80000000) == 0)
-        heap->freeBlock(text.m_kStringBuffer, text.m_iCapacityState & 0x3fffffff);
+        heap->bufFree(text.m_kStringBuffer, text.m_iCapacityState & 0x3fffffff);
     return result;
 }
 volatile int d86_type;
@@ -6576,7 +6364,7 @@ public:
     __forceinline unsigned short upper() const { return data.branch.maximum; }
     __forceinline unsigned int primitive() const { return data.leaf.tag&0x7fffffff; }
     __forceinline unsigned int count() const { return data.leaf.count; }
-    __forceinline PacketNode* left() const { return reinterpret_cast<PacketNode*>(reinterpret_cast<unsigned int>(this)+(data.branch.offset&0x7ffffffc)); }
+    __forceinline PacketNode* left() const { return reinterpret_cast<PacketNode*>(reinterpret_cast<uintptr_t>(this)+(data.branch.offset&0x7ffffffc)); }
     __forceinline PacketNode* right() const { return left()+1; }
 };
 struct PacketLeaf {
@@ -6708,9 +6496,7 @@ extern "C" PacketResult __cdecl FUN_00d99570(const PacketTree* tree,
     int capacity = tree->m_iNumNodes > 0 ? tree->m_iNumNodes : 128;
     const PacketNode* node = root;
     __declspec(align(16)) PacketNode cached = *readPacketNode(root);
-    ::AllocHolder* arena = static_cast<::AllocHolder*>(::FUN_00c85750());
-    PacketState* base = reinterpret_cast<PacketState*>(arena->unk00);
-    arena->unk00 += (capacity * sizeof(PacketState) + 127) & ~127;
+    PacketState* base = static_cast<PacketState*>(hkMemoryRouter::getInstance().allocateStack(int((capacity * sizeof(PacketState) + 127) & ~127)));
     PacketState* stack = base;
     const PacketRays& from = start;
     PacketVector zero = PacketVector::zero();
@@ -6837,7 +6623,7 @@ extern "C" PacketResult __cdecl FUN_00d99570(const PacketTree* tree,
         active.combine(nearValue.less(effectiveFar),active);
         if(!active.any()) goto pop;
     }
-    static_cast<::AllocHolder*>(::FUN_00c85750())->unk00=reinterpret_cast<intptr_t>(base);
+    hkMemoryRouter::getInstance().deallocateStack(base);
     return true;
 }
 
@@ -6962,21 +6748,21 @@ struct PathBuilder {
     int unk00;
     int unk04;
     Param3* m_p3;
-    int m_p4;
-    volatile int m_p7;
-    int m_p8;
+    intptr_t m_p4;
+    volatile intptr_t m_p7;
+    intptr_t m_p8;
     Param2* m_p2;
     int unk1C;
     Embedded5 m_usTrailingValue;
     Vec4 m_diff;
     float m_f80;
     float m_f84;
-    int m_p6;
+    intptr_t m_p6;
 
-    int FUN_00d9a2a0(int a1, Param2* a2, Param3* a3, int a4, Embedded5* a5, int a6, int a7, volatile int a8);
+    int FUN_00d9a2a0(intptr_t a1, Param2* a2, Param3* a3, intptr_t a4, Embedded5* a5, intptr_t a6, intptr_t a7, volatile intptr_t a8);
 };
 // @fnv 0x00d9a2a0
-int PathBuilder::FUN_00d9a2a0(int a1, Param2* a2, Param3* a3, int a4, Embedded5* a5, int a6, int a7, volatile int a8) {
+int PathBuilder::FUN_00d9a2a0(intptr_t a1, Param2* a2, Param3* a3, intptr_t a4, Embedded5* a5, intptr_t a6, intptr_t a7, volatile intptr_t a8) {
     m_p7 = a7;
     m_p8 = a8;
     m_p2 = a2;
@@ -7011,7 +6797,7 @@ int PathBuilder::FUN_00d9a2a0(int a1, Param2* a2, Param3* a3, int a4, Embedded5*
     spl.m_tangent.setMul4(SimdReal(0.5f), d);
     m_f80 = a3->m_f10;
     ContextArg context = { &unk04 };
-    return ::FUN_00d1c2b0((::CompressedTree *)(a1), (int)(&seg), (const ::SweptBoxQuery *)(::linear_cast_d9a2a0::Spline3 *)(&spl), (*(::LeafCollector * *)&(const ::linear_cast_d9a2a0::ContextArg &)(context)), a3->m_f10, (int *)(0), 0);
+    return ::FUN_00d1c2b0((::CompressedTree *)(a1), (intptr_t)(&seg), (const ::SweptBoxQuery *)(::linear_cast_d9a2a0::Spline3 *)(&spl), (*(::LeafCollector * *)&(const ::linear_cast_d9a2a0::ContextArg &)(context)), a3->m_f10, (int *)(0), 0);
 }
 
 }
@@ -7240,8 +7026,6 @@ extern "C" void __cdecl FUN_00d9a850(const PartitionBounds& bounds, const Partit
 
 int FUN_00d881a0(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, void* edi);
 
-void FUN_00d96870(unsigned char* self, int* src, unsigned char* out);
-
 void FUN_00d93ab0(CleanupObject* self);
 
 void WriteItems(StructA* a, StructB* b);
@@ -7253,8 +7037,8 @@ void FUN_00d96970(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Tar
 
 struct D863MemoryContext {
     unsigned int saved;
-    D863MemoryContext() { saved = (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xad]; (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xad] = 0x10; }
-    ~D863MemoryContext() { (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xad] = saved; }
+    D863MemoryContext() { saved = ::g_tlsBlock.memoryContext; ::g_tlsBlock.memoryContext = 0x10; }
+    ~D863MemoryContext() { ::g_tlsBlock.memoryContext = saved; }
 };
 
 struct D863_Rec {
@@ -7321,7 +7105,7 @@ void D863_Owner::FUN_00d86300(D863_Rec* dst, D863_Params* p)
         (_mm_store_ps)((float*)&dst->unk60, Scale(dst->unk60, k));
         dst->unka0 = Scale(dst->unka0, k);
     }
-    reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(dst), (int)(p));
+    reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(dst), (intptr_t)(p));
 }
 
 #include "generated/data/staging/blk_00d80000_o2.inc"

@@ -44879,7 +44879,7 @@ extern double DAT_01035838, DAT_01076f68;
 void TransitionActor::ApplyTransitionToTarget(TransitionActor* target)
 {
     void* pObject = ((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((target))->FUN_0043fcd0()));
-    bool valid = ::HasCollisionObject((int)(pObject), 1, 0);
+    bool valid = ::HasCollisionObject((intptr_t)(pObject), 1, 0);
     if (valid)
     {
         float start = reinterpret_cast<::ActiveEffect *>(this)->GetDuration();

@@ -3667,8 +3667,8 @@ struct S_e0d980_Holder
 
 struct S_e0d980_Str
 {
-    int unk0;
-    S_e0d980_Str(int a) throw();
+    uintptr_t unk0;
+    S_e0d980_Str(const char* a) throw();
     S_e0d980_Str(const S_e0d980_Str& o) throw();
     ~S_e0d980_Str() throw();
 };
@@ -3676,7 +3676,7 @@ struct S_e0d980_Item
 {
     S_e0d980_Str name;
     int value;
-    S_e0d980_Item(int a) throw() : name(a)
+    S_e0d980_Item(const char* a) throw() : name(a)
     {}
     S_e0d980_Item(const S_e0d980_Item& o) throw() : name(o.name)
     {
@@ -3704,11 +3704,11 @@ struct S_e0d980_Obj
     int unk0;
     int unk4;
     S_e0d980_Arr arr;
-    void FUN_00e0d980(int a, int b) throw();
+    void FUN_00e0d980(const char* a, int b) throw();
 };
 // Creates an S_e0d980_Item from a and b, then pushes it onto arr.
 // @fnv 0x00e0d980
-void S_e0d980_Obj::FUN_00e0d980(int aiName, int aiValue) throw()
+void S_e0d980_Obj::FUN_00e0d980(const char* aiName, int aiValue) throw()
 {
     S_e0d980_Item t(aiName);
     t.value = aiValue;

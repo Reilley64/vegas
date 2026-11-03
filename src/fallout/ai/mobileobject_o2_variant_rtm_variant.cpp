@@ -1006,7 +1006,7 @@ extern "C" int FUN_00c73170(MovementController* self, void*, MovementInput* in) 
             self->fl.Clear(0x600);
             self->fl.Or(0x10000);
             reinterpret_cast<::CharacterProbeLocal *>((self))->FUN_00c6e820();
-            reinterpret_cast<::FUN_00c6cef0_cls *>((self))->CallTargetWithArgs((int)(&negAxis),(int)(&self->value480));
+            reinterpret_cast<::FUN_00c6cef0_cls *>((self))->CallTargetWithArgs((intptr_t)(&negAxis),(uintptr_t)(&self->value480));
             self->fl.Clear(0x10000);
             bool contact=self->value480==2 && !self->byte478;
             if(self->fl.value&0x2000) {

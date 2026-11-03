@@ -33,7 +33,7 @@ void FUN_00d943d0(::S_00d943d0_Ctx *, ::S_00d943d0_Obj *, ::S_00d943d0_Item *);
 // 0x00d944d0
 void FUN_00d944d0(::S00d944d0_Obj *, ::S00d944d0_Arg1 *, ::S00d944d0_Arg2 *);
 // 0x00d94570
-namespace fnv_00d94570 { void FUN_00d94570(::fnv_00d94570::Fnv94570_Obj **, int, ::fnv_00d94570::Fnv94570_Ctx *); }
+namespace fnv_00d94570 { void FUN_00d94570(::fnv_00d94570::Fnv94570_Obj **, void *, ::fnv_00d94570::Fnv94570_Ctx *); }
 // 0x00d94670
 void LogIntegrateVelocity(::Arg0 *, ::Arg1 *, ::Arg2 *);
 // 0x00d94730

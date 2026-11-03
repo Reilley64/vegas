@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include <xmmintrin.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -390,20 +391,6 @@ struct S00cfac20_Mon
     int unk08;
     char* end;
 };
-struct S00cfac20_Stack
-{
-    char* cur;
-    char* alloc(int size)
-    {
-        char* r = cur;
-        cur = r + ((size + 0x7f) & ~0x7f);
-        return r;
-    }
-    void release(char* p)
-    {
-        cur = p;
-    }
-};
 struct S00cfac20_Grp
 {
     void FUN_00cfac20(S00cfac20_Builder* b, S00cfac20_Ray* rays, int count, void* ctx, char* out);
@@ -463,7 +450,7 @@ void S00cfac20_Grp::FUN_00cfac20(S00cfac20_Builder* b, S00cfac20_Ray* rays, int 
     }
     S00cfac20_Aabb aabb;
     S00cfac20_calcAabb(rays, count, aabb);
-    char* mem = ((S00cfac20_Stack*)FUN_00c85750())->alloc(b->GetLogicalSize());
+    char* mem = static_cast<char*>(hkMemoryRouter::getInstance().allocateStack((b->GetLogicalSize() + 0x7f) & ~0x7f));
     b->init(&aabb, mem);
     S00cfac20_Ray* r = rays;
     dst = out;
@@ -472,7 +459,7 @@ void S00cfac20_Grp::FUN_00cfac20(S00cfac20_Builder* b, S00cfac20_Ray* rays, int 
         reinterpret_cast<::S_00cfab30_this *>(this)->RecordAndDispatch((::S_00cfab30_object *)(b), (::S_00cfab30_arg *)(::fnv_00cfac20::S00cfac20_Ray *)(r++), ctx, mem, dst);
         dst += 0x60;
     }
-    ((S00cfac20_Stack*)FUN_00c85750())->release(mem);
+    hkMemoryRouter::getInstance().deallocateStack(mem);
     {
         S00cfac20_Mon* mon = (S00cfac20_Mon*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
         char* p = mon->cur;
@@ -526,48 +513,6 @@ template <class T> struct ReferenceCountedPointer
         m_pRetainedObject = rp.m_pRetainedObject;
     }
 };
-
-struct hkMemoryAllocator
-{
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
-    virtual void ReturnMemory(void* p, int numBytes);
-
-    template <typename T> __forceinline T* _bufAlloc(int& reqNumInOut)
-    {
-        int n = reqNumInOut * sizeof(T);
-        void* p = AllocateBufferWithSize(n);
-        reqNumInOut = n / int(sizeof(T));
-        return static_cast<T*>(p);
-    }
-
-    template <typename T> __forceinline void _bufFree(void* p, int numElem)
-    {
-        ReturnMemory(p, numElem * sizeof(T));
-    }
-};
-
-struct NineIntegerRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocator* m_pStreamAllocator;
-
-    __forceinline hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-
-__forceinline hkMemoryAllocator& containerHeap()
-{
-    return static_cast<NineIntegerRecord*>(FUN_00c85750())->heap();
-}
 
 template <typename T> __forceinline void hkConstructWithArray(T* t, int n, const T* tcopy)
 {
@@ -651,7 +596,7 @@ template <typename T> struct hkArray
 
     __forceinline hkArray& operator=(const hkArray& a)
     {
-        _copyFromArrayClass(containerHeap(), a);
+        _copyFromArrayClass(hkMemoryRouter::getInstance().heap(), a);
         return *this;
     }
 
@@ -717,7 +662,7 @@ ShapeData& ShapeData::FUN_00ce4ae0(const ShapeData& other)
     m_kSecondReferencedObject = other.m_kSecondReferencedObject;
     m_kVertices = other.m_kVertices;
     m_faces = other.m_faces;
-    m_ppIndices._copyFromArrayPod(containerHeap(), other.m_ppIndices);
+    m_ppIndices._copyFromArrayPod(hkMemoryRouter::getInstance().heap(), other.m_ppIndices);
     m_kMinimumCorner = other.m_kMinimumCorner;
     m_kMaximumCorner = other.m_kMaximumCorner;
     m_kCenterPosition = other.m_kCenterPosition;

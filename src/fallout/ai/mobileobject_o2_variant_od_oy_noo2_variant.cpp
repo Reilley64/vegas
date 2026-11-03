@@ -1692,9 +1692,9 @@ void Actor9BE::FUN_009be0a0()
             if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce308)))))) != 0.0)
             {
                 if (reinterpret_cast<::FUN_006d2c20_Class *>((((::Base9BE *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetFloatAtOffsetB0() > 0.0)
-                    ::SetSelectionValue((int)(pkNode), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce308)))))) * reinterpret_cast<::FUN_006d2c20_Class *>((((::Base9BE *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetFloatAtOffsetB0(), 1, 0);
+                    ::SetSelectionValue((intptr_t)(pkNode), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce308)))))) * reinterpret_cast<::FUN_006d2c20_Class *>((((::Base9BE *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetFloatAtOffsetB0(), 1, 0);
                 else
-                    ::SetSelectionValue((int)(pkNode), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce308)))))), 1, 0);
+                    ::SetSelectionValue((intptr_t)(pkNode), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce308)))))), 1, 0);
             }
             if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce5e8)))))) != 0.0)
                 ::ApplyCollisionObjectCount((::NiAVObject *)(pkNode), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce5e8)))))), 1, 0);

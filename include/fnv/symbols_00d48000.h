@@ -9,7 +9,7 @@ struct S_00d483a0_Result;
 // 0x00d48330
 void FUN_00d48330(::FUN_00d48330_vt *);
 // 0x00d48350
-void FUN_00d48350(int *);
+void FUN_00d48350(void **);
 // 0x00d48360
 int *FUN_00d48360();
 // 0x00d483a0

@@ -168,7 +168,7 @@ bool FUN_00ea3950(float afLength, const void* pA, const void* pB, const void* pC
                   Pt3* pPoint, bool bNormal, Pt3* pNormal, Pt3* pNegNormal)
 {
     Isect k;
-    reinterpret_cast<::FNVRegion *>(&(k))->InitRegion((void *)(pA), (::FNVVectorParameter *)(pC), afLength, 0.001f, ::DAT_010141cc, (void *)(0x20));
+    reinterpret_cast<::FNVRegion *>(&(k))->InitRegion((void *)(pA), (::FNVVectorParameter *)(pC), afLength, 0.001f, ::DAT_010141cc, 0x20);
     reinterpret_cast<::S_00eae7a0_Solver *>(&(k))->Solve((*(const ::S_00eae7a0_Point *)(pB)), (*(const ::S_00eae7a0_Point *)(pD)));
     *pfTime = reinterpret_cast<::FnvCpu_FUN_00eae6f0_CpuObject *>(&(k))->FUN_00eae6f0();
     if (reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(k))->FUN_00be0aa0() != 3 && reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(k))->FUN_00be0aa0() != 2)

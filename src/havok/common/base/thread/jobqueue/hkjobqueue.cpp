@@ -2014,7 +2014,7 @@ struct AllocHolder
 
 // Initializes fields of a local ScratchBlock, passes it to FUN_00d883c0, then conditionally calls vSlot10 on m_pAllocator.
 // @fnv 0x00d889f0
-void* __cdecl FUN_00d889f0(void* a1)
+int __cdecl FUN_00d889f0(void* a1)
 {
     __declspec(align(16)) ScratchBlock s;
     s.unk0C = 1;
@@ -2031,13 +2031,13 @@ void* __cdecl FUN_00d889f0(void* a1)
     s.unk78 = 0;
     s.unk64 = 0x80000000u;
     s.unk7C = 0;
-    void* obj = ((void *)(::FUN_00d883c0((*(const ::S883_Island *)(a1)), (char *)(0), 0, (*(::S883_TaskHeader *)(&s)))));
+    int size = ::FUN_00d883c0((*(const ::S883_Island *)(a1)), (char *)(0), 0, (*(::S883_TaskHeader *)(&s)));
     AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
     SlotAllocator* alloc = pAllocHolder->m_pAllocator;
     unsigned int flag = s.unk64;
     if ((flag & 0x80000000u) == 0)
         alloc->vSlot10(s.unk5C, (flag & 0x3FFFFFFFu) * 4);
-    return obj;
+    return size;
 }
 }  // namespace fnv_00d889f0
 

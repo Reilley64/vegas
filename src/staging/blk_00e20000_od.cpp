@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include <intrin.h>
 #include "fnv/symbols_00c90000.h"
 #include "../../include/layout_support.h"
@@ -227,11 +228,6 @@ __m128* FUN_00e2ab00(__m128* src, __m128* out1, __m128* out2) {
 // namespace fnv_00e2ab00
 
 
-struct Router_e3a1 {
-    int unk00, unk04, unk08, unk0C;
-    void* m_pStreamAllocator;
-};
-
 
 struct __declspec(align(16)) Key_e3a1 {
     float m_ax, m_ay, m_az, m_aw;
@@ -244,9 +240,9 @@ template <class T> struct hkArray_e3a1 {
     int m_iCapacityState;
     void AddBack(const T& t)
     {
-        Router_e3a1* router = static_cast<Router_e3a1*>(::FUN_00c85750());
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         new (&m_data[m_iElementCount]) T(t);
         m_iElementCount++;
     }
@@ -414,22 +410,6 @@ struct ProfBuf
     char* m_pRecordEnd;
 };
 
-class ScrapAllocator
-{
-public:
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void* Alloc(int& aiSize);
-    virtual void Free(void* p, unsigned int size);
-};
-
-struct ScrapHolder
-{
-    DWORD unk00, unk04, unk08, unk0C;
-    ScrapAllocator* m_pAllocationContext;
-};
-
 template <class T> struct ScrapArr
 {
     T* m_pData;
@@ -567,39 +547,28 @@ pRec->m_iTick = ticks; }
     }
 }
 
-template <class T> __forceinline T* BufAlloc(ScrapAllocator* pAlloc, int& n)
-{
-    int bytes = n * sizeof(T);
-    T* p = (T*)pAlloc->Alloc(bytes);
-    n = bytes / (int)sizeof(T);
-    return p;
-}
-
 template <class T> __forceinline void ArrInit(T*& rData, unsigned int& rCap, int n)
 {
-    ScrapHolder* pHolder = ((ScrapHolder*)static_cast<Router_e3a1*>(::FUN_00c85750()));
-    ScrapAllocator* pAlloc = pHolder->m_pAllocationContext;
+    hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
     int cap = n;
-    rData = cap ? BufAlloc<T>(pAlloc, cap) : 0;
+    rData = cap ? alloc._bufAlloc<T>(cap) : 0;
     rCap = cap ? cap : 0x80000000;
 }
 
 template <class T> __forceinline void ArrFree(T* pData, unsigned int uiCap)
 {
-    ScrapHolder* pHolder = ((ScrapHolder*)static_cast<Router_e3a1*>(::FUN_00c85750()));
-    ScrapAllocator* pAlloc = pHolder->m_pAllocationContext;
+    hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
     if ((uiCap & 0x80000000) == 0)
-        pAlloc->Free(pData, (uiCap & 0x3fffffff) * sizeof(T));
+        alloc._bufFree<T>(pData, int(uiCap & 0x3fffffff));
 }
 
 template <class T> __forceinline void ArrClearFree(ScrapArr<T>& arr)
 {
-    ScrapHolder* pHolder = ((ScrapHolder*)static_cast<Router_e3a1*>(::FUN_00c85750()));
-    ScrapAllocator* pAlloc = pHolder->m_pAllocationContext;
+    hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
     unsigned int cap = arr.m_uiCap;
     arr.m_uiLogicalSize = 0;
     if ((cap & 0x80000000) == 0)
-        pAlloc->Free(arr.m_pData, (cap & 0x3fffffff) * sizeof(T));
+        alloc._bufFree<T>(arr.m_pData, int(cap & 0x3fffffff));
     arr.m_pData = 0;
     arr.m_uiCap = 0x80000000;
 }
@@ -670,9 +639,9 @@ void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pS
     ArrInit(pData1, uiCap1, n);
     ArrInit(pData2, uiCap2, n);
     {
-        ScrapHolder* pHolder = ((ScrapHolder*)static_cast<Router_e3a1*>(::FUN_00c85750()));
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         int cap = 8;
-        pData3 = cap ? BufAlloc<ScrapArr<int> >(pHolder->m_pAllocationContext, cap) : 0;
+        pData3 = cap ? alloc._bufAlloc<ScrapArr<int> >(cap) : 0;
         iSize3 = cap;
         uiCap3 = cap ? cap : 0x80000000;
     }
@@ -733,11 +702,11 @@ void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pS
     ArrFree(pData5, uiCap5);
     ArrFree(pData4, uiCap4);
     {
-        ScrapAllocator* pAlloc = ((ScrapHolder*)static_cast<Router_e3a1*>(::FUN_00c85750()))->m_pAllocationContext;
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         for (int k = 0; k < iSize3; k++)
             ArrClearFree(pData3[k]);
         if ((uiCap3 & 0x80000000) == 0)
-            pAlloc->Free(pData3, (uiCap3 & 0x3fffffff) * sizeof(ScrapArr<int>));
+            alloc._bufFree<ScrapArr<int> >(pData3, int(uiCap3 & 0x3fffffff));
     }
     ArrFree(pData2, uiCap2);
     ArrFree(pData1, uiCap1);
@@ -925,21 +894,6 @@ void FrameE3B::FUN_00e3b630(const void* pSource)
 
 void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pSrc, JobQueue* m_pPrimaryTaskProcessor, JobWaiter* pWaiter, int iParam, bool bAuto);
 
-struct S00e29b80_Allocator;
-
-struct S00e29b80_Router
-{
-    int unk00, unk04, unk08, unk0C;
-    S00e29b80_Allocator* m_pStreamAllocator;
-    S00e29b80_Allocator& heap() { return *m_pStreamAllocator; }
-    static __forceinline S00e29b80_Router& GetMonitorStream() { return *(S00e29b80_Router*)static_cast<Router_e3a1*>(::FUN_00c85750()); }
-};
-
-struct S00e29b80_HeapAllocator
-{
-    S00e29b80_Allocator& get(const void*) { return S00e29b80_Router::GetMonitorStream().heap(); }
-};
-
 
 typedef __m128 S00e29b80_QuadReal;
 
@@ -1015,7 +969,7 @@ struct S00e29b80_Array
     int m_iCapacityState;
 
     __forceinline int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
-    __forceinline void GrowArrayCapacity(S00e29b80_Allocator& alloc, int n)
+    __forceinline void GrowArrayCapacity(hkMemoryAllocator& alloc, int n)
     {
         const int capacity = getCapacity();
         if (capacity < n)
@@ -1025,7 +979,7 @@ struct S00e29b80_Array
             ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
-    __forceinline void reserve(int size) { GrowArrayCapacity(S00e29b80_HeapAllocator().get(this), size); }
+    __forceinline void reserve(int size) { GrowArrayCapacity(hkMemoryRouter::getInstance().heap(), size); }
     __forceinline void pushBackUnchecked(const T& t)
     {
         T* p = m_data + m_iElementCount;

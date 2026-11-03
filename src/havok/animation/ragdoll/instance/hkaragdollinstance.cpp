@@ -659,7 +659,7 @@ extern "C"
 {
 }
 
-void __cdecl FUN_00ce2d10(unsigned int p0, void* p1, unsigned int p2, int p3, unsigned int p4);
+void __cdecl FUN_00ce2d10(uintptr_t p0, void* p1, uintptr_t p2, int p3, uintptr_t p4);
 
 struct Vec4x3
 {
@@ -670,7 +670,7 @@ struct Vec4x3
 
 // Reserves stack space for count Vec4x3 values, transforms each source entry with SIMD, calls FUN_00ce2d10, then restores the stack cursor.
 // @fnv 0x00ce2f40
-void __cdecl FUN_00ce2f40(unsigned int arg0, uintptr_t arg1, unsigned int arg2, int count, unsigned int arg4)
+void __cdecl FUN_00ce2f40(uintptr_t arg0, uintptr_t arg1, uintptr_t arg2, int count, uintptr_t arg4)
 {
     void** cursor = (void**)static_cast<ArrayRouter*>(::FUN_00c85750());
     unsigned char* pMatBase = (unsigned char*)*cursor;

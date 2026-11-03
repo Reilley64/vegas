@@ -20,7 +20,7 @@ struct hkAabbD1C;
 struct hkArrayIntD1C;
 
 // 0x00d1c2b0
-int FUN_00d1c2b0(::CompressedTree *, int, const ::SweptBoxQuery *, ::LeafCollector *, float, int *, int);
+int FUN_00d1c2b0(::CompressedTree *, intptr_t, const ::SweptBoxQuery *, ::LeafCollector *, float, int *, int);
 // 0x00d1c560
 int FUN_00d1c560(const ::QueryTree16 *, const ::QueryAabb &, ::AabbCollector *, ::VoidArray *, void ***, intptr_t);
 // 0x00d1ca00

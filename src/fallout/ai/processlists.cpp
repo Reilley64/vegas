@@ -8614,7 +8614,7 @@ struct TaskQueueBase
 
 struct TaskQueueShell : public TaskQueueBase
 {
-    void FUN_00c44c90(int argument);
+    void FUN_00c44c90(intptr_t argument);
 };
 // @fnv 0x0096c970
 void FUN_0096c970_shell::FUN_0096c970()
@@ -8653,7 +8653,7 @@ void FUN_0096c970_shell::FUN_0096c970()
         {
             IndexedTaskData animationArrayTask;
             ((FUN_0087cf10_shell*)&animationArrayTask)->Construct(FUN_0096cb20, &animationArray, (void *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(animationArray))->GetName()))));
-            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((int)(&animationArrayTask));
+            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((intptr_t)(&animationArrayTask));
         }
     }
 }
@@ -8689,15 +8689,15 @@ void ProcListsExt::FUN_0096cda0()
         {
             ProcParallelTask kTask;
             reinterpret_cast<::FUN_0087cf10_shell *>(&(kTask))->Construct(ProcTaskFunc, &actors, (void *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(actors))->GetName()))));
-            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::ProcTaskManager * *>(&::DAT_01202df4))))->FUN_00c44c90((int)(&kTask));
+            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::ProcTaskManager * *>(&::DAT_01202df4))))->FUN_00c44c90((intptr_t)(&kTask));
         }
     }
 }
 
 // @fnv 0x00c44c90
-void TaskQueueShell::FUN_00c44c90(int argument)
+void TaskQueueShell::FUN_00c44c90(intptr_t argument)
 {
-    reinterpret_cast<::FUN_00c44c40_class *>((this))->FUN_00c44c40((int)(&((void (&)())::RunWorkItems)), argument);
+    reinterpret_cast<::FUN_00c44c40_class *>((this))->FUN_00c44c40((intptr_t)(&((void (&)())::RunWorkItems)), argument);
 }
 
 struct RefStub
@@ -12314,7 +12314,7 @@ void EffectProcessLists::FUN_009746c0(float delta)
         if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(updateBuffer))->GetName())))
         {
             EffectParallelTask parallelTask(MarkNodeIfCheckFails, &updateBuffer, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(updateBuffer))->GetName())));
-            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((int)(&parallelTask));
+            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((intptr_t)(&parallelTask));
             for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(updateBuffer))->GetName())); i++)
             {
                 EffectUpdate& update = updateBuffer.FUN_006a7af0(i);

@@ -1994,9 +1994,7 @@ struct Output56
     int v;
     void setPlanes(short lo, short hi)
     {
-        v = 0;
-        ((short*)&v)[0] = lo;
-        ((short*)&v)[1] = hi;
+        v = (int)(((unsigned int)(unsigned short)hi << 16) | (unsigned short)lo);
     }
 };
 

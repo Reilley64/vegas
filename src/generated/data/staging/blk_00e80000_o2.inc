@@ -30,5 +30,5 @@ unsigned int DAT_0126f9c0;
 float DAT_0126f9c4;
 namespace fnv_00e91dc0 { bool DAT_0126fa00; }
 int DAT_0126fa04;
-int DAT_0126fa50;
+void* DAT_0126fa50;
 FUN_00e91b90_Class *DAT_0126fa54;

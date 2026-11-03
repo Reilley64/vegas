@@ -259,6 +259,13 @@ NiPointer<NiRefObject> NiTPointerListBase::FUN_00c5bfb0(Item*& kPos)
     return element;
 }
 
+// Removes the item at position through 0x00c5bfb0 and releases the returned pointer, for units whose
+// layout_support.h declares NiTPointerListBase as a template.
+void RemovePointerListPos(void* list, void*& position)
+{
+    reinterpret_cast<NiTPointerListBase*>(list)->FUN_00c5bfb0(*reinterpret_cast<Item**>(&position));
+}
+
 #include <windows.h>
 struct RefObj5b
 {

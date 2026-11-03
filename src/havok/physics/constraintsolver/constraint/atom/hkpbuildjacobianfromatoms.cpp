@@ -122,7 +122,7 @@ struct EventRecord
     };
     unsigned short context6c;
     unsigned short context70;
-    unsigned int inputBits;
+    void* inputBits;
     unsigned int valueBits;
 };
 struct RecordSource
@@ -142,7 +142,7 @@ struct RecordSource
 };
 // Advances *dest past a new EventRecord filled from source fields, inputBits and option, with accumulator incremented by DAT_010c9300.
 // @fnv 0x00d6f2b0
-void __cdecl AppendEventRecord(const RecordSource* source, EventRecord** dest, volatile unsigned int inputBits,
+void __cdecl AppendEventRecord(const RecordSource* source, EventRecord** dest, void* volatile inputBits,
                                volatile unsigned char option)
 {
     volatile EventRecord* record = *dest;
@@ -152,7 +152,7 @@ void __cdecl AppendEventRecord(const RecordSource* source, EventRecord** dest, v
     int n60 = source->f60();
     record->accumulator = (float)next;
     record->context70 = (unsigned short)n70;
-    unsigned int uiInputBits = inputBits;
+    void* uiInputBits = inputBits;
     record->valueBits = (unsigned int)n60;
     unsigned char ucOption = option;
     record->context6c = (unsigned short)iField6c;

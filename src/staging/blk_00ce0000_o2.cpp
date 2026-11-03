@@ -4219,8 +4219,6 @@ void MapperInitialization::FUN_00ce5310()
 
 void __cdecl FUN_00cf6950(int a, int apObject);
 
-// VEGAS17-CONFLICT: FUN_00ce5370_cls (variant definition below differs from the one above)
-// Sub-object at +0x10; FUN_00ce5370 is the game's constructor for it.
 
 
 

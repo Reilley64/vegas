@@ -6994,10 +6994,6 @@ int __cdecl DispatchToType1dNodes(FNVDispatchNode* pNodeA, FNVDispatchNode* pNod
 
 void* __cdecl FUN_00d48340();
 
-// VEGAS17-CONFLICT: KeyTemp (variant definition below differs from the one above)
-// InitAndCall: cdecl, 5 stack args. Builds a 12-byte temp from (a1, a2),
-// reads a field of the temp's returned pointer, calls a 4-arg cdecl helper,
-// then disposes the temp and returns the helper result.
 
 void* __cdecl InitAndCall(void* volatile a1, void* volatile a2, void* volatile a3, void* volatile a4,
                           void* volatile a5);
@@ -7010,9 +7006,6 @@ void* __cdecl FUN_00d4b1c0();
 
 int __cdecl FUN_00d4b220();
 
-// VEGAS17-CONFLICT: FUN_00d4a180_cls (variant definition below differs from the one above)
-// Forwarding helper: if the object pointer is valid, pass the second
-// argument on to the object's own handler.
 
 int* __cdecl FUN_00d4b280();
 

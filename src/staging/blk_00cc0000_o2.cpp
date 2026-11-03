@@ -28498,17 +28498,12 @@ void FUN_00cd9ed0(unsigned char* flag, int unused);
 
 
 
-// VEGAS17-CONFLICT: CCC920BinaryStream (variant definition below differs from the one above)
-// SaveBinary of an element array: the count, then each element saves itself.
 
 
 
 
 typedef unsigned int(__cdecl* SaveStreamWriteFn)(SaveStream*, const void*, unsigned int, unsigned int*, unsigned int);
 
-namespace cce {
-// @fnv 0x00ccec00
-}
 
 
 

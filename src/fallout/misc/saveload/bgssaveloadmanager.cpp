@@ -536,12 +536,14 @@ unsigned int FUN_008510e0()
 struct FUN_00851d30_shell
 {
     void FUN_00851d30();
+    char pad00[0xf];
+    unsigned char unk0f;
 };
 
 // @fnv 0x00851d30
 void FUN_00851d30_shell::FUN_00851d30()
 {
-    ((unsigned char*)this)[0xf] = 1;
+    this->unk0f = 1;
 }
 
 // @fnv 0x00851d50
@@ -581,11 +583,14 @@ bool FUN_00851230_shell::IsField5Set()
 struct FUN_00851d70_shell
 {
     void SetFlagByte();
+    char pad00[0x11];
+    char unk11;
+    char pad12[0x2];
 };
 // @fnv 0x00851d70
 void FUN_00851d70_shell::SetFlagByte()
 {
-    ((char*)this)[0x11] = 1;
+    this->unk11 = 1;
 }
 
 extern GlobalObject_0040c150 g_011d3600;
@@ -702,13 +707,15 @@ struct S00851cd0
 {
     int m_790;
     int GetField790();
+    unsigned int pad04[0x1e3];
+    int unk790;
 };
 
 // @fnv 0x00851cb0
 int S00851cd0::GetField790()
 {
     reinterpret_cast<::S00851cd0 *>(this)->FUN_00851cd0();
-    return ((int*)this)[0x1e4];
+    return this->unk790;
 }
 }  // namespace fnv_00851cb0
 

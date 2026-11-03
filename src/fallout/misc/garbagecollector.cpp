@@ -288,12 +288,14 @@ void __cdecl FUN_00868770(int* a, intptr_t b);
 struct FUN_00868740_shell
 {
     void FUN_00868740();
+    unsigned int pad00[0x1];
+    int unk04;
 };
 
 // @fnv 0x00868740
 void FUN_00868740_shell::FUN_00868740()
 {
-    FUN_00868770(reinterpret_cast<int*>(this) + 1, *(reinterpret_cast<int*>(this) + 1) | 0x40000000);
+    FUN_00868770(&this->unk04, this->unk04 | 0x40000000);
 }
 
 struct FUN_008681c0_shell

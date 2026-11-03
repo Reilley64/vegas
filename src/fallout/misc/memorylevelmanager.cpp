@@ -243,6 +243,9 @@ void __cdecl FUN_00878250(bool abRunExtraSteps)
 struct FUN_00878340_shell : public PlayerCharacter
 {
     bool FUN_00878340();
+    char pad04[0x759];
+    bool unk75d;
+    char pad75e[0x2];
 };
 // @fnv 0x008782b0
 void ActorReferenceArray::SetupActorReferences()
@@ -259,7 +262,7 @@ void ActorReferenceArray::SetupActorReferences()
 // @fnv 0x00878340
 bool FUN_00878340_shell::FUN_00878340()
 {
-    return *((bool*)((char*)this + 0x75d));
+    return this->unk75d;
 }
 
 #include "generated/data/fallout/misc/memorylevelmanager.inc"

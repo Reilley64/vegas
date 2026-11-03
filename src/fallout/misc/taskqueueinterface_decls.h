@@ -747,6 +747,8 @@ class MobileObject : public TESObjectREFR
       // @ref 0x009306d0 GetPhysicsCharacterController@MobileObject
 public:
     bool IsInDialogueWithPlayer() const;
+    unsigned int pad04[0x2a];
+    void* unkac;
 };
 class BooleanFloatQuery
 {

@@ -389,12 +389,15 @@ bool FUN_00848dd0_shell::FUN_00848dd0()
 struct FUN_00848df0_shell : public TESDataHandler
 {
     void FUN_00848df0(bool);
+    char pad01[0x621];
+    bool unk621;
+    char pad622[0x1];
 };
 
 // @fnv 0x00848df0
 void FUN_00848df0_shell::FUN_00848df0(bool abValue)
 {
-    *((bool*)((char*)this + 0x621)) = abValue;
+    this->unk621 = abValue;
 }
 
 struct FUN_00849540_shell : public BGSSaveLoadGame

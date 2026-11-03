@@ -281,6 +281,8 @@ struct IntSeenData_0087a4e0
     void* p;
     IntSeenData_0087a4e0* m_pNext;
     void SaveToBuffer(BGSSaveFormBuffer* buffer);
+    unsigned int pad08[0x8];
+    void* unk28;
 };
 // Saves each node's bytes at offsets 0x24 and 0x25 and its linked data to the buffer, then writes the node count at the recorded position.
 // @fnv 0x0087a4e0
@@ -294,7 +296,7 @@ void IntSeenData_0087a4e0::SaveToBuffer(BGSSaveFormBuffer* buffer)
         reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((void*)((char*)pNode + 0x24), 1, 0);
         reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((void*)((char*)pNode + 0x25), 1, 0);
         reinterpret_cast<::FUN_0087a0c0_shell *>((((FUN_0087a0c0_shell*)pNode)))->SaveFormData(buffer);
-        pNode = *(IntSeenData_0087a4e0**)((char*)pNode + 0x28);
+        pNode = *(IntSeenData_0087a4e0**)&pNode->unk28;
         ++icount;
     }
     reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(icount, icountPosition);
@@ -353,6 +355,8 @@ struct FUN_0087a3e0_vtable
 struct FUN_0087a3e0_shell
 {
     void FUN_0087a3e0(unsigned short aiCount);
+    unsigned int pad00[0xa];
+    void* unk28;
 };
 
 // @fnv 0x0087a3e0
@@ -370,10 +374,10 @@ void FUN_0087a3e0_shell::FUN_0087a3e0(unsigned short aiCount)
 
     if (aiCount > 0)
     {
-        *reinterpret_cast<IntSeenData**>(reinterpret_cast<unsigned char*>(this) + 0x28) = new IntSeenData(0, 0);
+        *reinterpret_cast<IntSeenData**>(&this->unk28) = new IntSeenData(0, 0);
 
         reinterpret_cast<FUN_0087a3e0_vtable*>(
-            *reinterpret_cast<IntSeenData**>(reinterpret_cast<unsigned char*>(this) + 0x28))
+            *reinterpret_cast<IntSeenData**>(&this->unk28))
             ->f6(aiCount);
     }
 }

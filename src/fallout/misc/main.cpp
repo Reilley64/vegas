@@ -1171,6 +1171,8 @@ namespace fnv_0086f390 {
 struct FUN_0086f390_shell : public Main
 {
     void FUN_0086f390();
+    char pad01[0x6];
+    unsigned char unk06;
 };
 
 struct PlayerCharacter
@@ -1339,7 +1341,7 @@ void FUN_0086f390_shell::FUN_0086f390()
 {
     reinterpret_cast<::InputPoller *>((((::fnv_0086f390::HotkeyWheelDisplay *)(::FUN_007fdf30()))))->FUN_00a23010();
     reinterpret_cast<::FUN_00a257c0_Class *>((((::fnv_0086f390::HotkeyWheelDisplay *)(::FUN_007fdf30()))))->FUN_00a257c0(reinterpret_cast<::FUN_007013e0_shell *>(&((*reinterpret_cast<::fnv_0086f390::TimeGlobal *>(&::g_timeGlobal))))->FUN_007013e0());
-    if (!*((unsigned char*)this + 6) && !(*reinterpret_cast<::fnv_0086f390::PlayerCharacter * *>(&::_g_thePlayer))->V8B(0))
+    if (!this->unk06 && !(*reinterpret_cast<::fnv_0086f390::PlayerCharacter * *>(&::_g_thePlayer))->V8B(0))
     {
         if ((reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode == 4 && !reinterpret_cast<::C7D1360Actor *>(((*reinterpret_cast<::fnv_0086f390::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_007d1360()) || ::FUN_00709bc0())
         {
@@ -2430,6 +2432,10 @@ void FUN_00936aa0_shell::FUN_00936aa0(bool abValue)
 struct Dummy_00a239e0
 {
     int FUN_00a239e0(int a2);
+    unsigned int pad00[0x6c9];
+    int unk1b24;
+    int unk1b28;
+    int unk1b2c;
 };
 
 // Returns the int stored at offset 0x1B24, 0x1B28 or 0x1B2C of this object depending on a2 (1, 2 or 3), otherwise 0.
@@ -2439,11 +2445,11 @@ int Dummy_00a239e0::FUN_00a239e0(int aiIndex)
     switch (aiIndex)
     {
     case 1:
-        return *(int*)((char*)this + 0x1B24);
+        return this->unk1b24;
     case 2:
-        return *(int*)((char*)this + 0x1B28);
+        return this->unk1b28;
     case 3:
-        return *(int*)((char*)this + 0x1B2C);
+        return this->unk1b2c;
     default:
         return 0;
     }
@@ -2971,12 +2977,14 @@ void __cdecl FUN_00706230(int x, int y);
 struct FUN_00871d10_t
 {
     bool FUN_00871d10(int x, int y);
+    unsigned int pad00[0x2];
+    void* unk08;
 };
 
 // @fnv 0x00871d10
 bool FUN_00871d10_t::FUN_00871d10(int x, int y)
 {
-    if (GetActiveWindow() != *(HWND__**)((char*)this + 8))
+    if (GetActiveWindow() != *(HWND__**)&this->unk08)
         return false;
     if (!::FUN_00702360() || !((int)(reinterpret_cast<::FUN_00711e00_StandIn *>((((::Controls *)(::FUN_007fdf30()))))->FUN_00711e00())))
         return false;
@@ -3118,12 +3126,15 @@ void* BSFadeNodeCuller::FUN_00872f00(unsigned int flags)
 struct FUN_00874650Class
 {
     char FUN_00874650();
+    char pad00[0x1dc];
+    char unk1dc;
+    char pad1dd[0x3];
 };
 
 // @fnv 0x00874650
 char FUN_00874650Class::FUN_00874650()
 {
-    return ((char*)this)[0x1dc];
+    return this->unk1dc;
 }
 
 namespace fnv_00874690 {
@@ -3245,13 +3256,15 @@ int FUN_00a236b0_Class::FUN_00a236b0(int index)
 struct FUN_0086ba60_Class
 {
     bool FUN_0086ba60(void* a1, void* a2);
+    unsigned int pad00[0x80];
+    void* unk200;
 };
 
 // Returns true if the pointer stored at offset 0x200 of this object equals a2.
 // @fnv 0x0086ba60
 bool FUN_0086ba60_Class::FUN_0086ba60(void* apUnused, void* a2)
 {
-    if (*(void**)((char*)this + 0x200) == a2)
+    if (this->unk200 == a2)
         return true;
     return false;
 }
@@ -3331,12 +3344,15 @@ void FUN_008746a0()
 struct FUN_00874aa0_Class
 {
     char FUN_00874aa0();
+    char pad00[0x118];
+    char unk118;
+    char pad119[0x3];
 };
 
 // @fnv 0x00874aa0
 char FUN_00874aa0_Class::FUN_00874aa0()
 {
-    return *(char*)((char*)this + 0x118);
+    return this->unk118;
 }
 
 struct FUN_008776e0
@@ -3372,34 +3388,42 @@ bool SoundPlaybackHandle::FUN_00877700()
 struct FUN_0086ef70_Class
 {
     char FUN_0086ef70();
+    char pad00[0x52];
+    char unk52;
+    char pad53[0x1];
 };
 
 // @fnv 0x0086ef70
 char FUN_0086ef70_Class::FUN_0086ef70()
 {
-    return *(char*)((char*)this + 0x52);
+    return this->unk52;
 }
 
 struct FUN_0086fbc0_Class
 {
     char m_05f9;
     void FUN_0086fbc0(char value);
+    char pad01[0x5f8];
+    char unk5f9;
+    char pad5fa[0x2];
 };
 
 // @fnv 0x0086fbc0
 void FUN_0086fbc0_Class::FUN_0086fbc0(char value)
 {
-    *(char*)((char*)this + 0x5f9) = value;
+    this->unk5f9 = value;
 }
 
 struct FUN_008727b0_Class
 {
     char FUN_008727b0() const;
+    unsigned int pad00[0x8];
+    int unk20;
 };
 // @fnv 0x008727b0
 char FUN_008727b0_Class::FUN_008727b0() const
 {
-    return *(int*)((char*)this + 0x20) != 0;
+    return *(int*)&this->unk20 != 0;
 }
 
 extern "C" void __cdecl FUN_00a693e0();
@@ -3425,12 +3449,14 @@ struct Flt
 struct FUN_00875bd0_Class
 {
     void* FUN_00875bd0(int idx);
+    unsigned int pad00[0x3d];
+    void* unkf4;
 };
 
 // @fnv 0x00875bd0
 void* FUN_00875bd0_Class::FUN_00875bd0(int aiIndex)
 {
-    return reinterpret_cast<void**>((char*)this + 0xf4)[aiIndex];
+    return (&this->unkf4)[aiIndex];
 }
 }  // namespace fnv_00875bd0
 
@@ -15061,6 +15087,15 @@ void S00875bf0_Shell875::FUN_00875bf0()
 
 struct BSBatchRenderer__PassList
 {
+    unsigned int pad00[0x1];
+    int unk04;
+    int unk08;
+    int unk0c;
+    unsigned int pad10[0x10];
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
 };
 // @fnv 0x00b65660
 void FUN_00b65660_StandIn::FUN_00b65660()
@@ -15069,15 +15104,15 @@ void FUN_00b65660_StandIn::FUN_00b65660()
     for (int i = 0; i < 4; ++i, p = (BSBatchRenderer__PassList*)((char*)p + 0x14))
     {
         reinterpret_cast<::FUN_00b63e90_cls *>((((BSBatchRenderer__PassList*)((char*)p - 4))))->ReleasePoolNodes();
-        *(int*)((char*)p + 8) = *(int*)p;
+        p->unk08 = *(int*)p;
         *(int*)p = 0;
-        *(int*)((char*)p + 4) = 0;
-        *(int*)((char*)p + 0xc) = 0;
+        p->unk04 = 0;
+        p->unk0c = 0;
         reinterpret_cast<::FUN_00b63e90_cls *>((((BSBatchRenderer__PassList*)((char*)p + 0x4c))))->ReleasePoolNodes();
-        *(int*)((char*)p + 0x58) = *(int*)((char*)p + 0x50);
-        *(int*)((char*)p + 0x50) = 0;
-        *(int*)((char*)p + 0x54) = 0;
-        *(int*)((char*)p + 0x5c) = 0;
+        p->unk58 = p->unk50;
+        p->unk50 = 0;
+        p->unk54 = 0;
+        p->unk5c = 0;
     }
 }
 

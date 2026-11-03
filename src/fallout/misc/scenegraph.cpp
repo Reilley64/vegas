@@ -57,6 +57,9 @@ void* Wrapper_00878610::FUN_00878610(char* apSceneGraphName, bool abMenuSceneGra
 struct FUN_008786b0_shell : public SceneGraph
 {
     float FUN_008786b0();
+    char pad04[0xb4];
+    bool unkb8;
+    char padb9[0x3];
 };
 
 union SETTING_VALUE
@@ -102,7 +105,7 @@ extern float DAT_010c26d8;
 float FUN_008786b0_shell::FUN_008786b0()
 {
     float ffar;
-    if (*((bool*)this + 0xb8))
+    if (this->unkb8)
     {
         ffar = DAT_01083c64;
     }

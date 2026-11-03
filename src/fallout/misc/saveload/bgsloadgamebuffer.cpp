@@ -703,14 +703,18 @@ bool FUN_008648e0_shell::FUN_008648e0(unsigned int* aiFormID)
 struct FUN_00864940_shell
 {
     unsigned char FUN_00864940();
+    char pad00[0x1];
+    char unk01;
+    char unk02;
+    char pad03[0x1];
 };
 
 // Returns 1 if the first three bytes at this are all zero, otherwise 0.
 // @fnv 0x00864940
 unsigned char FUN_00864940_shell::FUN_00864940()
 {
-    return (!(unsigned char)*reinterpret_cast<char*>(this) && !(unsigned char)reinterpret_cast<char*>(this)[1] &&
-            !(unsigned char)reinterpret_cast<char*>(this)[2])
+    return (!(unsigned char)*reinterpret_cast<char*>(this) && !(unsigned char)this->unk01 &&
+            !(unsigned char)this->unk02)
                ? 1
                : 0;
 }

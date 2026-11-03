@@ -568,8 +568,8 @@ void __cdecl FUN_0087cfb0(void* apData, int aiIndex)
 {
     FUN_00844160_shell* pshell = static_cast<FUN_00844160_shell*>(apData);
     FUN_00844160_entry* pentry = ((::FUN_00844160_entry *)(pshell->FUN_00844160(aiIndex)));
-    if (pentry->pActor && *reinterpret_cast<RagH**>(reinterpret_cast<char*>(pentry->pActor) + 0xac) &&
-        ::FUN_00552490((bool *)((*reinterpret_cast<RagH**>(reinterpret_cast<char*>(pentry->pActor) + 0xac)))) &&
+    if (pentry->pActor && *reinterpret_cast<RagH**>(&pentry->pActor->unkac) &&
+        ::FUN_00552490((bool *)((*reinterpret_cast<RagH**>(&pentry->pActor->unkac)))) &&
         !pentry->pNode->FUN_00552470() &&
         !reinterpret_cast<::MobileObject *>((void *)(reinterpret_cast<MobileObjectDialogueView*>(pentry->pActor)))->IsInDialogueWithPlayer())
         ::SetTlsValueAndReset((intptr_t)(pentry->pNode), 2);

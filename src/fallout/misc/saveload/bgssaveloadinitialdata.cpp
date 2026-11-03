@@ -198,6 +198,8 @@ void FUN_0084f880_shell::SetFlag10(bool abSet)
 struct FUN_0084f8c0_shell
 {
     void FUN_0084f8c0(void* value);
+    unsigned int pad00[0x5c];
+    void* unk170;
 };
 // Loads a cell or reference change record from the save buffer and applies its location, angle and cell/worldspace to the form.
 // @fnv 0x0084f330
@@ -331,7 +333,7 @@ INITIAL_DATA_TYPE BGSSaveLoadInitialDataPacket::LoadInitialDataForForm(BGSLoadFo
 // @fnv 0x0084f8c0
 void FUN_0084f8c0_shell::FUN_0084f8c0(void* value)
 {
-    *(void**)((char*)this + 0x170) = value;
+    this->unk170 = value;
 }
 
 struct FUN_0084e6a0_shell

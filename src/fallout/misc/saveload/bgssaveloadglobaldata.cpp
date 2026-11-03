@@ -587,12 +587,14 @@ class FUN_0084c580_shell
   public:
     unsigned int field208;
     unsigned int GetField208();
+    unsigned int pad04[0x81];
+    unsigned int unk208;
 };
 
 // @fnv 0x0084c580
 unsigned int FUN_0084c580_shell::GetField208()
 {
-    return *(unsigned int*)((char*)this + 0x208);
+    return this->unk208;
 }
 
 class TESGlobal : public TESForm
@@ -712,6 +714,9 @@ struct ItemListNode
 struct FUN_00975840_owner
 {
     void FUN_00975840(BGSSaveFormBuffer* apBuffer);
+    unsigned int pad00[0x11];
+    void* unk44;
+    unsigned int pad48[0x40dd];
 };
 
 // @fnv 0x00975840
@@ -725,7 +730,7 @@ void FUN_00975840_owner::FUN_00975840(BGSSaveFormBuffer* apBuffer)
     {
         unsigned int ItemUpdateArray = 0;
         unsigned int uiStart = reinterpret_cast<::FUN_00865f20_shell *>((apBuffer))->FUN_00865f20();
-        ItemListNode* pIter = ((ItemListNode**)((char*)this + 0x44))[i];
+        ItemListNode* pIter = ((ItemListNode**)&this->unk44)[i];
         while (pIter)
         {
             SavedItem* pSavedItem = (*((::fnv_00975840::SavedItem * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)));
@@ -745,6 +750,8 @@ struct FUN_0084cbf0_shell
 {
     unsigned int flags;
     void SetFlag20(bool set);
+    unsigned int pad04[0x90];
+    unsigned int unk244;
 };
 
 // Sets or clears bit 0x20 in the flags word at offset 0x244 based on the set argument.
@@ -752,9 +759,9 @@ struct FUN_0084cbf0_shell
 void FUN_0084cbf0_shell::SetFlag20(bool set)
 {
     if (set)
-        ((unsigned int*)((char*)this + 0x244))[0] |= 0x20;
+        (&this->unk244)[0] |= 0x20;
     else
-        ((unsigned int*)((char*)this + 0x244))[0] &= 0xffffffdf;
+        (&this->unk244)[0] &= 0xffffffdf;
 }
 
 namespace fnv_0084ced0 {

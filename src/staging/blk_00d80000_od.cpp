@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -376,39 +377,6 @@ void FUN_00d84ee0(ShapeStub* shape, int key, hkTransformStub* out)
     }
 }
 
-struct hkMemoryAllocatorS
-{
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
-    virtual void* BufRealloc(void* pOld, int oldNumBytes, int& reqNumBytesInOut);
-    virtual void ReturnMemory(void* p, int numBytes);
-    template <class T> void _bufFree(void* p, int numElem)
-    {
-        ReturnMemory(p, numElem * sizeof(T));
-    }
-};
-
-struct hkMemoryRouterS;
-
-
-struct hkMemoryRouterS
-{
-    static hkMemoryRouterS& GetMonitorStream()
-    {
-    }
-    hkMemoryAllocatorS& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorS* m_pStreamAllocator;
-};
-
-
 template <class T> struct hkArrayS
 {
     T* m_data;
@@ -424,7 +392,7 @@ template <class T> struct hkArrayS
     {
         m_iElementCount = 0;
     }
-    void _clearAndDeallocate(hkMemoryAllocatorS& alloc)
+    void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
         if ((m_iCapacityState & 0x80000000) == 0)
         {
@@ -433,7 +401,7 @@ template <class T> struct hkArrayS
     }
     ~hkArrayS()
     {
-        _clearAndDeallocate(hkMemoryRouterS::GetMonitorStream().heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 
@@ -489,50 +457,6 @@ struct __declspec(align(16)) S00d9db60_ProjectedEntry
     }
 };
 
-struct S00d9db60_Allocator
-{
-    virtual ~S00d9db60_Allocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
-    virtual void ReturnMemory(void* p, int numBytes);
-    template <typename T> __forceinline T* _bufAlloc(int& reqNumInOut)
-    {
-        const int SIZE_ELEM = sizeof(T);
-        int n = reqNumInOut * SIZE_ELEM;
-        void* p = AllocateBufferWithSize(n);
-        reqNumInOut = n / SIZE_ELEM;
-        return static_cast<T*>(p);
-    }
-    template <typename T> __forceinline void _bufFree(void* p, int numElem)
-    {
-        const int SIZE_ELEM = sizeof(T);
-        ReturnMemory(p, numElem * SIZE_ELEM);
-    }
-};
-
-struct S00d9db60_Router
-{
-    void* m_stackCur;
-    void* m_stackEnd;
-    void* m_stackBase;
-    S00d9db60_Allocator* m_pTemp;
-    S00d9db60_Allocator* m_pStreamAllocator;
-    __forceinline S00d9db60_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-
-struct S00d9db60_HeapAllocator
-{
-    __forceinline S00d9db60_Allocator& get(const void*)
-    {
-        return static_cast<S00d9db60_Router*>(::FUN_00c85750())->heap();
-    }
-};
-
 template <typename T> struct S00d9db60_Array
 {
     enum
@@ -545,7 +469,7 @@ template <typename T> struct S00d9db60_Array
     int m_iCapacityState;
     __forceinline S00d9db60_Array(int n) : m_data(0), m_iElementCount(0), m_iCapacityState(DONT_DEALLOCATE_FLAG)
     {
-        S00d9db60_Allocator& a = S00d9db60_HeapAllocator().get(this);
+        hkMemoryAllocator& a = hkMemoryRouter::getInstance().heap();
         T* p = n ? a._bufAlloc<T>(n) : 0;
         int cap = n ? n : DONT_DEALLOCATE_FLAG;
         setOwnedData(p, n, cap);
@@ -566,7 +490,7 @@ template <typename T> struct S00d9db60_Array
     }
     __forceinline void ClearAndRelease()
     {
-        S00d9db60_Allocator& alloc = S00d9db60_HeapAllocator().get(this);
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         clear();
         if ((m_iCapacityState & DONT_DEALLOCATE_FLAG) == 0)
             alloc._bufFree<T>(m_data, getCapacity());

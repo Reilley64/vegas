@@ -60,6 +60,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/facegen/bsfacegenmorph.cpp
   src/fallout_shared/facegen/bsfacegenmorphdata.cpp
   src/fallout_shared/facegen/bsfacegenmorphdata_h_unit.cpp
+  src/fallout_shared/facegen/bsfacegenninode.cpp
   src/fallout_shared/formcomponentcollection.cpp
   src/fallout_shared/gameplayformulas.cpp
   src/fallout_shared/gridarray.cpp
@@ -289,7 +290,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/bsanimgroupsequence.cpp
   src/fallout_shared/extradatalist.cpp
   src/fallout_shared/facegen/bsfacegenmanager.cpp
-  src/fallout_shared/facegen/bsfacegenninode.cpp
   src/fallout_shared/globalfunc.cpp
   src/fallout_shared/gridcell.cpp
   src/fallout_shared/inventorychanges.cpp

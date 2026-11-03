@@ -25,6 +25,11 @@
 #include "fnv/symbols_00b5b000.h"
 #include "fnv/symbols_011d1000.h"
 #include "fnv/symbols_011de000.h"
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_0050d000.h"
+#include "fnv/symbols_00572000.h"
 struct FUN_0080ed20_shell
 {
     float f0;
@@ -201,6 +206,8 @@ public:
     ::EffectSetting *GetEffectSetting() const;
 public:
     void CopyData(::ActiveEffect *);
+public:
+    bool IsDone() const;
 };
 struct LightEffectStandIn : ActiveEffect
 {
@@ -354,6 +361,8 @@ struct Source
 struct Host
 {
     void FUN_0080e830();
+public:
+    Source* FUN_0059bb30();
 };
 struct FUN_0080e900_inner
 {
@@ -362,6 +371,8 @@ struct FUN_0080e900_inner
 struct FUN_0080e900_cls
 {
     void FUN_0080e900();
+public:
+    FUN_0080e900_inner* FUN_0059bb30();
 };
 
 
@@ -371,6 +382,8 @@ struct EdCallee
 {
     void FUN_00572a50(int aiArg);
     void FUN_0066b0d0(int aiArg);
+public:
+    void* FUN_0059bb30();
 };
 
 void* __cdecl FUN_00450b80(int aiArg);
@@ -688,6 +701,8 @@ extern GlobalObject2_0040c150 g_011d1d18;
 class GlobalObject_0040e0b0
 {
   public:
+public:
+    float* Float();
 };
 extern GlobalObject_0040e0b0 g_011d1980;
 extern GlobalObject_0040e0b0 g_011d1a30;
@@ -723,6 +738,8 @@ struct PathingRequest
 
 struct EffectSetting
 {
+public:
+    int GetArchetype();
 };
 
 struct FUN_0082ccb0_Cls
@@ -734,6 +751,10 @@ struct MagicTarget
 {
 public:
     ::Actor *GetOwnerActor() const;
+public:
+    virtual ~MagicTarget();
+    virtual TESObjectREFR* GetMagicTargetReference();
+    virtual BSSimpleList<ActiveEffect*>* GetActiveEffectList();
 };
 // Gets an Effect via FUN_0059bb30()->FUN_00822b40() and, if non-null, passes its field94 to FUN_0080ee50.
 // @fnv 0x0080e830
@@ -809,6 +830,8 @@ struct LightEffectDerived : ActiveEffect
 
 
     void AttachLightEffect();
+public:
+    MagicTarget* FUN_0059bb30();
 };
 
 // @fnv 0x0080e970
@@ -913,4 +936,46 @@ FUN_0080e610::FUN_0080e610(void* caster, void* item, void* effect) : LightEffect
 
 }  // namespace fnv_0080e610
 
+struct EffectSetting;
+struct MagicTarget;
+
+template <class T> class BSSimpleList
+{
+  public:
+    T item;
+    BSSimpleList* next;
+    bool IsEmpty();
+    T& GetItem();
+    BSSimpleList* GetNext();
+};
+class TESObjectREFR;
+// @fnv 0x0080ee50
+void FUN_0080ee50(MagicTarget* target)
+{
+    if (!target)
+        return;
+    LightEffect* strongest = 0;
+    BSSimpleList<ActiveEffect*>* node = target->GetActiveEffectList();
+    while (node && !node->IsEmpty())
+    {
+        ActiveEffect* effect = ((::ActiveEffect *)(new ((void *)(node)) ::Vec3()));
+        if (effect && effect->GetEffectSetting()->GetArchetype() == 13 && !effect->IsDone())
+        {
+            LightEffect* light = dynamic_cast<LightEffect*>(effect);
+            if (!strongest || ::GetFloatAtOffset1C((char *)(strongest)) < ::GetFloatAtOffset1C((char *)(light)))
+            {
+                if (strongest)
+                    strongest->FUN_0080ed60();
+                strongest = light;
+            }
+            else
+            {
+                light->FUN_0080ed60();
+            }
+        }
+        node = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+    }
+    if (strongest)
+        reinterpret_cast<::LightEffectDerived *>((strongest))->AttachLightEffect();
+}
 #include "generated/data/fallout/magic/lighteffect.inc"

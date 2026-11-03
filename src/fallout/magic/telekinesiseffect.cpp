@@ -26,7 +26,6 @@
 #include "fnv/decl/LoadedValueEffect.h"
 #include "fnv/decl/LowProcess.h"
 #include "fnv/decl/MyPoint439180.h"
-#include "fnv/decl/TelekinesisEffectT.h"
 #include "fnv/decl/TurnUndeadEffect.h"
 #include "fnv/decl/ValueModifierEffect_LoadGame_Helper.h"
 #include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
@@ -51,6 +50,14 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f9000.h"
+#include "fnv/decl/B8182D0Object.h"
+#include "fnv/decl/FUN_00439f50_class.h"
+#include "fnv/decl/FUN_00a59660_cls.h"
+#include "fnv/decl/Owner5615.h"
+#include "fnv/decl/S_00627920.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/symbols_004a3000.h"
+#include <xmmintrin.h>
 struct FUN_0082a510_shell
 {
     void FUN_0082a540();
@@ -261,6 +268,36 @@ struct FUN_0082af60_shell
 {
     void FUN_0082af60();
 };
+class TelekinesisEffectT
+{
+  public:
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    float m_fHitDistance;
+    unsigned int unk58;
+    bool m_bHolding;
+
+    void FUN_0082afa0();
+};
 // @fnv 0x0082af60
 void FUN_0082af60_shell::FUN_0082af60()
 {
@@ -385,6 +422,18 @@ struct NiPoint3
     NiPoint3();
     NiPoint3 operator-(const NiPoint3&) const;
     NiPoint3& operator*=(float);
+public:
+    unsigned char ReadFromFile(::FUN_00438fc0_file *);
+    bool FUN_004390c0(const ::NiPoint3 &);
+    ::NiPoint3 &Subtract(const ::NiPoint3 &);
+    float GetLengthSquared();
+    float ComputeMagnitude() const;
+    ::NiPoint3 Cross(const ::NiPoint3 &) const;
+    ::NiPoint3 CrossProduct(const ::NiPoint3 &) const;
+    ::NiPoint3 *ScaleTo(::NiPoint3 *, float);
+    char *FUN_00a59af0(const char *);
+    ::NiPoint3 &FUN_00b2a1c0(const ::NiPoint3 &);
+    static const ::NiPoint3 ZERO;
 };
 struct bhkFilter
 {
@@ -938,4 +987,86 @@ fnv_b4214::FUN_0082a460::FUN_0082a460(int aiParam1, int aiParam2, int aiParam3)
     m_5d = 0;
 }
 
+class NiPoint3T
+{
+  public:
+    float x, y, z;
+    NiPoint3T();
+    NiPoint3T operator*(float fScalar) const;
+};
+
+class NiMatrix3T
+{
+  public:
+    float m_afEntries[3][3];
+    NiMatrix3T();
+};
+
+class hkVector4T
+{
+  public:
+    __m128 m_vComponents;
+    hkVector4T();
+};
+
+class hkSimdRealT
+{
+  public:
+    __m128 m_vValue;
+    hkSimdRealT(float fValue);
+};
+
+
+class TelekinesisTargetController
+{
+  public:
+};
+
+class TelekinesisTarget
+{
+  public:
+};
+
+class PlayerCameraT
+{
+  public:
+};
+
+class GameSettingTableT
+{
+  public:
+};
+
+
+// @fnv 0x0082afa0
+void TelekinesisEffectT::FUN_0082afa0()
+{
+    if (((::FUN_0082aeb0_shell *)(reinterpret_cast<::FUN_0082aa90_shell *>(((*reinterpret_cast<::PlayerCameraT * *>(&::_g_thePlayer))))->GetFloatAsUInt())))
+    {
+        void* pvGrabbed = ((void *)(reinterpret_cast<::FUN_0082aee0_shell *>((((::FUN_0082aeb0_shell *)(reinterpret_cast<::FUN_0082aa90_shell *>(((*reinterpret_cast<::PlayerCameraT * *>(&::_g_thePlayer))))->GetFloatAsUInt()))))->FUN_0082aee0()));
+        reinterpret_cast<::fnv_00961280::FUN_00961280_shell *>(((*reinterpret_cast<::PlayerCameraT * *>(&::_g_thePlayer))))->FUN_00961280();
+        if (pvGrabbed)
+        {
+            TelekinesisTarget* pkTarget = (TelekinesisTarget*)FUN_004b5a80(pvGrabbed);
+            if (m_bHolding)
+            {
+                NiPoint3T kForward;
+                NiMatrix3T kRotationBasis;
+                NiPoint3T kAngles = (*(const ::NiPoint3T *)(reinterpret_cast<::TESRecipe *>(((*reinterpret_cast<::PlayerCameraT * *>(&::_g_thePlayer))))->GetData()));
+                reinterpret_cast<::FUN_00a59660_cls *>(&(kRotationBasis))->FUN_00a59660(kAngles.z, kAngles.x, kAngles.y);
+                reinterpret_cast<::FUN_00439f50_class *>((void *)&(kRotationBasis))->FUN_00439f50(1, (::NiPoint3 *)&(kForward));
+                NiPoint3T kIntersectionOffset = kForward * (::FUN_00403e20((float *)&((*reinterpret_cast<::GameSettingTableT *>(&::originalRuntimeFloatSetting1172)))) + m_fHitDistance);
+                hkVector4T kMotionVelocity;
+                ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kMotionVelocity)), (*(const ::fnv_004a3e00::NiPoint3 *)(&kIntersectionOffset)));
+                hkSimdRealT kMass(::FUN_004b5400((void *)(pkTarget)));
+                reinterpret_cast<::S_00627920 *>(&(kMotionVelocity))->FUN_00627920((::S_00561240 *)&(kMass));
+                reinterpret_cast<::B8182D0Object *>((((::TelekinesisTargetController *)(::FUN_004ae750((void *)(pkTarget))))))->ApplyToTarget({});
+            }
+            else
+            {
+                reinterpret_cast<::Owner5615 *>((pkTarget))->FUN_005615d0((int)&((*reinterpret_cast<const ::NiPoint3T *>((void *)&::NiPoint3::ZERO))));
+            }
+        }
+    }
+}
 #include "generated/data/fallout/magic/telekinesiseffect.inc"

@@ -292,6 +292,20 @@
 #include "fnv/symbols_011ff000.h"
 #include "fnv/symbols_0126f000.h"
 #include "interface_rebase_packet.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/QRequest.h"
+#include "fnv/symbols_00af4000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/decl/fnv_007dd090__StatsMenuImpl.h"
+#include "fnv/decl/AlphaInterface.h"
+#include "fnv/decl/SubtitleHUD.h"
+#include "fnv/symbols_004de000.h"
+#include "fnv/symbols_0078e000.h"
+#include "fnv/symbols_0079f000.h"
+#include "fnv/symbols_007eb000.h"
+#include "fnv/symbols_007c0000.h"
+#include "fnv/symbols_007e9000.h"
+#include "fnv/symbols_007bf000.h"
 
 class TESWorldSpace;
 class Menu;
@@ -3355,6 +3369,8 @@ class Modifier
 class SleepWaitMenu : public Menu
 {
   public:
+public:
+    virtual ~SleepWaitMenu();
 };
 
 
@@ -8515,4 +8531,214 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
     }
 }
 
+unsigned int FUN_00702440();
+
+// @fnv 0x00b60040
+void FUN_00b60040()
+{
+    char** p = &(*reinterpret_cast<char * *>(&::DAT_011f91c8));
+    do
+    {
+        if (*p)
+            reinterpret_cast<::Owner *>((*p))->FUN_00b5fd60();
+        p += 1;
+    } while ((int)p < (int)&(*reinterpret_cast<unsigned char *>(&::fnv_005bf7b0::DAT_011f91d8)));
+}
+
+struct Inner060
+{
+    virtual void f00();
+    virtual void f01();
+    virtual void f02();
+    virtual void f03();
+    virtual void f04();
+    virtual void f05();
+    virtual void f06();
+    virtual void f07();
+    virtual void f08();
+    virtual void f09();
+    virtual void f10();
+    virtual void f11();
+    virtual void f12();
+    virtual void f13();
+    virtual void f14();
+    virtual void f15();
+    virtual void f16();
+    virtual void f17();
+    virtual void f18();
+    virtual void f19();
+    virtual void f20();
+    virtual void f21();
+    virtual void f22();
+    virtual void f23();
+    virtual void f24(char*, int);
+};
+struct Outer060
+{
+    char _pad0[40];
+    int _m28;
+    char _pad1[4];
+    Inner060 _m30;
+    void FUN_00b60060();
+};
+// @fnv 0x00b60060
+void Outer060::FUN_00b60060()
+{
+    char buf[0x104];
+    ::BuildAssetPath((const char *)(_m28), buf, 0x104);
+    _m30.f24(buf, 0);
+}
+
+extern "C" char DAT_010ade08[];
+
+struct QueuedTreeModel
+{
+    bool FUN_00b600c0(char* pBuf, unsigned int uiSize);
+};
+
+// @fnv 0x00b600c0
+bool QueuedTreeModel::FUN_00b600c0(char* pBuf, unsigned int uiSize)
+{
+    return reinterpret_cast<::QRequest *>(this)->FUN_00c3d0e0(pBuf, uiSize, DAT_010ade08);
+}
+
+
+__if_not_exists(::StatsMenu::IsMenuVisible)
+{
+    class StatsMenu : public ::Menu
+    {
+    public:
+    void UpdateActorValueTiles();
+};
+}
+struct StatsMenuCalls704e10
+{
+};
+
+struct MenuLookup704
+{
+};
+
+struct InterfaceGate704
+{
+  public:
+};
+bool __cdecl FUN_00702680(int, int);
+
+// @fnv 0x00704e10
+void __cdecl FUN_00704e10(int id)
+{
+    if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((InterfaceGate704*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())
+    {
+        bool b = FUN_00702680(0x3eb, 0xb);
+        if (b)
+        {
+            ::Menu* menu = ((::Menu *)(::FUN_00a09030(0x3eb)));
+            ::StatsMenu* result = menu ? dynamic_cast< ::StatsMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((((MenuLookup704*)menu)))->FUN_00a03c90()) : 0;
+            if (result)
+            {
+                if (id == 0x4d)
+                {
+                    reinterpret_cast<::StatsMenu *>((reinterpret_cast<StatsMenuCalls704e10*>(result)))->UpdateActorValueTiles();
+                }
+                else
+                {
+                    reinterpret_cast<::fnv_007dd090::StatsMenuImpl *>((reinterpret_cast<StatsMenuCalls704e10*>(result)))->UpdateStatEntry(id);
+                }
+            }
+        }
+    }
+}
+
+void FUN_00706f70();
+Tile* FUN_00707040();
+void FUN_00707050(Tile* apTile);
+void FUN_00707080(Menu* apMenu);
+Tile* GetNextTile();
+float FUN_00707b60();
+void FUN_00705780();
+bool __cdecl FUN_00702680(Interface::enumMenus aeMenuID, unsigned int abFadeStatesThatCountAsVisible);
+void __cdecl FUN_00704130();
+void __cdecl FUN_00704470(int arg);
+char FUN_00706830();
+bool IsSomethingZero();
+void FUN_0086a530();
+void __cdecl FUN_00703100();
+int __cdecl strcpy_s(char* apDest, unsigned int auiDestSize, const char* apSrc);
+int __cdecl _stricmp(const char* apStr1, const char* apStr2);
+
+class VATSMenu : public Menu
+{
+public:
+    virtual ~VATSMenu();
+};
+// @fnv 0x00705780
+void __cdecl FUN_00705780()
+{
+    if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<FUN_009373f0_shell*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->FUN_009373f0())
+    {
+        Tile* pTile = (Tile*)((::TileProxy *)(::FUN_00a09030(Interface::eVATSMenu)));
+        VATSMenu* pVATSMenuInstance = pTile ? dynamic_cast<VATSMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pTile))->FUN_00a03c90()) : 0;
+        if (pVATSMenuInstance)
+            ShutdownVats();
+    }
+}
+
+
+class InterfaceManagerKey
+{
+  public:
+};
+
+// @fnv 0x00705640
+void __cdecl FUN_00705640()
+{
+    if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((InterfaceManagerKey*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())
+    {
+        Tile* pkTileMenu = ((::Tile *)(::FUN_00a09030(Interface::eVATSMenu)));
+        VATSMenu* pkMenu = pkTileMenu ? dynamic_cast<VATSMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pkTileMenu))->FUN_00a03c90()) : 0;
+        if (pkMenu)
+            delete pkMenu;
+        ::FUN_007e9200();
+    }
+}
+
+class SleepWaitMenu : public Menu
+{
+  public:
+};
+class Iface2
+{
+  public:
+};
+// @fnv 0x007055c0
+void FUN_007055c0()
+{
+    if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((Iface2*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())
+    {
+        Tile* a = ((::Tile *)(::FUN_00a09030(0x3f4)));
+        SleepWaitMenu* b = a ? dynamic_cast<SleepWaitMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((void *)(a))->FUN_00a03c90()) : 0;
+        if (b)
+            ::fnv_007c01b0::FUN_007c01b0();
+    }
+}
+
+class NiNode;
+class TESSound;
+void __cdecl FUN_00705640();
+
+bool __cdecl IsSomethingZero();
+// @fnv 0x007054f0
+void __cdecl FUN_007054f0(bool sleep)
+{
+    if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->FUN_009373f0() && IsSomethingZero())
+    {
+        Tile* menu = ((::Tile *)(::FUN_00a09030(1012)));
+        SleepWaitMenu* tile = menu ? dynamic_cast<SleepWaitMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((void *)(menu))->FUN_00a03c90()) : 0;
+        if (tile)
+            delete tile;
+        ::CreateSleepWaitMenu(sleep);
+    }
+}
 #include "generated/data/fallout/interface/interface.inc"
+#include "generated/data/fallout/interface/interface_o2_variant.inc"

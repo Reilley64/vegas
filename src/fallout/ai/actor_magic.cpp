@@ -216,6 +216,8 @@
 #include "actor_magic_decls.h"
 #include "actor_magic_actor.h"
 #include "BaseProcess.h"
+#include "fnv/decl/FUN_005f9ad0_shell.h"
+#include "fnv/symbols_011ce000.h"
 
 // HighProcess call targets used by actor magic (canonical HighProcess
 // header has no method declarations yet; only calls are emitted here,
@@ -8107,4 +8109,58 @@ void ActorConsumeShell::FUN_008c2090(MagicItem* pItem, bool bApply)
     }
 }
 
+class NiControllerSequence;
+class Actor;
+class BSFileEntry;
+class NiAVObject;
+class SoundPlaybackHandle;
+#endif
+class PlayerCharacter;
+
+#ifndef FNV_MAGICCASTER_H
+#define FNV_MAGICCASTER_H
+class TESObjectREFR;
+extern BIPED_OBJECT DAT_011a337c[5];
+class TESForm;
+enum DEFAULT_OBJECT;
+
+#ifndef FNV_MAGICTARGET_H
+#define FNV_MAGICTARGET_H
+// Node getter behind 0x00950bb0. It reads a node pointer at +0x694, which
+// only exists on PlayerCharacter-sized objects, so it is declared here on
+// a minimal PlayerCharacter until its canonical home is confirmed.
+
+
+class TESCreature
+{
+  public:
+public:
+    signed char GetCreatureType() const;
+};
+
+struct ActorCreatureStandIn
+{
+    float FUN_0088b850();
+// @fnv 0x008d4750
+    float FUN_008d4750()
+    {
+        float j = 0.0f;
+        TESCreature* p = dynamic_cast< ::TESCreature*>(((::Actor*)this)->GetActorBase());
+        if (!p)
+        {
+            j = FUN_0088b850();
+        }
+        else
+        {
+            j = (float)reinterpret_cast<::FUN_005f9ad0_shell *>((p))->FUN_005f9ad0();
+            if (p->GetCreatureType() == 7)
+            {
+                j *= ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting704))))))->f;
+            }
+        }
+        return j;
+    }
+};
+
+float (ActorCreatureStandIn::*fnv_008d4750_entry)() = &ActorCreatureStandIn::FUN_008d4750;
 #include "generated/data/fallout/ai/actor_magic.inc"

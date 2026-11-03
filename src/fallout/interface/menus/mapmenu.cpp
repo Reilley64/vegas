@@ -226,6 +226,9 @@
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f6000.h"
 #include "mapmenu_decls.h"
+#include "fnv/decl/FUN_00586210_shell.h"
+#include "fnv/symbols_0044a000.h"
+#include <stddef.h>
 
 // @fnv 0x007a1930
 template <> void ListBox<TESQuest*>::ClearSelection(bool notify)
@@ -759,6 +762,28 @@ extern double const DAT_0106e7f8;
 struct S
 {
     float GetScaledValue();
+public:
+    void FUN_0044e4f0(void *);
+    ::S *ConstructShadowSceneArray();
+    void FUN_004a7800();
+    ::R FUN_004ed140(int);
+    unsigned int GetElement(int);
+    ::S *InitBound(unsigned short, unsigned short);
+    void FUN_00561690(std::intptr_t);
+    void *FUN_005fdb60(unsigned int);
+    void FUN_00670760();
+    void DestroyMenu();
+    int FUN_007315b0();
+    ::Tile *FUN_007b41c0(int);
+    void FUN_007db250(int, int *);
+    void Reset();
+    void FUN_00a5ca80(::StrArray *);
+    void FUN_00a824d0();
+    ::S *AssignFrom(const ::S *);
+    ::V *FUN_00b05000(::V *, ::M *);
+    const char *FUN_00c8d4a0();
+    void FUN_00e89b70();
+    void FUN_00e971d0();
 };
 // Returns the float at offset 0x4B0 multiplied by DAT_0106e7f8 and divided by the result of FUN_004dc200().
 // @fnv 0x007983c0
@@ -7645,4 +7670,185 @@ void Reconstruction798cb0::FUN_00798cb0(int aiEventCode, Tile* tile)
 }
 }  // namespace fnv_00798cb0
 
+
+
+class PathingLocation
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+
+    PathingLocation();
+    PathingLocation(const NiPoint3*, TESWorldSpace*);
+    ~PathingLocation();
+    PathingLocation& operator=(const PathingLocation&);
+public:
+    bool HasPathingLocation();
+};
+
+class TESWorldSpaceCustom : public TESWorldSpace
+{
+  public:
+    int unk10;
+    int unk14;
+    TESFullName fullName;
+
+};
+
+class TESDataHandler
+{
+  public:
+};
+
+
+extern "C" int __cdecl _mbsnicmp(const char*, const char*, size_t);
+
+// @fnv 0x007984d0
+TESWorldSpace* MapMenu::FUN_007984d0(NiPoint3 pt)
+{
+    TESWorldSpace* result5 = 0;
+    float maxDist = 3.402823466e+38F;
+    for (BSSimpleList<TESWorldSpace*>* node2 = ((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))); node2 && ((::TESWorldSpace *)(new ((void *)(node2)) ::Vec3()));
+         node2 = ((::BSSimpleList< ::TESWorldSpace *> *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070())))
+    {
+        TESWorldSpaceCustom* ws4 = (TESWorldSpaceCustom*)((::TESWorldSpace *)(new ((void *)(node2)) ::Vec3()));
+        const char* name = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(ws4->fullName))->FUN_00408da0()));
+        NiPoint3 ptCopy3 = pt;
+        PathingLocation loc4;
+        if (!name || !*name || ::FUN_004b75a0(name, "test") == name || reinterpret_cast<::FUN_00586210_shell *>((ws4))->HasFlag2())
+        {
+            continue;
+        }
+        reinterpret_cast<::FUN_00588e40_shell *>((ws4))->TransformWorldPoint((::Pt3 *)&(ptCopy3), true);
+        loc4 = PathingLocation(&ptCopy3, ws4);
+        if (reinterpret_cast<::PathingLocation *>(&(loc4))->HasPathingLocation() && this->m_pCurrentWorldspace && ws4)
+        {
+            if (::FUN_0044a670(reinterpret_cast<::FUN_00586440_shell *>((((TESWorldSpaceCustom*)this->m_pCurrentWorldspace)))->FUN_00586440()) < 31 ||
+                ::FUN_0044a670(reinterpret_cast<::FUN_00586440_shell *>((ws4))->FUN_00586440()) < 31)
+            {
+                continue;
+            }
+            if (_mbsnicmp(reinterpret_cast<::FUN_00586440_shell *>((((TESWorldSpaceCustom*)this->m_pCurrentWorldspace)))->FUN_00586440() + 29,
+                          reinterpret_cast<::FUN_00586440_shell *>((ws4))->FUN_00586440() + 29, 3) == 0)
+            {
+                result5 = ws4;
+                break;
+            }
+        }
+    }
+    if (!result5)
+    {
+        result5 = ((::TESWorldSpace *)(new ((void *)(((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))))) ::Vec3()));
+    }
+    return result5;
+}
+
+class NiNode;
+class Tile;
+class TileMenu;
+class Menu;
+class TESObjectREFR;
+class TESWorldSpace;
+class TESObjectCELL;
+class TESForm;
+class TESQuest;
+class RegionObjectEntry;
+class BGSNote;
+class TESTopic;
+class TESTopicInfo;
+class DialogueItem;
+class DialogueResponse;
+class PathingPath;
+class Character;
+class BSAudio;
+class FOPipboyManager;
+class InterfaceManager;
+class BSRenderedMenu;
+class TESBoundObject;
+class BGSQuestObjective;
+class TESChallenge;
+union SETTING_VALUE;
+class INISettingCollection;
+class NiTexture;
+class NiProperty;
+template <> void ListBox<TESQuest*>::ClearSelection(bool);
+extern const double DAT_01074f68, DAT_010301a8;
+extern int DAT_011da354, DAT_011da358, DAT_011da35c;
+extern bool DAT_011da36c, DAT_011da36d, DAT_011da36f, DAT_011da408;
+extern unsigned int DAT_011da40c;
+extern SettingT_GameSettingCollection_ DAT_011d4438, DAT_011d4960, DAT_011d33a8, DAT_011d4f54,
+    DAT_011d3a2c, DAT_011d34f8, DAT_011d3684, DAT_011d4a38, DAT_011d48e8, DAT_011db458, DAT_011db37c;
+extern SettingT_GameSettingCollection_* DAT_011a03e4[3];
+int FUN_00720df0();
+bool FUN_00798440();
+extern "C" int _stricmp(const char*, const char*);
+
+// @fnv 0x0079af30
+void MapMenu::FUN_0079af30()
+{
+    int selected = -1;
+    Tile* index = 0;
+    reinterpret_cast<::ListBoxEnable *>(&(m_kQuestListBox))->FUN_007a2350(false);
+    reinterpret_cast<::FUN_007a4c50_shell *>(&(m_kObjectiveListBox))->SetEnabledTrait(false);
+    reinterpret_cast<::MenuItem7A3 *>(&(m_kNoteListBox))->FUN_007a30e0(false);
+    reinterpret_cast<::FUN_007a5a30_Host *>(&(m_kNoteListBox))->FUN_007a5a30(false);
+    reinterpret_cast<::TileOwnerW *>(&(m_kChallengeListBox))->FUN_007a59a0(false);
+    reinterpret_cast<::FUN_007a5a30_Host *>(&(m_kChallengeListBox))->FUN_007a5a30(false);
+    DAT_011da368->m_pTiles[11]->Set(0xfaf, 1);
+    DAT_011da368->m_pTiles[12]->Set(0xfa3, 1);
+    DAT_011da368->m_pTiles[18]->Set(0xfa3, 0);
+    DAT_011da368->m_pTiles[21]->Set(0xfa3, 0);
+    switch (DAT_011da368->m_iMapDisplayMode)
+    {
+    case 32:
+        DAT_011da368->m_pMapTile = DAT_011da368->m_pTiles[2];
+        if (!FUN_007a1750())
+            reinterpret_cast<::MapView *>((DAT_011da368))->UpdateLocalMap();
+        break;
+    case 33:
+        DAT_011da368->m_pMapTile = DAT_011da368->m_pTiles[4];
+        reinterpret_cast<::fnv_0079cdb0::MMMenu *>((DAT_011da368))->RefreshMap();
+        break;
+    case 34:
+        reinterpret_cast<::fnv_0079b8e0::FUN_0079b8e0_shell *>((DAT_011da368))->UpdateQuestObjectiveList();
+        break;
+    case 35:
+        DAT_011da368->m_pTiles[18]->Set(0xfa3, 1);
+        if (!DAT_011da36d)
+        {
+            reinterpret_cast<::FUN_007312e0_shell *>(&(DAT_011da368->m_kNoteListBox))->FUN_007312e0();
+            reinterpret_cast<::NotesMapMenu *>((DAT_011da368))->RefreshNotesList();
+            if (m_pSelectedNote && !DAT_011da36d)
+            {
+                Tile* noteTile = ((::Tile *)(reinterpret_cast<::Owner *>(&(m_kNoteListBox))->FindItemData((int *)&(m_pSelectedNote))));
+                reinterpret_cast<::fnv_007993d0::NoteMenu *>(this)->SetNote((::fnv_007993d0::NoteInput *)(m_pSelectedNote));
+                if (noteTile)
+                    noteTile->Set(DAT_011da348, 1);
+            }
+            reinterpret_cast<::ListBoxStandIn_7a3580 *>(&(DAT_011da368->m_kNoteListBox))->UpdateScrollSelection(true);
+        }
+        reinterpret_cast<::Target600 *>((DAT_011da368))->RefreshChallengeList();
+        reinterpret_cast<::fnv_0079b460::FUN_0079b460_shell *>(this)->FUN_0079b460(false);
+        break;
+    case 36:
+        DAT_011da368->m_pTiles[12]->Set(0xfa3, 0);
+        selected =
+            (int)(m_kMapMarkerListBox.GetSelectedTile() ? reinterpret_cast<::TileListBoxCalls *>((m_kMapMarkerListBox.GetSelectedTile()))->GetFloat(0xfac)
+                                                        : -1.0f);
+        reinterpret_cast<::fnv_0079bea0::FUN_0079bea0_Shell *>((DAT_011da368))->RefreshRadioList();
+        index = m_kMapMarkerListBox.GetTileAt(selected, false);
+        if (index)
+            reinterpret_cast<::FocusManager *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00715860((::FocusTile *)(index), 0xfc3, 1);
+        m_kMapMarkerListBox.ScrollToHighlight();
+        break;
+    }
+}
 #include "generated/data/fallout/interface/menus/mapmenu.inc"

@@ -168,6 +168,12 @@
 #include "fnv/symbols_011cf000.h"
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f1000.h"
+#include "fnv/decl/CombatState.h"
+#include "fnv/decl/FUN_006aabd0_shell.h"
+#include "fnv/decl/FUN_008b3840_Actor.h"
+#include "fnv/decl/FUN_0096a330_Class.h"
+#include "fnv/decl/fnv_008be600__FUN_008be600_cls.h"
+#include "fnv/symbols_0047a000.h"
 struct FUN_00985980_shell
 {
     float f0;
@@ -10776,4 +10782,21 @@ void* S009865d0_CombatGroup::FUN_009865d0(int aiRef)
     return reinterpret_cast<FUN_00986610_shell*>(this)->FUN_00986610(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<RefObj*>(aiRef)))->FUN_0084e3a0())));
 }
 
+
+struct FUN_0096a330_shell
+{
+};
+
+// @fnv 0x0096a2b0
+void FUN_0096a2b0_stub::FUN_0096a2b0(int state)
+{
+    reinterpret_cast<::FUN_0096a330_Class *>((reinterpret_cast<FUN_0096a330_shell*>(this)))->GetEntryAt(state);
+}
+
+
+// @fnv 0x009865f0
+int FUN_009865f0_shell::FUN_009865f0(int a1)
+{
+    return (int)((C00986670*)this)->FUN_00986670(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((a1))->FUN_0084e3a0())));
+}
 #include "generated/data/fallout/ai/combat/combatgroup.inc"

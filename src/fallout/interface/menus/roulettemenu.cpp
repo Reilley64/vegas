@@ -117,6 +117,7 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f3000.h"
 #include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_007bb000.h"
 struct FUN_007b8f30_shell
 {
     int FUN_007b8f30();
@@ -14456,6 +14457,8 @@ class Menu
     int unk48;
     int unk4c;
     int unk50;
+public:
+    void SetMenuVisibility(bool);
 };
 struct Member08
 {
@@ -15979,4 +15982,76 @@ void RouletteMenuX::FUN_007bd2a0()
 }
 }  // namespace fnv_007bd2a0
 
+int __cdecl FUN_007bc820();
+void SetRouletteMenuTile();
+int __cdecl strcpy_s(char*, unsigned int, const char*);
+struct RouletteBetEntry
+{
+    int amount;
+    int number;
+    int strip;
+};
+struct BetGeometry
+{
+    NiPoint3 position;
+    int unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;
+    int unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c, unk50;
+    int unk54, unk58, unk5c, unk60;
+};
+
+
+// @fnv 0x007bed70
+bool RouletteState::FUN_007bed70(int number)
+{
+    if (unk3fe4 >= 10 || number >= 159 || number < 0 || !unk3fe8)
+        return false;
+    BetList* k = reinterpret_cast<BetList*>(unk3e78);
+    while (k && *((::RouletteBetEntry **)(new ((void *)(k)) ::Vec3())))
+    {
+        if ((*((::RouletteBetEntry **)(new ((void *)(k)) ::Vec3())))->number == number)
+            return false;
+        k = ((::BetList *)(reinterpret_cast<::Callees *>((k))->FUN_00726070()));
+    }
+    NiUpdateData b(0.0f, false, false);
+    NiPoint3 l = reinterpret_cast<BetGeometry*>(&unk006c)[number].position;
+    unsigned int e = sizeof(RouletteBetEntry);
+    void* j = ::FUN_00401000(e);
+    RouletteBetEntry* ba = j ? (std::memset(j, 0, e), static_cast<RouletteBetEntry*>(j)) : 0;
+    ba->amount = unk3fe8;
+    ba->number = number;
+    ba->strip = unk3fe0;
+    if (!unk3e78 || reinterpret_cast<BetList*>(unk3e78)->FUN_008256d0())
+        reinterpret_cast<BetList*>(unk3e78)->FUN_00726c60(ba);
+    else
+        reinterpret_cast<BetList*>(unk3e78)->FUN_005ae3d0(ba);
+    reinterpret_cast<::FUN_007bf840_shell *>(this)->FUN_007bf840();
+    ++unk3fe4;
+    ++unk3fe0;
+    unk3fec += unk3fe8;
+    reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID("GAMERouletteIncreaseBet", 0x121)))->FUN_00ad8830(false);
+    if (unk3fe0 >= 13)
+        unk3fe0 = 3;
+    while (!reinterpret_cast<FUN_007bf530_shell*>(this)->IsEyesListBelowThreshold(unk3fe0) && unk3fe4 < 10)
+    {
+        ++unk3fe0;
+        if (unk3fe0 >= 13)
+            unk3fe0 = 3;
+    }
+    NiPoint3 c;
+    if (unk3fe4 < 10 && unk3fec < unk4000)
+    {
+        c = reinterpret_cast<::NiAVObject *>((((::RouletteObject *)(reinterpret_cast<::NiNode *>((reinterpret_cast<RouletteScene*>(static_cast<unsigned int>((*reinterpret_cast<::GO *>(&::g_011da8a0))))))->GetAt(2)))))->FUN_0043c490();
+        reinterpret_cast<::FUN_004bc1f0_S *>((((::RouletteObject *)(reinterpret_cast<::NiNode *>((reinterpret_cast<RouletteScene*>(static_cast<unsigned int>((*reinterpret_cast<::GO *>(&::g_011da8a0))))))->GetAt(unk3fe0)))))->FUN_004bc1f0(c.x, c.y, 0.0f);
+        reinterpret_cast<::FUN_004bc1f0_S *>((((::RouletteObject *)(reinterpret_cast<::NiNode *>((reinterpret_cast<RouletteScene*>(static_cast<unsigned int>((*reinterpret_cast<::GO *>(&::g_011da8a0))))))->GetAt(unk3fe0 + 10)))))->FUN_004bc1f0(c.x, c.y, 0.0f);
+        reinterpret_cast<::FUN_007bf840_shell *>(this)->FUN_007bf840();
+    }
+    if (unk3fec + unk3fe8 > unk3ff0)
+    {
+        unk3fe8 = unk3ff0 - unk3fec;
+        reinterpret_cast<::FUN_00a01290_shell *>((reinterpret_cast<RouletteTile*>(DAT_011da878->m_pTiles[10])))->SetTraitAndReset(DAT_011da86c, 1.0f);
+        reinterpret_cast<::Tile *>((reinterpret_cast<RouletteTile*>(DAT_011da878->m_pTiles[10])))->Set(DAT_011da86c, unk3fe8);
+        reinterpret_cast<::FUN_007bf710_cls *>((reinterpret_cast<RouletteState*>(DAT_011da878)))->ApplyValueToChain(6, DAT_0101e704);
+    }
+    return true;
+}
 #include "generated/data/fallout/interface/menus/roulettemenu.inc"

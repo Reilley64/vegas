@@ -127,6 +127,22 @@
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f2000.h"
 #include "character_decls.h"
+#include "fnv/decl/FUN_00491040_shell.h"
+#include "fnv/decl/FUN_00491180_shell.h"
+#include "fnv/decl/FUN_00933150_shell.h"
+#include "fnv/decl/FUN_009dcc80_cls.h"
+#include "fnv/decl/InventoryStackRecord.h"
+#include "fnv/decl/ItemChangeValueShell.h"
+#include "fnv/decl/SoundWrapper.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/UAMActor.h"
+#include "fnv/decl/fnv_00567050__FUN_00567050_shell.h"
+#include "fnv/decl/fnv_008b28c0__This8b.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011f6000.h"
 
 // @fnv 0x008d1e70
 bool Character_GetTrespassing(Character* self)
@@ -3767,4 +3783,232 @@ FUN_008d2060::~FUN_008d2060()
         Set3D(0, false);
 }
 
+#define PlayerCharacter PlayerCharacter_ActorHeader
+#define FNV_NIPOINT3_H
+class ActiveEffect;
+template <class T> class BSSimpleList;
+
+class Actor;
+class Animation;
+class NiNode;
+template <> class NiPointer<NiNode>
+{
+  public:
+    NiNode* m_pObject;
+    NiNode* operator->() const;
+};
+class ParentSpaceNode;
+class GameSettingCollection;
+extern GlobalObject_0045d260 g_011df69c;
+enum ACTOR_LIFE_STATE;
+#ifdef _MSC_VER
+__forceinline
+#else
+inline __attribute__((always_inline))
+#endif
+    Actor*
+    ActorValueOwner::GetActorOwner()
+{
+    return static_cast<Actor*>(this);
+}
+#undef PlayerCharacter
+
+class MusicMarkerReference;
+struct Biped;
+bool Character_GetTrespassing(Character* self);
+void FUN_008d1e90(Character* this_ptr, float value);
+
+class TESObjectARMO : public TESBoundObject
+{
+};
+struct FUN_004bc5f0
+{
+    void* extraData;
+    int count;
+    TESBoundObject* object;
+    ~FUN_004bc5f0();
+};
+struct EquipmentList536
+{
+};
+struct ExtraList536
+{
+};
+struct Character536 : Character
+{
+    float FUN_008d2110();
+};
+// @fnv 0x008d2110
+float Character536::FUN_008d2110()
+{
+    int count = 0;
+    TESObjectARMO* forms3[20];
+    forms3[0] = 0;
+    if (m_fSecondValue < ::_DAT_01012060)
+    {
+        m_fSecondValue = 0.0f;
+        EquipmentList536* list6 = ((::EquipmentList536 *)(reinterpret_cast<::ExtraDataList *>((((::ExtraList536 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()));
+        FUN_004bc5f0* item7 = 0;
+        if (list6)
+        {
+            for (int index = 0; index < 20; ++index)
+            {
+                item7 = ((::FUN_004bc5f0 *)(reinterpret_cast<::Target *>((list6))->FUN_004c8c10(index, false)));
+                if (item7)
+                {
+                    TESObjectARMO* armor = dynamic_cast<TESObjectARMO*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item7))->GetName())));
+                    if (armor)
+                    {
+                        bool found4 = false;
+                        if (count != 0)
+                        {
+                            for (int scan5 = 0; scan5 < count && !found4; ++scan5)
+                                found4 = forms3[scan5] == armor;
+                        }
+                        if (!found4)
+                        {
+                            m_fSecondValue += reinterpret_cast<::InventoryStackRecord *>((item7))->GetArmorDamageThreshold((::Actor *)(::ActorValueOwner *)(static_cast<ActorValueOwner*>(this)));
+                            forms3[count] = armor;
+                            ++count;
+                        }
+                    }
+                    delete item7;
+                    item7 = 0;
+                }
+            }
+        }
+    }
+    return m_fSecondValue;
+}
+
+
+// Adapted from an unverified 2026-10-23 contribution by another contributor.
+
+struct InventoryEntry_8d22b0
+{
+    ~InventoryEntry_8d22b0();
+    float GetEntryWeight(ActorValueOwner* owner);
+};
+struct InventoryData_8d22b0
+{
+};
+struct ContainerChanges_8d22b0
+{
+};
+
+union SETTING_VALUE
+{
+    float f;
+    int i;
+    unsigned int u;
+    char* str;
+};
+template <> class SettingT<GameSettingCollection>
+{
+  public:
+};
+
+struct FUN_008d22b0_shell : public Actor
+{
+    int unk1b4;
+    float m_kEighthUnshownMember;
+    float FUN_008d22b0();
+};
+
+// @fnv 0x008d22b0
+float FUN_008d22b0_shell::FUN_008d22b0()
+{
+    int iCount = 0;
+    TESObjectARMO* armors[20];
+    armors[0] = 0;
+    if (m_kEighthUnshownMember < 0.0)
+    {
+        m_kEighthUnshownMember = 0.0f;
+        InventoryData_8d22b0* items = ((::InventoryData_8d22b0 *)(reinterpret_cast<::ExtraDataList *>((((::ContainerChanges_8d22b0 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()));
+        InventoryEntry_8d22b0* entry = 0;
+        if (items)
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                entry = ((::InventoryEntry_8d22b0 *)(reinterpret_cast<::Target *>((items))->FUN_004c8c10(i, 0)));
+                if (entry)
+                {
+                    TESObjectARMO* armor = dynamic_cast<TESObjectARMO*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())));
+                    if (armor)
+                    {
+                        bool found = false;
+                        if (iCount)
+                        {
+                            for (int j = 0; j < iCount && !found; j++)
+                            {
+                                found = armors[j] == armor;
+                            }
+                        }
+                        if (!found)
+                        {
+                            m_kEighthUnshownMember += entry->GetEntryWeight(this);
+                            armors[iCount++] = armor;
+                        }
+                    }
+                    delete entry;
+                    entry = 0;
+                }
+            }
+        }
+    }
+    return ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1016))))->f > 0.0
+               ? FUN_0040ebd0(m_kEighthUnshownMember, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1016))))->f)
+               : m_kEighthUnshownMember;
+}
+
+class TESObjectCLOT : public TESBoundObject
+{
+};
+struct InventoryEntryWeight534
+{
+};
+struct EquipmentList534
+{
+};
+struct ExtraList534
+{
+};
+struct Character534 : Character
+{
+    float FUN_008d3110();
+};
+// @fnv 0x008d3110
+float Character534::FUN_008d3110()
+{
+    float weight = 0.0f;
+    EquipmentList534* list = ((::EquipmentList534 *)(reinterpret_cast<::ExtraDataList *>((((::ExtraList534 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()));
+    FUN_004bc5f0* item9 = 0;
+    int index2;
+    TESObjectARMO* armor7;
+    TESObjectCLOT* clothing;
+    if (list)
+    {
+        for (index2 = 0; index2 < 20; ++index2)
+        {
+            item9 = ((::FUN_004bc5f0 *)(reinterpret_cast<::Target *>((list))->FUN_004c8c10(index2, false)));
+            if (item9)
+            {
+                armor7 = dynamic_cast<TESObjectARMO*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item9))->GetName())));
+                clothing = dynamic_cast<TESObjectCLOT*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item9))->GetName())));
+                if (armor7)
+                    weight +=
+                        ((double)(reinterpret_cast<::ItemChangeValueShell *>((((InventoryEntryWeight534*)item9)))->FUN_004bd400())) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting999)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::g_011d1104))))));
+                else if (clothing)
+                    weight +=
+                        ((double)(reinterpret_cast<::ItemChangeValueShell *>((((InventoryEntryWeight534*)item9)))->FUN_004bd400())) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting998)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::g_011d043c))))));
+                // GetEquippedItem returns an owned temporary inventory entry.
+                delete item9;
+                item9 = 0;
+            }
+        }
+    }
+    if (weight > 100.0)
+        weight = 100.0f;
+    return weight;
+}
 #include "generated/data/fallout/ai/character.inc"

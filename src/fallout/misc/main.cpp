@@ -591,6 +591,8 @@
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01272000.h"
 #include "main.h"
+#include "fnv/decl/FUN_00b63e90_cls.h"
+#include <stdio.h>
 
 
 // @fnv 0x004dc310
@@ -908,6 +910,20 @@ public:
     static void ThreadProcessInput(unsigned int);
 public:
     void ProcessTaskQueue();
+public:
+    void SetTaskFlag(bool);
+    void QueueReferenceStateTask(bool);
+    void FUN_004902f0(bool);
+    void FUN_004ef970(bool);
+    void SetTaskFlag_005468b0(bool);
+    void FUN_00566930(bool);
+    void FUN_00576640(bool);
+    ::NiPoint3 &QueueActorAnimationTask(::NiPoint3 &);
+    void FUN_00635fe0(bool);
+    static void ProcessQueuedTask(const ::BSPackedTask &);
+    void ProcessPackedTask(const ::BSPackedTask &);
+    void FUN_0087e100(bool);
+    void SetTaskFlag_008d6f10(bool);
 };
 
 
@@ -15007,4 +15023,70 @@ void S00875bf0_Shell875::FUN_00875bf0()
     }
 }
 
+
+struct BSBatchRenderer__PassList
+{
+};
+// @fnv 0x00b65660
+void FUN_00b65660_StandIn::FUN_00b65660()
+{
+    BSBatchRenderer__PassList* p = (BSBatchRenderer__PassList*)((char*)this + 0xa0);
+    for (int i = 0; i < 4; ++i, p = (BSBatchRenderer__PassList*)((char*)p + 0x14))
+    {
+        reinterpret_cast<::FUN_00b63e90_cls *>((((BSBatchRenderer__PassList*)((char*)p - 4))))->ReleasePoolNodes();
+        *(int*)((char*)p + 8) = *(int*)p;
+        *(int*)p = 0;
+        *(int*)((char*)p + 4) = 0;
+        *(int*)((char*)p + 0xc) = 0;
+        reinterpret_cast<::FUN_00b63e90_cls *>((((BSBatchRenderer__PassList*)((char*)p + 0x4c))))->ReleasePoolNodes();
+        *(int*)((char*)p + 0x58) = *(int*)((char*)p + 0x50);
+        *(int*)((char*)p + 0x50) = 0;
+        *(int*)((char*)p + 0x54) = 0;
+        *(int*)((char*)p + 0x5c) = 0;
+    }
+}
+
+int __cdecl strcat_s(char*, unsigned int, const char*);
+struct PluginListEntry
+{
+};
+struct PluginListHandler
+{
+};
+struct Receiver86;
+
+
+// @fnv 0x00872430
+bool PluginListReader::FUN_00872430(const char* pDir, const char* pName)
+{
+    char acPath[260];
+    char acLine[512];
+    FILE* pFile;
+    {
+        bool m_bHeaderParsed = false;
+        ::TaskQueueInterface::CopyStringToBuffer(acPath, 260, pDir);
+        strcat_s(acPath, 260, pName);
+        pFile = fopen(acPath, DAT_01082cb8);
+        if (pFile)
+        {
+            while (std::fgets(acLine, 512, (std::FILE *)(pFile)))
+            {
+                unsigned int uiLen = ::FUN_0044a670(acLine);
+                if (acLine[0] != '#' && uiLen > 1)
+                {
+                    if (acLine[uiLen - 1] == '\n')
+                        acLine[uiLen - 1] = 0;
+                    TESFile* m_pFileEntry = reinterpret_cast<::TESDataHandler *>((((PluginListHandler*)(*reinterpret_cast<::Receiver86 * *>(&::g_dataHandler)))))->LookupTESFile(acLine);
+                    if (m_pFileEntry)
+                    {
+                        reinterpret_cast<::EffectSettingCollection *>((((PluginListEntry*)m_pFileEntry)))->InitializeCollection(true);
+                        m_bHeaderParsed = true;
+                    }
+                }
+            }
+            fclose(pFile);
+        }
+        return m_bHeaderParsed;
+    }
+}
 #include "generated/data/fallout/misc/main.inc"

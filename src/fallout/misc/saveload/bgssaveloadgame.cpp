@@ -3909,5 +3909,4 @@ void SLGame84a880::FUN_0084a880(TESForm* form)
         break;
     }
 }
-
 #include "generated/data/fallout/misc/saveload/bgssaveloadgame.inc"

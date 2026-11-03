@@ -30,6 +30,10 @@
 #include "fnv/symbols_00a09000.h"
 #include "fnv/symbols_01077000.h"
 #include "fnv/symbols_011de000.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/symbols_005b5000.h"
 struct Menu
 {
     Menu();
@@ -66,6 +70,8 @@ FUN_0073acb0::FUN_0073acb0() : Menu()
 struct BookMenu
 {
     int FUN_0073acf0();
+public:
+    virtual ~BookMenu();
 };
 // @fnv 0x0073acf0
 int BookMenu::FUN_0073acf0()
@@ -476,6 +482,8 @@ struct InterfaceManager
     char m_kInterfaceStateData[172];
 public:
     int FUN_00747d00();
+public:
+    ::Tile *FUN_00586150();
 };
 struct FUN_0073b020_shell : public InterfaceManager
 {
@@ -634,11 +642,15 @@ FUN_007e7a80::FUN_007e7a80()
 
 struct TGF
 {
+public:
+    virtual ~TGF();
 };
 
 struct Tile : TGF
 {
     void Set(int, int);
+public:
+    static float GetInterfaceScale();
 };
 
 int __cdecl __ftol2_sse(double);
@@ -1140,4 +1152,138 @@ void LoadBook::LoadBookFile()
     reinterpret_cast<::Tile *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x100a, 0);
 }
 
+struct Menu_rtti2
+{
+    virtual ~Menu_rtti2();  // the original class is polymorphic (rtti_variants.py)
+    Menu_rtti2();
+    unsigned int m_kPointA;
+    unsigned int m_kPointB;
+    unsigned int m_iThirdValue;
+    unsigned int m_iFourthElementInteger;
+    unsigned int m_usTrailingValue;
+    unsigned int m_f;
+    unsigned int m_g;
+    unsigned int m_h;
+    unsigned int m_i;
+public:
+    void SetMenuVisibility(bool);
+};
+struct FUN_0073acb0 : Menu_rtti2
+{
+    void* m_pHighlightedTile;
+    void* m_pObject;
+    FUN_0073acb0();
+};
+struct Menu_rtti2;
+class Tile;
+struct FUN_007e7a80 : Menu_rtti2
+{
+    char _pad[0x50];
+    int m_78;
+    int m_7c;
+    FUN_007e7a80();
+};
+struct FUN_0073b050_shell : Menu_rtti2
+{
+    Tile* m_pHighlightedTile;
+    Tile* m_pObject;
+    unsigned int m_0x30;
+    unsigned int m_0x34;
+    float m_fValue;
+
+    void FUN_0073b050(int, Tile*);
+};
+struct BookTarget : Menu_rtti2
+{
+    void* unk28;
+    void* unk2c;
+    int unk30;
+    void UpdateBookMenu(BookInput*, int);
+};
+
+struct TESObjectBOOK
+{
+};
+struct Tile_00a01b00 : Tile
+{
+};
+struct TileMenu : Tile
+{
+};
+struct IMH
+{
+};
+struct BookMenuData : Menu_rtti2
+{
+    void* m_pHighlightedTile;
+    void* m_pObject;
+    void* unk30;
+    TESObjectBOOK* m_pObjectToUpdateMenuTile;
+};
+struct MenuH
+{
+    virtual ~MenuH();
+    virtual void V1();
+    virtual void V2();
+    virtual void V3();
+    virtual void V4();
+    virtual void V5();
+    virtual void V6();
+    virtual void V7();
+    virtual void V8();
+    virtual void V9();
+    virtual void V10();
+    virtual void V11();
+    virtual void V12();
+    virtual int GetID();
+};
+
+// @fnv 0x0073ad50
+Tile* __cdecl FUN_0073ad50(TESObjectBOOK* apBook, TESObjectREFR* apRef)
+{
+    BookMenu* g_pHudMainMenuInstance;
+    InterfaceManager* pin;
+    Menu_rtti2* pmenu;
+    TESObjectBOOK* pbook;
+    float ftop_depth;
+    Tile_00a01b00* ptile;
+    Tile* pold_menu_tile;
+    pold_menu_tile = (Tile*)((::Menu_rtti2 *)(::FUN_00a09030(0x402)));
+    if (pold_menu_tile)
+        delete pold_menu_tile;
+    pbook = apBook;
+    if (!pbook)
+        return 0;
+    pin = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
+    ftop_depth = ::Tile::GetInterfaceScale();
+    ptile = 0;
+    ptile = (Tile_00a01b00*)reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::Tile_00a01b00 *)(reinterpret_cast<::InterfaceManager *>((((IMH*)pin)))->FUN_00586150()))))->FUN_00a01b00((void *)("Data\\Menus\\book_menu.xml"));
+    pmenu = reinterpret_cast<::FUN_00a03c90_shell *>((ptile))->FUN_00a03c90();
+    g_pHudMainMenuInstance = (BookMenu*)pmenu;
+    ((BookMenuData*)g_pHudMainMenuInstance)->m_pObjectToUpdateMenuTile = apBook;
+    if (pmenu && ((MenuH*)pmenu)->GetID() == 0x402)
+    {
+        reinterpret_cast<::FUN_00a1dc70_shell *>((((MenuH*)pmenu)))->FUN_00a1dc70(dynamic_cast<TileMenu*>((Tile*)ptile), false);
+        BookMenu* g_pHudMainMenuInstance = dynamic_cast<BookMenu*>(pmenu);
+        if (!((FUN_0073af60_shell*)g_pHudMainMenuInstance)->FUN_0073af60())
+        {
+            ::FUN_005b5e40();
+            return 0;
+        }
+        if (reinterpret_cast<::TileListBoxCalls *>((((TGF*)ptile)))->GetFloat(0xfa7) == 6006.0 || reinterpret_cast<::TileListBoxCalls *>((((TGF*)ptile)))->GetFloat(0xfa7) == 102.0)
+            reinterpret_cast<::FUN_00a012d0_t *>((ptile))->FUN_00a012d0(0xfad, ftop_depth, true);
+        reinterpret_cast<::BookTarget *>((((BookMenuData*)g_pHudMainMenuInstance)))->UpdateBookMenu((::BookInput *)(apBook), (int)(apRef));
+        if (reinterpret_cast<::FUN_00409700_Class *>((((BookMenuData*)g_pHudMainMenuInstance)->m_pObjectToUpdateMenuTile))->FUN_00409700())
+            ::s717280::FUN_00717280(0x18);
+        else
+            ::s717280::FUN_00717280(0x1a);
+        reinterpret_cast<::Menu_rtti2 *>((((MenuH*)pmenu)))->SetMenuVisibility(false);
+        return ptile;
+    }
+    else if (pmenu && reinterpret_cast<::Callees *>((pmenu))->FUN_00726070())
+    {
+        delete (MenuH*)pmenu;
+    }
+    return 0;
+}
 #include "generated/data/fallout/interface/menus/bookmenu.inc"

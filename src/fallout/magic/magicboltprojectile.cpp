@@ -8,7 +8,6 @@
 #include "fnv/decl/CellView.h"
 #include "fnv/decl/EffectBase.h"
 #include "fnv/decl/EffectSetting.h"
-#include "fnv/decl/Emitter.h"
 #include "fnv/decl/FUN_00404420_shell.h"
 #include "fnv/decl/FUN_00439ef0_class.h"
 #include "fnv/decl/FUN_0043fa80_s.h"
@@ -97,6 +96,18 @@
 #include "fnv/symbols_011d1000.h"
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_00811000.h"
+#include "fnv/symbols_00bc0000.h"
+#include <stdlib.h>
+#include <math.h>
+#include "fnv/decl/FUN_00456630_helper.h"
+#include "fnv/decl/FUN_0081c4a0_cls.h"
+#include "fnv/decl/FUN_00950bb0_shell.h"
+#include "fnv/decl/Reference.h"
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/fnv_0080fb00__FUN_0080fb00_Class.h"
+#include "fnv/decl/fnv_00813f30__Actor80F.h"
+#include "fnv/decl/xActor_2.h"
 struct RefH
 {
 };
@@ -1662,6 +1673,8 @@ class MagicProjectile : public TESObjectREFR
     AudioPlaybackHandle sound;
     ProjectileEffect* FUN_004fd400();
     void InitializeProjectile(int arg1, int arg2);
+public:
+    void FUN_0081e730();
 };
 // @fnv 0x00814ad0
 void MagicProjectile::InitializeProjectile(int arg1, int arg2)
@@ -2139,6 +2152,108 @@ struct Holder
 {
 public:
     bool FUN_00a5bc40(const ::NiFixedString &, ::NiTexture *);
+};
+struct Vector
+{
+    float x, y, z, w;
+};
+struct Emitter
+{
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04c;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05c;
+    Vector* positions;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06c;
+    float elapsed;
+    int batch;
+    int current;
+    int emitted;
+    int total;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    unsigned int unk0d0;
+    unsigned int unk0d4;
+    unsigned int unk0d8;
+    unsigned int unk0dc;
+    unsigned int unk0e0;
+    unsigned int unk0e4;
+    unsigned int unk0e8;
+    unsigned int unk0ec;
+    unsigned int unk0f0;
+    unsigned int unk0f4;
+    unsigned int unk0f8;
+    unsigned int unk0fc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    int count;
+    unsigned int unk12c;
+    float range;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13c;
+    int stride;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned char active, state, flags, centered;
+    void FUN_00bc2360();
 };
 // Creates root and emitter nodes at Position(), sets up an emitter property, applies a rotation matrix, and configures the spawned effect from settings.
 // @fnv 0x00812220
@@ -3246,4 +3361,221 @@ struct FUN_00812170
 FUN_00812170::~FUN_00812170()
 {}
 
+double FUN_00ec9e10(double);
+inline float rounded(float value)
+{
+    float result = (float)ceil(value);
+    return result;
+}
+inline float randomRange(const float& range)
+{
+    float fraction = (float)(rand() / 32767.0);
+    return (float)(range * fraction - range * 0.5);
+}
+// @fnv 0x00bc2360
+void Emitter::FUN_00bc2360()
+{
+    int available = ((int)(::FUN_00bc0b40()));
+    elapsed = 0.0f;
+    active = false;
+    if (available < count * stride)
+    {
+        float deficit = (float)(count * stride - available) / stride;
+        float removed = rounded(deficit);
+        count -= (int)removed;
+    }
+    batch = stride > 4 ? 4 : stride;
+    total = count * stride;
+    for (int i = 0; i < count; ++i)
+    {
+        if (centered)
+        {
+            positions[i].x = 0.0f;
+            positions[i].y = 0.0f;
+            positions[i].z = 0.0f;
+        }
+        else
+        {
+            positions[i].x = randomRange(range);
+            positions[i].y = randomRange(range);
+            positions[i].z = randomRange(range);
+        }
+    }
+    current = 0;
+    emitted = 0;
+}
+
+
+struct xP3
+{
+    float x, y, z;
+};
+union __declspec(align(16)) xM128
+{
+    float m128_f32[4];
+    char m128_i8[16];
+};
+struct __declspec(align(16)) xVec4
+{
+    xM128 m_vComponents;
+    xVec4(float, float, float, float);
+};
+struct xSound
+{
+    xSound();
+    ~xSound();
+    xSound& operator=(const xSound&);
+    int m_iWordAt00, m_iWordAt04, m_8;
+};
+struct xFltSetting
+{
+};
+extern xFltSetting xg_11d1c28;
+extern const float xg_107a8b0;
+struct xIntSetting
+{
+};
+struct xPtr
+{
+    xPtr(int);
+    ~xPtr();
+    void FUN_0066b0d0(void*);
+    void* m_p;
+};
+int xFUN_0081e440(void*);
+struct xNodeA
+{
+};
+struct xPC
+{
+};
+struct xAudio
+{
+    struct xSound FUN_00ad73b0(void*, unsigned int);
+};
+struct xRefList
+{
+    void FUN_005ae3d0(void* const&);
+};
+struct xDH
+{
+};
+struct xRadius
+{
+};
+struct xSndForm
+{
+};
+struct xEffect
+{
+};
+struct xCtl
+{
+};
+struct xCell
+{
+};
+struct xOwner
+{
+};
+struct xA
+{
+    virtual void a0();
+    virtual void FUN_00484b60(unsigned int);
+    int m_iWordAt04, m_8, m_iThirdValue, m_10, m_14;
+};
+struct xB
+{
+    virtual void b0();
+};
+struct xBase : xA, xB
+{
+    xBase(int, int, int, int, xP3, xP3);
+    ~xBase();
+};
+struct xActorV
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void* FUN_2c();
+};
+
+struct xProj : xBase
+{
+    int m_pad1c[27];
+    float m_88;
+    int m_pad8c[7];
+    xPtr m_a8;
+    int m_ac;
+    int m_b0;
+    xPtr m_b4;
+    xPtr m_b8;
+    xPtr m_bc;
+    xPtr m_c0;
+    int m_c4;
+    xSound m_c8;
+    float m_d4;
+    xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2);
+};
+// @fnv 0x00811980
+xProj::xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2)
+    : xBase((int)apA, b, c, d, kP1, kP2), m_a8(0), m_b4(0), m_b8(0), m_bc(0), m_c0(0)
+{
+    ::FUN_00811e00(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::xIntSetting *>(&::g_011d16ec)))))));
+    reinterpret_cast<::FUN_008133d0_shell *>(this)->FUN_008133d0(0);
+    m_88 = reinterpret_cast<::PathingRequest *>((((xRadius*)((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))->GetCenterRadius() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1140))))));
+    m_b0 = 0;
+    m_c4 = 0;
+    m_d4 = 0.0f;
+    if (apA->FUN_2c() == (*reinterpret_cast<void * *>(&::_g_thePlayer)) && ((::xNodeA *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::xPC * *>(&::_g_thePlayer))))->FUN_00950bb0(true))) &&
+        !reinterpret_cast<::FUN_00456630_helper *>((((::xNodeA *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::xPC * *>(&::_g_thePlayer))))->FUN_00950bb0(true)))))->FUN_00456610())
+    {
+        xP3 POS = *((::xP3 *)(reinterpret_cast<::TESTopicInfo *>(this)->GetAddTopicList()));
+        POS.z = POS.z + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1193))))));
+        reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)&(POS));
+    }
+    xPtr OLD(xFUN_0081e440(((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400()))));
+    OLD.FUN_0066b0d0(0);
+    reinterpret_cast<::Bolt *>(this)->InitEffect();
+    reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70((int)(((void *)(::FUN_00559450((int *)&(m_b4))))));
+    reinterpret_cast<::fnv_00813f30::Actor80F *>(this)->FUN_00813f30();
+    xVec4 V(-xg_107a8b0, 0.0f, 0.0f, 0.0f);
+    reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((((::xCtl *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_0080fb00((int)(&V));
+    reinterpret_cast<::CellView *>((((::xCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00548230((::RefView *)(void *)(this), false);
+    reinterpret_cast<::FUN_008133d0_shell *>(this)->FUN_008133d0(0);
+    if (((::xSndForm *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))))
+    {
+        void* NAME = ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::xSndForm *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400()))))))))->FUN_0084e3a0()));
+        if (reinterpret_cast<::SoundPlaybackHandle *>(&(m_c8))->IsValid())
+            reinterpret_cast<::SoundPlaybackHandle *>(&(m_c8))->Release();
+        if (((void *)(::FUN_00559450((int *)&(m_c0)))))
+        {
+            reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::xSound &)(m_c8))->operator=((const ::SoundPlaybackHandle &)((const ::xSound &)(((::xAudio *)(::FUN_00453a70()))->FUN_00ad73b0(NAME, 0x102))));
+            xP3 POS2 = *((::xP3 *)(reinterpret_cast<::TESTopicInfo *>(this)->GetAddTopicList()));
+            reinterpret_cast<::FUN_00ad8b60_h *>(&(m_c8))->FUN_00ad8b60(POS2.x, POS2.y, POS2.z);
+            reinterpret_cast<::FUN_00ad8f20_shell *>(&(m_c8))->FUN_00ad8f20((::NiAVObject *)(void *)(((void *)(::FUN_00559450((int *)&(m_c0))))));
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(m_c8))->FUN_00ad8830(true);
+        }
+    }
+    reinterpret_cast<::xActor *>(this)->FUN_0081eba0();
+    void* SHOOTER = ((::xActorV *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) ? ((::xActorV *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->FUN_2c() : 0;
+    if (SHOOTER != (*reinterpret_cast<void * *>(&::_g_thePlayer)))
+        ::FUN_0080fae0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1188)))))));
+    else
+    {
+        xRefList* LIST = ((::xRefList *)(reinterpret_cast<::FUN_004610f0_Class *>(&((*reinterpret_cast<::xDH *>(&::g_011e0e80))))->GetOffset70Ptr()));
+        if (LIST)
+            LIST->FUN_005ae3d0(this);
+    }
+}
 #include "generated/data/fallout/magic/magicboltprojectile.inc"
+#include "generated/data/fallout/magic/magicboltprojectile_o2_variant_od_oy_noo2_variant.inc"

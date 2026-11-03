@@ -3,7 +3,6 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
-#include "fnv/decl/AGOwner.h"
 #include "fnv/decl/BSS.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -72,6 +71,15 @@
 #include "fnv/symbols_0106f000.h"
 #include "fnv/symbols_01070000.h"
 #include "fnv/symbols_011d8000.h"
+#include "fnv/decl/C7D8EE0List.h"
+#include "fnv/decl/FUN_007a80e0_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/fnv_00a01000__FUN_00a01000_shell.h"
+#include "fnv/decl/fnv_00a1b020__FUN_00a1b020_t.h"
+#include "fnv/decl/list71a__L71Menu.h"
+#include "fnv/symbols_006b3000.h"
+#include "fnv/symbols_00a0a000.h"
+#include "fnv/symbols_011f6000.h"
 struct G2
 {
     void AddHead(int**);
@@ -3851,6 +3859,35 @@ bool C4FD0ListBox::FUN_00724fd0()
     static int s_iEnabledTrait = ::FUN_00a00940("_enabled", -1);
     return m_pkTile && reinterpret_cast<::FUN_00a01230_shell *>((m_pkTile))->IsTraitNonZero(s_iEnabledTrait);
 }
+class AGListItem
+{
+  public:
+    virtual ~AGListItem();
+    int m_iIndex;
+    AGListItem* m_pNext;
+    AGListItem() : m_iIndex(2000), m_pNext(0)
+    {}
+};
+class AGValueItem : public AGListItem
+{
+  public:
+    virtual ~AGValueItem();
+    TileValue* m_pIntegerData;
+    AGValueItem()
+    {}
+};
+class AGOwner
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    AGValueItem* m_pHead;
+    void FUN_00a09130(int iIndex, Tile* pTile, int iValue);
+public:
+    void *FUN_004bcd10();
+};
 
 namespace fnv_00725080 {
 struct HighlightValue
@@ -7842,4 +7879,36 @@ struct FUN_00724200 : FUN_00723f80
 FUN_00724200::~FUN_00724200()
 {}
 
+int __cdecl strcpy_s(char*, unsigned int, const char*);
+
+struct TileValue_00a0a270;
+struct TileValueOwner_00a01000
+{
+};
+
+class AGMemoryManager
+{
+  public:
+};
+
+// @fnv 0x00a09130
+void AGOwner::FUN_00a09130(int iIndex, Tile* pTile, int iValue)
+{
+    AGValueItem* pLast = m_pHead;
+    AGValueItem* pItem = new AGValueItem;
+    pItem->m_iIndex = iIndex;
+    pItem->m_pIntegerData = (TileValue*)((::TileValue_00a0a270 *)(reinterpret_cast<::fnv_00a01000::FUN_00a01000_shell *>((((TileValueOwner_00a01000*)pTile)))->GetOrCreateTraitValue(iValue)));
+    if (pLast)
+    {
+        while (pLast->m_pNext)
+            pLast = (AGValueItem*)pLast->m_pNext;
+        pLast->m_pNext = pItem;
+    }
+    else
+    {
+        m_pHead = pItem;
+    }
+    ::fnv_00a0a130::FUN_00a0a130((int)(pItem->m_pIntegerData), (int)(this));
+}
 #include "generated/data/fallout/interface/listbox.inc"
+#include "generated/data/fallout/interface/listbox_ob1_variant.inc"

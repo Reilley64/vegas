@@ -1,5 +1,6 @@
 // fallout/ai/actor.cpp: ActorValue, ActorX, Holder, ActorStub and more (806 functions)
 
+#include <intrin.h>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -83,7 +84,6 @@
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/CombatTargetTimestamp.h"
 #include "fnv/decl/CombatUpdater.h"
-#include "fnv/decl/Controller.h"
 #include "fnv/decl/CreatureEquipment.h"
 #include "fnv/decl/Crime005fda50.h"
 #include "fnv/decl/D470Owner.h"
@@ -541,7 +541,6 @@
 #include "fnv/decl/FUN_00c75ad0_Class.h"
 #include "fnv/decl/FUN_00c762f0_Owner.h"
 #include "fnv/decl/FUN_00c76320_class.h"
-#include "fnv/decl/FUN_00c7d630_t.h"
 #include "fnv/decl/FUN_00ca20e0_Class.h"
 #include "fnv/decl/FaderManager.h"
 #include "fnv/decl/FakeFaction.h"
@@ -607,7 +606,6 @@
 #include "fnv/decl/NiPlane.h"
 #include "fnv/decl/NiQuaternion.h"
 #include "fnv/decl/NiTMapBase.h"
-#include "fnv/decl/NiUpdateData.h"
 #include "fnv/decl/Obj5e5300.h"
 #include "fnv/decl/Outer9819.h"
 #include "fnv/decl/Owner274.h"
@@ -623,7 +621,6 @@
 #include "fnv/decl/PackageEx.h"
 #include "fnv/decl/PackageTargetRecord.h"
 #include "fnv/decl/PackedByteIntRecord.h"
-#include "fnv/decl/ParticleTable.h"
 #include "fnv/decl/Pathing.h"
 #include "fnv/decl/PathingLocation.h"
 #include "fnv/decl/PathingRequest.h"
@@ -636,15 +633,12 @@
 #include "fnv/decl/ProcessListsEx.h"
 #include "fnv/decl/Q52Obj.h"
 #include "fnv/decl/RagController.h"
-#include "fnv/decl/RagdollAnimControllerView.h"
-#include "fnv/decl/RagdollCtl.h"
 #include "fnv/decl/Rebuild004d0650__Inventory.h"
 #include "fnv/decl/RecursiveSpinLock.h"
 #include "fnv/decl/Ref.h"
 #include "fnv/decl/RefList.h"
 #include "fnv/decl/Reference.h"
 #include "fnv/decl/RefrStub.h"
-#include "fnv/decl/RenderNode.h"
 #include "fnv/decl/ResetAnimation.h"
 #include "fnv/decl/RockItAmmoCountDetail__PlayerView.h"
 #include "fnv/decl/RotationMatrix.h"
@@ -700,7 +694,6 @@
 #include "fnv/decl/TESFurniture.h"
 #include "fnv/decl/TESHealthForm.h"
 #include "fnv/decl/TESLeveledList.h"
-#include "fnv/decl/TESNPC.h"
 #include "fnv/decl/TESObjectARMO.h"
 #include "fnv/decl/TESObjectWEAP.h"
 #include "fnv/decl/TESPackageShell.h"
@@ -709,7 +702,6 @@
 #include "fnv/decl/TESRegionGrassObject.h"
 #include "fnv/decl/TESTopicInfoData.h"
 #include "fnv/decl/TESWeightForm.h"
-#include "fnv/decl/Target.h"
 #include "fnv/decl/Target96.h"
 #include "fnv/decl/TaskQueueInterface.h"
 #include "fnv/decl/TeleportableReference.h"
@@ -1159,6 +1151,183 @@
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01268000.h"
 #include "Actor.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+#include "fnv/decl/Cls79340.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00448e30_this.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_005611c0_t.h"
+#include "fnv/decl/FUN_00ba3a00.h"
+#include "fnv/decl/FUN_00c75460_S.h"
+#include "fnv/decl/FUN_00c7a230_cls.h"
+#include "fnv/decl/FUN_00ca8420_Class.h"
+#include "fnv/decl/FUN_00cb0a60.h"
+#include "fnv/decl/FUN_00cd9fe0_cls.h"
+#include "fnv/decl/FUN_00cda8d0_class.h"
+#include "fnv/decl/FUN_00cdb290.h"
+#include "fnv/decl/MapperInitialization.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/PointerMap.h"
+#include "fnv/decl/RagdollMapperC18.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/decl/S00c79e20_Ctrl.h"
+#include "fnv/decl/S00cd8920_Obj.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/S_00b601a0_Map.h"
+#include "fnv/decl/S_00ca8630_Class.h"
+#include "fnv/decl/SceneEffect.h"
+#include "fnv/decl/fnv_00cdb7c0__Obj.h"
+#include "fnv/decl/fnv_00ce1ad0__RagInstance.h"
+#include "fnv/decl/fnv_00ce5370__FUN_00ce5370_cls.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_00aa4000.h"
+#include "fnv/symbols_00c4b000.h"
+#include "fnv/symbols_00c74000.h"
+#include "fnv/symbols_00c75000.h"
+#include "fnv/symbols_00c7a000.h"
+#include "fnv/symbols_00c7b000.h"
+#include "fnv/symbols_00c7d000.h"
+#include "fnv/symbols_00c8c000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cda000.h"
+#include "fnv/symbols_00cdd000.h"
+#include "fnv/symbols_00cde000.h"
+#include "fnv/symbols_00ce6000.h"
+#include "fnv/symbols_00cea000.h"
+#include "fnv/symbols_00ceb000.h"
+#include "fnv/symbols_01050000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_011ac000.h"
+#include "fnv/symbols_011af000.h"
+#include "fnv/symbols_011b0000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/decl/C68D50World.h"
+#include "fnv/decl/ControllerLocal.h"
+#include "fnv/decl/ControllerOwner.h"
+#include "fnv/decl/Dispatch_00c89dd0.h"
+#include "fnv/decl/FUN_004f0180_Class.h"
+#include "fnv/decl/FUN_00a305e0_cls.h"
+#include "fnv/decl/FUN_00c6b320_Class.h"
+#include "fnv/decl/FUN_00c6e0b0_Class.h"
+#include "fnv/decl/FUN_00cb7550_cls.h"
+#include "fnv/decl/FootIKDetail__Controller.h"
+#include "fnv/decl/Holder_cffa0.h"
+#include "fnv/decl/P103Controller.h"
+#include "fnv/decl/PoseMatcher.h"
+#include "fnv/decl/PropertyOwner.h"
+#include "fnv/decl/Q1420Helper.h"
+#include "fnv/decl/QueryOwner.h"
+#include "fnv/decl/S00560c20_Object.h"
+#include "fnv/decl/S_c7a730.h"
+#include "fnv/decl/fnv_005617c0__FUN_005617c0_.h"
+#include "fnv/decl/fnv_00c79a50__PoseControllerLocal.h"
+#include "fnv/decl/fnv_00cdb6f0__FUN_00cdb6f0_cls.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c43000.h"
+#include "fnv/symbols_00c68000.h"
+#include "fnv/symbols_00c76000.h"
+#include "fnv/symbols_00c81000.h"
+#include "fnv/symbols_00cb9000.h"
+#include "fnv/symbols_00ce4000.h"
+#include "fnv/symbols_00d6b000.h"
+#include "fnv/symbols_0108f000.h"
+#include "fnv/symbols_010c5000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01204000.h"
+#include "fnv/symbols_01272000.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_01203000.h"
+#include "fnv/decl/C8DAC0Owner.h"
+#include "fnv/decl/FUN_00644a50_shell.h"
+#include "fnv/decl/FUN_006d2c20_Class.h"
+#include "fnv/decl/FUN_009a1260_Class.h"
+#include "fnv/decl/NonActorMagicTarget.h"
+#include "fnv/decl/RefVolAccum.h"
+#include "fnv/decl/S0087ab50.h"
+#include "fnv/decl/bhkRigidBody_shell.h"
+#include "fnv/decl/fnv_00561580__FUN_00561580_Class.h"
+#include "fnv/decl/fnv_00810610__FUN_00810610_Class.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00932a00__FUN_00932a00_t.h"
+#include "fnv/symbols_00533000.h"
+#include "fnv/symbols_005b9000.h"
+#include "fnv/symbols_00621000.h"
+#include "fnv/symbols_007d1000.h"
+#include "fnv/symbols_00887000.h"
+#include "fnv/symbols_00c6c000.h"
+#include "fnv/symbols_011de000.h"
+#include <string.h>
+#include "fnv/decl/FUN_009acce0_shell.h"
+#include "fnv/decl/FUN_00761540_cls.h"
+#include "fnv/decl/FUN_00c74990_cls.h"
+#include "fnv/decl/FUN_00c76220_Class.h"
+#include "fnv/decl/MapTable.h"
+#include "fnv/decl/SkeletonPoseData.h"
+#include "fnv/symbols_00b5c000.h"
+#include "fnv/decl/FUN_0062d4b0.h"
+#include "fnv/decl/FUN_00cc58c0.h"
+#include "fnv/decl/FUN_00418830_shell.h"
+#include "fnv/decl/FUN_00421e40_shell.h"
+#include "fnv/decl/FUN_004523c0_shell.h"
+#include "fnv/decl/FUN_004893c0_class.h"
+#include "fnv/decl/FUN_004ae700_S.h"
+#include "fnv/decl/FUN_005475b0_shell.h"
+#include "fnv/decl/FUN_00549580_shell.h"
+#include "fnv/decl/FUN_005610f0_cls.h"
+#include "fnv/decl/FUN_00586260_shell.h"
+#include "fnv/decl/FUN_005f90c0_shell.h"
+#include "fnv/decl/FUN_005f90e0_shell.h"
+#include "fnv/decl/FUN_00810510_Class.h"
+#include "fnv/decl/FUN_00810550_class.h"
+#include "fnv/decl/FUN_00810640_class.h"
+#include "fnv/decl/FUN_00857230_shell.h"
+#include "fnv/decl/FUN_00891130_class.h"
+#include "fnv/decl/FUN_00891150_Class.h"
+#include "fnv/decl/FUN_008ae480_Class.h"
+#include "fnv/decl/FUN_008ae4a0_Class.h"
+#include "fnv/decl/FUN_008e5700_cls.h"
+#include "fnv/decl/FUN_0093a7a0_Class.h"
+#include "fnv/decl/FUN_00947d80_cls.h"
+#include "fnv/decl/FUN_009480c0_shell.h"
+#include "fnv/decl/FUN_0094db80_shell.h"
+#include "fnv/decl/GList.h"
+#include "fnv/decl/Holder00807080.h"
+#include "fnv/decl/Polygon.h"
+#include "fnv/decl/S008910c0_Vector.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/Sky.h"
+#include "fnv/decl/SoundPlaybackManager.h"
+#include "fnv/decl/TESRegionList.h"
+#include "fnv/decl/V.h"
+#include "fnv/decl/_FUN_00822510_Class.h"
+#include "fnv/decl/cell547__C5Cell.h"
+#include "fnv/decl/fnv_00451530__FUN_00451530_shell.h"
+#include "fnv/decl/fnv_0056f110__FUN_0056f110_class.h"
+#include "fnv/decl/fnv_00571530__FUN_00571530_shell.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004ba000.h"
+#include "fnv/symbols_004f2000.h"
+#include "fnv/symbols_00560000.h"
+#include "fnv/symbols_0056e000.h"
+#include "fnv/symbols_005a1000.h"
+#include "fnv/symbols_005e0000.h"
+#include "fnv/symbols_00622000.h"
+#include "fnv/symbols_0062f000.h"
+#include "fnv/symbols_008a5000.h"
+#include "fnv/symbols_0094d000.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/decl/FUN_005224e0_class.h"
+#include "fnv/decl/FUN_00867c60_shell.h"
+#include "fnv/decl/Me.h"
+#include "fnv/decl/OwnershipReferenceView.h"
 
 // @fnv 0x004181e0
 TESActorBase* Actor::GetActorBase()
@@ -4280,6 +4449,24 @@ struct LipSyncAnimation;
 struct MagicItem;
 struct MuzzleFlash;
 struct NiControllerManager;
+struct NiUpdateData
+{
+    float m_fTime;
+    bool b0;
+    bool b1;
+    bool b2;
+    bool b3;
+    bool b4;
+public:
+    NiUpdateData(float, bool, bool);
+};
+struct NiNode : NiAVObject
+{
+    void Update(NiUpdateData const&);
+public:
+    unsigned int GetNumChildren();
+    NiAVObject* GetAt(unsigned int);
+};
 struct NiNode;
 struct TargetDoorController;
 struct PathingAvoidNodeArray;
@@ -4507,8 +4694,19 @@ float FUN_00884eb0_shell::FUN_00884eb0()
 }
 }  // namespace fnv_00884eb0
 
-struct Owner
+struct CVals
 {
+    char pad[0x3c];
+    float val;
+    bool FUN_00884e90(int);
+};
+struct Root {
+    SourceBuffer* src; __forceinline void SetSource(SourceBuffer* p) { src=p; } int unk04,unk08,unk0c;
+    Vec4 a,b;
+    static __forceinline void* operator new(std::size_t n) { return FUN_00c74ea0(n); }
+    __forceinline Root():src(0) {}
+};
+struct Owner { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18; Root* root; __forceinline void SetRoot(Root* p) { root=p; } public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -4525,12 +4723,6 @@ struct Owner
     virtual void v13();
     virtual void v14();
     virtual float GetValue();
-};
-struct CVals
-{
-    char pad[0x3c];
-    float val;
-    bool FUN_00884e90(int);
 };
 struct BP
 {
@@ -5748,6 +5940,23 @@ struct NiNode;
 struct QueuedFile;
 struct TESAmmo;
 struct TESModel;
+class TESNPC : public TESBoundObject
+{
+public:
+    void ResetFaceGen();
+    TESNPC();
+    void ResetFormData();
+    void CopyActorBaseData(::TESNPC *);
+    void GetFaceGenCoords(FaceGenMatrix<float> (&)[2][2]);
+    ::TESHair *GetHair();
+    void UpdateActorBaseData(bool);
+    float GetDefaultHeight();
+    void FUN_006047c0(::TESObjectREFR *, bool, bool, bool, bool);
+    void AttachHeadParts(::TESObjectREFR *, ::NiNode *);
+    void RebuildHeadModel(::TESObjectREFR *, ::BipedAnim *, bool);
+    void GetFaceGenNodes(::BSFaceGenNiNode *&, ::BSFaceGenNiNode *&);
+    void Revert(::BGSLoadFormBuffer *);
+};
 struct TESNPC;
 struct TESObjectARMO;
 struct TESObjectCLOT;
@@ -9627,6 +9836,17 @@ bool FUN_008a78f0_shell::FUN_008a78f0(int aeFalloutType)
     return bHasResultObj;
 }
 }  // namespace fnv_008a78f0
+struct ThreeByThreeMatrix
+{
+    float m[9];
+    ThreeByThreeMatrix operator*(const ThreeByThreeMatrix&) const;
+public:
+    ::ThreeByThreeMatrix operator+(const ::ThreeByThreeMatrix &) const;
+public:
+    bool Inverse(ThreeByThreeMatrix&);
+    void SetYRotation(float);
+    ::ThreeByThreeMatrix *FUN_004b45b0(::ThreeByThreeMatrix *);
+};
 
 namespace fnv_008a8150 {
 struct SaveLoadFile;
@@ -10725,6 +10945,330 @@ class BaseProcess
     virtual BSFaceGenAnimationData* GetActorFaceGenData(Actor*);
 public:
     ::ActorPackageContext *GetCurrentProcessData();
+public:
+    virtual void slot_000();
+    virtual void slot_001();
+    virtual void slot_002();
+    virtual void slot_003();
+    virtual void slot_004();
+    virtual void slot_005();
+    virtual void slot_006();
+    virtual void slot_007();
+    virtual void slot_008();
+    virtual void slot_009();
+    virtual void slot_010();
+    virtual void slot_011();
+    virtual void slot_012();
+    virtual void slot_013();
+    virtual void slot_014();
+    virtual void slot_015();
+    virtual void slot_016();
+    virtual void slot_017();
+    virtual void slot_018();
+    virtual void slot_019();
+    virtual void slot_020();
+    virtual void slot_021();
+    virtual void slot_022();
+    virtual void slot_023();
+    virtual void slot_024();
+    virtual void slot_025();
+    virtual void slot_026();
+    virtual void slot_027();
+    virtual void slot_028();
+    virtual void slot_029();
+    virtual void slot_030();
+    virtual void slot_031();
+    virtual void slot_032();
+    virtual void slot_033();
+    virtual void slot_034();
+    virtual void slot_035();
+    virtual void slot_036();
+    virtual void slot_037();
+    virtual void slot_038();
+    virtual void slot_039();
+    virtual void slot_040();
+    virtual void slot_041();
+    virtual void slot_042();
+    virtual void slot_043();
+    virtual void slot_044();
+    virtual void slot_045();
+    virtual void slot_046();
+    virtual void slot_047();
+    virtual void slot_048();
+    virtual void slot_049();
+    virtual void slot_050();
+    virtual void slot_051();
+    virtual void slot_052();
+    virtual void slot_053();
+    virtual void slot_054();
+    virtual void slot_055();
+    virtual void slot_056();
+    virtual void slot_057();
+    virtual void slot_058();
+    virtual void slot_059();
+    virtual void slot_060();
+    virtual void slot_061();
+    virtual void slot_062();
+    virtual void slot_063();
+    virtual void slot_064();
+    virtual void slot_065();
+    virtual void slot_066();
+    virtual void slot_067();
+    virtual void slot_068();
+    virtual void ClearCrime(bool);
+    virtual void slot_070();
+    virtual void slot_071();
+    virtual void slot_072();
+    virtual void slot_073();
+    virtual void slot_074();
+    virtual void slot_075();
+    virtual void slot_076();
+    virtual void slot_077();
+    virtual void slot_078();
+    virtual void slot_079();
+    virtual void slot_080();
+    virtual void slot_081();
+    virtual void slot_082();
+    virtual void slot_083();
+    virtual void slot_084();
+    virtual void slot_085();
+    virtual void slot_086();
+    virtual void slot_087();
+    virtual void slot_088();
+    virtual void slot_089();
+    virtual void slot_090();
+    virtual void slot_091();
+    virtual void slot_092();
+    virtual void slot_093();
+    virtual void slot_094();
+    virtual void slot_095();
+    virtual void slot_096();
+    virtual void slot_097();
+    virtual void slot_098();
+    virtual void slot_099();
+    virtual void slot_100();
+    virtual void slot_101();
+    virtual void slot_102();
+    virtual void slot_103();
+    virtual void slot_104();
+    virtual void slot_105();
+    virtual void slot_106();
+    virtual void slot_107();
+    virtual void slot_108();
+    virtual void slot_109();
+    virtual void slot_110();
+    virtual void slot_111();
+    virtual void slot_112();
+    virtual void slot_113();
+    virtual void slot_114();
+    virtual void slot_115();
+    virtual void slot_116();
+    virtual void slot_117();
+    virtual void slot_118();
+    virtual void slot_119();
+    virtual void slot_120();
+    virtual void slot_121();
+    virtual void slot_122();
+    virtual void slot_123();
+    virtual void slot_124();
+    virtual void slot_125();
+    virtual void slot_126();
+    virtual void slot_127();
+    virtual void slot_128();
+    virtual void slot_129();
+    virtual void slot_130();
+    virtual void slot_131();
+    virtual void slot_132();
+    virtual void slot_133();
+    virtual void slot_134();
+    virtual void slot_135();
+    virtual void slot_136();
+    virtual void slot_137();
+    virtual void slot_138();
+    virtual void slot_139();
+    virtual void slot_140();
+    virtual void slot_141();
+    virtual void slot_142();
+    virtual void slot_143();
+    virtual void slot_144();
+    virtual void slot_145();
+    virtual void slot_146();
+    virtual void slot_147();
+    virtual void slot_148();
+    virtual void slot_149();
+    virtual void slot_150();
+    virtual void slot_151();
+    virtual void slot_152();
+    virtual void slot_153();
+    virtual void slot_154();
+    virtual void slot_155();
+    virtual void slot_156();
+    virtual void slot_157();
+    virtual void slot_158();
+    virtual void slot_159();
+    virtual void slot_160();
+    virtual void slot_161();
+    virtual void slot_162();
+    virtual void slot_163();
+    virtual void slot_164();
+    virtual void slot_165();
+    virtual void slot_166();
+    virtual void slot_167();
+    virtual void slot_168();
+    virtual void slot_169();
+    virtual void slot_170();
+    virtual void slot_171();
+    virtual void slot_172();
+    virtual void slot_173();
+    virtual void slot_174();
+    virtual void slot_175();
+    virtual void slot_176();
+    virtual void slot_177();
+    virtual void slot_178();
+    virtual void slot_179();
+    virtual void slot_180();
+    virtual void slot_181();
+    virtual void slot_182();
+    virtual void slot_183();
+    virtual void slot_184();
+    virtual void slot_185();
+    virtual void slot_186();
+    virtual void slot_187();
+    virtual void slot_188();
+    virtual void slot_189();
+    virtual void slot_190();
+    virtual void slot_191();
+    virtual void slot_192();
+    virtual void slot_193();
+    virtual void slot_194();
+    virtual void slot_195();
+    virtual void slot_196();
+    virtual void slot_197();
+    virtual void slot_198();
+    virtual void slot_199();
+    virtual void slot_200();
+    virtual void slot_201();
+    virtual void slot_202();
+    virtual void slot_203();
+    virtual void slot_204();
+    virtual void slot_205();
+    virtual void slot_206();
+    virtual void slot_207();
+    virtual void slot_208();
+    virtual void slot_209();
+    virtual void slot_210();
+    virtual void slot_211();
+    virtual void slot_212();
+    virtual void slot_213();
+    virtual void slot_214();
+    virtual void slot_215();
+    virtual void slot_216();
+    virtual void slot_217();
+    virtual void slot_218();
+    virtual void slot_219();
+    virtual void slot_220();
+    virtual void slot_221();
+    virtual void slot_222();
+    virtual void slot_223();
+    virtual void slot_224();
+    virtual void slot_225();
+    virtual void slot_226();
+    virtual void slot_227();
+    virtual void slot_228();
+    virtual void slot_229();
+    virtual void slot_230();
+    virtual void slot_231();
+    virtual void slot_232();
+    virtual void slot_233();
+    virtual void slot_234();
+    virtual void slot_235();
+    virtual void slot_236();
+    virtual void slot_237();
+    virtual void slot_238();
+    virtual void slot_239();
+    virtual void slot_240();
+    virtual void slot_241();
+    virtual void slot_242();
+    virtual void slot_243();
+    virtual void slot_244();
+    virtual void slot_245();
+    virtual void slot_246();
+    virtual void slot_247();
+    virtual void slot_248();
+    virtual void slot_249();
+    virtual void slot_250();
+    virtual void slot_251();
+    virtual void slot_252();
+    virtual void slot_253();
+    virtual void slot_254();
+    virtual void slot_255();
+    virtual void slot_256();
+    virtual void slot_257();
+    virtual void slot_258();
+    virtual void slot_259();
+    virtual void slot_260();
+    virtual void slot_261();
+    virtual void slot_262();
+    virtual void slot_263();
+    virtual void slot_264();
+    virtual void slot_265();
+    virtual void slot_266();
+    virtual void slot_267();
+    virtual void slot_268();
+    virtual void slot_269();
+    virtual void slot_270();
+    virtual void slot_271();
+    virtual void slot_272();
+    virtual void slot_273();
+    virtual void slot_274();
+    virtual void slot_275();
+    virtual void slot_276();
+    virtual void slot_277();
+    virtual void slot_278();
+    virtual void slot_279();
+    virtual void slot_280();
+    virtual void slot_281();
+    virtual void slot_282();
+    virtual void slot_283();
+    virtual void slot_284();
+    virtual void slot_285();
+    virtual void slot_286();
+    virtual void slot_287();
+    virtual void slot_288();
+    virtual void slot_289();
+    virtual void slot_290();
+    virtual void slot_291();
+    virtual void slot_292();
+    virtual void slot_293();
+    virtual void slot_294();
+    virtual void slot_295();
+    virtual void slot_296();
+    virtual void slot_297();
+    virtual void slot_298();
+    virtual void slot_299();
+    virtual void slot_300();
+    virtual void slot_301();
+    virtual void slot_302();
+    virtual void slot_303();
+    virtual void slot_304();
+    virtual void slot_305();
+    virtual void slot_306();
+    virtual void slot_307();
+    virtual void slot_308();
+    virtual void slot_309();
+    virtual void slot_310();
+    virtual void slot_311();
+    virtual void slot_312();
+    virtual void slot_313();
+    virtual void slot_314();
+    virtual void slot_315();
+    virtual void slot_316();
+    virtual void slot_317();
+    virtual void slot_318();
+    virtual void slot_319();
+    virtual void slot_320();
+    virtual CrimeStatus* FindCrime(Actor*, int);
+    virtual void SetCrimeStatus(Actor*, int);
 };
 // Walks the node chain from GetPosition and returns the value of the first item whose key matches the given key, or 0 if none is found.
 // @fnv 0x0048bf50
@@ -11888,17 +12432,6 @@ struct FUN_008b42e0_shell : public NiTransform
     void InvertTransform(NiTransform*);
 };
 
-struct ThreeByThreeMatrix
-{
-    bool Inverse(ThreeByThreeMatrix&);
-    NiPoint3 operator*(const NiPoint3&) const;
-public:
-    void SetYRotation(float);
-public:
-    ::ThreeByThreeMatrix operator+(const ::ThreeByThreeMatrix &) const;
-public:
-    ::ThreeByThreeMatrix *FUN_004b45b0(::ThreeByThreeMatrix *);
-};
 
 struct NiPosData
 {
@@ -17471,13 +18004,20 @@ void FUN_008d2a40(Actor* apActor)
 
 struct Big;
 struct Item;
+struct VObj
+{
+    virtual void f0();
+    virtual void f1();
+    virtual void f2(void*, unsigned int);
+};
 struct Holder
 {
+    char pad[16];
+    VObj* p;
+public:
     void FUN_008805f0(int);
     void FUN_008d4870(int a1);
-public:
     ::Big *CopyBig(::Big *);
-public:
     ::Item *FUN_00970a20(void *, int);
 };
 
@@ -29238,6 +29778,526 @@ void ActorP_S::FUN_008a8e50()
     m_pBaseProcess->SetState(-1, 0);
 }
 }  // namespace fnv_008a8e50
+struct RagMotion
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    bool unk14;
+};
+struct RagRigid
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual RagMotion* GetMotion();
+};
+struct RagBone
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    RagRigid* rigid;
+};
+struct RagSkelInfo
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int boneCount;
+};
+struct RagSkel
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    RagSkelInfo* info;
+};
+struct RagEntry
+{
+    int unk00;
+    int unk04;
+    void* owner;
+};
+struct RagSystem
+{
+};
+struct RagWorld
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    int unk2a4;
+    int unk2a8;
+    int unk2ac;
+    int unk2b0;
+    int unk2b4;
+    int unk2b8;
+    int unk2bc;
+    int unk2c0;
+    int unk2c4;
+    int unk2c8;
+    int unk2cc;
+    int unk2d0;
+    int unk2d4;
+    int unk2d8;
+    int unk2dc;
+    int unk2e0;
+    int unk2e4;
+    int unk2e8;
+    int unk2ec;
+    int unk2f0;
+    int unk2f4;
+    int unk2f8;
+    int unk2fc;
+    int unk300;
+    int unk304;
+    int unk308;
+    int unk30c;
+    int unk310;
+    int unk314;
+    int unk318;
+    int unk31c;
+    int unk320;
+    int unk324;
+    int unk328;
+    int unk32c;
+    int unk330;
+    int unk334;
+    int unk338;
+    int unk33c;
+    int unk340;
+    int unk344;
+    int unk348;
+    int unk34c;
+    RagSystem* system;
+};
+struct RagWorldRef
+{
+    int unk00;
+    int unk04;
+    RagWorld* world;
+};
+struct RagCtrl48
+{
+    int unk00;
+    int unk04;
+    RagWorldRef** worldRef;
+    int unk0c;
+    int unk10;
+    RagEntry** entries;
+    int entryCount;
+    void* GetOwner()
+    {
+        return entries[0] ? entries[0]->owner : 0;
+    }
+    RagWorld* GetWorld()
+    {
+        RagWorldRef* wr = *worldRef;
+        return wr ? wr->world : 0;
+    }
+    __forceinline void Reattach()
+    {
+        void* owner = GetOwner();
+        RagWorld* w = GetWorld();
+        if (!w)
+            return;
+        if (owner)
+            return;
+        RagSystem* sys = w->system;
+        for (int i = 0; i < entryCount; i++)
+        {
+            RagEntry* e = entries[i];
+            if (!e->owner)
+                reinterpret_cast<::FUN_00c6b320_Class *>((sys))->FUN_00c6b320((::hkReferencedObject *)(e));
+        }
+    }
+};
+struct RagdollCtl
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    char unk040;
+    bool unk41;
+    bool active;
+    bool unk43;
+    int unk044;
+    RagCtrl48* ctrl48;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    RagBone** bones;
+    int unk0a8;
+    int unk0ac;
+    char unk0b0;
+    char unk0b1;
+    bool unkb2;
+    bool unkb3;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    __m128 vec120;
+    bool unk130;
+    char unk131;
+    char unk132;
+    char unk133;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    __m128 vec170;
+    bool unk180;
+    char unk181;
+    char unk182;
+    char unk183;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    float unk1b8;
+    bool unk1bc;
+    char unk1bd;
+    char unk1be;
+    char unk1bf;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    float unk1e8;
+    bool unk1ec;
+    char unk1ed;
+    char unk1ee;
+    char unk1ef;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    char unk21c;
+    char unk21d;
+    bool unk21e;
+    char unk21f;
+    char unk220;
+    bool unk221;
+    bool unk222;
+    bool unk223;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    char unk28c;
+    bool unk28d;
+    char unk28e;
+    bool unk28f;
+    float unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    RagSkel* skel;
+    int unk2a8;
+    int unk2ac;
+    void FUN_00c7c150(bool);
+};
 
 namespace fnv_008abfe0 {
 struct SaveLoadFile;
@@ -29715,6 +30775,113 @@ void FUN_008abfe0_shell::FUN_008abfe0(BGSLoadFormBuffer* apLoadGameBuffer)
     }
 }
 }  // namespace fnv_008abfe0
+struct MyRef
+{
+    virtual ~MyRef();
+    virtual void DeleteThis();
+    long m_uiRefCount;
+    void IncRefCount()
+    {
+        InterlockedIncrement((long*)&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement((long*)&m_uiRefCount) == 0)
+        {
+            DeleteThis();
+        }
+    }
+};
+struct Target18
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void MethodE4(Target* p, NiPointer<MyRef>& sp);
+};
+struct Target
+{
+    char pad[0x18];
+    Target18* field_18;
+public:
+    void FUN_0044f3e0();
+    void FUN_0045ac80();
+    void RemoveItemFromMap(::Ref *);
+    ::FUN_0076b630 *SelectBestWeapon(::ActorStand *, float *, int, bool);
+    ::FUN_0076b630 *FUN_004c8c10(int, int);
+    bool FUN_00604310(const char *, char *, unsigned int);
+    bool FUN_00650480(::FileNames *);
+    bool FindTriangleZ(const ::NiPoint3 &, float, float, float *);
+    void SetPage(int);
+    bool FUN_007b1970(float, bool);
+    void FUN_00800ac0(::TargetActor *, int, bool);
+    int GetIntAt(unsigned int);
+    bool AdvanceActions(::Context *);
+    void DisableEntry(unsigned int);
+    void FUN_00b2fdc0(unsigned short, unsigned short *, unsigned short);
+    void FUN_00b690d0(::StrArr *);
+    ::Target *FUN_00b90670(unsigned int);
+    bool FUN_00c3fb50(::Task *);
+    void CompactEntries();
+    void FUN_00c8f080();
+    int ComputeWeightedSum();
+    void FUN_00e8b630();
+    void FUN_00ead1e0();
+};
 
 namespace fnv_008ac9d0 {
 struct P09VT
@@ -33585,6 +34752,9 @@ void FUN_00887b70_Class::SetByteAt5C(unsigned char ucParam)
 struct bhkRagdollController
 {
     unsigned char FUN_00888a50();
+public:
+    void FUN_00c7d900();
+    void* FUN_00c7de30(unsigned int);
 };
 
 // @fnv 0x00888a50
@@ -34418,6 +35588,13 @@ public:
     int GetDayOfMonth();
 public:
     float GetGameTime();
+public:
+    void ResetCachedValues();
+    void Update(float);
+    ::CALENDAR_MONTH GetCurrentMonth();
+    unsigned int GetGameDaysPassed();
+    ::DAYS_OF_THE_WEEK GetGameDayOfWeek();
+    char GetGameHour();
 };
 
 extern Calendar g_calendar;
@@ -35439,6 +36616,8 @@ class InventoryChanges
 {
   public:
     static InventoryChanges* __cdecl CreateForReference(class TESObjectREFR*);
+public:
+    ::InventoryChanges *CreateForReference();
 };
 struct TargetCls
 {
@@ -35493,6 +36672,8 @@ struct NiObject
     virtual NiRTTI const* GetStreamableRTTI();
 public:
     void *FUN_00621a40();
+public:
+    ::NiObject *DynamicCast(const ::NiRTTI *);
 };
 struct ProxyHolder
 {
@@ -38569,6 +39750,9 @@ int FUN_008a0ad0(void* p)
 struct bhkCharacterController
 {
     float& GetVectorElement(int);
+public:
+    void FUN_00561630(const ::NiPoint3 &);
+    bool FUN_00c6fa20();
 };
 struct Holder008a3b70
 {
@@ -44646,6 +45830,46 @@ void FUN_008bca90_Class::FUN_008bca90(bool b)
     }
 }
 }  // namespace fnv_008bca90
+struct RagNode
+{
+    char pad0[0x18];
+    RagNode* m_pParentNode;
+    char pad1c[0x34 - 0x1c];
+    NiTransform m_kLocalTransform;
+    NiTransform m_kWorldSpaceTransform;
+    RagNode* GetParent() const
+    {
+        return m_pParentNode;
+    }
+};
+struct RagInner
+{
+    char pad[0x1c];
+    unsigned int count;
+    unsigned int GetCount() const
+    {
+        return count;
+    }
+};
+struct RagMid
+{
+    char pad[0x2c];
+    RagInner* inner;
+    RagInner* GetInner() const
+    {
+        return inner;
+    }
+};
+struct FUN_00c7d630_t
+{
+    char pad0[0x48];
+    RagMid* m_48;
+    char pad4c[0x58 - 0x4c];
+    RagNode* m_pkNode;
+    char pad5c[4];
+    ThreeByThreeMatrix m_kRot;
+    void FUN_00c7d630(float);
+};
 
 namespace fnv_00888970 {
 struct FUN_00c7d630_t
@@ -45850,12 +47074,6 @@ bool FUN_008bc860_StandIn::FUN_008bc860(Actor* apLeader)
 }  // namespace fnv_008bc860
 
 struct NiAVObject;
-class NiNode
-{
-  public:
-    unsigned int GetNumChildren();
-    NiAVObject* GetAt(unsigned int);
-};
 // Finds a SkinAttachment or suitable child node under apObject's parent, resolves its property via FindPPLightingProperty, and passes it to the virtual at this+0x68.
 // @fnv 0x008b0bd0
 void FUN_008b0bd0_shell::FUN_008b0bd0(NiAVObject* apObject)
@@ -46685,6 +47903,435 @@ int FUN_0094ca50_StandIn::FUN_0094ca50()
     return iResult;
 }
 }  // namespace fnv_0094ca50
+typedef unsigned char u8;
+struct RagdollAnimationResetView
+{
+};
+struct RagdollAnimBodyView
+{
+};
+struct RagdollAnimEntry
+{
+    int unk00;
+    int unk04;
+    void* p08;
+};
+struct RagdollAnimOwner
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24C;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25C;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26C;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27C;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28C;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29C;
+    int unk2A0;
+    int unk2A4;
+    int unk2A8;
+    int unk2AC;
+    int unk2B0;
+    int unk2B4;
+    int unk2B8;
+    int unk2BC;
+    int unk2C0;
+    int unk2C4;
+    int unk2C8;
+    int unk2CC;
+    int unk2D0;
+    int unk2D4;
+    int unk2D8;
+    int unk2DC;
+    int unk2E0;
+    int unk2E4;
+    int unk2E8;
+    int unk2EC;
+    int unk2F0;
+    int unk2F4;
+    int unk2F8;
+    int unk2FC;
+    int unk300;
+    int unk304;
+    int unk308;
+    int unk30C;
+    int unk310;
+    int unk314;
+    int unk318;
+    int unk31C;
+    int unk320;
+    int unk324;
+    int unk328;
+    int unk32C;
+    int unk330;
+    int unk334;
+    int unk338;
+    int unk33C;
+    int unk340;
+    int unk344;
+    int unk348;
+    int unk34C;
+    RagdollAnimBodyView* p350;
+};
+struct RagdollAnimReference
+{
+    int unk00;
+    int unk04;
+    RagdollAnimOwner* p08;
+};
+struct RagdollAnimHandle
+{
+    RagdollAnimReference* p00;
+};
+struct RagdollAnimData
+{
+    int unk00;
+    int unk04;
+    RagdollAnimHandle* p08;
+    int unk0C;
+    int unk10;
+    RagdollAnimEntry** arr14;
+    int count18;
+};
+struct RagdollAnimControllerView
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    u8 unk40;
+    u8 b41;
+    u8 b42;
+    u8 b43;
+    int unk44;
+    RagdollAnimData* p48;
+    RagdollAnimationResetView* p4C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    u8 unk21C;
+    u8 b21D;
+    u8 b21E;
+    u8 unk21F;
+    u8 b220;
+    u8 unk221;
+    u8 b222;
+    u8 b223;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24C;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25C;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26C;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27C;
+    int unk280;
+    int unk284;
+    int unk288;
+    u8 unk28C;
+    u8 unk28D;
+    u8 b28E;
+    u8 unk28F;
+    int FUN_00c7a8d0();
+};
 
 namespace fnv_008acc80 {
 struct LodObject
@@ -47325,6 +48972,470 @@ unsigned int stub_TESSaveLoadGame::ComputeFormTableChecksum(stub_LoadBuffer* buf
     }
     return sum;
 }
+union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; };
+struct Heap { virtual void Unused(); virtual void* Allocate(unsigned); };
+struct Context { int unk00, unk04, unk08, unk0c; Heap* heap; };
+struct SmallMember { unsigned data; __forceinline SmallMember() { new ((void *)this) struct ::FUN_00cb0a60(); } __forceinline ~SmallMember() { ::FUN_00cb0c00((int)this); }   };
+struct Entry { SmallMember member; unsigned char enabled; __forceinline Entry():enabled(0) {} };
+struct __declspec(align(16)) Transform { __m128 x,y,z; };
+struct S7de60_IsPod {};
+struct S7de60_IsClass {};
+template<class T> struct S7de60_PodTrait { typedef S7de60_IsPod type; };
+struct S7de60_ArrayUtil {
+    template<class T> static __forceinline void construct(T* t, int n, S7de60_IsPod) {}
+    template<class T> static __forceinline void construct(T* t, int n, S7de60_IsClass) { for(int i=0;i<n;++i) new (t+i) T; }
+    template<class T> static __forceinline void constructWithCopy(T* t, int n, const T& c, S7de60_IsPod) { for(int i=0;i<n;++i) t[i]=c; }
+    template<class T> static __forceinline void destruct(T* t, int n, S7de60_IsPod) {}
+    template<class T> static __forceinline void destruct(T* t, int n, S7de60_IsClass) { for(int i=0;i<n;++i) reinterpret_cast<::FUN_00ba3a00 *>(&(t[i]))->FUN_00ba3a00::~FUN_00ba3a00(); }
+};
+struct S7de60_Router { __forceinline Heap& heap() { return *((Context*)this)->heap; } };
+struct S7de60_HeapAlloc { __forceinline Heap& get(const void*) { return ((S7de60_Router*)(void*)FUN_00c85750())->heap(); } };
+template<class T> struct ArrayBase {
+    T* data; int count; int capacity;
+    __forceinline ArrayBase():data(0),count(0),capacity(0x80000000) {}
+    __forceinline int GetLogicalSize() const { return count; }
+    __forceinline int getCapacity() const { return capacity & 0x3fffffff; }
+    __forceinline void _reserveExactly(Heap& alloc, int n) { if(getCapacity()<n) { ::FUN_00c908c0((::SpawnedObject *)&(alloc),(::SpawnedArray *)(void *)(this),n,sizeof(T)); } }
+    __forceinline void GrowArrayCapacity(Heap& alloc, int n) {
+        const int cap=getCapacity();
+        if(cap<n) { int cap2=2*cap; int newSize=(n<cap2)?cap2:n; ::FUN_00c908c0((::SpawnedObject *)&(alloc),(::SpawnedArray *)(void *)(this),newSize,sizeof(T)); }
+    }
+    __forceinline void _setSize(Heap& alloc, int n) {
+        GrowArrayCapacity(alloc,n);
+        S7de60_ArrayUtil::destruct(data+n,count-n,typename S7de60_PodTrait<T>::type());
+        S7de60_ArrayUtil::construct(data+count,n-count,typename S7de60_PodTrait<T>::type());
+        count=n;
+    }
+    __forceinline void _setSize(Heap& alloc, int n, const T& fill) {
+        GrowArrayCapacity(alloc,n);
+        S7de60_ArrayUtil::destruct(data+n,count-n,typename S7de60_PodTrait<T>::type());
+        S7de60_ArrayUtil::constructWithCopy(data+count,n-count,fill,typename S7de60_PodTrait<T>::type());
+        count=n;
+    }
+};
+template<class T> struct DynamicArray : ArrayBase<T> {
+    ~DynamicArray();
+    __forceinline void Reserve(int n) { ArrayBase<T>::_reserveExactly(S7de60_HeapAlloc().get(this),n); }
+    __forceinline void Resize(int n) { ArrayBase<T>::_setSize(S7de60_HeapAlloc().get(this),n); }
+    __forceinline void ResizeEntries(int n) { Resize(n); }
+    __forceinline void ResizeInts(int n, const T& value) { ArrayBase<T>::_setSize(S7de60_HeapAlloc().get(this),n,value); }
+};
+struct SourceBase {
+    unsigned short size,version;
+    __forceinline SourceBase():version(1) {}
+    virtual ~SourceBase();
+};
+struct LocalFrameRecord { void* frame; int bone; };
+struct SourceBuffer : SourceBase {
+    SmallMember member;
+    DynamicArray<short> points; DynamicArray<Entry> indices; DynamicArray<Transform> vertices; DynamicArray<SmallMember> transforms; DynamicArray<LocalFrameRecord> extra;
+    static __forceinline void* operator new(std::size_t n) { SourceBuffer* p=(SourceBuffer*)AllocateBuffer(n); p->size=(unsigned short)n; return p; }
+    static void operator delete(void*);
+    __forceinline SourceBuffer() {}
+};
+struct PoseSync91 {
+    unsigned char value;
+    __forceinline PoseSync91(bool v):value((unsigned char)v) {}
+    __forceinline operator bool() const { return value!=0; }
+};
+struct CloneBuffer {
+    SourceBuffer* original;
+    DynamicArray<Transform> positions,normals; DynamicArray<int> triangles;
+    PoseSync91 enabled,modified; unsigned short flags;
+    DynamicArray<float> remap;
+    static __forceinline void* operator new(std::size_t n) { return AllocateBuffer(n); }
+    static void operator delete(void*);
+    __forceinline CloneBuffer(SourceBuffer* p):original(p),enabled(0),modified(0) {
+        int count=original->indices.count;
+        normals.Resize(count);
+        positions.Resize(count);
+        triangles.Resize(count);
+        const int sizeRoundedUp=(original->transforms.GetLogicalSize()+3)&~3;
+        remap.Reserve(sizeRoundedUp);
+        remap.ResizeInts(original->transforms.count,0.0f);
+    }
+     
+};
+struct __declspec(align(16)) Vec4 { __m128 value; __forceinline Vec4& operator=(const Vec4& rhs) { value=rhs.value; return *this; } };
+struct __declspec(align(16)) LookBoneParams91 {
+    CloneBuffer* pose;
+    short bone,parent;
+    float maxAngle;
+    Vec4 forwardLocal,forwardParent,previousRotation;
+    bool limitRotation,active;
+    float deadHeading,deadPitch;
+};
+template<class T> struct SharedObject91 {
+    T* object;
+    __forceinline T* operator->() const { T* result=object; return result; }
+};
+struct RenderNode {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    unsigned short unk40; bool active; unsigned char unk43;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    CloneBuffer* buffer;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    CloneBuffer* input;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    bool success; unsigned char unkb1; unsigned short unkb2;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    int unke0;
+    int unke4;
+    int unke8;
+    int unkec;
+    LookBoneParams91 boneParams[2];
+    bool create; unsigned char unk191; unsigned short unk192;
+    int state;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    SharedObject91<Owner> owner;
+    __forceinline Owner* GetOwner() { Owner* result=owner.operator->(); return result; }
+    bool FUN_00c7de60(const char* item);
+};
+struct InputName { char* key; };
+struct FNVInput { int unk00; InputName* objects; unsigned count; InputName& at(unsigned i) { return objects[i]; } };
+struct IndexedRecord {  };
+struct RagdollEntry {
+    IndexedRecord* record;
+    float value;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    short mapped,unkc2;
+    int unkc4,unkc8,unkcc;
+    RagdollEntry() : record(0), value(0.0f), mapped(-1) {}
+};
+struct EntryArray { RagdollEntry* data; int count,capacity; void resize(int); RagdollEntry& operator[](unsigned i) { return data[i]; } };
+struct MappingEntry { short source,target; int unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c; };
+struct Mapping { int unk00,unk04,unk08,unk0c,unk10,unk14; MappingEntry* data; int count; };
+struct Table { int unk00,unk04,unk08; int owner; Mapping* mapping; };
+struct ParticleTable {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    short unk40; unsigned char enabled,unk43;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    void* context;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    unsigned char unk21c,unk21d,unk21e,complete;
+    int unk220;
+    int unk224;
+    int unk228;
+    EntryArray entries;
+    int unk238;
+    int unk23c;
+    int unk240;
+    float radius;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    Table* table;
+    void* getContext() { return context; }
+    void FUN_00c7c3a0(FNVInput* incoming);
+};
 
 namespace fnv_0087e130 {
 struct AcObj;
@@ -56378,6 +58489,461 @@ struct Scene88
 };
 struct Controller88
 {
+};
+struct ReferenceView {
+    virtual ~ReferenceView();
+    unsigned short allocationFlags;
+    unsigned short references;
+};
+template<class T> class PointerView {
+    T* value;
+public:
+    T* get() const { return value; }
+};
+struct Clock {
+    __int64 start;
+    __int64 duration;
+    void begin(float f) { start=((long long)(::FUN_00aa4d80())); duration=(__int64)(DAT_011ac39c*f); }
+};
+struct IndexArray {
+    unsigned int unk000;
+    unsigned short* data;
+    unsigned int count;
+    int find(unsigned short v) { for(unsigned int i=0;i<count;++i) if(data && data[i]==v) return i; return -1; }
+};
+struct Selection {
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    IndexArray indices;
+    int find(unsigned short v) { return indices.find(v); }
+};
+struct SelectionHolder {
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    Selection* selection;
+};
+struct BroadHandle { unsigned int id; };
+struct TypedHandle : BroadHandle {
+    unsigned char type,ownerOffset;
+    unsigned short objectGroup;
+    unsigned short flags;
+    char m_ucObjectQualityType;
+    unsigned char unused0b;
+};
+struct CollisionBodyView {
+    void* shape;
+    unsigned int shapeKey;
+    void* motionState;
+    CollisionBodyView* parent;
+};
+struct ColliderView : CollisionBodyView {
+    TypedHandle handle;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    const TypedHandle* getBroadPhaseHandle() const { return &handle; }
+    TypedHandle* getBroadPhaseHandle() { return &handle; }
+};
+struct LinkedColliderView : ColliderView {
+    void* collisionEntries;
+    int collisionCount,collisionCapacity;
+};
+struct WorldView : ReferenceView {
+    void* world;
+    unsigned int userData;
+    LinkedColliderView collidable;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    const LinkedColliderView* getCollidable() const { return &collidable; }
+    LinkedColliderView* getCollidableRw() { return &collidable; }
+};
+class VectorValue;
+enum MotionKind { KindInvalid=0,KindDynamic=1,KindSphere=2,KindBox=3,KindKeyframed=4,KindFixed=5,KindThin=6,KindCharacter=7,KindMax=8 };
+enum QualityKind { QualityInvalid=-1,QualityFixed=0,QualityKeyframed=1,QualityDebris=2,QualityMoving=4 };
+template<class E,class S> class EnumCell {
+    S stored;
+public:
+    EnumCell() {}
+    EnumCell(E value) : stored((S)value) {}
+    operator E() const { return (E)stored; }
+    void operator=(E value) { stored=(S)value; }
+};
+struct MotionView : ReferenceView {
+    virtual void unused04();
+    virtual void unused08();
+    virtual void unused0c();
+    virtual void unused10();
+    virtual void unused14();
+    virtual void unused18();
+    virtual void unused1c();
+    virtual void unused20();
+    virtual void unused24();
+    virtual void unused28();
+    virtual void unused2c();
+    virtual void unused30();
+    virtual void unused34();
+    virtual void unused38();
+    virtual void unused3c();
+    virtual void SetTranslationalVelocity(const VectorValue&);
+    virtual void SetRotationalVelocity(const VectorValue&);
+    EnumCell<MotionKind,unsigned char> kind;
+    unsigned char flags0,flags1,flags2;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04c;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05c;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    VectorValue linearVelocity;
+    VectorValue angularVelocity;
+    unsigned int unk0f0;
+    unsigned int unk0f4;
+    unsigned int unk0f8;
+    unsigned int unk0fc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+
+    MotionView();
+    MotionKind getType() const { return kind; }
+    const VectorValue& getLinearVelocity() const { return linearVelocity; }
+    const VectorValue& getAngularVelocity() const { return angularVelocity; }
+};
+struct KeyframedMotionView : MotionView { KeyframedMotionView(); };
+struct MaximumMotionView : KeyframedMotionView {
+    MaximumMotionView() : KeyframedMotionView() {}
+private:
+    MaximumMotionView(const MaximumMotionView&);
+    void operator=(const MaximumMotionView&);
+};
+struct EntityView : WorldView {
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    unsigned int unk0d0;
+    unsigned int unk0d4;
+    unsigned int unk0d8;
+    unsigned int unk0dc;
+    MaximumMotionView m_pMotionState;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20c;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    unsigned int unk21c;
+    MotionView* getMotion() { return &m_pMotionState; }
+};
+struct BodyView : EntityView {
+    MotionKind getMotionType() const { return m_pMotionState.getType(); }
+    QualityKind getQualityType() const { return (QualityKind)getCollidable()->getBroadPhaseHandle()->m_ucObjectQualityType; }
+    void setQualityType(QualityKind value) { getCollidableRw()->getBroadPhaseHandle()->m_ucObjectQualityType=(char)value; }
+    const VectorValue& getLinearVelocity() const { return m_pMotionState.getLinearVelocity(); }
+    const VectorValue& getAngularVelocity() const { return m_pMotionState.getAngularVelocity(); }
+};
+template<class T> struct BoneArrayView {
+    T* data; int length,capacity;
+    const T& operator[](int i) const { return data[i]; }
+    int GetLogicalSize() const { return length; }
+};
+struct SkeletonView {
+    unsigned int unk00,unk04,unk08,unk0c,unk10,unk14;
+    BoneArrayView<void*> m_kBones;
+};
+template<class T> struct SavedReference {
+    T* pointer;
+    T* operator->() const { return pointer; }
+};
+struct RagdollView {
+    unsigned int unk00,unk04;
+    BoneArrayView<BodyView*> bodyArray;
+    BoneArrayView<void*> constraints;
+    BoneArrayView<int> indices;
+    SavedReference<const SkeletonView> skeleton;
+    int getNumBones() const { return skeleton->m_kBones.GetLogicalSize(); }
+    BodyView* getRigidBodyOfBone(int i) const { int index=indices[i]; return index<0 ? 0 : bodyArray[index]; }
+};
+struct Controller {
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    unsigned int unk040;
+    unsigned int unk044;
+    RagdollView* bodies;
+    unsigned int unk04c;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05c;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    unsigned int unk0d0;
+    unsigned int unk0d4;
+    unsigned int unk0d8;
+    unsigned int unk0dc;
+    unsigned int unk0e0;
+    unsigned int unk0e4;
+    unsigned int unk0e8;
+    unsigned int unk0ec;
+    unsigned int unk0f0;
+    unsigned int unk0f4;
+    unsigned int unk0f8;
+    unsigned int unk0fc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13c;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17c;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18c;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19c;
+    unsigned int unk1a0;
+    unsigned int unk1a4;
+    unsigned int unk1a8;
+    unsigned int unk1ac;
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    unsigned int unk1bc;
+    unsigned int unk1c0;
+    unsigned int unk1c4;
+    unsigned int unk1c8;
+    unsigned int unk1cc;
+    unsigned int unk1d0;
+    unsigned int unk1d4;
+    unsigned int unk1d8;
+    unsigned int unk1dc;
+    unsigned int unk1e0;
+    unsigned int unk1e4;
+    unsigned int unk1e8;
+    unsigned int unk1ec;
+    unsigned int unk1f0;
+    unsigned int unk1f4;
+    unsigned int unk1f8;
+    unsigned int unk1fc;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20c;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    unsigned int unk21c;
+    unsigned int unk220;
+    unsigned int unk224;
+    unsigned int unk228;
+    unsigned int unk22c;
+    unsigned int unk230;
+    unsigned int unk234;
+    unsigned int unk238;
+    unsigned int unk23c;
+    unsigned int unk240;
+    unsigned int unk244;
+    unsigned int unk248;
+    unsigned int unk24c;
+    unsigned int unk250;
+    unsigned int unk254;
+    unsigned int unk258;
+    unsigned int unk25c;
+    unsigned int unk260;
+    unsigned int unk264;
+    unsigned int unk268;
+    unsigned int unk26c;
+    unsigned int unk270;
+    unsigned int unk274;
+    unsigned int unk278;
+    unsigned int unk27c;
+    unsigned int unk280;
+    unsigned int unk284;
+    unsigned int unk288;
+    unsigned char unk28c;
+    bool enabled;
+    bool active;
+    unsigned char unk28f;
+    unsigned int unk290;
+    unsigned int unk294;
+    unsigned int unk298;
+    unsigned int unk29c;
+    unsigned int unk2a0;
+    PointerView<SelectionHolder> selection;
+    Clock timer;
+    void FUN_00c7b6a0(bool active);
+public:
+    ::TargetList *CopyTargetList(::TargetList *);
+    void ProcessQueries();
+    bool IsPlayerTargeted(::Ref *, bool);
+    void FUN_00a255b0(float, float, int, int, int, unsigned char, bool);
+    void FUN_00a2feb0(unsigned short);
+    void FUN_00c5c790(float, float, float, float, float, float);
+    void CreateChildAndNotifySim(::OwnerB *);
 };
 struct Actor88
 {
@@ -111529,6 +114095,9 @@ struct xP3
     xP3();
     float x, y, z;
     xP3 operator-(const xP3&) const;
+public:
+    xP3 operator+(const xP3&) const;
+    void FUN_004a0c10();
 };
 struct xFltSetting
 {
@@ -111550,6 +114119,8 @@ struct __declspec(align(16)) xPick
 {
     xPick();
     char m_buf[0xb0];
+public:
+    void FUN_004a3f70(xFilter);
 };
 struct xTES
 {
@@ -112106,6 +114677,184 @@ struct xActor
     xMid* m_68;
     xFilter FUN_00931ed0();
     bool FUN_0088c240(const xP3& akTarget, bool abFlag, bool abSkip);
+public:
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual void v82();
+    virtual void v83();
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual void v88();
+    virtual void v89();
+    virtual void v90();
+    virtual void v91();
+    virtual void v92();
+    virtual void v93();
+    virtual void v94();
+    virtual void v95();
+    virtual void v96();
+    virtual void v97();
+    virtual void v98();
+    virtual void v99();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual void v105();
+    virtual void v106();
+    virtual void v107();
+    virtual void v108();
+    virtual void v109();
+    virtual void v110();
+    virtual void v111();
+    virtual void v112();
+    virtual void v113();
+    virtual void v114();
+    virtual void v115();
+    virtual void v116();
+    virtual void v117();
+    virtual void v118();
+    virtual void v119();
+    virtual void v120();
+    virtual void v121();
+    virtual void v122();
+    virtual void v123();
+    virtual void v124();
+    virtual xP3* FUN_1f4();
+    virtual void v126();
+    virtual void v127();
+    virtual void v128();
+    virtual void v129();
+    virtual void v130();
+    virtual void v131();
+    virtual void v132();
+    virtual void v133();
+    virtual void v134();
+    virtual void v135();
+    virtual void v136();
+    virtual void v137();
+    virtual void v138();
+    virtual void v139();
+    virtual void v140();
+    virtual void v141();
+    virtual void v142();
+    virtual void v143();
+    virtual void v144();
+    virtual void v145();
+    virtual void v146();
+    virtual void v147();
+    virtual void v148();
+    virtual void v149();
+    virtual void v150();
+    virtual void v151();
+    virtual void v152();
+    virtual void v153();
+    virtual void v154();
+    virtual void v155();
+    virtual void v156();
+    virtual void v157();
+    virtual void v158();
+    virtual void v159();
+    virtual void v160();
+    virtual void v161();
+    virtual void v162();
+    virtual void v163();
+    virtual void v164();
+    virtual void v165();
+    virtual void v166();
+    virtual void v167();
+    virtual void v168();
+    virtual void v169();
+    virtual void v170();
+    virtual void v171();
+    virtual void v172();
+    virtual void v173();
+    virtual void v174();
+    virtual float FUN_2bc(int);
+    float FUN_008bd830(int aiUnused, float afHeight);
 };
 // Checks if the actor can see akTarget within its FOV cone and via a raycast, returning true if the target is visible or within 25 units of the hit point.
 // @fnv 0x0088c240
@@ -147710,4 +150459,14401 @@ void EffectAddedActorView::FUN_008c4ab0(::ActiveEffect* apEffect)
     }
 }
 
+extern const __m128 DAT_010c71e0;
+
+class hkQuaternionDAD;
+
+class __declspec(align(16)) hkVector4DAD
+{
+  public:
+    __forceinline void SetRotatedDirection(const hkQuaternionDAD& quat, const hkVector4DAD& direction);
+    inline hkVector4DAD& operator=(const hkVector4DAD& v)
+    {
+        m_vComponents = v.m_vComponents;
+        return *this;
+    }
+    __forceinline void setAdd4(const hkVector4DAD& a, const hkVector4DAD& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void setMul4(const hkVector4DAD& a, const hkVector4DAD& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void addMul4(const hkVector4DAD& a, const hkVector4DAD& b)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(a.m_vComponents, b.m_vComponents));
+    }
+    __forceinline void setCross(const hkVector4DAD& v1, const hkVector4DAD& v2)
+    {
+        const __m128 cross0 = _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9),
+                                         _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xd2));
+        const __m128 cross1 = _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2),
+                                         _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xc9));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+    __forceinline void setBroadcast3(const hkVector4DAD& v)
+    {
+        m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xff);
+    }
+    __forceinline __m128 dot3(const hkVector4DAD& v) const
+    {
+        const __m128 x2 = _mm_mul_ps(m_vComponents, v.m_vComponents);
+        const __m128 sum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), sum);
+    }
+
+    __m128 m_vComponents;
+};
+
+class hkQuaternionDAD
+{
+  public:
+      // SetProduct
+    const hkVector4DAD& getImag() const
+    {
+        return m_vec;
+    }
+
+    hkVector4DAD m_vec;
+};
+
+__forceinline void hkVector4DAD::SetRotatedDirection(const hkQuaternionDAD& quat, const hkVector4DAD& direction)
+{
+    hkVector4DAD qreal;
+    qreal.setBroadcast3(quat.m_vec);
+    hkVector4DAD q2minus1;
+    q2minus1.m_vComponents = _mm_add_ps(_mm_mul_ps(qreal.m_vComponents, qreal.m_vComponents), DAT_010c71e0);
+    hkVector4DAD ret;
+    ret.setMul4(q2minus1, direction);
+    hkVector4DAD imagDotDir;
+    imagDotDir.m_vComponents = quat.getImag().dot3(direction);
+    imagDotDir.m_vComponents = _mm_shuffle_ps(imagDotDir.m_vComponents, imagDotDir.m_vComponents, 0);
+    hkVector4DAD imagCrossDir;
+    imagCrossDir.setCross(quat.getImag(), direction);
+    ret.addMul4(imagDotDir, quat.getImag());
+    ret.addMul4(qreal, imagCrossDir);
+    setAdd4(ret, ret);
+}
+
+class hkQsTransformDAD
+{
+  public:
+    __forceinline void SetProduct(const hkQsTransformDAD& t1, const hkQsTransformDAD& t2)
+    {
+        hkVector4DAD temp;
+        temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
+        m_vTranslation.setAdd4(temp, t1.m_vTranslation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
+    }
+
+    hkVector4DAD m_vTranslation;
+    hkQuaternionDAD m_rotation;
+    hkVector4DAD m_vScale;
+};
+
+class TransformedPosDAD : public hkVector4DAD
+{
+  public:
+    void FUN_00c7f7a0(const hkQsTransformDAD& a, const hkVector4DAD& b);
+};
+
+// @fnv 0x00c7f7a0
+void TransformedPosDAD::FUN_00c7f7a0(const hkQsTransformDAD& a, const hkVector4DAD& b)
+{
+    hkVector4DAD scaled;
+    scaled.setMul4(a.m_vScale, b);
+    SetRotatedDirection(a.m_rotation, scaled);
+    setAdd4(a.m_vTranslation, *this);
+}
+
+namespace fnv_00cda340 {
+
+union __declspec(intrin_type) __declspec(align(16)) __m128
+{
+    float m128_f32[4];
+    unsigned __int64 m128_u64[2];
+    __int8 m128_i8[16];
+    __int16 m128_i16[8];
+    __int32 m128_i32[4];
+    __int64 m128_i64[2];
+    unsigned __int8 m128_u8[16];
+    unsigned __int16 m128_u16[8];
+    unsigned __int32 m128_u32[4];
+};
+
+extern "C"
+{
+    __m128 _mm_add_ps(__m128 a, __m128 b);
+    __m128 _mm_sub_ps(__m128 a, __m128 b);
+    __m128 _mm_mul_ps(__m128 a, __m128 b);
+    __m128 _mm_add_ss(__m128 a, __m128 b);
+    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
+}
+
+struct VectorComponentValue
+{
+    __m128 m_vValue;
+};
+
+struct hkVector4
+{
+    __m128 m_vComponents;
+
+    __forceinline VectorComponentValue dot3(const hkVector4& v) const
+    {
+        __m128 p = _mm_mul_ps(m_vComponents, v.m_vComponents);
+        __m128 y = _mm_shuffle_ps(p, p, 0x55);
+        __m128 z = _mm_shuffle_ps(p, p, 0xaa);
+        VectorComponentValue r;
+        r.m_vValue = _mm_add_ss(z, _mm_add_ss(y, p));
+        return r;
+    }
+};
+
+extern hkVector4 DAT_010c71e0;
+
+struct hkQuaternion
+{
+    hkVector4 m_vec;
+    void SetProduct(const hkQuaternion& q0, const hkQuaternion& q1);
+};
+
+struct hkQsTransform
+{
+    hkVector4 m_vTranslation;
+    hkQuaternion m_rotation;
+    hkVector4 m_vScale;
+};
+
+__forceinline void SetRotatedDirection(hkVector4& out, const hkQuaternion& quat, const hkVector4& direction)
+{
+    const __m128 q = quat.m_vec.m_vComponents;
+    const __m128 d = direction.m_vComponents;
+    __m128 qreal = _mm_shuffle_ps(q, q, 0xff);
+    __m128 ret = _mm_mul_ps(_mm_add_ps(_mm_mul_ps(qreal, qreal), DAT_010c71e0.m_vComponents), d);
+    VectorComponentValue imagDotDir = quat.m_vec.dot3(direction);
+    ret = _mm_add_ps(ret, _mm_mul_ps(_mm_shuffle_ps(imagDotDir.m_vValue, imagDotDir.m_vValue, 0), q));
+    __m128 cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(d, d, 0xd2), _mm_shuffle_ps(q, q, 0xc9)),
+                              _mm_mul_ps(_mm_shuffle_ps(d, d, 0xc9), _mm_shuffle_ps(q, q, 0xd2)));
+    ret = _mm_add_ps(ret, _mm_mul_ps(qreal, cross));
+    out.m_vComponents = _mm_add_ps(ret, ret);
+}
+
+struct hkaSkeleton
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    short* m_kParentIndices;
+    int unk10;
+    int unk14;
+    int unk18;
+    int m_iBoneCount;
+};
+
+struct SkeletonPoseData
+{
+    hkaSkeleton* m_pSkeleton;
+    hkQsTransform* m_pLocalPose;
+    int m_localPoseSize;
+    int m_localPoseCapacity;
+    hkQsTransform* m_pModelPose;
+    int m_modelPoseSize;
+    int m_modelPoseCapacity;
+    unsigned int* m_pBoneFlags;
+    int m_boneFlagsSize;
+    int m_boneFlagsCapacity;
+    bool m_bPoseFlag;
+
+    void FUN_00cda340();
+};
+
+// @fnv 0x00cda340
+void SkeletonPoseData::FUN_00cda340()
+{
+    if (m_bPoseFlag)
+        return;
+
+    const int numBones = m_pSkeleton->m_iBoneCount;
+    for (int b = 0; b < numBones; b++)
+    {
+        if (m_pBoneFlags[b] & 2)
+        {
+            const short parentId = m_pSkeleton->m_kParentIndices[b];
+            const hkQsTransform& local = m_pLocalPose[b];
+            if (parentId != -1)
+            {
+                const hkQsTransform& parent = m_pModelPose[parentId];
+                hkQsTransform& out = m_pModelPose[b];
+                hkVector4 t;
+                SetRotatedDirection(t, parent.m_rotation, local.m_vTranslation);
+                out.m_vTranslation.m_vComponents = _mm_add_ps(t.m_vComponents, parent.m_vTranslation.m_vComponents);
+                ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(out.m_rotation), (void *)&(parent.m_rotation), (const ::fnv_00c66320::__m128 *)&(local.m_rotation), {});
+                out.m_vScale.m_vComponents = _mm_mul_ps(parent.m_vScale.m_vComponents, local.m_vScale.m_vComponents);
+            }
+            else
+            {
+                hkQsTransform& out = m_pModelPose[b];
+                out.m_vTranslation.m_vComponents = local.m_vTranslation.m_vComponents;
+                out.m_rotation.m_vec.m_vComponents = local.m_rotation.m_vec.m_vComponents;
+                out.m_vScale.m_vComponents = local.m_vScale.m_vComponents;
+            }
+            m_pBoneFlags[b] &= ~2u;
+        }
+    }
+    m_bPoseFlag = true;
+}
+}  // namespace fnv_00cda340
+
+struct __declspec(align(16)) BlendQuat {
+    float x, y, z, w;
+    BlendQuat& operator=(const BlendQuat& other) { *(__m128*)&x=*(const __m128*)&other.x; return *this; }
+    void FUN_00cb2850(const BlendQuat&, const BlendQuat&, float);
+};
+struct BlendTransform { BlendQuat rotation; BlendQuat translation; BlendQuat scale; };
+struct BlendSkeleton {
+    int unk000;
+    int unk004;
+    int unk008;
+    BlendTransform* transforms;
+    BlendTransform* getTransforms() { return transforms; }
+    int unk010;
+    int unk014;
+    int unk018;
+    int count;
+    int unk020;
+    void* mapping;
+    void* getMapping() { return mapping; }
+};
+struct BlendPose {
+    int unk000;
+    int unk004;
+    int unk008;
+    int count;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    BlendSkeleton* skeleton;
+};
+struct BlendArray {
+    int unk00; unsigned short* data; unsigned int size;
+    int find(unsigned short value) const {
+        for (unsigned int i=0; i<size; ++i) {
+            if (data && data[i]==value) return i;
+        }
+        return -1;
+    }
+};
+struct BlendRagdoll {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    BlendArray bones;
+};
+struct BlendState { int unk00,unk04,unk08,unk0c; int source,dest; BlendRagdoll* ragdoll; };
+struct BlendAccess {
+    int* FUN_00cda4b0();
+    int sourceValue() {return *((int *)(reinterpret_cast<::FUN_00cda8d0_class *>(this)->FUN_00cda8d0()));}
+    int valueA() {return *FUN_00cda4b0();}
+    int valueB() {return *((int *)(reinterpret_cast<::FUN_00cdb290 *>(this)->GetPlus4()));}
+};
+struct BlendAllocator { char* top; };
+extern BlendAllocator* __cdecl FUN_00c85750();
+struct BlendBuffer {
+    BlendTransform* data; int size;
+    static BlendTransform* allocate(int n) {
+        BlendAllocator* a=FUN_00c85750();
+        BlendTransform* result=(BlendTransform*)a->top;
+        int bytes=(n*(int)sizeof(BlendTransform)+127)&~127;
+        a->top = a->top + bytes;
+        return result;
+    }
+    BlendBuffer(int n) { data=allocate(n); }
+    ~BlendBuffer() { FUN_00c85750()->top=(char*)data; }
+};
+struct BlendController {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    BlendPose* pose;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    BlendAccess* access;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    float blend;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    BlendState* state;
+    BlendState* GetReferenceTimeStep() {return state;}
+    __int64 start;
+
+    __int64 duration;
+
+    void FUN_00c7c870();
+};
+union __declspec(align(16)) PackedVector { __m128 vector; unsigned char lanes[16]; };
+struct InternedHeader { long references; unsigned int length; };
+
+
+// Interned names and intrusive scene-object references.
+void* __cdecl FUN_00aa13e0(unsigned int);
+
+__forceinline void RetainString(char* text) {
+    if (text != DAT_0109b220) { InternedHeader& header = *((InternedHeader*)text - 1); InterlockedIncrement(&header.references); }
+}
+__forceinline void ReleaseString(char* text) {
+    if (text != DAT_0109b220) InterlockedDecrement(&((InternedHeader*)text - 1)->references);
+}
+struct MatrixTransform;
+struct BoneTransformData;
+struct FUN_00a5d3a0 {
+    virtual void Reserved();
+    virtual void Destroy();
+    long references;
+    FUN_00a5d3a0();
+};
+typedef FUN_00a5d3a0 RefBase;
+struct CachedScene : RefBase {
+    __forceinline BoneTransformData* GetSkeleton() { return skeleton; }
+    __forceinline void ApplyTransform(const MatrixTransform&);
+    __forceinline void ApplyFinalTransform(const MatrixTransform&);
+    __forceinline void ApplyTransformPointer(const MatrixTransform*);
+    BoneTransformData* skeleton;
+    BoneTransformData* animation;
+    void* sourceAnimation;
+    void* sourceSkeleton;
+    int reserved18;
+    int flags;
+    CachedScene() {
+        skeleton = 0; animation = 0; sourceAnimation = 0; sourceSkeleton = 0; flags = 0;
+    }
+    virtual void Reserved();
+    virtual void Destroy();
+};
+struct SceneRef {
+    CachedScene* p;
+    SceneRef(CachedScene* v) : p(v) { if (p) InterlockedIncrement(&p->references); }
+    SceneRef(const SceneRef& r) : p(r.p) { if(p) InterlockedIncrement(&p->references); }
+    ~SceneRef() { if(p && !InterlockedDecrement(&p->references)) p->Destroy(); }
+};
+__forceinline void AssignScene(CachedScene*& slot, CachedScene* created) {
+    CachedScene* previous = slot;
+    if (previous != created) {
+        if (previous && !InterlockedDecrement(&previous->references)) previous->Destroy();
+        slot = created;
+        if (created) InterlockedIncrement(&created->references);
+    }
+}
+struct CacheManager {
+    void FUN_00e92760(char*, CachedScene**);
+};
+
+struct Allocator {
+    virtual void Reserved();
+    virtual void* Allocate(unsigned int);
+    virtual void Reserved8();
+    virtual void ReservedC();
+    virtual void* Resize(void*, unsigned int);
+};
+struct MemoryRouter {
+    char* top;
+    int FunctionAtSlot4, VirtualFunction8, reservedC;
+    Allocator* allocator;
+    __forceinline Allocator& AllocatorInstance() { return *allocator; }
+};
+__forceinline MemoryRouter* GetRouter() { return (MemoryRouter*)FUN_00c85750(); }
+struct ArrayStorage {
+    void* data;
+    int size;
+    int capacity;
+    __forceinline ArrayStorage() : data(0), size(0), capacity(0x80000000) {}
+    __forceinline ~ArrayStorage() {
+        Allocator& a = GetRouter()->AllocatorInstance();
+        size = 0;
+        if ((capacity & 0x80000000) == 0) a.Resize(data, (capacity & 0x3fffffff) * 4);
+        data = 0; capacity = 0x80000000;
+    }
+};
+struct ScratchArray : ArrayStorage {
+    char* saved;
+    __forceinline ScratchArray() {
+        MemoryRouter* m = GetRouter();
+        char* p = m->top;
+        m->top = p + 0x100;
+        data = p; capacity = 0x80000040; saved = p;
+    }
+    __forceinline ~ScratchArray() {
+        char* original = saved;
+        bool owned = original != data;
+        if (!owned) size = 0;
+        GetRouter()->top = original;
+    }
+};
+struct MatrixTransform {
+    float rotation[3][3];
+    float x, y, z;
+    float scale;
+    void FUN_00cb2d90(void*);
+    MatrixTransform FUN_0062c250(const MatrixTransform&) const;
+};
+struct C7C2B0_Heap
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0C();
+    virtual void ReturnMemory(void* p, int numBytes);
+};
+struct C7C2B0_Pair
+{
+    int a;
+    int b;
+};
+struct C7C2B0_Array
+{
+    C7C2B0_Pair* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline ~C7C2B0_Array()
+    {
+        Holder* holder = _FUN_00c85750();
+        C7C2B0_Heap* heap = (C7C2B0_Heap*)holder->p;
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+        {
+            int cap = m_iCapacityState & 0x3fffffff;
+            C7C2B0_Pair* data = m_data;
+            heap->ReturnMemory(data, cap * sizeof(C7C2B0_Pair));
+        }
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+};
+struct ShapeArrays
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    C7C2B0_Array m_iThirdValue;
+    C7C2B0_Array m_kPointB;
+    C7C2B0_Array m_kPointA;
+    ~ShapeArrays();
+};
+struct Head
+{
+    hkBool a, b;
+    int c;
+    Head() : a(true), b(true), c(0)
+    {}
+};
+struct hkArrayStandIn
+{
+    void* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    hkArrayStandIn() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+};
+struct FUN_00c7bfd0
+{
+    int m_00, m_04, m_08;
+    float m_0c;
+    float m_10;
+    hkArrayStandIn m_14, m_20, m_2c;
+    Head m_38;
+    int m_40, m_44, m_48;
+    float m_4c, m_50;
+    FUN_00c7bfd0();
+};
+struct __declspec(align(16)) PoseState {
+    BoneTransformData* animation;
+    BoneTransformData* skeleton;
+    int reserved08;
+    float blend, weight;
+    void* transforms; int transformCount, transformCapacity;
+    void* positions; int positionCount, positionCapacity;
+    void* rotations; int rotationCount, rotationCapacity;
+    unsigned char localValid, active, reserved3a, reserved3b;
+    int reserved3c, reserved40, reserved44, reserved48;
+    float scale, inverseScale;
+    __forceinline PoseState() throw() { new ((void *)this) ::FUN_00c7bfd0(); }
+    __forceinline ~PoseState() { reinterpret_cast<::ShapeArrays *>(this)->ShapeArrays::~ShapeArrays(); }
+};
+struct PoseBuffer {
+    int reserved00, reserved04, reserved08, reserved0c;
+    int VirtualFunction10, reserved14, reserved18, reserved1c;
+    int reserved20, VirtualFunction24, VirtualFunction28, reserved2c;
+    PackedVector translation, rotation, scale;
+    unsigned char valid;
+    unsigned char reserved61, reserved62, reserved63;
+    int reserved64, reserved68, reserved6c;
+    PoseBuffer() { reinterpret_cast<::MapperInitialization *>(this)->FUN_00ce5310(); }
+    ~PoseBuffer() { reinterpret_cast<::fnv_00ce5370::FUN_00ce5370_cls *>(this)->FUN_00ce5370(); }
+};
+struct FUN_00ce4a20 {
+    int reserved0;
+    unsigned short allocationSize;
+    unsigned short FunctionAtSlot6;
+    int VirtualFunction8, reservedC, VirtualFunction10, reserved14, reserved18, reserved1c;
+    int reserved20, VirtualFunction24, VirtualFunction28, reserved2c;
+    int reserved30, reserved34, reserved38, reserved3c;
+    int reserved40, reserved44, reserved48, reserved4c;
+    int reserved50, reserved54, reserved58, reserved5c;
+    int reserved60, reserved64, reserved68, reserved6c;
+    int reserved70, reserved74, reserved78, reserved7c;
+    FUN_00ce4a20(PoseBuffer* p);
+    __forceinline static void* operator new(std::size_t n) { FUN_00ce4a20* p = (FUN_00ce4a20*)GetRouter()->AllocatorInstance().Allocate(n); p->allocationSize = (unsigned short)n; return p; }
+    static void operator delete(void*);
+};
+typedef FUN_00ce4a20 PoseSource;
+struct BoneLock { unsigned char value;
+    __forceinline BoneLock& operator=(bool b) { value = b; return *this; }
+};
+struct BoneName { const char* taggedName; BoneLock locked; unsigned char FunctionAtSlot5, FunctionAtSlot6, VirtualFunction7;
+    __forceinline const char* Name() const { return (const char*)((unsigned int)taggedName & ~1u); }
+};
+struct BoneTransformData {
+    int reserved0, FunctionAtSlot4, VirtualFunction8, reservedC, VirtualFunction10, reserved14;
+    BoneName* bones;
+    int boneCount;
+    int reserved20;
+    void* transform;
+    int VirtualFunction28, reserved2c, reserved30;
+    MatrixTransform localTransform;
+    __forceinline void* GetTransform() { return transform; }
+    __forceinline BoneName* GetBones() { return bones; }
+    __forceinline BoneName& GetBone(int i) { BoneName* p = &bones[i]; return *p; }
+    __forceinline MatrixTransform& GetLocalTransform() { return localTransform; }
+};
+__forceinline void CachedScene::ApplyTransform(const MatrixTransform& value) { ::FUN_00c74dd0((::C74QsTransform *)(skeleton->transform), (const ::C74Transform *)(const ::MatrixTransform *)(&value)); }
+__forceinline void CachedScene::ApplyTransformPointer(const MatrixTransform* value) { ::FUN_00c74dd0((::C74QsTransform *)(skeleton->transform), (const ::C74Transform *)(value)); }
+__forceinline void CachedScene::ApplyFinalTransform(const MatrixTransform& value) { ::FUN_00c74dd0((::C74QsTransform *)(void *)(GetSkeleton()->GetTransform()), (const ::C74Transform *)(const ::MatrixTransform *)(&value)); }
+struct InputScene {
+    int reserved0, FunctionAtSlot4;
+    BoneTransformData* skeleton;
+    int reservedC;
+    void* extra;
+    __forceinline BoneTransformData* GetSkeleton() { return skeleton; }
+};
+struct Argument { int reserved0, FunctionAtSlot4; char* name; };
+struct TransformSource {
+    int reserved0, FunctionAtSlot4, VirtualFunction8, reservedC;
+    int VirtualFunction10, reserved14, reserved18, reserved1c;
+    PackedVector basis;
+    PackedVector quaternion;
+};
+struct __declspec(align(16)) Conversion {
+    PackedVector rotation;
+    PackedVector translation;
+    PackedVector scale;
+    PackedVector quaternion;
+    void FUN_00cb2d90(void*);
+};
+union TemporaryPoseWork {
+    Conversion converted;
+    MatrixTransform result;
+};
+struct ExtraView {  };
+struct FUN_00cdb400 {
+    float* values;
+    int reserved04, reserved08, reserved0c, VirtualFunction10, reserved14, reserved18, reserved1c;
+    int reserved20, VirtualFunction24, VirtualFunction28, reserved2c, reserved30, reserved34, reserved38, reserved3c;
+    int reserved40, reserved44;
+    FUN_00cdb400(void* p);
+    __forceinline static void* operator new(std::size_t n) { return GetRouter()->AllocatorInstance().Allocate(n); }
+    static void operator delete(void*);
+};
+typedef FUN_00cdb400 SkinState;
+extern float DAT_01267c7c, DAT_01267c88, DAT_01267c94, DAT_01267ca0;
+extern float DAT_01267cac, DAT_01267cb8, DAT_01267cc4, DAT_01267cd0;
+extern float DAT_01267cdc, DAT_01267ce8, DAT_01267cf4, DAT_01267d00;
+
+struct SceneOwner {
+    float rotation[3][3];
+    float x, y, z;
+    void* unk30;
+    void* unk34;
+    void* unk38;
+    void* unk3C;
+    unsigned char unk40;
+    unsigned char unk41;
+    unsigned char initialized;
+    unsigned char unk43;
+    void* unk44;
+    void* skin;
+    SkinState* state;
+    int reserved50, reserved54;
+    void* skeletonHandle;
+    void* unk54;
+    void* unk58;
+    void* unk5C;
+    void* unk60;
+    void* unk64;
+    void* unk68;
+    void* unk6C;
+    void* unk70;
+    void* unk74;
+    void* unk78;
+    void* unk7C;
+    void* unk80;
+    void* unk84;
+    void* unk88;
+    void* unk8C;
+    void* unk90;
+    void* unk94;
+    void* unk98;
+    void* unk9C;
+    void* unkA0;
+    void* unkA4;
+    void* unkA8;
+    void* unkAC;
+    void* unkB0;
+    void* unkB4;
+    void* unkB8;
+    void* unkBC;
+    void* unkC0;
+    void* unkC4;
+    void* unkC8;
+    void* unkCC;
+    void* unkD0;
+    void* unkD4;
+    void* unkD8;
+    void* unkDC;
+    void* unkE0;
+    void* unkE4;
+    void* unkE8;
+    void* unkEC;
+    void* unkF0;
+    void* unkF4;
+    void* unkF8;
+    void* unkFC;
+    void* unk100;
+    void* unk104;
+    void* unk108;
+    void* unk10C;
+    void* unk110;
+    void* unk114;
+    void* unk118;
+    void* unk11C;
+    void* unk120;
+    void* unk124;
+    void* unk128;
+    void* unk12C;
+    void* unk130;
+    void* unk134;
+    void* unk138;
+    void* unk13C;
+    void* unk140;
+    void* unk144;
+    void* unk148;
+    void* unk14C;
+    void* unk150;
+    void* unk154;
+    void* unk158;
+    void* unk15C;
+    void* unk160;
+    void* unk164;
+    void* unk168;
+    void* unk16C;
+    void* unk170;
+    void* unk174;
+    void* unk178;
+    void* unk17C;
+    void* unk180;
+    void* unk184;
+    void* unk188;
+    void* unk18C;
+    void* unk190;
+    void* unk194;
+    void* unk198;
+    void* unk19C;
+    void* unk1A0;
+    void* unk1A4;
+    void* unk1A8;
+    void* unk1AC;
+    void* unk1B0;
+    void* unk1B4;
+    void* unk1B8;
+    void* unk1BC;
+    void* unk1C0;
+    void* unk1C4;
+    void* unk1C8;
+    void* unk1CC;
+    void* unk1D0;
+    void* unk1D4;
+    void* unk1D8;
+    void* unk1DC;
+    void* unk1E0;
+    void* unk1E4;
+    void* unk1E8;
+    void* unk1EC;
+    void* unk1F0;
+    void* unk1F4;
+    void* unk1F8;
+    void* unk1FC;
+    void* unk200;
+    void* unk204;
+    void* unk208;
+    void* unk20C;
+    void* unk210;
+    unsigned char mode;
+    unsigned char unk215;
+    unsigned char unk216;
+    unsigned char unk217;
+    void* unk218;
+    void* unk21C;
+    void* unk220;
+    void* unk224;
+    void* unk228;
+    void* unk22C;
+    void* unk230;
+    void* unk234;
+    void* unk238;
+    void* unk23C;
+    void* unk240;
+    void* unk244;
+    void* unk248;
+    void* unk24C;
+    void* unk250;
+    void* unk254;
+    void* unk258;
+    void* unk25C;
+    void* unk260;
+    void* unk264;
+    void* unk268;
+    void* unk26C;
+    void* unk270;
+    void* unk274;
+    void* unk278;
+    void* unk27C;
+    void* unk280;
+    void* unk284;
+    void* unk288;
+    void* unk28C;
+    void* unk290;
+    void* unk294;
+    char* name;
+    CachedScene* cached;
+    int reserved2a8, reserved2ac, reserved2b0, reserved2b4;
+    int headBone;
+    __forceinline CachedScene* GetCached() { return cached; }
+    __forceinline char* GetName() { return name; }
+    void FUN_00c7e9a0(Argument*, const char*);
+    void FUN_00c7e3b0();
+};
+
+// @fnv 0x00c7e9a0
+void SceneOwner::FUN_00c7e9a0(Argument* sourceInput, const char* requestedName) {
+    char* old = name;
+    if (old != requestedName) {
+        name = ::NiGlobalStringTable::AddString(requestedName);
+        ReleaseString(old);
+    }
+    if (!requestedName) {
+        char* inherited = sourceInput->name;
+        if (name != inherited) {
+            RetainString(inherited);
+            char* previous = name;
+            ReleaseString(previous);
+            name = inherited;
+        }
+    }
+    CachedScene** cacheSlot = &cached;
+    DAT_011b0300.FUN_00e92760(GetName(), cacheSlot);
+    CachedScene* found = *cacheSlot;
+    if (!found) {
+        AssignScene(*cacheSlot, new CachedScene);
+        reinterpret_cast<::PointerMap *>(&(DAT_011b0300))->InsertOrAssign((unsigned int)(GetName()), (*(::NiPointer< ::MapRefObject> *)&(const ::SceneRef &)(SceneRef(*cacheSlot))));
+    }
+    if (((::InputScene *)(::FUN_00c802d0((::MyNode *)(sourceInput))))) {
+        InputScene* scene = ((::InputScene *)(::FUN_00c802d0((::MyNode *)(sourceInput))));
+        skeletonHandle = scene->GetSkeleton()->GetBones();
+        ScratchArray first;
+        ScratchArray second;
+        ::ApplyToCollisionBodies((::C7B140AVObject *)(::BoneTransformData *)(scene->GetSkeleton()), &first, &second);
+        if (::FUN_00cea030(&first, &second) != 1) {
+            CachedScene* entry = *cacheSlot;
+            if (!entry->skeleton) {
+                entry->skeleton = ((::BoneTransformData *)(::FUN_00ceb2c0((::BodyList *)(::ArrayStorage *)(&first), (::ConstraintList *)(::ArrayStorage *)(&second))));
+                (*cacheSlot)->ApplyTransform(scene->GetSkeleton()->GetLocalTransform());
+                TransformSource* source;
+                if (!scene->extra) source = 0;
+                else source = ((::TransformSource *)(reinterpret_cast<::NiObject *>((((ExtraView*)scene->extra)))->DynamicCast((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_012683c8))))));
+                MatrixTransform transform;
+                reinterpret_cast<::NiTransform *>(&(transform))->ResetToIdentity();
+                if (source) {
+                    Conversion converted;
+                    converted.quaternion.vector = source->quaternion.vector;
+                    reinterpret_cast<::RotationRows *>(&(converted))->FUN_00cb2d90(&source->basis);
+                    ::FUN_00624ad0((::NiTransform *)(::MatrixTransform *)(&transform), (::TopicH *)(&converted));
+                }
+                MatrixTransform copied;
+                copied = scene->GetSkeleton()->GetLocalTransform().FUN_0062c250(transform);
+                (*cacheSlot)->ApplyTransformPointer(&copied);
+            }
+            if (cached->skeleton) {
+                skin = ((void *)(::FUN_00cea810((::Skeleton *)(GetCached()->skeleton), (*(const ::Array< ::RigidBody *> *)(&first)), (*(const ::Array< ::Constraint *> *)(&second)))));
+                BoneTransformData* skeleton = GetCached()->skeleton;
+                for (int bone = 0; bone < skeleton->boneCount; ++bone) {
+                    const char* boneName = skeleton->GetBone(bone).Name();
+                    if (((int)(std::uintptr_t)(std::strstr((char *)(boneName), "Head")))) headBone = bone;
+                }
+                if (skin) {
+                    state = new SkinState(skin);
+                    float* values = state->values;
+                    values[0] = DAT_01267c7c; values[1] = DAT_01267c88;
+                    values[2] = DAT_01267c94; values[3] = DAT_01267ca0;
+                    values[4] = DAT_01267cac; values[5] = DAT_01267cb8;
+                    values[6] = DAT_01267cc4; values[7] = DAT_01267cd0;
+                    values[8] = DAT_01267cdc; values[9] = DAT_01267ce8;
+                    values[10] = DAT_01267cf4; values[11] = DAT_01267d00;
+                    initialized = 1;
+                    mode = ((unsigned char)(reinterpret_cast<::FUN_00c75460_S *>(this)->FUN_00c75460()));
+                }
+            }
+            FUN_00c7e3b0();
+            if (!(*cacheSlot)->sourceAnimation && !(*cacheSlot)->sourceSkeleton) {
+                (*cacheSlot)->animation->bones->locked = false;
+                GetCached()->skeleton->bones->locked = false;
+                PoseBuffer animationPose;
+                PoseBuffer skeletonPose;
+                {
+                    PoseState pose;
+                    pose.animation = (*cacheSlot)->animation;
+                    pose.skeleton = (*cacheSlot)->skeleton;
+                    pose.active = 0;
+                    ::FUN_00ce61c0((*(const ::HkMapperParams *)(&pose)), (*(::HkMapperData *)(&animationPose)), (*(::HkMapperData *)(&skeletonPose)));
+                }
+                reinterpret_cast<::S00c79e20_Ctrl *>(this)->FUN_00c79e20();
+                GetCached()->sourceAnimation = new PoseSource(&animationPose);
+                GetCached()->sourceSkeleton = new PoseSource(&skeletonPose);
+            }
+        }
+    }
+}
+
+namespace VectorHardware {
+
+union __declspec(intrin_type) __declspec(align(16)) __m128 {
+    float m128_f32[4];
+    unsigned char m128_u8[16];
+};
+extern "C" __m128 _mm_sub_ps(__m128,__m128);
+extern "C" __m128 _mm_set_ps1(float);
+extern "C" __m128 _mm_and_ps(__m128,__m128);
+extern "C" __m128 _mm_cmple_ps(__m128,__m128);
+extern "C" int _mm_movemask_ps(__m128);
+}
+typedef VectorHardware::__m128 VectorBits;
+using VectorHardware::_mm_sub_ps;
+using VectorHardware::_mm_set_ps1;
+using VectorHardware::_mm_and_ps;
+using VectorHardware::_mm_cmple_ps;
+using VectorHardware::_mm_movemask_ps;
+template<class T> class OwnedCell {
+    T stored;
+public:
+    __forceinline OwnedCell() {}
+    __forceinline OwnedCell(T value) : stored(value) {}
+    __forceinline void operator=(T value) { stored=value; }
+    __forceinline T val() const { return stored; }
+    __forceinline T operator->() const { return stored; }
+    __forceinline operator T() const { return val(); }
+};
+extern BlendAllocator* FUN_00c85750();
+extern float DAT_011b02e8;
+
+struct ScratchAllocator {
+    char* current;
+    char* allocate(int n) { int numBytes=(n+127)&~127; char* p=current; char* next=p+numBytes; current=next; return p; }
+};
+class ComparisonValue {
+    VectorBits lanes;
+    friend class VectorValue;
+public:
+    enum Required { All=15 };
+    __forceinline int all(Required required) const { return (_mm_movemask_ps(lanes)&required)==required; }
+};
+class VectorValue {
+    VectorBits q;
+public:
+    __forceinline VectorValue() {}
+    __forceinline VectorValue(const VectorValue& other) { q=other.q; }
+    __forceinline VectorValue(const VectorBits& v) { q=v; }
+    operator VectorBits() const { return q; }
+    __forceinline void operator=(const VectorBits& v) { q=v; }
+
+    __forceinline void operator=(const VectorValue& other) { q=other.q; }
+    __forceinline void difference(const VectorValue& left,const VectorValue& right) { q=_mm_sub_ps(left.q,right.q); }
+    __forceinline void absolute(const VectorValue& value) { q=_mm_and_ps(value.q,(*reinterpret_cast<const ::VectorHardware::__m128 *>((void *)&::DAT_01017d10))); }
+    __forceinline void splat(float value) { q=_mm_set_ps1(value); }
+    __forceinline ComparisonValue lessEqual(const VectorValue& value) const { ComparisonValue result; result.lanes=_mm_cmple_ps(q,value.q); return result; }
+    __forceinline int equal(const VectorValue& value,float epsilon=0.001f) const {
+        VectorValue delta; delta.difference(*this,value); delta.absolute(delta);
+        VectorValue tolerance; tolerance.splat(epsilon);
+        return delta.lessEqual(tolerance).all(ComparisonValue::All);
+    }
+};
+
+enum ActivationMode { LeaveInactive=0,ActivateNow=1 };
+enum FilterMode { UpdateFull=0,UpdatePartial=1 };
+template<class T> __forceinline T* AddBytes(T* p,int bytes) { return (T*)((char*)p+bytes); }
+__forceinline int ByteDistance(const void* from,const void* to) { return (int)((const char*)to-(const char*)from); }
+struct StackView {
+    OwnedCell<char*> next;
+    OwnedCell<void*> start;
+    OwnedCell<void*> end;
+    StackView();
+    __forceinline int freeBytes() const { return ByteDistance(next,end); }
+    __forceinline ~StackView() {}
+    __forceinline void* allocate(int bytes,const char* label=0) {
+        if(bytes>freeBytes()) {}
+        char* saved=next;
+        next=AddBytes(saved,bytes);
+        return saved;
+    }
+    __forceinline void release(void* saved) { next=(char*)saved; }
+};
+struct RouterView {
+    StackView area;
+    static RouterView& FUN_00c85750();
+    __forceinline StackView& stack() { return area; }
+};
+template<class T> __forceinline T* AllocateView(int n,const char* label=0) {
+    RouterView& memory=RouterView::FUN_00c85750();
+    return (T*)memory.stack().allocate((n*(int)sizeof(T)+127)&~127,label);
+}
+template<class T> __forceinline void ReleaseView(T* p) { RouterView::FUN_00c85750().stack().release(p); }
+struct FixedBuffer {
+protected:
+    OwnedCell<VectorValue*> data;
+    int debugSize;
+    __forceinline FixedBuffer() {}
+public:
+    __forceinline VectorValue* begin() { return data; }
+    __forceinline VectorValue& operator[](int i) { return data[i]; }
+};
+struct BufferView : FixedBuffer {
+    __forceinline BufferView(int n) { data=AllocateView<VectorValue>(n); }
+    __forceinline ~BufferView() { ReleaseView(data.val()); }
+};
+__forceinline void UpdateLinear(BodyView* body,const VectorValue& value) {
+    if(!value.equal(body->getLinearVelocity())) {
+        reinterpret_cast<::hkpEntityC9C *>((body))->FUN_00c9c1d0();
+        body->getMotion()->SetTranslationalVelocity(value);
+    }
+}
+__forceinline void UpdateAngular(BodyView* body,const VectorValue& value) {
+    if(!value.equal(body->getAngularVelocity())) {
+        reinterpret_cast<::hkpEntityC9C *>((body))->FUN_00c9c1d0();
+        body->getMotion()->SetRotationalVelocity(value);
+    }
+}
+
+// @fnv 0x00c7b6a0
+void Controller::FUN_00c7b6a0(bool enable) {
+    if (!enabled) return;
+    if (!enable && !active) return;
+    if (active && enable) { reinterpret_cast<::FUN_00448e30_this *>(&(timer))->init(DAT_011b02e8); return; }
+    reinterpret_cast<::FUN_00c7a230_cls *>(this)->FUN_00c7a230(enable);
+    if (enable) timer.begin(DAT_011b02e8); else timer.duration=0;
+    int count=bodies->getNumBones();
+    BufferView positions(count);
+    BufferView rotations(count);
+    ::FUN_00cb1280(positions.begin(),0,count*16);
+    ::FUN_00cb1280(rotations.begin(),0,count*16);
+    for(int i=0;i<count;++i) {
+        BodyView* body=(BodyView*)bodies->getRigidBodyOfBone(i);
+        {
+            if(body) {
+                int kind=body->getMotionType();
+                if(FUN_00c8cce0(&kind)) { positions[i]=body->getLinearVelocity(); rotations[i]=body->getAngularVelocity(); }
+            }
+        }
+    }
+    for(int i=0;i<count;++i) {
+        BodyView* body=(BodyView*)bodies->getRigidBodyOfBone(i);
+        {
+            if(body) {
+                if(selection.get()->selection->find((unsigned short)i)!=-1) {
+                    if(enable) {
+                        if(body->getMotionType()==4 || body->getQualityType()!=4) {
+                            reinterpret_cast<::FUN_00ca8420_Class *>((body))->FUN_00ca8420((*(int *)&(const ::MotionKind &)(KindDynamic)),(*(int *)&(const ::ActivationMode &)(ActivateNow)),(*(int *)&(const ::FilterMode &)(UpdateFull))); body->setQualityType((QualityKind)4); reinterpret_cast<::S_00ca8630_Class *>((body))->FUN_00ca8630(false);
+                        }
+                    } else {
+                        if(body->getMotionType()!=4 || body->getQualityType()!=1) {
+                            reinterpret_cast<::FUN_00ca8420_Class *>((body))->FUN_00ca8420((*(int *)&(const ::MotionKind &)(KindKeyframed)),(*(int *)&(const ::ActivationMode &)(ActivateNow)),(*(int *)&(const ::FilterMode &)(UpdateFull))); body->setQualityType((QualityKind)1); reinterpret_cast<::S_00ca8630_Class *>((body))->FUN_00ca8630(true);
+                        }
+                    }
+                }
+                UpdateLinear(body,positions[i]);
+                UpdateAngular(body,rotations[i]);
+            }
+        }
+    }
+    active=enable;
+}
+
+extern "C" __m128 _mm_setr_ps(float, float, float, float);
+extern void* UNK_010c4dec;
+static __forceinline void* AllocateBuffer(unsigned n) { Context* context=(Context*)(void*)FUN_00c85750(); Heap* heap=context->heap; return (heap->Allocate)(n); }
+static __forceinline int Maximum(int first,int second) { return first >= second ? first : second; }
+ template<> struct S7de60_PodTrait<Entry> { typedef S7de60_IsClass type; };
+union Vec128 { __m128 value; char bytes[16]; };
+struct FramePoint { float x,y,z; };
+struct FrameState { FramePoint rotation[3]; FramePoint point; float scale;  };
+// @fnv 0x00c7de60
+bool RenderNode::FUN_00c7de60(const char* item) {
+    bool ok=active;
+    if(ok) {
+    ok=reinterpret_cast<::Cls79340 *>(this)->FUN_00c79340((::Param1 *)(input),item,1);
+    if(ok) {
+        state=1;
+        if(create) {
+            if(!owner->root) {
+                owner->SetRoot(new Root);
+                owner->root->src=new SourceBuffer;
+                owner->root->src->indices.ResizeEntries(2);
+                owner->root->src->points.Resize(2);
+                owner->root->src->vertices.Resize(2);
+                ((short*)owner->root->src->points.data)[0]=-1;
+                ((short*)owner->root->src->points.data)[1]=0;
+                FrameState frame;
+                reinterpret_cast<::NiTransform *>(&(frame))->ResetToIdentity();
+                ::FUN_00c74dd0((::C74QsTransform *)(owner->root->src->vertices.data),(const ::C74Transform *)(void *)(&frame));
+                frame.point.x=DAT_01050c98; frame.point.y=DAT_01050c48; frame.point.z=0;
+                ::FUN_00c74dd0((::C74QsTransform *)(void *)(owner->root->src->vertices.data+1),(const ::C74Transform *)(void *)(&frame));
+                owner->root->a=boneParams[1].forwardParent;
+                owner->root->b=boneParams[1].forwardLocal;
+            }
+            CloneBuffer* clone=new CloneBuffer(owner->root->src);
+            buffer=clone;
+            ::fnv_00cda110::FUN_00cda110((::fnv_00cda110::S *)(clone));
+            reinterpret_cast<::fnv_00cda340::SkeletonPoseData *>((buffer))->FUN_00cda340();
+            Vec128 unit; unit.value=_mm_setr_ps(::DAT_01011d78,DAT_01012068,::DAT_01011d78,::DAT_01011d78);
+            boneParams[0].bone=1;
+            boneParams[0].forwardLocal.value=unit.value;
+            boneParams[0].forwardParent.value=boneParams[0].forwardLocal.value;
+            boneParams[0].parent=0;
+            boneParams[0].pose=buffer;
+            state=0;
+        }
+    }
+    success=ok;
+    }
+    return ok;
+}
+
+struct C74Matrix3 {
+    float m_afEntries[3][3];
+};
+
+struct C74Transform {
+    C74Matrix3 m_kOrientation;
+    float m_TranslateX;
+    float m_TranslateY;
+    float m_TranslateZ;
+    float m_fScale;
+};
+
+struct C74NiQuaternion {
+    float m_fVectorX;
+    float m_fVectorY;
+    float m_fVectorZ;
+    float m_fScalarPart;
+};
+
+struct C74Vector4 {
+    VectorBits m_vComponents;
+    float& operator()(int i) { return m_vComponents.m128_f32[i]; }
+};
+
+struct C74Quaternion {
+    float m_vec[4];
+    void set(float x, float y, float z, float w) { m_vec[0] = x; m_vec[1] = y; m_vec[2] = z; m_vec[3] = w; }
+};
+
+struct C74QsTransform {
+    C74Vector4 m_vTranslation;
+    C74Quaternion m_rotation;
+    C74Vector4 m_vScale;
+};
+
+extern float DAT_01267c20;
+
+// @fnv 0x00c74dd0
+C74QsTransform* FUN_00c74dd0(C74QsTransform* out, const C74Transform* in)
+{
+    C74NiQuaternion q;
+    reinterpret_cast<::NiQuaternion *>(&(q))->FromRotationMatrix((const ::ThreeByThreeMatrix &)(in->m_kOrientation));
+    out->m_rotation.set(q.m_fVectorY, q.m_fVectorZ, q.m_fScalarPart, q.m_fVectorX);
+    reinterpret_cast<::FUN_005611c0_t *>(&(out->m_rotation))->FUN_005611c0();
+    C74Vector4 t;
+    t(0) = in->m_TranslateX * DAT_01267c20;
+    t(1) = in->m_TranslateY * DAT_01267c20;
+    t(2) = in->m_TranslateZ * DAT_01267c20;
+    t(3) = 0.0f;
+    out->m_vTranslation.m_vComponents = t.m_vComponents;
+    out->m_vScale.m_vComponents = _mm_set_ps1(in->m_fScale);
+    return out;
+}
+
+namespace EntryHardware {
+
+union __declspec(intrin_type) __declspec(align(16)) __m128 {
+    PackedVector storage;
+    struct { float x,y,z,w; };
+};
+extern "C" __m128 _mm_setr_ps(float,float,float,float);
+}
+
+extern double DAT_010c4dd0;
+extern double DAT_010c4dc8;
+extern float DAT_01267d90;
+
+struct StringHeader { long references; unsigned length; void release() { InterlockedDecrement(&references); } };
+struct ResourceName {
+    char* key;
+    ResourceName(InputName const& raw) { if (!raw.key) key=DAT_0109b220; else key=::NiGlobalStringTable::AddString(raw.key); }
+    ~ResourceName() { if (key != DAT_0109b220) { StringHeader* header=reinterpret_cast<StringHeader*>(key)-1; header->release(); } }
+};
+struct __declspec(align(16)) Scratch {
+    int owner;
+    short first, second, third, unk0a;
+    int unk0c;
+    EntryHardware::__m128 axisA, axisB, axisC, axisD;
+    float strength, f54, f58, f5c, f60, f64, f68, threshold, radius;
+    bool flag;
+};
+struct GameForm {
+    GameForm* getLinked();
+    GameForm* getChildNamed();
+    struct VTable;
+    typedef int (*TypeQuery)(GameForm*,VTable*);
+    struct VTable { void* f0; void* f1; void* f2; TypeQuery canUse; };
+    struct NativeQuery { virtual void f0(); virtual void f1(); virtual void f2(); virtual int queryType(VTable*)=0; };
+    VTable* vtable;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    struct Children { GameForm** data; unsigned short capacity,count; GameForm* get() const { return data[0]; } } children;
+};
+struct Material { int unk00,unk04; int name; };
+struct Resource { int unk00,unk04; Material* material; };
+struct Runtime { int unk00,unk04,unk08,unk0c; Allocator* allocator; Allocator& heap() { return *allocator; } };
+struct FUN_00cd8820 : IndexedRecord {
+    int vtable;
+    unsigned short size, references;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    FUN_00cd8820(Scratch const&);
+    static __forceinline void* operator new(size_t);
+    static void operator delete(void*);
+};
+struct Geo { float unk00, expansion; };
+
+static __forceinline Runtime* GetEntryRuntime() { return reinterpret_cast<Runtime*>(FUN_00c85750()); }
+__forceinline void* FUN_00cd8820::operator new(size_t bytes) {
+    void* ptr=GetEntryRuntime()->heap().Allocate(bytes);
+    static_cast<FUN_00cd8820*>(ptr)->size=(unsigned short)bytes;
+    return ptr;
+}
+__forceinline GameForm* GameForm::getLinked() {
+    if (vtable->canUse(this,vtable) && children.count>0) return children.get(); return 0;
+}
+__forceinline GameForm* GameForm::getChildNamed() { NativeQuery* query=reinterpret_cast<NativeQuery*>(this); if(query->queryType(vtable) && children.count>0) return children.get(); return 0; }
+static __forceinline int const& materialName(Resource* resource) {
+    return resource ? resource->material->name : (*reinterpret_cast<int *>(&::DAT_011f49e0));
+}
+__forceinline void EntryArray::resize(int size) {
+    Allocator& allocator=GetEntryRuntime()->heap();
+    int cap=capacity & 0x3fffffff;
+    if (cap<size) {
+        cap*=2;
+        if (size>=cap) cap=size;
+        ::FUN_00c908c0((::SpawnedObject *)(::Allocator *)(&allocator),(::SpawnedArray *)(::EntryArray *)(this),cap,sizeof(RagdollEntry));
+    }
+    int extra=size-count;
+    RagdollEntry* dest=data+count;
+    for (int k=0;k<extra;++k) new (dest+k) RagdollEntry;
+    count=size;
+}
+// @fnv 0x00c7c3a0
+void ParticleTable::FUN_00c7c3a0(FNVInput* incoming) {
+    FNVInput* input=incoming;
+    unsigned count=incoming->count;
+    if (!count || !enabled) return;
+    Scratch scratch;
+    reinterpret_cast<::S00cd8920_Obj *>(&(scratch))->FUN_00cd8920();
+    bool ready=reinterpret_cast<::SceneEffect *>(this)->FUN_00c77ac0((::EffectOutput *)(::Scratch *)(&scratch),(::EffectRequest *)(incoming));
+    Table* ownerTable=table;
+    int owner=ownerTable->owner;
+    if (!ready) return;
+    scratch.owner=owner;
+    scratch.axisC=EntryHardware::_mm_setr_ps(::DAT_01011d78,::DAT_01011d78,DAT_01012068,::DAT_01011d78);
+    scratch.axisD=scratch.axisC;
+    scratch.strength=DAT_01267d90;
+    entries.resize(count);
+    for (unsigned i=0;i<count;++i) {
+        GameForm* actor;
+        {
+            ResourceName name(input->at(i));
+            actor=((::GameForm *)(::FUN_00c4b470((::FUN_00c4b470_owner *)(void *)(getContext()),(void **)&(name),1)));
+        }
+        GameForm* linked=actor ? actor->getChildNamed():0;
+        GameForm* nested=linked ? linked->getLinked():0;
+        Resource* pActorResource=actor ? ((::Resource *)(::FUN_00c802d0((::MyNode *)(actor)))):0;
+        Resource* secondResource=linked ? ((::Resource *)(::FUN_00c802d0((::MyNode *)(linked)))):0;
+        Resource* thirdResource=nested ? ((::Resource *)(::FUN_00c802d0((::MyNode *)(nested)))):0;
+        Geo* geo=((::Geo *)(::FUN_00c75180((::Input134 *)this)));
+        float expansion=geo ? geo->expansion:0.0f;
+        scratch.threshold=(float)(expansion+DAT_010c4dd0);
+        scratch.radius=(float)(expansion+DAT_010c4dc8);
+        radius=scratch.radius;
+        int first=materialName(pActorResource);
+        int second=materialName(secondResource);
+        int third=materialName(thirdResource);
+        if (second && third && pActorResource!=secondResource && pActorResource!=thirdResource && thirdResource!=secondResource) {
+            scratch.first=::FindIndexByKey((::S_00cdd390_Table *)(owner),(const void *)(first),(int (*)(const void *, const void *))(0));
+            scratch.second=::FindIndexByKey((::S_00cdd390_Table *)(owner),(const void *)(second),(int (*)(const void *, const void *))(0));
+            scratch.third=::FindIndexByKey((::S_00cdd390_Table *)(owner),(const void *)(third),(int (*)(const void *, const void *))(0));
+            if (scratch.first!=-1 && scratch.second!=-1 && scratch.third!=-1)
+                entries[i].record=new FUN_00cd8820(scratch);
+        }
+        if (table->mapping) {
+            for (int j=0;j<table->mapping->count;++j) {
+                MappingEntry* mapped=&table->mapping->data[j];
+                if (mapped->source==scratch.third) entries[i].mapped=mapped->target;
+            }
+        }
+    }
+    bool success=true;
+    for (unsigned j=0;j<count && success;++j) {
+        if (!entries[j].record) success=false;
+    }
+    if (!success) {
+        for (unsigned j=0;j<count;++j) {
+            IndexedRecord* record=entries[j].record;
+            if (record) reinterpret_cast<::hkReferencedObjectC905 *>((record))->FUN_00c905b0();
+        }
+        entries.count=0;
+    }
+    complete=success;
+}
+
+extern "C" __m128 _mm_mul_ps(__m128,__m128);
+extern "C" __m128 _mm_shuffle_ps(__m128,__m128,int);
+extern "C" __m128 _mm_add_ss(__m128,__m128);
+extern "C" void _mm_store_ss(float*,__m128);
+struct VectorStorage {protected:__m128 value; __forceinline VectorStorage(){} __forceinline VectorStorage(const __m128& v):value(v){} };
+struct VecLane:private VectorStorage {
+private:
+public:
+ __forceinline VecLane() {}
+ __forceinline VecLane(const VecLane& rhs):VectorStorage(rhs.value) {}
+ __forceinline void operator=(const VecLane& rhs) { setRaw(rhs.getRaw()); }
+ __forceinline void operator=(const __m128& rhs) { value=rhs; }
+ __forceinline __m128 getRaw() const{return value;}
+ __forceinline void setRaw(__m128 v){value=v;}
+ __forceinline operator __m128() const { return getRaw(); }
+};
+struct QuatLane {VecLane value; __forceinline void operator=(const QuatLane& rhs) {value=rhs.value;} };
+struct Transform48 {VecLane translation; QuatLane rotation; VecLane scale;};
+template<class T> struct FieldStorage {protected:T value; __forceinline FieldStorage(){} __forceinline FieldStorage(T v):value(v){} };
+template<class T> class MemberValue:private FieldStorage<T> {
+public:
+ __forceinline MemberValue() {}
+ __forceinline MemberValue(T p):FieldStorage<T>(p) {}
+ __forceinline void operator=(T p) {value=p;}
+ __forceinline T val() const {return value;}
+ __forceinline operator T() const {return val();}
+ __forceinline T operator->() const {return val();}
+};
+struct TempAllocator {
+ virtual void v0();virtual void v4();virtual void v8();
+ virtual void* Allocate(int&);
+ virtual void Free(void*,int);
+ template<class T> __forceinline T* allocateItems(int& n) {int bytes=n*(int)sizeof(T);void* p=Allocate(bytes);n=bytes/(int)sizeof(T);return (T*)p;}
+ template<class T> __forceinline void freeItems(T* p,int n) {Free(p,n*sizeof(T));}
+};
+struct ArenaStack {
+ MemberValue<void*> next;
+ MemberValue<void*> start;
+ MemberValue<void*> end;
+ __forceinline int freeBytes() const {return (int)((char*)end.val()-(char*)next.val());}
+ __forceinline void* allocate(int bytes,const char* tag) {
+  if(bytes>freeBytes()) {}
+  void* old=next;
+  next=(char*)old+bytes;
+  return old;
+ }
+ __forceinline void release(void* p) {next=p;}
+};
+struct ScratchState {ArenaStack arena;int unk0c;TempAllocator* allocator;
+ __forceinline TempAllocator& heap() {return *allocator;}
+ __forceinline ArenaStack& stack() {return arena;}
+};
+__forceinline ScratchState& getRouter() {return *(ScratchState*)FUN_00c85750();}
+template<class T> __forceinline T* allocateScratch(int n,const char* tag=0) {
+ ScratchState& a=getRouter();
+ return (T*)a.stack().allocate((n*(int)sizeof(T)+127)&~127,tag);
+}
+template<class T> __forceinline void freeScratch(T* p) {getRouter().stack().release((void*)p);}
+template<class T> struct RagdollUpdateFixedBuffer {
+ MemberValue<T*> data;int debugSize;
+ __forceinline RagdollUpdateFixedBuffer() {}
+ __forceinline T& operator[](int i) {return data[i];}
+ __forceinline T* begin() {return data;}
+ __forceinline const T* begin() const {return data;}
+};
+template<class T> struct LocalBuffer:RagdollUpdateFixedBuffer<T> {
+ __forceinline LocalBuffer(int n,const char* tag=0) {data=allocateScratch<T>(n,tag);}
+ __forceinline ~LocalBuffer() {freeScratch(data.val());}
+};
+typedef LocalBuffer<Transform48> ScratchTransforms;
+template<class T> struct OwnedBase {
+ T* data;int size,capacity;
+ __forceinline OwnedBase():data(0),size(0),capacity(0x80000000) {}
+ __forceinline void setOwned(T* p,int n,int cap) {data=p;size=n;capacity=cap;}
+ __forceinline T* begin() {return data;}
+ __forceinline void clearFree(TempAllocator& a) {size=0;if(!(capacity&0x80000000)) a.freeItems(data,capacity&0x3fffffff);data=0;capacity=0x80000000;}
+};
+struct HeapPolicy {template<class T> __forceinline TempAllocator& get(T*) {return getRouter().heap();}};
+template<class T,class P=HeapPolicy> struct OwnedBuffer:OwnedBase<T> {
+ __forceinline OwnedBuffer(int n) {TempAllocator& a=P().get(this);T* p=n?a.allocateItems<T>(n):0;int cap=n?n:0x80000000;setOwned(p,n,cap);}
+ __forceinline ~OwnedBuffer() {clearFree(P().get(this));}
+};
+typedef OwnedBuffer<int> IntBuffer;
+struct LaneScalar {
+ PackedVector storage;
+ __forceinline LaneScalar(const __m128& v){storage.vector=v;}
+ __forceinline operator float() const {float v;_mm_store_ss(&v,storage.vector);return v;}
+};
+struct VelocityVector {
+ __m128 value;
+ __forceinline LaneScalar dot(const VelocityVector& r) const {
+  __m128 m=_mm_mul_ps(value,r.value);
+  __m128 t=_mm_shuffle_ps(m,m,0x55);
+  t=_mm_add_ss(t,m);
+  m=_mm_shuffle_ps(m,m,0xaa);
+  return LaneScalar(_mm_add_ss(m,t));
+ }
+ __forceinline LaneScalar lengthSquared() const {return dot(*this);}
+};
+struct SmallFloat {
+ unsigned char index;
+ __forceinline operator float() const {return DAT_010c7948[index];}
+};
+template<class T> struct ArrayBaseView {
+ T* data;int size,capacity;
+ __forceinline T* begin() {return data;}
+ __forceinline const T* begin() const {return data;}
+ __forceinline int GetLogicalSize() const {return size;}
+ __forceinline T& operator[](int i) {return data[i];}
+ __forceinline const T& operator[](int i) const {return data[i];}
+};
+template<class T> struct ArrayView:ArrayBaseView<T> {};
+struct SkeletonData {
+ int unk00,unk04,unk08;ArrayView<short> parents;ArrayView<void*> boneList;ArrayView<Transform48> poseList;
+ __forceinline int getCount() const {return boneList.GetLogicalSize();}
+ __forceinline const short* getParents() const {return parents.begin();}
+ __forceinline const Transform48* getPoses() const {return poseList.begin();}
+};
+struct BoneState {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+ SmallFloat scaleIndex; unsigned char unk19d; unsigned short unk19e;
+ int unk1a0, unk1a4, unk1a8, unk1ac;
+ VelocityVector velocity;
+};
+struct Skeleton {
+ int unk00,unk04;ArrayView<BoneState*> stateList;ArrayView<void*> constraints;ArrayView<int> indexList;SkeletonData* data;
+ __forceinline SkeletonData* getData() const {return data;}
+ __forceinline int getNumBones() const {return getData()->getCount();}
+ __forceinline BoneState* getBody(int i) const {int k=indexList[i];return k>=0?stateList[k]:0;}
+};
+struct Processor {
+};
+struct PoseLookup {  };
+struct BlendData { int unk00,unk04,unk08,unk0c; void* data; };
+struct RagdollUpdateController {
+ int unk00; bool needsInit; unsigned char unk05; unsigned short unk06; int unk08; int mode;
+ int settings10, settings14, settings18, settings1c, settings20, settings24, settings28, settings2c, settings30, settings34, settings38, settings3c, settings40;
+ bool forceMode; unsigned char unk45; unsigned short unk46;
+ Skeleton* skeleton; Processor* processor; bool active; unsigned char unk51; unsigned short unk52;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+ PoseLookup* lookup;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+ BlendData* blend;
+ void FUN_00c7d030(const Transform48* input);
+};
+extern "C" __m128 _mm_setzero_ps();
+namespace ControllerFloatHardware {
+ extern "C" __m128 _mm_set_ps1(float);
+}
+extern void* DAT_010c4ddc;
+extern const float DAT_010c4df8;
+extern const float DAT_01022958;
+struct RefTarget {
+    virtual void unused();
+    virtual void destroy();
+    volatile long refs;
+};
+struct RefSlot {
+    RefTarget* object;
+    RefSlot():object(0){}
+    ~RefSlot();
+    void clear() { RefTarget* old=object; if(old) { if(!InterlockedDecrement(&old->refs)) old->destroy(); object=0; } }
+};
+struct RefSlotArray {
+    unsigned int data, size, capacity;
+    RefSlotArray():data(0),size(0),capacity(0x80000000){}
+    ~RefSlotArray();
+};
+struct SmallArray {
+    void* vtable; unsigned int data,size,capacity;
+    SmallArray():vtable(&DAT_01071aec),data(0),size(0),capacity(0){}
+    ~SmallArray();
+};
+struct NameSlot {
+    char* name;
+    NameSlot():name(DAT_0109b220){}
+    ~NameSlot();
+};
+struct NamePair { NameSlot name; unsigned int value; NamePair():value(0){} };
+struct PlainArray {
+    unsigned int data,size,capacity,extra;
+    PlainArray():data(0),size(0),capacity(0),extra(0){}
+    ~PlainArray();
+};
+struct __declspec(align(16)) StateRecord {
+    unsigned int unk00;
+    short first,second;
+    float weight;
+    unsigned int unk0c;
+    __m128 position,velocity,rotation;
+    bool active,valid;
+    unsigned short unk42;
+    float time,blend;
+    unsigned int unk4c;
+};
+struct NodeArg {
+    virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual NiNode* get();
+};
+struct TempArray {
+    void* vtable; unsigned int data,size,capacity;
+    TempArray():vtable(&DAT_010c4db8),data(0),size(0),capacity(0){}
+    ~TempArray();
+};
+typedef void (*FreeTemp)(TempArray*,unsigned int);
+TempArray::~TempArray() { vtable=&DAT_010c4db8; if(data) DAT_010c4dc0(this,data); }
+struct ConstructorBase { virtual ~ConstructorBase(); };
+struct LastArray { unsigned int data,size,capacity,extra; LastArray():data(0),size(0),capacity(0),extra(0){} };
+struct ThirdArg { unsigned int value; };
+union NodeOrFlag { NodeArg* node; bool flag; };
+struct VecStore { __m128 value; VecStore& operator=(__m128 other) { value=other; return *this; } };
+union SimdVector { __m128 value; signed char lanes[16]; };
+class FUN_00c7f060 : public ConstructorBase {
+public:
+    bool unk04;
+    unsigned char unk05;
+    unsigned char unk06;
+    unsigned char unk07;
+    float unk08;
+    int unk0c;
+    VecStore unk10;
+    VecStore unk20;
+    VecStore unk30;
+    bool unk40;
+    bool unk41;
+    bool unk42;
+    bool unk43;
+    bool unk44;
+    unsigned char unk45;
+    unsigned char unk46;
+    unsigned char unk47;
+    unsigned int unk48;
+    unsigned int unk4c;
+    bool unk50;
+    unsigned char unk51;
+    unsigned char unk52;
+    unsigned char unk53;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    RefSlot ref84;
+    unsigned int unk88;
+    bool unk8c;
+    unsigned char unk8d;
+    unsigned char unk8e;
+    unsigned char unk8f;
+    unsigned int unk90;
+    RefSlotArray array94;
+    SmallArray arraya0;
+    bool unkb0;
+    bool unkb1;
+    bool unkb2;
+    bool unkb3;
+    bool unkb4;
+    unsigned char unkb5;
+    unsigned char unkb6;
+    unsigned char unkb7;
+    unsigned int unkb8;
+    unsigned int unkbc;
+    __m128 unkc0;
+    __m128 unkd0;
+    __m128 unke0;
+    StateRecord records[2];
+    bool unk190;
+    unsigned char unk191;
+    unsigned char unk192;
+    unsigned char unk193;
+    unsigned int unk194;
+    bool unk198;
+    unsigned char unk199;
+    unsigned char unk19a;
+    unsigned char unk19b;
+    float unk19c;
+    float unk1a0;
+    bool unk1a4;
+    bool unk1a5;
+    unsigned char unk1a6;
+    unsigned char unk1a7;
+    float unk1a8;
+    unsigned int unk1ac;
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    unsigned char unk1bc;
+    bool unk1bd;
+    unsigned char unk1be;
+    unsigned char unk1bf;
+    unsigned int unk1c0;
+    unsigned int unk1c4;
+    unsigned int unk1c8;
+    unsigned int unk1cc;
+    unsigned int unk1d0;
+    unsigned int unk1d4;
+    unsigned int unk1d8;
+    unsigned int unk1dc;
+    unsigned int unk1e0;
+    unsigned int unk1e4;
+    unsigned int unk1e8;
+    unsigned char unk1ec;
+    bool unk1ed;
+    unsigned char unk1ee;
+    unsigned char unk1ef;
+    unsigned int unk1f0;
+    unsigned int unk1f4;
+    unsigned int unk1f8;
+    unsigned int unk1fc;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20c;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    bool unk21c;
+    bool unk21d;
+    bool unk21e;
+    bool unk21f;
+    bool unk220;
+    bool unk221;
+    bool unk222;
+    bool unk223;
+    bool unk224;
+    unsigned char unk225;
+    unsigned char unk226;
+    unsigned char unk227;
+    unsigned int unk228;
+    RefSlotArray array22c;
+    unsigned short unk238;
+    unsigned short unk23a;
+    float unk23c;
+    bool unk240;
+    bool unk241;
+    bool unk242;
+    bool unk243;
+    float unk244;
+    unsigned int unk248;
+    NamePair name24c;
+    bool unk254;
+    bool unk255;
+    bool unk256;
+    unsigned char unk257;
+    unsigned int unk258;
+    unsigned int unk25c;
+    PlainArray array260;
+    unsigned int unk270;
+    unsigned int unk274;
+    unsigned int unk278;
+    float unk27c;
+    float unk280;
+    bool unk284;
+    unsigned char unk285;
+    unsigned char unk286;
+    unsigned char unk287;
+    unsigned int unk288;
+    bool unk28c;
+    bool unk28d;
+    bool unk28e;
+    bool unk28f;
+    float unk290;
+    unsigned int unk294;
+    unsigned int unk298;
+    unsigned int unk29c;
+    NameSlot name2a0;
+    RefSlot ref2a4;
+    LastArray array2a8;
+    unsigned int unk2b8;
+    virtual ~FUN_00c7f060();
+    FUN_00c7f060(NodeArg*,NodeOrFlag,void*);
+};
+// @fnv 0x00c7f060
+FUN_00c7f060::FUN_00c7f060(NodeArg* a,NodeOrFlag b,void* c) {
+    unk23c=0.0f;
+    unk48=0; unk4c=0; unk50=0; unk54=0; unk58=0; unk5c=0;
+    unk240=false; unk241=true; unk242=true;
+    SimdVector zero; zero.value=_mm_setzero_ps();
+    for(int i=0;i<2;++i) {
+        records[i].first=-1; records[i].second=-1;
+        records[i].weight=1.04719758f;
+        records[i].position=zero.value; records[i].velocity=zero.value;
+        records[i].valid=false; records[i].active=true;
+        records[i].rotation=DAT_010c71b0;
+        records[i].time=0.0f; records[i].blend=0.0f;
+    }
+    unkd0=zero.value; unke0=zero.value; unkb4=false; unkc0=DAT_010c71b0;
+    unk1a0=0.0f; unk19c=0.0f; unk1a8=0.0f;
+    unk1a4=false; unk1a5=false;
+    unk42=0; unkb0=0; unk21f=0; unk21c=0;
+    unk41=0; unkb1=0; unk220=0; unk21d=0; unk255=0;
+    unk43=0; unkb2=0; unk221=0; unkb3=0; unk222=0; unk21e=0;
+    unk256=0; unk1bd=0; unk1ed=0; unk228=0; unk254=0;
+    unk190=0; unk194=0;
+    ref84.clear();
+    unk248=0; unk258=-1;
+    ref2a4.clear();
+    unk88=0; unk290=1.0f; unk8c=0; unk28c=0; unk28d=0; unk244=0.0f;
+    unk28e=0; unk28f=0; unk294=0; unk243=0; unk223=0; unk90=0;
+    unk0c=2; unk10=zero.value; unk20=DAT_010c71b0; unk30=ControllerFloatHardware::_mm_set_ps1(1.0f);
+    unk280=10000.0f; unk27c=20.0f; unk23a=0; unk08=0.0f;
+    unk40=0; unk284=1; unk288=-1; unk44=0; unk04=0; unk198=0; unk224=1; unk238=0;
+    NiNode* first=a?a->get():0;
+    NiNode* second=b.node?b.node->get():0;
+    b.flag=false;
+    unsigned int count;
+    if(first && second) count=0; else count=0;
+    TempArray temp;
+    if(first && second) ::FUN_00c7d3b0(first,second,&temp,(char *)(bool *)(&b.flag),&count);
+    reinterpret_cast<::SceneOwner *>(this)->FUN_00c7e9a0((::Argument *)(a),(const char *)(c));
+    ::RestoreNodeTransforms(first,(::SavedNodeArray *)(::TempArray *)(&temp),b.flag,count);
+    unk2b8=0;
+}
+
+namespace InversePositionHardware {
+
+extern "C" __m128 _mm_sub_ps(__m128, __m128);
+}
+extern "C" __m128 _mm_add_ps(__m128, __m128);
+extern "C" __m128 _mm_rcp_ps(__m128);
+
+struct InversePositionVector : Vec4 {
+    void FUN_00c7f840(const Vec4* t, const Vec4* p);
+};
+
+// @fnv 0x00c7f840
+void InversePositionVector::FUN_00c7f840(const Vec4* t, const Vec4* p)
+{
+    const __m128 d = InversePositionHardware::_mm_sub_ps(p->value, t[0].value);
+    const __m128 q = t[1].value;
+    const __m128 w4 = _mm_shuffle_ps(q, q, 0xff);
+    const __m128 qd = _mm_mul_ps(q, d);
+    __m128 dot = _mm_add_ss(_mm_shuffle_ps(qd, qd, 0x55), qd);
+    dot = _mm_add_ss(_mm_shuffle_ps(qd, qd, 0xaa), dot);
+    const __m128 c1 = _mm_mul_ps(_mm_shuffle_ps(q, q, 0xc9), _mm_shuffle_ps(d, d, 0xd2));
+    const __m128 c2 = _mm_mul_ps(_mm_shuffle_ps(q, q, 0xd2), _mm_shuffle_ps(d, d, 0xc9));
+    const __m128 cr = InversePositionHardware::_mm_sub_ps(c2, c1);
+    __m128 r = _mm_mul_ps(_mm_add_ps(_mm_mul_ps(w4, w4), ::DAT_010c71e0), d);
+    r = _mm_add_ps(r, _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q));
+    r = _mm_add_ps(_mm_mul_ps(cr, w4), r);
+    const __m128 v = _mm_add_ps(r, r);
+    value = v;
+    const __m128 s = t[2].value;
+    const __m128 rc = _mm_rcp_ps(s);
+    const __m128 e = _mm_mul_ps(_mm_mul_ps(rc, s), rc);
+    value = _mm_mul_ps(InversePositionHardware::_mm_sub_ps(_mm_add_ps(rc, rc), e), v);
+}
+
+namespace FloatHardware {
+ extern "C" ::__m128 _mm_sub_ps(::__m128,::__m128);
+}
+extern "C" {
+extern ::__m128 _mm_load_ss(float const*);
+extern void _mm_store_ss(float*, ::__m128);
+extern ::__m128 _mm_mul_ps(::__m128, ::__m128);
+extern ::__m128 _mm_add_ps(::__m128, ::__m128);
+extern ::__m128 _mm_add_ss(::__m128, ::__m128);
+extern ::__m128 _mm_unpackhi_ps(::__m128, ::__m128);
+extern ::__m128 _mm_rsqrt_ps(::__m128);
+extern void _mm_prefetch(char const*, int);
+}
+
+typedef ::__m128 hkQuadReal;
+typedef float hkReal;
+
+class VectorComponentValue {
+public:
+    __forceinline VectorComponentValue(const hkQuadReal& x) : m_vValue(x) {}
+    __forceinline VectorComponentValue() {}
+    __forceinline hkQuadReal broadcast() const { return (_mm_shuffle_ps)(m_vValue, m_vValue, 0); }
+    __forceinline const hkQuadReal& getQuad() const { return m_vValue; }
+    hkQuadReal m_vValue;
+};
+typedef const VectorComponentValue& hkSimdRealParameter;
+
+class hkBool {
+public:
+    __forceinline hkBool() {}
+    __forceinline hkBool(bool b) { m_cBooleanValue = (char)b; }
+    __forceinline operator bool() const { return m_cBooleanValue != 0; }
+    char m_cBooleanValue;
+};
+
+class hkQuaternion;
+class hkQsTransform;
+
+class __declspec(align(16)) hkVector4 {
+public:
+    __forceinline hkVector4() {}
+    __forceinline hkQuadReal& getQuad() { return m_vComponents; }
+    __forceinline void operator=(const hkVector4& v) { m_vComponents = v.m_vComponents; }
+    __forceinline void SetAllComponents(hkSimdRealParameter a) { m_vComponents = (_mm_shuffle_ps)(a.getQuad(), a.getQuad(), 0); }
+    __forceinline void add4(const hkVector4& v) { m_vComponents = (_mm_add_ps)(m_vComponents, v.m_vComponents); }
+    __forceinline void setAdd4(const hkVector4& v0, const hkVector4& v1) { m_vComponents = (_mm_add_ps)(v0.m_vComponents, v1.m_vComponents); }
+    __forceinline void setSub4(const hkVector4& v0, const hkVector4& v1) { m_vComponents = (FloatHardware::_mm_sub_ps)(v0.m_vComponents, v1.m_vComponents); }
+    __forceinline void sub4(const hkVector4& v) { m_vComponents = (FloatHardware::_mm_sub_ps)(m_vComponents, v.m_vComponents); }
+    __forceinline void mul4(const hkVector4& v) { m_vComponents = (_mm_mul_ps)(m_vComponents, v.m_vComponents); }
+    __forceinline void setMul4(const hkVector4& a, const hkVector4& b) { m_vComponents = (_mm_mul_ps)(a.m_vComponents, b.m_vComponents); }
+    __forceinline void mul4(hkSimdRealParameter s) { m_vComponents = (_mm_mul_ps)(s.broadcast(), m_vComponents); }
+    __forceinline void addMul4(const hkVector4& x, const hkVector4& y) { m_vComponents = (_mm_add_ps)(m_vComponents, (_mm_mul_ps)(x.m_vComponents, y.m_vComponents)); }
+    __forceinline void setAddMul4(const hkVector4& a, const hkVector4& x, const hkVector4& y) { m_vComponents = (_mm_add_ps)(a.m_vComponents, (_mm_mul_ps)(x.m_vComponents, y.m_vComponents)); }
+    __forceinline void addMul4(hkSimdRealParameter r, const hkVector4& v1) { m_vComponents = (_mm_add_ps)(m_vComponents, (_mm_mul_ps)(r.broadcast(), v1.m_vComponents)); }
+    __forceinline void setCross(const hkVector4& v0, const hkVector4& v1) {
+        hkQuadReal cross0;
+        cross0 = (_mm_mul_ps)((_mm_shuffle_ps)(v0.m_vComponents, v0.m_vComponents, 0xc9), (_mm_shuffle_ps)(v1.m_vComponents, v1.m_vComponents, 0xd2));
+        hkQuadReal cross1;
+        cross1 = (_mm_mul_ps)((_mm_shuffle_ps)(v0.m_vComponents, v0.m_vComponents, 0xd2), (_mm_shuffle_ps)(v1.m_vComponents, v1.m_vComponents, 0xc9));
+        m_vComponents = (FloatHardware::_mm_sub_ps)(cross0, cross1);
+    }
+    __forceinline VectorComponentValue dot3(const hkVector4& a) const {
+        hkQuadReal x2 = (_mm_mul_ps)(m_vComponents, a.m_vComponents);
+        hkQuadReal xySum = (_mm_add_ss)((_mm_shuffle_ps)(x2, x2, 0x55), x2);
+        return (_mm_add_ss)((_mm_shuffle_ps)(x2, x2, 0xaa), xySum);
+    }
+    __forceinline VectorComponentValue lengthSquared3() const { return this->dot3(*this); }
+    __forceinline void setXYZW(const hkVector4& xyz, const hkVector4& w) {
+        m_vComponents = (_mm_shuffle_ps)(xyz.m_vComponents, (_mm_unpackhi_ps)(xyz.m_vComponents, w.m_vComponents), 0xc4);
+    }
+    __forceinline void setSqrtInverse4(const hkVector4& vec) {
+        hkQuadReal r = vec.m_vComponents;
+        hkQuadReal e = (_mm_rsqrt_ps)(r);
+        hkQuadReal he = (_mm_mul_ps)(::DAT_010c71d0, e);
+        hkQuadReal ree = (_mm_mul_ps)((_mm_mul_ps)(r, e), e);
+        m_vComponents = (_mm_mul_ps)(he, (FloatHardware::_mm_sub_ps)(::DAT_010c71c0, ree));
+    }
+    __forceinline VectorComponentValue getSimdAt(int i) const {
+        switch (i) {
+        case 0: return m_vComponents;
+        case 1: return (_mm_shuffle_ps)(m_vComponents, m_vComponents, 0x55);
+        case 2: return (_mm_shuffle_ps)(m_vComponents, m_vComponents, 0xaa);
+        default: return (_mm_shuffle_ps)(m_vComponents, m_vComponents, 0xff);
+        }
+    }
+    __forceinline void broadcast(int i) {
+        if (i == 0) m_vComponents = (_mm_shuffle_ps)(m_vComponents, m_vComponents, 0);
+        else if (i == 1) m_vComponents = (_mm_shuffle_ps)(m_vComponents, m_vComponents, 0x55);
+        else if (i == 2) m_vComponents = (_mm_shuffle_ps)(m_vComponents, m_vComponents, 0xaa);
+        else if (i == 3) m_vComponents = (_mm_shuffle_ps)(m_vComponents, m_vComponents, 0xff);
+    }
+    __forceinline void setBroadcast(const hkVector4& v, int i) {
+        if (i == 0) m_vComponents = (_mm_shuffle_ps)(v.m_vComponents, v.m_vComponents, 0);
+        else if (i == 1) m_vComponents = (_mm_shuffle_ps)(v.m_vComponents, v.m_vComponents, 0x55);
+        else if (i == 2) m_vComponents = (_mm_shuffle_ps)(v.m_vComponents, v.m_vComponents, 0xaa);
+        else if (i == 3) m_vComponents = (_mm_shuffle_ps)(v.m_vComponents, v.m_vComponents, 0xff);
+    }
+    __forceinline void SetRotatedDirection(const hkQuaternion& quat, const hkVector4& direction);
+    __forceinline void _setTransformedPos(const hkQsTransform& a, const hkVector4& b);
+    hkQuadReal m_vComponents;
+};
+
+class __declspec(align(16)) hkQuaternion {
+public:
+    __forceinline hkQuaternion() {}
+    __forceinline const hkVector4& getImag() const { return m_vec; }
+    __forceinline void operator=(const hkQuaternion& q) { m_vec = q.m_vec; }
+    void FUN_00c66320(const hkQuaternion& q0, const hkQuaternion& q1);
+    void FUN_00cd9d10(const hkVector4& from, const hkVector4& to);
+    hkVector4 m_vec;
+};
+
+inline __declspec(noinline) void hkQuaternion::FUN_00c66320(const hkQuaternion& q0, const hkQuaternion& q1) {
+    hkVector4 vec;
+    vec.setCross(q0.getImag(), q1.getImag());
+    vec.addMul4(q0.m_vec.getSimdAt(3), q1.getImag());
+    vec.addMul4(q1.m_vec.getSimdAt(3), q0.getImag());
+    hkVector4 dot;
+    dot.SetAllComponents(q0.m_vec.dot3(q1.m_vec));
+    hkVector4 w;
+    w.setMul4(q0.m_vec, q1.m_vec);
+    w.sub4(dot);
+    m_vec.setXYZW(vec, w);
+}
+
+class __declspec(align(16)) hkQsTransform {
+public:
+    __forceinline hkQsTransform() {}
+    __forceinline const hkVector4& getTranslation() const { return m_vTranslation; }
+    __forceinline const hkQuaternion& getRotation() const { return m_rotation; }
+    __forceinline void SetBodyOrientation(const hkQuaternion& rotation) { m_rotation = rotation; }
+    __forceinline void operator=(const hkQsTransform& t) {
+        m_vTranslation = t.m_vTranslation;
+        m_rotation = t.m_rotation;
+        m_vScale = t.m_vScale;
+    }
+    __forceinline void SetProduct(const hkQsTransform& aTb, const hkQsTransform& bTc) {
+        hkVector4 extraTrans;
+        extraTrans.SetRotatedDirection(aTb.m_rotation, bTc.m_vTranslation);
+        m_vTranslation.setAdd4(aTb.m_vTranslation, extraTrans);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(aTb.m_rotation), (const ::fnv_00c66320::__m128 *)&(bTc.m_rotation), {});
+        m_vScale.setMul4(aTb.m_vScale, bTc.m_vScale);
+    }
+    hkVector4 m_vTranslation;
+    hkQuaternion m_rotation;
+    hkVector4 m_vScale;
+};
+
+__forceinline void hkVector4::SetRotatedDirection(const hkQuaternion& quat, const hkVector4& direction) {
+    hkVector4 minusHalf; minusHalf.getQuad() = ::DAT_010c71e0;
+    hkVector4 qreal;
+    qreal.setBroadcast(quat.m_vec, 3);
+    hkVector4 q2minus1;
+    q2minus1.setAddMul4(minusHalf, qreal, qreal);
+
+    hkVector4 ret;
+    ret.setMul4(direction, q2minus1);
+
+    hkVector4 imagDotDir;
+    imagDotDir.getQuad() = quat.getImag().dot3(direction).getQuad();
+    imagDotDir.broadcast(0);
+    ret.addMul4(imagDotDir, quat.getImag());
+
+    hkVector4 imagCrossDir;
+    imagCrossDir.setCross(quat.getImag(), direction);
+    ret.addMul4(qreal, imagCrossDir);
+
+    this->setAdd4(ret, ret);
+}
+
+__forceinline void hkVector4::_setTransformedPos(const hkQsTransform& a, const hkVector4& b) {
+    hkVector4 temp(b);
+    temp.mul4(a.m_vScale);
+    SetRotatedDirection(a.m_rotation, temp);
+    add4(a.m_vTranslation);
+}
+
+namespace MathUtilities {
+
+    __forceinline void prefetch128(const void* p) { (_mm_prefetch)((const char*)p, 0); }
+}
+template <class T> __forceinline const T* hkAddByteOffsetConst(const T* base, long offset) {
+    return reinterpret_cast<const T*>(reinterpret_cast<const char*>(base) + offset);
+}
+
+class hkMemoryAllocator {
+public:
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void ReturnMemory(void* p, int numBytes);
+    template <class T> __forceinline void _bufFree(void* p, int numElem) { ReturnMemory(p, numElem * sizeof(T)); }
+};
+
+template <class T> class ValueWrapper {
+public:
+    __forceinline void operator=(T e) { m_kStorage = e; }
+    __forceinline T val() const { return m_kStorage; }
+    __forceinline operator T() const { return m_kStorage; }
+    T m_kStorage;
+};
+
+template <class T> __forceinline T* hkAddByteOffset(T* base, long offset) {
+    return reinterpret_cast<T*>(reinterpret_cast<char*>(base) + offset);
+}
+
+struct StringPointerTriple {
+    ValueWrapper<void*> m_next;
+    __forceinline void* allocateStack(int numBytes, const char* what) {
+        void* current = m_next;
+        m_next = hkAddByteOffset(current, numBytes);
+        return current;
+    }
+    __forceinline void deallocateStack(void* p) { m_next = p; }
+};
+
+class NineIntegerRecord {
+public:
+    static __forceinline NineIntegerRecord& GetMonitorStream() { return *(NineIntegerRecord*)FUN_00c85750(); }
+    __forceinline StringPointerTriple& stack() { return m_aiEntries; }
+    __forceinline hkMemoryAllocator& heap() { return *m_pStreamAllocator; }
+    StringPointerTriple m_aiEntries;
+    int unk04, unk08, unk0c;
+    hkMemoryAllocator* m_pStreamAllocator;
+};
+
+template <class T> __forceinline T* hkAllocateStack(int n, const char* what = 0) {
+    NineIntegerRecord& mem = NineIntegerRecord::GetMonitorStream();
+    return static_cast<T*>(mem.stack().allocateStack(((n * (int)sizeof(T)) + 127) & ~127, what));
+}
+template <class T> __forceinline void hkDeallocateStack(T* ptr) {
+    NineIntegerRecord::GetMonitorStream().stack().deallocateStack(static_cast<void*>(ptr));
+}
+
+struct RouterHeapAllocatorProvider {
+    __forceinline hkMemoryAllocator& get(const void*) { return NineIntegerRecord::GetMonitorStream().heap(); }
+};
+
+struct hkTypeIsPod {};
+namespace HavokArrayUtilities {
+
+    template <class T> __forceinline void destruct(T*, int, hkTypeIsPod) {}
+}
+
+template <class T> class HavokElementArray {
+public:
+    __forceinline const T& operator[](int i) const { return m_data[i]; }
+    __forceinline T& operator[](int i) { return m_data[i]; }
+    __forceinline int GetLogicalSize() const { return m_iElementCount; }
+    __forceinline int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
+    __forceinline void clear() { HavokArrayUtilities::destruct(m_data, m_iElementCount, hkTypeIsPod()); m_iElementCount = 0; }
+    __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc) {
+        clear();
+        if ((m_iCapacityState & 0x80000000) == 0) alloc._bufFree<T>(m_data, getCapacity());
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+};
+template <class T> class hkArray : public HavokElementArray<T> {
+public:
+    __forceinline void ClearAndRelease() { HavokElementArray<T>::_clearAndDeallocate(RouterHeapAllocatorProvider().get(this)); }
+};
+template <class T> class StackAllocatedArray : public hkArray<T> {
+public:
+    __forceinline void init(int capacity) {
+        this->m_data = 0;
+        this->m_iElementCount = 0;
+        this->m_iCapacityState = 0x80000000;
+        this->m_data = hkAllocateStack<T>(capacity);
+        this->m_iCapacityState = capacity | 0x80000000;
+        m_pStackAllocation = this->m_data;
+    }
+    __forceinline hkBool wasReallocated() const { return m_pStackAllocation != this->m_data; }
+    __forceinline void destroy() {
+        if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(wasReallocated()))->FUN_005609f0()) hkArray<T>::clear();
+        hkDeallocateStack<T>(m_pStackAllocation);
+        hkArray<T>::ClearAndRelease();
+    }
+    T* m_pStackAllocation;
+};
+
+class hkaSkeleton {
+public:
+    int unk00, unk04, unk08;
+    hkArray<short> m_kParentIndices;
+};
+
+
+template <class T> class ReferenceCountedPointer {
+public:
+    __forceinline T* val() const { return m_pRetainedObject; }
+    __forceinline T* operator->() const { return val(); }
+    __forceinline operator T*() const { return val(); }
+    T* m_pRetainedObject;
+};
+
+class __declspec(align(16)) hkaSkeletonMapperData {
+public:
+    struct __declspec(align(16)) SimpleMapping {
+        short m_sBoneA;
+        short m_sBoneB;
+        hkQsTransform m_kAFromBTransform;
+    };
+    struct __declspec(align(16)) ChainMapping {
+        short m_sStartBoneA;
+        short m_sEndBoneA;
+        short m_sStartBoneB;
+        short m_sEndBoneB;
+        hkQsTransform m_kStartAFromBTransform;
+        hkQsTransform m_kEndAFromBTransform;
+    };
+    ReferenceCountedPointer<const hkaSkeleton> m_pSkeletonA;
+    ReferenceCountedPointer<const hkaSkeleton> m_pSkeletonB;
+    hkArray<SimpleMapping> m_kSimpleMappings;
+    hkArray<ChainMapping> m_kChainMappings;
+    hkArray<short> m_kUnmappedBones;
+    hkQsTransform m_kExtractedMotionMapping;
+    hkBool m_bKeepUnmappedLocal;
+};
+
+struct hkThreadLocalData {
+    unsigned long m_slotID;
+    __forceinline void* getData() const { return TlsGetValue(m_slotID); }
+};
+
+class StringCursor {
+public:
+    static __forceinline StringCursor& GetMonitorStream() { return *(StringCursor*)(*reinterpret_cast<::hkThreadLocalData *>(&::DAT_0126835c)).getData(); }
+    __forceinline char* GetStreamEnd() { return m_kRayEnd.val(); }
+    __forceinline char* getCapacityMinus16() { return m_pCurrentCommand.val(); }
+    __forceinline hkBool memoryAvailable() { return GetStreamEnd() < getCapacityMinus16(); }
+    __forceinline void setEnd(char* ptr) { m_kRayEnd = ptr; }
+    struct Command { const char* m_pCommandName; };
+    struct CommandTimingEntry : public Command {
+        unsigned int m_uiStartTicks;
+        unsigned int m_uiEndTicks;
+        __forceinline void setTime();
+    };
+    struct TimedNameRecord : public CommandTimingEntry {
+        const char* m_pFirst;
+    };
+    ValueWrapper<char*> m_kRayStart;
+    ValueWrapper<char*> m_kRayEnd;
+    ValueWrapper<char*> m_pRayCursor;
+    ValueWrapper<char*> m_pCurrentCommand;
+};
+__forceinline void StringCursor::CommandTimingEntry::setTime() {
+    unsigned int ticks;
+    ticks = (unsigned int)__rdtsc();
+    m_uiStartTicks = ticks;
+}
+
+static __declspec(noinline) void FUN_00ce2a50(hkVector4& a, hkVector4& b) {
+    hkVector4 aLen; aLen.SetAllComponents(a.lengthSquared3());
+    hkVector4 bLen; bLen.SetAllComponents(b.lengthSquared3());
+    hkVector4 lens; lens.setXYZW(aLen, bLen);
+    hkVector4 inv; inv.setSqrtInverse4(lens);
+    a.mul4(inv.getSimdAt(0));
+    b.mul4(inv.getSimdAt(3));
+}
+
+class hkReferencedObject {
+public:
+    virtual ~hkReferencedObject();
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+};
+
+class hkaSkeletonMapper : public hkReferencedObject {
+public:
+    void __cdecl FUN_00ce3a00(const hkQsTransform* poseAModelSpace, const hkQsTransform* originalPoseBLocalSpace, hkQsTransform* poseBModelSpace, int source) const;
+    hkaSkeletonMapperData m_kMappingData;
+};
+// @fnv 0x00c7c870
+void BlendController::FUN_00c7c870() {
+    BlendController* self=this;
+    if (((long long)(::FUN_00aa4d80()))-self->start > self->duration) {
+        reinterpret_cast<::Controller *>((self))->FUN_00c7b6a0(0);
+    } else {
+    BlendSkeleton* skeleton=self->pose->skeleton;
+    int count=skeleton->count;
+    BlendBuffer a(count);
+    BlendTransform* aData=a.data;
+    {
+        BlendBuffer b(count);
+        BlendTransform* bData=b.data;
+        reinterpret_cast<::RagdollMapperC18 *>((self->pose))->FUN_00ce18f0((::hkQsTransformC18 *)(bData),(*(const ::hkQsTransformC18 *)(&self->unk010)));
+        ::FUN_00cddef0((void *)(count),skeleton->getTransforms(),bData,aData);
+    }
+    BlendBuffer c(count);
+    BlendTransform* cData=c.data;
+    BlendBuffer d(count);
+    BlendTransform* dData=d.data;
+    ::CallWithGlobal(count,(int)(skeleton->getTransforms()),(int)(skeleton->getMapping()),(int)(dData));
+    int mappedCount=(int)skeleton->getMapping();
+    reinterpret_cast<::hkaSkeletonMapper *>((self->GetReferenceTimeStep()->source))->FUN_00ce3a00((const ::hkQsTransform *)(self->access->sourceValue()),(const ::hkQsTransform *)(mappedCount),(::hkQsTransform *)(dData),2);
+    ::FUN_00cddef0((void *)(count),skeleton->getTransforms(),dData,cData);
+    int poseCount=self->pose->count;
+    for(int i=0;i<poseCount;++i) {
+        int index=self->GetReferenceTimeStep()->ragdoll->bones.find((unsigned short)i);
+        if(index!=-1) {
+            __declspec(align(16)) char components[sizeof(BlendQuat)];
+            BlendQuat& q=*(BlendQuat*)components;
+            q.FUN_00cb2850(aData[i].translation,cData[i].translation,self->blend);
+            cData[i].translation=q;
+        }
+    }
+    ::CallWithGlobal(count,(int)(skeleton->getTransforms()),(int)(cData),(int)(dData));
+    int v=self->access->valueA();
+    int w=self->access->valueB();
+    reinterpret_cast<::hkaSkeletonMapper *>((self->GetReferenceTimeStep()->dest))->FUN_00ce3a00((const ::hkQsTransform *)((int)dData),(const ::hkQsTransform *)(w),(::hkQsTransform *)(::BlendTransform *)((BlendTransform*)v),2);
+    reinterpret_cast<::FUN_00cd9fe0_cls *>((self->access))->FUN_00cd9fe0();
+    }
+}
+struct FUN_00cdb3e0_cls
+{
+    char pad[0x2c];
+    void FUN_00cdb3e0();
+};
+// @fnv 0x00c7d030
+void RagdollUpdateController::FUN_00c7d030(const Transform48* input) {
+ SkeletonData* data=skeleton->getData();
+ int count=data->getCount();
+ ScratchTransforms outputStorage(count);
+ Transform48* output=outputStorage.begin();
+ ScratchTransforms poseStorage(count);
+ Transform48* pose=poseStorage.begin();
+ int oldMode=mode;
+ if(forceMode) mode=1;
+ if(needsInit) { ::UpdateEntriesByKind((::ObjectContext *)(skeleton)); needsInit=false; }
+ if(!input) {
+  ::CallWithGlobal(count,(int)((void*)data->getParents()),(int)((void*)data->getPoses()),(int)(pose));
+  void* referencePoses=(void*)data->getPoses();
+  void* poseTrack=*((void **)(reinterpret_cast<::FUN_00cda8d0_class *>((lookup))->FUN_00cda8d0()));
+  BlendData* currentBlend=blend;
+  reinterpret_cast<::hkaSkeletonMapper *>((currentBlend->data))->FUN_00ce3a00((const ::hkQsTransform *)(poseTrack),(const ::hkQsTransform *)(referencePoses),(::hkQsTransform *)(pose),2);
+  if(mode!=1) { void* bones=(void*)data->getParents(); ::FUN_00cddef0((void *)(count),bones,pose,output); }
+ } else {
+  for(int i=0;i<count;++i) outputStorage[i]=input[i];
+ }
+ switch(mode) {
+ case 3: ::EnableBehaviorsByKind((::InputMap *)(skeleton)); ::FUN_00c7a410((::S_c7a410_Obj *)(skeleton),(char *)(output)); mode=0; break;
+ case 2:
+  if(active) { reinterpret_cast<::FUN_00cdb3e0_cls *>((processor))->FUN_00cdb3e0(); active=false; }
+  if(DAT_011afe64>0.0f) {
+   IntBuffer results(count);
+   reinterpret_cast<::fnv_00cdb7c0::Obj *>((processor))->FUN_00cdb7c0(DAT_011afe64,(::fnv_00cdb7c0::Mat *)(output),(*(const ::fnv_00cdb7c0::Mat *)(&settings10)),(int)(results.begin()));
+   bool fast=false;
+   for(int index=0;index<skeleton->getNumBones();++index) {
+    if(fast) break;
+    {
+     BoneState* state=skeleton->getBody(index);
+     if(state) {
+      float magnitude=state->velocity.lengthSquared();
+      float limit=state->scaleIndex;
+      limit=limit*limit;
+      fast=magnitude>limit;
+     }
+    }
+   }
+   if(fast) { reinterpret_cast<::fnv_00ce1ad0::RagInstance *>((skeleton))->FUN_00ce1ad0((const ::fnv_00ce1ad0::RagQsTransform *)(pose),(*(const ::fnv_00ce1ad0::RagQsTransform *)(&settings10))); active=true; }
+  }
+  break;
+ case 1: { Skeleton* current=skeleton; reinterpret_cast<::fnv_00ce1ad0::RagInstance *>((current))->FUN_00ce1ad0((const ::fnv_00ce1ad0::RagQsTransform *)(pose),(*(const ::fnv_00ce1ad0::RagQsTransform *)(&settings10))); break; }
+ }
+ if(forceMode) { mode=oldMode; forceMode=false; }
+}
+
+// @fnv 0x00ce3a00
+void __cdecl hkaSkeletonMapper::FUN_00ce3a00(const hkQsTransform* poseAModelSpace, const hkQsTransform* originalPoseBLocalSpace, hkQsTransform* poseBModelSpace, int source) const {
+    {
+        StringCursor& mStream = StringCursor::GetMonitorStream();
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
+            StringCursor::TimedNameRecord* h = reinterpret_cast<StringCursor::TimedNameRecord*>(mStream.GetStreamEnd());
+            h->m_pCommandName = "LtMapPoseModelSpace";
+            h->m_pFirst = "Stinit";
+            h->setTime();
+            mStream.setEnd((char*)(h + 1));
+        }
+    }
+    {
+        StringCursor& mStream = StringCursor::GetMonitorStream();
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
+            StringCursor::CommandTimingEntry* h = reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());
+            h->m_pCommandName = "StsimpleMappings";
+            h->setTime();
+            mStream.setEnd((char*)(h + 1));
+        }
+    }
+    {
+        const int numSimpleMappings = m_kMappingData.m_kSimpleMappings.GetLogicalSize();
+        for (int i = 0; i < numSimpleMappings; i++) {
+            const int prefetchDistance = 128;
+            MathUtilities::prefetch128(hkAddByteOffsetConst(&m_kMappingData.m_kSimpleMappings[i], prefetchDistance));
+            const hkaSkeletonMapperData::SimpleMapping& simpleMapping = m_kMappingData.m_kSimpleMappings[i];
+            poseBModelSpace[simpleMapping.m_sBoneB].SetProduct(poseAModelSpace[simpleMapping.m_sBoneA], simpleMapping.m_kAFromBTransform);
+            MathUtilities::prefetch128(hkAddByteOffsetConst(&poseAModelSpace[simpleMapping.m_sBoneA], prefetchDistance));
+            MathUtilities::prefetch128(hkAddByteOffsetConst(&poseBModelSpace[simpleMapping.m_sBoneB], prefetchDistance));
+        }
+    }
+    {
+        StringCursor& mStream = StringCursor::GetMonitorStream();
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
+            StringCursor::CommandTimingEntry* h = reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());
+            h->m_pCommandName = "StchainMappings";
+            h->setTime();
+            mStream.setEnd((char*)(h + 1));
+        }
+    }
+    {
+        const int numChainMappings = m_kMappingData.m_kChainMappings.GetLogicalSize();
+        for (int i = 0; i < numChainMappings; i++) {
+            const hkaSkeletonMapperData::ChainMapping& chainMapping = m_kMappingData.m_kChainMappings[i];
+            const short startBoneA = chainMapping.m_sStartBoneA;
+            const short endBoneA = chainMapping.m_sEndBoneA;
+            const short startBoneB = chainMapping.m_sStartBoneB;
+            const short endBoneB = chainMapping.m_sEndBoneB;
+
+            poseBModelSpace[startBoneB].SetProduct(poseAModelSpace[startBoneA], chainMapping.m_kStartAFromBTransform);
+
+            StackAllocatedArray<short> chainBones;
+            chainBones.init(endBoneB - startBoneB + 1);
+            ::WalkChainUntilLimit((unsigned char *)&(*m_kMappingData.m_pSkeletonB), (::ScanRec *)(startBoneB), endBoneB, (short)&(chainBones), {});
+
+            hkVector4 currentEndModelSpacePos;
+            currentEndModelSpacePos = originalPoseBLocalSpace[endBoneB].getTranslation();
+            for (int b = chainBones.GetLogicalSize() - 2; b >= 1; b--) {
+                const short bone = chainBones[b];
+                currentEndModelSpacePos._setTransformedPos(originalPoseBLocalSpace[bone], currentEndModelSpacePos);
+            }
+            currentEndModelSpacePos._setTransformedPos(poseBModelSpace[startBoneB], currentEndModelSpacePos);
+
+            {
+                const hkVector4& startModelSpacePos = poseBModelSpace[startBoneB].getTranslation();
+                hkQsTransform desiredEndModelSpace;
+                desiredEndModelSpace.SetProduct(poseAModelSpace[endBoneA], chainMapping.m_kEndAFromBTransform);
+                const hkVector4& desiredEndModelSpacePos = desiredEndModelSpace.getTranslation();
+
+                hkVector4 currentDirection; currentDirection.setSub4(currentEndModelSpacePos, startModelSpacePos);
+                hkVector4 desiredDirection; desiredDirection.setSub4(desiredEndModelSpacePos, startModelSpacePos);
+                FUN_00ce2a50(currentDirection, desiredDirection);
+
+                hkQuaternion rotationQuaternion;
+                rotationQuaternion.FUN_00cd9d10(currentDirection, desiredDirection);
+
+                hkQuaternion currentRot = poseBModelSpace[startBoneB].getRotation();
+                hkQuaternion temp;
+                ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(temp), (void *)&(rotationQuaternion), (const ::fnv_00c66320::__m128 *)&(currentRot), {});
+                poseBModelSpace[startBoneB].SetBodyOrientation(temp);
+            }
+
+            for (int b = 1; b < chainBones.GetLogicalSize() - 1; b++) {
+                const short childIdx = chainBones[b];
+                const short parentIdx = chainBones[b - 1];
+                const hkQsTransform& parentFromChild = originalPoseBLocalSpace[childIdx];
+                const hkQsTransform& modelFromParent = poseBModelSpace[parentIdx];
+                poseBModelSpace[childIdx].SetProduct(modelFromParent, parentFromChild);
+            }
+            chainBones.destroy();
+        }
+    }
+    {
+        StringCursor& mStream = StringCursor::GetMonitorStream();
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
+            StringCursor::CommandTimingEntry* h = reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());
+            h->m_pCommandName = "StunmappedBones";
+            h->setTime();
+            mStream.setEnd((char*)(h + 1));
+        }
+    }
+    {
+        const int numUnmapped = m_kMappingData.m_kUnmappedBones.GetLogicalSize();
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(m_kMappingData.m_bKeepUnmappedLocal))->FUN_005609f0()) {
+            for (int i = 0; i < numUnmapped; i++) {
+                const short boneIdx = m_kMappingData.m_kUnmappedBones[i];
+                const short parentIdx = m_kMappingData.m_pSkeletonB->m_kParentIndices[boneIdx];
+                if (parentIdx != -1) {
+                    const hkQsTransform& parentFromChild = originalPoseBLocalSpace[boneIdx];
+                    const hkQsTransform& modelFromParent = poseBModelSpace[parentIdx];
+                    poseBModelSpace[boneIdx].SetProduct(modelFromParent, parentFromChild);
+                } else {
+                    poseBModelSpace[boneIdx] = originalPoseBLocalSpace[boneIdx];
+                }
+            }
+        }
+    }
+    {
+        StringCursor& mStream = StringCursor::GetMonitorStream();
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
+            StringCursor::CommandTimingEntry* h = reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());
+            h->m_pCommandName = "StenforceConstraints";
+            h->setTime();
+            mStream.setEnd((char*)(h + 1));
+        }
+    }
+    switch (source) {
+    case 1:
+        ::FUN_00cde1d0((const ::hkaSkeleton *)&(*m_kMappingData.m_pSkeletonB), poseBModelSpace);
+        break;
+    case 2:
+        ::FUN_00cde2d0((::SkinXformSet *)&(*m_kMappingData.m_pSkeletonB), (const ::SkinXformEntry *)(originalPoseBLocalSpace), (::SkinXformEntry *)(poseBModelSpace));
+        break;
+    }
+    {
+        StringCursor& mStream = StringCursor::GetMonitorStream();
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
+            StringCursor::CommandTimingEntry* h = reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());
+            h->m_pCommandName = "lt";
+            h->setTime();
+            mStream.setEnd((char*)(h + 1));
+        }
+    }
+}
+
+// ---- Gamebryo / game helpers ----
+void* __cdecl NiMalloc(unsigned int size);
+void __cdecl NiFree(void* p);
+
+struct MM {
+};
+extern MM _g_memoryManager;
+typedef RecordHardware::__m128 ReviewedVector;
+struct ReviewedRTTI { const char* name; ReviewedRTTI* parent; };
+struct ReviewedNode {
+    virtual void slot00();
+    virtual void slot04();
+    virtual ReviewedRTTI* GetRTTI();
+    virtual ReviewedNode* GetChildrenNode();
+    virtual void slot10();
+    virtual void slot14();
+    virtual void slot18();
+    virtual void slot1C();
+    virtual void slot20();
+    virtual void slot24();
+    virtual void slot28();
+    virtual void slot2C();
+    virtual void slot30();
+    virtual void slot34();
+    virtual void slot38();
+    virtual ReviewedNode* GetObject();
+    bool IsKindOfType(const ReviewedRTTI* target) {
+        for (ReviewedRTTI* type = GetRTTI(); type; type = type->parent)
+            if (type == target) return true;
+        return false;
+    }
+    unsigned int unk04;
+    unsigned int value;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int key;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    float transform00; float transform04; float transform08; float transform0C;
+    float transform10; float transform14; float transform18; float transform1C;
+    float transform20; float transform24; float transform28; float transform2C;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6C;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7C;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8C;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9C;
+    ReviewedNode** children;
+    unsigned short capacity;
+    unsigned short count;
+};
+struct ReviewedRecord {
+    unsigned int value;
+    unsigned int unk04; unsigned int unk08; unsigned int unk0C;
+    ReviewedVector transform0;
+    ReviewedVector transform1;
+    ReviewedVector transform2;
+    unsigned short index;
+    static void* operator new(std::size_t size) {
+        unsigned char* allocation = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&(DAT_011f6238))->FUN_00aa3e40(size + 16);
+        unsigned char adjustment = 16 - ((unsigned int)allocation & 15);
+        allocation += adjustment;
+        allocation[-1] = adjustment;
+        return allocation;
+    }
+};
+struct ReviewedArray {
+    unsigned int unk00;
+    ReviewedRecord** data;
+    unsigned short count;
+    unsigned short capacity;
+};
+struct ReviewedNodeArray {
+    unsigned int unk00;
+    ReviewedNode** data;
+    void Add(ReviewedNode* node) { data[reinterpret_cast<::FUN_00761540_cls *>(this)->FUN_00761540()] = node; }
+};
+struct ReviewedSettings {
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3C;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4C;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5C;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6C;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7C;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8C;
+    unsigned int unk90;
+    unsigned int unk94;
+    float scale;
+};
+struct ReviewedContext {
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3C;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4C;
+    unsigned int unk50;
+    unsigned int unk54;
+    ReviewedSettings* settings;
+    unsigned int unk5C;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6C;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7C;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8C;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9C;
+    ReviewedNodeArray nodes;
+    void FUN_00c7b4f0(ReviewedNode*, ReviewedArray*, ReviewedContext*);
+};
+
+namespace SkeletonBuild {
+
+
+// ---- Havok memory ----
+struct hkMemoryAllocator {
+    virtual ~hkMemoryAllocator();
+    virtual void* AllocateMemoryBlock(int numBytes);
+    virtual void ReleaseBlock(void* p, int numBytes);
+};
+struct NineIntegerRecord {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    hkMemoryAllocator* heap;
+};
+const char* __cdecl FUN_00cb1410(int name);
+
+inline hkMemoryAllocator* HeapAllocator()
+{
+    NineIntegerRecord* r = reinterpret_cast<NineIntegerRecord*>(FUN_00c85750());
+    return r->heap;
+}
+
+template<class T> struct HkArray {
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    HkArray() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
+    ~HkArray()
+    {
+        destruct(m_data, m_iElementCount);
+        m_iElementCount = 0;
+        if (m_iCapacityState >= 0)
+            HeapAllocator()->ReleaseBlock(m_data, getCapacity() * sizeof(T));
+    }
+    int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
+    __forceinline void reserve(int n)
+    {
+        hkMemoryAllocator* alloc = HeapAllocator();
+        if (getCapacity() < n) {
+            int cap2 = getCapacity() * 2;
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), n < cap2 ? cap2 : n, sizeof(T));
+        }
+    }
+    __forceinline void reserveExactly(int n)
+    {
+        hkMemoryAllocator* alloc = HeapAllocator();
+        if (getCapacity() < n)
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), n, sizeof(T));
+    }
+    __forceinline void setSizePod(int n)
+    {
+        reserve(n);
+        m_iElementCount = n;
+    }
+    __forceinline void setSizeFill(int n, int fill)
+    {
+        reserve(n);
+        int count = n - m_iElementCount;
+        int* p = reinterpret_cast<int*>(m_data + m_iElementCount);
+        for (int i = 0; i < count; ++i)
+            p[i] = fill;
+        m_iElementCount = n;
+    }
+    static __forceinline void destruct(T* t, int n)
+    {
+        for (int i = 0; i < n; ++i)
+            t[i].~T();
+    }
+    static __forceinline void construct(T* t, int n)
+    {
+        for (int i = 0; i < n; ++i)
+            new (t + i) T;
+    }
+    __forceinline void setSizeObj(int n)
+    {
+        reserve(n);
+        destruct(m_data + n, m_iElementCount - n);
+        construct(m_data + m_iElementCount, n - m_iElementCount);
+        m_iElementCount = n;
+    }
+    __forceinline int GetLogicalSize() const { return m_iElementCount; }
+    T& operator[](int i) { return m_data[i]; }
+};
+
+namespace SkeletonBuildHardware {
+
+union __declspec(intrin_type) __declspec(align(16)) __m128 {
+    float x, y, z, w;
+};
+}
+
+struct hkVector4 {
+    SkeletonBuildHardware::__m128 m_vComponents;
+    void operator=(const hkVector4& v) { m_vComponents = v.m_vComponents; }
+};
+struct hkBool {
+    char m_cBooleanValue;
+    hkBool() {}
+    hkBool(bool b) : m_cBooleanValue(b) {}
+    hkBool& operator=(bool b) { m_cBooleanValue = b; return *this; }
+};
+struct hkQsTransform {
+    hkVector4 m_vTranslation;
+    hkVector4 m_rotation;
+    hkVector4 m_vScale;
+    void operator=(const hkQsTransform& t) {
+        m_vTranslation = t.m_vTranslation;
+        m_rotation = t.m_rotation;
+        m_vScale = t.m_vScale;
+    }
+};
+
+struct hkStringPtr {
+    const char* m_pcText;
+    hkStringPtr() { new ((void *)this) struct ::FUN_00cb0a60(); }
+    ~hkStringPtr() { ::FUN_00cb0c00((int)this); }
+};
+
+struct hkaBone {
+    hkStringPtr m_name;
+    hkBool m_bLockTranslation;
+    hkaBone() { m_bLockTranslation = false; }
+};
+
+struct hkReferencedObject {
+    short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+    __forceinline hkReferencedObject() { m_sReferenceCount = 1; }
+    virtual ~hkReferencedObject() {}
+    void* operator new(std::size_t n)
+    {
+        hkReferencedObject* b = static_cast<hkReferencedObject*>(HeapAllocator()->AllocateMemoryBlock(n));
+        b->m_usMemSizeAndFlags = static_cast<short>(n);
+        return b;
+    }
+    void operator delete(void* p, std::size_t n) { HeapAllocator()->ReleaseBlock(p, n); }
+};
+
+struct hkaSkeleton : hkReferencedObject {
+    hkStringPtr m_name;
+    HkArray<short> m_kParentIndices;
+    HkArray<hkaBone> m_kBones;
+    HkArray<hkQsTransform> m_kReferencePose;
+    HkArray<float> m_referenceFloats;
+    HkArray<hkStringPtr> m_kBoneNames;
+    __forceinline hkaSkeleton() {}
+    virtual ~hkaSkeleton();
+};
+
+struct SkeletonPoseData {
+    const hkaSkeleton* m_pSkeleton;
+    HkArray<hkQsTransform> m_pLocalPose;
+    HkArray<hkQsTransform> m_pModelPose;
+    HkArray<unsigned int> m_pBoneFlags;
+    hkBool m_bPoseFlag;
+    hkBool m_bPoseInitialized;
+    HkArray<float> m_kPoseData;
+
+    void* operator new(std::size_t n) { return HeapAllocator()->AllocateMemoryBlock(n); }
+    void operator delete(void* p, std::size_t n) { HeapAllocator()->ReleaseBlock(p, n); }
+
+    __forceinline SkeletonPoseData(const hkaSkeleton* skeleton) : m_pSkeleton(skeleton), m_bPoseFlag(false), m_bPoseInitialized(false)
+    {
+        const int numBones = m_pSkeleton->m_kBones.GetLogicalSize();
+        m_pModelPose.setSizePod(numBones);
+        m_pLocalPose.setSizePod(numBones);
+        m_pBoneFlags.setSizePod(numBones);
+        m_kPoseData.reserveExactly((m_pSkeleton->m_referenceFloats.GetLogicalSize() + 3) & ~3);
+        m_kPoseData.setSizeFill(m_pSkeleton->m_referenceFloats.GetLogicalSize(), 0);
+    }
+};
+
+// ---- gathered bone records ----
+struct BoneRecord {
+    int name;
+    int unk04;
+    int unk08;
+    int unk0c;
+    hkQsTransform transform;
+    short parent;
+};
+
+struct BoneRecordArray {
+    BoneRecord** m_pBase;
+    unsigned int m_uiSize;
+    unsigned int m_uiMaxSize;
+    BoneRecordArray() : m_pBase(0), m_uiSize(0), m_uiMaxSize(0) {}
+    virtual ~BoneRecordArray()
+    {
+        if (m_pBase)
+            Free(m_pBase);
+    }
+    virtual void* Alloc(unsigned int n);
+    __declspec(dllimport) virtual void Free(void* p);
+    void RemoveAll()
+    {
+        if (m_pBase) {
+            Free(m_pBase);
+            m_pBase = 0;
+            m_uiMaxSize = 0;
+            m_uiSize = 0;
+        }
+    }
+};
+
+struct NiTMapItemStub {
+    NiTMapItemStub* m_pkNext;
+    int m_key;
+    int m_val;
+};
+
+struct NiTMapBaseStub {
+    unsigned int m_uiHashSize;
+    NiTMapItemStub** m_ppkHashTable;
+    unsigned int m_uiCount;
+    NiTMapBaseStub(unsigned int uiHashSize = 37)
+    {
+        m_uiHashSize = uiHashSize;
+        m_uiCount = 0;
+        unsigned int uiSize = sizeof(NiTMapItemStub*) * m_uiHashSize;
+        m_ppkHashTable = static_cast<NiTMapItemStub**>(NiMalloc(uiSize));
+        unsigned int bytes = m_uiHashSize * sizeof(NiTMapItemStub*);
+        std::memset(m_ppkHashTable, 0, bytes);
+    }
+    virtual ~NiTMapBaseStub()
+    {
+        reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
+        NiFree(m_ppkHashTable);
+    }
+    virtual unsigned int KeyToHashIndex(int key) const;
+    void RemoveAll();
+};
+
+struct BoneRecordMap : NiTMapBaseStub {
+    BoneRecordMap() {}
+    virtual ~BoneRecordMap() { reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0(); }
+};
+
+template<class T> struct PlainPtr {
+    T* ptr;
+    T* operator->() const { return ptr; }
+    operator T*() const { return ptr; }
+    T* operator=(T* p) { ptr = p; return p; }
+};
+struct SkeletonHolder {
+    int unk00;
+    int unk04;
+    int unk08;
+    hkaSkeleton* m_pSkeleton;
+};
+
+struct BuildNode {
+    int key;
+    int unk04;
+    void* payload;
+};
+
+struct AnimationOwner {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    void* root;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    SkeletonPoseData* pose;
+    int unk08c;
+    int unk090;
+    HkArray<hkQsTransform> transforms;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    PlainPtr<SkeletonHolder> skeletonHolder;
+
+    void FUN_00c7e3b0();
+public:
+    void FUN_00c7b4f0(void* node, BoneRecordArray* records, BoneRecordMap* map);
+};
+
+// @fnv 0x00c7e3b0
+void AnimationOwner::FUN_00c7e3b0()
+{
+    if (!root)
+        return;
+
+    void* node = ((::SkeletonBuild::BuildNode *)(::FUN_00c802d0((::MyNode *)(root))))->payload;
+    BoneRecordArray records;
+    BoneRecordMap map;
+    reinterpret_cast<::ReviewedContext *>(this)->FUN_00c7b4f0((::ReviewedNode *)(node), (::ReviewedArray *)(::SkeletonBuild::BoneRecordArray *)(&records), (::ReviewedContext *)(::SkeletonBuild::BoneRecordMap *)(&map));
+
+    SkeletonHolder* holder = skeletonHolder;
+    if (!holder->m_pSkeleton) {
+        skeletonHolder->m_pSkeleton = new hkaSkeleton;
+        int numBones = records.m_uiSize;
+        skeletonHolder->m_pSkeleton->m_kBones.setSizeObj(numBones);
+        skeletonHolder->m_pSkeleton->m_kParentIndices.setSizePod(numBones);
+        skeletonHolder->m_pSkeleton->m_kReferencePose.setSizePod(numBones);
+        for (unsigned int i = 0; i < records.m_uiSize; ++i) {
+            hkaBone& bone = skeletonHolder->m_pSkeleton->m_kBones[i];
+            reinterpret_cast<::SStringPtr *>(&(bone.m_name))->FUN_00cb0c10(FUN_00cb1410(records.m_pBase[i]->name));
+            skeletonHolder->m_pSkeleton->m_kBones[i].m_bLockTranslation = true;
+            skeletonHolder->m_pSkeleton->m_kReferencePose[i] = records.m_pBase[i]->transform;
+            skeletonHolder->m_pSkeleton->m_kParentIndices[i] = records.m_pBase[i]->parent;
+        }
+    }
+
+    for (unsigned int i = 0; i < records.m_uiSize; ++i) {
+        BoneRecord* r = records.m_pBase[i];
+        if (r)
+            reinterpret_cast<::FNV_MemoryManager *>(&(_g_memoryManager))->FUN_00aa4060(reinterpret_cast<char*>(r) - reinterpret_cast<unsigned char*>(r)[-1]);
+    }
+    records.RemoveAll();
+
+    pose = new SkeletonPoseData(skeletonHolder->m_pSkeleton);
+    ::fnv_00cda110::FUN_00cda110((::fnv_00cda110::S *)(pose));
+    transforms.setSizePod(skeletonHolder->m_pSkeleton->m_kBones.GetLogicalSize());
+}
+} // namespace SkeletonBuild
+
+
+struct MemoryManager
+{
+    void* Deallocate(void*);
+};
+extern MemoryManager g_memoryManager;
+
+// @fnv 0x00c7fa60
+void* __cdecl FUN_00c7fa60()
+{
+    return &(*reinterpret_cast<void * *>(&::g_012685f8));
+}
+
+void __cdecl FUN_00cc58c0();
+
+struct FUN_00c7fa70_Class
+{
+    void* FUN_00c7fa70(int);
+};
+
+// @fnv 0x00c7fa70
+void* FUN_00c7fa70_Class::FUN_00c7fa70(int flags)
+{
+    FUN_00cc58c0();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x10);
+    return this;
+}
+
+extern "C" void __cdecl FUN_0062d4b0();
+
+// @fnv 0x00cb9900
+void FUN_00cb9900_cls::FUN_00cb9900()
+{
+    *(int*)this = (int)&DAT_01084e54;
+    FUN_0062d4b0();
+}
+
+void __cdecl FUN_00cd9fe0();
+
+struct FUN_00cda4b0_cls
+{
+    void FUN_00cda4b0();
+};
+
+// @fnv 0x00cda4b0
+void FUN_00cda4b0_cls::FUN_00cda4b0()
+{
+    static_cast<::fnv_00cda340::SkeletonPoseData *>(nullptr)->FUN_00cda340();
+    ((void(*)(void*))FUN_00cd9fe0)(this);
+}
+
+
+// @fnv 0x00cda8d0
+void* FUN_00cda8d0_class::FUN_00cda8d0()
+{
+    reinterpret_cast<::fnv_00cda340::SkeletonPoseData *>(this)->FUN_00cda340();
+    return (char*)this + 0x10;
+}
+
+struct StateResetPart;
+class hkQuaternionCDA;
+class hkVector4CDA
+{
+  public:
+    union
+    {
+        __m128 m_vComponents;
+        struct
+        {
+            float x, y, z, w;
+        };
+    };
+
+    __forceinline hkVector4CDA& operator=(const hkVector4CDA& v)
+    {
+        m_vComponents = v.m_vComponents;
+        return *this;
+    }
+
+    __forceinline void setAdd4(const hkVector4CDA& a, const hkVector4CDA& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void add4(const hkVector4CDA& a)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents);
+    }
+    __forceinline void setMul4(const hkVector4CDA& a, const hkVector4CDA& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void addMul4(const hkVector4CDA& a, const hkVector4CDA& b)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(a.m_vComponents, b.m_vComponents));
+    }
+    __forceinline void addMul4(__m128 s, const hkVector4CDA& b)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(_mm_shuffle_ps(s, s, 0), b.m_vComponents));
+    }
+    __forceinline void setNeg4(const hkVector4CDA& a)
+    {
+        m_vComponents = _mm_xor_ps(a.m_vComponents, ::DAT_010c44d0);
+    }
+    static __forceinline __m128 crossValue(__m128 a, __m128 b)
+    {
+        return _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9), _mm_shuffle_ps(b, b, 0xd2)),
+                          _mm_mul_ps(_mm_shuffle_ps(a, a, 0xd2), _mm_shuffle_ps(b, b, 0xc9)));
+    }
+    __forceinline void setCross(const hkVector4CDA& v1, const hkVector4CDA& v2)
+    {
+        m_vComponents = crossValue(v1.m_vComponents, v2.m_vComponents);
+    }
+    __forceinline __m128 dot3(const hkVector4CDA& v) const
+    {
+        __m128 x2 = _mm_mul_ps(m_vComponents, v.m_vComponents);
+        __m128 sum = _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 1, 1, 1)), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(2, 2, 2, 2)), sum);
+    }
+    __forceinline void setReciprocal4(const hkVector4CDA& v)
+    {
+        __m128 r = _mm_rcp_ps(v.m_vComponents);
+        __m128 rr = _mm_mul_ps(_mm_mul_ps(r, v.m_vComponents), r);
+        m_vComponents = _mm_sub_ps(_mm_add_ps(r, r), rr);
+    }
+    void SetRotatedDirection(const hkQuaternionCDA& q, const hkVector4CDA& dir);
+    void setRotatedInverseDir(const hkQuaternionCDA& q, const hkVector4CDA& dir);
+};
+class hkQsTransformCDA
+{
+  public:
+    hkVector4CDA m_vTranslation;
+    hkQuaternionCDA m_rotation;
+    hkVector4CDA m_vScale;
+
+    __forceinline void SetConjugate(const hkQsTransformCDA& t)
+    {
+        m_vTranslation.setRotatedInverseDir(t.m_rotation, t.m_vTranslation);
+        m_vTranslation.setNeg4(m_vTranslation);
+        m_rotation.SetConjugate(t.m_rotation);
+        hkVector4CDA s;
+        s.m_vComponents = _mm_shuffle_ps(
+            t.m_vScale.m_vComponents, _mm_unpackhi_ps(t.m_vScale.m_vComponents, DAT_010c7170), _MM_SHUFFLE(3, 0, 1, 0));
+        m_vScale.setReciprocal4(s);
+        m_vScale.m_vComponents = _mm_and_ps(m_vScale.m_vComponents, DAT_010c4c10);
+    }
+    __forceinline void SetProduct(const hkQsTransformCDA& t1, const hkQsTransformCDA& t2)
+    {
+        hkVector4CDA temp;
+        temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
+        m_vTranslation.setAdd4(temp, t1.m_vTranslation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
+    }
+    __forceinline void SetMulInverse(const hkQsTransformCDA& a, const hkQsTransformCDA& b)
+    {
+        hkQsTransformCDA h;
+        h.SetConjugate(a);
+        SetProduct(h, b);
+    }
+};
+struct hkaSkeletonCDA
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    short* m_kParentIndices;
+    int m_parentIndicesSize;
+    int m_parentIndicesCap;
+    int unk18;
+    int m_iBoneCount;
+};
+class hkaPoseCDA
+{
+  public:
+    enum
+    {
+        F_DIRTY_LOCAL = 0x1,
+        F_DIRTY_MODEL = 0x2
+    };
+    hkaSkeletonCDA* m_pSkeleton;
+    hkQsTransformCDA* m_pLocalPose;
+    int m_localPoseSize;
+    int m_localPoseCap;
+    hkQsTransformCDA* m_pModelPose;
+    int m_modelPoseSize;
+    int m_modelPoseCap;
+    unsigned int* m_pBoneFlags;
+    int m_boneFlagsSize;
+    int m_boneFlagsCap;
+    bool m_bPoseFlag;
+    bool m_bPoseInitialized;
+
+    void FUN_00cda690();
+public:
+    ::hkQsTransformCDA &FUN_00cdad80(int, int);
+};
+// @fnv 0x00cdb290
+void* FUN_00cdb290::GetPlus4()
+{
+    reinterpret_cast<::hkaPoseCDA *>(this)->FUN_00cda690();
+    return (char*)this + 4;
+}
+
+Holder* _FUN_00c85750();
+struct Outer
+{
+    int _0;
+    unsigned short _4;
+    void FUN_00c7dc40();
+    Outer* FUN_00c7e970(unsigned int);
+};
+struct MyNode
+{
+    virtual void f0();
+    virtual void f1();
+    virtual void f2();
+    virtual int Pred();
+    char _pad0[0x8];
+    unsigned short unk0c;
+    char pad0e[0x2];
+    char* unk10;
+    char pad14[0x8];
+    MyNode* field_1c;
+    char _pad1[0x80];
+    MyNode** children;
+    char _pad2[2];
+    unsigned short count;
+};
+// @fnv 0x00c802d0
+MyNode* __cdecl FUN_00c802d0(MyNode* p)
+{
+    MyNode* r = p->field_1c;
+    if (!r && p->Pred())
+    {
+        for (unsigned i = 0; i < p->count; ++i)
+        {
+            if (r)
+                break;
+            MyNode* child = p->children[i];
+            if (child)
+                r = FUN_00c802d0(child);
+        }
+    }
+    return r;
+}
+
+
+struct Target;
+
+
+
+
+// @fnv 0x00c6ffc0
+void FUN_00c6ffc0_Class::FUN_00c6ffc0()
+{
+    Target* p = ((::Target *)(reinterpret_cast<::FUN_00c6e0b0_Class *>(this)->FUN_00c6e0b0()));
+    NiPointer<MyRef> sp;
+    Target18* t;
+    if (p && (t = p->field_18))
+    {
+        t->MethodE4(p, sp);
+    }
+    *(unsigned int*)((char*)this + 0x414) &= 0xffff7fff;
+}
+
+struct FixedStr
+{
+    char* h;
+    FixedStr(const FixedStr& o)
+    {
+        if (o.h != ::DAT_0109b220)
+            InterlockedIncrement((long volatile*)(o.h - 8));
+        h = o.h;
+    }
+    ~FixedStr()
+    {
+        if (h != ::DAT_0109b220)
+            InterlockedDecrement((long volatile*)(h - 8));
+    }
+};
+struct Mat3
+{
+    float m[9];
+};
+struct Xform
+{
+    Mat3 rot;
+    Pt3 trans;
+    float scale;
+};
+struct RNode;
+struct RObj
+{
+    virtual void f0();
+    virtual void f1();
+    virtual void f2();
+    virtual RNode* GetAsNode();
+    int _4;
+    FixedStr name;
+    char _c[0xc];
+    RObj* parent;
+    char _1c[0x18];
+    Xform local;
+};
+struct RNode
+{
+    char _0[0xa0];
+    RObj** children;
+    unsigned short _a4;
+    unsigned short count;
+};
+struct RKey
+{
+    FixedStr name;
+    RObj* obj;
+    RKey(const FixedStr& n) : name(n)
+    {}
+};
+struct RElem
+{
+    RObj* obj;
+    Xform x;
+};
+struct RArr
+{
+    int _0;
+    RElem* data;
+};
+struct RCtx;
+
+// @fnv 0x00c7bcb0
+void __cdecl FUN_00c7bcb0(RCtx* ctx, RObj* obj, RArr* arr)
+{
+    RKey key(obj->name);
+    key.obj = obj;
+    if (reinterpret_cast<::FUN_00a305e0_cls *>((void *)&(key.name))->Equals("Bip01 NonAccum"))
+        key.obj = obj->parent;
+    RObj* bone = ((::RObj *)(::FUN_00c4b470((::FUN_00c4b470_owner *)(ctx), (void **)(::RKey *)(&key), 1)));
+    if (bone)
+    {
+        RElem e;
+        e.obj = bone;
+        e.x = bone->local;
+        int idx = reinterpret_cast<::S_c7a730 *>((arr))->AppendSlot();
+        ::ConstructElementArray((::ElementC76 *)(arr), (unsigned int)(&arr->data[idx]));
+        const Xform& src = key.obj->local;
+        arr->data[idx] = e;
+        bone->local.rot = src.rot;
+        bone->local.trans = src.trans;
+    }
+    RNode* node = obj->GetAsNode();
+    if (node)
+    {
+        for (unsigned int i = 0; i < node->count; i++)
+        {
+            RObj* child = node->children[i];
+            if (child)
+                FUN_00c7bcb0(ctx, child, arr);
+        }
+    }
+}
+
+
+
+
+
+inline unsigned char GetFlag6(unsigned short w)
+{
+    return (unsigned char)(w >> 6) & 1;
+}
+
+// @fnv 0x00c7d3b0
+void __cdecl FUN_00c7d3b0(NiNode* param_1, void* param_2, void* param_3, char* param_4, unsigned int* param_5)
+{
+    MyNode* node = FUN_00c802d0((MyNode*)param_1);
+    char flag;
+    if (!node || !(node->unk0c & 0x20) || GetFlag6(node->unk0c))
+    {
+        flag = 0;
+    }
+    else
+    {
+        flag = 1;
+    }
+    *param_4 = flag;
+    if (flag)
+    {
+        ::SetFlagRecursive(0, (::WalkNode_cls *)(param_1));
+    }
+    if (node)
+    {
+        unsigned int val;
+        char* n10 = node->unk10;
+        if (n10 && *(char**)(n10 + 8))
+        {
+            val = *(unsigned char*)(*(char**)(n10 + 8) + 0xe8);
+        }
+        else
+        {
+            val = 5;
+        }
+        *param_5 = val;
+    }
+    if (*param_5 != 4)
+    {
+        ::FUN_00c6a350(param_1, 4, true, false, true);
+    }
+    if (param_1 && param_2)
+    {
+        ::FUN_00c7bcb0((::RCtx *)(param_1), (::RObj *)(param_2), (::RArr *)(param_3));
+        NiUpdateData updateData;
+        updateData.m_fTime = 0.0f;
+        updateData.b0 = false;
+        updateData.b1 = false;
+        updateData.b2 = false;
+        updateData.b3 = false;
+        updateData.b4 = false;
+        reinterpret_cast<::FUN_00a59c60_cls *>((param_1))->FUN_00a59c60((std::intptr_t)&(updateData));
+    }
+}
+
+struct NiTransform_o2
+{
+    ThreeByThreeMatrix m_kOrientation;
+    float m_kTranslation[3];
+    float m_fScale;
+    NiTransform_o2 operator*(const NiTransform_o2&) const;
+};
+extern bool DAT_01267c28;
+extern bool DAT_01267c34;
+extern bool DAT_01267c40;
+extern bool DAT_01267c4c;
+extern bool DAT_01267c58;
+extern bool DAT_01267c64;
+
+struct RagScrapMarker
+{
+    char* p;
+    unsigned int size;
+    RagScrapMarker(unsigned int count)
+    {
+        char** top = (char**)_FUN_00c85750();
+        unsigned int size = (count * 48 + 0x7f) & ~0x7fu;
+        char* old = *top;
+        *top = old + size;
+        p = old;
+    }
+    ~RagScrapMarker()
+    {
+        *(char**)_FUN_00c85750() = p;
+    }
+};
+union __declspec(align(16)) VecStorage_c79680 { ::__m128 quad; ::PackedVector storage; };
+struct V4 {
+    VecStorage_c79680 bits;
+    __forceinline V4() {}
+    __forceinline V4(const V4& v) { bits.quad = v.bits.quad; }
+    __forceinline void operator=(const V4& v) { bits.quad = v.bits.quad; }
+    __forceinline void setMul4(const V4& a, const V4& b) { bits.quad = _mm_mul_ps(a.bits.quad, b.bits.quad); }
+    __forceinline void setAdd4(const V4& a, const V4& b) { bits.quad = _mm_add_ps(a.bits.quad, b.bits.quad); }
+    __forceinline void add4(const V4& a) { bits.quad = _mm_add_ps(bits.quad, a.bits.quad); }
+    __forceinline void setCross(const V4& a, const V4& b) {
+        ::__m128 cross0 = _mm_mul_ps(_mm_shuffle_ps(a.bits.quad, a.bits.quad, 0xc9), _mm_shuffle_ps(b.bits.quad, b.bits.quad, 0xd2));
+        ::__m128 cross1 = _mm_mul_ps(_mm_shuffle_ps(a.bits.quad, a.bits.quad, 0xd2), _mm_shuffle_ps(b.bits.quad, b.bits.quad, 0xc9));
+        bits.quad = PoseFloatHardware::_mm_sub_ps(cross0, cross1);
+    }
+    __forceinline void setNeg4(const V4& a) { bits.quad = _mm_xor_ps(a.bits.quad, ::DAT_010c44d0); }
+    __forceinline void setReciprocal4(const V4& a) {
+        ::__m128 v = _mm_shuffle_ps(a.bits.quad, _mm_unpackhi_ps(a.bits.quad, ::DAT_010c7170), 0xc4);
+        ::__m128 r = _mm_rcp_ps(v);
+        bits.quad = PoseFloatHardware::_mm_and_ps(PoseFloatHardware::_mm_sub_ps(_mm_add_ps(r, r), _mm_mul_ps(_mm_mul_ps(r, v), r)), ::DAT_010c4c10);
+    }
+};
+struct Quat {
+    V4 m_vec;
+    __forceinline void SetConjugate(const Quat& q) { m_vec.bits.quad = _mm_xor_ps(q.m_vec.bits.quad, ::DAT_010c4c00); }
+    void FUN_00c66320(const Quat* a, const Quat* b);
+};
+struct PoseTransform { V4 translation; Quat rotation; V4 scale;
+ __forceinline PoseTransform& operator=(const PoseTransform& rhs) { translation=rhs.translation; rotation.m_vec=rhs.rotation.m_vec; scale=rhs.scale; return *this; }
+ __forceinline void SetConjugate(const PoseTransform& t) {
+    RotateDir(translation, t.rotation, t.translation, true);
+    translation.setNeg4(translation);
+    rotation.SetConjugate(t.rotation);
+    scale.setReciprocal4(t.scale);
+ }
+ __forceinline void SetProduct(const PoseTransform& t1, const PoseTransform& t2) {
+    V4 tr; RotateDir(tr, t1.rotation, t2.translation, false);
+    translation.setAdd4(tr, t1.translation);
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), (void *)(&t1.rotation), (const ::fnv_00c66320::__m128 *)(const ::Quat *)(&t2.rotation), {});
+    scale.setMul4(t2.scale, t1.scale);
+ }
+ __forceinline void SetMulInverse(const PoseTransform& a, const PoseTransform& b) {
+    PoseTransform inv; inv.SetConjugate(a);
+    SetProduct(inv, b);
+ }
+};
+template<class T> struct PoseArray {
+ T* data; int size; int capacity;
+ __forceinline T& operator[](int index) { return data[index]; }
+ __forceinline const T& operator[](int index) const { return data[index]; }
+};
+struct PoseSkeleton { int unk00,unk04,unk08; PoseArray<short> parents; int unk18; int count; };
+struct LocalPoseState {
+ PoseSkeleton* skeleton; PoseArray<PoseTransform> local; PoseArray<PoseTransform> world;
+ PoseArray<int> flags; bool dirty;
+ __forceinline void EnsureLocal(int child) {
+   if(flags[child]&1) {
+     const PoseTransform& childWorld=world[child];
+     short parent=skeleton->parents[child];
+     if(parent!=-1) {
+       const PoseTransform* base=!(flags[parent]&2)?&world[parent]:((::PoseTransform *)&(reinterpret_cast<::SkeletonPoseData *>(this)->FUN_00cda180(parent)));
+       local[child].SetMulInverse(*base, childWorld);
+     } else local[child]=childWorld;
+     flags[child]&=~1;
+   }
+ }
+ __forceinline void SetLocal(int index,const PoseTransform& transform) {
+    int end=skeleton->count;
+    flags[index]|=4;
+    for(int child=index+1;child<end;++child) {
+      short parent=skeleton->parents[child];
+      if(parent!=-1 && (flags[parent]&4)) {
+        EnsureLocal(child);
+        flags[child]|=4;
+        dirty=false;
+      }
+    }
+    for(int child=index+1;child<end;++child) {
+      int value=flags[child];
+      if(value&4) flags[child]=(value&~4)|2;
+    }
+    local[index]=transform;
+    flags[index]=2;
+    dirty=false;
+ }
+};
+struct PoseNode {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int transform;
+};
+struct PoseScale {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    float scale;
+};
+struct PoseCount { int unk00, unk04, unk08; PoseSkeleton* skeleton; };
+struct PoseOwner {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    PoseScale* scaleSource;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    LocalPoseState* state;
+    int unk08c;
+    int unk090;
+    void* output;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    PoseNode** nodes;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    PoseCount* counts;
+    void FUN_00c79680();
+};
+
+
+namespace fnv_00c7d810 {
+
+struct ThreeByThreeMatrix
+{
+    float m[3][3];
+    ThreeByThreeMatrix operator*(ThreeByThreeMatrix const&) const;
+};
+struct Xform
+{
+    ThreeByThreeMatrix rot;
+    float x, y, z, s;
+};
+
+
+struct XObj
+{
+    void FUN_00cdb3e0();
+};
+
+
+// @fnv 0x00c7d810
+void FUN_00c7d810_Cls::FUN_00c7d810()
+{
+    Xform nitrans = *(Xform*)((char*)(*(void**)((char*)this + 0x58)) + 0x68);
+    nitrans.rot = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::fnv_00c7d810::ThreeByThreeMatrix &)(*(ThreeByThreeMatrix*)((char*)this + 0x60)))->operator+((const ::ThreeByThreeMatrix &)(nitrans.rot));
+    nitrans.s = 1.0f;
+    ::FUN_00c74dd0((::C74QsTransform *)(void *)((char*)this + 0x10), (const ::C74Transform *)(void *)(&nitrans));
+    reinterpret_cast<::PoseOwner *>(this)->FUN_00c79680();
+    int etype = *(int*)((char*)this + 0xc);
+    *(int*)((char*)this + 0xc) = 1;
+    reinterpret_cast<::RagdollUpdateController *>(this)->FUN_00c7d030((const ::Transform48 *)(0));
+    *(int*)((char*)this + 0xc) = etype;
+    XObj* p = *(XObj**)((char*)this + 0x4c);
+    if (p)
+        p->FUN_00cdb3e0();
+}
+}  // namespace fnv_00c7d810
+
+struct FUN_00cb0c00_class
+{
+};
+
+struct VObjExt : VObj
+{
+    virtual void v3();
+    virtual void v4(void*, unsigned int);
+};
+
+struct FUN_00c7d890_cls
+{
+    void* _0;
+    int _4;
+    unsigned int _8;
+    void FUN_00c7d890();
+};
+
+// @fnv 0x00c7d890
+void FUN_00c7d890_cls::FUN_00c7d890()
+{
+    VObjExt* p = (VObjExt*)_FUN_00c85750()->p;
+    int count = _4;
+    char* base = (char*)_0;
+    for (int i = 0; i < count; i++)
+        ::FUN_00cb0c00((int)(((FUN_00cb0c00_class*)(base + i * 8))));
+    unsigned int flags = _8;
+    _4 = 0;
+    if (!(flags & 0x80000000))
+        p->v4(_0, (flags & 0x3fffffff) * 8);
+    _8 = 0x80000000;
+    _0 = 0;
+}
+
+
+// @fnv 0x00c7f900
+void FUN_00c7f900(char* dst, char* src, unsigned int count)
+{
+    if (count <= 0)
+        return;
+
+    if (dst < src)
+    {
+        for (unsigned int i = 0; i < count; ++i)
+            std::memmove(dst + i * 8, src + i * 8, 8);
+    }
+    else if (dst > src)
+    {
+        for (int i = (int)count - 1; i >= 0; --i)
+            std::memmove(dst + i * 8, src + i * 8, 8);
+    }
+}
+
+
+
+// @fnv 0x00cdb3e0
+void FUN_00cdb3e0_cls::FUN_00cdb3e0()
+{
+    ::FUN_00d6b4b0((::BodyList *)(void *)((char*)this + 0x18), (::BodyOut *)(*(unsigned int*)((char*)this + 0x2c)));
+}
+
+struct S_c6a200_Info
+{
+    int unk00, unk04, unk08, unk0c;
+};
+struct S_c6a200_Ev
+{
+    int unk00;
+    unsigned char unk04;
+    int unk08;
+    int unk0c;
+    int unk10, unk14, unk18;
+};
+extern void* DAT_011afecc;
+// @fnv 0x00c6a200
+bool __cdecl FUN_00c6a200(void* obj, unsigned char a1, unsigned char a2, unsigned char a3)
+{
+    bool r = false;
+    if (obj)
+    {
+        S_c6a200_Info* info;
+        if (a3 || ((info = ((::S_c6a200_Info *)(::GetExtraDataChecked((::NiAVObjectX *)(obj))))) ? (info->unk0c & 2) : 0))
+        {
+            S_c6a200_Ev ev;
+            ev.unk04 = a2;
+            r = true;
+            ev.unk00 = 0;
+            ev.unk08 = 0x11;
+            ev.unk0c = a1;
+            if (DAT_011afecc)
+                ::FUN_00c68900((::S_00c68900_Node *)(obj), (::S_00c68900_Context *)(::S_c6a200_Ev *)(&ev), (void (*)(void *, S_00c68900_Context *))(DAT_011afecc));
+        }
+    }
+    return r;
+}
+
+struct FlagController
+{
+    void FUN_00c7ba10(bool);
+};
+// @fnv 0x00c7ba10
+void FlagController::FUN_00c7ba10(bool enabled)
+{
+    unsigned char* state = (unsigned char*)this;
+    bool target = state[0x28c] && enabled;
+    if (!target && state[0x28e])
+        reinterpret_cast<::Controller *>(this)->FUN_00c7b6a0(0);
+    state[0x28d] = target;
+}
+
+struct HkAllocator
+{
+    virtual void f0();
+    virtual void f1();
+    virtual void f2();
+    virtual void f3();
+    virtual void Deallocate(void*, int);
+};
+struct HkMemHolder
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    HkAllocator* allocator;
+    HkAllocator* GetAllocator()
+    {
+        return allocator;
+    }
+};
+HkMemHolder* GetHkMemHolder();
+template <class T> inline void HkDeallocT(HkAllocator* a, T* p, int n)
+{
+    a->Deallocate(p, n * (int)sizeof(T));
+}
+
+struct HkElem30
+{
+    float x;
+    float y;
+    float z;
+    float w;
+    float x1;
+    float y1;
+    float z1;
+    float w1;
+    float x2;
+    float y2;
+    float z2;
+    float w2;
+};
+
+template <class T> struct HkArray
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    ~HkArray()
+    {
+        HkAllocator* alloc = GetHkMemHolder()->GetAllocator();
+        m_iElementCount = 0;
+        if (!(m_iCapacityState & 0x80000000))
+            HkDeallocT<T>(alloc, m_data, m_iCapacityState & 0x3fffffff);
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+};
+
+struct FUN_00c7c030
+{
+    int unk00;
+    HkArray<HkElem30> arr04;
+    HkArray<HkElem30> arr10;
+    HkArray<int> arr1C;
+    int unk28;
+    HkArray<int> arr2C;
+    ~FUN_00c7c030();
+};
+
+// @fnv 0x00c7c030
+FUN_00c7c030::~FUN_00c7c030()
+{}
+
+struct FreeIface
+{
+    virtual void vfn_0();
+    virtual void vfn_4();
+    virtual void vfn_8();
+    virtual void vfn_c();
+    virtual void Free(void* p, unsigned int size);
+};
+
+struct FUN_00c7d480_cls
+{
+    void* m_00;
+    unsigned int m_04;
+    unsigned int m_08;
+    unsigned int m_0c;
+    void FUN_00c7d480();
+};
+
+struct ScopeGuard
+{
+    FUN_00c7d480_cls* owner;
+// @fnv 0x00c7d480
+    ScopeGuard(void* p) : owner((FUN_00c7d480_cls*)p)
+    {}
+    __forceinline ~ScopeGuard()
+    {
+        Holder* h = _FUN_00c85750();
+        FreeIface* a = (FreeIface*)h->p;
+        unsigned int flags = owner->m_08;
+        owner->m_04 = 0;
+        if (!(flags & 0x80000000))
+        {
+            a->Free(owner->m_00, (flags & 0x3fffffff) * 4);
+        }
+        owner->m_08 = 0x80000000;
+        owner->m_00 = 0;
+    }
+};
+
+void FUN_00c7d480_cls::FUN_00c7d480()
+{
+    ScopeGuard guard(this);
+    unsigned int count = m_0c;
+    bool differs = count != (unsigned int)m_00;
+    if (!differs)
+    {
+        m_04 = 0;
+    }
+    *(unsigned int*)_FUN_00c85750() = count;
+}
+
+namespace fnv_00c7d520 {
+
+struct FreeIface
+{
+    virtual void vfn_0();
+    virtual void vfn_4();
+    virtual void vfn_8();
+    virtual void vfn_c();
+    virtual void Free(void* p, unsigned int size);
+};
+
+struct FUN_00c7d520_cls
+{
+    void* m_00;
+    unsigned int m_04;
+    unsigned int m_08;
+    unsigned int m_0c;
+    void FUN_00c7d520();
+};
+
+struct ScopeGuard
+{
+    FUN_00c7d520_cls* owner;
+// @fnv 0x00c7d520
+    ScopeGuard(void* p) : owner((FUN_00c7d520_cls*)p)
+    {}
+    __forceinline ~ScopeGuard()
+    {
+        Holder* h = _FUN_00c85750();
+        FreeIface* a = (FreeIface*)h->p;
+        unsigned int flags = owner->m_08;
+        owner->m_04 = 0;
+        if (!(flags & 0x80000000))
+        {
+            a->Free(owner->m_00, (flags & 0x3fffffff) * 4);
+        }
+        owner->m_08 = 0x80000000;
+        owner->m_00 = 0;
+    }
+};
+
+void FUN_00c7d520_cls::FUN_00c7d520()
+{
+    ScopeGuard guard(this);
+    unsigned int count = m_0c;
+    bool differs = count != (unsigned int)m_00;
+    if (!differs)
+    {
+        m_04 = 0;
+    }
+    *(unsigned int*)_FUN_00c85750() = count;
+}
+}  // namespace fnv_00c7d520
+
+struct AudioAllocator
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
+};
+
+struct AudioHolder
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    AudioAllocator* m_pAllocator;
+};
+
+AudioHolder* __cdecl FUN_00c85750() throw();
+
+struct FUN_00c7d5c0_elem
+{
+    int unk00;
+};
+
+struct FUN_00c7d5c0_cls
+{
+    FUN_00c7d5c0_elem* m_pData;
+    int m_iArrayLength;
+    unsigned int m_uCap;
+
+    void FUN_00c7d5c0();
+};
+
+// @fnv 0x00c7d5c0
+void FUN_00c7d5c0_cls::FUN_00c7d5c0()
+{
+    AudioHolder* pHolder = FUN_00c85750();
+    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    FUN_00c7d5c0_elem* pElem = m_pData;
+    if (m_iArrayLength > 0)
+    {
+        int n = m_iArrayLength;
+        do
+        {
+            ::FUN_00cb0c00((int)(pElem));
+            ++pElem;
+        } while (--n != 0);
+    }
+    unsigned int uCap = m_uCap;
+    m_iArrayLength = 0;
+    if ((uCap & 0x80000000u) == 0)
+    {
+        pAllocator->FreeArray(m_pData, (uCap & 0x3fffffffu) * 4u);
+    }
+    m_pData = 0;
+    m_uCap = 0x80000000u;
+}
+
+
+struct BaseObject
+{
+    const char* classTable;
+    unsigned int unknown04;
+    unsigned int unknown08;
+    BaseObject();
+};
+
+struct MiddleObject : BaseObject
+{
+    unsigned int initialized0c;
+    MiddleObject() : initialized0c(0)
+    {
+        classTable = (*reinterpret_cast<const char (*)[]>(&::DAT_0108febc));
+        ++(*reinterpret_cast<unsigned int *>(&::DAT_01268188));
+    }
+    ~MiddleObject();
+};
+
+struct FUN_00c7f9e0 : MiddleObject
+{
+    FUN_00c7f9e0(void* context);
+};
+
+// @fnv 0x00c7f9e0
+FUN_00c7f9e0::FUN_00c7f9e0(void* context) : MiddleObject()
+{
+    classTable = (*reinterpret_cast<const char (*)[]>(&::DAT_010c52bc));
+    reinterpret_cast<::Dispatch_00c89dd0 *>(this)->SpawnAndAttach((int)(context ? (char*)context + 4 : 0));
+    ++(*reinterpret_cast<unsigned int *>(&::DAT_012685f4));
+}
+
+
+struct BCB9810AllocTagScope
+{
+    int m_iSaved;
+
+    BCB9810AllocTagScope(int aiAllocationTag)
+    {
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+    }
+    ~BCB9810AllocTagScope()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+    }
+};
+
+struct BCB9810Node
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    BCB9810Node* m_pParentNode;
+};
+
+struct BCB9810Entry
+{
+    int unk00;
+    int unk04;
+    BCB9810Node* m_pkTreeNode;
+    int unk0C;
+};
+
+class BCB9810Registry
+{
+  public:
+    void FUN_00cb9810(void* pvOwner, BCB9810Node* pkNode);
+
+    int unk00;
+    int unk04;
+    BCB9810Entry* m_pkEntryArray;
+    int m_iArrayLength;
+};
+
+// @fnv 0x00cb9810
+void BCB9810Registry::FUN_00cb9810(void* pvOwner, BCB9810Node* pkNode)
+{
+    BCB9810AllocTagScope kScope(0x10);
+    bool bFound = false;
+    for (int i = 0; i < m_iArrayLength; i++)
+    {
+        if (bFound)
+            break;
+        BCB9810Node* pkRoot = pkNode;
+        while (pkRoot->m_pParentNode)
+            pkRoot = pkRoot->m_pParentNode;
+        if (pkRoot == m_pkEntryArray[i].m_pkTreeNode)
+            bFound = true;
+    }
+    if (!bFound)
+        reinterpret_cast<::FUN_00cb7550_cls *>(this)->AppendTailPair((::ListNode *)(pvOwner), (::ListNode *)(pkNode));
+}
+
+struct CE4360Iter
+{
+    int* GetThird();
+};
+
+struct CE4360Context
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int m_iMode;
+};
+
+
+// @fnv 0x00ce4360
+void __cdecl FUN_00ce4360(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360Iter* pkTo, int iValue)
+{
+    if (pkContext->m_iMode == 0)
+    {
+        int a = *((int *)(reinterpret_cast<::FUN_00cda8d0_class *>((pkFrom))->FUN_00cda8d0()));
+        int b = *((int *)(reinterpret_cast<::FUN_00cdb290 *>((pkTo))->GetPlus4()));
+        reinterpret_cast<::hkaSkeletonMapper *>((pkContext))->FUN_00ce3a00((const ::hkQsTransform *)(a), (const ::hkQsTransform *)(b), (::hkQsTransform *)(*pkTo->GetThird()), iValue);
+    }
+    else if (pkContext->m_iMode == 1)
+    {
+        int a = *((int *)(reinterpret_cast<::FUN_00cdb290 *>((pkFrom))->GetPlus4()));
+        int b = *((int *)(reinterpret_cast<::FUN_00cdb290 *>((pkTo))->FUN_00cdb0a0()));
+        ::FUN_00ce4330((int)(pkContext), a, b, 0);
+    }
+}
+
+struct RTTI_c9b
+{
+    const char* m_pcName;
+    RTTI_c9b* m_pBaseRTTI;
+};
+
+class GlobalObjectO2_00a7b610;
+
+struct S
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual void v0f();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1a();
+    virtual void v1b();
+    virtual void v1c();
+    virtual void v1d();
+    virtual void v1e();
+    virtual void v1f();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v2a();
+    virtual void v2b();
+    virtual void v2c();
+    virtual void v2d();
+    virtual void v2e();
+    virtual void v2f();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void SetMode(int iMode);
+    void FUN_00561690(std::intptr_t);
+};
+
+struct Cast_c9b
+{
+    char pad[0x10];
+    S* m_10;
+};
+
+struct Ctrl_c9b
+{
+};
+
+class Obj_c9b
+{
+  public:
+    virtual void v00();
+    virtual void v01();
+    virtual RTTI_c9b* GetRTTI();
+    char padCur[0x1c - 4];
+    Ctrl_c9b* m_1c;
+    char kad[0xa0 - 0x20];
+    Obj_c9b** m_ppChildren;
+    unsigned short m_usMax;
+    unsigned short m_usElementCount;
+};
+
+
+__forceinline bool IsNode_c9b(Obj_c9b* pkObj)
+{
+    RTTI_c9b* pkRTTI = pkObj->GetRTTI();
+    while (pkRTTI)
+    {
+        if (pkRTTI == (RTTI_c9b*)&(*reinterpret_cast<unsigned char *>(&::g_011f4428)))
+            return true;
+        pkRTTI = pkRTTI->m_pBaseRTTI;
+    }
+    return false;
+}
+
+// @fnv 0x00c9bdf0
+void __cdecl FUN_00c9bdf0(Obj_c9b* pkObj, float f)
+{
+    if (pkObj && IsNode_c9b(pkObj) && pkObj->m_usElementCount > 0)
+    {
+        Obj_c9b* pkChild = pkObj->m_ppChildren[0];
+        if (pkChild && IsNode_c9b(pkChild) && pkChild->m_usElementCount > 0)
+        {
+            Obj_c9b* pkGrand = pkChild->m_ppChildren[0];
+            if (pkGrand && pkGrand->m_1c)
+            {
+                Cast_c9b* pkCast = ((::Cast_c9b *)(reinterpret_cast<::NiObject *>((pkGrand->m_1c))->DynamicCast((const ::NiRTTI *)(::GlobalObjectO2_00a7b610 *)(&g_012043f8))));
+                if (pkCast)
+                {
+                    S* pkS = pkCast->m_10;
+                    if (pkS)
+                    {
+                        pkS->SetMode(4);
+                        pkS->FUN_00561690((std::intptr_t)&DAT_01267e30);
+                        reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((pkS))->FUN_005617c0((std::intptr_t)(&DAT_01267e30));
+                    }
+                }
+            }
+        }
+    }
+    ::fnv_00c9b470::ApplyCollisionEffect((::fnv_00c9b470::Scene *)(pkObj), f);
+}
+
+void FUN_00c7f900(char* dst, char* src, unsigned int count);
+class FUN_00c7f970_cls
+{
+  public:
+    virtual void vfn_0();
+    virtual char* Alloc(unsigned int n);
+    virtual void Free(char* p);
+    virtual char* Realloc(char* p, unsigned int n);
+
+    char* m_pData;
+    void* unk;
+    unsigned int m_uiSize;
+    void FUN_00c7f970(unsigned int uiNew, unsigned int uiOld);
+};
+
+// @fnv 0x00c7f970
+void FUN_00c7f970_cls::FUN_00c7f970(unsigned int uiNew, unsigned int uiOld)
+{
+    if (m_pData)
+    {
+        if (uiOld == m_uiSize)
+        {
+            m_pData = Realloc(m_pData, uiNew);
+        }
+        else
+        {
+            char* pNew = Alloc(uiNew);
+            ((void(*)(void*, char*, char*, unsigned int))FUN_00c7f900)(this, pNew, m_pData, uiOld);
+            Free(m_pData);
+            m_pData = pNew;
+        }
+    }
+    else
+    {
+        m_pData = Alloc(uiNew);
+        m_uiSize = uiNew;
+    }
+}
+
+// @fnv 0x00c7bfd0
+FUN_00c7bfd0::FUN_00c7bfd0()
+    : m_00(0), m_04(0), m_08(0), m_0c(0.0f), m_10(0.5235988f), m_40(0), m_44(0), m_48(0), m_4c(1.0f), m_50(1.0f)
+{}
+
+// FUN_00cb9650 @ 0x00cb9650, 97 bytes, __cdecl caller-pops
+// flags: /MT /O2 /GS /EHsc /Gy
+// Recursive child-visitor: controller fetch/set via members, virtual node
+// fetch (vtable slot 3), loop over children (ptr @0xA0, count u16 @0xA6).
+
+struct FUN_00cb9650_Node
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    void** children;       // 0xA0
+    unsigned short unkA4;  // 0xA4
+    unsigned short count;  // 0xA6
+};
+
+struct FUN_00cb9650_Object
+{
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual FUN_00cb9650_Node* vf0C();
+
+};
+
+
+// @fnv 0x00cb9650
+void __cdecl FUN_00cb9650(FUN_00cb9650_Object* object)
+{
+    if (object != 0)
+    {
+        void* controller = ((void *)(reinterpret_cast<::MyHost *>((object))->FUN_00a5c570((const ::MyRTTI *)((*reinterpret_cast<const char (*)[]>(&::g_012683f4))))));
+        if (controller != 0)
+        {
+            reinterpret_cast<::ControllerOwner *>((object))->FUN_00a5c480((::NiTimeController *)((int)controller));
+        }
+
+        FUN_00cb9650_Node* node = object->vf0C();
+        if (node != 0)
+        {
+            for (unsigned int index = 0; index < node->count; ++index)
+            {
+                FUN_00cb9650((FUN_00cb9650_Object*)node->children[index]);
+            }
+        }
+    }
+}
+// @fnv 0x00c75580
+void RagController::FUN_00c75580(unsigned char enabled)
+{
+    int state;
+    if (controlFlag() == 0)
+    {
+        if (activeFlag() != 0 && enabled != 0)
+        {
+            state = 1;
+        }
+        else
+        {
+            state = 0;
+        }
+    }
+    else
+    {
+        state = stateFlag();
+    }
+    stateFlag() = (unsigned char)state;
+    if (enabled == 0)
+    {
+        poseA() = ::DAT_010c71b0;
+        poseB() = ::DAT_010c71b0;
+        dirtyB() = 1;
+        dirtyA() = 1;
+    }
+}
+
+extern float DAT_011b02e4;
+struct NodeC
+{
+    int n000;
+    int n004;
+    int n008;
+    int n00c;
+    int n010;
+    int n014;
+    NodeC* parent;
+    int n01c;
+    int n020;
+    int n024;
+    int n028;
+    int n02c;
+    int n030;
+    Xform local;
+    Xform world;
+};
+struct InnerC
+{
+    int i000;
+    int i004;
+    int i008;
+    int i00c;
+    int i010;
+    int i014;
+    int i018;
+    unsigned int count;
+};
+struct MidC
+{
+    int m000;
+    int m004;
+    int m008;
+    int m00c;
+    int m010;
+    int m014;
+    int m018;
+    int m01c;
+    int m020;
+    int m024;
+    int m028;
+    InnerC* inner;
+};
+struct Obj248
+{
+};
+struct Obj250
+{
+};
+struct ScrapMarker
+{
+    char* p;
+    unsigned int size;
+    ScrapMarker(unsigned int count)
+    {
+        char** top = (char**)FUN_00c85750();
+        unsigned int size = (count * 48 + 0x7f) & ~0x7fu;
+        char* old = *top;
+        *top = old + size;
+        p = old;
+    }
+    ~ScrapMarker()
+    {
+        *(char**)FUN_00c85750() = p;
+    }
+};
+
+struct Cls
+{
+    int u000;
+    bool m_004;
+    float m_008;
+    int m_00c;
+    int u010;
+    int u014;
+    int u018;
+    int u01c;
+    int u020;
+    int u024;
+    int u028;
+    int u02c;
+    int u030;
+    int u034;
+    int u038;
+    int u03c;
+    int u040;
+    int u044;
+    MidC* m_048;
+    int u04c;
+    int u050;
+    int u054;
+    NodeC* m_058;
+    int u05c;
+    int u060;
+    int u064;
+    int u068;
+    int u06c;
+    int u070;
+    int u074;
+    int u078;
+    int u07c;
+    int u080;
+    int u084;
+    int u088;
+    int u08c;
+    int u090;
+    int u094;
+    int u098;
+    int u09c;
+    int u0a0;
+    int u0a4;
+    int u0a8;
+    int u0ac;
+    int u0b0;
+    int u0b4;
+    int u0b8;
+    int u0bc;
+    int u0c0;
+    int u0c4;
+    int u0c8;
+    int u0cc;
+    int u0d0;
+    int u0d4;
+    int u0d8;
+    int u0dc;
+    int u0e0;
+    int u0e4;
+    int u0e8;
+    int u0ec;
+    int u0f0;
+    int u0f4;
+    int u0f8;
+    int u0fc;
+    int u100;
+    int u104;
+    int u108;
+    int u10c;
+    int u110;
+    int u114;
+    int u118;
+    int u11c;
+    int u120;
+    int u124;
+    int u128;
+    int u12c;
+    int u130;
+    int u134;
+    int u138;
+    int u13c;
+    int u140;
+    int u144;
+    int u148;
+    int u14c;
+    int u150;
+    int u154;
+    int u158;
+    int u15c;
+    int u160;
+    int u164;
+    int u168;
+    int u16c;
+    int u170;
+    int u174;
+    int u178;
+    int u17c;
+    int u180;
+    int u184;
+    int u188;
+    int u18c;
+    int u190;
+    int u194;
+    int u198;
+    int u19c;
+    int u1a0;
+    int u1a4;
+    int u1a8;
+    int u1ac;
+    int u1b0;
+    int u1b4;
+    int u1b8;
+    int u1bc;
+    int u1c0;
+    int u1c4;
+    int u1c8;
+    int u1cc;
+    int u1d0;
+    int u1d4;
+    int u1d8;
+    int u1dc;
+    int u1e0;
+    int u1e4;
+    int u1e8;
+    int u1ec;
+    int u1f0;
+    int u1f4;
+    int u1f8;
+    int u1fc;
+    int u200;
+    int u204;
+    int u208;
+    int u20c;
+    int u210;
+    int u214;
+    int u218;
+    int u21c;
+    int u220;
+    int u224;
+    int u228;
+    int u22c;
+    int u230;
+    int u234;
+    int u238;
+    int u23c;
+    int u240;
+    int u244;
+    Obj248* m_248;
+    int u24c;
+    Obj250* m_250;
+    int u254;
+    int m_258;
+    int u25c;
+    __int64 m_260;
+    __int64 m_268;
+    Pt3 m_pos;
+    float m_27c;
+    float m_280;
+    bool m_284;
+    int m_288;
+
+    void FUN_00c7ba50(void* a1, void* a2, bool* a3);
+public:
+    void LoadTextureArchiveEntries(::Elem *, unsigned int, ::ModelRef *, const char *);
+    void FUN_00529330();
+    void FUN_00626420(intptr_t);
+    void ApplyEffect();
+    void FUN_00858af0(::EntryListNode *, ::Entry *, bool);
+    bool FUN_009670f0(int);
+    void FUN_00b306d0(unsigned short);
+    void FUN_00dbda50(void *, void *, void *);
+    void FUN_00de6730(::Input *, ::Renderer *, int, int);
+    void FUN_00e5f070(::P1 *, unsigned char *, ::F8 *);
+    void FUN_00e65040(::Flag, int);
+};
+struct FNVVec3 { float x,y,z; };
+struct FNVColor { float r,g,b,a; };
+struct FNVBound {
+    FNVVec3 center;
+    float radius;
+    __forceinline void Initialize(const FNVVec3& p,float r) {center=p;radius=r;}
+};
+struct FNVExtra {
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    FNVVec3* positions;
+    unsigned int unk24;
+    FNVColor* colors;
+};
+struct FNVAnimObject {
+    void** vtbl;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    FNVBound* bound;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int flags;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3C;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4C;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5C;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6C;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7C;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8C;
+    unsigned int unk90;
+    unsigned int unk94;
+    float scale;
+    unsigned int unk9C;
+    FNVAnimObject** children;
+    unsigned int unkA4;
+    unsigned int unkA8;
+    unsigned int unkAC;
+    unsigned int unkB0;
+    unsigned int unkB4;
+    FNVExtra* extra;
+    FNVBound* EnsureBound();
+    FNVBound*& EnsureBoundRef();
+    void* GetCellChildAt(int) { typedef void* (*Getter)(void*); return ((Getter)vtbl[3])(this); }
+    void AdoptBound(void* bound) { typedef void (*Setter)(void*,void*); ((Setter)vtbl[30])(this,bound); }
+};
+struct FNVString { char* FUN_00c761f0(); };
+struct FNVSource {
+    unsigned int unk00;
+    unsigned int unk04;
+    int* entries;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    int* indices;
+    FNVString* FUN_00c76220(unsigned int,char*);
+    int* FUN_00cda4b0();
+};
+struct FNVDescriptor {
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    short* mapping;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int count;
+};
+struct FNVFrames {
+    unsigned int unk00;
+    unsigned int unk04;
+    FNVDescriptor* first;
+    FNVDescriptor* second;
+};
+struct FNVAnimationController {
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3C;
+    unsigned int unk40;
+    unsigned int unk44;
+    FNVSource* source;
+    unsigned int unk4C;
+    unsigned int unk50;
+    unsigned int unk54;
+    FNVAnimObject* primary;
+    unsigned int unk5C;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6C;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7C;
+    unsigned int unk80;
+    FNVAnimObject* root;
+    FNVSource* alternate;
+    unsigned int unk8C;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9C;
+    unsigned int unkA0;
+    unsigned int unkA4;
+    unsigned int unkA8;
+    unsigned int unkAC;
+    unsigned int unkB0;
+    unsigned int unkB4;
+    unsigned int unkB8;
+    unsigned int unkBC;
+    unsigned int unkC0;
+    unsigned int unkC4;
+    unsigned int unkC8;
+    unsigned int unkCC;
+    unsigned int unkD0;
+    unsigned int unkD4;
+    unsigned int unkD8;
+    unsigned int unkDC;
+    unsigned int unkE0;
+    unsigned int unkE4;
+    unsigned int unkE8;
+    unsigned int unkEC;
+    unsigned int unkF0;
+    unsigned int unkF4;
+    unsigned int unkF8;
+    unsigned int unkFC;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10C;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11C;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12C;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13C;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14C;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15C;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16C;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17C;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18C;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19C;
+    unsigned int unk1A0;
+    unsigned int unk1A4;
+    unsigned int unk1A8;
+    unsigned int unk1AC;
+    unsigned int unk1B0;
+    unsigned int unk1B4;
+    unsigned int unk1B8;
+    unsigned int unk1BC;
+    unsigned int unk1C0;
+    unsigned int unk1C4;
+    unsigned int unk1C8;
+    unsigned int unk1CC;
+    unsigned int unk1D0;
+    unsigned int unk1D4;
+    unsigned int unk1D8;
+    unsigned int unk1DC;
+    unsigned int unk1E0;
+    unsigned int unk1E4;
+    unsigned int unk1E8;
+    unsigned int unk1EC;
+    unsigned int unk1F0;
+    unsigned int unk1F4;
+    unsigned int unk1F8;
+    unsigned int unk1FC;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20C;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    unsigned int unk21C;
+    unsigned int unk220;
+    unsigned int unk224;
+    unsigned int unk228;
+    unsigned int unk22C;
+    unsigned int unk230;
+    unsigned int unk234;
+    unsigned int unk238;
+    unsigned int unk23C;
+    unsigned int unk240;
+    unsigned int unk244;
+    unsigned int unk248;
+    unsigned int unk24C;
+    unsigned int unk250;
+    unsigned int unk254;
+    unsigned int unk258;
+    unsigned int unk25C;
+    unsigned int unk260;
+    unsigned int unk264;
+    unsigned int unk268;
+    unsigned int unk26C;
+    unsigned int unk270;
+    unsigned int unk274;
+    unsigned int unk278;
+    unsigned int unk27C;
+    unsigned int unk280;
+    unsigned int unk284;
+    unsigned int unk288;
+    unsigned int unk28C;
+    unsigned int unk290;
+    unsigned int unk294;
+    unsigned int unk298;
+    unsigned int unk29C;
+    unsigned int unk2A0;
+    FNVFrames* frames;
+    void FUN_00c7cb50(int side);
+};
+// @fnv 0x00c7d630
+void FUN_00c7d630_t::FUN_00c7d630(float)
+{
+    char* self = (char*)this;
+    if (*(bool*)(self + 0x43) && !*(bool*)(self + 0xb3) && !*(bool*)(self + 0x222) && !*(bool*)(self + 0x21e) &&
+        !*(bool*)(self + 0x28e))
+    {
+        *(bool*)(self + 0x43) = false;
+        *(bool*)(self + 0x41) = false;
+    }
+    if (DAT_01267c28 && *(bool*)(self + 0x41))
+    {
+        NiTransform_o2 kWorld = m_pkNode->GetParent()->m_kWorldSpaceTransform * m_pkNode->m_kLocalTransform;
+        kWorld.m_kOrientation = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::ThreeByThreeMatrix &)(m_kRot))->operator+(kWorld.m_kOrientation);
+        kWorld.m_fScale = 1.0f;
+        ::FUN_00c74dd0((::C74QsTransform *)(void *)(self + 0x10), (const ::C74Transform *)(::NiTransform_o2 *)(&kWorld));
+        if (!*(bool*)(self + 0x40))
+        {
+            reinterpret_cast<::PoseOwner *>(this)->FUN_00c79680();
+            reinterpret_cast<::FNVAnimationController *>(this)->FUN_00c7cb50(0);
+            if (DAT_01267c34 && (*(bool*)(self + 0x222) || *(bool*)(self + 0x223)))
+                reinterpret_cast<::FootIKDetail::Controller *>(this)->FUN_00c76350((*(const ::FootIKDetail::Transform *)(self + 0x10)));
+            if (DAT_01267c40 && *(bool*)(self + 0x21e))
+                reinterpret_cast<::ControllerLocal *>(this)->FUN_00c751f0(self + 0x10);
+            if (DAT_01267c4c && *(bool*)(self + 0xb3))
+                reinterpret_cast<::P103Controller *>(this)->FUN_00c7aa60((::P103Transform *)(void *)(self + 0x10));
+        }
+        unsigned int count = m_48->GetInner()->GetCount();
+        bool bOk = false;
+        RagScrapMarker kScrap(count);
+        reinterpret_cast<::RagdollUpdateController *>(this)->FUN_00c7d030((const ::Transform48 *)(void *)((DAT_01267c64 && *(bool*)(self + 0x256) && (reinterpret_cast<::Cls *>(this)->FUN_00c7ba50(self + 0x10, kScrap.p, &bOk), bOk))
+                         ? kScrap.p
+                         : 0));
+        reinterpret_cast<::FNVAnimationController *>(this)->FUN_00c7cb50(1);
+        if (!*(bool*)(self + 0x40))
+        {
+            if (DAT_01267c58 && *(bool*)(self + 0x28e))
+                reinterpret_cast<::BlendController *>(this)->FUN_00c7c870();
+            reinterpret_cast<::FNVAnimationController *>(this)->FUN_00c7cb50(2);
+            reinterpret_cast<::fnv_00c79a50::PoseControllerLocal *>(this)->FUN_00c79a50();
+        }
+    }
+}
+
+// @fnv 0x00c7ba50
+void Cls::FUN_00c7ba50(void* a1, void* a2, bool* a3)
+{
+    Pt3* wp = &m_058->world.trans;
+    float dx = m_pos.x - wp->x;
+    float dy = m_pos.y - wp->y;
+    float dz = m_pos.z - wp->z;
+    float lenSq = dx * dx + dy * dy + dz * dz;
+    double d = (float)sqrt((double)lenSq);
+    float dist = (float)d;
+    if (((long long)(::FUN_00aa4d80())) - m_260 > m_268 || (m_284 && dist > m_27c) || m_288 != -1)
+    {
+        if (m_288 != -1)
+        {
+            reinterpret_cast<::Q1420Helper *>((m_250))->FUN_00cc1420((::Q1420Xf *)(a2), (::Q1420Source *)(m_048->inner), m_288);
+            m_00c = 3;
+            *a3 = true;
+            m_258 = m_288;
+            m_288 = -1;
+        }
+        else
+        {
+            m_pos = m_058->world.trans;
+            InnerC* inner = m_048->inner;
+            ScrapMarker marker(inner->count);
+            reinterpret_cast<::RagdollMapperC18 *>((m_048))->FUN_00ce18f0((::hkQsTransformC18 *)(marker.p), (*(const ::hkQsTransformC18 *)(a1)));
+            int id = reinterpret_cast<::PoseMatcher *>((m_248))->FUN_00ce11f0((const ::hkQsTransform *)(marker.p), (*(float *)(&m_008)));
+            if (m_008 < DAT_011b02e4 && id != m_258)
+            {
+                m_258 = id;
+                if (id != -1)
+                {
+                    Obj250* o250 = m_250;
+                    reinterpret_cast<::Q1420Helper *>((o250))->FUN_00cc1420((::Q1420Xf *)(a2), (::Q1420Source *)(inner), id);
+                    m_00c = 3;
+                    *a3 = true;
+                }
+                else if (!*a3)
+                {
+                    m_00c = 0;
+                    *a3 = false;
+                    m_004 = true;
+                }
+            }
+            else if (!*a3)
+            {
+                m_00c = 0;
+                *a3 = false;
+                m_004 = true;
+            }
+        }
+        volatile float f = m_280;
+        m_260 = ((long long)(::FUN_00aa4d80()));
+        m_268 = (__int64)(f * DAT_011ac39c);
+    }
+}
+
+
+
+// @fnv 0x00c7c150
+void RagdollCtl::FUN_00c7c150(bool b)
+{
+    if (active)
+    {
+        bool old = unk222;
+        unk41 = false;
+        unk43 = false;
+        unk222 = false;
+        if (old)
+            unk223 = true;
+        unk21e = false;
+        unkb3 = false;
+        vec120 = ::DAT_010c71b0;
+        vec170 = ::DAT_010c71b0;
+        unk180 = true;
+        unk130 = true;
+        if (unk28d)
+            reinterpret_cast<::Controller *>(this)->FUN_00c7b6a0(false);
+        if (skel)
+        {
+            int n = skel->info->boneCount;
+            for (int i = 0; i < n; i++)
+            {
+                RagRigid* r = bones[i]->rigid;
+                if (r)
+                {
+                    RagMotion* m = r->GetMotion();
+                    if (m)
+                        m->unk14 = false;
+                }
+            }
+        }
+        unkb2 = false;
+        unk1b8 = unk1e8 = 0.0f;
+        unk1ec = false;
+        unk1bc = false;
+        unk221 = false;
+        unk290 = 1.0f;
+        unk228 = 0;
+        unk28f = false;
+        unk294 = 0;
+        if (b)
+            ctrl48->Reattach();
+        for (int j = 0; j < 0; ++j)
+        {
+        }
+    }
+}
+
+// @fnv 0x00c7f4a0
+static __declspec(noinline) unsigned char* FUN_00c7f4a0(unsigned char* out, const float* src, int count)
+{
+    int i = 0;
+    if (count > 0)
+    {
+        do
+        {
+            float value = src[i];
+            unsigned int bits = *(const unsigned int*)&value;
+            if ((bits & 0x7f800000u) == 0x7f800000u)
+            {
+                *out = 0;
+                return out;
+            }
+            ++i;
+        } while (i < count);
+    }
+    *out = 1;
+    return out;
+}
+unsigned char* S00c7f4a0_Call(unsigned char* out, const float* src, int count)
+{
+    return FUN_00c7f4a0(out, src, count);
+}
+
+struct HkFloatCheck
+{
+    void FUN_00c7f500(bool* pOut);
+};
+static inline bool IsFiniteFloat(float r)
+{
+    return ((*(unsigned int*)&r) & 0x7f800000) != 0x7f800000;
+}
+
+static __declspec(noinline) bool* CheckFloatsValid(const float* pData, int iCount, bool* pOut)
+{
+    for (int i = 0; i < iCount; i++)
+        if (!IsFiniteFloat(pData[i]))
+        {
+            *pOut = false;
+            return pOut;
+        }
+    *pOut = true;
+    return pOut;
+}
+// @fnv 0x00c7f500
+void HkFloatCheck::FUN_00c7f500(bool* pOut)
+{
+    CheckFloatsValid((const float*)this, 4, pOut);
+}
+
+struct S_Out
+{
+    int unk00;
+    int unk04;
+};
+struct S_Inner
+{
+};
+struct S_Val
+{
+    int unk00;
+    int unk04;
+    int unk08;
+};
+struct S_Obj
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    signed char unk10;
+    char unk11;
+    char unk12;
+    char unk13;
+    char unk14;
+    char unk15;
+    char unk16;
+    char unk17;
+    unsigned char unk18;
+};
+struct S_Elem
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    S_Inner* unk0c;
+};
+int* __cdecl FUN_00c85ef0(S_Out* out, void* ptr, void* tag);
+inline void* GetOwner(S_Obj* c)
+{
+    return (char*)c + c->unk10;
+}
+inline S_Elem* GetEntity(S_Obj* c)
+{
+    return c->unk18 == 1 ? (S_Elem*)GetOwner(c) : 0;
+}
+inline S_Elem* GetPhantom(S_Obj* c)
+{
+    return c->unk18 == 2 ? (S_Elem*)GetOwner(c) : 0;
+}
+// @fnv 0x00c7fa90
+int __cdecl FUN_00c7fa90(S_Obj* p)
+{
+    int result = 0;
+    if (S_Elem* e = GetEntity(p))
+    {
+        S_Out out;
+        S_Val* v = *(S_Val**)FUN_00c85ef0(&out, e, &(*reinterpret_cast<int *>(&::g_01267b70)));
+        if (v)
+            result = v->unk08;
+    }
+    else if (S_Elem* ph = GetPhantom(p))
+    {
+        S_Out out;
+        S_Val* v = *(S_Val**)FUN_00c85ef0(&out, ph, &(*reinterpret_cast<int *>(&::g_01267b70)));
+        if (v)
+            result = v->unk08;
+        else if (ph->unk0c)
+            result = reinterpret_cast<::PropertyOwner *>((ph->unk0c))->FUN_00c85c80((void *)(0));
+    }
+    return result;
+}
+
+struct __declspec(align(16)) MVec4_o2
+{
+    __m128 q;
+    __forceinline void Rotate(const MVec4_o2& rotation, const MVec4_o2& position)
+    {
+        __m128 scalar = _mm_shuffle_ps(rotation.q, rotation.q, 255);
+        __m128 factor = _mm_add_ps(DAT_010c71e0, _mm_mul_ps(scalar, scalar));
+        __m128 sum = _mm_mul_ps(position.q, factor);
+        __m128 product = _mm_mul_ps(rotation.q, position.q);
+        __m128 dot = _mm_add_ss(_mm_shuffle_ps(product, product, 85), product);
+        dot = _mm_add_ss(_mm_shuffle_ps(product, product, 170), dot);
+        dot = _mm_shuffle_ps(dot, dot, 0);
+        sum = _mm_add_ps(sum, _mm_mul_ps(dot, rotation.q));
+        __m128 cross = _mm_sub_ps(
+            _mm_mul_ps(_mm_shuffle_ps(rotation.q, rotation.q, 201), _mm_shuffle_ps(position.q, position.q, 210)),
+            _mm_mul_ps(_mm_shuffle_ps(rotation.q, rotation.q, 210), _mm_shuffle_ps(position.q, position.q, 201)));
+        sum = _mm_add_ps(sum, _mm_mul_ps(scalar, cross));
+        q = _mm_add_ps(sum, sum);
+    }
+    __forceinline void Add(const MVec4_o2& a)
+    {
+        q = _mm_add_ps(q, a.q);
+    }
+};
+struct BoneTransform
+{
+    MVec4_o2 position;
+    MVec4_o2 rotation;
+    MVec4_o2 scale;
+};
+struct BoneDesc
+{
+    int unk00;
+    unsigned char locked;
+};
+struct BoneFlags
+{
+    unsigned int bits;
+    __forceinline BoneFlags& Set(unsigned int mask)
+    {
+        bits |= mask;
+        return *this;
+    }
+    __forceinline BoneFlags& Clear(unsigned int mask)
+    {
+        bits &= ~mask;
+        return *this;
+    }
+};
+struct SkeletonModel
+{
+    int unk00, unk04, unk08;
+    short* parents;
+    int unk10, unk14;
+    BoneDesc* bones;
+    int count;
+    int unk20;
+    BoneTransform* reference;
+};
+struct PoseState_o2
+{
+    SkeletonModel* model;
+    BoneTransform* local;
+    int unk08, unk0c;
+    BoneTransform* world;
+    int unk14, unk18;
+    unsigned int* flags;
+    int count;
+    int unk24;
+    bool ready;
+    void FUN_00cda4c0();
+};
+// @fnv 0x00cda4c0
+void PoseState_o2::FUN_00cda4c0()
+{
+    int n = model->count;
+    reinterpret_cast<::fnv_00cda340::SkeletonPoseData *>(this)->FUN_00cda340();
+    for (int i = 0; i < n; ++i)
+    {
+        bool locked = model->bones[i].locked != 0;
+        short parent = model->parents[i];
+        if (locked)
+        {
+            const BoneTransform& ref = model->reference[i];
+            if (parent != -1)
+            {
+                const BoneTransform& p = world[parent];
+                world[i].position.Rotate(p.rotation, ref.position);
+                world[i].position.Add(p.position);
+            }
+            else
+            {
+                world[i].position.q = ref.position.q;
+            }
+            flags[i] |= 1;
+            flags[i] |= 4;
+        }
+        else if (parent != -1)
+        {
+            unsigned int* f = flags;
+            if (f[parent] & 4)
+                f[i] |= 1;
+        }
+    }
+    int m = count;
+    for (int j = 0; j < m; ++j)
+        flags[j] &= ~28;
+}
+
+// @fnv 0x00c7c2b0
+ShapeArrays::~ShapeArrays()
+{}
+
+extern "C" void _ReadWriteBarrier(void);
+struct AllocHolderX
+{
+    int unk00, unk04, unk08, unk0C;
+    HkAllocator* m_pAllocator;
+    HkAllocator* GetAllocator()
+    {
+        return m_pAllocator;
+    }
+};
+__forceinline void FreeObjX(void* p, unsigned int n)
+{
+    Holder* h = _FUN_00c85750();
+    h->p->f2(p, n);
+}
+template <class T> struct HkArrX
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_capFlags;
+    ~HkArrX()
+    {
+        AllocHolderX* h = (AllocHolderX*)_FUN_00c85750();
+        HkAllocator* alloc = h->GetAllocator();
+        m_iElementCount = 0;
+        if (!(m_capFlags & 0x80000000))
+            HkDeallocT<T>(alloc, m_data, m_capFlags & 0x3fffffff);
+        m_data = 0;
+        m_capFlags = 0x80000000;
+    }
+};
+struct HkRef
+{
+};
+struct RefObj
+{
+    virtual void vf0();
+    virtual void vf1();
+    long m_iObjectReferenceCount;
+};
+struct RefPtr
+{
+    RefObj* m_p;
+    void Reset()
+    {
+        RefObj* p = m_p;
+        if (p)
+        {
+            if (InterlockedDecrement(&p->m_iObjectReferenceCount) == 0)
+                p->vf1();
+            m_p = 0;
+        }
+    }
+    ~RefPtr()
+    {
+        RefObj* p = m_p;
+        if (p)
+        {
+            if (InterlockedDecrement(&p->m_iObjectReferenceCount) == 0)
+                p->vf1();
+        }
+    }
+};
+struct FixedStr9
+{
+    char* m_h;
+    char* GetChars()
+    {
+        return m_h;
+    }
+    ~FixedStr9()
+    {
+        if (m_h != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+            InterlockedDecrement((long volatile*)(m_h - 8));
+    }
+};
+struct PolyBase
+{
+    virtual void vf0(void* p);
+    virtual void vf1(void* p);
+    virtual void vf2(void* p);
+    virtual void vf3(void* p);
+};
+struct PolyArr : PolyBase
+{
+    void* m_data;
+    int m_iElementCount;
+    int m_cap;
+    ~PolyArr()
+    {
+        PolyBase* b = this;
+        if (m_data)
+        {
+            b->vf2(m_data);
+            m_data = 0;
+            m_cap = 0;
+            m_iElementCount = 0;
+        }
+    }
+};
+struct T48
+{
+    int m_00, m_04, m_08, m_0c, m_10, m_14, m_18, m_1c, m_20, m_24, m_28, m_2c;
+};
+struct T32
+{
+    int m_00, m_04, m_08, m_0c, m_10, m_14, m_18, m_1c;
+};
+struct T208
+{
+    HkRef* m_p0;
+    int m_004;
+    int m_008;
+    int m_00c;
+    int m_010;
+    int m_014;
+    int m_018;
+    int m_01c;
+    int m_020;
+    int m_024;
+    int m_028;
+    int m_02c;
+    int m_030;
+    int m_034;
+    int m_038;
+    int m_03c;
+    int m_040;
+    int m_044;
+    int m_048;
+    int m_04c;
+    int m_050;
+    int m_054;
+    int m_058;
+    int m_05c;
+    int m_060;
+    int m_064;
+    int m_068;
+    int m_06c;
+    int m_070;
+    int m_074;
+    int m_078;
+    int m_07c;
+    int m_080;
+    int m_084;
+    int m_088;
+    int m_08c;
+    int m_090;
+    int m_094;
+    int m_098;
+    int m_09c;
+    int m_0a0;
+    int m_0a4;
+    int m_0a8;
+    int m_0ac;
+    int m_0b0;
+    int m_0b4;
+    int m_0b8;
+    int m_0bc;
+    int m_0c0;
+    int m_0c4;
+    int m_0c8;
+    int m_0cc;
+};
+struct Arr32
+{
+    HkArrX<T32> m_aiIndexedValues;
+    int m_0c, m_10, m_14, m_18, m_1c, m_20, m_24, m_28, m_2c;
+};
+struct X48
+{
+};
+struct MapStd
+{
+    void FUN_00e92760(char* key, void** out);
+    void FUN_00e91fd0(char* key);
+};
+struct BaseC7
+{
+    virtual void vf0();
+    virtual void vf1();
+    virtual void vf2();
+    virtual ~BaseC7()
+    {}
+};
+
+struct FUN_00c7d900 : BaseC7
+{
+    int m_004;
+    int m_008;
+    int m_00c;
+    int m_010;
+    int m_014;
+    int m_018;
+    int m_01c;
+    int m_020;
+    int m_024;
+    int m_028;
+    int m_02c;
+    int m_030;
+    int m_034;
+    int m_038;
+    int m_03c;
+    int m_040;
+    int m_044;
+    HkRef* m_p48;
+    X48* m_p4c;
+    int m_050;
+    FUN_00c7c030* m_p54;
+    int m_058;
+    int m_05c;
+    int m_060;
+    int m_064;
+    int m_068;
+    int m_06c;
+    int m_070;
+    int m_074;
+    int m_078;
+    int m_07c;
+    int m_080;
+    RefPtr m_84;
+    FUN_00c7c030* m_p88;
+    int m_08c;
+    int m_090;
+    HkArrX<T48> m_94;
+    PolyArr m_a0;
+    int m_0b0;
+    int m_0b4;
+    int m_0b8;
+    int m_0bc;
+    int m_0c0;
+    int m_0c4;
+    int m_0c8;
+    int m_0cc;
+    int m_0d0;
+    int m_0d4;
+    int m_0d8;
+    int m_0dc;
+    int m_0e0;
+    int m_0e4;
+    int m_0e8;
+    int m_0ec;
+    int m_0f0;
+    int m_0f4;
+    int m_0f8;
+    int m_0fc;
+    int m_100;
+    int m_104;
+    int m_108;
+    int m_10c;
+    int m_110;
+    int m_114;
+    int m_118;
+    int m_11c;
+    int m_120;
+    int m_124;
+    int m_128;
+    int m_12c;
+    int m_130;
+    int m_134;
+    int m_138;
+    int m_13c;
+    int m_140;
+    int m_144;
+    int m_148;
+    int m_14c;
+    int m_150;
+    int m_154;
+    int m_158;
+    int m_15c;
+    int m_160;
+    int m_164;
+    int m_168;
+    int m_16c;
+    int m_170;
+    int m_174;
+    int m_178;
+    int m_17c;
+    int m_180;
+    int m_184;
+    int m_188;
+    int m_18c;
+    int m_190;
+    int m_194;
+    int m_198;
+    int m_19c;
+    int m_1a0;
+    int m_1a4;
+    int m_1a8;
+    int m_1ac;
+    int m_1b0;
+    int m_1b4;
+    int m_1b8;
+    int m_1bc;
+    int m_1c0;
+    int m_1c4;
+    int m_1c8;
+    int m_1cc;
+    int m_1d0;
+    int m_1d4;
+    int m_1d8;
+    int m_1dc;
+    int m_1e0;
+    int m_1e4;
+    int m_1e8;
+    int m_1ec;
+    int m_1f0;
+    int m_1f4;
+    int m_1f8;
+    int m_1fc;
+    int m_200;
+    int m_204;
+    int m_208;
+    int m_20c;
+    int m_210;
+    int m_214;
+    int m_218;
+    int m_21c;
+    int m_220;
+    int m_224;
+    int m_228;
+    HkArrX<T208> m_22c;
+    int m_238;
+    int m_23c;
+    int m_240;
+    int m_244;
+    Arr32* m_p248;
+    FixedStr9 m_24c;
+    RefPtr m_250;
+    int m_254;
+    int m_258;
+    int m_25c;
+    int m_260;
+    int m_264;
+    int m_268;
+    int m_26c;
+    int m_270;
+    int m_274;
+    int m_278;
+    int m_27c;
+    int m_280;
+    int m_284;
+    int m_288;
+    int m_28c;
+    int m_290;
+    int m_294;
+    int m_298;
+    int m_29c;
+    FixedStr9 m_2a0;
+    RefPtr m_2a4;
+    ~FUN_00c7d900();
+};
+// @fnv 0x00c7de30
+void* bhkRagdollController::FUN_00c7de30(unsigned int flag)
+{
+    reinterpret_cast<::FUN_00c7d900 *>(this)->FUN_00c7d900::~FUN_00c7d900();
+    if ((flag & 1) && this)
+    {
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((char*)this - *(unsigned char*)((char*)this - 1));
+    }
+    return this;
+}
+
+// @fnv 0x00c7d900
+FUN_00c7d900::~FUN_00c7d900()
+{
+    int n = m_22c.m_iElementCount;
+    for (int i = 0; i < n; ++i)
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_22c.m_data[i].m_p0))->FUN_00c905b0();
+    m_22c.m_iElementCount = 0;
+    _ReadWriteBarrier();
+    X48* pk4c = m_p4c;
+    if (pk4c)
+    {
+        reinterpret_cast<::fnv_00cdb6f0::FUN_00cdb6f0_cls *>((pk4c))->ClearArrays();
+        FreeObjX(pk4c, 0x48);
+    }
+    HkRef* pk48 = m_p48;
+    if (pk48)
+        reinterpret_cast<::hkReferencedObjectC905 *>((pk48))->FUN_00c905b0();
+    FUN_00c7c030* pk54 = m_p54;
+    if (pk54)
+    {
+        pk54->~FUN_00c7c030();
+        FreeObjX(pk54, 0x38);
+    }
+    FUN_00c7c030* pk88 = m_p88;
+    if (pk88)
+    {
+        pk88->~FUN_00c7c030();
+        FreeObjX(pk88, 0x38);
+    }
+    DAT_011b02f0.FUN_00e92760(m_24c.GetChars(), (void**)&m_250);
+    if (m_250.m_p && (*(int*)&m_250.m_p->m_iObjectReferenceCount) == 2)
+        DAT_011b02f0.FUN_00e91fd0(m_24c.GetChars());
+    if (m_2a4.m_p && (*(int*)&m_2a4.m_p->m_iObjectReferenceCount) == 2)
+        (*reinterpret_cast<::MapStd *>(&::DAT_011b0300)).FUN_00e91fd0(m_2a0.GetChars());
+    m_2a4.Reset();
+    m_250.Reset();
+    Arr32* pk248 = m_p248;
+    if (pk248)
+    {
+        pk248->~Arr32();
+        FreeObjX(pk248, 0x30);
+    }
+}
+
+namespace fnv_00cda110 {
+
+
+struct A
+{
+    char pad0[0x1c];
+    int count;  // 0x1c
+    char pad20[4];
+    void* p24;  // 0x24
+    char pad28[0xc];
+    int n34;  // 0x34
+};
+struct S
+{
+    A* a;       // 0x00
+    void* p04;  // 0x04
+    char pad08[0x14];
+    int* arr1c;  // 0x1c
+    char pad20[8];
+    char b28;  // 0x28
+    char b29;  // 0x29
+    char pad2a[2];
+    float* arr2c;  // 0x2c
+};
+// @fnv 0x00cda110
+void FUN_00cda110(S* s)
+{
+    int i;
+    ::FUN_00cb1260(s->p04, s->a->p24, s->a->count * 0x30);
+    for (i = 0; i < s->a->count; i++)
+        s->arr1c[i] = 2;
+    s->b28 = 0;
+    s->b29 = 1;
+    _ReadWriteBarrier();
+    A* d = s->a;
+    i = 0;
+    if (d->n34 > 0)
+    {
+        float* f = s->arr2c;
+        do
+        {
+            *f++ = 0.0f;
+            i++;
+        } while (i < d->n34);
+    }
+}
+}  // namespace fnv_00cda110
+
+struct KPoint3
+{
+    float x, y, z;
+};
+
+struct KMatrix3
+{
+    float m00, m01, m02;
+    float m10, m11, m12;
+    float m20, m21, m22;
+};
+
+struct KTransform
+{
+    KMatrix3 rot;
+    KPoint3 trans;
+    float scale;
+};
+
+struct KQuat
+{
+    float w, x, y, z;
+};
+
+struct KUpdateData
+{
+    float fTime;
+    bool b0;
+    bool b1;
+    bool b2;
+    bool b3;
+    bool b4;
+};
+
+struct KRigidBody
+{
+};
+
+struct KRagInfo
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    KRigidBody* body;
+    int unk14;
+    float weight;
+    bool IsKeyframed() const
+    {
+        return weight == 0.0f;
+    }
+};
+
+struct KNode;
+
+struct KObject
+{
+    __declspec(noalias) virtual void v00();
+    __declspec(noalias) virtual void v01();
+    __declspec(noalias) virtual void v02();
+    __declspec(noalias) virtual KNode* GetAsNode();
+    __declspec(noalias) virtual void v04();
+    __declspec(noalias) virtual void v05();
+    __declspec(noalias) virtual void v06();
+    __declspec(noalias) virtual void v07();
+    __declspec(noalias) virtual void v08();
+    __declspec(noalias) virtual void v09();
+    __declspec(noalias) virtual void v10();
+    __declspec(noalias) virtual void v11();
+    __declspec(noalias) virtual void v12();
+    __declspec(noalias) virtual void v13();
+    __declspec(noalias) virtual void v14();
+    __declspec(noalias) virtual void v15();
+    __declspec(noalias) virtual void v16();
+    __declspec(noalias) virtual void v17();
+    __declspec(noalias) virtual void v18();
+    __declspec(noalias) virtual void v19();
+    __declspec(noalias) virtual void v20();
+    __declspec(noalias) virtual void v21();
+    __declspec(noalias) virtual void v22();
+    __declspec(noalias) virtual void v23();
+    __declspec(noalias) virtual void v24();
+    __declspec(noalias) virtual void v25();
+    __declspec(noalias) virtual void v26();
+    __declspec(noalias) virtual void v27();
+    __declspec(noalias) virtual void v28();
+    __declspec(noalias) virtual void v29();
+    __declspec(noalias) virtual void v30();
+    __declspec(noalias) virtual void v31();
+    __declspec(noalias) virtual void v32();
+    __declspec(noalias) virtual void v33();
+    __declspec(noalias) virtual void v34();
+    __declspec(noalias) virtual void v35();
+    __declspec(noalias) virtual void v36();
+    __declspec(noalias) virtual void v37();
+    __declspec(noalias) virtual void v38();
+    __declspec(noalias) virtual void v39();
+    __declspec(noalias) virtual void v40();
+    __declspec(noalias) virtual void v41();
+    __declspec(noalias) virtual void v42();
+    __declspec(noalias) virtual void v43();
+    __declspec(noalias) virtual void v44();
+    __declspec(noalias) virtual void v45();
+    __declspec(noalias) virtual void UpdateDownward(KUpdateData& data);
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    KTransform local;
+    KTransform world;
+};
+
+struct KNode : KObject
+{
+    int unk9c;
+    KObject** children;
+    unsigned short unka4;
+    unsigned short childCount;
+    KObject* GetAt(unsigned int i)
+    {
+        return i < childCount ? children[i] : 0;
+    }
+};
+
+
+// @fnv 0x00c821b0
+void FUN_00c821b0(KObject* root, KPoint3* outDelta, bool update)
+{
+    bool weightless;
+    bool fromNode;
+    if (!root)
+        return;
+    KNode* node = root->GetAsNode();
+    if (!node)
+        return;
+    KObject* c0 = node->childCount > 0 ? node->children[0] : 0;
+    if (!c0)
+        return;
+    KNode* child = c0->GetAsNode();
+    if (!child)
+        return;
+    KObject* c1 = child->childCount > 0 ? child->children[0] : 0;
+    if (!c1)
+        return;
+    KNode* grand = c1->GetAsNode();
+    if (!grand)
+        return;
+    KRagInfo* info = (KRagInfo*)::FUN_00c81c50((::S00c81c50_Obj *)(child));
+    if (!info)
+        return;
+    weightless = true;
+    if (info->weight != 0.0f)
+        weightless = false;
+    if (grand->unk1c || weightless)
+    {
+        KTransform t;
+        KRigidBody* body = info->body;
+        fromNode = false;
+        if (body && reinterpret_cast<::Holder_cffa0 *>((body))->FUN_008cffa0())
+        {
+            KQuat q;
+            fromNode = false;
+            reinterpret_cast<::QueryOwner *>((body))->FUN_00560bc0((std::intptr_t)&(t.trans));
+            reinterpret_cast<::S00560c20_Object *>((body))->FUN_00560c20((::S00560c20_Target *)&(q));
+            reinterpret_cast<::FUN_004f0180_Class *>((void *)&(q))->FUN_004f0180((::M3_ *)&(t.rot));
+        }
+        else if (weightless)
+        {
+            KQuat q;
+            fromNode = true;
+            t.trans = node->local.trans;
+            reinterpret_cast<::NiQuaternion *>(&(q))->FromRotationMatrix((const ::ThreeByThreeMatrix &)(node->local.rot));
+            reinterpret_cast<::FUN_004f0180_Class *>((void *)&(q))->FUN_004f0180((::M3_ *)&(t.rot));
+        }
+        else
+        {
+            t = grand->world;
+        }
+
+        KTransform old = node->local;
+        if (update || !weightless)
+            t.trans.z = old.trans.z;
+
+        KPoint3 pos = t.trans;
+        if (!fromNode)
+        {
+            *outDelta = pos;
+            reinterpret_cast<::NiPoint3 *>((outDelta))->Subtract((const ::NiPoint3 &)(node->local.trans));
+        }
+        node->local.trans = pos;
+        if (weightless)
+            node->local.rot = t.rot;
+        if (update)
+        {
+            reinterpret_cast<::NiAVObject *>((node))->UpdateWorldLoc();
+            KUpdateData data;
+            data.fTime = 0.0f;
+            data.b0 = false;
+            data.b1 = false;
+            data.b2 = false;
+            data.b3 = false;
+            data.b4 = false;
+            node->UpdateDownward(data);
+        }
+    }
+}
+
+template <class T> __forceinline void ShortFree(AudioAllocator& a, void* p, const int& cnt)
+{
+    a.FreeArray(p, cnt * (unsigned int)sizeof(T));
+}
+template <class T> __forceinline void FreeArr(AudioAllocator& a, void* p, int cnt)
+{
+    a.FreeArray(p, cnt * (unsigned int)sizeof(T));
+}
+struct StringPtr
+{
+    void* m_data;
+    __forceinline ~StringPtr()
+    {
+        ::FUN_00cb0c00((int)this);
+    }
+};
+struct Bone
+{
+    StringPtr m_name;
+    bool m_bLockTranslation;
+};
+struct QsTransform
+{
+    float v[12];
+};
+struct RefObject
+{
+    virtual ~RefObject();
+};
+struct LocalFrameOnBone
+{
+    RefObject* m_pLocalFrame;
+    int m_iBoneIndex;
+};
+template <class T> __forceinline void GenericFree(AudioAllocator& a, T* const& p, const int& cnt)
+{
+    a.FreeArray(p, cnt * (unsigned int)sizeof(T));
+}
+template <class T> __forceinline void AlternateFree(AudioAllocator& a, void* p, const int& cnt)
+{
+    a.FreeArray(p, cnt * (unsigned int)sizeof(T));
+}
+template <class T> struct Array
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline ~Array()
+    {
+        AudioAllocator& alloc = *FUN_00c85750()->m_pAllocator;
+        int sz = m_iElementCount;
+        T* p = m_data;
+        for (int i = 0; i < sz; ++i, ++p)
+        {
+            p->~T();
+        }
+        unsigned int flag = 0x80000000;
+        unsigned int cap = m_iCapacityState;
+        m_iElementCount = 0;
+        if (!(cap & flag))
+        {
+            GenericFree<T>(alloc, m_data, cap & 0x3fffffff);
+        }
+        m_data = 0;
+        m_iCapacityState = flag;
+    }
+};
+template <> struct Array<LocalFrameOnBone>
+{
+    LocalFrameOnBone* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline ~Array()
+    {
+        AudioHolder* holder = FUN_00c85750();
+        AudioAllocator& alloc = *holder->m_pAllocator;
+        int sz = m_iElementCount;
+        LocalFrameOnBone* const p = m_data;
+        for (int i = 0; i < sz; ++i)
+        {
+            RefObject* obj = p[i].m_pLocalFrame;
+            if (obj)
+            {
+                reinterpret_cast<::hkReferencedObjectC905 *>((obj))->FUN_00c905b0();
+            }
+            p[i].m_pLocalFrame = 0;
+        }
+        unsigned int flag = 0x80000000;
+        unsigned int cap = m_iCapacityState;
+        m_iElementCount = 0;
+        if (!(cap & flag))
+        {
+            AlternateFree<LocalFrameOnBone>(alloc, m_data, cap & 0x3fffffff);
+        }
+        m_data = 0;
+        m_iCapacityState = flag;
+    }
+};
+template <> struct Array<short>
+{
+    short* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline ~Array()
+    {
+        AudioHolder* holder = FUN_00c85750();
+        AudioAllocator& alloc = *holder->m_pAllocator;
+        unsigned int flag = 0x80000000;
+        unsigned int cap = m_iCapacityState;
+        m_iElementCount = 0;
+        if (!(cap & flag))
+        {
+            ShortFree<short>(alloc, m_data, cap & 0x3fffffff);
+        }
+        m_data = 0;
+        m_iCapacityState = flag;
+    }
+};
+template <> struct Array<QsTransform>
+{
+    QsTransform* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline ~Array()
+    {
+        AudioHolder* holder = FUN_00c85750();
+        AudioAllocator& alloc = *holder->m_pAllocator;
+        unsigned int flag = 0x80000000;
+        unsigned int cap = m_iCapacityState;
+        m_iElementCount = 0;
+        if (!(cap & flag))
+        {
+            FreeArr<QsTransform>(alloc, m_data, cap & 0x3fffffff);
+        }
+        m_data = 0;
+        m_iCapacityState = flag;
+    }
+};
+struct Base
+{
+    virtual ~Base()
+    {}
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+};
+class __declspec(novtable) FUN_00c7dc40 : public Base
+{
+  public:
+    StringPtr m_name;
+    Array<short> m_kParentIndices;
+    Array<Bone> m_kBones;
+    Array<QsTransform> m_kReferencePose;
+    Array<StringPtr> m_kBoneNames;
+    Array<LocalFrameOnBone> m_kLocalFrames;
+    virtual ~FUN_00c7dc40();
+};
+// @fnv 0x00c7e970
+Outer* Outer::FUN_00c7e970(unsigned int a)
+{
+    reinterpret_cast<::FUN_00c7dc40 *>(this)->FUN_00c7dc40::~FUN_00c7dc40();
+    if (a & 1)
+    {
+        Holder* h = _FUN_00c85750();
+        h->p->f2(this, _4);
+    }
+    return this;
+}
+// @fnv 0x00c7dc40
+FUN_00c7dc40::~FUN_00c7dc40()
+{}
+
+
+
+
+
+
+
+
+
+
+// @fnv 0x00c7a8d0
+int RagdollAnimControllerView::FUN_00c7a8d0()
+{
+    if (b41 == 0 && p4C != 0)
+    {
+        reinterpret_cast<::FUN_00cdb3e0_cls *>((p4C))->FUN_00cdb3e0();
+    }
+    u8 old = b222;
+    u8 flag = b42;
+    int now = b220 != 0;
+    b41 = flag;
+    b43 = 0;
+    b222 = (u8)now;
+    if (old != 0 && (u8)now == 0)
+    {
+        b223 = 1;
+    }
+    int now2 = b21D != 0;
+    b21E = (u8)now2;
+    if (b28E != 0 || flag == 0)
+        return now2;
+    {
+        RagdollAnimData* z = p48;
+        void* u = z->arr14[0] ? z->arr14[0]->p08 : 0;
+        RagdollAnimReference* s = z->p08->p00;
+        if (s != 0 && s->p08 != 0 && u != 0)
+        {
+            RagdollAnimBodyView* obj = s->p08->p350;
+            for (int i = 0; i < z->count18; ++i)
+            {
+                RagdollAnimEntry* b = z->arr14[i];
+                if (!!b->p08)
+                {
+                    reinterpret_cast<::C68D50World *>((obj))->FUN_00c68d50((::C68D50Entity *)((int)b));
+                }
+            }
+        }
+    }
+}
+
+
+struct ArrowScale
+{
+    float value;
+};
+struct ArrowMemory
+{
+};
+extern ArrowMemory _g_memoryManager;
+struct ArrowPoint
+{
+    float x, y, z;
+    ArrowPoint* FUN_00c5a800(ArrowPoint* result) const;
+};
+struct ArrowColor
+{
+    float r, g, b, a;
+};
+struct ArrowMatrix
+{
+    float m00, m01, m02, m10, m11, m12, m20, m21, m22;
+};
+struct ArrowString
+{
+    char* value;
+    __forceinline ArrowString(const char* text)
+    {
+        if (!text)
+            value = DAT_0109b220;
+        else
+            value = ::NiGlobalStringTable::AddString(text);
+    }
+    __forceinline ~ArrowString()
+    {
+        if (value == DAT_0109b220)
+            return;
+        long* count = ((long*)value) - 2;
+        InterlockedDecrement(count);
+    }
+};
+struct ArrowGeometry
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    ArrowMatrix rotation;
+    ArrowPoint translation;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    ArrowGeometry(unsigned short, ArrowPoint*, ArrowColor*, void*, void*, void*, unsigned char*);
+};
+__forceinline void ReserveMathWork()
+{
+    int mathState;
+}
+__forceinline void ScaleDirection(ArrowPoint& out, const ArrowPoint& n, float factor)
+{
+    ArrowPoint v = {n.x * factor, n.y * factor, n.z * factor};
+    out.x = v.x;
+    out.y = v.y;
+    out.z = v.z;
+}
+__forceinline void ConstructPointsBody(ArrowPoint* const& memory)
+{
+    long side = 5;
+    ArrowPoint* green0 = memory;
+    while (--side >= 0)
+        green0 += 1;
+}
+__forceinline void ConstructPoints(ArrowPoint* const& memory)
+{
+    ReserveMathWork();
+    ConstructPointsBody(memory);
+}
+__forceinline void PerpendicularScale(ArrowPoint& out, const ArrowPoint& n, ArrowPoint& temp, float factor)
+{
+    ArrowMatrix coordinateFrame;
+    {
+        const ArrowPoint* point = n.FUN_00c5a800(&temp);
+        ArrowPoint v6 = {point->x * factor, point->y * factor, point->z * factor};
+        out.x = v6.x;
+        out.y = v6.y;
+        out.z = v6.z;
+    }
+}
+__forceinline void ScaleHead(ArrowPoint& out, const ArrowPoint& n)
+{
+    ArrowPoint v = {n.x * ::DAT_01016264, n.y * ::DAT_01016264, n.z * ::DAT_01016264};
+    out.x = v.x;
+    out.y = v.y;
+    out.z = v.z;
+}
+__forceinline void SetComponents(ArrowPoint& out, float x, float y, float z)
+{
+    out.x = x;
+    out.y = y;
+    out.z = z;
+}
+__forceinline void SubtractPoint(ArrowPoint& out, const ArrowPoint& head, const ArrowPoint& side)
+{
+    SetComponents(out, head.x - side.x, head.y - side.y, head.z - side.z);
+}
+__forceinline void AddPoint(ArrowPoint& out, const ArrowPoint& head, const ArrowPoint& side)
+{
+    ArrowPoint v = {side.x + head.x, side.y + head.y, side.z + head.z};
+    out.x = v.x;
+    out.y = v.y;
+    out.z = v.z;
+}
+__forceinline void ConstructColors(ArrowColor* const& memory)
+{
+    int side = 6;
+    ArrowColor* green0 = memory;
+    while (--side >= 0)
+    {
+        green0->r = 0;
+        green0->g = 0;
+        green0->b = 0;
+        green0->a = 0;
+        green0 += 1;
+    }
+}
+// @fnv 0x00c59a50
+ArrowGeometry* __cdecl FUN_00c59a50(const ArrowPoint& direction, const ArrowColor* color)
+{
+    ArrowPoint n3;
+    float q;
+    ArrowPoint* connections;
+    ArrowPoint left5;
+    ArrowPoint _geometry;
+    ArrowColor* normalizedC;
+    ArrowPoint head;
+    ArrowGeometry* vertices5;
+    unsigned char* vertexResult;
+    {
+        ArrowPoint* pForm2;
+        ArrowPoint differenceD;
+        ArrowPoint* vertexAllocation2;
+        ArrowPoint originJ;
+        ArrowPoint X8;
+        ArrowPoint z3;
+        ArrowPoint colors;
+        ArrowPoint s;
+        ArrowColor* constructionResult;
+        ArrowColor* aColorResult;
+        ArrowColor aX;
+        ArrowColor green8;
+        ArrowColor c;
+        unsigned char* connectionResult4;
+        n3 = direction;
+        q = reinterpret_cast<::NiPoint3 *>((void *)&(n3))->ComputeMagnitude();
+        if (q < 8.0)
+        {
+            ReserveMathWork();
+            ScaleDirection(differenceD, n3, 8.0 / q);
+            n3 = differenceD;
+            q = reinterpret_cast<::NiPoint3 *>((void *)&(n3))->ComputeMagnitude();
+        }
+        vertexAllocation2 = (ArrowPoint*)reinterpret_cast<::MemoryManagerStandIn *>(&(_g_memoryManager))->FUN_00aa3e40(60);
+        pForm2 = vertexAllocation2 ? (ConstructPoints(vertexAllocation2), vertexAllocation2) : 0;
+        connections = pForm2;
+        originJ.x = 0;
+        originJ.y = 0;
+        originJ.z = 0;
+        connections[0] = originJ;
+        PerpendicularScale(_geometry, n3, X8, q * 0.15000000596046448);
+        ScaleHead(s, n3);
+        head = s;
+        SubtractPoint(colors, head, _geometry);
+        left5 = colors;
+        AddPoint(z3, head, _geometry);
+        head = z3;
+        connections[1] = n3;
+        connections[2] = head;
+        connections[3] = n3;
+        connections[4] = left5;
+        if (!color)
+            color = &(*reinterpret_cast<::ArrowColor *>(&::DAT_012032f8));
+        constructionResult = (ArrowColor*)reinterpret_cast<::MemoryManagerStandIn *>(&(_g_memoryManager))->FUN_00aa3e40(96);
+        aColorResult = constructionResult ? (ConstructColors(constructionResult), constructionResult) : 0;
+        normalizedC = aColorResult;
+        normalizedC[0] = *color;
+        normalizedC[1] = *color;
+        aX.r = 0;
+        aX.g = 1;
+        aX.b = 0;
+        aX.a = 1;
+        normalizedC[2] = aX;
+        green8.r = 0;
+        green8.g = 1;
+        green8.b = 0;
+        green8.a = 1;
+        normalizedC[3] = green8;
+        c.r = 0;
+        c.g = 1;
+        c.b = 0;
+        c.a = 1;
+        normalizedC[4] = c;
+        connectionResult4 = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&(_g_memoryManager))->FUN_00aa3e40(6);
+        vertexResult = connectionResult4;
+        vertexResult[0] = 1;
+        vertexResult[1] = 0;
+        vertexResult[2] = 1;
+        vertexResult[3] = 1;
+        vertexResult[4] = 0;
+        vertices5 = new ArrowGeometry(5, connections, normalizedC, 0, 0, 0, vertexResult);
+        vertices5->translation = (*reinterpret_cast<::ArrowPoint *>((void *)&::NiPoint3::ZERO));
+        vertices5->rotation = (*reinterpret_cast<::ArrowMatrix *>(&::DAT_011a9448));
+        ::AssignFixedString((char *)(vertices5), (int)&(const ::ArrowString &)(ArrowString("BSTestObjects DirArrow")), {});
+        return vertices5;
+    }
+}
+
+namespace ActorUpdate3D {
+
+
+struct NiPoint3
+{
+    float x, y, z;
+    NiPoint3();
+    NiPoint3(float afX, float afY, float afZ);
+};
+
+struct ThreeByThreeMatrix
+{
+    float m[9];
+    ThreeByThreeMatrix();
+    NiPoint3 FUN_004b4500(const NiPoint3& arPoint) const;
+};
+
+struct NiBound
+{
+    float fData[4];
+};
+
+struct AlignedRotation
+{
+    __m128 vec;
+    AlignedRotation(float afA, float afB, float afC, float afD);
+};
+
+struct FormType
+{
+    int iData;
+    FormType();
+};
+
+struct HandleRef
+{
+    int iData;
+    HandleRef();
+};
+
+struct NiObject
+{
+};
+
+struct NiNode
+{
+    virtual void vn000();
+    virtual void vn001();
+    virtual void vn002();
+    virtual void vn003();
+    virtual NiObject* FUN_vt10();
+};
+
+struct NiAVObject
+{
+};
+
+struct ProfileMarker
+{
+};
+
+struct Clock
+{
+};
+
+struct ActorList
+{
+};
+
+struct CombatController
+{
+};
+
+struct Process
+{
+    virtual void vp000();
+    virtual void vp001();
+    virtual void vp002();
+    virtual void vp003();
+    virtual void vp004();
+    virtual void vp005();
+    virtual void vp006();
+    virtual void vp007();
+    virtual void vp008();
+    virtual void vp009();
+    virtual void FUN_vt28();
+    virtual void vp00b();
+    virtual void vp00c();
+    virtual void vp00d();
+    virtual void vp00e();
+    virtual void vp00f();
+    virtual void vp010();
+    virtual void vp011();
+    virtual void vp012();
+    virtual void vp013();
+    virtual void vp014();
+    virtual void vp015();
+    virtual void vp016();
+    virtual void vp017();
+    virtual void vp018();
+    virtual void vp019();
+    virtual void vp01a();
+    virtual void vp01b();
+    virtual void vp01c();
+    virtual void vp01d();
+    virtual void vp01e();
+    virtual void vp01f();
+    virtual void vp020();
+    virtual void vp021();
+    virtual void vp022();
+    virtual void vp023();
+    virtual void vp024();
+    virtual void vp025();
+    virtual void vp026();
+    virtual void vp027();
+    virtual void vp028();
+    virtual void vp029();
+    virtual void vp02a();
+    virtual void vp02b();
+    virtual void vp02c();
+    virtual void vp02d();
+    virtual void vp02e();
+    virtual void vp02f();
+    virtual void vp030();
+    virtual void vp031();
+    virtual void vp032();
+    virtual void vp033();
+    virtual void vp034();
+    virtual void vp035();
+    virtual void vp036();
+    virtual void vp037();
+    virtual void vp038();
+    virtual void vp039();
+    virtual void vp03a();
+    virtual void vp03b();
+    virtual void vp03c();
+    virtual void vp03d();
+    virtual void vp03e();
+    virtual void vp03f();
+    virtual void vp040();
+    virtual void vp041();
+    virtual void vp042();
+    virtual void vp043();
+    virtual void vp044();
+    virtual void vp045();
+    virtual void vp046();
+    virtual void vp047();
+    virtual void vp048();
+    virtual void vp049();
+    virtual void vp04a();
+    virtual void vp04b();
+    virtual void vp04c();
+    virtual void vp04d();
+    virtual void vp04e();
+    virtual void vp04f();
+    virtual void vp050();
+    virtual void vp051();
+    virtual void vp052();
+    virtual void vp053();
+    virtual void vp054();
+    virtual void vp055();
+    virtual void vp056();
+    virtual void vp057();
+    virtual void vp058();
+    virtual void vp059();
+    virtual void vp05a();
+    virtual void vp05b();
+    virtual void vp05c();
+    virtual void vp05d();
+    virtual void vp05e();
+    virtual void vp05f();
+    virtual void vp060();
+    virtual void vp061();
+    virtual void vp062();
+    virtual void vp063();
+    virtual void vp064();
+    virtual void vp065();
+    virtual void vp066();
+    virtual void vp067();
+    virtual void vp068();
+    virtual void vp069();
+    virtual void vp06a();
+    virtual void vp06b();
+    virtual void vp06c();
+    virtual void vp06d();
+    virtual void vp06e();
+    virtual void vp06f();
+    virtual void vp070();
+    virtual void vp071();
+    virtual void vp072();
+    virtual void vp073();
+    virtual void vp074();
+    virtual void vp075();
+    virtual void vp076();
+    virtual void vp077();
+    virtual void vp078();
+    virtual void vp079();
+    virtual void vp07a();
+    virtual void vp07b();
+    virtual void vp07c();
+    virtual void vp07d();
+    virtual void vp07e();
+    virtual void vp07f();
+    virtual void vp080();
+    virtual void vp081();
+    virtual void vp082();
+    virtual void vp083();
+    virtual void vp084();
+    virtual void vp085();
+    virtual void vp086();
+    virtual void vp087();
+    virtual void vp088();
+    virtual void vp089();
+    virtual void vp08a();
+    virtual void vp08b();
+    virtual void vp08c();
+    virtual void vp08d();
+    virtual void vp08e();
+    virtual void vp08f();
+    virtual void vp090();
+    virtual void vp091();
+    virtual void vp092();
+    virtual void vp093();
+    virtual void vp094();
+    virtual void vp095();
+    virtual void vp096();
+    virtual void vp097();
+    virtual void vp098();
+    virtual void vp099();
+    virtual void vp09a();
+    virtual void vp09b();
+    virtual void vp09c();
+    virtual void vp09d();
+    virtual void vp09e();
+    virtual void vp09f();
+    virtual void vp0a0();
+    virtual void vp0a1();
+    virtual void vp0a2();
+    virtual CombatController* FUN_vt28c();
+};
+
+struct Holder
+{
+    virtual void vh000();
+    virtual void vh001();
+    virtual void vh002();
+    virtual void vh003();
+    virtual void vh004();
+    virtual void vh005();
+    virtual void vh006();
+    virtual void vh007();
+    virtual int FUN_vt20();
+    virtual bool FUN_vt24(NiPoint3* apPos);
+};
+
+struct PathMover
+{
+};
+
+struct LookTarget
+{
+};
+
+struct CameraNode
+{
+};
+
+struct LodManager
+{
+};
+
+struct BaseForm
+{
+    int FUN_00401170();
+};
+
+struct Havok
+{
+};
+
+struct Ragdoll
+{
+};
+
+struct AnimSequence
+{
+};
+
+struct AnimController
+{
+};
+
+struct ListNode;
+
+struct ChildPtr
+{
+};
+
+struct ListNode
+{
+};
+
+struct ShaderProp
+{
+};
+
+struct ShaderData
+{
+};
+
+struct PropertyHolder
+{
+    virtual void vr000();
+    virtual void vr001();
+    virtual void vr002();
+    virtual void vr003();
+    virtual void vr004();
+    virtual void vr005();
+    virtual void vr006();
+    virtual void vr007();
+    virtual void vr008();
+    virtual void vr009();
+    virtual void vr00a();
+    virtual void vr00b();
+    virtual void vr00c();
+    virtual void vr00d();
+    virtual void vr00e();
+    virtual void vr00f();
+    virtual void vr010();
+    virtual ShaderProp* FUN_vt44();
+};
+
+struct FaceProp
+{
+};
+
+struct GeomData
+{
+    virtual void vz000();
+    virtual void vz001();
+    virtual void vz002();
+    virtual void vz003();
+    virtual void vz004();
+    virtual void vz005();
+    virtual void vz006();
+    virtual void vz007();
+    virtual void vz008();
+    virtual void vz009();
+    virtual void vz00a();
+    virtual void vz00b();
+    virtual void vz00c();
+    virtual void vz00d();
+    virtual void vz00e();
+    virtual void vz00f();
+    virtual void vz010();
+    virtual void vz011();
+    virtual void vz012();
+    virtual void vz013();
+    virtual void vz014();
+    virtual void vz015();
+    virtual void vz016();
+    virtual void vz017();
+    virtual void vz018();
+    virtual void vz019();
+    virtual void vz01a();
+    virtual void vz01b();
+    virtual void vz01c();
+    virtual void vz01d();
+    virtual void vz01e();
+    virtual void vz01f();
+    virtual void vz020();
+    virtual void vz021();
+    virtual void vz022();
+    virtual void vz023();
+    virtual void vz024();
+    virtual int FUN_vt94();
+    FormType FUN_0043b4f0();
+};
+
+struct Geometry
+{
+};
+
+struct FaceAnim
+{
+};
+
+struct Actor;
+
+extern Clock DAT_011f6394;
+
+NiAVObject* __cdecl FUN_004ade00(NiNode* apRoot, const char* apName);
+NiPoint3 __cdecl FUN_004a3760(float afScale, const NiPoint3& arPoint);
+
+struct Actor
+{
+    virtual void va000();
+    virtual void va001();
+    virtual void va002();
+    virtual void va003();
+    virtual void va004();
+    virtual void va005();
+    virtual void va006();
+    virtual void va007();
+    virtual void va008();
+    virtual void va009();
+    virtual void va00a();
+    virtual void va00b();
+    virtual void va00c();
+    virtual void va00d();
+    virtual void va00e();
+    virtual void va00f();
+    virtual void va010();
+    virtual void va011();
+    virtual void FUN_vt48(int aiFlags);
+    virtual void va013();
+    virtual void va014();
+    virtual void va015();
+    virtual void va016();
+    virtual void va017();
+    virtual void va018();
+    virtual void va019();
+    virtual void va01a();
+    virtual void va01b();
+    virtual void va01c();
+    virtual void va01d();
+    virtual void va01e();
+    virtual void va01f();
+    virtual void va020();
+    virtual void va021();
+    virtual void va022();
+    virtual void va023();
+    virtual void va024();
+    virtual void va025();
+    virtual void va026();
+    virtual void va027();
+    virtual void va028();
+    virtual void va029();
+    virtual void va02a();
+    virtual void va02b();
+    virtual void va02c();
+    virtual void va02d();
+    virtual void va02e();
+    virtual void va02f();
+    virtual void va030();
+    virtual void va031();
+    virtual void va032();
+    virtual void va033();
+    virtual void va034();
+    virtual void va035();
+    virtual void va036();
+    virtual void va037();
+    virtual void va038();
+    virtual void va039();
+    virtual void va03a();
+    virtual void va03b();
+    virtual void va03c();
+    virtual void va03d();
+    virtual void va03e();
+    virtual void va03f();
+    virtual void va040();
+    virtual void va041();
+    virtual void va042();
+    virtual void va043();
+    virtual void va044();
+    virtual void va045();
+    virtual void va046();
+    virtual void va047();
+    virtual void va048();
+    virtual void va049();
+    virtual void va04a();
+    virtual void va04b();
+    virtual void va04c();
+    virtual void va04d();
+    virtual void va04e();
+    virtual void va04f();
+    virtual void va050();
+    virtual void va051();
+    virtual void va052();
+    virtual void va053();
+    virtual void va054();
+    virtual void va055();
+    virtual void va056();
+    virtual void va057();
+    virtual void va058();
+    virtual void va059();
+    virtual void va05a();
+    virtual void va05b();
+    virtual void va05c();
+    virtual void va05d();
+    virtual void va05e();
+    virtual void va05f();
+    virtual void va060();
+    virtual void va061();
+    virtual void va062();
+    virtual void va063();
+    virtual void va064();
+    virtual void va065();
+    virtual void va066();
+    virtual void va067();
+    virtual void va068();
+    virtual void va069();
+    virtual void va06a();
+    virtual void va06b();
+    virtual void va06c();
+    virtual void va06d();
+    virtual void va06e();
+    virtual void va06f();
+    virtual void va070();
+    virtual void va071();
+    virtual void va072();
+    virtual void va073();
+    virtual NiNode* FUN_vt1d0();
+    virtual void va075();
+    virtual void va076();
+    virtual void va077();
+    virtual void va078();
+    virtual AnimController* FUN_vt1e4();
+    virtual void va07a();
+    virtual void va07b();
+    virtual void va07c();
+    virtual NiPoint3* FUN_vt1f4();
+    virtual void va07e();
+    virtual void va07f();
+    virtual void va080();
+    virtual void va081();
+    virtual void va082();
+    virtual void va083();
+    virtual void va084();
+    virtual void va085();
+    virtual void va086();
+    virtual void va087();
+    virtual void va088();
+    virtual void va089();
+    virtual void va08a();
+    virtual bool FUN_vt22c(int aiValue);
+    virtual void va08c();
+    virtual void va08d();
+    virtual void va08e();
+    virtual void va08f();
+    virtual void va090();
+    virtual void va091();
+    virtual void va092();
+    virtual void va093();
+    virtual void FUN_vt250(float afDelta, NiPoint3* apPos, int aiValue);
+    virtual void va095();
+    virtual void va096();
+    virtual void va097();
+    virtual void va098();
+    virtual void va099();
+    virtual void va09a();
+    virtual void va09b();
+    virtual void va09c();
+    virtual void va09d();
+    virtual void va09e();
+    virtual void va09f();
+    virtual void va0a0();
+    virtual void va0a1();
+    virtual void va0a2();
+    virtual void va0a3();
+    virtual void va0a4();
+    virtual void va0a5();
+    virtual void va0a6();
+    virtual void va0a7();
+    virtual void FUN_vt2a0();
+    virtual void va0a9();
+    virtual void va0aa();
+    virtual void va0ab();
+    virtual void va0ac();
+    virtual void va0ad();
+    virtual void va0ae();
+    virtual float FUN_vt2bc(int aiValue);
+    virtual void va0b0();
+    virtual void va0b1();
+    virtual void va0b2();
+    virtual void va0b3();
+    virtual void va0b4();
+    virtual void va0b5();
+    virtual void va0b6();
+    virtual void va0b7();
+    virtual void va0b8();
+    virtual void va0b9();
+    virtual void va0ba();
+    virtual void va0bb();
+    virtual void va0bc();
+    virtual void va0bd();
+    virtual void va0be();
+    virtual void va0bf();
+    virtual void va0c0();
+    virtual void va0c1();
+    virtual void va0c2();
+    virtual void va0c3();
+    virtual void va0c4();
+    virtual void va0c5();
+    virtual void va0c6();
+    virtual void va0c7();
+    virtual void va0c8();
+    virtual void va0c9();
+    virtual void va0ca();
+    virtual void va0cb();
+    virtual void va0cc();
+    virtual void va0cd();
+    virtual void va0ce();
+    virtual void va0cf();
+    virtual void va0d0();
+    virtual void va0d1();
+    virtual void va0d2();
+    virtual void va0d3();
+    virtual void va0d4();
+    virtual void va0d5();
+    virtual void va0d6();
+    virtual void va0d7();
+    virtual void va0d8();
+    virtual void va0d9();
+    virtual void va0da();
+    virtual void va0db();
+    virtual void va0dc();
+    virtual void va0dd();
+    virtual void va0de();
+    virtual void va0df();
+    virtual void va0e0();
+    virtual void va0e1();
+    virtual void va0e2();
+    virtual bool FUN_vt38c();
+    virtual void va0e4();
+    virtual void va0e5();
+    virtual void va0e6();
+    virtual void va0e7();
+    virtual void va0e8();
+    virtual void va0e9();
+    virtual void va0ea();
+    virtual void va0eb();
+    virtual void va0ec();
+    virtual void va0ed();
+    virtual void va0ee();
+    virtual void va0ef();
+    virtual void va0f0();
+    virtual void va0f1();
+    virtual void va0f2();
+    virtual void va0f3();
+    virtual void va0f4();
+    virtual void va0f5();
+    virtual void va0f6();
+    virtual void va0f7();
+    virtual void va0f8();
+    virtual void va0f9();
+    virtual void va0fa();
+    virtual void va0fb();
+    virtual void va0fc();
+    virtual void va0fd();
+    virtual void va0fe();
+    virtual void va0ff();
+    virtual void va100();
+    virtual void va101();
+    virtual void va102();
+    virtual void va103();
+    virtual void va104();
+    virtual void va105();
+    virtual void va106();
+    virtual void va107();
+    virtual void va108();
+    virtual void va109();
+    virtual void va10a();
+    virtual void va10b();
+    virtual void va10c();
+    virtual void va10d();
+    virtual void va10e();
+    virtual void va10f();
+    virtual void va110();
+    virtual void va111();
+    virtual void va112();
+    virtual void va113();
+    virtual void va114();
+    virtual void va115();
+    virtual void va116();
+    virtual void va117();
+    virtual void va118();
+    virtual void va119();
+    virtual void va11a();
+    virtual void va11b();
+    virtual void va11c();
+    virtual void va11d();
+    virtual void va11e();
+    virtual void va11f();
+    virtual void va120();
+    virtual void va121();
+    virtual void va122();
+    virtual void va123();
+    virtual void va124();
+    virtual void va125();
+    virtual void va126();
+    virtual void va127();
+    virtual void va128();
+    virtual void va129();
+    virtual void va12a();
+    virtual void va12b();
+    virtual void va12c();
+    virtual bool FUN_vt4b4();
+    char pad04[0x20];
+    float fScale24;
+    char pad28[0x40];
+    Process* pProcess;
+    char pad6C[0x40];
+    Havok* pHavok;
+    Ragdoll* pRagdoll;
+    char padB4[0x64];
+    bool bResetPose;
+    char pad119[0x77];
+    Holder* pHolder;
+    char pad194[4];
+
+    int FUN_00931850();
+    HandleRef FUN_00931ed0();
+    void FUN_00886cb0(float afDelta, int aiUnused);
+};
+
+// @fnv 0x00886cb0
+void Actor::FUN_00886cb0(float afDelta, int aiUnused)
+{
+    reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::ActorUpdate3D::ProfileMarker *>(&::g_011df69e))))->ClearData();
+    float fTimeSinceScaleStart = afDelta;
+    if (fTimeSinceScaleStart == ::_DAT_01012060 && !FUN_00931850())
+    {
+        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ActorUpdate3D::ActorList *>(&::g_011f2250))))->GetName())) == 4 && this == (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::DAT_011f21cc)))
+            fTimeSinceScaleStart = reinterpret_cast<::Twin_0084d030 *>(&(DAT_011f6394))->GetStoredFloatValue() * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::ActorUpdate3D::ActorList *>(&::g_011f2250))))->FUN_009c8d60();
+        else
+            fTimeSinceScaleStart = reinterpret_cast<::Twin_0084d030 *>(&(DAT_011f6394))->GetStoredFloatValue();
+    }
+    ::UpdateFlag800State((::Actor *)this);
+    if (this != (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer)))
+    {
+        NiPoint3 kTarget = (*reinterpret_cast<::ActorUpdate3D::NiPoint3 *>((void *)&::NiPoint3::ZERO));
+        int iTargetFlags = 0;
+        if (!FUN_vt4b4() && !reinterpret_cast<::fnv_00886b30::A_00886b30 *>(this)->PlaceAtPosition((::fnv_00886b30::Pt3_00886b30 *)(::ActorUpdate3D::NiPoint3 *)(&kTarget)))
+        {
+            iTargetFlags = pHolder->FUN_vt20();
+            if (!pHolder->FUN_vt24(&kTarget))
+            {
+                PathMover* pMover = ((::ActorUpdate3D::PathMover *)(reinterpret_cast<::FUN_008b70d0_shell *>(this)->FUN_008b70d0()));
+                if (pMover)
+                    reinterpret_cast<::fnv_00494390::MovementAnimation *>((pMover))->GetMovement((::fnv_00494390::MotionPoint *)(::ActorUpdate3D::NiPoint3 *)(&kTarget), (::fnv_00494390::MotionActor *)(void *)(this), 0, 1);
+            }
+        }
+        LookTarget* pLook = ((::ActorUpdate3D::LookTarget *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
+        if (pLook && ::FUN_00450ff0((void *)(pLook)) && !reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer))))->IsSleepingOrResting())
+        {
+            FUN_vt250(fTimeSinceScaleStart, &kTarget, iTargetFlags);
+        }
+        else
+        {
+            ThreeByThreeMatrix kRotate;
+            reinterpret_cast<::FUN_004a0c90_shell *>(&(kRotate))->FUN_004a0c90(((::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::TESRecipe *>(this)->GetData()))->z);
+            reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)&(const ::ActorUpdate3D::NiPoint3 &)((*(::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(FUN_vt1f4()))->ProjectileLaunched((::NiPoint3 *)&(const ::ActorUpdate3D::NiPoint3 &)(kRotate.FUN_004b4500(kTarget)), {})))));
+        }
+    }
+    if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>(this)->FUN_00493bb0())))
+        reinterpret_cast<::fnv_008b00c0::MobileObjectStandIn *>(this)->UpdateControllerFlag();
+    CombatController* pCombat = pProcess ? pProcess->FUN_vt28c() : 0;
+    if (this != (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer)))
+    {
+        NiNode* p3D = FUN_vt1d0();
+        if (this != (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer)) && p3D)
+        {
+            NiPoint3 kCameraPos;
+            if (reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer))))->FUN_004eaf60() && (*reinterpret_cast<::ActorUpdate3D::CameraNode * *>(&::DAT_011e07d4)))
+                kCameraPos = *((::ActorUpdate3D::NiPoint3 *)(::FUN_0045bb80((int)((*reinterpret_cast<::ActorUpdate3D::CameraNode * *>(&::DAT_011e07d4))))));
+            else if ((*reinterpret_cast<::ActorUpdate3D::CameraNode * *>(&::DAT_011e07d0)))
+                kCameraPos = *((::ActorUpdate3D::NiPoint3 *)(::FUN_0045bb80((int)((*reinterpret_cast<::ActorUpdate3D::CameraNode * *>(&::DAT_011e07d0))))));
+            else
+                kCameraPos = (*(::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(((::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>(((*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer))))->GetAddTopicList()))))->ProjectileLaunched(
+                    (::NiPoint3 *)&(const ::ActorUpdate3D::NiPoint3 &)(FUN_004a3760(reinterpret_cast<::fnv_008be940::FloatValueProvider *>(((*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer))))->FUN_008be940(), (*reinterpret_cast<::ActorUpdate3D::NiPoint3 *>((void *)&::DAT_011a9484)))), {})));
+            NiBound kBound = *((::ActorUpdate3D::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((p3D))->FUN_0043d450()));
+            float fDistance =
+                reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::ActorUpdate3D::NiPoint3 &)((*(::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCameraPos))->FUN_00439ef0((::NiPoint3 *)&(*((::ActorUpdate3D::NiPoint3 *)(new ((void *)&(kBound)) ::Vec3()))), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>(&(kBound))->GetStoredFloatValue() * ::DAT_01021798;
+            bool bFar = false;
+            NiObject* pFade = p3D->FUN_vt10();
+            if (pFade)
+            {
+                float fRatio = fDistance / ::FUN_007d1d00(3);
+                bFar = fRatio > reinterpret_cast<::FUN_006d2c20_Class *>((pFade))->GetFloatAtOffsetB0();
+            }
+            LodManager* pLod = ((::ActorUpdate3D::LodManager *)(::FUN_00b4f5c0()));
+            if (pLod && ((int)(::GetStringAtOffset13C((const char *)(pLod)))))
+            {
+                bool bVisible = bFar ? false : fDistance > ::_DAT_01012060;
+                reinterpret_cast<::RefVolAccum *>((pLod))->UpdateOrAddItem(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0(), (const ::RefVolSrc *)(::ActorUpdate3D::NiBound *)(&kBound), bVisible);
+            }
+            if (pCombat)
+                reinterpret_cast<::Dummy8879d0 *>((pCombat))->FUN_008879d0(bFar);
+        }
+    }
+    if (pCombat)
+        reinterpret_cast<::fnv_00810610::FUN_00810610_Class *>((pCombat))->FUN_00810610(((bool)(::FUN_00525420())));
+    if (bResetPose && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))
+    {
+        NiNode* pRoot = ((::ActorUpdate3D::NiNode *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()));
+        if (pRoot)
+        {
+            bool bUpright = true;
+            Actor* pCreature = 0;
+            if (((::ActorUpdate3D::BaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->FUN_00401170() == 0x2b)
+                pCreature = this;
+            if (pCreature && !pCreature->FUN_vt38c())
+                bUpright = false;
+            if (pHavok && ::FUN_00552490((bool *)(pHavok)))
+                reinterpret_cast<::RagdollCtl *>((pHavok))->FUN_00c7c150(1);
+            if (pRagdoll)
+                reinterpret_cast<::Manager *>((pRagdoll))->FUN_00ca2ad0(pRoot, ((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::ActorUpdate3D::HandleRef &)(FUN_00931ed0()))->FUN_004a3a20())));
+            reinterpret_cast<::Actor *>(this)->SetActorLifeState((::ACTOR_LIFE_STATE)(1));
+            FUN_vt2a0();
+            if (bUpright)
+            {
+                ThreeByThreeMatrix kHeading;
+                reinterpret_cast<::FUN_004a0c90_shell *>(&(kHeading))->FUN_004a0c90(FUN_vt2bc(0));
+                NiPoint3 kForward(0.0f, 1.0f, 0.0f);
+                kForward = kHeading.FUN_004b4500(kForward);
+                ::FUN_00c9b670((::NiAVObject *)(pRoot), (*(const ::NiPoint3 *)(&kForward)), 1, 0.0f, 0);
+                FUN_vt48(4);
+                pProcess->FUN_vt28();
+            }
+            else
+            {
+                AnimController* pAnim = FUN_vt1e4();
+                if (pAnim && reinterpret_cast<::FUN_00494710_shell *>((pAnim))->FUN_00494710(0xe0))
+                {
+                    reinterpret_cast<::fnv_004955c0::FUN_004955c0_t *>((pAnim))->FUN_004955c0(0x14, 0xe0, -1, 0.0f, -1);
+                    AnimSequence* pSequence = ((::ActorUpdate3D::AnimSequence *)(reinterpret_cast<::FUN_00491040_shell *>((pAnim))->FUN_00491040(1)));
+                    if (pSequence)
+                    {
+                        reinterpret_cast<::FUN_0098adb0_shell *>((pSequence))->FUN_0098adb0(reinterpret_cast<::FUN_00508100_shell *>((pSequence))->FUN_00508100());
+                        reinterpret_cast<::FUN_00491180_shell *>((pAnim))->FUN_00491180((::TESObjectREFR *)(void *)(this), 0.0f, reinterpret_cast<::FUN_00508100_shell *>((pSequence))->FUN_00508100());
+                        reinterpret_cast<::ThisStub *>((pAnim))->FUN_00493900(this);
+                    }
+                    reinterpret_cast<::fnv_0089f580::ActorStub *>(this)->TryMakeTargetThing();
+                }
+            }
+            bResetPose = false;
+        }
+    }
+    if (reinterpret_cast<::FUN_0087eeb0_shell *>(this)->FUN_0087eeb0() && !FUN_vt22c(0) && !((bool)(reinterpret_cast<::FUN_00437bd0_stub *>(this)->FUN_00437bd0())))
+    {
+        NiNode* pFaceRoot = FUN_vt1d0();
+        NiAVObject* pObject = FUN_004ade00(pFaceRoot, ((const char *)(::FUN_0087e9a0())));
+        bool bChanged = false;
+        if (pObject)
+        {
+            int iObject = ((int)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((pObject))->FUN_006838b0()));
+            Geometry* m_pShaderGeometry = (Geometry*)((void *)(::FUN_00653270((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_01267e64))), (::NiObject *)(((int)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((pObject))->FUN_006838b0()))))));
+            if (m_pShaderGeometry)
+            {
+                GeomData* pData = ((::ActorUpdate3D::GeomData *)(::fnv_006fa820::FUN_006fa820((const char *)(m_pShaderGeometry))));
+                ListNode* pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::NonActorMagicTarget *>((pData))->GetActiveEffectList()));
+                int iSkin = reinterpret_cast<::bhkRigidBody_shell *>((pData))->FUN_00517630();
+                if (!((bool)(::FUN_00c8cce0(&iSkin))))
+                {
+                    ::FUN_00c6a350((::NiAVObject *)(pObject), 1, 1, 1, 1);
+                    int iNewSkin = ((int)(::FUN_00621480((::HighProcess *)(pData->FUN_vt94()))));
+                    reinterpret_cast<::C8DAC0Owner *>((pData))->UpdateMatchingNodes((void *)(iNewSkin));
+                    bChanged = true;
+                }
+                FormType kType = pData->FUN_0043b4f0();
+                if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kType))->FUN_0043b4d0() == 0x1d)
+                    ::FUN_00c804d0((::WalkNode_c804 *)(pFaceRoot), 8);
+                reinterpret_cast<::fnv_00561580::FUN_00561580_Class *>((pData))->FUN_00561580(1);
+                while (pIter && ((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(new ((void *)(pIter)) ::Vec3())))))))
+                {
+                    FaceProp* pFace =
+                        (FaceProp*)((void *)(::FUN_00653270((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_012683ec))), (::NiObject *)((int)((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(new ((void *)(pIter)) ::Vec3()))))))))));
+                    if (pFace)
+                    {
+                        float fDesiredHeadingAngle = FUN_vt2bc(0);
+                        AlignedRotation kRotationBasis(::FUN_005c53d0(fDesiredHeadingAngle), ::FUN_005b9e80(fDesiredHeadingAngle), 0.0f, 0.0f);
+                        reinterpret_cast<::fnv_00887b40::FUN_00887b40_Class *>((pFace))->ForwardToScriptLocals(1);
+                        reinterpret_cast<::fnv_00887af0::FUN_00887af0_class *>((pFace))->FUN_00887af0(&kRotationBasis);
+                        break;
+                    }
+                    pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+                }
+                if (::FUN_008c7aa0())
+                    reinterpret_cast<::S0087ab50 *>((((::ActorUpdate3D::FaceAnim *)(::TaskQueueInterface::GetSingleton()))))->SetPairIfEnabled({}, {});
+                else
+                    ::SetTlsValueAndReset((int)(pObject), 2);
+            }
+        }
+        pObject = FUN_004ade00(pFaceRoot, ((const char *)(::FUN_00887a00())));
+        if (pObject)
+        {
+            int iObject = ((int)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((pObject))->FUN_006838b0()));
+            Geometry* m_pShaderGeometry = (Geometry*)((void *)(::FUN_00653270((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_01267e64))), (::NiObject *)(((int)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((pObject))->FUN_006838b0()))))));
+            if (m_pShaderGeometry)
+            {
+                GeomData* pData = ((::ActorUpdate3D::GeomData *)(::fnv_006fa820::FUN_006fa820((const char *)(m_pShaderGeometry))));
+                ListNode* pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::NonActorMagicTarget *>((pData))->GetActiveEffectList()));
+                int iSkin = reinterpret_cast<::bhkRigidBody_shell *>((pData))->FUN_00517630();
+                if (!((bool)(::FUN_00c8cce0(&iSkin))))
+                {
+                    ::FUN_00c6a350((::NiAVObject *)(pObject), 1, 1, 1, 1);
+                    int iNewSkin = ((int)(::FUN_00621480((::HighProcess *)(pData->FUN_vt94()))));
+                    reinterpret_cast<::C8DAC0Owner *>((pData))->UpdateMatchingNodes((void *)(iNewSkin));
+                    bChanged = true;
+                }
+                FormType kType = pData->FUN_0043b4f0();
+                if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kType))->FUN_0043b4d0() == 0x1d)
+                    ::FUN_00c804d0((::WalkNode_c804 *)(pFaceRoot), 8);
+                reinterpret_cast<::fnv_00561580::FUN_00561580_Class *>((pData))->FUN_00561580(1);
+                while (pIter && ((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(new ((void *)(pIter)) ::Vec3())))))))
+                {
+                    PropertyHolder* pProps = (PropertyHolder*)((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(new ((void *)(pIter)) ::Vec3()))))));
+                    ShaderProp* pShader = pProps->FUN_vt44();
+                    if (pShader)
+                    {
+                        ShaderData* m_pSPData = ((::ActorUpdate3D::ShaderData *)(reinterpret_cast<::FUN_00887a10_cls *>((pShader))->FUN_00887a10()));
+                        float fScale = fScale24;
+                        ::FUN_005330e0(&fScale, reinterpret_cast<::FUN_00644a50_shell *>((m_pSPData))->FUN_00644a50(), reinterpret_cast<::FUN_009a1260_Class *>((m_pSPData))->GetFloatAt0xC8());
+                        reinterpret_cast<::FUN_00887a80_Class *>((pShader))->FUN_00887a80(1);
+                        reinterpret_cast<::FUN_00887ac0_class *>((pShader))->FUN_00887ac0(fScale);
+                        break;
+                    }
+                    pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+                }
+                if (::FUN_008c7aa0())
+                    reinterpret_cast<::S0087ab50 *>((((::ActorUpdate3D::FaceAnim *)(::TaskQueueInterface::GetSingleton()))))->SetPairIfEnabled({}, {});
+                else
+                    ::SetTlsValueAndReset((int)(pObject), 2);
+            }
+        }
+        if (bChanged)
+            FUN_vt48(4);
+    }
+    reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::ActorUpdate3D::ProfileMarker *>(&::g_011df69e))))->ClearData();
+}
+}
+struct P164FormType
+{
+    int FUN_00401170();
+};
+
+extern const char DAT_0102fdc8[];
+__if_not_exists(TESActorBase::TESActorBase)
+{
+    struct TESActorBase : TESForm
+    {
+    };
+}
+struct P164Flags
+{
+    unsigned int value;
+};
+struct P164Buffer
+{
+    virtual unsigned char GetVersion();
+    unsigned int FUN_008648a0();
+    P164Flags FUN_00428110();
+};
+struct P164Item
+{
+    ~P164Item();
+};
+struct P164Inventory
+{
+};
+TESForm* __cdecl FUN_004839c0(unsigned int);
+struct P164Modifier
+{
+};
+struct ActorListEntry_rtm
+{
+    float value;
+    TESForm* form;
+};
+struct P164List
+{
+    void FUN_005ae3d0(ActorListEntry_rtm*&);
+};
+struct P164Clock
+{
+};
+struct P164Biped
+{
+};
+struct P164State
+{
+};
+struct P164Actor : Actor
+{
+    void FUN_008ab3a0(P164Buffer*);
+    void FUN_008c1ac0(bool);
+    void SetFlag40000000(bool);
+};
+struct P164ActorVirtual
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual void v82();
+    virtual void v83();
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual void v88();
+    virtual void v89();
+    virtual void v90();
+    virtual void v91();
+    virtual void v92();
+    virtual void v93();
+    virtual void v94();
+    virtual void v95();
+    virtual void v96();
+    virtual void v97();
+    virtual void v98();
+    virtual void v99();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual void v105();
+    virtual void v106();
+    virtual void v107();
+    virtual void v108();
+    virtual void v109();
+    virtual void v110();
+    virtual void v111();
+    virtual void v112();
+    virtual void v113();
+    virtual void v114();
+    virtual void v115();
+    virtual void v116();
+    virtual void v117();
+    virtual void v118();
+    virtual void v119();
+    virtual void v120();
+    virtual void v121();
+    virtual P164Biped* GetBipedAnimation();
+    virtual void v123();
+    virtual void v124();
+    virtual void v125();
+    virtual void v126();
+    virtual void v127();
+    virtual void v128();
+    virtual void v129();
+    virtual void v130();
+    virtual void v131();
+    virtual void v132();
+    virtual void v133();
+    virtual void v134();
+    virtual bool IsCharacter();
+    virtual void v136();
+    virtual void v137();
+    virtual void v138();
+    virtual bool IsDead(int);
+};
+struct P164Mover
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void Load(P164Buffer*);
+};
+struct P164Process
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual P164Item* GetLoadedForm();
+    virtual void v83();
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual void v88();
+    virtual void v89();
+    virtual void v90();
+    virtual void v91();
+    virtual void v92();
+    virtual void v93();
+    virtual void v94();
+    virtual void v95();
+    virtual void v96();
+    virtual void v97();
+    virtual void v98();
+    virtual void v99();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual void v105();
+    virtual void v106();
+    virtual void v107();
+    virtual void v108();
+    virtual void v109();
+    virtual void v110();
+    virtual void v111();
+    virtual void v112();
+    virtual void v113();
+    virtual void v114();
+    virtual void v115();
+    virtual void v116();
+    virtual void v117();
+    virtual void v118();
+    virtual void v119();
+    virtual void v120();
+    virtual void v121();
+    virtual void v122();
+    virtual void v123();
+    virtual void v124();
+    virtual void v125();
+    virtual void v126();
+    virtual void v127();
+    virtual void v128();
+    virtual void v129();
+    virtual void v130();
+    virtual void v131();
+    virtual void v132();
+    virtual void v133();
+    virtual void v134();
+    virtual void v135();
+    virtual void v136();
+    virtual void v137();
+    virtual void v138();
+    virtual void v139();
+    virtual void v140();
+    virtual void v141();
+    virtual void v142();
+    virtual void v143();
+    virtual void v144();
+    virtual void v145();
+    virtual void v146();
+    virtual void v147();
+    virtual void v148();
+    virtual void v149();
+    virtual void v150();
+    virtual void v151();
+    virtual void v152();
+    virtual void v153();
+    virtual void v154();
+    virtual void v155();
+    virtual void v156();
+    virtual void v157();
+    virtual void v158();
+    virtual void v159();
+    virtual void v160();
+    virtual void v161();
+    virtual void v162();
+    virtual void v163();
+    virtual void v164();
+    virtual void v165();
+    virtual void v166();
+    virtual void v167();
+    virtual void v168();
+    virtual void v169();
+    virtual void v170();
+    virtual void v171();
+    virtual void v172();
+    virtual void v173();
+    virtual void v174();
+    virtual void v175();
+    virtual void v176();
+    virtual void v177();
+    virtual void v178();
+    virtual void v179();
+    virtual void v180();
+    virtual void v181();
+    virtual void v182();
+    virtual void v183();
+    virtual void v184();
+    virtual void v185();
+    virtual void v186();
+    virtual void v187();
+    virtual void v188();
+    virtual void v189();
+    virtual void v190();
+    virtual void v191();
+    virtual void v192();
+    virtual void v193();
+    virtual void v194();
+    virtual void v195();
+    virtual void v196();
+    virtual void v197();
+    virtual void v198();
+    virtual void v199();
+    virtual void v200();
+    virtual void v201();
+    virtual void v202();
+    virtual void v203();
+    virtual void v204();
+    virtual void v205();
+    virtual void v206();
+    virtual void v207();
+    virtual void v208();
+    virtual void v209();
+    virtual void v210();
+    virtual void v211();
+    virtual void v212();
+    virtual void v213();
+    virtual void v214();
+    virtual void v215();
+    virtual void v216();
+    virtual void v217();
+    virtual void v218();
+    virtual void v219();
+    virtual void v220();
+    virtual void v221();
+    virtual void v222();
+    virtual void v223();
+    virtual void v224();
+    virtual void v225();
+    virtual void v226();
+    virtual void v227();
+    virtual void v228();
+    virtual void v229();
+    virtual void v230();
+    virtual void v231();
+    virtual void v232();
+    virtual void v233();
+    virtual void v234();
+    virtual void v235();
+    virtual void v236();
+    virtual void v237();
+    virtual void v238();
+    virtual void v239();
+    virtual void v240();
+    virtual void v241();
+    virtual void v242();
+    virtual void v243();
+    virtual void v244();
+    virtual void v245();
+    virtual void v246();
+    virtual void v247();
+    virtual void v248();
+    virtual void v249();
+    virtual void v250();
+    virtual void v251();
+    virtual void v252();
+    virtual void v253();
+    virtual void v254();
+    virtual void v255();
+    virtual void v256();
+    virtual void v257();
+    virtual void v258();
+    virtual void v259();
+    virtual void v260();
+    virtual void v261();
+    virtual void v262();
+    virtual void v263();
+    virtual void v264();
+    virtual void v265();
+    virtual void v266();
+    virtual void v267();
+    virtual void v268();
+    virtual void v269();
+    virtual void v270();
+    virtual void v271();
+    virtual void v272();
+    virtual void v273();
+    virtual void v274();
+    virtual void v275();
+    virtual void v276();
+    virtual void v277();
+    virtual void v278();
+    virtual void v279();
+    virtual void v280();
+    virtual void v281();
+    virtual void Update(bool);
+};
+// @fnv 0x008ab3a0
+void P164Actor::FUN_008ab3a0(P164Buffer* buffer)
+{
+    int oldState = reinterpret_cast<::FUN_004f8960_shell *>((((P164State*)this)))->FUN_004f8960();
+    reinterpret_cast<::fnv_00932a00::FUN_00932a00_t *>(this)->FUN_00932a00((::fnv_00932a00::BGSLoadFormBuffer *)(buffer));
+    m_eLifeState = (ACTOR_LIFE_STATE)oldState;
+    reinterpret_cast<::FUN_00884f80_shell *>(this)->FUN_00884f80();
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorConditionAndAnimationState), 4);
+    ActorConditionAndAnimationState = reinterpret_cast<::FUN_0096d490_shell *>(&((*reinterpret_cast<::P164Clock *>(&::g_011e0e80))))->FUN_0096d490() - ActorConditionAndAnimationState;
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorStateFlags), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorReferenceData), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFirstActorFlag), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bActorFlag), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fFirstValueAfterFlag), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bSecondBooleanValue), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_eAnimationGroup), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bHasUpdated), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorReferenceListData), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorBaseConfiguration), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFlagBeforeActorBase), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorBaseReference), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bSecondActorFlag), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iIntegerBeforeTwoFloatValues), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&BooleanIntegerTwoFloatData), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&IntegerFloatFlagSettings), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFirstFlagAfterForm), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFormFlag), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bMiddleFlagBeforeActorMover), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iPackageState), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorProjectileState), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFlagBeforeTwoBooleans), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bMiddleFlag), 1);
+    if (buffer->GetVersion() >= 8)
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_eCriticalStage), 4);
+    if (buffer->GetVersion() >= 9)
+    {
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bActorListValid), 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iIntegerAfterActorListValid), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorStatusData), 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiFirstValueAfterInteger), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiActorFlags), 4);
+        FUN_008c1ac0(false);
+        SetFlag40000000(false);
+    }
+    if (buffer->GetVersion() >= 13)
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiValueBeforeBooleanFields), 4);
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&m_pActorReference));
+    m_pActorBase = dynamic_cast<TESActorBase*>(FUN_004839c0(buffer->FUN_008648a0()));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&m_pMobileObject));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::P164Flags &)(buffer->FUN_00428110()))->FUN_004280f0(0x400))
+    {
+        unsigned char lifeState = 0;
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&lifeState), 1);
+        m_eLifeState = (ACTOR_LIFE_STATE)lifeState;
+    }
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::P164Flags &)(buffer->FUN_00428110()))->FUN_004280f0(0x80000))
+    {
+        unsigned int count = ((unsigned int)(reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60()));
+        for (unsigned int i = 0; i < count; ++i)
+        {
+            ActorListEntry_rtm* modifier = new ActorListEntry_rtm;
+            reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&modifier->form));
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(modifier), 4);
+            ((P164List*)&m_kSecondPointerList)->FUN_005ae3d0(modifier);
+        }
+    }
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::P164Flags &)(buffer->FUN_00428110()))->FUN_004280f0(0x800000))
+        reinterpret_cast<::fnv_00937c60::ModifierList_h *>((((P164Modifier*)&m_kFirstActorData)))->LoadModifiers((::fnv_00937c60::BGSLoadFormBuffer *)(buffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::P164Flags &)(buffer->FUN_00428110()))->FUN_004280f0(0x400000))
+        reinterpret_cast<::fnv_00937c60::ModifierList_h *>((((P164Modifier*)&m_kSecondActorData)))->LoadModifiers((::fnv_00937c60::BGSLoadFormBuffer *)(buffer));
+    ((P164Mover*)m_pActorMover)->Load(buffer);
+    if (((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0())) && m_pBaseProcess)
+    {
+        P164Biped* inventory = ((P164ActorVirtual*)this)->GetBipedAnimation();
+        P164Inventory* biped = ((::P164Inventory *)(::InventoryChanges::CreateForReference(this)));
+        if (inventory && biped)
+        {
+            unsigned int slots[] = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
+            unsigned int slotCount = 19;
+            for (unsigned int slot = 0; slot < slotCount; ++slot)
+            {
+                TESForm* current = reinterpret_cast<::FUN_0088e0f0_shell *>((inventory))->FUN_0088e0f0(slot);
+                P164Item* item = ((::P164Item *)(reinterpret_cast<::Target *>((biped))->FUN_004c8c10(slot, 0)));
+                TESForm* equipped = item ? ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())) : 0;
+                if (current)
+                {
+                    if (((P164FormType*)current)->FUN_00401170() == 12)
+                        current = 0;
+                    else if (current->Unk_3D())
+                        current = 0;
+                }
+                if (current != equipped)
+                {
+                    ((P164Process*)m_pBaseProcess)->Update(true);
+                    break;
+                }
+                delete item;
+            }
+        }
+        else if (biped && ((P164ActorVirtual*)this)->IsCharacter() && reinterpret_cast<::MiddleHighProcess *>(this)->IsActorInCombat() &&
+                 strstr(reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520(), DAT_0102fdc8))
+        {
+            P164Item* weapon = ((::P164Item *)(reinterpret_cast<::Target *>((biped))->FUN_004c8c10(5, 0)));
+            TESForm* weaponForm = weapon ? ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())) : 0;
+            if (((P164Process*)m_pBaseProcess)->GetLoadedForm() &&
+                ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((P164Process*)m_pBaseProcess)->GetLoadedForm()))->GetName())) != weaponForm)
+                ((P164Process*)m_pBaseProcess)->Update(true);
+        }
+    }
+    if (!((P164ActorVirtual*)this)->IsDead(0) && m_eCriticalStage != 0)
+        m_eCriticalStage = (ACTOR_CRITICAL_STAGE)0;
+}
+
+#define FNV_NIPOINT3_H
+class ActiveEffect;
+template <class T> class BSSimpleList;
+class Animation;
+template <> class NiPointer<NiNode>
+{
+  public:
+    NiNode* m_pObject;
+    NiNode* operator->() const;
+};
+class ParentSpaceNode;
+class GameSettingCollection;
+extern GlobalObject_0045d260 g_011df69c;
+enum ACTOR_LIFE_STATE;
+#ifdef _MSC_VER
+__forceinline
+#else
+inline __attribute__((always_inline))
+#endif
+    Actor*
+    ActorValueOwner::GetActorOwner()
+{
+    return static_cast<Actor*>(this);
+}
+
+// Reuse complete component classes when this code is inserted into actor.cpp.
+__if_not_exists(BGSPickupPutdownSounds::BGSPickupPutdownSounds)
+{
+    class BGSPickupPutdownSounds : public BaseFormComponent
+    {
+      public:
+        TESSound* m_pPickupSound;
+        TESSound* m_pPutdownSound;
+    };
+}
+__if_not_exists(BGSEquipType::BGSEquipType)
+{
+    class BGSEquipType : public BaseFormComponent
+    {
+      public:
+        static int GetEquipType(TESForm*);
+        int m_eEquipType;
+    };
+}
+
+struct PickupSoundActorView : public Actor
+{
+    char* FUN_008adcf0(::TESBoundObject*, bool, bool);
+};
+
+struct PickupSoundVirtualView
+{
+    virtual void s0();
+    virtual void s1();
+    virtual void s2();
+    virtual void s3();
+    virtual void s4();
+    virtual void s5();
+    virtual void s6();
+    virtual void s7();
+    virtual void s8();
+    virtual void s9();
+    virtual void s10();
+    virtual void s11();
+    virtual void s12();
+    virtual void s13();
+    virtual void s14();
+    virtual void s15();
+    virtual void s16();
+    virtual void s17();
+    virtual void s18();
+    virtual void s19();
+    virtual void s20();
+    virtual void s21();
+    virtual void s22();
+    virtual void s23();
+    virtual void s24();
+    virtual void s25();
+    virtual void s26();
+    virtual void s27();
+    virtual void s28();
+    virtual void s29();
+    virtual void s30();
+    virtual void s31();
+    virtual void s32();
+    virtual void s33();
+    virtual void s34();
+    virtual void s35();
+    virtual void s36();
+    virtual void s37();
+    virtual void s38();
+    virtual void s39();
+    virtual void s40();
+    virtual void s41();
+    virtual void s42();
+    virtual void s43();
+    virtual void s44();
+    virtual void s45();
+    virtual void s46();
+    virtual void s47();
+    virtual void s48();
+    virtual void s49();
+    virtual void s50();
+    virtual void s51();
+    virtual void s52();
+    virtual void s53();
+    virtual void s54();
+    virtual void s55();
+    virtual void s56();
+    virtual void s57();
+    virtual void s58();
+    virtual void s59();
+    virtual void s60();
+    virtual void s61();
+    virtual void s62();
+    virtual void s63();
+    virtual void s64();
+    virtual void s65();
+    virtual void s66();
+    virtual void s67();
+    virtual void s68();
+    virtual void s69();
+    virtual void s70();
+    virtual void s71();
+    virtual void s72();
+    virtual void s73();
+    virtual void s74();
+    virtual void s75();
+    virtual char* s76();
+};
+struct PickupPutdownSoundView
+{
+};
+struct PickupAlchemySoundView
+{
+};
+// @fnv 0x008adcf0
+char* PickupSoundActorView::FUN_008adcf0(::TESBoundObject* apobjREFR, bool abPickUp, bool abUse)
+{
+    const char* soundname;
+    {
+        BGSPickupPutdownSounds* ppickupPutdownSound;
+        {
+            int eformType;
+            {
+                AlchemyItem* ping;
+                if (!apobjREFR)
+                    return 0;
+                ppickupPutdownSound = dynamic_cast<BGSPickupPutdownSounds*>(apobjREFR);
+                soundname = 0;
+                if (!abUse && abPickUp && ppickupPutdownSound &&
+                    reinterpret_cast<::Callees *>((((PickupPutdownSoundView*)ppickupPutdownSound)))->FUN_00726070())
+                {
+                    return ((PickupSoundVirtualView*)reinterpret_cast<::Callees *>((((PickupPutdownSoundView*)ppickupPutdownSound)))->FUN_00726070())
+                        ->s76();
+                }
+                else if (!abUse && !abPickUp && ppickupPutdownSound &&
+                         ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((PickupPutdownSoundView*)ppickupPutdownSound)))->GetName())))
+                {
+                    return ((PickupSoundVirtualView*)((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((PickupPutdownSoundView*)ppickupPutdownSound)))->GetName())))
+                        ->s76();
+                }
+                eformType = apobjREFR ? _FNV_GetFormType(apobjREFR) : 0;
+                switch (eformType)
+                {
+                case 0x2f:
+                    if (!abUse)
+                    {
+                    }
+                    else
+                    {
+                        ping = (AlchemyItem*)apobjREFR;
+                        return ((void *)(reinterpret_cast<::FUN_009acce0_shell *>((((PickupAlchemySoundView*)ping)))->GetFieldC8()))
+                                   ? ((PickupSoundVirtualView*)((void *)(reinterpret_cast<::FUN_009acce0_shell *>((((PickupAlchemySoundView*)ping)))->GetFieldC8())))->s76()
+                                   : 0;
+                    }
+                    break;
+                case 0x28:
+                    switch (BGSEquipType::GetEquipType((TESForm*)apobjREFR))
+                    {
+                    case 0:
+                        return abPickUp ? "UIItemGunsBigUp" : "UIItemGunsBigDown";
+                    case 2:
+                        return abPickUp ? "UIItemGunsSmallUp" : "UIItemGunsSmallDown";
+                    case 3:
+                        return abPickUp ? "UIItemMeleeUp" : "UIItemMeleeDown";
+                    }
+                    break;
+                }
+                return abPickUp == true ? "UIItemGenericUp" : "UIItemGenericDown";
+            }
+        }
+    }
+}
+
+void __cdecl FUN_00c74dd0(void*, const MatrixTransform*);
+__forceinline void CachedScene::ApplyTransform(const MatrixTransform& value) { FUN_00c74dd0(skeleton->transform, &value); }
+__forceinline void CachedScene::ApplyTransformPointer(const MatrixTransform* value) { FUN_00c74dd0(skeleton->transform, value); }
+__forceinline void CachedScene::ApplyFinalTransform(const MatrixTransform& value) { FUN_00c74dd0(GetSkeleton()->GetTransform(), &value); }
+int __cdecl FUN_00ec7750(const char*, const char*);
+extern "C" void* __cdecl FUN_00cb1280(void*,int,unsigned int);
+extern void* __cdecl FUN_00c74ea0(unsigned);
+extern void __cdecl FUN_00c74dd0(void*, void*);
+C74QsTransform* FUN_00c74dd0(C74QsTransform* out, const C74Transform* in);
+void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int n);
+// namespace SkeletonBuild
+
+extern "C" {
+::__m128 _mm_xor_ps(::__m128,::__m128);
+}
+namespace PoseFloatHardware {
+
+extern "C" ::__m128 _mm_sub_ps(::__m128,::__m128);
+extern "C" ::__m128 _mm_and_ps(::__m128,::__m128);
+}
+static __forceinline ::__m128 LoadScalar(const float* f) { ::__m128 t=_mm_load_ss(f); return _mm_shuffle_ps(t,t,0); }
+__forceinline ::__m128 Dot3(const V4& a, const V4& b) {
+    ::__m128 p = _mm_mul_ps(a.bits.quad, b.bits.quad);
+    return _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p));
+}
+__forceinline void RotateDir(V4& out, const Quat& quat, const V4& dir, bool inverse) {
+    V4 qreal; qreal.bits.quad = _mm_shuffle_ps(quat.m_vec.bits.quad, quat.m_vec.bits.quad, 0xff);
+    V4 q2minus1; q2minus1.bits.quad = _mm_add_ps(_mm_mul_ps(qreal.bits.quad, qreal.bits.quad), ::DAT_010c71e0);
+    V4 ret; ret.setMul4(dir, q2minus1);
+    ::__m128 d = Dot3(dir, quat.m_vec);
+    V4 dd; dd.bits.quad = _mm_mul_ps(_mm_shuffle_ps(d, d, 0), quat.m_vec.bits.quad);
+    ret.add4(dd);
+    V4 cr;
+    if (inverse) cr.setCross(dir, quat.m_vec); else cr.setCross(quat.m_vec, dir);
+    V4 crw; crw.setMul4(cr, qreal);
+    ret.add4(crw);
+    out.setAdd4(ret, ret);
+}
+struct MatrixNine { float xx,xy,xz,yx,yy,yz,zx,zy,zz; };
+struct NiTransform_o2_nood_rtm { MatrixNine rotation; float x,y,z,scale; public:
+    ::NiTransform_o2_nood_rtm operator*(const ::NiTransform_o2_nood_rtm &) const;
+public:
+    void ResetToIdentity();
+};
+struct MatrixQuaternion { float w,x,y,z; void FUN_00a6df40(const MatrixNine*); };
+struct NormalizeView { void FUN_005611c0(); };
+extern "C" float DAT_01267c20;
+__declspec(noinline) PoseTransform* FUN_00c74dd0(void* ptr,NiTransform_o2_nood_rtm* source) {
+ PoseTransform* output=static_cast<PoseTransform*>(ptr);
+ MatrixQuaternion matrixQ; matrixQ.FUN_00a6df40(&source->rotation);
+ Quat q;
+ q.m_vec.bits.quad.m128_f32[0]=matrixQ.x;
+ q.m_vec.bits.quad.m128_f32[1]=matrixQ.y;
+ q.m_vec.bits.quad.m128_f32[2]=matrixQ.z;
+ q.m_vec.bits.quad.m128_f32[3]=matrixQ.w;
+ ((NormalizeView*)&q)->FUN_005611c0();
+ output->rotation=q;
+ V4 translation;
+ translation.bits.quad.m128_f32[0]=source->x*DAT_01267c20;
+ translation.bits.quad.m128_f32[1]=source->y*DAT_01267c20;
+ translation.bits.quad.m128_f32[2]=source->z*DAT_01267c20;
+ translation.bits.quad.m128_f32[3]=0.0f;
+ output->translation=translation;
+ output->scale.bits.quad=LoadScalar(&source->scale);
+ return output;
+}
+__declspec(noinline) void FUN_00cb1260(void* to,const void* from,unsigned n) {
+ unsigned char* dest=static_cast<unsigned char*>(to);
+ const unsigned char* src=static_cast<const unsigned char*>(from);
+ while(n--) *dest++=*src++;
+}
+// @fnv 0x00c79680
+void PoseOwner::FUN_00c79680() {
+    float scale = scaleSource->scale;
+    int count = counts->skeleton->count;
+    for (int index=0;index<count;++index) {
+        PoseTransform transform;
+        FUN_00c74dd0(&transform,(NiTransform_o2_nood_rtm*)&nodes[index]->transform);
+        transform.translation.bits.quad=_mm_mul_ps(LoadScalar(&scale),transform.translation.bits.quad);
+        state->SetLocal(index,transform);
+    }
+    reinterpret_cast<::fnv_00cda340::SkeletonPoseData *>((state))->FUN_00cda340();
+    PoseTransform** data=((::PoseTransform **)(reinterpret_cast<::FUN_00cdb290 *>((state))->GetPlus4()));
+    FUN_00cb1260(output,*data,count*sizeof(PoseTransform));
+}
+
+__declspec(noinline) void Quat::FUN_00c66320(const Quat* a,const Quat* b) {
+    ::__m128 av=a->m_vec.bits.quad, bv=b->m_vec.bits.quad;
+    ::__m128 product=_mm_mul_ps(av,bv);
+    ::__m128 sum=_mm_add_ss(_mm_shuffle_ps(product,product,85),product);
+    sum=_mm_add_ss(_mm_shuffle_ps(product,product,170),sum);
+    ::__m128 w=PoseFloatHardware::_mm_sub_ps(product,_mm_shuffle_ps(sum,sum,0));
+    ::__m128 c0=_mm_mul_ps(_mm_shuffle_ps(av,av,0xc9),_mm_shuffle_ps(bv,bv,0xd2));
+    ::__m128 c1=_mm_mul_ps(_mm_shuffle_ps(av,av,0xd2),_mm_shuffle_ps(bv,bv,0xc9));
+    ::__m128 cross=PoseFloatHardware::_mm_sub_ps(c0,c1);
+    ::__m128 aw=_mm_shuffle_ps(av,av,255); aw=_mm_shuffle_ps(aw,aw,0);
+    ::__m128 bw=_mm_shuffle_ps(bv,bv,255); bw=_mm_shuffle_ps(bw,bw,0);
+    ::__m128 xyz=_mm_add_ps(_mm_mul_ps(bw,av),_mm_add_ps(_mm_mul_ps(aw,bv),cross));
+    V4 result; result.bits.quad=_mm_shuffle_ps(xyz,_mm_unpackhi_ps(xyz,w),196);
+    FUN_00cb1260(this,&result,sizeof(result));
+}
+
+namespace RecordHardware {
+
+union __declspec(intrin_type) __declspec(align(16)) __m128 {
+    PackedVector storage;
+    struct { float x, y, z, w; };
+};
+extern "C" __m128 __cdecl _mm_load_ss(const float*);
+extern "C" __m128 __cdecl _mm_shuffle_ps(__m128, __m128, unsigned int);
+extern "C" __m128 __cdecl _mm_set_ss(float);
+extern "C" __m128 __cdecl _mm_mul_ps(__m128, __m128);
+}
+struct ReviewedMemory {  };
+extern ReviewedMemory DAT_011f6238;
+inline bool IsKindOfType(const ReviewedRTTI* target, ReviewedNode* object) {
+    return object && object->IsKindOfType(target);
+}
+void __cdecl FUN_00c74dd0(void*, const void*);
+// @fnv 0x00c7b4f0
+void ReviewedContext::FUN_00c7b4f0(ReviewedNode* node, ReviewedArray* output, ReviewedContext* lookup) {
+    ReviewedRecord* record = new ReviewedRecord;
+    record->value = node->value;
+    FUN_00c74dd0(&record->transform0, &node->transform00);
+    {
+        unsigned int index = -1;
+        reinterpret_cast<::FUN_00c74990_cls *>((lookup))->LookupValue(node->key, (unsigned short *)(unsigned int *)(&index));
+        unsigned int value = index;
+        record->index = (unsigned short)value;
+        if ((short)value != -1) {
+            ReviewedVector single = RecordHardware::_mm_load_ss(&settings->scale);
+            ReviewedVector scale = RecordHardware::_mm_shuffle_ps(single, single, 0);
+            record->transform0 = RecordHardware::_mm_mul_ps(scale, record->transform0);
+        }
+    }
+    reinterpret_cast<::MapTable *>((lookup))->InsertOrUpdate((unsigned int)(node), output->count);
+    output->data[::FUN_00b5c360((::ArrayLike *)(output))] = record;
+    nodes.Add(node);
+    ReviewedNode* parent = node->GetChildrenNode();
+    if (parent) {
+        for (unsigned int i = 0; i < parent->count; ++i) {
+            ReviewedNode* child = parent->children[i];
+            ReviewedNode* resolved = child ? ((::ReviewedNode *)(::FUN_00c802d0((::MyNode *)(child)))) : 0;
+            ReviewedNode* object = resolved ? resolved->GetObject() : 0;
+            ReviewedNode* excluded = object ? (object->IsKindOfType(&(*reinterpret_cast<::ReviewedRTTI *>(&::g_0126817c))) ? object : 0) : 0;
+            if (child && object && !excluded) FUN_00c7b4f0(child, output, lookup);
+        }
+    }
+}
+
+extern "C" void _ReadWriteBarrier();
+extern "C" __m128 _mm_load_ps(const float*);
+extern "C" __m128 _mm_load_ss(const float*);
+extern "C" void _mm_store_ps(float*,__m128);
+__forceinline __m128 ScalePrimaryLine(const float* v, float f) {
+    __m128 low = _mm_load_ss(&f);
+    return _mm_mul_ps(_mm_shuffle_ps(low, low, 0), _mm_load_ps(v));
+}
+__forceinline __m128 ScaleSecondaryLine(const float* v, float f) {
+    __m128 low = _mm_load_ss(&f);
+    return _mm_mul_ps(_mm_load_ps(v), _mm_shuffle_ps(low, low, 0));
+}
+struct FNVAllocator {
+    virtual void Slot0()=0;
+    virtual void Slot1()=0;
+    virtual void Slot2()=0;
+    virtual void* Allocate(int*)=0;
+    virtual void Release(void*,unsigned int)=0;
+};
+struct FNVManager {
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    FNVAllocator* heap;
+};
+struct FNVHeap {  };
+extern FNVHeap g_011f6238;
+extern unsigned int DAT_011a9c10, DAT_011a9c14, DAT_011a9c18, DAT_011a9c1c;
+extern char* FUN_00c76220(unsigned int,char*);
+struct FNVFrameArray {
+    unsigned char* data;
+    unsigned int count, capacity;
+    static __forceinline unsigned char* Allocate(unsigned int& count) {
+        FNVManager* manager = (FNVManager*)FUN_00c85750();
+        FNVAllocator* heap = manager->heap;
+        if (count) {
+            int bytes = count * 48;
+            typedef void* (*Alloc)(void*,int*);
+            unsigned char* result = (unsigned char*)heap->Allocate(&bytes);
+            count = bytes / 48;
+            return result;
+        }
+        return 0;
+    }
+    __forceinline FNVFrameArray(unsigned int n) {
+        unsigned int actual = n;
+        unsigned char* allocated = Allocate(actual);
+        unsigned int flags = actual ? actual : 0x80000000;
+        data = allocated;
+        count = actual;
+        capacity = flags;
+    }
+    ~FNVFrameArray() {
+        FNVManager* manager = (FNVManager*)FUN_00c85750();
+        FNVAllocator* heap = manager->heap;
+        if (!(capacity & 0x80000000)) {
+            typedef void (*Release)(void*,void*,unsigned int);
+            heap->Release(data,(capacity & 0x3fffffff)*48);
+        }
+    }
+};
+__forceinline FNVBound* FNVAnimObject::EnsureBound() {
+    flags |= 0x800;
+    if (!bound) {
+        AdoptBound(reinterpret_cast<::MemoryManagerStandIn *>(&(g_011f6238))->FUN_00aa3e40(16));
+        bound->Initialize((*reinterpret_cast<const ::FNVVec3 *>((void *)&::NiPoint3::ZERO)),0.0f);
+    }
+    return bound;
+}
+__forceinline FNVBound*& FNVAnimObject::EnsureBoundRef() {
+    flags |= 0x800;
+    if (!bound) {
+        AdoptBound(reinterpret_cast<::MemoryManagerStandIn *>(&(g_011f6238))->FUN_00aa3e40(16));
+        bound->Initialize((*reinterpret_cast<const ::FNVVec3 *>((void *)&::NiPoint3::ZERO)),0.0f);
+    }
+    return bound;
+}
+// @fnv 0x00c7cb50
+void FNVAnimationController::FUN_00c7cb50(int side) {
+    FNVAnimationController* owner = this;
+    float ratio = 1.0f / owner->primary->scale;
+    if (!owner->root) return;
+    FNVAnimObject* limb = owner->root->children[side];
+    FNVAnimObject* animation = (FNVAnimObject*)limb->GetCellChildAt(side);
+    if (limb->flags & 1) return;
+    FNVAnimObject* primary = owner->primary;
+    primary->EnsureBound()->radius = 1.0f;
+    FNVAnimObject* root = owner->root;
+    root->EnsureBound()->radius = 1.0f;
+    animation->EnsureBound()->radius = 1.0f;
+    FNVFrames* frames = owner->frames;
+    FNVDescriptor* descriptors = side == 1 ? frames->first : frames->second;
+    unsigned int frameCount = descriptors->count;
+    FNVFrameArray array(frameCount);
+    reinterpret_cast<::RagdollMapperC18 *>((owner->source))->FUN_00ce18f0((::hkQsTransformC18 *)(array.data), (*(const ::hkQsTransformC18 *)(&owner->unk10)));
+    FNVFrameArray* transform = side == 1 ? &array : (FNVFrameArray*) owner->alternate->FUN_00cda4b0();
+    _ReadWriteBarrier();
+    unsigned int nodeIndex = 0;
+    for (unsigned int i = 0; i < frameCount; ++i) {
+        if (descriptors->mapping[i] == -1) continue;
+        FNVAnimObject* node = animation->children[nodeIndex];
+        if (!node) continue;
+        node->EnsureBound()->radius = 1.0f;
+        if (side == 1) {
+            float tints[4] = {0.0f, DAT_01016264, 1.0f, 1.0f};
+            FNVSource* controller = owner->source;
+            int descriptor = controller->indices[i];
+            if (descriptor >= 0 && controller->entries[descriptor]) {
+                char buf;
+                FNVString* stringValue = ((::FNVString *)(reinterpret_cast<::FUN_00c76220_Class *>((controller))->FUN_00c76220(i)));
+                if (*stringValue->FUN_00c761f0()) {
+                    *(unsigned int*)&tints[0] = DAT_011a9c10;
+                    *(unsigned int*)&tints[1] = DAT_011a9c14;
+                    *(unsigned int*)&tints[2] = DAT_011a9c18;
+                    *(unsigned int*)&tints[3] = DAT_011a9c1c;
+                }
+            }
+            FNVAnimObject* coloredNode = animation->children[nodeIndex];
+            coloredNode->extra->colors[0] = *(FNVColor*)tints;
+            FNVExtra* colorExtra = coloredNode->extra;
+            FNVColor* secondColor = colorExtra->colors;
+            *(FNVColor*)&secondColor[1].r = *(FNVColor*)tints;
+        }
+        float* from = (float*)(transform->data + 48 * descriptors->mapping[i]);
+        float* to = (float*)(transform->data + 48 * i);
+        __declspec(align(16)) unsigned char scaledA[16], scaledB[16];
+        _mm_store_ps((float*)scaledA,ScalePrimaryLine(from,ratio));
+        _mm_store_ps((float*)scaledB,ScaleSecondaryLine(to,ratio));
+        FNVVec3 resultA, resultB;
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&resultA)), (*(const ::hkVector4 *)(scaledA)));
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&resultB)), (*(const ::hkVector4 *)(scaledB)));
+        FNVExtra* extra = node->extra;
+        FNVVec3* output = extra->positions;
+        output[0] = resultA;
+        output[1] = resultB;
+        ++nodeIndex;
+    }
+}
+
+void* __cdecl FUN_00c7fa60();
+struct MyNode_o2_gs_nogs
+{
+    virtual void f0();
+    virtual void f1();
+    virtual void f2();
+    virtual int Pred();
+    char _pad0[0x18];
+    MyNode_o2_gs_nogs* field_1c;
+    char _pad1[0x80];
+    MyNode_o2_gs_nogs** children;
+    char _pad2[2];
+    unsigned short count;
+};
+struct NiTransform_o2_gs_nogs
+{
+    ThreeByThreeMatrix m_kOrientation;
+    float m_kTranslation[3];
+    float m_fScale;
+    NiTransform_o2_gs_nogs operator*(const NiTransform_o2_gs_nogs&) const;
+};
+struct RagNode
+{
+    char pad0[0x18];
+    RagNode* m_pParentNode;
+    char pad1c[0x34 - 0x1c];
+    NiTransform_o2_gs_nogs m_kLocalTransform;
+    NiTransform_o2_gs_nogs m_kWorldSpaceTransform;
+    RagNode* GetParent() const
+    {
+        return m_pParentNode;
+    }
+};
+void* __cdecl FUN_00ec7230(char*, char const*, unsigned int);
+void __cdecl FUN_00ce4360(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360Iter* pkTo, int iValue);
+static unsigned char* FUN_00c7f4a0(unsigned char* out, const float* src, int count);
+unsigned char* S00c7f4a0_Call(unsigned char* out, const float* src, int count);
+struct __declspec(align(16)) MVec4_o2_gs_nogs
+{
+    __m128 q;
+    __forceinline void Rotate(const MVec4_o2_gs_nogs& rotation, const MVec4_o2_gs_nogs& position)
+    {
+        __m128 scalar = _mm_shuffle_ps(rotation.q, rotation.q, 255);
+        __m128 factor = _mm_add_ps(DAT_010c71e0, _mm_mul_ps(scalar, scalar));
+        __m128 sum = _mm_mul_ps(position.q, factor);
+        __m128 product = _mm_mul_ps(rotation.q, position.q);
+        __m128 dot = _mm_add_ss(_mm_shuffle_ps(product, product, 85), product);
+        dot = _mm_add_ss(_mm_shuffle_ps(product, product, 170), dot);
+        dot = _mm_shuffle_ps(dot, dot, 0);
+        sum = _mm_add_ps(sum, _mm_mul_ps(dot, rotation.q));
+        __m128 cross = _mm_sub_ps(
+            _mm_mul_ps(_mm_shuffle_ps(rotation.q, rotation.q, 201), _mm_shuffle_ps(position.q, position.q, 210)),
+            _mm_mul_ps(_mm_shuffle_ps(rotation.q, rotation.q, 210), _mm_shuffle_ps(position.q, position.q, 201)));
+        sum = _mm_add_ps(sum, _mm_mul_ps(scalar, cross));
+        q = _mm_add_ps(sum, sum);
+    }
+    __forceinline void Add(const MVec4_o2_gs_nogs& a)
+    {
+        q = _mm_add_ps(q, a.q);
+    }
+};
+struct BoneTransform_o2_gs_nogs
+{
+    MVec4_o2_gs_nogs position;
+    MVec4_o2_gs_nogs rotation;
+    MVec4_o2_gs_nogs scale;
+};
+struct SkeletonModel
+{
+    int unk00, unk04, unk08;
+    short* parents;
+    int unk10, unk14;
+    BoneDesc* bones;
+    int count;
+    int unk20;
+    BoneTransform_o2_gs_nogs* reference;
+};
+struct PoseState_o2_gs_nogs
+{
+    SkeletonModel* model;
+    BoneTransform_o2_gs_nogs* local;
+    int unk08, unk0c;
+    BoneTransform_o2_gs_nogs* world;
+    int unk14, unk18;
+    unsigned int* flags;
+    int count;
+    int unk24;
+    bool ready;
+    void FUN_00cda4c0();
+};
+
+
+
+
+class hkQuaternionCDA
+{
+  public:
+    hkVector4CDA m_vec;
+
+    __forceinline void SetConjugate(const hkQuaternionCDA& q)
+    {
+        m_vec.m_vComponents = _mm_xor_ps(q.m_vec.m_vComponents, DAT_010c4c00);
+    }
+    __declspec(noinline) void SetProduct(const hkQuaternionCDA& q0, const hkQuaternionCDA& q1)
+    {
+        __m128 a = q0.m_vec.m_vComponents;
+        __m128 b = q1.m_vec.m_vComponents;
+        __m128 cross = _mm_sub_ps(
+            _mm_mul_ps(_mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 1, 0, 2)), _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1))),
+            _mm_mul_ps(_mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1)), _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 1, 0, 2))));
+        __m128 aw = _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 3, 3, 3));
+        __m128 bw = _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 3, 3, 3));
+        __m128 imag = _mm_add_ps(_mm_mul_ps(bw, a), _mm_add_ps(_mm_mul_ps(aw, b), cross));
+        __m128 prod = _mm_mul_ps(b, a);
+        __m128 dot = _mm_add_ss(_mm_shuffle_ps(prod, prod, _MM_SHUFFLE(2, 2, 2, 2)),
+                                _mm_add_ss(_mm_shuffle_ps(prod, prod, _MM_SHUFFLE(1, 1, 1, 1)), prod));
+        __m128 real = _mm_sub_ps(prod, _mm_shuffle_ps(dot, dot, 0));
+        m_vec.m_vComponents = _mm_shuffle_ps(imag, _mm_unpackhi_ps(imag, real), _MM_SHUFFLE(3, 0, 1, 0));
+    }
+};
+
+__forceinline void hkVector4CDA::SetRotatedDirection(const hkQuaternionCDA& quat, const hkVector4CDA& direction)
+{
+    hkVector4CDA qreal;
+    qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
+    hkVector4CDA q2minus1;
+    q2minus1.setMul4(qreal, qreal);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    hkVector4CDA ret;
+    ret.setMul4(direction, q2minus1);
+    __m128 imagDotDir = quat.m_vec.dot3(direction);
+    ret.addMul4(imagDotDir, quat.m_vec);
+    hkVector4CDA imagCrossDir;
+    imagCrossDir.setCross(quat.m_vec, direction);
+    ret.addMul4(imagCrossDir, qreal);
+    setAdd4(ret, ret);
+}
+
+__forceinline void hkVector4CDA::setRotatedInverseDir(const hkQuaternionCDA& quat, const hkVector4CDA& direction)
+{
+
+    const hkVector4CDA& d = direction;
+    hkVector4CDA qreal;
+    qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
+    hkVector4CDA q2minus1;
+    q2minus1.setMul4(qreal, qreal);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    hkVector4CDA ret;
+    ret.setMul4(d, q2minus1);
+    __m128 imagDotDir = quat.m_vec.dot3(d);
+    ret.addMul4(imagDotDir, quat.m_vec);
+    hkVector4CDA imagCrossDir;
+    imagCrossDir.setCross(d, quat.m_vec);
+    ret.addMul4(imagCrossDir, qreal);
+    setAdd4(ret, ret);
+}
+
+
+
+
+// @fnv 0x00cda690
+void hkaPoseCDA::FUN_00cda690()
+{
+    if (m_bPoseInitialized)
+        return;
+    const int numBones = m_pSkeleton->m_iBoneCount;
+    for (int boneIdx = 0; boneIdx < numBones; boneIdx++)
+    {
+        if (m_pBoneFlags[boneIdx] & F_DIRTY_LOCAL)
+        {
+            const short parentIdx = m_pSkeleton->m_kParentIndices[boneIdx];
+            const hkQsTransformCDA& modelFromBone = m_pModelPose[boneIdx];
+            if (parentIdx != -1)
+            {
+                const hkQsTransformCDA& modelFromParent = (m_pBoneFlags[parentIdx] & F_DIRTY_MODEL) == 0
+                                                              ? m_pModelPose[parentIdx]
+                                                              : (*(const ::hkQsTransformCDA *)&(reinterpret_cast<::SkeletonPoseData *>(this)->FUN_00cda180(parentIdx)));
+                m_pLocalPose[boneIdx].SetMulInverse(modelFromParent, modelFromBone);
+            }
+            else
+            {
+                m_pLocalPose[boneIdx] = modelFromBone;
+            }
+            m_pBoneFlags[boneIdx] &= ~F_DIRTY_LOCAL;
+        }
+    }
+    m_bPoseInitialized = true;
+}
+
+struct MyNode_o2_od_oy_noo2
+{
+    virtual void f0();
+    virtual void f1();
+    virtual void f2();
+    virtual int Pred();
+    char _pad0[0x18];
+    MyNode_o2_od_oy_noo2* field_1c;
+    char _pad1[0x80];
+    MyNode_o2_od_oy_noo2** children;
+    char _pad2[2];
+    unsigned short count;
+};
+class NiAVObject;
+struct NiTransform_o2_od_oy_noo2
+{
+    ThreeByThreeMatrix m_kOrientation;
+    float m_kTranslation[3];
+    float m_fScale;
+    NiTransform_o2_od_oy_noo2 operator*(const NiTransform_o2_od_oy_noo2&) const;
+};
+struct RagNode
+{
+    char pad0[0x18];
+    RagNode* m_pParentNode;
+    char pad1c[0x34 - 0x1c];
+    NiTransform_o2_od_oy_noo2 m_kLocalTransform;
+    NiTransform_o2_od_oy_noo2 m_kWorldSpaceTransform;
+    RagNode* GetParent() const
+    {
+        return m_pParentNode;
+    }
+};
+
+struct __declspec(align(16)) ScratchVec
+{
+    __m128 m_vComponents;
+    ScratchVec();
+};
+
+
+// @fnv 0x00560bc0
+int QueryOwner::FUN_00560bc0(std::intptr_t param)
+{
+    ScratchVec v;
+    return ((int)(::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(param)), (*(const ::hkVector4 *)(vfn_d4(&v))))));
+}
+
+class NiPoint3T8
+{
+  public:
+    NiPoint3T8();
+    NiPoint3T8 operator+(const NiPoint3T8& kPt) const;
+    NiPoint3T8 operator-(const NiPoint3T8& kPt) const;
+    NiPoint3T8 operator*(float fScale) const;
+    NiPoint3T8& operator*=(float fScale);
+    float x;
+    float y;
+    float z;
+};
+
+class hkSimdRealT8
+{
+  public:
+    hkSimdRealT8(float fValue);
+    __m128 m_vValue;
+};
+
+class hkVector4T8
+{
+  public:
+    hkVector4T8();
+    hkVector4T8 Copy() const;
+    float& operator()(int i);
+    __m128 m_vComponents;
+};
+
+class ScriptVarsT8
+{
+  public:
+};
+
+class LocalsT8
+{
+  public:
+};
+
+class ScriptHostT8
+{
+  public:
+};
+
+class GlobalT8
+{
+  public:
+};
+extern GlobalT8 g_kTrapMultT8;
+
+class ShapeT8;
+class ObjT8
+{
+  public:
+    const void* GetPos();
+};
+
+class HitSubT8
+{
+  public:
+};
+
+class HitT8
+{
+  public:
+    int m_iUnused;
+    HitSubT8 m_kSub;
+};
+
+class TrapFlagsT8
+{
+  public:
+    TrapFlagsT8(int iValue);
+    int m_iValue;
+};
+
+class BodyT8
+{
+  public:
+    const void* GetNavMeshData();
+};
+
+class WeapT8
+{
+  public:
+    const void* GetPos();
+};
+
+class ProjT8
+{
+  public:
+};
+
+class NodeT8
+{
+  public:
+    const NiPoint3T8& GetWorldTranslate();
+};
+
+class ImpulseT8
+{
+  public:
+    ImpulseT8();
+    int m_i00;
+    int m_i04;
+    int m_i08;
+    int m_i0c;
+    int m_i10;
+    int m_aiPad[9];
+    NiPoint3T8 m_kFrom;
+    NiPoint3T8 m_kTo;
+    __m128 m_kPad;
+};
+
+class EventT8
+{
+  public:
+    EventT8();
+    NiPoint3T8 m_kPos;
+    float m_fAngleZ;
+    float m_fScale;
+    unsigned char m_ucType;
+    unsigned char m_ucForm;
+    void* m_pvTarget;
+    int m_i1c;
+    int m_iFirstValue;
+};
+
+class AVOwnerT8
+{
+  public:
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual float GetActorValue(int iAV);
+};
+
+class RefT8
+{
+  public:
+    virtual void r000();
+    virtual void r001();
+    virtual void r002();
+    virtual void r003();
+    virtual void r004();
+    virtual void r005();
+    virtual void r006();
+    virtual void r007();
+    virtual void r008();
+    virtual void r009();
+    virtual void r00a();
+    virtual void r00b();
+    virtual void r00c();
+    virtual void r00d();
+    virtual void r00e();
+    virtual void r00f();
+    virtual void r010();
+    virtual void r011();
+    virtual void r012();
+    virtual void r013();
+    virtual void r014();
+    virtual void r015();
+    virtual void r016();
+    virtual void r017();
+    virtual void r018();
+    virtual void r019();
+    virtual void r01a();
+    virtual void r01b();
+    virtual void r01c();
+    virtual void r01d();
+    virtual void r01e();
+    virtual void r01f();
+    virtual void r020();
+    virtual void r021();
+    virtual void r022();
+    virtual void r023();
+    virtual void r024();
+    virtual void r025();
+    virtual void r026();
+    virtual void r027();
+    virtual void r028();
+    virtual void r029();
+    virtual void r02a();
+    virtual void r02b();
+    virtual void r02c();
+    virtual void r02d();
+    virtual void r02e();
+    virtual void r02f();
+    virtual void r030();
+    virtual void r031();
+    virtual void r032();
+    virtual void r033();
+    virtual void r034();
+    virtual void r035();
+    virtual void r036();
+    virtual void r037();
+    virtual void r038();
+    virtual void r039();
+    virtual void r03a();
+    virtual void r03b();
+    virtual void r03c();
+    virtual void r03d();
+    virtual void r03e();
+    virtual void r03f();
+    virtual void r040();
+    virtual void r041();
+    virtual void r042();
+    virtual void r043();
+    virtual void r044();
+    virtual void r045();
+    virtual void r046();
+    virtual void r047();
+    virtual void r048();
+    virtual void r049();
+    virtual void r04a();
+    virtual void r04b();
+    virtual void r04c();
+    virtual void r04d();
+    virtual void r04e();
+    virtual void r04f();
+    virtual void r050();
+    virtual void r051();
+    virtual void r052();
+    virtual void r053();
+    virtual void r054();
+    virtual void r055();
+    virtual void r056();
+    virtual void r057();
+    virtual void r058();
+    virtual void r059();
+    virtual void r05a();
+    virtual void r05b();
+    virtual void r05c();
+    virtual void r05d();
+    virtual void r05e();
+    virtual void r05f();
+    virtual void r060();
+    virtual void r061();
+    virtual void r062();
+    virtual void r063();
+    virtual void r064();
+    virtual void r065();
+    virtual void r066();
+    virtual void r067();
+    virtual void r068();
+    virtual void r069();
+    virtual void r06a();
+    virtual void r06b();
+    virtual void r06c();
+    virtual void r06d();
+    virtual void r06e();
+    virtual void r06f();
+    virtual void r070();
+    virtual void r071();
+    virtual void r072();
+    virtual void r073();
+    virtual NodeT8* Get3D();
+    virtual void r075();
+    virtual void r076();
+    virtual void r077();
+    virtual void r078();
+    virtual void r079();
+    virtual void r07a();
+    virtual void r07b();
+    virtual void r07c();
+    virtual const NiPoint3T8* GetPos();
+    virtual void r07e();
+    virtual void r07f();
+    virtual void r080();
+    virtual void r081();
+    virtual void r082();
+    virtual void r083();
+    virtual void r084();
+    virtual void r085();
+    virtual void r086();
+    virtual void r087();
+    virtual void r088();
+    virtual void r089();
+    virtual void r08a();
+    virtual bool IsDead(int iValue);
+    virtual void r08c();
+    virtual void r08d();
+    virtual void r08e();
+    virtual void r08f();
+    virtual void r090();
+    virtual void r091();
+    virtual void r092();
+    virtual void r093();
+    virtual void r094();
+    virtual void r095();
+    virtual void r096();
+    virtual void r097();
+    virtual void r098();
+    virtual void r099();
+    virtual void r09a();
+    virtual void r09b();
+    virtual void r09c();
+    virtual void r09d();
+    virtual void r09e();
+    virtual void r09f();
+    virtual void r0a0();
+    virtual void r0a1();
+    virtual void r0a2();
+    virtual void r0a3();
+    virtual void r0a4();
+    virtual void r0a5();
+    virtual void r0a6();
+    virtual void r0a7();
+    virtual void r0a8();
+    virtual void r0a9();
+    virtual void r0aa();
+    virtual void r0ab();
+    virtual void r0ac();
+    virtual void r0ad();
+    virtual void r0ae();
+    virtual void r0af();
+    virtual void r0b0();
+    virtual void r0b1();
+    virtual void r0b2();
+    virtual void r0b3();
+    virtual void r0b4();
+    virtual void r0b5();
+    virtual void r0b6();
+    virtual void r0b7();
+    virtual void r0b8();
+    virtual void r0b9();
+    virtual void r0ba();
+    virtual void r0bb();
+    virtual void r0bc();
+    virtual void r0bd();
+    virtual void r0be();
+    virtual void r0bf();
+    virtual void r0c0();
+    virtual void r0c1();
+    virtual void r0c2();
+    virtual void r0c3();
+    virtual void r0c4();
+    virtual void r0c5();
+    virtual void r0c6();
+    virtual void r0c7();
+    virtual void r0c8();
+    virtual void r0c9();
+    virtual void r0ca();
+    virtual void r0cb();
+    virtual void r0cc();
+    virtual void r0cd();
+    virtual void DamageHealth(float afDamageAmount, float fUnused, int iFlags);
+    char m_acPad[0xa4 - 4];
+    AVOwnerT8 m_kAVOwner;
+    void FUN_00890610(HitT8* pkHit, WeapT8* pkWeap);
+};
+
+// @fnv 0x00890610
+void RefT8::FUN_00890610(HitT8* pkHit, WeapT8* pkWeap)
+{
+    float afDamageAmount = 0.0f;
+    float fPushBack = 0.0f;
+    float fDeathPushBack = 0.0f;
+    float fMinVelocity = 0.0f;
+    bool bContinuous = false;
+    float fVelocityMult = 1.0f;
+    RefT8* pkAttacker = ((::RefT8 *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(pkHit->m_kSub))->FUN_0084e3a0()));
+    ScriptHostT8* pkHost = ((::ScriptHostT8 *)(reinterpret_cast<::FUN_005d43c0_ *>((pkAttacker))->FUN_005d43c0()));
+    ScriptVarsT8* pkVars = ((::ScriptVarsT8 *)(reinterpret_cast<::FUN_00418800_shell *>((pkHost))->FUN_00418800()));
+    if (this == (*reinterpret_cast<::RefT8 * *>(&::_g_thePlayer)) && pkAttacker && pkAttacker == ((::RefT8 *)(reinterpret_cast<::FUN_0089f4e0_shell *>(((*reinterpret_cast<::RefT8 * *>(&::_g_thePlayer))))->FUN_0089f4e0())))
+        return;
+    if (pkVars)
+    {
+        LocalsT8* pkLocals = ((::LocalsT8 *)(reinterpret_cast<::FUN_00418830_shell *>((pkHost))->FUN_00418830()));
+        if (pkLocals)
+        {
+            unsigned int uiDamage;
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("fTrapDamage", &uiDamage))
+                afDamageAmount = reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiDamage, (::Script *)(0));
+            unsigned int uiLevelled;
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("fLevelledDamage", &uiLevelled))
+                afDamageAmount += reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(this)->FUN_0087f9f0() * (float)reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiLevelled, (::Script *)(0));
+            unsigned int uiPushBack;
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("fTrapPushBack", &uiPushBack))
+                fPushBack = reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiPushBack, (::Script *)(0));
+            unsigned int uiMinVelocity;
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("fTrapMinVelocity", &uiMinVelocity))
+            {
+                fMinVelocity = reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiMinVelocity, (::Script *)(0));
+                if (fMinVelocity < 0.0)
+                    fMinVelocity = 0.0f;
+                else
+                    fMinVelocity = FUN_004a3e90(fMinVelocity);
+            }
+            unsigned int uiContinuous;
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("bTrapContinuous", &uiContinuous))
+                bContinuous = reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiContinuous, (::Script *)(0)) != 0.0;
+            unsigned int uiDeathPushBack;
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("fTrapDeathPushBack", &uiDeathPushBack))
+                fDeathPushBack = reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiDeathPushBack, (::Script *)(0));
+            else
+                fDeathPushBack = fPushBack / 10.0;
+        }
+    }
+    if (bContinuous || !reinterpret_cast<::FUN_00891150_Class *>((pkWeap))->FUN_00891150())
+    {
+        ProjT8* pkProj = ((::ProjT8 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
+        BodyT8* pkBody = ((::BodyT8 *)(::FUN_004b59f0(((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkHit->m_kSub))->GetName())))));
+        hkVector4T8 kMotionVelocity;
+        hkVector4T8 kSource;
+        if (pkBody)
+        {
+            if (!reinterpret_cast<::FUN_00891150_Class *>((pkWeap))->FUN_00891150())
+            {
+                reinterpret_cast<::AlignedVector *>(&(kMotionVelocity))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::TESTopicInfo *>((pkWeap))->GetAddTopicList())))));
+                reinterpret_cast<::AlignedVector *>(&(kSource))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::BGSCameraPath *>((pkWeap))->GetShotList())))));
+            }
+            else
+            {
+                reinterpret_cast<::AlignedVector *>(&(kMotionVelocity))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(::FUN_00560dc0((::TESDataHandler *)(pkBody)))))));
+                reinterpret_cast<::AlignedVector *>(&(kSource))->FUN_004a3f10((*(const ::AlignedVector *)(pkBody->GetNavMeshData())));
+            }
+            hkVector4T8 kProjVel;
+            if (fMinVelocity == 0.0 || reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkVector4T8 &)(kMotionVelocity.Copy()))->FUN_004586d0() >= fMinVelocity)
+            {
+                if (pkProj)
+                {
+                    reinterpret_cast<::AlignedVector *>(&(kProjVel))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::Holder00807080 *>((pkProj))->FUN_00807080())))));
+                    reinterpret_cast<::V *>(&(kProjVel))->FUN_00961190((const ::V &)(kMotionVelocity));
+                    float fMin = fMinVelocity != 0.0 ? fMinVelocity : 10.0f;
+                    fVelocityMult = reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkVector4T8 &)(kProjVel.Copy()))->FUN_004586d0() / fMin;
+                    if (fVelocityMult > 2.0)
+                        fVelocityMult = 2.0f;
+                }
+            }
+            else
+            {
+                afDamageAmount = 0.0f;
+            }
+        }
+        else
+        {
+            if (!reinterpret_cast<::FUN_00891150_Class *>((pkWeap))->FUN_00891150())
+            {
+                reinterpret_cast<::AlignedVector *>(&(kSource))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::BGSCameraPath *>((pkWeap))->GetShotList())))));
+            }
+            else
+            {
+                ObjT8* pkObj = ((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>((((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkHit->m_kSub))->GetName()))))->GetName()));
+                reinterpret_cast<::AlignedVector *>(&(kSource))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::TESTopicInfo *>((pkObj))->GetAddTopicList())))));
+            }
+            ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kMotionVelocity), (const ::fnv_004a3e00::NiPoint3 &)(*GetPos()));
+            reinterpret_cast<::V *>(&(kMotionVelocity))->FUN_00961190((const ::V &)(kSource));
+            float& rfZ = reinterpret_cast<::bhkCharacterController *>((void *)&(const ::hkVector4T8 &)(kMotionVelocity))->GetVectorElement(2);
+            rfZ += FUN_004a3e90(reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>(this)->GetActorHeight() / 2.0);
+        }
+        bool bWasAlive = !IsDead(0);
+        TrapFlagsT8 kFlags(((int)(::FUN_0043b540((char *)(((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkHit->m_kSub))->GetName())))))));
+        if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kFlags))->FUN_0043b4d0() == 0x10)
+        {
+            float fResist = m_kAVOwner.GetActorValue(0x13) / 100.0;
+            fResist = 1.0f - FUN_0040ebd0(fResist, 1.0f);
+            afDamageAmount *= fResist;
+        }
+        else
+        {
+            float fResist = 0.0f;
+            fResist = 1.0f - FUN_0040ebd0(fResist, 1.0f);
+            afDamageAmount *= fResist;
+        }
+        if (afDamageAmount > 0.0)
+        {
+            if (bContinuous)
+                afDamageAmount *= reinterpret_cast<::Twin_0084d030 *>(&(g_kTrapMultT8))->GetStoredFloatValue() * fVelocityMult;
+            DamageHealth(afDamageAmount, 0.0f, 0);
+            NiPoint3T8 kTargetCenter = Get3D()->GetWorldTranslate() + (*reinterpret_cast<::NiPoint3T8 *>((void *)&::DAT_011a9484)) * (reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>(this)->GetActorHeight() * 0.5);
+            NiPoint3T8 kWorldPosition;
+            ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kWorldPosition), (const ::hkVector4 &)(kSource));
+            if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kFlags))->FUN_0043b4d0() != 0x10)
+            {
+                ImpulseT8 kImpulse;
+                kImpulse.m_i08 = 0;
+                kImpulse.m_kFrom = kTargetCenter;
+                kImpulse.m_kTo = kTargetCenter - kWorldPosition;
+                kImpulse.m_i00 = 0;
+                kImpulse.m_i10 = -1;
+                reinterpret_cast<::fnv_0088e8d0::EActor *>(this)->FUN_0088e8d0(afDamageAmount * 2.0, (::fnv_0088e8d0::ERequest *)(::ImpulseT8 *)(&kImpulse));
+                if (!bContinuous && pkBody && ((int)(reinterpret_cast<::LowProcess *>((pkWeap))->GetTarget())) != 0x24)
+                {
+                    NiPoint3T8 kPos = (*(::NiPoint3T8 *)&(::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPos), (const ::hkVector4 &)(kSource))));
+                    int iOffset = ((int)(::FUN_004b5a80(pkBody)));
+                    EventT8 kEvent;
+                    kEvent.m_fScale = 0.5f;
+                    kEvent.m_i1c = 0;
+                    kEvent.m_iFirstValue = iOffset;
+                    kEvent.m_ucType = 0x24;
+                    kEvent.m_ucForm = ((int)(reinterpret_cast<::LowProcess *>((pkWeap))->GetTarget()));
+                    kEvent.m_kPos = kPos;
+                    kEvent.m_fAngleZ = reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkVector4T8 &)((*(::hkVector4T8 *)(::FUN_00891060((::Vec4Dst *)&(const ::hkVector4T8 &)(kMotionVelocity.Copy()), (::Vec4Src *)&(const ::hkSimdRealT8 &)(hkSimdRealT8(3.0f)), {})))))->FUN_004586d0();
+                    kEvent.m_pvTarget = (char*)this + iOffset;
+                    ::ImpactSound::FUN_00837550((::ImpactSound::ImpactData *)(::EventT8 *)(&kEvent));
+                }
+            }
+            reinterpret_cast<::fnv_008a7d50::ActorHitOwner *>(this)->FUN_008a7d50(1, 1);
+            bool bKilled = bWasAlive && IsDead(0);
+            if (fPushBack > 0.0)
+            {
+                if (fDeathPushBack > ::DAT_010179e0)
+                    fDeathPushBack = 200.0f;
+                if (bKilled && this != (*reinterpret_cast<::RefT8 * *>(&::_g_thePlayer)))
+                {
+                    ::FUN_00c6a350((::NiAVObject *)(void *)(Get3D()), 1, 1, 0, 1);
+                    ::FUN_00cb9650((::FUN_00cb9650_Object *)(void *)(Get3D()));
+                    reinterpret_cast<::S0062aea0_Vector *>(&(kMotionVelocity))->FUN_0062aea0();
+                    hkSimdRealT8 kScale(1024.0f);
+                    reinterpret_cast<::S008910c0_Vector *>(&(kSource))->FUN_008910c0((const ::S008910c0_Vector *)&(kScale), (const ::S008910c0_Vector *)&(kMotionVelocity));
+                    ::SetCollisionScale((::SceneNode *)(void *)(Get3D()), (unsigned int)(&kSource), fDeathPushBack, (::MaterialSelector *)(0));
+                }
+                else if (pkProj)
+                {
+                    if (fPushBack > 1000.0)
+                        fPushBack = 1000.0f;
+                    if (bContinuous)
+                        fPushBack *= reinterpret_cast<::Twin_0084d030 *>(&(g_kTrapMultT8))->GetStoredFloatValue() * fVelocityMult;
+                    ObjT8* pkObj = ((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkHit->m_kSub))->GetName()));
+                    if (pkObj)
+                    {
+                        NiPoint3T8 kImpulse;
+                        ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kImpulse), (const ::hkVector4 &)(kMotionVelocity));
+                        reinterpret_cast<::FUN_004a0c10_s *>(&(kImpulse))->FUN_004a0c10();
+                        reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3T8 &)(kImpulse))->FUN_00439180(fPushBack);
+                        reinterpret_cast<::Owner274 *>((pkProj))->UpdateMaxVelocity((const float *)&(kImpulse), 0.5f);
+                    }
+                }
+            }
+            if (pkVars)
+            {
+                LocalsT8* pkLocals = ((::LocalsT8 *)(reinterpret_cast<::FUN_00418830_shell *>((pkHost))->FUN_00418830()));
+                if (pkLocals)
+                {
+                    unsigned int uiHasHit;
+                    if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("bTrapHasHit", &uiHasHit))
+                        reinterpret_cast<::FUN_005a9290_shell *>((pkLocals))->SetScriptVariable(uiHasHit, 1.0);
+                }
+            }
+        }
+        reinterpret_cast<::FUN_00891130_class *>((pkWeap))->FUN_00891130(1);
+    }
+}
+
+struct ImpactPoint
+{
+    float x, y, z;
+    ImpactPoint();
+    ImpactPoint operator-(const ImpactPoint&) const;
+    ImpactPoint operator*(float) const;
+};
+struct SettingString
+{
+};
+struct GetterObj
+{
+};
+struct NormObj
+{
+    void FUN_004a0c10();
+};
+struct NodeObj
+{
+    struct Pair;
+    Pair FUN_00461130(int arg);
+};
+struct NodeObj::Pair
+{
+    float x, y, z;
+    ImpactPoint* FUN_00524c40();
+};
+struct ParamObj
+{
+    virtual void z000();
+    virtual void z001();
+    virtual void z002();
+    virtual void z003();
+    virtual void z004();
+    virtual void z005();
+    virtual void z006();
+    virtual void z007();
+    virtual void z008();
+    virtual void z009();
+    virtual void z010();
+    virtual void z011();
+    virtual void z012();
+    virtual void z013();
+    virtual void z014();
+    virtual void z015();
+    virtual void z016();
+    virtual void z017();
+    virtual void z018();
+    virtual void z019();
+    virtual void z020();
+    virtual void z021();
+    virtual void z022();
+    virtual void z023();
+    virtual void z024();
+    virtual void z025();
+    virtual void z026();
+    virtual void z027();
+    virtual void z028();
+    virtual void z029();
+    virtual void z030();
+    virtual void z031();
+    virtual void z032();
+    virtual void z033();
+    virtual void z034();
+    virtual void z035();
+    virtual void z036();
+    virtual void z037();
+    virtual void z038();
+    virtual void z039();
+    virtual void z040();
+    virtual void z041();
+    virtual void z042();
+    virtual void z043();
+    virtual void z044();
+    virtual void z045();
+    virtual void z046();
+    virtual void z047();
+    virtual void z048();
+    virtual void z049();
+    virtual void z050();
+    virtual void z051();
+    virtual void z052();
+    virtual void z053();
+    virtual void z054();
+    virtual void z055();
+    virtual void z056();
+    virtual void z057();
+    virtual void z058();
+    virtual void z059();
+    virtual void z060();
+    virtual void z061();
+    virtual void z062();
+    virtual void z063();
+    virtual void z064();
+    virtual void z065();
+    virtual void z066();
+    virtual void z067();
+    virtual void z068();
+    virtual void z069();
+    virtual void z070();
+    virtual void z071();
+    virtual void z072();
+    virtual void z073();
+    virtual void z074();
+    virtual void z075();
+    virtual void z076();
+    virtual void z077();
+    virtual void z078();
+    virtual void z079();
+    virtual void z080();
+    virtual void z081();
+    virtual void z082();
+    virtual void z083();
+    virtual void z084();
+    virtual void z085();
+    virtual void z086();
+    virtual void z087();
+    virtual void z088();
+    virtual void z089();
+    virtual void z090();
+    virtual void z091();
+    virtual void z092();
+    virtual void z093();
+    virtual void z094();
+    virtual void z095();
+    virtual void z096();
+    virtual void z097();
+    virtual void z098();
+    virtual void z099();
+    virtual void z100();
+    virtual void z101();
+    virtual void z102();
+    virtual void z103();
+    virtual void z104();
+    virtual void z105();
+    virtual void z106();
+    virtual void z107();
+    virtual void z108();
+    virtual void z109();
+    virtual void z110();
+    virtual void z111();
+    virtual void z112();
+    virtual void z113();
+    virtual void z114();
+    virtual void z115();
+    virtual void* GetNode116();
+    virtual void q117();
+    virtual void q118();
+    virtual void q119();
+    virtual void q120();
+    virtual void q121();
+    virtual void q122();
+    virtual void q123();
+    virtual void q124();
+    virtual void q125();
+    virtual void q126();
+    virtual void q127();
+    virtual void q128();
+    virtual void q129();
+    virtual void q130();
+    virtual void q131();
+    virtual void q132();
+    virtual void q133();
+    virtual void q134();
+    virtual void q135();
+    virtual void q136();
+    virtual void q137();
+    virtual void q138();
+    virtual void q139();
+    virtual void q140();
+    virtual void q141();
+    virtual void q142();
+    virtual void q143();
+    virtual void q144();
+    virtual void q145();
+    virtual void q146();
+    virtual void q147();
+    virtual void q148();
+    virtual void q149();
+    virtual void q150();
+    virtual void q151();
+    virtual void q152();
+    virtual void q153();
+    virtual void q154();
+    virtual void q155();
+    virtual void q156();
+    virtual void q157();
+    virtual void q158();
+    virtual void q159();
+    virtual void q160();
+    virtual void q161();
+    virtual void q162();
+    virtual void q163();
+    virtual void q164();
+    virtual void q165();
+    virtual void q166();
+    virtual void q167();
+    virtual void q168();
+    virtual void q169();
+    virtual void q170();
+    virtual void q171();
+    virtual void q172();
+    virtual void q173();
+    virtual void q174();
+    virtual void q175();
+    virtual void q176();
+    virtual void q177();
+    virtual void q178();
+    virtual void q179();
+    virtual void q180();
+    virtual void q181();
+    virtual void q182();
+    virtual void q183();
+    virtual void q184();
+    virtual void q185();
+    virtual void q186();
+    virtual void q187();
+    virtual void q188();
+    virtual void q189();
+    virtual void q190();
+    virtual void q191();
+    virtual void q192();
+    virtual void q193();
+    virtual void q194();
+    virtual void q195();
+    virtual void q196();
+    virtual void q197();
+    virtual void q198();
+    virtual void q199();
+    virtual void q200();
+    virtual void q201();
+    virtual void q202();
+    virtual void q203();
+    virtual void q204();
+    virtual void q205();
+    virtual void q206();
+    virtual void q207();
+    virtual void q208();
+    virtual void q209();
+    virtual void q210();
+    virtual void q211();
+    virtual void q212();
+    virtual void q213();
+    virtual void q214();
+    virtual void q215();
+    virtual bool IsSpecial();
+};
+struct SubObjSrc
+{
+};
+struct Sub410
+{
+};
+struct GlobalCount
+{
+};
+
+struct __declspec(align(16)) ImpactVector
+{
+    __m128 value;
+    ImpactVector();
+};
+struct ImpactQuery
+{
+    float x, y, z, radius;
+    ImpactQuery();
+};
+struct ImpactColor
+{
+    float r, g, b, a;
+    ImpactColor(float, float, float, float);
+};
+struct ImpactEffect
+{
+};
+struct ImpactEffectManager
+{
+    void Add(ImpactEffect*, float);
+};
+struct HitObject
+{
+    void* GetIdentity();
+};
+struct HitIdentity
+{
+};
+struct HitQueryResult
+{
+    void* GetIdentity();
+};
+struct HitName
+{
+    char const* GetName();
+};
+struct HitPart
+{
+};
+struct ImpactNode
+{
+};
+struct HostShell : Actor
+{
+    void FUN_008a4af0(ParamObj* source, float strength, float secondary, int start, int end);
+};
+// @fnv 0x008a4af0
+void HostShell::FUN_008a4af0(ParamObj* source, float strength, float secondary, int start, int end)
+{
+    void* scene = ((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((ImpactNode*)this)))->FUN_0043fcd0()));
+    if (reinterpret_cast<::FUN_008ace90_shell *>((((ImpactNode*)this)))->FUN_008ace90())
+        return;
+    void* manager = FUN_004aae30((NiAVObject*)scene, (NiFixedString*)((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011cc83c))))->IsDLCAvailable())));
+    ImpactPoint origin;
+    ImpactPoint target;
+    NodeObj* node = (NodeObj*)source->GetNode116();
+    if (node)
+    {
+        origin = *node->FUN_00461130(start).FUN_00524c40();
+        target = *node->FUN_00461130(end).FUN_00524c40();
+    }
+    ImpactPoint direction;
+    direction = target - origin;
+    reinterpret_cast<::FUN_004a0c10_s *>(&(direction))->FUN_004a0c10();
+    int part = 0;
+    if (manager)
+    {
+        if (strength > 100.0)
+            strength = 100.0f;
+        float difference = reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc77c))))->FUN_00450410() - reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc86c))))->FUN_00450410();
+        float primary = difference * strength * 0.009999999776482582 + reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc86c))))->FUN_00450410();
+        difference = reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc860))))->FUN_00450410() - reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc7dc))))->FUN_00450410();
+        float amount = difference * secondary + reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc7dc))))->FUN_00450410();
+        if (secondary > 75.0)
+            primary = 0.0f;
+        if (primary != 0.0 || amount != 0.0)
+        {
+            bool enabled = true;
+            if (this == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
+                enabled = reinterpret_cast<::FUN_004eaf60_shell *>((((ImpactNode*)this)))->FUN_004eaf60();
+            if (!Unk_8C() && enabled)
+            {
+                bool special = false;
+                void* sub = ((void *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((((SubObjSrc*)this)))->FUN_009306d0()));
+                if (sub)
+                    special = ::FUN_008a5170((const ::_Dummy_008a5170 *)(((Sub410*)((char*)sub + 0x410))));
+                ::FUN_00c9b250((::SceneObject *)(manager), 0.0f, special);
+            }
+            if (primary != 0.0)
+            {
+                ImpactPoint impulse = direction * primary;
+                if (reinterpret_cast<::TESObjectCELL *>(&((*reinterpret_cast<::GlobalCount *>(&::g_011df838))))->GetCellStandValue() > 0)
+                {
+                    ImpactColor color(0.0f, 0.0f, 0.0f, 0.0f);
+                    if (source->IsSpecial())
+                        color = ImpactColor(0.0f, 0.0f, 1.0f, 1.0f);
+                    else
+                        color = ImpactColor(1.0f, 0.0f, 0.0f, 1.0f);
+                    ImpactEffect* effect = ((::ImpactEffect *)(::FUN_00c59a50((const ::ArrowPoint &)((const ::ImpactPoint &)(impulse * 0.1f)), (const ::ArrowColor *)&(color))));
+                    reinterpret_cast<::FUN_00440460_S *>((effect))->FUN_00440460((const ::V3 *)&(target));
+                    reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::ImpactEffectManager * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(effect), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011df754))))->FUN_00450410());
+                }
+                if (enabled)
+                {
+                    ImpactVector worldImpulse;
+                    ::CopyCharacterControllerVector((::bhkCharacterController *)(::ImpactVector *)(&worldImpulse), (*(const ::NiPoint3 *)(&impulse)));
+                    ImpactQuery query;
+                    __declspec(align(16)) ImpactPoint position;
+                    ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&position)), (*(const ::fnv_004a3e00::NiPoint3 *)(&target)));
+                    reinterpret_cast<::FUN_008a50f0_class *>(&(query))->FUN_008a50f0((int)&(position));
+                    reinterpret_cast<::fnv_008a50d0::bhkCharacterController *>(&(query))->FUN_008a50d0(30.0f);
+                    HitQueryResult* result = ((::HitQueryResult *)(::FUN_00c806b0(scene, &query, 0)));
+                    if (result)
+                    {
+                        HitIdentity* identity = ((::HitIdentity *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(void *)(((void *)(::FUN_004ae750((void *)(result))))))));
+                        if (identity)
+                            part = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((identity))->GetName()));
+                    }
+                    if (!part)
+                        part = (int)FUN_004aae30((NiAVObject*)scene,
+                                                 (NiFixedString*)((const char *)(reinterpret_cast<::DownloadableContentManager *>((((SettingString*)&(*reinterpret_cast<::SettingString *>(&::g_011cc8cc)))))->IsDLCAvailable())));
+                    if (part)
+                    {
+                        const char* name = ((::HitName *)(reinterpret_cast<::TESTopicInfoData *>((((HitPart*)part)))->GetLinkToList()))->GetName();
+                        ::FUN_0040fbe0();
+                    }
+                    ::FUN_00cb9320((::NiAVObject *)(manager), &worldImpulse, (::NiAVObject *)(part));
+                }
+            }
+            if (amount != 0.0 && enabled)
+            {
+                direction.x = (float)(direction.x + 1.0);
+                direction.y = (float)(direction.y + 1.0);
+                reinterpret_cast<::FUN_004a0c10_s *>(&(direction))->FUN_004a0c10();
+                ImpactPoint impulse = direction * primary;
+                ImpactVector worldImpulse;
+                ::CopyCharacterControllerVector((::bhkCharacterController *)(::ImpactVector *)(&worldImpulse), (*(const ::NiPoint3 *)(&impulse)));
+                part = ((int)(reinterpret_cast<::fnv_00571530::FUN_00571530_shell *>((((ImpactNode*)this)))->FUN_00571530((::fnv_00571530::NiAVObject *)(scene), (::fnv_00571530::NiFixedString *)(((int)(::FUN_008a5190()))))));
+                ::FUN_00cb9320((::NiAVObject *)(manager), &worldImpulse, (::NiAVObject *)(part));
+            }
+        }
+    }
+}
+
+struct VectorXYZ
+{
+    __m128 vector;
+    void FUN_008a5110(const __m128*);
+};
+// @fnv 0x008a5110
+void VectorXYZ::FUN_008a5110(const __m128* source)
+{
+
+    vector = _mm_shuffle_ps(*source, _mm_unpackhi_ps(*source, vector), 0xc4);
+}
+
+class NiPoint3H
+{
+  public:
+    float x, y, z;
+    NiPoint3H operator-(const NiPoint3H& kPt) const;
+    NiPoint3H& operator*=(float fScalar);
+    NiPoint3H& operator+=(const NiPoint3H& kPt);
+};
+
+class NiMatrix3H
+{
+  public:
+};
+
+class hkVector4H
+{
+  public:
+    hkVector4H();
+    __m128 m_vComponents;
+};
+
+class TargetInfoH
+{
+  public:
+    TargetInfoH(float fValue, int a, int b);
+    float m_f00;
+    int m_i04;
+    int m_i08;
+};
+
+class BSFixedStringH
+{
+  public:
+    const char* m_pcString;
+    int m_iReferenceCount;
+    int m_iHash;
+};
+
+class NiNodeRefH
+{
+  public:
+    NiPoint3H& GetWorldTranslate();
+    void* m_pkNode;
+    int m_iIndex;
+    int m_iFlags;
+};
+
+class NiNodeH
+{
+  public:
+    NiNodeRefH GetObjectByName(const BSFixedStringH& kName);
+};
+
+class ProcessH
+{
+  public:
+    virtual void vp000();
+    virtual void vp004();
+    virtual void vp008();
+    virtual void vp00c();
+    virtual void vp010();
+    virtual void vp014();
+    virtual void vp018();
+    virtual void vp01c();
+    virtual void vp020();
+    virtual void vp024();
+    virtual void vp028();
+    virtual void vp02c();
+    virtual void vp030();
+    virtual void vp034();
+    virtual void vp038();
+    virtual void vp03c();
+    virtual void vp040();
+    virtual void vp044();
+    virtual void vp048();
+    virtual void vp04c();
+    virtual void vp050();
+    virtual void vp054();
+    virtual void vp058();
+    virtual void vp05c();
+    virtual void vp060();
+    virtual void vp064();
+    virtual void vp068();
+    virtual void vp06c();
+    virtual void vp070();
+    virtual void vp074();
+    virtual void vp078();
+    virtual void vp07c();
+    virtual void vp080();
+    virtual void vp084();
+    virtual void vp088();
+    virtual void vp08c();
+    virtual void vp090();
+    virtual void vp094();
+    virtual void vp098();
+    virtual void vp09c();
+    virtual void vp0a0();
+    virtual void vp0a4();
+    virtual void vp0a8();
+    virtual void vp0ac();
+    virtual void vp0b0();
+    virtual void vp0b4();
+    virtual void vp0b8();
+    virtual void vp0bc();
+    virtual void vp0c0();
+    virtual void vp0c4();
+    virtual void vp0c8();
+    virtual void vp0cc();
+    virtual void vp0d0();
+    virtual void vp0d4();
+    virtual void vp0d8();
+    virtual void vp0dc();
+    virtual void vp0e0();
+    virtual void vp0e4();
+    virtual void vp0e8();
+    virtual void vp0ec();
+    virtual void vp0f0();
+    virtual void vp0f4();
+    virtual void vp0f8();
+    virtual void vp0fc();
+    virtual void vp100();
+    virtual void vp104();
+    virtual void vp108();
+    virtual void vp10c();
+    virtual void vp110();
+    virtual void vp114();
+    virtual void vp118();
+    virtual void vp11c();
+    virtual void vp120();
+    virtual void vp124();
+    virtual void vp128();
+    virtual void vp12c();
+    virtual void vp130();
+    virtual void vp134();
+    virtual void vp138();
+    virtual void vp13c();
+    virtual void vp140();
+    virtual void vp144();
+    virtual void vp148();
+    virtual void vp14c();
+    virtual void vp150();
+    virtual void vp154();
+    virtual void vp158();
+    virtual void vp15c();
+    virtual void vp160();
+    virtual void vp164();
+    virtual void vp168();
+    virtual void vp16c();
+    virtual void vp170();
+    virtual void vp174();
+    virtual void vp178();
+    virtual void vp17c();
+    virtual void vp180();
+    virtual void vp184();
+    virtual void vp188();
+    virtual void vp18c();
+    virtual void vp190();
+    virtual void vp194();
+    virtual void vp198();
+    virtual void vp19c();
+    virtual void vp1a0();
+    virtual void vp1a4();
+    virtual void vp1a8();
+    virtual void vp1ac();
+    virtual void vp1b0();
+    virtual void vp1b4();
+    virtual void vp1b8();
+    virtual void vp1bc();
+    virtual void vp1c0();
+    virtual void vp1c4();
+    virtual void vp1c8();
+    virtual void vp1cc();
+    virtual void vp1d0();
+    virtual void vp1d4();
+    virtual void vp1d8();
+    virtual void vp1dc();
+    virtual void vp1e0();
+    virtual void vp1e4();
+    virtual void vp1e8();
+    virtual void vp1ec();
+    virtual void vp1f0();
+    virtual void vp1f4();
+    virtual void vp1f8();
+    virtual void vp1fc();
+    virtual void vp200();
+    virtual void vp204();
+    virtual void vp208();
+    virtual void vp20c();
+    virtual void vp210();
+    virtual void vp214();
+    virtual void vp218();
+    virtual void vp21c();
+    virtual void vp220();
+    virtual void vp224();
+    virtual void vp228();
+    virtual void vp22c();
+    virtual void vp230();
+    virtual void vp234();
+    virtual void vp238();
+    virtual void vp23c();
+    virtual void vp240();
+    virtual void vp244();
+    virtual void vp248();
+    virtual void vp24c();
+    virtual void vp250();
+    virtual void vp254();
+    virtual void vp258();
+    virtual void vp25c();
+    virtual void vp260();
+    virtual void vp264();
+    virtual void vp268();
+    virtual void vp26c();
+    virtual void vp270();
+    virtual void vp274();
+    virtual void vp278();
+    virtual void vp27c();
+    virtual void vp280();
+    virtual void vp284();
+    virtual void vp288();
+    virtual void vp28c();
+    virtual void vp290();
+    virtual void vp294();
+    virtual void vp298();
+    virtual void vp29c();
+    virtual void vp2a0();
+    virtual void vp2a4();
+    virtual void vp2a8();
+    virtual void vp2ac();
+    virtual void vp2b0();
+    virtual void vp2b4();
+    virtual void vp2b8();
+    virtual void vp2bc();
+    virtual void vp2c0();
+    virtual void vp2c4();
+    virtual void vp2c8();
+    virtual void vp2cc();
+    virtual void vp2d0();
+    virtual void vp2d4();
+    virtual void vp2d8();
+    virtual void vp2dc();
+    virtual void vp2e0();
+    virtual void vp2e4();
+    virtual void vp2e8();
+    virtual void vp2ec();
+    virtual void vp2f0();
+    virtual void vp2f4();
+    virtual void vp2f8();
+    virtual void vp2fc();
+    virtual void vp300();
+    virtual void vp304();
+    virtual void vp308();
+    virtual void vp30c();
+    virtual void vp310();
+    virtual void vp314();
+    virtual void vp318();
+    virtual void vp31c();
+    virtual void vp320();
+    virtual void vp324();
+    virtual void vp328();
+    virtual void vp32c();
+    virtual void vp330();
+    virtual void vp334();
+    virtual void vp338();
+    virtual void vp33c();
+    virtual void vp340();
+    virtual void vp344();
+    virtual void vp348();
+    virtual void vp34c();
+    virtual void vp350();
+    virtual void vp354();
+    virtual void vp358();
+    virtual void vp35c();
+    virtual void vp360();
+    virtual void vp364();
+    virtual void vp368();
+    virtual void vp36c();
+    virtual void vp370();
+    virtual void vp374();
+    virtual void vp378();
+    virtual void vp37c();
+    virtual void vp380();
+    virtual void vp384();
+    virtual void vp388();
+    virtual void vp38c();
+    virtual void vp390();
+    virtual void vp394();
+    virtual void vp398();
+    virtual void vp39c();
+    virtual void vp3a0();
+    virtual void vp3a4();
+    virtual void vp3a8();
+    virtual void vp3ac();
+    virtual void vp3b0();
+    virtual void vp3b4();
+    virtual void vp3b8();
+    virtual void vp3bc();
+    virtual void vp3c0();
+    virtual void vp3c4();
+    virtual void vp3c8();
+    virtual void vp3cc();
+    virtual void vp3d0();
+    virtual void vp3d4();
+    virtual void vp3d8();
+    virtual void vp3dc();
+    virtual void vp3e0();
+    virtual void vp3e4();
+    virtual void vp3e8();
+    virtual void vp3ec();
+    virtual void vp3f0();
+    virtual void vp3f4();
+    virtual void vp3f8();
+    virtual void vp3fc();
+    virtual void vp400();
+    virtual void vp404();
+    virtual void vp408();
+    virtual void vp40c();
+    virtual void vp410();
+    virtual void vp414();
+    virtual void vp418();
+    virtual void vp41c();
+    virtual void vp420();
+    virtual void vp424();
+    virtual void vp428();
+    virtual void vp42c();
+    virtual void vp430();
+    virtual void vp434();
+    virtual void vp438();
+    virtual void vp43c();
+    virtual void vp440();
+    virtual void vp444();
+    virtual void vp448();
+    virtual void vp44c();
+    virtual void vp450();
+    virtual void vp454();
+    virtual void vp458();
+    virtual void vp45c();
+    virtual const BSFixedStringH& GetWeaponNodeName();
+};
+
+class WeaponH
+{
+  public:
+};
+
+class HavokObjectH
+{
+  public:
+    const NiPoint3H& GetPosition();
+};
+
+class TESObjectREFRH
+{
+  public:
+    virtual void vr000();
+    virtual void vr004();
+    virtual void vr008();
+    virtual void vr00c();
+    virtual void vr010();
+    virtual void vr014();
+    virtual void vr018();
+    virtual void vr01c();
+    virtual void vr020();
+    virtual void vr024();
+    virtual void vr028();
+    virtual void vr02c();
+    virtual void vr030();
+    virtual void vr034();
+    virtual void vr038();
+    virtual void vr03c();
+    virtual void vr040();
+    virtual void vr044();
+    virtual void vr048();
+    virtual void vr04c();
+    virtual void vr050();
+    virtual void vr054();
+    virtual void vr058();
+    virtual void vr05c();
+    virtual void vr060();
+    virtual void vr064();
+    virtual void vr068();
+    virtual void vr06c();
+    virtual void vr070();
+    virtual void vr074();
+    virtual void vr078();
+    virtual void vr07c();
+    virtual void vr080();
+    virtual void vr084();
+    virtual void vr088();
+    virtual void vr08c();
+    virtual void vr090();
+    virtual void vr094();
+    virtual void vr098();
+    virtual void vr09c();
+    virtual void vr0a0();
+    virtual void vr0a4();
+    virtual void vr0a8();
+    virtual void vr0ac();
+    virtual void vr0b0();
+    virtual void vr0b4();
+    virtual void vr0b8();
+    virtual void vr0bc();
+    virtual void vr0c0();
+    virtual void vr0c4();
+    virtual void vr0c8();
+    virtual void vr0cc();
+    virtual void vr0d0();
+    virtual void vr0d4();
+    virtual void vr0d8();
+    virtual void vr0dc();
+    virtual void vr0e0();
+    virtual void vr0e4();
+    virtual void vr0e8();
+    virtual void vr0ec();
+    virtual void vr0f0();
+    virtual void vr0f4();
+    virtual void vr0f8();
+    virtual void vr0fc();
+    virtual void vr100();
+    virtual void vr104();
+    virtual void vr108();
+    virtual void vr10c();
+    virtual void vr110();
+    virtual void vr114();
+    virtual void vr118();
+    virtual void vr11c();
+    virtual void vr120();
+    virtual void vr124();
+    virtual void vr128();
+    virtual void vr12c();
+    virtual void vr130();
+    virtual void vr134();
+    virtual void vr138();
+    virtual void vr13c();
+    virtual void vr140();
+    virtual void vr144();
+    virtual void vr148();
+    virtual void vr14c();
+    virtual void vr150();
+    virtual void vr154();
+    virtual void vr158();
+    virtual void vr15c();
+    virtual void vr160();
+    virtual void vr164();
+    virtual void vr168();
+    virtual void vr16c();
+    virtual void vr170();
+    virtual void vr174();
+    virtual void vr178();
+    virtual void vr17c();
+    virtual void vr180();
+    virtual void vr184();
+    virtual void vr188();
+    virtual void vr18c();
+    virtual void vr190();
+    virtual void vr194();
+    virtual void vr198();
+    virtual void vr19c();
+    virtual void vr1a0();
+    virtual void vr1a4();
+    virtual void vr1a8();
+    virtual void vr1ac();
+    virtual void vr1b0();
+    virtual void vr1b4();
+    virtual void vr1b8();
+    virtual void vr1bc();
+    virtual void vr1c0();
+    virtual void vr1c4();
+    virtual void vr1c8();
+    virtual void vr1cc();
+    virtual void vr1d0();
+    virtual void vr1d4();
+    virtual void vr1d8();
+    virtual void vr1dc();
+    virtual void vr1e0();
+    virtual void vr1e4();
+    virtual void vr1e8();
+    virtual void vr1ec();
+    virtual void vr1f0();
+    virtual void vr1f4();
+    virtual void vr1f8();
+    virtual void vr1fc();
+    virtual void vr200();
+    virtual void vr204();
+    virtual void vr208();
+    virtual void vr20c();
+    virtual void vr210();
+    virtual void vr214();
+    virtual void vr218();
+    virtual bool IsDead();
+    virtual void vr220();
+    virtual bool IsActor();
+    virtual void vs228();
+    virtual void vs22c();
+    virtual void vs230();
+    virtual void vs234();
+    virtual void vs238();
+    virtual void vs23c();
+    virtual void vs240();
+    virtual void vs244();
+    virtual void vs248();
+    virtual void vs24c();
+    virtual void vs250();
+    virtual void vs254();
+    virtual void vs258();
+    virtual void vs25c();
+    virtual void vs260();
+    virtual void vs264();
+    virtual void vs268();
+    virtual void vs26c();
+    virtual void vs270();
+    virtual void vs274();
+    virtual void vs278();
+    virtual void vs27c();
+    virtual void vs280();
+    virtual void vs284();
+    virtual void vs288();
+    virtual void vs28c();
+    virtual void vs290();
+    virtual void vs294();
+    virtual void vs298();
+    virtual void vs29c();
+    virtual void vs2a0();
+    virtual void vs2a4();
+    virtual void vs2a8();
+    virtual void vs2ac();
+    virtual void vs2b0();
+    virtual void vs2b4();
+    virtual void vs2b8();
+    virtual void vs2bc();
+    virtual void vs2c0();
+    virtual void vs2c4();
+    virtual void vs2c8();
+    virtual void vs2cc();
+    virtual void vs2d0();
+    virtual void vs2d4();
+    virtual void vs2d8();
+    virtual void vs2dc();
+    virtual void vs2e0();
+    virtual void vs2e4();
+    virtual void vs2e8();
+    virtual void vs2ec();
+    virtual void vs2f0();
+    virtual void vs2f4();
+    virtual void vs2f8();
+    virtual void vs2fc();
+    virtual void vs300();
+    virtual void vs304();
+    virtual void vs308();
+    virtual void vs30c();
+    virtual void vs310();
+    virtual void vs314();
+    virtual void vs318();
+    virtual void vs31c();
+    virtual void vs320();
+    virtual void vs324();
+    virtual void vs328();
+    virtual void vs32c();
+    virtual void vs330();
+    virtual void vs334();
+    virtual void vs338();
+    virtual void vs33c();
+    virtual void vs340();
+    virtual void vs344();
+    virtual void vs348();
+    virtual void vs34c();
+    virtual void vs350();
+    virtual void vs354();
+    virtual void vs358();
+    virtual void vs35c();
+    virtual void vs360();
+    virtual void vs364();
+    virtual void vs368();
+    virtual void vs36c();
+    virtual void vs370();
+    virtual void vs374();
+    virtual void vs378();
+    virtual void vs37c();
+    virtual void vs380();
+    virtual void vs384();
+    virtual void vs388();
+    virtual bool IsRagdollable();
+};
+
+class HitDataH
+{
+  public:
+    int unk00;
+    TESObjectREFRH* m_pkTarget;
+    TESObjectREFRH* m_pkSource;
+    int unk0c;
+    int unk10;
+    float m_fForce;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    WeaponH* m_pkWeapon;
+    int unk34;
+    NiPoint3H m_kHitPos;
+    NiMatrix3H m_kRotationMatrix;
+};
+
+
+
+// @fnv 0x008ae000
+void ActorH::FUN_008ae000(HitDataH* pkHit)
+{
+    TESObjectREFRH* pkTarget = pkHit->m_pkTarget;
+    float fForce = pkHit->m_fForce;
+    bool bActorSource = pkHit->m_pkSource && pkHit->m_pkSource->IsActor();
+    NiNodeH* pk3D = Get3D();
+    NiPoint3H kFrom = (*reinterpret_cast<const ::NiPoint3H *>((void *)&::NiPoint3::ZERO));
+    NiPoint3H kTo = (*reinterpret_cast<const ::NiPoint3H *>((void *)&::NiPoint3::ZERO));
+    if (pk3D)
+    {
+        ProcessH* pkProcess = ((::ProcessH *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()));
+        kFrom = pk3D->GetObjectByName(pkProcess->GetWeaponNodeName()).GetWorldTranslate();
+    }
+    if (pkTarget)
+    {
+        if (!pkTarget->IsDead() || pkTarget->IsRagdollable())
+        {
+            HavokObjectH* pkObject = ((::HavokObjectH *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((pkTarget))->FUN_0043fcd0()));
+            if (pkObject)
+            {
+                NiPoint3H kWorldPosition = (*reinterpret_cast<const ::NiPoint3H *>((void *)&::NiPoint3::ZERO));
+                if (bActorSource)
+                {
+                    kWorldPosition = (*(::NiPoint3H *)(reinterpret_cast<::P3 *>((void *)&(pkHit->m_kRotationMatrix))->FUN_004a0bd0({})));
+                    reinterpret_cast<::FUN_004a0c10_s *>(&(kWorldPosition))->FUN_004a0c10();
+                    reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_00439180(2048.0f);
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_0063c8a0((void *)&(pkHit->m_kHitPos));
+                }
+                else
+                {
+                    if (pk3D)
+                        kTo = pk3D->GetObjectByName(GetTorsoNodeName(0)).GetWorldTranslate();
+                    kWorldPosition = kFrom - kTo;
+                    reinterpret_cast<::FUN_004a0c10_s *>(&(kWorldPosition))->FUN_004a0c10();
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_0063c8a0((void *)&(const ::NiPoint3H &)((*(::NiPoint3H *)(reinterpret_cast<::P3 *>((void *)&(pkHit->m_kRotationMatrix))->FUN_004a0bd0({})))));
+                    reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_00439180(1024.0f);
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_0063c8a0((void *)&(kFrom));
+                }
+                float fImpulse = RemapValueBySettings(fForce, bActorSource);
+                if (pkHit->m_pkWeapon)
+                {
+                    fImpulse = reinterpret_cast<::FUN_008ae480_Class *>((pkHit->m_pkWeapon))->GetField1A8() * 2.5;
+                    if (bActorSource && reinterpret_cast<::FUN_008ae4a0_Class *>((pkHit->m_pkWeapon))->GetField1B8() > 0.0)
+                    {
+                        NiPoint3H kPos = pkObject->GetPosition();
+                        NiPoint3H kDelta = kPos - kFrom;
+                        float fImpulseRadiusSquared = reinterpret_cast<::FUN_008ae4a0_Class *>((pkHit->m_pkWeapon))->GetField1B8();
+                        fImpulseRadiusSquared = fImpulseRadiusSquared * fImpulseRadiusSquared;
+                        float fDistSq = kDelta.x * kDelta.x + kDelta.y * kDelta.y;
+                        if (fDistSq > fImpulseRadiusSquared)
+                        {
+                            if (2.0 * reinterpret_cast<::FUN_008ae4a0_Class *>((pkHit->m_pkWeapon))->GetField1B8() < fDistSq)
+                            {
+                                fImpulse = fImpulse * (double)0.1f;
+                            }
+                            else
+                            {
+                                float fScale = (2.0 * fImpulseRadiusSquared - fDistSq) / fImpulseRadiusSquared * (double)0.9f + (double)0.1f;
+                                fScale = FUN_00404010(fScale, 0.1f);
+                                fImpulse = fImpulse * fScale;
+                            }
+                        }
+                    }
+                }
+                ::FUN_00cb9650((::FUN_00cb9650_Object *)(pkObject));
+                ::FUN_00c6a350((::NiAVObject *)(pkObject), 1, 1, 0, 1);
+                TargetInfoH kInfo(0.0f, 0, 0);
+                reinterpret_cast<::FUN_00a59c60_cls *>((pkObject))->FUN_00a59c60((std::intptr_t)(&kInfo));
+                hkVector4H kImpulse;
+                ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kImpulse)), (*(const ::fnv_004a3e00::NiPoint3 *)(&kWorldPosition)));
+                ::SetCollisionScale((::SceneNode *)(pkObject), (unsigned int)(&kImpulse), fImpulse, (::MaterialSelector *)(pkHit));
+            }
+        }
+    }
+}
+
+struct xMat
+{
+    xMat();
+    float m[9];
+};
+xP3 xFUN_004a3760(float, const xP3&);
+struct xBoolSetting
+{
+    unsigned char* FUN_00408d60();
+};
+struct xAllHits
+{
+    xAllHits();
+    virtual ~xAllHits();
+    int m_q[0xc9];
+};
+struct xHitInfo
+{
+    xHitInfo(const xHitInfo*);
+    int m_iWordAt00[4];
+    float m_10;
+    int m_14[15];
+    void* m_50;
+    int m_54[5];
+};
+struct xHitList
+{
+};
+struct xHitOwner
+{
+};
+struct xWorld
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void FUN_c8(xPick*);
+};
+struct xPlayer
+{
+};
+struct xISParam
+{
+    xISParam(float, float, float, float);
+    float m[4];
+};
+
+// @fnv 0x008bd830
+float xActor::FUN_008bd830(int aiUnused, float afHeight)
+{
+    xP3 POS = *FUN_1f4();
+    POS.z = POS.z + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1072))))));
+    xP3 DIR;
+    xMat MAT;
+    reinterpret_cast<::FUN_004a0c90_shell *>(&(MAT))->FUN_004a0c90(FUN_2bc(0) + afHeight);
+    reinterpret_cast<::FUN_00439f50_class *>(&(MAT))->FUN_00439f50(1, (::NiPoint3 *)&(DIR));
+    reinterpret_cast<::FUN_004a0c10_s *>(&(DIR))->FUN_004a0c10();
+    float DIST = ::DAT_01022958;
+    xP3 END = POS + xFUN_004a3760(DIST, DIR);
+    bool HIT = false;
+    float BEST = 3.402823466e+38F;
+    xPick PICK;
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(PICK))->FUN_004a3da0(&POS);
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(PICK))->FUN_004a3eb0((void *)&(END));
+    xFilter FILTER(0);
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(FILTER))->FUN_004a39f0(0x23);
+    reinterpret_cast<::FUN_0059ce80_shell *>(&(FILTER))->FUN_0059ce80(((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::xFilter &)(FUN_00931ed0()))->FUN_004a3a20())));
+    PICK.FUN_004a3f70(FILTER);
+    xAllHits HITS;
+    reinterpret_cast<::FUN_004a3fb0_shell *>(&(PICK))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::xAllHits *)(&HITS));
+    xWorld* WORLD = ((::xWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::xCell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_004543c0()));
+    WORLD->FUN_c8(&PICK);
+    for (int I = 0; !HIT && I < ((int)(reinterpret_cast<::Callees *>((((::xHitList *)(::FUN_00460140((int)(((::xHitOwner *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(PICK))->FUN_008cdd90()))))))))->FUN_00726070())); I++)
+    {
+        xHitInfo INFO(((::xHitInfo *)(reinterpret_cast<::FUN_004a46b0_class *>((((::xHitList *)(::FUN_00460140((int)(((::xHitOwner *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(PICK))->FUN_008cdd90()))))))))->GetEntryAt(I))));
+        void* OBJ = ((void *)(::FUN_004b5820((::FormLike *)(INFO.m_50))));
+        xActor* ACTOR = ((::xActor *)(::FUN_0056f930((::NiAVObject *)(OBJ))));
+        void* OTHER = ::FUN_004b59f0(INFO.m_50);
+        if (OBJ && OTHER && ACTOR != this)
+        {
+            HIT = true;
+            BEST = INFO.m_10 * DIST;
+        }
+    }
+    if (*(*reinterpret_cast<::xBoolSetting *>(&::g_011df868)).FUN_00408d60())
+    {
+        xISParam COLOR(1.0f, 1.0f, 0.0f, 1.0f);
+        void* LINE = ((void *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(POS), (const ::fnv_004b3890::FUN_004a7800 &)(COLOR), (const class ::FUN_006815c0 &)((const ::xP3 &)(POS + xFUN_004a3760(BEST, DIR))), (const ::fnv_004b3890::FUN_004a7800 &)(COLOR), 1)));
+        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::xTES * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(LINE), 10.0f);
+    }
+    return BEST;
+}
+
+namespace fnv_008bdbd0 {
+
+struct xP3
+{
+    xP3();
+    float x, y, z;
+    xP3 operator+(const xP3&) const;
+    xP3 operator-(const xP3&) const;
+    xP3* FUN_006815c0();
+    void FUN_004a0c10();
+};
+struct xMat
+{
+    xMat();
+    float m[9];
+};
+xP3 xFUN_004a3760(float, const xP3&);
+struct xFltSetting
+{
+};
+struct xBoolSetting
+{
+    unsigned char* FUN_00408d60();
+};
+struct xBound
+{
+    xP3* FUN_006815c0();
+};
+struct xAVObj
+{
+};
+struct xFilter
+{
+    xFilter(int);
+    unsigned int m_uiFilterValue;
+};
+struct __declspec(align(16)) xAllHits
+{
+    xAllHits();
+    virtual ~xAllHits();
+    int m_q[0xc7];
+};
+struct __declspec(align(16)) xHitInfo
+{
+    xHitInfo(const xHitInfo*);
+    int m_iWordAt00[4];
+    float m_10;
+    int m_14[15];
+    void* m_50;
+    int m_54[3];
+};
+struct xHitList
+{
+};
+struct xHitOwner
+{
+};
+struct __declspec(align(16)) xPick
+{
+    xPick();
+    void FUN_004a3f70(xFilter);
+    char m_buf[0xb0];
+};
+struct xWorld
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void FUN_c8(xPick*);
+};
+
+struct xCell;
+struct xPlayer
+{
+};
+struct xActor;
+struct xISParam
+{
+    xISParam(float, float, float, float);
+    float m[4];
+};
+struct xTES
+{
+};
+struct xActor
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual bool FUN_100();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual void v82();
+    virtual void v83();
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual void v88();
+    virtual void v89();
+    virtual void v90();
+    virtual void v91();
+    virtual void v92();
+    virtual void v93();
+    virtual void v94();
+    virtual void v95();
+    virtual void v96();
+    virtual void v97();
+    virtual void v98();
+    virtual void v99();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual void v105();
+    virtual void v106();
+    virtual void v107();
+    virtual void v108();
+    virtual void v109();
+    virtual void v110();
+    virtual void v111();
+    virtual void v112();
+    virtual void v113();
+    virtual void v114();
+    virtual void v115();
+    virtual xAVObj* FUN_1d0();
+    virtual void v117();
+    virtual void v118();
+    virtual void v119();
+    virtual void v120();
+    virtual void v121();
+    virtual void v122();
+    virtual void v123();
+    virtual void v124();
+    virtual xP3* FUN_1f4();
+    virtual void v126();
+    virtual void v127();
+    virtual void v128();
+    virtual void v129();
+    virtual void v130();
+    virtual void v131();
+    virtual void v132();
+    virtual void v133();
+    virtual void v134();
+    virtual void v135();
+    virtual void v136();
+    virtual void v137();
+    virtual void v138();
+    virtual void v139();
+    virtual void v140();
+    virtual void v141();
+    virtual void v142();
+    virtual void v143();
+    virtual void v144();
+    virtual void v145();
+    virtual void v146();
+    virtual void v147();
+    virtual void v148();
+    virtual void v149();
+    virtual void v150();
+    virtual void v151();
+    virtual void v152();
+    virtual void v153();
+    virtual void v154();
+    virtual void v155();
+    virtual void v156();
+    virtual void v157();
+    virtual void v158();
+    virtual void v159();
+    virtual void v160();
+    virtual void v161();
+    virtual void v162();
+    virtual void v163();
+    virtual void v164();
+    virtual void v165();
+    virtual void v166();
+    virtual void v167();
+    virtual void v168();
+    virtual void v169();
+    virtual void v170();
+    virtual void v171();
+    virtual void v172();
+    virtual void v173();
+    virtual void v174();
+    virtual float FUN_2bc(int);
+    xFilter FUN_00931ed0();
+    float FUN_008bdbd0(xActor* apTarget, float afHeight);
+};
+
+// @fnv 0x008bdbd0
+float xActor::FUN_008bdbd0(xActor* apTarget, float afHeight)
+{
+    if (!apTarget || !apTarget->FUN_1d0())
+        return 0.0f;
+    xP3 POS = *FUN_1f4();
+    POS.z = POS.z + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008bdbd0::xFltSetting *>(&::originalRuntimeFloatSetting1072))))));
+    xP3 DIR;
+    xMat MAT;
+    reinterpret_cast<::FUN_004a0c90_shell *>(&(MAT))->FUN_004a0c90(FUN_2bc(0) + afHeight);
+    reinterpret_cast<::FUN_00439f50_class *>(&(MAT))->FUN_00439f50(1, (::NiPoint3 *)&(DIR));
+    reinterpret_cast<::FUN_004a0c10_s *>(&(DIR))->FUN_004a0c10();
+    xP3 TPOS = *((::fnv_008bdbd0::xP3 *)(new ((void *)(((::fnv_008bdbd0::xBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((apTarget->FUN_1d0()))->FUN_0043d450())))) ::Vec3()));
+    bool DONE = false;
+    float RESULT = 0.0f;
+    for (int I = 0; !DONE && I < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008bdbd0::xFltSetting *>(&::originalRuntimeFloatSetting1071)))))); I++)
+    {
+        float DIST = (I + 1) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008bdbd0::xFltSetting *>(&::originalRuntimeFloatSetting1070))))));
+        xP3 START = POS + xFUN_004a3760(DIST, DIR);
+        xPick PICK;
+        reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(PICK))->FUN_004a3da0(&START);
+        reinterpret_cast<::FUN_004a3eb0_shell *>(&(PICK))->FUN_004a3eb0((void *)&(TPOS));
+        xFilter FILTER(0);
+        reinterpret_cast<::FUN_004a39f0_shell *>(&(FILTER))->FUN_004a39f0(0x23);
+        reinterpret_cast<::FUN_0059ce80_shell *>(&(FILTER))->FUN_0059ce80(((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::fnv_008bdbd0::xFilter &)(FUN_00931ed0()))->FUN_004a3a20())));
+        PICK.FUN_004a3f70(FILTER);
+        xAllHits HITS;
+        reinterpret_cast<::FUN_004a3fb0_shell *>(&(PICK))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::fnv_008bdbd0::xAllHits *)(&HITS));
+        if (*(*reinterpret_cast<::fnv_008bdbd0::xBoolSetting *>(&::g_011df868)).FUN_00408d60())
+        {
+            xISParam COLOR(1.0f, 1.0f, 0.0f, 1.0f);
+            void* LINE = ((void *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(TPOS), (const ::fnv_004b3890::FUN_004a7800 &)(COLOR), (const class ::FUN_006815c0 &)(START), (const ::fnv_004b3890::FUN_004a7800 &)(COLOR), 1)));
+            reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::fnv_008bdbd0::xTES * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(LINE), 10.0f);
+        }
+        xWorld* WORLD = ((::fnv_008bdbd0::xWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_008bdbd0::xCell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_008bdbd0::xPlayer * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_004543c0()));
+        WORLD->FUN_c8(&PICK);
+        for (int J = 0; !DONE && J < ((int)(reinterpret_cast<::Callees *>((((::fnv_008bdbd0::xHitList *)(::FUN_00460140((int)(((::fnv_008bdbd0::xHitOwner *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(PICK))->FUN_008cdd90()))))))))->FUN_00726070())); J++)
+        {
+            xHitInfo INFO(((::fnv_008bdbd0::xHitInfo *)(reinterpret_cast<::FUN_004a46b0_class *>((((::fnv_008bdbd0::xHitList *)(::FUN_00460140((int)(((::fnv_008bdbd0::xHitOwner *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(PICK))->FUN_008cdd90()))))))))->GetEntryAt(J))));
+            void* OBJ = ((void *)(::FUN_004b5820((::FormLike *)(INFO.m_50))));
+            xActor* ACTOR = ((::fnv_008bdbd0::xActor *)(::FUN_0056f930((::NiAVObject *)(OBJ))));
+            void* OTHER = ::FUN_004b59f0(INFO.m_50);
+            if (OBJ && OTHER && ACTOR != apTarget)
+            {
+                DONE = true;
+                if (INFO.m_10 > 0.8500000238418579)
+                    DONE = false;
+                if (ACTOR && ACTOR->FUN_100())
+                {
+                    float D = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_008bdbd0::xP3 &)((TPOS - START)))->ComputeMagnitude() * INFO.m_10;
+                    if (D > ::DAT_010231d8)
+                        DONE = false;
+                }
+            }
+        }
+        if (!DONE)
+            RESULT = (I + 1) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008bdbd0::xFltSetting *>(&::originalRuntimeFloatSetting1070))))));
+    }
+    return RESULT;
+}
+}  // namespace fnv_008bdbd0
+
+class NiPoint3C7
+{
+  public:
+    NiPoint3C7(float fX, float fY, float fZ);
+    float x;
+    float y;
+    float z;
+};
+
+class NiQuaternionC7
+{
+  public:
+    NiQuaternionC7(float fW, float fX, float fY, float fZ);
+    float m_fVectorX;
+    float m_fVectorY;
+    float m_fVectorZ;
+    float m_fScalarPart;
+};
+
+class NameC7
+{
+  public:
+    NameC7(const char* pcName);
+    ~NameC7();
+    const char* m_pcName;
+};
+
+class ModelC7
+{
+  public:
+};
+
+class ClipC7
+{
+  public:
+    unsigned int GetCount();
+    void* GetAt(unsigned int uiIndex);
+};
+
+struct SlotC7
+{
+    unsigned char m_ucValue;
+};
+
+class AnimDataC7
+{
+  public:
+    unsigned int GetCount();
+    SlotC7* GetAt(unsigned int uiIndex);
+};
+
+class LinkC7
+{
+  public:
+    AnimDataC7* GetAnimData();
+};
+
+class HandleC7
+{
+  public:
+    unsigned int m_uiHandle;
+};
+
+class FlagsC7
+{
+  public:
+    FlagsC7();
+    int m_iValue;
+};
+
+class ListenerC7
+{
+  public:
+    FlagsC7 GetFlags();
+    void SetFlags(FlagsC7 kFlags);
+};
+
+class BitsC7
+{
+  public:
+};
+
+class ProjC7;
+template <class T> class NiPointerC7
+{
+  public:
+    NiPointerC7(T* pkObject);
+    ~NiPointerC7();
+    T* m_pPointer;
+};
+
+class ProcessC7
+{
+  public:
+    virtual void p000();
+    virtual void p001();
+    virtual void p002();
+    virtual void p003();
+    virtual void p004();
+    virtual void p005();
+    virtual void p006();
+    virtual void p007();
+    virtual void p008();
+    virtual void p009();
+    virtual void p00a();
+    virtual void p00b();
+    virtual void p00c();
+    virtual void p00d();
+    virtual void p00e();
+    virtual void p00f();
+    virtual void p010();
+    virtual void p011();
+    virtual void p012();
+    virtual void p013();
+    virtual void p014();
+    virtual void p015();
+    virtual void p016();
+    virtual void p017();
+    virtual void p018();
+    virtual void p019();
+    virtual void p01a();
+    virtual void p01b();
+    virtual void p01c();
+    virtual void p01d();
+    virtual void p01e();
+    virtual void p01f();
+    virtual void p020();
+    virtual void p021();
+    virtual void p022();
+    virtual void p023();
+    virtual void p024();
+    virtual void p025();
+    virtual void p026();
+    virtual void p027();
+    virtual void p028();
+    virtual void p029();
+    virtual void p02a();
+    virtual void p02b();
+    virtual void p02c();
+    virtual void p02d();
+    virtual void p02e();
+    virtual void p02f();
+    virtual void p030();
+    virtual void p031();
+    virtual void p032();
+    virtual void p033();
+    virtual void p034();
+    virtual void p035();
+    virtual void p036();
+    virtual void p037();
+    virtual void p038();
+    virtual void p039();
+    virtual void p03a();
+    virtual void p03b();
+    virtual void p03c();
+    virtual void p03d();
+    virtual void p03e();
+    virtual void p03f();
+    virtual void p040();
+    virtual void p041();
+    virtual void p042();
+    virtual void p043();
+    virtual void p044();
+    virtual void p045();
+    virtual void p046();
+    virtual void p047();
+    virtual void p048();
+    virtual void p049();
+    virtual void p04a();
+    virtual void p04b();
+    virtual void p04c();
+    virtual void p04d();
+    virtual void p04e();
+    virtual void p04f();
+    virtual void p050();
+    virtual void p051();
+    virtual void p052();
+    virtual void p053();
+    virtual void p054();
+    virtual void p055();
+    virtual void p056();
+    virtual void p057();
+    virtual void p058();
+    virtual void p059();
+    virtual void p05a();
+    virtual void p05b();
+    virtual void p05c();
+    virtual void p05d();
+    virtual void p05e();
+    virtual void p05f();
+    virtual void p060();
+    virtual void p061();
+    virtual void p062();
+    virtual void p063();
+    virtual void p064();
+    virtual void p065();
+    virtual void p066();
+    virtual void p067();
+    virtual void p068();
+    virtual void p069();
+    virtual void p06a();
+    virtual void p06b();
+    virtual void p06c();
+    virtual void p06d();
+    virtual void p06e();
+    virtual void p06f();
+    virtual void p070();
+    virtual void p071();
+    virtual void p072();
+    virtual void p073();
+    virtual void p074();
+    virtual void p075();
+    virtual void p076();
+    virtual void p077();
+    virtual void p078();
+    virtual void p079();
+    virtual void p07a();
+    virtual void p07b();
+    virtual void p07c();
+    virtual void p07d();
+    virtual void p07e();
+    virtual void p07f();
+    virtual void p080();
+    virtual void p081();
+    virtual void p082();
+    virtual void p083();
+    virtual void p084();
+    virtual void p085();
+    virtual void p086();
+    virtual void p087();
+    virtual void p088();
+    virtual void p089();
+    virtual void p08a();
+    virtual void p08b();
+    virtual void p08c();
+    virtual void p08d();
+    virtual void p08e();
+    virtual void p08f();
+    virtual void p090();
+    virtual void p091();
+    virtual void p092();
+    virtual void p093();
+    virtual void p094();
+    virtual void p095();
+    virtual void p096();
+    virtual void p097();
+    virtual void p098();
+    virtual void p099();
+    virtual void p09a();
+    virtual void p09b();
+    virtual void p09c();
+    virtual void p09d();
+    virtual void p09e();
+    virtual void p09f();
+    virtual void p0a0();
+    virtual void p0a1();
+    virtual void p0a2();
+    virtual void p0a3();
+    virtual void SetProjectile(NiPointerC7<ProjC7> spProj);
+    virtual void p0a5();
+    virtual void p0a6();
+    virtual void p0a7();
+    virtual void p0a8();
+    virtual void p0a9();
+    virtual void p0aa();
+    virtual void p0ab();
+    virtual void p0ac();
+    virtual void p0ad();
+    virtual void p0ae();
+    virtual void p0af();
+    virtual void p0b0();
+    virtual void p0b1();
+    virtual void p0b2();
+    virtual void p0b3();
+    virtual void p0b4();
+    virtual void p0b5();
+    virtual void p0b6();
+    virtual void p0b7();
+    virtual void p0b8();
+    virtual void p0b9();
+    virtual void p0ba();
+    virtual void p0bb();
+    virtual void p0bc();
+    virtual void p0bd();
+    virtual void p0be();
+    virtual void p0bf();
+    virtual void p0c0();
+    virtual void p0c1();
+    virtual void p0c2();
+    virtual void p0c3();
+    virtual void p0c4();
+    virtual void p0c5();
+    virtual void p0c6();
+    virtual void p0c7();
+    virtual void p0c8();
+    virtual void p0c9();
+    virtual void p0ca();
+    virtual void p0cb();
+    virtual void p0cc();
+    virtual void p0cd();
+    virtual void p0ce();
+    virtual void p0cf();
+    virtual void p0d0();
+    virtual void p0d1();
+    virtual void p0d2();
+    virtual void p0d3();
+    virtual void p0d4();
+    virtual void p0d5();
+    virtual void p0d6();
+    virtual void p0d7();
+    virtual void p0d8();
+    virtual void p0d9();
+    virtual void p0da();
+    virtual void p0db();
+    virtual void p0dc();
+    virtual void p0dd();
+    virtual void p0de();
+    virtual void p0df();
+    virtual void p0e0();
+    virtual void p0e1();
+    virtual void p0e2();
+    virtual void p0e3();
+    virtual void p0e4();
+    virtual void p0e5();
+    virtual void p0e6();
+    virtual void p0e7();
+    virtual void p0e8();
+    virtual void p0e9();
+    virtual void p0ea();
+    virtual void p0eb();
+    virtual void p0ec();
+    virtual void p0ed();
+    virtual void p0ee();
+    virtual void p0ef();
+    virtual void p0f0();
+    virtual void p0f1();
+    virtual void p0f2();
+    virtual void p0f3();
+    virtual void p0f4();
+    virtual void p0f5();
+    virtual void p0f6();
+    virtual void p0f7();
+    virtual void p0f8();
+    virtual void p0f9();
+    virtual void p0fa();
+    virtual void p0fb();
+    virtual void p0fc();
+    virtual void p0fd();
+    virtual void p0fe();
+    virtual void p0ff();
+    virtual void p100();
+    virtual void p101();
+    virtual void p102();
+    virtual void p103();
+    virtual void p104();
+    virtual void p105();
+    virtual void p106();
+    virtual void p107();
+    virtual void p108();
+    virtual void p109();
+    virtual void p10a();
+    virtual void p10b();
+    virtual void p10c();
+    virtual void p10d();
+    virtual void p10e();
+    virtual void p10f();
+    virtual void p110();
+    virtual void p111();
+    virtual void p112();
+    virtual void p113();
+    virtual void p114();
+    virtual void p115();
+    virtual void p116();
+    virtual void p117();
+    virtual void p118();
+    virtual void p119();
+    virtual void p11a();
+    virtual void p11b();
+    virtual void p11c();
+    virtual void p11d();
+    virtual void p11e();
+    virtual void p11f();
+    virtual void p120();
+    virtual void p121();
+    virtual void p122();
+    virtual void p123();
+    virtual void p124();
+    virtual void p125();
+    virtual void p126();
+    virtual void p127();
+    virtual void p128();
+    virtual void p129();
+    virtual void p12a();
+    virtual void p12b();
+    virtual void p12c();
+    virtual void p12d();
+    virtual void p12e();
+    virtual void p12f();
+    virtual void p130();
+    virtual void p131();
+    virtual void p132();
+    virtual void p133();
+    virtual void p134();
+    virtual void p135();
+    virtual void p136();
+    virtual void p137();
+    virtual void p138();
+    virtual void p139();
+    virtual void p13a();
+    virtual void p13b();
+    virtual void p13c();
+    virtual void p13d();
+    virtual void p13e();
+    virtual void p13f();
+    virtual void p140();
+    virtual void p141();
+    virtual void p142();
+    virtual void p143();
+    virtual void p144();
+    virtual void p145();
+    virtual void p146();
+    virtual void p147();
+    virtual void p148();
+    virtual void p149();
+    virtual void p14a();
+    virtual void p14b();
+    virtual void p14c();
+    virtual void p14d();
+    virtual void p14e();
+    virtual void p14f();
+    virtual void p150();
+    virtual void p151();
+    virtual void p152();
+    virtual void p153();
+    virtual void p154();
+    virtual void p155();
+    virtual void p156();
+    virtual void p157();
+    virtual void p158();
+    virtual void p159();
+    virtual void p15a();
+    virtual void p15b();
+    virtual void p15c();
+    virtual void p15d();
+    virtual void p15e();
+    virtual void p15f();
+    virtual void p160();
+    virtual void p161();
+    virtual void p162();
+    virtual void p163();
+    virtual void p164();
+    virtual void p165();
+    virtual void p166();
+    virtual void p167();
+    virtual void p168();
+    virtual void p169();
+    virtual void p16a();
+    virtual void p16b();
+    virtual void p16c();
+    virtual void p16d();
+    virtual void p16e();
+    virtual void p16f();
+    virtual void p170();
+    virtual void p171();
+    virtual void p172();
+    virtual void p173();
+    virtual void p174();
+    virtual void p175();
+    virtual void p176();
+    virtual void p177();
+    virtual void p178();
+    virtual void p179();
+    virtual void p17a();
+    virtual void p17b();
+    virtual void p17c();
+    virtual void p17d();
+    virtual void p17e();
+    virtual void p17f();
+    virtual void p180();
+    virtual void p181();
+    virtual void p182();
+    virtual void p183();
+    virtual void p184();
+    virtual void p185();
+    virtual void p186();
+    virtual void p187();
+    virtual void p188();
+    virtual void p189();
+    virtual void p18a();
+    virtual void p18b();
+    virtual void p18c();
+    virtual void p18d();
+    virtual void p18e();
+    virtual void p18f();
+    virtual void p190();
+    virtual void p191();
+    virtual void p192();
+    virtual void p193();
+    virtual void p194();
+    virtual void p195();
+    virtual void p196();
+    virtual void p197();
+    virtual void p198();
+    virtual void p199();
+    virtual void p19a();
+    virtual void p19b();
+    virtual void p19c();
+    virtual void p19d();
+    virtual void p19e();
+    virtual void p19f();
+    virtual void p1a0();
+    virtual void p1a1();
+    virtual void p1a2();
+    virtual void p1a3();
+    virtual void p1a4();
+    virtual void p1a5();
+    virtual void p1a6();
+    virtual void p1a7();
+    virtual void p1a8();
+    virtual void p1a9();
+    virtual void p1aa();
+    virtual void p1ab();
+    virtual void p1ac();
+    virtual void p1ad();
+    virtual void p1ae();
+    virtual void p1af();
+    virtual void p1b0();
+    virtual void p1b1();
+    virtual void p1b2();
+    virtual void p1b3();
+    virtual ClipC7* GetClip(unsigned char m_ucClipIdentifier);
+};
+
+class InitC7
+{
+  public:
+    InitC7(int iType);
+    ~InitC7();
+    __m128 m_akData[12];
+};
+
+class ProjC7
+{
+  public:
+    static void* operator new(std::size_t uiSize);
+    static void operator delete(void* pv);
+    ProjC7(const InitC7& kInit);
+    virtual void j000();
+    virtual void j001();
+    virtual void j002();
+    virtual void j003();
+    virtual void j004();
+    virtual void j005();
+    virtual void j006();
+    virtual void j007();
+    virtual void j008();
+    virtual void j009();
+    virtual void j00a();
+    virtual void j00b();
+    virtual void j00c();
+    virtual void j00d();
+    virtual void j00e();
+    virtual void j00f();
+    virtual void j010();
+    virtual void j011();
+    virtual void j012();
+    virtual void j013();
+    virtual void j014();
+    virtual void j015();
+    virtual void j016();
+    virtual void j017();
+    virtual void j018();
+    virtual void j019();
+    virtual void j01a();
+    virtual void j01b();
+    virtual void j01c();
+    virtual void j01d();
+    virtual void j01e();
+    virtual void j01f();
+    virtual void j020();
+    virtual void j021();
+    virtual void j022();
+    virtual void j023();
+    virtual void j024();
+    virtual void j025();
+    virtual void j026();
+    virtual void j027();
+    virtual void j028();
+    virtual void j029();
+    virtual void j02a();
+    virtual void j02b();
+    virtual void j02c();
+    virtual void j02d();
+    virtual void j02e();
+    virtual void j02f();
+    virtual void j030();
+    virtual void j031();
+    virtual void j032();
+    virtual void j033();
+    virtual void Reset(int iValue);
+    HandleC7 GetHandle();
+    char m_acPad[0x410 - 4];
+    BitsC7 m_kBits;
+    char m_acPad2[0x650 - 0x411];
+};
+
+class WorldC7
+{
+  public:
+};
+
+class CellC7
+{
+  public:
+};
+
+class SubC7
+{
+  public:
+};
+
+class OwnerC7
+{
+  public:
+    char m_acPad[0x30];
+    SubC7 m_kSub;
+};
+
+class ControllerC7
+{
+  public:
+};
+
+class MiddleC7
+{
+  public:
+    void SetMode(int iMode);
+};
+
+class RagdollC7
+{
+  public:
+};
+
+class RefC7
+{
+  public:
+    virtual void r000();
+    virtual void r001();
+    virtual void r002();
+    virtual void r003();
+    virtual void r004();
+    virtual void r005();
+    virtual void r006();
+    virtual void r007();
+    virtual void r008();
+    virtual void r009();
+    virtual void r00a();
+    virtual void r00b();
+    virtual void r00c();
+    virtual void r00d();
+    virtual void r00e();
+    virtual void r00f();
+    virtual void r010();
+    virtual void r011();
+    virtual void r012();
+    virtual void r013();
+    virtual void r014();
+    virtual void r015();
+    virtual void r016();
+    virtual void r017();
+    virtual void r018();
+    virtual void r019();
+    virtual void r01a();
+    virtual void r01b();
+    virtual void r01c();
+    virtual void r01d();
+    virtual void r01e();
+    virtual void r01f();
+    virtual void r020();
+    virtual void r021();
+    virtual void r022();
+    virtual void r023();
+    virtual void r024();
+    virtual void r025();
+    virtual void r026();
+    virtual void r027();
+    virtual void r028();
+    virtual void r029();
+    virtual void r02a();
+    virtual void r02b();
+    virtual void r02c();
+    virtual void r02d();
+    virtual void r02e();
+    virtual void r02f();
+    virtual void r030();
+    virtual void r031();
+    virtual void r032();
+    virtual void r033();
+    virtual void r034();
+    virtual void r035();
+    virtual void r036();
+    virtual void r037();
+    virtual void r038();
+    virtual void r039();
+    virtual void r03a();
+    virtual void r03b();
+    virtual void r03c();
+    virtual void r03d();
+    virtual void r03e();
+    virtual void r03f();
+    virtual bool IsActor();
+    virtual void r041();
+    virtual void r042();
+    virtual void r043();
+    virtual void r044();
+    virtual void r045();
+    virtual void r046();
+    virtual void r047();
+    virtual void r048();
+    virtual void r049();
+    virtual void r04a();
+    virtual void r04b();
+    virtual void r04c();
+    virtual void r04d();
+    virtual void r04e();
+    virtual void r04f();
+    virtual void r050();
+    virtual void r051();
+    virtual void r052();
+    virtual void r053();
+    virtual void r054();
+    virtual void r055();
+    virtual void r056();
+    virtual void r057();
+    virtual void r058();
+    virtual void r059();
+    virtual void r05a();
+    virtual void r05b();
+    virtual void r05c();
+    virtual void r05d();
+    virtual void r05e();
+    virtual void r05f();
+    virtual void r060();
+    virtual void r061();
+    virtual void r062();
+    virtual void r063();
+    virtual void r064();
+    virtual void r065();
+    virtual void r066();
+    virtual void r067();
+    virtual void r068();
+    virtual void r069();
+    virtual void r06a();
+    virtual void r06b();
+    virtual void r06c();
+    virtual void r06d();
+    virtual void r06e();
+    virtual void r06f();
+    virtual void r070();
+    virtual void r071();
+    virtual void r072();
+    virtual void r073();
+    virtual void* Get3D();
+    virtual void r075();
+    virtual void r076();
+    virtual void r077();
+    virtual void r078();
+    virtual void r079();
+    virtual void r07a();
+    virtual void r07b();
+    virtual void r07c();
+    virtual void r07d();
+    virtual void r07e();
+    virtual void SetUpdate(int iValue);
+    virtual void r080();
+    virtual void r081();
+    virtual void r082();
+    virtual void r083();
+    virtual void r084();
+    virtual void r085();
+    virtual void r086();
+    virtual bool IsMoving();
+    virtual void r088();
+    virtual void r089();
+    virtual void r08a();
+    virtual bool IsDead(int iValue);
+    virtual void r08c();
+    virtual void r08d();
+    virtual void r08e();
+    virtual void r08f();
+    virtual void r090();
+    virtual void r091();
+    virtual void r092();
+    virtual void r093();
+    virtual void r094();
+    virtual void r095();
+    virtual void r096();
+    virtual void r097();
+    virtual void r098();
+    virtual void r099();
+    virtual void r09a();
+    virtual void r09b();
+    virtual void r09c();
+    virtual void r09d();
+    virtual void r09e();
+    virtual void r09f();
+    virtual void r0a0();
+    virtual void r0a1();
+    virtual void r0a2();
+    virtual void r0a3();
+    virtual void r0a4();
+    virtual void r0a5();
+    virtual void r0a6();
+    virtual void r0a7();
+    virtual void r0a8();
+    virtual void r0a9();
+    virtual void r0aa();
+    virtual void r0ab();
+    virtual void r0ac();
+    virtual void r0ad();
+    virtual void r0ae();
+    virtual void r0af();
+    virtual void r0b0();
+    virtual void r0b1();
+    virtual void r0b2();
+    virtual void r0b3();
+    virtual void r0b4();
+    virtual void r0b5();
+    virtual void r0b6();
+    virtual void r0b7();
+    virtual void r0b8();
+    virtual float GetScaleV();
+    void* GetParent();
+    char m_acPad[0x68 - 4];
+    ProcessC7* m_pkProcess;
+    void FUN_00930c70();
+};
+
+class ActorC7 : public RefC7
+{
+  public:
+    HandleC7 GetHandle();
+    char m_acPad2[0xac - 0x6c];
+    MiddleC7* m_pkMiddle;
+    RagdollC7* m_pkRagdoll;
+};
+
+// @fnv 0x00930c70
+void RefC7::FUN_00930c70()
+{
+    reinterpret_cast<::fnv_0057b520::FUN_0057b520_shell *>(this)->FUN_0057b520(0);
+    if (!m_pkProcess || (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())) && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())) != 1))
+        return;
+    CellC7* pkCell = ((::CellC7 *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
+    ProcessC7* pkProcess = !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())) ? m_pkProcess : 0;
+    if (pkCell && !::FUN_00450ff0((void *)(pkCell)) && !reinterpret_cast<::FUN_004523c0_shell *>((pkCell))->FUN_004523c0())
+        return;
+    WorldC7* pkWorld = pkCell ? ((::WorldC7 *)(reinterpret_cast<::FUN_004543c0_cls *>((pkCell))->FUN_004543c0())) : 0;
+    ActorC7* pkActor = IsActor() ? (ActorC7*)this : 0;
+    bool bCombat;
+    if (pkActor)
+    {
+        switch (((int)(reinterpret_cast<::TESEffectShader *>((pkActor))->GetAddonModels())))
+        {
+        case 2:
+        case 4:
+            return;
+        }
+        bCombat = reinterpret_cast<::FUN_004f8960_shell *>((pkActor))->FUN_004f8960() == 2 || reinterpret_cast<::P09A *>((pkActor))->FUN_008aad40(-1);
+        ::PropagateNameToHavokEntity((::C6C210AVObject *)(void *)(((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()))));
+    }
+    else
+    {
+        bCombat = false;
+    }
+    AnimDataC7* pkAnim = ((::AnimDataC7 *)(reinterpret_cast<::ExtraDataList *>((((::LinkC7 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetDismemberedLimbs()));
+    if (pkAnim && m_pkProcess && Get3D())
+    {
+        unsigned int ItemUpdateArray = ::GetObjectFlags((char *)(pkAnim));
+        for (unsigned int i = 0; i < ItemUpdateArray; i++)
+        {
+            SlotC7* pkSlot = ((::SlotC7 *)(reinterpret_cast<::B441420Owner *>((pkAnim))->GetInfoAt(i)));
+            ClipC7* pkClip = m_pkProcess->GetClip(pkSlot->m_ucValue);
+            ModelC7* pkModel = ((::ModelC7 *)(reinterpret_cast<::FUN_009611e0_shell *>((pkClip))->FUN_009611e0()));
+            NameC7 kName(::DAT_01196d6c[pkSlot->m_ucValue]);
+            if (pkModel && ::FUN_009a3830((const int *)(const char *)(((const char *)(reinterpret_cast<::TESTopicInfoData *>((pkModel))->GetLinkToList()))), (const int *)&(kName)))
+                continue;
+            for (unsigned int j = 0; j < pkClip->GetCount(); j++)
+            {
+                void* pvItem = ((void *)(reinterpret_cast<::NiNode *>((pkClip))->GetAt(j)));
+                if (pvItem)
+                    ::FUN_00c6a200(pvItem, 1, 1, 1);
+            }
+        }
+    }
+    ProjC7* pkProj = ((::ProjC7 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
+    if (!pkProj)
+    {
+        InitC7 kInit(1);
+        reinterpret_cast<::FUN_008ac890_shell *>(&(kInit))->SetWaterForm((::TESWaterForm *)(void *)(((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()))));
+        reinterpret_cast<::FUN_00810510_Class *>(&(kInit))->FUN_00810510((*(const ::NiPoint3 *)(((void *)(reinterpret_cast<::TESTopicInfo *>(this)->GetAddTopicList())))));
+        reinterpret_cast<::FUN_00857230_shell *>(&(kInit))->SetSound((::TESSound *)(0));
+        reinterpret_cast<::FUN_00810550_class *>(&(kInit))->FUN_00810550(GetScaleV());
+        if (pkActor && ((::ControllerC7 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) && pkActor->IsMoving())
+        {
+            reinterpret_cast<::FUN_009314f0 *>(&(kInit))->SetField(reinterpret_cast<::FUN_005f90c0_shell *>((((::ControllerC7 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkActor))->FUN_007af430()))))->FUN_005f90c0());
+            reinterpret_cast<::FUN_006e2b50_shell *>(&(kInit))->SetCantOpenDoors(reinterpret_cast<::FUN_005f90e0_shell *>((((::ControllerC7 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkActor))->FUN_007af430()))))->FUN_005f90e0());
+            reinterpret_cast<::fnv_009314d0::FUN_009314d0_class *>(&(kInit))->FUN_009314d0(reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400());
+        }
+        else
+        {
+            reinterpret_cast<::FUN_00931510_Class *>(&(kInit))->SetByteAtOffset96(1);
+        }
+        pkProj = new ProjC7(kInit);
+        if (pkActor && ((::ControllerC7 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())))
+            reinterpret_cast<::FUN_00629670_Class *>(&(pkProj->m_kBits))->FUN_00629670(0x10004000, reinterpret_cast<::fnv_0089d5e0::FUN_0089d5e0_shell *>(&(((::OwnerC7 *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->m_kSub))->FUN_0089d5e0());
+        m_pkProcess->SetProjectile(pkProj);
+        reinterpret_cast<::FUN_00810640_class *>((pkProj))->FUN_00810640((int)(this));
+        reinterpret_cast<::FUN_00931560_cls *>((pkProj))->FUN_00931560(reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400());
+        reinterpret_cast<::fnv_00810610::FUN_00810610_Class *>((pkProj))->FUN_00810610(((bool)(::FUN_00525420())));
+        reinterpret_cast<::FUN_00629670_Class *>(&(pkProj->m_kBits))->FUN_00629670(0x200000, true);
+        if (pkProcess)
+        {
+            ListenerC7* pkListener = ((::ListenerC7 *)(reinterpret_cast<::FUN_00931580_Class *>((pkProcess))->FUN_00931580()));
+            if (pkListener)
+            {
+                FlagsC7 kFlags = pkListener->GetFlags();
+                reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((unsigned int)(((void *)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::HandleC7 &)(pkProj->GetHandle()))->FUN_004a3a20()))));
+                pkListener->SetFlags(kFlags);
+            }
+        }
+    }
+    if (pkWorld && reinterpret_cast<::Obj_930 *>((pkWorld))->HasEntries())
+        reinterpret_cast<::fnv_00931530::Dummy629670 *>((pkProj))->FUN_00931530(1);
+    if (pkActor && bCombat)
+        reinterpret_cast<::Manager *>((pkActor->m_pkRagdoll))->FUN_00ca2ad0(pkActor->Get3D(), (unsigned int)(((void *)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::HandleC7 &)(pkActor->GetHandle()))->FUN_004a3a20()))));
+    void* pvOld = ((void *)(reinterpret_cast<::FUN_00810660_Class *>((pkProj))->FUN_00810660()));
+    void* pvTarget = ((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()));
+    if (pvOld != pvTarget)
+    {
+        reinterpret_cast<::S_00c6d7a0_Obj *>((pkProj))->FUN_00c6d7a0((int)(pvTarget));
+        NiQuaternionC7 kRot(0.0f, 0.0f, 0.0f, 0.0f);
+        kRot.m_fVectorX = 1.0f;
+        kRot.m_fVectorY = 0.0f;
+        kRot.m_fVectorZ = 0.0f;
+        kRot.m_fScalarPart = 0.25f;
+        CellC7* pkCell2 = ((::CellC7 *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
+        WorldC7* pkWorld2 = pkCell2 ? ((::WorldC7 *)(reinterpret_cast<::FUN_004543c0_cls *>((pkCell2))->FUN_004543c0())) : 0;
+        if (pkWorld2 && ::FUN_004bae00((const char *)(pkWorld2)))
+        {
+            pkProj->Reset(0);
+            ::CopyBlock48(((void *)(reinterpret_cast<::FUN_00810660_Class *>((pkProj))->FUN_00810660())), (const void *)(1));
+        }
+        ::FUN_00c6a350((::NiAVObject *)(pvTarget), bCombat ? 1 : 4, 1, 0, 0);
+        if (pkActor && !pkActor->IsDead(0))
+        {
+            reinterpret_cast<::fnv_0087e130::Projectile *>((pkActor))->InitRagdollController(pvTarget, 1, 1, 0);
+            if (this == (*reinterpret_cast<::RefC7 * *>(&::_g_thePlayer)) && pkActor->m_pkMiddle)
+            {
+                reinterpret_cast<::FUN_0087ea60_Class *>((pkActor->m_pkMiddle))->FUN_0087ea60(0);
+                reinterpret_cast<::FUN_009315a0Class *>((pkActor->m_pkMiddle))->SetByteAt241(1);
+            }
+        }
+    }
+    if (m_pkProcess && !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())) && this != (*reinterpret_cast<::RefC7 * *>(&::_g_thePlayer)) && pkActor && ((::OwnerC7 *)(reinterpret_cast<::Actor *>((pkActor))->GetActorBase())) &&
+        !reinterpret_cast<::FUN_0087eeb0_shell *>((pkActor))->FUN_0087eeb0())
+    {
+        ProcessC7* pkHigh = m_pkProcess;
+        if (!reinterpret_cast<::FUN_008e5700_cls *>((pkHigh))->HasString())
+            reinterpret_cast<::xController *>((pkHigh))->FUN_008e4e50((::xActor *)(pkActor));
+    }
+    SetUpdate(0);
+    if (bCombat && !((void *)(reinterpret_cast<::S_00422b90 *>((((::LinkC7 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_00422b90())) && !((void *)(reinterpret_cast<::FUN_0041d6d0_shell *>((((::LinkC7 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041d6d0())))
+    {
+        NiPoint3C7 kWorldPosition(0.0f, 0.0f, -1.0f);
+        ::FUN_0062b8d0(pvTarget, (const void *)&(kWorldPosition), 1);
+    }
+}
+
+namespace fnv_0094cae0 {
+
+struct kRef;
+struct kShape;
+struct kActor;
+
+template <class T> struct kNodeT
+{
+    T** Get();
+    kNodeT* Next();
+    void FUN_00470470();
+    bool FUN_008256d0();
+};
+
+struct kP3
+{
+    float x, y, z;
+    kP3();
+};
+
+struct kP4
+{
+    __m128 v;
+    kP4();
+};
+
+struct kP2
+{
+    float x, y;
+    kP2(float a, float b);
+    kP2(kP3* p);
+};
+
+struct kE
+{
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual int v2c();
+    virtual int v30();
+};
+
+struct kExt
+{
+};
+
+struct kRef
+{
+};
+
+struct kShape
+{
+    bool FUN_008256d0();
+};
+
+struct kRefList
+{
+    int unk0;
+    kNodeT<kRef> head;
+};
+
+struct kPA2
+{
+};
+struct kPA
+{
+};
+struct kU2
+{
+};
+struct kU
+{
+    kU2* FUN_00547680();
+};
+struct kCell
+{
+};
+struct kProc
+{
+};
+
+struct kActor
+{
+    kU2* FUN_00547680();
+};
+
+struct kQ2
+{
+};
+
+struct kZ
+{
+    int unk0, unk4, unk8, unkC, unk10;
+    kZ();
+};
+
+struct __declspec(align(16)) kH
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    kH();
+    ~kH();
+    void FUN_0056f0f0(int f);
+};
+
+struct kW
+{
+    int unk0, unk4, unk8, unkC, unk10, unk14, unk18;
+    kW(kH* h);
+};
+
+struct kVV
+{
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v9c(kPA* a);
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void v0e0();
+    virtual void ve4(int a);
+};
+struct kVV3
+{
+};
+
+struct kDec
+{
+    void FUN_0066b0d0(kW* w);
+};
+
+struct kG1
+{
+};
+struct kG2
+{
+    unsigned char* FUN_00408d60();
+};
+struct kG3
+{
+};
+
+struct kO
+{
+    virtual ~kO();
+    int unk4, unk8, unkC;
+    kO(int a, int b);
+};
+
+struct kTyped
+{
+    int FUN_00401170();
+};
+
+struct kRList
+{
+    bool FUN_008256d0();
+    void FUN_005ae3d0(kRef** r);
+};
+
+struct kRList2
+{
+    kNodeT<kRef> head;
+    int unk4;
+    kRList2();
+    ~kRList2();
+    void FUN_005ae3d0(kRef** r);
+    bool FUN_008256d0();
+};
+
+struct kContainer
+{
+    int unk0;
+    kNodeT<kRef> head;
+};
+
+struct kS8
+{
+    int a, b;
+    kS8(int v);
+    kS8(const kS8& o);
+    ~kS8();
+};
+void __cdecl FUN_00705420(kRef* r, kS8 s, int a);
+
+struct kArea
+{
+    int unk00, unk04, unk08, unk0c;
+    kP3 pos;
+};
+
+struct kSelf
+{
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual void v0f4();
+    virtual void v0f8();
+    virtual void v0fc();
+    virtual void v100();
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+    virtual void v140();
+    virtual void v144();
+    virtual void v148();
+    virtual void v14c();
+    virtual void v150();
+    virtual void v154();
+    virtual void v158();
+    virtual void v15c();
+    virtual void v160();
+    virtual void v164();
+    virtual void v168();
+    virtual void v16c();
+    virtual void v170();
+    virtual void v174();
+    virtual void v178();
+    virtual void v17c();
+    virtual void v180();
+    virtual void v184();
+    virtual void v188();
+    virtual void v18c();
+    virtual void v190();
+    virtual void v194();
+    virtual void v198();
+    virtual void v19c();
+    virtual void v1a0();
+    virtual void v1a4();
+    virtual void v1a8();
+    virtual void v1ac();
+    virtual void v1b0();
+    virtual void v1b4();
+    virtual void v1b8();
+    virtual void v1bc();
+    virtual void v1c0();
+    virtual void v1c4();
+    virtual void v1c8();
+    virtual void v1cc();
+    virtual void v1d0();
+    virtual void v1d4();
+    virtual void v1d8();
+    virtual void v1dc();
+    virtual void v1e0();
+    virtual void v1e4();
+    virtual void v1e8();
+    virtual void v1ec();
+    virtual void v1f0();
+    virtual kP3* v1f4();
+    virtual void v1f8();
+    virtual void v1fc(int a);
+    virtual void v200();
+    virtual void v204();
+    virtual void v208();
+    virtual void v20c();
+    virtual void v210();
+    virtual void v214();
+    virtual void v218();
+    virtual void v21c();
+    virtual void v220();
+    virtual void v224();
+    virtual void v228();
+    virtual bool v22c(int a);
+    virtual bool v230();
+    virtual void v234();
+    virtual void v238();
+    virtual void v23c();
+    virtual void v240();
+    virtual void v244();
+    virtual void v248();
+    virtual void v24c();
+    virtual void v250();
+    virtual void v254();
+    virtual void v258();
+    virtual void v25c();
+    virtual void v260();
+    virtual void v264();
+    virtual void v268();
+    virtual void v26c();
+    virtual void v270();
+    virtual void v274();
+    virtual void v278();
+    virtual void v27c();
+    virtual void v280();
+    virtual void v284();
+    virtual void v288();
+    virtual void v28c();
+    virtual void v290();
+    virtual void v294();
+    virtual void v298();
+    virtual void v29c();
+    virtual void v2a0();
+    virtual void v2a4();
+    virtual void v2a8();
+    virtual void v2ac();
+    virtual void v2b0();
+    virtual void v2b4();
+    virtual void v2b8();
+    virtual void v2bc();
+    virtual void v2c0();
+    virtual void v2c4();
+    virtual void v2c8();
+    virtual void v2cc();
+    virtual void v2d0();
+    virtual void v2d4();
+    virtual void v2d8();
+    virtual void v2dc();
+    virtual void v2e0();
+    virtual void v2e4();
+    virtual bool v2e8();
+    virtual void v2ec();
+    virtual void v2f0();
+    virtual void v2f4();
+    virtual void v2f8();
+    virtual void v2fc();
+    virtual void v300();
+    virtual void v304();
+    virtual void v308();
+    virtual void v30c();
+    virtual void v310();
+    virtual void v314();
+    virtual void v318();
+    virtual void v31c();
+    virtual void v320();
+    virtual void v324();
+    virtual void v328();
+    virtual void v32c();
+    virtual void v330();
+    virtual void v334();
+    virtual void v338();
+    virtual void v33c();
+    virtual void v340();
+    virtual void v344();
+    virtual void v348();
+    virtual void v34c();
+    virtual void v350();
+    virtual void v354();
+    virtual void v358();
+    virtual void v35c();
+    virtual void v360();
+    virtual void v364();
+    virtual void v368();
+    virtual void v36c();
+    virtual void v370();
+    virtual void v374();
+    virtual void v378();
+    virtual void v37c();
+    virtual void v380();
+    virtual void v384();
+    virtual void v388();
+    virtual void v38c();
+    virtual void v390();
+    virtual void v394();
+    virtual void v398();
+    virtual void v39c();
+    virtual void v3a0();
+    virtual void v3a4();
+    virtual void v3a8();
+    virtual void v3ac();
+    virtual void v3b0();
+    virtual void v3b4();
+    virtual void v3b8();
+    virtual void v3bc();
+    virtual void v3c0();
+    virtual void v3c4();
+    virtual void v3c8();
+    virtual void v3cc();
+    virtual void v3d0();
+    virtual void v3d4();
+    virtual void v3d8();
+    virtual void v3dc();
+    virtual void v3e0();
+    virtual void v3e4();
+    virtual void v3e8();
+    virtual void v3ec();
+    virtual void v3f0();
+    virtual void v3f4();
+    virtual void v3f8();
+    virtual void v3fc();
+    virtual void v400();
+    virtual void v404();
+    virtual void v408();
+    virtual void v40c();
+    virtual void v410();
+    virtual void v414();
+    virtual void v418();
+    virtual void v41c();
+    virtual void v420();
+    virtual void v424();
+    virtual void v428();
+    virtual void v42c();
+    virtual void v430();
+    virtual void v434();
+    virtual void v438();
+    virtual void v43c();
+    virtual void v440();
+    virtual void v444();
+    virtual void v448();
+    virtual void v44c();
+    virtual void v450();
+    virtual void v454();
+    virtual void v458();
+    virtual void v45c();
+    virtual void v460();
+    virtual void v464();
+    virtual void v468();
+    virtual void v46c();
+    virtual void v470();
+    virtual void v474();
+    virtual void v478();
+    virtual void v47c();
+    virtual void v480();
+    virtual void v484();
+    virtual void v488();
+    virtual void v48c();
+    virtual void v490();
+    virtual void v494();
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24C;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25C;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26C;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27C;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28C;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29C;
+    int unk2A0;
+    int unk2A4;
+    int unk2A8;
+    int unk2AC;
+    int unk2B0;
+    int unk2B4;
+    int unk2B8;
+    int unk2BC;
+    int unk2C0;
+    int unk2C4;
+    int unk2C8;
+    int unk2CC;
+    int unk2D0;
+    int unk2D4;
+    int unk2D8;
+    int unk2DC;
+    int unk2E0;
+    int unk2E4;
+    int unk2E8;
+    int unk2EC;
+    int unk2F0;
+    int unk2F4;
+    int unk2F8;
+    int unk2FC;
+    int unk300;
+    int unk304;
+    int unk308;
+    int unk30C;
+    int unk310;
+    int unk314;
+    int unk318;
+    int unk31C;
+    int unk320;
+    int unk324;
+    int unk328;
+    int unk32C;
+    int unk330;
+    int unk334;
+    int unk338;
+    int unk33C;
+    int unk340;
+    int unk344;
+    int unk348;
+    int unk34C;
+    int unk350;
+    int unk354;
+    int unk358;
+    int unk35C;
+    int unk360;
+    int unk364;
+    int unk368;
+    int unk36C;
+    int unk370;
+    int unk374;
+    int unk378;
+    int unk37C;
+    int unk380;
+    int unk384;
+    int unk388;
+    int unk38C;
+    int unk390;
+    int unk394;
+    int unk398;
+    int unk39C;
+    int unk3A0;
+    int unk3A4;
+    int unk3A8;
+    int unk3AC;
+    int unk3B0;
+    int unk3B4;
+    int unk3B8;
+    int unk3BC;
+    int unk3C0;
+    int unk3C4;
+    int unk3C8;
+    int unk3CC;
+    int unk3D0;
+    int unk3D4;
+    int unk3D8;
+    int unk3DC;
+    int unk3E0;
+    int unk3E4;
+    int unk3E8;
+    int unk3EC;
+    int unk3F0;
+    int unk3F4;
+    int unk3F8;
+    int unk3FC;
+    int unk400;
+    int unk404;
+    int unk408;
+    int unk40C;
+    int unk410;
+    int unk414;
+    int unk418;
+    int unk41C;
+    int unk420;
+    int unk424;
+    int unk428;
+    int unk42C;
+    int unk430;
+    int unk434;
+    int unk438;
+    int unk43C;
+    int unk440;
+    int unk444;
+    int unk448;
+    int unk44C;
+    int unk450;
+    int unk454;
+    int unk458;
+    int unk45C;
+    int unk460;
+    int unk464;
+    int unk468;
+    int unk46C;
+    int unk470;
+    int unk474;
+    int unk478;
+    int unk47C;
+    int unk480;
+    int unk484;
+    int unk488;
+    int unk48C;
+    int unk490;
+    int unk494;
+    int unk498;
+    int unk49C;
+    int unk4A0;
+    int unk4A4;
+    int unk4A8;
+    int unk4AC;
+    int unk4B0;
+    int unk4B4;
+    int unk4B8;
+    int unk4BC;
+    int unk4C0;
+    int unk4C4;
+    int unk4C8;
+    int unk4CC;
+    int unk4D0;
+    int unk4D4;
+    int unk4D8;
+    int unk4DC;
+    int unk4E0;
+    int unk4E4;
+    int unk4E8;
+    int unk4EC;
+    int unk4F0;
+    int unk4F4;
+    int unk4F8;
+    int unk4FC;
+    int unk500;
+    int unk504;
+    int unk508;
+    int unk50C;
+    int unk510;
+    int unk514;
+    int unk518;
+    int unk51C;
+    int unk520;
+    int unk524;
+    int unk528;
+    int unk52C;
+    int unk530;
+    int unk534;
+    int unk538;
+    int unk53C;
+    int unk540;
+    int unk544;
+    int unk548;
+    int unk54C;
+    int unk550;
+    int unk554;
+    int unk558;
+    int unk55C;
+    int unk560;
+    int unk564;
+    int unk568;
+    int unk56C;
+    int unk570;
+    int unk574;
+    int unk578;
+    int unk57C;
+    int unk580;
+    int unk584;
+    int unk588;
+    int unk58C;
+    int unk590;
+    int unk594;
+    int unk598;
+    int unk59C;
+    int unk5A0;
+    int unk5A4;
+    int unk5A8;
+    int unk5AC;
+    int unk5B0;
+    int unk5B4;
+    int unk5B8;
+    int unk5BC;
+    int unk5C0;
+    int unk5C4;
+    int unk5C8;
+    int unk5CC;
+    int unk5D0;
+    int unk5D4;
+    int unk5D8;
+    int unk5DC;
+    int unk5E0;
+    int unk5E4;
+    int unk5E8;
+    int unk5EC;
+    int unk5F0;
+    int unk5F4;
+    int unk5F8;
+    int unk5FC;
+    int unk600;
+    int unk604;
+    int unk608;
+    int unk60C;
+    int unk610;
+    int unk614;
+    int unk618;
+    int unk61C;
+    int unk620;
+    int unk624;
+    int unk628;
+    int unk62C;
+    int unk630;
+    int unk634;
+    int unk638;
+    int unk63C;
+    int unk640;
+    int unk644;
+    int unk648;
+    int unk64C;
+    int unk650;
+    int unk654;
+    int unk658;
+    int unk65C;
+    int unk660;
+    int unk664;
+    int unk668;
+    int unk66C;
+    int unk670;
+    int unk674;
+    int unk678;
+    int unk67C;
+    int unk680;
+    int unk684;
+    int unk688;
+    int unk68C;
+    int unk690;
+    int unk694;
+    int unk698;
+    int unk69C;
+    int unk6A0;
+    int unk6A4;
+    int unk6A8;
+    int unk6AC;
+    int unk6B0;
+    int unk6B4;
+    int unk6B8;
+    int unk6BC;
+    int unk6C0;
+    int unk6C4;
+    int unk6C8;
+    int unk6CC;
+    int unk6D0;
+    int unk6D4;
+    int unk6D8;
+    int unk6DC;
+    int unk6E0;
+    int unk6E4;
+    int unk6E8;
+    int unk6EC;
+    int unk6F0;
+    int unk6F4;
+    int unk6F8;
+    int unk6FC;
+    int unk700;
+    int unk704;
+    int unk708;
+    int unk70C;
+    int unk710;
+    int unk714;
+    int unk718;
+    int unk71C;
+    int unk720;
+    int unk724;
+    int unk728;
+    int unk72C;
+    int unk730;
+    int unk734;
+    int unk738;
+    int unk73C;
+    int unk740;
+    int unk744;
+    int unk748;
+    int unk74C;
+    int unk750;
+    int unk754;
+    int unk758;
+    int unk75C;
+    kRef* m760;
+    kContainer m764;
+    int unk76C;
+    int unk770;
+    kRList m774;
+    int unk778;
+    int unk77C;
+    int unk780;
+    int unk784;
+    int unk788;
+    int unk78C;
+    int unk790;
+    int unk794;
+    int unk798;
+    char m79c;
+    char m79d;
+    short unk79e;
+    kP3 m7a0;
+    kTyped* m7ac;
+    kO* m7b0;
+    int m7b4;
+    int unk7B8;
+    int unk7BC;
+    int unk7C0;
+    int unk7C4;
+    int unk7C8;
+    int unk7CC;
+    int unk7D0;
+    int unk7D4;
+    int unk7D8;
+    int unk7DC;
+    int unk7E0;
+    int unk7E4;
+    int unk7E8;
+    int unk7EC;
+    int unk7F0;
+    int unk7F4;
+    int unk7F8;
+    int unk7FC;
+    int unk800;
+    int unk804;
+    int unk808;
+    int unk80C;
+    int unk810;
+    int unk814;
+    int unk818;
+    int unk81C;
+    int unk820;
+    int unk824;
+    int unk828;
+    int unk82C;
+    int unk830;
+    int unk834;
+    int unk838;
+    int unk83C;
+    int unk840;
+    int unk844;
+    int unk848;
+    int unk84C;
+    int unk850;
+    int unk854;
+    int unk858;
+    int unk85C;
+    int unk860;
+    int unk864;
+    int unk868;
+    int unk86C;
+    int unk870;
+    int unk874;
+    int unk878;
+    int unk87C;
+    int unk880;
+    int unk884;
+    int unk888;
+    int unk88C;
+    int unk890;
+    int unk894;
+    int unk898;
+    int unk89C;
+    int unk8A0;
+    int unk8A4;
+    int unk8A8;
+    int unk8AC;
+    int unk8B0;
+    int unk8B4;
+    int unk8B8;
+    int unk8BC;
+    int unk8C0;
+    int unk8C4;
+    int unk8C8;
+    int unk8CC;
+    int unk8D0;
+    int unk8D4;
+    int unk8D8;
+    int unk8DC;
+    int unk8E0;
+    int unk8E4;
+    int unk8E8;
+    int unk8EC;
+    int unk8F0;
+    int unk8F4;
+    int unk8F8;
+    int unk8FC;
+    int unk900;
+    int unk904;
+    int unk908;
+    int unk90C;
+    int unk910;
+    int unk914;
+    int unk918;
+    int unk91C;
+    int unk920;
+    int unk924;
+    int unk928;
+    int unk92C;
+    int unk930;
+    int unk934;
+    int unk938;
+    int unk93C;
+    int unk940;
+    int unk944;
+    int unk948;
+    int unk94C;
+    int unk950;
+    int unk954;
+    int unk958;
+    int unk95C;
+    int unk960;
+    int unk964;
+    int unk968;
+    int unk96C;
+    int unk970;
+    int unk974;
+    int unk978;
+    int unk97C;
+    int unk980;
+    int unk984;
+    int unk988;
+    int unk98C;
+    int unk990;
+    int unk994;
+    int unk998;
+    int unk99C;
+    int unk9A0;
+    int unk9A4;
+    int unk9A8;
+    int unk9AC;
+    int unk9B0;
+    int unk9B4;
+    int unk9B8;
+    int unk9BC;
+    int unk9C0;
+    int unk9C4;
+    int unk9C8;
+    int unk9CC;
+    int unk9D0;
+    int unk9D4;
+    int unk9D8;
+    int unk9DC;
+    int unk9E0;
+    int unk9E4;
+    int unk9E8;
+    int unk9EC;
+    int unk9F0;
+    int unk9F4;
+    int unk9F8;
+    int unk9FC;
+    int unkA00;
+    int unkA04;
+    int unkA08;
+    int unkA0C;
+    int unkA10;
+    int unkA14;
+    int unkA18;
+    int unkA1C;
+    int unkA20;
+    int unkA24;
+    int unkA28;
+    int unkA2C;
+    int unkA30;
+    int unkA34;
+    int unkA38;
+    int unkA3C;
+    int unkA40;
+    int unkA44;
+    int unkA48;
+    int unkA4C;
+    int unkA50;
+    int unkA54;
+    int unkA58;
+    int unkA5C;
+    int unkA60;
+    int unkA64;
+    int unkA68;
+    int unkA6C;
+    int unkA70;
+    int unkA74;
+    int unkA78;
+    int unkA7C;
+    int unkA80;
+    int unkA84;
+    int unkA88;
+    int unkA8C;
+    int unkA90;
+    int unkA94;
+    int unkA98;
+    int unkA9C;
+    int unkAA0;
+    int unkAA4;
+    int unkAA8;
+    int unkAAC;
+    int unkAB0;
+    int unkAB4;
+    int unkAB8;
+    int unkABC;
+    int unkAC0;
+    int unkAC4;
+    int unkAC8;
+    int unkACC;
+    int unkAD0;
+    int unkAD4;
+    int unkAD8;
+    int unkADC;
+    int unkAE0;
+    int unkAE4;
+    int unkAE8;
+    int unkAEC;
+    int unkAF0;
+    int unkAF4;
+    int unkAF8;
+    int unkAFC;
+    int unkB00;
+    int unkB04;
+    int unkB08;
+    int unkB0C;
+    int unkB10;
+    int unkB14;
+    int unkB18;
+    int unkB1C;
+    int unkB20;
+    int unkB24;
+    int unkB28;
+    int unkB2C;
+    int unkB30;
+    int unkB34;
+    int unkB38;
+    int unkB3C;
+    int unkB40;
+    int unkB44;
+    int unkB48;
+    int unkB4C;
+    int unkB50;
+    int unkB54;
+    int unkB58;
+    int unkB5C;
+    int unkB60;
+    int unkB64;
+    int unkB68;
+    int unkB6C;
+    int unkB70;
+    int unkB74;
+    int unkB78;
+    int unkB7C;
+    int unkB80;
+    int unkB84;
+    int unkB88;
+    int unkB8C;
+    int unkB90;
+    int unkB94;
+    int unkB98;
+    int unkB9C;
+    int unkBA0;
+    int unkBA4;
+    int unkBA8;
+    int unkBAC;
+    int unkBB0;
+    int unkBB4;
+    int unkBB8;
+    int unkBBC;
+    int unkBC0;
+    int unkBC4;
+    int unkBC8;
+    int unkBCC;
+    int unkBD0;
+    int unkBD4;
+    int unkBD8;
+    int unkBDC;
+    int unkBE0;
+    int unkBE4;
+    int unkBE8;
+    int unkBEC;
+    int unkBF0;
+    int unkBF4;
+    int unkBF8;
+    int unkBFC;
+    int unkC00;
+    int unkC04;
+    int unkC08;
+    int unkC0C;
+    int unkC10;
+    int unkC14;
+    int unkC18;
+    int unkC1C;
+    int unkC20;
+    int unkC24;
+    int unkC28;
+    int unkC2C;
+    int unkC30;
+    int unkC34;
+    int unkC38;
+    int unkC3C;
+    int unkC40;
+    int unkC44;
+    int unkC48;
+    int unkC4C;
+    int unkC50;
+    int unkC54;
+    int unkC58;
+    int unkC5C;
+    int unkC60;
+    int unkC64;
+    int unkC68;
+    int unkC6C;
+    int unkC70;
+    int unkC74;
+    int unkC78;
+    int unkC7C;
+    int unkC80;
+    int unkC84;
+    int unkC88;
+    int unkC8C;
+    int unkC90;
+    int unkC94;
+    int unkC98;
+    int unkC9C;
+    int unkCA0;
+    int unkCA4;
+    int unkCA8;
+    int unkCAC;
+    int unkCB0;
+    int unkCB4;
+    int unkCB8;
+    int unkCBC;
+    int unkCC0;
+    int unkCC4;
+    int unkCC8;
+    int unkCCC;
+    int unkCD0;
+    int unkCD4;
+    int unkCD8;
+    int unkCDC;
+    int unkCE0;
+    int unkCE4;
+    int unkCE8;
+    int unkCEC;
+    int unkCF0;
+    int unkCF4;
+    int unkCF8;
+    int unkCFC;
+    int unkD00;
+    int unkD04;
+    int unkD08;
+    int unkD0C;
+    int unkD10;
+    int unkD14;
+    int unkD18;
+    int unkD1C;
+    int unkD20;
+    int unkD24;
+    int unkD28;
+    int unkD2C;
+    int unkD30;
+    int unkD34;
+    int unkD38;
+    int unkD3C;
+    int unkD40;
+    int unkD44;
+    int unkD48;
+    int unkD4C;
+    int unkD50;
+    int unkD54;
+    int unkD58;
+    int unkD5C;
+    int unkD60;
+    int unkD64;
+    int unkD68;
+    int unkD6C;
+    int unkD70;
+    int unkD74;
+    int unkD78;
+    int unkD7C;
+    int unkD80;
+    int unkD84;
+    int unkD88;
+    int unkD8C;
+    int unkD90;
+    int unkD94;
+    int unkD98;
+    int unkD9C;
+    int unkDA0;
+    int unkDA4;
+    int unkDA8;
+    int unkDAC;
+    int unkDB0;
+    int unkDB4;
+    int unkDB8;
+    int unkDBC;
+    int unkDC0;
+    int unkDC4;
+    int unkDC8;
+    int unkDCC;
+    int unkDD0;
+    int unkDD4;
+    int unkDD8;
+    int unkDDC;
+    int unkDE0;
+    int unkDE4;
+    int unkDE8;
+    kDec mdec;
+
+    struct X5
+    {
+    };
+    void FUN_0094cae0(kActor* p);
+};
+
+// @fnv 0x0094cae0
+void kSelf::FUN_0094cae0(kActor* p)
+{
+    if (p == ((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())))
+        return;
+    if (!((bool)(::FUN_0094dba0())))
+        ::FUN_0062f8f0((p && reinterpret_cast<::fnv_004518e0::TESObjectCELL *>((p))->FUN_004518e0()) ? reinterpret_cast<::FUN_005471e0_shell *>((p))->FUN_005471e0() : ::DAT_01015f5c);
+    reinterpret_cast<::FUN_00421e40_shell *>((((::fnv_0094cae0::kSelf::X5 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_00421e40({});
+    reinterpret_cast<::B930700Actor *>(this)->SetParentCellAndUpdateController((::B930700Cell *)(p));
+    if (p)
+    {
+        if (!reinterpret_cast<::TESObjectCELL *>((p))->IsCellInterior())
+            reinterpret_cast<::FUN_0093a7a0_Class *>(this)->FUN_0093a7a0((int)(0));
+        ::FUN_005743f0();
+        m7b4 = ((int)(reinterpret_cast<::B5474B0Cell *>((p))->FUN_005474b0(0)));
+        kPA* pa = ((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((p))->FUN_004543c0()));
+        if (pa)
+        {
+            kPA2* pa2 = ((::fnv_0094cae0::kPA2 *)(reinterpret_cast<::FUN_0045cd60_shell *>((pa))->FUN_0045cd60()));
+            reinterpret_cast<::FUN_004893c0_class *>((pa2))->FUN_004893c0(1);
+        }
+        v1fc(0);
+        if (((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) && ((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())) && ((::fnv_0094cae0::kQ2 *)(::ScreenSplatter::Activate(::FUN_00622bb0(), 0))))
+            reinterpret_cast<::Owner623 *>((((::fnv_0094cae0::kQ2 *)(::ScreenSplatter::Activate(::FUN_00622bb0(), 1)))))->FUN_006231a0((::NiNode623 *)(::fnv_0094cae0::kPA *)(((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()))));
+        if (((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) && ((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())) && ((::fnv_0094cae0::kQ2 *)(::ScreenSplatter::Activate(::FUN_00622ba0(), 0))))
+            reinterpret_cast<::Owner623 *>((((::fnv_0094cae0::kQ2 *)(::ScreenSplatter::Activate(::FUN_00622ba0(), 1)))))->FUN_006231a0((::NiNode623 *)(::fnv_0094cae0::kPA *)(((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()))));
+        if (reinterpret_cast<::_FUN_00822510_Class *>(&(mdec))->operator==(0))
+        {
+            kZ* z = new kZ;
+            ::FUN_0056ea00((::_bhkSphereShape_vtbl_helper *)(z), ::AngularDashpotApplyD4DCB0::DAT_01017d00);
+            kH h;
+            reinterpret_cast<::fnv_0056f110::FUN_0056f110_class *>(&(h))->FUN_0056f110((::fnv_0056f110::ScriptLocalsX *)(z));
+            int flags = 0x30000;
+            flags |= 0x21;
+            h.FUN_0056f0f0(flags);
+            mdec.FUN_0066b0d0(new kW(&h));
+            reinterpret_cast<::fnv_00561580::FUN_00561580_Class *>((((::fnv_0094cae0::kVV *)(::FUN_00559450((int *)&(mdec))))))->FUN_00561580(1);
+            ((::fnv_0094cae0::kVV *)(::FUN_00559450((int *)&(mdec))))->ve4(4);
+            reinterpret_cast<::FUN_0094db80_shell *>((((::fnv_0094cae0::kVV3 *)(reinterpret_cast<::FUN_004ae700_S *>((((::fnv_0094cae0::kVV *)(::FUN_00559450((int *)&(mdec))))))->FUN_004ae700()))))->FUN_0094db80(9);
+            kP4 q;
+            kP3 r = *v1f4();
+            ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&q)), (*(const ::fnv_004a3e00::NiPoint3 *)(&r)));
+            reinterpret_cast<::FUN_005610f0_cls *>((((::fnv_0094cae0::kVV *)(::FUN_00559450((int *)&(mdec))))))->FUN_005610f0((int)(&r));
+        }
+        ((::fnv_0094cae0::kVV *)(::FUN_00559450((int *)&(mdec))))->v9c(((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())));
+        bool busy = ((bool)(reinterpret_cast<::FUN_00437bd0_stub *>(this)->FUN_00437bd0())) || v22c(0) || v2e8() || v230();
+        bool idle = !busy && !::FUN_005a1e50((const bool *)this);
+        if (idle)
+            v494();
+        reinterpret_cast<::RelationUpdater *>(((*reinterpret_cast<::fnv_0094cae0::kG1 * *>(&::g_modelLoader))))->UpdateRelationStates((::RelationTarget *)(0));
+        reinterpret_cast<::Sky *>((((::fnv_0094cae0::kProc *)(::Sky::GetInstance()))))->SetCurrentClimate({}, {});
+        ::FUN_00b4f430(((int)(reinterpret_cast<::BGSCameraPath *>((((::fnv_0094cae0::kU2 *)(reinterpret_cast<::cell547::C5Cell *>((p))->FUN_00547680()))))->GetConditions())));
+        kCell* cell = ((::fnv_0094cae0::kCell *)(reinterpret_cast<::TESObjectCELL *>((p))->GetParentWorldSpace()));
+        bool found = false;
+        m79c = 0;
+        if (m7b0)
+        {
+            ::FUN_005e03d0((::NiTArray_Layout *)(m7b0));
+            delete m7b0;
+            m7b0 = 0;
+        }
+        int ix = reinterpret_cast<::TESObjectCELL *>((p))->GetCellGridX();
+        int iy = reinterpret_cast<::TESObjectCELL *>((p))->GetCellGridY();
+        float x0 = ix << 12;
+        float x1 = x0 + ::DAT_01017a10;
+        float y0 = iy << 12;
+        float y1 = y0 + ::DAT_01017a10;
+        kP2 c0(x0, y0);
+        kP2 c1(x0, y1);
+        kP2 c2(x1, y0);
+        kP2 c3(x1, y1);
+        reinterpret_cast<::FileMatchList *>(&(m774))->RemoveAll();
+        (*reinterpret_cast<::fnv_0094cae0::kE * *>(&::DAT_011dd380)) = 0;
+        kRList2 list;
+        kNodeT<kRef>* n = &m764 ? &m764.head : 0;
+        while (n && *((::fnv_0094cae0::kRef **)(new ((void *)(n)) ::Vec3())))
+        {
+            kRef* x = *((::fnv_0094cae0::kRef **)(new ((void *)(n)) ::Vec3()));
+            if (x)
+                list.FUN_005ae3d0(&x);
+            n = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((n))->FUN_00726070()));
+        }
+        reinterpret_cast<::FileMatchList *>(&(m764.head))->RemoveAll();
+        kE* best = 0;
+        kRefList* rl = ((::fnv_0094cae0::kRefList *)(reinterpret_cast<::TESObjectCELL *>((p))->GetRegionList(1)));
+        kRef* ref;
+        for (kNodeT<kRef>* it = rl ? &rl->head : 0; it && (ref = *((::fnv_0094cae0::kRef **)(new ((void *)(it)) ::Vec3()))) != 0; it = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((it))->FUN_00726070())))
+        {
+            kP2 pos(&((::fnv_0094cae0::kArea *)(reinterpret_cast<::BGSCameraPath *>(this)->GetShotList()))->pos);
+            kNodeT<kRef>* sub = 0;
+            if (reinterpret_cast<::FUN_00440d80_shell *>((ref))->FUN_00440d80() || (((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) && ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) != ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70()))) ||
+                !((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::BGSTerrainManager *>((ref))->GetMinLevel())) || ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::BGSTerrainManager *>((ref))->GetMinLevel()))->FUN_008256d0())
+                continue;
+            bool done = false;
+            kShape* sh;
+            for (kNodeT<kShape>* m = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::BGSTerrainManager *>((ref))->GetMinLevel())); !done && m && (sh = *((::fnv_0094cae0::kShape **)(new ((void *)(m)) ::Vec3()))) != 0; m = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::Callees *>((m))->FUN_00726070())))
+            {
+                if (reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&pos)))
+                {
+                    reinterpret_cast<::TESRegionList *>(&(m764))->AddRegion((::TESRegion *)(ref));
+                    if (reinterpret_cast<::RefList *>(&(list))->FUN_005f65d0((void **)(::fnv_0094cae0::kRef **)(&ref)))
+                        reinterpret_cast<::ItemChangeListNode *>(&(list))->FUN_00905330((*(::InventoryStackRecord *const *)(&ref)));
+                    kE* e = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(reinterpret_cast<::FUN_009611e0_shell *>((ref))->FUN_009611e0()))))->FUN_004f35b0({})));
+                    if (e)
+                    {
+                        if (reinterpret_cast<::PatrolActorPackageData *>((e))->IsPatrolling() && (!best || (best != e && ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((best))->FUN_005bb4d0())) < ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((e))->FUN_005bb4d0())))))
+                        {
+                            reinterpret_cast<::FileMatchList *>(&(m774))->RemoveAll();
+                            best = e;
+                        }
+                        if (!best || best == e)
+                        {
+                            sub = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(::GetOffsetC((int)(e))));
+                            while (sub && *((::fnv_0094cae0::kRef **)(new ((void *)(sub)) ::Vec3())))
+                            {
+                                m774.FUN_005ae3d0(((::fnv_0094cae0::kRef **)(new ((void *)(sub)) ::Vec3())));
+                                sub = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((sub))->FUN_00726070()));
+                            }
+                            if (e->v30())
+                                (*reinterpret_cast<::fnv_0094cae0::kE * *>(&::DAT_011dd380)) = e;
+                        }
+                    }
+                    if (reinterpret_cast<::FUN_00549580_shell *>((ref))->FUN_00549580())
+                    {
+                        found = true;
+                        if (reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c0)) && reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c1)) && reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c2)) &&
+                            reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c3)))
+                            m79c = 1;
+                    }
+                    if (m760)
+                    {
+                        kE* a = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(reinterpret_cast<::FUN_009611e0_shell *>((m760))->FUN_009611e0()))))->FUN_004f35b0({})));
+                        kE* b = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(reinterpret_cast<::FUN_009611e0_shell *>((ref))->FUN_009611e0()))))->FUN_004f35b0({})));
+                        if (b && (!a || (reinterpret_cast<::PatrolActorPackageData *>((b))->IsPatrolling() && !reinterpret_cast<::PatrolActorPackageData *>((a))->IsPatrolling()) ||
+                                  (reinterpret_cast<::PatrolActorPackageData *>((b))->IsPatrolling() == reinterpret_cast<::PatrolActorPackageData *>((a))->IsPatrolling() && ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((b))->FUN_005bb4d0())) > ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((a))->FUN_005bb4d0())))))
+                            reinterpret_cast<::FUN_0093a7a0_Class *>(this)->FUN_0093a7a0((int)(ref));
+                    }
+                    else
+                    {
+                        reinterpret_cast<::FUN_0093a7a0_Class *>(this)->FUN_0093a7a0((int)(ref));
+                    }
+                    done = true;
+                }
+            }
+            if (reinterpret_cast<::FUN_00549580_shell *>((ref))->FUN_00549580())
+            {
+                if (!m7b0)
+                    m7b0 = new kO(1, 1);
+                reinterpret_cast<::S_0060ba10 *>((m7b0))->FUN_0096a610((int)(&ref));
+            }
+        }
+        if (*(*reinterpret_cast<::fnv_0094cae0::kG2 *>(&::g_011e08e0)).FUN_00408d60() && cell && reinterpret_cast<::FUN_00586260_shell *>((cell))->IsFlag8Set() && !reinterpret_cast<::fnv_00451530::FUN_00451530_shell *>(((*reinterpret_cast<::fnv_0094cae0::kG3 * *>(&::g_TES))))->FUN_00451530() && !found)
+        {
+            kTyped* t39 = 0;
+            kTyped* t41 = 0;
+            if (m7ac)
+            {
+                switch (m7ac->FUN_00401170())
+                {
+                case 0x39:
+                    t39 = m7ac;
+                    break;
+                case 0x41:
+                    t41 = m7ac;
+                    break;
+                }
+            }
+            if (t39 && t39 != (kTyped*)p)
+                m79d = 1;
+            else if (t41 && t41 != (kTyped*)((::fnv_0094cae0::kCell *)(reinterpret_cast<::TESObjectCELL *>((p))->GetParentWorldSpace())))
+                m79d = 1;
+            else
+            {
+                kP3 d = *v1f4();
+                reinterpret_cast<::NiPoint3 *>(&(d))->Subtract((*(const ::NiPoint3 *)(&m7a0)));
+                if (reinterpret_cast<::NiPoint3 *>(&(d))->ComputeMagnitude() > ::DAT_01016968)
+                    m79d = 1;
+            }
+        }
+        kE* e4 = m760 ? ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(reinterpret_cast<::FUN_009611e0_shell *>((m760))->FUN_009611e0()))))->FUN_004f35b0({}))) : 0;
+        FUN_00705420(m760, e4 ? e4->v2c() : 0, 1);
+        reinterpret_cast<::FUN_00947d80_cls *>(this)->FUN_00947d80();
+        reinterpret_cast<::FUN_009480c0_shell *>(this)->FUN_009480c0();
+        kNodeT<kRef>* n2 = &list.head;
+        while (n2 && *((::fnv_0094cae0::kRef **)(new ((void *)(n2)) ::Vec3())))
+        {
+            kRef* x = *((::fnv_0094cae0::kRef **)(new ((void *)(n2)) ::Vec3()));
+            if (x)
+            {
+                kE* e = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(reinterpret_cast<::FUN_009611e0_shell *>((x))->FUN_009611e0()))))->FUN_004f35b0({})));
+                if (e)
+                {
+                    kE* e2 = e;
+                    reinterpret_cast<::Dummy *>((e2))->FUN_004f2480(0, 0);
+                }
+            }
+            n2 = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((n2))->FUN_00726070()));
+        }
+        n2 = &m764 ? &m764.head : 0;
+        while (n2 && *((::fnv_0094cae0::kRef **)(new ((void *)(n2)) ::Vec3())))
+        {
+            kRef* x = *((::fnv_0094cae0::kRef **)(new ((void *)(n2)) ::Vec3()));
+            if (x)
+            {
+                kE* e = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(reinterpret_cast<::FUN_009611e0_shell *>((x))->FUN_009611e0()))))->FUN_004f35b0({})));
+                if (e)
+                {
+                    kE* e2 = e;
+                    kNodeT<kRef>* k = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::TESTopicInfoData *>((e2))->GetLinkToList()));
+                    while (k)
+                    {
+                        if (*((::fnv_0094cae0::kRef **)(new ((void *)(k)) ::Vec3())))
+                        {
+                            reinterpret_cast<::CellView *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00548230((::RefView *)(*((::fnv_0094cae0::kRef **)(new ((void *)(k)) ::Vec3()))), 0);
+                            ::FUN_004f24e0((::TESSound *)(*((::fnv_0094cae0::kRef **)(new ((void *)(k)) ::Vec3()))), 1, 0);
+                        }
+                        k = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((k))->FUN_00726070()));
+                    }
+                }
+            }
+            n2 = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((n2))->FUN_00726070()));
+        }
+        reinterpret_cast<::FileMatchList *>(&(list))->RemoveAll();
+    }
+    else
+    {
+        reinterpret_cast<::FileMatchList *>(&(m774))->RemoveAll();
+        ::SoundPlaybackManager::ProcessPendingSounds();
+    }
+}
+}  // namespace fnv_0094cae0
+
+
+struct FUN_009eb500;
+struct CrimeStatus
+{
+    int unknown;
+    int status;
+};
+struct FUN_009eb500
+{
+    int type, unknown04, unknown08, unknown0C, unknown10;
+    int unknown14, unknown18, unknown1C, unknown20, unknown24;
+    int unknown28, unknown2C, unknown30, unknown34, unknown38;
+    FUN_009eb500(int, TESObjectREFR*, Actor*, int, int, int);
+};
+
+struct CrimeLimit
+{
+};
+struct CrimeCalendar
+{
+    int FUN_00867d20();
+};
+struct CrimeQueue
+{
+};
+
+// @fnv 0x008c00e0
+void Actor::FUN_008c00e0(TESObjectREFR* victimRef, int amount, int crimeValue)
+{
+    bool status = false;
+    if ((Actor*)this != ::_g_thePlayer)
+        return;
+    if (((int)(reinterpret_cast<::FUN_005224e0_class *>((::_g_thePlayer))->GetField230())) < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::CrimeLimit *>(&::g_011cd9f4)))))) && (Actor*)this == ::_g_thePlayer)
+        status = true;
+    Actor* entry = dynamic_cast<Actor*>(victimRef);
+    if (entry->IsDead() || entry->IsDisabled())
+    {
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((entry))->GetBaseTexture()))->ClearCrime(true);
+        return;
+    }
+    if ((Actor*)this != ::_g_thePlayer && reinterpret_cast<::ActorValueOwner *>(this)->GetActorValueAsInteger((::ActorValue::Index)(42)) == 100 && IsSneaking())
+        return;
+    FUN_009eb500* isLowLevel = 0;
+    isLowLevel = new FUN_009eb500(1, victimRef, (Actor*)this, amount, crimeValue, 0);
+    Actor* target = (Actor*)victimRef;
+    bool crime = false;
+    if ((isLowLevel && target == ((::Actor *)(reinterpret_cast<::Twin_0044ddc0 *>((isLowLevel))->GetName()))) || reinterpret_cast<::OwnershipReferenceView *>((((::Actor *)(reinterpret_cast<::Twin_0044ddc0 *>((isLowLevel))->GetName()))))->FUN_005785e0(target, true))
+        crime = true;
+    CrimeStatus* base = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->FindCrime(((::Actor *)(reinterpret_cast<::FUN_0084e3a0_Class *>((isLowLevel))->FUN_0084e3a0())), 0);
+    int victim = 3;
+    if (!base)
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->SetCrimeStatus(target, victim);
+    else
+        base->status = victim;
+    TESNPC* form = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430())));
+    ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((entry))->GetBaseTexture()))->ClearCrime(true);
+    reinterpret_cast<::BaseExtraList_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((target))->FUN_005d43c0()))))->AddOrCreateExtraItem(isLowLevel, reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->GetGameTime());
+    reinterpret_cast<::fnv_009eb9c0::Crime *>((isLowLevel))->AddActor((Actor*)this);
+    reinterpret_cast<::fnv_009721f0::FUN_009721f0_shell *>(&((*reinterpret_cast<::CrimeQueue *>(&::g_011e0e80))))->AddObjectToList((::fnv_009721f0::TESFormList *)(isLowLevel));
+    reinterpret_cast<::FUN_008bff50_Standin *>((target))->FUN_008bff50();
+    reinterpret_cast<::FUN_008b7c00_cls *>((target))->FUN_008b7c00(true, true);
+    if (m_bActorListValid)
+    {
+        bool alert = true;
+        if (m_iIntegerAfterActorListValid > 0)
+        {
+            int day = m_iIntegerAfterActorListValid & 0x1ff;
+            if (day != ((char)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->GetDayOfMonth())))
+            {
+                alert = false;
+                m_bActorListValid = false;
+            }
+        }
+        if (alert)
+        {
+            this->Alert(::_g_thePlayer, 0, 1, 0, 0, 0, 1, 0);
+            return;
+        }
+    }
+    else
+    {
+        m_bActorListValid = true;
+        m_iIntegerAfterActorListValid =
+            ((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8)).FUN_00867d20() << 9) | ((char)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->GetDayOfMonth())) | (((int)(reinterpret_cast<::FUN_00867c60_shell *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->FUN_00867c60())) << 13);
+    }
+    reinterpret_cast<::Me *>((target))->FUN_008bf500((Actor*)this);
+}
 #include "generated/data/fallout/ai/actor.inc"
+#include "generated/data/fallout/ai/actor_o2_gs_nood_nogs_variant.inc"
+#include "generated/data/fallout/ai/actor_o2_nood_variant.inc"
+#include "generated/data/fallout/ai/actor_o2_variant.inc"
+#include "generated/data/fallout/ai/actor_ob1_variant.inc"
+#include "generated/data/fallout/ai/actor_rtm_variant.inc"
+#include "generated/data/fallout/ai/actor_o2_nood_variant_rtm_variant.inc"
+#include "generated/data/fallout/ai/actor_o2_variant_gs_nogs_variant.inc"
+#include "generated/data/fallout/ai/actor_o2_variant_od_oy_noo2_variant.inc"

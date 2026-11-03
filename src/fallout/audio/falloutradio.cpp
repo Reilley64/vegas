@@ -8,7 +8,6 @@
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
-#include "fnv/decl/DialogueItem.h"
 #include "fnv/decl/DownloadableContentManager.h"
 #include "fnv/decl/FUN_00458b30_class.h"
 #include "fnv/decl/FUN_004f15a0_shell.h"
@@ -384,6 +383,8 @@ class BSAudio
     BSSoundHandleEx GetSoundHandleByEditorID(const char* apEditorID, unsigned int auiFlags);
 public:
     float GetMusicVolume();
+public:
+    unsigned int GetSynchTime();
 };
 
 class RadioStationRef : public TESObjectREFR
@@ -393,12 +394,6 @@ class RadioStationRef : public TESObjectREFR
 
 class TESObjectREFR;
 template <class> class BSSimpleList;
-class BGSTalkingActivator
-{
-  public:
-public:
-    static void FindRadioStations(::TESObjectREFR *, ::BSSimpleList< ::TESObjectREFR *> *, ::BSSimpleList<float> *);
-};
 
 class RadioSignal
 {
@@ -418,6 +413,12 @@ class SettingFloat
 
 void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apStation);
 extern unsigned char DAT_011a179c;
+class BGSTalkingActivator;
+class BGSTalkingActivator : public TESForm
+{
+public:
+    static void FindRadioStations(::TESObjectREFR *, ::BSSimpleList< ::TESObjectREFR *> *, ::BSSimpleList<float> *);
+};
 
 // Updates radio station signal strength and static from player distances, queues a UI alert for newly found stations, and clears the temporary station lists.
 // @fnv 0x00833d00
@@ -1711,6 +1712,23 @@ bool FUN_00832240(RefView* form, bool flag)
     return true;
 }
 }  // namespace fnv_00832240
+class DialogueResponse;
+class TESTopicInfo;
+class TESQuest;
+class DialogueItem
+{
+  public:
+    BSSimpleList<DialogueResponse*> responses;
+    BSSimpleList<DialogueResponse*>* current;
+    TESTopicInfo* info;
+    TESTopic* topic;
+    TESQuest* quest;
+    TESObjectREFR* speaker;
+public:
+    bool SelectDefaultResponseList();
+public:
+    ::DialogueResponse *GetActiveResponse();
+};
 
 namespace RadioUpdate {
 extern const char DAT_0107ce80[], DAT_0107ce44[], DAT_0107ce34[], DAT_0107ce2c[], DAT_0107ce20[];
@@ -3665,4 +3683,122 @@ void FUN_008368b0(BGSLoadGameBuffer* apBuffer)
     }
 }
 
+class DialoguePackage;
+class DialogueItem;
+class Conversation_decl;
+class BGSPerkEntry;
+class TESGrass;
+class MediaSet;
+class PerkButtonEntry;
+class PlayerCharacter;
+class TESSound;
+
+extern bool DAT_011dd434;
+extern unsigned char DAT_011dd436;
+extern unsigned char DAT_011dd437;
+extern unsigned int DAT_011dd424;
+extern unsigned char DAT_011dd435;
+extern unsigned int DAT_011dd43c;
+extern TESSound* DAT_011dd440;
+extern const char DAT_0107ce14[];
+class Conversation_decl
+{
+  public:
+    BSSimpleList<DialogueItem*> items;
+    BSSimpleList<DialogueItem*>* current;
+    ~Conversation_decl();
+};
+FalloutRadio::RadioStationState* CreateRadioStationState(BGSTalkingActivator*, bool);
+void FUN_00834260(FalloutRadio::RadioStationState*);
+class ATM
+{
+  public:
+};
+// @fnv 0x00835be0
+void FUN_00835be0(BGSTalkingActivator* form, TESTopic* topic)
+{
+    TESTopic* a = 0;
+    FalloutRadio::RadioStationState* station = 0;
+    if (DAT_011dd436)
+        return;
+    BSSimpleList<FalloutRadio::RadioStationState*>* entries = &(*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioStationState *> *>(&::g_011dd554));
+    while (entries && ((::FalloutRadio::RadioStationState *)(new ((void *)(entries)) ::Vec3())))
+    {
+        if (((::FalloutRadio::RadioStationState *)(new ((void *)(entries)) ::Vec3()))->form == form)
+        {
+            station = ((::FalloutRadio::RadioStationState *)(new ((void *)(entries)) ::Vec3()));
+            break;
+        }
+        entries = ((::BSSimpleList< ::FalloutRadio::RadioStationState *> *)(reinterpret_cast<::Callees *>((entries))->FUN_00726070()));
+    }
+    if (!station)
+        station = CreateRadioStationState(form, false);
+    a = topic ? topic : ((::TESTopic *)(::fnv_0061a2d0::GetTopicSubTypeName(7, 0)));
+    if (!station || station->form->GetDisabled())
+        return;
+    bool f = reinterpret_cast<::FUN_00833040_shell *>(&(station->station))->IsFlag20Set();
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::ATM *>(&::g_011dd5e8))))->FUN_004538a0((int)("FalloutRadio::StartRadioConversation"));
+    if (station->station.conversation)
+        while (reinterpret_cast<::FUN_0083b9f0_shell *>((station->station.conversation))->FUN_0083b9f0())
+        {
+        }
+    if (((bool)(reinterpret_cast<::FUN_00833be0_shell *>(&(station->station))->FUN_00833be0())))
+    {
+        reinterpret_cast<::FUN_00833100_shell *>(&(station->station))->FUN_00833100(false);
+        station->station.state = 1;
+        FUN_00834260(station);
+    }
+    if ((*reinterpret_cast<::FalloutRadio::RadioStationState * *>(&::DAT_011dd42c)) == station && DAT_011dd434)
+    {
+        reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc))))->FUN_00ad88f0();
+        (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc)).Release();
+        if (((bool)(::FUN_00833ce0())))
+        {
+            ::FalloutAudioMedia::BeginMediaUpdate();
+            ::FUN_008325a0(true);
+            ::fnv_008300c0::PlayAudioMedia((*(int *)&(const ::MEDIATYPE &)(MEDIATYPE_RADIO)), 0, 1000, false, false, 0.0f, 0);
+            ::FalloutAudioMedia::EndMediaUpdate();
+        }
+    }
+    BSSimpleList<FalloutRadio::RadioReceiver*>* b = &station->receivers;
+    while (b && ((::FalloutRadio::RadioReceiver *)(new ((void *)(b)) ::Vec3())))
+    {
+        FalloutRadio::RadioReceiver* receiver = ((::FalloutRadio::RadioReceiver *)(new ((void *)(b)) ::Vec3()));
+        reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(receiver->sound))->FUN_00ad88f0();
+        receiver->sound.Release();
+        b = ((::BSSimpleList< ::FalloutRadio::RadioReceiver *> *)(reinterpret_cast<::Callees *>((b))->FUN_00726070()));
+    }
+    ::AdvanceConversation((::RadioState *)(station), a);
+    station->station.state = 0;
+    reinterpret_cast<::fnv_0083c470::FUN_0083c470_holder *>((station->station.conversation))->FUN_0083c470();
+    reinterpret_cast<::Mid83b9a0 *>((station->station.conversation))->FUN_0083b9a0();
+    if (!((::DialogueItem *)(reinterpret_cast<::DialogueItem *>((station->station.conversation))->GetActiveResponse())))
+    {
+        delete station->station.conversation;
+        station->station.conversation = 0;
+        station->station.state = 1;
+    }
+    else
+    {
+        if ((*reinterpret_cast<::FalloutRadio::RadioStationState * *>(&::DAT_011dd42c)) == station && DAT_011dd434)
+        {
+            reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc))))->FUN_00ad88f0();
+            (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc)).Release();
+            if (((bool)(::FUN_00833ce0())))
+            {
+                ::FalloutAudioMedia::BeginMediaUpdate();
+                ::FUN_008325a0(true);
+                ::fnv_008300c0::PlayAudioMedia((*(int *)&(const ::MEDIATYPE &)(MEDIATYPE_RADIO)), 0, 1000, false, false, 0.0f, 0);
+                ::FalloutAudioMedia::EndMediaUpdate();
+            }
+        }
+        ((::DialogueItem *)(reinterpret_cast<::DialogueItem *>((station->station.conversation))->GetActiveResponse()))->SelectDefaultResponseList();
+    }
+    if (station->station.state > 1)
+        station->station.state = 0;
+    station->station.nextUpdate = ::FUN_00453a70()->GetSynchTime() + 50;
+    reinterpret_cast<::FUN_00835690_shell *>(&(station->station))->SetFlag80(true);
+    reinterpret_cast<::FUN_00833100_shell *>(&(station->station))->FUN_00833100(f);
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::ATM *>(&::g_011dd5e8))))->WaitForTasksDuringRendering();
+}
 #include "generated/data/fallout/audio/falloutradio.inc"

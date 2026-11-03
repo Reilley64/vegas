@@ -257,6 +257,11 @@
 #include "fnv/symbols_011f9000.h"
 #include "fnv/symbols_0126e000.h"
 #include "startmenu_packet.h"
+#include "fnv/decl/BSAudioManager.h"
+#include "fnv/decl/FUN_009698a0_shell.h"
+#include "fnv/symbols_0082f000.h"
+#include <string.h>
+#include <stdio.h>
 
 // @fnv 0x004a4080
 bool StartMenu::IsFlagSet(Flag aFlag)
@@ -3668,6 +3673,10 @@ struct FalloutAudioMedia
     static void __cdecl BeginMediaUpdate();
 public:
     static void EndMediaUpdate();
+public:
+    static void PlayMedia(::BGSMusicType *);
+    static void FadeOutMedia(int, ::MEDIATYPE);
+    static char IsRadioPlaying();
 };
 struct TutorialState
 {
@@ -9120,4 +9129,50 @@ bool StartMenuGamepadRelease::FUN_007cf5e0(int aiButton, float afValue)
     return false;
 }
 
+void FUN_007d1b30();
+struct MainMenuDeletable
+{
+    virtual ~MainMenuDeletable();
+};
+struct MainMenuAudioAccess
+{
+};
+struct MainMenuResetAccess
+{
+};
+struct MainMenuWorldAccess
+{
+};
+struct MainMenuPlayerAccess
+{
+};
+class TES;
+
+// @fnv 0x007d0a70
+void FUN_007d0a70()
+{
+    char acMusicPath[64];
+    delete (MainMenuDeletable*)(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0));
+    ::fnv_00703610::FUN_00703610();
+    FUN_00706320(0);
+    reinterpret_cast<::BSAudioManager *>((((MainMenuAudioAccess*)::FUN_00453a70())))->FUN_00ad84e0((void *)(-1), (void *)(false));
+    ResetTaskQueueGlobals();
+    {
+        int bIsChild = ((int)(reinterpret_cast<::FUN_009698a0_shell *>((((MainMenuPlayerAccess*)(*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))))->GetMediaLocationController()));
+        bIsChild = 0;
+    }
+    if (((::BGSSaveLoadUI *)(::FUN_00a25920())))
+    {
+        ((::BGSSaveLoadUI *)(::FUN_00a25920()))->FUN_007d0bd0(false);
+        ((::BGSSaveLoadUI *)(::FUN_00a25920()))->FUN_007d0bb0();
+    }
+    DAT_011daacd = true;
+    reinterpret_cast<::FUN_007d0b90_cls *>((((MainMenuResetAccess*)g_osGlobals)))->FUN_007d0b90();
+    reinterpret_cast<::S457d70 *>((((MainMenuWorldAccess*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->FUN_00457d70(1, (::Form457 *)(0), 0);
+    memset(acMusicPath, 0, 64);
+    sprintf_s(acMusicPath, 64, "Data\\Music\\Special\\MainTitle.mp3");
+    ::FUN_00761460(true);
+    ::fnv_008300c0::PlayAudioMedia(8, acMusicPath, 5000, true, true, 0.0f, 0);
+    ::FalloutAudioMedia::EndMediaUpdate();
+}
 #include "generated/data/fallout/interface/menus/startmenu.inc"

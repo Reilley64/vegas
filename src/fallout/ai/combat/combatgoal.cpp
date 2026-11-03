@@ -11,6 +11,13 @@
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_011f1000.h"
 #include "combatgoal.h"
+#include <new>
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_009aadc0_cls.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_00559000.h"
+#include "layout_support_decl_combatgoal.h"
 
 // Creates and returns a new CombatGoal subclass instance matching eType, or warns and returns 0 for an unknown type.
 // @fnv 0x00984490
@@ -499,4 +506,59 @@ FUN_00984dd0::FUN_00984dd0(int eType) : CombatGoalStub_b4510(eType)
     reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(0x16, 0xffff0016);
     reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(0xf, 0);
     reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(0xd, 0xffff0016);
+}
+
+
+// Authored layout header for fallout/ai/combat/combatgoal.cpp.
+//
+// goal type enumeration is nested as CombatGoal::COMBAT_GOAL so the parameter
+// type matches the PC symbol index.  The leaf goal classes are the RTTI
+// confirmed derived classes reconstructed for this factory; every one of them
+// adds no data members, so each goal object stays 28 bytes.
+
+// Warning() comes from the original script unit; declared here because the
+// script closure is not part of this unit's header dependency set.
+
+class UnsignedIdHandle;
+
+class UnsignedIdHandle
+{
+  public:
+    int type;
+    int value;
+};
+class CombatStateValues
+{
+  public:
+};
+// @fnv 0x009843b0
+bool CombatGoal::FUN_009843b0(CombatStateValues* values)
+{
+    BSSimpleList<UnsignedIdHandle*>* current = ((::BSSimpleList< ::UnsignedIdHandle *> *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
+    UnsignedIdHandle* value;
+    int state;
+    int type;
+    while (current && ((::UnsignedIdHandle *)(new ((void *)(current)) ::Vec3())))
+    {
+        value = ((::UnsignedIdHandle *)(new ((void *)(current)) ::Vec3()));
+        state = ::FUN_00559450((int *)(value));
+        type = ((int)(reinterpret_cast<::Callees *>((value))->FUN_00726070()));
+        if (state == 21)
+        {
+            if (((unsigned int)(reinterpret_cast<::FUN_00984470_Class *>((values))->GetCombatGoal(type))))
+                return false;
+        }
+        else if (state == 22)
+        {
+            if (!((unsigned int)(reinterpret_cast<::FUN_00984470_Class *>((values))->GetCombatGoal(type))))
+                return false;
+        }
+        else
+        {
+            if (!((bool)(reinterpret_cast<::FUN_009aadc0_cls *>((values))->FUN_009aadc0(state, type))))
+                return false;
+        }
+        current = ((::BSSimpleList< ::UnsignedIdHandle *> *)(reinterpret_cast<::CombatWorldStateListNode *>((current))->GetNext()));
+    }
+    return true;
 }

@@ -62,7 +62,6 @@
 #include "fnv/decl/Twin_0044ddc0.h"
 #include "fnv/decl/VATS.h"
 #include "fnv/decl/Vec3.h"
-#include "fnv/decl/WheelMenuV.h"
 #include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
 #include "fnv/decl/fnv_00576260__FUN_00576260_shell.h"
 #include "fnv/decl/fnv_0057ace0__FUN_0057ace0_shell.h"
@@ -123,6 +122,8 @@
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f2000.h"
 #include "companionwheelmenu_decls.h"
+#include "fnv/decl/ValueModifierEffect.h"
+#include "fnv/decl/fnv_008bb520__TES.h"
 // Constructor: sets the menu state of FUN_004b7210() to 255 and initializes state to 0.
 // @fnv 0x007a8a10
 CompanionWheelMenu::CompanionWheelMenu()
@@ -214,6 +215,8 @@ public:
     void Set(int, int);
 public:
     static float GetInterfaceScale();
+public:
+    virtual ~Tile();
 };
 struct Unk00755d90
 {
@@ -438,6 +441,21 @@ struct FUN_00755480_shell
     unsigned int m_uiCurrentItemIndex;
 
     void UpdateTileTimerAndInputAngle();
+};
+struct WheelMenuV
+{
+    virtual ~WheelMenuV();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    Tile* tiles[16];
+    void FUN_00755c50(float angle);
 };
 
 // @fnv 0x00755480
@@ -3331,6 +3349,21 @@ struct BSAudio
     BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);
 public:
     void SetAudioState(unsigned int);
+public:
+    static void DeactivateAudio();
+    void DisableAudioPlayback();
+    void Update(bool);
+    void FUN_00ad77f0(float, unsigned int);
+    void SetListenerPosition(::NiPoint3);
+    void FUN_00ad7990(bool);
+    float GetMasterVolume();
+    float FUN_00ad7a50();
+    float FUN_00ad7a80();
+    float FUN_00ad7ab0();
+    float GetMusicVolume();
+    bool FUN_00ad7c50();
+    float FUN_00ad7c80();
+    void SetAudioProperty(unsigned int, unsigned int, unsigned int);
 };
 // @fnv 0x00754c60
 FUN_00754c60::~FUN_00754c60()
@@ -3743,4 +3776,46 @@ void FUN_007563a0_shell::ToggleFollowerWait()
         reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)((char*)this + 0x30))))->Set(0x100f, !m_bTopicResponsePlayed);
 }
 
+int __cdecl FUN_00755260();
+float FUN_00755660(float value);
+void FUN_00756960(int thisPtr);
+int __cdecl _FUN_00ec7d40(int value);
+unsigned __cdecl FUN_00ec6130(int);
+
+class RadialTile : public Tile
+{
+  public:
+};
+
+// @fnv 0x00755c50
+void WheelMenuV::FUN_00755c50(float angle)
+{
+    if (angle >= 0.0 && angle < 0.5235980153083801)
+        angle = 0.55f;
+    else if (angle >= 2.617990016937256 && angle < 3.141590118408203)
+        angle = 2.6f;
+    else if (angle >= 3.14159 && angle < 3.665186)
+        angle = 3.7f;
+    else if (angle >= 5.759578)
+        angle = 5.7f;
+
+    int k;
+    RadialTile* radialTile;
+    float a;
+    float high;
+    for (k = 0; k < 16; k++)
+    {
+        radialTile = dynamic_cast<RadialTile*>(tiles[k]);
+        if (radialTile)
+        {
+            a = reinterpret_cast<::TileListBoxCalls *>((radialTile))->GetFloat(0x1006);
+            high = reinterpret_cast<::TileListBoxCalls *>((radialTile))->GetFloat(0x1007);
+            if (angle >= a && angle < high)
+            {
+                reinterpret_cast<::WheelSelection *>(this)->SelectTile(k, false);
+                break;
+            }
+        }
+    }
+}
 #include "generated/data/fallout/interface/menus/companionwheelmenu.inc"

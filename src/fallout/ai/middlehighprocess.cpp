@@ -224,7 +224,6 @@
 #include "fnv/decl/FileMatchList.h"
 #include "fnv/decl/FlagController.h"
 #include "fnv/decl/FleeActorEntry.h"
-#include "fnv/decl/FurnitureSearchDetail__SearchFurnitureProcess.h"
 #include "fnv/decl/GuardActorPackageData.h"
 #include "fnv/decl/HX.h"
 #include "fnv/decl/HitDataEx.h"
@@ -284,7 +283,6 @@
 #include "fnv/decl/SoundPlaybackHandle.h"
 #include "fnv/decl/StrOwner.h"
 #include "fnv/decl/TESAnimGroup.h"
-#include "fnv/decl/TESClass.h"
 #include "fnv/decl/TESCombatStyle.h"
 #include "fnv/decl/TESEnchantableForm.h"
 #include "fnv/decl/TESRecipe.h"
@@ -514,6 +512,53 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_01202000.h"
 #include "middlehighprocess_decls.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "../../../include/Actor_decl_middlehighprocess.h"
+#include "fnv/decl/AIFormFlags.h"
+#include "fnv/decl/ActorGoldQuery.h"
+#include "fnv/decl/Anim490.h"
+#include "fnv/decl/C42CE30.h"
+#include "fnv/decl/F54C0Interface.h"
+#include "fnv/decl/FUN_00494300_shell.h"
+#include "fnv/decl/FUN_00569160_shell.h"
+#include "fnv/decl/FUN_008e30e0_Class.h"
+#include "fnv/decl/FUN_008e3100_class.h"
+#include "fnv/decl/FUN_008e3120_This.h"
+#include "fnv/decl/M_004b4500.h"
+#include "fnv/decl/fnv_00490e60__FUN_00490e60_shell.h"
+#include "fnv/decl/fnv_00498cf0__FUN_00498cf0_shell.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/decl/xPkg.h"
+#include "fnv/symbols_00491000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/decl/AvoidancePackage.h"
+#include "fnv/decl/AvoidancePackage_1440.h"
+#include "fnv/decl/FUN_005e3fc0_shell.h"
+#include "fnv/decl/FUN_00644790_class.h"
+#include "fnv/decl/FUN_006e2b50_shell.h"
+#include "fnv/decl/FUN_006e2bb0_shell.h"
+#include "fnv/decl/FUN_00810530_c.h"
+#include "fnv/decl/FUN_00898250_Class.h"
+#include "fnv/decl/FUN_008db4c0_class.h"
+#include "fnv/decl/FUN_008df000_shell.h"
+#include "fnv/decl/FUN_009f1140_shell.h"
+#include "fnv/decl/FUN_009f1210_cls.h"
+#include "fnv/decl/Handler.h"
+#include "fnv/decl/PlayerMover.h"
+#include "fnv/decl/UnloadMagic.h"
+#include "fnv/decl/fnv_006e29f0__FUN_006e29f0_shell.h"
+#include "fnv/decl/fnv_008bb630__Tgt_b.h"
+#include "fnv/decl/fnv_008c0ec0__Target.h"
+#include "fnv/symbols_006ca000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_00c43000.h"
+#include "fnv/symbols_00c68000.h"
+#include "fnv/symbols_00922000.h"
+#include "fnv/decl/CacObj.h"
+#include "fnv/decl/fnv_0080fb00__FUN_0080fb00_Class.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_004ae000.h"
+#include <xmmintrin.h>
 
 // @fnv 0x00460ff0
 FurnitureMark* MiddleHighProcess::GetFurnitureMarkerData()
@@ -4849,6 +4894,14 @@ public:
     int GetDayOfMonth();
 public:
     float GetGameTime();
+public:
+    void ResetCachedValues();
+    void Update(float);
+    ::CALENDAR_MONTH GetCurrentMonth();
+    unsigned int GetGameDaysPassed();
+    unsigned int GetGameHoursPassed();
+    ::DAYS_OF_THE_WEEK GetGameDayOfWeek();
+    char GetGameHour();
 };
 struct FUN_009f4640_holder
 {
@@ -8103,6 +8156,24 @@ public:
     bool IsPackageBlockingGreeting();
 public:
     static float GetPackageDefaultFloat();
+public:
+    virtual void tq_test();
+public:
+    bool FUN_005394a0();
+    bool FUN_00670ed0();
+    bool IsFlag10Set();
+    bool IsFlag80Set();
+    void FUN_00672aa0(char);
+    void SetPackageFlag(bool);
+    void CopyScheduleFrom(::DurationData *);
+    bool FUN_00673890();
+    bool FUN_00674d20();
+    bool IsFlag10000Set();
+    ::TESObjectREFR *GetResolvedTargetReference(::MobileObject *);
+    void SetMustReachLocation(bool);
+    void SetMustComplete(bool);
+    ::Script *GetNextScript();
+    void SetProcedureType(::PACKAGE_PROCEDURE_TYPE);
 };
 struct ProcessUpdate : MiddleHighProcess
 {
@@ -12243,6 +12314,8 @@ struct S_9292e0_Node
 {
     bool FUN_008256d0();
     S_9292e0_Obj** FUN_006815c0();
+public:
+    S_9292e0_Node* FUN_00726070();
 };
 
 
@@ -15025,6 +15098,8 @@ struct PendingListNode
 {
     PendingObject** FUN_006815c0();
     void FUN_00905330(PendingObject** item);
+public:
+    PendingListNode* FUN_00726070();
 };
 struct PendingResourceManager
 {
@@ -16052,7 +16127,16 @@ struct Process
     int unk13c;
     Target* selected;
     void UpdateTargetSelection(Target* actor);
+public:
+    void changed();
 };
+namespace FurnitureSearchDetail
+{
+struct SearchFurnitureProcess : ::MiddleHighProcess
+{
+    void FUN_00922670(::Actor*, bool, ::TESObjectREFR*);
+};
+}
 // @fnv 0x009177d0
 void Process::UpdateTargetSelection(Target* actor)
 {
@@ -16195,6 +16279,11 @@ class MagicItem
     virtual ~MagicItem();
 public:
     static ::MagicItem *GetMagicItemByID(unsigned int);
+public:
+    void Preload(bool);
+    bool IsLoaded();
+    bool IsLoading();
+    void LoadEffectsFromForm(::TESForm *);
 };
 struct P3
 {
@@ -16315,6 +16404,13 @@ struct Script
 {
 public:
     char *GetData();
+public:
+    void GetLocalData();
+    static bool GetActorSexConditionFunction(::TESObjectREFR *, void *, void *, double &);
+    Script();
+    void ClearData();
+    static bool IsConsolePlatform();
+    static void CopyIdentifierBitsToValue(const unsigned int &, double &);
 };
 // @fnv 0x0091aca0
 bool TargetProcess::FUN_0091aca0(Actor* actor)
@@ -20078,6 +20174,22 @@ struct CrimeProcess
     virtual void Accept(CrimeActor*, void*, int, int, int, int, int, int, int, int, int, int, int);
     void FUN_0091ded0(CrimeActor* actor);
 };
+class TESClass
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+public:
+    bool IsTagSkill(::ActorValue::Index) const;
+    void ResetFormData();
+    bool IsGuard();
+    void SetClassSkillAtIndex(int, ::ActorValue::Index);
+};
 // Scans the alarm's crime entries, processes each via crimeHandler, and accepts or rejects the actor based on Evaluate results and its class.
 // @fnv 0x0091ded0
 void CrimeProcess::FUN_0091ded0(CrimeActor* actor)
@@ -23747,6 +23859,14 @@ class HighProcess : public MiddleHighProcess
 {
 public:
     unsigned int UpdateHighProcessState(::Actor *);
+public:
+    ::MobileObject *GetMobileObject();
+    ::TESIdleForm *GetSelectedIdleForm();
+    HighProcess();
+    void FUN_008e5730(::Actor *);
+    bool ClearProcessState(::Actor *);
+    void StopActorSound(::ACTOR_SOUND_HANDLE);
+    void ClearTrackedActorEntries();
 };
 // Checks package, combat controller and distance conditions, then dispatches the actor's combat action and returns whether it proceeded.
 // @fnv 0x00916880
@@ -26293,6 +26413,8 @@ void TargetClass::ResolveFormPointers(unsigned int param1, unsigned int param2, 
 struct ResetList
 {
     ~ResetList();
+public:
+    void RemoveAll();
 };
 struct ResetAnimation
 {
@@ -26888,16 +27010,22 @@ struct SaveNode58
     SavedItem58* item;
     SaveNode58* next;
     SavedItem58** FUN_006815c0();
+public:
+    SaveNode58* FUN_00726070();
 };
 struct FormNode58
 {
     void* form;
     FormNode58* next;
     void** FUN_006815c0();
+public:
+    FormNode58* FUN_00726070();
 };
 struct SavedPart58
 {
     unsigned int RefreshItem();
+public:
+    unsigned int FUN_00726070();
 };
 struct ProcessSave58
 {
@@ -37188,6 +37316,11 @@ public:
     ::Animation *GetAnimation(bool) const;
 public:
     ::Biped *FUN_00950b00(bool);
+public:
+    int FUN_007d1340();
+    void SetUnderAIControl(bool);
+    void UpdateCameraMode();
+    bool HasNote(::BGSNote *);
 };
 // If arg is the manager, calls vCall around a service lookup and passes the resulting node to an item from the manager, restoring the manager state.
 // @fnv 0x00921250
@@ -42054,4 +42187,4532 @@ unsigned short S00926350_Target926350::FUN_00926350(Actor* actor)
     return controller;
 }
 
+class InventoryStackRecord;
+class ArrowProjectile;
+class BSAnimGroupSequence;
+class BSBound;
+class ActorSupportClass;
+class BSFaceGenAnimationData;
+class BSFaceGenNiNode;
+class BSShaderPPLightingProperty;
+class FurnitureMark;
+class BooleanFloatQuery;
+class BipedAnim;
+class NiNode;
+class LipSyncAnimation;
+class MiddleHighProcess;
+class MiddleHighProcess__DeferredHideLimb;
+class NiAVObject;
+class PaddedFloatRecord;
+class TESEffectShader;
+class TESIdleForm;
+class TESObjectWEAP;
+class bhkCharacterController;
+
+template <>
+NiPointer<BSShaderPPLightingProperty>& NiPointer<BSShaderPPLightingProperty>::operator=(BSShaderPPLightingProperty*);
+
+
+extern unsigned int(* DAT_00fdf1b0)(void*);
+
+struct SettingFloat
+{
+};
+// @fnv 0x0091db40
+void MiddleHighProcess::FUN_0091db40(Actor* actor)
+{
+    int remaining = (int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting236))))));
+    Actor* found = 0;
+    found = dynamic_cast<Actor*>(pTarget);
+    bool worked = false;
+    if (!found || found->GetDisabled())
+    {
+        actor->Unk_10D(found);
+        return;
+    }
+    if (found &&
+        ((actor->GetParentCell() && actor->GetParentCell() == found->GetParentCell()) ||
+         reinterpret_cast<::RefS *>((actor))->FUN_005723b0((::RefS *)(found), 0, 0) < 300.0) &&
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((found))->GetBaseTexture())) && (*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((found))->GetBaseTexture()))))->FUN_0045cd60())) == 1)
+    {
+        while (remaining)
+        {
+            if (actor->Unk_8B(false))
+                break;
+            actor->Unk_10E();
+            found = dynamic_cast<Actor*>(pTarget);
+            if (found && !found->Unk_8B(false) && (*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((found))->GetBaseTexture()))))->FUN_0045cd60())) == 1)
+            {
+                found->Unk_10E();
+                worked = true;
+            }
+            remaining--;
+        }
+        if (worked)
+        {
+            if (found)
+            {
+                ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((found))->GetBaseTexture()))->ResetPackageState();
+            }
+            worked = false;
+        }
+    }
+    else
+    {
+        UpdateActorPackage(actor, true, 0x101, false);
+    }
+}
+
+extern int DAT_01183140;
+int __cdecl xStrcmp(const char* a, const char* b);
+
+using ::TESForm;
+using ::Actor;
+
+struct PackageTargetObj
+{
+
+    ~PackageTargetObj();
+
+    TESObjectREFR* rememberedCharacter;
+
+    TESForm* form;
+
+    bool shouldEquip;
+
+    bool shouldRemove;
+
+    unsigned short queueFlags;
+
+    void* extraData;
+
+    unsigned int operationHandle;
+
+    int operationAuxiliary;
+
+    int operationState;
+};
+
+struct Reference0091 : TESObjectREFR
+{
+
+
+
+
+
+};
+
+struct Package0091
+{
+
+
+
+};
+
+struct Actor0091 : Actor
+{
+
+
+
+
+
+
+};
+
+struct EquippedList0091
+{
+    PackageTargetObj** FUN_006815c0();
+    EquippedList0091* FUN_00726070();
+};
+
+struct EquipCheckingObject0091
+{
+
+};
+
+struct EquipBase0091
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    EquipCheckingObject0091 equipment;
+};
+
+struct EquipRegistry0091
+{
+
+};
+
+extern int DAT_01183a1c;
+
+
+unsigned int __cdecl FUN_00ec43fb(int, int, int*, int*, int);
+
+unsigned int __cdecl FUN_00ec62c0();
+
+struct MiddleHigh0091 : MiddleHighProcess
+{
+
+
+
+    void FUN_0091b700(Actor*);
+};
+struct Holder91b580
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    BSSimpleList<TESClass*> m_kNode;
+    void FUN_0091b580();
+};
+struct AcquireSortProcess : MiddleHighProcess
+{
+    void FUN_0091b640();
+};
+
+// @fnv 0x0091b700
+void MiddleHigh0091::FUN_0091b700(Actor* apActor)
+
+{
+
+    EquippedList0091* package = reinterpret_cast<EquippedList0091*>(&m_kDetectionDataList);
+
+    Package0091* position = reinterpret_cast<Package0091*>(GetOneTimePackage());
+
+    bool allowEquip = position ? reinterpret_cast<::FUN_008e30e0_Class *>((position))->FUN_008e30e0() : false;
+
+    bool allowMove = position ? reinterpret_cast<::FUN_008e3120_This *>((position))->IsFlag400Set() : false;
+
+    bool allowRemove = position ? reinterpret_cast<::FUN_008e3100_class *>((position))->FUN_008e3100() : false;
+
+    while (package && *((::PackageTargetObj **)(new ((void *)(package)) ::Vec3())))
+    {
+
+        TESForm* form;
+        PackageTargetObj* item = reinterpret_cast<PackageTargetObj*>(*((::PackageTargetObj **)(new ((void *)(package)) ::Vec3())));
+
+        Reference0091* rememberedCharacter = reinterpret_cast<Reference0091*>(item->rememberedCharacter);
+        Reference0091* livingReference = 0;
+
+        Reference0091* reference = rememberedCharacter->IsActor() ? rememberedCharacter : 0;
+
+        form = item->form;
+
+        bool changed = false;
+
+        bool save = true;
+
+        if (reference && reinterpret_cast<::MiddleHighProcess *>((reference))->IsActorInCombat())
+        {
+
+            save = false;
+        }
+
+        if (reinterpret_cast<::OwnerLookupView *>((rememberedCharacter))->FUN_00567790() || rememberedCharacter->IsActor())
+        {
+
+            bool remove = false;
+
+            bool equip = false;
+
+            int required = ::FUN_0048e8a0(form);
+
+            TESNPC* matchedHandle = 0;
+
+            if (!rememberedCharacter->Unk_8B(false) &&
+                reinterpret_cast<::ActorGoldQuery *>((reinterpret_cast<Actor0091*>(apActor)))->FUN_00891d70() >= required)
+            {
+
+                Reference0091* matched = 0;
+
+                if (rememberedCharacter->IsCharacter())
+                {
+
+                    matched = rememberedCharacter;
+                }
+                else
+                {
+
+                    matchedHandle = dynamic_cast<TESNPC*>(reinterpret_cast<::OwnerLookupView *>((rememberedCharacter))->FUN_00567790());
+
+                    if (matchedHandle)
+                    {
+
+                        matched = reinterpret_cast<Reference0091*>(
+                            ((::TESObjectREFR *)(reinterpret_cast<::Holder *>((reinterpret_cast<EquipRegistry0091*>(&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_00970a20(matchedHandle, 0))));
+                    }
+                }
+
+                if (matched && allowEquip)
+                {
+
+                    if (reinterpret_cast<::AIFormFlags *>(&(reinterpret_cast<EquipBase0091*>(((void *)(reinterpret_cast<::Actor *>((matched))->GetActorBase())))->equipment))->FUN_0047f600({}))
+                    {
+
+                        if (reinterpret_cast<::ActorGoldQuery *>((reinterpret_cast<Actor0091*>(apActor)))->FUN_00891d70() >= ::FUN_0048e8a0(item->form))
+                        {
+
+                            if (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((reinterpret_cast<Actor0091*>(apActor)))->FUN_00493bb0())))
+                            {
+
+                                item->operationState = 2;
+
+                                reinterpret_cast<::RefS *>((reinterpret_cast<Actor0091*>(apActor)))->FUN_005723b0((::RefS *)(rememberedCharacter), 0, 0);
+
+                                item->operationHandle = FUN_00ec62c0();
+
+                                changed = true;
+                            }
+                            else
+                            {
+
+                                save = false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!changed && (!reference || !reinterpret_cast<::MiddleHighProcess *>((reference))->IsActorInCombat()))
+            {
+
+                if (!rememberedCharacter->IsActor())
+                {
+
+                    if (allowMove)
+                        remove = true;
+                }
+                else if (rememberedCharacter->Unk_8B(false))
+                {
+
+                    save = true;
+                }
+                else if (rememberedCharacter->IsCharacter())
+                {
+                    livingReference = rememberedCharacter;
+
+                    if (allowMove)
+                        remove = true;
+
+                    if (allowRemove)
+                        equip = true;
+                }
+
+                if ((remove || equip) && (!reference || !reinterpret_cast<::MiddleHighProcess *>((reference))->IsActorInCombat()))
+                {
+
+                    if (!rememberedCharacter->IsActor())
+                    {
+
+                        if (item->operationState == 1)
+                        {
+
+                            unsigned int operationResult = 0;
+
+                            item->operationState = 4;
+
+                            bool success = reinterpret_cast<::ActorInventoryQueryViews::ActorQuery *>((reinterpret_cast<Actor0091*>(apActor)))->FUN_00891db0((::TESBoundObject *)((*reinterpret_cast<int *>(&::g_pLockpickItem))), 0, 1, 0,
+                                                                                               (*(int *)(&operationResult)));
+
+                            if (!success && ((int)(reinterpret_cast<::FUN_00569160_shell *>((rememberedCharacter))->FUN_00569160())))
+                                save = false;
+                        }
+                        else
+                        {
+
+                            item->operationState = 3;
+                        }
+                    }
+                    else if (remove)
+                    {
+
+                        if (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((reinterpret_cast<Actor0091*>(apActor)))->FUN_00493bb0())))
+                            item->operationState = 4;
+
+                        else
+                            save = false;
+                    }
+                    else if (equip)
+                    {
+
+                        if (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((reinterpret_cast<Actor0091*>(apActor)))->FUN_00493bb0())) &&
+                            !reinterpret_cast<::MiddleHighProcess *>((reinterpret_cast<Actor0091*>(apActor)))->IsActorInCombat())
+                        {
+
+                            if (!reference || (reference && !reinterpret_cast<::MiddleHighProcess *>((reference))->IsActorInCombat()))
+
+                                item->operationState = 5;
+                        }
+                        else
+                        {
+
+                            save = false;
+                        }
+                    }
+
+                    item->shouldEquip = remove;
+
+                    item->shouldRemove = equip;
+                }
+                else
+                {
+
+                    if (reinterpret_cast<Actor0091*>(apActor)->Unk_87())
+                    {
+
+                        save = false;
+                    }
+                    else if (rememberedCharacter->IsActor() && !rememberedCharacter->IsCharacter() &&
+
+                             reinterpret_cast<::OwnerLookupView *>((rememberedCharacter))->FUN_00567790() !=
+                                 ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<Actor0091*>(apActor)))->FUN_007af430())) &&
+
+                             !reinterpret_cast<::MiddleHighProcess *>((reinterpret_cast<Actor0091*>(apActor)))->IsActorInCombat())
+                    {
+
+                        if (reference && !reinterpret_cast<::MiddleHighProcess *>((reference))->IsActorInCombat())
+                        {
+
+                            item->operationState = 5;
+
+                            save = true;
+                        }
+                    }
+                    else
+                    {
+
+                        save = false;
+                    }
+                }
+            }
+        }
+        else
+        {
+
+            reinterpret_cast<::RefS *>((reinterpret_cast<Actor0091*>(apActor)))->FUN_005723b0((::RefS *)(rememberedCharacter), 0, 0);
+
+            item->operationHandle = FUN_00ec62c0();
+        }
+
+        if (save)
+        {
+
+            reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((reinterpret_cast<Reference0091*>(item->rememberedCharacter)))->FUN_00564db0(1);
+
+            reinterpret_cast<::Callees *>((reinterpret_cast<EquippedList0091*>(&ReferenceListNode)))->FUN_00905820(&item);
+        }
+        else
+        {
+
+            delete item;
+        }
+
+        package = reinterpret_cast<EquippedList0091*>(((::EquippedList0091 *)(reinterpret_cast<::Callees *>((package))->FUN_00726070())));
+    }
+
+    reinterpret_cast<::Holder91b580 *>(this)->FUN_0091b580();
+
+    reinterpret_cast<::AcquireSortProcess *>(this)->FUN_0091b640();
+
+    reinterpret_cast<::FileMatchList *>((reinterpret_cast<EquippedList0091*>(&m_kDetectionDataList)))->RemoveAll();
+}
+
+
+// 0x00918120  /MT /Od /Oy- /GS /EHsc /Gy
+
+struct NiP3
+{
+    float x;
+    float y;
+    float z;
+};
+struct Setting_S
+{
+    float f;
+};
+class PlayerS
+{
+  public:
+};
+class TrespassPackage : public TESPackage
+{
+  public:
+    virtual void tp_test();
+};
+class HighProcess_iso : public BaseProcess
+{
+  public:
+    virtual void hp_test();
+public:
+    unsigned int UpdateHighProcessState(::Actor *);
+};
+class Character : public Actor
+{
+  public:
+    virtual void ch_test();
+};
+struct originalRuntimeFloatSetting1295_t
+{
+};
+struct ActShell
+{
+    void FUN_008bb520(NiP3 p, int a);
+};
+struct ZZ1
+{
+    char c;
+};
+struct ZZ2
+{
+    short c;
+};
+struct ZZ4
+{
+    int c;
+};
+struct ZZ8
+{
+    int c;
+    int d;
+};
+struct ZZ12
+{
+    int c;
+    int d;
+    int e;
+};
+struct TgtShell
+{
+};
+struct Pl20c
+{
+    char pad[0x20c];
+    unsigned char b;
+};
+struct FUN_008a08c0_Class
+{
+    unsigned char GetByteAt7C4();
+};
+struct FUN_005a03f0_obj
+{
+    bool FUN_005a03f0(unsigned int a);
+};
+struct TESObjectREFR_acc
+{
+    bool Activate(TESObjectREFR* a, bool b, TESBoundObject* c, int d);
+};
+
+struct MidProc
+{
+    virtual void d000();
+    virtual void d001();
+    virtual void d002();
+    virtual void d003();
+    virtual void d004();
+    virtual void d005();
+    virtual void d006();
+    virtual void d007();
+    virtual void d008();
+    virtual void d009();
+    virtual void d010();
+    virtual void d011();
+    virtual void d012();
+    virtual void d013();
+    virtual void d014();
+    virtual void d015();
+    virtual void d016();
+    virtual void d017();
+    virtual void d018();
+    virtual void d019();
+    virtual void d020();
+    virtual void d021();
+    virtual void d022();
+    virtual void d023();
+    virtual void d024();
+    virtual void d025();
+    virtual void d026();
+    virtual void d027();
+    virtual void d028();
+    virtual void d029();
+    virtual void d030();
+    virtual void d031();
+    virtual void d032();
+    virtual void d033();
+    virtual void d034();
+    virtual void v035(Actor* a);
+    virtual void d036();
+    virtual void d037();
+    virtual void d038();
+    virtual void d039();
+    virtual void d040();
+    virtual void d041();
+    virtual void d042();
+    virtual void d043();
+    virtual void d044();
+    virtual void d045();
+    virtual void d046();
+    virtual void d047();
+    virtual void d048();
+    virtual void d049();
+    virtual void d050();
+    virtual void d051();
+    virtual void d052();
+    virtual void d053();
+    virtual void d054();
+    virtual void d055();
+    virtual void d056();
+    virtual void d057();
+    virtual void d058();
+    virtual void d059();
+    virtual void d060();
+    virtual void d061();
+    virtual void d062();
+    virtual void d063();
+    virtual void d064();
+    virtual void d065();
+    virtual void d066();
+    virtual void d067();
+    virtual void d068();
+    virtual void d069();
+    virtual void d070();
+    virtual void d071();
+    virtual void d072();
+    virtual void d073();
+    virtual void d074();
+    virtual void d075();
+    virtual void d076();
+    virtual void d077();
+    virtual void d078();
+    virtual void d079();
+    virtual void d080();
+    virtual void d081();
+    virtual void d082();
+    virtual void d083();
+    virtual void d084();
+    virtual void d085();
+    virtual void d086();
+    virtual void d087();
+    virtual void d088();
+    virtual void d089();
+    virtual void d090();
+    virtual void d091();
+    virtual void d092();
+    virtual void d093();
+    virtual void d094();
+    virtual void d095();
+    virtual void d096();
+    virtual void d097();
+    virtual void d098();
+    virtual void d099();
+    virtual void d100();
+    virtual void d101();
+    virtual void d102();
+    virtual void d103();
+    virtual void d104();
+    virtual void d105();
+    virtual void d106();
+    virtual void d107();
+    virtual void d108();
+    virtual void d109();
+    virtual void d110();
+    virtual void d111();
+    virtual void d112();
+    virtual void d113();
+    virtual void d114();
+    virtual void d115();
+    virtual void d116();
+    virtual void d117();
+    virtual void d118();
+    virtual void d119();
+    virtual void d120();
+    virtual void d121();
+    virtual void d122();
+    virtual void d123();
+    virtual void d124();
+    virtual void d125();
+    virtual void d126();
+    virtual void d127();
+    virtual void d128();
+    virtual void d129();
+    virtual void d130();
+    virtual void d131();
+    virtual void d132();
+    virtual void d133();
+    virtual void d134();
+    virtual void d135();
+    virtual void d136();
+    virtual void d137();
+    virtual void d138();
+    virtual void d139();
+    virtual void d140();
+    virtual void d141();
+    virtual void d142();
+    virtual void d143();
+    virtual void d144();
+    virtual void d145();
+    virtual void d146();
+    virtual void d147();
+    virtual void d148();
+    virtual void d149();
+    virtual void d150();
+    virtual void d151();
+    virtual void d152();
+    virtual void d153();
+    virtual void d154();
+    virtual void d155();
+    virtual void d156();
+    virtual void d157();
+    virtual void d158();
+    virtual TESPackage* v159();
+    virtual void d160();
+    virtual void d161();
+    virtual void v162(TESObjectREFR* a, int b);
+    virtual void d163();
+    virtual void d164();
+    virtual void v165(Actor* a);
+    virtual void v166(Actor* a, bool b, int c, bool d);
+    virtual void d167();
+    virtual void d168();
+    virtual void d169();
+    virtual void d170();
+    virtual void d171();
+    virtual void d172();
+    virtual void d173();
+    virtual void d174();
+    virtual void d175();
+    virtual void d176();
+    virtual void d177();
+    virtual void d178();
+    virtual void d179();
+    virtual void d180();
+    virtual void d181();
+    virtual bool v182();
+    virtual void d183();
+    virtual void d184();
+    virtual void d185();
+    virtual void d186();
+    virtual void d187();
+    virtual void d188();
+    virtual void d189();
+    virtual void d190();
+    virtual void d191();
+    virtual void d192();
+    virtual void d193();
+    virtual void d194();
+    virtual void d195();
+    virtual void d196();
+    virtual void d197();
+    virtual void d198();
+    virtual void d199();
+    virtual void d200();
+    virtual void d201();
+    virtual void d202();
+    virtual void d203();
+    virtual void d204();
+    virtual void d205();
+    virtual void d206();
+    virtual bool v207(Actor* a, Actor* b, bool c, bool d, void* e, bool f, bool g, bool h, char i, bool j, bool k,
+                      bool l, TESPackage* m);
+    char pad[0x3c];
+    TESObjectREFR* pTarget;
+    void FUN_00918120(Actor* a, int b, int c, int d);
+};
+
+struct V448
+{
+    virtual void d000();
+    virtual void d001();
+    virtual void d002();
+    virtual void d003();
+    virtual void d004();
+    virtual void d005();
+    virtual void d006();
+    virtual void d007();
+    virtual void d008();
+    virtual void d009();
+    virtual void d010();
+    virtual void d011();
+    virtual void d012();
+    virtual void d013();
+    virtual void d014();
+    virtual void d015();
+    virtual void d016();
+    virtual void d017();
+    virtual void d018();
+    virtual void d019();
+    virtual void d020();
+    virtual void d021();
+    virtual void d022();
+    virtual void d023();
+    virtual void d024();
+    virtual void d025();
+    virtual void d026();
+    virtual void d027();
+    virtual void d028();
+    virtual void d029();
+    virtual void d030();
+    virtual void d031();
+    virtual void d032();
+    virtual void d033();
+    virtual void d034();
+    virtual void d035();
+    virtual void d036();
+    virtual void d037();
+    virtual void d038();
+    virtual void d039();
+    virtual void d040();
+    virtual void d041();
+    virtual void d042();
+    virtual void d043();
+    virtual void d044();
+    virtual void d045();
+    virtual void d046();
+    virtual void d047();
+    virtual void d048();
+    virtual void d049();
+    virtual void d050();
+    virtual void d051();
+    virtual void d052();
+    virtual void d053();
+    virtual void d054();
+    virtual void d055();
+    virtual void d056();
+    virtual void d057();
+    virtual void d058();
+    virtual void d059();
+    virtual void d060();
+    virtual void d061();
+    virtual void d062();
+    virtual void d063();
+    virtual void d064();
+    virtual void d065();
+    virtual void d066();
+    virtual void d067();
+    virtual void d068();
+    virtual void d069();
+    virtual void d070();
+    virtual void d071();
+    virtual void d072();
+    virtual void d073();
+    virtual void d074();
+    virtual void d075();
+    virtual void d076();
+    virtual void d077();
+    virtual void d078();
+    virtual void d079();
+    virtual void d080();
+    virtual void d081();
+    virtual void d082();
+    virtual void d083();
+    virtual void d084();
+    virtual void d085();
+    virtual void d086();
+    virtual void d087();
+    virtual void d088();
+    virtual void d089();
+    virtual void d090();
+    virtual void d091();
+    virtual void d092();
+    virtual void d093();
+    virtual void d094();
+    virtual void d095();
+    virtual void d096();
+    virtual void d097();
+    virtual void d098();
+    virtual void d099();
+    virtual void d100();
+    virtual void d101();
+    virtual void d102();
+    virtual void d103();
+    virtual void d104();
+    virtual void d105();
+    virtual void d106();
+    virtual void d107();
+    virtual void d108();
+    virtual void d109();
+    virtual void d110();
+    virtual void d111();
+    virtual void d112();
+    virtual void d113();
+    virtual void d114();
+    virtual void d115();
+    virtual void d116();
+    virtual void d117();
+    virtual void d118();
+    virtual void d119();
+    virtual void d120();
+    virtual void d121();
+    virtual void d122();
+    virtual void d123();
+    virtual void d124();
+    virtual void d125();
+    virtual void d126();
+    virtual void d127();
+    virtual void d128();
+    virtual void d129();
+    virtual void d130();
+    virtual void d131();
+    virtual void d132();
+    virtual void d133();
+    virtual void d134();
+    virtual void d135();
+    virtual void d136();
+    virtual void d137();
+    virtual void d138();
+    virtual void d139();
+    virtual void d140();
+    virtual void d141();
+    virtual void d142();
+    virtual void d143();
+    virtual void d144();
+    virtual void d145();
+    virtual void d146();
+    virtual void d147();
+    virtual void d148();
+    virtual void d149();
+    virtual void d150();
+    virtual void d151();
+    virtual void d152();
+    virtual void d153();
+    virtual void d154();
+    virtual void d155();
+    virtual void d156();
+    virtual void d157();
+    virtual void d158();
+    virtual void d159();
+    virtual void d160();
+    virtual void d161();
+    virtual void d162();
+    virtual void d163();
+    virtual void d164();
+    virtual void d165();
+    virtual void d166();
+    virtual void d167();
+    virtual void d168();
+    virtual void d169();
+    virtual void d170();
+    virtual void d171();
+    virtual void d172();
+    virtual void d173();
+    virtual void d174();
+    virtual void d175();
+    virtual void d176();
+    virtual void d177();
+    virtual void d178();
+    virtual void d179();
+    virtual void d180();
+    virtual void d181();
+    virtual void d182();
+    virtual void d183();
+    virtual void d184();
+    virtual void d185();
+    virtual void d186();
+    virtual void d187();
+    virtual void d188();
+    virtual void d189();
+    virtual void d190();
+    virtual void d191();
+    virtual void d192();
+    virtual void d193();
+    virtual void d194();
+    virtual void d195();
+    virtual void d196();
+    virtual void d197();
+    virtual void d198();
+    virtual void d199();
+    virtual void d200();
+    virtual void d201();
+    virtual void d202();
+    virtual void d203();
+    virtual void d204();
+    virtual void d205();
+    virtual void d206();
+    virtual void d207();
+    virtual void d208();
+    virtual void d209();
+    virtual void d210();
+    virtual void d211();
+    virtual void d212();
+    virtual void d213();
+    virtual void d214();
+    virtual void d215();
+    virtual void d216();
+    virtual void d217();
+    virtual void d218();
+    virtual void d219();
+    virtual void d220();
+    virtual void d221();
+    virtual void d222();
+    virtual void d223();
+    virtual void d224();
+    virtual void d225();
+    virtual void d226();
+    virtual void d227();
+    virtual void d228();
+    virtual void d229();
+    virtual void d230();
+    virtual void d231();
+    virtual void d232();
+    virtual void d233();
+    virtual void d234();
+    virtual void d235();
+    virtual void d236();
+    virtual void d237();
+    virtual void d238();
+    virtual void d239();
+    virtual void d240();
+    virtual void d241();
+    virtual void d242();
+    virtual void d243();
+    virtual void d244();
+    virtual void d245();
+    virtual void d246();
+    virtual void d247();
+    virtual void d248();
+    virtual void d249();
+    virtual void d250();
+    virtual void d251();
+    virtual void d252();
+    virtual void d253();
+    virtual void d254();
+    virtual void d255();
+    virtual void d256();
+    virtual void d257();
+    virtual void d258();
+    virtual void d259();
+    virtual void d260();
+    virtual void d261();
+    virtual void d262();
+    virtual void d263();
+    virtual void d264();
+    virtual void d265();
+    virtual void d266();
+    virtual void d267();
+    virtual void d268();
+    virtual void d269();
+    virtual void d270();
+    virtual void d271();
+    virtual void d272();
+    virtual void d273();
+    virtual bool v448();
+};
+
+struct V1f4
+{
+    virtual void d000();
+    virtual void d001();
+    virtual void d002();
+    virtual void d003();
+    virtual void d004();
+    virtual void d005();
+    virtual void d006();
+    virtual void d007();
+    virtual void d008();
+    virtual void d009();
+    virtual void d010();
+    virtual void d011();
+    virtual void d012();
+    virtual void d013();
+    virtual void d014();
+    virtual void d015();
+    virtual void d016();
+    virtual void d017();
+    virtual void d018();
+    virtual void d019();
+    virtual void d020();
+    virtual void d021();
+    virtual void d022();
+    virtual void d023();
+    virtual void d024();
+    virtual void d025();
+    virtual void d026();
+    virtual void d027();
+    virtual void d028();
+    virtual void d029();
+    virtual void d030();
+    virtual void d031();
+    virtual void d032();
+    virtual void d033();
+    virtual void d034();
+    virtual void d035();
+    virtual void d036();
+    virtual void d037();
+    virtual void d038();
+    virtual void d039();
+    virtual void d040();
+    virtual void d041();
+    virtual void d042();
+    virtual void d043();
+    virtual void d044();
+    virtual void d045();
+    virtual void d046();
+    virtual void d047();
+    virtual void d048();
+    virtual void d049();
+    virtual void d050();
+    virtual void d051();
+    virtual void d052();
+    virtual void d053();
+    virtual void d054();
+    virtual void d055();
+    virtual void d056();
+    virtual void d057();
+    virtual void d058();
+    virtual void d059();
+    virtual void d060();
+    virtual void d061();
+    virtual void d062();
+    virtual void d063();
+    virtual void d064();
+    virtual void d065();
+    virtual void d066();
+    virtual void d067();
+    virtual void d068();
+    virtual void d069();
+    virtual void d070();
+    virtual void d071();
+    virtual void d072();
+    virtual void d073();
+    virtual void d074();
+    virtual void d075();
+    virtual void d076();
+    virtual void d077();
+    virtual void d078();
+    virtual void d079();
+    virtual void d080();
+    virtual void d081();
+    virtual void d082();
+    virtual void d083();
+    virtual void d084();
+    virtual void d085();
+    virtual void d086();
+    virtual void d087();
+    virtual void d088();
+    virtual void d089();
+    virtual void d090();
+    virtual void d091();
+    virtual void d092();
+    virtual void d093();
+    virtual void d094();
+    virtual void d095();
+    virtual void d096();
+    virtual void d097();
+    virtual void d098();
+    virtual void d099();
+    virtual void d100();
+    virtual void d101();
+    virtual void d102();
+    virtual void d103();
+    virtual void d104();
+    virtual void d105();
+    virtual void d106();
+    virtual void d107();
+    virtual void d108();
+    virtual void d109();
+    virtual void d110();
+    virtual void d111();
+    virtual void d112();
+    virtual void d113();
+    virtual void d114();
+    virtual void d115();
+    virtual void d116();
+    virtual void d117();
+    virtual void d118();
+    virtual void d119();
+    virtual void d120();
+    virtual void d121();
+    virtual void d122();
+    virtual void d123();
+    virtual void d124();
+    virtual NiP3* v1f4();
+};
+
+
+// @fnv 0x00918120
+void MidProc::FUN_00918120(Actor* pActor, int a2, int a3, int a4)
+{
+    if (this->pTarget == 0)
+        this->v035(pActor);
+
+    if (this->pTarget == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && ((FUN_005a03f0_obj*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))->FUN_005a03f0(8))
+    {
+        this->v165(pActor);
+        return;
+    }
+
+    TrespassPackage* pPkg = dynamic_cast<TrespassPackage*>(this->v159());
+    TESObjectREFR* pTgt = this->pTarget;
+
+    if (pPkg && pTgt && !((V448*)pTgt)->v448())
+    {
+        this->v162(pTgt, 2);
+        return;
+    }
+
+    if (reinterpret_cast<::RefS *>((((ActShell*)pActor)))->FUN_005723b0((::RefS *)(this->pTarget), 0, 0) > DAT_010179e0)
+    {
+        this->v166(pActor, false, a4, true);
+        return;
+    }
+
+    if (!((bool)(reinterpret_cast<::TeleportableReference *>((((ActShell*)pActor)))->GetTeleportDestinationForm())))
+        this->v165(pActor);
+
+    if (this->pTarget)
+    {
+        HighProcess_iso* pHi = dynamic_cast<HighProcess_iso*>(((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture())));
+        if (pHi && ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture())) && !((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture()))->GetSitSleepState())
+        {
+            ((ActShell*)pActor)->FUN_008bb520(*((V1f4*)this->pTarget)->v1f4(), 0);
+        }
+    }
+
+    if (pPkg)
+    {
+        Actor* pA = dynamic_cast<Actor*>(this->pTarget);
+        if (pA && !((V448*)pA)->v448())
+        {
+            this->v162(pActor, 2);
+            return;
+        }
+        if (!((int)(reinterpret_cast<::PlayerMover *>((pPkg))->GetActorStateFlags())) ||
+            ((int)((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((EffectSetting*)pPkg))))) > ((int)(reinterpret_cast<::PlayerMover *>((pPkg))->GetActorStateFlags())) && reinterpret_cast<::FUN_00644790_class *>((pPkg))->FUN_00644790() <= 0.0))
+        {
+            if (pTgt)
+            {
+                reinterpret_cast<::fnv_008c0ec0::Target *>((((TgtShell*)pTgt)))->UpdateTargetUnits((int)(pActor), 0, -1);
+                return;
+            }
+        }
+        if (reinterpret_cast<::FUN_00644790_class *>((pPkg))->FUN_00644790() <= 0.0)
+        {
+            this->v162(pActor, 1);
+            return;
+        }
+        reinterpret_cast<::FUN_008db4c0_class *>((pPkg))->FUN_008db4c0((float)(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue() * -1.0));
+        if (reinterpret_cast<::FUN_00644790_class *>((pPkg))->FUN_00644790() > *(float*)((::Setting_S *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::originalRuntimeFloatSetting1295_t *>(&::originalRuntimeFloatSetting190)))))))
+            reinterpret_cast<::FUN_008db4c0_class *>((pPkg))->FUN_008db4c0((float)(reinterpret_cast<::FUN_00644790_class *>((pPkg))->FUN_00644790() * -1.0));
+    }
+
+    Character* pChr = dynamic_cast<Character*>(this->pTarget);
+    Actor* pA2 = dynamic_cast<Actor*>(this->pTarget);
+
+    if (reinterpret_cast<::ActorStandIn008a *>((((ActShell*)pActor)))->FUN_008a61b0() && pA2)
+    {
+        if (pChr == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
+        {
+            if (this->pTarget == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && reinterpret_cast<::PlayerCharacter *>((((PlayerS*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->IsSleepingOrResting() &&
+                !((Pl20c*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))->b)
+            {
+                ((FUN_005c1a00*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))->Set(0, 1);
+                return;
+            }
+            if (!this->v182() && !((FUN_008a08c0_Class*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))->GetByteAt7C4())
+            {
+                if (((TESObjectREFR_acc*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))->Activate(pActor, 0, 0, 1))
+                    this->v162(pActor, 1);
+            }
+            else
+            {
+                if (((FUN_008a08c0_Class*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))->GetByteAt7C4())
+                {
+                    bool bCombat = this->v207(pActor, (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)), 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
+                }
+            }
+            if (0)
+            {
+            }
+        }
+        else
+        {
+            this->v162(pActor, 2);
+            this->v207(pActor, pA2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
+        }
+    }
+}
+
+struct FleeVec3
+{
+    float x;
+    float y;
+    float z;
+};
+struct FleeRadius
+{
+};
+__if_not_exists(TESPackage::TESPackage)
+{
+    class TESPackage
+    {
+      public:
+        virtual ~TESPackage();
+    };
+}
+
+class FleePackageAccess
+{
+  public:
+    virtual void p_000();
+    virtual void p_001();
+    virtual void p_002();
+    virtual void p_003();
+    virtual void p_004();
+    virtual void p_005();
+    virtual void p_006();
+    virtual void p_007();
+    virtual void p_008();
+    virtual void p_009();
+    virtual void p_00a();
+    virtual void p_00b();
+    virtual void p_00c();
+    virtual void p_00d();
+    virtual void p_00e();
+    virtual void p_00f();
+    virtual void p_010();
+    virtual void p_011();
+    virtual void p_012();
+    virtual void p_013();
+    virtual void p_014();
+    virtual void p_015();
+    virtual void p_016();
+    virtual void p_017();
+    virtual void p_018();
+    virtual void p_019();
+    virtual void p_01a();
+    virtual void p_01b();
+    virtual void p_01c();
+    virtual void p_01d();
+    virtual void p_01e();
+    virtual void p_01f();
+    virtual void p_020();
+    virtual void p_021();
+    virtual void p_022();
+    virtual void p_023();
+    virtual void p_024();
+    virtual void p_025();
+    virtual void p_026();
+    virtual void p_027();
+    virtual void p_028();
+    virtual void p_029();
+    virtual void p_02a();
+    virtual void p_02b();
+    virtual void p_02c();
+    virtual void p_02d();
+    virtual void p_02e();
+    virtual void p_02f();
+    virtual void p_030();
+    virtual void p_031();
+    virtual void p_032();
+    virtual void p_033();
+    virtual void p_034();
+    virtual void p_035();
+    virtual void p_036();
+    virtual void p_037();
+    virtual void p_038();
+    virtual void p_039();
+    virtual void p_03a();
+    virtual void p_03b();
+    virtual void p_03c();
+    virtual void p_03d();
+    virtual void p_03e();
+    virtual void p_03f();
+    virtual void p_040();
+    virtual void p_041();
+    virtual void p_042();
+    virtual void p_043();
+    virtual void p_044();
+    virtual void p_045();
+    virtual void p_046();
+    virtual void p_047();
+    virtual void p_048();
+    virtual void p_049();
+    virtual void p_04a();
+    virtual void p_04b();
+    virtual void p_04c();
+    virtual void p_04d();
+    virtual void p_04e();
+    virtual bool Check13c(Actor* actor, int a, float b, int c);
+    void FUN_00675de0(FleeVec3* pos, Actor* actor);
+};
+class FleePackage : public TESPackage
+{
+  public:
+public:
+    void FUN_009f1310(::TESObjectREFR *);
+};
+struct FleeActorView
+{
+    virtual void a_000();
+    virtual void a_001();
+    virtual void a_002();
+    virtual void a_003();
+    virtual void a_004();
+    virtual void a_005();
+    virtual void a_006();
+    virtual void a_007();
+    virtual void a_008();
+    virtual void a_009();
+    virtual void a_00a();
+    virtual void a_00b();
+    virtual void a_00c();
+    virtual void a_00d();
+    virtual void a_00e();
+    virtual void a_00f();
+    virtual void a_010();
+    virtual void a_011();
+    virtual void a_012();
+    virtual void a_013();
+    virtual void a_014();
+    virtual void a_015();
+    virtual void a_016();
+    virtual void a_017();
+    virtual void a_018();
+    virtual void a_019();
+    virtual void a_01a();
+    virtual void a_01b();
+    virtual void a_01c();
+    virtual void a_01d();
+    virtual void a_01e();
+    virtual void a_01f();
+    virtual void a_020();
+    virtual void a_021();
+    virtual void a_022();
+    virtual void a_023();
+    virtual void a_024();
+    virtual void a_025();
+    virtual void a_026();
+    virtual void a_027();
+    virtual void a_028();
+    virtual void a_029();
+    virtual void a_02a();
+    virtual void a_02b();
+    virtual void a_02c();
+    virtual void a_02d();
+    virtual void a_02e();
+    virtual void a_02f();
+    virtual void a_030();
+    virtual void a_031();
+    virtual void a_032();
+    virtual void a_033();
+    virtual void a_034();
+    virtual void a_035();
+    virtual void a_036();
+    virtual void a_037();
+    virtual void a_038();
+    virtual void a_039();
+    virtual void a_03a();
+    virtual void a_03b();
+    virtual void a_03c();
+    virtual void a_03d();
+    virtual void a_03e();
+    virtual void a_03f();
+    virtual void a_040();
+    virtual void a_041();
+    virtual void a_042();
+    virtual void a_043();
+    virtual void a_044();
+    virtual void a_045();
+    virtual void a_046();
+    virtual void a_047();
+    virtual void a_048();
+    virtual void a_049();
+    virtual void a_04a();
+    virtual void a_04b();
+    virtual void a_04c();
+    virtual void a_04d();
+    virtual void a_04e();
+    virtual void a_04f();
+    virtual void a_050();
+    virtual void a_051();
+    virtual void a_052();
+    virtual void a_053();
+    virtual void a_054();
+    virtual void a_055();
+    virtual void a_056();
+    virtual void a_057();
+    virtual void a_058();
+    virtual void a_059();
+    virtual void a_05a();
+    virtual void a_05b();
+    virtual void a_05c();
+    virtual void a_05d();
+    virtual void a_05e();
+    virtual void a_05f();
+    virtual void a_060();
+    virtual void a_061();
+    virtual void a_062();
+    virtual void a_063();
+    virtual void a_064();
+    virtual void a_065();
+    virtual void a_066();
+    virtual void a_067();
+    virtual void a_068();
+    virtual void a_069();
+    virtual void a_06a();
+    virtual void a_06b();
+    virtual void a_06c();
+    virtual void a_06d();
+    virtual void a_06e();
+    virtual void a_06f();
+    virtual void a_070();
+    virtual void a_071();
+    virtual void a_072();
+    virtual void a_073();
+    virtual void a_074();
+    virtual void a_075();
+    virtual void a_076();
+    virtual void a_077();
+    virtual void a_078();
+    virtual void a_079();
+    virtual void a_07a();
+    virtual void a_07b();
+    virtual void a_07c();
+    virtual void a_07d();
+    virtual void a_07e();
+    virtual void a_07f();
+    virtual void a_080();
+    virtual void a_081();
+    virtual void a_082();
+    virtual void a_083();
+    virtual void a_084();
+    virtual void a_085();
+    virtual void a_086();
+    virtual void a_087();
+    virtual void a_088();
+    virtual void a_089();
+    virtual void a_08a();
+    virtual void a_08b();
+    virtual void a_08c();
+    virtual void a_08d();
+    virtual void a_08e();
+    virtual void a_08f();
+    virtual void a_090();
+    virtual void a_091();
+    virtual void a_092();
+    virtual void a_093();
+    virtual void a_094();
+    virtual void a_095();
+    virtual void a_096();
+    virtual void a_097();
+    virtual void a_098();
+    virtual void a_099();
+    virtual void a_09a();
+    virtual void a_09b();
+    virtual void a_09c();
+    virtual void a_09d();
+    virtual void a_09e();
+    virtual void a_09f();
+    virtual void a_0a0();
+    virtual void a_0a1();
+    virtual void a_0a2();
+    virtual void a_0a3();
+    virtual void a_0a4();
+    virtual void a_0a5();
+    virtual void a_0a6();
+    virtual void a_0a7();
+    virtual void a_0a8();
+    virtual void a_0a9();
+    virtual void a_0aa();
+    virtual void a_0ab();
+    virtual void a_0ac();
+    virtual void a_0ad();
+    virtual void a_0ae();
+    virtual void a_0af();
+    virtual void a_0b0();
+    virtual void a_0b1();
+    virtual void a_0b2();
+    virtual void a_0b3();
+    virtual void a_0b4();
+    virtual void a_0b5();
+    virtual void a_0b6();
+    virtual void a_0b7();
+    virtual void a_0b8();
+    virtual void a_0b9();
+    virtual void a_0ba();
+    virtual void a_0bb();
+    virtual void a_0bc();
+    virtual void a_0bd();
+    virtual void a_0be();
+    virtual void a_0bf();
+    virtual void a_0c0();
+    virtual void a_0c1();
+    virtual void a_0c2();
+    virtual void a_0c3();
+    virtual void a_0c4();
+    virtual void a_0c5();
+    virtual void a_0c6();
+    virtual void a_0c7();
+    virtual void a_0c8();
+    virtual void a_0c9();
+    virtual void a_0ca();
+    virtual void a_0cb();
+    virtual void a_0cc();
+    virtual void a_0cd();
+    virtual void a_0ce();
+    virtual void a_0cf();
+    virtual void a_0d0();
+    virtual void a_0d1();
+    virtual void a_0d2();
+    virtual void a_0d3();
+    virtual void a_0d4();
+    virtual void a_0d5();
+    virtual void a_0d6();
+    virtual void a_0d7();
+    virtual void a_0d8();
+    virtual void a_0d9();
+    virtual void a_0da();
+    virtual void a_0db();
+    virtual void a_0dc();
+    virtual void a_0dd();
+    virtual void a_0de();
+    virtual void a_0df();
+    virtual void a_0e0();
+    virtual void a_0e1();
+    virtual void a_0e2();
+    virtual void a_0e3();
+    virtual void a_0e4();
+    virtual void a_0e5();
+    virtual void a_0e6();
+    virtual void a_0e7();
+    virtual void a_0e8();
+    virtual void a_0e9();
+    virtual void a_0ea();
+    virtual void a_0eb();
+    virtual void a_0ec();
+    virtual void a_0ed();
+    virtual void a_0ee();
+    virtual void a_0ef();
+    virtual void a_0f0();
+    virtual void a_0f1();
+    virtual void a_0f2();
+    virtual void a_0f3();
+    virtual void a_0f4();
+    virtual void a_0f5();
+    virtual void a_0f6();
+    virtual void a_0f7();
+    virtual void a_0f8();
+    virtual void a_0f9();
+    virtual void a_0fa();
+    virtual void a_0fb();
+    virtual void a_0fc();
+    virtual void a_0fd();
+    virtual void a_0fe();
+    virtual void a_0ff();
+    virtual void a_100();
+    virtual void a_101();
+    virtual void a_102();
+    virtual void a_103();
+    virtual void Set410(Actor* actor, int a, int b, int c, int d, int e, float f, float g);
+};
+struct FleeProcedure
+{
+    virtual void s_000();
+    virtual void s_001();
+    virtual void s_002();
+    virtual void s_003();
+    virtual void s_004();
+    virtual void s_005();
+    virtual void s_006();
+    virtual void s_007();
+    virtual void s_008();
+    virtual void s_009();
+    virtual void s_00a();
+    virtual void s_00b();
+    virtual void s_00c();
+    virtual void s_00d();
+    virtual void s_00e();
+    virtual void s_00f();
+    virtual void s_010();
+    virtual void s_011();
+    virtual void s_012();
+    virtual void s_013();
+    virtual void s_014();
+    virtual void s_015();
+    virtual void s_016();
+    virtual void s_017();
+    virtual void s_018();
+    virtual void s_019();
+    virtual void s_01a();
+    virtual void s_01b();
+    virtual void s_01c();
+    virtual void s_01d();
+    virtual void s_01e();
+    virtual void s_01f();
+    virtual void s_020();
+    virtual void s_021();
+    virtual void s_022();
+    virtual void Begin8c(Actor* actor);
+    virtual void Begin90(Actor* actor, int a);
+    virtual void s_025();
+    virtual void s_026();
+    virtual void s_027();
+    virtual void s_028();
+    virtual void s_029();
+    virtual void s_02a();
+    virtual void s_02b();
+    virtual void s_02c();
+    virtual void s_02d();
+    virtual void s_02e();
+    virtual void s_02f();
+    virtual void s_030();
+    virtual void s_031();
+    virtual void s_032();
+    virtual void s_033();
+    virtual void s_034();
+    virtual void s_035();
+    virtual void s_036();
+    virtual void s_037();
+    virtual void s_038();
+    virtual void s_039();
+    virtual void s_03a();
+    virtual void s_03b();
+    virtual void s_03c();
+    virtual void s_03d();
+    virtual void s_03e();
+    virtual void s_03f();
+    virtual void s_040();
+    virtual void s_041();
+    virtual void s_042();
+    virtual void s_043();
+    virtual void s_044();
+    virtual void s_045();
+    virtual void s_046();
+    virtual void s_047();
+    virtual void s_048();
+    virtual void s_049();
+    virtual void s_04a();
+    virtual void s_04b();
+    virtual void s_04c();
+    virtual void s_04d();
+    virtual void s_04e();
+    virtual void s_04f();
+    virtual void s_050();
+    virtual void s_051();
+    virtual void s_052();
+    virtual void s_053();
+    virtual void s_054();
+    virtual void s_055();
+    virtual void s_056();
+    virtual void s_057();
+    virtual void s_058();
+    virtual void s_059();
+    virtual void s_05a();
+    virtual void s_05b();
+    virtual void s_05c();
+    virtual void s_05d();
+    virtual void s_05e();
+    virtual void s_05f();
+    virtual void s_060();
+    virtual void s_061();
+    virtual void s_062();
+    virtual void s_063();
+    virtual void s_064();
+    virtual void s_065();
+    virtual void s_066();
+    virtual void s_067();
+    virtual void s_068();
+    virtual void s_069();
+    virtual void s_06a();
+    virtual void s_06b();
+    virtual void s_06c();
+    virtual void s_06d();
+    virtual void s_06e();
+    virtual void s_06f();
+    virtual void s_070();
+    virtual void s_071();
+    virtual void s_072();
+    virtual void s_073();
+    virtual void s_074();
+    virtual void s_075();
+    virtual void s_076();
+    virtual void s_077();
+    virtual void s_078();
+    virtual void s_079();
+    virtual void s_07a();
+    virtual void s_07b();
+    virtual void s_07c();
+    virtual void s_07d();
+    virtual void s_07e();
+    virtual void s_07f();
+    virtual void s_080();
+    virtual void s_081();
+    virtual void s_082();
+    virtual void s_083();
+    virtual void s_084();
+    virtual void s_085();
+    virtual void s_086();
+    virtual void s_087();
+    virtual void s_088();
+    virtual void s_089();
+    virtual void s_08a();
+    virtual void s_08b();
+    virtual void s_08c();
+    virtual void s_08d();
+    virtual void s_08e();
+    virtual void s_08f();
+    virtual void s_090();
+    virtual void s_091();
+    virtual void s_092();
+    virtual void s_093();
+    virtual void s_094();
+    virtual void s_095();
+    virtual void s_096();
+    virtual void s_097();
+    virtual void s_098();
+    virtual void s_099();
+    virtual void s_09a();
+    virtual void s_09b();
+    virtual void s_09c();
+    virtual void s_09d();
+    virtual void s_09e();
+    virtual TESPackage* GetAssignedPackage();
+    virtual void s_0a0();
+    virtual void s_0a1();
+    virtual void s_0a2();
+    virtual void s_0a3();
+    virtual void s_0a4();
+    virtual void Fail294(Actor* actor);
+    virtual void s_0a6();
+    virtual void s_0a7();
+    virtual void s_0a8();
+    virtual void s_0a9();
+    virtual void s_0aa();
+    virtual void s_0ab();
+    virtual void s_0ac();
+    virtual void s_0ad();
+    virtual void s_0ae();
+    virtual void s_0af();
+    virtual void s_0b0();
+    virtual void s_0b1();
+    virtual void s_0b2();
+    virtual void s_0b3();
+    virtual void s_0b4();
+    virtual void s_0b5();
+    virtual void s_0b6();
+    virtual void s_0b7();
+    virtual void s_0b8();
+    virtual void s_0b9();
+    virtual void s_0ba();
+    virtual void s_0bb();
+    virtual void s_0bc();
+    virtual void s_0bd();
+    virtual void s_0be();
+    virtual void s_0bf();
+    virtual void s_0c0();
+    virtual void s_0c1();
+    virtual void s_0c2();
+    virtual void s_0c3();
+    virtual void s_0c4();
+    virtual void s_0c5();
+    virtual void s_0c6();
+    virtual void s_0c7();
+    virtual void s_0c8();
+    virtual void s_0c9();
+    virtual void s_0ca();
+    virtual void s_0cb();
+    virtual void s_0cc();
+    virtual void s_0cd();
+    virtual void s_0ce();
+    virtual void s_0cf();
+    virtual void s_0d0();
+    virtual void s_0d1();
+    virtual void s_0d2();
+    virtual void s_0d3();
+    virtual void Run350(Actor* actor, int flags, int a);
+    virtual void s_0d5();
+    virtual void s_0d6();
+    virtual void s_0d7();
+    virtual void s_0d8();
+    virtual void s_0d9();
+    virtual void s_0da();
+    virtual void s_0db();
+    virtual void s_0dc();
+    virtual void s_0dd();
+    virtual void s_0de();
+    virtual void s_0df();
+    virtual void s_0e0();
+    virtual void s_0e1();
+    virtual void s_0e2();
+    virtual void s_0e3();
+    virtual void s_0e4();
+    virtual void s_0e5();
+    virtual void s_0e6();
+    virtual void s_0e7();
+    virtual void s_0e8();
+    virtual void s_0e9();
+    virtual void s_0ea();
+    virtual void s_0eb();
+    virtual void s_0ec();
+    virtual void s_0ed();
+    virtual void s_0ee();
+    virtual void s_0ef();
+    virtual void s_0f0();
+    virtual void s_0f1();
+    virtual void s_0f2();
+    virtual void s_0f3();
+    virtual void s_0f4();
+    virtual void s_0f5();
+    virtual void s_0f6();
+    virtual void s_0f7();
+    virtual void s_0f8();
+    virtual void s_0f9();
+    virtual void s_0fa();
+    virtual void s_0fb();
+    virtual void s_0fc();
+    virtual void s_0fd();
+    virtual void s_0fe();
+    virtual void s_0ff();
+    virtual void s_100();
+    virtual void s_101();
+    virtual void s_102();
+    virtual void s_103();
+    virtual void s_104();
+    virtual void s_105();
+    virtual void s_106();
+    virtual void s_107();
+    virtual void s_108();
+    virtual void s_109();
+    virtual void s_10a();
+    virtual void s_10b();
+    virtual void s_10c();
+    virtual void s_10d();
+    virtual void s_10e();
+    virtual void s_10f();
+    virtual void s_110();
+    virtual void s_111();
+    virtual void s_112();
+    virtual void s_113();
+    virtual void s_114();
+    virtual void s_115();
+    virtual void s_116();
+    virtual void s_117();
+    virtual void s_118();
+    virtual void s_119();
+    virtual void s_11a();
+    virtual void s_11b();
+    virtual void s_11c();
+    virtual void s_11d();
+    virtual void s_11e();
+    virtual void s_11f();
+    virtual void s_120();
+    virtual void s_121();
+    virtual void s_122();
+    virtual void s_123();
+    virtual void s_124();
+    virtual void s_125();
+    virtual void s_126();
+    virtual void s_127();
+    virtual void s_128();
+    virtual void s_129();
+    virtual void s_12a();
+    virtual void s_12b();
+    virtual void s_12c();
+    virtual void s_12d();
+    virtual void s_12e();
+    virtual void s_12f();
+    virtual void s_130();
+    virtual void s_131();
+    virtual void s_132();
+    virtual void s_133();
+    virtual void s_134();
+    virtual void s_135();
+    virtual void s_136();
+    virtual void s_137();
+    virtual void s_138();
+    virtual void s_139();
+    virtual void s_13a();
+    virtual void s_13b();
+    virtual void s_13c();
+    virtual void s_13d();
+    virtual void s_13e();
+    virtual void s_13f();
+    virtual void s_140();
+    virtual void s_141();
+    virtual void s_142();
+    virtual void s_143();
+    virtual void s_144();
+    virtual void s_145();
+    virtual void s_146();
+    virtual void s_147();
+    virtual void s_148();
+    virtual void s_149();
+    virtual void s_14a();
+    virtual void s_14b();
+    virtual void s_14c();
+    virtual void s_14d();
+    virtual void s_14e();
+    virtual void s_14f();
+    virtual void s_150();
+    virtual void s_151();
+    virtual void s_152();
+    virtual void s_153();
+    virtual void s_154();
+    virtual void s_155();
+    virtual void s_156();
+    virtual void s_157();
+    virtual void s_158();
+    virtual void s_159();
+    virtual void s_15a();
+    virtual void s_15b();
+    virtual void s_15c();
+    virtual void s_15d();
+    virtual void s_15e();
+    virtual void s_15f();
+    virtual void s_160();
+    virtual void s_161();
+    virtual void s_162();
+    virtual void s_163();
+    virtual void s_164();
+    virtual void s_165();
+    virtual void s_166();
+    virtual void s_167();
+    virtual void s_168();
+    virtual void s_169();
+    virtual void s_16a();
+    virtual void s_16b();
+    virtual void s_16c();
+    virtual void s_16d();
+    virtual void s_16e();
+    virtual void s_16f();
+    virtual void s_170();
+    virtual void s_171();
+    virtual void s_172();
+    virtual void s_173();
+    virtual void s_174();
+    virtual void s_175();
+    virtual void s_176();
+    virtual void s_177();
+    virtual void s_178();
+    virtual void s_179();
+    virtual void s_17a();
+    virtual void s_17b();
+    virtual void s_17c();
+    virtual void s_17d();
+    virtual void s_17e();
+    virtual void s_17f();
+    virtual void s_180();
+    virtual void s_181();
+    virtual void s_182();
+    virtual void s_183();
+    virtual void s_184();
+    virtual void s_185();
+    virtual void s_186();
+    virtual void s_187();
+    virtual void s_188();
+    virtual void s_189();
+    virtual void s_18a();
+    virtual void s_18b();
+    virtual void s_18c();
+    virtual void s_18d();
+    virtual void s_18e();
+    virtual void s_18f();
+    virtual void s_190();
+    virtual void s_191();
+    virtual void s_192();
+    virtual void s_193();
+    virtual void s_194();
+    virtual void s_195();
+    virtual void s_196();
+    virtual void s_197();
+    virtual void s_198();
+    virtual void s_199();
+    virtual void s_19a();
+    virtual void s_19b();
+    virtual void s_19c();
+    virtual void s_19d();
+    virtual void s_19e();
+    virtual void s_19f();
+    virtual void s_1a0();
+    virtual void s_1a1();
+    virtual void s_1a2();
+    virtual void s_1a3();
+    virtual void s_1a4();
+    virtual void s_1a5();
+    virtual void s_1a6();
+    virtual void s_1a7();
+    virtual void s_1a8();
+    virtual void s_1a9();
+    virtual void s_1aa();
+    virtual void s_1ab();
+    virtual void s_1ac();
+    virtual void s_1ad();
+    virtual void s_1ae();
+    virtual void s_1af();
+    virtual void s_1b0();
+    virtual void s_1b1();
+    virtual void s_1b2();
+    virtual void s_1b3();
+    virtual void s_1b4();
+    virtual void s_1b5();
+    virtual void s_1b6();
+    virtual void s_1b7();
+    virtual void s_1b8();
+    virtual void s_1b9();
+    virtual void s_1ba();
+    virtual void s_1bb();
+    virtual void s_1bc();
+    virtual void s_1bd();
+    virtual void s_1be();
+    virtual void s_1bf();
+    virtual void s_1c0();
+    virtual void s_1c1();
+    virtual void s_1c2();
+    virtual void s_1c3();
+    virtual void s_1c4();
+    virtual void s_1c5();
+    virtual void s_1c6();
+    virtual void s_1c7();
+    virtual void s_1c8();
+    virtual void s_1c9();
+    virtual void s_1ca();
+    virtual void s_1cb();
+    virtual void s_1cc();
+    virtual void s_1cd();
+    virtual void s_1ce();
+    virtual void s_1cf();
+    virtual void s_1d0();
+    virtual void s_1d1();
+    virtual void s_1d2();
+    virtual void s_1d3();
+    virtual void s_1d4();
+    virtual void s_1d5();
+    virtual void s_1d6();
+    virtual void s_1d7();
+    virtual void s_1d8();
+    virtual void s_1d9();
+    virtual void s_1da();
+    virtual void s_1db();
+    virtual void s_1dc();
+    virtual void s_1dd();
+    virtual void s_1de();
+    virtual void s_1df();
+    virtual void s_1e0();
+    virtual void s_1e1();
+    virtual void s_1e2();
+    virtual void s_1e3();
+    virtual void s_1e4();
+    virtual void s_1e5();
+    virtual void s_1e6();
+    virtual void s_1e7();
+    virtual void s_1e8();
+    virtual void s_1e9();
+    virtual void s_1ea();
+    virtual void s_1eb();
+    virtual void s_1ec();
+    virtual void s_1ed();
+    virtual void s_1ee();
+    virtual void s_1ef();
+    virtual void s_1f0();
+    virtual void s_1f1();
+    virtual void s_1f2();
+    virtual void s_1f3();
+    virtual void s_1f4();
+    virtual void s_1f5();
+    virtual void s_1f6();
+    virtual void s_1f7();
+    virtual void s_1f8();
+    virtual void s_1f9();
+    virtual void s_1fa();
+    virtual void s_1fb();
+    virtual void s_1fc();
+    virtual void s_1fd();
+    virtual void s_1fe();
+    virtual void s_1ff();
+    virtual void s_200();
+    virtual void s_201();
+    virtual void s_202();
+    virtual void s_203();
+    virtual void s_204();
+    virtual void s_205();
+    virtual void s_206();
+    virtual void s_207();
+    virtual void s_208();
+    virtual bool Move824(Actor* actor, FleeVec3 pos, void* cell, void* b);
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    TESObjectREFR* pTarget;
+    void FUN_00918600(Actor* actor);
+};
+
+// @fnv 0x00918600
+void FleeProcedure::FUN_00918600(Actor* actor)
+{
+    float fRadius;
+    TESPackage* pPackage2;
+    FleePackage* pFlee2;
+    {
+        Actor* pTargetActor;
+        void* pCell4;
+        FleeVec3 kPos;
+
+        pPackage2 = GetAssignedPackage();
+        if (!pTarget)
+        {
+            Begin8c(actor);
+        }
+        Begin90(actor, 0);
+        fRadius = 0.0f;
+        if (((::FleeRadius *)(reinterpret_cast<::Script *>((((FleePackageAccess*)pPackage2)))->GetData())))
+        {
+            fRadius = (float)((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::FleeRadius *)(reinterpret_cast<::Script *>((((FleePackageAccess*)pPackage2)))->GetData()))))->GetName()));
+        }
+        else
+        {
+            fRadius = (float)reinterpret_cast<::HighProcess_iso *>((((FleePackageAccess*)pPackage2)))->UpdateHighProcessState(actor);
+        }
+        if (pTarget && reinterpret_cast<::RefS *>((((FleeActorView*)actor)))->FUN_005723b0((::RefS *)(pTarget), 0, 0) > fRadius)
+        {
+            ((FleeActorView*)actor)->Set410(actor, 1, 1, 1, 0, 0, -1.0f, -1.0f);
+            pFlee2 = 0;
+            pFlee2 = dynamic_cast<FleePackage*>(GetAssignedPackage());
+            pTargetActor = dynamic_cast<Actor*>(pTarget);
+            if (pFlee2 && pTargetActor)
+            {
+                pFlee2->FUN_009f1310((::TESObjectREFR *)(pTargetActor));
+            }
+            return;
+        }
+        else if (!pTarget && !((FleePackageAccess*)pPackage2)->Check13c(actor, 0, -1.0f, 0))
+        {
+            pCell4 = ((void *)(reinterpret_cast<::fnv_00675c20::PHost *>((((FleePackageAccess*)pPackage2)))->FUN_00675c20((::fnv_00675c20::Ref *)(actor))));
+            ((FleePackageAccess*)pPackage2)->FUN_00675de0(&kPos, actor);
+            if (((bool)(reinterpret_cast<::TeleportableReference *>((((FleeActorView*)actor)))->GetTeleportDestinationForm())))
+            {
+                if (!Move824(actor, kPos, pCell4, ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((((FleeActorView*)actor)))->FUN_00575d70()))))
+                {
+                    return;
+                }
+            }
+            else
+            {
+                Run350(actor, 0x201, 1);
+            }
+            return;
+        }
+        else
+        {
+            if (!((bool)(reinterpret_cast<::TeleportableReference *>((((FleeActorView*)actor)))->GetTeleportDestinationForm())))
+            {
+                Fail294(actor);
+            }
+        }
+    }
+}
+
+__if_not_exists(TESPackage::TESPackage)
+{
+    class TESPackage
+    {
+      public:
+        virtual void packageVirtual();
+    };
+}
+
+namespace FleeUpdate {
+
+struct Actor;
+struct Process;
+struct Package;
+struct Target;
+struct Weapon;
+struct Request;
+struct Point
+{
+    float x, y, z;
+};
+struct Timer
+{
+};
+struct Setting
+{
+};
+extern char DAT_011846a0, DAT_0118c6f4;
+extern double DAT_0101a6b0, DAT_01012060, DAT_010356d8, DAT_01012640;
+extern float DAT_01013974;
+struct NamedType
+{
+};
+void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
+struct Animation
+{
+};
+struct AnimationOwner
+{
+    int unk00;
+    int unk04;
+    int unk08;
+};
+struct Weapon
+{
+};
+struct Target
+{
+};
+struct ActorData;
+struct Package
+{
+};
+struct RaceData
+{
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual bool v028();
+};
+struct ActorData
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    RaceData race;
+};
+struct Actor
+{
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual void v0f4();
+    virtual void v0f8();
+    virtual void v0fc();
+    virtual void v100();
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+    virtual void v140();
+    virtual void v144();
+    virtual void v148();
+    virtual void v14c();
+    virtual void v150();
+    virtual void v154();
+    virtual void v158();
+    virtual void v15c();
+    virtual void v160();
+    virtual void v164();
+    virtual void v168();
+    virtual void v16c();
+    virtual void v170();
+    virtual void v174();
+    virtual void v178();
+    virtual void v17c();
+    virtual void v180();
+    virtual void v184();
+    virtual void v188();
+    virtual void v18c();
+    virtual void v190();
+    virtual void v194();
+    virtual void v198();
+    virtual void v19c();
+    virtual void v1a0();
+    virtual void v1a4();
+    virtual void v1a8();
+    virtual void v1ac();
+    virtual void v1b0();
+    virtual void v1b4();
+    virtual void v1b8();
+    virtual void v1bc();
+    virtual void v1c0();
+    virtual void v1c4();
+    virtual void v1c8();
+    virtual void v1cc();
+    virtual void v1d0();
+    virtual void v1d4();
+    virtual void v1d8();
+    virtual void v1dc();
+    virtual void v1e0();
+    virtual void v1e4();
+    virtual void v1e8();
+    virtual void v1ec();
+    virtual void v1f0();
+    virtual Point* v1f4();
+    virtual void v1f8();
+    virtual void v1fc();
+    virtual void v200();
+    virtual void v204();
+    virtual void v208();
+    virtual void v20c();
+    virtual void v210();
+    virtual int v214();
+    virtual void v218();
+    virtual bool v21c();
+    virtual void v220();
+    virtual void v224();
+    virtual void v228();
+    virtual void v22c();
+    virtual void v230();
+    virtual void v234();
+    virtual void v238();
+    virtual void v23c();
+    virtual void v240();
+    virtual void v244();
+    virtual void v248();
+    virtual void v24c();
+    virtual void v250();
+    virtual void v254();
+    virtual void v258();
+    virtual void v25c();
+    virtual void v260();
+    virtual void v264();
+    virtual void v268();
+    virtual void v26c();
+    virtual void v270();
+    virtual void v274();
+    virtual void v278();
+    virtual void v27c();
+    virtual void v280();
+    virtual void v284();
+    virtual void v288();
+    virtual void v28c();
+    virtual void v290();
+    virtual void v294();
+    virtual void v298();
+    virtual void v29c();
+    virtual void v2a0();
+    virtual void v2a4();
+    virtual void v2a8();
+    virtual void v2ac();
+    virtual void v2b0();
+    virtual void v2b4();
+    virtual void v2b8();
+    virtual float v2bc(int);
+    virtual void v2c0();
+    virtual void v2c4();
+    virtual void v2c8();
+    virtual void v2cc();
+    virtual void v2d0();
+    virtual void v2d4();
+    virtual void v2d8();
+    virtual void v2dc();
+    virtual void v2e0();
+    virtual void v2e4();
+    virtual void v2e8();
+    virtual void v2ec();
+    virtual void v2f0();
+    virtual void v2f4();
+    virtual void v2f8();
+    virtual void v2fc();
+    virtual void v300();
+    virtual void v304();
+    virtual void v308();
+    virtual void v30c();
+    virtual void v310();
+    virtual void v314();
+    virtual void v318();
+    virtual void v31c();
+    virtual void v320();
+    virtual void v324();
+    virtual void v328();
+    virtual void v32c();
+    virtual void v330();
+    virtual void v334();
+    virtual void v338();
+    virtual void v33c();
+    virtual void v340();
+    virtual void v344();
+    virtual void v348();
+    virtual void v34c();
+    virtual void v350();
+    virtual void v354();
+    virtual void v358();
+    virtual void v35c();
+    virtual void v360();
+    virtual void v364();
+    virtual void v368();
+    virtual void v36c();
+    virtual void v370();
+    virtual void v374();
+    virtual void v378();
+    virtual void v37c();
+    virtual void v380();
+    virtual void v384();
+    virtual void v388();
+    virtual void v38c();
+    virtual void v390();
+    virtual void v394();
+    virtual void v398();
+    virtual void v39c();
+    virtual void v3a0();
+    virtual void v3a4();
+    virtual void v3a8();
+    virtual void v3ac();
+    virtual void v3b0();
+    virtual void v3b4();
+    virtual void v3b8();
+    virtual void v3bc();
+    virtual void v3c0();
+    virtual void v3c4();
+    virtual void v3c8();
+    virtual void v3cc();
+    virtual void v3d0();
+    virtual void v3d4();
+    virtual void v3d8();
+    virtual void v3dc();
+    virtual void v3e0();
+    virtual void v3e4();
+    virtual void v3e8();
+    virtual void v3ec();
+    virtual void v3f0();
+    virtual void v3f4();
+    virtual void v3f8();
+    virtual void v3fc();
+    virtual void v400();
+    virtual void v404();
+    virtual void v408();
+    virtual void v40c();
+    virtual void v410();
+    virtual void v414();
+    virtual void v418();
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    AnimationOwner animations;
+    int unk94;
+    Weapon* FUN_008d6f30();
+};
+struct Process
+{
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual Animation* v04c();
+    virtual void v050(int);
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual void v0f4();
+    virtual void v0f8();
+    virtual void v0fc();
+    virtual void v100();
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+    virtual void v140();
+    virtual void v144();
+    virtual void v148();
+    virtual void v14c();
+    virtual void v150();
+    virtual void v154();
+    virtual void v158();
+    virtual void v15c();
+    virtual void v160();
+    virtual void v164();
+    virtual void v168();
+    virtual void v16c();
+    virtual void v170();
+    virtual void v174();
+    virtual void v178();
+    virtual void v17c();
+    virtual void v180();
+    virtual void v184();
+    virtual void v188();
+    virtual void v18c();
+    virtual void v190();
+    virtual void v194();
+    virtual void v198();
+    virtual void v19c();
+    virtual void v1a0();
+    virtual void v1a4();
+    virtual void v1a8();
+    virtual void v1ac();
+    virtual void v1b0();
+    virtual void v1b4();
+    virtual void v1b8();
+    virtual void v1bc();
+    virtual void v1c0();
+    virtual void v1c4();
+    virtual void v1c8();
+    virtual void v1cc();
+    virtual void v1d0();
+    virtual void v1d4();
+    virtual void v1d8();
+    virtual void v1dc();
+    virtual void v1e0();
+    virtual void v1e4();
+    virtual void v1e8();
+    virtual void v1ec();
+    virtual void v1f0();
+    virtual void v1f4();
+    virtual void v1f8();
+    virtual void v1fc();
+    virtual void v200();
+    virtual void v204();
+    virtual void v208();
+    virtual void v20c();
+    virtual void v210();
+    virtual void v214();
+    virtual void v218();
+    virtual void v21c();
+    virtual void v220();
+    virtual void v224();
+    virtual void v228();
+    virtual void v22c();
+    virtual void v230();
+    virtual void v234();
+    virtual void v238();
+    virtual void v23c();
+    virtual void v240();
+    virtual void v244();
+    virtual void v248();
+    virtual void v24c();
+    virtual void v250();
+    virtual void v254();
+    virtual void v258();
+    virtual void v25c();
+    virtual void v260();
+    virtual void v264();
+    virtual void v268();
+    virtual void v26c();
+    virtual void v270();
+    virtual void v274();
+    virtual void v278();
+    virtual TESPackage* v27c();
+    virtual void v280();
+    virtual void v284();
+    virtual void v288(Actor*, int);
+    virtual void v28c();
+    virtual void v290();
+    virtual void v294();
+    virtual void v298();
+    virtual void v29c();
+    virtual void v2a0();
+    virtual void v2a4();
+    virtual void v2a8();
+    virtual void v2ac();
+    virtual void v2b0();
+    virtual void v2b4();
+    virtual void v2b8();
+    virtual void v2bc();
+    virtual void v2c0();
+    virtual void v2c4();
+    virtual void v2c8();
+    virtual void v2cc();
+    virtual void v2d0();
+    virtual void v2d4();
+    virtual void v2d8();
+    virtual void v2dc();
+    virtual void v2e0();
+    virtual void v2e4();
+    virtual void v2e8();
+    virtual void v2ec();
+    virtual void v2f0();
+    virtual void v2f4();
+    virtual void v2f8();
+    virtual void v2fc();
+    virtual void v300();
+    virtual void v304();
+    virtual void v308();
+    virtual void v30c();
+    virtual void v310();
+    virtual void v314();
+    virtual void v318();
+    virtual void v31c();
+    virtual void v320();
+    virtual void v324();
+    virtual void v328();
+    virtual void v32c();
+    virtual void v330();
+    virtual void v334();
+    virtual void v338();
+    virtual void v33c();
+    virtual void v340();
+    virtual void v344();
+    virtual void v348();
+    virtual void v34c();
+    virtual void v350();
+    virtual void v354();
+    virtual void v358();
+    virtual void v35c();
+    virtual void v360();
+    virtual void v364();
+    virtual void v368();
+    virtual void v36c();
+    virtual void v370();
+    virtual void v374();
+    virtual void v378();
+    virtual void v37c();
+    virtual void v380();
+    virtual void v384();
+    virtual void v388();
+    virtual void v38c();
+    virtual void v390();
+    virtual void v394();
+    virtual void v398();
+    virtual void v39c();
+    virtual void v3a0();
+    virtual void v3a4();
+    virtual void v3a8();
+    virtual void v3ac();
+    virtual void v3b0();
+    virtual void v3b4();
+    virtual void v3b8();
+    virtual void v3bc();
+    virtual void v3c0();
+    virtual void v3c4();
+    virtual void v3c8();
+    virtual void v3cc();
+    virtual void v3d0();
+    virtual void v3d4();
+    virtual void v3d8();
+    virtual void v3dc();
+    virtual void v3e0();
+    virtual void v3e4();
+    virtual void v3e8();
+    virtual void v3ec();
+    virtual void v3f0();
+    virtual void v3f4();
+    virtual void v3f8();
+    virtual void v3fc();
+    virtual void v400();
+    virtual void v404();
+    virtual void v408();
+    virtual void v40c();
+    virtual void v410();
+    virtual void v414();
+    virtual void v418();
+    virtual void v41c();
+    virtual void v420();
+    virtual void v424();
+    virtual void v428();
+    virtual void v42c();
+    virtual void v430();
+    virtual void v434();
+    virtual void v438();
+    virtual void v43c();
+    virtual void v440();
+    virtual void v444();
+    virtual void v448();
+    virtual void v44c();
+    virtual void v450();
+    virtual void v454();
+    virtual void v458();
+    virtual void v45c();
+    virtual void v460();
+    virtual void v464();
+    virtual void v468();
+    virtual void v46c();
+    virtual void v470();
+    virtual void v474();
+    virtual void v478();
+    virtual void v47c();
+    virtual void v480();
+    virtual void v484();
+    virtual void v488();
+    virtual void v48c();
+    virtual void v490();
+    virtual void v494();
+    virtual void v498();
+    virtual void v49c();
+    virtual void v4a0();
+    virtual void v4a4();
+    virtual void v4a8();
+    virtual void v4ac();
+    virtual void v4b0();
+    virtual void v4b4();
+    virtual void v4b8();
+    virtual void v4bc();
+    virtual void v4c0();
+    virtual void v4c4();
+    virtual void v4c8();
+    virtual void v4cc();
+    virtual void v4d0();
+    virtual void v4d4();
+    virtual void v4d8();
+    virtual void v4dc();
+    virtual void v4e0();
+    virtual void v4e4();
+    virtual void v4e8();
+    virtual void v4ec();
+    virtual void v4f0();
+    virtual void v4f4();
+    virtual void v4f8();
+    virtual void v4fc();
+    virtual void v500();
+    virtual void v504();
+    virtual void v508();
+    virtual void v50c();
+    virtual void v510();
+    virtual void v514();
+    virtual void v518();
+    virtual void v51c();
+    virtual void v520();
+    virtual void v524();
+    virtual void v528();
+    virtual void v52c();
+    virtual void v530();
+    virtual void v534();
+    virtual void v538();
+    virtual void v53c();
+    virtual void v540();
+    virtual void v544();
+    virtual void v548();
+    virtual void v54c();
+    virtual void v550();
+    virtual void v554();
+    virtual void v558();
+    virtual void v55c();
+    virtual void v560();
+    virtual void v564();
+    virtual void v568();
+    virtual void v56c();
+    virtual void v570();
+    virtual void v574();
+    virtual void v578();
+    virtual void v57c();
+    virtual void v580();
+    virtual void v584();
+    virtual void v588();
+    virtual void v58c();
+    virtual void v590();
+    virtual void v594();
+    virtual void v598();
+    virtual void v59c();
+    virtual void v5a0();
+    virtual void v5a4();
+    virtual void v5a8();
+    virtual void v5ac();
+    virtual void v5b0();
+    virtual void v5b4();
+    virtual void v5b8();
+    virtual void v5bc();
+    virtual void v5c0();
+    virtual void v5c4();
+    virtual void v5c8();
+    virtual void v5cc();
+    virtual void v5d0();
+    virtual void v5d4();
+    virtual void v5d8();
+    virtual void v5dc();
+    virtual void v5e0();
+    virtual void v5e4();
+    virtual void v5e8();
+    virtual void v5ec();
+    virtual void v5f0();
+    virtual void v5f4();
+    virtual void v5f8();
+    virtual void v5fc();
+    virtual void v600();
+    virtual void v604();
+    virtual void v608();
+    virtual void v60c();
+    virtual void v610();
+    virtual void v614();
+    virtual void v618();
+    virtual void v61c();
+    virtual void v620();
+    virtual void v624();
+    virtual void v628();
+    virtual void v62c();
+    virtual void v630();
+    virtual void v634();
+    virtual void v638();
+    virtual void v63c();
+    virtual void v640();
+    virtual void v644();
+    virtual void v648();
+    virtual void v64c();
+    virtual void v650();
+    virtual void v654();
+    virtual void v658();
+    virtual void v65c();
+    virtual void v660();
+    virtual void v664();
+    virtual void v668();
+    virtual void v66c();
+    virtual void v670();
+    virtual void v674();
+    virtual void v678();
+    virtual void v67c();
+    virtual void v680();
+    virtual void v684();
+    virtual void v688();
+    virtual void v68c();
+    virtual void v690();
+    virtual void v694();
+    virtual void v698();
+    virtual void v69c();
+    virtual void v6a0();
+    virtual void v6a4();
+    virtual void v6a8();
+    virtual void v6ac();
+    virtual void v6b0();
+    virtual void v6b4();
+    virtual void v6b8();
+    virtual void v6bc();
+    virtual void v6c0();
+    virtual void v6c4();
+    virtual void v6c8();
+    virtual void v6cc();
+    virtual void v6d0();
+    virtual void v6d4();
+    virtual void v6d8();
+    virtual void v6dc();
+    virtual void v6e0();
+    virtual void v6e4();
+    virtual void v6e8();
+    virtual void v6ec();
+    virtual void v6f0();
+    virtual void v6f4();
+    virtual void v6f8();
+    virtual void v6fc();
+    virtual void v700();
+    virtual void v704();
+    virtual void v708();
+    virtual void v70c();
+    virtual void v710();
+    virtual void v714();
+    virtual void v718();
+    virtual void v71c();
+    virtual void v720();
+    virtual void v724();
+    virtual void v728();
+    virtual void v72c();
+    virtual void v730();
+    virtual void v734();
+    virtual void v738();
+    virtual void v73c();
+    virtual void v740();
+    virtual void v744();
+    virtual void v748();
+    virtual void v74c();
+    virtual void v750();
+    virtual void v754();
+    virtual void v758();
+    virtual void v75c();
+    virtual void v760();
+    virtual void v764();
+    virtual void v768();
+    virtual void v76c();
+    virtual void v770();
+    virtual void v774();
+    virtual void v778();
+    virtual void v77c();
+    virtual void v780();
+    virtual void v784();
+    virtual void v788();
+    virtual void v78c();
+    virtual void v790();
+    virtual void v794();
+    virtual void v798();
+    virtual void v79c();
+    virtual void v7a0();
+    virtual void v7a4();
+    virtual void v7a8();
+    virtual void v7ac();
+    virtual void v7b0();
+    virtual void v7b4();
+    virtual void v7b8();
+    virtual void v7bc();
+    virtual void v7c0();
+    virtual void v7c4();
+    virtual void v7c8();
+    virtual void v7cc();
+    virtual void v7d0();
+    virtual void v7d4();
+    virtual void v7d8();
+    virtual void v7dc();
+    virtual void v7e0();
+    virtual void v7e4();
+    virtual void v7e8();
+    virtual void v7ec();
+    virtual void v7f0();
+    virtual void v7f4();
+    virtual void v7f8();
+    virtual void v7fc();
+    virtual void v800();
+    virtual void v804();
+    virtual void v808();
+    virtual void v80c();
+    virtual void v810();
+    virtual void v814();
+    virtual void v818();
+    virtual void v81c();
+    virtual void v820();
+    virtual bool v824(Actor*, Point, Weapon*, int);
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    float countdown;
+    void FUN_00918860(Actor* actor);
+};
+}
+class PathingLocation_iso
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    PathingLocation_iso(TESObjectREFR*);
+    ~PathingLocation_iso();
+};
+class PathingLocation_iso;
+template <class, int> class BSSimpleArray;
+class PathingRequest_iso
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    ~PathingRequest_iso();
+public:
+    void SetDestination(::PathingLocation_iso *);
+public:
+    void SetCenterRadius(float);
+public:
+    void SetAvoidNodeArray(::BSSimpleArray<void *, 1024> *);
+};
+class PathingRequestFlee : public PathingRequest_iso
+{
+  public:
+    PathingRequestFlee();
+};
+// @fnv 0x00918860
+void FleeUpdate::Process::FUN_00918860(Actor* actor)
+{
+    Package* packageTmp = 0;
+    packageTmp = (Package*)dynamic_cast<FleePackage*>(v27c());
+    Weapon* targetTmp = 0;
+    bool aArmed = false;
+    if (v04c())
+    {
+        if (reinterpret_cast<::MagicItem *>((v04c()))->IsLoaded())
+        {
+            reinterpret_cast<::Handler *>(&(actor->animations))->FUN_00815480((::Event *)(::FleeUpdate::Animation *)(v04c()), (int)(actor ? &actor->unk94 : 0), 0);
+            reinterpret_cast<::UnloadMagic *>((v04c()))->FUN_0040b800(0);
+            v050(0);
+        }
+        else
+        {
+            if (!reinterpret_cast<::MagicItem *>((v04c()))->IsLoading())
+                reinterpret_cast<::MagicItem *>((v04c()))->Preload(0);
+            return;
+        }
+    }
+    if (!packageTmp)
+        return;
+    reinterpret_cast<::AvoidancePackage *>((packageTmp))->RemoveInvalidAvoidedReferences((::AvoidanceContext *)(::FleeUpdate::Process *)(this));
+    if (((::FleeUpdate::Target *)(reinterpret_cast<::Script *>((packageTmp))->GetData())) && ((::FleeUpdate::Weapon *)(reinterpret_cast<::PackageTargetRecord *>((((::FleeUpdate::Target *)(reinterpret_cast<::Script *>((packageTmp))->GetData()))))->GetReferenceTarget())))
+        targetTmp = ((::FleeUpdate::Weapon *)(reinterpret_cast<::PackageTargetRecord *>((((::FleeUpdate::Target *)(reinterpret_cast<::Script *>((packageTmp))->GetData()))))->GetReferenceTarget()));
+    if (targetTmp)
+    {
+        float elapsed4 = ::GetField90Float((char *)(packageTmp));
+        Actor* destinationTmp = ((::FleeUpdate::Actor *)(reinterpret_cast<::FUN_009f1210_cls *>((packageTmp))->FindNearestRef((::FUN_009f1210_ref *)(actor))));
+        if (!destinationTmp)
+        {
+            reinterpret_cast<::FUN_00810530_c *>((packageTmp))->FUN_00810530(1);
+            reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FleeUpdate::Timer *>(&::g_timeGlobal))))->GetStoredFloatValue());
+            if (elapsed4 >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting234)))))))
+                v288(actor, 1);
+            return;
+        }
+        if (actor->v214() == 4 || actor->v214() == 9)
+        {
+            actor->v418();
+            return;
+        }
+        Weapon* weapon6 = actor->FUN_008d6f30();
+        if (weapon6)
+        {
+            reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250((float)(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FleeUpdate::Timer *>(&::g_timeGlobal))))->GetStoredFloatValue() * -1.0));
+            float distance = reinterpret_cast<::RefS *>((actor))->FUN_005723b0((::RefS *)(destinationTmp), 0, 0);
+            float threshold = 0;
+            if (reinterpret_cast<::TESObjectCELL *>((weapon6))->IsCellInterior())
+            {
+                threshold = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting623))))));
+                aArmed = true;
+            }
+            else
+                threshold = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting622))))));
+            if (distance < threshold && ((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm())))
+            {
+                Actor* reference = ((::FleeUpdate::Actor *)(reinterpret_cast<::FUN_005e3fc0_shell *>((packageTmp))->Get()));
+                bool expired = false;
+                if (countdown <= 0.0)
+                    expired = true;
+                else
+                    countdown -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FleeUpdate::Timer *>(&::g_timeGlobal))))->GetStoredFloatValue();
+                if (!reference)
+                {
+                    reinterpret_cast<::FUN_009f1140_shell *>((packageTmp))->FUN_009f1140((::TESObjectREFR *)(actor), (::TESObjectREFR *)(destinationTmp));
+                    PathingRequestFlee request;
+                    reinterpret_cast<::fnv_006e29f0::FUN_006e29f0_shell *>(&(request))->InitFromActor((::Actor *)(actor));
+                    reinterpret_cast<::FUN_006e2bb0_shell *>(&(request))->SetInitialPathHeading(actor->v2bc(0));
+                    if (actor->v21c())
+                        reinterpret_cast<::FUN_006e2b50_shell *>(&(request))->SetCantOpenDoors(((::FleeUpdate::ActorData *)(reinterpret_cast<::Actor *>((actor))->GetActorBase()))->race.v028());
+                    reinterpret_cast<::PathingRequest_iso *>(&(request))->SetCenterRadius((float)reinterpret_cast<::HighProcess_iso *>((packageTmp))->UpdateHighProcessState((::Actor *)(actor)));
+                    reinterpret_cast<::PathingRequest_iso *>(&(request))->SetAvoidNodeArray((::BSSimpleArray<void *, 1024> *)(void *)(((void *)(reinterpret_cast<::AvoidancePackage_1440 *>((packageTmp))->BuildAvoidNodeArray()))));
+                    reinterpret_cast<::FUN_00507610_Class *>(&(request))->FUN_00507610(1000.0f);
+                    if (reference)
+                        reinterpret_cast<::PathingRequest_iso *>(&(request))->SetDestination((::PathingLocation_iso *)&(const ::PathingLocation_iso &)(PathingLocation_iso((TESObjectREFR*)reference)));
+                    else
+                        reinterpret_cast<::FUN_008df000_shell *>(&(request))->FUN_008df000();
+                    reinterpret_cast<::fnv_008bb630::Tgt_b *>((actor))->FUN_008bb630((::fnv_008bb630::PathingRequest_b *)(::FleeUpdate::Request *)((Request*)&request));
+                }
+                else
+                {
+                    if (!v824(actor, *reference->v1f4(), reference->FUN_008d6f30(), ((int)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((reference))->FUN_00575d70()))))
+                        return;
+                }
+                reinterpret_cast<::FUN_00810530_c *>((packageTmp))->FUN_00810530(0);
+                reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250((float)(::GetField90Float((char *)(packageTmp)) * -1.0));
+            }
+            if (!((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm())))
+            {
+                NamedType* type = ((::FleeUpdate::NamedType *)(::FUN_004839c0(0x3a)));
+                float hour = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::FleeUpdate::Timer *>(&::g_011de7b8))))->GetGameTime();
+                if (hour < reinterpret_cast<::ActiveEffect *>(this)->GetDuration())
+                    hour += 24.0;
+                float duration = hour - reinterpret_cast<::ActiveEffect *>(this)->GetDuration();
+                duration *= 3600.0 / reinterpret_cast<::FUN_00526ac0_shell *>((type))->FUN_00526ac0();
+            }
+            else
+            {
+                reinterpret_cast<::FUN_00810530_c *>((packageTmp))->FUN_00810530(1);
+                reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FleeUpdate::Timer *>(&::g_timeGlobal))))->GetStoredFloatValue());
+                if (elapsed4 >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting234)))))))
+                    v288(actor, 1);
+            }
+        }
+    }
+}
+
+
+struct C69FC0State
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int flags;
+};
+struct C69FC0Packet
+{
+    unsigned int status;
+    unsigned char mode;
+    unsigned int opcode;
+    unsigned int selection;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+};
+extern unsigned int DAT_011afebc;
+
+static inline unsigned int C69FC0IsEnabled(int object)
+{
+    C69FC0State* pkState = ((::C69FC0State *)(::GetExtraDataChecked((::NiAVObjectX *)(object))));
+    return pkState ? (pkState->flags & 2) : 0;
+}
+
+// @fnv 0x00c69fc0
+bool __cdecl FUN_00c69fc0(int object, unsigned char bSelect, unsigned char mode, unsigned char overrideCheck)
+{
+    bool bResult = false;
+    if (object)
+    {
+        if (overrideCheck || C69FC0IsEnabled(object))
+        {
+            bResult = true;
+            C69FC0Packet kPacket;
+            kPacket.status = 0;
+            kPacket.mode = mode;
+            kPacket.opcode = 0xd;
+            kPacket.selection = bSelect != 0;
+            if (DAT_011afebc)
+                ::FUN_00c68900((::S_00c68900_Node *)(object), (::S_00c68900_Context *)(::C69FC0Packet *)(&kPacket), (void (*)(void *, S_00c68900_Context *))(DAT_011afebc));
+        }
+    }
+    return bResult;
+}
+
+
+struct AcquireSortItem
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int sortKey;
+};
+
+struct AcquireSortNode
+{
+    int FUN_005ae380();
+    void FUN_00726c60(AcquireSortItem** slot);
+};
+
+
+// @fnv 0x0091b640
+void AcquireSortProcess::FUN_0091b640()
+{
+    AcquireSortNode* outer2 = (AcquireSortNode*)&ReferenceListNode;
+    AcquireSortNode* inner5 = 0;
+    if (outer2 != 0)
+    {
+        unsigned int count4 = outer2->FUN_005ae380();
+        bool changed3 = true;
+        while (count4 != 0 && changed3)
+        {
+            changed3 = false;
+            inner5 = outer2;
+            while (inner5 != 0)
+            {
+                AcquireSortItem* first2 = *((::AcquireSortItem **)(new ((void *)(outer2)) ::Vec3()));
+                AcquireSortItem* second3 = *((::AcquireSortItem **)(new ((void *)(inner5)) ::Vec3()));
+                if (first2->sortKey > second3->sortKey)
+                {
+                    outer2->FUN_00726c60(&second3);
+                    inner5->FUN_00726c60(&first2);
+                    changed3 = true;
+                }
+                inner5 = ((::AcquireSortNode *)(reinterpret_cast<::Callees *>((inner5))->FUN_00726070()));
+            }
+            outer2 = ((::AcquireSortNode *)(reinterpret_cast<::Callees *>((outer2))->FUN_00726070()));
+            count4--;
+        }
+    }
+}
+
+namespace FurnitureSearchDetail {
+
+using ::TESObjectREFR;
+using ::TESForm;
+using ::TESObjectCELL;
+using ::Actor;
+using ::NiPoint3;
+using ::MiddleHighProcess;
+
+struct FurnitureLocation
+{
+};
+struct FurniturePackage
+{
+    ::NiPoint3 FUN_00675de0(::Actor*);
+};
+struct FurnitureCell
+{
+};
+struct FurnitureRef : ::TESObjectREFR
+{
+};
+struct FurnitureList
+{
+    void FUN_005ae3d0(::TESObjectREFR*&);
+    unsigned int FUN_005ae380();
+    void FUN_00726c60(::TESObjectREFR* const&);
+};
+struct FurnitureSetting
+{
+};
+struct FurnitureSearchManager
+{
+};
+struct FurnitureTime
+{
+};
+// @fnv 0x00922670
+void SearchFurnitureProcess::FUN_00922670(::Actor* actor, bool flag, ::TESObjectREFR* target)
+{
+    DAT_011e040c = flag;
+    ::TESObjectCELL* a = actor->GetParentCell();
+    ::NiPoint3 p = *actor->GetPos();
+    FurniturePackage* f = reinterpret_cast<FurniturePackage*>(GetOneTimePackage());
+    if (!f || !actor)
+        return;
+    FurnitureLocation* s = ((::FurnitureSearchDetail::FurnitureLocation *)(reinterpret_cast<::BGSMessageInitAccess *>((f))->GetIconFormID()));
+    float i = 0.0f;
+    if (reinterpret_cast<struct ::FUN_0041ca90 *>((f))->get() == 3)
+    {
+        if (s && reinterpret_cast<::DurationData *>((s))->FUN_00678ca0() == 1 && reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<FurnitureCell*>(reinterpret_cast<::LocationDescriptor *>((s))->GetLocationCellReference())))->IsCellInterior())
+            i = 3.402823466e38f;
+        else
+            i = static_cast<float>(reinterpret_cast<::HighProcess *>((f))->UpdateHighProcessState(actor));
+    }
+    else if (!reinterpret_cast<::TESPackage *>((f))->GetPackageSearchRadius((::MobileObject *)(actor), (*(float *)(&i))))
+    {
+        if (s && reinterpret_cast<::DurationData *>((s))->FUN_00678ca0() == 1 && reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<FurnitureCell*>(reinterpret_cast<::LocationDescriptor *>((s))->GetLocationCellReference())))->IsCellInterior())
+            i = 3.402823466e38f;
+        else
+            i = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FurnitureSearchDetail::FurnitureSetting *>(&::originalRuntimeFloatSetting133))))));
+    }
+    if (target)
+    {
+        ::NiPoint3* targetPosition = target->GetPos();
+        reinterpret_cast<::TESDataHandler *>((reinterpret_cast<FurnitureSearchManager*>((*reinterpret_cast<::FurnitureSearchDetail::FurnitureSearchManager * *>(&::g_dataHandler)))))->GetReferencesInArea(target->GetParentCell(), *targetPosition, i, *targetPosition, i, (bool (*)(TESObjectREFR *, long))(((void (&)(TESObjectREFR *, Actor *))::fnv_00922960::FUN_00922960)), (long)(actor));
+    }
+    else
+    {
+        reinterpret_cast<::TESDataHandler *>((reinterpret_cast<FurnitureSearchManager*>((*reinterpret_cast<::FurnitureSearchDetail::FurnitureSearchManager * *>(&::g_dataHandler)))))->GetReferencesInArea(a, p, i, f->FUN_00675de0(actor), i, (bool (*)(TESObjectREFR *, long))(((void (&)(TESObjectREFR *, Actor *))::fnv_00922960::FUN_00922960)), (long)(actor));
+    }
+    reinterpret_cast<::FileMatchList *>((reinterpret_cast<FurnitureList*>(&m_kSecondaryReferenceList)))->RemoveAll();
+    FurnitureList* cf = &(*reinterpret_cast<::FurnitureSearchDetail::FurnitureList *>(&::g_011e0424));
+    while (cf && ((::TESObjectREFR *)(new ((void *)(cf)) ::Vec3())))
+    {
+        reinterpret_cast<FurnitureList*>(&m_kSecondaryReferenceList)->FUN_005ae3d0(((::TESObjectREFR *)(new ((void *)(cf)) ::Vec3())));
+        cf = ((::FurnitureSearchDetail::FurnitureList *)(reinterpret_cast<::Callees *>((cf))->FUN_00726070()));
+    }
+    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::FurnitureSearchDetail::FurnitureList *>(&::g_011e0424))))->RemoveAll();
+    FurnitureList* eb = reinterpret_cast<FurnitureList*>(&m_kSecondaryReferenceList);
+    FurnitureList* h = 0;
+    if (eb)
+    {
+        unsigned int item2 = eb->FUN_005ae380();
+        bool first = true;
+        while (item2 && first)
+        {
+            first = false;
+            h = eb;
+            while (h)
+            {
+                ::TESObjectREFR* barterA = ((::TESObjectREFR *)(new ((void *)(eb)) ::Vec3()));
+                ::TESObjectREFR* found = ((::TESObjectREFR *)(new ((void *)(h)) ::Vec3()));
+                if (!reinterpret_cast<::OwnerLookupView *>((static_cast<FurnitureRef*>(barterA)))->FUN_00567790() &&
+                    reinterpret_cast<::OwnerLookupView *>((static_cast<FurnitureRef*>(found)))->FUN_00567790())
+                {
+                    eb->FUN_00726c60(found);
+                    h->FUN_00726c60(barterA);
+                    first = true;
+                }
+                h = ((::FurnitureSearchDetail::FurnitureList *)(reinterpret_cast<::Callees *>((h))->FUN_00726070()));
+            }
+            eb = ((::FurnitureSearchDetail::FurnitureList *)(reinterpret_cast<::Callees *>((eb))->FUN_00726070()));
+            --item2;
+        }
+    }
+    m_uiFaceGenDataFlags = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::FurnitureSearchDetail::FurnitureTime *>(&::g_timeGlobal))))->FUN_00825c00();
+}
+}
+
+
+template <> class BSSimpleList<TESClass*>
+{
+  public:
+    void SetItem(TESClass*& item);
+    int GetSize();
+};
+
+
+// @fnv 0x0091b580
+void Holder91b580::FUN_0091b580()
+{
+    BSSimpleList<TESClass*>* pOuter = &m_kNode;
+    BSSimpleList<TESClass*>* pInner3 = 0;
+    if (pOuter)
+    {
+        int iCount2 = pOuter->GetSize();
+        bool bSwapped3 = true;
+        TESClass* itemA;
+        TESClass* itemB;
+        while (iCount2 != 0 && bSwapped3)
+        {
+            bSwapped3 = false;
+            pInner3 = pOuter;
+            while (pInner3 != 0)
+            {
+                itemA = ((::TESClass *)(new ((void *)(pOuter)) ::Vec3()));
+                itemB = ((::TESClass *)(new ((void *)(pInner3)) ::Vec3()));
+                if (itemA->unk18 > itemB->unk18)
+                {
+                    pOuter->SetItem(itemB);
+                    pInner3->SetItem(itemA);
+                    bSwapped3 = true;
+                }
+                pInner3 = ((::BSSimpleList< ::TESClass *> *)(reinterpret_cast<::Callees *>((pInner3))->FUN_00726070()));
+            }
+            pOuter = ((::BSSimpleList< ::TESClass *> *)(reinterpret_cast<::Callees *>((pOuter))->FUN_00726070()));
+            iCount2--;
+        }
+    }
+}
+
+// Moves the owner's rigid body to the given NiPoint3 (converted to an hkVector4).
+
+struct NiPoint3;
+struct __declspec(align(16)) hkVector4L
+{
+    __m128 m_vComponents;
+    hkVector4L();
+};
+
+struct hkpRigidBodyL
+{
+};
+
+
+// @fnv 0x00926980
+void RigidBodyOwnerL::FUN_00926980(const NiPoint3& pos)
+{
+    hkVector4L kPos;
+    hkpRigidBodyL* pBody = ((::hkpRigidBodyL *)(::FUN_004ae750((void *)this)));
+    if (pBody)
+        reinterpret_cast<::CacObj *>((pBody))->FUN_00cac960((const ::CacV4 *)&((*(::hkVector4L *)&(::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kPos), (const ::fnv_004a3e00::NiPoint3 &)(pos))))));
+}
+
+class NiPoint3L
+{
+  public:
+    NiPoint3L();
+    float x, y, z;
+};
+
+class hkQuaternionL
+{
+  public:
+    hkQuaternionL(float fX, float fY, float fZ, float fW);
+    __m128 m_vec;
+};
+
+class ActorL;
+
+class BGSLoadFormBufferL
+{
+  public:
+    virtual void vb000();
+    virtual void vb004();
+    virtual void vb008();
+    virtual ActorL* GetForm();
+};
+
+class ActorL
+{
+  public:
+    virtual void va000();
+    virtual void va004();
+    virtual void va008();
+    virtual void va00c();
+    virtual void va010();
+    virtual void va014();
+    virtual void va018();
+    virtual void va01c();
+    virtual void va020();
+    virtual void va024();
+    virtual void va028();
+    virtual void va02c();
+    virtual void va030();
+    virtual void va034();
+    virtual void va038();
+    virtual void va03c();
+    virtual void va040();
+    virtual void va044();
+    virtual void va048();
+    virtual void va04c();
+    virtual void va050();
+    virtual void va054();
+    virtual void va058();
+    virtual void va05c();
+    virtual void va060();
+    virtual void va064();
+    virtual void va068();
+    virtual void va06c();
+    virtual void va070();
+    virtual void va074();
+    virtual void va078();
+    virtual void va07c();
+    virtual void va080();
+    virtual void va084();
+    virtual void va088();
+    virtual void va08c();
+    virtual void va090();
+    virtual void va094();
+    virtual void va098();
+    virtual void va09c();
+    virtual void va0a0();
+    virtual void va0a4();
+    virtual void va0a8();
+    virtual void va0ac();
+    virtual void va0b0();
+    virtual void va0b4();
+    virtual void va0b8();
+    virtual void va0bc();
+    virtual void va0c0();
+    virtual void va0c4();
+    virtual void va0c8();
+    virtual void va0cc();
+    virtual void va0d0();
+    virtual void va0d4();
+    virtual void va0d8();
+    virtual void va0dc();
+    virtual void va0e0();
+    virtual void va0e4();
+    virtual void va0e8();
+    virtual void va0ec();
+    virtual void va0f0();
+    virtual void va0f4();
+    virtual void va0f8();
+    virtual void va0fc();
+    virtual void va100();
+    virtual void va104();
+    virtual void va108();
+    virtual void va10c();
+    virtual void va110();
+    virtual void va114();
+    virtual void va118();
+    virtual void va11c();
+    virtual void va120();
+    virtual void va124();
+    virtual void va128();
+    virtual void va12c();
+    virtual void va130();
+    virtual void va134();
+    virtual void va138();
+    virtual void va13c();
+    virtual void va140();
+    virtual void va144();
+    virtual void va148();
+    virtual void va14c();
+    virtual void va150();
+    virtual void va154();
+    virtual void va158();
+    virtual void va15c();
+    virtual void va160();
+    virtual void va164();
+    virtual void va168();
+    virtual void va16c();
+    virtual void va170();
+    virtual void va174();
+    virtual void va178();
+    virtual void va17c();
+    virtual void va180();
+    virtual void va184();
+    virtual void va188();
+    virtual void va18c();
+    virtual void va190();
+    virtual void va194();
+    virtual void va198();
+    virtual void va19c();
+    virtual void va1a0();
+    virtual void va1a4();
+    virtual void va1a8();
+    virtual void va1ac();
+    virtual void va1b0();
+    virtual void va1b4();
+    virtual void va1b8();
+    virtual void va1bc();
+    virtual void va1c0();
+    virtual void va1c4();
+    virtual void va1c8();
+    virtual void va1cc();
+    virtual void va1d0();
+    virtual void va1d4();
+    virtual void va1d8();
+    virtual void va1dc();
+    virtual void va1e0();
+    virtual void va1e4();
+    virtual void va1e8();
+    virtual void va1ec();
+    virtual void va1f0();
+    virtual void va1f4();
+    virtual void va1f8();
+    virtual void va1fc();
+    virtual void va200();
+    virtual void va204();
+    virtual void va208();
+    virtual void va20c();
+    virtual void va210();
+    virtual int GetSitSleepState();
+};
+
+class ProcessFlagsL
+{
+  public:
+};
+
+class CharControllerL
+{
+  public:
+
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    unsigned int unka4;
+    unsigned int unka8;
+    unsigned int unkac;
+    unsigned int unkb0;
+    unsigned int unkb4;
+    unsigned int unkb8;
+    unsigned int unkbc;
+    unsigned int unkc0;
+    unsigned int unkc4;
+    unsigned int unkc8;
+    unsigned int unkcc;
+    unsigned int unkd0;
+    unsigned int unkd4;
+    unsigned int unkd8;
+    unsigned int unkdc;
+    unsigned int unke0;
+    unsigned int unke4;
+    unsigned int unke8;
+    unsigned int unkec;
+    unsigned int unkf0;
+    unsigned int unkf4;
+    unsigned int unkf8;
+    unsigned int unkfc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13c;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17c;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18c;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19c;
+    unsigned int unk1a0;
+    unsigned int unk1a4;
+    unsigned int unk1a8;
+    unsigned int unk1ac;
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    unsigned int unk1bc;
+    unsigned int unk1c0;
+    unsigned int unk1c4;
+    unsigned int unk1c8;
+    unsigned int unk1cc;
+    unsigned int unk1d0;
+    unsigned int unk1d4;
+    unsigned int unk1d8;
+    unsigned int unk1dc;
+    unsigned int unk1e0;
+    unsigned int unk1e4;
+    unsigned int unk1e8;
+    unsigned int unk1ec;
+    unsigned int unk1f0;
+    unsigned int unk1f4;
+    unsigned int unk1f8;
+    unsigned int unk1fc;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20c;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    unsigned int unk21c;
+    unsigned int unk220;
+    unsigned int unk224;
+    unsigned int unk228;
+    unsigned int unk22c;
+    unsigned int unk230;
+    unsigned int unk234;
+    unsigned int unk238;
+    unsigned int unk23c;
+    unsigned int unk240;
+    unsigned int unk244;
+    unsigned int unk248;
+    unsigned int unk24c;
+    unsigned int unk250;
+    unsigned int unk254;
+    unsigned int unk258;
+    unsigned int unk25c;
+    unsigned int unk260;
+    unsigned int unk264;
+    unsigned int unk268;
+    unsigned int unk26c;
+    unsigned int unk270;
+    unsigned int unk274;
+    unsigned int unk278;
+    unsigned int unk27c;
+    unsigned int unk280;
+    unsigned int unk284;
+    unsigned int unk288;
+    unsigned int unk28c;
+    unsigned int unk290;
+    unsigned int unk294;
+    unsigned int unk298;
+    unsigned int unk29c;
+    unsigned int unk2a0;
+    unsigned int unk2a4;
+    unsigned int unk2a8;
+    unsigned int unk2ac;
+    unsigned int unk2b0;
+    unsigned int unk2b4;
+    unsigned int unk2b8;
+    unsigned int unk2bc;
+    unsigned int unk2c0;
+    unsigned int unk2c4;
+    unsigned int unk2c8;
+    unsigned int unk2cc;
+    unsigned int unk2d0;
+    unsigned int unk2d4;
+    unsigned int unk2d8;
+    unsigned int unk2dc;
+    unsigned int unk2e0;
+    unsigned int unk2e4;
+    unsigned int unk2e8;
+    unsigned int unk2ec;
+    unsigned int unk2f0;
+    unsigned int unk2f4;
+    unsigned int unk2f8;
+    unsigned int unk2fc;
+    unsigned int unk300;
+    unsigned int unk304;
+    unsigned int unk308;
+    unsigned int unk30c;
+    unsigned int unk310;
+    unsigned int unk314;
+    unsigned int unk318;
+    unsigned int unk31c;
+    unsigned int unk320;
+    unsigned int unk324;
+    unsigned int unk328;
+    unsigned int unk32c;
+    unsigned int unk330;
+    unsigned int unk334;
+    unsigned int unk338;
+    unsigned int unk33c;
+    unsigned int unk340;
+    unsigned int unk344;
+    unsigned int unk348;
+    unsigned int unk34c;
+    unsigned int unk350;
+    unsigned int unk354;
+    unsigned int unk358;
+    unsigned int unk35c;
+    unsigned int unk360;
+    unsigned int unk364;
+    unsigned int unk368;
+    unsigned int unk36c;
+    unsigned int unk370;
+    unsigned int unk374;
+    unsigned int unk378;
+    unsigned int unk37c;
+    unsigned int unk380;
+    unsigned int unk384;
+    unsigned int unk388;
+    unsigned int unk38c;
+    unsigned int unk390;
+    unsigned int unk394;
+    unsigned int unk398;
+    unsigned int unk39c;
+    unsigned int unk3a0;
+    unsigned int unk3a4;
+    unsigned int unk3a8;
+    unsigned int unk3ac;
+    unsigned int unk3b0;
+    unsigned int unk3b4;
+    unsigned int unk3b8;
+    unsigned int unk3bc;
+    unsigned int unk3c0;
+    unsigned int unk3c4;
+    unsigned int unk3c8;
+    unsigned int unk3cc;
+    unsigned int unk3d0;
+    unsigned int unk3d4;
+    unsigned int unk3d8;
+    unsigned int unk3dc;
+    unsigned int unk3e0;
+    unsigned int unk3e4;
+    unsigned int unk3e8;
+    unsigned int unk3ec;
+    unsigned int unk3f0;
+    unsigned int unk3f4;
+    unsigned int unk3f8;
+    unsigned int unk3fc;
+    unsigned int unk400;
+    unsigned int unk404;
+    unsigned int unk408;
+    unsigned int unk40c;
+    ProcessFlagsL m_kFlags;
+    unsigned int unk414;
+    unsigned int unk418;
+    unsigned int unk41c;
+    unsigned int unk420;
+    unsigned int unk424;
+    unsigned int unk428;
+    unsigned int unk42c;
+    unsigned int unk430;
+    unsigned int unk434;
+    unsigned int unk438;
+    unsigned int unk43c;
+    unsigned int unk440;
+    unsigned int unk444;
+    unsigned int unk448;
+    unsigned int unk44c;
+    unsigned int unk450;
+    unsigned int unk454;
+    unsigned int unk458;
+    unsigned int unk45c;
+    unsigned int unk460;
+    unsigned int unk464;
+    unsigned int unk468;
+    unsigned int unk46c;
+    unsigned int unk470;
+    unsigned int unk474;
+    unsigned int unk478;
+    unsigned int unk47c;
+    unsigned int unk480;
+    unsigned int unk484;
+    unsigned int unk488;
+    unsigned int unk48c;
+    unsigned int unk490;
+    unsigned int unk494;
+    unsigned int unk498;
+    unsigned int unk49c;
+    unsigned int unk4a0;
+    unsigned int unk4a4;
+    unsigned int unk4a8;
+    unsigned int unk4ac;
+    unsigned int unk4b0;
+    unsigned int unk4b4;
+    unsigned int unk4b8;
+    unsigned int unk4bc;
+    unsigned int unk4c0;
+    unsigned int unk4c4;
+    unsigned int unk4c8;
+    unsigned int unk4cc;
+    unsigned int unk4d0;
+    unsigned int unk4d4;
+    unsigned int unk4d8;
+    unsigned int unk4dc;
+    unsigned int unk4e0;
+    unsigned int unk4e4;
+    unsigned int unk4e8;
+    unsigned int unk4ec;
+    float m_afOrientation[4];
+    float m_afUp[4];
+    unsigned int unk510;
+    unsigned int unk514;
+    unsigned int unk518;
+    unsigned int unk51c;
+    int m_bOnGround;
+    unsigned int unk524;
+    unsigned int unk528;
+    unsigned int unk52c;
+    unsigned int unk530;
+    unsigned int unk534;
+    unsigned int unk538;
+    unsigned int unk53c;
+    float m_fCoefficientA;
+    float m_fB;
+    float m_fC;
+    float m_fD;
+    float m_fE;
+    float m_fF;
+    float m_fG;
+};
+
+
+class CellRefL
+{
+  public:
+};
+
+class PlayerL
+{
+  public:
+    virtual void vp000();
+    virtual void vp004();
+    virtual void vp008();
+    virtual void vp00c();
+    virtual void vp010();
+    virtual void vp014();
+    virtual void vp018();
+    virtual void vp01c();
+    virtual void vp020();
+    virtual void vp024();
+    virtual void vp028();
+    virtual void vp02c();
+    virtual void vp030();
+    virtual void vp034();
+    virtual void vp038();
+    virtual void vp03c();
+    virtual void vp040();
+    virtual void vp044();
+    virtual void vp048();
+    virtual void vp04c();
+    virtual void vp050();
+    virtual void vp054();
+    virtual void vp058();
+    virtual void vp05c();
+    virtual void vp060();
+    virtual void vp064();
+    virtual void vp068();
+    virtual void vp06c();
+    virtual void vp070();
+    virtual void vp074();
+    virtual void vp078();
+    virtual void vp07c();
+    virtual void vp080();
+    virtual void vp084();
+    virtual void vp088();
+    virtual void vp08c();
+    virtual void vp090();
+    virtual void vp094();
+    virtual void vp098();
+    virtual void vp09c();
+    virtual void vp0a0();
+    virtual void vp0a4();
+    virtual void vp0a8();
+    virtual void vp0ac();
+    virtual void vp0b0();
+    virtual void vp0b4();
+    virtual void vp0b8();
+    virtual void vp0bc();
+    virtual void vp0c0();
+    virtual void vp0c4();
+    virtual void vp0c8();
+    virtual void vp0cc();
+    virtual void vp0d0();
+    virtual void vp0d4();
+    virtual void vp0d8();
+    virtual void vp0dc();
+    virtual void vp0e0();
+    virtual void vp0e4();
+    virtual void vp0e8();
+    virtual void vp0ec();
+    virtual void vp0f0();
+    virtual void vp0f4();
+    virtual void vp0f8();
+    virtual void vp0fc();
+    virtual void vp100();
+    virtual void vp104();
+    virtual void vp108();
+    virtual void vp10c();
+    virtual void vp110();
+    virtual void vp114();
+    virtual void vp118();
+    virtual void vp11c();
+    virtual void vp120();
+    virtual void vp124();
+    virtual void vp128();
+    virtual void vp12c();
+    virtual void vp130();
+    virtual void vp134();
+    virtual void vp138();
+    virtual void vp13c();
+    virtual void vp140();
+    virtual void vp144();
+    virtual void vp148();
+    virtual void vp14c();
+    virtual void vp150();
+    virtual void vp154();
+    virtual void vp158();
+    virtual void vp15c();
+    virtual void vp160();
+    virtual void vp164();
+    virtual void vp168();
+    virtual void vp16c();
+    virtual void vp170();
+    virtual void vp174();
+    virtual void vp178();
+    virtual void vp17c();
+    virtual void vp180();
+    virtual void vp184();
+    virtual void vp188();
+    virtual void vp18c();
+    virtual void vp190();
+    virtual void vp194();
+    virtual void vp198();
+    virtual void vp19c();
+    virtual void vp1a0();
+    virtual void vp1a4();
+    virtual void vp1a8();
+    virtual void vp1ac();
+    virtual void vp1b0();
+    virtual void vp1b4();
+    virtual void vp1b8();
+    virtual void vp1bc();
+    virtual void vp1c0();
+    virtual void vp1c4();
+    virtual void vp1c8();
+    virtual void vp1cc();
+    virtual void vp1d0();
+    virtual void vp1d4();
+    virtual void vp1d8();
+    virtual void vp1dc();
+    virtual void vp1e0();
+    virtual void vp1e4();
+    virtual void vp1e8();
+    virtual void vp1ec();
+    virtual void vp1f0();
+    virtual void vp1f4();
+    virtual void vp1f8();
+    virtual void vp1fc();
+    virtual void vp200();
+    virtual void vp204();
+    virtual void vp208();
+    virtual void vp20c();
+    virtual void vp210();
+    virtual void vp214();
+    virtual void vp218();
+    virtual void vp21c();
+    virtual void vp220();
+    virtual void vp224();
+    virtual void vp228();
+    virtual void vp22c();
+    virtual void vp230();
+    virtual void vp234();
+    virtual void vp238();
+    virtual void vp23c();
+    virtual void vp240();
+    virtual void vp244();
+    virtual void vp248();
+    virtual void vp24c();
+    virtual void vp250();
+    virtual void vp254();
+    virtual void vp258();
+    virtual void vp25c();
+    virtual void vp260();
+    virtual void vp264();
+    virtual void vp268();
+    virtual void vp26c();
+    virtual void vp270();
+    virtual void vp274();
+    virtual void vp278();
+    virtual void vp27c();
+    virtual void vp280();
+    virtual void vp284();
+    virtual void vp288();
+    virtual CharControllerL* GetPhysicsCharacterController();
+    virtual void vq290();
+    virtual void vq294();
+    virtual void vq298();
+    virtual void vq29c();
+    virtual void vq2a0();
+    virtual void vq2a4();
+    virtual void vq2a8();
+    virtual void vq2ac();
+    virtual void vq2b0();
+    virtual bool IsInCell(int iWorld, void* pvCell);
+
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    unsigned int unka4;
+    unsigned int unka8;
+    unsigned int unkac;
+    unsigned int unkb0;
+    unsigned int unkb4;
+    unsigned int unkb8;
+    unsigned int unkbc;
+    unsigned int unkc0;
+    unsigned int unkc4;
+    unsigned int unkc8;
+    unsigned int unkcc;
+    unsigned int unkd0;
+    unsigned int unkd4;
+    unsigned int unkd8;
+    unsigned int unkdc;
+    unsigned int unke0;
+    unsigned int unke4;
+    unsigned int unke8;
+    unsigned int unkec;
+    unsigned int unkf0;
+    unsigned int unkf4;
+    unsigned int unkf8;
+    unsigned int unkfc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13c;
+    int m_iWorldSpace;
+    int unk144;
+    CellRefL m_kCell;
+
+    void FUN_00928a50(BGSLoadFormBufferL* pkBuffer);
+};
+
+// @fnv 0x00928a50
+void PlayerL::FUN_00928a50(BGSLoadFormBufferL* pkBuffer)
+{
+    ActorL* pkActor = pkBuffer->GetForm();
+    CharControllerL* pkController = GetPhysicsCharacterController();
+    if (pkController)
+    {
+        bool bEnabled = false;
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&bEnabled), 1);
+        reinterpret_cast<::s008e2680::Owner *>((pkController))->FUN_008e2680(bEnabled);
+        bool bOnGround = false;
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&bOnGround), 1);
+        pkController->m_bOnGround = bOnGround;
+        unsigned int uiFlags = 0;
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&uiFlags), 4);
+        reinterpret_cast<::FUN_006296b0_Class *>(&(pkController->m_kFlags))->FUN_006296b0((unsigned int)-1);
+        reinterpret_cast<::FUN_00629670_Class *>(&(pkController->m_kFlags))->FUN_00629670(uiFlags, true);
+        if (uiFlags & 0x800)
+        {
+            NiPoint3L kMotionVelocity;
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&kMotionVelocity), 0xc);
+            reinterpret_cast<::S005620e0_Object *>((pkController))->FUN_005620e0((const ::S005620e0_Source *)(::NiPoint3L *)(&kMotionVelocity));
+        }
+        if (pkActor && !pkActor->GetSitSleepState())
+            reinterpret_cast<::FUN_00931fb0_shell *>((pkActor))->FUN_00931fb0(0);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(pkController->m_afOrientation), 0x10);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(pkController->m_afUp), 0x10);
+        NiPoint3L kPosition;
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&kPosition), 0xc);
+        reinterpret_cast<::RigidBodyOwnerL *>((pkController))->FUN_00926980((*(const ::NiPoint3 *)(&kPosition)));
+        if (pkActor)
+        {
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&pkController->m_fCoefficientA), 4);
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&pkController->m_fB), 4);
+        }
+        else
+        {
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&pkController->m_fD), 4);
+        }
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&pkController->m_fC), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&pkController->m_fE), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&pkController->m_fG), 4);
+        int iState = pkActor ? pkActor->GetSitSleepState() : 0;
+        if (iState == 4 || iState == 9)
+        {
+            if (IsInCell(m_iWorldSpace, ((void *)(reinterpret_cast<::FUN_005094b0_shell *>(&(m_kCell))->FUN_005094b0()))))
+                reinterpret_cast<::FUN_00629670_Class *>(&(pkController->m_kFlags))->FUN_00629670(0x8000000, true);
+            reinterpret_cast<::s008e2680::Owner *>((pkController))->FUN_008e2680(false);
+            reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((pkController))->FUN_0080fb00((int)(FUN_00458b20()));
+            hkQuaternionL kRotationBasis(0.0f, 0.0f, 1.0f, 0.0f);
+            reinterpret_cast<::T_ *>((pkController))->ForwardToMember((int)(&kRotationBasis));
+        }
+    }
+}
 #include "generated/data/fallout/ai/middlehighprocess.inc"
+#include "generated/data/fallout/ai/middlehighprocess_o2_variant.inc"

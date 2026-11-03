@@ -70,6 +70,17 @@
 #include "fnv/symbols_011dd000.h"
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f6000.h"
+#include <new>
+#include <cstring>
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00ad73b0_t.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/SoundPlayback.h"
+#include "fnv/decl/SoundWrapper.h"
+#include "fnv/symbols_0083a000.h"
+#include "fnv/symbols_010c2000.h"
 extern int DAT_011dd878;
 
 // @fnv 0x00839da0
@@ -2426,4 +2437,219 @@ void FUN_00837550(ImpactData* apImpact)
 
 }
 
+bool FUN_00839da0();
+void FUN_00839dc0(bool b);
+int GetTypeValue(int aiType);
+
+struct MemoryManager
+{
+};
+struct Point3
+{
+    float x;
+    float y;
+    float z;
+    __forceinline Point3()
+    {}
+    __forceinline Point3(float a, float b, float c) : x(a), y(b), z(c)
+    {}
+    __forceinline Point3 operator+(const Point3& o) const
+    {
+        return Point3(o.x + x, o.y + y, o.z + z);
+    }
+    __forceinline Point3 operator*(float s) const
+    {
+        return Point3(s * x, s * y, s * z);
+    }
+    Point3 FUN_00439ef0(const Point3& other) const
+    {
+        const Point3* self = this;
+        return Point3(self->x - other.x, self->y - other.y, self->z - other.z);
+    }
+    Point3 FUN_004b3800(const Point3& axis) const
+    {
+        const Point3* self = this;
+        return Point3(self->y * axis.z - self->z * axis.y, self->z * axis.x - self->x * axis.z,
+                      self->x * axis.y - self->y * axis.x);
+    }
+};
+
+struct FilterData
+{
+    unsigned int collisionLayer;
+    unsigned int group;
+    unsigned int flags;
+    unsigned int subsystem;
+
+};
+extern void FUN_00401050(void* storage, unsigned int elementSize, unsigned int count,
+                                   void(__cdecl* constructor)(void*));
+extern void __cdecl FUN_004a7800(void* value);
+extern void* __cdecl FUN_00aa13e0(unsigned int bytes);
+struct FilterArray
+{
+    FilterData values[8];
+    __forceinline FilterArray()
+    {
+        FUN_00401050(values, 16, 8, FUN_004a7800);
+    }
+};
+struct CollisionShape
+{
+    virtual void slot000();
+    virtual void slot004();
+    virtual void slot008();
+    virtual void slot00c();
+    virtual void slot010();
+    virtual void slot014();
+    virtual void slot018();
+    virtual void slot01c();
+    virtual void slot020();
+    virtual void slot024();
+    virtual void slot028();
+    virtual void slot02c();
+    virtual void slot030();
+    virtual void slot034();
+    virtual void slot038();
+    virtual void slot03c();
+    virtual void slot040();
+    virtual void slot044();
+    virtual void slot048();
+    virtual void slot04c();
+    virtual void slot050();
+    virtual void slot054();
+    virtual void slot058();
+    virtual void slot05c();
+    virtual void slot060();
+    virtual void slot064();
+    virtual void slot068();
+    virtual void slot06c();
+    virtual void slot070();
+    virtual void slot074();
+    virtual void slot078();
+    virtual void slot07c();
+    virtual void slot080();
+    virtual void slot084();
+    virtual void slot088();
+    virtual void slot08c();
+    virtual void slot090();
+    virtual void slot094();
+    virtual void slot098();
+    virtual void slot09c();
+    virtual void slot0a0();
+    virtual void slot0a4();
+    virtual void slot0a8();
+    virtual void slot0ac();
+    virtual void slot0b0();
+    virtual void slot0b4();
+    virtual void slot0b8();
+    virtual void slot0bc();
+    virtual void slot0c0();
+    virtual void slot0c4();
+    virtual void slot0c8();
+    virtual void slot0cc();
+    virtual void slot0d0();
+    virtual void slot0d4();
+    virtual void slot0d8();
+    virtual void slot0dc();
+    virtual void slot0e0();
+    virtual void slot0e4();
+    virtual void slot0e8();
+};
+struct CollisionGenerator : CollisionShape
+{
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    unsigned int unka4;
+    unsigned int unka8;
+    unsigned int unkac;
+    unsigned int unkb0;
+    unsigned int unkb4;
+    unsigned int unkb8;
+    unsigned int unkbc;
+    unsigned int unkc0;
+    CollisionGenerator(unsigned int count, Point3* vertices, int unused, FilterData* _filters, int a, int b, int c,
+                       int d, void* data);
+};
+// @fnv 0x00c55d50
+CollisionShape* __cdecl FUN_00c55d50(Point3* start, Point3* end, float forwardExtent, float backwardExtent,
+                                     float upExtent, float downExtent, FilterData* nearFilter, FilterData* farFilter)
+{
+    Point3* verticesX;
+    verticesX = new Point3[8];
+    Point3 directionX = (*(::Point3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(start))->FUN_00439ef0((::NiPoint3 *)&(*end), *(const ::NiPoint3 *)nullptr)));
+    Point3 verticalAxisB(0.0f, 0.0f, 1.0f);
+    Point3 crossVal2 = directionX.FUN_004b3800(verticalAxisB);
+    crossVal2.z = 0.0f;
+    reinterpret_cast<::FUN_004a0c10_s *>(&(crossVal2))->FUN_004a0c10();
+    Point3 forwardVectorB = crossVal2 * forwardExtent;
+    Point3 reverseVector2 = crossVal2 * (-backwardExtent);
+    Point3 offset(0.0f, 0.0f, upExtent);
+    Point3 below2(0.0f, 0.0f, -downExtent);
+    verticesX[0] = offset + (reverseVector2 + *end);
+    verticesX[1] = offset + (forwardVectorB + *end);
+    verticesX[2] = below2 + (reverseVector2 + *end);
+    verticesX[3] = below2 + (forwardVectorB + *end);
+    verticesX[4] = offset + (reverseVector2 + *start);
+    verticesX[5] = offset + (forwardVectorB + *start);
+    verticesX[6] = below2 + (reverseVector2 + *start);
+    verticesX[7] = (*(::Point3 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::Point3 &)((forwardVectorB + *start)))->ProjectileLaunched((::NiPoint3 *)&(below2), {})));
+    FilterData* _filters = 0;
+    if (nearFilter || farFilter)
+    {
+        _filters = reinterpret_cast<FilterData*>(new FilterArray);
+        if (nearFilter && !farFilter)
+            farFilter = nearFilter;
+        else if (farFilter && !nearFilter)
+            nearFilter = farFilter;
+        for (unsigned int indexC = 0; indexC < 4; ++indexC)
+            _filters[indexC] = *farFilter;
+        for (unsigned int index7 = 4; index7 < 8; ++index7)
+            _filters[index7] = *nearFilter;
+    }
+    unsigned short* pData6 = new unsigned short[36];
+    std::memmove(pData6, &(*reinterpret_cast<unsigned char *>(&::DAT_010c2c38)), 0x48);
+    CollisionGenerator* shape2 = new CollisionGenerator(8, verticesX, 0, _filters, 0, 0, 0, 12, pData6);
+    shape2->slot0e8();
+    return shape2;
+}
 #include "generated/data/fallout/audio/impactmixer.inc"
+#include "generated/data/fallout/audio/impactmixer_ob1_variant.inc"

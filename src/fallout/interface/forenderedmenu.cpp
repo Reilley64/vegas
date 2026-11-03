@@ -144,6 +144,8 @@
 #include "fnv/symbols_01200000.h"
 #include "fnv/symbols_01203000.h"
 #include "forenderedmenu_decls.h"
+#include <windows.h>
+#include "fnv/symbols_007fa000.h"
 
 const char kRenderedMenuBurstSound[] = "UIPipBoyStatic";
 
@@ -2969,4 +2971,76 @@ void FUN_007ff740_shell::UpdateBodyPart()
     ((MenuStub*)this)->ResetMenuState();
 }
 
+
+
+struct SpawnedRef
+{
+    virtual void vfn00();
+    virtual void Free();
+    long m_iObjectReferenceCount;
+};
+
+struct SpawnedSubBase
+{
+    virtual void vfnBase();
+    SpawnedSubBase(unsigned int a, unsigned int b);
+};
+
+struct SpawnedSub : SpawnedSubBase
+{
+    unsigned int unk04;
+    unsigned int unk08;
+    volatile unsigned int unk0c;
+    unsigned int unk10;
+
+    SpawnedSub(unsigned int a, unsigned int b) : SpawnedSubBase(a, b)
+    {
+        unk10 = 0;
+    }
+};
+
+class FUN_00e98f20
+{
+  public:
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    volatile unsigned int unk0c;
+    volatile unsigned char unk10;
+    volatile unsigned char unk11;
+    SpawnedRef* m_pReference;
+    SpawnedSub m_sub;
+    unsigned int unk2c;
+    unsigned char unk30;
+    unsigned char unk31;
+    unsigned char unk32;
+    unsigned char unk33;
+
+    FUN_00e98f20(unsigned int a, unsigned int b);
+};
+
+// @fnv 0x00e98f20
+FUN_00e98f20::FUN_00e98f20(unsigned int a, unsigned int b) : m_pReference(0), m_sub(a, b)
+{
+    unk00 = 0;
+    unk04 = 0;
+    unk08 = 1;
+    unk0c = 1;
+    unk10 = 1;
+    unk11 = 0;
+    SpawnedRef* p = *(SpawnedRef* volatile*)&m_pReference;
+    if (p != 0)
+    {
+        if (InterlockedDecrement(&p->m_iObjectReferenceCount) == 0)
+        {
+            p->Free();
+        }
+        m_pReference = 0;
+    }
+    unk30 = 0;
+    unk31 = 0;
+    unk32 = 0;
+    unk33 = 0;
+    unk2c = 0;
+}
 #include "generated/data/fallout/interface/forenderedmenu.inc"

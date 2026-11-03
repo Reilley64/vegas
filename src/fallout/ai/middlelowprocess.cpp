@@ -122,6 +122,7 @@
 #include "../../../include/layout_support.h"
 #include "../../../include/Actor.h"
 #include "MiddleLowProcess.h"
+#include "../../../include/Actor_decl_middlelowprocess.h"
 
 // @fnv 0x008d80e0
 int MiddleLowProcess::GetProcessInteger()
@@ -2871,3 +2872,48 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
     }
 }
 }  // namespace fnv_0092d050
+
+
+template <class Collection> class SettingT
+{
+  public:
+    float* Float();
+};
+// @fnv 0x0092cab0
+void LowProcess::FUN_0092cab0(Actor* source)
+{
+    int iterations = (int)(*((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting236)))) * 2);
+    Actor* actor = 0;
+    actor = dynamic_cast<Actor*>(pTarget);
+    bool bUpdated = false;
+    if (!pTarget || actor->GetDisabled() || reinterpret_cast<::FUN_00440d80_shell *>((void *)(actor))->FUN_00440d80() || actor->Unk_8B(false))
+    {
+        source->Unk_10D(0);
+        reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((source))->FUN_00881680(false);
+    }
+    else if (actor && ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && (*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) == 2)
+    {
+        while (iterations)
+        {
+            if (source->Unk_8B(false))
+                break;
+            source->Unk_10E();
+            actor = dynamic_cast<Actor*>(pTarget);
+            if (actor && !actor->Unk_8B(false) && (*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) == 2)
+            {
+                actor->Unk_10E();
+                bUpdated = true;
+            }
+            iterations--;
+        }
+        if (bUpdated && actor)
+        {
+            ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->ResetPackageState();
+            bUpdated = false;
+        }
+    }
+    else
+    {
+        UpdateActorPackage(source, true, 0x101, false);
+    }
+}

@@ -498,8 +498,6 @@
 #include "fnv/decl/s55d310__Owner.h"
 #include "fnv/decl/s5cc7a0__Owner.h"
 #include "fnv/decl/s88c790__Actor.h"
-#include "fnv/decl/xActor_2.h"
-#include "fnv/decl/xProcess.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00403000.h"
 #include "fnv/symbols_00404000.h"
@@ -635,6 +633,28 @@
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_01203000.h"
 #include "highprocess_decls.h"
+#include "fnv/decl/FUN_00507e10_shell.h"
+#include "fnv/decl/FUN_008ac890_shell.h"
+#include "fnv/decl/FUN_008d0300_shell.h"
+#include "fnv/decl/FUN_009de2b0_shell.h"
+#include "fnv/decl/FUN_009f7d70_cls.h"
+#include "fnv/decl/FUN_009f7f20_class.h"
+#include "fnv/decl/FUN_009f8570_class.h"
+#include "fnv/decl/FUN_009f8660_class.h"
+#include "fnv/decl/Holder_009f7fe0.h"
+#include "fnv/decl/Package8020.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/fnv_009f8300__FUN_009f8300_class.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004b4e50_shell.h"
+#include "fnv/decl/FUN_0059ce80_shell.h"
+#include "fnv/decl/S0056e810_Object.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_01268000.h"
 
 // Calls MiddleHighProcess::Revert, resets all HighProcess fields to defaults, deletes owned objects, clears lists and muzzle flash, and frees detection states.
 // @fnv 0x008fe420
@@ -4249,6 +4269,542 @@ struct FUN_008ffdc0_Class
     int m3D8;
     bool IsTargetDetected(class Actor*, class Actor*);
     bool FUN_008ffdc0(class Actor*, class Actor*);
+};
+struct xPoint3
+{
+    float x, y, z;
+};
+struct xHeaderOwner
+{
+};
+struct xCell
+{
+    void* FUN_008d6f30();
+};
+struct xMiddle
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual void v82();
+    virtual void v83();
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual void v88();
+    virtual void v89();
+    virtual void v90();
+    virtual void v91();
+    virtual void v92();
+    virtual void v93();
+    virtual void v94();
+    virtual void v95();
+    virtual void v96();
+    virtual void v97();
+    virtual void v98();
+    virtual void v99();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual void v105();
+    virtual void v106();
+    virtual void v107();
+    virtual void v108();
+    virtual void v109();
+    virtual void v110();
+    virtual void v111();
+    virtual void v112();
+    virtual void v113();
+    virtual void v114();
+    virtual void v115();
+    virtual void v116();
+    virtual void v117();
+    virtual void v118();
+    virtual void v119();
+    virtual void v120();
+    virtual void v121();
+    virtual void v122();
+    virtual void v123();
+    virtual void v124();
+    virtual void v125();
+    virtual void v126();
+    virtual void v127();
+    virtual void v128();
+    virtual void v129();
+    virtual void v130();
+    virtual void v131();
+    virtual void v132();
+    virtual void v133();
+    virtual void v134();
+    virtual void v135();
+    virtual void v136();
+    virtual void v137();
+    virtual void v138();
+    virtual void v139();
+    virtual void v140();
+    virtual void v141();
+    virtual void v142();
+    virtual void v143();
+    virtual void v144();
+    virtual void v145();
+    virtual void v146();
+    virtual void v147();
+    virtual void v148();
+    virtual void v149();
+    virtual void v150();
+    virtual void v151();
+    virtual void v152();
+    virtual void v153();
+    virtual void v154();
+    virtual void v155();
+    virtual void v156();
+    virtual void v157();
+    virtual void v158();
+    virtual void v159();
+    virtual void v160();
+    virtual void v161();
+    virtual void v162();
+    virtual void v163();
+    virtual void v164();
+    virtual void v165();
+    virtual void v166();
+    virtual void v167();
+    virtual void v168();
+    virtual void v169();
+    virtual void v170();
+    virtual void v171();
+    virtual void v172();
+    virtual void v173();
+    virtual void v174();
+    virtual void v175();
+    virtual void v176();
+    virtual void v177();
+    virtual void v178();
+    virtual void v179();
+    virtual void v180();
+    virtual void v181();
+    virtual void v182();
+    virtual void v183();
+    virtual void v184();
+    virtual void v185();
+    virtual void v186();
+    virtual void v187();
+    virtual void v188();
+    virtual void v189();
+    virtual void v190();
+    virtual void v191();
+    virtual void v192();
+    virtual void v193();
+    virtual void v194();
+    virtual void v195();
+    virtual void v196();
+    virtual void v197();
+    virtual void v198();
+    virtual void v199();
+    virtual void v200();
+    virtual void v201();
+    virtual void v202();
+    virtual void v203();
+    virtual void v204();
+    virtual void v205();
+    virtual void v206();
+    virtual void v207();
+    virtual void v208();
+    virtual void v209();
+    virtual void v210();
+    virtual void v211();
+    virtual void v212();
+    virtual void v213();
+    virtual void v214();
+    virtual void v215();
+    virtual void v216();
+    virtual void v217();
+    virtual void v218();
+    virtual void v219();
+    virtual void v220();
+    virtual void v221();
+    virtual void v222();
+    virtual void v223();
+    virtual void v224();
+    virtual void v225();
+    virtual void v226();
+    virtual void v227();
+    virtual void v228();
+    virtual void v229();
+    virtual void v230();
+    virtual void v231();
+    virtual void v232();
+    virtual void v233();
+    virtual void v234();
+    virtual void v235();
+    virtual void v236();
+    virtual void v237();
+    virtual void v238();
+    virtual void v239();
+    virtual void v240();
+    virtual void v241();
+    virtual void v242();
+    virtual void v243();
+    virtual void v244();
+    virtual void v245();
+    virtual void v246();
+    virtual void v247();
+    virtual void v248();
+    virtual void v249();
+    virtual void v250();
+    virtual void v251();
+    virtual void v252();
+    virtual void v253();
+    virtual void v254();
+    virtual void v255();
+    virtual void v256();
+    virtual void v257();
+    virtual void v258();
+    virtual void v259();
+    virtual void v260();
+    virtual void v261();
+    virtual void v262();
+    virtual void v263();
+    virtual void v264();
+    virtual void v265();
+    virtual void v266();
+    virtual void v267();
+    virtual void v268();
+    virtual void v269();
+    virtual void v270();
+    virtual void v271();
+    virtual void v272();
+    virtual void v273();
+    virtual void v274();
+    virtual void v275();
+    virtual void v276();
+    virtual void v277();
+    virtual void v278();
+    virtual void v279();
+    virtual void v280();
+    virtual void v281();
+    virtual void v282();
+    virtual void v283();
+    virtual void v284();
+    virtual void v285();
+    virtual void v286();
+    virtual void v287();
+    virtual void v288();
+    virtual void v289();
+    virtual void v290();
+    virtual void v291();
+    virtual void v292();
+    virtual void v293();
+    virtual void v294();
+    virtual void v295();
+    virtual void v296();
+    virtual void v297();
+    virtual void v298();
+    virtual void v299();
+    virtual void v300();
+    virtual void v301();
+    virtual void v302();
+    virtual void v303();
+    virtual void v304();
+    virtual void v305();
+    virtual void v306();
+    virtual void v307();
+    virtual void v308();
+    virtual void v309();
+    virtual void v310();
+    virtual void v311();
+    virtual void v312();
+    virtual void v313();
+    virtual void v314();
+    virtual void v315();
+    virtual void v316();
+    virtual void v317();
+    virtual void v318();
+    virtual void v319();
+    virtual void v320();
+    virtual void v321();
+    virtual void v322();
+    virtual void v323();
+    virtual void v324();
+    virtual void v325();
+    virtual void v326();
+    virtual void v327();
+    virtual void v328();
+    virtual void v329();
+    virtual void v330();
+    virtual void v331();
+    virtual void v332();
+    virtual void v333();
+    virtual void v334();
+    virtual void v335();
+    virtual void v336();
+    virtual void v337();
+    virtual void v338();
+    virtual void v339();
+    virtual void v340();
+    virtual void v341();
+    virtual void v342();
+    virtual void v343();
+    virtual void v344();
+    virtual void v345();
+    virtual void v346();
+    virtual void v347();
+    virtual void v348();
+    virtual void v349();
+    virtual void v350();
+    virtual void v351();
+    virtual void v352();
+    virtual void v353();
+    virtual void v354();
+    virtual void v355();
+    virtual void v356();
+    virtual void v357();
+    virtual void v358();
+    virtual void v359();
+    virtual void v360();
+    virtual void v361();
+    virtual void v362();
+    virtual void v363();
+    virtual void v364();
+    virtual void v365();
+    virtual void v366();
+    virtual void v367();
+    virtual void v368();
+    virtual void v369();
+    virtual void v370();
+    virtual void v371();
+    virtual void v372();
+    virtual void v373();
+    virtual void v374();
+    virtual void v375();
+    virtual void v376();
+    virtual void v377();
+    virtual void v378();
+    virtual void v379();
+    virtual xHeaderOwner* FUN_5f0();
+};
+struct xP3;
+struct xActor
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual void v82();
+    virtual void v83();
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual void v88();
+    virtual void v89();
+    virtual void v90();
+    virtual void v91();
+    virtual void v92();
+    virtual void v93();
+    virtual void v94();
+    virtual void v95();
+    virtual void v96();
+    virtual void v97();
+    virtual void v98();
+    virtual void v99();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual void v105();
+    virtual void v106();
+    virtual void v107();
+    virtual void v108();
+    virtual void v109();
+    virtual void v110();
+    virtual void v111();
+    virtual void v112();
+    virtual void v113();
+    virtual void v114();
+    virtual void v115();
+    virtual void v116();
+    virtual void v117();
+    virtual void v118();
+    virtual void v119();
+    virtual void v120();
+    virtual void v121();
+    virtual void v122();
+    virtual void v123();
+    virtual void v124();
+    virtual xPoint3* FUN_1f4();
+    char m_pad04[0x64];
+    xMiddle* m_68;
+    xCell* FUN_008d6f30();
+public:
+    bool FUN_0088c240(const ::xP3 &, bool, bool);
+public:
+    void FUN_0081eba0();
+    float FUN_008bd830(int, float);
+    void FUN_008caea0(::xActor *, float);
+    void FUN_008ccce0(const ::xP3 &, const ::xP3 &);
+    bool FUN_009c40c0();
 };
 // @fnv 0x008e40d0
 void HighProcess::RunDetection(Actor* actor, float elapsed)
@@ -8895,6 +9451,13 @@ struct FUN_008d7420 : PathingAvoidanceNode
     unsigned int auiFormId;
     void LoadGame(BGSLoadFormBuffer* buffer);
 };
+struct xBuf;
+struct xProcess
+{
+    void* vtbl;
+public:
+    void FUN_00927000(::xBuf *);
+};
 // Deserializes a HighProcess from a load buffer, reading versioned fields and rebuilding actor lists and detection state.
 // @fnv 0x008fce90
 void HighProcess::LoadGame(BGSLoadFormBuffer* buffer)
@@ -9864,6 +10427,29 @@ struct Target
     MyArr mArr;
 
     int GetIntAt(unsigned int index);
+public:
+    void FUN_0044f3e0();
+    void FUN_0045ac80();
+    void RemoveItemFromMap(::Ref *);
+    ::FUN_0076b630 *SelectBestWeapon(::ActorStand *, float *, int, bool);
+    ::FUN_0076b630 *FUN_004c8c10(int, int);
+    bool FUN_00604310(const char *, char *, unsigned int);
+    bool FUN_00650480(::FileNames *);
+    bool FindTriangleZ(const ::NiPoint3 &, float, float, float *);
+    void SetPage(int);
+    bool FUN_007b1970(float, bool);
+    void FUN_00800ac0(::TargetActor *, int, bool);
+    bool AdvanceActions(::Context *);
+    void DisableEntry(unsigned int);
+    void FUN_00b2fdc0(unsigned short, unsigned short *, unsigned short);
+    void FUN_00b690d0(::StrArr *);
+    ::Target *FUN_00b90670(unsigned int);
+    bool FUN_00c3fb50(::Task *);
+    void CompactEntries();
+    void FUN_00c8f080();
+    int ComputeWeightedSum();
+    void FUN_00e8b630();
+    void FUN_00ead1e0();
 };
 // @fnv 0x009031b0
 void HighProcess::ProcessActorGroupState(Actor* actor)
@@ -17271,6 +17857,15 @@ public:
     void SetCenterRadius(float);
 public:
     void SetAvoidNodeArray(::BSSimpleArray<void *, 1024> *);
+public:
+    float GetSmoothingRandomness();
+    float GetGoalZDelta();
+    float GetTargetRadius();
+    void CopyTo(::PathingRequest *);
+    static ::PathingRequest *CreateRequestForType(::PATHING_REQUEST_TYPE);
+    void LoadGame(::BGSLoadFormBuffer *);
+    float GetActorRadius();
+    float GetCenterRadius();
 };
 
 struct ActorPathingHelper : public Actor
@@ -67220,6 +67815,11 @@ struct C
     float m_uiFilterValue;
     int m_zero;
     void SetContentCount(int unused, unsigned char flag);
+public:
+    void FUN_007908f0();
+    void FUN_00c85d20(char);
+    void NotifyAll(int, char);
+    C();
 };
 // @fnv 0x008fec10
 bool HighProcess::ClearProcessState(Actor* actor)
@@ -70675,4 +71275,1080 @@ void IdleLoadedProcessView::FUN_008eedf0(AnimIdle* idle, KFModel* model)
     }
 }
 
+class NiControllerManager;
+class QuestDialogueInfo;
+class TESIdleForm;
+class TESObjectWEAP;
+class NiAVObject;
+class BGSLoadFormBuffer;
+#define TESObjectCELL HighProcessSharedCell
+#undef TESObjectCELL
+class Animation;
+class BSAnimGroupSequence;
+class NiBSBoneLODController;
+class GlobalObject_0045d260;
+class HighProcessDetectionEventView;
+class DetectionViewData;
+class DetectionEvent;
+class ActorGroupState;
+class ActorValueStore;
+class AnimIdle;
+class KFModel;
+class LipSyncAnimation;
+class MuzzleFlash;
+class DetectionEventData;
+class TopicInfoRecord;
+class ActorPathingMessageQueue;
+class PathingRequest;
+class NiBillboardNode;
+class BSBound;
+class ActorSupportClass;
+class BSFaceGenAnimationData;
+class BSFaceGenNiNode;
+class BSShaderPPLightingProperty;
+class BooleanFloatQuery;
+class FurnitureMark;
+class bhkCharacterController;
+class bhkSimpleShapePhantom;
+class MiddleHighProcess__DeferredHideLimb;
+class QueuedFile;
+class PaddedFloatRecord;
+class TESEffectShader;
+class ArrowProjectile;
+class ActorCombatGroup;
+class ActorPackageContext;
+template <> class SettingT<GameSettingCollection>
+{
+  public:
+};
+extern SettingT<GameSettingCollection> originalRuntimeFloatSetting175;
+template <> class BSSimpleList<TESForm*>
+{
+  public:
+    TESForm* m_item;
+    BSSimpleList* m_pkNext;
+    bool IsInList(TESForm*&);
+};
+template <> class BSSimpleList<TESTopicInfo*>
+{
+  public:
+    TESTopicInfo* m_item;
+    BSSimpleList* m_pkNext;
+    BSSimpleList();
+    ~BSSimpleList();
+    bool IsEmpty();
+    void AddHead(TESTopicInfo*&);
+    void RemoveAll();
+    void RemoveHead();
+    void SetItem(TESTopicInfo* const&);
+};
+class FleePackage;
+class TESSound;
+extern GlobalObject_0045d260 g_011e0244;
+extern SettingT_GameSettingCollection_ DAT_011cf788;
+extern const double DAT_01084d28;
+enum DEFAULT_OBJECT;
+class PlayerCharacter;
+extern SettingT<GameSettingCollection> originalRuntimeFloatSetting109;
+extern SettingT<GameSettingCollection> originalRuntimeFloatSetting108;
+class ScriptLocals;
+class BSPortalGraph;
+extern SettingT<GameSettingCollection> originalRuntimeFloatSetting134;
+extern SettingT<GameSettingCollection> originalRuntimeFloatSetting135;
+extern SettingT<GameSettingCollection> originalRuntimeFloatSetting137;
+extern unsigned int DAT_011e01e0;
+class Interface;
+extern GlobalObject_0045d260 g_011e0246;
+extern bool DAT_011f1221;
+extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1045;
+extern GlobalObject_0040e0b0 g_011d1314;
+extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1046;
+class Script;
+class DetectionParameters;
+
+class BSFileEntry;
+extern SettingT<GameSettingCollection> originalRuntimeFloatSetting347;
+extern PlayerDetectionCounter DAT_011a3780[];
+struct TESObjectREFR;
+class NiTexture;
+template <> class NiPointer<NiTexture>
+{
+  public:
+    NiTexture* m_pObject;
+    NiPointer();
+    NiPointer(NiTexture*);
+    ~NiPointer();
+    NiPointer& operator=(NiTexture*);
+};
+template <> class NiPointer<KFModel>
+{
+  public:
+    KFModel* m_pObject;
+    NiPointer();
+    NiPointer(KFModel*);
+    ~NiPointer();
+    NiPointer& operator=(KFModel*);
+};
+template <> class NiPointer<ActorPathingMessageQueue>
+{
+  public:
+    ActorPathingMessageQueue* m_pObject;
+    NiPointer();
+    NiPointer(ActorPathingMessageQueue*);
+    ~NiPointer();
+    NiPointer& operator=(ActorPathingMessageQueue*);
+};
+
+class NiNode;
+class Biped;
+
+namespace PackagePathing {
+
+struct Actor;
+struct Request;
+struct List;
+struct Vec
+{
+    float x, y, z;
+    Vec();
+};
+struct Cell
+{
+};
+struct Setting
+{
+};
+struct Package
+{
+    virtual void PackageTypeAnchor();
+    void FUN_009f1310(void*);
+};
+struct List
+{
+    unsigned int unk0, unk4, unk8, unkc;
+    List();
+    ~List();
+};
+struct Values
+{
+    virtual void slot0();
+    virtual void slot4();
+    virtual int Value(int);
+};
+struct Process
+{
+};
+struct Race
+{
+    virtual void slot0();
+    virtual void slot4();
+    virtual void slot8();
+    virtual void slotc();
+    virtual void slot10();
+    virtual void slot14();
+    virtual void slot18();
+    virtual void slot1c();
+    virtual void slot20();
+    virtual void slot24();
+    virtual bool Flag();
+};
+struct Base
+{
+    unsigned int unk0;
+    unsigned int unk4;
+    unsigned int unk8;
+    unsigned int unkc;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    Race race;
+};
+struct Location
+{
+    unsigned int unk0;
+    unsigned int unk4;
+    unsigned int unk8;
+    unsigned int unkc;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    Location(const Vec&, Actor*);
+    ~Location();
+};
+struct Request
+{
+    unsigned int unk0;
+    unsigned int unk4;
+    unsigned int unk8;
+    unsigned int unkc;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    unsigned int unka4;
+    unsigned int unka8;
+    unsigned int unkac;
+    unsigned int unkb0;
+    unsigned int unkb4;
+    unsigned int unkb8;
+    unsigned int unkbc;
+    unsigned int unkc0;
+    unsigned int unkc4;
+    unsigned int unkc8;
+    unsigned int unkcc;
+    unsigned int unkd0;
+    unsigned int unkd4;
+    unsigned int unkd8;
+    unsigned int unkdc;
+    Request();
+    ~Request();
+};
+struct Actor
+{
+    virtual void slot0();
+    virtual void slot4();
+    virtual void slot8();
+    virtual void slotc();
+    virtual void slot10();
+    virtual void slot14();
+    virtual void slot18();
+    virtual void slot1c();
+    virtual void slot20();
+    virtual void slot24();
+    virtual void slot28();
+    virtual void slot2c();
+    virtual void slot30();
+    virtual void slot34();
+    virtual void slot38();
+    virtual void slot3c();
+    virtual void slot40();
+    virtual void slot44();
+    virtual void slot48();
+    virtual void slot4c();
+    virtual void slot50();
+    virtual void slot54();
+    virtual void slot58();
+    virtual void slot5c();
+    virtual void slot60();
+    virtual void slot64();
+    virtual void slot68();
+    virtual void slot6c();
+    virtual void slot70();
+    virtual void slot74();
+    virtual void slot78();
+    virtual void slot7c();
+    virtual void slot80();
+    virtual void slot84();
+    virtual void slot88();
+    virtual void slot8c();
+    virtual void slot90();
+    virtual void slot94();
+    virtual void slot98();
+    virtual void slot9c();
+    virtual void slota0();
+    virtual void slota4();
+    virtual void slota8();
+    virtual void slotac();
+    virtual void slotb0();
+    virtual void slotb4();
+    virtual void slotb8();
+    virtual void slotbc();
+    virtual void slotc0();
+    virtual void slotc4();
+    virtual void slotc8();
+    virtual void slotcc();
+    virtual void slotd0();
+    virtual void slotd4();
+    virtual void slotd8();
+    virtual void slotdc();
+    virtual void slote0();
+    virtual void slote4();
+    virtual void slote8();
+    virtual void slotec();
+    virtual void slotf0();
+    virtual void slotf4();
+    virtual void slotf8();
+    virtual void slotfc();
+    virtual void slot100();
+    virtual void slot104();
+    virtual void slot108();
+    virtual void slot10c();
+    virtual void slot110();
+    virtual void slot114();
+    virtual void slot118();
+    virtual void slot11c();
+    virtual void slot120();
+    virtual void slot124();
+    virtual void slot128();
+    virtual void slot12c();
+    virtual void slot130();
+    virtual void slot134();
+    virtual void slot138();
+    virtual void slot13c();
+    virtual void slot140();
+    virtual void slot144();
+    virtual void slot148();
+    virtual void slot14c();
+    virtual void slot150();
+    virtual void slot154();
+    virtual void slot158();
+    virtual void slot15c();
+    virtual void slot160();
+    virtual void slot164();
+    virtual void slot168();
+    virtual void slot16c();
+    virtual void slot170();
+    virtual void slot174();
+    virtual void slot178();
+    virtual void slot17c();
+    virtual void slot180();
+    virtual void slot184();
+    virtual void slot188();
+    virtual void slot18c();
+    virtual void slot190();
+    virtual void slot194();
+    virtual void slot198();
+    virtual void slot19c();
+    virtual void slot1a0();
+    virtual void slot1a4();
+    virtual void slot1a8();
+    virtual void slot1ac();
+    virtual void slot1b0();
+    virtual void slot1b4();
+    virtual void slot1b8();
+    virtual void slot1bc();
+    virtual void slot1c0();
+    virtual void slot1c4();
+    virtual void slot1c8();
+    virtual void slot1cc();
+    virtual void slot1d0();
+    virtual void slot1d4();
+    virtual void slot1d8();
+    virtual void slot1dc();
+    virtual void slot1e0();
+    virtual void slot1e4();
+    virtual void slot1e8();
+    virtual void slot1ec();
+    virtual void slot1f0();
+    virtual const Vec& Position();
+    virtual void slot1f8();
+    virtual void slot1fc();
+    virtual void slot200();
+    virtual void slot204();
+    virtual void slot208();
+    virtual void slot20c();
+    virtual void slot210();
+    virtual void slot214();
+    virtual bool Alternate();
+    virtual bool HasRace();
+    virtual void slot220();
+    virtual void slot224();
+    virtual void slot228();
+    virtual void slot22c();
+    virtual void slot230();
+    virtual void slot234();
+    virtual void slot238();
+    virtual void slot23c();
+    virtual void slot240();
+    virtual void slot244();
+    virtual void slot248();
+    virtual void slot24c();
+    virtual void slot250();
+    virtual void slot254();
+    virtual void slot258();
+    virtual void slot25c();
+    virtual void slot260();
+    virtual void slot264();
+    virtual void slot268();
+    virtual void slot26c();
+    virtual void slot270();
+    virtual void slot274();
+    virtual void slot278();
+    virtual Package* Current();
+    virtual void slot280();
+    virtual void slot284();
+    virtual void slot288();
+    virtual void slot28c();
+    virtual void slot290();
+    virtual void slot294();
+    virtual void slot298();
+    virtual void slot29c();
+    virtual void slot2a0();
+    virtual void slot2a4();
+    virtual void slot2a8();
+    virtual void slot2ac();
+    virtual void slot2b0();
+    virtual void slot2b4();
+    virtual void slot2b8();
+    virtual void slot2bc();
+    virtual void slot2c0();
+    virtual void slot2c4();
+    virtual void slot2c8();
+    virtual void slot2cc();
+    virtual void slot2d0();
+    virtual void slot2d4();
+    virtual void slot2d8();
+    virtual void slot2dc();
+    virtual void slot2e0();
+    virtual void slot2e4();
+    virtual void slot2e8();
+    virtual void slot2ec();
+    virtual void slot2f0();
+    virtual void slot2f4();
+    virtual void slot2f8();
+    virtual void slot2fc();
+    virtual void slot300();
+    virtual void slot304();
+    virtual void slot308();
+    virtual void slot30c();
+    virtual void slot310();
+    virtual void slot314();
+    virtual void slot318();
+    virtual void slot31c();
+    virtual void slot320();
+    virtual void slot324();
+    virtual void slot328();
+    virtual void slot32c();
+    virtual void slot330();
+    virtual void slot334();
+    virtual void slot338();
+    virtual void slot33c();
+    virtual void slot340();
+    virtual void slot344();
+    virtual void slot348();
+    virtual void slot34c();
+    virtual void SetPath(Actor*, int, int);
+    virtual void slot354();
+    virtual void slot358();
+    virtual void slot35c();
+    virtual void slot360();
+    virtual void slot364();
+    virtual void slot368();
+    virtual void slot36c();
+    virtual void slot370();
+    virtual void slot374();
+    virtual void slot378();
+    virtual void slot37c();
+    virtual void slot380();
+    virtual void slot384();
+    virtual void slot388();
+    virtual void slot38c();
+    virtual void slot390();
+    virtual void slot394();
+    virtual void slot398();
+    virtual void slot39c();
+    virtual void slot3a0();
+    virtual void slot3a4();
+    virtual void slot3a8();
+    virtual void slot3ac();
+    virtual void slot3b0();
+    virtual void slot3b4();
+    virtual void slot3b8();
+    virtual void slot3bc();
+    virtual void slot3c0();
+    virtual void slot3c4();
+    virtual void slot3c8();
+    virtual void slot3cc();
+    virtual void slot3d0();
+    virtual void slot3d4();
+    virtual void slot3d8();
+    virtual void slot3dc();
+    virtual void slot3e0();
+    virtual void slot3e4();
+    virtual void slot3e8();
+    virtual void slot3ec();
+    virtual void slot3f0();
+    virtual void slot3f4();
+    virtual void slot3f8();
+    virtual void slot3fc();
+    virtual void slot400();
+    virtual void slot404();
+    virtual void slot408();
+    virtual void slot40c();
+    virtual void Start(void*, int, int, int, int, int, float, float);
+    unsigned int unk4;
+    unsigned int unk8;
+    unsigned int unkc;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    Values values;
+    unsigned int unka8;
+    unsigned int unkac;
+    unsigned int unkb0;
+    unsigned int unkb4;
+    unsigned int unkb8;
+    unsigned int unkbc;
+    unsigned int unkc0;
+    unsigned int unkc4;
+    unsigned int unkc8;
+    unsigned int unkcc;
+    unsigned int unkd0;
+    unsigned int unkd4;
+    unsigned int unkd8;
+    unsigned int unkdc;
+    unsigned int unke0;
+    unsigned int unke4;
+    unsigned int unke8;
+    unsigned int unkec;
+    unsigned int unkf0;
+    unsigned int unkf4;
+    unsigned int unkf8;
+    unsigned int unkfc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13c;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17c;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18c;
+    Process* process;
+    bool FUN_008bb630(Request*);
+    void FUN_008db810(Actor*);
+};
+struct System
+{
+};
+struct Timer
+{
+};
+
+// @fnv 0x008db810
+void Actor::FUN_008db810(Actor* actor)
+{
+    Package* current = Current();
+    Package* package = 0;
+    if (current && reinterpret_cast<struct ::FUN_0041ca90 *>((current))->get() == 24)
+        package = current;
+    if (!package)
+        return;
+    if (reinterpret_cast<::FUN_008d0300_shell *>(((*reinterpret_cast<::PackagePathing::System * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_008d0300((::Actor *)(actor), (::Actor *)(0)) || actor->values.Value(1) <= 0)
+    {
+        List targetsSlot0;
+        reinterpret_cast<::FUN_009f8660_class *>((package))->FUN_009f8660((*(::BSSimpleArrayActor *)(&targetsSlot0)));
+        int count = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(targetsSlot0))->GetName()));
+        if (count > 0)
+        {
+            reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((actor))->FUN_00881680(0);
+            actor->Start(*((void **)(reinterpret_cast<::S3e60 *>(&(targetsSlot0))->FUN_006a7ad0(0))), 1, 1, 1, 0, 0, ::DAT_01012054, ::DAT_01012054);
+            ::FleePackage* following = dynamic_cast< ::FleePackage*>(reinterpret_cast<::FUN_009344a0_shell *>((actor))->FUN_009344a0());
+            if (following)
+            {
+                for (int index = 0; index < count; index++)
+                    following->FUN_009f1310((::TESObjectREFR *)(::Actor *)(static_cast< ::Actor*>(*((void **)(reinterpret_cast<::S3e60 *>(&(targetsSlot0))->FUN_006a7ad0(index))))));
+            }
+            return;
+        }
+    }
+    if (reinterpret_cast<::Holder_009f7fe0 *>((package))->FUN_009f7fe0())
+    {
+        reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((actor))->FUN_00881680(0);
+        return;
+    }
+    float nearDistanceSlot10 = 0.0f;
+    float farDistanceSlot35 = 0.0f;
+    Vec unusedSlot11;
+    int flagsSlot15 = 513;
+    Vec pointSlot13 = (*(::PackagePathing::Vec *)&(reinterpret_cast<::fnv_009f8300::FUN_009f8300_class *>((package))->FUN_009f8300(*(::fnv_009f8300::NiPoint3 *)nullptr)));
+    float distanceSlot14 = reinterpret_cast<::fnv_00572380::Fn572380 *>((actor))->FUN_00572380((::fnv_00572380::NiP3Sub *)&(pointSlot13));
+    Cell* cell = ((::PackagePathing::Cell *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget()));
+    bool nearSlot19 = false;
+    if (cell && reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior())
+    {
+        nearDistanceSlot10 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting189))))));
+        farDistanceSlot35 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting188))))));
+        if (distanceSlot14 < nearDistanceSlot10)
+            nearSlot19 = true;
+    }
+    else
+    {
+        nearDistanceSlot10 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting187))))));
+        farDistanceSlot35 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting186))))));
+        if (distanceSlot14 < farDistanceSlot35)
+            nearSlot19 = true;
+    }
+    reinterpret_cast<::Package8020 *>((package))->FUN_009f8020((::Actor8020 *)(actor));
+    if (((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm())))
+    {
+        reinterpret_cast<::FUN_009f7f20_class *>((package))->FUN_009f7f20((::MobileObject *)(actor), 1);
+        reinterpret_cast<::FUN_009f7d70_cls *>((package))->FUN_009f7d70((::Actor9f7d *)(actor), 1);
+        unsigned int time = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::PackagePathing::Timer *>(&::g_timeGlobal))))->FUN_00825c00();
+        if (time > ((unsigned int)(reinterpret_cast<::EffectSetting *>((package))->GetCastSound())) + 1500)
+        {
+            reinterpret_cast<::FUN_008ac890_shell *>((package))->SetWaterForm((::TESWaterForm *)(time));
+            Vec oldSlot17Slot17 = actor->Position();
+            Request requestSlot13;
+            reinterpret_cast<::fnv_006e29f0::FUN_006e29f0_shell *>(&(requestSlot13))->InitFromActor((::Actor *)(actor));
+            if (actor->HasRace())
+                reinterpret_cast<::FUN_006e2b50_shell *>(&(requestSlot13))->SetCantOpenDoors(((::PackagePathing::Base *)(reinterpret_cast<::Actor *>((actor))->GetActorBase()))->race.Flag());
+            reinterpret_cast<::FUN_008dbda0Class *>(&(requestSlot13))->SetPathingLocation((const ::PathingLocation &)((const ::PackagePathing::Location &)(Location((*(::PackagePathing::Vec *)&(reinterpret_cast<::fnv_009f8300::FUN_009f8300_class *>((package))->FUN_009f8300(*(::fnv_009f8300::NiPoint3 *)nullptr))), actor))));
+            reinterpret_cast<::FUN_008dbd80_class *>(&(requestSlot13))->FUN_008dbd80(reinterpret_cast<::FUN_00507e10_shell *>((package))->FUN_00507e10() + ::DAT_0102e430);
+            reinterpret_cast<::PathingRequest *>(&(requestSlot13))->SetCenterRadius(::DAT_0101e6ec);
+            int mode = ((int)(reinterpret_cast<::FUN_009f8570_class *>((package))->FUN_009f8570()));
+            reinterpret_cast<::PathingRequest *>(&(requestSlot13))->SetAvoidNodeArray((::BSSimpleArray<void *, 1024> *)(mode));
+            if (!actor->FUN_008bb630(&requestSlot13))
+                return;
+            if (reinterpret_cast<::FUN_00894d60_shell *>((actor))->FUN_00894d60())
+                reinterpret_cast<::FUN_00894cc0_shell *>((actor))->FUN_00894cc0(0);
+            reinterpret_cast<::FUN_008b39f0_shell *>((actor))->FUN_008b39f0(512);
+            Vec targetSlot6Slot10;
+            if (reinterpret_cast<::FUN_009de2b0_shell *>((actor->process))->GetPathCoordinate((::NiPoint3 *)(::PackagePathing::Vec *)(&targetSlot6Slot10)))
+            {
+                float targetDistanceSlot1 = reinterpret_cast<::fnv_00572380::Fn572380 *>((actor))->FUN_00572380((::fnv_00572380::NiP3Sub *)&(targetSlot6Slot10));
+                if (targetDistanceSlot1 <= ::DAT_010240c0)
+                    flagsSlot15 = 257;
+                SetPath(actor, flagsSlot15, 1);
+            }
+        }
+    }
+    else if (actor->Alternate())
+    {
+        reinterpret_cast<::FUN_009f7f20_class *>((package))->FUN_009f7f20((::MobileObject *)(actor), 1);
+        reinterpret_cast<::FUN_009f7d70_cls *>((package))->FUN_009f7d70((::Actor9f7d *)(actor), 1);
+    }
+    if (reinterpret_cast<::FUN_008b3b90_shell *>((actor))->FUN_008b3b90())
+        return;
+    if (distanceSlot14 > farDistanceSlot35 * 2.0f)
+    {
+    }
+}
+}
+
+
+struct xFilter
+{
+    xFilter(int);
+    unsigned int m_uiFilterValue;
+};
+struct xHasFilter
+{
+    xFilter FUN_0070c440();
+};
+struct xVec4
+{
+    float m_q[4];
+};
+struct __declspec(align(16)) xCinfo
+{
+    xCinfo();
+    ~xCinfo();
+    unsigned int m_uiFilterInfo;
+    int m_pCollisionShape;
+    int m_pad08[18];
+    xVec4 m_vContactPosition;
+};
+struct xNiAlloc
+{
+};
+struct xShape : xNiAlloc
+{
+    xShape(xPoint3*);
+    int m_auiShapeKeys[5];
+};
+struct xBody : xNiAlloc
+{
+    xBody(xCinfo*);
+    int m_auiShapeKeys[6];
+};
+struct xBodyV;
+struct xPtr
+{
+    xBodyV* operator->();
+    void FUN_0066b0d0(void*);
+};
+struct xWorldUser
+{
+    virtual void v0();
+};
+struct xBodyV
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void FUN_9c(void*);
+};
+struct xSetting
+{
+};
+struct xController
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual void v82();
+    virtual void v83();
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual void v88();
+    virtual void v89();
+    virtual void v90();
+    virtual void v91();
+    virtual void v92();
+    virtual void v93();
+    virtual void v94();
+    virtual void v95();
+    virtual void v96();
+    virtual void v97();
+    virtual void v98();
+    virtual void v99();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual void v105();
+    virtual void v106();
+    virtual void v107();
+    virtual void v108();
+    virtual void v109();
+    virtual void v110();
+    virtual void v111();
+    virtual void v112();
+    virtual void v113();
+    virtual void v114();
+    virtual void v115();
+    virtual void v116();
+    virtual void v117();
+    virtual void v118();
+    virtual void v119();
+    virtual void v120();
+    virtual void v121();
+    virtual void v122();
+    virtual void v123();
+    virtual void v124();
+    virtual void v125();
+    virtual void v126();
+    virtual void v127();
+    virtual void v128();
+    virtual void v129();
+    virtual void v130();
+    virtual void v131();
+    virtual void v132();
+    virtual void v133();
+    virtual void v134();
+    virtual void v135();
+    virtual void v136();
+    virtual void v137();
+    virtual void v138();
+    virtual void v139();
+    virtual void v140();
+    virtual void v141();
+    virtual void v142();
+    virtual void v143();
+    virtual void v144();
+    virtual void v145();
+    virtual void v146();
+    virtual void v147();
+    virtual void v148();
+    virtual void v149();
+    virtual void v150();
+    virtual void v151();
+    virtual void v152();
+    virtual void v153();
+    virtual void v154();
+    virtual void v155();
+    virtual void v156();
+    virtual void v157();
+    virtual void v158();
+    virtual void v159();
+    virtual void v160();
+    virtual void v161();
+    virtual void v162();
+    virtual xHasFilter* FUN_28c();
+    char m_pad04[0x430];
+    xPtr m_434;
+    float m_438;
+    void FUN_008e4e50(xActor* apActor);
+};
+
+// @fnv 0x008e4e50
+void xController::FUN_008e4e50(xActor* apActor)
+{
+    if (apActor->m_68->FUN_5f0())
+    {
+        if (!((unsigned int)(::FUN_00559450((int *)&(m_434)))))
+        {
+            xPoint3 HALF = *((::xPoint3 *)(reinterpret_cast<::BGSCameraPath *>((apActor->m_68->FUN_5f0()))->GetConditions()));
+            float fActorScale = reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((apActor))->FUN_00567400();
+            if (HALF.y > HALF.z)
+                HALF.y = HALF.y * fActorScale;
+            else
+                HALF.y = HALF.y * 2.5 * fActorScale;
+            HALF.x = HALF.x * 0.5 * fActorScale;
+            HALF.z = HALF.z * fActorScale;
+            xShape* SHAPE = new xShape(&HALF);
+            xFilter FILTER(0);
+            reinterpret_cast<::FUN_004a39f0_shell *>(&(FILTER))->FUN_004a39f0(0x22);
+            xHasFilter* OWNER = FUN_28c();
+            if (OWNER)
+                reinterpret_cast<::FUN_0059ce80_shell *>(&(FILTER))->FUN_0059ce80(((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::xFilter &)(OWNER->FUN_0070c440()))->FUN_004a3a20())));
+            xCinfo CINFO;
+            CINFO.m_uiFilterInfo = ((unsigned int)(::FUN_00559450((int *)&(FILTER))));
+            CINFO.m_pCollisionShape = ::FUN_004ae750(SHAPE);
+            reinterpret_cast<::FUN_004b4e50_shell *>(&(CINFO.m_vContactPosition))->SetFromScaledVector3((void *)(apActor->FUN_1f4()));
+            m_434.FUN_0066b0d0(new xBody(&CINFO));
+            m_438 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::g_011e029c))))));
+        }
+        void* WORLD = reinterpret_cast<::FUN_004543c0_cls *>((((::xCell *)(reinterpret_cast<::LowProcess *>((apActor))->GetTarget()))))->FUN_004543c0();
+        m_434->FUN_9c(WORLD);
+    }
+}
+
+namespace fnv_008e5100 {
+
+struct xP3
+{
+    float x, y, z;
+};
+union __declspec(align(16)) xM128
+{
+    float m128_f32[4];
+    char m128_i8[16];
+};
+struct __declspec(align(16)) xVec4
+{
+    xM128 m_vComponents;
+    xVec4();
+};
+struct xConvexShape
+{
+    xConvexShape();
+    virtual ~xConvexShape();
+    int m_iWordAt04, m_8, m_iThirdValue;
+};
+struct xBoxShape : xConvexShape
+{
+    xBoxShape(const xP3& akHalfExtents);
+    virtual ~xBoxShape();
+    int m_10;
+};
+// @fnv 0x008e5100
+xBoxShape::xBoxShape(const xP3& akHalfExtents)
+{
+    ++::DAT_0126825c;
+    xVec4 HALF;
+    reinterpret_cast<::S0056e810_Object *>(this)->FUN_0056e810((*(const ::S0056e810_Vector *)(((::fnv_008e5100::xVec4 *)&(::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&HALF)), (const ::fnv_004a3e00::NiPoint3 &)(akHalfExtents)))))));
+}
+}  // namespace fnv_008e5100
 #include "generated/data/fallout/ai/highprocess.inc"

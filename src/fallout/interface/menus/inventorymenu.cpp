@@ -108,6 +108,23 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f4000.h"
 #include "inventorymenu_decls.h"
+#include "fnv/decl/FUN_007832a0_class.h"
+#include "fnv/symbols_00704000.h"
+#include "fnv/symbols_00709000.h"
+#include <stddef.h>
+#include "fnv/decl/ActorGoldQuery.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_008a0c20_shell.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FunctionOwner.h"
+#include "fnv/decl/Host_004d4b00.h"
+#include "fnv/decl/Inv4c6ba0.h"
+#include "fnv/decl/InventoryListBox.h"
+#include "fnv/decl/ListBox_71a.h"
+#include "fnv/decl/fnv_00a03da0__FUN_00a03da0_shell.h"
+#include "fnv/decl/list71a__L71Menu.h"
+#include "fnv/symbols_005e5000.h"
+#include "fnv/symbols_011c3000.h"
 
 static const int kGetClassValue = 1002;
 
@@ -2684,4 +2701,449 @@ void FUN_00781b10_shell::ClearActionPointSource()
     reinterpret_cast<FUN_00781680_shell*>(this)->FUN_00781680();
 }
 
+class Tile;
+class TileMenu;
+class Tile__TileTemplate;
+class InventoryStackRecord;
+class TESBoundObject;
+class ListBoxItem_ItemChange___;
+enum ENUM_FORM_ID;
+class FOPipboyManager;
+extern bool DAT_011d9f38;
+void __cdecl FUN_00780c00(Tile* pTile);
+unsigned char FUN_007824b0();
+void __cdecl DropInventoryItem(int aiAmountChosen);
+bool __cdecl FUN_00780f70();
+
+bool FUN_00702450(int);
+
+// @fnv 0x00782190
+bool InventoryMenu::FUN_00782190(int input, int unused)
+{
+    if (!FUN_00702450(1002) || !((::FOPipboyManager *)(::fnv_00705990::FUN_00705990()))->IsUnk28Set())
+        return false;
+    bool consumed = false;
+    if (FUN_00709d40() && m_kMenuData.GetVisible())
+    {
+        switch (input)
+        {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+            if (((bool)(::FUN_00702140())))
+                consumed = true;
+            break;
+        }
+    }
+    if (!consumed && FUN_00702450(1002))
+    {
+        switch (input)
+        {
+        case 13:
+            ::s717280::FUN_00717280(36);
+            ::ShowStatsMenu(1, 0);
+            consumed = true;
+            break;
+        case 14:
+            ::s717280::FUN_00717280(36);
+            ::fnv_00704170::UpdatePipboyMapVisibility(1, 0);
+            consumed = true;
+            break;
+        case 15:
+            HandleClick(19, 0);
+            consumed = true;
+            break;
+        case 16:
+            if (reinterpret_cast<::TileListBoxCalls *>((m_pTiles[9]))->GetFloat(0xfaf) != 0.0)
+            {
+                m_kMenuData.SetVisible(true);
+                m_pTiles[11]->Set(0xfa3, 0);
+            }
+            consumed = true;
+            break;
+        case 3:
+        case 4: {
+            int tab = m_iCurrentTab;
+            bool visible = m_kMenuData.GetVisible();
+            HandleMouseoverTileAlt(29, 0);
+            tab += input == 4 ? -1 : 1;
+            tab = tab > 4 ? 0 : tab;
+            tab = tab < 0 ? 4 : tab;
+            HandleClick(tab + 24, 0);
+            if (visible)
+                m_kMenuData.SetVisible(true);
+            consumed = true;
+        }
+        break;
+        }
+    }
+    return consumed;
+}
+
+
+struct TileS
+{
+};
+struct MenuTileObj
+{
+};
+struct ListNodeObj
+{
+    unsigned char FUN_008256d0();
+};
+struct LbObj
+{
+    virtual void q0(int);
+    virtual void q1();
+    virtual void q2();
+    virtual void RunFourthVirtual();
+    virtual void InvokeFifthVirtualFunction();
+    virtual void q5();
+    virtual void RunSeventhVirtualOperation();
+    virtual void q7();
+    virtual void q8(int);
+};
+struct InvObj
+{
+    virtual void mq0();
+    virtual void mq1();
+    virtual void mq2();
+    virtual void mq3();
+    virtual void mq4();
+    virtual void mq5(int, void*);
+    int unknown_04;
+    int unknown_08;
+    int unknown_0c;
+    int unknown_10;
+    int unknown_14;
+    int unknown_18;
+    int unknown_1c;
+    int unknown_20;
+    int unknown_24;
+    TileS* t28;
+    TileS* t2c;
+    TileS* t30;
+    TileS* t34;
+    int f38;
+    TileS* t3c;
+    int f40;
+    TileS* t44;
+    TileS* t48;
+    TileS* t4c;
+    int unknown_50;
+    int unknown_54;
+    int unknown_58;
+    int unknown_5c;
+    int unknown_60;
+    int unknown_64;
+    int unknown_68;
+    int unknown_6c;
+    int unknown_70;
+    TileS* t74;
+    int f78;
+    TileS* t7c;
+    int unknown_80;
+    int unknown_84;
+    int unknown_88;
+    int unknown_8c;
+    int unknown_90;
+    int unknown_94;
+    int unknown_98;
+    int unknown_9c;
+    int unknown_a0;
+    int unknown_a4;
+    int unknown_a8;
+    int unknown_ac;
+    int unknown_b0;
+    int unknown_b4;
+    LbObj lb;
+    int unknown_bc;
+    int unknown_c0;
+    int unknown_c4;
+    int unknown_c8;
+    int unknown_cc;
+    int unknown_d0;
+    int unknown_d4;
+    int unknown_d8;
+    int unknown_dc;
+    int unknown_e0;
+    int unknown_e4;
+    int unknown_e8;
+    int unknown_ec;
+    int unknown_f0;
+    int unknown_f4;
+    int unknown_f8;
+    int unknown_fc;
+    int unknown_100;
+    int unknown_104;
+    int unknown_108;
+    int unknown_10c;
+    int unknown_110;
+    int unknown_114;
+    int unknown_118;
+    ListNodeObj listHead;
+};
+struct InvChangesObj
+{
+};
+struct FUN_0096a2d0
+{
+    void* m_item;
+    FUN_0096a2d0* m_next;
+    FUN_0096a2d0();
+    ~FUN_0096a2d0();
+};
+struct ActorAV
+{
+    virtual int q0();
+    virtual int q1();
+    virtual int q2(int);
+    virtual float RunFourthVirtual(int);
+    virtual int InvokeFifthVirtualFunction();
+    virtual int q5();
+    virtual int RunSeventhVirtualOperation();
+    virtual int q7(int);
+};
+struct ProcObj
+{
+    virtual int p0();
+    virtual int p1();
+    virtual int p2();
+    virtual int p3();
+    virtual int p4();
+    virtual int p5();
+    virtual int p6();
+    virtual int p7();
+    virtual int p8();
+    virtual int p9();
+    virtual int p10();
+    virtual int p11();
+    virtual int p12();
+    virtual int p13();
+    virtual int p14();
+    virtual int p15();
+    virtual int p16();
+    virtual int p17();
+    virtual int p18();
+    virtual int p19();
+    virtual int p20();
+    virtual int p21();
+    virtual int p22();
+    virtual int p23();
+    virtual int p24();
+    virtual int p25();
+    virtual int p26();
+    virtual int p27();
+    virtual int p28();
+    virtual int p29();
+    virtual int p30();
+    virtual int p31();
+    virtual int p32();
+    virtual int p33();
+    virtual int p34();
+    virtual int p35();
+    virtual int p36();
+    virtual int p37();
+    virtual int p38();
+    virtual int p39();
+    virtual int p40();
+    virtual int p41();
+    virtual int p42();
+    virtual int p43();
+    virtual int p44();
+    virtual int p45();
+    virtual int p46();
+    virtual int p47();
+    virtual int p48();
+    virtual int p49();
+    virtual int p50();
+    virtual int p51();
+    virtual int p52();
+    virtual int p53();
+    virtual int p54();
+    virtual int p55();
+    virtual int p56();
+    virtual int p57();
+    virtual int p58();
+    virtual int p59();
+    virtual int p60();
+    virtual int p61();
+    virtual int p62();
+    virtual int p63();
+    virtual int p64();
+    virtual int p65();
+    virtual int p66();
+    virtual int p67();
+    virtual int p68();
+    virtual int p69();
+    virtual int p70();
+    virtual int p71();
+    virtual int p72();
+    virtual int p73();
+    virtual int p74();
+    virtual int p75();
+    virtual int p76();
+    virtual int p77();
+    virtual int p78();
+    virtual int p79();
+    virtual int p80();
+    virtual int p81();
+    virtual int q82();
+};
+struct PlayerShell
+{
+};
+struct RenderedObj
+{
+};
+struct FloatSettingObj
+{
+};
+struct IntSettingObj
+{
+};
+struct SoundHolder
+{
+};
+class TESFullName
+{
+  public:
+    virtual void tf0();
+};
+
+struct ItemObj
+{
+};
+
+int __cdecl FUN_00406d50(char*, unsigned int, const char*);
+
+static const char kStr_IM_Headline_Title[] = "IM_Headline_Title";
+// @fnv 0x00782a90
+void FUN_00782a90()
+{
+    ListNodeObj* pInventoryChangeNode;
+    int el;
+    InvChangesObj* ea;
+    int df;
+    int cn;
+    int ck;
+    int ca;
+    float bn;
+    float bl;
+    char ba[64];
+    int ak;
+    if ((*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)) && reinterpret_cast<::FOPipboyManager *>((((RenderedObj*)((void *)(::fnv_00705990::FUN_00705990())))))->IsUnk28Set())
+    {
+        ea = (InvChangesObj*)((::Changes *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(::_g_thePlayer))));
+        ca = FUN_00406d90(((ActorAV*)&::_g_thePlayer->actorValueOwner)->RunFourthVirtual(0x12));
+        ak = (int)(*((float *)&(::FUN_00403e20((float *)(((FloatSettingObj*)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting1016))))))));
+        if (ca > ak)
+            ca = ak;
+        FUN_00406d00(ba, 0x40, "%d", ca);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->t30))->FUN_00a01350(::InventoryMenu::ms_iValueTileID, (char *)(ba), true);
+        bl = (float)FUN_00406d90(((ActorAV*)&::_g_thePlayer->actorValueOwner)->RunFourthVirtual(0x4c));
+        cn = ((::ProcObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((PlayerShell*)::_g_thePlayer)))->GetBaseTexture()))->q82();
+        ck = 0;
+        if (cn)
+            ck = (int)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((void*)cn))->GetName()));
+        else
+            ck = ((int)(::FUN_004839c0(0x1f4)));
+        bn = 0.0f;
+        ::ApplyPerkModifiers(0x38, (::Actor *)(::_g_thePlayer), ::_g_thePlayer, ck, &bn);
+        FUN_00406d00(ba, 0x40, "%1.1f", (double)(bl + bn));
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->t7c))->FUN_00a01350(::InventoryMenu::ms_iValueTileID, (char *)(ba), true);
+        if (reinterpret_cast<::ActorGoldQuery *>((((PlayerShell*)::_g_thePlayer)))->FUN_00891d70() > *((int *)&(::FUN_0043d4d0((int *)(((IntSettingObj*)&(*reinterpret_cast<int *>(&::g_011d3a08))))))))
+            FUN_00406d00(ba, 0x40, "%d+", *((int *)&(::FUN_0043d4d0((int *)(((IntSettingObj*)&(*reinterpret_cast<int *>(&::g_011d3a08))))))));
+        else
+            FUN_00406d00(ba, 0x40, "%d", reinterpret_cast<::ActorGoldQuery *>((((PlayerShell*)::_g_thePlayer)))->FUN_00891d70());
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->t28))->FUN_00a01350(::InventoryMenu::ms_iValueTileID, (char *)(ba), true);
+        FUN_00406d00(ba, 0x40, "%d/%d", ((ActorAV*)&::_g_thePlayer->actorValueOwner)->q2(0x2e),
+                     (int)(reinterpret_cast<::FUN_008a0c20_shell *>((((PlayerShell*)::_g_thePlayer)))->FUN_008a0c20()));
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->t34))->FUN_00a01350(::InventoryMenu::ms_iValueTileID, (char *)(ba), true);
+        FUN_00406d00(ba, 0x40, "%d/%d", ((ActorAV*)&::_g_thePlayer->actorValueOwner)->q2(0x10),
+                     ((ActorAV*)&::_g_thePlayer->actorValueOwner)->q7(0x10));
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->t2c))->FUN_00a01350(::InventoryMenu::ms_iValueTileID, (char *)(ba), true);
+        if (FUN_00408b20(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011c3cb4)))))->GetMenuTitle())), "ENGLISH"))
+        {
+            el = (int)((void *)(::FUN_00a01860("_Title")));
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))
+                ->t44))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d2a18)))))->GetMenuTitle()))), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))
+                ->t48))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d4f60)))))->GetMenuTitle()))), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))
+                ->t4c))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d35d0)))))->GetMenuTitle()))), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))
+                ->t74))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d2eb0)))))->GetMenuTitle()))), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::TileS *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::MenuTileObj *)(reinterpret_cast<::Callees *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))))->FUN_00726070()))))->FUN_00a03da0((char *)(kStr_IM_Headline_Title))))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d4378)))))->GetMenuTitle()))), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->t30))->FUN_00a01350(el, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d20c4))))->GetMenuTitle()))), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->t7c))->FUN_00a01350(el, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d396c))))->GetMenuTitle()))), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))
+                ->t28))->FUN_00a01350(el, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d25b0)))))->GetMenuTitle()))), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))
+                ->t34))->FUN_00a01350(el, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d1e60)))))->GetMenuTitle()))), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))
+                ->t2c))->FUN_00a01350(el, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d300c)))))->GetMenuTitle()))), true);
+        }
+        reinterpret_cast<::Tile *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->t3c))->Set(0xfa3, 0);
+        reinterpret_cast<::Tile *>((((::MenuTileObj *)(reinterpret_cast<::Callees *>((((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))))->FUN_00726070()))))->Set(::InventoryMenu::ms_iKeyringOpenTileID, 0);
+        ((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->mq5(0x1d, 0);
+        if (((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->listHead.FUN_008256d0() == 0 && ea)
+        {
+            UpdateCurrentValue();
+            ((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->lb.q0(0);
+            for (pInventoryChangeNode = (ListNodeObj*)&((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->listHead;
+                 pInventoryChangeNode && *((void **)(new ((void *)(pInventoryChangeNode)) ::Vec3()));
+                 pInventoryChangeNode = ((::ListNodeObj *)(reinterpret_cast<::Callees *>((pInventoryChangeNode))->FUN_00726070())))
+            {
+                {
+                    char bo[128];
+                    void* bb;
+                    int as;
+                    ListNodeObj* am;
+                    FUN_0096a2d0 ah;
+                    reinterpret_cast<::Host_004d4b00 *>((ea))->FindEntriesByType((int)(*((void **)(new ((void *)(pInventoryChangeNode)) ::Vec3()))), (::Output_004d4b00 *)(void *)(&ah));
+                    reinterpret_cast<::FunctionOwner *>(&(((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))
+                        ->lb))->FUN_0071a200((int)(*((void **)(new ((void *)(pInventoryChangeNode)) ::Vec3()))));
+                    for (am = (ListNodeObj*)&ah; am && *((void **)(new ((void *)(am)) ::Vec3())); am = ((::ListNodeObj *)(reinterpret_cast<::Callees *>((am))->FUN_00726070())))
+                    {
+                        bb = dynamic_cast<TESFullName*>(
+                            (TESBoundObject*)(void*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryStackRecord*)*((void **)(new ((void *)(am)) ::Vec3())))))->GetName())));
+                        as = (int)FUN_0044a670(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((SoundHolder*)bb)))->FUN_00408da0())));
+                        ::TaskQueueInterface::CopyStringToBuffer(bo, 0x80, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((SoundHolder*)bb)))->FUN_00408da0())));
+                        if (reinterpret_cast<::FUN_004bd820_stand *>((((ItemObj*)*((void **)(new ((void *)(am)) ::Vec3())))))->FUN_004bd820())
+                            FUN_00406d50(bo, 0x80, "+");
+                        reinterpret_cast<::list71a::L71Menu *>(&(((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))
+                            ->lb))->FUN_0071a320((int)(*((void **)(new ((void *)(am)) ::Vec3()))), bo, (int (*)(list71a::L71Item *, list71a::L71Item *))(void *)((void*)&((void (&)())::fnv_007824e0::FUN_007824e0)), (::list71a::L71Tile *)(0));
+                    }
+                }
+            }
+            reinterpret_cast<::LBList_7314c0 *>(&(((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->lb))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(void *)((void*)&UpdateItemLabel), 0, 0x7fffffff);
+            reinterpret_cast<::ListBox_71a *>(&(((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->lb))->UpdateItems();
+            reinterpret_cast<::LBList_7314c0 *>(&(((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->lb))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(void *)((void*)&FUN_00780c00), -1, 0x7fffffff);
+            reinterpret_cast<::FileMatchList *>(&(((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->listHead))->RemoveAll();
+        }
+        else
+        {
+            reinterpret_cast<::InventoryListBox *>(&(((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))
+                ->lb))->PopulateInventoryList((::InventoryOwner *)(::_g_thePlayer), (bool (*)(InventoryEntry *))(0), 0, (void (*)(Tile *, InventoryEntry *))(void *)((void*)&UpdateItemLabel), 0, 0);
+            if (ea)
+            {
+                if (((int)(reinterpret_cast<::Inv4c6ba0 *>((ea))->FindFirstItemOfType(0x2e, &df))))
+                {
+                    TileS* tt;
+                    tt = ((::TileS *)(reinterpret_cast<::list71a::L71Menu *>(&(((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))
+                             ->lb))->FUN_0071a320(0, ((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d3b20)))))->GetMenuTitle())), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
+                    reinterpret_cast<::Tile *>((tt))->Set(0xfaa, 0x1e);
+                }
+            }
+            reinterpret_cast<::ListBoxImpl *>(&(((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->lb))->ApplyFilter((bool (*)(void *))(void *)((void*)&((void (&)())::FUN_00782620)));
+            reinterpret_cast<::LBList_7314c0 *>(&(((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->lb))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(void *)((void*)&FUN_00780c00), -1, 0x7fffffff);
+            ((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->lb.q8((int)&((void (&)())::fnv_007824e0::FUN_007824e0));
+        }
+        ((FUN_00781b10_shell*)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->ClearActionPointSource();
+        FUN_007800c0();
+    }
+}
 #include "generated/data/fallout/interface/menus/inventorymenu.inc"
+#include "generated/data/fallout/interface/menus/inventorymenu_rtti_variant.inc"

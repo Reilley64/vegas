@@ -71,6 +71,9 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "activeeffect_local.h"
+#include "fnv/decl/FUN_00470440.h"
+#include "fnv/decl/FUN_00857bd0.h"
+#include <cmath>
 
 // @fnv 0x00804090
 void ActiveEffect::CopyData(ActiveEffect* pOther)
@@ -1569,6 +1572,10 @@ struct Self
     int f02c;
     AudioPlaybackHandle sound30;
     void PlaySoundForEffect();
+public:
+    void DestroyAllStreams();
+    void FUN_004e3d60(::ParamObj *);
+    void FUN_00936f50(bool);
 };
 // @fnv 0x008067b0
 void ActiveEffect::ApplyLoadBuffer(BGSLoadFormBuffer* buffer)
@@ -2902,4 +2909,69 @@ FUN_00803ed0::~FUN_00803ed0()
     }
 }
 
+class EffectSetting;
+class EffectItem;
+class MagicHitEffect;
+class MagicCaster;
+class MagicTarget;
+class MagicItem;
+class TESBoundObject;
+class BGSLoadFormBuffer;
+class BGSSaveFormBuffer;
+template <typename T> class BSSimpleList;
+template <> class BSSimpleList<BGSPerkEntry*>
+{
+  public:
+    BGSPerkEntry*& GetItem();
+};
+template <> class BSSimpleList<MagicHitEffect*>
+{
+  public:
+    MagicHitEffect* m_item;
+    BSSimpleList<MagicHitEffect*>* m_pkNext;
+    MagicHitEffect*& GetItem();
+    bool IsEmpty();
+    void RemoveAll();
+};
+template <> class BSSimpleList<ActiveEffect*>
+{
+  public:
+};
+class BSTempEffect;
+class PerkEntryConditionSet;
+extern const char DAT_010794a8[];
+template <> class BSSimpleList<const char*>
+{
+  public:
+    bool IsEmpty();
+};
+extern GlobalObject_0040e0b0 g_011d17dc;
+extern const char DAT_010793e0[];
+// @fnv 0x00805920
+ActiveEffect* FUN_00805920(BGSLoadFormBuffer* buffer)
+{
+    unsigned short effectSize = 28;
+    unsigned int magicItemID;
+    unsigned char recordIndex;
+    MagicItem* magicItem;
+    if (reinterpret_cast<::FUN_008df040_shell *>((::g_TESSaveLoadGame))->FUN_008df040() >= 42)
+        reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0(&effectSize, 2);
+    reinterpret_cast<::FUN_00857aa0 *>((::g_TESSaveLoadGame))->ValidateFormIDArray(&magicItemID, 4);
+    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0(&recordIndex, 1);
+    magicItem = MagicItem::GetMagicItemByID(magicItemID);
+    if (magicItem)
+    {
+        EffectItem* effect = ((::EffectItem *)(reinterpret_cast<::HX *>(&(magicItem->effects))->FUN_00406ee0(recordIndex)));
+        if (effect)
+        {
+            ActiveEffect* active = MagicEffectSystem::Activate(0, magicItem, effect, 0);
+            active->LoadGame(buffer);
+            return active;
+        }
+    }
+    reinterpret_cast<::FUN_00857bd0 *>((::g_TESSaveLoadGame))->Init(effectSize);
+    ::FUN_005b5e40();
+    return 0;
+}
 #include "generated/data/fallout/magic/activeeffect.inc"
+#include "generated/data/fallout/magic/activeeffect_decl_variant.inc"

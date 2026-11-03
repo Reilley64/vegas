@@ -275,7 +275,7 @@ static inline void S_00d0af60_Timer(const char* name)
         _ReadWriteBarrier();
         volatile unsigned int t = (unsigned int)__rdtsc();
         h->m_uiStartTicks = t;
-        s->m_kRayEnd = (char*)(h + 1);
+        s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 

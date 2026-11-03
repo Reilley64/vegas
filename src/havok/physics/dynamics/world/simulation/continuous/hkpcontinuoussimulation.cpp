@@ -1965,7 +1965,7 @@ static inline void TimerBeginListD0(const char* name, const char* firstSub)
         _ReadWriteBarrier();
         volatile unsigned int t = (unsigned int)__rdtsc();
         h->m_uiCommandId = t;
-        s->m_kRayEnd = (char*)(h + 1);
+        s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 static inline void TimerCommandD0Write(const char* name)
@@ -1977,7 +1977,7 @@ static inline void TimerCommandD0Write(const char* name)
         _ReadWriteBarrier();
         volatile unsigned int t = (unsigned int)__rdtsc();
         h->m_uiCommandId = t;
-        s->m_kRayEnd = (char*)(h + 1);
+        s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -2574,7 +2574,7 @@ template<int Mode> static inline void TickWrite(const char* name, volatile unsig
         if (Mode == 1) _ReadBarrier();
         if (Mode == 2) _WriteBarrier();
         h->m_uiCommandId = t;
-        s->m_kRayEnd = (char*)(h + 1);
+        s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 static inline void ReleaseCtx(Ctx* c)
@@ -3110,7 +3110,7 @@ static inline void S_00d0e210_Timer(const char* name)
         _ReadWriteBarrier();
         unsigned int t = (unsigned int)__rdtsc();
         h->m_uiStartTicks = *(volatile unsigned int*)&t;
-        s->m_kRayEnd = (char*)(h + 1);
+        s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3458,7 +3458,7 @@ void S_00d0e210_Sim::FUN_00d0e210(S_00d0e210_StepInfo* info, S_00d0e210_ToiEvent
             _ReadWriteBarrier();
             *(volatile unsigned int*)&sh.tick = (unsigned int)__rdtsc();
             h->m_uiStartTicks = *(volatile unsigned int*)&sh.tick;
-            s->m_kRayEnd = (char*)(h + 1);
+            s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
         }
     }
     m_pOwningWorld->lockCriticalOperations();
@@ -3525,7 +3525,7 @@ __forceinline void D0FE00TimerBegin(const char* name)
         D0FE00TimerCommand* h = (D0FE00TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime();
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -4596,7 +4596,7 @@ static __forceinline void WriteClock(const char* name) {
         unsigned int ticks;
         ticks = static_cast<unsigned int>(__rdtsc());
         h->m_uiCommandId = ticks;
-        s->m_kRayEnd = (char*)(h + 1);
+        s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 // @fnv 0x00d0d8b0
@@ -6741,7 +6741,7 @@ void S00d0db40_Dyn::FUN_00d0db40(S00d0db40_Entity** entities, int numEntities, c
             SolTimerRecord* record = (SolTimerRecord*)stream.m_kRayEnd;
             record->m_name = "TtNarrowPhaseTOI";
             record->stamp();
-            stream.m_kRayEnd = (char*)(record+1);
+            stream.m_kRayEnd = reinterpret_cast<char*>(record + 1);
         }
     }
     for (int i = 0; i < numEntities; ++i) {
@@ -6785,7 +6785,7 @@ done:
             SolTimerRecord* record = (SolTimerRecord*)stream.m_kRayEnd;
             record->m_name = DAT_010c41f8;
             record->stamp();
-            stream.m_kRayEnd = (char*)(record+1);
+            stream.m_kRayEnd = reinterpret_cast<char*>(record + 1);
         }
     }
 }
@@ -8411,7 +8411,7 @@ void FUN_00d0de70(const GskAgentInput&input,PointerKeyIntegerMap<hkUint32,hkpEnt
 // @fnv 0x00d0de70
 void hkpContinuousSimulation::FUN_00d0de70(const GskAgentInput&input,PointerKeyIntegerMap<hkUint32,hkpEntity*>&entitiesNeedingPsiCollisionDetection)
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "Recollide PSI";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "Recollide PSI";h->setTime();mStream.setEnd(reinterpret_cast<char*>(h + 1));}};
 m_pOwningWorld->lockCriticalOperations();
 PointerKeyIntegerMap<NarrowPhaseAgentEntry*,int>entriesToCollideMap;
 hkArray<SimulationIslandEntryRecord>entriesToCollide;
@@ -8480,7 +8480,7 @@ entry->m_pContactManager->processContact(*collA,*collB,input,processOutput);
 ;
 }
 m_pOwningWorld->unlockAndAttemptToExecutePendingOperations();
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd(reinterpret_cast<char*>(h + 1));}};
 }
 
 // Moved from hkpcontinuoussimulation_rtm_variant.cpp (VEGAS-15).

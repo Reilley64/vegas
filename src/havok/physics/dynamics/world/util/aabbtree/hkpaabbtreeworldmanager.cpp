@@ -1729,7 +1729,7 @@ void FUN_00d085e0_class::FUN_00d085e0(const hkpWorldRayCastInputD084& input, con
         e->category = str_010cd004;
         _ReadWriteBarrier();
         scratch.tick = (unsigned int)__rdtsc(); e->time = scratch.tick;
-        pTlsBuffer->current = (unsigned char*)(e + 1);
+        pTlsBuffer->current = (unsigned char*)(&e[1]);
     }
 
     void* tls = arg10;
@@ -1753,7 +1753,7 @@ void FUN_00d085e0_class::FUN_00d085e0(const hkpWorldRayCastInputD084& input, con
         p->eventName = str_010ccff4;
         _ReadWriteBarrier();
         scratch.tick = (unsigned int)__rdtsc(); p->time = scratch.tick;
-        pTlsBuffer->current = (unsigned char*)(p + 1);
+        pTlsBuffer->current = (unsigned char*)(&p[1]);
     }
     if (flag24) {
         FUN_00d1bd00(arg0c, input.m_vFrom, input.m_vTo, static_cast<hkpTreeCastCallbackD084*>(&ctx), 1.0f);
@@ -1764,7 +1764,7 @@ void FUN_00d085e0_class::FUN_00d085e0(const hkpWorldRayCastInputD084& input, con
         pTrace12->eventName = ::str_01076f38;
         _ReadWriteBarrier();
         scratch.tick = (unsigned int)__rdtsc(); pTrace12->time = scratch.tick;
-        pTlsBuffer->current = (unsigned char*)(pTrace12 + 1);
+        pTlsBuffer->current = (unsigned char*)(&pTrace12[1]);
     }
 }
 }  // namespace fnv_00d085e0
@@ -2339,7 +2339,7 @@ static __forceinline void mark16(MarkerBuf* buf, char* name, char* name2, volati
         _ReadWriteBarrier();
         *stampOut = (unsigned int)__rdtsc();
         cur->stamp = *stampOut;
-        buf->m_cursor = (char*)(cur + 1);
+        buf->m_cursor = reinterpret_cast<char*>(cur + 1);
     }
 }
 static __forceinline void mark12(MarkerBuf* buf, char* name, volatile unsigned int* stampOut)
@@ -2350,7 +2350,7 @@ static __forceinline void mark12(MarkerBuf* buf, char* name, volatile unsigned i
         _ReadWriteBarrier();
         *stampOut = (unsigned int)__rdtsc();
         cur->stamp = *stampOut;
-        buf->m_cursor = (char*)(cur + 1);
+        buf->m_cursor = reinterpret_cast<char*>(cur + 1);
     }
 }
 
@@ -2556,7 +2556,7 @@ static __forceinline void hkTimerBeginList(const char* name, const char* first) 
         h->m_pCommandName = name;
         h->m_pFirst = first;
         h->setTime();
-        mStream.setEnd((char*)(h + 1));
+        mStream.setEnd(reinterpret_cast<char*>(h + 1));
     }
 }
 static __forceinline void hkTimerSplit(const char* name) {
@@ -2565,7 +2565,7 @@ static __forceinline void hkTimerSplit(const char* name) {
         CommandTimingEntry* h = (CommandTimingEntry*)mStream.GetStreamEnd();
         h->m_pCommandName = name;
         h->setTime();
-        mStream.setEnd((char*)(h + 1));
+        mStream.setEnd(reinterpret_cast<char*>(h + 1));
     }
 }
 static __forceinline void hkAddValue(const char* name, float value) {
@@ -2574,7 +2574,7 @@ static __forceinline void hkAddValue(const char* name, float value) {
         CommandFilterEntry* h = (CommandFilterEntry*)mStream.GetStreamEnd();
         h->m_pCommandName = name;
         h->m_uiFilterValue = value;
-        mStream.setEnd((char*)(h + 1));
+        mStream.setEnd(reinterpret_cast<char*>(h + 1));
     }
 }
 // @fnv 0x00d099d0

@@ -1166,7 +1166,7 @@ __forceinline void D00CA0TimerBegin(const char* name, volatile unsigned int& tic
         D00CA0TimerCommand* h = (D00CA0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -1560,7 +1560,7 @@ __forceinline void D00DE0TimerBegin(const char* name, volatile unsigned int& tic
         D00DE0TimerCommand* h = (D00DE0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -1765,7 +1765,7 @@ __forceinline void D00E80TimerBegin(const char* name, volatile unsigned int& tic
         D00E80TimerCommand* h = (D00E80TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -2489,7 +2489,7 @@ __forceinline void D014F0TimerBegin(const char* name, volatile unsigned int& tic
         D014F0TimerCommand* h = (D014F0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -2690,7 +2690,7 @@ __forceinline void D015A0TimerBegin(const char* name, volatile unsigned int& tic
         D015A0TimerCommand* h = (D015A0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -2888,7 +2888,7 @@ __forceinline void D01650TimerBegin(const char* name, volatile unsigned int& tic
         D01650TimerCommand* h = (D01650TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3171,7 +3171,7 @@ __forceinline void D017B0TimerBegin(const char* name, volatile unsigned int& tic
         D017B0TimerCommand* h = (D017B0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3361,7 +3361,7 @@ __forceinline void D019B0TimerBegin(const char* name, volatile unsigned int& tic
         D019B0TimerCommand* h = (D019B0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3564,7 +3564,7 @@ static inline void TimerWriteV(const char* name, volatile unsigned int& t)
         _ReadWriteBarrier();
         t = (unsigned int)__rdtsc();
         h->m_uiCommandId = t;
-        s->m_cur = (char*)(h + 1);
+        s->m_cur = reinterpret_cast<char*>(h + 1);
     }
 }
 struct ActionListener
@@ -3646,7 +3646,7 @@ __forceinline void D005A0TimerBegin(const char* name, volatile unsigned int& tic
         D005A0TimerCommand* h = (D005A0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3821,7 +3821,7 @@ __forceinline void D00640TimerBegin(const char* name, volatile unsigned int& tic
         D00640TimerCommand* h = (D00640TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3996,7 +3996,7 @@ __forceinline void D00820TimerBegin(const char* name, volatile unsigned int& tic
         D00820TimerCommand* h = (D00820TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -4174,7 +4174,7 @@ __forceinline void D008C0TimerBegin(const char* name, volatile unsigned int& tic
         D008C0TimerCommand* h = (D008C0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 

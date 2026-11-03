@@ -1612,7 +1612,7 @@ struct MonitorStream {
             _ReadWriteBarrier();
             (volatile unsigned int&)ticks = (unsigned int)__rdtsc();
             cmd->time = ticks;
-            end = (char*)(cmd + 1);
+            end = reinterpret_cast<char*>(cmd + 1);
         }
     }
     void list(const char* name, const char* first, unsigned int& ticks) {
@@ -1623,7 +1623,7 @@ struct MonitorStream {
             _ReadWriteBarrier();
             (volatile unsigned int&)ticks = (unsigned int)__rdtsc();
             cmd->time = ticks;
-            end = (char*)(cmd + 1);
+            end = reinterpret_cast<char*>(cmd + 1);
         }
     }
 };
@@ -1928,7 +1928,7 @@ int SimLocal::FUN_00cf9340(float physicsDeltaTime)
         _ReadWriteBarrier();
         t = (unsigned int)__rdtsc();
         h->m_ticks = t;
-        monStream.m_kRayEnd = (char*)(h + 1);
+        monStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 
     m_fStepDeltaTime = physicsDeltaTime;
@@ -1951,7 +1951,7 @@ int SimLocal::FUN_00cf9340(float physicsDeltaTime)
         _ReadWriteBarrier();
         t = (unsigned int)__rdtsc();
         pTimerCmd2->m_ticks = t;
-        monStream2.m_kRayEnd = (char*)(pTimerCmd2 + 1);
+        monStream2.m_kRayEnd = reinterpret_cast<char*>(pTimerCmd2 + 1);
     }
 
     return result;

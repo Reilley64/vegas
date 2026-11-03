@@ -1305,7 +1305,7 @@ struct MonStream
             h->m_iFieldAfterHasHit = s;
             volatile unsigned int t = (unsigned int)__rdtsc();
             h->m_uiStartTicks = t;
-            m_kRayEnd = (char*)(h + 1);
+            m_kRayEnd = reinterpret_cast<char*>(h + 1);
         }
     }
 };
@@ -1887,7 +1887,7 @@ void PhantomS::FUN_00cf2880(const CollidableS* collA, const LinCastInputS& input
             _ReadWriteBarrier();
             *(volatile unsigned int*)&sh.tick = (unsigned int)__rdtsc();
             h->m_uiStartTicks = *(volatile unsigned int*)&sh.tick;
-            ms->m_kRayEnd = (char*)(h + 1);
+            ms->m_kRayEnd = reinterpret_cast<char*>(h + 1);
         }
     }
     __m128 path = _mm_sub_ps(*reinterpret_cast<const __m128*>(&input.m_vTo),
@@ -1926,7 +1926,7 @@ void PhantomS::FUN_00cf2880(const CollidableS* collA, const LinCastInputS& input
             _ReadWriteBarrier();
             *(volatile unsigned int*)&sh.tick = (unsigned int)__rdtsc();
             h->m_uiStartTicks = *(volatile unsigned int*)&sh.tick;
-            ms->m_kRayEnd = (char*)(h + 1);
+            ms->m_kRayEnd = reinterpret_cast<char*>(h + 1);
         }
     }
 }
@@ -2053,7 +2053,7 @@ void Phantom_00cf2510::FUN_00cf2510(const WorldRayCastInput& input, PhRayHitColl
             _ReadWriteBarrier();
             volatile unsigned int t = (unsigned int)__rdtsc();
             h->m_uiStartTicks = t;
-            mStream.m_commandPtr = (char*)(h + 1);
+            mStream.m_commandPtr = reinterpret_cast<char*>(h + 1);
         }
     }
 
@@ -2089,7 +2089,7 @@ void Phantom_00cf2510::FUN_00cf2510(const WorldRayCastInput& input, PhRayHitColl
             _ReadWriteBarrier();
             volatile unsigned int t = (unsigned int)__rdtsc();
             h->m_uiStartTicks = t;
-            mStream.m_commandPtr = (char*)(h + 1);
+            mStream.m_commandPtr = reinterpret_cast<char*>(h + 1);
         }
     }
 }

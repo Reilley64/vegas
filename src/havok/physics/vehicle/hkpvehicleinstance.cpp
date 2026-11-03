@@ -801,7 +801,7 @@ void VUC_StepInstance::FUN_00e39030(const VUC_StepInfo& stepInfo, void* det)
         _ReadWriteBarrier();
         volatile unsigned int ticks = (unsigned int)__rdtsc();
         t->m_ticks = ticks;
-        mon->m_kRayEnd = (char*)(t + 1);
+        mon->m_kRayEnd = reinterpret_cast<char*>(t + 1);
     }
 
     VUC_StepLocals stepLocals;
@@ -825,7 +825,7 @@ void VUC_StepInstance::FUN_00e39030(const VUC_StepInfo& stepInfo, void* det)
         _ReadWriteBarrier();
         volatile unsigned int ticks = (unsigned int)__rdtsc();
         t->m_ticks = ticks;
-        mon->m_kRayEnd = (char*)(t + 1);
+        mon->m_kRayEnd = reinterpret_cast<char*>(t + 1);
     }
 
     VUC_ReleaseArray(totalLinearForceAtWheel);
@@ -3036,7 +3036,7 @@ void VUC_Instance::UpdateVehicleComponents(const VUC_StepInfo& stepInfo, void* d
             _ReadWriteBarrier();
             volatile unsigned int ticks = (unsigned int)__rdtsc();
             pTimer->m_ticks = ticks;
-            m->m_kRayEnd = (char*)(pTimer + 1);
+            m->m_kRayEnd = reinterpret_cast<char*>(pTimer + 1);
         }
     }
 
@@ -3082,7 +3082,7 @@ void VUC_Instance::UpdateVehicleComponents(const VUC_StepInfo& stepInfo, void* d
             _ReadWriteBarrier();
             volatile unsigned int ticks = (unsigned int)__rdtsc();
             pTimer->m_ticks = ticks;
-            m->m_kRayEnd = (char*)(pTimer + 1);
+            m->m_kRayEnd = reinterpret_cast<char*>(pTimer + 1);
         }
     }
 }
@@ -5022,7 +5022,7 @@ void VUBCD_Instance::FUN_00e37940()
         unsigned int ticks;
         ticks = static_cast<unsigned int>(__rdtsc());
         h->m_ticks = ticks;
-        s->m_kRayEnd = (char*)(h + 1);
+        s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
     const VUBCD_Vec& carTransform = static_cast<VUBCD_Entity*>(static_cast<void*>(m_pEntity))->m_kMotionTransform;
     for (int w = 0; w < static_cast<VUC_Data*>(static_cast<void*>(m_data))->m_iWheelCount; w++) {
@@ -5040,7 +5040,7 @@ void VUBCD_Instance::FUN_00e37940()
         unsigned int ticks;
         ticks = static_cast<unsigned int>(__rdtsc());
         h->m_ticks = ticks;
-        s->m_kRayEnd = (char*)(h + 1);
+        s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 

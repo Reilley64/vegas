@@ -190,7 +190,7 @@ struct VRMonitorStream
             CommandTimingEntry* h = (CommandTimingEntry*)m_kRayEnd;
             h->m_pCommandName = name;
             h->setTime();
-            m_kRayEnd = (char*)(h + 1);
+            m_kRayEnd = reinterpret_cast<char*>(h + 1);
         }
     }
 };

@@ -1523,7 +1523,7 @@ redoElemTemp:
                 S88b50_AddValueCommand* h = (S88b50_AddValueCommand*)mStream.GetStreamEnd();
                 h->m_pCommandName = str_010d3d70;
                 h->m_uiFilterValue = (float)island.m_iSolverResultCount;
-                mStream.setEnd((char*)(h + 1));
+                mStream.setEnd(reinterpret_cast<char*>(h + 1));
             }
         }
         {
@@ -1533,7 +1533,7 @@ redoElemTemp:
                 S88b50_AddValueCommand* h = (S88b50_AddValueCommand*)mStream.GetStreamEnd();
                 h->m_pCommandName = str_010d3d60;
                 h->m_uiFilterValue = (float)numBodies;
-                mStream.setEnd((char*)(h + 1));
+                mStream.setEnd(reinterpret_cast<char*>(h + 1));
             }
         }
         if (solveResult == 1)

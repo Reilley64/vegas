@@ -760,7 +760,7 @@ __forceinline void CFFCF0TimerBegin(const char* name, volatile unsigned int& tic
         CFFCF0TimerCommand* h = (CFFCF0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -1039,7 +1039,7 @@ static inline void TimerWriteV(const char* name, volatile unsigned int& t)
         _ReadWriteBarrier();
         t = (unsigned int)__rdtsc();
         h->m_uiCommandId = t;
-        s->m_cur = (char*)(h + 1);
+        s->m_cur = reinterpret_cast<char*>(h + 1);
     }
 }
 struct ContactListener

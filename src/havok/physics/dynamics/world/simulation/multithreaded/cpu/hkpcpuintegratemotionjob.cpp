@@ -57,7 +57,7 @@ static inline void S_00d943d0_TimerBeginList(const char* name, const char* split
         h->m_pFirst = split;
         _ReadWriteBarrier();
         h->setTime();
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -70,7 +70,7 @@ static inline void S_00d943d0_Timer(const char* name)
         h->m_pCommandName = name;
         _ReadWriteBarrier();
         h->setTime();
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 

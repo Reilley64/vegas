@@ -642,7 +642,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
             DWORD ticks;
             ticks = static_cast<unsigned int>(__rdtsc());
             event->m_uiStartTicks=ticks;
-            stream.setEnd((char*)(event+1));
+            stream.setEnd(reinterpret_cast<char*>(event + 1));
         }
     }
     {
@@ -700,7 +700,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
             MonitorStream::CommandFilterEntry* event = reinterpret_cast<MonitorStream::CommandFilterEntry*>(stream.GetStreamEnd());
             event->m_pCommandName = str_010d3d60;
             event->m_uiFilterValue = (float)bodyCount;
-            stream.setEnd((char*)(event+1));
+            stream.setEnd(reinterpret_cast<char*>(event + 1));
         }
     }
     {
@@ -710,7 +710,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
             SceneIsland* valueOwner=island.p;
             event->m_pCommandName = str_010d3f08;
             event->m_uiFilterValue = (float)valueOwner->m_iConstraintCount;
-            stream.setEnd((char*)(event+1));
+            stream.setEnd(reinterpret_cast<char*>(event + 1));
         }
     }
     {
@@ -720,7 +720,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
             SceneIsland* valueOwner=island.p;
             event->m_pCommandName = str_010d3d70;
             event->m_uiFilterValue = (float)valueOwner->m_kConstraintInfo.m_iSolverResultCount;
-            stream.setEnd((char*)(event+1));
+            stream.setEnd(reinterpret_cast<char*>(event + 1));
         }
     }
     JobHeader* flagHeader=bytesCopy(header);
@@ -809,7 +809,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
             DWORD ticks;
             ticks = static_cast<unsigned int>(__rdtsc());
             event->m_uiStartTicks=ticks;
-            stream.setEnd((char*)(event+1));
+            stream.setEnd(reinterpret_cast<char*>(event + 1));
         }
     }
     }
@@ -1256,7 +1256,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
             ev->tag = ::str_010cc5c4;
             ev->splitTag = ::str_010cc5bc;
             ev->setTime();
-            stream.setEnd((char*)(ev + 1));
+            stream.setEnd(reinterpret_cast<char*>(ev + 1));
         }
     }
 
@@ -1271,7 +1271,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
                 MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
                 ev->tag = (*reinterpret_cast<const char (*)[]>(&::DAT_010cc5b0));
                 ev->setTime();
-                stream.setEnd((char*)(ev + 1));
+                stream.setEnd(reinterpret_cast<char*>(ev + 1));
             }
         }
         for (int j = 0; j < observers.GetLogicalSize(); j++)
@@ -1293,7 +1293,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
             MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
             ev->tag = DAT_010d3f64;
             ev->setTime();
-            stream.setEnd((char*)(ev + 1));
+            stream.setEnd(reinterpret_cast<char*>(ev + 1));
         }
     }
 
@@ -1319,7 +1319,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
             MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
             ev->tag = DAT_010d3f54;
             ev->setTime();
-            stream.setEnd((char*)(ev + 1));
+            stream.setEnd(reinterpret_cast<char*>(ev + 1));
         }
     }
 
@@ -1393,7 +1393,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
                     MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
                     ev->tag = ::str_01076f38;
                     ev->setTime();
-                    stream.setEnd((char*)(ev + 1));
+                    stream.setEnd(reinterpret_cast<char*>(ev + 1));
                 }
             }
 
@@ -1415,7 +1415,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
                 MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
                 ev->tag = DAT_010d3f48;
                 ev->setTime();
-                stream.setEnd((char*)(ev + 1));
+                stream.setEnd(reinterpret_cast<char*>(ev + 1));
             }
         }
         int inactiveFrames = ::ApplyForcesStepPrivate::FUN_00d28a30({(const ::ApplyForcesStepPrivate::SolverInfo *)(&stepCtx.solver)}, (const ::ApplyForcesStepPrivate::TimeInterval *)(&stepCtx.timing), {(const ::ApplyForcesStepPrivate::Vec *)(&stepCtx.gravityStep)}, {(::ApplyForcesStepPrivate::Motion **)(island->GetEntities().begin())}, island->GetEntities().GetLogicalSize(), 0xe0);
@@ -1437,7 +1437,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
                 MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
                 ev->tag = DAT_010d3f38;
                 ev->setTime();
-                stream.setEnd((char*)(ev + 1));
+                stream.setEnd(reinterpret_cast<char*>(ev + 1));
             }
         }
         {
@@ -1463,7 +1463,7 @@ FINISH_BROAD_PHASE:
                 MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
                 ev->tag = ::str_01076f38;
                 ev->setTime();
-                stream.setEnd((char*)(ev + 1));
+                stream.setEnd(reinterpret_cast<char*>(ev + 1));
             }
         }
         header->exportFinished = true;
@@ -1482,7 +1482,7 @@ FINISH_BROAD_PHASE:
                 MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
                 ev->tag = DAT_010d3f2c;
                 ev->setTime();
-                stream.setEnd((char*)(ev + 1));
+                stream.setEnd(reinterpret_cast<char*>(ev + 1));
             }
         }
         ::FUN_00d883c0((const ::S883_Island &)(*island), buffer, bufferSize, (::S883_TaskHeader &)(*header));
@@ -1517,7 +1517,7 @@ FINISH_BROAD_PHASE:
                 MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
                 ev->tag = ::str_01076f38;
                 ev->setTime();
-                stream.setEnd((char*)(ev + 1));
+                stream.setEnd(reinterpret_cast<char*>(ev + 1));
             }
         }
         header->tasks = outBuilds;

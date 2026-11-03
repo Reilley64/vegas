@@ -630,10 +630,244 @@ struct FUN_009b7cc0_shell
 int DAT_011f2250;
 struct Big;
 struct Str;
-struct Sub;
-struct V;
-namespace fnv_009b90b0
+namespace fnv_009b90b0 {
+
+struct Obj;
+struct Big;
+struct V9;
+
+struct V
 {
+    float x;
+    float y;
+    float z;
+    void FUN_0062aea0();
+};
+
+struct V5
+{
+    float a;
+    float b;
+    float c;
+    float d;
+    float e;
+    void FUN_0062aea0();
+};
+
+struct V6
+{
+    V5 q;
+    float f;
+};
+
+struct V9
+{
+    float m00;
+    float m01;
+    float m02;
+    float m10;
+    float m11;
+    float m12;
+    float m20;
+    float m21;
+    float m22;
+    V9* FUN_0043f8d0(V9* out, V9* b);
+};
+
+struct Xform
+{
+    V9 rot;
+    V pos;
+    float scale;
+    Xform* FUN_0062c250(Xform* out, Xform* b);
+    V* FUN_00524c40(V* out, V* b);
+};
+
+struct Vec3
+{
+    float x;
+    int y;
+    int z;
+};
+
+struct Str
+{
+    int p;
+    Str(int s);
+    ~Str();
+};
+
+struct Ctrl
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    Ctrl(float f);
+    ~Ctrl();
+};
+
+struct Item
+{
+    unsigned char unk00;
+    unsigned char unk01;
+};
+
+struct Arr
+{
+    Item** FUN_00877a30(unsigned int i);
+};
+
+struct Rec
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+};
+
+struct List
+{
+};
+
+struct ListH
+{
+};
+
+struct Big
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    void FUN_004a3f70(int a);
+};
+
+struct __declspec(align(16)) Res
+{
+    int unk00[200];
+    Res();
+    ~Res();
+};
+
+void* FUN_00aa13e0(unsigned int n);
+
+struct Path
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    Path();
+    ~Path();
+};
+
+struct PathRef
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    PathRef(Path* p);
+};
+
+struct Name
+{
+    char buf[64];
+    Name(int a);
+};
+
+struct Color
+{
+    float r;
+    float g;
+    float b;
+    float a;
+};
+
+struct Handle
+{
+    int val;
+};
+
+struct HandleSrc
+{
+    int val;
+};
+
+struct Sub
+{
+    int unk00;
+    bool FUN_008256d0();
+};
+
 struct Actor
 {
     virtual void v000();
@@ -907,8 +1141,232 @@ struct Actor
 
     void FUN_009b90b0();
 };
-}
 
+struct Obj
+{
+    virtual void v000();
+    virtual void v001();
+    virtual void v002();
+    virtual Obj* vfc();
+    virtual void v004();
+    virtual void v005();
+    virtual void v006();
+    virtual void v007();
+    virtual void v008();
+    virtual void v009();
+    virtual void v010();
+    virtual void v011();
+    virtual void v012();
+    virtual void v013();
+    virtual void v014();
+    virtual void v015();
+    virtual void v016();
+    virtual void v017();
+    virtual void v018();
+    virtual void v019();
+    virtual void v020();
+    virtual void v021();
+    virtual void v022();
+    virtual void v023();
+    virtual void v024();
+    virtual void v025();
+    virtual void v026();
+    virtual void v027();
+    virtual void v028();
+    virtual void v029();
+    virtual void v030();
+    virtual void v031();
+    virtual void v032();
+    virtual void v033();
+    virtual void v034();
+    virtual void v035();
+    virtual void v036();
+    virtual void v037();
+    virtual void v038();
+    virtual Obj* vf9c(const Str& s);
+    virtual void v040();
+    virtual void v041();
+    virtual void v042();
+    virtual void v043();
+    virtual void v044();
+    virtual void v045();
+    virtual void vfb8(V* v);
+    virtual void v047();
+    virtual void v048();
+    virtual void v049();
+    virtual void vfc8(Big* b);
+    virtual void v051();
+    virtual void vfd0(Obj* a, int b, int c, int d, int e);
+    virtual void v053();
+    virtual void v054();
+    virtual void vfdc(Obj* a, int b);
+    virtual void v056();
+    virtual void v057();
+    virtual void v058();
+    virtual void v059();
+    virtual void v060();
+    virtual void v061();
+    virtual void v062();
+    virtual void v063();
+    virtual bool vf100();
+    virtual void v065();
+    virtual void v066();
+    virtual void v067();
+    virtual void v068();
+    virtual void v069();
+    virtual void v070();
+    virtual void v071();
+    virtual void v072();
+    virtual void v073();
+    virtual void v074();
+    virtual void v075();
+    virtual void v076();
+    virtual void v077();
+    virtual void v078();
+    virtual void v079();
+    virtual void v080();
+    virtual void v081();
+    virtual void v082();
+    virtual void v083();
+    virtual void v084();
+    virtual void v085();
+    virtual void v086();
+    virtual void v087();
+    virtual void v088();
+    virtual void v089();
+    virtual void v090();
+    virtual void v091();
+    virtual void v092();
+    virtual void v093();
+    virtual void v094();
+    virtual void v095();
+    virtual void v096();
+    virtual void v097();
+    virtual void v098();
+    virtual void v099();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual void v105();
+    virtual void v106();
+    virtual void v107();
+    virtual void v108();
+    virtual void v109();
+    virtual void v110();
+    virtual void v111();
+    virtual void v112();
+    virtual void v113();
+    virtual void v114();
+    virtual void v115();
+    virtual Obj* vf1d0();
+    virtual void v117();
+    virtual void v118();
+    virtual void v119();
+    virtual void v120();
+    virtual void v121();
+    virtual void v122();
+    virtual void v123();
+    virtual void v124();
+    virtual V* vf1f4();
+    virtual void v126();
+    virtual void v127();
+    virtual void v128();
+    virtual void v129();
+    virtual void v130();
+    virtual void v131();
+    virtual void v132();
+    virtual void v133();
+    virtual void v134();
+    virtual void v135();
+    virtual void v136();
+    virtual void v137();
+    virtual void v138();
+    virtual void v139();
+    virtual void v140();
+    virtual void v141();
+    virtual void v142();
+    virtual void v143();
+    virtual void v144();
+    virtual void v145();
+    virtual void v146();
+    virtual void v147();
+    virtual void v148();
+    virtual void v149();
+    virtual void v150();
+    virtual void v151();
+    virtual void v152();
+    virtual void v153();
+    virtual void v154();
+    virtual void v155();
+    virtual void v156();
+    virtual void v157();
+    virtual void v158();
+    virtual void v159();
+    virtual void v160();
+    virtual void v161();
+    virtual void v162();
+    virtual void v163();
+    virtual void v164();
+    virtual void v165();
+    virtual void v166();
+    virtual void v167();
+    virtual void v168();
+    virtual void vf2a4();
+    virtual void v170();
+    virtual void v171();
+    virtual void v172();
+    virtual void v173();
+    virtual void v174();
+    virtual float vf2bc(int a);
+    void RemoveLimb(int a);
+    unsigned int FUN_0043b480();
+    HandleSrc* FUN_0070c440(int* out);
+    HandleSrc* FUN_00931ed0(int* out);
+    Obj* FUN_0043b4f0(int* out);
+    void FUN_00c6e390(V5* v);
+};
+
+struct Owner
+{
+    Obj* unk00;
+    V unk04;
+    int pad10;
+    int pad14;
+    int pad18;
+    int pad1C;
+    int pad20;
+    int unk24;
+    unsigned char unk28;
+};
+
+struct Holder
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    Arr unk20;
+};
+
+struct Glob
+{
+};
+
+
+
+
+struct VRes
+{
+    void FUN_0053d280();
+};
+
+}  // namespace fnv_009b90b0
 // Computes flags from the actor base's pathing/target state and the global flags, then sets each beam flag via FUN_005de0a0 and calls FUN_009bda10.
 // @fnv 0x009b7cc0
 void FUN_009b7cc0_shell::UpdateBeamFlags()
@@ -3482,468 +3940,9 @@ bool FUN_00c6a0b0(NiAVObject* pkObject, bool bValue, bool bRecurse, bool bForce)
 
 extern __declspec(thread) TlsBlock_t g_tlsBlock;
 
+#include "generated/data/fallout/ai/combat/missileprojectile_o2_variant.inc"
+
 namespace fnv_009b90b0 {
-
-struct Obj;
-struct Big;
-struct V9;
-
-struct V
-{
-    float x;
-    float y;
-    float z;
-    void FUN_0062aea0();
-};
-
-struct V5
-{
-    float a;
-    float b;
-    float c;
-    float d;
-    float e;
-    void FUN_0062aea0();
-};
-
-struct V6
-{
-    V5 q;
-    float f;
-};
-
-struct V9
-{
-    float m00;
-    float m01;
-    float m02;
-    float m10;
-    float m11;
-    float m12;
-    float m20;
-    float m21;
-    float m22;
-    V9* FUN_0043f8d0(V9* out, V9* b);
-};
-
-struct Xform
-{
-    V9 rot;
-    V pos;
-    float scale;
-    Xform* FUN_0062c250(Xform* out, Xform* b);
-    V* FUN_00524c40(V* out, V* b);
-};
-
-struct Vec3
-{
-    float x;
-    int y;
-    int z;
-};
-
-struct Str
-{
-    int p;
-    Str(int s);
-    ~Str();
-};
-
-struct Ctrl
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    Ctrl(float f);
-    ~Ctrl();
-};
-
-struct Item
-{
-    unsigned char unk00;
-    unsigned char unk01;
-};
-
-struct Arr
-{
-    Item** FUN_00877a30(unsigned int i);
-};
-
-struct Rec
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-};
-
-struct List
-{
-};
-
-struct ListH
-{
-};
-
-struct Big
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    void FUN_004a3f70(int a);
-};
-
-struct __declspec(align(16)) Res
-{
-    int unk00[200];
-    Res();
-    ~Res();
-};
-
-void* FUN_00aa13e0(unsigned int n);
-
-struct Path
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    Path();
-    ~Path();
-};
-
-struct PathRef
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    PathRef(Path* p);
-};
-
-struct Name
-{
-    char buf[64];
-    Name(int a);
-};
-
-struct Color
-{
-    float r;
-    float g;
-    float b;
-    float a;
-};
-
-struct Handle
-{
-    int val;
-};
-
-struct HandleSrc
-{
-    int val;
-};
-
-struct Sub
-{
-    int unk00;
-    bool FUN_008256d0();
-};
-
-struct Obj
-{
-    virtual void v000();
-    virtual void v001();
-    virtual void v002();
-    virtual Obj* vfc();
-    virtual void v004();
-    virtual void v005();
-    virtual void v006();
-    virtual void v007();
-    virtual void v008();
-    virtual void v009();
-    virtual void v010();
-    virtual void v011();
-    virtual void v012();
-    virtual void v013();
-    virtual void v014();
-    virtual void v015();
-    virtual void v016();
-    virtual void v017();
-    virtual void v018();
-    virtual void v019();
-    virtual void v020();
-    virtual void v021();
-    virtual void v022();
-    virtual void v023();
-    virtual void v024();
-    virtual void v025();
-    virtual void v026();
-    virtual void v027();
-    virtual void v028();
-    virtual void v029();
-    virtual void v030();
-    virtual void v031();
-    virtual void v032();
-    virtual void v033();
-    virtual void v034();
-    virtual void v035();
-    virtual void v036();
-    virtual void v037();
-    virtual void v038();
-    virtual Obj* vf9c(const Str& s);
-    virtual void v040();
-    virtual void v041();
-    virtual void v042();
-    virtual void v043();
-    virtual void v044();
-    virtual void v045();
-    virtual void vfb8(V* v);
-    virtual void v047();
-    virtual void v048();
-    virtual void v049();
-    virtual void vfc8(Big* b);
-    virtual void v051();
-    virtual void vfd0(Obj* a, int b, int c, int d, int e);
-    virtual void v053();
-    virtual void v054();
-    virtual void vfdc(Obj* a, int b);
-    virtual void v056();
-    virtual void v057();
-    virtual void v058();
-    virtual void v059();
-    virtual void v060();
-    virtual void v061();
-    virtual void v062();
-    virtual void v063();
-    virtual bool vf100();
-    virtual void v065();
-    virtual void v066();
-    virtual void v067();
-    virtual void v068();
-    virtual void v069();
-    virtual void v070();
-    virtual void v071();
-    virtual void v072();
-    virtual void v073();
-    virtual void v074();
-    virtual void v075();
-    virtual void v076();
-    virtual void v077();
-    virtual void v078();
-    virtual void v079();
-    virtual void v080();
-    virtual void v081();
-    virtual void v082();
-    virtual void v083();
-    virtual void v084();
-    virtual void v085();
-    virtual void v086();
-    virtual void v087();
-    virtual void v088();
-    virtual void v089();
-    virtual void v090();
-    virtual void v091();
-    virtual void v092();
-    virtual void v093();
-    virtual void v094();
-    virtual void v095();
-    virtual void v096();
-    virtual void v097();
-    virtual void v098();
-    virtual void v099();
-    virtual void v100();
-    virtual void v101();
-    virtual void v102();
-    virtual void v103();
-    virtual void v104();
-    virtual void v105();
-    virtual void v106();
-    virtual void v107();
-    virtual void v108();
-    virtual void v109();
-    virtual void v110();
-    virtual void v111();
-    virtual void v112();
-    virtual void v113();
-    virtual void v114();
-    virtual void v115();
-    virtual Obj* vf1d0();
-    virtual void v117();
-    virtual void v118();
-    virtual void v119();
-    virtual void v120();
-    virtual void v121();
-    virtual void v122();
-    virtual void v123();
-    virtual void v124();
-    virtual V* vf1f4();
-    virtual void v126();
-    virtual void v127();
-    virtual void v128();
-    virtual void v129();
-    virtual void v130();
-    virtual void v131();
-    virtual void v132();
-    virtual void v133();
-    virtual void v134();
-    virtual void v135();
-    virtual void v136();
-    virtual void v137();
-    virtual void v138();
-    virtual void v139();
-    virtual void v140();
-    virtual void v141();
-    virtual void v142();
-    virtual void v143();
-    virtual void v144();
-    virtual void v145();
-    virtual void v146();
-    virtual void v147();
-    virtual void v148();
-    virtual void v149();
-    virtual void v150();
-    virtual void v151();
-    virtual void v152();
-    virtual void v153();
-    virtual void v154();
-    virtual void v155();
-    virtual void v156();
-    virtual void v157();
-    virtual void v158();
-    virtual void v159();
-    virtual void v160();
-    virtual void v161();
-    virtual void v162();
-    virtual void v163();
-    virtual void v164();
-    virtual void v165();
-    virtual void v166();
-    virtual void v167();
-    virtual void v168();
-    virtual void vf2a4();
-    virtual void v170();
-    virtual void v171();
-    virtual void v172();
-    virtual void v173();
-    virtual void v174();
-    virtual float vf2bc(int a);
-    void RemoveLimb(int a);
-    unsigned int FUN_0043b480();
-    HandleSrc* FUN_0070c440(int* out);
-    HandleSrc* FUN_00931ed0(int* out);
-    Obj* FUN_0043b4f0(int* out);
-    void FUN_00c6e390(V5* v);
-};
-
-struct Owner
-{
-    Obj* unk00;
-    V unk04;
-    int pad10;
-    int pad14;
-    int pad18;
-    int pad1C;
-    int pad20;
-    int unk24;
-    unsigned char unk28;
-};
-
-struct Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    Arr unk20;
-};
-
-struct Glob
-{
-};
-
-
-
-
-struct VRes
-{
-    void FUN_0053d280();
-};
-
 // @fnv 0x009b90b0
 void Actor::FUN_009b90b0()
 {
@@ -4232,4 +4231,3 @@ void Actor::FUN_009b90b0()
 }
 }  // namespace fnv_009b90b0
 #include "generated/data/fallout/ai/combat/missileprojectile.inc"
-#include "generated/data/fallout/ai/combat/missileprojectile_o2_variant.inc"

@@ -11,7 +11,7 @@ public:
     // 0x00527080
     ::BSExtraData *GetExtraData(unsigned char) const;
     // 0x00546a90
-    static ::BGSEncounterZone *FindEncounterZone();
+    static ::BGSEncounterZone *FUN_00546a90();
     // 0x00567d20
     ::BGSEncounterZone *FindEncounterZone();
     // 0x00568e50

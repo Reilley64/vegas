@@ -475,8 +475,18 @@ void FUN_00ad87d0_Class::FUN_00ad87d0()
 
 char* __cdecl FUN_00ec34d4();
 
+struct FUN_00ad3a10_Locimp
+{
+    void* vtbl;
+    std::size_t m_uiRefs;
+    uintptr_t* m_puiFacetvec;
+    unsigned int m_uiFacetcount;
+    int m_iCatmask;
+    bool m_bXparent;
+};
 struct FUN_00ad3a10_Class
 {
+    FUN_00ad3a10_Locimp* m_pLocimp;
     intptr_t GetEntryAt(int a);
 };
 
@@ -486,15 +496,16 @@ intptr_t FUN_00ad3a10_Class::GetEntryAt(int aiIndex)
 {
     uintptr_t v;
     char* r;
-    v = (aiIndex < *(unsigned int*)((char*)*(void**)((char*)this + 0) + 0xc))
-            ? (*(uintptr_t**)((char*)*(void**)((char*)this + 0) + 8))[aiIndex]
+    v = (aiIndex < m_pLocimp->m_uiFacetcount)
+            ? m_pLocimp->m_puiFacetvec[aiIndex]
             : 0;
-    if (v || !*(unsigned char*)((char*)*(void**)((char*)this + 0) + 0x14))
+    if (v || !m_pLocimp->m_bXparent)
         return v;
     else
     {
         r = FUN_00ec34d4();
-        return (aiIndex < *(unsigned int*)((char*)r + 0xc)) ? (*(uintptr_t**)((char*)r + 8))[aiIndex] : 0;
+        FUN_00ad3a10_Locimp* pGlobal = (FUN_00ad3a10_Locimp*)r;
+        return (aiIndex < pGlobal->m_uiFacetcount) ? pGlobal->m_puiFacetvec[aiIndex] : 0;
     }
 }
 
@@ -690,38 +701,41 @@ FUN_00ad3ee0::FUN_00ad3ee0(int aiFlags)
 }
 
 char __cdecl FUN_00ec379c(char, char*);
+struct FUN_00ad3f20_Ctypevec
+{
+    unsigned long m_ulHand;
+    unsigned int m_uiPage;
+    const short* m_psTable;
+    int m_iDelfl;
+};
 struct FUN_00ad3f20_Class
 {
-    int m_iWordAt00;
-    int m_iWordAt04;
+    void* vtbl;
+    std::size_t m_uiRefs;
+    FUN_00ad3f20_Ctypevec m_kCtype;
     char FUN_00ad3f20(char c);
 };
-// Calls FUN_00ec379c with c and a pointer to this object's offset 8, returning its result.
+// Calls FUN_00ec379c with c and a pointer to this object's ctype table, returning its result.
 // @fnv 0x00ad3f20
 char FUN_00ad3f20_Class::FUN_00ad3f20(char acChar)
 {
-    return FUN_00ec379c(acChar, (char*)this + 8);
+    return FUN_00ec379c(acChar, (char*)&m_kCtype);
 }
 
 extern "C" char __cdecl FUN_00ec3909(char, char*);
 
 struct FUN_00ad3f90_Class
 {
-    char m0;
-    char m1;
-    char m2;
-    char m3;
-    char m4;
-    char m5;
-    char m6;
-    char m7;
+    void* vtbl;
+    std::size_t m_uiRefs;
+    FUN_00ad3f20_Ctypevec m_kCtype;
     char FUN_00ad3f90(char c);
 };
 
 // @fnv 0x00ad3f90
 char FUN_00ad3f90_Class::FUN_00ad3f90(char acValue)
 {
-    return FUN_00ec3909(acValue, (char*)this + 8);
+    return FUN_00ec3909(acValue, (char*)&m_kCtype);
 }
 
 struct FUN_00ad56e0_class
@@ -2543,25 +2557,26 @@ bool FUN_00aced20_cls::FUN_00aced20(unsigned int count)
 
 struct S_00acfb90_Class
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
+    void* vptr;
+    void* mylock;
+    char* gfirst;
+    char* pfirst;
+    char** igfirst;
+    char** ipfirst;
+    char* gnext;
+    char* pnext;
+    char** ignext;
+    char** ipnext;
+    int gcount;
+    int pcount;
+    int* igcount;
+    int* ipcount;
+    void* plocale;
     intptr_t unk3c;
-    int unk40;
+    char mychar;
+    bool wrotesome;
     int unk44;
-    int unk48;
+    bool closef;
     void* unk4c;
 
     bool FUN_00acfcd0();
@@ -4879,33 +4894,6 @@ struct CStream
     char* ptr;
     int cnt;
     char* base;
-};
-
-// basic_filebuf<char> tail. _State is mbstate_t (int); _Closef is bool so
-// `_Closef = (_Which == _Openfl)` zero-extends with xor/sete.
-struct FileBufFields
-{
-    int vptr;
-    int mylock;
-    int gfirst;
-    int pfirst;
-    int igfirst;
-    int ipfirst;
-    int gnext;
-    int m_pActionSuccessor;
-    int ignext;
-    int ipnext;
-    int gcount;
-    int pcount;
-    int igcount;
-    int ipcount;
-    int plocale;
-    int pcvt;
-    char mychar;
-    char wrotesome;
-    int state;
-    bool closef;
-    void* myfile;
 };
 
 enum FileInitKind
@@ -27344,8 +27332,8 @@ void S_00acfb90_Class::FUN_00acfc10(intptr_t apStream, int aiInitKind)
     intptr_t t0;
     intptr_t t2;
 
-    ((FileBufFields*)this)->closef = ((FileInitKind)aiInitKind == FileOpen);
-    ((FileBufFields*)this)->wrotesome = false;
+    closef = ((FileInitKind)aiInitKind == FileOpen);
+    wrotesome = false;
 
     reinterpret_cast<::S00ad0720_Obj *>((reinterpret_cast<FUN_00acda10_cls*>(this)))->FUN_00ad0720();
 
@@ -27356,17 +27344,17 @@ void S_00acfb90_Class::FUN_00acfc10(intptr_t apStream, int aiInitKind)
         t0 = (intptr_t)&((CStream*)apStream)->cnt;
         t2 = (intptr_t)&((CStream*)apStream)->cnt;
 
-        ((FileBufFields*)this)->igfirst = t3;
-        ((FileBufFields*)this)->ipfirst = t3;
-        ((FileBufFields*)this)->ignext = t1;
-        ((FileBufFields*)this)->ipnext = t1;
-        ((FileBufFields*)this)->igcount = t0;
-        ((FileBufFields*)this)->ipcount = t2;
+        igfirst = (char**)t3;
+        ipfirst = (char**)t3;
+        ignext = (char**)t1;
+        ipnext = (char**)t1;
+        igcount = (int*)t0;
+        ipcount = (int*)t2;
     }
 
-    ((FileBufFields*)this)->myfile = (void*)apStream;
-    ((FileBufFields*)this)->state = DAT_011f6d8c;
-    ((FileBufFields*)this)->pcvt = 0;
+    unk4c = (void*)apStream;
+    unk44 = DAT_011f6d8c;
+    unk3c = 0;
 }
 
 // @fnv 0x00ad0630
@@ -34974,7 +34962,7 @@ struct CvtQ
 // @fnv 0x00acfcd0
 bool S_00acfb90_Class::FUN_00acfcd0()
 {
-    if (unk3c == 0 || !*(bool*)((char*)this + 0x41))
+    if (unk3c == 0 || !wrotesome)
         return true;
     else
     {
@@ -34984,15 +34972,15 @@ bool S_00acfb90_Class::FUN_00acfcd0()
             return false;
         Str8Q _Str(_STRING_INC, '\0');
         for (;;)
-            switch (((CvtQ*)unk3c)->unshift(*(int*)&unk44, &*_Str.begin(), &*_Str.begin() + _Str.size(), _Dest))
+            switch (((CvtQ*)unk3c)->unshift(unk44, &*_Str.begin(), &*_Str.begin() + _Str.size(), _Dest))
             {
             case 0:
-                *(bool*)((char*)this + 0x41) = false;
+                wrotesome = false;
             case 1: {
                 unsigned int _Count = _Dest - &*_Str.begin();
                 if (0 < _Count && _Count != ::std::fwrite(&*_Str.begin(), 1, _Count, (std::FILE *)(unk4c)))
                     return false;
-                if (!*(bool*)((char*)this + 0x41))
+                if (!wrotesome)
                     return true;
                 if (_Count == 0)
                     reinterpret_cast<::S_00aadeb0_Class *>(&(_Str))->AppendChars(_STRING_INC, '\0');

@@ -32,29 +32,62 @@
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_010ce000.h"
 #include "fnv/symbols_01268000.h"
+struct ConvexListAgentInput
+{
+    void* m_unk00;
+    void* m_unk04;
+    char** m_unk08;  // +0x8
+};
+
+// hkArray<hkpAgent1nSector*>, the agent track (AgentSectorPointerArray, BlockPoolArray and Hdr in the callees' declarations).
+struct ConvexListAgentTrack
+{
+    void** m_sectors;
+    int m_size;
+    int m_capacityAndFlags;
+};
+
+// The deprecated convex list agent; offsets are the 32-bit release's.
 struct hkpConvexListAgent
 {
-    void FUN_00d33770(int a);
+    const void* m_vtable;                         // +0x0
+    unsigned short m_memSizeAndFlags;             // +0x4
+    short m_referenceCount;                       // +0x6
+    ::S_00da40e0_ContactMgr* m_contactMgr;        // +0x8
+    unsigned char m_gskData[0x24];                // +0xc, the gsk agent's cache and separating normal
+    union
+    {
+        unsigned char m_gskfData[0x50];           // +0x30, the predictive gskf agent's data
+        ConvexListAgentTrack m_agentTrack;        // +0x30, used when the agent is in stream mode
+    };
+    ::S_00da40e0_Dispatcher* m_dispatcher;        // +0x80
+    bool m_inStreamModus;                         // +0x84
+
+    void FUN_00d33770(const void* a);
+    void FUN_00d337f0(int a);
+    void FUN_00d33810(int a);
+    void FUN_00d33740(ConvexListAgentInput* a, int b);
+    void FUN_00d33850(::S_00da40e0_ConstraintOwner* a);
 };
 
 // @fnv 0x00d33770
-void hkpConvexListAgent::FUN_00d33770(int a)
+void hkpConvexListAgent::FUN_00d33770(const void* a)
 {
-    if (*(char*)((char*)this + 0x84))
-        reinterpret_cast<::FUN_00dabeb0_cls *>(this)->Reset(a);
+    if (m_inStreamModus)
+        reinterpret_cast<::FUN_00dabeb0_cls *>(this)->Reset(a != nullptr);
     else
-        ::FUN_00da3510((*(::AgentSectorPointerArray *)(this + 0x30)), (*(::CollisionAgentContext *)((void*)a)));
+        ::FUN_00da3510(reinterpret_cast<::AgentSectorPointerArray &>(m_agentTrack), *const_cast<::CollisionAgentContext *>(static_cast<const ::CollisionAgentContext *>(a)));
 }
 
-extern "C" void __cdecl FUN_00d339d0(int, int, int, int);
+extern "C" void __cdecl FUN_00d339d0(const void*, const void*, const void*, void*);
 
 struct FUN_00d33b70_cls
 {
-    void FUN_00d33b70(int a, int b, int c, int d);
+    void FUN_00d33b70(const void* a, const void* b, const void* c, void* d);
 };
 
 // @fnv 0x00d33b70
-void FUN_00d33b70_cls::FUN_00d33b70(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void FUN_00d33b70_cls::FUN_00d33b70(const void* aiArg1, const void* aiArg2, const void* aiArg3, void* aiArg4)
 {
     FUN_00d339d0(aiArg1, aiArg2, aiArg3, aiArg4);
 }
@@ -115,32 +148,22 @@ void __cdecl RegisterConvexListAgentCollisionFuncs(hkpConvexListAgent* self)
     reinterpret_cast<::FUN_00cfbbe0_cls *>((((hkpCollisionDispatcher*)self)))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::hkpCollisionDispatcher::CollisionAgentFunctionTable *)(&funcTable), 0x16, 0x16);
 }
 
-struct FUN_00d337f0_self
-{
-    void FUN_00d337f0(int a);
-};
-
 struct hkpGskfAgent
 {
 public:
     void FUN_00dacb20(unsigned short);
 };
 // @fnv 0x00d337f0
-void FUN_00d337f0_self::FUN_00d337f0(int a)
+void hkpConvexListAgent::FUN_00d337f0(int a)
 {
-    if (*(char*)((char*)this + 0x84))
+    if (m_inStreamModus)
         reinterpret_cast<::hkpGskfAgent *>(this)->FUN_00dacb20(a);
 }
 
-struct FUN_00d33810_cls : hkpGskfAgent
-{
-    void FUN_00d33810(int a);
-};
-
 // @fnv 0x00d33810
-void FUN_00d33810_cls::FUN_00d33810(int a)
+void hkpConvexListAgent::FUN_00d33810(int a)
 {
-    if (*(char*)((char*)this + 0x84))
+    if (m_inStreamModus)
         reinterpret_cast<::FUN_00dacb60_class *>(this)->AddPotential(a);
 }
 
@@ -163,32 +186,23 @@ void FUN_00d33830_cls::FUN_00d33830(int aiArg)
 }  // namespace fnv_00d33830
 
 
-struct FUN_00d33740_cls
-{
-    void FUN_00d33740(int a, int b);
-};
-
-// If the byte at offset 0x84 is zero, calls FUN_00d97250 with this+0x30, the pointer at a+8 and a.
+// If the agent is not in stream mode, calls FUN_00d97250 with its agent track, the input's +0x8 field and the input.
 // @fnv 0x00d33740
-void FUN_00d33740_cls::FUN_00d33740(int a, int iUnused)
+void hkpConvexListAgent::FUN_00d33740(ConvexListAgentInput* a, int iUnused)
 {
-    if (*(char*)((char*)this + 0x84) == 0)
+    if (!m_inStreamModus)
     {
-        ::FUN_00d97250((::Hdr *)(void *)((char*)this + 0x30), (char **)(*(void**)(a + 8)), (::Logger *)(void *)((void*)a));
+        ::FUN_00d97250(reinterpret_cast<::Hdr *>(&m_agentTrack), a->m_unk08, reinterpret_cast<::Logger *>(a));
     }
 }
 
-struct FUN_00d33850_cls
-{
-    void FUN_00d33850(int a);
-};
-// Calls FUN_00da42b0 with fields at offsets 0x30, 0x80 and 8 plus a, then clears the field at 0x30 and sets the byte at 0x84 to 1.
+// Hands the agent track to FUN_00da42b0 with the dispatcher, contact manager and constraint owner, then clears it and switches to stream mode.
 // @fnv 0x00d33850
-void FUN_00d33850_cls::FUN_00d33850(int a)
+void hkpConvexListAgent::FUN_00d33850(::S_00da40e0_ConstraintOwner* a)
 {
-    ::FUN_00da42b0((::BlockPoolArray *)(void *)(this + 0x30), (::S_00da40e0_Dispatcher *)(*(int*)(this + 0x80)), (::S_00da40e0_ContactMgr *)(*(int*)(this + 8)), (*(::S_00da40e0_ConstraintOwner *)(a)));
-    *(int*)(this + 0x30) = 0;
-    *(char*)(this + 0x84) = 1;
+    ::FUN_00da42b0(reinterpret_cast<::BlockPoolArray *>(&m_agentTrack), m_dispatcher, m_contactMgr, *a);
+    m_agentTrack.m_sectors = nullptr;
+    m_inStreamModus = true;
 }
 
 // Forwards all five arguments to FUN_00d33ca0 and returns its result.
@@ -200,6 +214,11 @@ void* FUN_00d33da0(void* a, void* b, void* c, void* d, void* e)
 
 struct hkpSimpleClosestContactCollector
 {
+    const void* m_vtable;          // +0x0
+    float m_earlyOutDistance;      // +0x4
+    bool m_hasHit;                 // +0x8
+    __m128 m_position;             // +0x10
+    __m128 m_separatingNormal;     // +0x20, w is the distance
     void Reset();
 };
 
@@ -207,9 +226,9 @@ struct hkpSimpleClosestContactCollector
 void hkpSimpleClosestContactCollector::Reset()
 {
     float max = 3.402820018375656e+38f;
-    *(char*)((char*)this + 8) = 0;
-    *(float*)((char*)this + 0x2c) = max;
-    *(float*)((char*)this + 4) = max;
+    m_hasHit = 0;
+    reinterpret_cast<float*>(&m_separatingNormal)[3] = max;
+    m_earlyOutDistance = max;
 }
 
 struct D338e0Agent
@@ -329,7 +348,14 @@ struct hkMemoryRouterD33D
     }
 };
 
-struct hkpCdBodyD33D;
+struct Node;
+struct hkTransformCB22;
+struct hkpCdBodyD33D
+{
+    ::Node* m_shape;                      // +0x0
+    unsigned int m_shapeKey;              // +0x4
+    const ::hkTransformCB22* m_motion;    // +0x8
+};
 struct hkpContactMgrD33D;
 struct hkpCollisionInputD33D;
 
@@ -396,8 +422,6 @@ class FUN_00dacbd0 : public hkpCollisionAgentD33D
   public:
     FUN_00dacbd0(const hkpCdBodyD33D& kBodyA, const hkpCdBodyD33D& kBodyB, hkpContactMgrD33D* pkMgr) throw();
     char m_acUnk08[0x78];
-public:
-    FUN_00dacbd0(int, int, int);
 };
 
 class hkpPredGskfAgentD33D : public FUN_00dacbd0
@@ -625,23 +649,22 @@ class hkCollectorBaseD347
 class hkCollectorD347 : public hkCollectorBaseD347
 {
   public:
-    hkCollectorD347(int filter) : m_iFilter(filter)
+    hkCollectorD347(void* filter) : m_iFilter(filter)
     {}
     virtual void AddHit(void* hit);
 
-    int m_iFilter;
+    void* m_iFilter;
 };
 
 
 // Constructs an hkCollectorD347 with the given filter and passes it to FUN_00d43dc0 along with a, b and c.
 // @fnv 0x00d34790
-void __cdecl FUN_00d34790(void* b, void* a, void* c, int filter)
+void __cdecl FUN_00d34790(void* b, void* a, void* c, void* filter)
 {
     hkCollectorD347 collector(filter);
     ::FUN_00d43dc0((*(const ::S_00d43dc0_CdBody *)(a)), (*(const ::S_00d43dc0_CdBody *)(b)), (*(const ::S_00d43dc0_CollisionInput *)(c)), (::S_00d43dc0_CdBodyPairCollector &)(collector));
 }
 
-extern "C" void __cdecl FUN_00d34810();
 // @fnv 0x00d36930
 extern "C" void __cdecl FUN_00d36930()
 {
@@ -662,24 +685,25 @@ class hkObjD337
     int unk34[20];
     bool m_84;
 
-    void SetValue(float a, float b, int c);
+    void SetValue(float a, float b, const void* c);
 };
 
 // Sets a value on the object, calling SetValueIfExpected when m_84 is true, otherwise delegating to FUN_00da35f0 on m_30.
 // @fnv 0x00d337a0
-void hkObjD337::SetValue(float a, float b, int c)
+void hkObjD337::SetValue(float a, float b, const void* c)
 {
     if (m_84)
         reinterpret_cast<::FUN_00dabed0_cls *>(this)->SetValueIfExpected(a, b, c);
     else
-        ::FUN_00da35f0((::Da35Stream ***)(::hkMemberD337 *)(&m_30), a, b, (void **)(c));
+        ::FUN_00da35f0((::Da35Stream ***)(::hkMemberD337 *)(&m_30), a, b, (void **)const_cast<void *>(c));
 }
 
 // @fnv 0x00d33890
 struct ContactAgent
 {
     virtual void Invalidate(int);
-    int unk04, collidable08;
+    int unk04;
+    void* collidable08;
     int unkc;
     int unk10;
     int unk14;
@@ -709,7 +733,7 @@ struct ContactAgent
     int unk74;
     int unk78;
     int unk7c;
-    int state80;
+    ::S_00da40e0_Dispatcher* state80;
     unsigned char flag84;
     void FUN_00d33890(void*);
 };
@@ -717,11 +741,11 @@ void ContactAgent::FUN_00d33890(void* input)
 {
     if (flag84)
     {
-        ::ReleaseAllEntries((::S_00dad640_Set *)(void *)(&contact30), (::S_00dad640_Target *)(collidable08), input);
+        ::ReleaseAllEntries((::S_00dad640_Set *)(void *)(&contact30), static_cast<::S_00dad640_Target *>(collidable08), input);
     }
     else
     {
-        ::FUN_00da42b0((::BlockPoolArray *)(void *)(&contact30), (::S_00da40e0_Dispatcher *)(state80), (::S_00da40e0_ContactMgr *)(collidable08), (*(::S_00da40e0_ConstraintOwner *)((int)input)));
+        ::FUN_00da42b0((::BlockPoolArray *)(void *)(&contact30), state80, static_cast<::S_00da40e0_ContactMgr *>(collidable08), *static_cast<::S_00da40e0_ConstraintOwner *>(input));
     }
     Invalidate(1);
 }
@@ -756,7 +780,7 @@ struct S00d33940_Sub
 
 struct S00d33940_Base
 {
-    int vt;
+    const void* vt;
     void FUN_00dacbd0(int* a, int* b, void* d);
 };
 
@@ -796,26 +820,25 @@ struct S00d33940_Obj : S00d33940_Base
     int unk74;
     int unk78;
     int unk7c;
-    int unk80;
+    void* unk80;
     unsigned char unk84;
     unsigned char unk85;
-    S00d33940_Obj* FUN_00d33940(int* a, int* b, int* c, void* d);
+    S00d33940_Obj* FUN_00d33940(const hkpCdBodyD33D* a, const hkpCdBodyD33D* b, void* const* c, void* d);
 };
 
 // Calls FUN_00dacbd0(a, b, d), sets vt to DAT_010cebf0 and unk80 to *c, sets unk84/85, calls FUN_00dafcd0 on unk0c, and sets unk18 and unk2c to DAT_01012054.
 // @fnv 0x00d33940
-S00d33940_Obj* S00d33940_Obj::FUN_00d33940(int* a, int* b, int* c, void* d)
+S00d33940_Obj* S00d33940_Obj::FUN_00d33940(const hkpCdBodyD33D* a, const hkpCdBodyD33D* b, void* const* c, void* d)
 {
-    new ((void *)this) ::FUN_00dacbd0((int)(a), (int)(b), (int)(d));
-    vt = (int)DAT_010cebf0;
+    ::new ((void *)this) ::FUN_00dacbd0(*a, *b, static_cast<hkpContactMgrD33D*>(d));
+    vt = DAT_010cebf0;
     unk80 = *c;
     unk84 = 1;
     unk85 = 0;
-    int v1 = a[0];
-    int v0 = b[0];
+
     S00d33940_Out o;
-    reinterpret_cast<::hkTransformCB22 *>(&(o))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(a[2])), (*(const ::hkTransformCB22 *)(b[2])));
-    reinterpret_cast<::Cls_dafcd0 *>(&(unk0c))->FUN_00dafcd0((::Node *)(v1), (::Node *)(v0), (const ::Vec4Blk *)(::S00d33940_Out *)(&o));
+    reinterpret_cast<::hkTransformCB22 *>(&(o))->FUN_00cb22f0(*a->m_motion, *b->m_motion);
+    reinterpret_cast<::Cls_dafcd0 *>(&(unk0c))->FUN_00dafcd0(a->m_shape, b->m_shape, (const ::Vec4Blk *)(::S00d33940_Out *)(&o));
     float* __restrict p2 = &unk2c;
     float* __restrict p1 = &unk18;
     *p1 = *p2 = ::DAT_01012054;
@@ -884,7 +907,7 @@ extern "C" void __cdecl FUN_00d33b90(void* a, void* b, void* c, void* d)
             pRec->m_iTick = tick;
             pBuf->m_pCur = (char*)&pRec->m_pName2;
         }
-        ::FUN_00d34790(a, b, c, (int)(d));
+        ::FUN_00d34790(a, b, c, d);
     }
 
     pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
@@ -1021,7 +1044,7 @@ struct hkpCdPointCollector
 
 // If TestGsk reports a hit calls QueryClosestPoints; else adds the closest point to a4 when its distance exceeds b's shape threshold, otherwise calls QueryClosestPoints.
 // @fnv 0x00d339d0
-extern "C" void __cdecl FUN_00d339d0(int apBodyA, int apBodyB, int a3, int apCollector)
+extern "C" void __cdecl FUN_00d339d0(const void* apBodyA, const void* apBodyB, const void* a3, void* apCollector)
 {
     {
         StringCursor* pForm = (StringCursor*)TlsGetValue(DAT_0126835c);
@@ -1038,7 +1061,7 @@ extern "C" void __cdecl FUN_00d339d0(int apBodyA, int apBodyB, int a3, int apCol
     }
 
     hkpFlagCdBodyPairCollector flagCollector;
-    ::TestGsk((*(const ::S_00dac2b0_Body *)((const void*)apBodyA)), (*(const ::S_00dac2b0_Body *)((const void*)apBodyB)), (const void*)a3, (*(::S_00dac2b0_Collector *)(&flagCollector)));
+    ::TestGsk(*static_cast<const ::S_00dac2b0_Body *>(apBodyA), *static_cast<const ::S_00dac2b0_Body *>(apBodyB), a3, (*(::S_00dac2b0_Collector *)(&flagCollector)));
     if (flagCollector.DidHit())
     {
         StringCursor* pForm = (StringCursor*)TlsGetValue(DAT_0126835c);
@@ -1053,25 +1076,24 @@ extern "C" void __cdecl FUN_00d339d0(int apBodyA, int apBodyB, int a3, int apCol
             *(unsigned int*)(p + 4) = t;
             pForm->m_commandPointer = p + 12;
         }
-        ::QueryClosestPoints((void *)((const void*)apBodyA), (void *)((const void*)apBodyB), (void *)((const void*)a3),
-                           (unsigned int)((hkpCdPointCollector*)apCollector));
+        ::QueryClosestPoints(const_cast<void *>(apBodyA), const_cast<void *>(apBodyB), const_cast<void *>(a3), apCollector);
     }
     else
     {
         hkpClosestCdPointCollector x;
-        ::hkpGskBaseAgent_S::FUN_00dac450((*(const ::hkpCdBody_S *)((const void*)apBodyA)), (*(const ::hkpCdBody_S *)((const void*)apBodyB)), (*(const ::hkpCollisionInput_S *)((const void*)a3)), (*(::hkpCdPointCollector_S *)(&x)));
+        ::hkpGskBaseAgent_S::FUN_00dac450(*static_cast<const ::hkpCdBody_S *>(apBodyA), *static_cast<const ::hkpCdBody_S *>(apBodyB), *static_cast<const ::hkpCollisionInput_S *>(a3), (*(::hkpCdPointCollector_S *)(&x)));
         if (!x.DidHit())
         {
             goto timer_end;
         }
-        const hkpConvexListShape* shapeB = (const hkpConvexListShape*)((const hkpCdBody*)apBodyB)->m_pCollisionShape;
+        const hkpConvexListShape* shapeB = (const hkpConvexListShape*)static_cast<const hkpCdBody*>(apBodyB)->m_pCollisionShape;
         if (x.m_kHitPoint.m_kPoint.getDistance() > shapeB->m_minDistanceToUseConvexHull)
         {
             ContactPointPair point;
-            point.m_pBodyA = (const void*)apBodyA;
-            point.m_pBodyB = (const void*)apBodyB;
+            point.m_pBodyA = apBodyA;
+            point.m_pBodyB = apBodyB;
             point.m_kPoint = x.m_kHitPoint.m_kPoint;
-            ((hkpCdPointCollector*)apCollector)->AddCdPoint(point);
+            static_cast<hkpCdPointCollector*>(apCollector)->AddCdPoint(point);
             goto timer_end;
         }
         StringCursor* pForm = (StringCursor*)TlsGetValue(DAT_0126835c);
@@ -1084,8 +1106,7 @@ extern "C" void __cdecl FUN_00d339d0(int apBodyA, int apBodyB, int a3, int apCol
             *(unsigned int*)(p + 4) = t;
             pForm->m_commandPointer = p + 12;
         }
-        ::QueryClosestPoints((void *)((const void*)apBodyA), (void *)((const void*)apBodyB), (void *)((const void*)a3),
-                           (unsigned int)((hkpCdPointCollector*)apCollector));
+        ::QueryClosestPoints(const_cast<void *>(apBodyA), const_cast<void *>(apBodyB), const_cast<void *>(a3), apCollector);
     }
 
 timer_end: {
@@ -1105,19 +1126,32 @@ timer_end: {
 namespace fnv_00d33ca0 {
 #include <intrin.h>
 
-extern "C" void __cdecl FUN_00d34810(int, int, int, int, int);
 
 extern int DAT_0126835c;
 extern char str_010cec54[];
 extern char str_010cec34[];
 
+// A monitor-stream timer record; records without a detail name end at `detail`.
+struct S00d33ca0_Timer
+{
+    const char* volatile name;
+    unsigned int time;
+    int unk08;
+    const char* volatile detail;
+};
+
 struct S00d33ca0_Buf
 {
     int unk00;
-    unsigned int* cur;
+    S00d33ca0_Timer* cur;
     int unk08;
-    unsigned int* limit;
+    S00d33ca0_Timer* limit;
 };
+
+static S00d33ca0_Timer* S00d33ca0_After(S00d33ca0_Timer* p, size_t bytes)
+{
+    return reinterpret_cast<S00d33ca0_Timer*>(reinterpret_cast<char*>(p) + bytes);
+}
 
 struct __declspec(align(16)) S00d33ca0_Local
 {
@@ -1137,22 +1171,22 @@ struct __declspec(align(16)) S00d33ca0_Local
 
 // Writes a timer entry, calls FUN_00daf8e0, and if local.unk08 is set writes another entry and calls FUN_00d34810; then writes a closing timer entry.
 // @fnv 0x00d33ca0
-extern "C" void __cdecl FUN_00d33ca0(int a, int b, int c, int d, int e)
+extern "C" void __cdecl FUN_00d33ca0(const void* a, const void* b, const void* c, void* d, void* e)
 {
     S00d33ca0_Buf* buf;
-    unsigned int* p;
+    S00d33ca0_Timer* p;
     volatile unsigned int ts;
 
     buf = (S00d33ca0_Buf*)TlsGetValue(DAT_0126835c);
     p = buf->cur;
     if (p < buf->limit)
     {
-        p[0] = (unsigned int)&str_010cec54[0];
-        p[3] = (unsigned int)&str_010cec34[0];
+        p->name = &str_010cec54[0];
+        p->detail = &str_010cec34[0];
         _ReadWriteBarrier();
         ts = __rdtsc();
-        p[1] = ts;
-        buf->cur = p + 4;
+        p->time = ts;
+        buf->cur = p + 1;
     }
 
     {
@@ -1161,20 +1195,20 @@ extern "C" void __cdecl FUN_00d33ca0(int a, int b, int c, int d, int e)
         local.unk04 = ::DAT_0104da48;
         local.unk00 = &(*reinterpret_cast<int *>(&::DAT_010cebe0));
         local.unk08 = 0;
-        ::FUN_00daf8e0((const ::IterativeSweep_hkpCdBody *)(a), (const ::IterativeSweep_hkpCdBody *)(b), (const ::IterativeSweep_hkpLinearCastCollisionInput *)(c), (::IterativeSweep_hkpCdPointCollector *)(void *)(&local), (::IterativeSweep_hkpCdPointCollector *)(void *)(&local));
+        ::FUN_00daf8e0(static_cast<const ::IterativeSweep_hkpCdBody *>(a), static_cast<const ::IterativeSweep_hkpCdBody *>(b), static_cast<const ::IterativeSweep_hkpLinearCastCollisionInput *>(c), (::IterativeSweep_hkpCdPointCollector *)(void *)(&local), (::IterativeSweep_hkpCdPointCollector *)(void *)(&local));
         if (local.unk08 != 0)
         {
             buf = (S00d33ca0_Buf*)TlsGetValue(DAT_0126835c);
             p = buf->cur;
             if (p < buf->limit)
             {
-                p[0] = (unsigned int)&::DAT_010cec4c[0];
+                p->name = &::DAT_010cec4c[0];
                 _ReadWriteBarrier();
                 ts = __rdtsc();
-                p[1] = ts;
-                buf->cur = p + 3;
+                p->time = ts;
+                buf->cur = S00d33ca0_After(p, offsetof(S00d33ca0_Timer, detail));
             }
-            FUN_00d34810(a, b, c, d, e);
+            ::fnv_00d34810::FUN_00d34810(a, b, static_cast<const ::fnv_00d34810::Input_d2e9 *>(c), d, e);
         }
     }
 
@@ -1182,11 +1216,11 @@ extern "C" void __cdecl FUN_00d33ca0(int a, int b, int c, int d, int e)
     p = buf->cur;
     if (p < buf->limit)
     {
-        p[0] = (unsigned int)&::str_01076f38[0];
+        p->name = &::str_01076f38[0];
         _ReadWriteBarrier();
         ts = __rdtsc();
-        p[1] = ts;
-        buf->cur = p + 3;
+        p->time = ts;
+        buf->cur = S00d33ca0_After(p, offsetof(S00d33ca0_Timer, detail));
     }
 }
 }  // namespace fnv_00d33ca0
@@ -1553,11 +1587,9 @@ struct Rec12
     void* unk;
 };
 
-void FUN_00d33670(void* a);
 void FUN_00d33600(void* a, void* b, void* c, void* d);
 void* FUN_00cb22f0(void* a, void* b);
 int FUN_00dabca0(SStruct* a, void* b, void* c, void* d);
-void FUN_00d33850(void* a);
 void FUN_00d33ef0(void* a);
 void FUN_00d42020(void* a, void* b, void* c, void* d);
 struct AddressValue
@@ -1707,7 +1739,7 @@ __forceinline void Agent::streamCollision(const Shape& a, const Shape& b, const 
     int count = bHead->count;
     ScratchArena* pool = (ScratchArena*)static_cast<hkMemoryRouterD33D*>(::FUN_00c85750());
     int* arr = pool->cursor;
-    pool->cursor = (int*)((unsigned int)arr + (((unsigned int)(count * 4 + 4) + 0x7f) & ~0x7f));
+    pool->cursor = reinterpret_cast<int*>(reinterpret_cast<char*>(arr) + ((static_cast<unsigned int>((count + 1) * sizeof(int)) + 0x7f) & ~0x7fu));
     for (int i = 0; i < count; i++)
         arr[i] = i;
     arr[count] = -1;
@@ -1814,7 +1846,7 @@ void Agent::FUN_00d33f40(const Shape& a, const Shape& b, const Arg3& c, Arg4& d)
     scratch.last.shape = b.m_00;
     scratch.first.dt = c.m_58;
     calculateMotion(*a.m_08, *b.m_08, scratch, vec);
-    new ((void *)&(ws)) ::FUN_00d33670((const ::LargeOutput &)(d));
+    ::new ((void *)&(ws)) ::FUN_00d33670((const ::LargeOutput &)(d));
     if (m_84 != 0)
         goto project;
 stream: {
@@ -1850,7 +1882,7 @@ stream: {
             streaming().distance = -m_20w.w;
             goto sqrtpath;
         }
-        reinterpret_cast<::FUN_00d33850_cls *>(this)->FUN_00d33850((int)(d.m_04));
+        reinterpret_cast<::hkpConvexListAgent *>(this)->FUN_00d33850(static_cast<::S_00da40e0_ConstraintOwner *>(d.m_04));
         reinterpret_cast<::Container *>(&(ws))->FUN_00d33600((void *)&(a), (void *)&(b), (char *)&(d), (struct ::Callback *)(m_08));
     }
 }

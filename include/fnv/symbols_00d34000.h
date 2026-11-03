@@ -16,11 +16,11 @@ namespace fnv_00d34510 { void *FUN_00d34510(void *, void *, ::fnv_00d34510::Agen
 // 0x00d346b0
 void RegisterConvexListAgentCollisionFuncs(::hkpConvexListAgent *);
 // 0x00d34790
-void FUN_00d34790(void *, void *, void *, int);
+void FUN_00d34790(void *, void *, void *, void *);
 // 0x00d347d0
-void QueryClosestPoints(void *, void *, void *, unsigned int);
+void QueryClosestPoints(void *, void *, void *, void *);
 // 0x00d34810
-namespace fnv_00d34810 { void FUN_00d34810(int, int, const ::fnv_00d34810::Input_d2e9 *, int, int); }
+namespace fnv_00d34810 { void FUN_00d34810(const void *, const void *, const ::fnv_00d34810::Input_d2e9 *, void *, void *); }
 // 0x00d34930
 void InitSpawnedBuffer(int, int, int, int);
 // 0x00d34970

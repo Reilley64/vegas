@@ -62,12 +62,12 @@ class FUN_00dabed0_cls
     int unk1c;
     __m128 m_20;
 
-    void SetValueIfExpected(float expected, float value, int unused);
+    void SetValueIfExpected(float expected, float value, const void* unused);
 };
 
 // If m_18 equals expected, stores value into m_18; otherwise sets m_18 to DAT_01012054 and zeroes m_20.
 // @fnv 0x00dabed0
-void FUN_00dabed0_cls::SetValueIfExpected(float expected, float value, int unused)
+void FUN_00dabed0_cls::SetValueIfExpected(float expected, float value, const void* unused)
 {
     if (m_18 == expected)
     {

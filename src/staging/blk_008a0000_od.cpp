@@ -11,7 +11,6 @@
 #include "fnv/decl/C74820Controller.h"
 #include "fnv/decl/Calendar.h"
 #include "fnv/decl/Callees.h"
-#include "fnv/decl/DialogueItem.h"
 #include "fnv/decl/FUN_0043fa80_s.h"
 #include "fnv/decl/FUN_00440460_S.h"
 #include "fnv/decl/FUN_00440490_shell.h"
@@ -79,6 +78,14 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "../../include/layout_support.h"
+
+class TESObjectREFR;
+// The shared fnv/decl/DialogueItem.h declares SelectDefaultResponseList twice (0x005e3fa0 and 0x0083c7b0, which differ
+// only in the return type); this unit calls the 0x005e3fa0 one.
+class DialogueItem {
+public:
+    ::TESObjectREFR *SelectDefaultResponseList();
+};
 
 struct FUN_008a0250_class
 {

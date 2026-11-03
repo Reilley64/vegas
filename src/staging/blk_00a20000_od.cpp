@@ -30,6 +30,13 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_01202000.h"
 #include "../../include/layout_support.h"
+#include <cstddef>
+#include "fnv/decl/fnv_00a26010__FUN_00a26010_Class.h"
+#include "fnv/symbols_00ee7000.h"
+#include "fnv/symbols_01100000.h"
+#include "fnv/symbols_00a27000.h"
+#include "fnv/symbols_00a2b000.h"
+#include <math.h>
 
 struct FUN_00a23a30_Class
 {
@@ -7598,14 +7605,6 @@ namespace fnv_00a22e10 {
 #include <windows.h>
 #include <stdio.h>
 #include <string.h>
-#include <cstddef>
-#include "fnv/decl/fnv_00a26010__FUN_00a26010_Class.h"
-#include "fnv/symbols_00ee7000.h"
-#include "fnv/symbols_01100000.h"
-#include "fnv/decl/fnv_00a26010__FUN_00a26010_Class.h"
-#include "fnv/symbols_00a27000.h"
-#include "fnv/symbols_00a2b000.h"
-#include <math.h>
 
 
 struct S_00a22e10_Cls

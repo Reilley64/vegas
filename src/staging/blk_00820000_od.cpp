@@ -106,6 +106,12 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "../../include/layout_support.h"
+#include "fnv/decl/FORenderedMenu.h"
+#include "fnv/decl/FUN_004615d0_shell.h"
+#include "fnv/decl/SoundWrapper.h"
+#include "fnv/symbols_00831000.h"
+#include "fnv/symbols_0083a000.h"
+#include "../../include/layout_support_decl_blk_00820000_od.h"
 
 struct FUN_00821620_Class
 {
@@ -417,7 +423,7 @@ unsigned int FUN_0083e0a0_Class::GetLength()
 }
 }  // namespace fnv_0083e0a0
 
-extern "C" void* __cdecl _NiFreeAlias(void*);
+extern "C" void __cdecl _NiFreeAlias(void*);
 extern void* DAT_0107ca64;
 
 struct FUN_0082efb0
@@ -3467,7 +3473,7 @@ int __cdecl RunAudioChannel(int* param)
             filter6 = new AudFilter(reader4, &mt, &hr);
             filter6->AddRef();
             CoInitializeEx(0, 0);
-            hr = CoCreateInstance(DAT_0107cb18, 0, 1, DAT_01093c0c, (void**)&graphS);
+            hr = CoCreateInstance(*reinterpret_cast<const CLSID*>(&DAT_0107cb18), 0, 1, *reinterpret_cast<const IID*>(&DAT_01093c0c), (void**)&graphS);
             if (hr < 0)
                 ok4 = false;
             hr = graphS->AddFilter(filter6, 0);
@@ -4141,15 +4147,6 @@ FUN_0083c750::~FUN_0083c750()
 
 namespace fnv_0082f1b0 {
 #include <windows.h>
-#include "fnv/decl/FORenderedMenu.h"
-#include "fnv/decl/FUN_004615d0_shell.h"
-#include "fnv/decl/FUN_0082f260_cls.h"
-#include "fnv/decl/FUN_0083c750.h"
-#include "fnv/decl/SoundWrapper.h"
-#include "fnv/decl/fnv_0083b710__FUN_0083b710_cls.h"
-#include "fnv/symbols_00831000.h"
-#include "fnv/symbols_0083a000.h"
-#include "../../include/layout_support_decl_blk_00820000_od.h"
 
 // Wrapper around the Win32 critical-section API: locks the section owned by
 // the object passed in the fastcall register (ecx).

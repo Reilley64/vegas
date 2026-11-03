@@ -12,8 +12,6 @@ public:
     ::BSExtraData *GetExtraData(unsigned char) const;
     // 0x00546a90
     static ::BGSEncounterZone *FindEncounterZone();
-    // 0x00567d20
-    ::BGSEncounterZone *FindEncounterZone();
     // 0x00568e50
     ::ExtraRadioData *GetExtraRadioData();
     // 0x005715d0

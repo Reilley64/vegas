@@ -3,7 +3,7 @@
 class BGSLoadFormBuffer;
 class PathingLocation;
 enum PATHING_REQUEST_TYPE;
-template <class, int> class BSSimpleArray;
+template <class, unsigned int> class BSSimpleArray;
 
 class PathingRequest {
 public:

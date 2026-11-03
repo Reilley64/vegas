@@ -7606,21 +7606,18 @@ FUN_0087dcb0::~FUN_0087dcb0()
 }
 }  // namespace fnv_0087dcb0
 
-namespace InstalledPathDetail {
-}
-
 // Opens the FalloutNV registry key and queries the Installed Path value into pBuffer, closing the key afterwards.
 // @fnv 0x00876a70
 void FUN_00876a70(char* pBuffer, unsigned long cbBuffer)
 {
-    void* hKey;
+    HKEY hKey;
     const char* subKey = "Software\\Bethesda Softworks\\FalloutNV";
     unsigned long cbData = cbBuffer;
-    if (InstalledPathDetail::RegOpenKeyExA((void*)(long)0x80000002, subKey, 0, 1, &hKey) == 0)
+    if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, subKey, 0, KEY_QUERY_VALUE, &hKey) == 0)
     {
-        InstalledPathDetail::RegQueryValueExA(hKey, "Installed Path", 0, 0, (unsigned char*)pBuffer, &cbData);
+        RegQueryValueExA(hKey, "Installed Path", 0, 0, (unsigned char*)pBuffer, &cbData);
     }
-    InstalledPathDetail::RegCloseKey(hKey);
+    RegCloseKey(hKey);
 }
 
 #include "generated/data/staging/blk_00860000_od.inc"

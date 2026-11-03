@@ -804,7 +804,7 @@ char FUN_0085feb0_class::GetByteAt158()
     return *(char*)((char*)this + 0x158);
 }
 
-extern "C" void* __cdecl _NiFreeAlias(void*);
+extern "C" void __cdecl _NiFreeAlias(void*);
 
 struct FUN_00844660_Class
 {
@@ -1004,7 +1004,6 @@ FUN_00844690_class* FUN_00844690_class::FUN_00844690(int aiCount)
 }
 
 namespace fnv_00844870 {
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 
 struct FUN_00844870_Cls
 {
@@ -1296,7 +1295,6 @@ struct FUN_0084d270_class
 };
 
 namespace fnv_0084d2a0 {
-extern "C" void* __cdecl memset(void* dst, int c, unsigned int n);
 struct FUN_0084d2a0_t
 {
     int* vtbl;
@@ -1435,7 +1433,6 @@ struct FUN_008532e0_class
     void FUN_008532e0();
     void* FUN_00853060(unsigned int flags);
 };
-void FUN_008533e0();
 struct FUN_00853090_class
 {
     void FUN_008533e0();
@@ -1735,7 +1732,6 @@ struct FUN_0084ff30_shell
 {
     void CreateScriptMessageDirectory(char* a);
 };
-int __cdecl strcat_s(char* dst, unsigned int size, const char* src);
 
 struct FUN_0084ff90_shell : FUN_0084fec0_shell
 {
@@ -5307,7 +5303,7 @@ int CompareFileWriteTimes(TimedFile* apFirstFile, TimedFile* apSecondFile)
     }
     else
     {
-        findHandle = FindFirstFileA(apFirstFile->GetPath(), &kFindData);
+        findHandle = FindFirstFileA(apFirstFile->GetPath(), reinterpret_cast<WIN32_FIND_DATAA*>(&kFindData));
         if (findHandle != (void*)-1)
             firstTime9 = kFindData.ftLastWriteTime;
         FindClose(findHandle);
@@ -5321,7 +5317,7 @@ int CompareFileWriteTimes(TimedFile* apFirstFile, TimedFile* apSecondFile)
     }
     else
     {
-        findHandle = FindFirstFileA(apSecondFile->GetPath(), &kFindData);
+        findHandle = FindFirstFileA(apSecondFile->GetPath(), reinterpret_cast<WIN32_FIND_DATAA*>(&kFindData));
         if (findHandle != (void*)-1)
             secondTime = kFindData.ftLastWriteTime;
         FindClose(findHandle);

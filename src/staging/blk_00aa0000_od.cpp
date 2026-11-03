@@ -14,14 +14,11 @@
 #include "fnv/decl/FUN_0044a690_cls.h"
 #include "fnv/decl/FUN_0044a8d0_Class.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
-#include "fnv/decl/FUN_00aa4a60.h"
 #include "fnv/decl/FUN_00aa6800.h"
 #include "fnv/decl/FUN_00aa7260_holder.h"
 #include "fnv/decl/FUN_00ac03a0_cls.h"
 #include "fnv/decl/FUN_00ac0460_cls.h"
 #include "fnv/decl/FUN_00ac5c00_cls.h"
-#include "fnv/decl/MemoryManagerStandIn.h"
-#include "fnv/decl/Obj00aaa730.h"
 #include "fnv/decl/Vec410.h"
 #include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
 #include "fnv/decl/fnv_00aa6f90__FUN_00aa6f90_shell.h"
@@ -37,6 +34,79 @@
 #include "fnv/symbols_011ac000.h"
 #include "fnv/symbols_011f6000.h"
 #include "../../include/layout_support.h"
+
+// Binds a temporary to a reference for the old casts of returned values to reference types; the temporary lives to the end of the full expression.
+template <class T> inline T& as_lvalue(T&& value)
+{
+    return value;
+}
+#include "generated/data/vtables.h"
+#include <new>
+#include <cmath>
+#include "fnv/decl/AE91F0Map.h"
+#include "fnv/decl/B65CD70Vector.h"
+#include "fnv/decl/CoordVec.h"
+#include "fnv/decl/FUN_00657ee0_cls.h"
+#include "fnv/decl/FUN_006586c0_cls.h"
+#include "fnv/decl/FUN_00659380_class.h"
+#include "fnv/decl/FUN_006593e0_Class.h"
+#include "fnv/decl/FUN_0065cc70_Holder.h"
+#include "fnv/decl/FUN_0065cef0_cls.h"
+#include "fnv/decl/FUN_0065d8e0_cls.h"
+#include "fnv/decl/FUN_0065dc60Class.h"
+#include "fnv/decl/FUN_0065dd90_Class.h"
+#include "fnv/decl/FUN_0065eb90.h"
+#include "fnv/decl/FUN_0065ecd0_class.h"
+#include "fnv/decl/FUN_0065f240.h"
+#include "fnv/decl/FUN_0065f430_class.h"
+#include "fnv/decl/FUN_0065fb10.h"
+#include "fnv/decl/FUN_00866690_Class.h"
+#include "fnv/decl/FUN_00aa39c0_cls.h"
+#include "fnv/decl/FUN_00aa64f0_t.h"
+#include "fnv/decl/FUN_00ac0ab0_Vector.h"
+#include "fnv/decl/FUN_00ac0d00_It.h"
+#include "fnv/decl/FUN_00ac0dc0_It.h"
+#include "fnv/decl/FUN_00ac0e80_It.h"
+#include "fnv/decl/FUN_00ac0f40_It.h"
+#include "fnv/decl/FUN_00ac1000_It.h"
+#include "fnv/decl/FUN_00ac10c0_Class.h"
+#include "fnv/decl/FUN_00ac5430_cls.h"
+#include "fnv/decl/FUN_00ac5c70_cls.h"
+#include "fnv/decl/FUN_00ad3750_It.h"
+#include "fnv/decl/FUN_00b16830_Iterator.h"
+#include "fnv/decl/FaceBinaryReadReceiver.h"
+#include "fnv/decl/FaceGenTriData.h"
+#include "fnv/decl/FgBinaryFile.h"
+#include "fnv/decl/GvBinaryFile.h"
+#include "fnv/decl/H_0060b3b0.h"
+#include "fnv/decl/Mgr.h"
+#include "fnv/decl/S_00658260_Owner.h"
+#include "fnv/decl/StateMachine.h"
+#include "fnv/decl/V_006578b0.h"
+#include "fnv/decl/VecF380.h"
+#include "fnv/decl/Vec_65eed0.h"
+#include "fnv/decl/ac3_signature__FutBinaryFileC.h"
+#include "fnv/decl/fnv_0044b180__FUN_0044b180_shell.h"
+#include "fnv/decl/fnv_0065d740__FUN_0065d740_cls.h"
+#include "fnv/decl/fnv_0065ed70__FUN_0065ed70.h"
+#include "fnv/decl/fnv_0065edd0__FUN_0065edd0_class.h"
+#include "fnv/decl/fnv_0065f5a0__FUN_0065f5a0_cls.h"
+#include "fnv/decl/fnv_00aa6aa0__FUN_00aa6aa0_shell.h"
+#include "fnv/decl/fnv_00ad1740__FUN_00ad1740_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00449000.h"
+#include "fnv/symbols_0044d000.h"
+#include "fnv/symbols_00aa5000.h"
+#include "fnv/symbols_00aa7000.h"
+#include "fnv/symbols_00aa8000.h"
+#include "fnv/symbols_00ab4000.h"
+#include "fnv/symbols_00ad5000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01077000.h"
+#include "fnv/symbols_01272000.h"
+#include <math.h>
 
 
 struct FUN_00aa4290_Class
@@ -217,6 +287,29 @@ void FUN_00aa8a20_class::FUN_00aa8a20()
 struct P03MM
 {
     void* Allocate(unsigned int);
+};
+
+struct HeapStandIn;
+
+struct MemoryManagerStandIn
+{
+    bool initialized;
+    char unk01;
+    char unk02;
+    char unk03;
+    int unk04;
+    int unk08;
+    HeapStandIn* heaps[0x41];
+    HeapStandIn* defaultHeap;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    char unk128;
+    bool usePools;
+
+    void* FUN_00aa3e40(unsigned int size);
 };
 
 struct FUN_00aa8b00_Class
@@ -732,15 +825,6 @@ struct FUN_00aaaa80_Class
     void* FUN_00aaaa80();
 };
 
-// @fnv 0x00aaab00
-void* FUN_00aaaa80_Class::DestroyWithFlags(unsigned int flags)
-{
-    int a, b, c, d, e, f, g, h, i, j;
-    reinterpret_cast<::Obj00aaa730 *>(this)->Obj00aaa730::~Obj00aaa730();
-    if (flags & 1)
-        reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))))->FUN_00aa4060(this);
-    return this;
-}
 
 struct FUN_00ab2e70
 {
@@ -940,30 +1024,15 @@ struct FUN_00aa4bb0_Local
     int unk08;
 };
 
-// Calls FUN_00aa4a60, then deallocates this via DAT_011f6238 when bit 0 of arg is set, and returns this.
-// @fnv 0x00aa4bb0
-int FUN_00aa4bb0_Class::FUN_00aa4bb0(int aiFlags)
-{
-    FUN_00aa4bb0_Local local;
-
-    reinterpret_cast<::FUN_00aa4a60 *>((this))->FUN_00aa4a60::~FUN_00aa4a60();
-
-    if ((aiFlags & 1) != 0)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
-    }
-
-    return reinterpret_cast<int>(this);
-}
 
 
 // Queries the performance counter frequency and stores it divided by DAT_01017b70 as a float in DAT_011ac39c.
 // @fnv 0x00aa4d50
 void __cdecl InitPerformanceFrequency(void)
 {
-    __int64 frequency;
+    LARGE_INTEGER frequency;
     QueryPerformanceFrequency(&frequency);
-    DAT_011ac39c = static_cast<float>(frequency / DAT_01017b70);
+    DAT_011ac39c = static_cast<float>(frequency.QuadPart / DAT_01017b70);
 }
 
 struct ScrapHeapEntry
@@ -1211,8 +1280,6 @@ void FUN_00aa7370(void)
     DAT_00fdf100(&DAT_011f6bd4);
 }
 
-extern "C" void(* DAT_00fdf05c)(void*);
-extern "C" void(* DAT_00fdf100)(void*);
 extern "C" void(* DAT_00fdf1b4)(void*, int, int);
 extern "C" void(* DAT_00fdf1c0)(void*);
 
@@ -1330,7 +1397,7 @@ FUN_00aa8ca0_cls* FUN_00aa8ca0_cls::FUN_00aa8ca0(int a1, int a2, int a3, int a4)
     m_38 = 0;
     m_3c = 0;
     m_40 = 0;
-    void* cs = (char*)this + 0x20d8;
+    CRITICAL_SECTION* cs = (CRITICAL_SECTION*)((char*)this + 0x20d8);
     InitializeCriticalSection(cs);
     m_0c = (int)((char*)0 + 8) + 8;
     *(int*)((char*)this + 0x2050) = 0;
@@ -2552,13 +2619,16 @@ struct ContainerAux
     Aux* proxy;
     ~ContainerAux() {}
 };
+inline void GameDelete(void* p)
+{
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
+}
 template <class T> struct GameAllocator
 {
     GameAllocator()
     {}
     template <class U> GameAllocator(const GameAllocator<U>&)
     {}
-    void deallocate(T* p, unsigned int);
     void deallocate(T* p, unsigned int) { GameDelete(p); }
 };
 template <class T> struct ProxyBase : ContainerAux
@@ -2637,79 +2707,6 @@ void FUN_00aaf6f0(Element_00aaf6f0* first, Element_00aaf6f0* last, const Element
 }
 
 namespace fnv_00aa6590 {
-#include <windows.h>
-#include "generated/data/vtables.h"
-#include <new>
-#include <cmath>
-#include "fnv/decl/AE91F0Map.h"
-#include "fnv/decl/B65CD70Vector.h"
-#include "fnv/decl/CoordVec.h"
-#include "fnv/decl/FUN_00657ee0_cls.h"
-#include "fnv/decl/FUN_006586c0_cls.h"
-#include "fnv/decl/FUN_00659380_class.h"
-#include "fnv/decl/FUN_006593e0_Class.h"
-#include "fnv/decl/FUN_0065cc70_Holder.h"
-#include "fnv/decl/FUN_0065cef0_cls.h"
-#include "fnv/decl/FUN_0065d8e0_cls.h"
-#include "fnv/decl/FUN_0065dc60Class.h"
-#include "fnv/decl/FUN_0065dd90_Class.h"
-#include "fnv/decl/FUN_0065eb90.h"
-#include "fnv/decl/FUN_0065ecd0_class.h"
-#include "fnv/decl/FUN_0065f240.h"
-#include "fnv/decl/FUN_0065f430_class.h"
-#include "fnv/decl/FUN_0065fb10.h"
-#include "fnv/decl/FUN_00866690_Class.h"
-#include "fnv/decl/FUN_00aa39c0_cls.h"
-#include "fnv/decl/FUN_00aa64f0_t.h"
-#include "fnv/decl/FUN_00aae180_cls.h"
-#include "fnv/decl/FUN_00aba0d0.h"
-#include "fnv/decl/FUN_00aba9a0_cls.h"
-#include "fnv/decl/FUN_00ac0ab0_Vector.h"
-#include "fnv/decl/FUN_00ac0d00_It.h"
-#include "fnv/decl/FUN_00ac0dc0_It.h"
-#include "fnv/decl/FUN_00ac0e80_It.h"
-#include "fnv/decl/FUN_00ac0f40_It.h"
-#include "fnv/decl/FUN_00ac1000_It.h"
-#include "fnv/decl/FUN_00ac10c0_Class.h"
-#include "fnv/decl/FUN_00ac5430_cls.h"
-#include "fnv/decl/FUN_00ac5c70_cls.h"
-#include "fnv/decl/FUN_00ad3750_It.h"
-#include "fnv/decl/FUN_00b16830_Iterator.h"
-#include "fnv/decl/FaceBinaryReadReceiver.h"
-#include "fnv/decl/FaceGenTriData.h"
-#include "fnv/decl/FgBinaryFile.h"
-#include "fnv/decl/GvBinaryFile.h"
-#include "fnv/decl/H_0060b3b0.h"
-#include "fnv/decl/Mgr.h"
-#include "fnv/decl/S_00658260_Owner.h"
-#include "fnv/decl/StateMachine.h"
-#include "fnv/decl/V_006578b0.h"
-#include "fnv/decl/VecF380.h"
-#include "fnv/decl/Vec_65eed0.h"
-#include "fnv/decl/ac3_signature__FutBinaryFileC.h"
-#include "fnv/decl/fnv_0044b180__FUN_0044b180_shell.h"
-#include "fnv/decl/fnv_0065d740__FUN_0065d740_cls.h"
-#include "fnv/decl/fnv_0065ed70__FUN_0065ed70.h"
-#include "fnv/decl/fnv_0065edd0__FUN_0065edd0_class.h"
-#include "fnv/decl/fnv_0065f5a0__FUN_0065f5a0_cls.h"
-#include "fnv/decl/fnv_00aa6aa0__FUN_00aa6aa0_shell.h"
-#include "fnv/decl/fnv_00abc0a0__FUN_00abc0a0_cls.h"
-#include "fnv/decl/fnv_00ad1740__FUN_00ad1740_cls.h"
-#include "fnv/symbols_00401000.h"
-#include "fnv/symbols_00449000.h"
-#include "fnv/symbols_0044d000.h"
-#include "fnv/symbols_00aa5000.h"
-#include "fnv/symbols_00aa7000.h"
-#include "fnv/symbols_00aa8000.h"
-#include "fnv/symbols_00ab4000.h"
-#include "fnv/symbols_00ad5000.h"
-#include "fnv/symbols_01011000.h"
-#include "fnv/symbols_0101e000.h"
-#include "fnv/symbols_01022000.h"
-#include "fnv/symbols_01077000.h"
-#include "fnv/symbols_01272000.h"
-#include <math.h>
-#include <math.h>
 
 // Wrapper that hands the caller's exit code to the Win32 ExitThread import.
 struct FUN_00aa6590_cls
@@ -2739,7 +2736,7 @@ struct Heap00aaa5b0
 void Heap00aaa5b0::FUN_00aa8da0()
 {
     m_vtbl = &DAT_010a2bbc;
-    DeleteCriticalSection((char*)this + 0x20d8);
+    DeleteCriticalSection((CRITICAL_SECTION*)((char*)this + 0x20d8));
     m_vtbl = &DAT_010a28c8;
 }
 
@@ -2820,9 +2817,10 @@ void FUN_00aa7030()
 // @fnv 0x00aa4d80
 unsigned long long FUN_00aa4d80()
 {
-    FNVInt64 counter = 0;
+    LARGE_INTEGER counter;
+    counter.QuadPart = 0;
     QueryPerformanceCounter(&counter);
-    return counter;
+    return counter.QuadPart;
 }
 
 extern "C" void* __cdecl _malloc(unsigned int);
@@ -2942,7 +2940,7 @@ struct ShutdownHandle
     }
 };
 
-struct ShutdownCriticalSection
+struct ShutdownCriticalSection : CRITICAL_SECTION
 {
     ~ShutdownCriticalSection()
     {
@@ -4318,19 +4316,6 @@ inline ConstIterator& ConstIterator::FUN_00ac0dc0(int n)
     return *this;
 }
 
-struct MemoryStatusAA3880
-{
-    unsigned long dwLength;
-    unsigned long dwMemoryLoad;
-    unsigned __int64 ullTotalPhys;
-    unsigned __int64 ullAvailPhys;
-    unsigned __int64 ullTotalPageFile;
-    unsigned __int64 ullAvailPageFile;
-    unsigned __int64 ullTotalVirtual;
-    unsigned __int64 ullAvailVirtual;
-    unsigned __int64 ullAvailExtendedVirtual;
-};
-
 struct MemoryManagerAA3880
 {
     void* Allocate(unsigned int uiSize);
@@ -4396,7 +4381,7 @@ FUN_00aa3880::FUN_00aa3880()
       m_bVisible(true), m_iFirst(0), m_iSecond(0), m_iThird(0)
 {
     ::std::memset(m_apSlots, 0, sizeof(m_apSlots));
-    MemoryStatusAA3880 kStatus;
+    MEMORYSTATUSEX kStatus;
     kStatus.dwLength = sizeof(kStatus);
     if (GlobalMemoryStatusEx(&kStatus) && kStatus.ullAvailPageFile < 0x20000000)
     {
@@ -4449,26 +4434,6 @@ inline PoolStandIn* __cdecl GetPoolForSize(unsigned int size)
     }
 }
 
-struct MemoryManagerStandIn
-{
-    bool initialized;
-    char unk01;
-    char unk02;
-    char unk03;
-    int unk04;
-    int unk08;
-    HeapStandIn* heaps[0x41];
-    HeapStandIn* defaultHeap;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    char unk128;
-    bool usePools;
-
-    void* FUN_00aa3e40(unsigned int size);
-};
 
 // @fnv 0x00aa3e40
 void* MemoryManagerStandIn::FUN_00aa3e40(unsigned int size)
@@ -4589,6 +4554,22 @@ class FUN_00aa4a60 : public MapBase4A60
     virtual ~FUN_00aa4a60();
 };
 
+// Calls FUN_00aa4a60, then deallocates this via DAT_011f6238 when bit 0 of arg is set, and returns this.
+// @fnv 0x00aa4bb0
+int FUN_00aa4bb0_Class::FUN_00aa4bb0(int aiFlags)
+{
+    FUN_00aa4bb0_Local local;
+
+    reinterpret_cast<::FUN_00aa4a60 *>((this))->FUN_00aa4a60::~FUN_00aa4a60();
+
+    if ((aiFlags & 1) != 0)
+    {
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
+    }
+
+    return reinterpret_cast<int>(this);
+}
+
 // @fnv 0x00aa4a60
 FUN_00aa4a60::~FUN_00aa4a60()
 {
@@ -4629,7 +4610,7 @@ void* S00aa8950_Obj::FUN_00aa8950(unsigned int flags)
     return this;
 }
 
-namespace std {
+namespace vc9_std {
 template <class E> struct char_traits;
 template <> struct char_traits<char>
 {
@@ -4751,7 +4732,7 @@ inline basic_string<E, Tr, A>& basic_string<E, Tr, A>::assign(const E* ptr, size
 }
 }
 
-typedef std::basic_string<char, std::char_traits<char>, std::allocator<char> > Str;
+typedef vc9_std::basic_string<char, vc9_std::char_traits<char>, vc9_std::allocator<char> > Str;
 
 struct Obj00aaa730
 {
@@ -4761,6 +4742,16 @@ struct Obj00aaa730
     int unk3c;
     Obj00aaa730(Str key);
 };
+
+// @fnv 0x00aaab00
+void* FUN_00aaaa80_Class::DestroyWithFlags(unsigned int flags)
+{
+    int a, b, c, d, e, f, g, h, i, j;
+    reinterpret_cast<::Obj00aaa730 *>(this)->Obj00aaa730::~Obj00aaa730();
+    if (flags & 1)
+        reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))))->FUN_00aa4060(this);
+    return this;
+}
 
 inline Obj00aaa730::~Obj00aaa730()
 {}
@@ -4815,8 +4806,6 @@ FUN_00aaaa80::~FUN_00aaaa80()
 }
 
 namespace fnv_00aaab90 {
-extern "C" int __cdecl fclose(void*);
-extern "C" unsigned int __cdecl strlen(const char*);
 char* __cdecl FUN_0044ccd0(char*, unsigned int, const char*, unsigned int);
 void* __cdecl FUN_0044d670(unsigned int, int);
 
@@ -4925,7 +4914,7 @@ struct FUN_00aaaa80
 {
     ReaderString filename;
     ReaderString signature;
-    void* unk3c;
+    FILE* unk3c;
     void FUN_00ac5430()
     {
         if (unk3c != 0)
@@ -7057,7 +7046,6 @@ inline void Dead13()
     int a[13];
 }
 void __cdecl ReportAssertionViolation(const char* file, int line);
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct FGValueQ
 {
     float* data;
@@ -7664,11 +7652,8 @@ void FUN_00aaf8a0(FUN_00aaec10* first, unsigned int count, const FUN_00aaec10& v
 }
 
 namespace fnv_00aafa80 {
-struct PoolX
-{
-    void FUN_00aa4060(void* p);
-};
-extern "C" PoolX g_pool_011f6238;
+using ::PoolX;
+using ::g_pool_011f6238;
 struct FUN_00aaec10
 {
     char b[0x3c];
@@ -9664,18 +9649,18 @@ struct FUN_0065fab0
     }
 };
 
-typedef FUN_0065fab0 Value;
+typedef FUN_0065fab0 InsertValue;
 
 struct InsertIterator
 {
     void* owner;
-    Value* pointer;
+    InsertValue* pointer;
 };
 
 struct InsertAllocator
 {
     unsigned char tag;
-    inline void deallocate(Value* _Ptr, unsigned int _Count)
+    inline void deallocate(InsertValue* _Ptr, unsigned int _Count)
     {
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(_Ptr);
     }
@@ -9718,25 +9703,25 @@ struct InsertLengthError
     InsertLengthError(const ErrorString&);
 };
 
-Value* __cdecl FUN_0065e700(unsigned int, int);
+InsertValue* __cdecl FUN_0065e700(unsigned int, int);
 
-Value* __cdecl FUN_006603a0(Value*, Value*, Value*, InsertAllocator*);
+InsertValue* __cdecl FUN_006603a0(InsertValue*, InsertValue*, InsertValue*, InsertAllocator*);
 
-Value* __cdecl FUN_0065ffe0(Value*, Value*, Value*, InsertAllocator*);
+InsertValue* __cdecl FUN_0065ffe0(InsertValue*, InsertValue*, InsertValue*, InsertAllocator*);
 
-Value* __cdecl FUN_0065ffe0(const Value*, const Value*, Value*, InsertAllocator*);
+InsertValue* __cdecl FUN_0065ffe0(const InsertValue*, const InsertValue*, InsertValue*, InsertAllocator*);
 
-void __cdecl FUN_0065eb50(Value*);
+void __cdecl FUN_0065eb50(InsertValue*);
 
-Value* __cdecl FUN_00ab4520(Value*, Value*, Value*, IterTag, NonScalarTag, RangeTag);
+InsertValue* __cdecl FUN_00ab4520(InsertValue*, InsertValue*, InsertValue*, IterTag, NonScalarTag, RangeTag);
 
-inline NonScalarTag move_cat(Value* const&)
+inline NonScalarTag move_cat(InsertValue* const&)
 {
     NonScalarTag _Cat;
     return _Cat;
 }
 
-inline NonScalarTag ptr_cat(Value* const&, Value* const&)
+inline NonScalarTag ptr_cat(InsertValue* const&, InsertValue* const&)
 {
     NonScalarTag _Cat;
     return _Cat;
@@ -9752,78 +9737,78 @@ template <class T> inline T checked_base(T const& _Iter)
     UnchangedBaseTag _Base_tag;
     return checked_base_inner(_Iter, _Base_tag);
 }
-Value* __cdecl CopyConstructRange(Value*, Value*, Value*, InsertAllocator*, NonScalarTag, RangeTag);
+InsertValue* __cdecl CopyConstructRange(InsertValue*, InsertValue*, InsertValue*, InsertAllocator*, NonScalarTag, RangeTag);
 
-inline Value* __cdecl FUN_006603a0(Value* _First, Value* _Last, Value* _Dest, InsertAllocator* _Al)
+inline InsertValue* __cdecl FUN_006603a0(InsertValue* _First, InsertValue* _Last, InsertValue* _Dest, InsertAllocator* _Al)
 {
     return CopyConstructRange(checked_base(_First), checked_base(_Last), _Dest, _Al, ptr_cat(_First, _Dest),
                               RangeTag());
 }
 
-inline Value* move_inner(Value* _First, Value* _Last, Value* _Dest, InsertAllocator& _Al, NonScalarTag, RangeTag)
+inline InsertValue* move_inner(InsertValue* _First, InsertValue* _Last, InsertValue* _Dest, InsertAllocator& _Al, NonScalarTag, RangeTag)
 {
     return FUN_006603a0(_First, _Last, _Dest, &_Al);
 }
 
-inline Value* move_unchecked(Value* _First, Value* _Last, Value* _Dest, InsertAllocator& _Al)
+inline InsertValue* move_unchecked(InsertValue* _First, InsertValue* _Last, InsertValue* _Dest, InsertAllocator& _Al)
 {
     return move_inner(checked_base(_First), checked_base(_Last), _Dest, _Al, move_cat(_Dest), RangeTag());
 }
 
-inline Value* __cdecl FUN_0065ffe0(Value* _First, Value* _Last, Value* _Dest, InsertAllocator* _Al)
+inline InsertValue* __cdecl FUN_0065ffe0(InsertValue* _First, InsertValue* _Last, InsertValue* _Dest, InsertAllocator* _Al)
 {
     return move_inner(checked_base(_First), checked_base(_Last), _Dest, *_Al, move_cat(_Dest), RangeTag());
 }
 
-inline void fill_unchecked(Value* _First, unsigned int _Count, const Value& _Val, InsertAllocator& _Al)
+inline void fill_unchecked(InsertValue* _First, unsigned int _Count, const InsertValue& _Val, InsertAllocator& _Al)
 {
     ::FUN_00ab45f0((char *)(_First), _Count, (void *)&(_Val));
 }
 
-inline void destroy_inner(Value* _First, Value* _Last, InsertAllocator& _Al, NonScalarTag)
+inline void destroy_inner(InsertValue* _First, InsertValue* _Last, InsertAllocator& _Al, NonScalarTag)
 {
     for (; _First != _Last; ++_First)
         FUN_0065eb50(_First);
 }
 
-inline void destroy_range(Value* _First, Value* _Last, InsertAllocator& _Al)
+inline void destroy_range(InsertValue* _First, InsertValue* _Last, InsertAllocator& _Al)
 {
     destroy_inner(_First, _Last, _Al, ptr_cat(_First, _Last));
 }
 
-inline void fill_inner(Value* _First, Value* _Last, const Value& _Val)
+inline void fill_inner(InsertValue* _First, InsertValue* _Last, const InsertValue& _Val)
 {
     for (; _First != _Last; ++_First)
         reinterpret_cast<::FUN_0065eb90 *>((_First))->operator=((const ::FUN_0065eb90 &)(_Val));
 }
 
-inline void fill_range(Value* _First, Value* _Last, const Value& _Val)
+inline void fill_range(InsertValue* _First, InsertValue* _Last, const InsertValue& _Val)
 {
     fill_inner(checked_base(_First), checked_base(_Last), _Val);
 }
 
-inline IterTag iter_random(Value* const&, Value* const&)
+inline IterTag iter_random(InsertValue* const&, InsertValue* const&)
 {
     IterTag _Cat;
     return _Cat;
 }
 
-inline Value* backward_loop(Value* _First, Value* _Last, Value* _Dest, ForwardTag, NonScalarTag, RangeTag)
+inline InsertValue* backward_loop(InsertValue* _First, InsertValue* _Last, InsertValue* _Dest, ForwardTag, NonScalarTag, RangeTag)
 {
     while (_First != _Last)
         reinterpret_cast<::FUN_0065eb90 *>(((--_Dest)))->operator=((const ::FUN_0065eb90 &)(*--_Last));
     return _Dest;
 }
 
-inline Value* __cdecl FUN_00ab4520(Value* _First, Value* _Last, Value* _Dest, IterTag, NonScalarTag, RangeTag)
+inline InsertValue* __cdecl FUN_00ab4520(InsertValue* _First, InsertValue* _Last, InsertValue* _Dest, IterTag, NonScalarTag, RangeTag)
 {
     int _Count = _Last - _First;
-    Value* _Result = _Dest - _Count;
+    InsertValue* _Result = _Dest - _Count;
     backward_loop(_First, _Last, checked_base(_Dest), ForwardTag(), NonScalarTag(), RangeTag());
     return _Result;
 }
 
-inline Value* backward_range(Value* _First, Value* _Last, Value* _Dest)
+inline InsertValue* backward_range(InsertValue* _First, InsertValue* _Last, InsertValue* _Dest)
 {
     return FUN_00ab4520(checked_base(_First), checked_base(_Last), _Dest, iter_random(_First, _Dest), move_cat(_Dest),
                         RangeTag());
@@ -9833,40 +9818,40 @@ struct InsertVector
 {
     int m00, m04;
     InsertAllocator allocator;
-    Value* first;
-    Value* last;
-    Value* end;
+    InsertValue* first;
+    InsertValue* last;
+    InsertValue* end;
     inline unsigned int max_size() const
     {
         unsigned int _Count = 0x2e8ba2eu;
         return 0 < _Count ? _Count : 1;
     }
-    inline Value* _Umove(Value* _First, Value* _Last, Value* _Ptr)
+    inline InsertValue* _Umove(InsertValue* _First, InsertValue* _Last, InsertValue* _Ptr)
     {
         return move_unchecked(_First, _Last, _Ptr, allocator);
     }
-    inline Value* _Ucopy(Value* _First, Value* _Last, Value* _Ptr)
+    inline InsertValue* _Ucopy(InsertValue* _First, InsertValue* _Last, InsertValue* _Ptr)
     {
         return FUN_0065ffe0(_First, _Last, _Ptr, &allocator);
     }
-    inline void _Destroy(Value* _First, Value* _Last)
+    inline void _Destroy(InsertValue* _First, InsertValue* _Last)
     {
         destroy_range(_First, _Last, allocator);
     }
-    inline Value* _Ufill(Value* _Ptr, unsigned int _Count, const Value& _Val)
+    inline InsertValue* _Ufill(InsertValue* _Ptr, unsigned int _Count, const InsertValue& _Val)
     {
         fill_unchecked(_Ptr, _Count, _Val, allocator);
         return _Ptr + _Count;
     }
-    inline Value* _UcopyConst(const Value* _First, const Value* _Last, Value* _Ptr)
+    inline InsertValue* _UcopyConst(const InsertValue* _First, const InsertValue* _Last, InsertValue* _Ptr)
     {
         return FUN_0065ffe0(_First, _Last, _Ptr, &allocator);
     }
-    void FUN_00ab3a40(InsertIterator where, unsigned int count, const Value& value);
+    void FUN_00ab3a40(InsertIterator where, unsigned int count, const InsertValue& value);
 };
 
 // @fnv 0x00ab3a40
-void InsertVector::FUN_00ab3a40(InsertIterator where, unsigned int count, const Value& value)
+void InsertVector::FUN_00ab3a40(InsertIterator where, unsigned int count, const InsertValue& value)
 {
     unsigned int capacity4 = (first == 0 ? 0 : end - first);
     if (count == 0)
@@ -9881,8 +9866,8 @@ void InsertVector::FUN_00ab3a40(InsertIterator where, unsigned int count, const 
         capacity4 = max_size() - capacity4 / 2 < capacity4 ? 0 : capacity4 + capacity4 / 2;
         if (capacity4 < (last - first) + count)
             capacity4 = (last - first) + count;
-        Value* newvecB = FUN_0065e700(capacity4, 0);
-        Value* _ptr = newvecB;
+        InsertValue* newvecB = FUN_0065e700(capacity4, 0);
+        InsertValue* _ptr = newvecB;
         try
         {
             _ptr = _Umove(first, where.pointer, newvecB);
@@ -9907,7 +9892,7 @@ void InsertVector::FUN_00ab3a40(InsertIterator where, unsigned int count, const 
     }
     else if ((unsigned int)(last - where.pointer) < count)
     {
-        Value temp = value;
+        InsertValue temp = value;
         _Umove(where.pointer, last, where.pointer + count);
         try
         {
@@ -9923,8 +9908,8 @@ void InsertVector::FUN_00ab3a40(InsertIterator where, unsigned int count, const 
     }
     else
     {
-        Value temp = value;
-        Value* oldend = last;
+        InsertValue temp = value;
+        InsertValue* oldend = last;
         last = _Ucopy(oldend - count, oldend, last);
         backward_range(where.pointer, oldend - count, oldend);
         fill_range(where.pointer, where.pointer + count, temp);
@@ -10952,6 +10937,7 @@ class _Container_base_auxS
   public:
     _Aux_contS* _Myownedaux;
 };
+template <class _Ty> inline void _DestroyS(_Ty* _Ptr);
 template <class _Ty> class allocatorS
 {
   public:
@@ -11125,7 +11111,7 @@ template <class T> struct StdAllocator
     {}
     void deallocate(T* pointer, unsigned int)
     {
-        ::FUN_00401030 delete(pointer);
+        operator delete(pointer);
     }
     unsigned int max_size() const throw()
     {
@@ -11740,18 +11726,6 @@ FUN_00aba0d0::FUN_00aba0d0(unsigned int count) : AbaVal<char, AbaAlloc<char> >()
 }
 }
 
-// VEGAS17-CONFLICT: Aux (variant definition below differs from the one above)
-  // namespace fnv_00aba0d0
-
-struct Aux
-{
-    const void* container;
-};
-
-inline void GameDelete(void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-}
 
 struct ScalarTag
 {
@@ -16594,7 +16568,7 @@ bool FGModel::FUN_00aaaf10(FGReader* file, FGSize* sizes)
             else
                 ReportAssertionViolation("D:\\_Fallout3\\Platforms\\Common\\Code\\SDK\\FaceGen\\FanControls.cpp", 0x90);
 
-            normalized[i][j].first.FUN_006581e0((const FGMatrix&)bases[i][0][j].FUN_00aadda0(norm5));
+            normalized[i][j].first.FUN_006581e0((const FGMatrix&)as_lvalue(bases[i][0][j].FUN_00aadda0(norm5)));
 
             dot4 = bases[i][1][j].FUN_00658360(normalized[i][j].first.Transpose()).FUN_0060b370(0)[0];
 
@@ -17494,7 +17468,6 @@ float FanControls::FUN_00aac3f0(int arg1, int arg2, int arg3, FgMat (*arg4)[2])
 }
 
 namespace fnv_00aac820 {
-#include <math.h>
 
 void ReportAssertionViolation(const char*, int);
 
@@ -19906,8 +19879,6 @@ S_0065eb90* __cdecl FUN_00ab4520(S_0065eb90* _First, S_0065eb90* _Last, S_0065eb
 // namespace fnv_00ab4520
 
 namespace fnv_00ab5ec0 {
-extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 template <class T> struct StdAllocator
 {
     StdAllocator() throw()
@@ -20248,7 +20219,7 @@ struct UIntBuffer : CheckedBuffer<unsigned int>
 {
     void resize(unsigned int count)
     {
-        reinterpret_cast<::fnv_00aba5d0::VecQ_aba5d0 *>(this)->FUN_00aba5d0(count, (::fnv_00aba5d0::ElQ_aba5d0)(0));
+        reinterpret_cast<::fnv_00aba5d0::VecQ_aba5d0 *>(this)->FUN_00aba5d0(count, ::fnv_00aba5d0::ElQ_aba5d0{0});
     }
 };
 struct FUN_00aba2f0
@@ -20529,7 +20500,7 @@ bool __cdecl FUN_00ab5ec0(const TriString& filename, Geometry* geometry)
         if (!reader.read(partitionCount))
             return false;
         geometry->partitions[item].indices.resize(partitionCount);
-        if (partitionCount && !reinterpret_cast<::FgBinaryFile *>(&(reader))->FUN_00ac5cf0(&reinterpret_cast<::V_006578b0 *>((void *)&(const ::fnv_00ab5ec0::CheckedBuffer<unsigned int> &)(geometry->partitions[item].indices))->FUN_006578b0(0), 4, partitionCount))
+        if (partitionCount && !reinterpret_cast<::FgBinaryFile *>(&(reader))->FUN_00ac5cf0(reinterpret_cast<::V_006578b0 *>((void *)&(const ::fnv_00ab5ec0::CheckedBuffer<unsigned int> &)(geometry->partitions[item].indices))->FUN_006578b0(0), 4, partitionCount))
             return false;
         accumulated += partitionCount;
     }
@@ -20943,21 +20914,6 @@ inline unsigned int wordMaximum()
     return 0 < count ? count : 1;
 }
 
-inline bool FUN_00abc260_cls::FUN_00abc260(unsigned int count)
-{
-    m_0c = 0, m_10 = 0, m_14 = 0;
-    if (count == 0)
-        return false;
-    else if (wordMaximum() < count)
-        wordThrowLength();
-    else
-    {
-        m_0c = FUN_00ac1720(count, 0);
-        m_10 = m_0c;
-        m_14 = m_0c + count;
-    }
-    return true;
-}
 
 struct FUN_00aba4f0 : VectorVal_aba4f0<unsigned int, Allocator<unsigned int> >
 {
@@ -21367,14 +21323,8 @@ struct IOSemaphore
     }
 };
 
-struct IOCriticalSection
+struct IOCriticalSection : CRITICAL_SECTION
 {
-    unsigned long debugInfo;
-    long lockCount;
-    long recursionCount;
-    void* owningThread;
-    void* lockSemaphore;
-    unsigned long spinCount;
     IOCriticalSection()
     {
         InitializeCriticalSection(this);
@@ -21569,8 +21519,8 @@ void ReworkModel::FUN_00aad140(int idx, ReworkPair* bases)
         oB.FUN_006581e0(((ReworkInput&)matrices[idx].square).FUN_00658360(oB));
         aVal = bases[0].grid[0].rows;
         b8 = bases[1].grid[0].rows;
-        bases[0].FUN_006581e0(((ReworkMatrix&)oB.FUN_00aaf110(0, 0, aVal, 1)).FUN_00658500(matrices[idx].first[0]));
-        bases[1].FUN_006581e0(((ReworkMatrix&)oB.FUN_00aaf110(aVal, 0, b8, 1)).FUN_00658500(matrices[idx].first[1]));
+        bases[0].FUN_006581e0(((ReworkMatrix&)as_lvalue(oB.FUN_00aaf110(0, 0, aVal, 1))).FUN_00658500(matrices[idx].first[0]));
+        bases[1].FUN_006581e0(((ReworkMatrix&)as_lvalue(oB.FUN_00aaf110(aVal, 0, b8, 1))).FUN_00658500(matrices[idx].first[1]));
     }
 }
 
@@ -22401,11 +22351,11 @@ template <class T> class Alloc
     {}
     T* allocate(unsigned int count)
     {
-        return ((::Ab2e70Detail::Aux *)(::FUN_0044d670(count)));
+        return checked_allocate(count, (T*)0);
     }
     void deallocate(T* p, unsigned int)
     {
-        ::FUN_00401030 delete(p);
+        operator delete(p);
     }
     unsigned int max_size() const throw()
     {

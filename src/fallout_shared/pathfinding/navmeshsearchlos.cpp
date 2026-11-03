@@ -2728,12 +2728,12 @@ struct FUN_006aa780_Class
     Location old;
     unsigned char mode;
     int state;
-    bool FUN_006aa780(World*, const Location*, std::intptr_t, int);
+    bool FUN_006aa780(World*, const Location*, std::intptr_t, std::intptr_t);
     bool FUN_006a7d60(int, int, int);
     void FUN_006a7c90(int);
 };
 // @fnv 0x006aa780
-bool FUN_006aa780_Class::FUN_006aa780(World* apWorld, const Location* apLocation, std::intptr_t arg, int argCur)
+bool FUN_006aa780_Class::FUN_006aa780(World* apWorld, const Location* apLocation, std::intptr_t arg, std::intptr_t argCur)
 {
     unsigned short x8;
     world = apWorld;
@@ -2745,7 +2745,7 @@ bool FUN_006aa780_Class::FUN_006aa780(World* apWorld, const Location* apLocation
     reinterpret_cast<::LOSGridOwner *>((((::fnv_006aa780::Mesh *)(::FUN_00559450((int *)(((::fnv_006aa780::WorldStateManager *)(::FUN_00984230((char *)(apWorld))))))))))->UpdateNavMeshes((*(::LOSTargetPtr *)(&entry)));
     state = 0;
     Position v5;
-    reinterpret_cast<::TaskQueueInterface *>((((::fnv_006aa780::Position *)(::GetOffsetC((int)(apWorld))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    reinterpret_cast<::TaskQueueInterface *>((((::fnv_006aa780::Position *)(::GetOffsetC((std::intptr_t)(apWorld))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
     location.mesh = apLocation->mesh;
     location.triangle = apLocation->triangle;
     NiPoint3 y = location.mesh->FUN_00558220(location.triangle);

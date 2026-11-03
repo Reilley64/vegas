@@ -362,7 +362,7 @@ public:
 // @fnv 0x006aa000
 bool HideSearch::ExpandNeighbors(NavSearchNodeInfo* pkInfo, NavSearchNodeList* pkList)
 {
-    NiPoint3 kPosX = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((pkInfo))->FUN_0045cd60())) ? (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>(&(pkInfo->m_kRef))->FUN_006a6eb0({}))) : reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::GetOffsetC((int)(m_pActor))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 kPosX = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((pkInfo))->FUN_0045cd60())) ? (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>(&(pkInfo->m_kRef))->FUN_006a6eb0({}))) : reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::GetOffsetC((std::intptr_t)(m_pActor))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
     for (int i9 = 0; i9 < 3; i9++)
     {
         NavMeshStandIn* pMesh5;
@@ -588,7 +588,7 @@ int HideSearchX::SetupActorTarget(ActorX* pkActor, TriRef20* pkInfo, ParamX* pkO
     m_pActor = pkActor;
     m_kInfo = *pkInfo;
 
-    NiPoint3 kActorPos5 = reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::GetOffsetC((int)(pkActor))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 kActorPos5 = reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::GetOffsetC((std::intptr_t)(pkActor))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
     m_kStartPoint = ::NiPoint3::ZERO;
     m_fFirstLightParameter = 0.0f;
     if (((::HideTgtx *)(reinterpret_cast<::_Dummy_0069e390 *>((m_pActor))->GetString())))

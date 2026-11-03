@@ -277,7 +277,7 @@ void FUN_006e0d20_t::FUN_006e0d20(BGSLoadFormBuffer* apLoadGameBuffer)
         if (inavmeshID == 0)
             bremove = true;
         if (!bremove)
-            reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)this + 8))))->FUN_00844700(inavmeshID, (unsigned int)ppathingLOSGrid);
+            reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)this + 8))))->FUN_00844700(inavmeshID, (std::uintptr_t)ppathingLOSGrid);
         else
             delete ppathingLOSGrid;
     }
@@ -852,7 +852,7 @@ bool LOSGridOwner::UpdateNavMeshes(LOSTargetPtr& arTarget)
         reinterpret_cast<::C6b7f20_Map *>(&(kMap))->FUN_006b7f20((::C6b7f20_Node **)&(pPos3), (unsigned int *)&(uiKey2), (void **)&(pInfo2));
         NavMeshRef kRefX;
         if (reinterpret_cast<::FUN_006e08f0_shell *>((pInfo2))->FUN_006e08f0((::NavMeshPtr &)(kRefX)))
-            reinterpret_cast<::List6DFD *>((pInfo2))->ApplyAllTriFlags((int)&(arTarget));
+            reinterpret_cast<::List6DFD *>((pInfo2))->ApplyAllTriFlags((std::intptr_t)&(arTarget));
     }
     reinterpret_cast<::Lock00aa62c0 *>(&(kLock))->FUN_00aa62c0();
     return true;
@@ -981,9 +981,9 @@ bool PathingLOSGridMapX::UpdateFromNavMeshArray(const NiPtr<NavMeshArrayX>& arNa
         if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(kMap))->FUN_00853130(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((spNavMesh2).operator->()))->FUN_0084e3a0())), (::fnv_00853130::CombatThreatRecord *&)(pEntry)))
         {
             pEntry = new GridEntryX(((::NavMeshInfoX *)(reinterpret_cast<::FUN_0068efb0_shell *>(((spNavMesh2).operator->()))->FUN_0068efb0())));
-            reinterpret_cast<::FUN_00844700_Class *>(&(kMap))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((spNavMesh2).operator->()))->FUN_0084e3a0())), (unsigned int)(pEntry));
+            reinterpret_cast<::FUN_00844700_Class *>(&(kMap))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((spNavMesh2).operator->()))->FUN_0084e3a0())), (std::uintptr_t)(pEntry));
         }
-        reinterpret_cast<::FUN_006dfd70_Class *>((pEntry))->FUN_006dfd70((unsigned int)&(arNavMeshArray));
+        reinterpret_cast<::FUN_006dfd70_Class *>((pEntry))->FUN_006dfd70((std::uintptr_t)&(arNavMeshArray));
     }
     fValue = reinterpret_cast<::FUN_006e0b00_cls *>(((arNavMeshArray).operator->()))->GetRatio();
     reinterpret_cast<::FUN_00aa62e0_shell *>(&(kLock))->FUN_00aa62e0();
@@ -1262,7 +1262,6 @@ struct TESConditionItem
 };
 
 unsigned int _data_011c16bc;
-int g_TES;
 
 // @fnv 0x006e0070
 void FUN_006e0480::FUN_006e0070(BGSLoadFormBuffer* apLoadGameBuffer)

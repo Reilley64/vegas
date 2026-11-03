@@ -184,7 +184,7 @@ struct FUN_006e2980_shell : public PathingRequest
 // @fnv 0x006e2750
 void PathingRequest::CopyTo(PathingRequest* request)
 {
-    reinterpret_cast<::FUN_006d3ac0_Class *>((request))->AssignPathingLocation((*(const ::PathingLocation *)(((::PathingLocation *)(::GetOffsetC((int)this))))));
+    reinterpret_cast<::FUN_006d3ac0_Class *>((request))->AssignPathingLocation((*(const ::PathingLocation *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)this))))));
     request->SetDestination(((::PathingLocation *)(::FUN_006a9540((char *)this))));
     request->SetActorRadius(GetActorRadius());
     reinterpret_cast<::FUN_006d3ae0 *>((request))->SetValue(::GetFloatAtOffset68((const char *)this));

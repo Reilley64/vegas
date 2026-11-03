@@ -83,7 +83,7 @@ void NavMeshBounds::CopyTo(NavMeshBounds* dest)
     dest->min = min;
     dest->max = max;
     reinterpret_cast<::FUN_0069cfe0_cls *>(&(parents))->CopyElementsTo((::FUN_0069cfe0_Dst *)(::BSSimpleArray< ::ParentSpaceNode, 1024> *)(&dest->parents));
-    reinterpret_cast<::FUN_0069d050_cls *>(&(triangles))->CopyRecordsTo((int)(&dest->triangles));
+    reinterpret_cast<::FUN_0069d050_cls *>(&(triangles))->CopyRecordsTo((std::intptr_t)(&dest->triangles));
 }
 // Picks start/end by direction, computes the span and the angle relative to the first endpoint, and tests the relative angle against the span.
 // @fnv 0x006a0660
@@ -5598,14 +5598,14 @@ bool Owner::BuildGroups(Input* input, Groups* output)
         for (unsigned int inner = 0; inner < count; inner++)
         {
             Handle handle(((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->mesh, reinterpret_cast<::FUN_005eeda0_this *>(&(indices3))->GetBufferEntry(inner));
-            if (!reinterpret_cast<::S006a1460 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(outer)))))->FUN_006a1460((int)&(handle)))
+            if (!reinterpret_cast<::S006a1460 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(outer)))))->FUN_006a1460((std::intptr_t)&(handle)))
                 reinterpret_cast<::FUN_006dba30_Class *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(outer)))))->FUN_006dba30((const ::S0069a690 *)&(handle));
         }
         count = reinterpret_cast<::fnv_0069a940::FUN_0069a940_shell *>((((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->mesh))->FUN_0069a940(((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->index, (::fnv_0069a940::GlobalObject_00869f00 *)(::Words *)(&indices3));
         for (unsigned int innerB = 0; innerB < count; innerB++)
         {
             Handle handleB(((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->mesh, reinterpret_cast<::FUN_005eeda0_this *>(&(indices3))->GetBufferEntry(innerB));
-            if (!reinterpret_cast<::S006a1460 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(outer)))))->FUN_006a1460((int)&(handleB)) && !reinterpret_cast<::S006a1460 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(second7))->FUN_00558dd0(outer)))))->FUN_006a1460((int)&(handleB)))
+            if (!reinterpret_cast<::S006a1460 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(outer)))))->FUN_006a1460((std::intptr_t)&(handleB)) && !reinterpret_cast<::S006a1460 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(second7))->FUN_00558dd0(outer)))))->FUN_006a1460((std::intptr_t)&(handleB)))
                 reinterpret_cast<::FUN_006dba30_Class *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(second7))->FUN_00558dd0(outer)))))->FUN_006dba30((const ::S0069a690 *)&(handleB));
         }
     }
@@ -5673,7 +5673,7 @@ bool Owner::BuildGroups(Input* input, Groups* output)
                     {
                         if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::Vec &)((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(group)))->At(index)->position - ((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))->At(next)->position)))->UpdateCombatStyle() < threshold9)
                         {
-                            if (reinterpret_cast<::FUN_006a1aa0_class *>(&(removalsTmp))->FindMatchingEntry((int)&(const ::Pair &)(Pair(group, index)), 0, (unsigned char (*)(int, int))(((bool (&)(const Pair &, const Pair &))::CallMethodOnObject))) == -1)
+                            if (reinterpret_cast<::FUN_006a1aa0_class *>(&(removalsTmp))->FindMatchingEntry((std::intptr_t)&(const ::Pair &)(Pair(group, index)), 0, (unsigned char (*)(int, int))(((bool (&)(const Pair &, const Pair &))::CallMethodOnObject))) == -1)
                                 reinterpret_cast<::FUN_006a1a50_cls *>(&(removalsTmp))->FUN_006a1a50((const ::FUN_006a1a50_pair *)&(const ::Pair &)(Pair(group, index)));
                         }
                     }
@@ -5684,7 +5684,7 @@ bool Owner::BuildGroups(Input* input, Groups* output)
                     {
                         if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::Vec &)((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(group)))->At(index)->position - ((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))->At(nextOther)->position)))->UpdateCombatStyle() < threshold9)
                         {
-                            if (reinterpret_cast<::FUN_006a1aa0_class *>(&(removalsTmp))->FindMatchingEntry((int)&(const ::Pair &)(Pair(group, index)), 0, (unsigned char (*)(int, int))(((bool (&)(const Pair &, const Pair &))::CallMethodOnObject))) == -1)
+                            if (reinterpret_cast<::FUN_006a1aa0_class *>(&(removalsTmp))->FindMatchingEntry((std::intptr_t)&(const ::Pair &)(Pair(group, index)), 0, (unsigned char (*)(int, int))(((bool (&)(const Pair &, const Pair &))::CallMethodOnObject))) == -1)
                                 reinterpret_cast<::FUN_006a1a50_cls *>(&(removalsTmp))->FUN_006a1a50((const ::FUN_006a1a50_pair *)&(const ::Pair &)(Pair(group, index)));
                         }
                     }

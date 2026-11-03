@@ -2425,7 +2425,7 @@ bool DoorSearchInit::InitDoorSearch(SearchLocation* start, SearchLocation* goal,
     lockData = locks;
     result->start = reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
     result->finish = reinterpret_cast<::TaskQueueInterface *>((void *)(goal))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
-    reinterpret_cast<::S_006f3d00_Obj *>(this)->FUN_006f3d00((int)(a), (::S_006f3d00_Vec3 *)(::SearchState *)(&startState), 1.0f);
+    reinterpret_cast<::S_006f3d00_Obj *>(this)->FUN_006f3d00((std::intptr_t)(a), (::S_006f3d00_Vec3 *)(::SearchState *)(&startState), 1.0f);
     if (!reinterpret_cast<::PathSearch *>(this)->FindPath((int)(result), (int)(&result->sub), true))
         return false;
     return true;

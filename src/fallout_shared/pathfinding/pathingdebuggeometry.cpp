@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // FUN_00574400 - TESObjectREFR method, /Od /Oy- frame 0x44
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorDeletionQueue.h"
 #include "fnv/decl/B572270Object.h"
@@ -654,8 +655,8 @@ void Ref::FUN_00574400()
                                 {
                                     ::FUN_008cddd0((::MobileObject *)(::Ref *)(this), 1);
                                 }
-                                reinterpret_cast<::FUN_0093a660_class *>(((*reinterpret_cast<::Ref * *>(&::_g_thePlayer))))->FUN_0093a660((int)(q));
-                                reinterpret_cast<::FUN_00967350_shell *>(((*reinterpret_cast<::Ref * *>(&::_g_thePlayer))))->FUN_00967350((int)(q));
+                                reinterpret_cast<::FUN_0093a660_class *>(((*reinterpret_cast<::Ref * *>(&::_g_thePlayer))))->FUN_0093a660((std::intptr_t)(q));
+                                reinterpret_cast<::FUN_00967350_shell *>(((*reinterpret_cast<::Ref * *>(&::_g_thePlayer))))->FUN_00967350((std::intptr_t)(q));
                                 reinterpret_cast<::FUN_0096e6f0_shell *>(&((*reinterpret_cast<::GlobalObj *>(&::g_011e0e80))))->RemoveActor((::Actor *)(q));
                                 if (((::Ref *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) != 0)
                                 {
@@ -727,7 +728,7 @@ void Ref::FUN_00574400()
                     }
                     if (reinterpret_cast<::FUN_00549580_shell *>((((::Ref *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))->FUN_00549580())
                     {
-                        reinterpret_cast<::Dfcfa0Manager *>((((::ObjX *)(reinterpret_cast<::TESWorldSpace *>((((::ObjX *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::Tes * *>(&::g_TES))))->GetHitSound()))))->GetWorldTerrainManager()))))->FUN_006fcfa0({}, {});
+                        reinterpret_cast<::Dfcfa0Manager *>((((::ObjX *)(reinterpret_cast<::TESWorldSpace *>((((::ObjX *)(reinterpret_cast<::EffectSetting *>((((::Tes *)::g_TES)))->GetHitSound()))))->GetWorldTerrainManager()))))->FUN_006fcfa0({}, {});
                     }
                     reinterpret_cast<::FUN_0056c880_S *>(this)->FUN_0056c880(1, 0);
                     reinterpret_cast<::FUN_00952c30_shell *>(((*reinterpret_cast<::Ref * *>(&::_g_thePlayer))))->FUN_00952c30((::TESObjectREFR *)(::Ref *)(this));
@@ -789,7 +790,7 @@ struct EventTarget
 
 
 // @fnv 0x007f6a20
-void __cdecl FUN_007f6a20(int a1)
+void __cdecl FUN_007f6a20(std::intptr_t a1)
 {
     if ((*reinterpret_cast<::ListNode *>(&::g_011db150)).Probe())
     {

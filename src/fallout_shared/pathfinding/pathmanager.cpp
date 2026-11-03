@@ -7220,7 +7220,7 @@ void DrainManager::Drain()
     {
         int key;
         TaskView* pTask;
-        if (reinterpret_cast<::Queue44c640 *>(&(outgoing))->TryGetNextEntry((::QueueIter44c640 *)&(iter), (void **)(int *)(&key), (int)(&pTask), true))
+        if (reinterpret_cast<::Queue44c640 *>(&(outgoing))->TryGetNextEntry((::QueueIter44c640 *)&(iter), (void **)(int *)(&key), (std::intptr_t)(&pTask), true))
         {
             ((::QueueTarget *)(::FUN_00559450((int *)&(pTask->queue))))->Push(ReplyView(1, &pTask->solution));
             delete pTask;
@@ -7264,7 +7264,7 @@ class FUN_009055c0 : public F55C0Queue
 FUN_009055c0::~FUN_009055c0()
 {
     F55C0Item kItem;
-    while (reinterpret_cast<::FUN_006ec390_Class *>(this)->FUN_006ec390((int)&(kItem)))
+    while (reinterpret_cast<::FUN_006ec390_Class *>(this)->FUN_006ec390((std::intptr_t)&(kItem)))
     {
     }
 }
@@ -7365,7 +7365,7 @@ void FUN_006eb6b0_cls_ctxr2::FUN_006eb6b0(int id)
     PathWorkList list3;
     while (!reinterpret_cast<::FUN_006ebde0_shell *>(&(list3))->FUN_006ebde0())
     {
-        if (reinterpret_cast<::Queue44c640 *>((reinterpret_cast<PathIndex*>(reinterpret_cast<char*>(this) + 0x1480)))->TryGetNextEntry((::QueueIter44c640 *)(::PathWorkList *)(&list3), (void **)(::PathingRequest **)(&ref), (int)(&outA2), true))
+        if (reinterpret_cast<::Queue44c640 *>((reinterpret_cast<PathIndex*>(reinterpret_cast<char*>(this) + 0x1480)))->TryGetNextEntry((::QueueIter44c640 *)(::PathWorkList *)(&list3), (void **)(::PathingRequest **)(&ref), (std::intptr_t)(&outA2), true))
         {
             if (reinterpret_cast<PathSlot*>(reinterpret_cast<::FUN_006c9900_shell *>((ref))->FUN_006c9900())->unk04 == id)
             {
@@ -8894,7 +8894,7 @@ void FUN_006eae40_shell::FUN_006eae40()
     void* pOut_b;
     while (!reinterpret_cast<::FUN_006ebde0_shell *>(&(objA6))->FUN_006ebde0())
     {
-        if (reinterpret_cast<::Queue44c640 *>(&(m_sub1480))->TryGetNextEntry((::QueueIter44c640 *)(::fnv_006eae40::ObjA *)(&objA6), &pOut_b, (int)(&pFound_vv), 1) && ((bool)(::FUN_005dc980((const char *)(pFound_vv)))))
+        if (reinterpret_cast<::Queue44c640 *>(&(m_sub1480))->TryGetNextEntry((::QueueIter44c640 *)(::fnv_006eae40::ObjA *)(&objA6), &pOut_b, (std::intptr_t)(&pFound_vv), 1) && ((bool)(::FUN_005dc980((const char *)(pFound_vv)))))
         {
             count_iagb += reinterpret_cast<::ManagerView *>((pFound_vv))->FUN_006ea350();
             if ((unsigned int)count_iagb > 10)

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class Refr62C3C0;
 class VtObj;

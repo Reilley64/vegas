@@ -118,9 +118,9 @@ void NavMesh::InitItem()
         ((TESForm*)reinterpret_cast<::FUN_0068efb0_shell *>(this)->FUN_0068efb0())->SetCollisionDisabled(true);
     if (reinterpret_cast<::FUN_00440d80_shell *>((void *)this)->FUN_00440d80())
     {
-        bool altered = reinterpret_cast<::FUN_00460340_shell *>((((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00()))))->FUN_00460340();
+        bool altered = reinterpret_cast<::FUN_00460340_shell *>((((::Pathing *)(reinterpret_cast<::Owner45A *>((((::TES *)::g_TES)))->FUN_0045af00()))))->FUN_00460340();
         reinterpret_cast<::fnv_00690d50::FUN_00690d50_shell *>(this)->FUN_00690d50(false);
-        ((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00()))->SetAltered(altered);
+        ((::Pathing *)(reinterpret_cast<::Owner45A *>((((::TES *)::g_TES)))->FUN_0045af00()))->SetAltered(altered);
     }
     else
         reinterpret_cast<::FUN_00699b60_shell *>(this)->BuildPortalPOVs();
@@ -1181,7 +1181,7 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
     if (reinterpret_cast<::FUN_00440d80_shell *>((void *)(((TESForm*)this)))->FUN_00440d80())
     {
         reinterpret_cast<::FUN_0040f6e0_class *>((((G00559a40*)&this->m_uiRefCount)))->FUN_0040f6e0();
-        reinterpret_cast<::FUN_006b6990_shell *>((((InfoMapS*)((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00())))))->FUN_006b6990(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0())));
+        reinterpret_cast<::FUN_006b6990_shell *>((((InfoMapS*)((::Pathing *)(reinterpret_cast<::Owner45A *>((((::TES *)::g_TES)))->FUN_0045af00())))))->FUN_006b6990(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0())));
         return false;
     }
     if (*(NavMeshInfo**)&this->m_pNavigationMesh)
@@ -1231,10 +1231,10 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
                     reinterpret_cast<::FUN_00693bb0_class *>((ptri))->FUN_00693bb0();
             }
         }
-        if (!((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00())))
+        if (!((::Pathing *)(reinterpret_cast<::Owner45A *>((((::TES *)::g_TES)))->FUN_0045af00())))
             return false;
         *(NavMeshInfo**)&this->m_pNavigationMesh =
-            ((::fnv_00692950::NavMeshInfo *)(reinterpret_cast<::Pathing *>((((PathingS*)((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00())))))->FindReferenceByFormId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0())))));
+            ((::fnv_00692950::NavMeshInfo *)(reinterpret_cast<::Pathing *>((((PathingS*)((::Pathing *)(reinterpret_cast<::Owner45A *>((((::TES *)::g_TES)))->FUN_0045af00())))))->FindReferenceByFormId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0())))));
         if (!*(NavMeshInfo**)&this->m_pNavigationMesh)
         {
             ::FUN_005b5e40();
@@ -1727,7 +1727,7 @@ void FUN_00693fe0_cls::FUN_00693fe0(unsigned char arg)
     if (arg != 0)
     {
         ::RemoveNavMeshId((std::uintptr_t)(((void *)(reinterpret_cast<::FUN_0068efb0_shell *>(this)->FUN_0068efb0()))));
-        reinterpret_cast<::NavigationOwner *>((((::Res *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::Mgr * *>(&::g_TES))))->FUN_0045af00()))))->ActivateNavigationEntry((int)reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0());
+        reinterpret_cast<::NavigationOwner *>((((::Res *)(reinterpret_cast<::Owner45A *>((((::Mgr *)::g_TES)))->FUN_0045af00()))))->ActivateNavigationEntry((int)reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0());
     }
 }
 
@@ -2002,7 +2002,7 @@ struct Manager69
 // @fnv 0x00694500
 bool __cdecl FUN_00694500(unsigned int uiNavMeshId, bool disabled)
 {
-    Info69* info = ((::Info69 *)(reinterpret_cast<::Pathing *>((((::Map69 *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::Manager69 * *>(&::g_TES))))->FUN_0045af00()))))->FindReferenceByFormId(uiNavMeshId)));
+    Info69* info = ((::Info69 *)(reinterpret_cast<::Pathing *>((((::Map69 *)(reinterpret_cast<::Owner45A *>((((::Manager69 *)::g_TES)))->FUN_0045af00()))))->FindReferenceByFormId(uiNavMeshId)));
     if (!info)
     {
         ::FUN_005b5e40();

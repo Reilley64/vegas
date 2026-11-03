@@ -150,7 +150,7 @@ void PathingLocation::LoadGame(BGSLoadGameBuffer* buffer)
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&Location), 12);
     unsigned int navMeshID = 0;
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((((BGSLoadFormBuffer*)buffer)))->FUN_008648e0((unsigned int *)(void *)(&navMeshID));
-    m_pLocationNavMesh = ((::NavMeshInfo *)(((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00()))->FindReferenceByFormId({})));
+    m_pLocationNavMesh = ((::NavMeshInfo *)(((::Pathing *)(reinterpret_cast<::Owner45A *>((((::TES *)::g_TES)))->FUN_0045af00()))->FindReferenceByFormId({})));
     pCell = dynamic_cast<TESObjectCELL*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
     m_pContainingWorldspace = dynamic_cast<TESWorldSpace*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiPathingFlags), 4);
@@ -1328,7 +1328,7 @@ bool NLLocation::UpdateMeshLocation()
         bool bValidFound = false;
         unsigned int uiNumMeshes = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pNavMeshInfoArray))->GetName()));
         bool bClose = false;
-        if (reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::NLTES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)&(Location), (::CellView *)(pCell)) + 25.0 > Location.z)
+        if (reinterpret_cast<::FUN_0045cbc0_shell *>((((::NLTES *)::g_TES)))->GetCellHeightAtPosition((const ::NiPoint3 *)&(Location), (::CellView *)(pCell)) + 25.0 > Location.z)
             bClose = true;
         for (unsigned int i = 0; i < uiNumMeshes; i++)
         {

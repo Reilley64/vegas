@@ -3831,12 +3831,12 @@ struct Extra_7C : public BSExtraData
 
 struct FUN_004213c0_impl : public ExtraDataList
 {
-    void FUN_004213c0(std::intptr_t a1, int a2);
+    void FUN_004213c0(std::intptr_t a1, std::intptr_t a2);
 };
 
 // Looks up the extra data of type 0x7c in this list and, if present, forwards both arguments to its handler.
 // @fnv 0x004213c0
-void FUN_004213c0_impl::FUN_004213c0(std::intptr_t aiArg1, int aiArg2)
+void FUN_004213c0_impl::FUN_004213c0(std::intptr_t aiArg1, std::intptr_t aiArg2)
 {
     Extra_7C* pExtra = static_cast<Extra_7C*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x7c));
     if (pExtra)
@@ -13459,7 +13459,7 @@ void FUN_00420a60_Class::FUN_00420a60(int aiWhich, TESObjectREFR* apRef)
     {
         if (aiWhich == 0)
         {
-            reinterpret_cast<::FUN_009707f0_shell *>((((FUN_009707f0_shell*)pportal)))->FUN_009707f0((int)(proom));
+            reinterpret_cast<::FUN_009707f0_shell *>((((FUN_009707f0_shell*)pportal)))->FUN_009707f0((std::intptr_t)(proom));
         }
 
         if (aiWhich == 1)
@@ -14651,7 +14651,7 @@ struct Extra_00432870 : public BSExtraData
 };
 struct FUN_0041c930_shell : public ExtraDataList
 {
-    void FUN_0041c930(Package_0041c930*, unsigned int, unsigned int, unsigned char, unsigned char, unsigned char);
+    void FUN_0041c930(Package_0041c930*, unsigned int, std::uintptr_t, unsigned char, unsigned char, unsigned char);
 };
 struct FUN_0041cb40_extra
 {
@@ -14765,8 +14765,7 @@ struct FUN_0041cc60_cls
     void FUN_0041cc60();
 };
 // @fnv 0x0041c930
-void FUN_0041c930_shell::FUN_0041c930(Package_0041c930* package, unsigned int value, unsigned int options,
-                                      unsigned char flag1, unsigned char flag2, unsigned char flag3)
+void FUN_0041c930_shell::FUN_0041c930(Package_0041c930* package, unsigned int value, std::uintptr_t options, unsigned char flag1, unsigned char flag2, unsigned char flag3)
 {
     if (package != 0 && ((reinterpret_cast<::TESPackage *>((package))->IsMustComplete() && reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() != 1) || reinterpret_cast<::TESPackage *>((package))->IsFlag10000Set() ||
                          reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() == 0x18 || reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() == 0x17))
@@ -18781,7 +18780,7 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
             if (pCombatExtra)
             {
                 pCombatExtra->value18 = pCombatExtra->value18 ? ((void *)(::MagicItem::GetMagicItemByID((unsigned int)(pCombatExtra->value18)))) : 0;
-                pCombatExtra->value1c = pCombatExtra->value1c ? ((void *)(::MagicTarget::GetMagicTargetByID((unsigned int)(pCombatExtra->value1c)))) : 0;
+                pCombatExtra->value1c = pCombatExtra->value1c ? ((void *)(::MagicTarget::GetMagicTargetByID((std::uintptr_t)(pCombatExtra->value1c)))) : 0;
                 pCombatExtra->value20 =
                     pCombatExtra->value20
                         ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)pCombatExtra->value20))
@@ -19602,7 +19601,7 @@ void Extras::FUN_00424960(unsigned int auiChangeFlags, unsigned int unused, TESO
                 reinterpret_cast<::FUN_00857aa0 *>(((*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->ValidateFormIDArray((unsigned int *)(void *)(&id), 4);
                 TESGlobal* form = dynamic_cast<TESGlobal*>(FUN_004839c0(id));
                 if (form)
-                    reinterpret_cast<::FUN_004197d0_shell *>(this)->SetExtraDataValue((int)(form));
+                    reinterpret_cast<::FUN_004197d0_shell *>(this)->SetExtraDataValue((std::intptr_t)(form));
             }
             break;
         }
@@ -19935,7 +19934,7 @@ void Extras::FUN_00424960(unsigned int auiChangeFlags, unsigned int unused, TESO
             FUN_0083da50* data = new FUN_0083da50;
             reinterpret_cast<::TopicLoad *>((data))->LoadFromSave(reference);
             if (((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((data))->FUN_009611e0())))
-                reinterpret_cast<::FUN_0042dee0_shell *>(this)->FUN_0042dee0((int)(data));
+                reinterpret_cast<::FUN_0042dee0_shell *>(this)->FUN_0042dee0((std::intptr_t)(data));
             else
                 delete (FUN_00425ff0*)data;
             break;
@@ -20298,7 +20297,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             case 0x5b: {
                 Node* t = node;
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_10), 0);
-                int res = ::FindIndexByValue((void *)(t->m_10), (int)t->m_0c);
+                int res = ::FindIndexByValue((void *)(t->m_10), (std::uintptr_t)t->m_0c);
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&res, 4, 0);
                 break;
             }
@@ -20676,7 +20675,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             case 0x8b: {
                 Node* record2 = node;
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&record2->m_10, 0xc, 0);
-                reinterpret_cast<::FUN_00865db0_shell *>((apBuffer))->FUN_00865db0((int)record2->m_1c, 0);
+                reinterpret_cast<::FUN_00865db0_shell *>((apBuffer))->FUN_00865db0((std::uintptr_t)record2->m_1c, 0);
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&record2->m_0c, 4, 0);
                 int entryCount = 0;
                 int start2 = ((int)(reinterpret_cast<::FUN_00865f20_shell *>((apBuffer))->FUN_00865f20()));
@@ -23626,7 +23625,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         case 111: {
             ResolvePatrol* data = reinterpret_cast<ResolvePatrol*>(((::fnv_00416be0::ResolveList *)(reinterpret_cast<::FUN_0041fe90_shell *>(this)->FUN_0041fe90())));
             if (data)
-                reinterpret_cast<::FUN_0067c6c0_shell *>((data))->FUN_0067c6c0((int)(owner));
+                reinterpret_cast<::FUN_0067c6c0_shell *>((data))->FUN_0067c6c0((std::intptr_t)(owner));
             break;
         }
         default:
@@ -24505,7 +24504,7 @@ void ExtraDataListEx_ctx::FUN_004103d0(BSExtraDataEx* apExtra)
         reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>(this)->FUN_00419700((::fnv_00419700::TESForm *)(((ExtraOwnership_ctx*)apExtra)->pOwner));
         break;
     case 0x22:
-        reinterpret_cast<::FUN_004197d0_shell *>(this)->SetExtraDataValue((int)(((ExtraGlobal_ctx*)apExtra)->pGlobalForm));
+        reinterpret_cast<::FUN_004197d0_shell *>(this)->SetExtraDataValue((std::intptr_t)(((ExtraGlobal_ctx*)apExtra)->pGlobalForm));
         break;
     case 0x23:
         reinterpret_cast<::fnv_004198a0::FUN_004198a0 *>(this)->SetTeleportData((::fnv_004198a0::TeleportableReference *)(((ExtraRank*)apExtra)->m_iRank));
@@ -24850,7 +24849,7 @@ void ExtraDataListEx_ctx::FUN_004103d0(BSExtraDataEx* apExtra)
         BSSimpleList<TESObjectREFR*>* pRoomLinkIter = &pRoomRefData->kLinkedRooms;
         while (pRoomLinkIter && (pRoomLinkIter->m_item))
         {
-            reinterpret_cast<::FUN_00420c10_Class *>(this)->FUN_00420c10((int)((pRoomLinkIter->m_item)));
+            reinterpret_cast<::FUN_00420c10_Class *>(this)->FUN_00420c10((std::intptr_t)((pRoomLinkIter->m_item)));
             pRoomLinkIter = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((pRoomLinkIter))->FUN_00726070()));
         }
         reinterpret_cast<::FUN_00420870_cls *>(this)->SetFlagOnRecord123(pRoomRefData->bIsMaster != 0);
@@ -26469,7 +26468,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
                     if (v5c)
                         x->ia.s16(((int)(::MagicItem::GetMagicItemByID((unsigned int)(v5c)))));
                     if (v60)
-                        x->ia.s18(((int)(::MagicTarget::GetMagicTargetByID((unsigned int)(v60)))));
+                        x->ia.s18(((int)(::MagicTarget::GetMagicTargetByID((std::uintptr_t)(v60)))));
                     if (v58)
                         reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((x))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(::load_extra_fixup::G *)((G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(v58)))));
                 }

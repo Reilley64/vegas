@@ -1,5 +1,6 @@
 // fallout_shared/tesworldspace.cpp: TESWorldSpace, TESObjectCELL, TESRegion, InterfaceManager and more (90 functions)
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include "fnv/decl/ActorTaskManager.h"
@@ -445,7 +446,7 @@ void* FUN_00588b00_shell::GetOrCreateCellOffsetData(TESFile* apFile)
         pdata->uiFileOffset = 0;
         pdata->m_kFirstPoint = NiPoint2(3.4028234663852886e+38f, 3.4028234663852886e+38f);
         pdata->m_kEndPoint = NiPoint2(::DAT_01015f5c, ::DAT_01015f5c);
-        reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00844700((unsigned int)pmainfile, (unsigned int)pdata);
+        reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00844700((std::uintptr_t)pmainfile, (unsigned int)pdata);
     }
     return pdata;
 }
@@ -534,7 +535,7 @@ bool FUN_00587670_shell::FUN_00587670(TESObjectCELL* apCell)
             ::FUN_005b5e40();
             return false;
         }
-        reinterpret_cast<::FUN_00844700_Class *>(((*(DummyPointerMap**)&this->cellMap)))->FUN_00844700(key, (unsigned int)apCell);
+        reinterpret_cast<::FUN_00844700_Class *>(((*(DummyPointerMap**)&this->cellMap)))->FUN_00844700(key, (std::uintptr_t)apCell);
     }
     reinterpret_cast<::FUN_0054de10_shell *>((((S54de10*)apCell)))->FUN_0054de10(this);
     return true;
@@ -986,7 +987,7 @@ void FUN_004f6800_shell::FUN_004f6800(void* a1, float* a2, void* a3)
     tmp.FUN_004f6fc0();
     reinterpret_cast<::FUN_0052ce20_shell *>((((AlphaColor*)&tmp)))->FUN_0052ce20(a2[0]);
     reinterpret_cast<::FUN_004f5d90_shell *>((((Modifier*)&tmp)))->FUN_004f5d90(a2[1]);
-    reinterpret_cast<::FUN_004f6850_Class *>((((FUN_004f6850_shell*)this)))->FUN_004f6850((int)(a1), (int)(&tmp), (int)(a3));
+    reinterpret_cast<::FUN_004f6850_Class *>((((FUN_004f6850_shell*)this)))->FUN_004f6850((std::intptr_t)(a1), (int)(&tmp), (int)(a3));
 }
 
 struct FUN_00528560_Host
@@ -3577,12 +3578,10 @@ struct CELL_SHELL : public TESObjectCELL
 };
 struct WORLD_SHELL : public TESWorldSpace
 {
-    void ProcessCellsInRadius(const NiPoint3* point, float distance, const NiPoint3* otherPoint, float otherDistance,
-                              int options, unsigned int context);
+    void ProcessCellsInRadius(const NiPoint3* point, float distance, const NiPoint3* otherPoint, float otherDistance, std::intptr_t options, unsigned int context);
 };
 // @fnv 0x005885f0
-void WORLD_SHELL::ProcessCellsInRadius(const NiPoint3* point, float distance, const NiPoint3* otherPoint,
-                                       float otherDistance, int options, unsigned int context)
+void WORLD_SHELL::ProcessCellsInRadius(const NiPoint3* point, float distance, const NiPoint3* otherPoint, float otherDistance, std::intptr_t options, unsigned int context)
 {
     if (options == 0)
         return;
@@ -4790,7 +4789,7 @@ void WorldSpaceRefShell::FUN_00587d10(TESObjectREFR* apRef)
             if (!preflist)
             {
                 preflist = new RefListNode_587D10;
-                reinterpret_cast<::FUN_00844700_Class *>((((SetAt_587D10*)((char*)this + 0x50))))->FUN_00844700(ikey, (unsigned int)preflist);
+                reinterpret_cast<::FUN_00844700_Class *>((((SetAt_587D10*)((char*)this + 0x50))))->FUN_00844700(ikey, (std::uintptr_t)preflist);
             }
             preflist->AddHead((int*)&apRef);
         }
@@ -5057,7 +5056,7 @@ void CombatGroup532::FUN_00993600(void* stream)
     {
         child2 = FUN_00877a30(index);
         if (child2)
-            reinterpret_cast<::UpdateOwner *>((child2))->UpdateElements((unsigned int)(stream));
+            reinterpret_cast<::UpdateOwner *>((child2))->UpdateElements((std::uintptr_t)(stream));
     }
     reinterpret_cast<::CombatThreatMap *>((tail))->ApplyLoadBuffer((::BGSLoadGameBuffer *)(stream));
 }
@@ -5380,7 +5379,7 @@ void WorldSpaceOwner5845::FUN_005845e0()
                 else
                     ::FUN_005b5e40();
             }
-            reinterpret_cast<::FUN_00810570_shell *>(this)->SetAssociatedActorValue((int)(kPkMusicType));
+            reinterpret_cast<::FUN_00810570_shell *>(this)->SetAssociatedActorValue((std::intptr_t)(kPkMusicType));
         }
         uiFormIDA = m_uiParentWorld;
         if (uiFormIDA)

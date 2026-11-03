@@ -126,7 +126,7 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
                 bAdd = false;
             if (m_bUnderwaterPath)
             {
-                float water = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetCellHeightAtPosition(
+                float water = reinterpret_cast<::FUN_0045cbc0_shell *>((((::TES *)::g_TES)))->GetCellHeightAtPosition(
                     (const ::NiPoint3 *)&(Links.GetBufferElementAddress(i).m_kStartPoint.Location),
                     (::CellView *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((Links.GetBufferElementAddress(i).m_kStartPoint.m_pLocationNavMesh))->GetCurrentMoveModeType()));
                 if (water >= Links.GetBufferElementAddress(i).m_kStartPoint.Location.z)
@@ -154,11 +154,11 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
                 reinterpret_cast<::FUN_004a0c10_s *>(&(Dir))->FUN_004a0c10();
                 reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(Dir))->FUN_00439180(segmentLength);
             }
-            reinterpret_cast<::FUN_0069f920_cls *>((m_pOutputSolution))->FUN_0069f920((int)&(Location), (int)&(Dir));
+            reinterpret_cast<::FUN_0069f920_cls *>((m_pOutputSolution))->FUN_0069f920((std::intptr_t)&(Location), (int)&(Dir));
         }
         if (m_bUnderwaterPath && (i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(Links))->GetName())) - 1 || m_pOutputSolution->FUN_006b05d0() || addGoal))
         {
-            float water = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetCellHeightAtPosition(
+            float water = reinterpret_cast<::FUN_0045cbc0_shell *>((((::TES *)::g_TES)))->GetCellHeightAtPosition(
                 (const ::NiPoint3 *)&(Links.GetBufferElementAddress(i).m_kEndPoint.Location),
                 (::CellView *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((Links.GetBufferElementAddress(i).m_kEndPoint.m_pLocationNavMesh))->GetCurrentMoveModeType()));
             if (water >= Links.GetBufferElementAddress(i).m_kEndPoint.Location.z)
@@ -186,7 +186,7 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
             reinterpret_cast<::FUN_004a0c10_s *>(&(Dir))->FUN_004a0c10();
             reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(Dir))->FUN_00439180(segmentLength);
         }
-        reinterpret_cast<::FUN_0069f920_cls *>((m_pOutputSolution))->FUN_0069f920((int)&(Location), (int)&(Dir));
+        reinterpret_cast<::FUN_0069f920_cls *>((m_pOutputSolution))->FUN_0069f920((std::intptr_t)&(Location), (int)&(Dir));
     }
     if (pRequest->FUN_00505c00() && !reinterpret_cast<::FUN_0076b610_Class *>((void *)&(Links))->FUN_0076b610())
     {
@@ -286,7 +286,7 @@ bool PathSmootherPOVSearch::SearchForPath(PathingRequest* request,
     bool startUnderWater =
         reinterpret_cast<::ActorMover *>((::GetFirstElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles)).m_pLocationNavMesh))->GetCurrentMoveModeType()
             ? (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)&(::GetFirstElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles))))->FUN_006a6eb0({}))).z <
-                  reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)&(start),
+                  reinterpret_cast<::FUN_0045cbc0_shell *>((((::TES *)::g_TES)))->GetCellHeightAtPosition((const ::NiPoint3 *)&(start),
                                         (::CellView *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((::GetFirstElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles)).m_pLocationNavMesh))->GetCurrentMoveModeType())) +
                       50.0f
             : true;
@@ -301,7 +301,7 @@ bool PathSmootherPOVSearch::SearchForPath(PathingRequest* request,
     if (!reinterpret_cast<::FUN_006a9520_Class *>((((::PathingLocation *)(::FUN_006a9540((char *)(request))))))->FUN_006a9520() &&
         reinterpret_cast<::ActorMover *>((::GetLastElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles)).m_pLocationNavMesh))->GetCurrentMoveModeType() &&
         (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)&(::GetLastElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles))))->FUN_006a6eb0({}))).z <
-            reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)&(goal), (::CellView *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((::GetLastElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles)).m_pLocationNavMesh))->GetCurrentMoveModeType())) +
+            reinterpret_cast<::FUN_0045cbc0_shell *>((((::TES *)::g_TES)))->GetCellHeightAtPosition((const ::NiPoint3 *)&(goal), (::CellView *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((::GetLastElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles)).m_pLocationNavMesh))->GetCurrentMoveModeType())) +
                 50.0f)
         bGoalUnderWater = true;
     if (!bGoalUnderWater)
@@ -525,7 +525,7 @@ void PathSmootherPOVSearch::AddNavMeshEdgeRecord(NavMesh* mesh, unsigned short t
                         {
                             if (m_bUnderwaterPath)
                             {
-                                float water = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetCellHeightAtPosition(
+                                float water = reinterpret_cast<::FUN_0045cbc0_shell *>((((::TES *)::g_TES)))->GetCellHeightAtPosition(
                                     (const ::NiPoint3 *)&(Crossing), (::CellView *)(((reinterpret_cast<::PathingLocation *>((void *)&((*(::PathingLocation *)(reinterpret_cast<::BaseProcess *>((((::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((m_pOutputSolution))->FUN_006b05a0()))))->GetCurrentProcessData()))))->GetContainingCell()))));
                                 if (water >= Crossing.z)
                                     Crossing.z = water;
@@ -533,7 +533,7 @@ void PathSmootherPOVSearch::AddNavMeshEdgeRecord(NavMesh* mesh, unsigned short t
                             PathingLocation location(Crossing, reinterpret_cast<::FUN_0068efb0_shell *>((exit.m_pLocationNavMesh))->FUN_0068efb0(),
                                                      exit.m_usTriangleID);
                             NiPoint3 Dir = pathDirection * ::GetFloatAtOffset68((const char *)(pRequest));
-                            reinterpret_cast<::FUN_0069f920_cls *>((m_pOutputSolution))->FUN_0069f920((int)&(location), (int)&(Dir));
+                            reinterpret_cast<::FUN_0069f920_cls *>((m_pOutputSolution))->FUN_0069f920((std::intptr_t)&(location), (int)&(Dir));
                         }
                     }
                 }
@@ -831,7 +831,7 @@ bool PathSmootherPOVSearch::FindPathToPoint(const POVNode* node, PathSmootherPOV
                                 projectedPoint.z);
                             float heightDelta = projectedPoint.z - endSphere.Center.z;
                             if (!((entryLocation.Location.z <
-                                       (*reinterpret_cast<::TES * *>(&::g_TES))->UpdateTESState(
+                                       ((::TES *)::g_TES)->UpdateTESState(
                                            entryLocation.Location,
                                            entryLocation.m_pLocationNavMesh->GetCurrentMoveModeType()) ||
                                    heightDelta > -64.0f) &&
@@ -1534,7 +1534,7 @@ int FUN_006b3420_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, PSN
             if ((*pBucketHead)->m_fPathingCostCur > afCost)
             {
                 *aRetNode = *pBucketHead;
-                reinterpret_cast<::FUN_006a1fb0_class *>(&(kOpen))->UnlinkFromList((int)(*aRetNode));
+                reinterpret_cast<::FUN_006a1fb0_class *>(&(kOpen))->UnlinkFromList((std::intptr_t)(*aRetNode));
                 (*aRetNode)->m_fPathingCostCur = afCost;
                 return 1;
             }
@@ -1556,7 +1556,7 @@ int FUN_006b3420_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, PSN
                     if (pcurrent->m_fPathingCostCur > afCost)
                     {
                         *aRetNode = pcurrent;
-                        reinterpret_cast<::FUN_006a1fb0_class *>(&(kOpen))->UnlinkFromList((int)(*aRetNode));
+                        reinterpret_cast<::FUN_006a1fb0_class *>(&(kOpen))->UnlinkFromList((std::intptr_t)(*aRetNode));
                         (*aRetNode)->m_fPathingCostCur = afCost;
                         return 1;
                     }
@@ -7157,7 +7157,7 @@ bool LastNodeSearch17::TryAddLastNode()
     }
     if (m_bUnderwaterPath)
     {
-        float water = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)&(s.Location), (::CellView *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((MeshOps17*)s.m_pLocationNavMesh)))->GetCurrentMoveModeType()));
+        float water = reinterpret_cast<::FUN_0045cbc0_shell *>((((::TES *)::g_TES)))->GetCellHeightAtPosition((const ::NiPoint3 *)&(s.Location), (::CellView *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((MeshOps17*)s.m_pLocationNavMesh)))->GetCurrentMoveModeType()));
         if (water >= s.Location.z)
             s.Location.z = water;
     }

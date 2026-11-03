@@ -2082,7 +2082,7 @@ void FUN_005533f0_cls::FUN_005533f0(std::uintptr_t uiValue)
         reinterpret_cast<::fnv_00c93820::hkpWorldC938 *>((((FUN_00c93820_stub*)p)))->FUN_00c93820((::fnv_00c93820::hkpEntityListenerC938 *)(uiValue));
         ((Script*)this)->GetLocalData();
     }
-    reinterpret_cast<::FUN_006299c0_cls *>(&(sub))->FUN_006299c0((int)(&uiValue));
+    reinterpret_cast<::FUN_006299c0_cls *>(&(sub))->FUN_006299c0((std::intptr_t)(&uiValue));
 }
 
 namespace fnv_00553440 {
@@ -2286,7 +2286,7 @@ void FUN_005535f0_shell::FUN_005535f0()
         org.m_kTranslation.x = (float)((ix << 12) + DAT_01016968);
         org.m_kTranslation.y = (float)((iy << 12) + DAT_01016968);
         org.m_kTranslation.z = 0.0f;
-        reinterpret_cast<::FUN_00622590_Owner *>((pcm))->PlaceGridObjects((::FUN_0056d2c0_Class *)(pw), (const ::NiPoint3 *)&(org.m_kTranslation), (int)&(NiQuaternion::IDENTITY));
+        reinterpret_cast<::FUN_00622590_Owner *>((pcm))->PlaceGridObjects((::FUN_0056d2c0_Class *)(pw), (const ::NiPoint3 *)&(org.m_kTranslation), (std::intptr_t)&(NiQuaternion::IDENTITY));
     }
 }
 
@@ -5724,9 +5724,9 @@ bool FUN_00547250_shell::CheckWaterHeight(void* apPos, float* afHeight)
             {
                 MBShape* pshape = (MBShape*)((::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((Model*)((void *)(reinterpret_cast<::BSFaceGenNiNode *>((((BSFaceGenNiNode*)pnode)))->GetAnimationData())))))));
                 if (pshape->GetType() == 1)
-                    pt.z = ((::fnv_00547250::PathingLocation *)(::GetOffsetC((int)(((PathingRequest*)pshape)))))->z;
+                    pt.z = ((::fnv_00547250::PathingLocation *)(::GetOffsetC((std::intptr_t)(((PathingRequest*)pshape)))))->z;
                 if (pshape->GetType() == 2)
-                    pt.z = ((::fnv_00547250::PathingLocation *)(::GetOffsetC((int)(((PathingRequest*)pshape)))))->z;
+                    pt.z = ((::fnv_00547250::PathingLocation *)(::GetOffsetC((std::intptr_t)(((PathingRequest*)pshape)))))->z;
                 if (pnode->WithinBounds(&pt))
                 {
                     float fheight = pwaterRef->GetPos()->z;
@@ -6272,7 +6272,6 @@ struct FUN_00459470_Class
 {
     FUN_00557ae0_obj* FUN_00459470(int);
 };
-extern int g_TES;
 struct FUN_00557be0_shell
 {
     void FUN_00557be0();
@@ -8213,14 +8212,14 @@ void FUN_005454f0_cls::FUN_005454f0(void* ref)
     {
         if (((CellRefProbe*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((CellRefResolver*)ref)))->FUN_007af430())))->Probe() == 0x1e)
         {
-            reinterpret_cast<::NiTMap_S *>((((CellRefAttach*)((char*)m_pC4 + 0x2c))))->RemoveKey((unsigned int)(ref));
+            reinterpret_cast<::NiTMap_S *>((((CellRefAttach*)((char*)m_pC4 + 0x2c))))->RemoveKey((std::uintptr_t)(ref));
         }
         else
         {
             void* p = ((void *)(reinterpret_cast<::FUN_00569580_shell *>((((CellRefLookup*)ref)))->GetOwnerForm()));
             if (p != 0)
             {
-                reinterpret_cast<::NiTMap_S *>((((CellRefAttach*)((char*)m_pC4 + 0x1c))))->RemoveKey((unsigned int)(p));
+                reinterpret_cast<::NiTMap_S *>((((CellRefAttach*)((char*)m_pC4 + 0x1c))))->RemoveKey((std::uintptr_t)(p));
             }
         }
     }
@@ -8804,7 +8803,7 @@ FaceGenNode* CellLike::GetOrCreateFaceGenNode(RefForm* ref)
             reinterpret_cast<::FUN_004396b0_class *>((ctrl))->FUN_004396b0((const ::Mat9 &)((const ::Mat9S &)(ref->GetRotationMatrix())));
         }
         reinterpret_cast<::BSFaceGenNiNode *>((node5))->SetAnimationData((::BSFaceGenAnimationData *)(data3));
-        reinterpret_cast<::Map6920 *>(&(unkC4->list))->FUN_006c6920((unsigned int)(ref), (*(::NiPointer< ::NiAVObject> *)&(const ::NodePtr &)(node5)));
+        reinterpret_cast<::Map6920 *>(&(unkC4->list))->FUN_006c6920((std::uintptr_t)(ref), (*(::NiPointer< ::NiAVObject> *)&(const ::NodePtr &)(node5)));
     }
     node5->Update();
     return node5;
@@ -10315,7 +10314,7 @@ void WorkerManager::ProcessWorkerList(WorkerList* pWorkerList, bool enabled)
                 {
                     if (((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && reinterpret_cast<::FUN_0078d200_cls *>(&((*reinterpret_cast<::WorkerLock *>(&::DAT_011f11a0))))->FUN_0078d200())
                     {
-                        reinterpret_cast<::FUN_0096aaf0_shell *>(&(queue))->FUN_0096aaf0((int)(actor), actor->FUN_00931850());
+                        reinterpret_cast<::FUN_0096aaf0_shell *>(&(queue))->FUN_0096aaf0((std::intptr_t)(actor), actor->FUN_00931850());
                         reinterpret_cast<::FUN_00931e80_shell *>((actor))->DeleteAndClear();
                         reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::WorkerLock *>(&::DAT_011f11a0))))->FUN_0040fba0();
                     }
@@ -10586,7 +10585,7 @@ bool FUN_00541e80_shell::SaveCellToFile(CellFileStub* file)
     header8.label = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()));
     header8.size = 0;
     header8.stamp = 0;
-    reinterpret_cast<::FUN_00473310_cls *>((file))->SpawnObject((unsigned int)(&header8));
+    reinterpret_cast<::FUN_00473310_cls *>((file))->SpawnObject((std::uintptr_t)(&header8));
     if (!reinterpret_cast<::TESFile *>((file))->IsMasterFile() || ((::CellFileStub *)(reinterpret_cast<::TESForm *>(this)->GetFile(0))) == file)
         reinterpret_cast<::FUN_00542040_cls *>(this)->FUN_00542040((::SaveFile *)(file));
     return true;
@@ -10603,7 +10602,7 @@ bool CellX::ProcessCell(ParamCls* param)
     d.m_result = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this))->FUN_0084e3a0()));
     d.m_zeroA = 0;
     d.m_zeroB = 0;
-    reinterpret_cast<::FUN_00473310_cls *>((param))->SpawnObject((unsigned int)(&d));
+    reinterpret_cast<::FUN_00473310_cls *>((param))->SpawnObject((std::uintptr_t)(&d));
     reinterpret_cast<::FUN_00542040_cls *>((this))->FUN_00542040((::SaveFile *)(param));
     return true;
 }
@@ -11000,7 +10999,7 @@ FUN_00541810_cls::~FUN_00541810_cls()
             reinterpret_cast<::fnv_00587760::FUN_00587760_shell *>((world))->RemoveCellFromMap((::TESObjectCELL *)(void *)(this));
     }
     reinterpret_cast<::Cell545030 *>(this)->ClearCellData();
-    ::ClearGlobalIfMatches((int)(this));
+    ::ClearGlobalIfMatches((std::intptr_t)(this));
     reinterpret_cast<::TESObjectCELL *>(this)->ClearData();
 }
 
@@ -12063,7 +12062,7 @@ bool FUN_005497c0_shell::FUN_005497c0(AObj* apRefr, P2Obj* apTarget, int p3, uns
             kIter_ = (VObj*)((VObj*)(void*)objTmp.operator->())->f104();
             if (usePt)
             {
-                reinterpret_cast<::FUN_00c39a80_cls *>((kIter_))->FUN_00c39a80((unsigned int)(((::fnv_005497c0::BSOcclusionPlane *)(reinterpret_cast<::FUN_00422120_shell *>((((FUN_00422120_shell*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(((TESObjectREFR*)apRefr))->FUN_005d43c0())))))->FUN_00422120()))));
+                reinterpret_cast<::FUN_00c39a80_cls *>((kIter_))->FUN_00c39a80((std::uintptr_t)(((::fnv_005497c0::BSOcclusionPlane *)(reinterpret_cast<::FUN_00422120_shell *>((((FUN_00422120_shell*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(((TESObjectREFR*)apRefr))->FUN_005d43c0())))))->FUN_00422120()))));
                 return true;
             }
             foundSecond3 = 0;
@@ -12697,7 +12696,7 @@ void Cell::UpdateRefPlacement(Ref* ref, bool force, bool skip)
                         {
                             if (ref->Test2(owner))
                             {
-                                reinterpret_cast<::FUN_00844700_Class *>(&((*reinterpret_cast<::Pending *>(&::g_011ca0e0))))->FUN_00844700((unsigned int)(ref), (unsigned int)(key33));
+                                reinterpret_cast<::FUN_00844700_Class *>(&((*reinterpret_cast<::Pending *>(&::g_011ca0e0))))->FUN_00844700((std::uintptr_t)(ref), (unsigned int)(key33));
                                 Obj* original9 = ref->Get3D();
                                 Task* taskA = new Task(key33, original9);
                                 (*reinterpret_cast<::Manager * *>(&::DAT_01202d98))->Queue(taskA);
@@ -15300,7 +15299,7 @@ void CellSave::SaveCell(unsigned int changes)
                                                                     ownerID = 0;
                                                                     if (owner)
                                                                         ownerID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((owner))->FUN_0084e3a0()));
-                                                                    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&ownerID), 4);
+                                                                    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((std::intptr_t)(&ownerID), 4);
                                                                 }
                                                                 if (*reinterpret_cast<LogSetting&>(g_011de4e8).Bool())
                                                                 {
@@ -19219,7 +19218,7 @@ void C0054e830::FUN_0054e830(void* arg1, NP* apOutTexture)
             ::FUN_0054ede0((::BSRenderedTexture *)(void *)((void*)group), 7);
         }
         pip = ((::fnv_0054e830::ImageSpaceEffect *)(reinterpret_cast<::FUN_004ebbc0_shell *>((((ImageSpaceManager*)((::fnv_0054e830::ImageSpaceManager *)(::ImageSpaceManager::FUN_004e3270())))))->FUN_004ebbc0(0xe)));
-        reinterpret_cast<::FUN_00b8c830_class *>((((ImageSpaceManager*)((::fnv_0054e830::ImageSpaceManager *)(::ImageSpaceManager::FUN_004e3270())))))->RenderWithTextures((::HolderForAccum *)(pip), (int)(((::fnv_0054e830::VT *)(::FUN_004a0e90()))), (::BSRenderedTexture *)(void *)((void*)p4), (::BSRenderedTexture *)(void *)((void*)group), 0, 0);
+        reinterpret_cast<::FUN_00b8c830_class *>((((ImageSpaceManager*)((::fnv_0054e830::ImageSpaceManager *)(::ImageSpaceManager::FUN_004e3270())))))->RenderWithTextures((::HolderForAccum *)(pip), (std::intptr_t)(((::fnv_0054e830::VT *)(::FUN_004a0e90()))), (::BSRenderedTexture *)(void *)((void*)p4), (::BSRenderedTexture *)(void *)((void*)group), 0, 0);
         if (b2)
         {
             ::BSRenderedTexture::EndAllAndResetRendererState();
@@ -20056,7 +20055,7 @@ void CellOffsets::FUN_005453b0(FNV_Ref* reference)
     FNV_Node* object = reference->v1d0();
     if (((::fnv_005453b0::FNV_Form *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()))->FUN_00401170() == 0x1e)
     {
-        reinterpret_cast<::FUN_00844700_Class *>(&(unkc4->doors))->FUN_00844700((unsigned int)reference, object->v_c());
+        reinterpret_cast<::FUN_00844700_Class *>(&(unkc4->doors))->FUN_00844700((std::uintptr_t)reference, object->v_c());
     }
     else
     {
@@ -20072,7 +20071,7 @@ void CellOffsets::FUN_005453b0(FNV_Ref* reference)
             {
                 void* property = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(2)));
                 ::SetPropertyValueRecursive((::B55480AVObject *)(object), (int)(node));
-                reinterpret_cast<::FUN_00844700_Class *>(&(unkc4->others))->FUN_00844700((unsigned int)target, (unsigned int)reference);
+                reinterpret_cast<::FUN_00844700_Class *>(&(unkc4->others))->FUN_00844700((std::uintptr_t)target, (unsigned int)reference);
             }
         }
     }
@@ -20970,7 +20969,7 @@ void __cdecl FUN_0054abd0(TESObjectREFR* apRef, NiNode* apParent)
     NiAVObject* pnewchild = ((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((N::TESObjectREFR*)apRef)))->FUN_0043fcd0()));
     if (((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((pnewchild))->FUN_009611e0())) == apParent)
     {
-        reinterpret_cast<::NiTMap_S *>(&((*reinterpret_cast<::fnv_0054abd0::MapH *>(&::g_011ca0f4))))->RemoveKey((unsigned int)pnewchild);
+        reinterpret_cast<::NiTMap_S *>(&((*reinterpret_cast<::fnv_0054abd0::MapH *>(&::g_011ca0f4))))->RemoveKey((std::uintptr_t)pnewchild);
     }
     else
     {
@@ -22375,10 +22374,10 @@ void CellTarget::FUN_00552bd0(bool reset)
             reinterpret_cast<::BGSSaveLoadGame *>(((*reinterpret_cast<::Updater552 * *>(&::g_BGSSaveLoadGame))))->HasFormChanges((::TESForm *)(::CellTarget *)(this));
         reinterpret_cast<::FUN_00452e50_class *>((DAT_011dea10))->FUN_00452e50();
         Portal552* a = ((::Portal552 *)(reinterpret_cast<::fnv_009d9f20::FUN_009d9f20_shell *>(this)->FUN_009d9f20()));
-        reinterpret_cast<::S_00c5ba50_Class *>((a))->FUN_00c5ba50((unsigned int)(((void *)(::FUN_0054aa60((::TESObjectCELL *)this)))));
-        reinterpret_cast<::S_00c5ba50_Class *>((a))->FUN_00c5ba50((unsigned int)(((void *)(reinterpret_cast<::FUN_0054a050_shell *>(this)->FUN_0054a050()))));
-        reinterpret_cast<::S_00c5ba50_Class *>((a))->FUN_00c5ba50((unsigned int)(((void *)(reinterpret_cast<::TESObjectCELL *>(this)->GetCellChildAt(2)))));
-        reinterpret_cast<::S_00c5ba50_Class *>((a))->FUN_00c5ba50((unsigned int)(((void *)(::FUN_00524cf0((::TESObjectCELL *)this)))));
+        reinterpret_cast<::S_00c5ba50_Class *>((a))->FUN_00c5ba50((std::uintptr_t)(((void *)(::FUN_0054aa60((::TESObjectCELL *)this)))));
+        reinterpret_cast<::S_00c5ba50_Class *>((a))->FUN_00c5ba50((std::uintptr_t)(((void *)(reinterpret_cast<::FUN_0054a050_shell *>(this)->FUN_0054a050()))));
+        reinterpret_cast<::S_00c5ba50_Class *>((a))->FUN_00c5ba50((std::uintptr_t)(((void *)(reinterpret_cast<::TESObjectCELL *>(this)->GetCellChildAt(2)))));
+        reinterpret_cast<::S_00c5ba50_Class *>((a))->FUN_00c5ba50((std::uintptr_t)(((void *)(::FUN_00524cf0((::TESObjectCELL *)this)))));
     }
     ::FUN_00541ae0((char *)this);
 }
@@ -24816,7 +24815,7 @@ struct RefSlotView
 void TESObjectCELL::FUN_005571a0(bool active)
 {
     CellRefLockEnter();
-    void* list = ((void *)(reinterpret_cast<::LodGrid *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00458be0((::LodCell *)(::TESObjectCELL *)(this), (::LodPoint *)(0))));
+    void* list = ((void *)(reinterpret_cast<::LodGrid *>((((::TES *)::g_TES)))->FUN_00458be0((::LodCell *)(::TESObjectCELL *)(this), (::LodPoint *)(0))));
     BSSimpleList<TESObjectREFR*>* terrain = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (terrain)
     {
@@ -24826,7 +24825,7 @@ void TESObjectCELL::FUN_005571a0(bool active)
             if (!((RefSlotView*)reference)->GetNiNode() || reinterpret_cast<::FUN_005651e0_shell *>((reference))->FUN_005651e0())
             {
                 if (!reinterpret_cast<::TESForm *>(reference)->GetDisabled() && !reinterpret_cast<::FUN_00440d80_shell *>((reference))->FUN_00440d80() && (!active || reinterpret_cast<::B56B250Ref *>((reference))->FUN_0056b250()))
-                    reinterpret_cast<::ML *>((::g_modelLoader))->FUN_00444850((::Ref *)(reference), (int)(list), 1);
+                    reinterpret_cast<::ML *>((::g_modelLoader))->FUN_00444850((::Ref *)(reference), (std::intptr_t)(list), 1);
             }
             else
             {
@@ -24845,7 +24844,7 @@ void TESObjectCELL::FUN_005571a0(bool active)
             if (!((RefSlotView*)other)->GetNiNode() || reinterpret_cast<::FUN_005651e0_shell *>((other))->FUN_005651e0())
             {
                 if (!reinterpret_cast<::TESForm *>(other)->GetDisabled() && !reinterpret_cast<::FUN_00440d80_shell *>((other))->FUN_00440d80() && (!active || reinterpret_cast<::B56B250Ref *>((other))->FUN_0056b250()))
-                    reinterpret_cast<::ML *>((::g_modelLoader))->FUN_00444850((::Ref *)(other), (int)(list), 1);
+                    reinterpret_cast<::ML *>((::g_modelLoader))->FUN_00444850((::Ref *)(other), (std::intptr_t)(list), 1);
             }
             else
             {
@@ -26243,7 +26242,7 @@ void SceneB54::FUN_0054bcf0(bool bArg)
     reinterpret_cast<::fnv_0054c740::FUN_0054c740_shell *>(this)->FUN_0054c740(0, 0);
     bool bState5 = reinterpret_cast<::CellShell *>(this)->FUN_0054df30();
     reinterpret_cast<::fnv_00550c60::FUN_00550c60_shell *>(this)->RecalcLeveledActorBases(bState5);
-    if (reinterpret_cast<::FUN_00453490_shell *>((((ManagerB54*)(*reinterpret_cast<::ManagerB54 * *>(&::g_TES)))))->FUN_00453490((::TESObjectCELL *)(::SceneB54 *)(this)))
+    if (reinterpret_cast<::FUN_00453490_shell *>((((ManagerB54*)((::ManagerB54 *)::g_TES))))->FUN_00453490((::TESObjectCELL *)(::SceneB54 *)(this)))
     {
         if (pController2)
         {
@@ -26256,7 +26255,7 @@ void SceneB54::FUN_0054bcf0(bool bArg)
     {
         reinterpret_cast<::TESObjectCELL *>(this)->CellRefLockEnter();
         int iPass4;
-        void* pCell9 = ((void *)(reinterpret_cast<::LodGrid *>((((ManagerB54*)(*reinterpret_cast<::ManagerB54 * *>(&::g_TES)))))->FUN_00458be0((::LodCell *)(::SceneB54 *)(this), (::LodPoint *)(0))));
+        void* pCell9 = ((void *)(reinterpret_cast<::LodGrid *>((((ManagerB54*)((::ManagerB54 *)::g_TES))))->FUN_00458be0((::LodCell *)(::SceneB54 *)(this), (::LodPoint *)(0))));
         NodeB54* pNode5 = ((::NodeB54 *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
         int iCountA = 0;
         iPass4 = 0;
@@ -26302,7 +26301,7 @@ void SceneB54::FUN_0054bcf0(bool bArg)
                         TESObjectREFRB54* pTarget = pRef;
                         pTarget->Vf260();
                     }
-                    reinterpret_cast<::ML *>((((LoaderB54*)(*reinterpret_cast<::LoaderB54 * *>(&::g_modelLoader)))))->FUN_00444850((::Ref *)(pRef), (int)(pCell9), 0);
+                    reinterpret_cast<::ML *>((((LoaderB54*)(*reinterpret_cast<::LoaderB54 * *>(&::g_modelLoader)))))->FUN_00444850((::Ref *)(pRef), (std::intptr_t)(pCell9), 0);
                     if (pRef->IsVf1d0())
                     {
                         bool bProcess3 = true;
@@ -26752,7 +26751,7 @@ void CellView_rtti::FUN_00548230(RefView* pkRef, bool bArg)
     if (!reinterpret_cast<::FUN_004516b0_shell *>(((*reinterpret_cast<::CellDataHandler * *>(&::g_dataHandler))))->FUN_004516b0() && !bHandled && !reinterpret_cast<::FUN_00437b90_shell *>((pkRef))->FUN_00437b90())
     {
         void* pvNode = pkRef->GetNode3D();
-        if (reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::CellTES * *>(&::g_TES))))->IsCellBuffered((::TESObjectCELL *)(::CellView_rtti *)(this), 0))
+        if (reinterpret_cast<::TESCallHelper *>((((::CellTES *)::g_TES)))->IsCellBuffered((::TESObjectCELL *)(::CellView_rtti *)(this), 0))
         {
             bool bQueue = false;
             if (pvNode)
@@ -26772,7 +26771,7 @@ void CellView_rtti::FUN_00548230(RefView* pkRef, bool bArg)
                         else
                             pkRef->Unk_24c();
                     }
-                    reinterpret_cast<::ML *>(((*reinterpret_cast<::CellModelLoader * *>(&::g_modelLoader))))->FUN_00444850((::Ref *)(pkRef), reinterpret_cast<::LodGrid *>(((*reinterpret_cast<::CellTES * *>(&::g_TES))))->FUN_00458be0((::LodCell *)(::CellView_rtti *)(this), (::LodPoint *)(0)), {});
+                    reinterpret_cast<::ML *>(((*reinterpret_cast<::CellModelLoader * *>(&::g_modelLoader))))->FUN_00444850((::Ref *)(pkRef), reinterpret_cast<::LodGrid *>((((::CellTES *)::g_TES)))->FUN_00458be0((::LodCell *)(::CellView_rtti *)(this), (::LodPoint *)(0)), {});
                 }
             }
             if (!bQueue && pkRef->IsActor())
@@ -26780,7 +26779,7 @@ void CellView_rtti::FUN_00548230(RefView* pkRef, bool bArg)
         }
         else
         {
-            reinterpret_cast<::NiTMap_S *>(&((*reinterpret_cast<::CellNodeMap *>(&::g_011ca0f4))))->RemoveKey((unsigned int)(pkRef->GetNode3D()));
+            reinterpret_cast<::NiTMap_S *>(&((*reinterpret_cast<::CellNodeMap *>(&::g_011ca0f4))))->RemoveKey((std::uintptr_t)(pkRef->GetNode3D()));
             if (pkRef->IsActor() && !reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::CellPlayer * *>(&::_g_thePlayer))))->IsSleepingOrResting() && !reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::CellSaveLoad * *>(&::g_TESSaveLoadGame))))->EvaluateCondition())
             {
                 if (!FUN_008c7aa0())
@@ -26861,7 +26860,7 @@ TESObjectREFR* __cdecl FUN_0054afb0(TESForm_rtti* source, TESForm_rtti* destinat
                 !reinterpret_cast<::FUN_00477ba0_shell *>((reference))->FUN_00477ba0())
             {
                 TESObjectDOOR* door = dynamic_cast<TESObjectDOOR*>(((::TESBoundObject_rtti *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())));
-                if (door && reinterpret_cast<::FUN_005194d0_shell_base *>((door))->FUN_005194d0() && reinterpret_cast<::FUN_00519500_class *>((door))->HasEntry((int)(destination)) && !((void *)(reinterpret_cast<::TESObjectREFR *>((reference))->GetExtraRadioData())))
+                if (door && reinterpret_cast<::FUN_005194d0_shell_base *>((door))->FUN_005194d0() && reinterpret_cast<::FUN_00519500_class *>((door))->HasEntry((std::intptr_t)(destination)) && !((void *)(reinterpret_cast<::TESObjectREFR *>((reference))->GetExtraRadioData())))
                 {
                     candidatesVal.Append(reference);
                     ++countB;
@@ -27775,7 +27774,7 @@ void CellUpdateView::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded)
         pkDynamic->UpdateDownwardPass(kData, 0);
         if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::CellIntSetting *>(&::g_011c3ea4)))))) > 1)
         {
-            reinterpret_cast<::fnv_0087aad0::FUN_0087aad0_s *>((((ManagedTaskQueue*)((::CellTaskQueue *)(::TaskQueueInterface::GetSingleton())))))->FUN_0087aad0((int)(pkDynamic));
+            reinterpret_cast<::fnv_0087aad0::FUN_0087aad0_s *>((((ManagedTaskQueue*)((::CellTaskQueue *)(::TaskQueueInterface::GetSingleton())))))->FUN_0087aad0((std::intptr_t)(pkDynamic));
             if (bThreaded && kData.m_bQueueShadow)
                 ::RunWithLock(pkDynamic);
             if (bThreaded && kData.m_bQueueAnim)
@@ -27823,7 +27822,7 @@ void CellUpdateView::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded)
                         reinterpret_cast<::S00b5d9f0_Owner *>((((::CellShadowScene *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5d9f0((::S00b5d9f0_Obj *)(pkNode), 1);
                     if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::CellIntSetting *>(&::g_011c3ea4)))))) > 1)
                     {
-                        reinterpret_cast<::fnv_0087aad0::FUN_0087aad0_s *>((((ManagedTaskQueue*)((::CellTaskQueue *)(::TaskQueueInterface::GetSingleton())))))->FUN_0087aad0((int)(pkNode));
+                        reinterpret_cast<::fnv_0087aad0::FUN_0087aad0_s *>((((ManagedTaskQueue*)((::CellTaskQueue *)(::TaskQueueInterface::GetSingleton())))))->FUN_0087aad0((std::intptr_t)(pkNode));
                         if (bThreaded && kNodeData.m_bQueueShadow)
                             ::RunWithLock(pkNode);
                         if (bThreaded && kNodeData.m_bQueueAnim)
@@ -27850,7 +27849,7 @@ void CellUpdateView::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded)
                         reinterpret_cast<::S00b5d9f0_Owner *>((((::CellShadowScene *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5d9f0((::S00b5d9f0_Obj *)(pkActorNode), 1);
                     if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::CellIntSetting *>(&::g_011c3ea4)))))) > 1)
                     {
-                        reinterpret_cast<::fnv_0087aad0::FUN_0087aad0_s *>((((ManagedTaskQueue*)((::CellTaskQueue *)(::TaskQueueInterface::GetSingleton())))))->FUN_0087aad0((int)(pkActorNode));
+                        reinterpret_cast<::fnv_0087aad0::FUN_0087aad0_s *>((((ManagedTaskQueue*)((::CellTaskQueue *)(::TaskQueueInterface::GetSingleton())))))->FUN_0087aad0((std::intptr_t)(pkActorNode));
                         if (bThreaded && kActorData.m_bQueueShadow)
                             ::RunWithLock(pkActorNode);
                         if (bThreaded && kActorData.m_bQueueAnim)

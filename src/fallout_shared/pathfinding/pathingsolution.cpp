@@ -753,13 +753,13 @@ struct OwnS
 {
     char _pad[48];
     RetS FUN_006e9ab0(float);
-    RetS FUN_006e7d60(std::intptr_t, int);
+    RetS FUN_006e7d60(std::intptr_t, std::intptr_t);
 };
 // @fnv 0x006e9ab0
 RetS OwnS::FUN_006e9ab0(float f)
 {
     ::FUN_006e7c20(this, f);
-    return FUN_006e7d60((std::intptr_t)((char*)this + 0x14), (int)((char*)this + 0x2c));
+    return FUN_006e7d60((std::intptr_t)((char*)this + 0x14), (std::intptr_t)((char*)this + 0x2c));
 }
 }  // namespace fnv_006e9ab0
 

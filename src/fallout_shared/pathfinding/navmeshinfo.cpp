@@ -193,7 +193,7 @@ void NavMeshInfo::LoadSerializedData(char* data, TESFile* file, int version)
         if (adjacentID)
         {
             ((BSSimpleArray<NavMeshInfo*, 1024>*)&m_kConnectedNavMeshInfos)->operator[](adjacentIndex) =
-                ((::NavMeshInfo *)(((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00()))->FindReferenceByFormId({})));
+                ((::NavMeshInfo *)(((::Pathing *)(reinterpret_cast<::Owner45A *>((((::TES *)::g_TES)))->FUN_0045af00()))->FindReferenceByFormId({})));
         }
         else
         {
@@ -219,7 +219,7 @@ void NavMeshInfo::LoadSerializedData(char* data, TESFile* file, int version)
             if (preferredID)
             {
                 ((BSSimpleArray<NavMeshInfo*, 1024>*)&m_kPreferredConnections)->operator[](preferredIndex) =
-                    ((::NavMeshInfo *)(((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00()))->FindReferenceByFormId({})));
+                    ((::NavMeshInfo *)(((::Pathing *)(reinterpret_cast<::Owner45A *>((((::TES *)::g_TES)))->FUN_0045af00()))->FindReferenceByFormId({})));
             }
             else
             {

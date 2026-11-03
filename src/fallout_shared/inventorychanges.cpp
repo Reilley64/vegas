@@ -1,5 +1,6 @@
 // fallout_shared/inventorychanges.cpp: Inventory, InventoryChanges, Target, TESBipedModelForm and more (144 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/AGOwner.h"
@@ -1847,7 +1848,7 @@ InventoryStackRecord* FUN_004c7300_shell::FindInventoryItem(TESObjectREFR* pRef,
         {
             InventoryStackRecord* item = (InventoryStackRecord*)((char**)((void *)((void *)(current2))))[0];
             *pFound = true;
-            if (reinterpret_cast<::FUN_004c8f30_shell *>((this))->FUN_004c8f30((int)((TESForm*)item)) > 0)
+            if (reinterpret_cast<::FUN_004c8f30_shell *>((this))->FUN_004c8f30((std::intptr_t)((TESForm*)item)) > 0)
             {
                 if (index < (unsigned int)next)
                     result2 = item;
@@ -1864,7 +1865,7 @@ InventoryStackRecord* FUN_004c7300_shell::FindInventoryItem(TESObjectREFR* pRef,
     if (form4)
     {
         *pFound = true;
-        if (reinterpret_cast<::FUN_004c8f30_shell *>((this))->FUN_004c8f30((int)(form4)) > 0)
+        if (reinterpret_cast<::FUN_004c8f30_shell *>((this))->FUN_004c8f30((std::intptr_t)(form4)) > 0)
             return (InventoryStackRecord*)form4;
     }
     return 0;
@@ -1917,7 +1918,7 @@ void FUN_004ce300(TESForm* apForm, unsigned int uiValue)
 
 struct FUN_004ce340_stand
 {
-    void FUN_004ce340(int a0, int a1, bool a2, bool a3, bool a4, bool a5, int a6, int a7);
+    void FUN_004ce340(std::intptr_t a0, int a1, bool a2, bool a3, bool a4, bool a5, int a6, int a7);
 };
 struct C008256d0
 {
@@ -14926,7 +14927,7 @@ void EquipInv::AddItemToInventory(EquipForm* form, int count, EquipActor* actor,
                     if (actor == ((EquipActor*)(*reinterpret_cast<char * *>(&::_g_thePlayer))))
                         ::SetField1F0((::FUN_004c0cd0_This *)(((EquipActor*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))), ::FUN_004c0cd0_Arg{equipped->form});
                     else if (FUN_008c7aa0() && actor != ((::EquipActor *)(::FUN_0047b200())))
-                        reinterpret_cast<::Host0087b360 *>((((::EquipQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b360((int)(actor), (int)(equipped->form));
+                        reinterpret_cast<::Host0087b360 *>((((::EquipQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b360((std::intptr_t)(actor), (int)(equipped->form));
                     else
                         reinterpret_cast<::fnv_00571760::Actor *>((actor))->FUN_00571760((::fnv_00571760::TESObjectWEAP *)(equipped->form));
                 }
@@ -15015,7 +15016,7 @@ void FUN_004bfe50_t::RemoveWornItems(bool abSkipCanNotWear, TESObjectREFR* apRef
 }
 // Forwards all arguments unchanged to FUN_004ce380.
 // @fnv 0x004ce340
-void FUN_004ce340_stand::FUN_004ce340(int a0, int a1, bool a2, bool a3, bool a4, bool a5, int a6, int a7)
+void FUN_004ce340_stand::FUN_004ce340(std::intptr_t a0, int a1, bool a2, bool a3, bool a4, bool a5, int a6, int a7)
 {
     reinterpret_cast<::InventoryMove *>(this)->FUN_004ce380((::MoveOwner *)(a0), (::MoveOwner *)(a1), a2, a3, a4, a5, a6, (::MoveFilter *)(a7));
 }
@@ -15618,7 +15619,7 @@ bool XHost17::FUN_004c0cf0(bool* a0, std::uintptr_t a1, int iCount, XActor17* ap
                                 weapon3 = true;
                             if (FUN_008c7aa0())
                             {
-                                reinterpret_cast<::H *>((((XTQ17*)((::EquipQueue *)(::TaskQueueInterface::GetSingleton())))))->SendCommand22((unsigned int)(apActor), ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((XFound17*)found)))->GetName())));
+                                reinterpret_cast<::H *>((((XTQ17*)((::EquipQueue *)(::TaskQueueInterface::GetSingleton())))))->SendCommand22((std::uintptr_t)(apActor), ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((XFound17*)found)))->GetName())));
                             }
                             else
                             {

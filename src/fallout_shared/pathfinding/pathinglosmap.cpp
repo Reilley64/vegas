@@ -144,7 +144,7 @@ struct Script
 };
 struct FUN_006e1770_shell
 {
-    bool FUN_006e1770(std::uintptr_t a, unsigned int b);
+    bool FUN_006e1770(std::uintptr_t a, std::uintptr_t b);
 };
 namespace fnv_006e2000 {
 struct Script
@@ -325,7 +325,7 @@ struct FUN_006e1670_cls
 };
 // Returns false if the helper at offset 0x1c reports true; otherwise scans text entries and returns true on the first non-positive char whose lookup succeeds.
 // @fnv 0x006e1770
-bool FUN_006e1770_shell::FUN_006e1770(std::uintptr_t a, unsigned int b)
+bool FUN_006e1770_shell::FUN_006e1770(std::uintptr_t a, std::uintptr_t b)
 {
     if (reinterpret_cast<::FUN_0076b610_Class *>((void *)(((const ArrHelper*)((char*)this + 0x1c))))->FUN_0076b610())
         return false;

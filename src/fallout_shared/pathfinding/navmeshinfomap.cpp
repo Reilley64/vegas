@@ -338,7 +338,7 @@ bool FUN_006b5d80_shell::LoadNavMeshInfoMap(TESFile* apFile)
             }
             else
             {
-                reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)((char*)this + 0x1c))))->FUN_00844700(((unsigned int)(::FUN_00559450((int *)(pnewInfo)))), (unsigned int)pnewInfo);
+                reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)((char*)this + 0x1c))))->FUN_00844700(((unsigned int)(::FUN_00559450((int *)(pnewInfo)))), (std::uintptr_t)pnewInfo);
             }
             break;
         }
@@ -1496,13 +1496,13 @@ void NavMeshInfoMap::InsertNavMeshInfo(NavMeshInfo* info)
                 hashSize = 1009;
         }
         lookup.innerMap = new NiTPointerMap<unsigned int, NavMeshInfoArray*>(hashSize);
-        reinterpret_cast<::FUN_00844700_Class *>(&(m_kNavMeshInfoArraysByWorldspace))->FUN_00844700(lookup.parentID, (unsigned int)(lookup.innerMap));
+        reinterpret_cast<::FUN_00844700_Class *>(&(m_kNavMeshInfoArraysByWorldspace))->FUN_00844700(lookup.parentID, (std::uintptr_t)(lookup.innerMap));
     }
     NavMeshInfoArray* array;
     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, NavMeshInfoArray*>*)lookup.innerMap)))->FUN_00853130(lookup.cellKey, (::fnv_00853130::CombatThreatRecord *&)(array)))
     {
         array = new NavMeshInfoArray;
-        reinterpret_cast<::FUN_00844700_Class *>((((NiTPointerMap<unsigned int, NavMeshInfoArray*>*)lookup.innerMap)))->FUN_00844700(lookup.cellKey, (unsigned int)(array));
+        reinterpret_cast<::FUN_00844700_Class *>((((NiTPointerMap<unsigned int, NavMeshInfoArray*>*)lookup.innerMap)))->FUN_00844700(lookup.cellKey, (std::uintptr_t)(array));
     }
     if (array->Find(info, 0, ((bool (&)(NavMeshInfo *&, NavMeshInfo *&))::FUN_009a3830)) != (unsigned int)-1)
         return;

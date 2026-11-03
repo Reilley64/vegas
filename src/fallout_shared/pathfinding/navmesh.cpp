@@ -1632,7 +1632,7 @@ void FUN_00690d50_shell::FUN_00690d50(bool abCheckout)
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0x58))))->Clear(true);
     if (*(void**)((char*)this + 0x104))
     {
-        reinterpret_cast<::NavigationOwner *>((((FUN_006b6a00_s*)((void *)(reinterpret_cast<::Owner45A *>((((TES*)*(int*)&(*reinterpret_cast<::fnv_00690d50::TES *>(&::g_TES)))))->FUN_0045af00())))))->ActivateNavigationEntry({});
+        reinterpret_cast<::NavigationOwner *>((((FUN_006b6a00_s*)((void *)(reinterpret_cast<::Owner45A *>((((TES*)::g_TES)))->FUN_0045af00())))))->ActivateNavigationEntry({});
     }
 }
 }  // namespace fnv_00690d50

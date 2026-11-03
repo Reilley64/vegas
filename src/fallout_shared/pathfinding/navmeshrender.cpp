@@ -313,7 +313,6 @@ struct PaddedBooleanState
 
 
 GlobalObject_0045cfe0 g_011c63cc;
-int g_TES;
 
 // @fnv 0x006a5ca0
 void PaddedBooleanState::FUN_006a5ca0()
@@ -943,7 +942,7 @@ void NavRenderX::FUN_006a37a0(CellX* apCell, bool abUpdate)
     {
         qAhbO = new NodeX(qQMZREG * 2);
         ((NodeX*)(*reinterpret_cast<::SpX< ::NodeX> *>(&::g_011d6e5c)))->AttachChildInAvailableSlot(qAhbO, true);
-        reinterpret_cast<::Map6920 *>(&(kMap))->FUN_006c6920((unsigned int)(apCell), (*(::NiPointer< ::NiAVObject> *)&(const ::SpX< ::NodeX> &)(qAhbO)));
+        reinterpret_cast<::Map6920 *>(&(kMap))->FUN_006c6920((std::uintptr_t)(apCell), (*(::NiPointer< ::NiAVObject> *)&(const ::SpX< ::NodeX> &)(qAhbO)));
     }
     else
     {

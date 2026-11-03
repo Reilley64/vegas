@@ -2239,7 +2239,7 @@ bool NavMeshSearch::Search(PathingRequest* request, NavMeshNodeInfo* start, Path
     pRequest = request;
     kStart = *start;
     fRadius = RandomFloat(reinterpret_cast<::FUN_006d2c20_Class *>((request))->GetFloatAtOffsetB0(), ::GetFieldB4Float((char *)(request)));
-    NiPoint3 kStartPos = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((int)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 kStartPos = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
     kDest = ::NiPoint3::ZERO;
     fAvoidCost = 0.0f;
     if (((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(pRequest))->GetString())))
@@ -2465,7 +2465,7 @@ bool FUN_006a90a0_Class::IsNodeWithinSearchCriteria(NavMeshTriangleReference* ap
 
     ::NiPoint3 kStart;
     NiPoint3_Sub kDelta;
-    static_cast<NiPoint3&>(kDelta) = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((int)(this->pRequest))))))->QueueActorAnimationTask(kStart) - pt;
+    static_cast<NiPoint3&>(kDelta) = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(this->pRequest))))))->QueueActorAnimationTask(kStart) - pt;
     float fDist = reinterpret_cast<::FUN_00589850_Class *>(&kDelta)->FUN_00589850();
     if (fDist < this->fRadius)
         return false;

@@ -3073,7 +3073,7 @@ bool ExtraAudioBuoyMarker::FUN_00431710(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>((this))->IsDifferentFrom(apCompare))
         return true;
-    if (((bool)(reinterpret_cast<::FUN_00401290_Class *>((this->m_pActorValueInfo))->FUN_00401290((int)(pComp->m_pActorValueInfo)))))
+    if (((bool)(reinterpret_cast<::FUN_00401290_Class *>((this->m_pActorValueInfo))->FUN_00401290((std::intptr_t)(pComp->m_pActorValueInfo)))))
         return true;
     return false;
 }
@@ -5743,7 +5743,7 @@ void FUN_00438330_cls::FUN_00438330(BSExtraData* pExtraData)
     }
     else
     {
-        reinterpret_cast<::FUN_0041fd00_shell *>((((FUN_0041fd00_Class*)this)))->FUN_0041fd00((int)(((FUN_0084e3a0_Class*)pSource)->FUN_0084e3a0()));
+        reinterpret_cast<::FUN_0041fd00_shell *>((((FUN_0041fd00_Class*)this)))->FUN_0041fd00((std::intptr_t)(((FUN_0084e3a0_Class*)pSource)->FUN_0084e3a0()));
         this->m_f10 = pSource->m_f10;
     }
 }
@@ -6535,7 +6535,7 @@ void FUN_00437850_Class::UpdatePriorityEntry(FUN_00437850_Entry* pEntry, bool bA
     {
         unsigned int ItemUpdateArray = 0;
         reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(kRefCounts))->FUN_00853130((std::uintptr_t)pEntry, (::fnv_00853130::CombatThreatRecord *&)(ItemUpdateArray));
-        reinterpret_cast<::FUN_00844700_Class *>(&(kRefCounts))->FUN_00844700((unsigned int)pEntry, 1);
+        reinterpret_cast<::FUN_00844700_Class *>(&(kRefCounts))->FUN_00844700((std::uintptr_t)pEntry, 1);
         if (pEntry->fPriority > fTop)
         {
             fTop = pEntry->fPriority;
@@ -6548,7 +6548,7 @@ void FUN_00437850_Class::UpdatePriorityEntry(FUN_00437850_Entry* pEntry, bool bA
         reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(kRefCounts))->FUN_00853130((std::uintptr_t)pEntry, (::fnv_00853130::CombatThreatRecord *&)(ItemUpdateArray));
         if ((int)ItemUpdateArray <= 1)
         {
-            reinterpret_cast<::NiTMap_S *>(&(kRefCounts))->RemoveKey((unsigned int)pEntry);
+            reinterpret_cast<::NiTMap_S *>(&(kRefCounts))->RemoveKey((std::uintptr_t)pEntry);
             void* pPos = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(kRefCounts))->GetFirstPos();
             fTop = DAT_01015f5c;
             while (pPos)
@@ -6565,7 +6565,7 @@ void FUN_00437850_Class::UpdatePriorityEntry(FUN_00437850_Entry* pEntry, bool bA
         }
         else
         {
-            reinterpret_cast<::FUN_00844700_Class *>(&(kRefCounts))->FUN_00844700((unsigned int)pEntry, ItemUpdateArray - 1);
+            reinterpret_cast<::FUN_00844700_Class *>(&(kRefCounts))->FUN_00844700((std::uintptr_t)pEntry, ItemUpdateArray - 1);
         }
     }
 }
@@ -6719,7 +6719,7 @@ void ExtraSecuritronFaceStandIn::FUN_00437f90(NiNode* pNode)
                 ::FUN_00406d00(buffer7, 260, "Textures\\creatures\\Securitron\\%s_%s.dds", ((const char *)(::FUN_00559450((int *)&(str6)))),
                            ((const char *)(::FUN_00559450((int *)&(str2)))));
                 ::ConvertLocalizedString(buffer7, destBufferA, 260);
-                reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_004568c0(destBufferA, (::TexPtr< ::NiSourceTexture> &)(spTexture), false, false);
+                reinterpret_cast<::TESTexLoader *>((((::TES *)::g_TES)))->FUN_004568c0(destBufferA, (::TexPtr< ::NiSourceTexture> &)(spTexture), false, false);
             }
 
             pProperty4 = ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((aPScreen))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));

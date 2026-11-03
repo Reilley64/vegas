@@ -148,13 +148,13 @@ bool NavMeshSearchFlee::IsNodeValid(const AStarNode<NavMeshTriangleReference, Na
     if (apNode == ((const ::AStarNode< ::NavMeshTriangleReference, ::NavMeshTriangleEdgeReference> *)(reinterpret_cast<::FUN_009962d0_class *>(this)->GetFieldAt2050())))
         return false;
     NiPoint3 nodeCenter = (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)&(apNode->kNode))->FUN_006a6eb0({})));
-    float fsqrLength = reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::NiPoint3 &)((reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((int)(pRequest))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - nodeCenter)))->GetSquaredXYLength();
+    float fsqrLength = reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::NiPoint3 &)((reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(pRequest))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - nodeCenter)))->GetSquaredXYLength();
     if (fsqrLength < reinterpret_cast<::FUN_006d2c20_Class *>((void *)(pRequest))->GetFloatAtOffsetB0() * reinterpret_cast<::FUN_006d2c20_Class *>((void *)(pRequest))->GetFloatAtOffsetB0())
         return false;
     if (bHasDestination)
     {
         NiPoint3 destinationVec = kDestination - nodeCenter;
-        NiPoint3 originDestinationVec = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((int)(pRequest))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - kDestination;
+        NiPoint3 originDestinationVec = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(pRequest))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - kDestination;
         if (reinterpret_cast<::TESCombatStyle *>((void *)&(originDestinationVec))->UpdateCombatStyle() < reinterpret_cast<::TESCombatStyle *>((void *)&(destinationVec))->UpdateCombatStyle())
             return false;
     }
@@ -294,7 +294,7 @@ bool FleeSearch::StartFleeSearch(FleeRequest* request, const FleeStartNode* star
 {
     pRequest = request;
     reinterpret_cast<FleeStartNode&>(pad205c) = *start;
-    NiPoint3 a = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((int)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 a = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
     reinterpret_cast<NiPoint3&>(kAvoidVector) = ::NiPoint3::ZERO;
     fFleeRange = reinterpret_cast<::FUN_006d2c20_Class *>((void *)(request))->GetFloatAtOffsetB0();
     if (((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(static_cast<FleeRequest*>(pRequest)))->GetString())))

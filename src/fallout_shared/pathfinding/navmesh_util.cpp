@@ -1576,11 +1576,11 @@ struct Obj00696c00
 {
     char _pad[0xA8];
     Sub0069d4b0 sub;
-    void ForwardToSub(std::intptr_t a, int b, int c);
+    void ForwardToSub(std::intptr_t a, int b, std::intptr_t c);
 };
 // Calls FUN_0069d4b0 on the sub object at offset 0xA8, passing the three arguments through.
 // @fnv 0x00696c00
-void Obj00696c00::ForwardToSub(std::intptr_t aiArg1, int aiArg2, int aiArg3)
+void Obj00696c00::ForwardToSub(std::intptr_t aiArg1, int aiArg2, std::intptr_t aiArg3)
 {
     reinterpret_cast<::Sub0069d4b0 *>(&(sub))->FUN_0069d4b0((::Pt_0069d4b0 *)(aiArg1), (::Pt_0069d4b0 *)(aiArg2), (::Out_0069d4b0 *)(aiArg3));
 }
@@ -1970,7 +1970,7 @@ void FUN_006be6f0_shell::MarkNavMeshTriangles()
 {
     for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)*(unsigned int**)((char*)this + 8) + 0x60))))->GetName())); i++)
     {
-        int idx = reinterpret_cast<::FUN_0069b240_Holder *>((((NavMeshTriList*)((char*)*(unsigned int**)((char*)this + 0) + 0xe4))))->FindMatchingIndex((int)&(reinterpret_cast<::FUN_005eeda0_this *>((((DA00694f80*)((char*)*(unsigned int**)((char*)this + 8) + 0x60))))->GetBufferEntry(i)),
+        int idx = reinterpret_cast<::FUN_0069b240_Holder *>((((NavMeshTriList*)((char*)*(unsigned int**)((char*)this + 0) + 0xe4))))->FindMatchingIndex((std::intptr_t)&(reinterpret_cast<::FUN_005eeda0_this *>((((DA00694f80*)((char*)*(unsigned int**)((char*)this + 8) + 0x60))))->GetBufferEntry(i)),
                                           0, (bool (*)(unsigned short *, int))(((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual)));
         if (idx != -1)
             reinterpret_cast<::FUN_0069add0_class *>((((NavMeshTriList*)((char*)*(unsigned int**)((char*)this + 0) + 0xe4))))->FUN_0069add0(idx, true);
@@ -3028,7 +3028,7 @@ bool Ov2::FUN_006967f0(unsigned short ausStart, unsigned short ausEnd)
             {
                 int idx;
                 TriList2* pList = (TriList2*)((::NavMeshTriList *)(std::uintptr_t)(reinterpret_cast<::FUN_006967c0_shell *>(&(Grid))->FUN_006967c0(c, r)));
-                idx = reinterpret_cast<::FUN_0069b240_Holder *>((pList))->FindMatchingIndex((int)&(*(unsigned short*)&i), 0, (bool (*)(unsigned short *, int))(((bool (&)(const unsigned short &, const unsigned short &))::FUN_0069b2a0)));
+                idx = reinterpret_cast<::FUN_0069b240_Holder *>((pList))->FindMatchingIndex((std::intptr_t)&(*(unsigned short*)&i), 0, (bool (*)(unsigned short *, int))(((bool (&)(const unsigned short &, const unsigned short &))::FUN_0069b2a0)));
                 reinterpret_cast<::FUN_0069add0_class *>((pList))->FUN_0069add0(idx, 1);
             }
         }

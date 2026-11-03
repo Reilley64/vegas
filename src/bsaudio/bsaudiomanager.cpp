@@ -62,6 +62,43 @@
 #include "fnv/symbols_01272000.h"
 #include <math.h>
 
+namespace fnv_00adb1a0 {
+inline void Dead1()
+{
+    int a[1];
+}
+}
+
+namespace fnv_00adbb30 {
+inline void Dead1()
+{
+    int a[1];
+}
+}
+
+
+namespace fnv_00ada330 {
+inline void Dead2()
+{
+    int a[2];
+}
+}
+
+namespace fnv_00adb1a0 {
+inline void Dead2()
+{
+    int a[2];
+}
+}
+
+namespace fnv_00adbb30 {
+inline void Dead2()
+{
+    int a[2];
+}
+}
+
+
 struct RefObject
 {
     void* m_pVtable;
@@ -98,6 +135,1056 @@ struct RefObject
             Destroy();
     }
 };
+}
+
+namespace fnv_00adb1a0 {
+struct RefObject
+{
+    virtual void v00();
+    virtual void v04();
+    long m_04;
+    void AddRef()
+    {
+        InterlockedIncrement(&m_04);
+    }
+    void Release()
+    {
+        if (!InterlockedDecrement(&m_04))
+            v04();
+    }
+};
+}
+
+namespace fnv_00adb3e0 {
+struct RefObject
+{
+    virtual void v00();
+    virtual void v04();
+    long m_04;
+    void AddRef()
+    {
+        InterlockedIncrement(&m_04);
+    }
+    void Release()
+    {
+        if (!InterlockedDecrement(&m_04))
+            v04();
+    }
+};
+}
+
+namespace fnv_00adbb30 {
+struct RefObject
+{
+    int vtable;
+    long references;
+    __forceinline void AcquireReference()
+    {
+        InterlockedIncrement(&references);
+    }
+};
+}
+
+struct CritSecA : CRITICAL_SECTION
+{
+};
+
+template <int N> inline void ReserveFrame();
+
+template <int Pad> struct ListCleanup
+{
+    ~ListCleanup()
+    {
+        ReserveFrame<Pad>();
+    }
+};
+
+template <int Pad> struct ListView : ListCleanup<Pad>
+{
+    int offset_00, offset_04, offset_08;
+    void FUN_00ae8370();
+    ~ListView()
+    {
+        reinterpret_cast<::S_00ae8370_List *>(this)->FUN_00ae8370();
+    }
+};
+
+namespace fnv_00adb1a0 {
+struct NavMeshPtr
+{
+    RefObject* m_00;
+    NavMeshPtr(RefObject* p)
+    {
+        m_00 = p;
+        if (m_00)
+            m_00->AddRef();
+    }
+    NavMeshPtr(const NavMeshPtr& p)
+    {
+        m_00 = p.m_00;
+        if (m_00)
+            m_00->AddRef();
+    }
+    ~NavMeshPtr()
+    {
+        if (m_00)
+            m_00->Release();
+    }
+    NavMeshPtr& operator=(const NavMeshPtr&);
+};
+}
+
+namespace fnv_00adb1a0 {
+struct Point
+{
+    float m_00, m_04, m_08;
+};
+}
+
+namespace fnv_00adb1a0 {
+struct Record
+{
+    int m_00, m_04, m_08, m_0c;
+    NavMeshPtr m_10;
+    float m_14, m_18, m_1c;
+    void Set(int a, int b, int c, int d, NavMeshPtr n, Point p)
+    {
+        m_00 = a;
+        m_04 = b;
+        m_08 = c;
+        m_0c = d;
+        m_10 = n;
+        m_14 = p.m_00;
+        m_18 = p.m_04;
+        m_1c = p.m_08;
+        Dead2();
+    }
+};
+}
+
+namespace fnv_00adb1a0 {
+struct ListView
+{
+    char m_00[12];
+};
+}
+
+namespace fnv_00adb1a0 {
+struct Host
+{
+    int m_00, m_04, m_08;
+    ListView m_0c[13];
+    char m_a8[4];
+    CritSecA m_ac;
+    Record* FUN_00adad60();
+    void FUN_00adb1a0(int, int, int, int, NavMeshPtr, Point);
+};
+}
+
+namespace fnv_00adb3e0 {
+struct NavMeshPtr
+{
+    RefObject* m_00;
+    NavMeshPtr(RefObject* p)
+    {
+        m_00 = p;
+        if (m_00)
+            m_00->AddRef();
+    }
+    NavMeshPtr(const NavMeshPtr& p)
+    {
+        m_00 = p.m_00;
+        if (m_00)
+            m_00->AddRef();
+    }
+    ~NavMeshPtr()
+    {
+        if (m_00)
+            m_00->Release();
+    }
+};
+}
+
+namespace fnv_00adb3e0 {
+struct Point
+{
+    float m_00, m_04, m_08;
+};
+}
+
+namespace fnv_00adb3e0 {
+struct Host
+{
+    bool FUN_00adb3e0(unsigned int id, bool flag);
+};
+}
+
+
+
+
+namespace fnv_00adddd0 {
+
+}
+
+struct SoundMessageRecord;
+
+namespace fnv_00adf080 {
+struct SoundMessageRecord;
+}
+
+namespace fnv_00adaf80 {
+struct SoundMessageRecord;
+}
+
+namespace fnv_00adad60 {
+struct BottomlessStack
+{
+};
+}
+
+struct SoundMessageRecord;
+
+struct BottomlessStack
+{
+    void Push(SoundMessageRecord*);
+    SoundMessageRecord* Pop();
+    void SetBottomless(bool);
+    void* __vecDelDtor(unsigned int);
+    unsigned int iCount;
+    bool m_bBottomless;
+    char _pad_5[3];
+    SoundMessageRecord* pTop;
+    unsigned int m_uiStackLimit;
+};
+
+struct SoundMessageRecord;
+
+// namespace fnv_00ae7050
+struct SoundMessageRecord
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    SoundMessageRecord* pNext;
+
+    void FUN_00ae86d0();
+    ~SoundMessageRecord()
+    {
+        int a;
+        int b;
+        int c;
+        int d;
+        FUN_00ae86d0();
+    }
+    static void operator delete(void* p)
+    {
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
+    }
+};
+
+struct NiPoint3
+{
+    float x, y, z;
+    static const NiPoint3 ZERO;
+};
+
+namespace fnv_00ada0f0 {
+struct NiPoint3
+{
+    float x, y, z;
+    static const NiPoint3 ZERO;
+};
+}
+
+struct NiAVObject;
+
+struct NiRefObject
+{
+    void* m_pVtbl;
+    long m_uiRefCount;
+
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+};
+
+struct NiAVObject : NiRefObject
+{
+};
+
+struct NiPointer
+{
+    NiAVObject* m_pObject;
+
+    NiPointer(NiAVObject* pkObject = 0) : m_pObject(pkObject)
+    {
+        int scratch;
+        if (m_pObject)
+            m_pObject->IncRefCount();
+    }
+
+    ~NiPointer()
+    {
+        if (m_pObject)
+            InterlockedDecrement(&m_pObject->m_uiRefCount);
+    }
+};
+
+namespace fnv_00adb4e0 {
+struct NiRefObject
+{
+    virtual ~NiRefObject();
+    long m_uiRefCount;
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+};
+}
+
+extern float DAT_010a3484;
+
+struct Pos3
+{
+    float x, y, z;
+    Pos3()
+    {}
+    Pos3(int) : x(DAT_010a3484), y(0.0f), z(0.0f)
+    {}
+};
+
+struct ObjT
+{
+    virtual void vfn_0();
+    virtual void DeleteThis();
+    void AcquireReference()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+    void DecRef()
+    {
+        if (InterlockedDecrement(&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+    unsigned int GetRefCount() const
+    {
+        return m_uiRefCount;
+    }
+    Pos3& GetPos()
+    {
+        return m_pos;
+    }
+    long m_uiRefCount;
+    int unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;
+    int unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c, unk50, unk54;
+    int unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
+    int unk80, unk84, unk88;
+    Pos3 m_pos;
+};
+
+extern float DAT_010a3484;
+
+void __cdecl FUN_00c45830(ObjT* p);
+
+namespace fnv_00adddd0 {
+void __cdecl FUN_00c45830(RefObject*);
+}
+
+namespace fnv_00adad80 {
+struct NiAVObject
+{
+    virtual ~NiAVObject();
+    virtual void DeleteThis();
+    unsigned int refs;
+};
+}
+
+namespace fnv_00adad80 {
+template <class T> struct NiPointer
+{
+    T* object;
+    NiPointer(T* p);
+    NiPointer();
+    NiPointer(T* p, int);
+    ~NiPointer()
+    {
+        if (object)
+        {
+            T* value = object;
+            if (!InterlockedDecrement(reinterpret_cast<volatile long*>(&value->refs)))
+                value->DeleteThis();
+        }
+    }
+    NiPointer& operator=(const NiPointer&);
+    NiPointer& operator=(T*);
+    bool IsSet() const
+    {
+        return object != 0;
+    }
+};
+}
+
+namespace fnv_00adad80 {
+struct NiPoint3
+{
+    float x, y, z;
+    static const NiPoint3 ZERO;
+};
+}
+
+namespace fnv_00adad80 {
+void __cdecl FUN_00c45830(NiAVObject*);
+}
+
+struct BSAudioManager
+{
+    static BSAudioManager& __cdecl GetRandomGenerator(void);
+};
+
+namespace fnv_00adad60 {
+struct BSAudioManager
+{
+    BottomlessStack m_aiEntries;  // +0x24
+    void FUN_00adad60();
+};
+}
+
+struct BSAudioManager;
+
+namespace fnv_00adf080 {
+typedef unsigned int UInt32;
+}
+
+namespace fnv_00adf080 {
+typedef unsigned short UInt16;
+}
+
+namespace fnv_00adf080 {
+class NiPoint3
+{
+  public:
+    float x, y, z;
+    NiPoint3()
+    {}
+    __forceinline NiPoint3(float ax, float ay, float az) : x(ax), y(ay), z(az)
+    {}
+};
+}
+
+namespace fnv_00adf080 {
+typedef NiPoint3 AudioVector_adf080;
+}
+
+namespace fnv_00adf080 {
+class NiRefObject
+{
+  public:
+    virtual ~NiRefObject();
+    virtual void DeleteThis();
+    unsigned int m_uiRefCount;
+    void AcquireReference()
+    {
+        InterlockedIncrement((long*)&m_uiRefCount);
+    }
+    void DecRef()
+    {
+        if (InterlockedDecrement((long*)&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+    unsigned int GetRefCount() const
+    {
+        return m_uiRefCount;
+    }
+};
+}
+
+namespace fnv_00adf080 {
+class NiObject : public NiRefObject
+{
+};
+}
+
+namespace fnv_00adf080 {
+class NiAVObject : public NiObject
+{
+};
+}
+
+namespace fnv_00adf080 {
+template <class T> class NiPointer
+{
+  public:
+    T* p;
+    NiPointer(T* object = 0) : p(object)
+    {
+        if (p)
+            p->AcquireReference();
+    }
+    NiPointer(const NiPointer& rhs) : p(rhs.p)
+    {
+        if (p)
+            p->AcquireReference();
+    }
+    ~NiPointer()
+    {
+        if (p)
+            p->DecRef();
+    }
+    NiPointer& operator=(const NiPointer&);
+    NiPointer& operator=(T* object)
+    {
+        if (p != object)
+        {
+            if (p)
+                p->DecRef();
+            p = object;
+            if (p)
+                p->AcquireReference();
+        }
+        return *this;
+    }
+    T* operator->() const
+    {
+        return p;
+    }
+    operator T*() const
+    {
+        return p;
+    }
+    bool operator==(const NiPointer& rhs) const
+    {
+        return p == rhs.p;
+    }
+};
+}
+
+namespace fnv_00adf080 {
+typedef NiPointer<NiAVObject> AudioRef_adf080;
+}
+
+namespace fnv_00adf080 {
+void __cdecl FUN_00c45830(NiAVObject*);
+}
+
+namespace fnv_00adf080 {
+enum AudioMessageType_adf080
+{
+    AudioFirst_adf080 = 1,
+    AudioLast_adf080 = 66
+};
+}
+
+namespace fnv_00adf080 {
+struct SoundMessageRecord
+{
+    AudioMessageType_adf080 type;
+    int id;
+    int argument1;
+    UInt32 argument2;
+    AudioRef_adf080 object;
+    union
+    {
+        float floats[3];
+        UInt16 shorts[5];
+    };
+    __forceinline void SetObject(AudioRef_adf080 value)
+    {
+        object = value;
+    }
+    __forceinline AudioMessageType_adf080 GetType() const
+    {
+        return type;
+    }
+    __forceinline int GetID() const
+    {
+        return id;
+    }
+    __forceinline int GetArgument1() const
+    {
+        return argument1;
+    }
+    __forceinline UInt32 GetArgument2() const
+    {
+        return argument2;
+    }
+    __forceinline void SetArgument1(int value)
+    {
+        argument1 = value;
+    }
+    __forceinline void SetArgument2(UInt32 value)
+    {
+        argument2 = value;
+    }
+    __forceinline UInt16 GetShort(unsigned int index) const
+    {
+        return shorts[index];
+    }
+    __forceinline AudioVector_adf080 GetAudioPosition() const
+    {
+        return AudioVector_adf080(floats[0], floats[1], floats[2]);
+    }
+};
+}
+
+namespace fnv_00adaf80 {
+struct SoundMessageRecord;
+}
+
+namespace fnv_00adaf80 {
+struct BottomlessStack
+{
+    SoundMessageRecord* Pop();
+};
+}
+
+namespace fnv_00adaf80 {
+struct BSAudioManager
+{
+    SoundMessageRecord* FUN_00adaf80();
+};
+}
+
+namespace fnv_00ae7050 {
+class NiRefObject
+{
+  public:
+    virtual ~NiRefObject();
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+    void DecRefCount();
+    long m_uiRefCount;
+};
+}
+
+namespace fnv_00ae7050 {
+template <class T> class NiPointer
+{
+  public:
+    NiPointer(T* pObject = 0)
+    {
+        m_pObject = pObject;
+        if (m_pObject)
+            m_pObject->IncRefCount();
+    }
+    ~NiPointer()
+    {
+        if (m_pObject)
+            m_pObject->DecRefCount();
+    }
+    T* m_pObject;
+};
+}
+
+namespace fnv_00adafa0 {
+class NiAVObject
+{
+  public:
+    virtual void v0();
+    virtual void DeleteThis();
+    long refs;
+    void IncRefCount()
+    {
+        InterlockedIncrement(&refs);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&refs) == 0)
+            DeleteThis();
+    }
+};
+}
+
+namespace fnv_00adafa0 {
+template <class T> class NiPointer
+{
+  public:
+    T* p;
+    NiPointer(T* q = 0) : p(q)
+    {
+        if (p)
+            p->IncRefCount();
+    }
+    NiPointer(const NiPointer& q) : p(q.p)
+    {
+        if (p)
+            p->IncRefCount();
+    }
+    ~NiPointer()
+    {
+        if (p)
+            p->DecRefCount();
+    }
+    NiPointer& operator=(const NiPointer& q)
+    {
+        if (p != q.p)
+        {
+            if (q.p)
+                q.p->IncRefCount();
+            if (p)
+                p->DecRefCount();
+            p = q.p;
+        }
+        return *this;
+    }
+    NiPointer& operator=(T* q)
+    {
+        if (p != q)
+        {
+            T* old = p;
+            p = q;
+            if (p)
+                p->IncRefCount();
+            if (old)
+                old->DecRefCount();
+        }
+        return *this;
+    }
+    bool operator!=(T* q) const
+    {
+        return p != q;
+    }
+};
+}
+
+namespace fnv_00adafa0 {
+struct NP : NiPointer<NiAVObject>
+{
+    NP(NiAVObject* q) : NiPointer<NiAVObject>(q)
+    {}
+    __declspec(noinline) ~NP()
+    {}
+};
+}
+
+namespace fnv_00adafa0 {
+void __cdecl FUN_00c45830(NiAVObject*);
+}
+
+namespace fnv_00adb1a0 {
+
+}
+
+namespace fnv_00adb3e0 {
+
+}
+
+namespace fnv_00adb610 {
+struct NiPoint3
+{
+    float x, y, z;
+};
+}
+
+namespace fnv_00adb610 {
+  // NiPoint3::ZERO
+struct NiRefObject
+{
+    void* m_vtbl;
+    long m_uiRefCount;
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+};
+}
+
+namespace fnv_00adb610 {
+template <class T> struct NiPointer
+{
+    T* m_pObject;
+    NiPointer(T* pObject = 0)
+    {
+        m_pObject = pObject;
+        if (m_pObject)
+            m_pObject->IncRefCount();
+    }
+    ~NiPointer()
+    {}
+};
+}
+
+namespace fnv_00adb970 {
+struct NiRefObject
+{
+    void* vtbl;
+    unsigned int m_uiRefCount;
+    __forceinline void IncRefCount()
+    {
+        InterlockedIncrement((long volatile*)&m_uiRefCount);
+    }
+    __forceinline void DecRefCount()
+    {
+        InterlockedDecrement((long volatile*)&m_uiRefCount);
+    }
+};
+}
+
+namespace fnv_00adb970 {
+template <class T> struct NiPointer
+{
+    T* m_pObject;
+    __forceinline NiPointer(T* pObject = 0) : m_pObject(pObject)
+    {
+        if (m_pObject)
+            m_pObject->IncRefCount();
+    }
+    __forceinline NiPointer(const NiPointer& ptr) : m_pObject(ptr.m_pObject)
+    {
+        if (m_pObject)
+            m_pObject->IncRefCount();
+    }
+    __forceinline ~NiPointer()
+    {
+        if (m_pObject)
+            m_pObject->DecRefCount();
+    }
+};
+}
+
+namespace fnv_00adb970 {
+struct NiPoint3
+{
+    float x, y, z;
+};
+}
+
+namespace fnv_00adb9f0 {
+class NiPoint3
+{
+  public:
+    float x, y, z;
+    NiPoint3()
+    {}
+    __forceinline NiPoint3(float ax, float ay, float az) : x(ax), y(ay), z(az)
+    {}
+};
+}
+
+namespace fnv_00adb9f0 {
+class NiRefObject
+{
+  public:
+    virtual ~NiRefObject();
+    virtual void DeleteThis();
+    unsigned int m_uiRefCount;
+    void AcquireReference()
+    {
+        InterlockedIncrement((long*)&m_uiRefCount);
+    }
+    void DecRef()
+    {
+        if (InterlockedDecrement((long*)&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+};
+}
+
+namespace fnv_00adb9f0 {
+class NiObject : public NiRefObject
+{
+};
+}
+
+namespace fnv_00adb9f0 {
+class NiAVObject : public NiObject
+{
+};
+}
+
+namespace fnv_00adb9f0 {
+template <class T> class NiPointer
+{
+  public:
+    T* p;
+    NiPointer(T* object = 0) : p(object)
+    {
+        if (p)
+            p->AcquireReference();
+    }
+    NiPointer(const NiPointer& rhs) : p(rhs.p)
+    {
+        if (p)
+            p->AcquireReference();
+    }
+    ~NiPointer()
+    {
+        if (p)
+            p->DecRef();
+    }
+};
+}
+
+namespace fnv_00adbb30 {
+
+}
+
+namespace fnv_00adbb30 {
+struct NP
+{
+    RefObject* object;
+    __forceinline NP(RefObject* p = 0) : object(p)
+    {
+        if (object)
+            object->AcquireReference();
+    }
+    ~NP();
+    NP& operator=(const NP& rhs);
+};
+}
+
+namespace fnv_00adbb30 {
+struct Vector3
+{
+    float x, y, z;
+};
+}
+
+namespace fnv_00adbb30 {
+struct FUN_00ae86d0
+{
+    int type;
+    int id;
+    int data0;
+    int data1;
+    NP node;
+    union
+    {
+        Vector3 position;
+        unsigned short values[5];
+    };
+    __forceinline FUN_00ae86d0(int soundId, NP src, Vector3 zero)
+    {
+        type = 0x24;
+        id = soundId;
+        data0 = 0;
+        data1 = 0;
+        node = src;
+        position.x = zero.x;
+        position.y = zero.y;
+        position.z = zero.z;
+    }
+    ~FUN_00ae86d0();
+    __forceinline void SetValue(int index, unsigned short value)
+    {
+        values[index] = value;
+    }
+};
+}
+
+namespace fnv_00adc4e0 {
+struct NiPoint3
+{
+    float x, y, z;
+};
+}
+
+namespace fnv_00adc4e0 {
+  // NiPoint3::ZERO
+struct NiRefObject
+{
+    void* m_vtbl;
+    long m_uiRefCount;
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+};
+}
+
+namespace fnv_00adc4e0 {
+template <class T> struct NiPointer
+{
+    T* m_pObject;
+    NiPointer(T* pObject = 0)
+    {
+        m_pObject = pObject;
+        if (m_pObject)
+            m_pObject->IncRefCount();
+    }
+    ~NiPointer()
+    {}
+};
+}
+
+namespace fnv_00ae7550 {
+struct NiAVObject_ae7550
+{
+    virtual void DeleteThis();
+    unsigned int m_uiRefCount;
+    void IncRefCount()
+    {
+        InterlockedIncrement((long*)&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement((long*)&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+};
+}
+
+namespace fnv_00ae7550 {
+template <class T> struct NiPointer_ae7550
+{
+    ~NiPointer_ae7550()
+    {
+        if (m_pObject)
+            m_pObject->DecRefCount();
+    }
+    operator T*() const
+    {
+        return m_pObject;
+    }
+    T* m_pObject;
+};
+}
+
+namespace fnv_00ae7550 {
+void __cdecl FUN_00c45830(NiAVObject_ae7550* pkObject);
+}
+
+namespace fnv_00ae7550 {
+struct Pool_ae7550
+{
+    void FUN_00aa4060(void* p);
+};
+}
+
+namespace fnv_00ae7550 {
+struct FUN_00ae86d0
+{
+    ~FUN_00ae86d0()
+    {
+        if (m_pReferencedObject)
+            FUN_00c45830(m_pReferencedObject);
+    }
+    static void operator delete(void* p)
+    {
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ae7550::Pool_ae7550 *>(&::g_memoryManager))))->FUN_00aa4060(p);
+    }
+    FUN_00ae86d0* GetNext() const
+    {
+        return m_pNext;
+    }
+    int unk00;
+    int unk04;
+    int unk08;
+    FUN_00ae86d0* m_pNext;
+    NiPointer_ae7550<NiAVObject_ae7550> m_pReferencedObject;
+    float unk14;
+    float unk18;
+    float unk1C;
+};
+}
+
+
+
+
+namespace fnv_00adddd0 {
+
 }
 
 struct FUN_00a1b940
@@ -872,64 +1959,27 @@ extern unsigned int DAT_011f426c;
 
 namespace fnv_00adad80 { struct Message501; }
 
-struct SoundMessageRecord;
+
 
 namespace fnv_00adf080 {
-struct SoundMessageRecord;
+
 }
 
 namespace fnv_00adaf80 {
-struct SoundMessageRecord;
+
 }
 
 namespace fnv_00adad60 {
-struct BottomlessStack
-{
-};
+
 }
 
-struct SoundMessageRecord;
-
-struct BottomlessStack
-{
-    void Push(SoundMessageRecord*);
-    SoundMessageRecord* Pop();
-    void SetBottomless(bool);
-    void* __vecDelDtor(unsigned int);
-    unsigned int iCount;
-    bool m_bBottomless;
-    char _pad_5[3];
-    SoundMessageRecord* pTop;
-    unsigned int m_uiStackLimit;
-};
-
-struct SoundMessageRecord;
-
-// namespace fnv_00ae7050
 
 
 
-struct SoundMessageRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    SoundMessageRecord* pNext;
 
-    void FUN_00ae86d0();
-    ~SoundMessageRecord()
-    {
-        int a;
-        int b;
-        int c;
-        int d;
-        FUN_00ae86d0();
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
-};
+
+
+// 
 
 struct Stack75f0 : BottomlessStack
 {
@@ -943,163 +1993,56 @@ struct Stack75f0 : BottomlessStack
     void FUN_00ae75f0(SoundMessageRecord* param_2);
 };
 
-struct NiPoint3
-{
-    float x, y, z;
-    static const NiPoint3 ZERO;
-};
+
 
 namespace fnv_00ada0f0 {
-struct NiPoint3
-{
-    float x, y, z;
-    static const NiPoint3 ZERO;
-};
+
 }
 
-struct NiAVObject;
 
 
 
-struct NiRefObject
-{
-    void* m_pVtbl;
-    long m_uiRefCount;
 
-    void IncRefCount()
-    {
-        InterlockedIncrement(&m_uiRefCount);
-    }
-};
 
-struct NiAVObject : NiRefObject
-{
-};
 
-struct NiPointer
-{
-    NiAVObject* m_pObject;
 
-    NiPointer(NiAVObject* pkObject = 0) : m_pObject(pkObject)
-    {
-        int scratch;
-        if (m_pObject)
-            m_pObject->IncRefCount();
-    }
 
-    ~NiPointer()
-    {
-        if (m_pObject)
-            InterlockedDecrement(&m_pObject->m_uiRefCount);
-    }
-};
+
 
 namespace fnv_00adb4e0 {
-struct NiRefObject
-{
-    virtual ~NiRefObject();
-    long m_uiRefCount;
-    void IncRefCount()
-    {
-        InterlockedIncrement(&m_uiRefCount);
-    }
-};
+
 }
 
-extern float DAT_010a3484;
 
-struct Pos3
-{
-    float x, y, z;
-    Pos3()
-    {}
-    Pos3(int) : x(DAT_010a3484), y(0.0f), z(0.0f)
-    {}
-};
 
-struct ObjT
-{
-    virtual void vfn_0();
-    virtual void DeleteThis();
-    void AcquireReference()
-    {
-        InterlockedIncrement(&m_uiRefCount);
-    }
-    void DecRef()
-    {
-        if (InterlockedDecrement(&m_uiRefCount) == 0)
-            DeleteThis();
-    }
-    unsigned int GetRefCount() const
-    {
-        return m_uiRefCount;
-    }
-    Pos3& GetPos()
-    {
-        return m_pos;
-    }
-    long m_uiRefCount;
-    int unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;
-    int unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c, unk50, unk54;
-    int unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
-    int unk80, unk84, unk88;
-    Pos3 m_pos;
-};
 
-extern float DAT_010a3484;
 
-void __cdecl FUN_00c45830(ObjT* p);
+
+
+
+
+
 
 namespace fnv_00adddd0 {
 
 }
 
 namespace fnv_00adddd0 {
-void __cdecl FUN_00c45830(RefObject*);
+
 }
 
 // namespace fnv_00ada330
 
 namespace fnv_00adad80 {
-struct NiAVObject
-{
-    virtual ~NiAVObject();
-    virtual void DeleteThis();
-    unsigned int refs;
-};
-template <class T> struct NiPointer
-{
-    T* object;
-    NiPointer(T* p);
-    NiPointer();
-    NiPointer(T* p, int);
-    ~NiPointer()
-    {
-        if (object)
-        {
-            T* value = object;
-            if (!InterlockedDecrement(reinterpret_cast<volatile long*>(&value->refs)))
-                value->DeleteThis();
-        }
-    }
-    NiPointer& operator=(const NiPointer&);
-    NiPointer& operator=(T*);
-    bool IsSet() const
-    {
-        return object != 0;
-    }
-};
+
+
 struct NP501 : NiPointer<NiAVObject>
 {
     NP501(NiAVObject* p) : NiPointer<NiAVObject>(p, 0)
     {}
     ~NP501();
 };
-struct NiPoint3
-{
-    float x, y, z;
-    static const NiPoint3 ZERO;
-};
+
 struct Message501
 {
     unsigned int id, type, data, flags;
@@ -1108,7 +2051,7 @@ struct Message501
     void SetObj(NP501 sp);
     __forceinline void Reset(NiPoint3 pt, NiPointer<NiAVObject> sp);
 };
-void __cdecl FUN_00c45830(NiAVObject*);
+
 struct FreeList501
 {
 };
@@ -1181,9 +2124,7 @@ void Manager501::FUN_00adad80(Message501* message)
 }
 
 
-struct CritSecA : CRITICAL_SECTION
-{
-};
+
 
 struct S_00adc830_Entry;
 
@@ -1244,10 +2185,7 @@ inline void Dead5()
 {
     int a[5];
 }
-inline void Dead2()
-{
-    int a[2];
-}
+
 struct FUN_00ae8af0
 {
     int m0;
@@ -1478,28 +2416,21 @@ namespace fnv_00adaf80 {
 
 }
 
-struct BSAudioManager
-{
-    static BSAudioManager& __cdecl GetRandomGenerator(void);
-};
+
 
 namespace fnv_00adad60 {
 
 }
 
 namespace fnv_00adad60 {
-struct BSAudioManager
-{
-    BottomlessStack m_aiEntries;  // +0x24
-    void FUN_00adad60();
-};
+
 }
 
 
 
 
 
-struct BSAudioManager;
+
 
 
 
@@ -1872,8 +2803,8 @@ namespace fnv_00adb4e0 {
 namespace fnv_00adf080 {
 struct AudioListener_adf080;
 
-typedef unsigned int UInt32;
-typedef unsigned short UInt16;
+
+
 typedef unsigned char UInt8;
 
 struct MemoryManagerAllocHelper
@@ -1918,16 +2849,8 @@ struct AudioSystem_adf080
     }
 };
 
-class NiPoint3
-{
-  public:
-    float x, y, z;
-    NiPoint3()
-    {}
-    __forceinline NiPoint3(float ax, float ay, float az) : x(ax), y(ay), z(az)
-    {}
-};
-typedef NiPoint3 AudioVector_adf080;
+
+
 extern const AudioVector_adf080 NiPoint3_ZERO;
 extern char DAT_010a3488[];
 static __forceinline float& AudioSettingValue_adf080(Setting_00ad9da0* setting)
@@ -2133,134 +3056,15 @@ struct AudioMemoryContext_adf080
     }
 };
 
-class NiRefObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-    void AcquireReference()
-    {
-        InterlockedIncrement((long*)&m_uiRefCount);
-    }
-    void DecRef()
-    {
-        if (InterlockedDecrement((long*)&m_uiRefCount) == 0)
-            DeleteThis();
-    }
-    unsigned int GetRefCount() const
-    {
-        return m_uiRefCount;
-    }
-};
-class NiObject : public NiRefObject
-{
-};
-class NiAVObject : public NiObject
-{
-};
-template <class T> class NiPointer
-{
-  public:
-    T* p;
-    NiPointer(T* object = 0) : p(object)
-    {
-        if (p)
-            p->AcquireReference();
-    }
-    NiPointer(const NiPointer& rhs) : p(rhs.p)
-    {
-        if (p)
-            p->AcquireReference();
-    }
-    ~NiPointer()
-    {
-        if (p)
-            p->DecRef();
-    }
-    NiPointer& operator=(const NiPointer&);
-    NiPointer& operator=(T* object)
-    {
-        if (p != object)
-        {
-            if (p)
-                p->DecRef();
-            p = object;
-            if (p)
-                p->AcquireReference();
-        }
-        return *this;
-    }
-    T* operator->() const
-    {
-        return p;
-    }
-    operator T*() const
-    {
-        return p;
-    }
-    bool operator==(const NiPointer& rhs) const
-    {
-        return p == rhs.p;
-    }
-};
-typedef NiPointer<NiAVObject> AudioRef_adf080;
-void __cdecl FUN_00c45830(NiAVObject*);
 
-enum AudioMessageType_adf080
-{
-    AudioFirst_adf080 = 1,
-    AudioLast_adf080 = 66
-};
-struct SoundMessageRecord
-{
-    AudioMessageType_adf080 type;
-    int id;
-    int argument1;
-    UInt32 argument2;
-    AudioRef_adf080 object;
-    union
-    {
-        float floats[3];
-        UInt16 shorts[5];
-    };
-    __forceinline void SetObject(AudioRef_adf080 value)
-    {
-        object = value;
-    }
-    __forceinline AudioMessageType_adf080 GetType() const
-    {
-        return type;
-    }
-    __forceinline int GetID() const
-    {
-        return id;
-    }
-    __forceinline int GetArgument1() const
-    {
-        return argument1;
-    }
-    __forceinline UInt32 GetArgument2() const
-    {
-        return argument2;
-    }
-    __forceinline void SetArgument1(int value)
-    {
-        argument1 = value;
-    }
-    __forceinline void SetArgument2(UInt32 value)
-    {
-        argument2 = value;
-    }
-    __forceinline UInt16 GetShort(unsigned int index) const
-    {
-        return shorts[index];
-    }
-    __forceinline AudioVector_adf080 GetAudioPosition() const
-    {
-        return AudioVector_adf080(floats[0], floats[1], floats[2]);
-    }
-};
+
+
+
+
+
+
+
+
 
 struct AudioMessageNode_adf080
 {
@@ -4015,7 +4819,6 @@ struct SndStack70
         --count;
         return value;
     }
-    ::BSSoundMsg70 *FUN_00ae7f90();
 };
 
 
@@ -4035,25 +4838,11 @@ struct StackView
     }
 };
 
-template <int N> inline void ReserveFrame();
 
-template <int Pad> struct ListCleanup
-{
-    ~ListCleanup()
-    {
-        ReserveFrame<Pad>();
-    }
-};
 
-template <int Pad> struct ListView : ListCleanup<Pad>
-{
-    int offset_00, offset_04, offset_08;
-    void FUN_00ae8370();
-    ~ListView()
-    {
-        reinterpret_cast<::S_00ae8370_List *>(this)->FUN_00ae8370();
-    }
-};
+
+
+
 
 struct CSView : CRITICAL_SECTION
 {
@@ -4279,17 +5068,11 @@ void BSAudioManager::FUN_00adad60()
 }  // namespace fnv_00adad60
 
 namespace fnv_00adaf80 {
-struct SoundMessageRecord;
 
-struct BottomlessStack
-{
-    SoundMessageRecord* Pop();
-};
 
-struct BSAudioManager
-{
-    SoundMessageRecord* FUN_00adaf80();
-};
+
+
+
 
 // @fnv 0x00adaf80
 SoundMessageRecord* BSAudioManager::FUN_00adaf80()
@@ -4663,6 +5446,7 @@ struct Helper
 struct BSAudioDefinition
 {
     BSAudioDefinition();
+    ~BSAudioDefinition();
 public:
     ::BSAudioDefinition &operator=(const ::BSAudioDefinition &);
 };
@@ -5897,6 +6681,10 @@ struct FUN_00ae77d0 : S_00ae77d0_Base
     char unk48;
     FUN_00ae77d0();
     virtual void v0();
+    static void* operator new(std::size_t n)
+    {
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolX *>(&::g_memoryManager))))->FUN_00aa3e40(n);
+    }
 };
 // Initializes two binary semaphores with initial count 0 and max 1, and sets unk48 to 1.
 // @fnv 0x00ae77d0
@@ -6146,20 +6934,6 @@ float FUN_00adc8b0_shell::FUN_00adc8b0(unsigned long auiKey)
 extern "C" int __cdecl FUN_00ec7d40(int);
 
 int __cdecl FUN_00ae5fb0(unsigned int* a, unsigned int* b);
-
-// VEGAS17-CONFLICT: BSAudioDefinition (variant definition below differs from the one above)
-struct BSAudioDefinition
-{
-    BSAudioDefinition();
-public:
-    ~BSAudioDefinition();
-public:
-    ::BSAudioDefinition &operator=(const ::BSAudioDefinition &);
-};
-
-
-
-
 
 class DetectRefObject
 {
@@ -6456,17 +7230,6 @@ struct Ent8
 };
 
 
-
-// VEGAS17-CONFLICT: FUN_00ae77d0 (variant definition below differs from the one above)
-struct FUN_00ae77d0
-{
-    int m[19];
-    FUN_00ae77d0();
-    static void* operator new(std::size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolX *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
-};
 
 struct ListX
 {
@@ -7574,8 +8337,7 @@ struct ScrapHeapBuffer
     }
 };
 
-// VEGAS17-CONFLICT: BSMapBase (variant definition below differs from the one above)
-template <class TKey, class TValue> struct BSMapBase
+template <class TKey, class TValue> struct BSMapBaseT
 {
     struct Item
     {
@@ -7610,7 +8372,7 @@ struct FUN_00adc9a0_shell
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
     int unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
     int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C, unk60;
-    BSMapBase<unsigned long, ScrapHeapBuffer*> heaps;
+    BSMapBaseT<unsigned long, ScrapHeapBuffer*> heaps;
     int unk74, unk78, unk7C, unk80, unk84, unk88, unk8C, unk90;
     int unk94, unk98, unk9C, unkA0, unkA4, unkA8, unkAC, unkB0;
     int unkB4, unkB8, unkBC, unkC0;
@@ -8051,34 +8813,9 @@ void FUN_00adef80_cls::FUN_00adef80(NiPoint3_audio kPos)
 
 namespace fnv_00ae7050 {
 
-class NiRefObject
-{
-  public:
-    virtual ~NiRefObject();
-    void IncRefCount()
-    {
-        InterlockedIncrement(&m_uiRefCount);
-    }
-    void DecRefCount();
-    long m_uiRefCount;
-};
 
-template <class T> class NiPointer
-{
-  public:
-    NiPointer(T* pObject = 0)
-    {
-        m_pObject = pObject;
-        if (m_pObject)
-            m_pObject->IncRefCount();
-    }
-    ~NiPointer()
-    {
-        if (m_pObject)
-            m_pObject->DecRefCount();
-    }
-    T* m_pObject;
-};
+
+
 
 class BSGameSound7050
 {
@@ -8370,7 +9107,6 @@ FUN_00ae8650* Pool_ae76b0::FUN_00ae76b0()
 // namespace fnv_00ae76b0
 
 namespace fnv_00ae81e0 {
-extern "C" void* __cdecl _alloca(unsigned int);
 
 struct MemoryManagerAllocHelper
 {
@@ -8849,78 +9585,9 @@ void BSAudioMgrA0::FUN_00ada0f0()
 // namespace fnv_00adad80
 
 namespace fnv_00adafa0 {
-class NiAVObject
-{
-  public:
-    virtual void v0();
-    virtual void DeleteThis();
-    long refs;
-    void IncRefCount()
-    {
-        InterlockedIncrement(&refs);
-    }
-    void DecRefCount()
-    {
-        if (InterlockedDecrement(&refs) == 0)
-            DeleteThis();
-    }
-};
-template <class T> class NiPointer
-{
-  public:
-    T* p;
-    NiPointer(T* q = 0) : p(q)
-    {
-        if (p)
-            p->IncRefCount();
-    }
-    NiPointer(const NiPointer& q) : p(q.p)
-    {
-        if (p)
-            p->IncRefCount();
-    }
-    ~NiPointer()
-    {
-        if (p)
-            p->DecRefCount();
-    }
-    NiPointer& operator=(const NiPointer& q)
-    {
-        if (p != q.p)
-        {
-            if (q.p)
-                q.p->IncRefCount();
-            if (p)
-                p->DecRefCount();
-            p = q.p;
-        }
-        return *this;
-    }
-    NiPointer& operator=(T* q)
-    {
-        if (p != q)
-        {
-            T* old = p;
-            p = q;
-            if (p)
-                p->IncRefCount();
-            if (old)
-                old->DecRefCount();
-        }
-        return *this;
-    }
-    bool operator!=(T* q) const
-    {
-        return p != q;
-    }
-};
-struct NP : NiPointer<NiAVObject>
-{
-    NP(NiAVObject* q) : NiPointer<NiAVObject>(q)
-    {}
-    __declspec(noinline) ~NP()
-    {}
-};
+
+
+
 struct VectorA
 {
     float x, y, z;
@@ -8947,7 +9614,7 @@ struct MessageA
         pos.z = position.z;
     }
 };
-void __cdecl FUN_00c45830(NiAVObject*);
+
 struct StackA
 {
 };
@@ -8976,51 +9643,10 @@ void HostA::FUN_00adafa0(MessageA* msg)
 // namespace fnv_00adafa0
 
 namespace fnv_00adb1a0 {
-inline void Dead1()
-{
-    int a[1];
-}
-inline void Dead2()
-{
-    int a[2];
-}
-struct RefObject
-{
-    virtual void v00();
-    virtual void v04();
-    long m_04;
-    void AddRef()
-    {
-        InterlockedIncrement(&m_04);
-    }
-    void Release()
-    {
-        if (!InterlockedDecrement(&m_04))
-            v04();
-    }
-};
-struct NavMeshPtr
-{
-    RefObject* m_00;
-    NavMeshPtr(RefObject* p)
-    {
-        m_00 = p;
-        if (m_00)
-            m_00->AddRef();
-    }
-    NavMeshPtr(const NavMeshPtr& p)
-    {
-        m_00 = p.m_00;
-        if (m_00)
-            m_00->AddRef();
-    }
-    ~NavMeshPtr()
-    {
-        if (m_00)
-            m_00->Release();
-    }
-    NavMeshPtr& operator=(const NavMeshPtr&);
-};
+
+
+
+
 struct AudioView
 {
     char m_00[5];
@@ -9053,41 +9679,10 @@ struct StateGuard
         SetState(m_00);
     }
 };
-struct Point
-{
-    float m_00, m_04, m_08;
-};
-struct Record
-{
-    int m_00, m_04, m_08, m_0c;
-    NavMeshPtr m_10;
-    float m_14, m_18, m_1c;
-    void Set(int a, int b, int c, int d, NavMeshPtr n, Point p)
-    {
-        m_00 = a;
-        m_04 = b;
-        m_08 = c;
-        m_0c = d;
-        m_10 = n;
-        m_14 = p.m_00;
-        m_18 = p.m_04;
-        m_1c = p.m_08;
-        Dead2();
-    }
-};
-struct ListView
-{
-    char m_00[12];
-};
-struct Host
-{
-    int m_00, m_04, m_08;
-    ListView m_0c[13];
-    char m_a8[4];
-    CritSecA m_ac;
-    Record* FUN_00adad60();
-    void FUN_00adb1a0(int, int, int, int, NavMeshPtr, Point);
-};
+
+
+
+
 // @fnv 0x00adb1a0
 void Host::FUN_00adb1a0(int a, int b, int c, int d, NavMeshPtr n, Point p)
 {
@@ -9110,51 +9705,11 @@ void Host::FUN_00adb1a0(int a, int b, int c, int d, NavMeshPtr n, Point p)
 // namespace fnv_00adb1a0
 
 namespace fnv_00adb3e0 {
-struct RefObject
-{
-    virtual void v00();
-    virtual void v04();
-    long m_04;
-    void AddRef()
-    {
-        InterlockedIncrement(&m_04);
-    }
-    void Release()
-    {
-        if (!InterlockedDecrement(&m_04))
-            v04();
-    }
-};
-struct NavMeshPtr
-{
-    RefObject* m_00;
-    NavMeshPtr(RefObject* p)
-    {
-        m_00 = p;
-        if (m_00)
-            m_00->AddRef();
-    }
-    NavMeshPtr(const NavMeshPtr& p)
-    {
-        m_00 = p.m_00;
-        if (m_00)
-            m_00->AddRef();
-    }
-    ~NavMeshPtr()
-    {
-        if (m_00)
-            m_00->Release();
-    }
-};
-struct Point
-{
-    float m_00, m_04, m_08;
-};
+
+
+
 extern Point DAT_011f426c;
-struct Host
-{
-    bool FUN_00adb3e0(unsigned int id, bool flag);
-};
+
 // @fnv 0x00adb3e0
 bool Host::FUN_00adb3e0(unsigned int id, bool flag)
 {
@@ -9171,34 +9726,10 @@ bool Host::FUN_00adb3e0(unsigned int id, bool flag)
 
 namespace fnv_00adb610 {
 
-struct NiPoint3
-{
-    float x, y, z;
-};
-extern NiPoint3 DAT_011f426c;  // NiPoint3::ZERO
 
-struct NiRefObject
-{
-    void* m_vtbl;
-    long m_uiRefCount;
-    void IncRefCount()
-    {
-        InterlockedIncrement(&m_uiRefCount);
-    }
-};
+extern NiPoint3 DAT_011f426c; 
 
-template <class T> struct NiPointer
-{
-    T* m_pObject;
-    NiPointer(T* pObject = 0)
-    {
-        m_pObject = pObject;
-        if (m_pObject)
-            m_pObject->IncRefCount();
-    }
-    ~NiPointer()
-    {}
-};
+
 
 struct Handler_adb610
 {
@@ -9261,44 +9792,11 @@ void FUN_00adb690_cls::FUN_00adb690(NiRefObject_audio* pObj, float fSeconds, int
 
 namespace fnv_00adb970 {
 
-struct NiRefObject
-{
-    void* vtbl;
-    unsigned int m_uiRefCount;
-    __forceinline void IncRefCount()
-    {
-        InterlockedIncrement((long volatile*)&m_uiRefCount);
-    }
-    __forceinline void DecRefCount()
-    {
-        InterlockedDecrement((long volatile*)&m_uiRefCount);
-    }
-};
 
-template <class T> struct NiPointer
-{
-    T* m_pObject;
-    __forceinline NiPointer(T* pObject = 0) : m_pObject(pObject)
-    {
-        if (m_pObject)
-            m_pObject->IncRefCount();
-    }
-    __forceinline NiPointer(const NiPointer& ptr) : m_pObject(ptr.m_pObject)
-    {
-        if (m_pObject)
-            m_pObject->IncRefCount();
-    }
-    __forceinline ~NiPointer()
-    {
-        if (m_pObject)
-            m_pObject->DecRefCount();
-    }
-};
 
-struct NiPoint3
-{
-    float x, y, z;
-};
+
+
+
 
 struct FUN_00adb970_cls
 {
@@ -9320,57 +9818,11 @@ bool FUN_00adb970_cls::FUN_00adb970(int a1, float x, float y, float z)
 // namespace fnv_00adb970
 
 namespace fnv_00adb9f0 {
-class NiPoint3
-{
-  public:
-    float x, y, z;
-    NiPoint3()
-    {}
-    __forceinline NiPoint3(float ax, float ay, float az) : x(ax), y(ay), z(az)
-    {}
-};
-class NiRefObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-    void AcquireReference()
-    {
-        InterlockedIncrement((long*)&m_uiRefCount);
-    }
-    void DecRef()
-    {
-        if (InterlockedDecrement((long*)&m_uiRefCount) == 0)
-            DeleteThis();
-    }
-};
-class NiObject : public NiRefObject
-{
-};
-class NiAVObject : public NiObject
-{
-};
-template <class T> class NiPointer
-{
-  public:
-    T* p;
-    NiPointer(T* object = 0) : p(object)
-    {
-        if (p)
-            p->AcquireReference();
-    }
-    NiPointer(const NiPointer& rhs) : p(rhs.p)
-    {
-        if (p)
-            p->AcquireReference();
-    }
-    ~NiPointer()
-    {
-        if (p)
-            p->DecRef();
-    }
-};
+
+
+
+
+
 struct AudioManagerTarget
 {
     bool FUN_00adb9f0(unsigned int id, float x, float y, float z);
@@ -9431,14 +9883,8 @@ void FUN_00adba70_cls::FUN_00adba70(int a, float fB, float fC)
 // namespace fnv_00adba70
 
 namespace fnv_00adbb30 {
-inline void Dead1()
-{
-    int a[1];
-}
-inline void Dead2()
-{
-    int a[2];
-}
+
+
 inline void Dead6()
 {
     int a[6];
@@ -9448,63 +9894,14 @@ inline void Dead8()
     int a[8];
 }
 
-struct RefObject
-{
-    int vtable;
-    long references;
-    __forceinline void AcquireReference()
-    {
-        InterlockedIncrement(&references);
-    }
-};
 
-struct NP
-{
-    RefObject* object;
-    __forceinline NP(RefObject* p = 0) : object(p)
-    {
-        if (object)
-            object->AcquireReference();
-    }
-    ~NP();
-    NP& operator=(const NP& rhs);
-};
 
-struct Vector3
-{
-    float x, y, z;
-};
+
+
+
 extern Vector3 NiPoint3_ZERO;
 
-struct FUN_00ae86d0
-{
-    int type;
-    int id;
-    int data0;
-    int data1;
-    NP node;
-    union
-    {
-        Vector3 position;
-        unsigned short values[5];
-    };
-    __forceinline FUN_00ae86d0(int soundId, NP src, Vector3 zero)
-    {
-        type = 0x24;
-        id = soundId;
-        data0 = 0;
-        data1 = 0;
-        node = src;
-        position.x = zero.x;
-        position.y = zero.y;
-        position.z = zero.z;
-    }
-    ~FUN_00ae86d0();
-    __forceinline void SetValue(int index, unsigned short value)
-    {
-        values[index] = value;
-    }
-};
+
 
 __forceinline const FUN_00ae86d0& Pass(const FUN_00ae86d0& m)
 {
@@ -10038,34 +10435,10 @@ void FUN_00adc460_cls::FUN_00adc460(int a, int b)
 
 namespace fnv_00adc4e0 {
 
-struct NiPoint3
-{
-    float x, y, z;
-};
-extern NiPoint3 DAT_011f426c;  // NiPoint3::ZERO
 
-struct NiRefObject
-{
-    void* m_vtbl;
-    long m_uiRefCount;
-    void IncRefCount()
-    {
-        InterlockedIncrement(&m_uiRefCount);
-    }
-};
+extern NiPoint3 DAT_011f426c; 
 
-template <class T> struct NiPointer
-{
-    T* m_pObject;
-    NiPointer(T* pObject = 0)
-    {
-        m_pObject = pObject;
-        if (m_pObject)
-            m_pObject->IncRefCount();
-    }
-    ~NiPointer()
-    {}
-};
+
 
 struct Handler_adb610
 {
@@ -10450,7 +10823,7 @@ struct Pos3_00ae5a50
 {
     float x, y, z;
 };
-extern "C" Pos3_00ae5a50 DAT_011f426c;
+extern Pos3_00ae5a50 DAT_011f426c;
 
 struct R_00ae5a50
 {
@@ -10975,62 +11348,11 @@ R_00ae5a50 Mgr_00ae5a50::FUN_00ae5a50(char* apName, int aiFlags, void* ap5)
 // namespace fnv_00ae5a50
 
 namespace fnv_00ae7550 {
-struct NiAVObject_ae7550
-{
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-    void IncRefCount()
-    {
-        InterlockedIncrement((long*)&m_uiRefCount);
-    }
-    void DecRefCount()
-    {
-        if (InterlockedDecrement((long*)&m_uiRefCount) == 0)
-            DeleteThis();
-    }
-};
-template <class T> struct NiPointer_ae7550
-{
-    ~NiPointer_ae7550()
-    {
-        if (m_pObject)
-            m_pObject->DecRefCount();
-    }
-    operator T*() const
-    {
-        return m_pObject;
-    }
-    T* m_pObject;
-};
-void __cdecl FUN_00c45830(NiAVObject_ae7550* pkObject);
-struct Pool_ae7550
-{
-    void FUN_00aa4060(void* p);
-};
-struct FUN_00ae86d0
-{
-    ~FUN_00ae86d0()
-    {
-        if (m_pReferencedObject)
-            FUN_00c45830(m_pReferencedObject);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ae7550::Pool_ae7550 *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
-    FUN_00ae86d0* GetNext() const
-    {
-        return m_pNext;
-    }
-    int unk00;
-    int unk04;
-    int unk08;
-    FUN_00ae86d0* m_pNext;
-    NiPointer_ae7550<NiAVObject_ae7550> m_pReferencedObject;
-    float unk14;
-    float unk18;
-    float unk1C;
-};
+
+
+
+
+
 struct List_ae7550
 {
     unsigned int m_uiCount;
@@ -11955,7 +12277,7 @@ void ThisClsAda::FUN_00ada5d0(int param1, Param2Ada* param2)
     if (param2)
     {
         reinterpret_cast<::S *>((((SoundInfoOps*)&info15)))->AssignFrom(
-                (const ::S *)(::TempInfo *)(&TempInfo(param2->v4(), param2->v10(), param2->Read04(), param2->Read08(), param2->Read14())));
+                (const ::S *)(::TempInfo *)(&static_cast<const TempInfo&>(TempInfo(param2->v4(), param2->v10(), param2->Read04(), param2->Read08(), param2->Read14()))));
         if (flag11_2)
         {
             std::memset(&descB_, 0, 0x23c);
@@ -11965,8 +12287,10 @@ void ThisClsAda::FUN_00ada5d0(int param1, Param2Ada* param2)
             if (reinterpret_cast<::BSGameSound *>((param2))->HasSoundFlagTwo() || reinterpret_cast<::BSGameSound *>((param2))->CanStartPlayback())
             {
                 descB_.f220 = param2->Read150();
-                descB_.f218 = param2->v54(&Vec3())[0];
-                descB_.f21c = param2->v54(&Vec3())[1];
+                Vec3 kFirst = Vec3();
+                descB_.f218 = param2->v54(&kFirst)[0];
+                Vec3 kSecond = Vec3();
+                descB_.f21c = param2->v54(&kSecond)[1];
                 descB_.f210 = param2->Read140();
                 descB_.f214 = param2->Read13c();
             }

@@ -288,7 +288,7 @@ struct FUN_00ae9ec0 : FUN_00ae93f0
 // @fnv 0x00ae9ec0
 void* FUN_00ae9ec0::DeleteThis(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00ae93f0 *>((this))->FUN_00ae93f0::~FUN_00ae93f0();
+    reinterpret_cast<::FUN_00ae93f0 *>((this))->::FUN_00ae93f0::~FUN_00ae93f0();
     if (flags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ae9ec0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
@@ -731,7 +731,8 @@ void C::SetWindow(int aiWindow)
     }
     if (sound)
     {
-        sound->s2(&Vec());
+        Vec kZero{};
+        sound->s2(&kZero);
         sound->s12(1.0f);
     }
     flag5 = 1;

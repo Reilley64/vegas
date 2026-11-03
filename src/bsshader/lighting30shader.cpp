@@ -61,6 +61,55 @@
 #include "fnv/symbols_0126f000.h"
 #include "lighting30shader_lighting30_factory_types.h"
 
+struct S00bbe6b0_Src;
+
+struct S00bbe6b0_Mat
+{
+    float _11, _12, _13, _14;
+    float _21, _22, _23, _24;
+    float _31, _32, _33, _34;
+    float _41, _42, _43, _44;
+};
+
+struct S00bbe6b0_Node
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    S00bbe6b0_Mat world;
+};
+
+struct S00bbe6b0_Pair
+{
+    S00bbe6b0_Node* first;
+    S00bbe6b0_Node* second;
+};
+
+struct S00bbe6b0_Src
+{
+    int unk00;
+    int unk04;
+    unsigned char unk08;
+    unsigned char count;
+    unsigned char unk0a;
+    unsigned char unk0b;
+    S00bbe6b0_Pair* pair;
+};
+
+struct S00bbe6b0_Renderer
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    char* m_18;
+    void FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, int flag, void* out);
+};
+
+
 // Natural new-expression exception cleanup; no fabricated lifetime helpers.
 // PC virtual slots and cross-platform names are documented in NOTES.md.
 // Builds eight shader declarations with vertex entries, creates a Lighting30Shader, assigns the non-color declarations to its slots, and initializes it.
@@ -5812,7 +5861,7 @@ void Shadow::FUN_00bbef90(Arg* apArgs)
     {
         reinterpret_cast<::FUN_00bbdcd0_shell *>(this)->ApplyTextureStages((::FUN_00bbdcd0_Arg1 *)(pc), (::FUN_00bbdcd0_Arg2 *)((*reinterpret_cast<::fnv_00bbef90::Glob * *>(&::DAT_0126f74c))));
         ::FUN_00bbde20((int)this, (::ShadowSceneOwner *)(obj), (int)(pc));
-        ::UpdateTransformedPosition((::M_bbb890)this, (*(::Obj_bbb890 * *)&(const ::fnv_00bbef90::Mat &)(mat)));
+        ::UpdateTransformedPosition(*(const ::M_bbb890 *)this, (*(::Obj_bbb890 * *)&(const ::fnv_00bbef90::Mat &)(mat)));
     }
     else
     {
@@ -5823,8 +5872,8 @@ void Shadow::FUN_00bbef90(Arg* apArgs)
         ::fnv_00bbba00::UpdateShaderMatrices((int)this, (const ::fnv_00bbba00::ShaderTransform *)(b));
         if ((*reinterpret_cast<::fnv_00bbef90::GHold * *>(&::ConstantMaps::DAT_012010ac))->b)
             (*reinterpret_cast<float *>(&::ConstantMaps::DAT_01201350)) = (float)(::DAT_011f940c / 3600.0 * 6.283180236816406 * pc->ie4);
-        ::UpdatePositionOffset((const ::NiPoint3 &)this);
-        ::UpdateTransformedPosition((::M_bbb890)this, (*(::Obj_bbb890 * *)&(const ::fnv_00bbef90::Mat &)(mat)));
+        ::UpdatePositionOffset(*(const ::NiPoint3 *)this);
+        ::UpdateTransformedPosition(*(const ::M_bbb890 *)this, (*(::Obj_bbb890 * *)&(const ::fnv_00bbef90::Mat &)(mat)));
         ::FUN_00bbbda0((const char *)this);
         ::fnv_00bbe9c0::FUN_00bbe9c0((const ::fnv_00bbe9c0::SolPosition *)this, (::fnv_00bbe9c0::S00bbe9c0_Obj *)(name), (::fnv_00bbe9c0::S00bbe9c0_Flags **)(pc), (unsigned int)(apArgs));
         ::ApplyLightSource((::LightSource *)this, (::RenderContext *)(p8));
@@ -5866,53 +5915,17 @@ void Shadow::FUN_00bbef90(Arg* apArgs)
 #include <math.h>
 #include <cstring>
 #include "fnv/symbols_00b79000.h"
-struct S00bbe6b0_Src;
 
-struct S00bbe6b0_Mat
-{
-    float _11, _12, _13, _14;
-    float _21, _22, _23, _24;
-    float _31, _32, _33, _34;
-    float _41, _42, _43, _44;
-};
 
-struct S00bbe6b0_Node
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S00bbe6b0_Mat world;
-};
 
-struct S00bbe6b0_Pair
-{
-    S00bbe6b0_Node* first;
-    S00bbe6b0_Node* second;
-};
 
-struct S00bbe6b0_Src
-{
-    int unk00;
-    int unk04;
-    unsigned char unk08;
-    unsigned char count;
-    unsigned char unk0a;
-    unsigned char unk0b;
-    S00bbe6b0_Pair* pair;
-};
 
-struct S00bbe6b0_Renderer
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    char* m_18;
-    void FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, int flag, void* out);
-};
+
+
+
+
+
+
 
 namespace fnv_00bbe9c0 {
 class SolPosition : public NiMemObject

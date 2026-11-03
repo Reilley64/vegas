@@ -5,6 +5,7 @@
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
+#include <bit>
 #include <intrin.h>
 #include <cstdint>
 #include <windows.h>
@@ -702,7 +703,7 @@ struct MatchVector
     void add4(const MatchVector& a) { m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents); }
     void setSelect4(const SelectBits& comp, const MatchVector& trueValue, const MatchVector& falseValue) { m_vComponents = _mm_or_ps(_mm_and_ps(comp.v, trueValue.m_vComponents), _mm_andnot_ps(comp.v, falseValue.m_vComponents)); }
     void selectIndex(const SelectBits& comp,const MatchVector& trueValue,const MatchVector& falseValue) {m_vComponents=_mm_or_ps(_mm_and_ps(comp.v,trueValue.m_vComponents),_mm_andnot_ps(_mm_load_ps((const float*)&comp.v),falseValue.m_vComponents));}
-void setInt24W(int value) { ((int*)&m_vComponents)[3] = value | 0x3f000000; }
+void setInt24W(int value) { m_vComponents[3] = std::bit_cast<float>(value | 0x3f000000); }
 };
 
 extern const MatchVector DAT_010d0fa0;

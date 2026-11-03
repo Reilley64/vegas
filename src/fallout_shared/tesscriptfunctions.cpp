@@ -598,6 +598,27 @@
 #include "fnv/symbols_00564000.h"
 #include "fnv/symbols_00573000.h"
 #include "fnv/symbols_00574000.h"
+
+// The HUDMainMenu bytes the script functions set; the class has no layout yet.
+struct HUDMainMenuView
+{
+    char pad[0x205];
+    unsigned char ucUnk205;
+    char pad206[0x254 - 0x206];
+    char cUnk254;
+};
+// The object DAT_011da368 points to; only the field at 0x128 is used here.
+// The float block at 0x6c read by FUN_005c9b50-FUN_005c9c90; the owner class is not identified yet.
+struct Values6cOwnerView
+{
+    char pad[0x6c];
+    float* pafValues;
+};
+struct Dat011da368View
+{
+    char pad[0x128];
+    int iUnk128;
+};
 #include "fnv/symbols_00577000.h"
 #include "fnv/symbols_00578000.h"
 #include "fnv/symbols_00579000.h"
@@ -2830,13 +2851,15 @@ bool __cdecl FUN_005d3d50(const ScriptParameter* paramInfo, const char* scriptDa
 }
 
 struct FUN_005d43e0_shell : public Script {
+    char pad[0x4c];
+    char unk4c[4];
     void* FUN_005d43e0();
 };
 
 // @fnv 0x005d43e0
 void* FUN_005d43e0_shell::FUN_005d43e0()
 {
-    return (char*)this + 0x4c;
+    return unk4c;
 }
 
 bool __cdecl FUN_005a3bf0(TESObjectREFR*, void*, void*, double&);
@@ -2924,22 +2947,24 @@ int* FUN_005d8b10(int* pThis)
     return pThis;
 }
 
-struct S9fb0 { char pad[0x3f8]; char* FUN_005d9fb0(int s); };
+struct S9fb0 { char pad[0x3f8]; char acUnk3f8[0x478 - 0x3f8]; char acUnk478[4]; char* FUN_005d9fb0(int s); };
 // @fnv 0x005d9fb0
 char* S9fb0::FUN_005d9fb0(int s)
 {
-    return s == 0 ? reinterpret_cast<char*>(this) + 0x478 : reinterpret_cast<char*>(this) + 0x3f8;
+    return s == 0 ? acUnk478 : acUnk3f8;
 }
 
 struct FUN_005db4c0_struct
 {
+    char pad[0x16c];
+    bool bRenderDecals;
     void FUN_005db4c0(bool abRenderDecals);
 };
 
 // @fnv 0x005db4c0
 void FUN_005db4c0_struct::FUN_005db4c0(bool abRenderDecals)
 {
-    *((bool*)this + 0x16c) = abRenderDecals;
+    bRenderDecals = abRenderDecals;
 }
 
 
@@ -3423,15 +3448,17 @@ struct FOPipboyManager {
 };
 
 struct FUN_005b8fc0_shell {
+    char pad[0x1c];
+    char kTextureArray[0x10];
     void FUN_005b8fc0(NiNode* pkTexture);
 };
 
 // @fnv 0x005b8fc0
 void FUN_005b8fc0_shell::FUN_005b8fc0(NiNode* pkTexture) {
-    FUN_00a69dd0* pkBaseMap = (FUN_00a69dd0*)(*((Arr*)((char*)this + 0x1c))->GetAt(0));
+    FUN_00a69dd0* pkBaseMap = (FUN_00a69dd0*)(*reinterpret_cast<Arr*>(kTextureArray)->GetAt(0));
     if (!pkBaseMap) {
         pkBaseMap = new FUN_00a69dd0;
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> >*)((char*)this + 0x1c))))->SetAt(0, (char *&)((ActorCombatGroup*&)pkBaseMap));
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(reinterpret_cast<NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> >*>(kTextureArray))->SetAt(0, (char *&)((ActorCombatGroup*&)pkBaseMap));
     }
     reinterpret_cast<::FUN_004dc540_shell *>((((FOPipboyManager*)pkBaseMap)))->FUN_004dc540((::NiAVObject *)(pkTexture));
 }
@@ -3647,13 +3674,15 @@ bool __cdecl FUN_005b5e20(const ScriptParameter*, const char*, TESObjectREFR*, T
 
 struct FUN_005b6cb0_Class
 {
+    char unk00;
+    char cUnk01;
     void FUN_005b6cb0();
 };
 
 // @fnv 0x005b6cb0
 void FUN_005b6cb0_Class::FUN_005b6cb0()
 {
-    ((char*)this)[1] = 1;
+    cUnk01 = 1;
 }
 
 class BGSSaveLoadGame
@@ -3770,13 +3799,15 @@ void __cdecl FUN_005ba110(unsigned char value)
 
 struct FUN_005ba180_Class
 {
+    char pad[0x220];
+    bool bUnk220;
     bool FUN_005ba180();
 };
 
 // @fnv 0x005ba180
 bool FUN_005ba180_Class::FUN_005ba180()
 {
-    return *(bool*)((char*)this + 0x220);
+    return bUnk220;
 }
 
 namespace fnv_005ba2d0 {
@@ -3817,6 +3848,8 @@ void FUN_005ba2f0(unsigned char value)
 
 class FUN_005ba360
 {
+    char pad[0x21d];
+    unsigned char ucUnk21d;
 public:
     unsigned char GetByte() const;
 };
@@ -3824,7 +3857,7 @@ public:
 // @fnv 0x005ba360
 unsigned char FUN_005ba360::GetByte() const
 {
-    return ((unsigned char*)this)[0x21d];
+    return ucUnk21d;
 }
 
 namespace fnv_005ba4b0 {
@@ -3858,13 +3891,15 @@ void __cdecl FUN_005ba4d0(unsigned char value)
 
 struct FUN_005ba540_Class
 {
+    char pad[0xb1];
+    char cUnkb1;
     char FUN_005ba540();
 };
 
 // @fnv 0x005ba540
 char FUN_005ba540_Class::FUN_005ba540()
 {
-    return *((char*)this + 0xb1);
+    return cUnkb1;
 }
 
 bool __cdecl FUN_005b9b00();
@@ -3951,12 +3986,14 @@ void FUN_005bf7f0(int value)
 }
 
 struct FUN_005bf800_Class {
+    char pad[0x124];
+    char cUnk124;
     void FUN_005bf800(bool value);
 };
 
 // @fnv 0x005bf800
 void FUN_005bf800_Class::FUN_005bf800(bool value) {
-    *((char*)this + 0x124) = value;
+    cUnk124 = value;
 }
 
 struct G7d1 {
@@ -4028,24 +4065,28 @@ void FUN_005bf9c0_class::FUN_005bf9c0(unsigned char bFlag)
 }
 
 struct FUN_005bfbb0_Class {
+    char pad[0x58];
+    float fUnk58;
     void FUN_005bfbb0(float value);
 };
 
 // @fnv 0x005bfbb0
 void FUN_005bfbb0_Class::FUN_005bfbb0(float value)
 {
-    *(float*)((char*)this + 0x58) = value;
+    fUnk58 = value;
 }
 
 struct FUN_005bfbd0_Class
 {
+    char pad[0x60];
+    float fUnk60;
     void FUN_005bfbd0(float value);
 };
 
 // @fnv 0x005bfbd0
 void FUN_005bfbd0_Class::FUN_005bfbd0(float value)
 {
-    *(float*)((char*)this + 0x60) = value;
+    fUnk60 = value;
 }
 
 
@@ -4070,6 +4111,8 @@ BGSImpactDataSet* FUN_005c02f0()
 }
 
 struct FUN_005c1a00 {
+    char pad[0x658];
+    char cUnk658;
     void Set(int param1, char param2);
 };
 
@@ -4077,17 +4120,19 @@ struct FUN_005c1a00 {
 void FUN_005c1a00::Set(int param1, char param2)
 {
     *(int*)(this + 0x654) = param1;
-    *((char*)this + 0x658) = param2;
+    cUnk658 = param2;
 }
 
 struct FUN_005c1a30_Class {
+    char pad[0x7c4];
+    unsigned char ucUnk7c4;
     void FUN_005c1a30(unsigned char value);
 };
 
 // @fnv 0x005c1a30
 void FUN_005c1a30_Class::FUN_005c1a30(unsigned char value)
 {
-    *(unsigned char*)((char*)this + 0x7c4) = value;
+    ucUnk7c4 = value;
 }
 
 extern unsigned char DAT_011cabb8;
@@ -4100,14 +4145,18 @@ void FUN_005c25e0(unsigned char value)
 
 struct FUN_005c4210Class
 {
+    char pad[0x64a];
+    char cUnk64a;
+    char pad64b;
+    char cUnk64c;
     void FUN_005c4210(unsigned char a);
 };
 
 // @fnv 0x005c4210
 void FUN_005c4210Class::FUN_005c4210(unsigned char a)
 {
-    ((char*)this)[0x64c] = (char)a;
-    ((char*)this)[0x64a] = (char)a;
+    cUnk64c = (char)a;
+    cUnk64a = (char)a;
 }
 
 
@@ -4146,11 +4195,13 @@ bool FUN_005c5560()
 }
 
 struct FUN_005c59e0_Class {
+    char pad[0x674];
+    float fUnk674;
     void FUN_005c59e0(float value);
 };
 
 // @fnv 0x005c59e0
-void FUN_005c59e0_Class::FUN_005c59e0(float value) { ((float*)this)[0x19D] = value; }
+void FUN_005c59e0_Class::FUN_005c59e0(float value) { fUnk674 = value; }
 
 void __cdecl DebugLog(char const*, ...);
 
@@ -4238,7 +4289,7 @@ struct S4
     float FUN_005c9bf0();
 };
 
-struct FUN_005c9c90
+struct FUN_005c9c90 : ::Values6cOwnerView
 {
     float Method();
 };
@@ -4246,7 +4297,7 @@ struct FUN_005c9c90
 // @fnv 0x005c9c90
 float FUN_005c9c90::Method()
 {
-    return *(float*)((char*)*(void**)((char*)this + 0x6c) + 0x10);
+    return pafValues[4];
 }
 
 // @fnv 0x005ca390
@@ -4300,6 +4351,8 @@ bool FUN_005cc910(const ScriptParameter* p, const char* name, TESObjectREFR* ref
 
 class FUN_005cde20Class
 {
+    char pad[0x654];
+    unsigned int uiUnk654;
 public:
     unsigned int FUN_005cde20();
 };
@@ -4307,17 +4360,19 @@ public:
 // @fnv 0x005cde20
 unsigned int FUN_005cde20Class::FUN_005cde20()
 {
-    return *(unsigned int*)((char*)this + 0x654);
+    return uiUnk654;
 }
 
 struct FUN_005cdf20_Class {
+    char pad[0x6dc];
+    int iUnk6dc;
     void FUN_005cdf20(int a);
 };
 
 // @fnv 0x005cdf20
 void FUN_005cdf20_Class::FUN_005cdf20(int a)
 {
-    *(int*)((char*)this + 0x6dc) += a;
+    iUnk6dc += a;
 }
 
 
@@ -4382,7 +4437,7 @@ struct HUDMainMenu {
 void __cdecl FUN_005cfcb0(bool b)
 {
     if (::g_pHudMainMenuInstance)
-        ((unsigned char*)::g_pHudMainMenuInstance)[0x205] = b;
+        reinterpret_cast<HUDMainMenuView*>(::g_pHudMainMenuInstance)->ucUnk205 = b;
 }
 
 
@@ -4394,13 +4449,15 @@ bool __cdecl FUN_005cfdb0(TESObjectREFR* p1, void* p2, TESObjectREFR* p3, void* 
 
 struct FUN_005d0b80_Class
 {
+    char pad[0x80];
+    char cUnk80;
     void FUN_005d0b80(bool value);
 };
 
 // @fnv 0x005d0b80
 void FUN_005d0b80_Class::FUN_005d0b80(bool value)
 {
-    ((char*)this)[0x80] = value;
+    cUnk80 = value;
 }
 
 struct ABD_005f92d0 {
@@ -4419,7 +4476,7 @@ bool ABD_005f92d0::FUN_005d2780()
 void __cdecl FUN_005d45c0()
 {
     if ((*reinterpret_cast<void * *>(&::DAT_011da368)))
-        *(int*)((char*)(*reinterpret_cast<void * *>(&::DAT_011da368)) + 0x128) = 0;
+        reinterpret_cast<Dat011da368View*>(*reinterpret_cast<void * *>(&::DAT_011da368))->iUnk128 = 0;
 }
 
 namespace fnv_005d45e0 {
@@ -4461,13 +4518,15 @@ char FUN_005d4a40()
 
 struct FUN_005d4ee0Class
 {
+    char pad[0x3a];
+    char cUnk3a;
     char FUN_005d4ee0();
 };
 
 // @fnv 0x005d4ee0
 char FUN_005d4ee0Class::FUN_005d4ee0()
 {
-    return ((char*)this)[0x3a];
+    return cUnk3a;
 }
 
 namespace fnv_005d74d0 {
@@ -4570,23 +4629,27 @@ char __cdecl FUN_005da540()
 
 struct FUN_005dac10_Class
 {
+    char pad[0x1e];
+    char cFlags1e;
     void FUN_005dac10(bool set);
 };
 
 // @fnv 0x005dac10
 void FUN_005dac10_Class::FUN_005dac10(bool set)
 {
-    set ? ((char*)this)[0x1e] |= 1 : ((char*)this)[0x1e] &= ~1;
+    set ? cFlags1e |= 1 : cFlags1e &= ~1;
 }
 
 struct FUN_005dadd0_Class {
+    char pad[0xdf2];
     unsigned char m_0xdf2;
+
     void FUN_005dadd0(unsigned char value);
 };
 
 // @fnv 0x005dadd0
 void FUN_005dadd0_Class::FUN_005dadd0(unsigned char value) {
-    *(unsigned char*)((char*)this + 0xdf2) = value;
+    m_0xdf2 = value;
 }
 
 
@@ -4701,14 +4764,16 @@ bool __cdecl FUN_005dc580()
 
 struct FUN_005dc710_class
 {
+    char pad[0x7c7];
     unsigned char m_7c7;
+
     void FUN_005dc710(unsigned char value);
 };
 
 // @fnv 0x005dc710
 void FUN_005dc710_class::FUN_005dc710(unsigned char value)
 {
-    ((unsigned char*)((char*)this + 0x7c7))[0] = value;
+    m_7c7 = value;
 }
 
 struct FUN_005dd810_Class
@@ -4822,13 +4887,15 @@ bool FUN_005de9d0()
 
 struct FUN_005def70_Class
 {
+    char pad[0x70];
+    int iFlags70;
     int FUN_005def70();
 };
 
 // @fnv 0x005def70
 int FUN_005def70_Class::FUN_005def70()
 {
-    return *(int*)((int*)this + 0x1c) & 4;
+    return iFlags70 & 4;
 }
 
 extern unsigned char DAT_011dd437;
@@ -4968,14 +5035,16 @@ struct M788 {
 };
 
 struct FUN_005bbc10_Class {
+    char pad[8];
     M788 m788;
+
     void FUN_005bbc10();
 };
 
 // @fnv 0x005bbc10
 void FUN_005bbc10_Class::FUN_005bbc10()
 {
-    reinterpret_cast<::NiTPointerListBase *>((((M788*)((char*)this + 8))))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBase *>(&m788)->FUN_004ed900();
 }
 
 
@@ -5083,13 +5152,15 @@ bool __cdecl FUN_005cd630(const ScriptParameter* param, const char* name, TESObj
 }
 
 struct FUN_005ce9d0 {
+    char pad[0x125];
+    unsigned char ucUnk125;
     void SetFlag(unsigned char value);
 };
 
 // @fnv 0x005ce9d0
 void FUN_005ce9d0::SetFlag(unsigned char value)
 {
-    ((unsigned char*)this)[0x125] = value;
+    ucUnk125 = value;
 }
 
 class PC7d;
@@ -5144,14 +5215,16 @@ bool __cdecl FUN_005d1190(const ScriptParameter* a1, const char* a2, TESObjectRE
 }
 
 struct FUN_005d1590_Class {
+    char pad[0x66e];
     unsigned char m_byte;
+
     void FUN_005d1590(unsigned char bValue);
 };
 
 // @fnv 0x005d1590
 void FUN_005d1590_Class::FUN_005d1590(unsigned char bValue)
 {
-    ((unsigned char*)this)[0x66e] = bValue;
+    m_byte = bValue;
 }
 
 
@@ -5231,13 +5304,15 @@ bool __cdecl FUN_005d4af0(const ScriptParameter*, const char*, TESObjectREFR* ap
 }  // namespace fnv_005d4af0
 
 struct FUN_005d5610_Class {
+    char pad[0x184];
     unsigned char m_184;
+
     void FUN_005d5610(unsigned char v);
 };
 
 // @fnv 0x005d5610
 void FUN_005d5610_Class::FUN_005d5610(unsigned char v) {
-    ((unsigned char*)this)[0x184] = v;
+    m_184 = v;
 }
 
 namespace fnv_005d7850 {
@@ -5323,6 +5398,7 @@ bool FUN_005d94e0(const ScriptParameter* apParam, const char* apSource, TESObjec
 
 class FUN_005da7d0_Class
 {
+    char pad[0x508];
 public:
     unsigned int m_508;
     std::uintptr_t FUN_005da7d0();
@@ -5331,7 +5407,7 @@ public:
 // @fnv 0x005da7d0
 std::uintptr_t FUN_005da7d0_Class::FUN_005da7d0()
 {
-    return ((unsigned int*)this)[0x508 / 4];
+    return m_508;
 }
 
 
@@ -5393,7 +5469,7 @@ struct FUN_005de380_Class
 void FUN_005de380_Class::FUN_005de380()
 {
     if ((*reinterpret_cast<void * *>(&::g_pHudMainMenuInstance)))
-        *(char*)((char*)(*reinterpret_cast<void * *>(&::g_pHudMainMenuInstance)) + 0x254) = 1;
+        reinterpret_cast<::HUDMainMenuView*>(*reinterpret_cast<void * *>(&::g_pHudMainMenuInstance))->cUnk254 = 1;
 }
 
 
@@ -5631,7 +5707,7 @@ void S3::FUN_005c9b30()
 }
 }  // namespace fnv_005c9b30
 
-struct FUN_005c9b50_class
+struct FUN_005c9b50_class : ::Values6cOwnerView
 {
     float FUN_005c9b50();
 };
@@ -5639,7 +5715,7 @@ struct FUN_005c9b50_class
 // @fnv 0x005c9b50
 float FUN_005c9b50_class::FUN_005c9b50()
 {
-    return (*(float**)((char*)this + 0x6c))[3];
+    return pafValues[3];
 }
 
 namespace fnv_005c9b70 {
@@ -5685,19 +5761,18 @@ void FUN_005c9bb0_Class::FUN_005c9bb0()
 }
 }  // namespace fnv_005c9bb0
 
-struct FUN_005c9bd0_Class
+struct FUN_005c9bd0_Class : ::Values6cOwnerView
 {
-    void* m_p[28];
     float FUN_005c9bd0();
 };
 
 // @fnv 0x005c9bd0
 float FUN_005c9bd0_Class::FUN_005c9bd0()
 {
-    return *(float*)((char*)m_p[27] + 0x1c);
+    return pafValues[7];
 }
 
-struct FUN_005c9c10_Class
+struct FUN_005c9c10_Class : ::Values6cOwnerView
 {
     float FUN_005c9c10();
 };
@@ -5710,7 +5785,7 @@ float S4::FUN_005c9bf0()
 // @fnv 0x005c9c10
 float FUN_005c9c10_Class::FUN_005c9c10()
 {
-    return *(float*)((char*)*(void**)((char*)this + 0x6c) + 0x18);
+    return pafValues[6];
 }
 
 namespace fnv_005c9c30 {
@@ -5724,7 +5799,7 @@ void S6::FUN_005c9c30()
 }
 }  // namespace fnv_005c9c30
 
-struct FUN_005c9c50_Class
+struct FUN_005c9c50_Class : ::Values6cOwnerView
 {
     float FUN_005c9c50();
 };
@@ -5732,7 +5807,7 @@ struct FUN_005c9c50_Class
 // @fnv 0x005c9c50
 float FUN_005c9c50_Class::FUN_005c9c50()
 {
-    return *(float*)*(int**)((char*)this + 0x6c);
+    return pafValues[0];
 }
 
 namespace fnv_005c9c70 {
@@ -6350,11 +6425,13 @@ bool FUN_005b78a0(const ScriptParameter* paramInfo, const char* scriptData, TESO
 }  // namespace fnv_005b78a0
 
 struct MyVec005bb9b0 { float x; float y; float z; };
-struct UnknownClass005bb9b0 { MyVec005bb9b0& FUN_005bb9b0(MyVec005bb9b0&); };
+struct UnknownClass005bb9b0 {
+    char pad[0x1f0];
+    char kVec1f0[sizeof(float) * 3]; MyVec005bb9b0& FUN_005bb9b0(MyVec005bb9b0&); };
 // @fnv 0x005bb9b0
 MyVec005bb9b0& UnknownClass005bb9b0::FUN_005bb9b0(MyVec005bb9b0& akDest)
 {
-    akDest = *reinterpret_cast<const MyVec005bb9b0*>(reinterpret_cast<const char*>(this) + 0x1f0);
+    akDest = *reinterpret_cast<const MyVec005bb9b0*>(kVec1f0);
     return akDest;
 }
 
@@ -6987,6 +7064,8 @@ bool FUN_005dda00(const ScriptParameter* parameters, const char* scriptData,
 
 struct S005e0460
 {
+    const void* pVtable;
+    void* pUnk04;
     void FUN_005e0460();
 };
 // @fnv 0x005dd7f0
@@ -6998,7 +7077,7 @@ void FUN_005dd7f0_class::FUN_005dd7f0()
 void S005e0460::FUN_005e0460()
 {
     *(void**)this = (void*)&DAT_0103d418;
-    FUN_004ede70(*(void**)((char*)this + 4));
+    FUN_004ede70(pUnk04);
 }
 
 struct BaseFor_5e0490 {
@@ -9552,13 +9631,16 @@ bool FUN_005b9ef0(const ScriptParameter* parameters, const char* scriptData,
 }
 
 struct FUN_005ba310_t {
+    char pad[0x21c];
+    unsigned char ucUnk21c;
+    unsigned char ucUnk21d;
     void FUN_005ba310(bool);
 };
 
 // @fnv 0x005ba310
 void FUN_005ba310_t::FUN_005ba310(bool b)
 {
-    *(unsigned char*)((char*)this + 0x21d) = ((*(unsigned char*)((char*)this + 0x21c) != 0) && (b != 0)) ? 1 : 0;
+    ucUnk21d = ((ucUnk21c != 0) && (b != 0)) ? 1 : 0;
 }
 
 void _DebugLog(const char*, ...);

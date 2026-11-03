@@ -1,18 +1,23 @@
 # Fallout game units in the game library (VEGAS-19). A pointer must never be narrowed to a 32-bit integer.
 set(VEGAS19_FALLOUT_SOURCES
+  src/fallout/ai/actor_h_unit.cpp
+  src/fallout/ai/actor_magic.cpp
   src/fallout/ai/actorpackage.cpp
   src/fallout/ai/actorpackagedata.cpp
   src/fallout/ai/actorvaluecache.cpp
   src/fallout/ai/ailineartaskthread.cpp
   src/fallout/ai/ailineartaskthread_h_unit.cpp
+  src/fallout/ai/ailineartaskthreadmanager.cpp
   src/fallout/ai/aitaskmanager.cpp
   src/fallout/ai/alarmpackage.cpp
   src/fallout/ai/arrowprojectile.cpp
   src/fallout/ai/backuppackage.cpp
+  src/fallout/ai/baseprocess.cpp
   src/fallout/ai/baseprocess_h_unit.cpp
   src/fallout/ai/bsplayerdistancecheckcontroller.cpp
   src/fallout/ai/cachedvalues.cpp
   src/fallout/ai/camerashake.cpp
+  src/fallout/ai/character.cpp
   src/fallout/ai/character_h_unit.cpp
   src/fallout/ai/combat/beamprojectile.cpp
   src/fallout/ai/combat/combataction.cpp
@@ -55,19 +60,27 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/ai/combat/projectile.cpp
   src/fallout/ai/combat/projectilelistener.cpp
   src/fallout/ai/combat/vats.cpp
+  src/fallout/ai/combatcontroller.cpp
   src/fallout/ai/creature.cpp
   src/fallout/ai/dialoguepackage.cpp
   src/fallout/ai/escortpackage.cpp
+  src/fallout/ai/falloutcharacterprogression.cpp
   src/fallout/ai/fleepackage.cpp
   src/fallout/ai/followerbarks.cpp
   src/fallout/ai/guardpackage.cpp
   src/fallout/ai/guardpackage_h_unit.cpp
   src/fallout/ai/gunwobble.cpp
   src/fallout/ai/highactorculler.cpp
+  src/fallout/ai/highprocess.cpp
   src/fallout/ai/highprocess_h_unit.cpp
   src/fallout/ai/lipsyncbackgroundmanager.cpp
+  src/fallout/ai/lowprocess.cpp
+  src/fallout/ai/middlehighprocess.cpp
   src/fallout/ai/middlehighprocess_h_unit.cpp
+  src/fallout/ai/middlelowprocess.cpp
+  src/fallout/ai/mobileobject.cpp
   src/fallout/ai/mobileobject_h_unit.cpp
+  src/fallout/ai/modifierlist.cpp
   src/fallout/ai/movement/actormover.cpp
   src/fallout/ai/movement/actorpathhandler.cpp
   src/fallout/ai/movement/detailedactorpathhandler.cpp
@@ -75,8 +88,10 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/ai/movement/virtualactorpathhandler.cpp
   src/fallout/ai/movement/virtualactorpathhandler_h_unit.cpp
   src/fallout/ai/patrolpackage.cpp
+  src/fallout/ai/playercharacter.cpp
   src/fallout/ai/playercharacter_h_unit.cpp
   src/fallout/ai/procedure.cpp
+  src/fallout/ai/processlists.cpp
   src/fallout/ai/sandboxpackage.cpp
   src/fallout/ai/searchpackage.cpp
   src/fallout/ai/spectatorpackage.cpp
@@ -244,21 +259,6 @@ set_source_files_properties(${VEGAS19_FALLOUT_SOURCES} PROPERTIES
 # Move each unit to the list above once it builds with them.
 set(VEGAS19_FALLOUT_NARROWING_SOURCES
   src/fallout/ai/actor.cpp
-  src/fallout/ai/actor_h_unit.cpp
-  src/fallout/ai/actor_magic.cpp
-  src/fallout/ai/ailineartaskthreadmanager.cpp
-  src/fallout/ai/baseprocess.cpp
-  src/fallout/ai/character.cpp
-  src/fallout/ai/combatcontroller.cpp
-  src/fallout/ai/falloutcharacterprogression.cpp
-  src/fallout/ai/highprocess.cpp
-  src/fallout/ai/lowprocess.cpp
-  src/fallout/ai/middlehighprocess.cpp
-  src/fallout/ai/middlelowprocess.cpp
-  src/fallout/ai/mobileobject.cpp
-  src/fallout/ai/modifierlist.cpp
-  src/fallout/ai/playercharacter.cpp
-  src/fallout/ai/processlists.cpp
 )
 target_sources(game PRIVATE ${VEGAS19_FALLOUT_NARROWING_SOURCES})
 set_source_files_properties(${VEGAS19_FALLOUT_NARROWING_SOURCES} PROPERTIES

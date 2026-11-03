@@ -156,14 +156,14 @@ void FUN_00b00970(int value)
 }
 
 extern int DAT_011f8af4;
-extern int DAT_011f8b38[16];
+extern void* DAT_011f8b38[16];
 struct TaskletManager
 {
     int* FUN_00b00a00();
 };
 // Appends param_1 to the DAT_011f8b38 queue when the manager's field at offset 8 is zero and the queue count is below 16, returning 1 on success and 0 otherwise.
 // @fnv 0x00b00da0
-char QueueTasklet(int param_1)
+char QueueTasklet(void* param_1)
 {
     int* obj = (int*)((char*)&(*(::TaskletManager *)&(::GetTaskletManager())) + 8);
     char result;
@@ -233,18 +233,18 @@ struct FUN_00b00900
     int m8;
     char mc;
     int OpenFile(int arg);
-    FUN_00b00900(int a, int b, int c, char d);
+    FUN_00b00900(const char* a, int b, int c, char d);
 };
 
 // Initialises the object: stores b, c and d into m4, m8 and mc, then sets m0 from OpenFile(a).
 // @fnv 0x00b00900
-FUN_00b00900::FUN_00b00900(int aiValue, int aiSecond, int aiThird, char d)
+FUN_00b00900::FUN_00b00900(const char* aiValue, int aiSecond, int aiThird, char d)
 {
     m0 = 0;
     m4 = aiSecond;
     m8 = aiThird;
     mc = d;
-    m0 = reinterpret_cast<::S_008785e0 *>(this)->OpenFile((const char *)(aiValue));
+    m0 = reinterpret_cast<::S_008785e0 *>(this)->OpenFile(aiValue);
 }
 
 struct FUN_00b00cf0_vt
@@ -299,7 +299,7 @@ FUN_00b008b0_t* FUN_00b008b0_t::FUN_00b008b0(int aiValue)
 }
 
 extern int DAT_011f8af0;
-extern int DAT_011f8af8[];
+extern void* DAT_011f8af8[];
 
 struct FUN_00b00c90_vt
 {
@@ -322,10 +322,10 @@ void CallVfn1OnAllEntries(void* param_1)
 }
 
 extern int DAT_011f8af0;
-extern int DAT_011f8af8[16];
+extern void* DAT_011f8af8[16];
 
 // @fnv 0x00b00d50
-char FUN_00b00d50(int param_1)
+char FUN_00b00d50(void* param_1)
 {
     char local2;
     int* piVar2 = (int*)((char*)&(*(::TaskletManager *)&(::GetTaskletManager())) + 8);
@@ -397,9 +397,9 @@ struct MemoryManager
 struct FUN_00b0e7f0_class
 {
     void* unknown[3];
-    int m_pBuffer;
-    int m_nSize;
-    int m_nCapacity;
+    int* m_pBuffer;
+    int* m_nSize;
+    int* m_nCapacity;
 
     void Clear();
 };
@@ -412,10 +412,10 @@ void FUN_00b0e7f0_class::Clear()
     {
         int count;
         void* buffer;
-        int first;
-        int second;
-        int copiedFirst;
-        int copiedSecond;
+        int* first;
+        int* second;
+        int* copiedFirst;
+        int* copiedSecond;
         char padding1;
         char padding2;
         char source;
@@ -429,8 +429,8 @@ void FUN_00b0e7f0_class::Clear()
         locals.copiedFirst = locals.first;
         locals.copiedSecond = locals.second;
         locals.destination = locals.source;
-        locals.count = (m_nCapacity - m_pBuffer) >> 2;
-        locals.buffer = (void*)m_pBuffer;
+        locals.count = (int)(m_nCapacity - m_pBuffer);
+        locals.buffer = m_pBuffer;
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b0e7f0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(locals.buffer);
     }
 
@@ -458,16 +458,16 @@ struct FUN_00b00820_tail
 };
 struct FUN_00b00820_shell
 {
-    FUN_00b00820_shell* FUN_00b00820(unsigned int value);
+    FUN_00b00820_shell* FUN_00b00820(const char* value);
 };
 
 // Clears pendingState and sequence at offset 0x248, calls FUN_00b006b0 with value, and returns this.
 // @fnv 0x00b00820
-FUN_00b00820_shell* FUN_00b00820_shell::FUN_00b00820(unsigned int value)
+FUN_00b00820_shell* FUN_00b00820_shell::FUN_00b00820(const char* value)
 {
     reinterpret_cast<FUN_00b00820_tail*>(reinterpret_cast<char*>(this) + 0x248)->pendingState = 0;
     reinterpret_cast<FUN_00b00820_tail*>(reinterpret_cast<char*>(this) + 0x248)->sequence = 0;
-    reinterpret_cast<::FileNameComponents *>(this)->SetFullPath((const char *)(value));
+    reinterpret_cast<::FileNameComponents *>(this)->SetFullPath(value);
     return this;
 }
 
@@ -810,16 +810,16 @@ void B02670Task::CompleteTask()
 
 struct FUN_00b0e510_pair
 {
-    unsigned int m_00;
-    unsigned int m_04;
+    uintptr_t m_00;
+    uintptr_t m_04;
     unsigned char FUN_00b10490(FUN_00b0e510_pair* other);
 };
 
 struct FUN_00b0e510_tmp
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
+    uintptr_t unk00;
+    uintptr_t unk04;
+    uintptr_t unk08;
     unsigned char unk0c;
     unsigned char unk0d;
     unsigned char unk0e;
@@ -841,14 +841,14 @@ struct FUN_00b0e510_big
 class FUN_00b0e510_cls
 {
   public:
-    unsigned int m_00;
-    unsigned int m_04;
-    unsigned int m_08;
-    unsigned int m_0c;
-    unsigned int m_10;
+    uintptr_t m_00;
+    uintptr_t m_04;
+    uintptr_t m_08;
+    uintptr_t m_0c;
+    uintptr_t m_10;
 
-    FUN_00b0e510_pair* FUN_00b0e510(FUN_00b0e510_pair* out, unsigned int a0, unsigned int a1, unsigned int a2,
-                                    unsigned int a3);
+    FUN_00b0e510_pair* FUN_00b0e510(FUN_00b0e510_pair* out, uintptr_t a0, uintptr_t a1, uintptr_t a2,
+                                    uintptr_t a3);
 };
 
 
@@ -859,12 +859,12 @@ struct FUN_00b10490_class
     bool FUN_00b10490(const FUN_00b10490_class* rhs);
 };
 // @fnv 0x00b0e510
-FUN_00b0e510_pair* FUN_00b0e510_cls::FUN_00b0e510(FUN_00b0e510_pair* out, unsigned int a0, unsigned int a1,
-                                                  unsigned int a2, unsigned int a3)
+FUN_00b0e510_pair* FUN_00b0e510_cls::FUN_00b0e510(FUN_00b0e510_pair* out, uintptr_t a0, uintptr_t a1,
+                                                  uintptr_t a2, uintptr_t a3)
 {
     FUN_00b0e510_pair lo;
     FUN_00b0e510_pair hi;
-    unsigned int r;
+    uintptr_t r;
     FUN_00b0e510_tmp big;
     FUN_00b0e510_big t;
 
@@ -890,7 +890,7 @@ FUN_00b0e510_pair* FUN_00b0e510_cls::FUN_00b0e510(FUN_00b0e510_pair* out, unsign
     hi.m_04 = a3;
     if (((unsigned char)(reinterpret_cast<::FUN_00b10490_class *>(&(lo))->FUN_00b10490((const ::FUN_00b10490_class *)(::FUN_00b0e510_pair *)(&hi)))) != 0)
     {
-        r = ((unsigned int)(::fnv_00b10730::FUN_00b10730((unsigned char *)(hi.m_04), (unsigned char *)(this->m_10), (unsigned char *)(lo.m_04))));
+        r = ((uintptr_t)(::fnv_00b10730::FUN_00b10730((unsigned char *)(hi.m_04), (unsigned char *)(this->m_10), (unsigned char *)(lo.m_04))));
         big.unk00 = this->m_10;
         big.unk04 = big.unk00;
         big.unk08 = r;
@@ -1032,15 +1032,15 @@ struct Flag
     unsigned char v;
 };
 // @fnv 0x00b17740
-void __cdecl FUN_00b17740(int a, int b, int c, int d)
+void __cdecl FUN_00b17740(uintptr_t a, uintptr_t b, uintptr_t c, uintptr_t d)
 {
     Flag zero = {};
     unsigned char raw4;
     unsigned char copy = raw4;
     {
-        int dd_b = b;
+        uintptr_t dd_b = b;
         int tau_p;
-        int zeta_a;
+        uintptr_t zeta_a;
         zeta_a = a;
         ::FUN_00b17b40((::CopyElem12 *)(zeta_a), (::CopyElem12 *)(dd_b), (::CopyElem12 *)(c));
     }
@@ -1694,6 +1694,10 @@ extern int DAT_010a48ac;
 
 struct FUN_00b02720_shell
 {
+    const void* vtable;
+    unsigned char flag04;
+    unsigned char flag05;
+    BSSemaphoreStandIn semaphore;
     void* Init();
 };
 
@@ -1701,13 +1705,12 @@ struct FUN_00b02720_shell
 // @fnv 0x00b02720
 void* FUN_00b02720_shell::Init()
 {
-    *(int*)this = (int)&DAT_010a48ac;
-    ((unsigned char*)this)[4] = 0;
-    ((unsigned char*)this)[5] = 0;
-    int* p = (int*)((char*)this + 8);
-    *p = 0;
-    p[2] = 1;
-    p[1] = (int)CreateSemaphoreA(0, *p, p[2], 0);
+    vtable = &DAT_010a48ac;
+    flag04 = 0;
+    flag05 = 0;
+    semaphore.count = 0;
+    semaphore.maxCount = 1;
+    semaphore.semaphore = CreateSemaphoreA(0, semaphore.count, semaphore.maxCount, 0);
     return this;
 }
 
@@ -1722,7 +1725,7 @@ struct FUN_00b027c0
 struct CSFields
 {
     long LockCount;
-    long Semaphore;
+    HANDLE Semaphore;
     long Pad1;
 };
 // Constructor that sets the vtable and bActive, creates a semaphore (max count 1) and a critical section, and zeroes several fields.
@@ -1735,7 +1738,7 @@ FUN_00b027c0::FUN_00b027c0()
     CSFields* pCS = (CSFields*)((char*)this + 8);
     pCS->LockCount = 0;
     pCS->Pad1 = 1;
-    pCS->Semaphore = (long)CreateSemaphoreA(0, 0, 1, 0);
+    pCS->Semaphore = CreateSemaphoreA(0, 0, 1, 0);
     CRITICAL_SECTION* pCS2 = (CRITICAL_SECTION*)((char*)this + 0x14);
     InitializeCriticalSection(pCS2);
     ((char*)this)[0x2c] = 0;
@@ -1803,20 +1806,20 @@ struct FUN_00b10940_tag
 };
 struct FUN_00b10940_pair
 {
-    unsigned int lo;
-    unsigned int hi;
+    uintptr_t lo;
+    uintptr_t hi;
 };
 
 
 // Forwards first, last, dest and al to FUN_00b10c20 along with an uninitialized one-byte tag and a zeroed one-byte kind.
 // @fnv 0x00b10940
-void __cdecl FUN_00b10940(unsigned int first, unsigned int last, unsigned int dest, unsigned int al)
+void __cdecl FUN_00b10940(uintptr_t first, uintptr_t last, uintptr_t dest, uintptr_t al)
 {
     FUN_00b10940_tag kind = {};
     FUN_00b10940_cat tag;
     FUN_00b10940_cat iter;
     tag = iter;
-    unsigned int n = last;
+    uintptr_t n = last;
     FUN_00b10940_pair val;
     val.lo = first;
     ::FUN_00b10c20((::B10C20Elem *)(val.lo), (::B10C20Elem *)(n), (::B10C20Elem *)(dest));
@@ -1828,16 +1831,16 @@ struct FUN_00b15600_cls
     int unk00;
     int unk04;
     int unk08;
-    int m_0c;
-    int m_10;
-    int m_14;
+    uintptr_t m_0c;
+    uintptr_t m_10;
+    uintptr_t m_14;
     void FUN_00b15600();
 };
 
 struct Rng
 {
-    int a;
-    int b;
+    uintptr_t a;
+    uintptr_t b;
 };
 // If m_0c is set, passes it to FUN_00401030; then zeroes m_0c, m_10 and m_14.
 // @fnv 0x00b15600
@@ -1852,13 +1855,13 @@ void FUN_00b15600_cls::FUN_00b15600()
         pForm.b = m_0c;
         Rng tmp = pForm;
         it = c3;
-        unsigned long c1;
+        uintptr_t c1;
         for (c1 = tmp.b; c1 != tmp.a; c1 += 0x18)
         {
         }
         int kCount;
-        kCount = (m_14 - m_0c) / 0x18;
-        long block = m_0c;
+        kCount = (int)((m_14 - m_0c) / 0x18);
+        uintptr_t block = m_0c;
         ::FUN_00401030((void *)(block));
     }
     m_0c = 0;

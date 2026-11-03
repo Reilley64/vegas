@@ -6,7 +6,7 @@ public:
     // 0x00a755d0
     int FUN_00a755d0(unsigned int);
     // 0x00cd1e20
-    int Search(unsigned int, unsigned int, unsigned int, unsigned int);
+    int Search(uintptr_t, unsigned int, uintptr_t, unsigned int);
     // 0x00cde920
     int FUN_00cde920(unsigned int, unsigned int, unsigned int, unsigned int);
     // 0x00d5a4c0

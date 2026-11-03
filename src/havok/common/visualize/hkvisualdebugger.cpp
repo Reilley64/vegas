@@ -4,7 +4,6 @@
 
 #include <cstdint>
 #include <cstddef>
-#include "fnv/decl/FUN_00cd1970.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00ccf000.h"
 #include "fnv/symbols_0104d000.h"
@@ -605,7 +604,7 @@ namespace fnvc_adapt {
 struct ItemCD17
 {
     char unk00[0x38];
-    int m_i38;
+    void* m_i38;
     int m_i3C;
 };
 
@@ -647,9 +646,9 @@ void FUN_00cd1710_C::FUN_00cd1710(SinkCD17* pkSink)
         {
             ItemCD17* pItem = kEntry.m_pInventoryEntryData;
             int iB = pItem->m_i3C;
-            int iA = pItem->m_i38;
+            void* iA = pItem->m_i38;
             int iValue = pkSink->m_i04;
-            reinterpret_cast<::SearchObject *>((pkSink))->Search(fnvc_adapt::(unsigned int)&(const <dependent type> &)(static_cast<FUN_00cd12e0_router*>(::FUN_00c85750()).heap()), iValue, iA, iB);
+            reinterpret_cast<::SearchObject *>((pkSink))->Search((uintptr_t)(static_cast<FUN_00cd12e0_router*>(::FUN_00c85750())->heap), iValue, (uintptr_t)iA, iB);
         }
     }
 }
@@ -680,7 +679,7 @@ hkMemoryRouterC19& __cdecl GetMemoryRouterC19() throw();
 template <typename T> __forceinline void DestructC19(T* pArr, int n) throw()
 {
     for (int i = 0; i < n; i++)
-        ::FUN_00cb0c00((int)&(pArr[i]));
+        ::FUN_00cb0c00((intptr_t)&(pArr[i]));
 }
 
 template <typename T> struct hkArrayC19

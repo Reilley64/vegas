@@ -198,7 +198,7 @@ struct FUN_00bc2c20_class
 void* FUN_00bc2c20_class::FUN_00bc2c20(int aiFlags)
 {
     m_pVT = &DAT_010ba730;
-    static_cast<struct ::FUN_00c5faa0 *>(nullptr)->FUN_00a5e930();
+    reinterpret_cast<struct ::FUN_00c5faa0 *>(this)->FUN_00a5e930();
     if (aiFlags & 1)
         operator delete(this, 0xc0);
     return this;
@@ -2619,7 +2619,7 @@ unsigned char FUN_00bc2d20_cls::Equals(FUN_00bc2d20_cls* other)
         if (m_bc != other->m_bc)
             return 0;
         if (m_bc != 0)
-            return ((bool)(::FUN_00a92660((const float *)&(m_ac), (intptr_t)(&other->m_ac), {})));
+            return ((bool)(::FUN_00a92660((const float *)&(m_ac), 0, (const float *)(&other->m_ac))));
         ok = 1;
     }
     return ok;

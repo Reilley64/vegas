@@ -9360,9 +9360,11 @@ void AudioSound::FUN_00aed990()
                 float projection = 0.0f, squaredLength = 0.0f, fractionX = 0.0f;
                 AudioVec center = GetSystem()->GetListener()->Position();
                 AudioVec direction2;
-                direction2 = (*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(source))->FUN_00439ef0((::NiPoint3 *)&(point), *(const ::NiPoint3 *)nullptr)));
+                ::NiPoint3 kDirectionDiff;
+                direction2 = (*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(source))->FUN_00439ef0(&kDirectionDiff, *(const ::NiPoint3 *)&(point))));
                 AudioVec delta;
-                delta = (*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(center))->FUN_00439ef0((::NiPoint3 *)&(point), *(const ::NiPoint3 *)nullptr)));
+                ::NiPoint3 kDeltaDiff;
+                delta = (*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(center))->FUN_00439ef0(&kDeltaDiff, *(const ::NiPoint3 *)&(point))));
                 projection = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(delta))->DotProduct((void *)&(direction2));
                 if (projection <= 0.0)
                 {
@@ -9393,12 +9395,14 @@ void AudioSound::FUN_00aed990()
             float distance = this->distance;
             if (IsSegment() && HasSegment() && GetSystem()->GetListener())
             {
-                distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::AudioVec &)((*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(projected3))->FUN_00439ef0((::NiPoint3 *)&(GetSystem()->GetListener()->Position()), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+                ::NiPoint3 kProjectedDiff;
+                distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::AudioVec &)((*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(projected3))->FUN_00439ef0(&kProjectedDiff, *(const ::NiPoint3 *)&(GetSystem()->GetListener()->Position()))))))->ComputeMagnitude();
                 this->distance = distance;
             }
             else if (GetSystem()->GetListener())
             {
-                distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::AudioVec &)((*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(point))->FUN_00439ef0((::NiPoint3 *)&(GetSystem()->GetListener()->Position()), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+                ::NiPoint3 kPositionDiff;
+                distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::AudioVec &)((*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(point))->FUN_00439ef0(&kPositionDiff, *(const ::NiPoint3 *)&(GetSystem()->GetListener()->Position()))))))->ComputeMagnitude();
                 this->distance = distance;
             }
             if (Absolute(outer - inner) > 10.0 && outer * ::DAT_010290f8 > distance)

@@ -2159,7 +2159,8 @@ Vec Pather::GetPathPoint(Ref* ref)
     {
         Waypoint waypoint((*(::fnv_009f6900::Waypoint *)(reinterpret_cast<::FUN_009a3280_shell *>(&(route))->FUN_009a3280(index))));
         index = index + 1;
-        result = (*(::fnv_009f6900::Vec *)&(reinterpret_cast<::TaskQueueInterface *>(&(waypoint))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+        ::NiPoint3 kPoint;
+        result = (*(::fnv_009f6900::Vec *)&(reinterpret_cast<::TaskQueueInterface *>(&(waypoint))->QueueActorAnimationTask(kPoint)));
     }
     else
     {

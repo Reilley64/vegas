@@ -2643,7 +2643,8 @@ extern const double DAT_010c0f58;
 // @fnv 0x00c35ae0
 bool FNVClip::FUN_00c35ae0(FNVVec3* begin, FNVVec3* end, FNVPlane* face, FNVPlaneSet* region)
 {
-    FNVVec3 direction = (*(::FNVVec3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(end))->FUN_00439ef0((::NiPoint3 *)&(*begin), *(const ::NiPoint3 *)nullptr)));
+    float kDirectionDiff[3];
+    FNVVec3 direction = (*(::FNVVec3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(end))->FUN_00439ef0((::NiPoint3 *)&kDirectionDiff, *(const ::NiPoint3 *)&(*begin))));
     FNVVec3 normal = face->normal;
     float denom = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(normal))->DotProduct((void *)&(direction));
     float fraction;

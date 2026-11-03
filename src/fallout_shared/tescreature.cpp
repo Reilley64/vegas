@@ -705,7 +705,7 @@ struct BGSSaveFormBuffer
 struct FUN_005f1f30_shell
 {
 public:
-    void FUN_005f1f30(unsigned int);
+    void FUN_005f1f30(std::uintptr_t);
 };
 struct FUN_005fb330_shell
 {
@@ -715,7 +715,7 @@ struct FUN_005fb330_shell
 // @fnv 0x005fb330
 void FUN_005fb330_shell::FUN_005fb330(BGSSaveFormBuffer* buffer)
 {
-    ((FUN_005f1f30_shell*)this)->FUN_005f1f30((unsigned int)(buffer));
+    ((FUN_005f1f30_shell*)this)->FUN_005f1f30((std::uintptr_t)(buffer));
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)buffer)->GetChangeFlags(0x200)))->FUN_004280f0(0x200))
     {
         reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x12d, 1, 0);
@@ -1201,11 +1201,11 @@ void FUN_005fb1e0_shell::FUN_005fb1e0(unsigned int flags)
     if (flags & 0x200)
     {
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x12d)), 1);
+            (void *)(reinterpret_cast<unsigned char*>(this) + 0x12d), 1);
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x12e)), 1);
+            (void *)(reinterpret_cast<unsigned char*>(this) + 0x12e), 1);
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x12f)), 1);
+            (void *)(reinterpret_cast<unsigned char*>(this) + 0x12f), 1);
     }
 
     if (flags & 0)
@@ -2074,7 +2074,7 @@ bool CreatureRecord::FUN_005f7ec0(CreatureRecordFile* file)
             reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&faction), 8);
             if (reinterpret_cast<::TESFile *>((file))->IsEndianConversionRequired())
                 reinterpret_cast<::fnv_00503210::Unk *>(&(faction))->FUN_00503210();
-            reinterpret_cast<::FUN_0047d800_shell *>(this)->FUN_0047d800((::TESFaction *)(faction.faction), faction.rank);
+            reinterpret_cast<::FUN_0047d800_shell *>(this)->FUN_0047d800((::TESFaction *)(std::uintptr_t)(faction.faction), faction.rank);
             break;
         }
         case 0x4d414e49: {
@@ -2535,7 +2535,7 @@ void CreatureEquipment::FUN_005f9e00(TESObjectREFR* reference, int unused, bool 
     float value = 0.0f;
     if (equip && entry)
         weapon = ((::InventoryEntryData *)(reinterpret_cast<::Target *>((entry))->SelectBestWeapon((::ActorStand *)(::TESCreature *)(this), &value, 6, true)));
-    if (weapon && reinterpret_cast<::B5FA120Checker *>(this)->FUN_005fa120((::B5FA120Form *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())))) && !reinterpret_cast<::Thing575 *>((reference))->FUN_00575400((int)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())))))
+    if (weapon && reinterpret_cast<::B5FA120Checker *>(this)->FUN_005fa120((::B5FA120Form *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())))) && !reinterpret_cast<::Thing575 *>((reference))->FUN_00575400((std::intptr_t)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())))))
     {
         reference->EquipItem(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())), 1, 0, false);
         if (aWeapon && !reinterpret_cast<::Thing575 *>((reference))->FUN_00575400((std::intptr_t)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((aWeapon))->GetName())))))
@@ -3639,7 +3639,7 @@ void C005f9820::CopyFrom(void* apSource)
     }
     *(unsigned int*)((char*)this + 0x154) = reinterpret_cast<::Twin_009c0070 *>((src2))->GetFilePosition();
     reinterpret_cast<::FUN_005f8bb0_shell *>(this)->SetImpactDataSet((::BGSImpactDataSet *)(void *)(((void *)(reinterpret_cast<::FUN_005f9b30_shell *>((src2))->GetImpactDataSet()))));
-    reinterpret_cast<::FUN_005f8bd0_Helper *>(this)->Set((int)(((void *)(::GetField158((std::intptr_t)(src2))))));
+    reinterpret_cast<::FUN_005f8bd0_Helper *>(this)->Set((std::intptr_t)(::GetField158((std::intptr_t)(src2))));
     v99(src2->v98());
     v97(src2->v96());
 }

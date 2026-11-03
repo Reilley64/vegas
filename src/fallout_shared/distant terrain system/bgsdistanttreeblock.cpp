@@ -225,7 +225,7 @@ struct FUN_006f88e0_shell
 void FUN_006f88e0_shell::FUN_006f88e0()
 {
     *(char*)(this + 0x48) = 1;
-    ((MiddleHighProcess*)((Flt*)(*(void**)((char*)this + 0x44)))->operator unsigned int())->FUN_00929260(1);
+    (*(MiddleHighProcess**)((*(void**)((char*)this + 0x44))))->FUN_00929260(1);
     reinterpret_cast<::FUN_006f74f0_cls *>(this)->FUN_006f74f0(nullptr);
 }
 
@@ -259,7 +259,7 @@ void FUN_006f91a0_shell::FUN_006f91a0()
         if (!(*(unsigned char*)((char*)p + 0x1c)) && ((Flt*)((char*)p + 4))->operator unsigned int())
         {
             void* property =
-                ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)((Flt*)((char*)p + 4))->operator unsigned int())))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
+                ((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)(((char*)p + 4)))))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
             if (property)
                 ((FUN_006f90a0_shell*)this)->UpdateInstances(property, p);
         }
@@ -327,21 +327,25 @@ struct ShaderProp
 };
 struct FUN_006f9c70_shell
 {
+    const void* m_pVtable;
+    void* m_pBuffer;
+    unsigned int m_uiSize;
+    unsigned int m_uiCapacity;
     void FUN_006f9c70(bool freeStorage);
 };
 // @fnv 0x006f9c70
 void FUN_006f9c70_shell::FUN_006f9c70(bool freeStorage)
 {
-    if (*(void**)((char*)this + 4))
+    if (m_pBuffer)
     {
-        reinterpret_cast<::Holder006fa090 *>((((ShaderProp*)this)))->FUN_006fa090((::Elem006fa0d0 *)(*(void**)((char*)this + 4)), (unsigned int)(*(void**)((char*)this + 8)));
+        reinterpret_cast<::Holder006fa090 *>((((ShaderProp*)this)))->FUN_006fa090((::Elem006fa0d0 *)(m_pBuffer), m_uiSize);
         if (freeStorage)
         {
             ::FUN_006a8500((::DummyClass_006a8500 *)(((NavMeshSearchLOSArray*)this)));
-            *(void**)((char*)this + 4) = 0;
-            *(unsigned int*)((char*)this + 0xc) = 0;
+            m_pBuffer = 0;
+            m_uiCapacity = 0;
         }
-        *(unsigned int*)((char*)this + 8) = 0;
+        m_uiSize = 0;
     }
 }
 
@@ -439,7 +443,7 @@ struct DummyPointerMap
 };
 struct Arr
 {
-    unsigned int* GetAt(int);
+    void** GetAt(int);
 };
 struct InstanceData
 {
@@ -543,7 +547,7 @@ struct InstanceDataB
 };
 struct ArrB
 {
-    unsigned int* GetAt(int);
+    void** GetAt(int);
 };
 struct BGSDistantTreeBlock_shell : BGSDistantTreeBlock
 {

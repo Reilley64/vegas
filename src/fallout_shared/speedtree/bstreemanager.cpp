@@ -113,7 +113,7 @@ void BSTreeManager::UpdateTreeInstances()
     if (((NiPointer<NiAVObject>*)((char*)FUN_00664840(true) + 4))->operator NiAVObject*())
     {
         ((NiPointer<NiNode>*)((char*)FUN_00664840(true) + 4))->operator=(0);
-        ::SetGlobalValue(false);
+        ::SetGlobalValue(nullptr);
         reinterpret_cast<::LookupHandler *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00456800((void *)("Data\\Textures\\Trees\\CanopyShadow.dds"), 0);
     }
 }
@@ -166,9 +166,9 @@ struct NP
 
 
 // @fnv 0x00664820
-void SetGlobalValue(unsigned int value)
+void SetGlobalValue(void* value)
 {
-    (*reinterpret_cast<::NP *>(&::DAT_011f95e4)) = (void*)value;
+    (*reinterpret_cast<::NP *>(&::DAT_011f95e4)) = value;
 }
 
 struct FUN_006652c0_shell
@@ -407,14 +407,14 @@ void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
             else
                 *(float*)(((unsigned char *)(::FUN_00664840(1))) + 0x14) =
                     reinterpret_cast<::FUN_004536e0_Class *>((((Sky*)((::fnv_006652e0::NiTexture *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetBaseTexture())))))->GetFieldCC();
-            if ((unsigned int)*(Flt*)(((unsigned char *)(::FUN_00664840(1))) + 8) &&
+            if (*(void**)(((unsigned char *)(::FUN_00664840(1))) + 8) &&
                 ((::fnv_006652e0::TESFile *)(reinterpret_cast<::FUN_00450570_Class *>((((FUN_00450570_shell*)((::fnv_006652e0::NiTexture *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetBaseTexture())))))->FUN_00450570())))
             {
                 NiColor col;
                 col = *(const NiColor*)((const char *)(reinterpret_cast<::BGSCameraPath *>((((::fnv_006652e0::TESFile *)(reinterpret_cast<::FUN_00450570_Class *>((((FUN_00450570_shell*)((::fnv_006652e0::NiTexture *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetBaseTexture())))))->FUN_00450570()))))->GetShotList()));
-                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)(unsigned int)*(Flt*)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004534f0((std::uintptr_t)&col);
-                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)(unsigned int)*(Flt*)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004534f0((std::uintptr_t)&col);
-                reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>((((NiProperty*)(unsigned int)*(Flt*)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::fnv_006652e0::NiColor *)(&col));
+                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)*(void**)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004534f0((std::uintptr_t)&col);
+                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)*(void**)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004534f0((std::uintptr_t)&col);
+                reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>((((NiProperty*)*(void**)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::fnv_006652e0::NiColor *)(&col));
             }
         }
         ((FUN_006658b0_shell*)((unsigned char *)(::FUN_00664840(1))))->Update();
@@ -814,7 +814,7 @@ NiAVObject* TreeManager::CreateTreeInstance(TreeReference* reference, TESObjectT
         key = reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((reference))->FUN_00567400();
     NiAVObject* instanceModel = model->CreateInstance(key);
     if (instanceModel)
-        ::AssignFixedString((char *)(instanceModel), (int)&(const ::NiFixedString &)(NiFixedString(tree->model.GetModelPath())), {});
+        ::AssignFixedString((char *)(instanceModel), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(tree->model.GetModelPath())), {});
     reinterpret_cast<::FUN_006652c0_shell *>((model))->SetByteAtOffset44(1);
     return instanceModel;
 }
@@ -897,7 +897,7 @@ NiSourceTexture* FUN_00665610()
                                (::TexPtr< ::NiSourceTexture> &)(((TreeTextureState*)FUN_00664840(true))->shadow), true, false);
         else
             ((TreeTextureState*)FUN_00664840(true))->shadow.FUN_0066b0d0(0);
-        SetGlobalValue((unsigned int)((::NiSourceTexture *)(::FUN_00559450((int *)&(((TreeTextureState*)FUN_00664840(true))->shadow)))));
+        SetGlobalValue(((::NiSourceTexture *)(::FUN_00559450((int *)&(((TreeTextureState*)FUN_00664840(true))->shadow)))));
     }
     if (!((::NiSourceTexture *)(::FUN_00559450((int *)&(((TreeTextureState*)FUN_00664840(true))->shadow)))))
     {
@@ -916,7 +916,7 @@ NiSourceTexture* FUN_00665610()
         NiFixedString kName("CanopyShadowTexture");
         ((TreeTextureState*)FUN_00664840(true))
             ->shadow.FUN_0066b0d0(((::NiSourceTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pixels), &kName, (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<const ::fnv_00665610::TextureFormatPrefs *>(&::DAT_011a9598)))))));
-        SetGlobalValue((unsigned int)((::NiSourceTexture *)(::FUN_00559450((int *)&(((TreeTextureState*)FUN_00664840(true))->shadow)))));
+        SetGlobalValue(((::NiSourceTexture *)(::FUN_00559450((int *)&(((TreeTextureState*)FUN_00664840(true))->shadow)))));
     }
     return ((::NiSourceTexture *)(::FUN_00559450((int *)&(((TreeTextureState*)FUN_00664840(true))->shadow))));
 }
@@ -947,7 +947,7 @@ struct Entry664
 FUN_00664740::~FUN_00664740()
 {
     ::Entry664::FUN_00664cd0(0);
-    ::SetGlobalValue(false);
+    ::SetGlobalValue(nullptr);
     ::FUN_00451570(0);
     ::FUN_00451520(1);
     ::ClearGlobalObjects();
@@ -1172,8 +1172,8 @@ FUN_00664440::FUN_00664440()
     m_b1a = false;
     m_b1b = *(*reinterpret_cast<::xGBool *>(&::g_011d5d00)).Bool();
     m_spMat = new xMatProp();
-    reinterpret_cast<::FUN_004534f0_shell *>(((m_spMat).operator->()))->FUN_004534f0((unsigned int)&(const ::RGBColorValue &)(RGBColorValue(1.0f, 1.0f, 1.0f)));
-    reinterpret_cast<::FUN_004534f0_shell *>(((m_spMat).operator->()))->FUN_004534f0((unsigned int)&(const ::RGBColorValue &)(RGBColorValue(1.0f, 1.0f, 1.0f)));
+    reinterpret_cast<::FUN_004534f0_shell *>(((m_spMat).operator->()))->FUN_004534f0((std::uintptr_t)&(const ::RGBColorValue &)(RGBColorValue(1.0f, 1.0f, 1.0f)));
+    reinterpret_cast<::FUN_004534f0_shell *>(((m_spMat).operator->()))->FUN_004534f0((std::uintptr_t)&(const ::RGBColorValue &)(RGBColorValue(1.0f, 1.0f, 1.0f)));
     reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>(((m_spMat).operator->()))->FUN_004bc450((const ::fnv_004bc450::C3 *)&(const ::RGBColorValue &)(RGBColorValue(1.0f, 1.0f, 1.0f)));
     m_spAlpha = new xAlphaProp();
     reinterpret_cast<::Flag512Receiver *>(((m_spAlpha).operator->()))->SetFlag512(true);

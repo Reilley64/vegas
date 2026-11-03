@@ -614,6 +614,23 @@ struct Values6cOwnerView
     char pad[0x6c];
     float* pafValues;
 };
+// The block a ScriptLocals points to at 0x10, read by FUN_005c42e0, FUN_005c4320 and FUN_005c43a0.
+struct ScriptLocalsBlock10View
+{
+    unsigned char ucUnk00;
+    unsigned char ucUnk01;
+    float fUnk04;
+};
+struct ScriptLocalsView
+{
+    char pad[0x10];
+    ScriptLocalsBlock10View* pBlock10;
+};
+struct ByteFieldsView
+{
+    unsigned char ucUnk00;
+    unsigned char ucUnk01;
+};
 struct Dat011da368View
 {
     char pad[0x128];
@@ -2542,7 +2559,7 @@ struct FUN_005c3bd0_shell : public TESQuest {
 // @fnv 0x005c3bd0
 unsigned int FUN_005c3bd0_shell::FUN_005c3bd0()
 {
-    return *((unsigned char*)reinterpret_cast<struct ::FUN_005a8080 *>((this))->GetField() + 1);
+    return static_cast<::ByteFieldsView*>(reinterpret_cast<struct ::FUN_005a8080 *>((this))->GetField())->ucUnk01;
 }
 
 class Interface
@@ -2568,7 +2585,7 @@ bool __cdecl FUN_005c42a0(const ScriptParameter* paramInfo, const char* scriptDa
 bool __cdecl FUN_005c42e0(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* eventList, double& result, unsigned int& opcodeOffsetPtr)
 {
     result = 0.0;
-    if (eventList && *((unsigned char**)eventList + 4) && **((unsigned char**)eventList + 4))
+    if (eventList && reinterpret_cast<::ScriptLocalsView*>(eventList)->pBlock10 && reinterpret_cast<::ScriptLocalsView*>(eventList)->pBlock10->ucUnk00)
     {
         result = 1.0;
     }
@@ -2579,7 +2596,7 @@ bool __cdecl FUN_005c42e0(const ScriptParameter* paramInfo, const char* scriptDa
 bool __cdecl FUN_005c4320(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* locals, double& result, unsigned int& opcodeOffsetPtr)
 {
     result = 0.0;
-    if (locals && *(void**)((char*)locals + 0x10) && *((unsigned char*)*(void**)((char*)locals + 0x10) + 1))
+    if (locals && reinterpret_cast<::ScriptLocalsView*>(locals)->pBlock10 && reinterpret_cast<::ScriptLocalsView*>(locals)->pBlock10->ucUnk01)
         result = 1.0;
     return true;
 }
@@ -6590,8 +6607,8 @@ bool FUN_005c1fe0(const ScriptParameter* paramInfo, const char* scriptData, TESO
 bool FUN_005c43a0(const ScriptParameter* a1, const char* a2, TESObjectREFR* a3, TESObjectREFR* a4, Script* a5, ScriptLocals* a6, double& a7, unsigned int& a8)
 {
     a7 = 0.0;
-    if (a6 && *(void**)((char*)a6 + 0x10))
-        a7 = *(float*)(*(char**)((char*)a6 + 0x10) + 4);
+    if (a6 && reinterpret_cast<::ScriptLocalsView*>(a6)->pBlock10)
+        a7 = reinterpret_cast<::ScriptLocalsView*>(a6)->pBlock10->fUnk04;
     return true;
 }
 

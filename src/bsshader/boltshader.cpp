@@ -66,11 +66,11 @@ public:
 
 void ConfigurePassRenderStates(char* pThis);
 
-// Ensures the NiD3DPass pointer at pThis+0x168 is set, then calls ConfigurePassRenderStates(pThis) and returns true.
+// Ensures the bolt shader's render pass is set, then calls ConfigurePassRenderStates(pThis) and returns true.
 // @fnv 0x00bc1570
 bool EnsurePassAndUpdate(char* pThis)
 {
-    NiPointer<NiD3DPass>& pass = *(NiPointer<NiD3DPass>*)(pThis + 0x168);
+    NiPointer<NiD3DPass>& pass = reinterpret_cast<BoltShader*>(pThis)->BoltShaderRenderData;
     if (!pass.m_pObject)
         NiD3DPass::CreateD3DPass(pass);
     ConfigurePassRenderStates(pThis);
@@ -229,25 +229,25 @@ struct OMStagePtr
         return (BeamStage*)m_pObject;
     }
 };
-struct FUN_00bc1210_t
+struct FUN_00bc1210_t : ::BoltShader
 {
     void ConfigurePassRenderStates();
 };
-// Copies the pass from this+0x168, creates a stage if it has none, assigns two refs from this+0x18c/0x190, then sets a series of render states.
+// Copies the render pass, creates a stage if it has none, assigns the vertex and pixel shaders, then sets a series of render states.
 // @fnv 0x00bc1210
 void FUN_00bc1210_t::ConfigurePassRenderStates()
 {
     OMPassPtr spRenderPass;
     OMStagePtr spStage;
-    spRenderPass = *(OMPassPtr*)((char*)this + 0x168);
+    spRenderPass = *(OMPassPtr*)&BoltShaderRenderData;
     if (spRenderPass->GetStageCount() < 1)
     {
         ::AssignStageFromPool((::StageReturn *&)(spStage.m_pObject));
         ::ConfigureBeamStage((::BeamStage *)(::fnv_00bc1210::BeamStage *)(spStage), 0, 1, 2, true);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->m_uiStageMask, (::Stage321 *)(::fnv_00bc1210::BeamStage *)(spStage));
     }
-    spRenderPass->m_spVertexShaderObject = *(OMRef**)((char*)this + 0x18c);
-    spRenderPass->m_spPixelShaderObject = *(OMRef**)((char*)this + 0x190);
+    spRenderPass->m_spVertexShaderObject = reinterpret_cast<OMRef*>(BoltShaderPass.m_pObject);
+    spRenderPass->m_spPixelShaderObject = reinterpret_cast<OMRef*>(BoltShaderResources.m_pObject);
     spRenderPass->SetRenderState(0x16, 1);
     spRenderPass->SetRenderState(0xa8, 0xf);
     spRenderPass->SetRenderState(0x1b, 1);
@@ -318,25 +318,24 @@ extern unsigned int DAT_01201f50;
 // @fnv 0x00bc1950
 void FUN_00bc1950_shell::InitShaderConstantMaps()
 {
-    char* self = (char*)this;
-    ConstMapPtr& spVS = *(ConstMapPtr*)(self + 0x34);
-    ConstMapPtr& spPS = *(ConstMapPtr*)(self + 0x30);
+    ConstMapPtr& spVS = *(ConstMapPtr*)&m_spSecondShaderConstantMap;
+    ConstMapPtr& spPS = *(ConstMapPtr*)&m_spFirstShaderConstantMap;
     if (spVS == 0)
     {
-        spVS = new NiD3DShaderConstantMap(*(void**)(self + 0x18), 0);
+        spVS = new NiD3DShaderConstantMap(m_pShaderObject, 0);
         spVS->AddEntry("WorldViewProjTranspose", 0x20000009, 0, 0, 4, 0, 0, 0, 0, false);
-        spVS->AddEntry("fVars", 0x10000009, 0, 4, 4, "", 0x40, 4, self + 0x128, false);
-        spVS->AddEntry("EyePosition", 0x10000007, 0, 8, 1, "", 0x10, 4, self + 0x118, false);
+        spVS->AddEntry("fVars", 0x10000009, 0, 4, 4, "", 0x40, 4, m_fMatrix, false);
+        spVS->AddEntry("EyePosition", 0x10000007, 0, 8, 1, "", 0x10, 4, &EyePosition, false);
         if (DAT_01201f50 == 0)
             DAT_01201f50 = (::DAT_011f91c0 >= 2) ? 0xeb : 0x4b;
-        spVS->AddEntry("bolt data", 0x10000009, 0, 0xe, DAT_01201f50, "", DAT_01201f50 * 16, 4, *(void**)(self + 0x70),
+        spVS->AddEntry("bolt data", 0x10000009, 0, 0xe, DAT_01201f50, "", DAT_01201f50 * 16, 4, BoltShaderSegmentState,
                        false);
     }
     if (spPS == 0)
     {
-        spPS = new NiD3DShaderConstantMap(*(void**)(self + 0x18), 2);
-        spPS->AddEntry("CoreColor", 0x10000007, 0, 0, 1, "", 0x10, 4, self + 0x16c, false);
-        spPS->AddEntry("GlowColor", 0x10000007, 0, 1, 1, "", 0x10, 4, self + 0x17c, false);
+        spPS = new NiD3DShaderConstantMap(m_pShaderObject, 2);
+        spPS->AddEntry("CoreColor", 0x10000007, 0, 0, 1, "", 0x10, 4, &CoreColor, false);
+        spPS->AddEntry("GlowColor", 0x10000007, 0, 1, 1, "", 0x10, 4, &GlowColor, false);
     }
 }
 

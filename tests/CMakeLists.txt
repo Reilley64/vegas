@@ -1,0 +1,4 @@
+add_executable(fileformat_plugin_header_test fileformat/plugin_header_test.cpp)
+target_include_directories(fileformat_plugin_header_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(fileformat_plugin_header_test PRIVATE game)
+add_test(NAME fileformat.plugin_header COMMAND fileformat_plugin_header_test)

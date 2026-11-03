@@ -132,7 +132,7 @@ struct Iterator
     {
         return !reinterpret_cast<::FUN_00b2ac30_t *>(this)->FUN_00b2ac30((::FUN_00b2ac30_t *)(::Iterator *)((Iterator*)&rhs));
     }
-    __forceinline GameContext*& operator->()
+    __forceinline GameContext* operator->()
     {
         return ((::GameContext *)(reinterpret_cast<::FnvVecIter *>(this)->FUN_00b2ab50()));
     }

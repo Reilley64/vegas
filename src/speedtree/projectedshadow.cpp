@@ -252,12 +252,6 @@ void Agent::FUN_00b3ea10(Context* context, Vec3 point, float extent, Bounds* bou
     }
 }
 
-template <> std::string& std::string::assign(const std::string&, unsigned int, unsigned int);
-
-template <> std::string& std::string::assign(const char*);
-
-template <> std::_String_val<char, std::allocator<char> >::_String_val(std::allocator<char>);
-
 struct Point3
 {
     float x, y, z;

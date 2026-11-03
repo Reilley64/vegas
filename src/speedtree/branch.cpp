@@ -619,15 +619,6 @@ Pt3 CrossPt::FUN_00b12810(const Pt3& pt) const
     return Pt3(y * pt.z - z * pt.y, z * pt.x - x * pt.z, x * pt.y - y * pt.x);
 }
 
-extern int __cdecl FUN_00ecadb8();
-
-inline float __cdecl FUN_00b14e90(float lower, float upper)
-{
-    float fraction = FUN_00ecadb8() / ::DAT_01029790;
-    float range = upper - lower;
-    return fraction * range + lower;
-}
-
 inline float radians(float degrees)
 {
     return degrees / DAT_010a4d90;

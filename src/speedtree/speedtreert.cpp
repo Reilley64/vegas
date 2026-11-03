@@ -112,7 +112,6 @@ struct FrameC780
         return m_bBuilt;
     }
     FrameC780* FUN_00b0c780(float fScale, float m_fProjectionDepth);
-    ::FrameC780 *FUN_00b0c780(float, float);
 };
 
 
@@ -4677,14 +4676,6 @@ FUN_0044a4c0 __cdecl FUN_00ad4210(const FUN_0044a4c0& l, const char* r);
 
 FUN_0044a4c0 __cdecl FUN_00ad42e0(const FUN_0044a4c0& l, const FUN_0044a4c0& r);
 
-// VEGAS17-CONFLICT: FUN_00b096a0 (variant definition below differs from the one above)
-struct FUN_00b096a0
-{
-    int iBase;
-    FUN_00b096a0(const FUN_0044a4c0& s);
-    virtual ~FUN_00b096a0();
-};
-
 struct FUN_00b09480 : FUN_00b096a0
 {
     FUN_00b09480(const FUN_0044a4c0& msg, bool bErrno);
@@ -4693,9 +4684,10 @@ struct FUN_00b09480 : FUN_00b096a0
 
 // @fnv 0x00b09480
 FUN_00b09480::FUN_00b09480(const FUN_0044a4c0& msg, bool bErrno)
-    : FUN_00b096a0(FUN_00ad4210(FUN_00ad42e0(FUN_00ad4210(msg, " ["),
-                                             bErrno ? FUN_0044a4c0(::std::strerror(*(&errno))) : FUN_0044a4c0("")),
-                                "]"))
+    : FUN_00b096a0(reinterpret_cast<const FUN_00b096a0_Str&>(
+          (const FUN_0044a4c0&)FUN_00ad4210(FUN_00ad42e0(FUN_00ad4210(msg, " ["),
+                                                         bErrno ? FUN_0044a4c0(::std::strerror(*(&errno))) : FUN_0044a4c0("")),
+                                            "]")))
 {}
 
 
@@ -5422,7 +5414,7 @@ struct MemoryManagerB05210
 };
 struct SpeedTreeRTB05210
 {
-    static void* operator new(std::size_t uiSize)
+    static void* operator new(::std::size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00b05210::MemoryManagerB05210 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
@@ -5623,14 +5615,6 @@ struct TreeHeapQ
     void FUN_00aa4060(void*);
 };
 extern TreeHeapQ DAT_011f6238;
-inline void* operator new[](std::size_t n)
-{
-    return DAT_011f6238.FUN_00aa3e40(n);
-}
-inline void operator delete[](void* p)
-{
-    DAT_011f6238.FUN_00aa4060(p);
-}
 struct SpdLoadQ
 {
     bool FUN_00b059e0(const char*, int);
@@ -5717,7 +5701,6 @@ inline void __cdecl FUN_0044a8c0(char& destination, const char& source)
 }
 
 void __cdecl FUN_00ec7c56();
-void __cdecl operator delete(void*);
 struct Alloc59;
 
 struct Global59
@@ -7441,7 +7424,6 @@ inline typename _Traits::char_type* copy_s(typename _Traits::char_type* _First1,
 }
 }
 
-void __cdecl operator delete(void*);
 template <class _Ty> class allocator
 {
   public:
@@ -7451,7 +7433,7 @@ template <class _Ty> class allocator
     {}
     void deallocate(_Ty* _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
 };
 template <class _Ty, class _Alloc> class _String_val
@@ -8507,7 +8489,6 @@ inline typename _Traits::char_type* copy_s(typename _Traits::char_type* _First1,
 }
 }
 
-void __cdecl operator delete(void*);
 template <class _Ty> class allocator
 {
   public:
@@ -8517,7 +8498,7 @@ template <class _Ty> class allocator
     {}
     void deallocate(_Ty* _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
 };
 template <class _Ty, class _Alloc> class _String_val
@@ -8592,16 +8573,6 @@ class MemoryManagerB07
     void Deallocate(void* pvMem);
 };
 extern MemoryManagerB07 g_kMemoryManagerB07;
-
-inline void* operator new[](std::size_t uiSize)
-{
-    return g_kMemoryManagerB07.Allocate(uiSize);
-}
-
-inline void operator delete[](void* pvMem)
-{
-    g_kMemoryManagerB07.Deallocate(pvMem);
-}
 
 class WindMatrixB07
 {
@@ -9268,7 +9239,6 @@ inline typename _Traits::char_type* copy_s(typename _Traits::char_type* _First1,
 }
 }
 
-void __cdecl operator delete(void*);
 template <class _Ty> class allocator
 {
   public:
@@ -9278,7 +9248,7 @@ template <class _Ty> class allocator
     {}
     void deallocate(_Ty* _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
 };
 template <class _Ty, class _Alloc> class _String_val
@@ -10212,25 +10182,6 @@ void SpdWindReader::FUN_00b097e0(SpdParser* pParser)
     } while (nToken != 0x2af9);
 }
 
-extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-
-extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-
-void* __cdecl operator new(std::size_t uiSize);
-
-namespace std {
-class bad_alloc
-{
-  public:
-    bad_alloc(const char* pcMessage = "bad allocation") throw();
-    virtual ~bad_alloc() throw();
-
-  private:
-    const char* m_pcWhat;
-    int m_iDoFree;
-};
-}
-
 struct SecureCharTag
 {
 };
@@ -10289,7 +10240,7 @@ inline char* AllocateChars(unsigned int ItemUpdateArray, char*)
     if (ItemUpdateArray <= 0)
         ItemUpdateArray = 0;
     else if (((unsigned int)(-1) / ItemUpdateArray) < sizeof(char))
-        throw std::bad_alloc(0);
+        throw std::bad_alloc();
     return (char*)::FUN_00401000(ItemUpdateArray * sizeof(char));
 }
 
@@ -10512,10 +10463,8 @@ FUN_00b09ef0::FUN_00b09ef0(String strName) : String(strName)
 {}
 
 namespace fnv_00b09f90 {
-extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(std::size_t uiSize);
 void __cdecl FUN_00ec7c56();
 namespace std {
 class bad_alloc
@@ -12129,10 +12078,6 @@ struct Pool
     void* FUN_00aa3e40(unsigned n);
 };
 extern Pool DAT_011f6238;
-inline void* __cdecl operator new[](std::size_t n)
-{
-    return DAT_011f6238.FUN_00aa3e40(n);
-}
 struct SpdTreeQ
 {
     int ai[9];
@@ -12781,14 +12726,6 @@ ElemEBB0& FUN_00b0ebb0_Iterator::FUN_00b0ebb0() const
 
 // namespace fnv_00b0ebb0
 
-inline void* operator new(std::size_t, void* p)
-{
-    return p;
-}
-
-inline void operator delete(void*, void*)
-{}
-
 struct ElQ
 {
     int m[7];
@@ -12939,13 +12876,11 @@ bool FUN_00b06180_Reader::FUN_00b06180()
 // namespace fnv_00b06180
 
 namespace fnv_00b06090 {
-void __cdecl operator delete(void* _Ptr) throw();
 namespace bufb060 {
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -13840,16 +13775,11 @@ FUN_00b06090::FUN_00b06090(const char* data, int size) : unk00(0)
 // namespace fnv_00b06090
 
 namespace fnv_00b09960 {
-typedef unsigned int size_t;
 struct HeapQ
 {
     void* FUN_00aa3e40(size_t n);
 };
 extern HeapQ DAT_011f6238;
-inline void* operator new[](size_t n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00b09960::HeapQ *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-}
 struct FUN_0044a4c0
 {
     int iAl;
@@ -14323,14 +14253,12 @@ void Tree::FUN_00b0d810(Parser* p)
 // namespace fnv_00b0d810
 
 namespace fnv_00b0dfb0 {
-void __cdecl operator delete(void* _Ptr) throw();
 namespace vct0dfb0 {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -14671,7 +14599,7 @@ template <class T> struct GvAlloc
     {}
     pointer allocate(unsigned int _Count)
     {
-        return ((::fnv_00b0dfb0::vct0dfb0::GvAuxCont *)(::FUN_0044d670(_Count)));
+        return BxAllocate(_Count, (pointer)0);
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
@@ -16680,7 +16608,6 @@ inline typename _Traits::char_type* copy_s(typename _Traits::char_type* _First1,
 }
 }
 
-void __cdecl operator delete(void*);
 template <class _Ty> class allocator
 {
   public:
@@ -16690,7 +16617,7 @@ template <class _Ty> class allocator
     {}
     void deallocate(_Ty* _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
 };
 template <class _Ty, class _Alloc> class _String_val
@@ -16795,11 +16722,6 @@ class MemoryManagerD04
     void* Allocate(unsigned int uiSize);
 };
 extern MemoryManagerD04 g_kMemoryManagerD04;
-
-inline void* operator new[](std::size_t uiSize)
-{
-    return g_kMemoryManagerD04.Allocate(uiSize);
-}
 
 
 struct SLeafTextureD04

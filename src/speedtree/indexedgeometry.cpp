@@ -117,6 +117,10 @@ struct SubB
     SubB();
 };
 
+struct BranchMatrix;
+struct BranchMesh;
+struct BranchPoint;
+
 struct FUN_00b10dc0
 {
     int unk00;
@@ -131,6 +135,7 @@ struct FUN_00b10dc0
     SubB unk38;
 
     FUN_00b10dc0(int param);
+    void FUN_00b11050(unsigned int, float, int, const ::BranchPoint &, float, float, const ::BranchMatrix &, const ::BranchPoint &, ::BranchMesh *, void *, float, unsigned int, float);
 };
 
 // @fnv 0x00b10dc0
@@ -476,50 +481,6 @@ struct TargetClass
     void ClearOuter();
 };
 
-// @fnv 0x00b30da0
-void TargetClass::ClearOuter()
-{
-    unsigned int i;
-    unsigned int jL;
-    void* _v;
-    OuterVec* a7;
-    OuterVec* B;
-    InnerVec* PG;
-    OuterVec* C4;
-    InnerVec* cQ;
-    OuterVec* D5;
-    InnerVec* bS;
-    OuterVec* r;
-    ScratchFrame buf5;
-    for (i = 0; (a7 = &m_outer, i < (unsigned int)(a7->_last - a7->_first)); ++i)
-    {
-        for (jL = 0; (B = &m_outer, (void)(i < (unsigned int)(B->_last - B->_first) || (std::abort(), (unsigned int)0)),
-                     jL < (unsigned int)((PG = B->_first + i)->_last - PG->_first));
-             ++jL)
-        {
-            C4 = &m_outer;
-            if (i >= (unsigned int)(C4->_last - C4->_first))
-                std::abort();
-            cQ = C4->_first + i;
-            if (jL >= (unsigned int)(cQ->_last - cQ->_first))
-                std::abort();
-            _v = cQ->_first[jL];
-            FUN_00401030(_v);
-            D5 = &m_outer;
-            if (i >= (unsigned int)(D5->_last - D5->_first))
-                std::abort();
-            bS = D5->_first + i;
-            if (jL >= (unsigned int)(bS->_last - bS->_first))
-                std::abort();
-            bS->_first[jL] = 0;
-        }
-        r = &m_outer;
-        if (i >= (unsigned int)(r->_last - r->_first))
-            std::abort();
-        reinterpret_cast<::IndexSet *>((((FUN_00b32350_shell*)(r->_first + i))))->FUN_00b32350();
-    }
-    reinterpret_cast<::Vec *>((((FUN_00b32120_shell*)&m_outer)))->FUN_00b32120();
-}
 
 struct FUN_00b32210_Class
 {
@@ -723,81 +684,6 @@ class FUN_00b30560_cls
     void FUN_00b30560(float value, unsigned char index);
 };
 
-// Pushes 1.0f - value onto m_160, maps index to unk28 + index % unk2c from m_04, and passes it to m_178.FUN_00b0dae0.
-// @fnv 0x00b30560
-void FUN_00b30560_cls::FUN_00b30560(float value, unsigned char index)
-{
-    int CNVal;
-    int Diff2;
-    int EntryLoc;
-    int EntryLocA;
-    int EntryLocTmp;
-    int LeftB;
-    int PN4;
-    int PNA;
-    int StartLoc2;
-    int StartLoc7;
-    int a1c5;
-    int a1c9;
-    int a1cA;
-    int a1cTmp7;
-    int aA190;
-    int aAC;
-    int aARes;
-    int aAcName;
-    int aActor;
-    int aActor2;
-    int aActorHolder;
-    int aActorMarkers;
-    int aActorPt;
-    int aActorStatus;
-    int aAdjustX;
-    int aAfter7e;
-    int aAllowEquip;
-    int aAlternate;
-    int aAngVel;
-    int aAnglePitch5;
-    int aAnglePitch9;
-    int aAnglePitchA;
-    int aAnglePitchY;
-    int aAngleStep;
-    int aAngleYaw5;
-    int aAngleYawB;
-    int aAnimation;
-    int aArc;
-    int aArg;
-    int aArgument5;
-    int aArr2;
-    int aAttached8;
-    int aAvailable;
-    int aAvoided;
-    int aB1;
-    int aB6;
-    int aBAdded;
-    int aBArmor;
-    int aBDD;
-    int aBDeleted;
-    int aBGood5;
-    int aBHandled;
-    int aBShowMsg;
-    int aBSwap5;
-    int aBTeammate;
-    int aBTemp;
-    unsigned int aa;
-    FUN_00b30560_data* bb;
-    unsigned int cc;
-
-    value = 1.0f - value;
-    cc = 0;
-    aa = 1;
-    bb = m_04;
-    cc = bb->unk28;
-    aa = bb->unk2c;
-    index = (unsigned char)((unsigned int)index % aa + cc);
-
-    m_160.PushBack(value);
-    reinterpret_cast<::VecQ_acad60 *>(&(m_178))->FUN_00b0dae0((const char &)(index));
-}
 
 unsigned int __cdecl FUN_00ec7c56(void);
 
@@ -806,25 +692,6 @@ struct BranchMatrix;
 struct BranchMesh;
 
 struct BranchPoint;
-
-// VEGAS17-CONFLICT: FUN_00b10dc0 (variant definition below differs from the one above)
-struct FUN_00b10dc0
-{
-    int unk00;
-    float unk04;
-    SubA unk08;
-    int unk20;
-    int unk24;
-    unsigned short unk28;
-    int unk2c;
-    float unk30;
-    float unk34;
-    SubB unk38;
-
-    FUN_00b10dc0(int param);
-public:
-    void FUN_00b11050(unsigned int, float, int, const ::BranchPoint &, float, float, const ::BranchMatrix &, const ::BranchPoint &, ::BranchMesh *, void *, float, unsigned int, float);
-};
 
 void __cdecl FreeBlock(void* p);
 
@@ -892,10 +759,6 @@ struct FUN_00b39460
     }
     ~FUN_00b39460();
 };
-
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
-
-void* __cdecl operator new[](std::size_t);
 
 template <class T> struct ValueBase : FUN_00b39460
 {
@@ -1159,7 +1022,7 @@ struct FUN_00b311b0 : ValueBase<unsigned int>
 
     FUN_00b311b0(unsigned int n)
     {
-        construct(n, unsigned int());
+        construct(n, 0u);
     }
     void construct(unsigned int n, const unsigned int& val)
     {
@@ -2110,6 +1973,82 @@ void VecQ_acad60::FUN_00b0dae0(const char& _Val)
     }
 }
 
+// Pushes 1.0f - value onto m_160, maps index to unk28 + index % unk2c from m_04, and passes it to m_178.FUN_00b0dae0.
+// @fnv 0x00b30560
+void FUN_00b30560_cls::FUN_00b30560(float value, unsigned char index)
+{
+    int CNVal;
+    int Diff2;
+    int EntryLoc;
+    int EntryLocA;
+    int EntryLocTmp;
+    int LeftB;
+    int PN4;
+    int PNA;
+    int StartLoc2;
+    int StartLoc7;
+    int a1c5;
+    int a1c9;
+    int a1cA;
+    int a1cTmp7;
+    int aA190;
+    int aAC;
+    int aARes;
+    int aAcName;
+    int aActor;
+    int aActor2;
+    int aActorHolder;
+    int aActorMarkers;
+    int aActorPt;
+    int aActorStatus;
+    int aAdjustX;
+    int aAfter7e;
+    int aAllowEquip;
+    int aAlternate;
+    int aAngVel;
+    int aAnglePitch5;
+    int aAnglePitch9;
+    int aAnglePitchA;
+    int aAnglePitchY;
+    int aAngleStep;
+    int aAngleYaw5;
+    int aAngleYawB;
+    int aAnimation;
+    int aArc;
+    int aArg;
+    int aArgument5;
+    int aArr2;
+    int aAttached8;
+    int aAvailable;
+    int aAvoided;
+    int aB1;
+    int aB6;
+    int aBAdded;
+    int aBArmor;
+    int aBDD;
+    int aBDeleted;
+    int aBGood5;
+    int aBHandled;
+    int aBShowMsg;
+    int aBSwap5;
+    int aBTeammate;
+    int aBTemp;
+    unsigned int aa;
+    FUN_00b30560_data* bb;
+    unsigned int cc;
+
+    value = 1.0f - value;
+    cc = 0;
+    aa = 1;
+    bb = m_04;
+    cc = bb->unk28;
+    aa = bb->unk2c;
+    index = (unsigned char)((unsigned int)index % aa + cc);
+
+    m_160.PushBack(value);
+    reinterpret_cast<::VecQ_acad60 *>(&(m_178))->FUN_00b0dae0((const char &)(index));
+}
+
 struct VB9
 {
     inline void*& PP()
@@ -2344,10 +2283,6 @@ void ShapeHost::FUN_00b2fa30(BoundsBox* out)
     }
 }
 
-typedef unsigned int size_t;
-
-typedef int ptrdiff_t;
-
 unsigned int FUN_00ec7c56();
 
 void* __cdecl operator new(size_t);
@@ -2549,11 +2484,11 @@ template <class _Ty> class allocator : public _Allocator_base<_Ty>
     }
     void deallocate(pointer _Ptr, size_type)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
     pointer allocate(size_type _Count)
     {
-        return (((::std::_Aux_cont *)(::FUN_0044d670(_Count))));
+        return _Allocate(_Count, (pointer)0);
     }
     pointer allocate(size_type _Count, const void*)
     {
@@ -4190,8 +4125,6 @@ typedef unsigned short U16;
 
 typedef unsigned int U32;
 
-void* __cdecl operator new[](U32 bytes);
-
 unsigned int __cdecl FUN_00ec7c56();
 
 template <class T> struct DataVector
@@ -4478,6 +4411,51 @@ inline CIter Vec::FUN_00b33030(CIter a, CIter b)
 void Vec::FUN_00b32120()
 {
     FUN_00b33030(begin(), end());
+}
+
+// @fnv 0x00b30da0
+void TargetClass::ClearOuter()
+{
+    unsigned int i;
+    unsigned int jL;
+    void* _v;
+    OuterVec* a7;
+    OuterVec* B;
+    InnerVec* PG;
+    OuterVec* C4;
+    InnerVec* cQ;
+    OuterVec* D5;
+    InnerVec* bS;
+    OuterVec* r;
+    ScratchFrame buf5;
+    for (i = 0; (a7 = &m_outer, i < (unsigned int)(a7->_last - a7->_first)); ++i)
+    {
+        for (jL = 0; (B = &m_outer, (void)(i < (unsigned int)(B->_last - B->_first) || (std::abort(), (unsigned int)0)),
+                     jL < (unsigned int)((PG = B->_first + i)->_last - PG->_first));
+             ++jL)
+        {
+            C4 = &m_outer;
+            if (i >= (unsigned int)(C4->_last - C4->_first))
+                std::abort();
+            cQ = C4->_first + i;
+            if (jL >= (unsigned int)(cQ->_last - cQ->_first))
+                std::abort();
+            _v = cQ->_first[jL];
+            FUN_00401030(_v);
+            D5 = &m_outer;
+            if (i >= (unsigned int)(D5->_last - D5->_first))
+                std::abort();
+            bS = D5->_first + i;
+            if (jL >= (unsigned int)(bS->_last - bS->_first))
+                std::abort();
+            bS->_first[jL] = 0;
+        }
+        r = &m_outer;
+        if (i >= (unsigned int)(r->_last - r->_first))
+            std::abort();
+        reinterpret_cast<::IndexSet *>((((FUN_00b32350_shell*)(r->_first + i))))->FUN_00b32350();
+    }
+    reinterpret_cast<::Vec *>((((FUN_00b32120_shell*)&m_outer)))->FUN_00b32120();
 }
 
 struct ScalarAllocator
@@ -4879,7 +4857,6 @@ struct CMutIter;
 
 
 
-void* operator new(std::size_t);
 namespace std {
 class exception
 {

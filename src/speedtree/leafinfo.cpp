@@ -260,15 +260,6 @@ struct S00b3d1b0_Leaf
     {}
 };
 
-template <>
-__forceinline std::vector<S00b3d1b0_Leaf>::iterator std::vector<S00b3d1b0_Leaf>::erase(const_iterator first_arg,
-                                                                                       const_iterator last_arg)
-{
-    _Destroy(stdext::unchecked_copy(last_arg._Myptr, _Mylast, first_arg._Myptr), _Mylast);
-    _Mylast -= last_arg._Myptr - first_arg._Myptr;
-    return _Make_iter(first_arg);
-}
-
 struct S00b3d1b0_Obj
 {
     char m_iWordAt00;

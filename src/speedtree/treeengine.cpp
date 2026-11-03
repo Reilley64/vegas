@@ -964,20 +964,11 @@ NarrowString& FUN_00b2b910_shell::FUN_00b2b910(const NarrowString& rhs)
 
 void __cdecl operator delete(void* _Ptr) throw();
 
-inline void* operator new(std::size_t, void* _Where) throw()
-{
-    return _Where;
-}
-
-inline void operator delete(void*, void*) throw()
-{}
-
 namespace shutb2b9 {
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -1050,7 +1041,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -1322,7 +1313,7 @@ template <class T> struct GvAlloc
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
     void destroy(pointer _Ptr)
     {
@@ -2635,10 +2626,6 @@ void Tree::FUN_00b2cbc0(Parser* p)
 // namespace fnv_00b2cbc0
 
 namespace fnv_00b2d090 {
-extern "C" unsigned int __cdecl strlen(const char* pcString);
-extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(std::size_t uiSize);
 void __cdecl FUN_00ec7c56();
 namespace std {
 class bad_alloc
@@ -3243,77 +3230,77 @@ void FlareEngine::FUN_00b2d2e0(Reader* reader)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
-            _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
+            throw error;
         }
         flares[index]->value24 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
         if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e83)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
-            _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
+            throw error;
         }
         flares[index]->value28 = ((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement()));
         if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e84)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
-            _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
+            throw error;
         }
         flares[index]->value2c = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
         if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e85)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
-            _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
+            throw error;
         }
         flares[index]->value30 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
         if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e86)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
-            _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
+            throw error;
         }
         flares[index]->value34 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
         if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e87)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
-            _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
+            throw error;
         }
         flares[index]->value38 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
         if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e88)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
-            _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
+            throw error;
         }
         flares[index]->value3c = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
         if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e89)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
-            _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
+            throw error;
         }
         ((::fnv_00b2d2e0::Flare *)&(reinterpret_cast<::PtrVector *>(&(flares))->FUN_00b31230(index)))->value40 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
         if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e8a)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
-            _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
+            throw error;
         }
         ((::fnv_00b2d2e0::Flare *)&(reinterpret_cast<::PtrVector *>(&(flares))->FUN_00b31230(index)))->value44 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
         if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e8b)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
-            _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
+            throw error;
         }
         ((::fnv_00b2d2e0::Flare *)&(reinterpret_cast<::PtrVector *>(&(flares))->FUN_00b31230(index)))->value48 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
         if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e8c)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
-            _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
+            throw error;
         }
         ((::fnv_00b2d2e0::Flare *)&(reinterpret_cast<::PtrVector *>(&(flares))->FUN_00b31230(index)))->value4c = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
     }
@@ -3321,7 +3308,7 @@ void FlareEngine::FUN_00b2d2e0(Reader* reader)
     {
         FUN_0044a4c0 message("malformed flare info");
         FUN_00b09480 error(message, 0);
-        _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
+        throw error;
     }
 }
 }

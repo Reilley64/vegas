@@ -89,7 +89,7 @@ struct Less
 {
     bool operator()(const Key& left, const Key& right) const
     {
-        return left < right;
+        return left.FUN_00ac9da0(right) < 0;
     }
 };
 
@@ -103,11 +103,15 @@ struct Tree
 
 // namespace fnv_00b3b6f0
 
-namespace fnv_00b3b880 {
-inline void* __cdecl operator new(std::size_t, void* where)
+inline void* operator new(std::size_t, void* p)
 {
-    return where;
+    return p;
 }
+
+inline void operator delete(void*, void*)
+{}
+
+namespace fnv_00b3b880 {
 
 namespace std {
 
@@ -212,7 +216,7 @@ template <class _Ty> class allocator
     }
     void deallocate(pointer _Ptr, size_type)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
     void construct(pointer _Ptr, const _Ty& _Val)
     {
@@ -266,7 +270,6 @@ struct Tree
     }
 
     NodeX* FUN_00b3b880();
-    ::fnv_00b3b880::NodeX *FUN_00b3b880();
 };
 
 // @fnv 0x00b3b880
@@ -304,7 +307,7 @@ template <class T> class allocator
     unsigned int state;
     void deallocate(T* _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
 };
 }
@@ -1194,24 +1197,24 @@ struct FUN_00449fd0
     FUN_00449fd0();
     ~FUN_00449fd0();
 };
+struct FUN_00b37660;
+
 struct FUN_00b377c0
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    FUN_00b31270 m0;
-    FUN_00b31270 m1;
-    FUN_00449fd0 m2;
-    FUN_00b31270 m3;
-    FUN_00b31270 m4;
-    FUN_00b377c0(int a0);
+    float x, y, z;
+    FUN_00b31270 unk0c;
+    FUN_00b31270 unk24;
+    FUN_00449fd0 unk3c;
+    FUN_00b31270 unk54;
+    FUN_00b31270 unk6c;
+    FUN_00b377c0(FUN_00b37660* src);
 };
 // @fnv 0x00b377c0
-FUN_00b377c0::FUN_00b377c0(int a0) : m0(), m1(), m2(), m3(), m4()
+FUN_00b377c0::FUN_00b377c0(FUN_00b37660* src) : unk0c(), unk24(), unk3c(), unk54(), unk6c()
 {
     char buf[0x108];
     int u1;
-    reinterpret_cast<::FUN_00b1c7a0_cls *>(this)->FUN_00b1c7a0((*(const ::FUN_00b1c7a0_cls *)(a0)));
+    reinterpret_cast<::FUN_00b1c7a0_cls *>(this)->FUN_00b1c7a0((*(const ::FUN_00b1c7a0_cls *)(src)));
 }
 
 
@@ -1794,26 +1797,6 @@ IterQ TreeQ::FUN_00acf120(bool _Addleft, NodeQ* _Wherenode, const ValQ& _Val)
     return (IterQ(_Newnode, this));
 }
 
-struct FUN_00b37660;
-
-// VEGAS17-CONFLICT: FUN_00b377c0 (variant definition below differs from the one above)
-struct FUN_00b377c0
-{
-    static void* operator new(std::size_t size)
-    {
-        return FUN_00401000(size);
-    }
-    static void operator delete(void* p)
-    {}
-    FUN_00b377c0(FUN_00b37660* src);
-    float x, y, z;
-    FUN_00b31270 unk0c;
-    FUN_00b31270 unk24;
-    FUN_00449fd0 unk3c;
-    FUN_00b31270 unk54;
-    FUN_00b31270 unk6c;
-};
-
 struct S00b37660_Cache
 {
 };
@@ -1838,13 +1821,13 @@ inline void S00b37660_Pad()
 // @fnv 0x00b37660
 FUN_00b37660::FUN_00b37660(InputB37* name)
 {
-    FUN_00b377c0* pCached = ((::FUN_00b377c0 *)&(reinterpret_cast<::MapLookupDetail::LookupMap *>(&(DAT_011f8e2c))->FUN_00b39210((*(const ::MapLookupDetail::basic_string<char, ::record_model::BxStrTraits, ::MapLookupDetail::Allocator> *)(name)))));
+    FUN_00b377c0* pCached = (*(::FUN_00b377c0 **)&(reinterpret_cast<::MapLookupDetail::LookupMap *>(&(DAT_011f8e2c))->FUN_00b39210((*(const ::MapLookupDetail::basic_string<char, ::record_model::BxStrTraits, ::MapLookupDetail::Allocator> *)(name)))));
     if (!pCached)
     {
         reinterpret_cast<::HostB37 *>(this)->FUN_00b37cc0(name);
         FUN_00b38430(500);
         FUN_00b377c0* pNew = new FUN_00b377c0(this);
-        ((::FUN_00b377c0 *)&(reinterpret_cast<::MapLookupDetail::LookupMap *>(&(DAT_011f8e2c))->FUN_00b39210((*(const ::MapLookupDetail::basic_string<char, ::record_model::BxStrTraits, ::MapLookupDetail::Allocator> *)(name))))) = pNew;
+        (*(::FUN_00b377c0 **)&(reinterpret_cast<::MapLookupDetail::LookupMap *>(&(DAT_011f8e2c))->FUN_00b39210((*(const ::MapLookupDetail::basic_string<char, ::record_model::BxStrTraits, ::MapLookupDetail::Allocator> *)(name))))) = pNew;
         S00b37660_Pad();
     }
     else
@@ -1884,7 +1867,7 @@ template <class T> struct Alloc
     typedef T* pointer;
     void deallocate(T* ptr, unsigned int count)
     {
-        ::FUN_00401030 delete(ptr);
+        ::operator delete(ptr);
     }
     void destroy(T* ptr)
     {
@@ -2192,7 +2175,6 @@ Pos_b38f40 Spl_b38f40::FUN_00b38f40(Pt_b38f40* p0, Pt_b38f40* p1, Pt_b38f40* p2,
 // Reuses supplied independent string/error helper model with credit.
 // Supplied other-agent vector model reused withcredit; new swap/move helpers below.
 namespace asgnb36 {
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -2212,7 +2194,7 @@ struct BxStrTraits
     }
     static unsigned int length(const char* _First)
     {
-        return strlen(_First);
+        return (unsigned int)std::strlen(_First);
     }
     static void assign(char& _Left, const char& _Right)
     {
@@ -2281,7 +2263,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -4383,14 +4365,6 @@ ElemB5A0* __cdecl FUN_00b3b5a0(ElemB5A0* _First, ElemB5A0* _Last, ElemB5A0* _Des
 
 // namespace fnv_00b3b5a0
 
-inline void* operator new(std::size_t, void* p)
-{
-    return p;
-}
-
-inline void operator delete(void*, void*)
-{}
-
 struct ElQ
 {
     int m[6];
@@ -4932,7 +4906,7 @@ template <class V> struct NodeAllocatorT
     }
     void deallocate(V* _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
 };
 
@@ -5277,13 +5251,6 @@ struct SplineVec
     FUN_00b3c500* m_eos;
 };
 
-// VEGAS17-CONFLICT: GlobalObject_00b3f100 (variant definition below differs from the one above)
-struct GlobalObject_00b3f100
-{
-    GlobalObject_00b3f100();
-    ~GlobalObject_00b3f100();
-};
-
 inline float LerpF(float a, float b, float t)
 {
     return a + (b - a) * t;
@@ -5364,7 +5331,6 @@ float FUN_00b37ad0_class::FUN_00b37ad0(float a2)
 }
 
 namespace fnv_00b397f0 {
-void operator delete(void*);
 
 class GlobalObject_00b3f100
 {
@@ -6050,7 +6016,6 @@ void FUN_00b3b100_Iterator::FUN_00b3b100()
 // namespace fnv_00b3b100
 
 namespace fnv_00b3b330 {
-extern void __cdecl operator delete(void*) throw();
 void __cdecl CopyChars(char*, unsigned int, const char*, unsigned int);
 void __cdecl MoveChars(char*, unsigned int, const char*, unsigned int);
 void __cdecl RangeError();
@@ -6193,14 +6158,6 @@ struct TreeNode
     {}
 };
 
-inline void* __cdecl operator new(size_t, void* _Where) throw()
-{
-    return _Where;
-}
-inline void __cdecl operator delete(void*, void*) throw()
-{}
-extern void __cdecl operator delete(void*) throw();
-extern void* __cdecl operator new(size_t);
 namespace std {
 class exception
 {
@@ -6266,7 +6223,6 @@ struct SplinePoint
         return (&x)[component];
     }
 };
-void __cdecl operator delete(void*);
 __forceinline void DeallocQ(void* p)
 {
     operator delete(p);
@@ -6394,20 +6350,6 @@ void SplinePath::FUN_00b38430(unsigned int count)
 }
 
 // namespace fnv_00b38430
-
-inline NodeB*& TreeLeftmost(FUN_00b3b810_shell* tree)
-{
-    return tree->f18->f0;
-}
-
-inline void FUN_00b3b810_shell::InitNode()
-{
-    f18 = ((::NodeB *)(reinterpret_cast<::fnv_00b3b880::Tree *>(this)->FUN_00b3b880()));
-    reinterpret_cast<NodeT*>(f18)->isnil = true;
-    f18->f4 = f18;
-    TreeLeftmost(this) = f18, f18->f8 = f18;
-    f1c = 0;
-}
 
 template <class T> struct TreeAllocatorBase
 {

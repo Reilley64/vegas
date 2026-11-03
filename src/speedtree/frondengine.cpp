@@ -63,39 +63,6 @@
 #include <math.h>
 namespace fnv_00b22650 { namespace vecdb226 { struct VdElemV; } }
 
-namespace vecdb1d2 {
-struct VdInner
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-};
-}
-
-namespace vecdb1d2 {
-struct VdElemV : public VdVector<VdInner>
-{
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-};
-}
 
 struct Proxy
 {
@@ -152,7 +119,7 @@ template <class T> struct VdAlloc
     typedef T* pointer;
     void deallocate(T* _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
     void destroy(T* _Ptr)
     {
@@ -256,20 +223,6 @@ void FUN_00b22650::FUN_00b22650_Destroy(VdElemV* _First, VdElemV* _Last)
 
 namespace fnv_00b20c30 { namespace vecdb20c { struct VdElemW; } }
 
-namespace vecdb1d2 {
-
-}
-
-namespace vecdb1d2 {
-
-}
-
-namespace fnv_00b1ebc0 {
-struct FUN_00b1ebc0 : public VdVectorImpl<VdElemV>
-{
-    void FUN_00b1ebc0_Destroy(VdElemV* _First, VdElemV* _Last);
-};
-}
 
 struct FUN_00b1ec70_class
 {
@@ -312,7 +265,7 @@ template <class T> struct VdAlloc
     typedef T* pointer;
     void deallocate(T* _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
     void destroy(T* _Ptr)
     {
@@ -444,18 +397,6 @@ void FUN_00b20c30::FUN_00b20c30_Destroy(VdElemW* _First, VdElemW* _Last)
 }
 
 namespace fnv_00b1ebc0 { namespace vecdb1eb { struct VdElemV; } }
-
-namespace vecdb1d2 {
-
-}
-
-namespace vecdb1d2 {
-
-}
-
-namespace fnv_00b1ebc0 {
-
-}
 
 
 unsigned int g_010173f0;
@@ -630,22 +571,6 @@ int FUN_00b319a0_class::FUN_00b319a0(int uiIndex)
 
 void __cdecl operator delete(void*);
 
-// Frees the buffer at p after calling FUN_00b1ebc0 on p and q, then resets p, q and r to null.
-// @fnv 0x00b1ec70
-void FUN_00b1ec70_class::FUN_00b1ec70()
-{
-    int a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12;
-    if (p)
-    {
-        reinterpret_cast<::fnv_00b1ebc0::FUN_00b1ebc0 *>(this)->FUN_00b1ebc0_Destroy((::fnv_00b1ebc0::vecdb1eb::VdElemV *)(p), (::fnv_00b1ebc0::vecdb1eb::VdElemV *)(q));
-        int n = (int)((char*)r - (char*)p) / 0x38;
-        int* pBuffer = p;
-        ::FUN_00401030(pBuffer);
-    }
-    p = 0;
-    q = 0;
-    r = 0;
-}
 
 struct FUN_00b1ff50
 {
@@ -1273,52 +1198,6 @@ struct S00b1dd80_Obj
     int* FUN_00b1dd80(int* out, int* p, unsigned int q);
 };
 
-// Shifts the 0x38-byte elements after q down, drops the last one (p10 -= 0x38), and returns out holding i0 and q; calls FUN_00ec7c56 if q is out of range.
-// @fnv 0x00b1dd80
-int* S00b1dd80_Obj::FUN_00b1dd80(int* out, int* p, unsigned int q)
-{
-    int u0;
-    int u1;
-    int u2;
-    int u3;
-    int u4;
-    int u5;
-    int u6;
-    int u7;
-    int u8;
-    int u9;
-    int u10;
-    int u11;
-    int u12;
-    int u13;
-    int u14;
-    int u15;
-    int u16;
-    int u17;
-    int u18;
-    int u19;
-    int u20;
-    int u21;
-    int u22;
-    int u23;
-    int u24;
-
-    ::fnv_00b23760::FUN_00b23760((::fnv_00b23760::cpyb237::GvElem *)(q + 0x38), (::fnv_00b23760::cpyb237::GvElem *)(p10), (::fnv_00b23760::cpyb237::GvElem *)(q));
-    reinterpret_cast<::fnv_00b1ebc0::FUN_00b1ebc0 *>(this)->FUN_00b1ebc0_Destroy((::fnv_00b1ebc0::vecdb1eb::VdElemV *)(int *)((int*)(p10 - 0x38)), (::fnv_00b1ebc0::vecdb1eb::VdElemV *)(int *)((int*)p10));
-    p10 -= 0x38;
-
-    *out = 0;
-
-    if (this == 0 || ic > q || q > p10)
-    {
-        std::abort();
-    }
-
-    *out = i0;
-    out[1] = q;
-
-    return out;
-}
 
 // 0x00b1f920 candidate
 
@@ -2201,20 +2080,6 @@ Iter* Iter::FUN_00b235e0(int _Off)
     return this;
 }
 
-namespace std {
-class exception
-{
-  public:
-    exception(const char* const& _Message = 0);
-    virtual ~exception();
-    const char* _mWhat;
-    int _mDoFree;
-};
-class bad_alloc : public exception
-{
-};
-}
-
 // @fnv 0x00b23b50
 void* __cdecl FUN_00b23b50(unsigned int n)
 {
@@ -2230,11 +2095,6 @@ void* __cdecl FUN_00b23b50(unsigned int n)
         }
     }
     return ::FUN_00401000(n * 44);
-}
-
-inline void* __cdecl operator new(std::size_t, void* _Where) throw()
-{
-    return (_Where);
 }
 
 struct GlobalObject_00b3f100
@@ -2817,16 +2677,12 @@ void __cdecl operator delete(void* _Ptr) throw();
 
 extern int DAT_010173f0;
 
-inline void operator delete(void*, void*)
-{}
-
 namespace dtorb181 {
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -2915,7 +2771,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -3246,7 +3102,7 @@ template <class T> struct GvAlloc
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
     void destroy(pointer _Ptr)
     {
@@ -4382,16 +4238,12 @@ VecQ& VecQ::FUN_00b1d130(const VecQ& _Right)
 }
 
 namespace fnv_00b1d8a0 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace vct1d8a0 {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -5413,7 +5265,7 @@ template <class T> struct VdAlloc
     typedef T* pointer;
     void deallocate(T* _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
     void destroy(T* _Ptr)
     {
@@ -5500,8 +5352,34 @@ template <class T> struct VdVectorImpl : VdAuxBase
 using namespace vecdb1d2;
 
 namespace vecdb1d2 {
-
-
+struct VdInner
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+};
+struct VdElemV : public VdVector<VdInner>
+{
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+};
 }
 
 struct FUN_00b1da90 : public VdVectorImpl<VdElemV>
@@ -5557,16 +5435,12 @@ void FUN_00b1df10_obj::FUN_00b1df10()
 }
 
 namespace fnv_00b1e090 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace ctoraca {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -6884,16 +6758,12 @@ void VcVector::FUN_00b1e2f0()
 }
 
 namespace fnv_00b1e3e0 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace vct1e3e0 {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -8317,7 +8187,7 @@ template <class T> struct VdAlloc
     typedef T* pointer;
     void deallocate(T* _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
     void destroy(T* _Ptr)
     {
@@ -8432,7 +8302,10 @@ struct VdElemV : public VdVector<VdInner>
     int unk34;
 };
 }
-
+struct FUN_00b1ebc0 : public VdVectorImpl<VdElemV>
+{
+    void FUN_00b1ebc0_Destroy(VdElemV* _First, VdElemV* _Last);
+};
 
 // @fnv 0x00b1ebc0
 void FUN_00b1ebc0::FUN_00b1ebc0_Destroy(VdElemV* _First, VdElemV* _Last)
@@ -8442,6 +8315,70 @@ void FUN_00b1ebc0::FUN_00b1ebc0_Destroy(VdElemV* _First, VdElemV* _Last)
 }
 
 // namespace fnv_00b1ebc0
+
+// Frees the buffer at p after calling FUN_00b1ebc0 on p and q, then resets p, q and r to null.
+// @fnv 0x00b1ec70
+void FUN_00b1ec70_class::FUN_00b1ec70()
+{
+    int a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12;
+    if (p)
+    {
+        reinterpret_cast<::fnv_00b1ebc0::FUN_00b1ebc0 *>(this)->FUN_00b1ebc0_Destroy((::fnv_00b1ebc0::vecdb1eb::VdElemV *)(p), (::fnv_00b1ebc0::vecdb1eb::VdElemV *)(q));
+        int n = (int)((char*)r - (char*)p) / 0x38;
+        int* pBuffer = p;
+        ::FUN_00401030(pBuffer);
+    }
+    p = 0;
+    q = 0;
+    r = 0;
+}
+
+// Shifts the 0x38-byte elements after q down, drops the last one (p10 -= 0x38), and returns out holding i0 and q; calls FUN_00ec7c56 if q is out of range.
+// @fnv 0x00b1dd80
+int* S00b1dd80_Obj::FUN_00b1dd80(int* out, int* p, unsigned int q)
+{
+    int u0;
+    int u1;
+    int u2;
+    int u3;
+    int u4;
+    int u5;
+    int u6;
+    int u7;
+    int u8;
+    int u9;
+    int u10;
+    int u11;
+    int u12;
+    int u13;
+    int u14;
+    int u15;
+    int u16;
+    int u17;
+    int u18;
+    int u19;
+    int u20;
+    int u21;
+    int u22;
+    int u23;
+    int u24;
+
+    ::fnv_00b23760::FUN_00b23760((::fnv_00b23760::cpyb237::GvElem *)(q + 0x38), (::fnv_00b23760::cpyb237::GvElem *)(p10), (::fnv_00b23760::cpyb237::GvElem *)(q));
+    reinterpret_cast<::fnv_00b1ebc0::FUN_00b1ebc0 *>(this)->FUN_00b1ebc0_Destroy((::fnv_00b1ebc0::vecdb1eb::VdElemV *)(int *)((int*)(p10 - 0x38)), (::fnv_00b1ebc0::vecdb1eb::VdElemV *)(int *)((int*)p10));
+    p10 -= 0x38;
+
+    *out = 0;
+
+    if (this == 0 || ic > q || q > p10)
+    {
+        std::abort();
+    }
+
+    *out = i0;
+    out[1] = q;
+
+    return out;
+}
 
 namespace fnv_00b1ecf0 {
 struct MoveCatQ
@@ -8747,7 +8684,6 @@ void VecQ::FUN_00b1ecf0(CItQ _Where, unsigned _Count, const ElQ& _Val)
 // namespace fnv_00b1ecf0
 
 namespace buyElement24 {
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -8836,7 +8772,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -9137,7 +9073,6 @@ bool BxVector::FUN_00b1f590(unsigned int _Capacity)
 }
 
 namespace fnv_00b1f800 {
-void __cdecl operator delete(void*);
 int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 struct EraseSecureTag
 {
@@ -9207,7 +9142,6 @@ struct EraseElement
         reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
 };
-void __cdecl operator delete(void*);
 EraseElement* __cdecl FUN_00b23830(EraseElement*, EraseElement*, EraseElement*);
 struct EraseVector;
 struct EraseIteratorBase
@@ -9357,10 +9291,7 @@ EraseIterator EraseVector::FUN_00b1f800(EraseConstIterator first_arg, EraseConst
 // namespace fnv_00b1f800
 
 namespace fnv_00b1f9e0 {
-void __cdecl operator delete(void* _Ptr) throw();
 extern int DAT_010173f0;
-inline void operator delete(void*, void*)
-{}
 namespace tidyb1f9 {
 void FUN_00ec7c56();
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
@@ -9368,7 +9299,6 @@ template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -10294,7 +10224,6 @@ void FUN_00b1f9e0::FUN_00b1f9e0_Tidy()
 
 namespace fnv_00b1fbe0 {
 namespace buyb1f {
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -10383,7 +10312,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -10965,16 +10894,12 @@ void VecQ::FUN_00b20360(CItQ _Where, unsigned _Count, const ElQ& _Val)
 // namespace fnv_00b20360
 
 namespace fnv_00b20ba0 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace auxb20b {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -13071,16 +12996,12 @@ FUN_00b23520_It& FUN_00b23520_It::FUN_00b23520(int _Off)
 }
 
 namespace fnv_00b23760 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace cpyb237 {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -14540,9 +14461,6 @@ EUMB* __cdecl FUN_00b23930(EUMB* _First, EUMB* _Last, EUMB* _Dest)
 // namespace fnv_00b23930
 
 namespace fnv_00b239e0 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace cbkb239 {
 template <class T> inline void swap(T& _Left, T& _Right)
 {
@@ -14558,7 +14476,6 @@ template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -14911,7 +14828,7 @@ template <class T> struct GvAlloc
     }
     void construct(pointer _Ptr, const T& _Val)
     {
-        GvConstruct(_Ptr, _Val);
+        ::dtorb181::GvConstruct(_Ptr, _Val);
     }
     unsigned int max_size() const throw()
     {
@@ -18437,7 +18354,7 @@ template <class _Ty> class allocatorS
     typedef _Ty* pointer;
     void destroy(pointer _Ptr)
     {
-        _DestroyS(_Ptr);
+        ::_DestroyS(_Ptr);
     }
 };
 template <class _Ty> inline void _DestroyS(_Ty* _Ptr)
@@ -18770,7 +18687,7 @@ template <class _Ty> class allocatorS
     typedef _Ty* pointer;
     void destroy(pointer _Ptr)
     {
-        _DestroyS(_Ptr);
+        ::_DestroyS(_Ptr);
     }
 };
 template <class _Ty> inline void _DestroyS(_Ty* _Ptr)
@@ -19847,16 +19764,12 @@ Elem64a0* __cdecl FUN_00b264a0(Elem64a0* _First, Elem64a0* _Last, Elem64a0* _Des
 // namespace fnv_00b264a0
 
 namespace fnv_00b26ab0 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace swapb26a {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -20209,7 +20122,7 @@ template <class T> struct GvAlloc
     }
     void construct(pointer _Ptr, const T& _Val)
     {
-        GvConstruct(_Ptr, _Val);
+        ::dtorb181::GvConstruct(_Ptr, _Val);
     }
     unsigned int max_size() const throw()
     {
@@ -20884,16 +20797,12 @@ void __cdecl FUN_00b26b50(SFrondGuideEntry* first, int hole, int bottom, SFrondG
 }
 
 namespace fnv_00b26ce0 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace cbkb26c {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -21780,8 +21689,6 @@ GvElem* FUN_00b26ce0(GvElem* _First, GvElem* _Last, GvElem* _Dest)
 // namespace fnv_00b26ce0
 
 namespace fnv_00b26db0 {
-inline void operator delete(void*, void*)
-{}
 struct ElQ
 {
     int m[14];
@@ -21817,16 +21724,12 @@ ElQ* FUN_00b26db0(ElQ* first, ElQ* last, ElQ* dest)
 // namespace fnv_00b26db0
 
 namespace fnv_00b26e80 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace pushb26e {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -22705,16 +22608,12 @@ void FUN_00b26e80(GvElem* _First, int _Hole, int _Top, GvElem _Val, GvElemLess _
 // namespace fnv_00b26e80
 
 namespace fnv_00b26f90 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace popb26f {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -23067,7 +22966,7 @@ template <class T> struct GvAlloc
     }
     void construct(pointer _Ptr, const T& _Val)
     {
-        GvConstruct(_Ptr, _Val);
+        ::dtorb181::GvConstruct(_Ptr, _Val);
     }
     unsigned int max_size() const throw()
     {
@@ -23976,7 +23875,6 @@ template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
 }
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -24065,7 +23963,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -24317,7 +24215,7 @@ template <class T> struct GvAlloc
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::operator delete(_Ptr);
     }
     void destroy(pointer _Ptr)
     {
@@ -26048,9 +25946,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     pointer _Mylast;
     pointer _Myend;
 };
-extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(std::size_t uiSize);
 namespace std {
 class bad_alloc
 {
@@ -26576,12 +26472,6 @@ SA4830* __cdecl FUN_00b23b00(SA4830* _First, SA4830* _Last, SA4830* _Dest)
 // namespace fnv_00b23b00
 
 namespace fnv_00b24180 {
-inline void* operator new(std::size_t, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 inline void FreeQ(void* p)
 {
     ::FUN_00401030(p);
@@ -26639,12 +26529,6 @@ void FUN_00b24180(ElemQ* first, unsigned int n, const ElemQ& val)
 // namespace fnv_00b24180
 
 namespace fnv_00b243a0 {
-inline void* operator new(std::size_t, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct StrY
 {
     char b[0x1c];
@@ -26692,12 +26576,6 @@ void FUN_00b243a0(FUN_00b22f80* first, unsigned int n, const FUN_00b22f80& val)
 // namespace fnv_00b243a0
 
 namespace fnv_00b24580 {
-inline void* operator new(std::size_t, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 inline void FreeQ(void* p)
 {
     ::FUN_00401030(p);
@@ -26918,7 +26796,7 @@ inline _BidIt2 _Copy_backward_optS(_BidIt1 _First, _BidIt1 _Last, _BidIt2 _Dest,
                                    _Nonscalar_ptr_iterator_tagS, _Range_checked_iterator_tagS)
 {
     while (_First != _Last)
-        reinterpret_cast<::S00b24a80_Obj *>((void *)&(const ::fnv_00b24830::SA4830 &)(*--_Dest))->FUN_00b24a80((::S00b24a80_Obj *)&(*--_Last));
+        reinterpret_cast<::S00b24a80_Obj *>((void *)&(*--_Dest))->FUN_00b24a80((::S00b24a80_Obj *)&(*--_Last));
     return (_Dest);
 }
 template <class _InIt, class _OutIt>
@@ -27186,9 +27064,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     pointer _Mylast;
     pointer _Myend;
 };
-extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(std::size_t uiSize);
 namespace std {
 class bad_alloc
 {
@@ -28061,9 +27937,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     pointer _Mylast;
     pointer _Myend;
 };
-extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(std::size_t uiSize);
 namespace std {
 class bad_alloc
 {
@@ -28503,12 +28377,6 @@ E48C0* __cdecl FUN_00b248c0(E48C0* _First, E48C0* _Last, E48C0* _Dest, random_ac
 // namespace fnv_00b248c0
 
 namespace fnv_00b25ba0 {
-inline void* operator new(std::size_t, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct StrY
 {
     char b[0x1c];
@@ -28557,12 +28425,6 @@ FUN_00b22f80* FUN_00b25ba0(FUN_00b22f80* first, FUN_00b22f80* last, FUN_00b22f80
 // namespace fnv_00b25ba0
 
 namespace fnv_00b25ca0 {
-inline void* operator new(std::size_t, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 inline void FreeQ(void* p)
 {
     ::FUN_00401030(p);
@@ -28636,12 +28498,6 @@ ElemQ* FUN_00b25ca0(ElemQ* first, ElemQ* last, ElemQ* dest)
 // namespace fnv_00b25ca0
 
 namespace fnv_00b25e20 {
-inline void* operator new(std::size_t, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 inline void FreeQ(void* p)
 {
     ::FUN_00401030(p);
@@ -28714,12 +28570,6 @@ ElemQ* FUN_00b25e20(ElemQ* first, ElemQ* last, ElemQ* dest)
 // namespace fnv_00b25e20
 
 namespace fnv_00b25fa0 {
-inline void* operator new(std::size_t, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 inline void FreeQ(void* p)
 {
     ::FUN_00401030(p);
@@ -31551,7 +31401,7 @@ template <class T> struct ValueAllocator
     }
     void deallocate(pointer ptr, unsigned int)
     {
-        ::FUN_00401030 delete(ptr);
+        ::operator delete(ptr);
     }
     void construct(pointer ptr, const T& value)
     {
@@ -31672,16 +31522,12 @@ FUN_00b22ff0::FUN_00b22ff0(const FUN_00b22ff0& _Right) : VectorOperations(_Right
 }
 }
 
-namespace FrondComputeCrt {
-extern "C" unsigned __cdecl strlen(const char*);
-}
-
-namespace std {
+namespace frondstd {
 template <class T> struct char_traits
 {
     static unsigned length(const T* text)
     {
-        return FrondComputeCrt::strlen(text);
+        return (unsigned)::strlen(text);
     }
     static void assign(T& dest, const T& value)
     {
@@ -31699,7 +31545,7 @@ template <class T> class allocator
     {}
     void deallocate(T* ptr, unsigned)
     {
-        ::FUN_00401030 delete(ptr);
+        ::operator delete(ptr);
     }
     T* allocate(unsigned count)
     {
@@ -31845,7 +31691,7 @@ class basic_string : public StringValue<T, Alloc>
     }
     Self& append(const T* text)
     {
-        return (*(::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(reinterpret_cast<::StrA *>(this)->FUN_00a0c430(text, Traits::length(text))));
+        return (*(Self *)&(reinterpret_cast<::StrA *>(this)->FUN_00a0c430(text, Traits::length(text))));
     }
     unsigned size() const
     {
@@ -31962,7 +31808,7 @@ int* __cdecl GetErrorNumber();
 
 char* __cdecl GetErrorText(int);
 
-namespace std {
+namespace frondstd {
 template <class T, class Traits, class Alloc>
 inline basic_string<T, Traits, Alloc> operator+(const basic_string<T, Traits, Alloc>& left, const T* right)
 {
@@ -31976,12 +31822,13 @@ inline basic_string<T, Traits, Alloc> operator+(const basic_string<T, Traits, Al
 }
 }
 
-class IdvFileError : public std::runtime_error
+class IdvFileError : public frondstd::runtime_error
 {
   public:
-    IdvFileError(const std::string& message, bool systemError)
-        : std::runtime_error(message + " [" +
-                             (systemError ? std::string(GetErrorText(*GetErrorNumber())) : std::string("")) + "]")
+    IdvFileError(const frondstd::string& message, bool systemError)
+        : frondstd::runtime_error(message + " [" +
+                                  (systemError ? frondstd::string(GetErrorText(*GetErrorNumber())) : frondstd::string("")) +
+                                  "]")
     {}
 };
 
@@ -32052,16 +31899,16 @@ void FrondEngine::FUN_00b18fd0(FrondGeometry* output, void* context)
     auxiliary = context;
     int vertexCount = 0;
     reinterpret_cast<::frondlod::Processor *>(this)->FUN_00b1c850();
-    for (unsigned i = 0; i < reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0).size(); ++i)
+    for (unsigned i = 0; i < guides[0].size(); ++i)
     {
         switch (mode)
         {
         case 0: {
-            vertexCount += reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0)))->FUN_00b1db00(i).vertices.size() * 2 * bladeCount;
+            vertexCount += guides[0][i].vertices.size() * 2 * bladeCount;
             break;
         }
         case 1: {
-            vertexCount += reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0)))->FUN_00b1db00(i).vertices.size() * (extrusionCount * 2 - 1);
+            vertexCount += guides[0][i].vertices.size() * (extrusionCount * 2 - 1);
             break;
         }
         default:
@@ -32069,37 +31916,37 @@ void FrondEngine::FUN_00b18fd0(FrondGeometry* output, void* context)
         }
     }
     if (vertexCount > 65535)
-        throw std::runtime_error((*(::FUN_0044a4c0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)(vertexLimitMessage), (const char *)(65535)))));
+        throw frondstd::runtime_error((*(::FUN_0044a4c0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)(vertexLimitMessage), (const char *)(65535)))));
     reinterpret_cast<::VectorSet *>((geometry))->FUN_00b2fb30(geometryType);
     switch (mode)
     {
     case 0: {
-        for (unsigned i = 0; i < reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0).size(); ++i)
+        for (unsigned i = 0; i < guides[0].size(); ++i)
         {
-            reinterpret_cast<::FrondBuilder *>(this)->FUN_00b19ad0((::FrondInput *)&(reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0)))->FUN_00b1db00(i)));
+            reinterpret_cast<::FrondBuilder *>(this)->FUN_00b19ad0((::FrondInput *)&(guides[0][i]));
         }
         for (unsigned short level = 0; level < guides.size(); ++level)
         {
             reinterpret_cast<::Cls *>((geometry))->FUN_00b306d0(level);
-            for (unsigned j = 0; j < reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(level).size(); ++j)
+            for (unsigned j = 0; j < guides[level].size(); ++j)
             {
-                reinterpret_cast<::MeshS *>(this)->FUN_00b1aed0(level, reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0)))->FUN_00b1db00(j).i30, (::VecS *)&(reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(level)))->FUN_00b1db00(j)));
+                reinterpret_cast<::MeshS *>(this)->FUN_00b1aed0(level, guides[0][j].i30, (::VecS *)&(guides[level][j]));
             }
         }
         break;
     }
     case 1: {
-        for (unsigned i = 0; i < reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0).size(); ++i)
+        for (unsigned i = 0; i < guides[0].size(); ++i)
         {
-            reinterpret_cast<::B1FrondBuilder *>(this)->FUN_00b1b000((::FrondInput *)&(reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0)))->FUN_00b1db00(i)));
+            reinterpret_cast<::B1FrondBuilder *>(this)->FUN_00b1b000((::FrondInput *)&(guides[0][i]));
         }
         for (unsigned short level = 0; level < guides.size(); ++level)
         {
             reinterpret_cast<::Cls *>((geometry))->FUN_00b306d0(level);
-            for (unsigned j = 0; j < reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(level).size(); ++j)
+            for (unsigned j = 0; j < guides[level].size(); ++j)
             {
-                reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(level)))->FUN_00b1db00(j).i34 = reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0)))->FUN_00b1db00(j).i34;
-                reinterpret_cast<::FUN_00b1b960_class *>(this)->FUN_00b1b960(level, reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0)))->FUN_00b1db00(j).i30, (::LodGrid *)&(reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(level)))->FUN_00b1db00(j)));
+                guides[level][j].i34 = guides[0][j].i34;
+                reinterpret_cast<::FUN_00b1b960_class *>(this)->FUN_00b1b960(level, guides[0][j].i30, (::LodGrid *)&(guides[level][j]));
             }
         }
         break;

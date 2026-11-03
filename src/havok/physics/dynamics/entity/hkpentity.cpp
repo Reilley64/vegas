@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/entity/hkpentity.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/hkpentity.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -1723,25 +1724,6 @@ void hkpEntityC9C::FUN_00c9c1d0()
     }
 }
 
-class hkMemoryAllocatorC9C6
-{
-  public:
-    virtual ~hkMemoryAllocatorC9C6() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-};
-
-struct hkMemoryRouterC9C6
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorC9C6* m_pStreamAllocator;
-    hkMemoryAllocatorC9C6& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace fnvc_adapt {
 
@@ -1776,7 +1758,7 @@ struct ListenersC9C6
 {
     static void* operator new(size_t nbytes)
     {
-        return (*static_cast<hkMemoryRouterC9C6*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes);
+        return hkMemoryRouter::getInstance().heap().blockAlloc(nbytes);
     }
 
     hkSmallArrayC9C6<void*> m_pHeadNode;
@@ -1814,17 +1796,7 @@ void HostC9C6::FUN_00c9c670(void* pvListener)
 }
 
 namespace fnv_00c9c7c0 {
-class hkMemoryAllocatorC9C7;
 
-struct hkMemoryRouterC9C7
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorC9C7* m_pStreamAllocator;
-    hkMemoryAllocatorC9C7& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace fnvc_adapt {
 
@@ -1841,7 +1813,7 @@ template <class T> class hkArrayC9C7
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    __forceinline void reserve(hkMemoryAllocatorC9C7& kAlloc, int n)
+    __forceinline void reserve(hkMemoryAllocator& kAlloc, int n)
     {
         const int iCap = getCapacity();
         if (iCap < n)
@@ -1853,7 +1825,7 @@ template <class T> class hkArrayC9C7
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        reserve((*static_cast<hkMemoryRouterC9C7*>(::FUN_00c85750())).heap(), n);
+        reserve(hkMemoryRouter::getInstance().heap(), n);
         m_iElementCount = n;
     }
     T& operator[](int i)
@@ -2591,23 +2563,6 @@ hkpThinBoxMotion::hkpThinBoxMotion(hkC9D1::FinishingFlag flag) : hkC9D1::hkpMoti
 }  // namespace fnv_00c9d1f0
 
 namespace fnv_00c9c8f0 {
-struct FnvMem
-{
-    virtual void f00() = 0;
-    virtual void f04() = 0;
-    virtual void freeArray(void*, unsigned int) = 0;
-    virtual void f0c() = 0;
-    virtual void freeBlock(void*, unsigned int) = 0;
-};
-struct FnvRouter
-{
-    void* a;
-    void* b;
-    void* c;
-    void* d;
-    FnvMem* heap;
-};
-
 
 struct FnvRA
 {
@@ -2633,9 +2588,9 @@ struct FnvSmall
         {
             unsigned c = flags & 0x3fff;
             void* d = data;
-            FnvRouter* router = static_cast<FnvRouter*>(::FUN_00c85750());
-            FnvMem* mem = router->heap;
-            mem->freeArray(d, c * elem);
+            hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+            hkMemoryAllocator* mem = router->m_heap;
+            mem->blockFree(d, c * elem);
         }
     }
     __forceinline void clearAndDealloc(int elem)
@@ -2685,9 +2640,9 @@ struct FnvTwo
     {
         two.releaseMem(4);
         one.releaseMem(4);
-        FnvRouter* router = static_cast<FnvRouter*>(::FUN_00c85750());
-        FnvMem* mem = router->heap;
-        mem->freeArray(this, 16);
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* mem = router->m_heap;
+        mem->blockFree(this, 16);
     }
 };
 struct EntityRebuild
@@ -2834,12 +2789,12 @@ void EntityRebuild::FUN_00c9c8f0()
     }
     if (n64 == 0)
     {
-        FnvRouter* router = static_cast<FnvRouter*>(::FUN_00c85750());
-        FnvMem* mem = router->heap;
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* mem = router->m_heap;
         int f = f68;
         n64 = 0;
         if (!(f & 0x80000000))
-            mem->freeBlock(p60, (f & 0x3fffffff) * 8);
+            mem->bufFree(p60, (f & 0x3fffffff) * 8);
         p60 = 0;
         f68 = 0x80000000;
     }
@@ -2847,23 +2802,23 @@ void EntityRebuild::FUN_00c9c8f0()
         master.clearAndDealloc(48);
     if (slave.size == 0)
     {
-        FnvRouter* router = static_cast<FnvRouter*>(::FUN_00c85750());
-        FnvMem* mem = router->heap;
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* mem = router->m_heap;
         int f = slave.flags;
         slave.size = 0;
         if (!(f & 0x80000000))
-            mem->freeBlock(slave.data, (f & 0x3fffffff) * 4);
+            mem->bufFree(slave.data, (f & 0x3fffffff) * 4);
         slave.data = 0;
         slave.flags = 0x80000000;
     }
     if (runtime.size == 0)
     {
-        FnvRouter* router = static_cast<FnvRouter*>(::FUN_00c85750());
-        FnvMem* mem = router->heap;
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* mem = router->m_heap;
         int f = runtime.flags;
         runtime.size = 0;
         if (!(f & 0x80000000))
-            mem->freeBlock(runtime.data, f & 0x3fffffff);
+            mem->bufFree(runtime.data, f & 0x3fffffff);
         runtime.data = 0;
         runtime.flags = 0x80000000;
     }

@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/hkpphysicssystem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpphysicssystem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -243,14 +244,6 @@ struct Array64
     int size;
     unsigned int capacityAndFlags;
 };
-struct Router64
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    void* allocator;
-};
 
 void __cdecl ResizeAudioStream(void* allocator, Array64* array, int elementSize);
 struct Container64
@@ -268,10 +261,10 @@ void Container64::AddShape(Shape64* pShape)
     {
         reinterpret_cast<::FUN_00c90510_class *>((pShape))->FUN_00c90510();
         Array64* pArray = &array;
-        Router64* router = static_cast<Router64*>(::FUN_00c85750());
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
         if (pArray->size == (pArray->capacityAndFlags & 0x3fffffff))
         {
-            ResizeAudioStream(router->allocator, pArray, 4);
+            ResizeAudioStream(router->m_heap, pArray, 4);
         }
         ShapePtr64* pSlot = pArray->items + pArray->size;
         __assume(pSlot != 0);
@@ -328,20 +321,6 @@ FUN_00d065e0::FUN_00d065e0() throw() : m_name(0), m_3c(0), m_40(true)
 {}
 
 namespace fnv_00d06c00 {
-struct FnvCpu_FUN_00d06c00_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00d06c00_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00d06c00_CpuAllocator* allocator;
-};
 
 struct FnvCpu_FUN_00d06c00_CpuObject
 {
@@ -355,8 +334,8 @@ FnvCpu_FUN_00d06c00_CpuObject* FnvCpu_FUN_00d06c00_CpuObject::FUN_00d06c00(unsig
     reinterpret_cast<::FUN_00d06640_class *>(this)->Destroy();
     if (flags & 1)
     {
-        FnvCpu_FUN_00d06c00_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00d06c00_CpuAllocatorHolder*>(::FUN_00c85750());
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }

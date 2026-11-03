@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/hkpvehicleinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -908,25 +909,6 @@ struct VehicleInstance
 };
 
 
-class hkMemoryAllocatorE392
-{
-  public:
-    virtual ~hkMemoryAllocatorE392() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-};
-
-struct hkMemoryRouterE392
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorE392* m_pStreamAllocator;
-    hkMemoryAllocatorE392& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 class hkRefObjectE392
 {
@@ -1009,7 +991,7 @@ class FUN_00e38b20
     void* operator new(size_t nbytes)
     {
         FUN_00e38b20* b = static_cast<FUN_00e38b20*>(
-            static_cast<hkMemoryRouterE392*>(::FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
+            hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }

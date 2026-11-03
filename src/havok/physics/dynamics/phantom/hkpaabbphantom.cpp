@@ -250,21 +250,6 @@ void hkpAabbPhantomCF2A::AddToStatisticsCollector(hkStatisticsCollectorCF2A* pkC
     reinterpret_cast<::FUN_00d07cf0_cls *>((void *)this)->WritePhantomLists((::PhArchive *)(pkCollector), &::g_0126902c);
 }
 
-class hkMemoryAllocatorCF2C;
-
-struct hkMemoryRouterCF2C
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorCF2C* m_pStreamAllocator;
-    hkMemoryAllocatorCF2C& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 
 template <class T> __forceinline void constructWithCopyCF2C(T* p, int n, const T& t)
@@ -286,7 +271,7 @@ template <class T> class hkArrayCF2C
     }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorCF2C& kAlloc = (*static_cast<hkMemoryRouterCF2C*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyCF2C(m_data + m_iElementCount, 1, t);
@@ -527,28 +512,7 @@ FUN_00cf2bf0::~FUN_00cf2bf0() throw()
 }  // namespace fnv_00cf2bf0
 
 namespace fnv_00cf2c50 {
-class hkMemoryAllocatorCF2C
-{
-  public:
-    virtual ~hkMemoryAllocatorCF2C() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iNumBytes) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterCF2C
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorCF2C* m_pStreamAllocator;
-    hkMemoryAllocatorCF2C& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 namespace hkRouterCF2C {
 
 }
@@ -562,10 +526,10 @@ template <class T> class hkArrayCF2C
 
     void ClearAndRelease() throw()
     {
-        hkMemoryAllocatorCF2C& kAlloc = (*static_cast<hkMemoryRouterCF2C*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }

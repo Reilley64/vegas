@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/hkpsimulationisland.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpsimulationisland.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/D28030UnionFind.h"
 #include "fnv/symbols_00c90000.h"
@@ -1128,16 +1129,6 @@ struct ItemList
     unsigned int m_capFlags;  // +0x08 (low 30 bits = capacity)
 };
 
-struct GlobalHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* m_alloc;  // +0x10
-};
-
-
 
 struct FUN_00d07420_cls
 {
@@ -1203,10 +1194,10 @@ void FUN_00d07420_cls::FUN_00d07420(FUN_00d07420_cls* item)
     item->m_cc = this;
     item->m_a8 = (unsigned short)m_kNode.m_uiItemCount;
     ItemList* list = &m_kNode;
-    GlobalHolder* holder = static_cast<GlobalHolder*>(::FUN_00c85750());
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
     if (list->m_uiItemCount == (int)(list->m_capFlags & 0x3fffffffu))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(holder->m_alloc), (::AudioStream *)(list), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(list), 4);
     }
     void** slot = list->m_data + list->m_uiItemCount;
     *slot = item;

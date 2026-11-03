@@ -590,16 +590,6 @@ struct PairList
     unsigned int m_capBits;
 };
 
-struct AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pAllocator;
-};
-
-
 
 struct FUN_00d027c0_cls
 {
@@ -624,10 +614,10 @@ void FUN_00d027c0_cls::ProcessPairEntry(PairEntry* entry)
         if (na[0xe8] != 5 && nb[0xe8] != 5 && *(int*)(na + 0xcc) != *(int*)(nb + 0xcc))
         {
             PairList* list = (PairList*)(m_pSharedOwner + 0x90);
-            AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
+            hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
             if (list->m_uiItemCount == (int)(list->m_capBits & 0x3fffffffu))
             {
-                ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(list), 8);
+                ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(list), 8);
             }
             PairEntry* slot = &list->m_data[list->m_uiItemCount];
             if (slot != 0)
@@ -1134,20 +1124,6 @@ void __cdecl QuickSortPairs(SortPair8* apPairs, int lo, int hi, SortPairLess apL
 }
 
 namespace fnv_00d04320 {
-struct CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    CpuAllocator* allocator;
-};
 
 struct CpuObject
 {
@@ -1163,8 +1139,8 @@ CpuObject* CpuObject::FUN_00d04320(unsigned int flags)
     FUN_00d02da0();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = static_cast<CpuAllocatorHolder*>(::FUN_00c85750());
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }
@@ -1811,28 +1787,9 @@ namespace fnv_00d02da0 {
 // ---------------------------------------------------------------------------
 
 
-// The audio sink reached through the global BSAudio instance.  Releasing a
+// The audio sink reached through the global hkMemoryRouter instance.  Releasing a
 // streamed buffer is a virtual call: the routine lives in the fifth vtable
 // slot, i.e. at offset 0x10 of the vtable.
-struct AudioSink
-{
-    virtual void unk01();
-    virtual void unk02();
-    virtual void unk03();
-    virtual void unk04();
-    virtual void Release(void* data, int size);
-};
-
-struct BSAudio
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioSink* m_sink;
-};
-
-
 
 // A streamed audio buffer: the size field counts the live items, the data
 // pointer is handed back to the audio sink when the buffer is released.
@@ -1934,22 +1891,22 @@ FUN_00d02da0::~FUN_00d02da0()
     DeleteCriticalSection(&m_critical100);
     DeleteCriticalSection(&m_critical9c);
     {
-        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
-        AudioSink* sink = audio->m_sink;
+        hkMemoryRouter* audio = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* sink = audio->m_heap;
         int items = m_audio90.m_iElementCount;
         m_audio90.m_uiItemCount = 0;
         if (!(items & 0x80000000))
-            sink->Release(m_audio90.m_data, (items & 0x3fffffff) * 8);
+            sink->bufFree(m_audio90.m_data, (items & 0x3fffffff) * 8);
         m_audio90.Clear();
     }
     DeleteCriticalSection(&m_critical78);
     {
-        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
-        AudioSink* sink = audio->m_sink;
+        hkMemoryRouter* audio = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* sink = audio->m_heap;
         int items = m_audio6c.m_iElementCount;
         m_audio6c.m_uiItemCount = 0;
         if (!(items & 0x80000000))
-            sink->Release(m_audio6c.m_data, (items & 0x3fffffff) * 8);
+            sink->bufFree(m_audio6c.m_data, (items & 0x3fffffff) * 8);
         m_audio6c.Clear();
     }
     m_listenerA.vptr = m_listenerB.vptr = m_listenerC.vptr = &::DAT_010c63bc;

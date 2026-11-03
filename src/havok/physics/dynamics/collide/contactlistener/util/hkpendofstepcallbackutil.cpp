@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/collide/contactlistener/util/hkpendofstepcallbackutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/contactlistener/util/hkpendofstepcallbackutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/SearchArray.h"
 #include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
@@ -1003,31 +1004,19 @@ struct hkArray12_8b0
     int m_uiLogicalSize;
     int m_iCapacityAndFlags;
 };
-struct hkAllocator8b0
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void* BufAlloc(int& iNumBytesInOut);
-    virtual void BufFree(void* pvData, int iNumBytes);
-};
-struct hkRouter8b0
-{
-    int unk00, unk04, unk08, unk0C;
-    hkAllocator8b0* m_pkHeap;
-};
+
 static inline unsigned __int64 GetKey8b0(const hkValue8b0& kValue)
 {
     return ((unsigned __int64)kValue.m_pkObj->m_kPointA->m_iOwnerObjectOffset << 32) |
            kValue.m_pkObj->m_kPointB->m_iOwnerObjectOffset;
 }
 
-static inline hkValue8b0* AllocArray8b0(hkAllocator8b0* pkHeap, int& iCount)
+static inline hkValue8b0* AllocArray8b0(hkMemoryAllocator* pkHeap, int& iCount)
 {
     if (iCount)
     {
         int iNumBytes = iCount * sizeof(hkValue8b0);
-        hkValue8b0* pkData = (hkValue8b0*)pkHeap->BufAlloc(iNumBytes);
+        hkValue8b0* pkData = (hkValue8b0*)pkHeap->bufAlloc(iNumBytes);
         iCount = iNumBytes / (int)sizeof(hkValue8b0);
         return pkData;
     }
@@ -1045,8 +1034,8 @@ void __cdecl FUN_00d9e8b0(hkArray16_8b0* pkNew, hkArray12_8b0* volatile argOut)
         return;
 
     int iTotalCount = pkOut->m_uiLogicalSize + pkNew->m_uiLogicalSize;
-    hkRouter8b0& kRouter0 = *(hkRouter8b0*)::FUN_00c85750();
-    hkValue8b0* pkData = AllocArray8b0(kRouter0.m_pkHeap, iTotalCount);
+    hkMemoryRouter& kRouter0 = hkMemoryRouter::getInstance();
+    hkValue8b0* pkData = AllocArray8b0(kRouter0.m_heap, iTotalCount);
     int iCapacity = iTotalCount ? iTotalCount : 0x80000000;
     hkArray12_8b0 kMerged;
     kMerged.m_iCapacityAndFlags = iCapacity;
@@ -1070,10 +1059,10 @@ void __cdecl FUN_00d9e8b0(hkArray16_8b0* pkNew, hkArray12_8b0* volatile argOut)
 
     reinterpret_cast<::FUN_00d9ec10_cls *>((((hkMergeTarget8b0*)argOut)))->SwapThreeInts((int*)&kMerged);
     pkNew->m_uiLogicalSize = 0;
-    hkRouter8b0& kRouter = *(hkRouter8b0*)::FUN_00c85750();
-    hkAllocator8b0* pkHeap = kRouter.m_pkHeap;
+    hkMemoryRouter& kRouter = hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pkHeap = kRouter.m_heap;
     if ((kMerged.m_iCapacityAndFlags & 0x80000000) == 0)
-        pkHeap->BufFree(kMerged.m_pData, (kMerged.m_iCapacityAndFlags & 0x3fffffff) * sizeof(hkValue8b0));
+        pkHeap->bufFree(kMerged.m_pData, (kMerged.m_iCapacityAndFlags & 0x3fffffff) * sizeof(hkValue8b0));
 }
 
 struct BatchCollision : S_00d9e2b0

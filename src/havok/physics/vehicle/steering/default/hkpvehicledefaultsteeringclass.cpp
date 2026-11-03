@@ -2,30 +2,9 @@
 // src/havok/physics/vehicle/steering/default/hkpvehicledefaultsteeringclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/steering/default/hkpvehicledefaultsteeringclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 
-struct S_00dfee20_Allocator
-{
-    virtual void v0();
-    virtual void* AllocateMemoryBlock(int n);
-    virtual void ReleaseBlock(void* p, int n);
-    virtual void* AllocateBufferWithSize(int& n);
-    virtual void ReturnMemory(void* p, int n);
-};
-
-struct S_00dfee20_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00dfee20_Allocator* unk10;
-    
-    S_00dfee20_Allocator& heap()
-    {
-        return *unk10;
-    }
-};
 
 struct S_00dfee20_Array
 {
@@ -33,17 +12,17 @@ struct S_00dfee20_Array
     int m_iElementCount;
     int m_iCapacityState;
 
-    void _clearAndDeallocate(S_00dfee20_Allocator& alloc) throw()
+    void _clearAndDeallocate(hkMemoryAllocator& alloc) throw()
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(unsigned char));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(unsigned char));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
     ~S_00dfee20_Array() throw()
     {
-        _clearAndDeallocate((*static_cast<S_00dfee20_Router*>(::FUN_00c85750())).heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 
@@ -58,7 +37,7 @@ struct S_00dfee20_Base
     static void operator delete(void* p)
     {
         S_00dfee20_Base* b = static_cast<S_00dfee20_Base*>(p);
-        (*static_cast<S_00dfee20_Router*>(::FUN_00c85750())).heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, b->m_usMemSizeAndFlags);
     }
 };
 

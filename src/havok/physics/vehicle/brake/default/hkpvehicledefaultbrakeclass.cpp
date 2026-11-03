@@ -2,30 +2,8 @@
 // src/havok/physics/vehicle/brake/default/hkpvehicledefaultbrakeclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/brake/default/hkpvehicledefaultbrakeclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
-
-struct S_00dfc080_Allocator
-{
-    virtual void v0();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-    virtual void* AllocateBufferWithSize(int& reqNumBytes);
-    virtual void ReturnMemory(void* p, int numBytes);
-};
-
-struct S_00dfc080_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00dfc080_Allocator* m_pStreamAllocator;
-    S_00dfc080_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 
 struct S_00dfc080_RefObj
@@ -37,7 +15,7 @@ struct S_00dfc080_RefObj
     static void operator delete(void* p, size_t)
     {
         S_00dfc080_RefObj* b = static_cast<S_00dfc080_RefObj*>(p);
-        static_cast<S_00dfc080_Router*>(::FUN_00c85750())->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, b->m_usMemSizeAndFlags);
     }
 };
 
@@ -53,17 +31,17 @@ template <class T> struct S_00dfc080_Array
     T* m_data;
     int m_iElementCount;
     int m_iCapacityState;
-    void _clearAndDeallocate(S_00dfc080_Allocator& alloc)
+    void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
     ~S_00dfc080_Array() throw()
     {
-        _clearAndDeallocate(static_cast<S_00dfc080_Router*>(::FUN_00c85750())->heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 

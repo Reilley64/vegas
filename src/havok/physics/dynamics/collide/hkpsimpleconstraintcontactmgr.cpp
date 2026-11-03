@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/collide/hkpsimpleconstraintcontactmgr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/hkpsimpleconstraintcontactmgr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "havok/hkMemoryRouter.h"
 #include <cstdint>
 
 #include "fnv/symbols_00c85000.h"
@@ -794,17 +795,6 @@ ContactObject* FUN_00cfd780_class::AllocateContactObject(OffsetDescriptor* first
 }
 
 namespace fnv_00cfd9f0 {
-class hkMemoryAllocatorCFD9;
-
-struct hkMemoryRouterCFD9 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorCFD9* m_pStreamAllocator;
-    hkMemoryAllocatorCFD9& heap() { return *m_pStreamAllocator; }
-};
-
 
 
 template <class T>
@@ -824,7 +814,7 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorCFD9& kAlloc = (*static_cast<hkMemoryRouterCFD9*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyCFD9(m_data + m_iElementCount, 1, t);
@@ -1027,19 +1017,6 @@ void hkpSimpleConstraintContactMgrCFD5::FUN_00cfd5e0(hkStatisticsCollectorCFD5* 
     pkCollector->endObject();
 }
 
-struct hkAllocatorCFDA {
-    virtual void V0() throw();
-    virtual void V1() throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void V3() throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterCFDA {
-    int unk00, unk04, unk08, unk0C;
-    hkAllocatorCFDA* m_pkHeap;
-    hkAllocatorCFDA& heap() { return *m_pkHeap; }
-};
 
 namespace hkRouterCFDA {
     
@@ -1054,10 +1031,10 @@ struct hkArrayCFDA {
 
     ~hkArrayCFDA() throw()
     {
-        hkAllocatorCFDA& kAlloc = static_cast<hkMemoryRouterCFDA*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -1110,14 +1087,14 @@ FUN_00cfdae0_class* FUN_00cfdae0_class::Destroy(unsigned char flags)
 	return this;
 }
 
-// Releases the hkBlockCFDA held by m_block back to the hkMemoryRouterCFDA heap using its rounded-up bucket size.
+// Releases the hkBlockCFDA held by m_block back to the hkMemoryRouter heap using its rounded-up bucket size.
 // @fnv 0x00cfda50
 FUN_00cfda50::~FUN_00cfda50() throw()
 {
     hkBlockCFDA* pkBlock = m_block;
     if (pkBlock) {
         int iSize = RoundUpToBucketSize(pkBlock->m_type);
-        static_cast<hkMemoryRouterCFDA*>(::FUN_00c85750())->heap().ReleaseBlock(pkBlock, iSize);
+        hkMemoryRouter::getInstance().heap().blockFree(pkBlock, iSize);
     }
 }
 

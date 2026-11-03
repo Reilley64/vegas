@@ -280,7 +280,7 @@ extern const char str_010d1ea0[];
 // @fnv 0x00d686f0
 void DispatchStateHandler()
 {
-    ::DAT_01269004 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::StateTarget * *>(&::DAT_01269cd0))))->FUN_00dd9380(str_010d1ea0, (int)(FUN_00d686b0));
+    ::DAT_01269004 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::StateTarget * *>(&::DAT_01269cd0))))->FUN_00dd9380(str_010d1ea0, reinterpret_cast<intptr_t>(FUN_00d686b0));
 }
 
 struct FUN_00d68270_Base0 {

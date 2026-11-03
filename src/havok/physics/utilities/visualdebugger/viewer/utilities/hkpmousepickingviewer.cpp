@@ -74,7 +74,7 @@ extern int DAT_01268ff8;
 // @fnv 0x00d66c90
 void* __cdecl RegisterMousePicking()
 {
-    DAT_01268ff8 = (int)((void *)(reinterpret_cast<::S_00dd9380 *>((((Registry_00dd9380*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9380("Mouse Picking", (int)(((void (&)())::FUN_00d66c50)))));
+    DAT_01268ff8 = (int)(reinterpret_cast<::S_00dd9380 *>((((Registry_00dd9380*)(::DAT_01269cd0))))->FUN_00dd9380("Mouse Picking", reinterpret_cast<intptr_t>(((void (&)())::FUN_00d66c50))));
     return (void*)DAT_01268ff8;
 }
 

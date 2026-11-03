@@ -2086,7 +2086,7 @@ struct DCE840PointerMap
 
     DCE840PointerMap() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
     {
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(getMemoryRouter().heap()), 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity(reinterpret_cast<intptr_t>(&(getMemoryRouter().heap())), 0);
     }
 
     void reserve(DCE840Allocator& alloc, int numElements);
@@ -2107,11 +2107,11 @@ struct FUN_00dce840
 FUN_00dce840::FUN_00dce840(void* const* keys, int numKeys)
 {
     reinterpret_cast<::FUN_00cb1a60_t *>(&(m_map))->ResetEntries();
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(m_map))->EnsureCapacity((int)&(getMemoryRouter().heap()), numKeys);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(m_map))->EnsureCapacity(reinterpret_cast<intptr_t>(&(getMemoryRouter().heap())), numKeys);
     for (int i = 0; i < numKeys; i++)
     {
         void* key = keys[i];
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(getMemoryRouter().heap()), (unsigned int)(key), 1);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(getMemoryRouter().heap()), reinterpret_cast<uintptr_t>(key), 1);
     }
 }
 }  // namespace fnv_00dce840
@@ -7540,11 +7540,11 @@ struct PointerMap
     }
     void reserve(int numElements)
     {
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(S_00dcdd80_Router::getMemoryRouter().heap()), numElements);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity(reinterpret_cast<intptr_t>(&(S_00dcdd80_Router::getMemoryRouter().heap())), numElements);
     }
     void insert(LinkedCollidable* key, int val)
     {
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(S_00dcdd80_Router::getMemoryRouter().heap()), (unsigned int)(key), val);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(S_00dcdd80_Router::getMemoryRouter().heap()), reinterpret_cast<uintptr_t>(key), val);
     }
     void clear()
     {
@@ -7574,7 +7574,7 @@ void __cdecl FUN_00dcdc00(void* a, BodyEntity** entities, int numEntities, S_00d
         for (int j = 0; j < entries.GetLogicalSize(); j++)
         {
             CollisionKeyEntry& entry = entries[j];
-            if (!map.isValid(reinterpret_cast<::FUN_00cb18f0_t *>(&(map))->FindSlot((int)(entry.m_pCollidable))))
+            if (!map.isValid(reinterpret_cast<::FUN_00cb18f0_t *>(&(map))->FindSlot(reinterpret_cast<intptr_t>(entry.m_pCollidable))))
             {
                 FUN_00dce930* agent = new FUN_00dce930();
                 if (!AddAgentHelper(a, entry, world->unk78, agent))

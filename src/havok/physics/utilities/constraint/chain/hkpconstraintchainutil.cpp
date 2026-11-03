@@ -1059,7 +1059,7 @@ struct S5ba30_Map : public S5ba30_MapBase
     }
     __forceinline void reserve(int numElements)
     {
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(S5ba30_HeapAllocator().get(this)), numElements);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity(reinterpret_cast<intptr_t>(&(S5ba30_HeapAllocator().get(this))), numElements);
     }
 };
 

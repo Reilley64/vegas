@@ -59,8 +59,8 @@ extern int DAT_01268fc0;
 // @fnv 0x00d63000
 void __cdecl RegisterSnapshotCommands()
 {
-    DAT_01268fc4 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::ProfileRegistry * *>(&::DAT_01269cd0))))->FUN_00dd9380("* Grab World Snapshot Native", (int)(((void (&)())::FUN_00d62f20)));
-    DAT_01268fc0 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::ProfileRegistry * *>(&::DAT_01269cd0))))->FUN_00dd9380("* Grab World Snapshot PC", (int)(((void (&)())::AllocateRecordWithData)));
+    DAT_01268fc4 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::ProfileRegistry * *>(&::DAT_01269cd0))))->FUN_00dd9380("* Grab World Snapshot Native", reinterpret_cast<intptr_t>(((void (&)())::FUN_00d62f20)));
+    DAT_01268fc0 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::ProfileRegistry * *>(&::DAT_01269cd0))))->FUN_00dd9380("* Grab World Snapshot PC", reinterpret_cast<intptr_t>(((void (&)())::AllocateRecordWithData)));
 }
 
 struct FUN_00c7be20_cls;
@@ -546,7 +546,7 @@ void FUN_00d63040_cls::FUN_00d63040(float frameTimeInMs)
                 reinterpret_cast<::FUN_00d605d0_class *>((m_pDisplayStream))->FUN_00d605d0(rules.m_bReusePaddingOptimization);
                 reinterpret_cast<::FUN_00d605d0_class *>((m_pDisplayStream))->FUN_00d605d0(rules.m_bEmptyBaseClassOptimization);
                 reinterpret_cast<::hkOArchive_2 *>((m_pDisplayStream))->WriteInt(length);
-                reinterpret_cast<::FUN_00d607b0_class *>((m_pDisplayStream))->FUN_00d607b0((int)(storage.begin()));
+                reinterpret_cast<::FUN_00d607b0_class *>((m_pDisplayStream))->FUN_00d607b0(reinterpret_cast<intptr_t>(storage.begin()));
             }
         }
     }

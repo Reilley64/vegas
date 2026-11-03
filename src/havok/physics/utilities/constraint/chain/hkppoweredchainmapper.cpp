@@ -230,7 +230,7 @@ struct FnMap
     FnMap() throw() : data(0), size(0), capacity(-1)
     {
         FnAllocator& heap = getMemoryRouter()->getHeap();
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)(&heap), 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity(reinterpret_cast<intptr_t>(&heap), 0);
     }
     ~FnMap() throw()
     {

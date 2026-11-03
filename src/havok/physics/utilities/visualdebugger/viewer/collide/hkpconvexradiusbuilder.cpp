@@ -204,7 +204,7 @@ static __declspec(noinline) hkpShape* FUN_00de3360(const VertexSource* src, cons
     stridedVerts.m_iStridedVertexCount = vertices.GetLogicalSize();
     stridedVerts.m_iVertexStride = sizeof(hkVector4);
     stridedVerts.m_kVertices = (const float*)vertices.begin();
-    ::InitAndSetB((void *)&(stridedVerts), (int)&(*geom));
+    ::InitAndSetB((void *)&(stridedVerts), reinterpret_cast<intptr_t>(&(*geom)));
 
     hkpShape* shape = new FUN_00de1d20_Shape(geom);
     return shape;

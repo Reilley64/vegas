@@ -271,7 +271,7 @@ extern char DAT_010d22e0[];
 // @fnv 0x00d6a850
 void FUN_00d6a850()
 {
-    DAT_01269024 = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::Registry_00dd9380 * *>(&::DAT_01269cd0))))->FUN_00dd9380(DAT_010d22e0, (int)(((void (&)())::fnv_00d6a810::FUN_00d6a810)))));
+    DAT_01269024 = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::Registry_00dd9380 * *>(&::DAT_01269cd0))))->FUN_00dd9380(DAT_010d22e0, reinterpret_cast<intptr_t>(((void (&)())::fnv_00d6a810::FUN_00d6a810)))));
 }
 
 struct Target

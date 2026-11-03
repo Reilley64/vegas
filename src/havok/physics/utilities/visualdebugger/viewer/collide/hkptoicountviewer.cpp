@@ -61,7 +61,7 @@ struct Derived : Prefix, Item
 void Item::FUN_00d67bc0(Sink* sink)
 {
     reinterpret_cast<::HostC9C6 *>((sink))->FUN_00c9c670(static_cast<Item*>(reinterpret_cast<Derived*>(reinterpret_cast<char*>(this) - sizeof(Prefix))));
-    reinterpret_cast<::FUN_00cb18f0_t *>(&(link))->FUN_00cb1fb0((int)(sink));
+    reinterpret_cast<::FUN_00cb18f0_t *>(&(link))->FUN_00cb1fb0(reinterpret_cast<intptr_t>(sink));
 }
 
 class PrimaryBase
@@ -173,7 +173,7 @@ class FUN_00d67ce0 : public FUN_00ddccb0,
 FUN_00d67ce0::FUN_00d67ce0(int context) : FUN_00ddccb0(context)
 {
     BSAudio* audio = getMemoryRouter();
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(counts))->EnsureCapacity((int)(audio->allocator), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(counts))->EnsureCapacity(reinterpret_cast<intptr_t>(audio->allocator), 0);
 }
 
 namespace fnv_00d67d60 {
@@ -221,7 +221,7 @@ struct S_00d67e10_Registry
 // @fnv 0x00d67e10
 void RegisterToiCounter()
 {
-    g_00d67e10_toiCounterId = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::S_00d67e10_Registry * *>(&::DAT_01269cd0))))->FUN_00dd9380("TOI counter", (int)(((void *(&)())::fnv_00d67d60::AllocateToiCountViewer)));
+    g_00d67e10_toiCounterId = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::S_00d67e10_Registry * *>(&::DAT_01269cd0))))->FUN_00dd9380("TOI counter", reinterpret_cast<intptr_t>(((void *(&)())::fnv_00d67d60::AllocateToiCountViewer)));
 }
 
 struct BSAudio;
@@ -421,7 +421,7 @@ void FUN_00d67b90_cls::BindAndAttach(int* arg)
 {
     FUN_00d67b90_cls* owner = ((char*)this - 0x30) != 0 ? this : 0;
     reinterpret_cast<::HostC9C6 *>((((OwnerBinding*)arg)))->FUN_00c9c670(owner);
-    reinterpret_cast<::FUN_00cb18f0_t *>(&(m_sub))->FUN_00cb1fb0((int)(arg));
+    reinterpret_cast<::FUN_00cb18f0_t *>(&(m_sub))->FUN_00cb1fb0(reinterpret_cast<intptr_t>(arg));
 }
 
 struct ListItem;
@@ -598,7 +598,7 @@ void FUN_00d67e30_cls::RemoveEntriesForObject(SpawnedObject* a1)
     {
         SpawnedObject** it = &out.m_data[iMatch];
         reinterpret_cast<::HostC9C6 *>(((*it)))->FUN_00c9c670((char*)this - 0x20 != 0 ? (void*)((char*)&this->unk10) : 0);
-        reinterpret_cast<::FUN_00cb18f0_t *>(&(m_14))->FUN_00cb1fb0((int)(*it));
+        reinterpret_cast<::FUN_00cb18f0_t *>(&(m_14))->FUN_00cb1fb0(reinterpret_cast<intptr_t>(*it));
     }
 
     out.clear();
@@ -834,7 +834,7 @@ void Context::ProcessQuery(Query* query)
 // @fnv 0x00d68030
 void ContactViewer::FUN_00d68030(void* entry, int mode)
 {
-    unsigned int index = reinterpret_cast<::FUN_00cb18f0_t *>(&(m_table))->FindSlot((int)(entry));
+    unsigned int index = reinterpret_cast<::FUN_00cb18f0_t *>(&(m_table))->FindSlot(reinterpret_cast<intptr_t>(entry));
     if ((int)index > m_table.m_pRayCursor)
         return;
     unsigned int flags = m_table.m_entries[index].m_flags;
@@ -1019,7 +1019,7 @@ void FUN_00d67c30_cls::FUN_00d67c30(ArgBlock* apBlock)
     do
     {
         Item* item = (Item*)*p;
-        int idx = reinterpret_cast<::FUN_00cb18f0_t *>((t))->FindSlot((int)item);
+        int idx = reinterpret_cast<::FUN_00cb18f0_t *>((t))->FindSlot(reinterpret_cast<intptr_t>(item));
         if (idx <= m_14)
         {
             unsigned int* pFlags = &t->m_entries[idx].m_flags;
@@ -1039,7 +1039,7 @@ void FUN_00d67c30_cls::FUN_00d67c30(ArgBlock* apBlock)
         else
         {
             Holder* h = getMemoryRouter();
-            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((t))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(h->m_10)), (int)item, (int)&DAT_01000001);
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((t))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(h->m_10)), reinterpret_cast<intptr_t>(item), reinterpret_cast<intptr_t>(&DAT_01000001));
             char* owner = ((char*)this - 0x28) != 0 ? (char*)&this->unk08 : 0;
             reinterpret_cast<::FNVOwner *>((item))->FUN_00c9c5b0((int)owner);
         }

@@ -596,7 +596,7 @@ struct MeshUtility
 };
 __forceinline void MeshUtility::ConvertStridedToMesh(const Strided& s, Mesh& m)
 {
-    ::InitAndSetB((void *)&(s), (int)&(m));
+    ::InitAndSetB((void *)&(s), reinterpret_cast<intptr_t>(&(m)));
 }
 struct RefObject
 {

@@ -31,7 +31,7 @@ void* DAT_01269010;
 // @fnv 0x00d68e40
 void* __cdecl RegisterConvexRadius()
 {
-    DAT_01269010 = ((void *)(reinterpret_cast<::S_00dd9380 *>((((FUN_00dd9380_class*)DAT_01269cd0)))->FUN_00dd9380("Convex Radius", (int)(((void *(&)())::fnv_00d68e00::FUN_00d68e00)))));
+    DAT_01269010 = ((void *)(reinterpret_cast<::S_00dd9380 *>((((FUN_00dd9380_class*)DAT_01269cd0)))->FUN_00dd9380("Convex Radius", reinterpret_cast<intptr_t>(((void *(&)())::fnv_00d68e00::FUN_00d68e00)))));
     return DAT_01269010;
 }
 

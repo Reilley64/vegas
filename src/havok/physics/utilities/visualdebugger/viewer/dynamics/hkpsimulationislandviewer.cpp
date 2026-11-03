@@ -316,7 +316,7 @@ extern const char str_010d19d0[];
 // @fnv 0x00d651c0
 void FUN_00d651c0()
 {
-    (*reinterpret_cast<void * *>(&::g_D651E0Value)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::RegistryOwner * *>(&::DAT_01269cd0))))->FUN_00dd9380(str_010d19d0, (int)(((void (&)())::FUN_00d65180)))));
+    (*reinterpret_cast<void * *>(&::g_D651E0Value)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::RegistryOwner * *>(&::DAT_01269cd0))))->FUN_00dd9380(str_010d19d0, reinterpret_cast<intptr_t>(((void (&)())::FUN_00d65180)))));
 }
 
 template <typename T> struct hkArrayD64A

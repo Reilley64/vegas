@@ -937,7 +937,7 @@ int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver)
     new ((void *)&(track)) ::fnv_00d76ca0::FUN_00d76ca0();
     reinterpret_cast<::FUN_00d74d40_cls *>((((Status*)&probe)))->FUN_00d74d40();
     probe.flag = 1;
-    reinterpret_cast<::H77ConvexHull *>(&(track))->FUN_00d77200((*(const ::H77StridedVertices *)(state)), (int)(&probe));
+    reinterpret_cast<::H77ConvexHull *>(&(track))->FUN_00d77200((*(const ::H77StridedVertices *)(state)), reinterpret_cast<intptr_t>(&probe));
     if (reinterpret_cast<::FUN_00d74e10_cls *>(&(track))->FUN_00d74e10() != -1)
     {
         float step = (float)(DAT_011b153c / ::DAT_01020998);
@@ -955,7 +955,7 @@ int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver)
         }
         while (reinterpret_cast<::FUN_00d74e10_cls *>(&(track))->FUN_00d74e10() != 3 || ((double)(reinterpret_cast<::S_00d752e0_Class *>(&(track))->FUN_00d752e0())) < DAT_010cbf48)
         {
-            reinterpret_cast<::H77ConvexHull *>(&(track))->FUN_00d77200((*(const ::H77StridedVertices *)(state)), (int)(&probe));
+            reinterpret_cast<::H77ConvexHull *>(&(track))->FUN_00d77200((*(const ::H77StridedVertices *)(state)), reinterpret_cast<intptr_t>(&probe));
             reinterpret_cast<::ExpandShape *>(&(track))->FUN_00d77be0(step);
             if (reinterpret_cast<::FUN_00d74e10_cls *>(&(track))->FUN_00d74e10() == 3)
                 reinterpret_cast<::D762F0Owner *>(&(track))->FUN_00d762f0();
@@ -1414,7 +1414,7 @@ int __cdecl FUN_00ced090(S_00ced090_State* apState, S_00ced090_Out* out)
         *(__m128*)&m.r0 = *(__m128*)&apState->first[i].unk20;
         *(__m128*)&m.r1 = *(__m128*)&apState->first[i].unk30;
         *(__m128*)&m.r2 = *(__m128*)&apState->first[i].unk40;
-        reinterpret_cast<::FUN_00cd5880_cls *>(&(m))->FUN_00cd5880((unsigned int)(&apState->first[i].unk50));
+        reinterpret_cast<::FUN_00cd5880_cls *>(&(m))->FUN_00cd5880(reinterpret_cast<uintptr_t>(&apState->first[i].unk50));
         S_00ced090_Vec v;
         v.FUN_00c7f640(&apState->first[i].unk50, &apState->first[i].unk10);
         *(__m128*)&v.v = _mm_sub_ps(*(__m128*)&v.v, vAccum);

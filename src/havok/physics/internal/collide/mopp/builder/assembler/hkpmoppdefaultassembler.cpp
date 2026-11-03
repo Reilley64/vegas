@@ -693,11 +693,11 @@ struct FUN_00e06800_cls
     int m_uiItemCount;
     char* m_buf;
 
-    void FUN_00e06800(char a, int v);
+    void FUN_00e06800(char a, intptr_t v);
 };
 
 // @fnv 0x00e06800
-void FUN_00e06800_cls::FUN_00e06800(char acByte, int aiValue)
+void FUN_00e06800_cls::FUN_00e06800(char acByte, intptr_t aiValue)
 {
     m_buf[m_cap - m_uiItemCount - 1] = (char)aiValue;
     m_uiItemCount++;
@@ -760,18 +760,18 @@ struct FUN_00e069a0_cls
     int m_uiItemCount;
     char* m_buf;
 
-    void FUN_00e069a0(char a, unsigned int v);
+    void FUN_00e069a0(char a, uintptr_t v);
 };
 // @fnv 0x00e06c20
 int E06C20Object::FUN_00e06c20(void* data)
 {
-    reinterpret_cast<::FUN_00e069a0_cls *>((m_pStreamWriter))->FUN_00e069a0(0x70, (unsigned int)(data));
+    reinterpret_cast<::FUN_00e069a0_cls *>((m_pStreamWriter))->FUN_00e069a0(0x70, reinterpret_cast<uintptr_t>(data));
     return 5;
 }
 
 // Writes the four bytes of v and then a into m_buf from the end backwards, flushing whenever the buffer fills.
 // @fnv 0x00e069a0
-void FUN_00e069a0_cls::FUN_00e069a0(char a, unsigned int auValue)
+void FUN_00e069a0_cls::FUN_00e069a0(char a, uintptr_t auValue)
 {
     m_buf[m_cap - m_uiItemCount - 1] = (char)auValue;
     m_uiItemCount++;

@@ -32,7 +32,7 @@ void* __cdecl FUN_00dd9380(void* factory, const char* name, void* creator);
 // @fnv 0x00d66af0
 void* __cdecl RegisterPhantomsProcess()
 {
-    DAT_01268ff0 = (int)((void *)(reinterpret_cast<::S_00dd9380 *>((((HKProcessFactory*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9380("Phantoms", (int)((void*)&((void *(&)())::FUN_00d66770)))));
+    DAT_01268ff0 = (int)(reinterpret_cast<::S_00dd9380 *>((((HKProcessFactory*)(::DAT_01269cd0))))->FUN_00dd9380("Phantoms", reinterpret_cast<intptr_t>((void*)&((void *(&)())::FUN_00d66770))));
     return (void*)DAT_01268ff0;
 }
 

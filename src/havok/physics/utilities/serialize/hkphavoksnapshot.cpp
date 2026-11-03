@@ -92,7 +92,7 @@ struct FUN_00d481d0
 FUN_00d481d0::FUN_00d481d0(const char* name, D481D0ReferencedObject* object, const D481D0Class* apClass)
 {
     reinterpret_cast<::SStringPtr *>((void *)&(const ::D481D0StringPtr &)(m_name))->FUN_00cb0c10(name);
-    reinterpret_cast<::FUN_00d47770 *>(&(m_pReferencedResource))->SetObject((::hkReferencedObject *)(object), (int)(apClass));
+    reinterpret_cast<::FUN_00d47770 *>(&(m_pReferencedResource))->SetObject((::hkReferencedObject *)(object), reinterpret_cast<intptr_t>(apClass));
     reinterpret_cast<::SStringPtr *>((void *)&(const ::D481D0StringPtr &)(m_pClassName))->FUN_00cb0c10(((const ::D481D0Class *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0())) ? reinterpret_cast<::FnvClassNameNode *>((void *)(((const ::D481D0Class *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0()))))->FUN_00d46d40() : 0);
 }
 
@@ -423,7 +423,7 @@ unsigned char* FUN_00cc0b50(unsigned char* apResult, unsigned int a2, unsigned i
     {
         pCtx = &localCtx;
     }
-    int r = ::FUN_00d485a0(a2, a3, a4, (bool)abFlag, (int)(pCtx));
+    int r = ::FUN_00d485a0(a2, a3, a4, (bool)abFlag, reinterpret_cast<intptr_t>(pCtx));
     *apResult = (unsigned char)(r == 0);
     reinterpret_cast<::fnv_00cc0ae0::FUN_00cc0ae0_cls *>(&(localCtx))->FUN_00cc0ae0();
     return apResult;
@@ -510,7 +510,7 @@ struct NamedVariantS
     __forceinline void set(const char* name, const void* object, const hkClassS* pClassInfo)
     {
         reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(m_name))->FUN_00cb0c10(name);
-        reinterpret_cast<::FUN_00d47770 *>(&(m_pReferencedResource))->SetObject((::hkReferencedObject *)(object), (int)(pClassInfo));
+        reinterpret_cast<::FUN_00d47770 *>(&(m_pReferencedResource))->SetObject((::hkReferencedObject *)(object), reinterpret_cast<intptr_t>(pClassInfo));
         reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(m_pClassName))->FUN_00cb0c10(((const ::hkClassS *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0())) ? reinterpret_cast<::FnvClassNameNode *>((void *)(((const ::hkClassS *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0()))))->FUN_00d46d40() : 0);
     }
 };
@@ -798,7 +798,7 @@ DirectoryResult __cdecl FUN_00da25a0(const char* input, DirectoryOutput& listing
         {
             reinterpret_cast<::hkStringD618 *>(&(normalized))->ReplaceChar('\\', '/', 1);
             if (!reinterpret_cast<::FUN_00d61700_cls *>((void *)&(normalized))->EndsWith((char *)(DAT_01063cbc)))
-                reinterpret_cast<::FUN_00d61df0_cls *>(&(normalized))->FUN_00d61df0((int)(DAT_01063cbc));
+                reinterpret_cast<::FUN_00d61df0_cls *>(&(normalized))->FUN_00d61df0(reinterpret_cast<intptr_t>(DAT_01063cbc));
             (*reinterpret_cast<const char *(**)(const char *, DirectoryString &)>(&::DAT_011b3dc0))(normalized.text(), path);
         }
     }
@@ -809,7 +809,7 @@ DirectoryResult __cdecl FUN_00da25a0(const char* input, DirectoryOutput& listing
     if (!valid)
         return DirectoryFailure;
     if (path.length())
-        reinterpret_cast<::FUN_00d61df0_cls *>(&(path))->FUN_00d61df0((int)(DAT_0101ffbc));
+        reinterpret_cast<::FUN_00d61df0_cls *>(&(path))->FUN_00d61df0(reinterpret_cast<intptr_t>(DAT_0101ffbc));
     WIN32_FIND_DATAA found;
     HANDLE handle = FindFirstFileA(path, &found);
     DirectoryBool more = handle != INVALID_HANDLE_VALUE;

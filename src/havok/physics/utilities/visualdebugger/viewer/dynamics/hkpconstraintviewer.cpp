@@ -134,7 +134,7 @@ struct hkProcessFactory
 // @fnv 0x00d69a00
 void RegisterConstraintsProcessFactory()
 {
-    (*reinterpret_cast<void * *>(&::g_0126901c)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::hkProcessFactory * *>(&::DAT_01269cd0))))->FUN_00dd9380("Constraints", (int)((void*)&((void (&)())::FUN_00d699c0)))));
+    (*reinterpret_cast<void * *>(&::g_0126901c)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::hkProcessFactory * *>(&::DAT_01269cd0))))->FUN_00dd9380("Constraints", reinterpret_cast<intptr_t>((void*)&((void (&)())::FUN_00d699c0)))));
 }
 
 struct S_00d69a20_Base

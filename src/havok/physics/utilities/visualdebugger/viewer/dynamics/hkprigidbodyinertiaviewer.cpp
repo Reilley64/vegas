@@ -31,7 +31,7 @@ struct FUN_00dd9380_StandIn {
 // @fnv 0x00d678c0
 void __cdecl RegisterInertiaTensors()
 {
-    DAT_01268ffc = reinterpret_cast<::S_00dd9380 *>((((FUN_00dd9380_StandIn*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9380("Inertia Tensors", (int)(&((void (&)())::FUN_00d67880)));
+    DAT_01268ffc = reinterpret_cast<::S_00dd9380 *>((((FUN_00dd9380_StandIn*)(::DAT_01269cd0))))->FUN_00dd9380("Inertia Tensors", reinterpret_cast<intptr_t>(&((void (&)())::FUN_00d67880)));
 }
 
 struct InnerArray {

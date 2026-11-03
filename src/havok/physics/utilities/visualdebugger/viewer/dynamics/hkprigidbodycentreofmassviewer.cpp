@@ -407,7 +407,7 @@ extern void* DAT_01269020;
 // @fnv 0x00d6a180
 void RegisterCenterOfMass()
 {
-    DAT_01269020 = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::RegistryOwner * *>(&::DAT_01269cd0))))->FUN_00dd9380("Center of Mass", (int)(((void (&)())::FUN_00d6a140)))));
+    DAT_01269020 = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::RegistryOwner * *>(&::DAT_01269cd0))))->FUN_00dd9380("Center of Mass", reinterpret_cast<intptr_t>(((void (&)())::FUN_00d6a140)))));
 }
 
 struct DwordList

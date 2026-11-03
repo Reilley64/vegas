@@ -16,7 +16,7 @@ struct FUN_00dd9380_class
 // @fnv 0x00d62e60
 void __cdecl RegisterWeldingViewer()
 {
-    void* result = ((void *)(reinterpret_cast<::S_00dd9380 *>((((FUN_00dd9380_class*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9380("WeldingViewer", (int)((void*)&((void *(&)())::FUN_00d62e20_impl)))));
+    void* result = ((void *)(reinterpret_cast<::S_00dd9380 *>((((FUN_00dd9380_class*)(::DAT_01269cd0))))->FUN_00dd9380("WeldingViewer", reinterpret_cast<intptr_t>((void*)&((void *(&)())::FUN_00d62e20_impl)))));
     DAT_01268fbc = (int)result;
 }
 

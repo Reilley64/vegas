@@ -37,7 +37,7 @@ extern int DAT_01269028;
 // @fnv 0x00d6ad40
 void __cdecl FUN_00d6ad40()
 {
-    DAT_01269028 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::FUN_00dd9380_StandIn * *>(&::DAT_01269cd0))))->FUN_00dd9380(&::str_010c65b0, (int)((void*)&((void (&)())::fnv_00d6ad00::FUN_00d6ad00)));
+    DAT_01269028 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::FUN_00dd9380_StandIn * *>(&::DAT_01269cd0))))->FUN_00dd9380(&::str_010c65b0, reinterpret_cast<intptr_t>((void*)&((void (&)())::fnv_00d6ad00::FUN_00d6ad00)));
 }
 
 extern int DAT_01269028;

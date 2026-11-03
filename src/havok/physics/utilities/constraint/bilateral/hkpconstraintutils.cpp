@@ -795,7 +795,7 @@ void __cdecl FUN_00e5a800(Instance* constraint)
         bodyA->GetInertiaInvLocal(inertiaLocA);
         hkRotation invRot = transformsAtom->m_kBodyALocalFrame.getRotation();
         reinterpret_cast<::S_00cd4b60 *>(&(invRot))->FUN_00cd4b60();
-        reinterpret_cast<::FUN_00cd5880_cls *>(&(inertiaLocA))->FUN_00cd5880((unsigned int)&(invRot));
+        reinterpret_cast<::FUN_00cd5880_cls *>(&(inertiaLocA))->FUN_00cd5880(reinterpret_cast<uintptr_t>(&(invRot)));
         invInertiaA = float(inertiaLocA(1, 1) + inertiaLocA(2, 1)) + float(inertiaLocA(1, 2) + inertiaLocA(2, 2));
         if (useRelativeInertia && bodyA->getMassInv() > 1.192092896e-07f)
         {
@@ -809,7 +809,7 @@ void __cdecl FUN_00e5a800(Instance* constraint)
         bodyB->GetInertiaInvLocal(inertiaLocB);
         hkRotation invRot = transformsAtom->m_kBodyBLocalFrame.getRotation();
         reinterpret_cast<::S_00cd4b60 *>(&(invRot))->FUN_00cd4b60();
-        reinterpret_cast<::FUN_00cd5880_cls *>(&(inertiaLocB))->FUN_00cd5880((unsigned int)&(invRot));
+        reinterpret_cast<::FUN_00cd5880_cls *>(&(inertiaLocB))->FUN_00cd5880(reinterpret_cast<uintptr_t>(&(invRot)));
         invInertiaB = float(inertiaLocB(1, 1) + inertiaLocB(2, 1)) + float(inertiaLocB(1, 2) + inertiaLocB(2, 2));
         if (useRelativeInertia && bodyB->getMassInv() > 1.192092896e-07f)
         {

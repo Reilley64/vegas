@@ -220,7 +220,7 @@ class FUN_00cb0c00_class
 
     ~FUN_00cb0c00_class()
     {
-        ::FUN_00cb0c00((int)this);
+        ::FUN_00cb0c00(reinterpret_cast<intptr_t>(this));
     }
 };
 

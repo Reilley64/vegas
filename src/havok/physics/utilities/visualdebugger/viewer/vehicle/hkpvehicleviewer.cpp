@@ -210,7 +210,7 @@ extern const char DAT_010d17c4;
 // @fnv 0x00d63da0
 void __cdecl FUN_00d63da0()
 {
-    (*reinterpret_cast<void * *>(&::g_D63DC0Value)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::Factory * *>(&::DAT_01269cd0))))->FUN_00dd9380(&DAT_010d17c4, (int)((void*)((void (&)())::fnv_00d63d60::AllocAndInitObject)))));
+    (*reinterpret_cast<void * *>(&::g_D63DC0Value)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::Factory * *>(&::DAT_01269cd0))))->FUN_00dd9380(&DAT_010d17c4, reinterpret_cast<intptr_t>((void*)((void (&)())::fnv_00d63d60::AllocAndInitObject)))));
 }
 
 

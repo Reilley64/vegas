@@ -221,7 +221,7 @@ extern void* __cdecl FUN_00d65910(void*);
 // @fnv 0x00d65950
 void RegisterShapesProcess()
 {
-    void* process = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::hkProcessFactory * *>(&::DAT_01269cd0))))->FUN_00dd9380("Shapes", (int)((void*)&FUN_00d65910))));
+    void* process = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::hkProcessFactory * *>(&::DAT_01269cd0))))->FUN_00dd9380("Shapes", reinterpret_cast<intptr_t>((void*)&FUN_00d65910))));
     *(void**)((char*)&::g_01268f2c + 0xB4) = process;
 }
 
@@ -2020,7 +2020,7 @@ struct S65_Map
     int s08;
     __forceinline void insert(void* key, int val)
     {
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&s65Router().heap())), (unsigned int)(key), val);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&s65Router().heap())), reinterpret_cast<uintptr_t>(key), val);
     }
 };
 struct S65_Ref
@@ -2217,14 +2217,14 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
     bool isNew = false;
     if (b3a)
     {
-        unsigned int r = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>(&(sub2c))->LookupHashEntry((int)(key), 0)));
+        unsigned int r = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>(&(sub2c))->LookupHashEntry(reinterpret_cast<intptr_t>(key), 0)));
         isNew = r > 0;
         if (!r)
-            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(sub2c))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(s65Router().allocator)), (unsigned int)(key), 1);
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(sub2c))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(s65Router().allocator)), reinterpret_cast<uintptr_t>(key), 1);
     }
     int existing = 0;
     if (b39)
-        existing = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>(&(sub14))->LookupHashEntry((int)(key), 0)));
+        existing = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>(&(sub14))->LookupHashEntry(reinterpret_cast<intptr_t>(key), 0)));
     S65_Vec vec;
     vec.data = vec.inlineBuf;
     vec.count = 0;
@@ -2314,7 +2314,7 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
     }
     else
     {
-        int n = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>(&(sub20))->LookupHashEntry((int)(key), 1))) + 1;
+        int n = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>(&(sub20))->LookupHashEntry(reinterpret_cast<intptr_t>(key), 1))) + 1;
         sub20.insert(key, n);
         host->v08(existing, &param->transform, nv, DAT_01268fe0, key);
     }

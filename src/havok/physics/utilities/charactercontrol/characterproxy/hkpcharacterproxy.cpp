@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/tls.h"
 #include "havok/hkMemoryRouter.h"
 #include <cstdint>
 #include <new>
@@ -286,11 +287,11 @@ FUN_00cac120_cls* FUN_00cac120_cls::FUN_00cac120(unsigned char acFlags)
 struct S_00cac150_Scope {
     int m_oldContext;
     S_00cac150_Scope(int ctx) {
-        m_oldContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = ctx;
+        m_oldContext = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = ctx;
     }
     ~S_00cac150_Scope() {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_oldContext;
+        g_tlsBlock.memoryContext = m_oldContext;
     }
 };
 

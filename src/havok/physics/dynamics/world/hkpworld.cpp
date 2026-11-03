@@ -6,6 +6,7 @@
 #include <new>
 
 #include "havok/hkMemoryRouter.h"
+#include "fnv/tls.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -1267,12 +1268,12 @@ struct ScopedMemContext {
 public:
     ScopedMemContext(int ctx)
     {
-        m_saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = ctx;
+        m_saved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = ctx;
     }
     ~ScopedMemContext()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_saved;
+        g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -4769,12 +4770,12 @@ struct Guard9 {
     unsigned int previous;
     Guard9()
     {
-        previous = ::currentAllocationContext;
-        ::currentAllocationContext = 16;
+        previous = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = 16;
     }
     ~Guard9()
     {
-        ::currentAllocationContext = previous;
+        g_tlsBlock.memoryContext = previous;
     }
 };
 struct Node9 { void* vtable; int value; int references; int previous; int next; };
@@ -4927,12 +4928,12 @@ struct MemoryScope {
 public:
     MemoryScope()
     {
-        previous = ::currentAllocationContext;
-        ::currentAllocationContext = 16;
+        previous = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = 16;
     }
     ~MemoryScope()
     {
-        ::currentAllocationContext = previous;
+        g_tlsBlock.memoryContext = previous;
     }
 };
 struct Point3 { float x,y,z;  };
@@ -5174,12 +5175,12 @@ struct Guard676 {
 public:
     Guard676()
     {
-        m_saved = ::currentAllocationContext;
-        ::currentAllocationContext = 0x10;
+        m_saved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = 0x10;
     }
     ~Guard676()
     {
-        ::currentAllocationContext = m_saved;
+        g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -12667,187 +12668,10 @@ void PoseUserDAD::FUN_00c99d40(int numBones, const short* parents, const hkQsTra
 
 namespace fnv_00caa3f0 {
 
-struct ThreadMemoryContext {
- unsigned int unk000;
- unsigned int unk004;
- unsigned int unk008;
- unsigned int unk00c;
- unsigned int unk010;
- unsigned int unk014;
- unsigned int unk018;
- unsigned int unk01c;
- unsigned int unk020;
- unsigned int unk024;
- unsigned int unk028;
- unsigned int unk02c;
- unsigned int unk030;
- unsigned int unk034;
- unsigned int unk038;
- unsigned int unk03c;
- unsigned int unk040;
- unsigned int unk044;
- unsigned int unk048;
- unsigned int unk04c;
- unsigned int unk050;
- unsigned int unk054;
- unsigned int unk058;
- unsigned int unk05c;
- unsigned int unk060;
- unsigned int unk064;
- unsigned int unk068;
- unsigned int unk06c;
- unsigned int unk070;
- unsigned int unk074;
- unsigned int unk078;
- unsigned int unk07c;
- unsigned int unk080;
- unsigned int unk084;
- unsigned int unk088;
- unsigned int unk08c;
- unsigned int unk090;
- unsigned int unk094;
- unsigned int unk098;
- unsigned int unk09c;
- unsigned int unk0a0;
- unsigned int unk0a4;
- unsigned int unk0a8;
- unsigned int unk0ac;
- unsigned int unk0b0;
- unsigned int unk0b4;
- unsigned int unk0b8;
- unsigned int unk0bc;
- unsigned int unk0c0;
- unsigned int unk0c4;
- unsigned int unk0c8;
- unsigned int unk0cc;
- unsigned int unk0d0;
- unsigned int unk0d4;
- unsigned int unk0d8;
- unsigned int unk0dc;
- unsigned int unk0e0;
- unsigned int unk0e4;
- unsigned int unk0e8;
- unsigned int unk0ec;
- unsigned int unk0f0;
- unsigned int unk0f4;
- unsigned int unk0f8;
- unsigned int unk0fc;
- unsigned int unk100;
- unsigned int unk104;
- unsigned int unk108;
- unsigned int unk10c;
- unsigned int unk110;
- unsigned int unk114;
- unsigned int unk118;
- unsigned int unk11c;
- unsigned int unk120;
- unsigned int unk124;
- unsigned int unk128;
- unsigned int unk12c;
- unsigned int unk130;
- unsigned int unk134;
- unsigned int unk138;
- unsigned int unk13c;
- unsigned int unk140;
- unsigned int unk144;
- unsigned int unk148;
- unsigned int unk14c;
- unsigned int unk150;
- unsigned int unk154;
- unsigned int unk158;
- unsigned int unk15c;
- unsigned int unk160;
- unsigned int unk164;
- unsigned int unk168;
- unsigned int unk16c;
- unsigned int unk170;
- unsigned int unk174;
- unsigned int unk178;
- unsigned int unk17c;
- unsigned int unk180;
- unsigned int unk184;
- unsigned int unk188;
- unsigned int unk18c;
- unsigned int unk190;
- unsigned int unk194;
- unsigned int unk198;
- unsigned int unk19c;
- unsigned int unk1a0;
- unsigned int unk1a4;
- unsigned int unk1a8;
- unsigned int unk1ac;
- unsigned int unk1b0;
- unsigned int unk1b4;
- unsigned int unk1b8;
- unsigned int unk1bc;
- unsigned int unk1c0;
- unsigned int unk1c4;
- unsigned int unk1c8;
- unsigned int unk1cc;
- unsigned int unk1d0;
- unsigned int unk1d4;
- unsigned int unk1d8;
- unsigned int unk1dc;
- unsigned int unk1e0;
- unsigned int unk1e4;
- unsigned int unk1e8;
- unsigned int unk1ec;
- unsigned int unk1f0;
- unsigned int unk1f4;
- unsigned int unk1f8;
- unsigned int unk1fc;
- unsigned int unk200;
- unsigned int unk204;
- unsigned int unk208;
- unsigned int unk20c;
- unsigned int unk210;
- unsigned int unk214;
- unsigned int unk218;
- unsigned int unk21c;
- unsigned int unk220;
- unsigned int unk224;
- unsigned int unk228;
- unsigned int unk22c;
- unsigned int unk230;
- unsigned int unk234;
- unsigned int unk238;
- unsigned int unk23c;
- unsigned int unk240;
- unsigned int unk244;
- unsigned int unk248;
- unsigned int unk24c;
- unsigned int unk250;
- unsigned int unk254;
- unsigned int unk258;
- unsigned int unk25c;
- unsigned int unk260;
- unsigned int unk264;
- unsigned int unk268;
- unsigned int unk26c;
- unsigned int unk270;
- unsigned int unk274;
- unsigned int unk278;
- unsigned int unk27c;
- unsigned int unk280;
- unsigned int unk284;
- unsigned int unk288;
- unsigned int unk28c;
- unsigned int unk290;
- unsigned int unk294;
- unsigned int unk298;
- unsigned int unk29c;
- unsigned int unk2a0;
- unsigned int unk2a4;
- unsigned int unk2a8;
- unsigned int unk2ac;
- unsigned int unk2b0;
- unsigned int m_uiMemoryContext;
-};
-extern __declspec(thread) ThreadMemoryContext threadMemoryContext;
 struct AutoMemoryContext {
  unsigned int previous;
- AutoMemoryContext(unsigned int value):previous(threadMemoryContext.m_uiMemoryContext){threadMemoryContext.m_uiMemoryContext=value;}
- ~AutoMemoryContext(){threadMemoryContext.m_uiMemoryContext=previous;}
+ AutoMemoryContext(unsigned int value):previous(g_tlsBlock.memoryContext){g_tlsBlock.memoryContext=value;}
+ ~AutoMemoryContext(){g_tlsBlock.memoryContext=previous;}
 };
 struct __declspec(align(16)) HingeVector {float x,y,z,w;};
 struct HingeTransform {HingeVector rotation0,rotation1,rotation2,translation;};
@@ -12891,8 +12715,8 @@ void* FUN_00aa13e0(unsigned int size);
 class TlsGuard_caa4a0 {
 public:
     int m_saved;
-    TlsGuard_caa4a0() { m_saved = ::currentAllocationContext; ::currentAllocationContext = 0x10; }
-    ~TlsGuard_caa4a0() { ::currentAllocationContext = m_saved; }
+    TlsGuard_caa4a0() { m_saved = g_tlsBlock.memoryContext; g_tlsBlock.memoryContext = 0x10; }
+    ~TlsGuard_caa4a0() { g_tlsBlock.memoryContext = m_saved; }
 };
 
 class bhkRefObject {
@@ -13468,16 +13292,14 @@ void Pose_00c996e0::FUN_00c996e0(const hkQsTransform& a, int b, int c, int d, in
     ApplyRotation(t, b, c, d, e, g);
 }
 
-extern __declspec(thread) unsigned int t_uiMemContextCAA;
-
 inline unsigned int GetMemContextCAA()
 {
-    return t_uiMemContextCAA;
+    return g_tlsBlock.memoryContext;
 }
 
 inline void SetMemContextCAA(unsigned int m_uiGeometryShaderFlags)
 {
-    t_uiMemContextCAA = m_uiGeometryShaderFlags;
+    g_tlsBlock.memoryContext = m_uiGeometryShaderFlags;
 }
 
 class AutoMemContextCAA {

@@ -2,7 +2,6 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicontactpointviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkptoicontactpointviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-// @fnv 0x00d68260
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
@@ -23,21 +22,9 @@
 #include "fnv/symbols_010c6000.h"
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01269000.h"
+// @fnv 0x00d68260
 int __cdecl FUN_00d68260() {
     return ::DAT_01269004;
-}
-
-struct Built { int field00; short field04; int field08; int FUN_00d682d0(int); };
-// Allocates a 0x2c-byte Built via the global allocator, sets its field04 to 0x2c, calls FUN_00d682d0(arg), and returns result+8 or 0.
-// @fnv 0x00d686b0
-int __cdecl FUN_00d686b0(int arg)
-{
-    hkMemoryRouter* global = &hkMemoryRouter::getInstance();
-    Built* pBuilt = (Built*)global->m_heap->blockAlloc(0x2c);
-    pBuilt->field04 = 0x2c;
-    int result = pBuilt->FUN_00d682d0(arg);
-    if (result) return result + 8;
-    return 0;
 }
 
 struct SpawnedChild {
@@ -79,7 +66,8 @@ struct Target {
 // (FUN_00d682a0_cls) at +0x20 and its contact listener part at +0x28.
 struct ToiViewerRefObject {
     void* volatile m_vtbl;
-    int m_memSizeAndRefCount;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
 };
 struct ToiViewerProcess {
     void* volatile m_processVtbl;
@@ -124,6 +112,17 @@ void* FUN_00d682d0_cls::FUN_00d682d0(void* aiArg)
     this->m_worldListenerVtbl = (void*)&DAT_010d1edc;
     this->m_vtbl28 = (void*)&DAT_010d1ebc;
     return this;
+}
+
+// Allocates the viewer, sets its memory size, constructs it with arg and returns its hkProcess part.
+// @fnv 0x00d686b0
+void* __cdecl FUN_00d686b0(void* arg)
+{
+    hkMemoryRouter* global = &hkMemoryRouter::getInstance();
+    FUN_00d682d0_cls* pBuilt = static_cast<FUN_00d682d0_cls*>(global->m_heap->blockAlloc(sizeof(FUN_00d682d0_cls)));
+    pBuilt->m_memSizeAndFlags = sizeof(FUN_00d682d0_cls);
+    FUN_00d682d0_cls* result = static_cast<FUN_00d682d0_cls*>(pBuilt->FUN_00d682d0(arg));
+    return static_cast<ToiViewerProcess*>(result);
 }
 
 struct ItemList {

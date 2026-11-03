@@ -3836,7 +3836,7 @@ struct hkContainerD539
 class FUN_00c89c80_obj
 {
   public:
-    void CopyFromSource(void* info) throw();
+    void CopyFromSource(uintptr_t info) throw();
 };
 
 class hkShapeD539 : public FUN_00c89c80_obj
@@ -3853,7 +3853,7 @@ class hkShapeD539 : public FUN_00c89c80_obj
 // @fnv 0x00d53900
 void hkShapeD539::CopyContainerKeysToInfo(hkInfoD539& info)
 {
-    CopyFromSource(&info);
+    CopyFromSource((uintptr_t)&info);
     if (this && m_container)
     {
         hkContainerD539* c = m_container;
@@ -5172,7 +5172,7 @@ D502D0_RefData* D502D0_Owner::EnsureReference(bool* created)
         D502D0_RefData* data = D502D0_CreateReference();
         m_pData = data;
         if (m_flag08)
-            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((void*)(data ? reinterpret_cast<D502D0_RefObject*>(reinterpret_cast<char*>(data) - 4) : 0));
+            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(data ? reinterpret_cast<D502D0_RefObject*>(reinterpret_cast<char*>(data) - 4) : 0));
     }
     return m_pData;
 }

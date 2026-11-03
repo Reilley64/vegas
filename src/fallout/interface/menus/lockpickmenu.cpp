@@ -802,7 +802,7 @@ void LockPickMenuImpl::HandleLockPickAction(int aiCode, int aiUnused)
         {
             ((::PathingActorState *)(reinterpret_cast<::FUN_00569160_shell *>((unk6c))->FUN_00569160()))->iBreakCount++;
             reinterpret_cast<::fnv_005789b0::FUN_005789b0_shell *>((unk6c))->FUN_005789b0();
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting *>(&::g_011d3e98))))->GetMenuTitle()))), 0, (int)(s_szForceFailIcon), (int)(s_szForceFailSound), 2.0f, 0);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting *>(&::g_011d3e98))))->GetMenuTitle()))), 0, (const char *)(s_szForceFailIcon), (const char *)(s_szForceFailSound), 2.0f, 0);
             FUN_0078e0d0();
         }
         break;
@@ -1519,7 +1519,7 @@ LKTile* CreateLockpickMenu(LockRef* pkLockRef, int aiLockLevel, bool bDebug)
     if (pkLockRef && reinterpret_cast<::ActorValueOwner *>(&((*reinterpret_cast<::PlayerStandIn * *>(&::_g_thePlayer))->kAVOwner))->GetActorValueAsInteger((::ActorValue::Index)(0x24)) < ::DAT_011da28c[iLockLevelNum])
     {
         ::FUN_00406d00(acMessageVal, 0x104, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting *>(&::g_011d1efc))))->GetMenuTitle())), ::DAT_011da28c[iLockLevelNum]);
-        ::DispatchMessageToSink((int)(acMessageVal), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_padlock.dds"), (int)(0), 2.0f, 0);
+        ::DispatchMessageToSink((const char *)(acMessageVal), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_padlock.dds"), (const char *)(0), 2.0f, 0);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::LKSoundHandle &)(((::LKAudio *)(::FUN_00453a70()))->FUN_00ad7550("UIPopUpMessageGeneral", 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -2177,7 +2177,7 @@ void xLockPickMenu::FUN_0078eb50()
             if (xg_fElapsed_11da2ac == 0.0 && m_6c)
             {
                 if (reinterpret_cast<::TileListBoxCalls *>((m_30))->GetFloat(::DAT_011da1f8) <= 0.0)
-                    ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0078eb50::xStrSetting *>(&::g_011d34ec))))->GetMenuTitle()))), 0, (int)(s_szIcon), (int)(0), 2.0f, 0);
+                    ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0078eb50::xStrSetting *>(&::g_011d34ec))))->GetMenuTitle()))), 0, (const char *)(s_szIcon), (const char *)(0), 2.0f, 0);
                 else
                     reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_0078eb50::xSound &)(((::fnv_0078eb50::xAudio *)(::FUN_00453a70()))->FUN_00ad7550(s_szEnter, 0x121)))->FUN_00ad8830(false);
             }
@@ -2420,7 +2420,7 @@ void xLockPickMenu::FUN_0078eb50()
             }
             if (m_6c && reinterpret_cast<::TileListBoxCalls *>((m_30))->GetFloat(::DAT_011da1f8) == 0.0)
             {
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0078eb50::xStrSetting *>(&::g_011d34ec))))->GetMenuTitle()))), 0, (int)(s_szIcon), (int)(0), 2.0f, 0);
+                ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0078eb50::xStrSetting *>(&::g_011d34ec))))->GetMenuTitle()))), 0, (const char *)(s_szIcon), (const char *)(0), 2.0f, 0);
                 reinterpret_cast<::Tile *>((m_58))->Set(0xfa3, 0);
                 xUpdateData UPD6(0.0f, true, false);
                 reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0078eb50::xAV *)(reinterpret_cast<::NiNode *>((((::fnv_0078eb50::xAV *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0078eb50::xNodePtr *>(&::g_011da24c))))))))->GetAt(1)))))->FUN_00a59c60((std::intptr_t)&(UPD6));

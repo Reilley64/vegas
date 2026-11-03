@@ -143,7 +143,7 @@ void ValueModifierEffect::RefreshPlayerActorValue()
                     ActorValue::GetActorValueName((ActorValue::Index)((EffectItem*)pEffect)->GetAffectedActorValue()),
                     continuous ? ((const char *)(reinterpret_cast<::StartMenu *>(&(((SettingT_GameSettingCollection_&)g_011d21a8)))->GetMenuTitle()))
                                : ((const char *)(reinterpret_cast<::StartMenu *>(&(((SettingT_GameSettingCollection_&)g_011d4a5c)))->GetMenuTitle())));
-            ::DispatchMessageToSink((int)(buffer), 0, (int)(0), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(buffer), 0, (const char *)(0), (const char *)(0), 2.0f, false);
         }
     }
 }

@@ -7248,23 +7248,23 @@ axesDone:
     if (reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(0xf, 1) && !reinterpret_cast<::FUN_005a03d0Class *>(this)->FUN_005a03d0())
     {
         if (vf448())
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d4474))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)(0), ::DAT_010162c0, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d4474))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)(0), ::DAT_010162c0, false);
         else if (reinterpret_cast<::C953C80Form *>(this)->HasActorsByPackage())
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d28b0))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)(0), ::DAT_010162c0, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d28b0))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)(0), ::DAT_010162c0, false);
         else if (reinterpret_cast<::A_00885520 *>(this)->FUN_00885520((const ::P3_00885520 *)(::MPt *)(vf1f4()), (::TESObjectCELL *)(::TickCell *)(((::TickCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), DAT_01084d20))
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d4948))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)(0), ::DAT_010162c0, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d4948))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)(0), ::DAT_010162c0, false);
         else if (reinterpret_cast<::DetectionList *>((((TickLists*)&(*reinterpret_cast<::Global122 *>(&::g_011e0e80)))))->HasNearbyDetectedActor(((unsigned char)(reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>(((*reinterpret_cast<::TickPlayer * *>(&::_g_thePlayer))))->FUN_00575d10()))))
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d2e50))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)(0), ::DAT_010162c0, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d2e50))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)(0), ::DAT_010162c0, false);
         else if (::FUN_005c0880((char *)(((::TickController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(((*reinterpret_cast<::TickPlayer * *>(&::_g_thePlayer))))->FUN_009306d0())))) == 1 || ::FUN_005c0880((char *)(((::TickController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(((*reinterpret_cast<::TickPlayer * *>(&::_g_thePlayer))))->FUN_009306d0())))) == 2)
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d3e20))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)(0), ::DAT_010162c0, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d3e20))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)(0), ::DAT_010162c0, false);
         else if (::FUN_005444c0((::TESObjectCELL *)(((::TickCell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::TickPlayer * *>(&::_g_thePlayer))))->GetTarget())))) || !reinterpret_cast<::FUN_00944360_Class *>(((*reinterpret_cast<::TickPlayer * *>(&::_g_thePlayer))))->GetByteAt66E())
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d20ac))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)(0), ::DAT_010162c0, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d20ac))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)(0), ::DAT_010162c0, false);
         else if (reinterpret_cast<::FUN_005098e0_Object *>((((TickLists*)&(*reinterpret_cast<::Global122 *>(&::g_011e0e80)))))->IsFlagged())
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d4b10))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)(0), ::DAT_010162c0, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d4b10))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)(0), ::DAT_010162c0, false);
         else if (((::TickProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())) && ((::TickProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->vf764() != 0.0)
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d4b10))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)(0), ::DAT_010162c0, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d4b10))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)(0), ::DAT_010162c0, false);
         else if (reinterpret_cast<::FUN_00822e00_shell *>(&((*reinterpret_cast<::TickPlayer * *>(&::_g_thePlayer))->unk94))->FUN_00822e00())
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d47d4))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)(0), ::DAT_010162c0, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TickStringSetting *>(&::g_011d47d4))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)(0), ::DAT_010162c0, false);
         else
             ::FUN_007054f0(0);
     }

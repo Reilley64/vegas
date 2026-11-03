@@ -55,6 +55,18 @@
 #include "fnv/symbols_0126d000.h"
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01270000.h"
+#include <windows.h>
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_00869a40_Class.h"
+#include "fnv/decl/FUN_00869b90_cls.h"
+#include "fnv/decl/FUN_00869e30_class.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0045d000.h"
+#include "fnv/symbols_00632000.h"
+#include "fnv/symbols_00b00000.h"
+#include "fnv/symbols_010a4000.h"
 #include "original_global_object_initializers_o2.h"
 
 // @fnv 0x00fc78a6
@@ -2291,4 +2303,122 @@ GlobalObjectO2_00a7b610 g_01270920(g_01270920_arg0, (const char*)0);
 // @fnv 0x00fc7a50
 GlobalObjectO2_00a7b610 g_01270928(g_01270928_arg0, (const char*)0);
 
+struct FUN_00559df0_Base
+{
+    virtual ~FUN_00559df0_Base();
+};
+struct FUN_00559df0 : FUN_00559df0_Base
+{
+    virtual ~FUN_00559df0();
+};
+struct FUN_00559d90 : FUN_00559df0
+{
+    virtual ~FUN_00559d90();
+};
+// @fnv 0x00559d90
+FUN_00559d90::~FUN_00559d90()
+{
+    reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+}
+
+extern void* DAT_0106ba6c;
+
+struct GlobalObject_00869f00
+{
+};
+
+struct FUN_006b3830_Class
+{
+    void* m_iWordAt00;
+    void FUN_006b3830();
+};
+
+// @fnv 0x006b3830
+void FUN_006b3830_Class::FUN_006b3830()
+{
+    m_iWordAt00 = &DAT_0106ba6c;
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
+}
+
+struct FUN_00869a20_class
+{
+    void FUN_00869a20();
+};
+
+// @fnv 0x00869a20
+void FUN_00869a20_class::FUN_00869a20()
+{
+    reinterpret_cast<::FUN_00869a40_Class *>(this)->FUN_00869a40();
+}
+
+struct FUN_00869b70_Class
+{
+    void FUN_00869b70();
+};
+
+// @fnv 0x00869b70
+void FUN_00869b70_Class::FUN_00869b70()
+{
+    reinterpret_cast<::FUN_00869b90_cls *>(this)->InitializeAndReleaseNext();
+}
+
+struct FUN_00869e10_class
+{
+    void FUN_00869e10();
+};
+// @fnv 0x00869e10
+void FUN_00869e10_class::FUN_00869e10()
+{
+    reinterpret_cast<::FUN_00869e30_class *>(this)->FUN_00869e30();
+}
+
+struct BSTaskletManagerCallback
+{
+    const void* m_vtbl;
+    BSTaskletManagerCallback* FUN_00b00e40(int);
+};
+// @fnv 0x00b00e40
+BSTaskletManagerCallback* BSTaskletManagerCallback::FUN_00b00e40(int a)
+{
+    m_vtbl = &DAT_010a47b8;
+    bool b;
+    switch (a)
+    {
+    case 0:
+        b = ((bool)(::FUN_00b00d50((int)(this))));
+        break;
+    default:
+        b = ((bool)(::QueueTasklet((int)(this))));
+        break;
+    }
+    return this;
+}
+
+extern unsigned int DAT_01073e50;
+
+struct BSSimpleArrayActor
+{
+    const void* m_vtbl;
+    void FUN_00788390();
+};
+
+// @fnv 0x00788390
+void BSSimpleArrayActor::FUN_00788390()
+{
+    m_vtbl = &DAT_01073e50;
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
+}
+
+struct FUN_0044fb00_Shim
+{
+    void FUN_0044fb00();
+};
+
+// @fnv 0x0044fb00
+void FUN_0044fb00_Shim::FUN_0044fb00()
+{
+    DeleteCriticalSection(reinterpret_cast<CRITICAL_SECTION*>(this));
+}
+
 #include "generated/data/generated/global_object_initializers_o2.inc"
+#include "generated/data/generated/global_object_initializers_o2_od_variant.inc"

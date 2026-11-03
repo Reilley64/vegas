@@ -4913,7 +4913,7 @@ int* Class9::GetOrCreateData(unsigned char* wasEmpty) {
             nextData = contents;
         } else nextData = 0;
         data = nextData;
-        if (callbackFlag) reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((void*)(data ? (Node9*)((char*)data - 4) : 0));
+        if (callbackFlag) reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(data ? (Node9*)((char*)data - 4) : 0));
     }
     return data;
 }

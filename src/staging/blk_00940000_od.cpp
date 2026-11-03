@@ -2185,7 +2185,7 @@ void RestorePlayer::RestorePlayerLocation(bool travel)
     {
         if (travel)
         {
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::RestoreSetting *>(&::g_011d50bc))))->GetMenuTitle()))), 0, (int)(restoreIcon), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::RestoreSetting *>(&::g_011d50bc))))->GetMenuTitle()))), 0, (const char *)(restoreIcon), (const char *)(0), 2.0f, false);
             SavedForm* cellB = 0;
             SavedForm* world7 = 0;
             if (savedDestination)
@@ -2212,7 +2212,7 @@ void RestorePlayer::RestorePlayerLocation(bool travel)
         else
         {
             RestorePlayer* player3 = this;
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::RestoreSetting *>(&::g_011d50bc))))->GetMenuTitle()))), 0, (int)(restoreIcon), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::RestoreSetting *>(&::g_011d50bc))))->GetMenuTitle()))), 0, (const char *)(restoreIcon), (const char *)(0), 2.0f, false);
             RestoreController* controller7 = ((::RestoreController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((player3))->FUN_009306d0()));
             if (controller7 && !((bool)(reinterpret_cast<::DummyFlags *>((controller7))->FUN_0088b0c0())))
                 savedPosition.z = ((::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>((player3))->GetAddTopicList()))->z;

@@ -174,37 +174,25 @@ void FUN_0052ac50_shell::FUN_0052ac50(unsigned int auiDays)
         (this->m_ucTimeSettings[5] & 0xC0) | MinInt(auiDays, 0xFFFFFF3F);
 }
 
-struct FUN_004855a0
-{
-};
-struct FUN_00485680
-{
-};
-struct FUN_0048e370_obj
-{
-};
-struct FUN_004891d0_obj
-{
-};
 void __cdecl WriteWeatherList(unsigned int);
-struct FUN_0052ae80_shell
+struct FUN_0052ae80_shell : public TESClimate
 {
     void Init();
 };
 // @fnv 0x0052ae80
 void FUN_0052ae80_shell::Init()
 {
-    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
-    ((void(*)(void*, unsigned int))WriteWeatherList)((char*)this + 0x30, 0x54534c57);
+    reinterpret_cast<::fnv_004855a0::ArrSI *>(static_cast<TESForm*>(this))->FUN_004855a0();
+    ((void(*)(void*, unsigned int))WriteWeatherList)(&weatherList, 0x54534c57);
     int i = 0;
     for (; i < 2; ++i)
-        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x38 + i * 0xc))))->FUN_0048e370(0x4d414e46 + i);
-    reinterpret_cast<::FUN_004891d0_cls *>((((FUN_004891d0_obj*)((char*)this + 0x18))))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
-    ::FUN_004856f0((void *)(0x4d414e54), (char*)this + 0x50, (void *)(6));
-    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
+        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>(&m_kSunTextures[i])->FUN_0048e370(0x4d414e46 + i);
+    reinterpret_cast<::FUN_004891d0_cls *>(&m_kStarsModel)->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
+    ::FUN_004856f0((void *)(0x4d414e54), m_ucTimeSettings, (void *)(6));
+    reinterpret_cast<::Holder *>(static_cast<TESForm*>(this))->FUN_00485680();
 }
 
-struct FUN_005e79a0_t
+struct FUN_005e79a0_t : public TESClimate
 {
     bool IsClimateDifferent(TESForm* form);
 };
@@ -217,9 +205,6 @@ struct FUN_0052afe0_compare_t
     virtual bool FUN_0000000c(void* other);
 };
 
-struct FUN_00582690_weather_t
-{
-};
 
 // @fnv 0x0052afe0
 bool FUN_005e79a0_t::IsClimateDifferent(TESForm* apCompare)
@@ -235,18 +220,17 @@ bool FUN_005e79a0_t::IsClimateDifferent(TESForm* apCompare)
 
     for (iIndex = 0; iIndex < 2; ++iIndex)
     {
-        if (((FUN_0052afe0_compare_t*)((unsigned char*)this + 0x38 + iIndex * 0xc))
-                ->FUN_0000000c((void*)((unsigned char*)&i->m_kSunTextures + iIndex * 0xc)))
+        if (reinterpret_cast<FUN_0052afe0_compare_t*>(&m_kSunTextures[iIndex])->FUN_0000000c(&i->m_kSunTextures[iIndex]))
             return true;
     }
 
-    if (((FUN_0052afe0_compare_t*)((unsigned char*)this + 0x18))->FUN_0000000c((void*)((unsigned char*)&i->m_kStarsModel)))
+    if (reinterpret_cast<FUN_0052afe0_compare_t*>(&m_kStarsModel)->FUN_0000000c(&i->m_kStarsModel))
         return true;
 
-    if (reinterpret_cast<::FUN_00582690_shell *>((((FUN_00582690_weather_t*)((unsigned char*)this + 0x30))))->IsDifferentFrom(&i->weatherList))
+    if (reinterpret_cast<::FUN_00582690_shell *>(&weatherList)->IsDifferentFrom(&i->weatherList))
         return true;
 
-    if (memcmp((void*)((unsigned char*)this + 0x50), (void*)((unsigned char*)&i->m_ucTimeSettings), 6) != 0)
+    if (memcmp(m_ucTimeSettings, i->m_ucTimeSettings, 6) != 0)
         return true;
 
     return false;

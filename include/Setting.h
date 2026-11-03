@@ -11,6 +11,8 @@ class Setting
     Setting(const char* key, float value);
     Setting(const char* key, int value);
     Setting(const char* key, char* value);
+    Setting(const char* key, const char* value);
+    Setting(const char* key, bool value);
     virtual ~Setting();
     virtual bool IsPrefSetting();
 };

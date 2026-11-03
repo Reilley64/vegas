@@ -1700,11 +1700,11 @@ struct SceneNode_cls : SceneLookupBase_cls
 
 struct SceneWalker_cls
 {
-    void TraverseSceneNode(SceneNode_cls* node, intptr_t a2, intptr_t a3);
+    void TraverseSceneNode(SceneNode_cls* node, void* a2, void* a3);
 };
 
 // @fnv 0x00ca1f00
-void SceneWalker_cls::TraverseSceneNode(SceneNode_cls* node, intptr_t a2, intptr_t a3)
+void SceneWalker_cls::TraverseSceneNode(SceneNode_cls* node, void* a2, void* a3)
 {
     if (node == 0)
         return;
@@ -5217,7 +5217,7 @@ S_ca9f40_Base* S_ca9f40::GetOrCreateBase(bool* created)
         }
         unk0c = r;
         if (unk08)
-            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource(unk0c ? reinterpret_cast<S_ca9f40_Counters*>(reinterpret_cast<char*>(unk0c) - offsetof(S_ca9f40_Counters, base)) : 0);
+            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(unk0c ? reinterpret_cast<S_ca9f40_Counters*>(reinterpret_cast<char*>(unk0c) - offsetof(S_ca9f40_Counters, base)) : 0));
     }
     return unk0c;
 }

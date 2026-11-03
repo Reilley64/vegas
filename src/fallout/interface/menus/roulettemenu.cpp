@@ -10207,7 +10207,7 @@ RouletteTile* __cdecl FUN_007bbe20(RoulettePlayerStandIn* casino, int bet, int a
         char message[260];
         FUN_00406d00(message, 260, DAT_01076274, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d2d24))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d2274))))->GetMenuTitle())),
                      ((int)(reinterpret_cast<::TimeCounter *>(((*reinterpret_cast<::PlayerForRoulette * *>(&::_g_thePlayer))))->FUN_00969b40())));
-        ::DispatchMessageToSink((int)(message), 0, (int)(DAT_01049638), (int)(0), DAT_010162c0, false);
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(DAT_01049638), (const char *)(0), DAT_010162c0, false);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID(DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -10215,7 +10215,7 @@ RouletteTile* __cdecl FUN_007bbe20(RoulettePlayerStandIn* casino, int bet, int a
     {
         char message[260];
         FUN_00406d00(message, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d3abc))))->GetMenuTitle())));
-        ::DispatchMessageToSink((int)(message), 0, (int)(DAT_01049638), (int)(0), DAT_010162c0, false);
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(DAT_01049638), (const char *)(0), DAT_010162c0, false);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID(DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -10223,7 +10223,7 @@ RouletteTile* __cdecl FUN_007bbe20(RoulettePlayerStandIn* casino, int bet, int a
     {
         char message[260];
         FUN_00406d00(message, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d2424))))->GetMenuTitle())));
-        ::DispatchMessageToSink((int)(message), 0, (int)(DAT_01049638), (int)(0), DAT_010162c0, false);
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(DAT_01049638), (const char *)(0), DAT_010162c0, false);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID(DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -10231,7 +10231,7 @@ RouletteTile* __cdecl FUN_007bbe20(RoulettePlayerStandIn* casino, int bet, int a
     {
         char message[260];
         FUN_00406d00(message, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d3594))))->GetMenuTitle())));
-        ::DispatchMessageToSink((int)(message), 0, (int)(DAT_01049638), (int)(0), DAT_010162c0, false);
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(DAT_01049638), (const char *)(0), DAT_010162c0, false);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID(DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -15611,9 +15611,9 @@ void RouletteMenuX::FUN_007bd2a0()
                 BSStringX kLostMsg;
                 ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007bd2a0::BSStringX *)(&kLostMsg), "%i %s%s %s", -iChipDiff, ::FUN_00482720((::TESForm *)(::fnv_007bd2a0::FormX *)(((::fnv_007bd2a0::FormX *)(reinterpret_cast<::FUN_007316d0_Class *>(((*reinterpret_cast<::fnv_007bd2a0::CasinoX * *>(&::RouletteCleanup::DAT_011da880))))->FUN_007316d0())))),
                              ((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007bd2a0::SettingX *>(&::g_011d3114))))->GetMenuTitle())), ((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007bd2a0::SettingX *>(&::g_011d3db4))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)(((char *)(::FUN_00559450((int *)&(kLostMsg))))), 0,
-                                      (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
-                                      ((int)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::fnv_007bd2a0::PlayerX * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(::fnv_007bd2a0::FormX *)(((::fnv_007bd2a0::FormX *)(reinterpret_cast<::FUN_007316d0_Class *>(((*reinterpret_cast<::fnv_007bd2a0::CasinoX * *>(&::RouletteCleanup::DAT_011da880))))->FUN_007316d0()))), 1, 0))), 2.0f, 0);
+                ::DispatchMessageToSink((const char *)(((char *)(::FUN_00559450((int *)&(kLostMsg))))), 0,
+                                      (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
+                                      ((const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::fnv_007bd2a0::PlayerX * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(::fnv_007bd2a0::FormX *)(((::fnv_007bd2a0::FormX *)(reinterpret_cast<::FUN_007316d0_Class *>(((*reinterpret_cast<::fnv_007bd2a0::CasinoX * *>(&::RouletteCleanup::DAT_011da880))))->FUN_007316d0()))), 1, 0))), 2.0f, 0);
             }
             else if (iChipDiff > 0)
             {
@@ -15629,9 +15629,9 @@ void RouletteMenuX::FUN_007bd2a0()
                     BSStringX kWonMsg;
                     ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007bd2a0::BSStringX *)(&kWonMsg), "%i %s%s %s\n%s", iChipDiff, ::FUN_00482720((::TESForm *)(::fnv_007bd2a0::FormX *)(((::fnv_007bd2a0::FormX *)(reinterpret_cast<::FUN_007316d0_Class *>(((*reinterpret_cast<::fnv_007bd2a0::CasinoX * *>(&::RouletteCleanup::DAT_011da880))))->FUN_007316d0())))),
                                  ((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007bd2a0::SettingX *>(&::g_011d3114))))->GetMenuTitle())), ((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007bd2a0::SettingX *>(&::g_011d4e7c))))->GetMenuTitle())), ((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007bd2a0::SettingX *>(&::g_011d3abc))))->GetMenuTitle())));
-                    ::DispatchMessageToSink((int)(((char *)(::FUN_00559450((int *)&(kWonMsg))))), 0,
-                                          (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"),
-                                          ((int)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::fnv_007bd2a0::PlayerX * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(::fnv_007bd2a0::FormX *)(((::fnv_007bd2a0::FormX *)(reinterpret_cast<::FUN_007316d0_Class *>(((*reinterpret_cast<::fnv_007bd2a0::CasinoX * *>(&::RouletteCleanup::DAT_011da880))))->FUN_007316d0()))), 1, 0))), 2.0f, 0);
+                    ::DispatchMessageToSink((const char *)(((char *)(::FUN_00559450((int *)&(kWonMsg))))), 0,
+                                          (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"),
+                                          ((const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::fnv_007bd2a0::PlayerX * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(::fnv_007bd2a0::FormX *)(((::fnv_007bd2a0::FormX *)(reinterpret_cast<::FUN_007316d0_Class *>(((*reinterpret_cast<::fnv_007bd2a0::CasinoX * *>(&::RouletteCleanup::DAT_011da880))))->FUN_007316d0()))), 1, 0))), 2.0f, 0);
                 }
             }
             if (m_bLimitUp)
@@ -15970,7 +15970,7 @@ void RouletteMenuX::FUN_007bd2a0()
         {
             char szBroke[0x104];
             ::FUN_00406d00(szBroke, 0x104, ((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007bd2a0::SettingX *>(&::g_011d2424))))->GetMenuTitle())));
-            ::DispatchMessageToSink((int)(szBroke), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), 0,
+            ::DispatchMessageToSink((const char *)(szBroke), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), 0,
                                   2.0f, 0);
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007bd2a0::AudioPlaybackHandle &)(((::fnv_007bd2a0::AudioMgr *)(::FUN_00453a70()))->FUN_00ad7550("UIPopUpMessageGeneral", 0x121)))->FUN_00ad8830(false);
             SetRouletteMenuTile();

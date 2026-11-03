@@ -7,5 +7,5 @@ struct SceneNode_cls;
 struct SceneWalker_cls {
 public:
     // 0x00ca1f00
-    void TraverseSceneNode(::SceneNode_cls *, intptr_t, intptr_t);
+    void TraverseSceneNode(::SceneNode_cls *, void *, void *);
 };

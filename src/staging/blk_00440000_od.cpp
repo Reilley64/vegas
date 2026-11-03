@@ -2647,10 +2647,10 @@ void* GlobalObject_0045d060::FUN_0045d0e0(unsigned int flags)
 }
 }  // namespace fnv_0045d0e0
 
-extern int DAT_011f35a4;
+extern void* DAT_011f35a4;
 void __cdecl FUN_0045d190();
 // @fnv 0x0045d180
-int __cdecl FUN_0045d180()
+void* __cdecl FUN_0045d180()
 {
     FUN_0045d190();
     return DAT_011f35a4;
@@ -2816,7 +2816,7 @@ struct FUN_0045d220
 void FUN_0045d190()
 {
     if (!DAT_011f35a4)
-        DAT_011f35a4 = (int)new FUN_0045d220;
+        DAT_011f35a4 = new FUN_0045d220;
 }
 
 struct FUN_00446dc0_Class

@@ -157,7 +157,7 @@ bool TESObjectTREE::Load(TESFile* file)
                 if (file->IsEndianConversionRequired())
                     ::FUN_00401080((int *)(unsigned int *)(&seeds.values[i]));
                 if (seeds.values[i] > 0)
-                    reinterpret_cast<::S_0060ba10 *>(&(m_kSeedArray))->FUN_0096a610((int)&(seeds.values[i]));
+                    reinterpret_cast<::S_0060ba10 *>(&(m_kSeedArray))->FUN_0096a610((std::intptr_t)&(seeds.values[i]));
             }
             delete[] seeds.values;
             break;
@@ -292,17 +292,18 @@ const char* const* FUN_0051d1b0_shell::GetArg1Ptr()
 
 struct FUN_0051d400_shell
 {
+    char pad[0x14];
+    void* m_pSecondBuffer;
+    void* m_pFirstBuffer;
     void FUN_0051d400();
 };
 
-// Frees the two pointers stored at offsets 0x14 and 0x18 of this object via Deallocate.
+// Frees the object's two buffers via Deallocate.
 // @fnv 0x0051d400
 void FUN_0051d400_shell::FUN_0051d400()
 {
-    void* p2 = *(void**)((char*)this + 0x14);
-    ::FUN_00401030(p2);
-    void* p1 = *(void**)((char*)this + 0x18);
-    ::FUN_00401030(p1);
+    ::FUN_00401030(m_pSecondBuffer);
+    ::FUN_00401030(m_pFirstBuffer);
 }
 
 struct ProcessLists
@@ -323,24 +324,28 @@ unsigned char GetFirstProcessListByte()
 
 struct FUN_006447b0_shell
 {
+    char pad[0x84];
+    float m_f84;
     float GetField84Float();
 };
 
 // @fnv 0x006447b0
 float FUN_006447b0_shell::GetField84Float()
 {
-    return *reinterpret_cast<float*>(this + 0x84);
+    return m_f84;
 }
 
 struct BGSImpactData
 {
+    char pad[0x38];
+    float m_fAngleThreshold;
     float FUN_009a9350() const;
 };
 
 // @fnv 0x009a9350
 float BGSImpactData::FUN_009a9350() const
 {
-    return *(const float*)((const char*)this + 0x38);
+    return m_fAngleThreshold;
 }
 
 struct FUN_009acce0_shell
@@ -398,20 +403,20 @@ struct Arr
 };
 
 
-struct FUN_0051c360_shell
+struct FUN_0051c360_shell : TESObjectTREE
 {
     unsigned int FUN_0051c360();
 };
 
-// Returns a random element from the Arr at offset 0x5c, or 0 when that Arr is empty.
+// Returns a random element from the seed array, or 0 when that array is empty.
 // @fnv 0x0051c360
 unsigned int FUN_0051c360_shell::FUN_0051c360()
 {
-    unsigned int index = reinterpret_cast<::FUN_00658930_class *>((reinterpret_cast<Arr*>(reinterpret_cast<char*>(this) + 0x5c)))->GetShortAtOffsetA();
+    unsigned int index = reinterpret_cast<::FUN_00658930_class *>(&m_kSeedArray)->GetShortAtOffsetA();
     if (!index)
         return 0;
     unsigned int size = DialogueRandom() % index;
-    return *reinterpret_cast<Arr*>(reinterpret_cast<char*>(this) + 0x5c)->GetAt(size);
+    return *reinterpret_cast<Arr*>(&m_kSeedArray)->GetAt(size);
 }
 
 namespace fnv_0051d220 {
@@ -439,34 +444,38 @@ void* FUN_0051d220_shell::DestroyAndFree(unsigned int flags)
 
 struct FUN_00821600_shell
 {
+    char pad[0x78];
+    float m_f78;
     void FUN_00821600(float value);
 };
 
 // @fnv 0x00821600
 void FUN_00821600_shell::FUN_00821600(float value)
 {
-    *(float*)((char*)this + 0x78) = value;
+    m_f78 = value;
 }
 
 struct NiMemObject;
 struct FUN_009b0900_shell
 {
+    char pad[0xe0];
+    unsigned int m_uiE0;
     unsigned int GetFieldE0();
 };
 // @fnv 0x009b0900
 unsigned int FUN_009b0900_shell::GetFieldE0()
 {
-    return *(unsigned int*)((char*)this + 0xe0);
+    return m_uiE0;
 }
 
-struct FUN_0051b8a0_shell
+struct FUN_0051b8a0_shell : TESObjectTREE
 {
     void FUN_0051b8a0(float f);
 };
 // @fnv 0x0051b8a0
 void FUN_0051b8a0_shell::FUN_0051b8a0(float afValue)
 {
-    *(int*)((char*)this + 0x80) = (int)afValue;
+    Data.m_iShadowRadius = (int)afValue;
 }
 
 struct S_0051b900
@@ -509,20 +518,18 @@ struct Arr
     unsigned int GetSize();
     unsigned int* GetAt(int);
 };
-struct Holder
+struct Holder : TESObjectTREE
 {
-    char _pad[0x5c];
-    Arr arr;
     unsigned char FindIndex(unsigned int aiIndex);
 };
-// Searches arr for the first element equal to aiIndex and returns its index, or 0xff if not found.
+// Searches the seed array for the first element equal to aiIndex and returns its index, or 0xff if not found.
 // @fnv 0x0051ba90
 unsigned char Holder::FindIndex(unsigned int aiIndex)
 {
     unsigned char idx = 0xff;
-    for (unsigned int uiIndex = 0; uiIndex < reinterpret_cast<::FUN_00658930_class *>(&(arr))->GetShortAtOffsetA(); ++uiIndex)
+    for (unsigned int uiIndex = 0; uiIndex < reinterpret_cast<::FUN_00658930_class *>(&m_kSeedArray)->GetShortAtOffsetA(); ++uiIndex)
     {
-        if (*arr.GetAt(uiIndex) == aiIndex)
+        if (*reinterpret_cast<Arr*>(&m_kSeedArray)->GetAt(uiIndex) == aiIndex)
         {
             idx = uiIndex;
             break;
@@ -713,7 +720,7 @@ struct FUN_0051baf0_shell
     virtual void v61();
     virtual void v62();
     virtual void v63();
-    virtual void v64();
+    virtual unsigned int v64();
     virtual void v65();
     virtual void v66();
     virtual void v67();
@@ -971,15 +978,16 @@ struct FUN_0051baf0_shell
 unsigned int FUN_0051baf0_shell::GetEntryByIndex(unsigned char index)
 {
     unsigned int result;
-    if (index == 0xFF || !reinterpret_cast<::FUN_00658930_class *>((((Arr*)((char*)this + 0x5c))))->GetShortAtOffsetA())
+    Arr* pSeeds = reinterpret_cast<Arr*>(&reinterpret_cast<TESObjectTREE*>(this)->m_kSeedArray);
+    if (index == 0xFF || !reinterpret_cast<::FUN_00658930_class *>(pSeeds)->GetShortAtOffsetA())
     {
-        result = ((unsigned int(*)(void*))(*(void***)(this))[0x190 / 4])(this);
+        result = v64();
     }
     else
     {
-        if (index >= reinterpret_cast<::FUN_00658930_class *>((((Arr*)((char*)this + 0x5c))))->GetShortAtOffsetA())
-            index = index % reinterpret_cast<::FUN_00658930_class *>((((Arr*)((char*)this + 0x5c))))->GetShortAtOffsetA();
-        result = *((Arr*)((char*)this + 0x5c))->GetAt(index);
+        if (index >= reinterpret_cast<::FUN_00658930_class *>(pSeeds)->GetShortAtOffsetA())
+            index = index % reinterpret_cast<::FUN_00658930_class *>(pSeeds)->GetShortAtOffsetA();
+        result = *pSeeds->GetAt(index);
     }
     return result;
 }
@@ -1311,6 +1319,8 @@ class BS9AA340Item
 class BS9AA340List
 {
   public:
+    BS9AA340Item* m_item;
+    BS9AA340List* m_pkNext;
     void RemoveItemByOwner(int iOwner);
 };
 
@@ -1321,7 +1331,7 @@ void BS9AA340List::RemoveItemByOwner(int iOwner)
     BS9AA340List* pkNode = this;
     while (pkNode)
     {
-        BS9AA340Item* pkItem = *((::BS9AA340Item **)(new ((void *)(pkNode)) ::Vec3()));
+        BS9AA340Item* pkItem = pkNode->m_item;
         if (pkItem && ::FUN_00559450((int *)(pkItem)) == iOwner)
         {
             reinterpret_cast<::ItemChangeListNode *>((pkNode))->FUN_00905330((*(::InventoryStackRecord *const *)(&pkItem)));
@@ -1386,7 +1396,7 @@ void SaveTree::FUN_0051bfb0()
             if (uiSeedValue > 0)
                 count[value] = uiSeedValue;
         }
-        ::FUN_00485710((void *)(0x4d414e53), count, (void *)(values));
+        ::FUN_00485710((void *)(0x4d414e53), count, (void *)(std::uintptr_t)(values));
     }
     if (data.unk14 < 0)
         data.unk14 = 128;
@@ -1775,7 +1785,7 @@ class FUN_00a74480 : public TreeSceneObject
     unsigned int unkB8;
     unsigned int unkBC;
     unsigned int unkC0;
-    FUN_00a74480(unsigned int texture);
+    FUN_00a74480(void* apData);
 };
 class FUN_00ba8630 : public TreeSceneObject
 {
@@ -1916,7 +1926,7 @@ TreeSceneObject* TreeBillboardBuilder::CreateBillboardSceneObject(bool variant)
     AutoMemContext eb(0x23, true, treeSourceFile, 470);
     NiPointer<NiSourceTexture> a(0);
     reinterpret_cast<::TreeObj *>(this)->CreateTreeGeometry(variant, (::SpPtr< ::CreatedObj> *)(::NiPointer< ::fnv_0051cba0::NiSourceTexture> *)(&a));
-    FUN_00a74480* h = new FUN_00a74480((unsigned int)(NiSourceTexture*)a);
+    FUN_00a74480* h = new FUN_00a74480((NiSourceTexture*)a);
     TreeSceneObject* f = ((::fnv_0051cba0::TreeSceneObject *)(::fnv_0051cee0::GetFloatAsUInt()));
     if (f)
         reinterpret_cast<::FUN_00439410_cls *>((h))->FUN_00439410((::ArgObject *)(::NiObject *)((NiObject*)f));
@@ -1963,13 +1973,13 @@ struct TreeWork
     int unk10;
     int unk14;
     int unk18;
-    TreeWork(void*, int, int, int, int, int, int);
+    TreeWork(void*, void*, void*, void*, unsigned int, const void*, const void*);
 };
 struct TextureInfo
 {
     int flags;
     TreeWork* work;
-    unsigned int id;
+    const char* id;
     TextureInfo();
 };
 struct Loader
@@ -1977,11 +1987,11 @@ struct Loader
 };
 struct TreeTexture
 {
-    void ProcessTreeTexture(int, int, int, int, int, int, int, int);
+    void ProcessTreeTexture(::Vec3*, int, float*, int, void*, unsigned int, ::Obj3*, int);
 };
 // Validates inputs and texture readiness, loads or queues the tree texture, then processes it and deletes the work object.
 // @fnv 0x0051d440
-void TreeTexture::ProcessTreeTexture(int a, int unused, int c, int d, int e, int f, int g, int unused2)
+void TreeTexture::ProcessTreeTexture(::Vec3* a, int unused, float* c, int d, void* e, unsigned int f, ::Obj3* g, int unused2)
 {
     AutoMemContext context4(0x23, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESObjectTREE.cpp",
                             0x228);
@@ -1992,7 +2002,7 @@ void TreeTexture::ProcessTreeTexture(int a, int unused, int c, int d, int e, int
     if (!reinterpret_cast<::FUN_0051d250_Class *>(this)->FUN_0051d250())
         return;
     TreeWork* work2 = 0;
-    if (!::IsNamedObjectPresent((const char *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))))
+    if (!::IsNamedObjectPresent((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))
     {
         char path3[260];
         char normalized[260];
@@ -2002,8 +2012,8 @@ void TreeTexture::ProcessTreeTexture(int a, int unused, int c, int d, int e, int
         ::FindTextureByPath(normalized, (::NiTexture **)(::fnv_0051d440::TexturePtr *)(&texture5));
         if (!texture5)
         {
-            TreeWork* request = new TreeWork(this, e, f, g, d, a, c);
-            reinterpret_cast<::fnv_00447980::OwnerX *>(((*reinterpret_cast<::fnv_0051d440::Loader * *>(&::g_modelLoader))))->RunIdleTask((int)(normalized), (int)(request));
+            TreeWork* request = new TreeWork(this, e, (void*)(std::uintptr_t)f, g, d, a, c);
+            reinterpret_cast<::fnv_00447980::OwnerX *>(((*reinterpret_cast<::fnv_0051d440::Loader * *>(&::g_modelLoader))))->RunIdleTask((std::uintptr_t)(normalized), (std::uintptr_t)(request));
             return;
         }
         else
@@ -2014,10 +2024,10 @@ void TreeTexture::ProcessTreeTexture(int a, int unused, int c, int d, int e, int
             return;
     }
     TextureInfo info2;
-    info2.id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()));
+    info2.id = (const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0());
     info2.work = work2;
     info2.flags = 0;
-    ::FUN_00b59ae0((void *)(e), f, (::Obj3 *)(g), (::ObjA4 *)(::fnv_0051d440::TextureInfo *)(&info2), (::Vec3 *)(a), (float *)(c), (unsigned short)d);
+    ::FUN_00b59ae0(e, f, g, (::ObjA4 *)(::fnv_0051d440::TextureInfo *)(&info2), a, c, (unsigned short)d);
     delete info2.work;
 }
 }  // namespace fnv_0051d440
@@ -2166,5 +2176,38 @@ void TreeCopy::FUN_0051c140(TESForm* source)
     Data = *reinterpret_cast<TreeDataGetter>((*reinterpret_cast<void***>(tree))[0x63])(tree);
     m_kBillboardDimensions = tree->m_kBillboardDimensions;
 }
+
+// MSVC adjustor thunk: the primary base occupies 0x30 bytes; both bases declare the virtual,
+// the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_0051d760();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0051d760();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0051d760
+    virtual void FUN_0051d760();
+};
+
+Derived::Derived()
+{}
 
 #include "generated/data/tesobjecttree.inc"

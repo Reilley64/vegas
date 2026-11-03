@@ -6378,7 +6378,7 @@ S_cc6310_Base* S_cc6310::GetOrCreateBase(bool* created) {
         }
         unk0c = r;
         if (unk08)
-            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((void*)(unk0c ? (S_cc6310_Obj*)((char*)unk0c - 4) : 0));
+            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(unk0c ? (S_cc6310_Obj*)((char*)unk0c - 4) : 0));
     }
     return unk0c;
 }
@@ -6891,7 +6891,7 @@ void* FUN_00cc83b0_Class::FUN_00cc83b0(bool* created) {
         object = reference;
         if (owner != 0) {
             RefBlockArgument header = { reference ? reinterpret_cast<RefBlock*>(static_cast<char*>(reference) - 4) : 0 };
-            reinterpret_cast<::FUN_00c89c80_obj *>((this))->CopyFromSource(header.block);
+            reinterpret_cast<::FUN_00c89c80_obj *>((this))->CopyFromSource((uintptr_t)(header.block));
         }
     }
     return object;
@@ -16710,7 +16710,7 @@ Child_00cc6ab0* Owner_00cc6ab0::FUN_00cc6ab0(bool* out)
         if (m_08)
         {
             void* base = pChild ? (char*)pChild - 4 : 0;
-            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((void*)(base));
+            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(base));
         }
     }
     return m_0c;
@@ -19995,7 +19995,7 @@ S_54d0_Child* S_54d0_Owner::FUN_00cc54d0(bool* pbCreated) {
         m_pData = new S_54d0_Node();
 
         if (m_pUnk08 != 0) {
-            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((void*)(S_54d0_Node*)m_pData);
+            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(S_54d0_Node*)m_pData);
         }
     }
 
@@ -20038,7 +20038,7 @@ CC7970_RefData* CC7970_Owner::GetOrCreateRefData(bool* created) {
         CC7970_RefData* data = CC7970_CreateReference();
         m_pData = data;
         if (m_flag08) {
-            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((void*)(data ? reinterpret_cast<CC7970_RefObject*>(reinterpret_cast<char*>(data) - 4) : 0));
+            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(data ? reinterpret_cast<CC7970_RefObject*>(reinterpret_cast<char*>(data) - 4) : 0));
         }
     }
     return m_pData;
@@ -22353,7 +22353,7 @@ Interface4D40* Owner4D40::GetOrCreateInterface(bool* pbCreated)
     if (bCreate) {
         m_pkInterface = new Object4D40;
         if (m_iActive)
-            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((void*)(static_cast<Object4D40*>(m_pkInterface)));
+            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(static_cast<Object4D40*>(m_pkInterface)));
     }
     return m_pkInterface;
 }
@@ -22721,7 +22721,7 @@ CC7970_RefData* CC8850_Owner::GetOrCreateReference(bool* created)
         CC7970_RefData* data = CC8850_CreateReference();
         m_pData = data;
         if (m_flag08)
-            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((void*)(data ? reinterpret_cast<CC7970_RefObject*>(reinterpret_cast<char*>(data) - 4) : 0));
+            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(data ? reinterpret_cast<CC7970_RefObject*>(reinterpret_cast<char*>(data) - 4) : 0));
     }
     return m_pData;
 }
@@ -22886,7 +22886,7 @@ CC7970_RefData* CC9A20_Owner::EnsureReference(bool* created)
         CC7970_RefData* data = CC9A20_CreateReference();
         m_pData = data;
         if (m_flag08)
-            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((void*)(data ? reinterpret_cast<CC7970_RefObject*>(reinterpret_cast<char*>(data) - 4) : 0));
+            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(data ? reinterpret_cast<CC7970_RefObject*>(reinterpret_cast<char*>(data) - 4) : 0));
     }
     return m_pData;
 }
@@ -26840,7 +26840,7 @@ Inner* FUN_00cc5c70_cls::FUN_00cc5c70(bool* abCreated)
         NewObj* o = new NewObj;
         m_0c = o;
         if (m_08)
-            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((void*)(static_cast<NewObj*>(m_0c)));
+            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(static_cast<NewObj*>(m_0c)));
     }
     return m_0c;
 }

@@ -599,7 +599,7 @@ struct FUN_008509f0_Holder : BGSSaveLoadManager
 // @fnv 0x008509f0
 void FUN_008509f0_Holder::LoadQuickSave()
 {
-    ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d35ac))))->GetMenuTitle()))), 0, (int)(g_011cba4c_arg1), (int)(0), ::DAT_010162c0, 0);
+    ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d35ac))))->GetMenuTitle()))), 0, (const char *)(g_011cba4c_arg1), (const char *)(0), ::DAT_010162c0, 0);
     LoadGame(g_quicksaveName, -1, false, true);
 }
 
@@ -771,11 +771,11 @@ extern "C" const char str_0106eb78[];
 
 // Creates a scope object, and if an interface manager and message sink exist, forwards the six arguments to the sink; returns false.
 // @fnv 0x007052f0
-bool __cdecl DispatchMessageToSink(int aiArg1, int aiArg2, int aiArg3, int aiArg4, float value, unsigned char option)
+bool __cdecl DispatchMessageToSink(const char* aiArg1, int aiArg2, const char* aiArg3, const char* aiArg4, float value, unsigned char option)
 {
     FUN_00404eb0 scope(13, 1, str_0106eb78, 0x901);
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->FUN_009373f0() && (*reinterpret_cast<::MessageSink * *>(&::g_pHudMainMenuInstance)))
-        reinterpret_cast<::MessageHUD *>(((*reinterpret_cast<::MessageSink * *>(&::g_pHudMainMenuInstance))))->AddMessage((const char *)(aiArg1), aiArg2, (const char *)(aiArg3), (const char *)(aiArg4), value, option);
+        reinterpret_cast<::MessageHUD *>(((*reinterpret_cast<::MessageSink * *>(&::g_pHudMainMenuInstance))))->AddMessage(aiArg1, aiArg2, aiArg3, aiArg4, value, option);
     return false;
 }
 
@@ -844,7 +844,7 @@ void BGSSaveLoadManager::ProcessQueuedSaveLoad()
 // @fnv 0x008509a0
 void FUN_008509a0_Holder::FUN_008509a0()
 {
-    ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>((((SettingT_GameSettingCollection_*)&g_011d3600)))->GetMenuTitle()))), 0, (int)(g_011cba4c_arg1), (int)(0), DAT_010162c0, 0);
+    ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>((((SettingT_GameSettingCollection_*)&g_011d3600)))->GetMenuTitle()))), 0, (const char *)(g_011cba4c_arg1), (const char *)(0), DAT_010162c0, 0);
     reinterpret_cast<::SaveManager *>(this)->FUN_008503b0(g_quicksaveName, -1, 0);
 }
 // Clears two fields on this manager, updates the current AI process's Sky with FUN_00453850(), then calls FUN_008503b0(DAT_0107fae0, -1, 0).
@@ -871,7 +871,7 @@ bool SaveManager::FUN_008503b0(const char* acFileName, int mode, bool remove)
     if (!reinterpret_cast<::BGSSaveLoadManager *>(this)->CanSave(q))
     {
         if (!eb)
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d2364))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)(0), DAT_010162c0, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d2364))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)(0), DAT_010162c0, false);
         return false;
     }
     if (index == 0)
@@ -901,14 +901,14 @@ bool SaveManager::FUN_008503b0(const char* acFileName, int mode, bool remove)
     if (eb)
     {
         saving = false;
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::SettingString *>(&::g_011d4930)).GetString()), 0, (int)(::g_011cba4c_arg1), (int)(0), DAT_010162c0, true);
+        ::DispatchMessageToSink((const char *)((*reinterpret_cast<::SettingString *>(&::g_011d4930)).GetString()), 0, (const char *)(::g_011cba4c_arg1), (const char *)(0), DAT_010162c0, true);
     }
     reinterpret_cast<::FUN_00850ea0_shell *>(this)->FUN_00850ea0(i);
     reinterpret_cast<::fnv_00847850::W20Save *>((((SaveGameOps*)::g_BGSSaveLoadGame)))->FUN_00847850((::fnv_00847850::W20File *)(i));
     if (reinterpret_cast<::FUN_005621d0_shell *>((((SaveGameOps*)::g_BGSSaveLoadGame)))->FUN_005621d0())
     {
         reinterpret_cast<::FUN_00847d00_shell *>((((SaveGameOps*)::g_BGSSaveLoadGame)))->SetFlag4(false);
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::SettingString *>(&::g_011d4f0c)).GetString()), 0, (int)(::g_011cba18_arg1), (int)(0), DAT_010162c0, false);
+        ::DispatchMessageToSink((const char *)((*reinterpret_cast<::SettingString *>(&::g_011d4f0c)).GetString()), 0, (const char *)(::g_011cba18_arg1), (const char *)(0), DAT_010162c0, false);
         ::FUN_00850bf0((int)this);
         return false;
     }

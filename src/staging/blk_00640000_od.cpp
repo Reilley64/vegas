@@ -990,7 +990,7 @@ void FUN_0065dfb0_Class::FUN_0065dfb0(int a)
 
 struct FUN_0065dfd0_class
 {
-    bool FUN_0065dfd0(int);
+    bool FUN_0065dfd0(std::intptr_t);
 };
 struct FUN_0065e000_class
 {
@@ -3959,7 +3959,7 @@ PairDword FUN_0064dc50_cls::FUN_0064dc50(int p1, int p2, int p3, int p4)
     PairDword A;
     reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(::PairDword *)(&B), p1, p2);
     reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(::PairDword *)(&A), p3, p4);
-    if (reinterpret_cast<::FUN_0065dfd0_class *>(&(B))->FUN_0065dfd0((int)(&A)))
+    if (reinterpret_cast<::FUN_0065dfd0_class *>(&(B))->FUN_0065dfd0(reinterpret_cast<std::intptr_t>(&A)))
     {
         int r = FUN_0064e380(A.b, m_10, B.b);
         reinterpret_cast<::FUN_0064dee0_Class *>(this)->ForwardToHelper(r, m_10);
@@ -4024,13 +4024,13 @@ void FUN_0064dcf0_cls::ApplyToCopy(int a1, const Vector4f* pSource)
 struct FUN_0064dda0_target
 {
     char pad_00[0x10];
-    unsigned int m_10;
+    char* m_10;
 };
 struct FUN_0064dda0_cls
 {
     unsigned int m_iWordAt00;
-    unsigned int m_iWordAt04;
-    unsigned int FUN_0064dda0();
+    char* m_iWordAt04;
+    void* FUN_0064dda0();
 };
 // @fnv 0x0064dbd0
 void FUN_0064dbd0_Class::FUN_0064dbd0()
@@ -4038,7 +4038,7 @@ void FUN_0064dbd0_Class::FUN_0064dbd0()
     reinterpret_cast<::FUN_0064dda0_cls *>(this)->FUN_0064dda0();
 }
 // @fnv 0x0064dda0
-unsigned int FUN_0064dda0_cls::FUN_0064dda0()
+void* FUN_0064dda0_cls::FUN_0064dda0()
 {
     if (!((unsigned char)(reinterpret_cast<::FUN_005ca4f0_shell *>(this)->FUN_005ca4f0())))
         std::abort();
@@ -5528,7 +5528,7 @@ FNVPair8* FUN_0065d740_cls::FUN_0065d740(FNVPair8* out, unsigned int a, unsigned
 
     reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(::fnv_0065d740::FNVPair8 *)(&local1), a, b);
     reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(::fnv_0065d740::FNVPair8 *)(&local7), c, d);
-    if (reinterpret_cast<::FUN_0065dfd0_class *>(&(local1))->FUN_0065dfd0((int)(&local7)))
+    if (reinterpret_cast<::FUN_0065dfd0_class *>(&(local1))->FUN_0065dfd0(reinterpret_cast<std::intptr_t>(&local7)))
     {
         unsigned int t = FUN_0065e1f0(local7.hi, m_10, local1.hi);
         reinterpret_cast<::FUN_0065df10_class *>(this)->FUN_0065df10((void *)(t), (void *)(m_10));
@@ -5580,7 +5580,7 @@ Lay_d8e0_Pair* FUN_0065d8e0_cls::BuildAndComparePair(Lay_d8e0_Pair* out, int aiF
     Lay_d8e0_Pair second;
     reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(::Lay_d8e0_Pair *)(&first), aiFirstA, aiFirstB);
     reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(::Lay_d8e0_Pair *)(&second), aiSecondA, aiSecondB);
-    if (reinterpret_cast<::FUN_0065dfd0_class *>(&(first))->FUN_0065dfd0((int)(&second)))
+    if (reinterpret_cast<::FUN_0065dfd0_class *>(&(first))->FUN_0065dfd0(reinterpret_cast<std::intptr_t>(&second)))
     {
         int temp = Lay_d8e0_Combine(second.m_04, m_10, first.m_04);
         reinterpret_cast<::FUN_0065df80_class *>(this)->FUN_0065df80(temp, m_10);
@@ -5718,7 +5718,7 @@ struct S_0065e1a0
 };
 // Returns the logical negation of FUN_0065e1a0(b).
 // @fnv 0x0065dfd0
-bool FUN_0065dfd0_class::FUN_0065dfd0(int b)
+bool FUN_0065dfd0_class::FUN_0065dfd0(std::intptr_t b)
 {
     return !reinterpret_cast<::S_0065e1a0 *>(this)->FUN_0065e1a0((::S_0065e1a0 *)(b));
 }
@@ -6120,7 +6120,7 @@ FNVPair8* FUN_0065f5a0_cls::FUN_0065f5a0(FNVPair8* out, int a, int b, int c, int
 
     reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(::fnv_0065f5a0::FNVPair8 *)(&A5), a, b);
     reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(::fnv_0065f5a0::FNVPair8 *)(&B), c, d);
-    if (reinterpret_cast<::FUN_0065dfd0_class *>(&(A5))->FUN_0065dfd0((int)(&B)))
+    if (reinterpret_cast<::FUN_0065dfd0_class *>(&(A5))->FUN_0065dfd0(reinterpret_cast<std::intptr_t>(&B)))
     {
         int t = (int)FUN_0065f820((Elem_65eed0*)B.hi, (Elem_65eed0*)m_10, (Elem_65eed0*)A5.hi);
         reinterpret_cast<::FUN_0065f400_class *>(this)->FUN_0065f400(t, m_10);
@@ -6201,7 +6201,7 @@ C65F700Iterator C65F700List::FUN_0065f700(void* pvFirstCont, C65F700Node* pitFir
 {
     C65F700Iterator itFirst = (*(::C65F700Iterator *)(reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(pvFirstCont), (int)(pitFirst), {})));
     C65F700Iterator itLast = (*(::C65F700Iterator *)(reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(pvLastCont), (int)(pitLast), {})));
-    if (reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(const ::C65F700Iterator &)(itFirst))->FUN_0065dfd0((int)&(itLast)))
+    if (reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(const ::C65F700Iterator &)(itFirst))->FUN_0065dfd0(reinterpret_cast<std::intptr_t>(&itLast)))
     {
         C65F700Node* pkNewHead = C65F700Unlink(itLast.m_pkNode, m_pkHead, itFirst.m_pkNode);
         reinterpret_cast<::FUN_0065f2b0_class *>(this)->FUN_0065f2b0((int)(pkNewHead), (int)(m_pkHead));

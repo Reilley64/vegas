@@ -18,4 +18,4 @@ namespace fnv_0086a0a0 { char DAT_011deef4; }
 void *DAT_011f6118;
 int DAT_011f638c;
 unsigned char DAT_011f9fc5;
-int DAT_01204368;
+void* DAT_01204368;

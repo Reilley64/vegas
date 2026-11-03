@@ -29493,7 +29493,7 @@
    ]
   },
   {
-   "source": "src/effectsetting_decl_variant.cpp",
+   "source": "src/effectsetting.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -29530,7 +29530,7 @@
    }
   },
   {
-   "source": "src/effectsetting_o2_variant.cpp",
+   "source": "src/effectsetting.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -607067,7 +607067,7 @@
    ]
   },
   {
-   "source": "src/tesobjecttree_o2_variant.cpp",
+   "source": "src/tesobjecttree.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -607277,7 +607277,7 @@
    ]
   },
   {
-   "source": "src/tesregiondatasound_rtm_variant.cpp",
+   "source": "src/tesregiondatasound.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -607729,7 +607729,7 @@
    }
   },
   {
-   "source": "src/unmapped/bhkboxshape_o2_nood_variant.cpp",
+   "source": "src/unmapped/bhkboxshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -608055,7 +608055,7 @@
    }
   },
   {
-   "source": "src/unmapped/bhkrigidbody_rtm_variant.cpp",
+   "source": "src/unmapped/bhkrigidbody.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -608813,7 +608813,7 @@
    ]
   },
   {
-   "source": "src/unmapped/bssimplearray_ob1_variant.cpp",
+   "source": "src/unmapped/bssimplearray.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -608926,7 +608926,7 @@
    }
   },
   {
-   "source": "src/unmapped/cuassembler_ob1_variant.cpp",
+   "source": "src/unmapped/cuassembler.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -609735,7 +609735,7 @@
    ]
   },
   {
-   "source": "src/unmapped/mbscmp_od_oy_noo2_variant.cpp",
+   "source": "src/unmapped/mbscmp.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -609776,7 +609776,7 @@
    "symbols": {}
   },
   {
-   "source": "src/unmapped/memcpyp_o2_variant.cpp",
+   "source": "src/unmapped/memcpyp.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -609903,7 +609903,7 @@
    }
   },
   {
-   "source": "src/unmapped/nismartpointer_o2_variant.cpp",
+   "source": "src/unmapped/nismartpointer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -610103,7 +610103,7 @@
    }
   },
   {
-   "source": "src/unmapped/nitarray_od_oy_noo2_variant.cpp",
+   "source": "src/unmapped/nitarray.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -610187,7 +610187,7 @@
    }
   },
   {
-   "source": "src/unmapped/nitlargearray_noehsc_variant.cpp",
+   "source": "src/unmapped/nitlargearray.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -610345,7 +610345,7 @@
    ]
   },
   {
-   "source": "src/unmapped/nitmapbase_o2_variant.cpp",
+   "source": "src/unmapped/nitmapbase.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -610380,7 +610380,7 @@
    }
   },
   {
-   "source": "src/unmapped/nitmapbase_ob1_variant.cpp",
+   "source": "src/unmapped/nitmapbase.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -610604,7 +610604,7 @@
    ]
   },
   {
-   "source": "src/unmapped/nitpointerlistbase_o2_variant.cpp",
+   "source": "src/unmapped/nitpointerlistbase.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -610818,7 +610818,7 @@
    }
   },
   {
-   "source": "src/unmapped/rtlfile_od_oy_noo2_variant.cpp",
+   "source": "src/unmapped/rtlfile.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -610998,7 +610998,7 @@
    ]
   },
   {
-   "source": "src/unmapped/signedquaternion_o2_gs_nood_nogs_variant.cpp",
+   "source": "src/unmapped/signedquaternion.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -611134,7 +611134,7 @@
    }
   },
   {
-   "source": "src/unmapped/sprintf_o2_variant.cpp",
+   "source": "src/unmapped/sprintf.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",

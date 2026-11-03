@@ -1391,12 +1391,12 @@ void TreeCtrl4d63::CreateTreeWindows(int iX, int iY, int iWidth, int iHeight)
     kClass.hIcon = DAT_00fdf280(0, (const char*)0x7F00);
     kClass.hCursor = DAT_00fdf2a0(0, (const char*)0x7F00);
     kClass.hbrBackground = DAT_00fdf03c(0);
-    kClass.lpszClassName = ((const char *)(::FUN_00464f30((int)(DAT_01189338))));
+    kClass.lpszClassName = ((const char *)(::FUN_00464f30((intptr_t)(DAT_01189338))));
     kClass.lpszMenuName = 0;
     DAT_00fdf2b4(&kClass);
 
     unsigned long ulStyle = 0xCE0200;
-    m_hWnd = DAT_00fdf2b8(0, ((const char *)(::FUN_00464f30((int)(DAT_01189338)))), m_pcTitle, ulStyle, iX, iY, iWidth, iHeight, 0,
+    m_hWnd = DAT_00fdf2b8(0, ((const char *)(::FUN_00464f30((intptr_t)(DAT_01189338)))), m_pcTitle, ulStyle, iX, iY, iWidth, iHeight, 0,
                           0, m_hInstance, 0);
 
     ulStyle = 0x50010007;
@@ -1783,7 +1783,7 @@ void C7::AddChildTreeItem(void* parent, Node7* node)
         ins.after = 0xffff0002;
         ins.mask = 0x27;
         ins.param = node;
-        ins.text = ((const char *)(::FUN_00464f30((int)(&DAT_01020ebc))));
+        ins.text = ((const char *)(::FUN_00464f30((intptr_t)(&DAT_01020ebc))));
         ins.image = 5;
         ins.selected = ins.image;
         ins.parent = parent;
@@ -1791,7 +1791,7 @@ void C7::AddChildTreeItem(void* parent, Node7* node)
         char buffer[64];
         FUN_004add50(buffer, ((const char *)(::FUN_00559450((int *)(void *)(casted7->v2())))), 63);
         buffer[63] = 0;
-        ins.text = ((const char *)(::FUN_00464f30((int)(buffer))));
+        ins.text = ((const char *)(::FUN_00464f30((intptr_t)(buffer))));
         ins.image = 0;
         ins.selected = ins.image;
         ins.parent = handle4;
@@ -1801,7 +1801,7 @@ void C7::AddChildTreeItem(void* parent, Node7* node)
         unsigned index4;
         for (index4 = 0; index4 < reinterpret_cast<::FUN_00658930_class *>((arr))->GetShortAtOffsetA(); index4++)
         {
-            ins.text = ((const char *)(::FUN_00464f30((int)(*arr->FUN_00877a30(index4)))));
+            ins.text = ((const char *)(::FUN_00464f30((intptr_t)(*arr->FUN_00877a30(index4)))));
             ins.image = 6;
             ins.selected = ins.image;
             ((void*(*)(void*, unsigned, unsigned, Insert7*))DAT_00fdf28c)(hwnd, 0x1100, 0, &ins);
@@ -1925,7 +1925,7 @@ void FUN_004d80b0_Class::BuildTreeItems(void* parent, FNVTreeNode* node)
             insertInfo.item.node = node;
             ::FUN_004add50(displayName, (const char*)((void *)(::FUN_00559450((int *)(node->GetName())))), 63);
             displayName[63] = 0;
-            insertInfo.item.text = ((char *)(::FUN_00464f30((int)(displayName))));
+            insertInfo.item.text = ((char *)(::FUN_00464f30((intptr_t)(displayName))));
             insertInfo.item.image = 0;
             insertInfo.item.selectedImage = insertInfo.item.image;
             insertInfo.parent = parent;
@@ -1935,7 +1935,7 @@ void FUN_004d80b0_Class::BuildTreeItems(void* parent, FNVTreeNode* node)
             node->CollectChildren(nodeArray);
             for (childIndex = 0; childIndex < reinterpret_cast<::FUN_00658930_class *>((nodeArray))->GetShortAtOffsetA(); ++childIndex)
             {
-                insertInfo.item.text = ((char *)(::FUN_00464f30((int)(*nodeArray->FUN_00877a30(childIndex)))));
+                insertInfo.item.text = ((char *)(::FUN_00464f30((intptr_t)(*nodeArray->FUN_00877a30(childIndex)))));
                 insertInfo.item.image = 6;
                 insertInfo.item.selectedImage = insertInfo.item.image;
                 DAT_00fdf28c(m_treeWindow, 0x1100, 0, (int)&insertInfo);
@@ -2087,14 +2087,14 @@ void TreeCtrl4d86::PopulateObjectTree(void* hParentItem, Object4d86* pkObject)
         kInsert.item.lParam = (long)pkObject;
         if (((::Palette4d86 *)(::fnv_00537bd0::GetStringAtOffset((const char *)(pkObject)))))
         {
-            kInsert.item.pszText = ((const char *)(::FUN_00464f30((int)("Object Palette"))));
+            kInsert.item.pszText = ((const char *)(::FUN_00464f30((intptr_t)("Object Palette"))));
             kInsert.item.iImage = 5;
             kInsert.item.iSelectedImage = kInsert.item.iImage;
             kInsert.hParent = hParentItem;
             void* hPaletteItem = ((SendMessage4d86)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (int)&kInsert);
             AddNameItems(hPaletteItem, ((::Palette4d86 *)(::fnv_00537bd0::GetStringAtOffset((const char *)(pkObject)))));
         }
-        kInsert.item.pszText = ((const char *)(::FUN_00464f30((int)("Active Sequences"))));
+        kInsert.item.pszText = ((const char *)(::FUN_00464f30((intptr_t)("Active Sequences"))));
         kInsert.item.iImage = 5;
         kInsert.item.iSelectedImage = kInsert.item.iImage;
         kInsert.hParent = hParentItem;
@@ -2105,7 +2105,7 @@ void TreeCtrl4d86::PopulateObjectTree(void* hParentItem, Object4d86* pkObject)
             if (pkSet && ((int)(reinterpret_cast<::LowProcess *>((pkSet))->GetActiveCombatTarget())))
                 reinterpret_cast<::LockCtx *>(this)->FUN_004d8b90((int)(hItem), (::NiControllerSequence *)(pkSet));
         }
-        kInsert.item.pszText = ((const char *)(::FUN_00464f30((int)("Inactive Sequences"))));
+        kInsert.item.pszText = ((const char *)(::FUN_00464f30((intptr_t)("Inactive Sequences"))));
         hItem = ((SendMessage4d86)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (int)&kInsert);
         for (unsigned int uiIndex2 = 0; uiIndex2 < reinterpret_cast<::fnv_00495d00::FUN_00495d00_shell *>((pkObject))->FUN_00495d00(); uiIndex2++)
         {
@@ -2177,7 +2177,7 @@ void TreeCtrl4d88::AddBlendInterpTreeItems(void* hParentItem, BlendInterp4d88* p
         kInsert.hInsertAfter = (void*)0xFFFF0002;
         kInsert.item.mask = 0x27;
         kInsert.item.lParam = (long)pkBlend;
-        kInsert.item.pszText = ((const char *)(::FUN_00464f30((int)(DAT_01020f14))));
+        kInsert.item.pszText = ((const char *)(::FUN_00464f30((intptr_t)(DAT_01020f14))));
         kInsert.item.iImage = 5;
         kInsert.item.iSelectedImage = kInsert.item.iImage;
         kInsert.hParent = hParentItem;
@@ -2193,7 +2193,7 @@ void TreeCtrl4d88::AddBlendInterpTreeItems(void* hParentItem, BlendInterp4d88* p
                 {
                     kInsert.item.lParam = (long)pkInterp;
                     ::FUN_00406d00(acBuffer, 0x100, "Interp: %d, Target:%s", us, *((const char **)(reinterpret_cast<::TESTopicInfoData *>((pkTarget))->GetLinkToList())));
-                    kInsert.item.pszText = ((const char *)(::FUN_00464f30((int)(acBuffer))));
+                    kInsert.item.pszText = ((const char *)(::FUN_00464f30((intptr_t)(acBuffer))));
                     void* hItem = ((SendMessage4d88)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (int)&kInsert);
                     AddNameItems(hItem, pkInterp);
                 }
@@ -2290,7 +2290,7 @@ void TreeCtrl4d8a::AddNameItems(void* hParent, NameSource4d8a* pkSource)
         pkSource->GetNames(pkNames);
         for (i = 0; i < reinterpret_cast<::FUN_00658930_class *>((pkNames))->GetShortAtOffsetA(); i++)
         {
-            kInsert.item.pszText = ((const char *)(::FUN_00464f30((int)(*pkNames->FUN_00877a30(i)))));
+            kInsert.item.pszText = ((const char *)(::FUN_00464f30((intptr_t)(*pkNames->FUN_00877a30(i)))));
             kInsert.item.iImage = 6;
             kInsert.item.iSelectedImage = kInsert.item.iImage;
             DAT_00fdf28c(m_hTreeWnd, 0x1100, 0, (int)&kInsert);
@@ -3274,7 +3274,7 @@ void HostClass::SendModifierMessages(int a1, NiObject* apObject)
         n3.unk04 = (int)0xffff0002;
         n3.unk08 = 0x27;
         n3.unk2C = apObject;
-        n3.unk18 = ((const char *)(::FUN_00464f30((int)("Modifiers"))));
+        n3.unk18 = ((const char *)(::FUN_00464f30((intptr_t)("Modifiers"))));
         n3.unk20 = 5;
         n3.unk24 = n3.unk20;
         n3.unk00 = a1;
@@ -3289,7 +3289,7 @@ void HostClass::SendModifierMessages(int a1, NiObject* apObject)
                 FUN_004add50(i4, ((const char *)(::FUN_00559450((int *)&(qB->GetName())))), 0x3f);
                 i4[63] = 0;
 
-                n3.unk18 = ((const char *)(::FUN_00464f30((int)(i4))));
+                n3.unk18 = ((const char *)(::FUN_00464f30((intptr_t)(i4))));
                 n3.unk20 = 0;
                 n3.unk24 = n3.unk20;
                 n3.unk00 = bo;
@@ -3300,7 +3300,7 @@ void HostClass::SendModifierMessages(int a1, NiObject* apObject)
 
                 for (val = 0; val < reinterpret_cast<::FUN_00658930_class *>((b2))->GetShortAtOffsetA(); ++val)
                 {
-                    n3.unk18 = ((const char *)(::FUN_00464f30((int)((const char*)b2->GetAt(val)))));
+                    n3.unk18 = ((const char *)(::FUN_00464f30((intptr_t)((const char*)b2->GetAt(val)))));
                     n3.unk20 = 6;
                     n3.unk24 = n3.unk20;
                     ((DAT_00fdf28c_fn)DAT_00fdf28c)(this->unk0C, 0x1100, 0, &n3);
@@ -4493,7 +4493,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
                         }
                         if (reinterpret_cast<::FUN_00456630_helper *>((object))->FUN_00456610())
                             FUN_00406d50(label, 260, " Culled");
-                        treeItem.item.text = ((const char *)(::FUN_00464f30((int)(label))));
+                        treeItem.item.text = ((const char *)(::FUN_00464f30((intptr_t)(label))));
                         if (object->IsSceneNode())
                             treeItem.item.image = 3;
                         else if (::FUN_0043b300((const ::NiRTTI *)(const ::fnv_004d66d0::NiRTTI *)(&(*reinterpret_cast<::fnv_004d66d0::NiRTTI *>(&::g_011f4a18))), (::NiAVObject *)(object)))
@@ -4506,7 +4506,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
                         treeItem.parent = (void*)SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
                         treeItem.item.data = 0;
                         reinterpret_cast<::FUN_00844700_Class *>(&(entries))->FUN_00844700((unsigned int)object, (unsigned int)treeItem.parent);
-                        treeItem.item.text = ((const char *)(::FUN_00464f30((int)("Attributes"))));
+                        treeItem.item.text = ((const char *)(::FUN_00464f30((intptr_t)("Attributes"))));
                         treeItem.item.image = 5;
                         treeItem.item.selectedImage = treeItem.item.image;
                         parent = treeItem.parent;
@@ -4515,7 +4515,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
                         object->GetViewerStrings(strings);
                         for (i = 0; i < reinterpret_cast<::FUN_00658930_class *>((strings))->GetShortAtOffsetA(); i++)
                         {
-                            treeItem.item.text = ((const char *)(::FUN_00464f30((int)(strings->GetAt(i)))));
+                            treeItem.item.text = ((const char *)(::FUN_00464f30((intptr_t)(strings->GetAt(i)))));
                             treeItem.item.image = 6;
                             treeItem.item.selectedImage = treeItem.item.image;
                             SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
@@ -4539,7 +4539,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
                         extra = ((::fnv_004d66d0::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(object))));
                         if (extra || hasPropertyControllers)
                         {
-                            treeItem.item.text = ((const char *)(::FUN_00464f30((int)("Controllers"))));
+                            treeItem.item.text = ((const char *)(::FUN_00464f30((intptr_t)("Controllers"))));
                             treeItem.item.image = 5;
                             treeItem.item.selectedImage = treeItem.item.image;
                             treeItem.parent = parent;
@@ -4553,7 +4553,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
                                         char controllerName[64];
                                         ::FUN_004add50(controllerName, ((const char *)(::FUN_00559450((int *)(extra->GetRTTI())))), 63);
                                         controllerName[63] = 0;
-                                        treeItem.item.text = ((const char *)(::FUN_00464f30((int)(controllerName))));
+                                        treeItem.item.text = ((const char *)(::FUN_00464f30((intptr_t)(controllerName))));
                                         treeItem.item.image = 6;
                                         treeItem.item.selectedImage = treeItem.item.image;
                                         treeItem.parent = controllersItem;
@@ -4561,7 +4561,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
                                         extra->GetViewerStrings(strings);
                                         for (j = 0; j < reinterpret_cast<::FUN_00658930_class *>((strings))->GetShortAtOffsetA(); j++)
                                         {
-                                            treeItem.item.text = ((const char *)(::FUN_00464f30((int)(strings->GetAt(j)))));
+                                            treeItem.item.text = ((const char *)(::FUN_00464f30((intptr_t)(strings->GetAt(j)))));
                                             treeItem.item.image = 6;
                                             treeItem.item.selectedImage = treeItem.item.image;
                                             SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
@@ -4601,7 +4601,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
                                                 ::FUN_004add50(controllerName, ((const char *)(::FUN_00559450((int *)(propertyController->GetRTTI())))),
                                                              63);
                                                 controllerName[63] = 0;
-                                                treeItem.item.text = ((const char *)(::FUN_00464f30((int)(controllerName))));
+                                                treeItem.item.text = ((const char *)(::FUN_00464f30((intptr_t)(controllerName))));
                                                 treeItem.item.image = 6;
                                                 treeItem.item.selectedImage = treeItem.item.image;
                                                 treeItem.parent = controllersItem;
@@ -4610,7 +4610,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
                                                 propertyController->GetViewerStrings(strings);
                                                 for (j = 0; j < reinterpret_cast<::FUN_00658930_class *>((strings))->GetShortAtOffsetA(); j++)
                                                 {
-                                                    treeItem.item.text = ((const char *)(::FUN_00464f30((int)(strings->GetAt(j)))));
+                                                    treeItem.item.text = ((const char *)(::FUN_00464f30((intptr_t)(strings->GetAt(j)))));
                                                     treeItem.item.image = 6;
                                                     treeItem.item.selectedImage = treeItem.item.image;
                                                     SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
@@ -4640,7 +4640,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
                         reinterpret_cast<::HostClass *>(this)->SendModifierMessages((int)(parent), (::NiObject *)(object));
                         if (!reinterpret_cast<::FUN_0076b610_Class *>((void *)&((*(::fnv_004d66d0::PropertyList *)(reinterpret_cast<::TESRecipe *>((object))->GetData()))))->FUN_0076b610())
                         {
-                            treeItem.item.text = ((const char *)(::FUN_00464f30((int)("Properties"))));
+                            treeItem.item.text = ((const char *)(::FUN_00464f30((intptr_t)("Properties"))));
                             treeItem.item.image = 5;
                             treeItem.item.selectedImage = treeItem.item.image;
                             treeItem.parent = parent;
@@ -4655,7 +4655,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
                                         char propertyName[64];
                                         ::FUN_004add50(propertyName, ((const char *)(::FUN_00559450((int *)(property->GetRTTI())))), 63);
                                         propertyName[63] = 0;
-                                        treeItem.item.text = ((const char *)(::FUN_00464f30((int)(propertyName))));
+                                        treeItem.item.text = ((const char *)(::FUN_00464f30((intptr_t)(propertyName))));
                                         treeItem.item.image = 6;
                                         treeItem.item.selectedImage = treeItem.item.image;
                                         treeItem.parent = propertiesItem;
@@ -4663,7 +4663,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
                                         property->GetViewerStrings(strings);
                                         for (j = 0; j < reinterpret_cast<::FUN_00658930_class *>((strings))->GetShortAtOffsetA(); j++)
                                         {
-                                            treeItem.item.text = ((const char *)(::FUN_00464f30((int)(strings->GetAt(j)))));
+                                            treeItem.item.text = ((const char *)(::FUN_00464f30((intptr_t)(strings->GetAt(j)))));
                                             treeItem.item.image = 6;
                                             treeItem.item.selectedImage = treeItem.item.image;
                                             SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
@@ -4675,7 +4675,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
                         }
                         if (object->IsTriBasedGeom() && ((::fnv_004d66d0::NiObject *)(::fnv_0043fad0::FUN_0043fad0((const char *)(object->IsTriBasedGeom())))))
                         {
-                            treeItem.item.text = ((const char *)(::FUN_00464f30((int)("SkinInstance"))));
+                            treeItem.item.text = ((const char *)(::FUN_00464f30((intptr_t)("SkinInstance"))));
                             treeItem.item.image = 5;
                             treeItem.item.selectedImage = treeItem.item.image;
                             treeItem.parent = parent;
@@ -4684,7 +4684,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
                             ((::fnv_004d66d0::NiObject *)(::fnv_0043fad0::FUN_0043fad0((const char *)(object->IsTriBasedGeom()))))->GetViewerStrings(skinStrings);
                             for (unsigned int j = 0; j < reinterpret_cast<::FUN_00658930_class *>((skinStrings))->GetShortAtOffsetA(); j++)
                             {
-                                treeItem.item.text = ((const char *)(::FUN_00464f30((int)(skinStrings->GetAt(j)))));
+                                treeItem.item.text = ((const char *)(::FUN_00464f30((intptr_t)(skinStrings->GetAt(j)))));
                                 treeItem.item.image = 6;
                                 treeItem.item.selectedImage = treeItem.item.image;
                                 SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
@@ -4723,7 +4723,7 @@ void Owner64::FUN_004d64c0(int value, const char* text)
     header.tertiary = 0x27;
     header.primary = 0xffff0000;
     Params64 params;
-    params.message = text ? ((const char *)(::FUN_00464f30((int)(text)))) : defaultText;
+    params.message = text ? ((const char *)(::FUN_00464f30((intptr_t)(text)))) : defaultText;
     params.flags = 0;
     params.flagsCopy = params.flags;
     params.number = value;

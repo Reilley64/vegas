@@ -626,7 +626,7 @@ struct FUN_004b9d60_class
 
 struct Unk65
 {
-    void FUN_0065de30(int);
+    void FUN_0065de30(const void*);
 };
 struct Unk6b
 {
@@ -1198,10 +1198,10 @@ void* FUN_004a97e0_Class::FUN_004a97e0(unsigned int a)
 extern int DAT_0101ed4c;
 struct FUN_004a98e0_class
 {
-    int FUN_004a98e0(int count);
+    void* FUN_004a98e0(int count);
 };
 // @fnv 0x004a98e0
-int FUN_004a98e0_class::FUN_004a98e0(int count)
+void* FUN_004a98e0_class::FUN_004a98e0(int count)
 {
     *(void**)this = &DAT_0101ed4c;
     *(int*)((char*)this + 4) = count;
@@ -1209,7 +1209,7 @@ int FUN_004a98e0_class::FUN_004a98e0(int count)
     unsigned int size = *(int*)((char*)this + 4) * 4;
     *(void**)((char*)this + 8) = ::FUN_00aa1070(size);
     ::FUN_00403d30(*(void**)((char*)this + 8), 0, *(int*)((char*)this + 4) * 4);
-    return (int)this;
+    return this;
 }
 
 struct FUN_004a9a00_Class
@@ -2951,7 +2951,7 @@ void __cdecl FUN_004b4a30(const char* pcHeading)
     if (GetUserNameA(::xg_PlayerName, &ulSize))
     {
         ::FUN_0040fbe0();
-        sprintf(acLine, "Computer Name: %s", ((const char *)(::FUN_00464f30((int)(::xg_PlayerName)))));
+        sprintf(acLine, "Computer Name: %s", ((const char *)(::FUN_00464f30((intptr_t)(::xg_PlayerName)))));
         ::FUN_0040fbe0();
     }
 }

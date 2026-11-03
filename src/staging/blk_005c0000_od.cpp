@@ -44,7 +44,7 @@ struct EffectSetting
 // @fnv 0x005d2a50
 unsigned char FUN_005d2a50()
 {
-    ::FUN_0070ec90((char *)(((EffectSetting*)g_TES)));
+    ::FUN_0070ec90((char *)(*reinterpret_cast<EffectSetting **>(&::g_TES)));
     if (FUN_005d2a40())
         DAT_011c7a64 = 1;
     return 1;

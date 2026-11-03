@@ -282,7 +282,7 @@ void FUN_006e10a0_Class::FUN_006e10a0()
 struct FUN_006e2080_Class
 {
     void* m;
-    int FUN_006e2080(int a1);
+    void* FUN_006e2080(int a1);
 };
 struct Copy9
 {
@@ -555,13 +555,13 @@ void FUN_006ecf20_Class::FUN_006ecf20()
 
 struct FUN_006ed0e0_Class
 {
-    int FUN_006ed0e0();
+    void* FUN_006ed0e0();
 };
 // @fnv 0x006ed0e0
-int FUN_006ed0e0_Class::FUN_006ed0e0()
+void* FUN_006ed0e0_Class::FUN_006ed0e0()
 {
     *(int*)((char*)this + 8) = 0;
-    return (int)this;
+    return this;
 }
 
 struct PathingLocation;
@@ -875,7 +875,7 @@ struct FUN_006f98c0_Class
 struct FUN_006f9680_Class
 {
     void* m_iWordAt00;
-    int FUN_006f9680(int a1);
+    void* FUN_006f9680(int a1);
 };
 extern int DAT_0106df58;
 struct FUN_006f9a00_Class
@@ -986,14 +986,14 @@ struct NiBinaryStream
 
 struct FUN_006fc920_Class
 {
-    int ReadFromStream(NiBinaryStream* a1);
+    void* ReadFromStream(NiBinaryStream* a1);
 };
 
 // @fnv 0x006fc920
-int FUN_006fc920_Class::ReadFromStream(NiBinaryStream* a1)
+void* FUN_006fc920_Class::ReadFromStream(NiBinaryStream* a1)
 {
     *(unsigned int*)((char*)this + 0x148) = reinterpret_cast<::FUN_00462d80_shell *>((((NiBinaryStream*)this)))->ReadBytes((void*)a1, 2);
-    return (int)this;
+    return this;
 }
 
 namespace fnv_006fc950 {
@@ -1003,14 +1003,14 @@ struct NiBinaryStream
 
 struct FUN_006fc950_Class : NiBinaryStream
 {
-    int FUN_006fc950(int a1);
+    void* FUN_006fc950(int a1);
 };
 
 // @fnv 0x006fc950
-int FUN_006fc950_Class::FUN_006fc950(int pBuffer)
+void* FUN_006fc950_Class::FUN_006fc950(int pBuffer)
 {
     *(int*)((char*)this + 0x148) = reinterpret_cast<::FUN_00462d80_shell *>(this)->ReadBytes((void*)pBuffer, 4);
-    return (int)this;
+    return this;
 }
 }  // namespace fnv_006fc950
 
@@ -1255,11 +1255,11 @@ struct FUN_006e20e0_Class
 };
 // Calls FUN_006e20e0 with a1, stores the address of DAT_0106cf68 in m, and returns this.
 // @fnv 0x006e2080
-int FUN_006e2080_Class::FUN_006e2080(int a1)
+void* FUN_006e2080_Class::FUN_006e2080(int a1)
 {
     new ((void *)this) ::FUN_006e20e0_Class(a1);
     m = &DAT_0106cf68;
-    return (int)this;
+    return this;
 }
 // Sets the vtable, stores a1 and zeroes a newly allocated buffer of a1*4 bytes.
 // @fnv 0x006e20e0
@@ -2863,11 +2863,11 @@ struct FUN_006f98c0_Class2
     FUN_006f98c0_Class2(int count);
 };
 // @fnv 0x006f9680
-int FUN_006f9680_Class::FUN_006f9680(int aiValue)
+void* FUN_006f9680_Class::FUN_006f9680(int aiValue)
 {
     new ((void *)(((FUN_006f98c0_Class*)this))) ::FUN_006f98c0_Class2(aiValue);
     m_iWordAt00 = &DAT_0106df38;
-    return (int)this;
+    return this;
 }
 // Sets the vtable, stores count and zeroes a newly allocated count*4-byte buffer when count is non-zero.
 // @fnv 0x006f98c0

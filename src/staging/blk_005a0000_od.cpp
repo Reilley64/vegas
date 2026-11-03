@@ -167,7 +167,7 @@ struct FUN_005a71d0_class
 };
 struct FUN_005a7220_cls
 {
-    int Initialize();
+    void* Initialize();
 };
 // Calls Initialize on the sub-objects at offsets 4 and 0x2c, then sets the fields at 0, 0x50 and 0x54 and returns this.
 // @fnv 0x005a71d0
@@ -181,7 +181,7 @@ void* FUN_005a71d0_class::FUN_005a71d0()
     return this;
 }
 // @fnv 0x005a7220
-int FUN_005a7220_cls::Initialize()
+void* FUN_005a7220_cls::Initialize()
 {
     *(int*)this = 0;
     *(int*)(this + 4) = 0;
@@ -193,7 +193,7 @@ int FUN_005a7220_cls::Initialize()
     *(float*)(this + 28) = 255.0f;
     *(float*)(this + 32) = 255.0f;
     *(int*)(this + 36) = 1;
-    return (int)this;
+    return this;
 }
 
 struct Flt

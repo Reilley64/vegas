@@ -98,7 +98,7 @@ struct FUN_006010d0_Class
 {
     void* m_field_0;
     int FUN_00601100(int);
-    int InitializeWithGlobal(int param);
+    void* InitializeWithGlobal(int param);
 };
 
 struct FUN_006053f0_class
@@ -524,11 +524,11 @@ struct FUN_00601100_cls
 };
 // Calls FUN_00601100 with param, stores the address of DAT_0104a090 in m_field_0, and returns this.
 // @fnv 0x006010d0
-int FUN_006010d0_Class::InitializeWithGlobal(int param)
+void* FUN_006010d0_Class::InitializeWithGlobal(int param)
 {
     reinterpret_cast<::FUN_00601100_cls *>(this)->FUN_00601100(param);
     m_field_0 = &DAT_0104a090;
-    return (int)this;
+    return this;
 }
 // Sets the vtable, stores size, allocates size*4 bytes, zeroes them into b, and returns this.
 // @fnv 0x00601100
@@ -782,11 +782,11 @@ struct FUN_0061fa40_class
 namespace fnv_0061fa70 {
 struct FUN_0061fa70_class
 {
-    int FUN_0061fa70(int a);
+    void* FUN_0061fa70(int a);
 };
 // Sets the vtable, stores the count, allocates count*4 bytes, zeroes them, and returns this.
 // @fnv 0x0061fa70
-int FUN_0061fa70_class::FUN_0061fa70(int aiCount)
+void* FUN_0061fa70_class::FUN_0061fa70(int aiCount)
 {
     *reinterpret_cast<void**>(this) = &DAT_0104d968;
     reinterpret_cast<int*>(this)[1] = aiCount;
@@ -794,7 +794,7 @@ int FUN_0061fa70_class::FUN_0061fa70(int aiCount)
     unsigned int iAllocationSize = (unsigned int)reinterpret_cast<int*>(this)[1] << 2;
     reinterpret_cast<int*>(this)[2] = (int)::FUN_00aa1070(iAllocationSize);
     memset((void*)reinterpret_cast<int*>(this)[2], 0, (unsigned int)reinterpret_cast<int*>(this)[1] << 2);
-    return (int)this;
+    return this;
 }
 }  // namespace fnv_0061fa70
 

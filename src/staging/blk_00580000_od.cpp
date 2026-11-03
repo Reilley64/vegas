@@ -236,7 +236,7 @@ extern int DAT_01033470;
 struct FUN_0058f820_class
 {
     void* m_iWordAt00;
-    int FUN_0058f820(int a);
+    void* FUN_0058f820(int a);
 };
 
 struct FUN_00591a00_Class
@@ -978,11 +978,11 @@ struct ContainerItemExtra
     void* InitContainerItemExtra(int count);
 };
 // @fnv 0x0058f820
-int FUN_0058f820_class::FUN_0058f820(int a)
+void* FUN_0058f820_class::FUN_0058f820(int a)
 {
     reinterpret_cast<::ContainerItemExtra *>(this)->InitContainerItemExtra(a);
     m_iWordAt00 = &DAT_01033470;
-    return (int)this;
+    return this;
 }
 // Sets the vtable, stores count, zeroes m_0c, and if count is nonzero allocates count*4 bytes for pItem and zero-fills them.
 // @fnv 0x0058f880

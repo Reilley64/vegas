@@ -7,5 +7,5 @@ public:
     // 0x0044a7d0
     ::Unk65 *CallAndReturnSelf(int);
     // 0x0065de30
-    void FUN_0065de30(int);
+    void FUN_0065de30(const void *);
 };

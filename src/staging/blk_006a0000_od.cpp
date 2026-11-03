@@ -566,14 +566,14 @@ struct FUN_00aa5410_Helper
 
 struct FUN_006b9400_Class
 {
-    int FUN_006b9400();
+    void* FUN_006b9400();
 };
 
 // @fnv 0x006b9400
-int FUN_006b9400_Class::FUN_006b9400()
+void* FUN_006b9400_Class::FUN_006b9400()
 {
     ((FUN_00aa5410_Helper*)this)->InitWithAlignedSize(0x4800);
-    return (int)this;
+    return this;
 }
 
 struct NiPoint3
@@ -2875,14 +2875,14 @@ void FUN_006a1890_class::FUN_006a1890()
 
 struct FUN_006a1f70_class
 {
-    int FUN_006a1f70();
+    void* FUN_006a1f70();
 };
 
 // @fnv 0x006a1f70
-int FUN_006a1f70_class::FUN_006a1f70()
+void* FUN_006a1f70_class::FUN_006a1f70()
 {
     ((FUN_00aa5410_Helper*)this)->InitWithAlignedSize(0xd000);
-    return (int)this;
+    return this;
 }
 
 struct FUN_00692480

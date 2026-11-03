@@ -75,12 +75,12 @@
 
 struct FUN_00540700_Class
 {
-    int FUN_00540780(int);
-    int FUN_00540700();
+    void* FUN_00540780(int);
+    void* FUN_00540700();
 };
 
 // @fnv 0x00540700
-int FUN_00540700_Class::FUN_00540700()
+void* FUN_00540700_Class::FUN_00540700()
 {
     return FUN_00540780(0x25);
 }
@@ -557,11 +557,11 @@ struct FUN_00540940_Class
     void* InitBuffer(unsigned int size);
 };
 // @fnv 0x00540780
-int FUN_00540700_Class::FUN_00540780(int a)
+void* FUN_00540700_Class::FUN_00540780(int a)
 {
     reinterpret_cast<::FUN_00540940_Class *>((((FUN_00540940_Standin*)this)))->InitBuffer(a);
     *(void**)this = (void*)&DAT_0102e44c;
-    return (int)this;
+    return this;
 }
 
 // Sets the vtable and size, allocates size*4 bytes, zeroes them, and returns this.

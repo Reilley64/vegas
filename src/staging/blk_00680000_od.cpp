@@ -190,12 +190,12 @@ struct FUN_00682530_class
 
 struct FUN_00682510_class
 {
-    int FUN_00682510(int);
+    void* FUN_00682510(int);
 };
 
 struct FUN_00682570_class
 {
-    int FUN_00682570(int a);
+    void* FUN_00682570(int a);
 };
 
 struct FUN_006825e0_class
@@ -609,13 +609,13 @@ struct FUN_006d5320_mem
 struct FUN_0069b920_class
 {
     int FUN_006d5320();
-    int FUN_0069b920();
+    void* FUN_0069b920();
 };
 // @fnv 0x0069b920
-int FUN_0069b920_class::FUN_0069b920()
+void* FUN_0069b920_class::FUN_0069b920()
 {
     new ((void *)(((FUN_006d5320_mem*)this))) struct ::FUN_006d5320();
-    return (int)this;
+    return this;
 }
 
 struct FUN_0069ccf0_class
@@ -763,23 +763,23 @@ void S00681590::CopyFromRefObj(RefObj* apRefObj, int d)
 
 struct S682530
 {
-    int InitWithValue(int);
+    void* InitWithValue(int);
 };
 // @fnv 0x00682510
-int FUN_00682510_class::FUN_00682510(int arg)
+void* FUN_00682510_class::FUN_00682510(int arg)
 {
     reinterpret_cast<::S682530 *>((((FUN_00682530_class*)this)))->InitWithValue(arg);
-    return (int)this;
+    return this;
 }
 // Calls FUN_00682570(0), zeroes the field at offset 0xc, and stores a into the fields at offsets 0x10 and 0x14.
 // @fnv 0x00682530
-int S682530::InitWithValue(int aiValue)
+void* S682530::InitWithValue(int aiValue)
 {
     ((FUN_00682570_class*)this)->FUN_00682570(0);
     *(int*)((char*)this + 0xc) = 0;
     *(int*)((char*)this + 0x10) = aiValue;
     *(int*)((char*)this + 0x14) = aiValue;
-    return (int)this;
+    return this;
 }
 
 struct FUN_006826a0_class
@@ -1692,10 +1692,10 @@ struct FUN_00682590_class
     FUN_00682590_class* FUN_00682590(unsigned int requested);
 };
 // @fnv 0x00682570
-int FUN_00682570_class::FUN_00682570(int a)
+void* FUN_00682570_class::FUN_00682570(int a)
 {
     reinterpret_cast<::FUN_00682590_class *>(this)->FUN_00682590(a);
-    return (int)this;
+    return this;
 }
 
 // Allocates requested bytes into p (or null when requested is 0), sets iSize to requested and iPosition to 0, then returns this.

@@ -321,13 +321,13 @@ struct Unk65
 {
     void* FUN_0044a7b0(int param);
 public:
-    void FUN_0065de30(int);
+    void FUN_0065de30(const void*);
 };
 
 // @fnv 0x0044a7b0
 void* Unk65::FUN_0044a7b0(int param)
 {
-    reinterpret_cast<::Unk65 *>(this)->FUN_0065de30((int)(&param));
+    reinterpret_cast<::Unk65 *>(this)->FUN_0065de30(&param);
     return this;
 }
 
@@ -1117,15 +1117,15 @@ void FUN_0045ce60_Class::FUN_0045ce60()
 
 struct FUN_0045cea0_Class
 {
-    int SetValueAndGetSelf(int);
+    void* SetValueAndGetSelf(int);
 };
 
 // @fnv 0x0045cea0
-int FUN_0045cea0_Class::SetValueAndGetSelf(int aiValue)
+void* FUN_0045cea0_Class::SetValueAndGetSelf(int aiValue)
 {
     if (this)
         *(int*)((char*)this + 4) = aiValue;
-    return (int)this;
+    return this;
 }
 
 struct FUN_0045d930_class

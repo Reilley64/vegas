@@ -1008,15 +1008,15 @@ struct FUN_0065dfd0_class
 struct FUN_0065e000_class
 {
     int FUN_0065da80(int a, int b);
-    int FUN_0065e000(int a, int b);
+    void* FUN_0065e000(int a, int b);
 };
 
 // Calls FUN_0065da80 with the two arguments, then returns this.
 // @fnv 0x0065e000
-int FUN_0065e000_class::FUN_0065e000(int a, int b)
+void* FUN_0065e000_class::FUN_0065e000(int a, int b)
 {
     FUN_0065da80(a, b);
-    return (int)this;
+    return this;
 }
 
 struct FUN_0065e9a0

@@ -68,7 +68,7 @@ void FUN_007a1430_Class::SetFlag(unsigned char value)
 
 struct Unk65
 {
-    void FUN_0065de30(int);
+    void FUN_0065de30(const void*);
 };
 
 struct Unk65a
@@ -79,7 +79,7 @@ struct Unk65a
 // @fnv 0x007ab230
 Unk65* Unk65a::FUN_007ab230(Unk65* other)
 {
-    other->FUN_0065de30((int)this);
+    other->FUN_0065de30(this);
     return other;
 }
 
@@ -709,12 +709,12 @@ struct FUN_0049fa80_Result
 
 struct FUN_007b5330_Class
 {
-    void FUN_007b5330(int arg1, int* arg2);
+    void FUN_007b5330(intptr_t arg1, int* arg2);
 };
 
 // Gets a result object, stores the int pointed to by arg2 into its unk08 field, then passes it with arg1 to InsertBefore.
 // @fnv 0x007b5330
-void FUN_007b5330_Class::FUN_007b5330(int arg1, int* arg2)
+void FUN_007b5330_Class::FUN_007b5330(intptr_t arg1, int* arg2)
 {
     FUN_0049fa80_Result* result = ((::FUN_0049fa80_Result *)(reinterpret_cast<::ScriptPool *>((this))->FUN_0049fa80()));
     result->unk08 = *arg2;

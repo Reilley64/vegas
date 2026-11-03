@@ -106,6 +106,9 @@ struct FUN_00e363a0_Wheel
     virtual void v20();
     virtual void v24();
     virtual void v28();
+    char pad04[0xcc];
+    void* m_overlappingCollidablesData;  // +0xd0, hkpAabbPhantom::m_overlappingCollidables
+    int m_overlappingCollidablesSize;    // +0xd4
 };
 
 struct FUN_00e363a0_StandIn : LCWheelCollideStandIn
@@ -113,21 +116,14 @@ struct FUN_00e363a0_StandIn : LCWheelCollideStandIn
     unsigned int FUN_00e363a0(unsigned char wheelIndex);
 };
 
-// Calls the virtual function at vtable offset 0x28 on the wheel at index wheelIndex and returns the value at offset 0xd4 of that wheel.
+// Calls the virtual function at vtable offset 0x28 on the phantom of wheel wheelIndex and returns the size of its overlapping-collidables array.
 // @fnv 0x00e363a0
 unsigned int FUN_00e363a0_StandIn::FUN_00e363a0(unsigned char wheelIndex)
 {
-    unsigned int* puiWheelPointers = *reinterpret_cast<unsigned int**>(reinterpret_cast<unsigned char*>(this) + 0x10);
-    unsigned int offset = (wheelIndex + wheelIndex * 2) << 5;
-
-    FUN_00e363a0_Wheel* wheel =
-        *reinterpret_cast<FUN_00e363a0_Wheel**>(reinterpret_cast<unsigned char*>(puiWheelPointers) + offset);
-
-    void(* fn)(FUN_00e363a0_Wheel*) = reinterpret_cast<void(*)(FUN_00e363a0_Wheel*)>(
-        *reinterpret_cast<unsigned int*>(*reinterpret_cast<unsigned int*>(wheel) + 0x28));
-    fn(wheel);
-
-    return *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(wheel) + 0xd4);
+    const hkpVehicleLinearCastWheelCollide* self = reinterpret_cast<const hkpVehicleLinearCastWheelCollide*>(this);
+    FUN_00e363a0_Wheel* wheel = reinterpret_cast<FUN_00e363a0_Wheel*>(self->m_kWheelStates.m_data[wheelIndex].m_pPhantom);
+    wheel->v28();
+    return (unsigned int)wheel->m_overlappingCollidablesSize;
 }
 
 struct FUN_00c936a0_host
@@ -138,23 +134,22 @@ struct COMBaseInterface : public FUN_00c936a0_host
 {
 };
 
-struct FUN_00e36870_host
+struct FUN_00e36870_host : hkpVehicleLinearCastWheelCollide
 {
     void FUN_00e36870(COMBaseInterface*);
 };
 
-// Iterates count records at this+0x10 and passes each record's first dword to p->FUN_00c936a0.
+// Iterates the wheel states and passes each state's first dword to p->FUN_00c936a0.
 // @fnv 0x00e36870
 void FUN_00e36870_host::FUN_00e36870(COMBaseInterface* apHost)
 {
-    int count = *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x14);
+    int count = m_kWheelStates.m_iElementCount;
 
     if (count > 0)
     {
         for (int i = 0; i < count; ++i)
         {
-            unsigned int* records = *reinterpret_cast<unsigned int**>(reinterpret_cast<char*>(this) + 0x10);
-            void* value = reinterpret_cast<void*>(records[i * 0x18]);
+            void* value = m_kWheelStates.m_data[i].m_pPhantom;
             reinterpret_cast<::FUN_00c936a0_World *>((apHost))->FUN_00c936a0((::hkpPhantom *)(value));
         }
     }

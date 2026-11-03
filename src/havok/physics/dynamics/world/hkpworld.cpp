@@ -548,7 +548,7 @@ struct FUN_00c911d0_Class {
 // @fnv 0x00c911d0
 void FUN_00c911d0_Class::EnterLock(void* unused)
 {
-    void* cs = *(void**)(this + 0xb8);
+    CRITICAL_SECTION* cs = *(CRITICAL_SECTION**)(this + 0xb8);
     if (cs)
     {
         EnterCriticalSection(cs);
@@ -727,14 +727,14 @@ struct FUN_00c983e0_Class {
 // @fnv 0x00c983e0
 void FUN_00c983e0_Class::ForEachCall(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5)
 {
-    EnterCriticalSection(*(void**)((char*)this + 0x14));
+    EnterCriticalSection(*(CRITICAL_SECTION**)((char*)this + 0x14));
     for (int i = 0; i < *(int*)((char*)this + 0xc); ++i) {
         void* obj = *(void**)(*(char**)((char*)this + 8) + i * 4);
         void** vtbl = *(void***)obj;
         typedef void (* Fn)(void*, int, int, int, int, int);
         ((Fn)vtbl[1])(obj, aiArg1, aiArg2, aiArg3, aiArg4, aiArg5);
     }
-    LeaveCriticalSection(*(void**)((char*)this + 0x14));
+    LeaveCriticalSection(*(CRITICAL_SECTION**)((char*)this + 0x14));
 }
 
 
@@ -744,7 +744,7 @@ struct FUN_00c984a0_Class {
     unsigned int unk08;
     int unk0C;
     unsigned int unk10;
-    unsigned int unk14;
+    CRITICAL_SECTION* unk14;
     void FUN_00c984a0(int a1, int a2, int a3);
 };
 
@@ -752,13 +752,13 @@ struct FUN_00c984a0_Class {
 // @fnv 0x00c984a0
 void FUN_00c984a0_Class::FUN_00c984a0(int aiArg1, int aiArg2, int aiArg3)
 {
-    EnterCriticalSection((void*)unk14);
+    EnterCriticalSection(unk14);
     for (int i = 0; i < unk0C; ++i) {
         void* obj = *(void**)((char*)unk08 + i * 4);
         void** vtbl = *(void***)obj;
         ((void (*)(void*, int, int, int))vtbl[3])(obj, aiArg1, aiArg2, aiArg3);
     }
-    LeaveCriticalSection((void*)unk14);
+    LeaveCriticalSection(unk14);
 }
 
 struct FUN_00c98540_Class {
@@ -769,7 +769,7 @@ struct FUN_00c98540_Class {
 // @fnv 0x00c98540
 void FUN_00c98540_Class::CallAllWithArgs(int aiArg1, int aiArg2, int aiArg3)
 {
-    void* pLock = *(void**)((char*)this + 0x14);
+    CRITICAL_SECTION* pLock = *(CRITICAL_SECTION**)((char*)this + 0x14);
     EnterCriticalSection(pLock);
     int i = 0;
     if (*(int*)((char*)this + 0xc) > 0) {
@@ -781,7 +781,7 @@ void FUN_00c98540_Class::CallAllWithArgs(int aiArg1, int aiArg2, int aiArg3)
             ++i;
         } while (i < *(int*)((char*)this + 0xc));
     }
-    void* pLock2 = *(void**)((char*)this + 0x14);
+    CRITICAL_SECTION* pLock2 = *(CRITICAL_SECTION**)((char*)this + 0x14);
     LeaveCriticalSection(pLock2);
 }
 
@@ -792,7 +792,7 @@ struct FUN_00c98600_Class {
     void* m_ppData;      // +0x08
     int m_uiItemCount;        // +0x0C
     unsigned int unk10;
-    void* m_cs;         // +0x14
+    CRITICAL_SECTION* m_cs;         // +0x14
     void CallVirtualOnAll(int a, int b, int c, int d, int e, int f, int g, int h);
 };
 
@@ -820,7 +820,7 @@ struct FUN_00c990b0_Class {
 // @fnv 0x00c990b0
 void FUN_00c990b0_Class::FUN_00c990b0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
-    EnterCriticalSection(*(void**)((char*)this + 0x14));
+    EnterCriticalSection(*(CRITICAL_SECTION**)((char*)this + 0x14));
     int i = 0;
     if (*(int*)((char*)this + 0xc) > 0) {
         do {
@@ -831,7 +831,7 @@ void FUN_00c990b0_Class::FUN_00c990b0(int aiArg1, int aiArg2, int aiArg3, int ai
             ++i;
         } while (i < *(int*)((char*)this + 0xc));
     }
-    LeaveCriticalSection(*(void**)((char*)this + 0x14));
+    LeaveCriticalSection(*(CRITICAL_SECTION**)((char*)this + 0x14));
 }
 
 
@@ -843,9 +843,9 @@ struct FUN_00c995f0_Class {
 // @fnv 0x00c995f0
 void FUN_00c995f0_Class::FUN_00c995f0()
 {
-    void* p = *(void**)((char*)this + 0x14);
+    CRITICAL_SECTION* p = *(CRITICAL_SECTION**)((char*)this + 0x14);
     EnterCriticalSection(p);
-    p = *(void**)((char*)this + 0x14);
+    p = *(CRITICAL_SECTION**)((char*)this + 0x14);
     *(int*)((char*)this + 0xc) = 0;
     LeaveCriticalSection(p);
 }
@@ -4273,7 +4273,7 @@ public:
     hkListenerC984** m_kListeners;
     int m_numListeners;
     int unk10;
-    void* m_kCriticalSection;
+    CRITICAL_SECTION* m_kCriticalSection;
 
     void DispatchEvent(int a, int b, int c, int d, int e);
 };
@@ -4304,7 +4304,7 @@ struct hkObjC984 {
     hkListenerC984** m_kListeners;
     int m_numListeners;
     int unk10;
-    void* m_kCriticalSection;
+    CRITICAL_SECTION* m_kCriticalSection;
 
     void FUN_00c984f0(void* a, void* b, void* c);
 };
@@ -4388,7 +4388,7 @@ public:
     hkpListenerC986** m_data;
     int m_iElementCount;
     int unk10;
-    void* m_pWorldLock;
+    CRITICAL_SECTION* m_pWorldLock;
 
     void FUN_00c98670(int a, int b, int c, int d);
 };
@@ -4421,7 +4421,7 @@ public:
     hkpListenerC98B** m_data;
     int m_iElementCount;
     int m_iCapacityAndFlags;
-    void* m_pWorldLock;
+    CRITICAL_SECTION* m_pWorldLock;
 
     void FUN_00c986c0(const void* a, const void* b, int c, int d, int e);
 };
@@ -4458,7 +4458,7 @@ struct C00c98720 {
     Listener00c98720** arr08;
     int count0c;
     char pad10[0x4];
-    void* pCS14;
+    CRITICAL_SECTION* pCS14;
 
     void FUN_00c98720(int a, int b, int c, int d, int e, int f);
 };
@@ -4523,7 +4523,7 @@ struct ListenerManager {
     IListener** m_kListeners;
     int m_uiItemCount;
     int unk10;
-    void* m_cs;
+    CRITICAL_SECTION* m_cs;
 
     void FUN_00c99100(void* a1, void* a2, void* a3, void* a4, void* a5);
 };
@@ -4561,7 +4561,7 @@ struct FUN_00c99160_Owner {
     FUN_00c99160_Dispatch** listeners;
     int listenerCount;
     int unk10;
-    void* mutex;
+    CRITICAL_SECTION* mutex;
     void DispatchToListeners(int a, int b, int c, int d, int e);
 };
 // @fnv 0x00c99160
@@ -7134,19 +7134,11 @@ struct ProcessCollisionInputC93 {
     unsigned int unk7c;
 };
 
-struct CriticalSectionDataC93 {
-    void* DebugInfo;
-    long LockCount;
-    long RecursionCount;
-    void* OwningThread;
-    void* LockSemaphore;
-    unsigned long SpinCount;
-};
 
 struct CriticalSectionC93 {
     __forceinline void operator delete(void* p) throw() { if (p) GetMemoryRouterC93().heap().ReleaseBlock(p, sizeof(CriticalSectionC93)); }
     __forceinline ~CriticalSectionC93() throw() { DeleteCriticalSection(&m_kCriticalSection); }
-    CriticalSectionDataC93 m_kCriticalSection;
+    CRITICAL_SECTION m_kCriticalSection;
 };
 
 struct BroadPhaseDispatcherC93 {
@@ -8054,7 +8046,7 @@ public:
     int unk00;
     int unk04;
     hkArrayC995<void*> m_kListeners;
-    void* m_pWorldLock;
+    CRITICAL_SECTION* m_pWorldLock;
 
     void RemoveListener(void* listener);
 };
@@ -14792,7 +14784,7 @@ struct FUN_00c91210_Class {
     void* m_ac;
     void* m_b0;
     void* m_b4;
-    void* m_b8;
+    CRITICAL_SECTION* m_b8;
     void FUN_00c91210(void*);
 };
 // @fnv 0x00c91210

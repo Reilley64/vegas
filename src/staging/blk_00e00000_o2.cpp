@@ -166,14 +166,26 @@ struct FUN_00cb0a70
 {
     void m(int);
 };
+struct E00RefObject
+{
+    void* m_pVtbl;
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+};
+struct E01C30Object : E00RefObject
+{
+    const char* m_sz08;
+    const char* m_sz0c;
+};
 // @fnv 0x00e01c30
 void FUN_00e01c30(void* apObject, void* aValue)
 {
     if (apObject)
     {
-        *(void**)((char*)apObject) = &DAT_010e99d8;
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)apObject + 8))))->FUN_00cb0a70((intptr_t)aValue);
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)apObject + 12))))->FUN_00cb0a70((intptr_t)aValue);
+        E01C30Object* pkObject = static_cast<E01C30Object*>(apObject);
+        pkObject->m_pVtbl = &DAT_010e99d8;
+        reinterpret_cast<::FUN_00cb0a70_Class *>(&pkObject->m_sz08)->FUN_00cb0a70((intptr_t)aValue);
+        reinterpret_cast<::FUN_00cb0a70_Class *>(&pkObject->m_sz0c)->FUN_00cb0a70((intptr_t)aValue);
     }
 }
 
@@ -183,8 +195,8 @@ void FUN_00e02780(void* apObject)
 {
     if (apObject)
     {
-        *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(apObject) + 6) = 1;
-        *reinterpret_cast<void**>(apObject) = &(*reinterpret_cast<int *>(&::DAT_010c9314));
+        static_cast<E00RefObject*>(apObject)->m_sReferenceCount = 1;
+        static_cast<E00RefObject*>(apObject)->m_pVtbl = &(*reinterpret_cast<int *>(&::DAT_010c9314));
     }
 }
 
@@ -194,13 +206,22 @@ int IsInRange(int aiValue, int aiLowerBound, int aiUpperBound)
     return (aiValue >= aiLowerBound && aiValue < aiUpperBound) ? 1 : 0;
 }
 
+struct E04A60Record
+{
+    char m_pad00[0xc];
+    unsigned char m_ucType;
+    unsigned char m_ucSubType;
+    unsigned short unk0e;
+    unsigned short m_usFlags;
+};
 // @fnv 0x00e04a60
 void FUN_00e04a60(void* pData)
 {
-    if (*(char*)((char*)pData + 0xc) == 0x14 && *(char*)((char*)pData + 0xd) == 2)
+    E04A60Record* pkRecord = static_cast<E04A60Record*>(pData);
+    if (pkRecord->m_ucType == 0x14 && pkRecord->m_ucSubType == 2)
     {
-        *(char*)((char*)pData + 0xc) = 0x1d;
-        *(char*)((char*)pData + 0xd) = 0;
+        pkRecord->m_ucType = 0x1d;
+        pkRecord->m_ucSubType = 0;
     }
 }
 
@@ -224,9 +245,16 @@ int __cdecl FUN_00e10740(const FUN_00e10740_a* pLeft, const FUN_00e10740_b* pRig
     return 0;
 }
 
+struct E11960Node
+{
+    E11960Node* m_pNext;
+    char m_pad04[0x2c];
+    int m_iValue;
+};
 struct FUN_00e11960_cls
 {
-    int m_2c;
+    char m_pad00[0x2c];
+    E11960Node* m_pFirst;
     int FUN_00e11960();
 };
 // Walks the linked list at offset 0x2c, tracks the largest value at offset 0x30, and returns that maximum plus one.
@@ -234,31 +262,40 @@ struct FUN_00e11960_cls
 int FUN_00e11960_cls::FUN_00e11960()
 {
     int iMaxValue = -1;
-    int* p = *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x2c);
+    E11960Node* p = m_pFirst;
     while (p)
     {
-        int v = *reinterpret_cast<int*>(reinterpret_cast<char*>(p) + 0x30);
+        int v = p->m_iValue;
         if (v > iMaxValue)
             iMaxValue = v;
-        p = *reinterpret_cast<int**>(reinterpret_cast<char*>(p));
+        p = p->m_pNext;
     }
     return iMaxValue + 1;
 }
 
+struct E11D80Node
+{
+    E11D80Node* m_pNext;
+    char m_pad04[0x2c];
+    float m_afValues[5];
+    int m_i44;
+};
 struct FUN_00e11d80_class
 {
+    char m_pad00[0x14];
+    E11D80Node* m_pFirst;
     void SetValueForAllNodes(int idx, float val);
 };
 
 // @fnv 0x00e11d80
 void FUN_00e11d80_class::SetValueForAllNodes(int aiIndex, float afValue)
 {
-    int* p = *(int**)((char*)this + 0x14);
+    E11D80Node* p = m_pFirst;
     if (p)
         for (;;)
         {
-            *(float*)((char*)p + 0x30 + aiIndex * 4) = afValue;
-            p = *(int**)p;
+            p->m_afValues[aiIndex] = afValue;
+            p = p->m_pNext;
             if (!p)
                 break;
         }
@@ -266,23 +303,32 @@ void FUN_00e11d80_class::SetValueForAllNodes(int aiIndex, float afValue)
 
 struct FUN_00e11da0_class
 {
+    char m_pad00[0x14];
+    E11D80Node* m_pFirst;
     void FUN_00e11da0(int value);
 };
 
 // @fnv 0x00e11da0
 void FUN_00e11da0_class::FUN_00e11da0(int value)
 {
-    int* pNode = *(int**)((char*)this + 0x14);
+    E11D80Node* pNode = m_pFirst;
     if (pNode)
     {
-        int* next = pNode;
+        E11D80Node* next = pNode;
         do
         {
-            *(int*)((char*)next + 0x44) = value;
-            next = *(int**)((char*)next);
+            next->m_i44 = value;
+            next = next->m_pNext;
         } while (next);
     }
 }
+
+struct E0011EObject
+{
+    void* m_pVtbl;
+    char m_pad04[0x11a];
+    unsigned short m_usHalfOne;
+};
 
 struct FUN_00e000a0_vt
 {
@@ -304,7 +350,7 @@ void __cdecl FUN_00e00120(int* pObject, int bSetHalf)
         if (bSetHalf)
         {
             float f = 1.0f;
-            *(short*)((char*)pObject + 0x11e) = (short)(*(int*)&f >> 0x10);
+            ((E0011EObject*)(pObject))->m_usHalfOne = (unsigned short)(*(int*)&f >> 0x10);
         }
         *(void**)pObject = (void*)&DAT_010c6cdc;
     }
@@ -338,7 +384,7 @@ void __cdecl FUN_00e002f0(int* pObject, int bSetValue)
         if (bSetValue)
         {
             float f = 1.0f;
-            *(short*)((char*)pObject + 0x11e) = (short)(*(int*)&f >> 16);
+            ((E0011EObject*)(pObject))->m_usHalfOne = (unsigned short)(*(int*)&f >> 16);
         }
         *(void**)pObject = (void*)&DAT_010c6ea4;
     }
@@ -488,21 +534,29 @@ void __cdecl FUN_00e00f00(int** a, int abReset)
 
 extern int DAT_010ce31c;
 extern int DAT_010e901c;
+struct E010E0Shape : E00RefObject
+{
+    uintptr_t m_ulUserData;
+    unsigned int m_type;
+    char m_pad10[0xd];
+    unsigned char m_b1d;
+};
 // @fnv 0x00e010e0
 void __cdecl FUN_00e010e0(int* pObject, int abFlag)
 {
     if (pObject)
     {
+        E010E0Shape* pkShape = reinterpret_cast<E010E0Shape*>(pObject);
         *(void**)pObject = (void*)&(*reinterpret_cast<int *>(&::DAT_010305a8));
         if (abFlag)
-            pObject[3] = 0;
-        pObject[3] = 25;
+            pkShape->m_type = 0;
+        pkShape->m_type = 25;
         *(void**)pObject = (void*)&DAT_010ce31c;
         if (abFlag)
-            pObject[3] = 13;
+            pkShape->m_type = 13;
         *(void**)pObject = (void*)&DAT_010e901c;
         if (abFlag)
-            *(char*)((char*)pObject + 0x1d) = 1;
+            pkShape->m_b1d = 1;
     }
 }
 
@@ -587,15 +641,22 @@ void __cdecl FUN_00e017d0(FUN_00e017d0_vt* p)
 
 extern int DAT_010e95b4;
 // If a is non-null, stores &DAT_010e95b4 at its start and calls m(b) on the objects at offsets 8, 12 and 16.
+struct E017F0Object : E00RefObject
+{
+    const char* m_sz08;
+    const char* m_sz0c;
+    const char* m_sz10;
+};
 // @fnv 0x00e017f0
 void FUN_00e017f0(FUN_00cb0a70** apObject, int aiValue)
 {
     if (apObject)
     {
+        E017F0Object* pkObject = reinterpret_cast<E017F0Object*>(apObject);
         *(void**)apObject = (void*)&DAT_010e95b4;
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)apObject + 8))))->FUN_00cb0a70(aiValue);
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)apObject + 12))))->FUN_00cb0a70(aiValue);
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)apObject + 16))))->FUN_00cb0a70(aiValue);
+        reinterpret_cast<::FUN_00cb0a70_Class *>(&pkObject->m_sz08)->FUN_00cb0a70(aiValue);
+        reinterpret_cast<::FUN_00cb0a70_Class *>(&pkObject->m_sz0c)->FUN_00cb0a70(aiValue);
+        reinterpret_cast<::FUN_00cb0a70_Class *>(&pkObject->m_sz10)->FUN_00cb0a70(aiValue);
     }
 }
 
@@ -790,13 +851,14 @@ struct FUN_00e0bf20_s
 {
     int a;
     int b;
+    void* m_pMemberVtbl;
     void FUN_00cb0a60();
     FUN_00e0bf20_s();
 };
 // @fnv 0x00e0bf20
 FUN_00e0bf20_s::FUN_00e0bf20_s()
 {
-    new ((void *)(((FUN_00e0bf20_s*)((char*)this + 8)))) struct ::FUN_00cb0a60();
+    new ((void *)(&m_pMemberVtbl)) struct ::FUN_00cb0a60();
 }
 
 struct E11dc0Vertex
@@ -868,13 +930,22 @@ void __cdecl FUN_00e001a0(FUN_00e001a0_vt* p)
 }
 
 extern int DAT_010d79c4;
+struct E001C0Object
+{
+    void* m_pVtbl;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    const char* m_sz14;
+};
 // @fnv 0x00e001c0
 void FUN_00e001c0(FUN_00cb0a70* obj, int aiValue)
 {
     if (obj)
     {
         *(void**)obj = (void*)&DAT_010cc2fc;
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)obj + 0x14))))->FUN_00cb0a70(aiValue);
+        reinterpret_cast<::FUN_00cb0a70_Class *>(&reinterpret_cast<E001C0Object*>(obj)->m_sz14)->FUN_00cb0a70(aiValue);
         *(void**)obj = (void*)&DAT_010d79c4;
     }
 }
@@ -925,7 +996,7 @@ void __cdecl FUN_00e00450(void* apObject, int flag)
         if (flag)
         {
             float f = 1.0f;
-            *(unsigned short*)((char*)apObject + 0x11e) = (unsigned short)(*((int*)&f) >> 0x10);
+            ((E0011EObject*)(apObject))->m_usHalfOne = (unsigned short)(*((int*)&f) >> 0x10);
         }
         *(void**)apObject = (void*)&DAT_010c6dc4;
     }
@@ -1000,6 +1071,14 @@ struct FUN_00dcd380_cls
 {
     void FUN_00dcd380(int b);
 };
+struct E00C90Object
+{
+    void* m_pVtbl;
+    int unk04;
+    int unk08;
+    int m_i0c;
+    void* m_pVtbl10;
+};
 // @fnv 0x00e00c90
 void __cdecl FUN_00e00c90(void* pObject, int b)
 {
@@ -1007,9 +1086,9 @@ void __cdecl FUN_00e00c90(void* pObject, int b)
     {
         reinterpret_cast<::S00dcd380_Host *>((((FUN_00dcd380_cls*)pObject)))->FUN_00dcd380(b);
         *(int**)pObject = &::DAT_010e8ab0;
-        *(int**)((char*)pObject + 0x10) = &::DAT_010e8a90;
+        static_cast<E00C90Object*>(pObject)->m_pVtbl10 = &::DAT_010e8a90;
         if (b)
-            *(int*)((char*)pObject + 0xc) = 0x17;
+            static_cast<E00C90Object*>(pObject)->m_i0c = 0x17;
     }
 }
 
@@ -1178,13 +1257,19 @@ void __cdecl FUN_00e01cd0(FUN_00e01cd0_vt* p)
 
 extern int DAT_010e9a34;
 
+struct E01CF0Object
+{
+    void* m_pVtbl;
+    char m_pad04[0x1c];
+    const char* m_sz20;
+};
 // @fnv 0x00e01cf0
 void FUN_00e01cf0(void* pObject, void* b)
 {
     if (pObject)
     {
         *(void**)pObject = (void*)&DAT_010e9a34;
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)pObject + 0x20))))->FUN_00cb0a70((intptr_t)b);
+        reinterpret_cast<::FUN_00cb0a70_Class *>(&static_cast<E01CF0Object*>(pObject)->m_sz20)->FUN_00cb0a70((intptr_t)b);
     }
 }
 
@@ -3633,20 +3718,20 @@ int __cdecl ReadIntAtOffset(intptr_t index, int* data)
 // @fnv 0x00e04a80
 void __cdecl UpdateStateFlags(void* pData)
 {
-    unsigned char* bytes = (unsigned char*)pData;
-    unsigned short* flags = (unsigned short*)((unsigned char*)pData + 0x10);
+    E04A60Record* pkRecord = static_cast<E04A60Record*>(pData);
+    unsigned short* flags = &pkRecord->m_usFlags;
     unsigned char state;
 
-    if (bytes[0x0c] == 0x13)
+    if (pkRecord->m_ucType == 0x13)
     {
-        unsigned char value = bytes[0x0d];
+        unsigned char value = pkRecord->m_ucSubType;
         unsigned short mask = 0x0400;
-        bytes[0x0c] = value;
-        bytes[0x0d] = 0;
+        pkRecord->m_ucType = value;
+        pkRecord->m_ucSubType = 0;
         *flags |= mask;
     }
 
-    state = bytes[0x0c];
+    state = pkRecord->m_ucType;
     if (state == 0x18 || state == 0x1f)
     {
         unsigned char mask8 = 8;
@@ -3654,20 +3739,20 @@ void __cdecl UpdateStateFlags(void* pData)
         if ((*flags & mask8) != 0)
         {
             unsigned short mask = 0xfff7;
-            bytes[0x0d] = 4;
+            pkRecord->m_ucSubType = 4;
             *flags &= mask;
         }
 
         if ((*flags & 0x10) != 0)
         {
             unsigned short mask = 0xffef;
-            bytes[0x0d] = 6;
+            pkRecord->m_ucSubType = 6;
             *flags &= mask;
         }
 
         if ((*flags & 0x20) != 0)
         {
-            bytes[0x0d] = mask8;
+            pkRecord->m_ucSubType = mask8;
             *flags &= 0xffdf;
         }
     }
@@ -4232,13 +4317,15 @@ void FUN_00e11500_cls::FUN_00e11500(intptr_t a1, intptr_t a2)
 
 struct FUN_00e11510_obj
 {
+    char m_pad000[0x100];
+    unsigned char m_flag100;
     void FUN_00e11510(intptr_t a, intptr_t b);
 };
 
 // @fnv 0x00e11510
 void FUN_00e11510_obj::FUN_00e11510(intptr_t a, intptr_t b)
 {
-    ((char*)this)[0x100] = 1;
+    m_flag100 = 1;
 }
 
 struct FUN_00e11520_class
@@ -6043,6 +6130,9 @@ struct FlagE061
 struct BlockE061
 {
     int m_00;
+    int unk04;
+    int unk08;
+    int unk0c;
 };
 
 struct ListE061
@@ -6074,8 +6164,8 @@ void __cdecl ProcessListBlocks(intptr_t a1, ListE061* list)
     for (int i = 0; i < list->m_04; i++)
     {
         BlockE061* pBlock = list->m_00[i];
-        char* end = (char*)pBlock + pBlock->m_00 + 0x10;
-        char* pos = (char*)pBlock + 0x10;
+        char* pos = (char*)(pBlock + 1);
+        char* end = pos + pBlock->m_00;
         if (pos < end)
         {
             FlagE061 flag;
@@ -6084,7 +6174,7 @@ void __cdecl ProcessListBlocks(intptr_t a1, ListE061* list)
             {
                 int consumed = 0;
                 bool bOut;
-                if (cur != 0 && (cur->m_18 != i || cur->m_1c < (int)(pos - (char*)pBlock - 0x10)))
+                if (cur != 0 && (cur->m_18 != i || cur->m_1c < (int)(pos - (char*)(pBlock + 1))))
                 {
                     if (j + 1 < list->m_10)
                         cur = list->m_0c[++j];
@@ -7115,10 +7205,10 @@ struct S_e05_obj
 // @fnv 0x00e050c0
 static __declspec(noinline) bool FUN_00e050c0(S_e05_obj* obj, int arg, int value)
 {
-    int slot;
+    char result;
     S_e05_res* first = obj->m4(arg);
     S_e05_res* second = obj->m4(value);
-    char* s = second->FUN_00d46d80((char*)&slot + 3, first);
+    char* s = second->FUN_00d46d80(&result, first);
     return *s != 0;
 }
 
@@ -7187,14 +7277,12 @@ void __cdecl SwapHkHeaderE05E(hkHeaderE05E* apHeader)
 {
     for (int i = 0; i < apHeader->m_iNumberOfEntries; i++)
         swap16E05E(&apHeader->m_entries[i].m_uiFilterValue);
-    char* p = (char*)apHeader + 0x33;
-    int n = 4;
-    do
+    for (int k = 0; k < 4; ++k)
     {
-        swapE05E(p[-3], p[0]);
-        swapE05E(p[-2], p[-1]);
-        p += 4;
-    } while (--n);
+        char* p = (char*)&apHeader->m_30[k];
+        swapE05E(p[0], p[3]);
+        swapE05E(p[1], p[2]);
+    }
     swap32E05E(&apHeader->m_24);
 }
 

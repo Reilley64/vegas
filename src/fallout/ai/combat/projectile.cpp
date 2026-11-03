@@ -660,7 +660,7 @@ struct Vec3
 // @fnv 0x004585f0
 NiPoint3& Proxy::FUN_004585f0(NiPoint3& aPoint)
 {
-    return ::SetNiPoint3FromHkVector4(aPoint, (*(const ::hkVector4 *)(new ((void *)this) ::Vec3())));
+    return ::SetNiPoint3FromHkVector4(aPoint, (*(const ::hkVector4 *)(((::Vec3 *)(void *)this))));
 }
 
 struct hkVector4;
@@ -846,7 +846,7 @@ Item9c* FUN_009c3ee0_shell::FindItemByKey(void* key)
     ListNode9c* node = (ListNode9c*)((char*)this + 0x88);
     while (result == 0 && node != 0 && !node->_ref_008256d0())
     {
-        Item9c* record = *(Item9c**)((void *)(new ((void *)(node)) ::Vec3()));
+        Item9c* record = *(Item9c**)((void *)(((::Vec3 *)(void *)(node))));
         node = ((::ListNode9c *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         if (record->item == key)
         {
@@ -937,7 +937,7 @@ void S5870_Holder::FUN_009c5870(S5870_Buf* pBuffer)
         while (pCurrentElementNext)
         {
             S5870_Impact* pimpact;
-            pimpact = *((::S5870_Impact **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            pimpact = *((::S5870_Impact **)(((::Vec3 *)(void *)(pCurrentElementNext))));
             if (pimpact)
                 pimpact->ValidateWorldObjectCount(pBuffer);
             pCurrentElementNext = ((::S5870_List *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
@@ -1875,6 +1875,9 @@ struct TESModel
 
 
 class TESActorBase;
+enum ACTOR_LIFE_STATE;
+enum SEX;
+enum SIT_SLEEP_STATE;
 struct Actor
 {
 public:
@@ -5894,7 +5897,7 @@ P062Object* __cdecl CreateProjectile(P062Ammo* ammo, P062Object* owner, P062Obje
         color = FUN_00414430(1.0f, 1.0f, 0.0f, 0.6f);
         geometry =
             ((::P062Scene *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(projectile->scene()->FUN_0045bb80()), (const ::fnv_004b3890::FUN_004a7800 &)(color),
-                         (const class ::FUN_006815c0 &)((const struct struct ::FUN_00416870 &)(projectile->scene()->FUN_0045bb80() + rotation.FUN_004b4500(FUN_00416870(0.0f, 1000.0f, 0.0f)))),
+                         (const class ::FUN_006815c0 &)((const struct ::FUN_00416870 &)(projectile->scene()->FUN_0045bb80() + rotation.FUN_004b4500(FUN_00416870(0.0f, 1000.0f, 0.0f)))),
                          (const ::fnv_004b3890::FUN_004a7800 &)(color), true)));
         reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::P062World * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(geometry), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P062Setting *>(&::g_011f210c)))))));
     }
@@ -8860,7 +8863,7 @@ void RemOwner::FUN_009c4c80(RemForm* apForm)
         RemListNode* pIter6 = &kList;
         while (!bFound4 && pIter6 && !pIter6->IsEmpty())
         {
-            RemEntry* pEntry = *((::RemEntry **)(new ((void *)(pIter6)) ::Vec3()));
+            RemEntry* pEntry = *((::RemEntry **)(((::Vec3 *)(void *)(pIter6))));
             pIter6 = ((::RemListNode *)(reinterpret_cast<::Callees *>((pIter6))->FUN_00726070()));
             if (pEntry->pForm == apForm)
             {
@@ -9222,7 +9225,7 @@ void FUN_009c5740_shell::LoadForm(BGSLoadFormBuffer* pkBuffer)
         LoadNode9c5* pkNode = &m_kList;
         while (pkNode)
         {
-            LoadItem9c5* pkItem = ((::LoadItem9c5 *)(new ((void *)(pkNode)) ::Vec3()));
+            LoadItem9c5* pkItem = ((::LoadItem9c5 *)(((::Vec3 *)(void *)(pkNode))));
             if (pkItem)
                 reinterpret_cast<::Fn9a4f40 *>((pkItem))->FUN_009a4f40((int)(pkBuffer));
             pkNode = ((::LoadNode9c5 *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
@@ -10833,7 +10836,7 @@ void ProjectileHelper::SaveProjectile(BGSSaveFormBuffer* buf)
     ListNodeHelper* curr = (ListNodeHelper*)&this->list;
     while (curr)
     {
-        ItemChangeHelper* item = ((::ListNodeHelper *)(new ((void *)(curr)) ::Vec3()))->item;
+        ItemChangeHelper* item = ((::ListNodeHelper *)(((::Vec3 *)(void *)(curr))))->item;
         if (item)
         {
             reinterpret_cast<::fnv_009bb970::FUN_009bb970_shell *>((item))->SaveToBuffer((::fnv_009bb970::BGSSaveFormBuffer *)(buf));
@@ -11109,7 +11112,7 @@ void Projectile9c58::FUN_009c58e0(LoadBuffer9c58* pkBuffer)
     reinterpret_cast<::MobileObject *>(this)->Revert((::BGSLoadFormBuffer *)(pkBuffer));
     while (!FUN_008256d0(&m_kChanges))
     {
-        delete *((::ListItem9c58 **)(new ((void *)&(m_kChanges)) ::Vec3()));
+        delete *((::ListItem9c58 **)(((::Vec3 *)(void *)&(m_kChanges))));
         m_kChanges.FUN_0063f7b0();
     }
     m_uiStateC8 = 0;
@@ -12000,7 +12003,7 @@ FUN_009bc470::~FUN_009bc470()
 
     while (!list.FUN_008256d0())
     {
-        InventoryStackRecord* item = ((::fnv_009bc470::BSSimpleListEx< ::fnv_009bc470::InventoryStackRecord *>::Node *)(new ((void *)&(list)) ::Vec3()))->data;
+        InventoryStackRecord* item = ((::fnv_009bc470::BSSimpleListEx< ::fnv_009bc470::InventoryStackRecord *>::Node *)(((::Vec3 *)(void *)&(list))))->data;
         delete item;
         list.FUN_0063f7b0();
     }
@@ -12025,6 +12028,8 @@ FUN_009bc470::~FUN_009bc470()
 struct NiRTTI;
 
 
+class CloningProcess;
+class NiUpdateData;
 struct NiNode
 {
     unsigned int GetNumChildren();
@@ -12094,7 +12099,7 @@ void ZProjectile::UpdateDetonation(float elapsed)
             ZMatrix rotationX;
             if ((*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ZIntSetting *>(&::g_011d0fe4)))))) > 0 || reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x2000)) && !impacts._ref_008256d0())
             {
-                ZHit* impact8 = *((::ZHit **)(new ((void *)&(impacts)) ::Vec3()));
+                ZHit* impact8 = *((::ZHit **)(((::Vec3 *)(void *)&(impacts))));
                 float angle = ((float)(::FUN_004a4240()));
                 ZMatrix temp;
                 reinterpret_cast<::FUN_004a0c90_shell *>(&(temp))->FUN_004a0c90(angle);
@@ -12112,7 +12117,7 @@ void ZProjectile::UpdateDetonation(float elapsed)
                 CreateProjectileRef(((::ZExplosion *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::ZBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))))), !reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x400) ? ((::ZObject *)(::FUN_00874480((char *)this))) : 0, 0, cell6,
                                     position8, rotationX);
             if (result3 && !impacts._ref_008256d0() && reinterpret_cast<::FUN_004fd4f0_Class *>((((::ZBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->FUN_004fd4f0() == 0x10000)
-                result3->FUN_0089d640((*((::ZHit **)(new ((void *)&(impacts)) ::Vec3())))->normal);
+                result3->FUN_0089d640((*((::ZHit **)(((::Vec3 *)(void *)&(impacts)))))->normal);
             if (result3 && reinterpret_cast<::FUN_00476c90_Class *>(this)->FUN_00476c90())
                 reinterpret_cast<::FUN_00476c70_Class *>((result3))->FUN_00476c70(reinterpret_cast<::FUN_00476c90_Class *>(this)->FUN_00476c90());
             if (reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x8000))
@@ -14285,7 +14290,7 @@ bool __cdecl FUN_009c5ba0(World9C* pkWorld, NiAVObject9C* pkObject, bool bCheckM
                 }
                 hkAabb9C kAabb;
                 hkAabbOut9C kOut;
-                reinterpret_cast<::FUN_00c7f690_cls *>(&(kAabb.m_kMin))->FUN_00c7f690((const ::S_00c7f690_M *)&(kXform), (const ::S_00c7f690_V *)(const void *)(((const void *)(new ((void *)(pkWorld)) ::Vec3()))));
+                reinterpret_cast<::FUN_00c7f690_cls *>(&(kAabb.m_kMin))->FUN_00c7f690((const ::S_00c7f690_M *)&(kXform), (const ::S_00c7f690_V *)(const void *)(((const void *)(((::Vec3 *)(void *)(pkWorld))))));
                 reinterpret_cast<::FUN_00c7f690_cls *>(&(kAabb.m_kMax))->FUN_00c7f690((const ::S_00c7f690_M *)&(kXform), (const ::S_00c7f690_V *)(const void *)(reinterpret_cast<::FUN_00458820_shell *>((pkWorld))->FUN_00458820()));
                 reinterpret_cast<::FUN_00632c30_Class *>((((::Motion9C *)(::FUN_004ae750((void *)(pkBody))))))->ForwardToV8((void *)&(kAabb), (void *)&(kOut), {});
                 if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::ResultFlag9C &)((*(::ResultFlag9C *)(reinterpret_cast<::FUN_00632c60_Class *>(&(kOut))->FUN_00632c60({})))))->FUN_005609f0())

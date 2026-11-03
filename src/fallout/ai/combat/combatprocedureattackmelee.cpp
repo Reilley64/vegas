@@ -4607,7 +4607,7 @@ int State057::UpdateDirection(Actor057* actor, unsigned direction)
         return 4;
     else if (!active && direction == 0)
     {
-        FUN_00416870 f = (*(struct struct ::FUN_00416870 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(position))->FUN_00439ef0((::NiPoint3 *)&(actor->Position()), *(const ::NiPoint3 *)nullptr)));
+        FUN_00416870 f = (*(struct ::FUN_00416870 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(position))->FUN_00439ef0((::NiPoint3 *)&(actor->Position()), *(const ::NiPoint3 *)nullptr)));
         if (reinterpret_cast<::NiPoint3 *>((void *)&(f))->ComputeMagnitude() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting713)))))))
             return 4;
     }
@@ -4636,7 +4636,7 @@ int State057::UpdateDirection(Actor057* actor, unsigned direction)
         FUN_00416870 g(0.0f, -e, 0.0f);
         if (c & 2)
             g.y -= e;
-        g = (*(struct struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(g)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
+        g = (*(struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(g)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
         reinterpret_cast<::FUN_009d0530_shell *>(this)->UpdateFlags(2, back ? reinterpret_cast<::fnv_009d0590::FUN_009d0590_shell *>(this)->FUN_009d0590((::fnv_009d0590::TESObjectREFR *)(actor), (const ::fnv_009d0590::NiPoint3 *)&(g)) : false);
         break;
     }
@@ -4644,7 +4644,7 @@ int State057::UpdateDirection(Actor057* actor, unsigned direction)
         FUN_00416870 h(0.0f, e, 0.0f);
         if (c & 1)
             h.y += e;
-        h = (*(struct struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(h)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
+        h = (*(struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(h)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
         reinterpret_cast<::FUN_009d0530_shell *>(this)->UpdateFlags(1, forward ? reinterpret_cast<::fnv_009d0590::FUN_009d0590_shell *>(this)->FUN_009d0590((::fnv_009d0590::TESObjectREFR *)(actor), (const ::fnv_009d0590::NiPoint3 *)&(h)) : false);
         break;
     }
@@ -4652,7 +4652,7 @@ int State057::UpdateDirection(Actor057* actor, unsigned direction)
         FUN_00416870 i(-b, 0.0f, 0.0f);
         if (c & 4)
             i.x -= b;
-        i = (*(struct struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(i)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
+        i = (*(struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(i)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
         reinterpret_cast<::FUN_009d0530_shell *>(this)->UpdateFlags(4, left ? reinterpret_cast<::fnv_009d0590::FUN_009d0590_shell *>(this)->FUN_009d0590((::fnv_009d0590::TESObjectREFR *)(actor), (const ::fnv_009d0590::NiPoint3 *)&(i)) : false);
         break;
     }
@@ -4660,7 +4660,7 @@ int State057::UpdateDirection(Actor057* actor, unsigned direction)
         FUN_00416870 j(b, 0.0f, 0.0f);
         if (c & 8)
             j.x += b;
-        j = (*(struct struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(j)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
+        j = (*(struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(j)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
         reinterpret_cast<::FUN_009d0530_shell *>(this)->UpdateFlags(8, right ? reinterpret_cast<::fnv_009d0590::FUN_009d0590_shell *>(this)->FUN_009d0590((::fnv_009d0590::TESObjectREFR *)(actor), (const ::fnv_009d0590::NiPoint3 *)&(j)) : false);
         break;
     }

@@ -2844,7 +2844,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                     m_pInventoryEntryData = 0;
                     while (!m_kUnsortedGeometryList.IsEmpty())
                     {
-                        Item* pItem = *((::fnv_0092d050::Item **)(new ((void *)&(m_kUnsortedGeometryList)) ::Vec3()));
+                        Item* pItem = *((::fnv_0092d050::Item **)(((::Vec3 *)(void *)&(m_kUnsortedGeometryList))));
                         delete pItem;
                         reinterpret_cast<::ItemChangeListNode *>(&(m_kUnsortedGeometryList))->FUN_00905330((*(::InventoryStackRecord *const *)(&pItem)));
                     }

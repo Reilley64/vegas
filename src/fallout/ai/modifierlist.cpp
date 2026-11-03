@@ -29,7 +29,7 @@
 void ActorValueModifierList::RemoveAllModifiers()
 {
     Modifier* modifier;
-    while ((modifier = ((::Modifier *)(new ((void *)this) ::Vec3()))) != 0)
+    while ((modifier = ((::Modifier *)(((::Vec3 *)(void *)this)))) != 0)
     {
         Modifier* node = modifier;
         ::FUN_00401030(node);
@@ -78,9 +78,9 @@ Modifier* ActorValueModifierList::GetModifierItem(char key)
     else
     {
         searchState.current = this;
-        while (searchState.current && ((::Modifier *)(new ((void *)(searchState.current)) ::Vec3())) != 0 && !searchState.modifier)
+        while (searchState.current && ((::Modifier *)(((::Vec3 *)(void *)(searchState.current)))) != 0 && !searchState.modifier)
         {
-            Modifier* item = ((::Modifier *)(new ((void *)(searchState.current)) ::Vec3()));
+            Modifier* item = ((::Modifier *)(((::Vec3 *)(void *)(searchState.current))));
             if (item && ((char)(reinterpret_cast<::FUN_009373f0_shell *>((item))->FUN_009373f0())) == key)
                 searchState.modifier = item;
             searchState.current = (ActorValueModifierList*)((::BSSimpleList< ::Modifier *> *)(reinterpret_cast<::Callees *>((searchState.current))->FUN_00726070()));
@@ -115,9 +115,9 @@ void ActorValueModifierList::CopyModifierListFrom(ActorValueModifierList* apSour
     if (apSource->m_ppModifiedActorValues)
         m_ppModifiedActorValues = new ModifierPointerList(apSource->m_ppModifiedActorValues);
     ActorValueModifierList* current = apSource;
-    while (current && ((::Modifier *)(new ((void *)(current)) ::Vec3())) != 0)
+    while (current && ((::Modifier *)(((::Vec3 *)(void *)(current)))) != 0)
     {
-        Modifier* item = ((::Modifier *)(new ((void *)(current)) ::Vec3()));
+        Modifier* item = ((::Modifier *)(((::Vec3 *)(void *)(current))));
         reinterpret_cast<::ModifierRoutingList *>(this)->FUN_00937380((::ModifierEntryView *)(::Modifier *)(new Modifier(item)));
         current = (ActorValueModifierList*)((::BSSimpleList< ::Modifier *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
     }
@@ -301,9 +301,9 @@ void FUN_009378d0_shell::CountModifiers()
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_009378d0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&icount, 2);
 
     BSSimpleList<Modifier*>* pmodlist = (BSSimpleList<Modifier*>*)this;
-    while (pmodlist && *((::fnv_009378d0::Modifier **)(new ((void *)(((BSSimpleList_helper*)pmodlist))) ::Vec3())))
+    while (pmodlist && *((::fnv_009378d0::Modifier **)(((::Vec3 *)(void *)(((BSSimpleList_helper*)pmodlist))))))
     {
-        Modifier* pmod = *((::fnv_009378d0::Modifier **)(new ((void *)(((BSSimpleList_helper*)pmodlist))) ::Vec3()));
+        Modifier* pmod = *((::fnv_009378d0::Modifier **)(((::Vec3 *)(void *)(((BSSimpleList_helper*)pmodlist)))));
         if (reinterpret_cast<::Host37870 *>(this)->FUN_00937870((::Modifier *)(pmod)))
             icount++;
         pmodlist = ((::BSSimpleList< ::fnv_009378d0::Modifier *> *)(reinterpret_cast<::Callees *>((pmodlist))->FUN_00726070()));

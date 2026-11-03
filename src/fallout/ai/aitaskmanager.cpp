@@ -1,5 +1,6 @@
 // fallout/ai/aitaskmanager.cpp: MovementTaskData, PackageUpdateTaskData, Owner, ActorsScriptTaskData and more (87 functions)
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/ActorStandIn008a.h"
@@ -1192,7 +1193,7 @@ bool Obj_008ca620::PopNode(Arg_008ca620* a)
     Node_008ca620* node = m_0c;
     if (node)
     {
-        reinterpret_cast<::FUN_008_Struct *>((a))->FUN_008caa70((::FUN_008_Struct *)(void *)(((void *)(new ((void *)(node)) ::Vec3()))));
+        reinterpret_cast<::FUN_008_Struct *>((a))->FUN_008caa70((::FUN_008_Struct *)(void *)(((void *)(((::Vec3 *)(void *)(node))))));
         m_0c = node->m_0c;
         reinterpret_cast<::FUN_008ca770_Class *>((m_08))->FUN_008ca770((::Date **)(::Node_008ca620 **)(&node));
         bPopped = true;
@@ -2148,7 +2149,7 @@ void TaskOwner::DispatchTask()
     ((::ResourceHandle *)(reinterpret_cast<::MagicCaster_shell *>(&(context))->FUN_0044edb0()))->Dispatch(payload, 0x16800);
     FUN_00cbb990();
     ((::DispatchQueue *)(::FUN_00cbbfc0()))->Queue(&context, TaskToken(1));
-    reinterpret_cast<::QuantitySet *>((((::Completion *)(new ((void *)&(context)) ::Vec3()))))->FUN_008c70c0({}, {});
+    reinterpret_cast<::QuantitySet *>((((::Completion *)(((::Vec3 *)(void *)&(context))))))->FUN_008c70c0({}, {});
 }
 
 // Stand-in for the game's PlayerCharacter.  The unit file only
@@ -3198,22 +3199,22 @@ void UpdateManager::UpdateMobileObject(MobileObject* object)
                 otherListA = new BSSimpleList<Actor*>;
                 nodeVal = otherListA;
                 list_ = otherList3->followers;
-                while (list_ && ((::Actor *)(new ((void *)(list_)) ::Vec3())))
+                while (list_ && (((list_))->m_item))
                 {
-                    reinterpret_cast<::Callees *>((otherListA))->FUN_00905820((void *)&(((::Actor *)(new ((void *)(list_)) ::Vec3()))));
+                    reinterpret_cast<::Callees *>((otherListA))->FUN_00905820((void *)&((((list_))->m_item)));
                     list_ = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((list_))->FUN_00726070()));
                 }
-                while (nodeVal && ((::Actor *)(new ((void *)(nodeVal)) ::Vec3())))
+                while (nodeVal && (((nodeVal))->m_item))
                 {
-                    Actor* actorA = ((::Actor *)(new ((void *)(nodeVal)) ::Vec3()));
+                    Actor* actorA = (((nodeVal))->m_item);
                     if (actorA && actorA != (*reinterpret_cast<::fnv_008c8be0::PlayerCharacter * *>(&::_g_thePlayer)) && !reinterpret_cast<::fnv_008bc860::FUN_008bc860_StandIn *>((static_cast<UpdateActor*>(actorA)))->FUN_008bc860(actorTmp))
                         listVal->AddHead(actorA);
                     nodeVal = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((nodeVal))->FUN_00726070()));
                 }
                 nodeVal = listVal;
-                while (nodeVal && ((::Actor *)(new ((void *)(nodeVal)) ::Vec3())))
+                while (nodeVal && (((nodeVal))->m_item))
                 {
-                    Actor* targetB = ((::Actor *)(new ((void *)(nodeVal)) ::Vec3()));
+                    Actor* targetB = (((nodeVal))->m_item);
                     reinterpret_cast<::fnv_00422690::FUN_00422690_shell *>((static_cast<FollowerExtra*>(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((current))->FUN_005d43c0())))))->FUN_00422690((::fnv_00422690::Actor *)(targetB));
                     nodeVal = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((nodeVal))->FUN_00726070()));
                 }
@@ -3356,22 +3357,24 @@ struct GQ
 struct OwnQ
 {
     char pad[0x50];
-    MemQ kMem;
-    char pad2[0x20];
-    int unk74;
+    hkMemoryRouter kMem;
+    void* unk74;
     void InitMemory();
 };
+// Sets up the AI task thread's Havok memory router: temp and solver use the heap, and the stack area is a
+// 0x16800-byte heap block.
 // @fnv 0x008c9d70
 void OwnQ::InitMemory()
 {
-    ((::fnv_008c9d70::FacQ *)(::FUN_00cbbfc0()))->Create(&kMem, "AITaskThread", FUN_008c71b0(1));
+    ((::fnv_008c9d70::FacQ *)(::FUN_00cbbfc0()))->Create((MemQ *)&kMem, "AITaskThread", FUN_008c71b0(1));
     ::FUN_00cbb930(&kMem);
-    reinterpret_cast<::FUN_0041fd00_shell *>(&(kMem))->FUN_0041fd00((int)(((::fnv_008c9d70::HeapQ *)(reinterpret_cast<::MagicCaster_shell *>(&(kMem))->FUN_0044edb0()))));
-    reinterpret_cast<::TESPackage *>(&(kMem))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(((::fnv_008c9d70::HeapQ *)(reinterpret_cast<::MagicCaster_shell *>(&(kMem))->FUN_0044edb0()))));
-    unk74 = ((::fnv_008c9d70::HeapQ *)(reinterpret_cast<::MagicCaster_shell *>(&(kMem))->FUN_0044edb0()))->Alloc(0x16800);
-    reinterpret_cast<::QuantitySet *>((((::fnv_008c9d70::BufQ *)(new ((void *)&(kMem)) ::Vec3()))))->FUN_008c70c0(unk74, 0x16800);
+    kMem.m_temp = kMem.m_heap;
+    kMem.m_solver = kMem.m_heap;
+    unk74 = kMem.m_heap->blockAlloc(0x16800);
+    reinterpret_cast<::QuantitySet *>(&kMem)->FUN_008c70c0((uintptr_t)unk74, 0x16800);
     reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008c9d70::GQ * *>(&::g_dataHandler))))->BuildCompiledFileList();
 }
+
 }  // namespace fnv_008c9d70
 
 struct Obj_008c9cf0

@@ -20,7 +20,7 @@ void BarkPlaybackEntry::UpdateBarks()
     now = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(&g_011e0098);
     while (now)
     {
-        node = reinterpret_cast<BarkPlaybackEntry*>(((::BGSPerkEntry *)(new ((void *)(now)) ::Vec3())));
+        node = reinterpret_cast<BarkPlaybackEntry*>((((now))->m_item));
         remove = false;
         if (node && node->actor && node->startTime <= bark)
         {

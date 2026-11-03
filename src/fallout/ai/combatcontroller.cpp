@@ -9174,9 +9174,9 @@ void* Target::FUN_00994bd0(Input* apInput, bool flag)
             Context ctx;
             reinterpret_cast<::FUN_00994e60_class *>(&(ctx))->ResetState((::CombatStateArray *)(::fnv_00994bd0::Context *)(&context));
             result3 = ((::fnv_00994bd0::Node *)(::GetOffsetC((int)(goal))));
-            while (result3 && *((::fnv_00994bd0::Owner **)(new ((void *)(result3)) ::Vec3())))
+            while (result3 && *((::fnv_00994bd0::Owner **)(((::Vec3 *)(void *)(result3)))))
             {
-                Owner* owner = *((::fnv_00994bd0::Owner **)(new ((void *)(result3)) ::Vec3()));
+                Owner* owner = *((::fnv_00994bd0::Owner **)(((::Vec3 *)(void *)(result3))));
                 Item* itemB = ((::fnv_00994bd0::Item *)(reinterpret_cast<::Callees *>((owner))->FUN_00726070()));
                 if (::IsValidCode((int)(itemB)))
                     itemB = ((::fnv_00994bd0::Item *)(reinterpret_cast<::FUN_00984470_Class *>(&(ctx))->GetCombatGoal((int)(itemB))));

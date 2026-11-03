@@ -538,9 +538,9 @@ bool CombatGoal::FUN_009843b0(CombatStateValues* values)
     UnsignedIdHandle* value;
     int state;
     int type;
-    while (current && ((::UnsignedIdHandle *)(new ((void *)(current)) ::Vec3())))
+    while (current && (((current))->m_item))
     {
-        value = ((::UnsignedIdHandle *)(new ((void *)(current)) ::Vec3()));
+        value = (((current))->m_item);
         state = ::FUN_00559450((int *)(value));
         type = ((int)(reinterpret_cast<::Callees *>((value))->FUN_00726070()));
         if (state == 21)

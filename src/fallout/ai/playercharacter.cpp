@@ -33620,7 +33620,7 @@ void Shell451::FUN_004515a0(Point451* point, bool flag)
     int previousX = x;
     int previousY = y;
     if (!((int)(reinterpret_cast<::EffectSetting *>(this)->GetHitSound())))
-        reinterpret_cast<::WS458200_Shell *>(this)->FUN_00458200((::WS458200_World *)(*((int *)(new ((void *)(((::List451 *)(::FUN_00460140((int)(g_dataHandler)))))) ::Vec3()))));
+        reinterpret_cast<::WS458200_Shell *>(this)->FUN_00458200((::WS458200_World *)(*((int *)(((::Vec3 *)(void *)(((::List451 *)(::FUN_00460140((int)(g_dataHandler))))))))));
     if (point)
     {
         x = ::FUN_00406d90(point->x) >> 12;
@@ -33642,9 +33642,9 @@ unsigned char FNV_93dee0_Host::FUN_0093dee0(unsigned int formID)
 {
     FNV_93dee0_Node* node = *reinterpret_cast<FNV_93dee0_Node**>(&layoutPaddingADC[0x26c]);
     FNV_93dee0_Entry* entry = 0;
-    while (node && *((::FNV_93dee0_Entry **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::FNV_93dee0_Entry **)(((::Vec3 *)(void *)(node)))))
     {
-        entry = *((::FNV_93dee0_Entry **)(new ((void *)(node)) ::Vec3()));
+        entry = *((::FNV_93dee0_Entry **)(((::Vec3 *)(void *)(node))));
         if (entry->formID == formID)
             return entry->state;
         node = ((::FNV_93dee0_Node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -33675,7 +33675,7 @@ void PCTravelStub::FUN_00947b10()
                     NodeStub* node5 = ((::NodeStub *)(reinterpret_cast<::BGSTerrainManager *>((form7))->GetMinLevel()));
                     while (!bFound4 && node5 && !node5->IsEmpty())
                     {
-                        ItemStub* item = *((::ItemStub **)(new ((void *)(node5)) ::Vec3()));
+                        ItemStub* item = *((::ItemStub **)(((::Vec3 *)(void *)(node5))));
                         if (reinterpret_cast<::Polygon *>((item))->FUN_004f8360((::PolygonPoint *)(::PosStub *)(&pos5)))
                             bFound4 = true;
                         node5 = ((::NodeStub *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
@@ -33709,7 +33709,7 @@ void FUN_00947d80_cls::FUN_00947d80()
         DxNode* cur = pEntry;
         while (cur != 0)
         {
-            DxItem* item = *((::DxItem **)(new ((void *)(cur)) ::Vec3()));
+            DxItem* item = *((::DxItem **)(((::Vec3 *)(void *)(cur))));
             if (item != 0)
             {
                 DxFoo* foo = new DxFoo(item);
@@ -33738,7 +33738,7 @@ void FUN_00947d80_cls::FUN_00947d80()
         DxNode* cur4 = bar;
         while (cur4 != 0)
         {
-            DxItem* item = *((::DxItem **)(new ((void *)(cur4)) ::Vec3()));
+            DxItem* item = *((::DxItem **)(((::Vec3 *)(void *)(cur4))));
             if (item != 0)
             {
                 DxFoo* foo = new DxFoo(item);
@@ -33767,7 +33767,7 @@ void xEffOwner::FUN_0094c6c0(xEffItem* pItem)
         xEffItem* qfTOqo = pItem;
         while (qfTOqo && !qfTOqo->IsEmpty())
         {
-            xEff* qxQHW = *((::xEff **)(new ((void *)(qfTOqo)) ::Vec3()));
+            xEff* qxQHW = *((::xEff **)(((::Vec3 *)(void *)(qfTOqo))));
             if (qxQHW)
                 ((::xEffSet *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((qxQHW))->FUN_00825c00()))->SetFlag(0x200000, true);
             qfTOqo = static_cast<xEffItem*>(((::xEffList *)(reinterpret_cast<::Callees *>((qfTOqo))->FUN_00726070())));
@@ -33821,7 +33821,7 @@ void FUN_0094ed40_cls::WriteProgressData(int aiDifficulty)
     qHXYKT = &m_87c;
     while (qHXYKT && !qHXYKT->IsEmpty())
     {
-        xCountEntry* qxQHW = (xCountEntry*)*((void **)(new ((void *)(qHXYKT)) ::Vec3()));
+        xCountEntry* qxQHW = (xCountEntry*)*((void **)(((::Vec3 *)(void *)(qHXYKT))));
         qHXYKT = ((::xNode *)(reinterpret_cast<::Callees *>((qHXYKT))->FUN_00726070()));
         if (qxQHW->m_form)
         {
@@ -33881,7 +33881,7 @@ void FUN_0094ed40_cls::WriteProgressData(int aiDifficulty)
     qdqWL = &m_6b0;
     while (qdqWL && !qdqWL->IsEmpty())
     {
-        xChallenge* qAXSCg = (xChallenge*)*((void **)(new ((void *)(qdqWL)) ::Vec3()));
+        xChallenge* qAXSCg = (xChallenge*)*((void **)(((::Vec3 *)(void *)(qdqWL))));
         qdqWL = ((::xNode *)(reinterpret_cast<::Callees *>((qdqWL))->FUN_00726070()));
         if (reinterpret_cast<::FUN_0060fd70_shell *>((qAXSCg))->FUN_0060fd70() && ((::xChallengeTarget *)(reinterpret_cast<::DialogueItem *>((qAXSCg))->SelectDefaultResponseList())))
         {
@@ -33990,9 +33990,9 @@ bool FUN_009528c0_shell::AddChallenge(TESChallenge* pkChallenge)
         return false;
     bool bFound = false;
     ChallengeNode* pkIter = ((::ChallengeNode *)(reinterpret_cast<::FUN_0060da90_shell *>(this)->GetOffsetPointer()));
-    while (pkIter && ((::TESChallenge *)(new ((void *)(pkIter)) ::Vec3())))
+    while (pkIter && ((::TESChallenge *)(((::Vec3 *)(void *)(pkIter)))))
     {
-        TESChallenge* pkItem = ((::TESChallenge *)(new ((void *)(pkIter)) ::Vec3()));
+        TESChallenge* pkItem = ((::TESChallenge *)(((::Vec3 *)(void *)(pkIter))));
         pkIter = ((::ChallengeNode *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070()));
         if (pkItem == pkChallenge && !reinterpret_cast<::FUN_0060d5e0_shell *>((((ChallengeCheck*)((int)(reinterpret_cast<::DialogueItem *>((pkItem))->SelectDefaultResponseList())))))->HasFlag8())
             return false;
@@ -34022,9 +34022,9 @@ void FUN_00952c30_shell::FUN_00952c30(TESObjectREFR* apMovingRef)
     }
     BSSimpleList<TESQuestTargetX*>* pList = ((::BSSimpleList< ::TESQuestTargetX *> *)(reinterpret_cast<::fnv_00952ba0::PlayerCharacterStandIn *>(this)->FUN_00952ba0()));
     TESQuestTargetX* pTarget = 0;
-    while (pList && *((::TESQuestTargetX **)(new ((void *)(((QTNode*)pList))) ::Vec3())) && !this->unk206)
+    while (pList && *((::TESQuestTargetX **)(((::Vec3 *)(void *)(((QTNode*)pList))))) && !this->unk206)
     {
-        pTarget = *((::TESQuestTargetX **)(new ((void *)(((QTNode*)pList))) ::Vec3()));
+        pTarget = *((::TESQuestTargetX **)(((::Vec3 *)(void *)(((QTNode*)pList)))));
         pList = ((::BSSimpleList< ::TESQuestTargetX *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         TESObjectREFR* ptargref = (TESObjectREFR*)((void *)(reinterpret_cast<::RegionObjectEntry *>((((TgtOps*)pTarget)))->GetReference(true)));
         if (ptargref == apMovingRef)
@@ -35038,6 +35038,8 @@ bool PlayerCharacterStandIn::FUN_009549a0(Actor* apActor)
     return bflag2;
 }
 }  // namespace fnv_009549a0
+struct RefHandle;
+struct VObj;
 namespace fnv_00960520
 {
 struct Projectile
@@ -37641,7 +37643,7 @@ void PlayerX::FUN_009590f0(BufferX* apBuffer)
         ListX<TopicInfoX*>* pNode1Num = &kList6a8;
         while (pNode1Num)
         {
-            TopicInfoX* pInfo = ((::TopicInfoX *)(new ((void *)(pNode1Num)) ::Vec3()));
+            TopicInfoX* pInfo = ((::TopicInfoX *)(((::Vec3 *)(void *)(pNode1Num))));
             if (pInfo && !::FUN_00619410((const char *)(pInfo)))
             {
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pInfo), 0);
@@ -37657,7 +37659,7 @@ void PlayerX::FUN_009590f0(BufferX* apBuffer)
         ListX<void*>* pNode2In = &kList5e4;
         while (pNode2In)
         {
-            void* pFormZ28 = ((void *)(new ((void *)(pNode2In)) ::Vec3()));
+            void* pFormZ28 = ((void *)(((::Vec3 *)(void *)(pNode2In))));
             if (pFormZ28)
             {
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pFormZ28), 0);
@@ -37682,7 +37684,7 @@ void PlayerX::FUN_009590f0(BufferX* apBuffer)
         ListX<FormByteX*>* pNode3Z = pListd48;
         while (pNode3Z)
         {
-            FormByteX* pEntry = ((::FormByteX *)(new ((void *)(pNode3Z)) ::Vec3()));
+            FormByteX* pEntry = ((::FormByteX *)(((::Vec3 *)(void *)(pNode3Z))));
             if (pEntry)
             {
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pEntry->pForm), 0);
@@ -37700,7 +37702,7 @@ void PlayerX::FUN_009590f0(BufferX* apBuffer)
         ListX<FormByteX*>* pNode4Two = &kList87c;
         while (pNode4Two)
         {
-            FormByteX* pEntry = ((::FormByteX *)(new ((void *)(pNode4Two)) ::Vec3()));
+            FormByteX* pEntry = ((::FormByteX *)(((::Vec3 *)(void *)(pNode4Two))));
             if (pEntry)
             {
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pEntry->pForm), 0);
@@ -37717,7 +37719,7 @@ void PlayerX::FUN_009590f0(BufferX* apBuffer)
         ListX<int*>* pNode5B = pList60c;
         while (pNode5B)
         {
-            int* pEntry = ((int *)(new ((void *)(pNode5B)) ::Vec3()));
+            int* pEntry = ((int *)(((::Vec3 *)(void *)(pNode5B))));
             if (pEntry)
             {
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(pEntry, 4, 0);
@@ -37735,7 +37737,7 @@ void PlayerX::FUN_009590f0(BufferX* apBuffer)
         ListX<int*>* pNode6Out = pList610;
         while (pNode6Out)
         {
-            int* pEntry = ((int *)(new ((void *)(pNode6Out)) ::Vec3()));
+            int* pEntry = ((int *)(((::Vec3 *)(void *)(pNode6Out))));
             if (pEntry)
             {
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(pEntry, 4, 0);
@@ -37753,7 +37755,7 @@ void PlayerX::FUN_009590f0(BufferX* apBuffer)
         ListX<void*>* pNode7B = pList614;
         while (pNode7B)
         {
-            void* pFormZ28 = ((void *)(new ((void *)(pNode7B)) ::Vec3()));
+            void* pFormZ28 = ((void *)(((::Vec3 *)(void *)(pNode7B))));
             if (pFormZ28)
             {
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pFormZ28), 0);
@@ -37769,7 +37771,7 @@ void PlayerX::FUN_009590f0(BufferX* apBuffer)
         ListX<void*>* pNode837 = pList618;
         while (pNode837)
         {
-            void* pFormZ28 = ((void *)(new ((void *)(pNode837)) ::Vec3()));
+            void* pFormZ28 = ((void *)(((::Vec3 *)(void *)(pNode837))));
             if (pFormZ28)
             {
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pFormZ28), 0);
@@ -37790,7 +37792,7 @@ void PlayerX::FUN_009590f0(BufferX* apBuffer)
         ListX<ChallengeX*>* pNode9New91 = &kList6b0;
         while (pNode9New91)
         {
-            ChallengeX* pChallenge = ((::ChallengeX *)(new ((void *)(pNode9New91)) ::Vec3()));
+            ChallengeX* pChallenge = ((::ChallengeX *)(((::Vec3 *)(void *)(pNode9New91))));
             if (pChallenge)
             {
                 ProgressX* pProgress = ((::ProgressX *)(reinterpret_cast<::DialogueItem *>((pChallenge))->SelectDefaultResponseList()));
@@ -37811,7 +37813,7 @@ void PlayerX::FUN_009590f0(BufferX* apBuffer)
         ListX<PairX*>* pNode10Z52 = &kList6bc;
         while (pNode10Z52)
         {
-            PairX* pPairCur = ((::PairX *)(new ((void *)(pNode10Z52)) ::Vec3()));
+            PairX* pPairCur = ((::PairX *)(((::Vec3 *)(void *)(pNode10Z52))));
             if (pPairCur)
             {
                 void* pFormZ28 = ((void *)(reinterpret_cast<::MagicCaster_shell *>((pPairCur))->FUN_0044edb0()));
@@ -37837,7 +37839,7 @@ void PlayerX::FUN_009590f0(BufferX* apBuffer)
         ListX<FormByteX*>* pNode11Old31 = &kListad4;
         while (pNode11Old31)
         {
-            FormByteX* pEntry = ((::FormByteX *)(new ((void *)(pNode11Old31)) ::Vec3()));
+            FormByteX* pEntry = ((::FormByteX *)(((::Vec3 *)(void *)(pNode11Old31))));
             if (pEntry)
             {
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pEntry->pForm), 0);
@@ -39422,9 +39424,9 @@ void ResetPlayer::FUN_0095c9c0(ResetFlagState* buffer)
     reinterpret_cast<::FUN_00952f90_cls *>(this)->ClearHelper();
     unk604 = 0;
     reinterpret_cast<::PlayerCharacterByteField075c *>(this)->FUN_00950010(0);
-    while (unk60c && *((void **)(new ((void *)(unk60c)) ::Vec3())))
+    while (unk60c && *((void **)(((::Vec3 *)(void *)(unk60c)))))
     {
-        delete *((void **)(new ((void *)(unk60c)) ::Vec3()));
+        delete *((void **)(((::Vec3 *)(void *)(unk60c))));
         unk60c->FUN_0063f7b0();
     }
     delete unk60c;
@@ -39432,7 +39434,7 @@ void ResetPlayer::FUN_0095c9c0(ResetFlagState* buffer)
     ResetList* scan = &unk87c;
     while (scan)
     {
-        delete *((void **)(new ((void *)(scan)) ::Vec3()));
+        delete *((void **)(((::Vec3 *)(void *)(scan))));
         scan = ((::fnv_0095c9c0::ResetList *)(reinterpret_cast<::Callees *>((scan))->FUN_00726070()));
     }
     reinterpret_cast<::FileMatchList *>(&(unk87c))->RemoveAll();
@@ -39441,7 +39443,7 @@ void ResetPlayer::FUN_0095c9c0(ResetFlagState* buffer)
     scan = &unkad4;
     while (scan)
     {
-        delete *((void **)(new ((void *)(scan)) ::Vec3()));
+        delete *((void **)(((::Vec3 *)(void *)(scan))));
         scan = ((::fnv_0095c9c0::ResetList *)(reinterpret_cast<::Callees *>((scan))->FUN_00726070()));
     }
     reinterpret_cast<::FileMatchList *>(&(unkad4))->RemoveAll();
@@ -39456,7 +39458,7 @@ void ResetPlayer::FUN_0095c9c0(ResetFlagState* buffer)
     ResetList* node = ((::fnv_0095c9c0::ResetList *)(reinterpret_cast<::FUN_004612e0_shell *>((DAT_011c3f2c))->FUN_004612e0()));
     while (node)
     {
-        ResetItem* item = (ResetItem*)*((void **)(new ((void *)(node)) ::Vec3()));
+        ResetItem* item = (ResetItem*)*((void **)(((::Vec3 *)(void *)(node))));
         if (item && ::FUN_00619410((const char *)(item)))
             unk6a8.FUN_005ae3d0(item);
         node = ((::fnv_0095c9c0::ResetList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -39756,7 +39758,7 @@ int StandinPlayer::FUN_0095d160()
     BSSimpleList<MagicItemStandin*>* node2 = this->activeSpells;
     while (node2 && !node2->IsEmpty())
     {
-        if (((::MagicItemStandin *)(new ((void *)(node2)) ::Vec3())) && ((::MagicItemStandin *)(new ((void *)(node2)) ::Vec3()))->GetMagicType() == 7)
+        if ((((node2))->m_item) && (((node2))->m_item)->GetMagicType() == 7)
         {
             count++;
         }
@@ -39777,7 +39779,7 @@ int StandinPlayer::FUN_0095d160()
         BSSimpleList<ActiveEffectStandin*>* effectNode8 = this->GetEffectList();
         while (effectNode8 && !effectNode8->IsEmpty())
         {
-            MagicItemStandin* item3 = ((::ActiveEffectStandin *)(new ((void *)(effectNode8)) ::Vec3())) ? ((::MagicItemStandin *)(reinterpret_cast<::Twin_0044ddc0 *>((((::ActiveEffectStandin *)(new ((void *)(effectNode8)) ::Vec3()))))->GetName())) : 0;
+            MagicItemStandin* item3 = (((effectNode8))->m_item) ? ((::MagicItemStandin *)(reinterpret_cast<::Twin_0044ddc0 *>(((((effectNode8))->m_item)))->GetName())) : 0;
             if (item3 && item3->GetMagicType() == 7)
             {
                 bool inList = (bool)(this->activeSpells && reinterpret_cast<::RefList *>((this->activeSpells))->FUN_005f65d0((void **)&(item3)));
@@ -43322,9 +43324,9 @@ void FNVPlayerScanner::FUN_00962190()
     while (iterator != 0)
     {
         Actor* actor = 0;
-        if (*((::TESForm **)(new ((void *)(iterator)) ::Vec3())) != 0 && (*((::TESForm **)(new ((void *)(iterator)) ::Vec3())))->IsActor())
+        if (*((::TESForm **)(((::Vec3 *)(void *)(iterator)))) != 0 && (*((::TESForm **)(((::Vec3 *)(void *)(iterator)))))->IsActor())
         {
-            actor = static_cast<Actor*>(*((::TESForm **)(new ((void *)(iterator)) ::Vec3())));
+            actor = static_cast<Actor*>(*((::TESForm **)(((::Vec3 *)(void *)(iterator)))));
         }
         if (actor != 0 && reinterpret_cast<FNVVirtualActorPredicate>((*reinterpret_cast<void***>(actor))[0xc1])(actor))
         {
@@ -44830,7 +44832,7 @@ void FUN_00963790_Class::SetPerkRank(BGSPerk* apPerk, unsigned char rank, bool b
 
     while (plist4)
     {
-        pperkRank = reinterpret_cast<FUN_00963790_PerkRankData*>(((::BGSPerk *)(new ((void *)(plist4)) ::Vec3())));
+        pperkRank = reinterpret_cast<FUN_00963790_PerkRankData*>((((plist4))->m_item));
 
         if (pperkRank)
         {
@@ -44915,7 +44917,7 @@ void FUN_00963900_cls::RemovePerk(PerkStandIn* perk, bool companion)
         node = (PerkListStandIn*)&m_kCompanionPerks;
     while (node != 0 && found == 0)
     {
-        PerkForm* item = *((::PerkForm **)(new ((void *)(node)) ::Vec3()));
+        PerkForm* item = *((::PerkForm **)(((::Vec3 *)(void *)(node))));
         if (item != 0 && *(void**)item == (void*)perk)
             found = item;
         else
@@ -44950,7 +44952,7 @@ char FUN_009639e0_s::FUN_009639e0(BGSPerk* apPerk, bool bAlt)
         pList = reinterpret_cast<FUN_006815c0*>(reinterpret_cast<char*>(this) + 0xad4);
     while (pList)
     {
-        BGSPerk* pEntry = *((::BGSPerk **)(new ((void *)(pList)) ::Vec3()));
+        BGSPerk* pEntry = *((::BGSPerk **)(((::Vec3 *)(void *)(pList))));
         if (pEntry && reinterpret_cast<void*>(*reinterpret_cast<void**>(pEntry)) == reinterpret_cast<void*>(apPerk))
             return reinterpret_cast<char*>(pEntry)[4];
         pList = ((class ::FUN_006815c0 *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
@@ -46055,9 +46057,9 @@ void FUN_00963bf0_cls::RemoveExpiredItems()
 {
     FUN_00963bf0_node* node = m_60c;
     FUN_00963bf0_item* obj = 0;
-    while (node != 0 && ((::FUN_00963bf0_item *)(new ((void *)(node)) ::Vec3())) != 0)
+    while (node != 0 && ((::FUN_00963bf0_item *)(((::Vec3 *)(void *)(node)))) != 0)
     {
-        obj = ((::FUN_00963bf0_item *)(new ((void *)(node)) ::Vec3()));
+        obj = ((::FUN_00963bf0_item *)(((::Vec3 *)(void *)(node))));
         if ((double)obj->m_04 <= ::_DAT_01012060 && obj->m_00 != 5 && obj->m_00 != 8)
         {
             reinterpret_cast<::ItemChangeListNode *>((node))->FUN_00905330((::InventoryStackRecord *const &)(obj));
@@ -46071,9 +46073,9 @@ void FUN_00963bf0_cls::RemoveExpiredItems()
         }
     }
     node = m_60c;
-    while (node != 0 && ((::FUN_00963bf0_item *)(new ((void *)(node)) ::Vec3())) != 0)
+    while (node != 0 && ((::FUN_00963bf0_item *)(((::Vec3 *)(void *)(node)))) != 0)
     {
-        obj = ((::FUN_00963bf0_item *)(new ((void *)(node)) ::Vec3()));
+        obj = ((::FUN_00963bf0_item *)(((::Vec3 *)(void *)(node))));
         obj->m_04 = obj->m_04 - reinterpret_cast<::Twin_0084d030 *>((((FUN_00963bf0_glob*)&(*reinterpret_cast<::AimClock *>(&::g_timeGlobal)))))->GetStoredFloatValue();
         node = ((::BSSimpleList< ::FUN_00963bf0_item *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
@@ -46099,9 +46101,9 @@ bool FUN_00963ce0_StandIn::HasAction(int aeAction)
     bool bexits = false;
     BSSimpleList<ActionEntry*>* pCurrentElementNext = m_pActionEntryList;
     ActionEntry* pAction = 0;
-    while (pCurrentElementNext && ((::ActionEntry *)(new ((void *)(pCurrentElementNext)) ::Vec3())) && !bexits)
+    while (pCurrentElementNext && (((pCurrentElementNext))->m_item) && !bexits)
     {
-        pAction = ((::ActionEntry *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        pAction = (((pCurrentElementNext))->m_item);
         if (pAction && pAction->v == aeAction)
             bexits = true;
         pCurrentElementNext = ((::BSSimpleList< ::ActionEntry *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
@@ -46527,9 +46529,9 @@ void B63E00Owner::FUN_00963e00(void* pkForm, int iParam)
 
     B63E00List* pkNode = m_pkEntryArray;
     B63E00Entry* pkEntry = 0;
-    while (pkNode && *((::B63E00Entry **)(new ((void *)(pkNode)) ::Vec3())))
+    while (pkNode && *((::B63E00Entry **)(((::Vec3 *)(void *)(pkNode)))))
     {
-        pkEntry = *((::B63E00Entry **)(new ((void *)(pkNode)) ::Vec3()));
+        pkEntry = *((::B63E00Entry **)(((::Vec3 *)(void *)(pkNode))));
         if (pkEntry && pkEntry->m_pkForm == pkForm && (!iParam || iParam == pkEntry->m_iParam))
         {
             reinterpret_cast<::ItemChangeListNode *>((pkNode))->FUN_00905330((::InventoryStackRecord *const &)(pkEntry));
@@ -46963,9 +46965,9 @@ void PlayerView::SetEffectValue(void* key, float value, EffectSource* source)
         effects = new FUN_0096a2d0;
     FUN_0096a2d0* node = effects;
     FUN_0078d900* current = 0;
-    while (node && *((::fnv_00963eb0::FUN_0078d900 **)(new ((void *)(node)) ::Vec3())) && !record)
+    while (node && *((::fnv_00963eb0::FUN_0078d900 **)(((::Vec3 *)(void *)(node)))) && !record)
     {
-        current = *((::fnv_00963eb0::FUN_0078d900 **)(new ((void *)(node)) ::Vec3()));
+        current = *((::fnv_00963eb0::FUN_0078d900 **)(((::Vec3 *)(void *)(node))));
         if (current && current->key == key)
             record = current;
         node = ((::fnv_00963eb0::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -48147,10 +48149,10 @@ void AimPlayer::UpdateAim(AimObject* actor, AimObject* source, float* yawOut, fl
     if (!source || !((::fnv_00965620::AimWeapon *)(reinterpret_cast<::FUN_008a1710_shell *>(this)->FUN_008a1710())) || ::FUN_006450c0((::TESObjectWEAP *)(((::fnv_00965620::AimWeapon *)(reinterpret_cast<::FUN_008a1710_shell *>(this)->FUN_008a1710())))))
     {
         if (((::fnv_00965620::AimObject *)(reinterpret_cast<::FUN_00963730_cls *>(this)->FUN_00963730())))
-            delta3 = (*(::fnv_00965620::NiPoint3_ext *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&((*(const ::fnv_00965620::NiPoint3_ext *)(new ((void *)(((::fnv_00965620::AimPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::fnv_00965620::AimObject *)(reinterpret_cast<::FUN_00963730_cls *>(this)->FUN_00963730()))->GetRoot()))->FUN_0043d450())))) ::Vec3()))))->FUN_00439ef0(
-                (::NiPoint3 *)&((*(const ::fnv_00965620::NiPoint3_ext *)(new ((void *)(((::fnv_00965620::AimPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::fnv_00965620::AimObject *)(reinterpret_cast<::FUN_00950bb0_shell *>(this)->FUN_00950bb0(false)))))->FUN_0043d450())))) ::Vec3()))), *(const ::NiPoint3 *)nullptr)));
+            delta3 = (*(::fnv_00965620::NiPoint3_ext *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&((*(const ::fnv_00965620::NiPoint3_ext *)(((::Vec3 *)(void *)(((::fnv_00965620::AimPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::fnv_00965620::AimObject *)(reinterpret_cast<::FUN_00963730_cls *>(this)->FUN_00963730()))->GetRoot()))->FUN_0043d450()))))))))->FUN_00439ef0(
+                (::NiPoint3 *)&((*(const ::fnv_00965620::NiPoint3_ext *)(((::Vec3 *)(void *)(((::fnv_00965620::AimPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::fnv_00965620::AimObject *)(reinterpret_cast<::FUN_00950bb0_shell *>(this)->FUN_00950bb0(false)))))->FUN_0043d450()))))))), *(const ::NiPoint3 *)nullptr)));
         else if (reinterpret_cast<::NiPlane *>((void *)&(lastTarget))->operator==((const ::NiPlane &)((*reinterpret_cast<::fnv_00965620::NiPoint3_ext *>((void *)&::NiPoint3::ZERO)))))
-            delta3 = (*(::fnv_00965620::NiPoint3_ext *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(lastTarget))->FUN_00439ef0((::NiPoint3 *)&((*(const ::fnv_00965620::NiPoint3_ext *)(new ((void *)(((::fnv_00965620::AimPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::fnv_00965620::AimObject *)(reinterpret_cast<::FUN_00950bb0_shell *>(this)->FUN_00950bb0(false)))))->FUN_0043d450())))) ::Vec3()))), *(const ::NiPoint3 *)nullptr)));
+            delta3 = (*(::fnv_00965620::NiPoint3_ext *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(lastTarget))->FUN_00439ef0((::NiPoint3 *)&((*(const ::fnv_00965620::NiPoint3_ext *)(((::Vec3 *)(void *)(((::fnv_00965620::AimPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::fnv_00965620::AimObject *)(reinterpret_cast<::FUN_00950bb0_shell *>(this)->FUN_00950bb0(false)))))->FUN_0043d450()))))))), *(const ::NiPoint3 *)nullptr)));
     }
     else if (cameraAim)
     {
@@ -48191,7 +48193,7 @@ void AimPlayer::UpdateAim(AimObject* actor, AimObject* source, float* yawOut, fl
         }
         else
         {
-            targetPosition = reinterpret_cast<::Twin_0084d030 *>((void *)(((::fnv_00965620::AimPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((target4))->FUN_0043d450()))))->GetStoredFloatValue() != 0.0 ? (*(const ::fnv_00965620::NiPoint3_ext *)(new ((void *)(((::fnv_00965620::AimPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((target4))->FUN_0043d450())))) ::Vec3()))
+            targetPosition = reinterpret_cast<::Twin_0084d030 *>((void *)(((::fnv_00965620::AimPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((target4))->FUN_0043d450()))))->GetStoredFloatValue() != 0.0 ? (*(const ::fnv_00965620::NiPoint3_ext *)(((::Vec3 *)(void *)(((::fnv_00965620::AimPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((target4))->FUN_0043d450()))))))
                                                                             : target4->FUN_0045bb80();
         }
         delta3 = (*(::fnv_00965620::NiPoint3_ext *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(targetPosition))->FUN_00439ef0((::NiPoint3 *)&(point15), *(const ::NiPoint3 *)nullptr)));
@@ -48211,7 +48213,7 @@ void AimPlayer::UpdateAim(AimObject* actor, AimObject* source, float* yawOut, fl
     else
     {
         if (((::fnv_00965620::AimObject *)(reinterpret_cast<::FUN_00963730_cls *>(this)->FUN_00963730())))
-            delta3 = (*(::fnv_00965620::NiPoint3_ext *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&((*(const ::fnv_00965620::NiPoint3_ext *)(new ((void *)(((::fnv_00965620::AimPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::fnv_00965620::AimObject *)(reinterpret_cast<::FUN_00963730_cls *>(this)->FUN_00963730()))->GetRoot()))->FUN_0043d450())))) ::Vec3()))))->FUN_00439ef0((::NiPoint3 *)&(point15), *(const ::NiPoint3 *)nullptr)));
+            delta3 = (*(::fnv_00965620::NiPoint3_ext *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&((*(const ::fnv_00965620::NiPoint3_ext *)(((::Vec3 *)(void *)(((::fnv_00965620::AimPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::fnv_00965620::AimObject *)(reinterpret_cast<::FUN_00963730_cls *>(this)->FUN_00963730()))->GetRoot()))->FUN_0043d450()))))))))->FUN_00439ef0((::NiPoint3 *)&(point15), *(const ::NiPoint3 *)nullptr)));
         else if (source && reinterpret_cast<::NiPlane *>((void *)&(lastTarget))->operator==((const ::NiPlane &)((*reinterpret_cast<::fnv_00965620::NiPoint3_ext *>((void *)&::NiPoint3::ZERO)))))
             delta3 = (*(::fnv_00965620::NiPoint3_ext *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(lastTarget))->FUN_00439ef0((::NiPoint3 *)&(point15), *(const ::NiPoint3 *)nullptr)));
     }
@@ -48221,7 +48223,6 @@ void AimPlayer::UpdateAim(AimObject* actor, AimObject* source, float* yawOut, fl
         AimVector direction5 = delta3;
         reinterpret_cast<::FUN_004a0c10_s *>(&(direction5))->FUN_004a0c10();
         AimMatrix rotation20;
-        new ((void *)&(rotation20)) ::Vec3();
         float yaw, pitch5;
         if (!absolute)
         {
@@ -48986,9 +48987,9 @@ ActorCombatEntry* FUN_00967090_t::FUN_00967090(Actor* apActor)
 {
     BSSimpleList<ActorCombatEntry*>* pCurrentElementNext = *(BSSimpleList<ActorCombatEntry*>**)((char*)this + 0xd48);
     ActorCombatEntry* pact = 0;
-    while (pCurrentElementNext && ((::ActorCombatEntry *)(new ((void *)(pCurrentElementNext)) ::Vec3())))
+    while (pCurrentElementNext && (((pCurrentElementNext))->m_item))
     {
-        pact = ((::ActorCombatEntry *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        pact = (((pCurrentElementNext))->m_item);
         if (pact->pActor == apActor)
             return pact;
         pCurrentElementNext = ((::BSSimpleList< ::ActorCombatEntry *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
@@ -49024,9 +49025,9 @@ class Cls
 bool Cls::FUN_009670f0(int aiThingId)
 {
     Holder* p = m_pHolders;
-    while (p != 0 && *((::Thing **)(new ((void *)(p)) ::Vec3())) != 0)
+    while (p != 0 && *((::Thing **)(((::Vec3 *)(void *)(p)))) != 0)
     {
-        Thing* t = *((::Thing **)(new ((void *)(p)) ::Vec3()));
+        Thing* t = *((::Thing **)(((::Vec3 *)(void *)(p))));
         if (t->m_00 == aiThingId)
             return t->m_05 == 0;
         p = ((::Holder *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
@@ -49927,9 +49928,9 @@ class FUN_00967160_cls
 bool FUN_00967160_cls::FUN_00967160(FUN_00967160_target* pTarget)
 {
     FUN_00967160_node* node2 = m_pHead;
-    while (node2 != 0 && ((::fnv_00967160::FUN_00967160_holder *)(new ((void *)(node2)) ::Vec3()))->pObj != 0)
+    while (node2 != 0 && ((::fnv_00967160::FUN_00967160_holder *)(((::Vec3 *)(void *)(node2))))->pObj != 0)
     {
-        FUN_00967160_obj* obj2 = ((::fnv_00967160::FUN_00967160_holder *)(new ((void *)(node2)) ::Vec3()))->pObj;
+        FUN_00967160_obj* obj2 = ((::fnv_00967160::FUN_00967160_holder *)(((::Vec3 *)(void *)(node2))))->pObj;
         if (obj2->pTarget != 0 && !reinterpret_cast<::MiddleHighProcess *>((obj2->pTarget))->IsActorInCombat() && obj2->pTarget != pTarget)
         {
             unsigned char flag4 = ((unsigned char)(reinterpret_cast<::SightActor *>((obj2->pTarget))->FUN_0088b880(0, (::SightActor *)((*reinterpret_cast<int *>(&::_g_thePlayer))), 1, (int *)(0), 0)));
@@ -49966,9 +49967,9 @@ void FUN_00967220_cls::FUN_00967220(unsigned int key, bool flag)
     FUN_00967220_item* item5;
     FUN_00967220_node* cur = *(FUN_00967220_node**)((char*)this + 0xd48);
     item5 = 0;
-    while (cur != 0 && *((void **)(new ((void *)(cur)) ::Vec3())) != 0)
+    while (cur != 0 && *((void **)(((::Vec3 *)(void *)(cur)))) != 0)
     {
-        item5 = (FUN_00967220_item*)*((void **)(new ((void *)(cur)) ::Vec3()));
+        item5 = (FUN_00967220_item*)*((void **)(((::Vec3 *)(void *)(cur))));
         if (item5->key == key)
         {
             item5->flag = flag;
@@ -50852,9 +50853,9 @@ void FUN_00967350_shell::FUN_00967350(int aiKey)
 {
     Node967* pNode = pList;
     Item967* pItem = 0;
-    while (pNode && *((::Item967 **)(new ((void *)(pNode)) ::Vec3())))
+    while (pNode && *((::Item967 **)(((::Vec3 *)(void *)(pNode)))))
     {
-        pItem = *((::Item967 **)(new ((void *)(pNode)) ::Vec3()));
+        pItem = *((::Item967 **)(((::Vec3 *)(void *)(pNode))));
         if (pItem->iKey == aiKey)
         {
             delete pItem;
@@ -52780,7 +52781,7 @@ bool Cls::FUN_00967b70(ArgObj* arg)
     WeapObj* kObj18;
     void* formRes2;
     ScriptObj* scriptRes;
-    slotC7 = (((::fnv_00967b70::ListObj *)(::FUN_00559450((int *)(arg)))) && *((::fnv_00967b70::ObjC **)(new ((void *)(((::fnv_00967b70::ListObj *)(::FUN_00559450((int *)(arg)))))) ::Vec3()))) ? *((::fnv_00967b70::ObjC **)(new ((void *)(((::fnv_00967b70::ListObj *)(::FUN_00559450((int *)(arg)))))) ::Vec3())) : 0;
+    slotC7 = (((::fnv_00967b70::ListObj *)(::FUN_00559450((int *)(arg)))) && *((::fnv_00967b70::ObjC **)(((::Vec3 *)(void *)(((::fnv_00967b70::ListObj *)(::FUN_00559450((int *)(arg))))))))) ? *((::fnv_00967b70::ObjC **)(((::Vec3 *)(void *)(((::fnv_00967b70::ListObj *)(::FUN_00559450((int *)(arg)))))))) : 0;
     if (obj2->slot37())
     {
         if (!((obj2->FUN_00401170() == 0x28 || obj2->FUN_00401170() == 0x18) && ((unsigned char)(reinterpret_cast<::FUN_0047bcf0_class *>((obj2))->IsFlag80Clear()))))
@@ -54292,7 +54293,7 @@ IRFormStack* IRContainer::FUN_00968be0(IRForm* apItem, IRExtraList* apExtra, int
         {
             if (!apExtra)
             {
-                if (!((::IRExtraNode *)(::FUN_00559450((int *)(pEntry3)))) || !*((::IRExtraList **)(new ((void *)(((::IRExtraNode *)(::FUN_00559450((int *)(pEntry3)))))) ::Vec3())))
+                if (!((::IRExtraNode *)(::FUN_00559450((int *)(pEntry3)))) || !*((::IRExtraList **)(((::Vec3 *)(void *)(((::IRExtraNode *)(::FUN_00559450((int *)(pEntry3)))))))))
                 {
                     if (abReturnEntry)
                         pResultTmp = new IRFormStack(apItem, iRemaining5);
@@ -54305,10 +54306,10 @@ IRFormStack* IRContainer::FUN_00968be0(IRForm* apItem, IRExtraList* apExtra, int
             }
             else
             {
-                for (IRExtraNode* pNode = ((::IRExtraNode *)(::FUN_00559450((int *)(pEntry3)))); !bDone8 && pNode && *((::IRExtraList **)(new ((void *)(pNode)) ::Vec3()));
+                for (IRExtraNode* pNode = ((::IRExtraNode *)(::FUN_00559450((int *)(pEntry3)))); !bDone8 && pNode && *((::IRExtraList **)(((::Vec3 *)(void *)(pNode))));
                      pNode = ((::IRExtraNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))
                 {
-                    if (*((::IRExtraList **)(new ((void *)(pNode)) ::Vec3())) == apExtra)
+                    if (*((::IRExtraList **)(((::Vec3 *)(void *)(pNode)))) == apExtra)
                     {
                         bool bRemoveAll = reinterpret_cast<::FUN_00418770_shell *>((apExtra))->FUN_00418770() <= aiCount;
                         if (bRemoveAll)
@@ -56714,9 +56715,9 @@ NearbyRefEntry* PlayerNearbyRefs::FUN_00969930()
             bool bestInside9 = false;
             bool inside = false;
             BSSimpleList<NearbyRefEntry*>* node5 = &nearbyRefs;
-            while (node5 && ((::NearbyRefEntry *)(new ((void *)(node5)) ::Vec3())))
+            while (node5 && (((node5))->m_item))
             {
-                NearbyRefEntry* entry2 = ((::NearbyRefEntry *)(new ((void *)(node5)) ::Vec3()));
+                NearbyRefEntry* entry2 = (((node5))->m_item);
                 node5 = ((::BSSimpleList< ::NearbyRefEntry *> *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
                 if (entry2->ref)
                 {
@@ -62621,7 +62622,6 @@ void PlayerLoadState::FUN_0095a3b0(WkBuf* buf)
         ((::WkProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v468(8);
     }
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buf))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&((PlayerLoadFields*)this)->unk7c6), 1);
-    new ((void *)&(p)) ::Vec3();
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buf))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&((PlayerLoadFields*)this)->unk6e4), 4);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buf))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&p), 0xc);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buf))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&((PlayerLoadFields*)this)->unk698), 4);
@@ -62755,7 +62755,7 @@ void PlayerLoadState::FUN_0095a3b0(WkBuf* buf)
         it = 0;
         while (prev && !prev->FUN_008256d0())
         {
-            WkP8* item = (WkP8*)*((void **)(new ((void *)(prev)) ::Vec3()));
+            WkP8* item = (WkP8*)*((void **)(((::Vec3 *)(void *)(prev))));
             bool remove = false;
             if (item)
             {
@@ -62771,7 +62771,7 @@ void PlayerLoadState::FUN_0095a3b0(WkBuf* buf)
             {
                 if (it)
                 {
-                    reinterpret_cast<::ItemChangeListNode *>((it))->FUN_00905330((*(::InventoryStackRecord *const *)(((void **)(new ((void *)(prev)) ::Vec3())))));
+                    reinterpret_cast<::ItemChangeListNode *>((it))->FUN_00905330((*(::InventoryStackRecord *const *)(((void **)(((::Vec3 *)(void *)(prev)))))));
                     prev = ((::WkNode *)(reinterpret_cast<::Callees *>((it))->FUN_00726070()));
                 }
                 else
@@ -62807,7 +62807,7 @@ void PlayerLoadState::FUN_0095a3b0(WkBuf* buf)
         WkNode* n610 = (WkNode*)((PlayerLoadFields*)this)->unk610;
         while (n610)
         {
-            delete (WkF12*)*((void **)(new ((void *)(n610)) ::Vec3()));
+            delete (WkF12*)*((void **)(((::Vec3 *)(void *)(n610))));
             n610 = ((::WkNode *)(reinterpret_cast<::Callees *>((n610))->FUN_00726070()));
         }
         reinterpret_cast<::FileMatchList *>((((WkList*)((PlayerLoadFields*)this)->unk610)))->RemoveAll();
@@ -62837,7 +62837,7 @@ void PlayerLoadState::FUN_0095a3b0(WkBuf* buf)
         WkNode* n614 = (WkNode*)((PlayerLoadFields*)this)->unk614;
         while (n614)
         {
-            delete (WkDel*)*((void **)(new ((void *)(n614)) ::Vec3()));
+            delete (WkDel*)*((void **)(((::Vec3 *)(void *)(n614))));
             n614 = ((::WkNode *)(reinterpret_cast<::Callees *>((n614))->FUN_00726070()));
         }
         reinterpret_cast<::FileMatchList *>((((WkList*)((PlayerLoadFields*)this)->unk614)))->RemoveAll();
@@ -62863,7 +62863,7 @@ void PlayerLoadState::FUN_0095a3b0(WkBuf* buf)
         WkNode* n618 = (WkNode*)((PlayerLoadFields*)this)->unk618;
         while (n618)
         {
-            delete (WkDel*)*((void **)(new ((void *)(n618)) ::Vec3()));
+            delete (WkDel*)*((void **)(((::Vec3 *)(void *)(n618))));
             n618 = ((::WkNode *)(reinterpret_cast<::Callees *>((n618))->FUN_00726070()));
         }
         reinterpret_cast<::FileMatchList *>((((WkList*)((PlayerLoadFields*)this)->unk618)))->RemoveAll();
@@ -62958,7 +62958,7 @@ void PlayerLoadState::FUN_0095a3b0(WkBuf* buf)
             it2 = 0;
             while (prev2 && !prev2->FUN_008256d0())
             {
-                WkP8* item2 = (WkP8*)*((void **)(new ((void *)(prev2)) ::Vec3()));
+                WkP8* item2 = (WkP8*)*((void **)(((::Vec3 *)(void *)(prev2))));
                 bool remove2 = false;
                 if (item2)
                 {
@@ -62974,7 +62974,7 @@ void PlayerLoadState::FUN_0095a3b0(WkBuf* buf)
                 {
                     if (it2)
                     {
-                        reinterpret_cast<::ItemChangeListNode *>((it2))->FUN_00905330((*(::InventoryStackRecord *const *)(((void **)(new ((void *)(prev2)) ::Vec3())))));
+                        reinterpret_cast<::ItemChangeListNode *>((it2))->FUN_00905330((*(::InventoryStackRecord *const *)(((void **)(((::Vec3 *)(void *)(prev2)))))));
                         prev2 = ((::WkNode *)(reinterpret_cast<::Callees *>((it2))->FUN_00726070()));
                     }
                     else
@@ -64140,7 +64140,6 @@ void PlayerAudio::FUN_00962de0()
         volume = 0.0f;
         {
             FloatMatrix3 rotation;
-            new ((void *)&(rotation)) ::Vec3();
             if (m_pBaseProcess && reinterpret_cast<WobbleProcess*>(m_pBaseProcess)->IsActive())
             {
                 Emitter* value = ((::Emitter *)(reinterpret_cast<::FUN_008b70d0_shell *>(this)->FUN_008b70d0()));
@@ -67552,7 +67551,7 @@ void PlayerCharacterEx::FUN_0095c0a0(BGSLoadFormBuffer* buffer)
     prevA = 0;
     while (node5 && !node5->IsEmpty())
     {
-        itemB = ((::StructD48 *)(new ((void *)(node5)) ::Vec3()));
+        itemB = (((node5))->m_item);
         deleteA2 = false;
         if (itemB)
         {
@@ -67572,7 +67571,7 @@ void PlayerCharacterEx::FUN_0095c0a0(BGSLoadFormBuffer* buffer)
         {
             if (prevA)
             {
-                reinterpret_cast<::ItemChangeListNode *>((prevA))->FUN_00905330((::InventoryStackRecord *const &)(((::StructD48 *)(new ((void *)(node5)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>((prevA))->FUN_00905330((::InventoryStackRecord *const &)((((node5))->m_item)));
                 node5 = ((::BSSimpleList< ::StructD48 *> *)(reinterpret_cast<::Callees *>((prevA))->FUN_00726070()));
             }
             else
@@ -67589,7 +67588,7 @@ void PlayerCharacterEx::FUN_0095c0a0(BGSLoadFormBuffer* buffer)
     kPNode2 = reinterpret_cast<PCStandin*>(this)->unk60C;
     while (kPNode2)
     {
-        item2_2 = ((::Struct60C *)(new ((void *)(kPNode2)) ::Vec3()));
+        item2_2 = (((kPNode2))->m_item);
         if (item2_2)
         {
             item2_2->refr =
@@ -67609,7 +67608,7 @@ void PlayerCharacterEx::FUN_0095c0a0(BGSLoadFormBuffer* buffer)
     spNode3_2 = &this->Perks;
     while (spNode3_2)
     {
-        pItem3 = reinterpret_cast<PerkRankView*>(((::PerkForm *)(new ((void *)(spNode3_2)) ::Vec3())));
+        pItem3 = reinterpret_cast<PerkRankView*>((((spNode3_2))->m_item));
         if (pItem3 && pItem3->perk)
         {
             reinterpret_cast<::BGSPerk *>((pItem3->perk))->ApplyPerkEntries((::Actor *)(::PlayerCharacter *)(this), pItem3->rank, 0);
@@ -69145,7 +69144,7 @@ void PlayerLoadView::FUN_00958990(void* buffer, void* flags)
         SavedReferenceNode* previous = 0;
         while (current && !current->FUN_008256d0())
         {
-            unsigned int reference = reinterpret_cast<unsigned int>(*((void **)(new ((void *)(current)) ::Vec3())));
+            unsigned int reference = reinterpret_cast<unsigned int>(*((void **)(((::Vec3 *)(void *)(current)))));
             void* oldReference = 0;
             if (reference)
             {
@@ -69175,7 +69174,7 @@ void PlayerLoadView::FUN_00958990(void* buffer, void* flags)
         SavedReferenceNode* previousAction = 0;
         while (currentAction && !currentAction->FUN_008256d0())
         {
-            unsigned int oldReferenceAction = reinterpret_cast<unsigned int>(*((void **)(new ((void *)(currentAction)) ::Vec3())));
+            unsigned int oldReferenceAction = reinterpret_cast<unsigned int>(*((void **)(((::Vec3 *)(void *)(currentAction)))));
             void* referenceAction = 0;
             if (oldReferenceAction)
             {
@@ -69266,7 +69265,7 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
             if (!foundScope2)
             {
                 if (nodeScope3)
-                    positionScope4 = (*(::AimVector *)(new ((void *)(((::AimTransform *)(reinterpret_cast<::FUN_0043d450_Owner *>((nodeScope3))->FUN_0043d450())))) ::Vec3()));
+                    positionScope4 = (*(::AimVector *)(((::Vec3 *)(void *)(((::AimTransform *)(reinterpret_cast<::FUN_0043d450_Owner *>((nodeScope3))->FUN_0043d450()))))));
                 else
                     positionScope4 = targetScope2->GetPosition();
             }
@@ -69949,7 +69948,7 @@ void* FUN_00954610_cls::FUN_00954610(Obj* a1, Obj* a2, void* a3, void* a4, void*
             reinterpret_cast<::FUN_00a59c60_cls *>((X))->FUN_00a59c60((std::intptr_t)(&ETmp));
             ::FUN_00c6a040((int)(X), 1, 1, 1);
             RTmp = *RU->v125();
-            reinterpret_cast<::FUN_00439ef0_class *>(&(RTmp))->FUN_00439ef0((::NiPoint3 *)(void *)(&PTmp), (*(const ::NiPoint3 *)(((void *)(new ((void *)(((::Obj *)(reinterpret_cast<::FUN_0043d450_Owner *>((X))->FUN_0043d450())))) ::Vec3())))));
+            reinterpret_cast<::FUN_00439ef0_class *>(&(RTmp))->FUN_00439ef0((::NiPoint3 *)(void *)(&PTmp), (*(const ::NiPoint3 *)(((void *)(((::Vec3 *)(void *)(((::Obj *)(reinterpret_cast<::FUN_0043d450_Owner *>((X))->FUN_0043d450())))))))));
             reinterpret_cast<::FUN_0063c8a0_shell *>(&(RTmp))->FUN_0063c8a0(&PTmp);
             reinterpret_cast<::FUN_00440460_S *>((X))->FUN_00440460((const ::V3 *)(void *)(&RTmp));
             reinterpret_cast<::Reference *>((RU))->FUN_00575830((::Position *)(void *)(&RTmp));
@@ -69976,7 +69975,7 @@ void SpawnOwner::FUN_00962350(void)
         DispatchNode* cur = prev;
         while (cur != 0 && !cur->TestNode())
         {
-            DispatchItem* item = *((::DispatchItem **)(new ((void *)(cur)) ::Vec3()));
+            DispatchItem* item = *((::DispatchItem **)(((::Vec3 *)(void *)(cur))));
             if (item != 0 && item->Unk_74() != 0)
             {
                 ::FUN_00c6a350((::NiAVObject *)(item->Unk_74()), 1, 1, 1, 1);
@@ -70074,7 +70073,7 @@ void FUN_009480c0_shell::FUN_009480c0()
 
             while (pCurrentElementNext)
             {
-                TESObjectREFR* pref = ((::TESObjectREFR *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+                TESObjectREFR* pref = (((pCurrentElementNext))->m_item);
                 if (pref)
                 {
                     MapMarkerReferenceEntry* pdata = new MapMarkerReferenceEntry;
@@ -70108,7 +70107,7 @@ void PlayerListCleanup::FUN_00948050()
     ::BSSimpleList< ::BGSPerk*>* node = reinterpret_cast< ::BSSimpleList< ::BGSPerk*>*>(&unk7C8);
     while (node)
     {
-        ::BGSPerk* pPerk = ((::BGSPerk *)(new ((void *)(node)) ::Vec3()));
+        ::BGSPerk* pPerk = (((node))->m_item);
         ::BGSPerk* item = pPerk;
         ::FUN_00401030(item);
         node = ((::BSSimpleList< ::BGSPerk *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -70163,7 +70162,6 @@ bool __cdecl FUN_00702680(int a, unsigned int b);
 void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
 {
     NiPoint3 vec;
-    new ((void *)(((VecInit*)&vec))) ::Vec3();
     signed char state = (signed char)((unsigned char)bThirdPerson - byte64a);
     float f = 1.0f;
     if (state != 0)
@@ -71237,12 +71235,12 @@ void PlayerSave::FUN_00955620(unsigned int flags)
             ListNode* entries6 = ((::ListNode *)(::FUN_005a6260((char *)this)));
             int entryCount = entries6->GetSize();
             reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&entryCount, 4);
-            while (entries6 && *((::FormRecord **)(new ((void *)(entries6)) ::Vec3())))
+            while (entries6 && *((::FormRecord **)(((::Vec3 *)(void *)(entries6)))))
             {
-                entryID4 = (*((::FormRecord **)(new ((void *)(entries6)) ::Vec3())))->unk00;
+                entryID4 = (*((::FormRecord **)(((::Vec3 *)(void *)(entries6)))))->unk00;
                 reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&entryID4, 4);
-                reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&(*((::FormRecord **)(new ((void *)(entries6)) ::Vec3())))->unk04, 4);
-                reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&(*((::FormRecord **)(new ((void *)(entries6)) ::Vec3())))->unk08, 2);
+                reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&(*((::FormRecord **)(((::Vec3 *)(void *)(entries6)))))->unk04, 4);
+                reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&(*((::FormRecord **)(((::Vec3 *)(void *)(entries6)))))->unk08, 2);
                 entries6 = ((::ListNode *)(reinterpret_cast<::Callees *>((entries6))->FUN_00726070()));
             }
         }
@@ -71252,18 +71250,18 @@ void PlayerSave::FUN_00955620(unsigned int flags)
             ListNode* entries2 = ((::ListNode *)(reinterpret_cast<::FUN_0073cba0_shell *>(this)->GetField614()));
             int entryCount2 = entries2->GetSize();
             reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&entryCount2, 4);
-            while (entries2 && *((::FormRecord **)(new ((void *)(entries2)) ::Vec3())))
+            while (entries2 && *((::FormRecord **)(((::Vec3 *)(void *)(entries2)))))
             {
-                entryID4 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::FormRecord **)(new ((void *)(entries2)) ::Vec3())))))->FUN_0084e3a0()));
+                entryID4 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::FormRecord **)(((::Vec3 *)(void *)(entries2)))))))->FUN_0084e3a0()));
                 reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&entryID4, 4);
                 entries2 = ((::ListNode *)(reinterpret_cast<::Callees *>((entries2))->FUN_00726070()));
             }
             entries2 = ((::ListNode *)(reinterpret_cast<::FUN_0073cbc0_shell *>(this)->GetField618()));
             entryCount2 = entries2->GetSize();
             reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&entryCount2, 4);
-            while (entries2 && *((::FormRecord **)(new ((void *)(entries2)) ::Vec3())))
+            while (entries2 && *((::FormRecord **)(((::Vec3 *)(void *)(entries2)))))
             {
-                entryID4 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::FormRecord **)(new ((void *)(entries2)) ::Vec3())))))->FUN_0084e3a0()));
+                entryID4 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::FormRecord **)(((::Vec3 *)(void *)(entries2)))))))->FUN_0084e3a0()));
                 reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&entryID4, 4);
                 entries2 = ((::ListNode *)(reinterpret_cast<::Callees *>((entries2))->FUN_00726070()));
             }
@@ -71365,7 +71363,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
             ListNode* list9 = 0;
             while (list9 && !list9->FUN_008256d0())
             {
-                FormRecord* item63 = *((::FormRecord **)(new ((void *)(list9)) ::Vec3()));
+                FormRecord* item63 = *((::FormRecord **)(((::Vec3 *)(void *)(list9))));
                 unsigned int id63 = 0;
                 if (item63)
                     id63 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((item63))->FUN_0084e3a0()));
@@ -71406,7 +71404,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
             ListNode* list73 = reinterpret_cast<ListNode*>(&::g_011e0ae8);
             while (list73 && !list73->FUN_008256d0())
             {
-                FormRecord* item73 = *((::FormRecord **)(new ((void *)(list73)) ::Vec3()));
+                FormRecord* item73 = *((::FormRecord **)(((::Vec3 *)(void *)(list73))));
                 unsigned int id_ = 0;
                 if (item73)
                     id_ = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((item73))->FUN_0084e3a0()));
@@ -71431,7 +71429,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
             ListNode* topics9 = ((::ListNode *)(reinterpret_cast<::FUN_00464e30_shell *>(this)->GetSelfOffset6A8()));
             while (topics9 && !topics9->FUN_008256d0())
             {
-                FormRecord* topic = *((::FormRecord **)(new ((void *)(topics9)) ::Vec3()));
+                FormRecord* topic = *((::FormRecord **)(((::Vec3 *)(void *)(topics9))));
                 unsigned int topicID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((topic))->FUN_0084e3a0()));
                 reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&topicID), 4);
                 ++topicCount5;
@@ -71446,7 +71444,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
             ListNode* quests2 = &unk6b0;
             while (quests2 && !quests2->FUN_008256d0())
             {
-                FormRecord* quest = *((::FormRecord **)(new ((void *)(quests2)) ::Vec3()));
+                FormRecord* quest = *((::FormRecord **)(((::Vec3 *)(void *)(quests2))));
                 FormRecord* questForm = ((::FormRecord *)(reinterpret_cast<::DialogueItem *>((quest))->SelectDefaultResponseList()));
                 unsigned int questID3 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((questForm))->FUN_0084e3a0()));
                 bool completed = false;
@@ -71454,7 +71452,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
                 ListNode* questEntries3 = ((::ListNode *)(reinterpret_cast<::FUN_005d43c0_ *>((questForm))->FUN_005d43c0()));
                 while (questEntries3 && !questEntries3->FUN_008256d0())
                 {
-                    FormRecord* questEntry = *((::FormRecord **)(new ((void *)(questEntries3)) ::Vec3()));
+                    FormRecord* questEntry = *((::FormRecord **)(((::Vec3 *)(void *)(questEntries3))));
                     if (quest == ((::FormRecord *)(reinterpret_cast<::fnv_0060f2c0::FUN_0060f2c0_shell *>((questEntry))->FindItemByDoneFlag(questFlag))))
                     {
                         completed = reinterpret_cast<::FUN_009373f0_shell *>((questEntry))->FUN_009373f0();
@@ -71477,7 +71475,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
             ListNode* objectives = &unk6bc;
             while (objectives && !objectives->FUN_008256d0())
             {
-                FormRecord* objectiveA = *((::FormRecord **)(new ((void *)(objectives)) ::Vec3()));
+                FormRecord* objectiveA = *((::FormRecord **)(((::Vec3 *)(void *)(objectives))));
                 FormRecord* objectiveQuest = ((::FormRecord *)(reinterpret_cast<::MagicCaster_shell *>((objectiveA))->FUN_0044edb0()));
                 unsigned int objectiveQuestID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((objectiveQuest))->FUN_0084e3a0()));
                 unsigned int objectiveID2 = ((unsigned int)(reinterpret_cast<::Callees *>((objectiveA))->FUN_00726070()));
@@ -71885,15 +71883,12 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
             new ((void *)&(data)) ::FUN_004b4f40();
             float ignored = 0.0f;
             GrabVector center;
-            new ((void *)&(center)) ::Vec3();
             if (character && ref->IsDead())
                 ::GetScalarAndVector(root, (::__m128 *)(::GrabVector *)(&center), &ignored);
             else
                 physics->GetNavMeshData(&center);
             GrabPoint direction;
-            new ((void *)&(direction)) ::Vec3();
             GrabPoint origin;
-            new ((void *)&(origin)) ::Vec3();
             reinterpret_cast<::fnv_008aff80::ActorStub *>(this)->GetCameraPosAndDir((::fnv_008aff80::Vec3 *)(::GrabPoint *)(&origin), (::fnv_008aff80::Vec3 *)(::GrabPoint *)(&direction), true);
             bool selected = false;
             GrabWorld* world = ((::GrabWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::GrabCell *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()))))->FUN_004543c0()));
@@ -71947,13 +71942,10 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
             {
                 reinterpret_cast<::S004b4db0_Quaternion *>(&(data.position))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(&center)));
                 GrabVector position;
-                new ((void *)&(position)) ::Vec3();
                 if (character)
                 {
                     GrabVector scratch;
-                    new ((void *)&(scratch)) ::Vec3();
                     GrabVector rotated;
-                    new ((void *)&(rotated)) ::Vec3();
                     ::CopyCharacterControllerVector((::bhkCharacterController *)(::GrabVector *)(&rotated), (*(const ::NiPoint3 *)(&(((::GrabMatrix *)(::FUN_00461130((int)(root))))->FUN_004b4500(&(*reinterpret_cast<const ::GrabPoint *>((void *)&::DAT_011a9484)))))));
                     reinterpret_cast<::fnv_004b4d10::UnaryActionSettings *>(&(data.position))->ApplyToAction((::fnv_004b4d10::bhkUnaryAction *)(::GrabVector *)(&position));
                     reinterpret_cast<::V *>(&(position))->FUN_00553f70((*(const ::V *)(&rotated)));
@@ -71962,7 +71954,6 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
                 if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::GrabSave * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
                 {
                     GrabPoint point;
-                    new ((void *)&(point)) ::Vec3();
                     ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&point)), (*(const ::hkVector4 *)(((::GrabVector *)(reinterpret_cast<::fnv_004b4d10::UnaryActionSettings *>(&(data.position))->ApplyToAction((::fnv_004b4d10::bhkUnaryAction *)(::GrabVector *)(&position)))))));
                     distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::GrabPoint &)((point - origin)))->ComputeMagnitude();
                 }
@@ -72035,12 +72026,10 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
                 data.f38 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1052)))))) * angularScale;
             }
             GrabVector localPosition;
-            new ((void *)&(localPosition)) ::Vec3();
             GrabVector localRotation;
-            new ((void *)&(localRotation)) ::Vec3();
             reinterpret_cast<::fnv_004b4d10::UnaryActionSettings *>(&(data.position))->ApplyToAction((::fnv_004b4d10::bhkUnaryAction *)(::GrabVector *)(&localPosition));
             reinterpret_cast<::V *>(&(localPosition))->FUN_00961190((*(const ::V *)(body->FUN_004b4ec0())));
-            reinterpret_cast<::FUN_004b4ab0_Class *>((((::GrabVector *)(reinterpret_cast<::fnv_004b4d10::UnaryActionSettings *>(&(data.angular))->ApplyToAction((::fnv_004b4d10::bhkUnaryAction *)(::GrabVector *)(&localRotation))))))->FUN_004b4ab0((int)(&(*(::GrabVector *)(new ((void *)(((::GrabVector *)(::FUN_004b4f00((::TESDataHandler *)(body)))))) ::Vec3()))), {});
+            reinterpret_cast<::FUN_004b4ab0_Class *>((((::GrabVector *)(reinterpret_cast<::fnv_004b4d10::UnaryActionSettings *>(&(data.angular))->ApplyToAction((::fnv_004b4d10::bhkUnaryAction *)(::GrabVector *)(&localRotation))))))->FUN_004b4ab0((int)(&(*(::GrabVector *)(((::Vec3 *)(void *)(((::GrabVector *)(::FUN_004b4f00((::TESDataHandler *)(body))))))))), {});
             reinterpret_cast<::S004b4db0_Quaternion *>(&(data.angular))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(&localRotation)));
             reinterpret_cast<::Script *>((((::GrabWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::GrabCell *)(reinterpret_cast<::LowProcess *>((target))->GetTarget()))))->FUN_004543c0()))))->GetLocalData();
             constraint.FUN_0066b0d0(new GrabConstraint(&data));
@@ -72346,7 +72335,7 @@ void Projectile::FUN_00960520(int a)
         ObjF0 ray2;
         ray2.SetHandle(shooter->GetHandle());
         reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(ray2))->FUN_004a3da0(&pos);
-        Vec3 tgt = *((::fnv_00960520::Vec3 *)(new ((void *)(((::fnv_00960520::VObj *)(reinterpret_cast<::FUN_0043d450_Owner *>((m_638->vGet1D0()))->FUN_0043d450())))) ::Vec3()));
+        Vec3 tgt = *((::fnv_00960520::Vec3 *)(((::Vec3 *)(void *)(((::fnv_00960520::VObj *)(reinterpret_cast<::FUN_0043d450_Owner *>((m_638->vGet1D0()))->FUN_0043d450()))))));
         reinterpret_cast<::FUN_004a3eb0_shell *>(&(ray2))->FUN_004a3eb0(&tgt);
         if (((::fnv_00960520::VObj *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_00960520::VObj * *>(&::_g_thePlayer))))->GetTarget())) != 0)
         {

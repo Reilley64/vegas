@@ -5396,7 +5396,6 @@ void Tgt13::UpdateTargeting()
         reinterpret_cast<::FUN_006e2b90 *>(&(solution4))->SetFlag(reinterpret_cast<::Dummy *>((((::fnv_009de8b0::ProjBase *)(reinterpret_cast<::Actor *>((actor))->GetActorBase()))))->FUN_005f0c40());
         reinterpret_cast<::FUN_008df1c0_Class *>(&(solution4))->SetByteAtA1(1);
         Pt3 idx;
-        new ((void *)&(idx)) ::Vec3();
         void* _limitA;
         _limitA = (*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer))->FUN_008d6f30();
         {

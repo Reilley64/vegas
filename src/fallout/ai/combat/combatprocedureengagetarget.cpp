@@ -569,14 +569,14 @@ bool Procedure::CheckAndApply(bool mode)
         Controller* controller5 = ((::Engage::Controller *)(reinterpret_cast<::InterfaceManager *>((context))->FUN_00586150()));
         if (!reinterpret_cast<::fnv_0099e840::FUN_0099e840_cls *>((controller5))->FUN_0099e840(range, height, range * ::DAT_01011588, angle, (::fnv_0099e840::FUN_0099b8b0_shell *)(::Engage::Query *)(&query2), true))
             return false;
-        if (!reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>((controller5))->FUN_009a02a0((const ::fnv_009a02a0::CoordinateTriple &)((*(::Engage::Vec4 *)(new ((void *)&(query2)) ::Vec3()))), true, false))
+        if (!reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>((controller5))->FUN_009a02a0((const ::fnv_009a02a0::CoordinateTriple &)((*(::Engage::Vec4 *)(((::Vec3 *)(void *)&(query2))))), true, false))
             return false;
         RequestB request2;
         reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor2))->PathToLocation((::fnv_008b3880::PathingRequest *)(void *)(&request2), query2.FUN_0097b940(), ((void *)(reinterpret_cast<::LowProcess *>((actor2))->GetTarget())),
                                ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor2))->FUN_00575d70())), false, {});
         if (!actor2->SetPathingRequestAvoidNodes(&request2))
             return false;
-        point = (*(::Engage::Vec4 *)(new ((void *)&(query2)) ::Vec3()));
+        point = (*(::Engage::Vec4 *)(((::Vec3 *)(void *)&(query2))));
         target = (*(::Engage::Vec4 *)(reinterpret_cast<::FUN_00575650_Class *>((targetActor2))->FUN_00575650({})));
         reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(mode ? 3 : 1);
         return true;
@@ -1239,7 +1239,7 @@ void EngageProc::UpdateEngagement()
             reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>((ctrlD))->FUN_009a02a0((*(const ::fnv_009a02a0::CoordinateTriple *)(&targetLocX)), 1, 0))
         {
             PathRequest req;
-            reinterpret_cast<::ActorStandIn *>((actorZ))->BuildPathingRequest((::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req), (*(const ::NiPoint3 *)(((::fnv_009d3b80::NiPoint3 *)(new ((void *)&(targetLocX)) ::Vec3())))), (::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(targetLocX))->FUN_0084e3a0()))), ::DAT_01012054, (::PathingAvoidNodeArray *)(0));
+            reinterpret_cast<::ActorStandIn *>((actorZ))->BuildPathingRequest((::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req), (*(const ::NiPoint3 *)(((::fnv_009d3b80::NiPoint3 *)(((::Vec3 *)(void *)&(targetLocX)))))), (::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(targetLocX))->FUN_0084e3a0()))), ::DAT_01012054, (::PathingAvoidNodeArray *)(0));
             if (actorZ->StartPath(&req))
             {
                 m_dest = targetLocX;
@@ -1329,7 +1329,7 @@ void EngageProc::UpdateEngagement()
                     if (reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>((ctrlD))->FUN_009a02a0((*(const ::fnv_009a02a0::CoordinateTriple *)(&targetLocX)), 1, 0))
                     {
                         PathRequest req4;
-                        reinterpret_cast<::ActorStandIn *>((actorZ))->BuildPathingRequest((::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req4), (*(const ::NiPoint3 *)(((::fnv_009d3b80::NiPoint3 *)(new ((void *)&(targetLocX)) ::Vec3())))), (::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(targetLocX))->FUN_0084e3a0()))), ::DAT_0101e704,
+                        reinterpret_cast<::ActorStandIn *>((actorZ))->BuildPathingRequest((::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req4), (*(const ::NiPoint3 *)(((::fnv_009d3b80::NiPoint3 *)(((::Vec3 *)(void *)&(targetLocX)))))), (::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(targetLocX))->FUN_0084e3a0()))), ::DAT_0101e704,
                                             (::PathingAvoidNodeArray *)(0));
                         if (!actorZ->StartPath(&req4))
                         {
@@ -1347,7 +1347,7 @@ void EngageProc::UpdateEngagement()
                         int coordY = 0;
                         reinterpret_cast<::FUN_00527990_shell *>(&(targetLocX))->FUN_00527990(&coordX3, &coordY);
                         NiPoint3 navPos3;
-                        if (::Pathing::FindClosestPathingPoint((::TESWorldSpace *)(coordY), (::TESObjectCELL *)(coordX3), (*(const ::NiPoint3 *)(((::fnv_009d3b80::NiPoint3 *)(new ((void *)&(targetLocX)) ::Vec3())))), (::NiPoint3 *)(::fnv_009d3b80::NiPoint3 *)(&navPos3)))
+                        if (::Pathing::FindClosestPathingPoint((::TESWorldSpace *)(coordY), (::TESObjectCELL *)(coordX3), (*(const ::NiPoint3 *)(((::fnv_009d3b80::NiPoint3 *)(((::Vec3 *)(void *)&(targetLocX)))))), (::NiPoint3 *)(::fnv_009d3b80::NiPoint3 *)(&navPos3)))
                         {
                             if (ctrlD->CanReachPos(&navPos3, ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(targetLocX))->FUN_0084e3a0())), 1, 0))
                             {

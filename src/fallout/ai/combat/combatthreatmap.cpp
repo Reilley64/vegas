@@ -221,7 +221,7 @@ float ThreatMap::EvaluateThreats(Pt3 pos, int arg, float delay, float a, Stamp s
         unsigned int key = 0;
         Threat* threat3 = 0;
         reinterpret_cast<::C6b7f20_Map *>(this)->FUN_006b7f20((::C6b7f20_Node **)&(iter), (unsigned int *)&(key), (void **)&(threat3));
-        if (reinterpret_cast<::CombatTargetTimestamp *>((void *)&(const struct ::Stamp &)((*(struct struct ::Stamp *)(reinterpret_cast<::FUN_009a5780_cls *>((threat3))->FUN_009a5780({})))))->FUN_006a7f50() <= reinterpret_cast<::CombatTargetTimestamp *>(&(since))->FUN_006a7f50())
+        if (reinterpret_cast<::CombatTargetTimestamp *>((void *)&(const struct ::Stamp &)((*(struct ::Stamp *)(reinterpret_cast<::FUN_009a5780_cls *>((threat3))->FUN_009a5780({})))))->FUN_006a7f50() <= reinterpret_cast<::CombatTargetTimestamp *>(&(since))->FUN_006a7f50())
             continue;
         float fValue = reinterpret_cast<::Target_009a4710 *>((threat3))->ComputeFalloff((const ::Pt_009a4710 &)(pos), (::Ctx_009a4710 *)(arg), fTime, a, b);
         fTotal += fValue;

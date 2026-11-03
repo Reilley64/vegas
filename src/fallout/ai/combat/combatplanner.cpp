@@ -196,9 +196,9 @@ bool CPPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
         CPCond* pkCond = pkNode->m_pUserData->m_aEntries[i].m_pkCond;
         CPActionList* pkNodeIter = ((::CPActionList *)(::FUN_009957f0(::FUN_00559450((int *)(pkCond)))));
         bool bFound = false;
-        while (pkNodeIter && *((::CPAction **)(new ((void *)(pkNodeIter)) ::Vec3())))
+        while (pkNodeIter && *((::CPAction **)(((::Vec3 *)(void *)(pkNodeIter)))))
         {
-            CPAction* pkAction = *((::CPAction **)(new ((void *)(pkNodeIter)) ::Vec3()));
+            CPAction* pkAction = *((::CPAction **)(((::Vec3 *)(void *)(pkNodeIter))));
             if (!reinterpret_cast<::FUN_00994250_shell *>((pkAction))->HasFlags(true) || bFirst)
             {
                 bool bValid = reinterpret_cast<::fnv_009957c0::FUN_009957c0_Class *>((pkAction))->FUN_009957c0((::BSSimpleList<int> *)(pkCond));
@@ -219,18 +219,18 @@ bool CPPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                                     FUN_00994e60_State(&m_kWorldState);
 
                             CPCondList* pkEffect = ((::CPCondList *)(reinterpret_cast<::NonActorMagicTarget *>((pkAction))->GetActiveEffectList()));
-                            while (pkEffect && *((::CPCond **)(new ((void *)(pkEffect)) ::Vec3())))
+                            while (pkEffect && *((::CPCond **)(((::Vec3 *)(void *)(pkEffect)))))
                             {
-                                CPCond* pkEffectCond = *((::CPCond **)(new ((void *)(pkEffect)) ::Vec3()));
+                                CPCond* pkEffectCond = *((::CPCond **)(((::Vec3 *)(void *)(pkEffect))));
                                 int iCondValue = reinterpret_cast<::FUN_009947f0_Class *>((pkState))->FUN_009947f0((int)(((::CPTarget *)(reinterpret_cast<::Callees *>((pkEffectCond))->FUN_00726070()))), (int)(pkTarget));
                                 reinterpret_cast<::FUN_009aae10_Class *>((pkState))->FUN_009aae10(::FUN_00559450((int *)(pkEffectCond)), iCondValue);
                                 pkEffect = ((::CPCondList *)(reinterpret_cast<::CombatWorldStateListNode *>((pkEffect))->GetNext()));
                             }
 
                             CPCondList* pkSide = ((::CPCondList *)(reinterpret_cast<::BGSDebris *>((pkAction))->GetDataList()));
-                            while (pkSide && *((::CPCond **)(new ((void *)(pkSide)) ::Vec3())))
+                            while (pkSide && *((::CPCond **)(((::Vec3 *)(void *)(pkSide)))))
                             {
-                                CPCond* pkSideCond = *((::CPCond **)(new ((void *)(pkSide)) ::Vec3()));
+                                CPCond* pkSideCond = *((::CPCond **)(((::Vec3 *)(void *)(pkSide))));
                                 int iCondValue = reinterpret_cast<::FUN_009947f0_Class *>((pkState))->FUN_009947f0((int)(((::CPTarget *)(reinterpret_cast<::Callees *>((pkSideCond))->FUN_00726070()))), (int)(pkTarget));
                                 reinterpret_cast<::FUN_009aae10_Class *>((pkState))->FUN_009aae10(::FUN_00559450((int *)(pkSideCond)), iCondValue);
                                 pkSide = ((::CPCondList *)(reinterpret_cast<::CombatWorldStateListNode *>((pkSide))->GetNext()));
@@ -248,9 +248,9 @@ bool CPPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                             }
 
                             CPCondList* pkRequire = ((::CPCondList *)(::GetOffsetC((int)(pkAction))));
-                            while (pkRequire && *((::CPCond **)(new ((void *)(pkRequire)) ::Vec3())))
+                            while (pkRequire && *((::CPCond **)(((::Vec3 *)(void *)(pkRequire)))))
                             {
-                                CPCond* pkPreCond = *((::CPCond **)(new ((void *)(pkRequire)) ::Vec3()));
+                                CPCond* pkPreCond = *((::CPCond **)(((::Vec3 *)(void *)(pkRequire))));
                                 int iCondValue = reinterpret_cast<::FUN_009947f0_Class *>((pkState))->FUN_009947f0((int)(((::CPTarget *)(reinterpret_cast<::Callees *>((pkPreCond))->FUN_00726070()))), (int)(pkTarget));
                                 if (!((bool)(reinterpret_cast<::FUN_009aadc0_cls *>((pkState))->FUN_009aadc0(::FUN_00559450((int *)(pkPreCond)), iCondValue))))
                                     reinterpret_cast<::FUN_00994ea0_class *>((pkState))->AppendPair(

@@ -663,45 +663,11 @@ struct Process897
     virtual void V138();
     virtual void* GetPackageContext();
 };
+// The actor base as far as FUN_00897bd0 reads it: data is the word the folded getter FUN_00825c00 returns.
 struct ActorBase897
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    SaveProxy data;
+    char pad[0x90];
+    void* data;
 };
 struct Actor897 : TESForm
 {
@@ -836,11 +802,11 @@ void Actor897::FUN_00897bd0(void* unused)
     reinterpret_cast<::FUN_00672fc0_shell *>((value))->FUN_00672fc0((::PackageTargetRecord *)(target));
     reinterpret_cast<::TESPackage *>((value))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(41));
     reinterpret_cast<::PackageTargetRecord *>((((::PackageData897 *)(reinterpret_cast<::Script *>((value))->GetData()))))->SetTargetKind({});
-    reinterpret_cast<::PackageTargetRecord *>((((::PackageData897 *)(reinterpret_cast<::Script *>((value))->GetData()))))->SetTargetObjectReference({});
+    reinterpret_cast<::PackageTargetRecord *>((((::PackageData897 *)(reinterpret_cast<::Script *>((value))->GetData()))))->SetTargetObjectReference((::TESObjectREFR *)(::Actor897 *)(this));
     void* contextTmp = ((::Process897 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->GetPackageContext();
     if (contextTmp)
         reinterpret_cast<::fnv_0067a1b0::FUN_0067a1b0_shell *>((value))->FUN_0067a1b0((::TESPackage *)(contextTmp));
-    reinterpret_cast<::TESRegionGrassObject *>((((::PackageData897 *)(reinterpret_cast<::Script *>((value))->GetData(reinterpret_cast<::Actor *>(this)->GetActorBase()->data))->FUN_00825c00())))))->AssignLandTexture({});
+    reinterpret_cast<::TESRegionGrassObject *>(((::PackageData897 *)(reinterpret_cast<::Script *>((value))->GetData())))->AssignLandTexture((::TESLandTexture *)reinterpret_cast<::ActorBase897 *>(reinterpret_cast<::Actor *>(this)->GetActorBase())->data);
     delete target;
     ((::Process897 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->V010();
     StartPackage(value, 1, 1);

@@ -777,6 +777,9 @@ struct RetObj
     virtual bool vf37();
 };
 class TESActorBase;
+enum ACTOR_LIFE_STATE;
+enum SEX;
+enum SIT_SLEEP_STATE;
 struct Actor
 {
     bool FUN_00565690();
@@ -1366,7 +1369,7 @@ int* SearchOwner::FindEntryResultByCategory(int category)
     SearchNode* node = &entries;
     while (pResult == 0 && node != 0 && !node->FUN_008256d0())
     {
-        EntryRecord* entry = *((::EntryRecord **)(new ((void *)(node)) ::Vec3()));
+        EntryRecord* entry = *((::EntryRecord **)(((::Vec3 *)(void *)(node))));
         if (entry != 0 && entry->category == category)
             pResult = &entry->result;
         node = ((::SearchNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -2303,6 +2306,7 @@ struct OwnerW7 : MobileObject
     void FUN_009b2790(BGSLoadFormBuffer* apBuffer);
 };
 
+struct FUN_00438fc0_file;
 struct NiPoint3
 {
     float x, y, z;
@@ -2382,7 +2386,7 @@ void OwnerW7::FUN_009b2790(BGSLoadFormBuffer* apBuffer)
     m_f4 = (*reinterpret_cast<::Vec3W7 *>((void *)&::NiPoint3::ZERO));
     while (!m_kNode._ref_008256d0())
     {
-        HeadW7* head = *((::HeadW7 **)(new ((void *)&(m_kNode)) ::Vec3()));
+        HeadW7* head = *((::HeadW7 **)(((::Vec3 *)(void *)&(m_kNode))));
         HeadW7* toFree = head;
         toFree ? reinterpret_cast<::FUN_009ac910_shell *>((toFree))->FUN_009ac910(1) : 0;
         m_kNode._ref_0063f7b0();
@@ -3058,6 +3062,9 @@ struct ImageSpaceEffectParam
 };
 void FUN_00689210(CellX*, float, const char*, MatrixWater, NiPoint3, float, int, int);
 struct Obj;
+struct P1;
+struct P2Vtbl;
+struct Node;
 struct This
 {
     int unk04;
@@ -3555,7 +3562,7 @@ FUN_009ac5a0::~FUN_009ac5a0()
     spController = 0;
     while (!kItems.IsEmpty())
     {
-        delete *((::DRItem **)(new ((void *)&(kItems)) ::Vec3()));
+        delete *((::DRItem **)(((::Vec3 *)(void *)&(kItems))));
         kItems.RemoveHead();
     }
     if (!reinterpret_cast<::FUN_004226e0_shell *>(((*reinterpret_cast<::DRDataHandler * *>(&::g_dataHandler))))->FUN_004226e0())
@@ -3865,7 +3872,7 @@ struct LiquidContact
     LiquidFour position, normal;
     float NormalZ() const
     {
-        return normal.value.m128_f32[2];
+        return normal.value[2];
     }
 };
 
@@ -4700,13 +4707,13 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
 
             LiquidFour result;
 
-            result.value.m128_f32[0] = (float)(force.x) * DAT_01268428;
+            result.value[0] = (float)(force.x) * DAT_01268428;
 
-            result.value.m128_f32[1] = force.y * DAT_01268428;
+            result.value[1] = force.y * DAT_01268428;
 
-            result.value.m128_f32[2] = force.z * DAT_01268428;
+            result.value[2] = force.z * DAT_01268428;
 
-            result.value.m128_f32[3] = 0;
+            result.value[3] = 0;
 
             owner->force = result;
 
@@ -5778,6 +5785,7 @@ struct Proj
     int unk2c;
     SoundFile name;
 };
+struct Hand4;
 struct Cell
 {
 public:
@@ -6189,7 +6197,6 @@ void This::FUN_009ad670()
         reinterpret_cast<::FUN_00440460_S *>((obj))->FUN_00440460((const ::V3 *)(::NiPoint3 *)(W1f4()));
         NiPoint3 angles = *((::NiPoint3 *)(reinterpret_cast<::TESRecipe *>(this)->GetData()));
         Local70 rotation;
-        new ((void *)&(rotation)) ::Vec3();
         reinterpret_cast<::ThreeByThreeMatrix *>(&(rotation))->FUN_00a59780(angles.z, angles.y, angles.x);
         reinterpret_cast<::FUN_0043fa80_s *>((obj))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&rotation)));
         if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingColl *>(&::g_011d0fe4)))))) > 1)
@@ -6926,7 +6933,7 @@ bool Host810::FUN_009b1810(Vec810 pos, Actor810* actor)
     unsigned mask = 0x26206;
     ::ShadowLightData::SetTargetMaskForSelection(39, mask);
     Vec810 points[7];
-    points[0] = *((::Vec810 *)(new ((void *)(((::Position810 *)(reinterpret_cast<::FUN_0043d450_Owner *>((body))->FUN_0043d450())))) ::Vec3()));
+    points[0] = *((::Vec810 *)(((::Vec3 *)(void *)(((::Position810 *)(reinterpret_cast<::FUN_0043d450_Owner *>((body))->FUN_0043d450()))))));
     bool multiple = false;
     if (actor->v100())
     {
@@ -7974,7 +7981,7 @@ void ProjCls::FUN_009ae6e0()
                 Elem70 e;
                 reinterpret_cast<::FUN_00632d40_shell *>(&(e))->FUN_00632d40((*(const ::FUN_00632d40_shell *)(((::Elem70 *)(reinterpret_cast<::FUN_009afc30_shell *>(&(list))->FUN_009afc30())) + i)));
                 Vec3 a;
-                ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&a)), (*(const ::hkVector4 *)(new ((void *)&(e)) ::Vec3())));
+                ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&a)), (*(const ::hkVector4 *)(((::Vec3 *)(void *)&(e)))));
                 Vec3 b;
                 ::FUN_004a3970((*(::NiPoint3_local *)(&b)), (*(const ::hkVector4 *)(((::Vec3 *)(::FUN_00460140((int)&(e)))))));
                 Color4 c;
@@ -7983,7 +7990,7 @@ void ProjCls::FUN_009ae6e0()
                 reinterpret_cast<::FUN_00a5a040_Class *>((s))->FUN_00a5a040();
                 reinterpret_cast<::FUN_00440460_S *>((s))->FUN_00440460((const ::V3 *)(const ::Vec3 *)(&a));
                 reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::Drawer * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(s), ::DAT_01017b78);
-                s = ((::Shape *)(::fnv_004b3890::FUN_004b3890((*(const class class ::FUN_006815c0 *)(&a)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), (*(const class class ::FUN_006815c0 *)(&(*(::Vec3 *)(reinterpret_cast<::Point3Offset *>((void *)&(a))->ProjectileLaunched((::NiPoint3 *)&(const ::Vec3 &)(b.ApplyScaled(::DAT_01017b78)), {}))))), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), 1)));
+                s = ((::Shape *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&a)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), (*(const class ::FUN_006815c0 *)(&(*(::Vec3 *)(reinterpret_cast<::Point3Offset *>((void *)&(a))->ProjectileLaunched((::NiPoint3 *)&(const ::Vec3 &)(b.ApplyScaled(::DAT_01017b78)), {}))))), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), 1)));
                 reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::Drawer * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(s), ::DAT_01017b78);
             }
         }
@@ -7999,7 +8006,7 @@ void ProjCls::FUN_009ae6e0()
                 if (!u || !((ProjVt*)u)->IsDead())
                 {
                     Vec3 pos;
-                    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&pos)), (*(const ::hkVector4 *)(new ((void *)&(e)) ::Vec3())));
+                    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&pos)), (*(const ::hkVector4 *)(((::Vec3 *)(void *)&(e)))));
                     Vec3 dir;
                     ::FUN_004a3970((*(::NiPoint3_local *)(&dir)), (*(const ::hkVector4 *)(((::Vec3 *)(::FUN_00460140((int)&(e)))))));
                     Big4c0 q;
@@ -8071,7 +8078,7 @@ void ProjCls::FUN_009ae6e0()
                             reinterpret_cast<::FUN_00a5a040_Class *>((s))->FUN_00a5a040();
                             reinterpret_cast<::FUN_00440460_S *>((s))->FUN_00440460((const ::V3 *)(const ::Vec3 *)(&unkE8));
                             reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::Drawer * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(s), ::DAT_01017b78);
-                            s = ((::Shape *)(::fnv_004b3890::FUN_004b3890((*(const class class ::FUN_006815c0 *)(&unkE8)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), (*(const class class ::FUN_006815c0 *)(&(*(::Vec3 *)(reinterpret_cast<::Point3Offset *>((void *)&(unkE8))->ProjectileLaunched((::NiPoint3 *)&(const ::Vec3 &)(unkF4.ApplyScaled(::DAT_01017868)), {}))))), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), 1)));
+                            s = ((::Shape *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&unkE8)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), (*(const class ::FUN_006815c0 *)(&(*(::Vec3 *)(reinterpret_cast<::Point3Offset *>((void *)&(unkE8))->ProjectileLaunched((::NiPoint3 *)&(const ::Vec3 &)(unkF4.ApplyScaled(::DAT_01017868)), {}))))), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), 1)));
                             reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::Drawer * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(s), ::DAT_01017b78);
                         }
                         done = true;

@@ -795,7 +795,7 @@ bool Projectile9B3::CanProcessHit(Ref9B3* pkTarget, int iArg1, int iArg2, int iP
         HitNode9B3* pkNode = &m_kHitList;
         while (pkNode && !pkNode->IsEmpty())
         {
-            if (pkTarget == (*((::HitEntry9B3 **)(new ((void *)(pkNode)) ::Vec3())))->m_pkRef)
+            if (pkTarget == (*((::HitEntry9B3 **)(((::Vec3 *)(void *)(pkNode)))))->m_pkRef)
             {
                 if (pkTarget && pkTarget->IsDead())
                     return false;
@@ -1237,10 +1237,8 @@ bool ProjectileEffect::FUN_009b36f0()
     NiPoint3 direction;
     position = *GetFiringPosition();
     NiMatrix33 rotation;
-    new ((void *)&(rotation)) ::Vec3();
     reinterpret_cast<::FUN_004a0c90_shell *>(&(rotation))->FUN_004a0c90(GetProjectileSpread(0));
     NiMatrix33 spin;
-    new ((void *)&(spin)) ::Vec3();
     reinterpret_cast<::FUN_00524ac0_shell *>(&(spin))->FUN_00524ac0(reinterpret_cast<::MobileObject *>(this)->GetLooking());
     NiMatrix33 result;
     rotation = *rotation.FUN_0043f8d0(&result, &spin);
@@ -1292,7 +1290,7 @@ bool ProjectileEffect::FUN_009b36f0()
             Color4* pColor = ((bool)(reinterpret_cast<::FUN_00632ce0_Class *>(&(visual))->FUN_00632ce0())) ? ((::Color4 *)(new ((void *)&(greenColor)) ::ImageSpaceEffectParam(1.0f, 0.0f, 0.0f, 1.0f)))
                                                    : ((::Color4 *)(new ((void *)&(yellowColor)) ::ImageSpaceEffectParam(1.0f, 1.0f, 0.0f, 1.0f)));
             __declspec(align(16)) Color4 color = *pColor;
-            void* marker = ((void *)(::fnv_004b3890::FUN_004b3890((*(const class class ::FUN_006815c0 *)(&position)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), (*(const class class ::FUN_006815c0 *)(&points[i])), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), 1)));
+            void* marker = ((void *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&position)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), (*(const class ::FUN_006815c0 *)(&points[i])), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), 1)));
             reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::ImpactManager * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(marker), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011f210c)))))));
         }
     }

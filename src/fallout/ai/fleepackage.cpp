@@ -97,7 +97,7 @@ bool FUN_009f1990_shell::FUN_009f1990()
     {
         bool flag = false;
         {
-            PC7d* item = *((::PC7d **)(new ((void *)(((BSSimpleListTESRaceSize*)((char*)this + 0x98)))) ::Vec3()));
+            PC7d* item = *((::PC7d **)(((::Vec3 *)(void *)(((BSSimpleListTESRaceSize*)((char*)this + 0x98))))));
             if (item == (*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))
             {
                 if (!((bool)(reinterpret_cast<::FUN_00953c50_Class *>((((PlayerCharacter*)(*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))))->FUN_00953c50((char *)(bool *)(&flag)))))
@@ -248,9 +248,9 @@ void FUN_009f1350_shell::RemoveRef(TESObjectREFR* apRef)
         if (!((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))->FUN_008256d0())
         {
             ((PTHelper*)((Script*)this)->GetData())
-                ->SetTargetObjectReference(*(((::TESObjectREFR **)(new ((void *)(((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98)))) ::Vec3()))));
+                ->SetTargetObjectReference(*(((::TESObjectREFR **)(((::Vec3 *)(void *)(((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))))))));
             ((LocationDescriptor*)((int)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)this)))->GetIconFormID())))
-                ->FUN_0067f3c0(*(((::TESObjectREFR **)(new ((void *)(((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98)))) ::Vec3()))));
+                ->FUN_0067f3c0(*(((::TESObjectREFR **)(((::Vec3 *)(void *)(((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))))))));
         }
         else
         {
@@ -1070,7 +1070,7 @@ void FUN_009f2380_shell::SaveExtraData(BGSSaveFormBuffer* apSaveGameBuffer)
 
     while (isaveGameBufferPos != 0)
     {
-        pCurrentElementNext = *((::TESObjectREFR **)(new ((void *)(isaveGameBufferPos)) ::Vec3()));
+        pCurrentElementNext = *((::TESObjectREFR **)(((::Vec3 *)(void *)(isaveGameBufferPos))));
         if (pCurrentElementNext != 0)
         {
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pCurrentElementNext), 0);
@@ -1298,9 +1298,9 @@ FUN_009f1210_ref* FUN_009f1210_cls::FindNearestRef(FUN_009f1210_ref* apRef)
     FUN_009f1210_ref* result2 = 0;
     float d2;
     FUN_009f1210_ref* cand;
-    while (nodeB != 0 && *((::FUN_009f1210_ref **)(new ((void *)(nodeB)) ::Vec3())) != 0)
+    while (nodeB != 0 && *((::FUN_009f1210_ref **)(((::Vec3 *)(void *)(nodeB)))) != 0)
     {
-        cand = *((::FUN_009f1210_ref **)(new ((void *)(nodeB)) ::Vec3()));
+        cand = *((::FUN_009f1210_ref **)(((::Vec3 *)(void *)(nodeB))));
         nodeB = ((::FUN_009f1210_node *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070()));
         d2 = reinterpret_cast<::RefS *>((cand))->FUN_005723b0((::RefS *)(apRef), 0, 0);
         if (reinterpret_cast<::TESForm *>((cand))->GetDisabled() || cand->M139(0))
@@ -1527,9 +1527,9 @@ void AvoidancePackage::RemoveInvalidAvoidedReferences(AvoidanceContext* context)
 {
     AvoidedList* current = &avoided;
     float limit2 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AvoidanceSetting *>(&::originalRuntimeFloatSetting234))))));
-    while (current && ((::AvoidedReference *)(new ((void *)(current)) ::Vec3())))
+    while (current && ((::AvoidedReference *)(((::Vec3 *)(void *)(current)))))
     {
-        AvoidedReference* reference6 = ((::AvoidedReference *)(new ((void *)(current)) ::Vec3()));
+        AvoidedReference* reference6 = ((::AvoidedReference *)(((::Vec3 *)(void *)(current))));
         AvoidedReference* actor = reference6->IsActor() ? reference6 : 0;
         bool remove4 = reference6->IsDead(0) || reinterpret_cast<::FUN_00440d80_shell *>((reference6))->FUN_00440d80();
         if (!remove4 && actor && timed)
@@ -1802,7 +1802,7 @@ PathingAvoidNodeArray* AvoidancePackage_1440::BuildAvoidNodeArray()
     unsigned int iSize;
     for (pNode = &avoided; pNode != 0; pNode = ((::AvoidedList *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))
     {
-        pRef = ((::AvoidedReference *)(new ((void *)(pNode)) ::Vec3()));
+        pRef = ((::AvoidedReference *)(((::Vec3 *)(void *)(pNode))));
         if (!pRef || reinterpret_cast<::TESForm *>((((ActorView*)pRef)))->GetDisabled() || pRef->IsDead(0))
             continue;
 
@@ -1939,7 +1939,7 @@ void FleeSavePackage::SaveFleePackage()
     SavedReferenceList* node = &avoided;
     while (node && !node->FUN_008256d0())
     {
-        SavedReference* reference = ((::SavedReference *)(new ((void *)(node)) ::Vec3()));
+        SavedReference* reference = ((::SavedReference *)(((::Vec3 *)(void *)(node))));
         unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reference))->FUN_0084e3a0()));
         reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&formID), 4);
         ++kCount;
@@ -2218,7 +2218,7 @@ void FleePackageLG::FUN_009f25f0(void* apBuffer)
     RefListNode* pPrev = 0;
     while (pNode && !pNode->IsEmpty())
     {
-        TESObjectREFR* pRef = *((::TESObjectREFR **)(new ((void *)(pNode)) ::Vec3()));
+        TESObjectREFR* pRef = *((::TESObjectREFR **)(((::Vec3 *)(void *)(pNode))));
         bool bRemove = false;
         if (pRef)
         {
@@ -2236,7 +2236,7 @@ void FleePackageLG::FUN_009f25f0(void* apBuffer)
         {
             if (pPrev)
             {
-                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((::InventoryStackRecord *const &)(*((::TESObjectREFR **)(new ((void *)(pNode)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((::InventoryStackRecord *const &)(*((::TESObjectREFR **)(((::Vec3 *)(void *)(pNode))))));
                 pNode = ((::RefListNode *)(reinterpret_cast<::Callees *>((pPrev))->FUN_00726070()));
             }
             else

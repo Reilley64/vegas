@@ -530,7 +530,7 @@ void WorldStateManager::UpdateWorldState(Context* context)
         {
             Vec point4;
             ::fnv_009a9370::FUN_009a9370((::fnv_009a9370::CombatController *)(context), (::fnv_009a9370::CombatCoverPointData *)(entry7), (::fnv_009a9370::NiPoint3 *)(::fnv_009aa4e0::Vec *)(&point4), (::fnv_009a9370::NiPoint3 *)(0));
-            Vec delta = point4 - *((::fnv_009aa4e0::Vec *)(new ((void *)&(position6)) ::Vec3()));
+            Vec delta = point4 - *((::fnv_009aa4e0::Vec *)(((::Vec3 *)(void *)&(position6))));
             delta.z *= 0.10000000149011612;
             if (reinterpret_cast<::TESCombatStyle *>((void *)&(delta))->UpdateCombatStyle() < 1024.0)
                 q |= 1 << entry7->bit;

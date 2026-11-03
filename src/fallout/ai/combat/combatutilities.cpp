@@ -3452,7 +3452,6 @@ FUN_009a8df0_vec* __cdecl FUN_009a8df0(FUN_009a8df0_vec* out, int a2, FUN_009a8d
         *out = vecB;
         return out;
     }
-    new ((void *)&(L)) ::Vec3();
     if (p28 != 0)
     {
         L = *p28;

@@ -700,7 +700,7 @@ void Listener9C64::FUN_009c6490(void* pvUnused, Event9C64* pkEvent)
         return;
     Ref9C64* pkRef = ((::Ref9C64 *)(::GetReferenceFromObject((::NiAVObject *)(pkEvent->m_pvObject))));
     Point9C64 kPoint;
-    ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPoint), (const ::hkVector4 &)((*(const ::hkVector4_9C64 *)(new ((void *)(pkEvent)) ::Vec3()))));
+    ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPoint), (const ::hkVector4 &)((*(const ::hkVector4_9C64 *)(((::Vec3 *)(void *)(pkEvent))))));
     Point9C64 kNormal;
     ::FUN_004a3970((::NiPoint3_local &)(kNormal), (const ::hkVector4 &)(pkEvent->GetPlaneNormal()));
     void* pvObject = pkEvent->m_pvObject;

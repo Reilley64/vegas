@@ -2291,6 +2291,7 @@ struct TES
 {
 };
 
+class PatrolActorPackageData;
 struct LowProcess
 {
     TESObjectCELL* GetTarget();
@@ -6145,7 +6146,6 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
         if (DAT_011e0550 && ((bool)(reinterpret_cast<::DummyFlags *>((((bhkCharControllerVT*)pcon)))->FUN_0088b0c0())))
         {
             NiMatrix3PC rot;
-            new ((void *)(&rot)) ::Vec3();
             if ((MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)))
                 reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(reinterpret_cast<::FUN_0080f790_shell *>((((FUN_0080f790_S*)this)))->GetAngleZOnReference(false));
             else
@@ -6161,7 +6161,6 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
                 (const NiPoint3_ext&)reinterpret_cast<::NiAVObject *>((((NiAVObjectVT*)((MobileObject*)this)->GetNiNode())))->FUN_0043c490() -
                 *((MobileObject*)this)->GetPos();
             NiMatrix3PC rot;
-            new ((void *)(&rot)) ::Vec3();
             if ((MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)))
                 reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(reinterpret_cast<::FUN_0080f790_shell *>((((FUN_0080f790_S*)this)))->GetAngleZOnReference(false));
             else
@@ -6186,7 +6185,6 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
         NiPoint3 tmpLoc = pos;
         NiPoint3 tmpMove = *arDeltaMove;
         NiMatrix3PC rot;
-        new ((void *)(&rot)) ::Vec3();
         if ((MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)))
             reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(reinterpret_cast<::FUN_0080f790_shell *>((((FUN_0080f790_S*)this)))->GetAngleZOnReference(false));
         else
@@ -6233,11 +6231,9 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
                  ::FUN_008a5170((const ::_Dummy_008a5170 *)(::fnv_0092f260::CharFlags *)((CharFlags*)((char*)pcon + 0x410)))))
             {
                 NiPoint3 hitNormal;
-                new ((void *)(&hitNormal)) ::Vec3();
                 PathingLocation kPathingLocation((TESObjectREFR*)this);
                 ::GetPathingLocationNormal((*(::PathingLocation *)(&kPathingLocation)), (*(::NiPoint3 *)(&hitNormal)));
                 hkVector4 kSupportNormal;
-                new ((void *)(&kSupportNormal)) ::Vec3();
                 ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kSupportNormal), (const ::fnv_004a3e00::NiPoint3 &)(hitNormal));
                 reinterpret_cast<::T_ *>((((bhkCharControllerVT*)pcon)))->ForwardToMember((int)(&kSupportNormal));
                 reinterpret_cast<::FUN_00930620_shell *>((((bhkCharControllerVT*)pcon)))->FUN_00930620();
@@ -6279,9 +6275,7 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
             if (reinterpret_cast<::DummyFlagsShell *>((((bhkCharControllerVT*)pcon)))->FUN_00621240() && !bsittingCheckSupport)
             {
                 NiPoint3 oldPos;
-                new ((void *)(&oldPos)) ::Vec3();
                 NiMatrix3PC rot;
-                new ((void *)(&rot)) ::Vec3();
                 if ((MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)))
                     reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(reinterpret_cast<::FUN_0080f790_shell *>((((FUN_0080f790_S*)this)))->GetAngleZOnReference(false));
                 else
@@ -6309,7 +6303,6 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
             if (((bool)(reinterpret_cast<::fnv_009304b0::DummyFlags *>((((CharFlags*)((char*)pcon + 0x410))))->HasFlag20())))
             {
                 NiPoint3 newPos;
-                new ((void *)(&newPos)) ::Vec3();
                 reinterpret_cast<::VectorSourceB00 *>((((bhkCharControllerVT*)pcon)))->FUN_00812b00(&newPos);
                 float flift = ::FUN_004587d0(reinterpret_cast<::FUN_00c6e280_cls *>((pcon))->GetSettingFloat()) * 2.0f;
                 newPos.z += flift;
@@ -6342,7 +6335,6 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
         else
         {
             NiMatrix3PC rot;
-            new ((void *)(&rot)) ::Vec3();
             if (((MobileObjectVT*)this)->vfn_224())
             {
                 reinterpret_cast<::FUN_00524ac0_shell *>(&(rot))->FUN_00524ac0(((MobileObject*)this)->GetLooking());
@@ -6359,7 +6351,6 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
     else if (((MobileObject*)this)->Unk_8B(false) && !bdynamicMotionActor)
     {
         NiMatrix3PC rot;
-        new ((void *)(&rot)) ::Vec3();
         if ((MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)))
             reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(reinterpret_cast<::FUN_0080f790_shell *>((((FUN_0080f790_S*)this)))->GetAngleZOnReference(false));
         else
@@ -6385,7 +6376,6 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
             reinterpret_cast<::s008e2680::Owner *>((((bhkCharControllerVT*)pcon)))->FUN_008e2680(false);
         }
         NiMatrix3PC rot;
-        new ((void *)(&rot)) ::Vec3();
         if ((MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)))
             reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(reinterpret_cast<::FUN_0080f790_shell *>((((FUN_0080f790_S*)this)))->GetAngleZOnReference(false));
         else
@@ -6457,11 +6447,11 @@ void FUN_00935ae0_t::FUN_00935ae0()
     if (pextra9)
     {
         pList = pextra9->pList;
-        while (pList && ((::TopicInfoVisitRecord *)(new ((void *)(pList)) ::Vec3())))
+        while (pList && ((::TopicInfoVisitRecord *)(((::Vec3 *)(void *)(pList)))))
         {
             int icurrentyear;
             float fhour2;
-            TopicInfoVisitRecord* psayonceinfo6 = ((::TopicInfoVisitRecord *)(new ((void *)(pList)) ::Vec3()));
+            TopicInfoVisitRecord* psayonceinfo6 = ((::TopicInfoVisitRecord *)(((::Vec3 *)(void *)(pList))));
             int icurrentmonth3;
             int iday_;
             float fcurrenthourB;
@@ -6557,7 +6547,7 @@ void FUN_009c4da0_shell::ClearCombatStyleAndActorCause()
 {
     while (!((BSSimpleList_standin*)((char*)this + 0x88))->_ref_008256d0())
     {
-        delete *((::FUN_009b3490_shell **)(new ((void *)(((BSSimpleList_standin*)((char*)this + 0x88)))) ::Vec3()));
+        delete *((::FUN_009b3490_shell **)(((::Vec3 *)(void *)(((BSSimpleList_standin*)((char*)this + 0x88))))));
         ((BSSimpleList_standin*)((char*)this + 0x88))->_ref_0063f7b0();
     }
 
@@ -8569,9 +8559,9 @@ float AngleView::GetAdjustedAngle()
                 {
                     World* list = ((::World *)(::fnv_006fa820::FUN_006fa820((const char *)(base))));
                     NodeList* world = ((::NodeList *)(reinterpret_cast<::NonActorMagicTarget *>((list))->GetActiveEffectList()));
-                    while (world && ((::BaseCast *)(::FUN_00559450((int *)(((::PointerView *)(new ((void *)(world)) ::Vec3())))))))
+                    while (world && ((::BaseCast *)(::FUN_00559450((int *)(((::PointerView *)(((::Vec3 *)(void *)(world)))))))))
                     {
-                        CastObject* body = ((::CastObject *)(::FUN_00653270((const ::NiRTTI *)(const ::CastType *)(&(*reinterpret_cast<::CastType *>(&::g_012683ec))), (::NiObject *)(::BaseCast *)(((::BaseCast *)(::FUN_00559450((int *)(((::PointerView *)(new ((void *)(world)) ::Vec3()))))))))));
+                        CastObject* body = ((::CastObject *)(::FUN_00653270((const ::NiRTTI *)(const ::CastType *)(&(*reinterpret_cast<::CastType *>(&::g_012683ec))), (::NiObject *)(::BaseCast *)(((::BaseCast *)(::FUN_00559450((int *)(((::PointerView *)(((::Vec3 *)(void *)(world))))))))))));
                         world = ((::NodeList *)(reinterpret_cast<::Callees *>((world))->FUN_00726070()));
                         if (body)
                         {
@@ -8832,7 +8822,7 @@ SoundPlaybackHandle VoiceHost::PlayVoiceTopic(VoiceTopic* topic, void* listener,
             {
                 if (flags <= 0.0)
                     flags = 2.0f;
-                FUN_00705210(((const char *)(::FUN_00559450((int *)(((::VoiceString *)(new ((void *)(pResponse)) ::Vec3())))))), pItem, GetPosition(), listener, finalFlag);
+                FUN_00705210(((const char *)(::FUN_00559450((int *)(((::VoiceString *)(((::Vec3 *)(void *)(pResponse)))))))), pItem, GetPosition(), listener, finalFlag);
             }
         }
     }
@@ -12827,7 +12817,7 @@ bool xActorD::StartConversation(xInfo* pInfo)
 bool Mid83b9a0::FUN_0083b9a0()
 {
     _p8 = this;
-    return _p8 && *((int *)(new ((void *)(_p8)) ::Vec3())) ? 1 : 0;
+    return _p8 && *((int *)(((::Vec3 *)(void *)(_p8)))) ? 1 : 0;
 }
 
 namespace fnv_009344d0 {

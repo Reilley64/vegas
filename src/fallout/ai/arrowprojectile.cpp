@@ -676,7 +676,7 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
                 ProjectileNode* node = process->Unk_1AC();
                 while (node && !FUN_008256d0(node))
                 {
-                    Projectile* projectile = *((::Projectile **)(new ((void *)(node)) ::Vec3()));
+                    Projectile* projectile = *((::Projectile **)(((::Vec3 *)(void *)(node))));
                     if (projectile)
                     {
                         if (((::MobileObject *)(reinterpret_cast<::FUN_0085f810_shell *>((projectile))->FUN_0085f810())) == owner)

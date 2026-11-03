@@ -255,9 +255,9 @@ void DetailedActorPathHandler::TransitionFrom(ActorPathHandler* previous)
         m_iPathParameter2 = 4;
         m_fPathValue4 = oldPath->m_fPathValue4;
         m_fPathValue12 = 0.0f;
-        while (((::TESTopicInfo *)(new ((void *)&(oldPath->ActorAvoidEntryList)) ::Vec3())))
+        while (((::TESTopicInfo *)(((::Vec3 *)(void *)&(oldPath->ActorAvoidEntryList)))))
         {
-            ActorAvoidEntryList.AddHead(((::TESTopicInfo *)(new ((void *)&(oldPath->ActorAvoidEntryList)) ::Vec3())));
+            ActorAvoidEntryList.AddHead(((::TESTopicInfo *)(((::Vec3 *)(void *)&(oldPath->ActorAvoidEntryList)))));
             oldPath->ActorAvoidEntryList.RemoveHead();
         }
     }
@@ -5549,7 +5549,7 @@ bool UpdateAliveActorList()
         ::DAT_011f2aa0 = 0;
         for (; pActorList; pActorList = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((pActorList))->FUN_00726070())))
         {
-            Actor* actor = *((::Actor **)(new ((void *)(((FUN_009e54a0_ref*)pActorList))) ::Vec3()));
+            Actor* actor = *((::Actor **)(((::Vec3 *)(void *)(((FUN_009e54a0_ref*)pActorList)))));
             if (!actor)
                 continue;
             NiNode* node = actor->GetNiNode();
@@ -6065,7 +6065,7 @@ void FUN_009e6ba0_shell::UpdatePathingOrigin(PathingRequest* apRequest)
                 (BSSimpleListOps<ActorOps_9e6ba0*>*)&((DetailedActorPathHandler*)this)->ActorAvoidEntryList;
             while (pCurrentElementNext)
             {
-                ActorOps_9e6ba0* pavoidActor = ((::fnv_009e6ba0::ActorOps_9e6ba0 *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+                ActorOps_9e6ba0* pavoidActor = ((::fnv_009e6ba0::ActorOps_9e6ba0 *)(((::Vec3 *)(void *)(pCurrentElementNext))));
                 pCurrentElementNext = ((::fnv_009e6ba0::BSSimpleListOps< ::fnv_009e6ba0::ActorOps_9e6ba0 *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
                 if (::FUN_006ba9e0((*(const ::Pt3 *)((*(RefrOps_9e6ba0**)&this->pActor)->GetPos())),
                                  (*(const ::Pt3 *)(&((DetailedActorPathHandler*)this)->m_kPathVector3)), (*(const ::Pt3 *)(pavoidActor->GetPos())),
@@ -6266,7 +6266,7 @@ void FUN_009e9760_shell::FUN_009e9760(BGSLoadFormBuffer* apLoadGameBuffer)
         ::Actor* pForm;
         bool bremove;
 
-        pForm = *((::Actor **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        pForm = *((::Actor **)(((::Vec3 *)(void *)(pCurrentElementNext))));
         bremove = false;
         if (pForm)
         {
@@ -6284,7 +6284,7 @@ void FUN_009e9760_shell::FUN_009e9760(BGSLoadFormBuffer* apLoadGameBuffer)
         {
             if (plastList)
             {
-                reinterpret_cast<::ItemChangeListNode *>((plastList))->FUN_00905330((::InventoryStackRecord *const &)(*((::Actor **)(new ((void *)(pCurrentElementNext)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>((plastList))->FUN_00905330((::InventoryStackRecord *const &)(*((::Actor **)(((::Vec3 *)(void *)(pCurrentElementNext))))));
                 pCurrentElementNext = ((::fnv_009e9760::AvoidActorListNode *)(reinterpret_cast<::Callees *>((plastList))->FUN_00726070()));
             }
             else
@@ -6472,7 +6472,7 @@ void PathSerializationData::Serialize(PathArchive* archive)
     ActorAvoidNode* node = &ActorAvoidEntryList;
     while (node != 0)
     {
-        void* item = *((void **)(new ((void *)(node)) ::Vec3()));
+        void* item = *((void **)(((::Vec3 *)(void *)(node))));
         if (item != 0)
         {
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((archive))->FUN_00865df0((::fnv_00865df0::TESForm *)(item), 0);
@@ -7775,7 +7775,7 @@ bool MotionTarget::UpdateMotion(float afDeltaTime)
                         for (unsigned a = 0; a < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(f))->GetName())); ++a)
                         {
                             AvoidSphereView* i = f.FUN_00877a30(a);
-                            if (reinterpret_cast<::TESCombatStyle *>((void *)&(const ::MotionVec &)(((*(::MotionVec *)(new ((void *)(i)) ::Vec3())) - target)))->UpdateCombatStyle() < reinterpret_cast<::BSMultiBoundSphere *>((i))->GetRadius() * reinterpret_cast<::BSMultiBoundSphere *>((i))->GetRadius())
+                            if (reinterpret_cast<::TESCombatStyle *>((void *)&(const ::MotionVec &)(((*(::MotionVec *)(((::Vec3 *)(void *)(i)))) - target)))->UpdateCombatStyle() < reinterpret_cast<::BSMultiBoundSphere *>((i))->GetRadius() * reinterpret_cast<::BSMultiBoundSphere *>((i))->GetRadius())
                             {
                                 if (reinterpret_cast<::BSMultiBoundSphere *>((i))->GetRadius() < 128.0)
                                     reinterpret_cast<::FUN_00819a50_shell *>((i))->FUN_00819a50(reinterpret_cast<::BSMultiBoundSphere *>((i))->GetRadius() * 2.0f);
@@ -8512,7 +8512,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
             float radius = ::GetFloatAtOffset68((const char *)(((AvoidRequest*)request)));
             while (list)
             {
-                current = *((::fnv_009e5ae0::AvoidActor **)(new ((void *)(list)) ::Vec3()));
+                current = *((::fnv_009e5ae0::AvoidActor **)(((::Vec3 *)(void *)(list))));
                 list = ((::fnv_009e5ae0::AvoidList *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                 float distanceFactor = 1.0f;
                 float distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_009e5ae0::AvoidPoint &)((current->v125() - actor->v125())))->ComputeMagnitude();

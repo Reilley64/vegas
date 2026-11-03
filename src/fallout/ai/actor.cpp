@@ -2749,9 +2749,9 @@ struct FUN_0087fad0_Actor : public Actor
 void FUN_0087fad0_Actor::FUN_0087fad0(void* pTarget)
 {
     FUN_0087fad0_Node* pNode = reinterpret_cast<FUN_0087fad0_Node*>(reinterpret_cast<char*>(this) + 0xfc);
-    while (pNode != 0 && *((::FUN_0087fad0_Item **)(new ((void *)(pNode)) ::Vec3())) != 0)
+    while (pNode != 0 && *((::FUN_0087fad0_Item **)(((::Vec3 *)(void *)(pNode)))) != 0)
     {
-        FUN_0087fad0_Item* pEntry = *((::FUN_0087fad0_Item **)(new ((void *)(pNode)) ::Vec3()));
+        FUN_0087fad0_Item* pEntry = *((::FUN_0087fad0_Item **)(((::Vec3 *)(void *)(pNode))));
         if (pEntry->pTarget == pTarget)
         {
             reinterpret_cast<::ItemChangeListNode *>((reinterpret_cast<FUN_0087fad0_Node*>(reinterpret_cast<char*>(this) + 0xfc)))->FUN_00905330((*(::InventoryStackRecord *const *)(&pEntry)));
@@ -2784,9 +2784,9 @@ float FUN_0087fcb0_cls::GetAmountForActor(void* apActor)
 {
     float result = 0.0f;
     Node87* node = &list;
-    while (node && *((::Item87 **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::Item87 **)(((::Vec3 *)(void *)(node)))))
     {
-        Item87* it = *((::Item87 **)(new ((void *)(node)) ::Vec3()));
+        Item87* it = *((::Item87 **)(((::Vec3 *)(void *)(node))));
         if (it->actor == apActor)
             return (float)it->amount;
         else
@@ -4700,6 +4700,8 @@ struct CVals
     float val;
     bool FUN_00884e90(int);
 };
+struct SourceBuffer;
+struct Vec4;
 struct Root {
     SourceBuffer* src; __forceinline void SetSource(SourceBuffer* p) { src=p; } int unk04,unk08,unk0c;
     Vec4 a,b;
@@ -5940,6 +5942,7 @@ struct NiNode;
 struct QueuedFile;
 struct TESAmmo;
 struct TESModel;
+class TESHair;
 class TESNPC : public TESBoundObject
 {
 public:
@@ -10353,9 +10356,9 @@ void FUN_008a8f60_shell::FUN_008a8f60()
     if (pfollow != 0)
     {
         void* pFollowerEntry = pfollow->pFollowers;
-        while (pFollowerEntry != 0 && *((::Actor **)(new ((void *)(pFollowerEntry)) ::Vec3())) != 0)
+        while (pFollowerEntry != 0 && *((::Actor **)(((::Vec3 *)(void *)(pFollowerEntry)))) != 0)
         {
-            Actor* pactor = *((::Actor **)(new ((void *)(pFollowerEntry)) ::Vec3()));
+            Actor* pactor = *((::Actor **)(((::Vec3 *)(void *)(pFollowerEntry))));
             if (((::fnv_008a8f60::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<TES*>(pactor)))->GetBaseTexture())) != 0)
             {
                 TESPackage* ppack =
@@ -10858,6 +10861,7 @@ void FUN_008a5530_shell::FUN_008a5530()
 }
 
 class ActorPackageContext;
+struct CrimeStatus;
 class BaseProcess
 {
   public:
@@ -11277,9 +11281,9 @@ int FUN_0048bf50_cls::FindValueByKey(int key)
     if (key)
     {
         Node48* node = ((::Node48 *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
-        while (node && *((::Item48 **)(new ((void *)(node)) ::Vec3())))
+        while (node && *((::Item48 **)(((::Vec3 *)(void *)(node)))))
         {
-            Item48* it = *((::Item48 **)(new ((void *)(node)) ::Vec3()));
+            Item48* it = *((::Item48 **)(((::Vec3 *)(void *)(node))));
             if (it->key == key)
                 return it->val;
             node = ((::Node48 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -12832,7 +12836,7 @@ unsigned int FUN_008b8ca0_shell::FUN_008b8ca0(TESFaction** apFactionArray, unsig
     unsigned int icount = 0;
     while (apList1)
     {
-        FactionReaction* pfactionRank = *((::fnv_008b8ca0::FactionReaction **)(new ((void *)(apList1)) ::Vec3()));
+        FactionReaction* pfactionRank = *((::fnv_008b8ca0::FactionReaction **)(((::Vec3 *)(void *)(apList1))));
         if (pfactionRank && pfactionRank->m_ucRank > -1)
         {
             apFactionArray[icount] = pfactionRank->pFaction;
@@ -12849,7 +12853,7 @@ unsigned int FUN_008b8ca0_shell::FUN_008b8ca0(TESFaction** apFactionArray, unsig
 
     while (apList2)
     {
-        FactionReaction* pfactionRank2 = *((::fnv_008b8ca0::FactionReaction **)(new ((void *)(apList2)) ::Vec3()));
+        FactionReaction* pfactionRank2 = *((::fnv_008b8ca0::FactionReaction **)(((::Vec3 *)(void *)(apList2))));
         if (pfactionRank2)
         {
             int iExistingIndex = -1;
@@ -15723,13 +15727,13 @@ struct TESFaction
 void FUN_008bcb40_shell::FUN_008bcb40()
 {
     void* pcrimelist = reinterpret_cast<::FUN_0041cf00_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041cf00();
-    while (pcrimelist && *((void **)(new ((void *)(pcrimelist)) ::Vec3())))
+    while (pcrimelist && *((void **)(((::Vec3 *)(void *)(pcrimelist)))))
     {
-        TESTopicInfo* pcrime = (TESTopicInfo*)*((void **)(new ((void *)(pcrimelist)) ::Vec3()));
+        TESTopicInfo* pcrime = (TESTopicInfo*)*((void **)(((::Vec3 *)(void *)(pcrimelist))));
         void* pCurrentElementNext = ((::TESTopicInfoData *)(::GetField38((char *)(pcrime))));
         while (pCurrentElementNext && !_ref_008256d0(pCurrentElementNext))
         {
-            TESFaction* pfac = (TESFaction*)*((void **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            TESFaction* pfac = (TESFaction*)*((void **)(((::Vec3 *)(void *)(pCurrentElementNext))));
             reinterpret_cast<::FUN_0047eb90_Class *>((pfac))->FUN_0047eb90(false);
             pCurrentElementNext = reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070();
         }
@@ -23744,7 +23748,6 @@ bool A_00886b30::PlaceAtPosition(Pt3_00886b30* apPos)
                             if (pController)
                                 pController->FUN_00886c80(1);
                             angle = *((::fnv_00886b30::Pt3_00886b30 *)(reinterpret_cast<::TESRecipe *>((((TESRecipe*)this)))->GetData()));
-                            new ((void *)(((Node48*)&mat))) ::Vec3();
                             reinterpret_cast<::FUN_004a0c90_shell *>((((FUN_004a0c90_shell*)&mat)))->FUN_004a0c90(angle.z);
                             *apPos = *((::fnv_00886b30::Pt3_00886b30 *)(::FUN_004b3ae0((::NiPoint3 *)(::fnv_00886b30::Pt3_00886b30 *)(&tmp), (const ::NiPoint3 &)(*apPos), mat.m)));
                             bResult = true;
@@ -30853,6 +30856,11 @@ struct Target18
     virtual void v56();
     virtual void MethodE4(Target* p, NiPointer<MyRef>& sp);
 };
+struct ActorStand;
+struct Context;
+struct FileNames;
+struct StrArr;
+struct Task;
 struct Target
 {
     char pad[0x18];
@@ -35579,6 +35587,8 @@ bool FUN_0087f3b0_shell::FUN_0087f3b0()
     return reinterpret_cast<FUN_005f0ba0_shell*>(GetActorBase())->FUN_005f0ba0();
 }
 
+enum CALENDAR_MONTH;
+enum DAYS_OF_THE_WEEK;
 struct Calendar
 {
     unsigned int GetGameHoursPassed(void);
@@ -43039,7 +43049,7 @@ bool ActorS_008ac6f0::FUN_008ac6f0()
         pExtraFactionList = pextra->m_pFactionChanges;
     while (pList && !bHasResultObj)
     {
-        FactionReaction* prank = *((::fnv_008ac6f0::FactionReaction **)(new ((void *)(pList)) ::Vec3()));
+        FactionReaction* prank = *((::fnv_008ac6f0::FactionReaction **)(((::Vec3 *)(void *)(pList))));
         if (prank)
         {
             if ((!pextra || !reinterpret_cast<::PredicateOwner *>((pextra))->HasMatchingValue((unsigned int)(prank->pFaction))) && reinterpret_cast<::FUN_0047d7e0_Class *>((void *)(prank->pFaction))->FUN_0047d7e0())
@@ -43047,9 +43057,9 @@ bool ActorS_008ac6f0::FUN_008ac6f0()
         }
         pList = ((::fnv_008ac6f0::FRList *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
     }
-    while (pExtraFactionList && *((::fnv_008ac6f0::FactionReaction **)(new ((void *)(pExtraFactionList)) ::Vec3())) && !bHasResultObj)
+    while (pExtraFactionList && *((::fnv_008ac6f0::FactionReaction **)(((::Vec3 *)(void *)(pExtraFactionList)))) && !bHasResultObj)
     {
-        FactionReaction* prank = *((::fnv_008ac6f0::FactionReaction **)(new ((void *)(pExtraFactionList)) ::Vec3()));
+        FactionReaction* prank = *((::fnv_008ac6f0::FactionReaction **)(((::Vec3 *)(void *)(pExtraFactionList))));
         if (prank)
         {
             if ((!pextra || !reinterpret_cast<::PredicateOwner *>((pextra))->HasMatchingValue((unsigned int)(prank->pFaction))) && reinterpret_cast<::FUN_0047d7e0_Class *>((void *)(prank->pFaction))->FUN_0047d7e0())
@@ -45062,7 +45072,7 @@ bool P09A::FUN_008aad40(unsigned int aiFlags)
                 pnode = ((Aad40ProcVT*)static_cast<MagicTarget *>(this))->s2();
                 while (pnode && !_ref_008256d0(pnode))
                 {
-                    peffect = dynamic_cast<ReanimateEffect*>(*((::ActiveEffect **)(new ((void *)(pnode)) ::Vec3())));
+                    peffect = dynamic_cast<ReanimateEffect*>(*((::ActiveEffect **)(((::Vec3 *)(void *)(pnode)))));
                     if (peffect && reinterpret_cast<::FUN_0068a810_class *>((((P09AS*)peffect)))->GetField4C() < 0x1e)
                         return true;
                     pnode = ((::P09Node *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070()));
@@ -49969,7 +49979,6 @@ void Projectile::InitRagdollController(void* p0, unsigned char bDeleteExisting, 
                 return;
             }
             S150 y8;
-            new ((void *)&(y8)) ::Vec3();
             y8 = (*reinterpret_cast<::fnv_0087e130::S150 *>(&::DAT_011a9448));
             FUN_0056fac0(y8);
             y8.FUN_004b46a0(::FUN_004ea950((int)(m_ac)));
@@ -49982,7 +49991,7 @@ void Projectile::InitRagdollController(void* p0, unsigned char bDeleteExisting, 
                 while (!node.FUN_008256d0())
                 {
                     ItemObj* j;
-                    j = *(ItemObj**)((void *)(new ((void *)&(node)) ::Vec3()));
+                    j = *(ItemObj**)((void *)(((::Vec3 *)(void *)&(node))));
                     node.FUN_0063f7b0();
                     if (reinterpret_cast<::FUN_0087e920_class *>((j))->FUN_0087e920())
                     {
@@ -50279,12 +50288,12 @@ void FUN_0087eef0_cls::ProcessEntries()
         Eef0_Iter it2;
         reinterpret_cast<::TESLeveledList *>((((Eef0_Sub*)(p + 0x30))))->PopulateContainerWithLeveledItems(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(this)->FUN_0087f9f0(), {}, {}, {});
         Eef0_Node* cur = ((::Eef0_Node *)(reinterpret_cast<::BaseProcess *>(&(it2))->GetCurrentProcessData()));
-        while (cur != 0 && *((::Eef0_Entry **)(new ((void *)(cur)) ::Vec3())) != 0)
+        while (cur != 0 && *((::Eef0_Entry **)(((::Vec3 *)(void *)(cur)))) != 0)
         {
-            Eef0_Entry* A3 = *((::Eef0_Entry **)(new ((void *)(cur)) ::Vec3()));
+            Eef0_Entry* A3 = *((::Eef0_Entry **)(((::Vec3 *)(void *)(cur))));
             Eef0_Inner* Y = 0;
-            if ((*((::Eef0_Entry **)(new ((void *)(cur)) ::Vec3())))->m04 != 0 && (*((::Eef0_Entry **)(new ((void *)(cur)) ::Vec3())))->m04->v57())
-                Y = (*((::Eef0_Entry **)(new ((void *)(cur)) ::Vec3())))->m04;
+            if ((*((::Eef0_Entry **)(((::Vec3 *)(void *)(cur)))))->m04 != 0 && (*((::Eef0_Entry **)(((::Vec3 *)(void *)(cur)))))->m04->v57())
+                Y = (*((::Eef0_Entry **)(((::Vec3 *)(void *)(cur)))))->m04;
             if (Y != 0)
             {
                 void* T = ((void *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(A3->m04))));
@@ -58760,6 +58769,8 @@ struct RagdollView {
     int getNumBones() const { return skeleton->m_kBones.GetLogicalSize(); }
     BodyView* getRigidBodyOfBone(int i) const { int index=indices[i]; return index<0 ? 0 : bodyArray[index]; }
 };
+struct OwnerB;
+struct TargetList;
 struct Controller {
     unsigned int unk000;
     unsigned int unk004;
@@ -61909,9 +61920,9 @@ void SActor::ProcessFormInteraction(SForm* form, SExtra* extra, int arg)
             ref->v48(0x400);
             SList* id = ((::fnv_00892520::SList *)(reinterpret_cast<::Target96 *>(&((*reinterpret_cast<::fnv_00892520::SManager *>(&::g_011e0e80))))->FUN_0096f450(iter, (::Actor96 *)(::fnv_00892520::SActor *)(this))));
             SList* head = id;
-            while (id && *((::fnv_00892520::SItem **)(new ((void *)(id)) ::Vec3())))
+            while (id && *((::fnv_00892520::SItem **)(((::Vec3 *)(void *)(id)))))
             {
-                SItem* item = *((::fnv_00892520::SItem **)(new ((void *)(id)) ::Vec3()));
+                SItem* item = *((::fnv_00892520::SItem **)(((::Vec3 *)(void *)(id))));
                 if (item && ((::fnv_00892520::SActor *)(reinterpret_cast<::FUN_00881650_shell *>((item))->FUN_00881650())))
                     reinterpret_cast<::Host00881620 *>((item))->FUN_00881620((int)(this));
                 else
@@ -68130,7 +68141,7 @@ void ActorStub::TryMakeTargetThing()
     RefObj* target7 = ((::fnv_0089f580::ProcObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->GetTarget();
     BaseObj* curBaseVal = ((::fnv_0089f580::ProcObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->GetCurBase();
     if (target7 && !reinterpret_cast<::FUN_00891b70_class *>((((::fnv_0089f580::BaseObj *)(reinterpret_cast<::Twin_0044ddc0 *>((target7))->GetName()))))->FUN_00891b70() && !reinterpret_cast<::FUN_0046e8c0_class *>((((::fnv_0089f580::BaseObj *)(reinterpret_cast<::Twin_0044ddc0 *>((target7))->GetName()))))->FUN_0046e8c0() && reinterpret_cast<::FUN_008a16d0_shell *>(this)->FUN_008a16d0() &&
-        !reinterpret_cast<::FUN_00418b10_shell *>((((::fnv_0089f580::HolderInner *)(new ((void *)(((::fnv_0089f580::HolderOuter *)(::FUN_00559450((int *)(target7)))))) ::Vec3()))->obj))->FUN_00418b10() && ((::fnv_0089f580::BaseObj *)(reinterpret_cast<::Twin_0044ddc0 *>((target7))->GetName())) != curBaseVal)
+        !reinterpret_cast<::FUN_00418b10_shell *>((((::fnv_0089f580::HolderInner *)(((::Vec3 *)(void *)(((::fnv_0089f580::HolderOuter *)(::FUN_00559450((int *)(target7))))))))->obj))->FUN_00418b10() && ((::fnv_0089f580::BaseObj *)(reinterpret_cast<::Twin_0044ddc0 *>((target7))->GetName())) != curBaseVal)
     {
         bool bFound2 = false;
         void* found3 = ((void *)(::TESEnchantableForm::FindFormEnchantment((::TESForm *)(::fnv_0089f580::BaseObj *)(((::fnv_0089f580::BaseObj *)(reinterpret_cast<::Twin_0044ddc0 *>((target7))->GetName()))))));
@@ -68142,7 +68153,7 @@ void ActorStub::TryMakeTargetThing()
             PtVec pos4 = *((::fnv_0089f580::PtVec *)(::FUN_0045bb80((int)(node9))));
             PtRot rot2;
             reinterpret_cast<::S_00a592c0_Matrix3 *>((((::fnv_0089f580::RotHolder *)(::FUN_00461130((int)(node9))))))->DecomposeToEulerAngles((*(float *)(&rot2.x)), (*(float *)(&rot2.y)), (*(float *)(&rot2.z)));
-            void* res5 = MakeThing(((::fnv_0089f580::BaseObj *)(reinterpret_cast<::Twin_0044ddc0 *>((target7))->GetName())), ((::fnv_0089f580::HolderInner *)(new ((void *)(((::fnv_0089f580::HolderOuter *)(::FUN_00559450((int *)(target7)))))) ::Vec3()))->obj, 1, &pos4, &rot2);
+            void* res5 = MakeThing(((::fnv_0089f580::BaseObj *)(reinterpret_cast<::Twin_0044ddc0 *>((target7))->GetName())), ((::fnv_0089f580::HolderInner *)(((::Vec3 *)(void *)(((::fnv_0089f580::HolderOuter *)(::FUN_00559450((int *)(target7))))))))->obj, 1, &pos4, &rot2);
             ::FUN_0056acb0((::B56ACB0Ref *)(::fnv_0089f580::ActorStub *)(this), (::B56ACB0Ref *)(res5));
             if (bFound2)
                 unk68->Signal(1, 0, 0);
@@ -70548,7 +70559,7 @@ TargetRef* SelectingActor::SelectTarget()
     CandidateList* node9 = &candidates3;
     while (node9 && !node9->Empty())
     {
-        TargetRef* targetVal = ((::TargetRef *)(new ((void *)(node9)) ::Vec3()));
+        TargetRef* targetVal = ((::TargetRef *)(((::Vec3 *)(void *)(node9))));
         float range7 = reinterpret_cast<::ActorX_S *>(this)->GetDetectionFactor((::Ref_S *)(targetVal));
         if (range7 > _bestScore)
         {
@@ -74269,7 +74280,7 @@ unsigned short FUN_008d32b0_shell::FUN_008a9020(unsigned int flags)
         DispNode* node = &m_fc;
         while (node && !node->FUN_008256d0())
         {
-            SaveEntryStandIn* item = *((::fnv_008a9020::SaveEntryStandIn **)(new ((void *)(((SaveEntryNode*)node))) ::Vec3()));
+            SaveEntryStandIn* item = *((::fnv_008a9020::SaveEntryStandIn **)(((::Vec3 *)(void *)(((SaveEntryNode*)node)))));
             if (item->m_04)
                 size += 8;
             node = (DispNode*)((::fnv_008a9020::CrimeList *)(reinterpret_cast<::Callees *>((((CrimeList*)node)))->FUN_00726070()));
@@ -74586,7 +74597,7 @@ void ActorSave::SaveActorData(unsigned int flags)
         SaveList* p = &listFC;
         while (p && !p->Empty())
         {
-            SavePair* pairExtra = *((::fnv_008a9380::SavePair **)(new ((void *)(p)) ::Vec3()));
+            SavePair* pairExtra = *((::fnv_008a9380::SavePair **)(((::Vec3 *)(void *)(p))));
             if (pairExtra->value)
             {
                 unsigned int idExtra = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SaveForm*)pairExtra->value)))->FUN_0084e3a0()));
@@ -74609,7 +74620,7 @@ void ActorSave::SaveActorData(unsigned int flags)
     SaveList* s = &listF4;
     while (s && !s->Empty())
     {
-        SavePair* eb = *((::fnv_008a9380::SavePair **)(new ((void *)(s)) ::Vec3()));
+        SavePair* eb = *((::fnv_008a9380::SavePair **)(((::Vec3 *)(void *)(s))));
         unsigned int k = 0;
         if (eb->form)
             k = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((eb->form))->FUN_0084e3a0()));
@@ -74925,7 +74936,7 @@ void SaveActor::FUN_008aaf40(SaveBuffer* buffer)
         SaveNode* node = &modifiers;
         while (node)
         {
-            ValueReferencePair* entry = *((::ValueReferencePair **)(new ((void *)(node)) ::Vec3()));
+            ValueReferencePair* entry = *((::ValueReferencePair **)(((::Vec3 *)(void *)(node))));
             if (entry)
             {
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(entry->reference), 0);
@@ -83724,7 +83735,7 @@ void TaskOwner::ProcessTargets()
         List* node7 = ((::fnv_008b8f90::List *)(::FUN_008b9220((char *)(void *)(((void *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))));
         while (node7 && !node7->FUN_008256d0())
         {
-            Entry* entry7 = *((::fnv_008b8f90::Entry **)(new ((void *)(node7)) ::Vec3()));
+            Entry* entry7 = *((::fnv_008b8f90::Entry **)(((::Vec3 *)(void *)(node7))));
             RefHandle* reference7 =
                 ((void *)(::FUN_00559450((int *)(entry7)))) ? ((::fnv_008b8f90::RefHandle *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(void *)(((void *)(::FUN_004ae750((void *)(((Rigid*)((void *)(::FUN_00559450((int *)(entry7))))))))))))) : 0;
             void* aFlags = reference7 ? ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((reference7))->GetName())) : 0;
@@ -89067,7 +89078,7 @@ void Ref8BC::CopyScaleAndResetItems(Ref8BC* pkSource)
     ListNode8BC* pkNode = ((::ListNode8BC *)(::GetField38((char *)(pkSource))));
     while (pkNode && !pkNode->IsEmpty())
     {
-        Item8BC* pkItem = *((::Item8BC **)(new ((void *)(pkNode)) ::Vec3()));
+        Item8BC* pkItem = *((::Item8BC **)(((::Vec3 *)(void *)(pkNode))));
         reinterpret_cast<::FUN_0047eb90_Class *>((pkItem))->FUN_0047eb90(true);
         pkNode = ((::ListNode8BC *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
     }
@@ -90198,9 +90209,9 @@ class ListWalkNode
 // @fnv 0x008c1210
 bool WalkListForTarget(ListWalkNode* node, ListWalkTarget* target)
 {
-    while (node != 0 && *((::ListWalkItem **)(new ((void *)(node)) ::Vec3())) != 0)
+    while (node != 0 && *((::ListWalkItem **)(((::Vec3 *)(void *)(node)))) != 0)
     {
-        ListWalkItem* item = *((::ListWalkItem **)(new ((void *)(node)) ::Vec3()));
+        ListWalkItem* item = *((::ListWalkItem **)(((::Vec3 *)(void *)(node))));
         if (item != 0)
         {
             if (reinterpret_cast<::fnv_008b8e90::FUN_008b8e90_shell *>((target))->FUN_008b8e90((::fnv_008b8e90::TESFaction *)(item->unk00)))
@@ -94866,7 +94877,7 @@ void AddTimedEntry(unsigned int auiKey1, unsigned int auiKey2)
     BSSimpleList<FUN_008d6000_Class*>* iter2;
     for (iter2 = &(*reinterpret_cast<::BSSimpleList< ::FUN_008d6000_Class *> *>(&::g_011e0098)); iter2;)
     {
-        FUN_008d6000_Class* entry8 = ((::FUN_008d6000_Class *)(new ((void *)(iter2)) ::Vec3()));
+        FUN_008d6000_Class* entry8 = (((iter2))->m_item);
         iter2 = ((::BSSimpleList< ::FUN_008d6000_Class *> *)(reinterpret_cast<::Callees *>((iter2))->FUN_00726070()));
         if (entry8 && auiKey1 == entry8->key1)
         {
@@ -94883,7 +94894,7 @@ void AddTimedEntry(unsigned int auiKey1, unsigned int auiKey2)
     {
         for (iter2 = &(*reinterpret_cast<::BSSimpleList< ::FUN_008d6000_Class *> *>(&::g_011e0098)); iter2;)
         {
-            FUN_008d6000_Class* itemB = ((::FUN_008d6000_Class *)(new ((void *)(iter2)) ::Vec3()));
+            FUN_008d6000_Class* itemB = (((iter2))->m_item);
             bool bMatch = false;
             if (itemB && auiKey1 == itemB->key1 && itemB->key2 == auiKey2)
                 bMatch = true;
@@ -100465,7 +100476,7 @@ void UpdateActor::FUN_008a5580(float delta, UpdateActor* reference, bool attach)
             {
                 float duration6 =
                     Build(((void *)(::FUN_00559450((int *)&(reference->FUN_00460140())))), handle, ((int)(reinterpret_cast<::Twin_0044ddc0 *>((reference))->GetName())),
-                          ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reference))->FUN_0084e3a0())), ((const char *)(reinterpret_cast<::FUN_004048e0_cls *>((((::fnv_008a5580::UpdateName *)(new ((void *)(reference)) ::Vec3()))))->FUN_004048e0())),
+                          ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reference))->FUN_0084e3a0())), ((const char *)(reinterpret_cast<::FUN_004048e0_cls *>((((::fnv_008a5580::UpdateName *)(((::Vec3 *)(void *)(reference))))))->FUN_004048e0())),
                           reference->FUN_009611e0(), ((int)(reinterpret_cast<::BGSTerrainManager *>((reference))->GetMinLevel())), DAT_011dea3c, 1, 1, 0, 1, 1);
                 UpdateManager* buildManager5 = ((::fnv_008a5580::UpdateManager *)(::FUN_00ad9060()));
                 UpdateActor* target20 = 0;
@@ -103535,15 +103546,14 @@ bool W20Actor::FUN_00891360(W20Item* item, float amount, int unused)
             W20Matrix f = s ? s->FUN_00461130() : (*reinterpret_cast<::fnv_00891360::W20Matrix *>(&::DAT_011a9448));
             if (::FUN_004c0bf0((::TESObjectWEAP *)(e)) && e->GetOrFallback(this) && reinterpret_cast<::BGSProjectile *>((e->GetOrFallback(this)))->FUN_004fd360())
             {
-                v17c(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), *((void **)(new ((void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item)))))) ::Vec3())), 1, 0, 0, 0, 0, 0, 1, false);
+                v17c(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), *((void **)(((::Vec3 *)(void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item)))))))), 1, 0, 0, 0, 0, 0, 1, false);
                 CreateProjectileRef(((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(e->GetOrFallback(this))))), 0, 0, ((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), i, f);
             }
             else if (reinterpret_cast<::FUN_008a16d0_shell *>(this)->FUN_008a16d0())
             {
                 W20Point angles;
-                new ((void *)&(angles)) ::Vec3();
                 reinterpret_cast<::RotationMatrix *>(&(f))->FUN_00a59400((*(float *)(&angles.z)), (*(float *)(&angles.x)), (*(float *)(&angles.y)));
-                int dropped = v3cc(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), *((void **)(new ((void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item)))))) ::Vec3())), 1, &i, &angles);
+                int dropped = v3cc(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), *((void **)(((::Vec3 *)(void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item)))))))), 1, &i, &angles);
                 ::FUN_0056acb0((::B56ACB0Ref *)(::fnv_00891360::W20Actor *)(this), (::B56ACB0Ref *)(dropped));
                 W20Combat* combat = v428();
                 if (combat)
@@ -103571,9 +103581,9 @@ bool W20Actor::FUN_00891360(W20Item* item, float amount, int unused)
             }
             reinterpret_cast<::FUN_00ad8570_S *>((FUN_00453a70()))->FUN_00ad8570((int)(((::fnv_00891360::W20Node *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()))), 0.0f, false);
             if (v360() && e && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((W20Vats*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4)
-                reinterpret_cast<::InventoryStackRecord *>((((W20Vats*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->SetPointers(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), *((void **)(new ((void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item)))))) ::Vec3())));
+                reinterpret_cast<::InventoryStackRecord *>((((W20Vats*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->SetPointers(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), *((void **)(((::Vec3 *)(void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item)))))))));
             else
-                reinterpret_cast<::FUN_0088d7d0_shell *>(this)->FUN_0088d7d0((::TESBoundObject *)(::fnv_00891360::W20Form *)(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))), 1, (::ExtraDataList *)(*((void **)(new ((void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item)))))) ::Vec3()))), false, true, true);
+                reinterpret_cast<::FUN_0088d7d0_shell *>(this)->FUN_0088d7d0((::TESBoundObject *)(::fnv_00891360::W20Form *)(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))), 1, (::ExtraDataList *)(*((void **)(((::Vec3 *)(void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item))))))))), false, true, true);
         }
     }
     return true;
@@ -104019,7 +104029,7 @@ int FNVObject::FUN_008929a0(FNVObject* subject, FNVObject* target, int action, i
     {
         int kMarker = 0;
         if (((::fnv_008929a0::FNVObject *)(::FUN_00559450((int *)(event8)))))
-            kMarker = *((int *)(new ((void *)(((::fnv_008929a0::FNVObject *)(::FUN_00559450((int *)(event8)))))) ::Vec3()));
+            kMarker = *((int *)(((::Vec3 *)(void *)(((::fnv_008929a0::FNVObject *)(::FUN_00559450((int *)(event8))))))));
         reinterpret_cast<::FUN_0088c650_shell *>(this)->FUN_0088c650((::TESBoundObject *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((event8))->GetName()))), 1, (::ExtraDataList *)(kMarker), 1, 0, 1);
         FNVObject* eventRef3 = event8;
         FNVObject* releaseRef3 = eventRef3;
@@ -111201,9 +111211,9 @@ void AlarmActorView::FUN_008c09e0(TESObjectREFR* pkTarget)
     BSSimpleList<Actor*>* pkCurrentObject = pkList;
     if (pkList)
     {
-        while (pkList && ((::Actor *)(new ((void *)(pkList)) ::Vec3())))
+        while (pkList && (((pkList))->m_item))
         {
-            AlarmActorView* pkWitness = (AlarmActorView*)((::Actor *)(new ((void *)(pkList)) ::Vec3()));
+            AlarmActorView* pkWitness = (AlarmActorView*)(((pkList))->m_item);
             if (!pkWitness->IsDisabled(false) && !pkWitness->IsUnconscious())
             {
                 reinterpret_cast<::fnv_009eb9c0::Crime *>((pkAlarm))->AddActor((::Actor *)(::fnv_008c09e0::AlarmActorView *)(this));
@@ -116675,9 +116685,9 @@ void ActorTarget::FUN_0087fb40(Actor* target, float amount)
         ActorListEntry* newItem;
         BSSimpleList<ActorListEntry*>* node = &m_kSecondPointerList;
         MarkAsModified(0x80000);
-        while (node && ((::ActorListEntry *)(new ((void *)(node)) ::Vec3())))
+        while (node && (((node))->m_item))
         {
-            ActorListEntry* item = ((::ActorListEntry *)(new ((void *)(node)) ::Vec3()));
+            ActorListEntry* item = (((node))->m_item);
             if (item->pTarget == target)
             {
                 int val = ((DispVtbl*)this)->GetDisposition(target, 0);
@@ -118861,13 +118871,12 @@ bool SitTarget::FUN_0088d2f0(SitReference* furnitureRef, SitReference* marker, i
     SetFurnitureHeading(reinterpret_cast<::FUN_00568650_shell *>((marker))->FUN_00568650());
     NiPoint3 wasEnabled = reinterpret_cast<::TESFurniture *>((furniture))->GetMarkerOffset(reinterpret_cast<::FUN_005094b0_shell *>((marker))->FUN_005094b0(), reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400());
     SitRotation rotation;
-    new ((void *)&(rotation)) ::Vec3();
     reinterpret_cast<::FUN_004a0c90_shell *>(&(rotation))->FUN_004a0c90(reinterpret_cast<::FUN_00568650_shell *>((marker))->FUN_00568650());
     wasEnabled = rotation.FUN_004b4500(&wasEnabled);
     process->SetState(2);
     reinterpret_cast<::fnv_00568020::FUN_00568020_shell *>((furnitureRef))->FUN_00568020(index, true);
-    SetPosition(*reinterpret_cast<SitPoint*>(((::NiPoint3 *)(new ((void *)(marker)) ::Vec3()))) + wasEnabled);
-    reinterpret_cast<::S005620e0_Object *>((((::SitController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_005620e0((const ::S005620e0_Source *)(void *)(((::NiPoint3 *)(new ((void *)(marker)) ::Vec3()))));
+    SetPosition(*reinterpret_cast<SitPoint*>(((::NiPoint3 *)(((::Vec3 *)(void *)(marker))))) + wasEnabled);
+    reinterpret_cast<::S005620e0_Object *>((((::SitController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_005620e0((const ::S005620e0_Source *)(void *)(((::NiPoint3 *)(((::Vec3 *)(void *)(marker))))));
     reinterpret_cast<::fnv_00496080::FUN_00496080_shell *>((reinterpret_cast<SitAnimation*>(GetAnimData())))->FUN_00496080(20, 0.0f);
     if (this == reinterpret_cast<SitTarget*>(pPlayer))
         reinterpret_cast<::fnv_00496080::FUN_00496080_shell *>((((::SitAnimation *)(reinterpret_cast<::PlayerCharacter *>((reinterpret_cast<SitPlayer*>(pPlayer)))->GetAnimation(true)))))->FUN_00496080(20, 0.0f);
@@ -119674,7 +119683,7 @@ bool FUN_00892e90_shell::FUN_00892e90(TESForm* item, int unused, TESObjectREFR* 
             {
                 ExtraDataList* i = 0;
                 if (((::fnv_00892e90::InventoryEntryNode *)(::FUN_00559450((int *)(a)))))
-                    i = *((::ExtraDataList **)(new ((void *)(((::fnv_00892e90::InventoryEntryNode *)(::FUN_00559450((int *)(a)))))) ::Vec3()));
+                    i = *((::ExtraDataList **)(((::Vec3 *)(void *)(((::fnv_00892e90::InventoryEntryNode *)(::FUN_00559450((int *)(a))))))));
                 if (i)
                 {
                     TESObjectREFR* s = reinterpret_cast<::FUN_0041c8d0_shell *>((((TransferItemExtra*)i)))->FUN_0041c8d0();
@@ -119707,7 +119716,7 @@ bool FUN_00892e90_shell::FUN_00892e90(TESForm* item, int unused, TESObjectREFR* 
         {
             ExtraDataList* eb = 0;
             if (((::fnv_00892e90::InventoryEntryNode *)(::FUN_00559450((int *)(f)))))
-                eb = *((::ExtraDataList **)(new ((void *)(((::fnv_00892e90::InventoryEntryNode *)(::FUN_00559450((int *)(f)))))) ::Vec3()));
+                eb = *((::ExtraDataList **)(((::Vec3 *)(void *)(((::fnv_00892e90::InventoryEntryNode *)(::FUN_00559450((int *)(f))))))));
             reinterpret_cast<::FUN_0088c650_shell *>(this)->FUN_0088c650(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((f))->GetName())), 1, eb, true, false, true);
             delete f;
         }
@@ -123778,7 +123787,7 @@ void FUN_008abc40_shell::FUN_008abc40(BGSLoadFormBuffer* buffer)
         DispositionNode* node = (DispositionNode*)&m_kSecondPointerList;
         while (node)
         {
-            ActorListEntry* modifier = *((::fnv_008abc40::ActorListEntry **)(new ((void *)(node)) ::Vec3()));
+            ActorListEntry* modifier = *((::fnv_008abc40::ActorListEntry **)(((::Vec3 *)(void *)(node))));
             if (modifier)
                 modifier->pActor =
                     modifier->pActor ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)modifier->pActor)) : 0;
@@ -123958,7 +123967,7 @@ int Actor87::FUN_008b87a0(Actor87* other, bool* apbEnemy)
     {
         while (list8)
         {
-            FactionItem87* item1 = *((::FactionItem87 **)(new ((void *)(list8)) ::Vec3()));
+            FactionItem87* item1 = *((::FactionItem87 **)(((::Vec3 *)(void *)(list8))));
             if (item1 && item1->rank > -1)
             {
                 FactionNode87* inner = list6;
@@ -123970,7 +123979,7 @@ int Actor87::FUN_008b87a0(Actor87* other, bool* apbEnemy)
                 else
                     while (inner)
                     {
-                        FactionItem87* item2 = *((::FactionItem87 **)(new ((void *)(inner)) ::Vec3()));
+                        FactionItem87* item2 = *((::FactionItem87 **)(((::Vec3 *)(void *)(inner))));
                         if (item2 && item2->rank > -1)
                         {
                             reaction2 = CombineFightReaction(reaction2, item1->faction, item2->faction);
@@ -124002,7 +124011,7 @@ int Actor87::FUN_008b87a0(Actor87* other, bool* apbEnemy)
                 FactionNode87* inner = list6;
                 while (inner)
                 {
-                    FactionItem87* item2 = *((::FactionItem87 **)(new ((void *)(inner)) ::Vec3()));
+                    FactionItem87* item2 = *((::FactionItem87 **)(((::Vec3 *)(void *)(inner))));
                     if (item2 && item2->rank > -1)
                     {
                         reaction2 = CombineFightReaction(reaction2, faction, item2->faction);
@@ -124020,7 +124029,7 @@ int Actor87::FUN_008b87a0(Actor87* other, bool* apbEnemy)
         unsigned count = reinterpret_cast<::fnv_008b8ca0::FUN_008b8ca0_shell *>((((ExtraFactionChanges_fake*)this)))->FUN_008b8ca0((::fnv_008b8ca0::TESFaction **)(factions), 128, list6, extra9->list);
         while (list8)
         {
-            FactionItem87* item1 = *((::FactionItem87 **)(new ((void *)(list8)) ::Vec3()));
+            FactionItem87* item1 = *((::FactionItem87 **)(((::Vec3 *)(void *)(list8))));
             if (item1 && item1->rank > -1)
             {
                 if ((void*)other == (void*)pPlayer && reinterpret_cast<::TESFaction *>((void *)(((Faction87*)item1->faction)))->GetPCAnEnemy())
@@ -125076,9 +125085,9 @@ void AlarmHost::FUN_008c0460(TESObjectREFR* target, bool selfOnly, int unused)
     reinterpret_cast<::fnv_009721f0::FUN_009721f0_shell *>(&((*reinterpret_cast<::fnv_008c0460::AlarmManager *>(&::g_011e0e80))))->AddObjectToList((::fnv_009721f0::TESFormList *)(extra));
     if (kSound)
     {
-        while (kSound && *((::fnv_008c0460::AlarmHost **)(new ((void *)(kSound)) ::Vec3())))
+        while (kSound && *((::fnv_008c0460::AlarmHost **)(((::Vec3 *)(void *)(kSound)))))
         {
-            AlarmHost* witness = *((::fnv_008c0460::AlarmHost **)(new ((void *)(kSound)) ::Vec3()));
+            AlarmHost* witness = *((::fnv_008c0460::AlarmHost **)(((::Vec3 *)(void *)(kSound))));
             if (!witness->IsDead(false) && !witness->IsExcluded())
             {
                 if ((selfOnly && witness == this) || (!selfOnly && reinterpret_cast<::FUN_008b8360_shell *>((witness))->CollectFilteredFactions((::Filter_8b8360 *)(::fnv_008c0460::AlarmHost *)(this), (::Output_8b8360 *)(extra))))
@@ -127877,7 +127886,7 @@ void EActor::FUN_0088e8d0(float elapsed, ERequest* event)
                         if (false)
                         {
                             EColor color = found ? EColor(0, 0, 1, 1) : EColor(1, 1, 0, 1);
-                            void* debug = ((void *)(::fnv_004b3890::FUN_004b3890((*(const class class ::FUN_006815c0 *)(&position)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), (*(const class class ::FUN_006815c0 *)(&end)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), true)));
+                            void* debug = ((void *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&position)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), (*(const class ::FUN_006815c0 *)(&end)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), true)));
                             reinterpret_cast<::FUN_00458e20_shell *>((g_TES))->FUN_00458e20((::NiAVObject *)(debug), ::DAT_01017b78);
                         }
                     }
@@ -129554,8 +129563,8 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
         if (hit->attacker && ((::fnv_0089a760::HProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((hit->attacker))->GetBaseTexture())) && ((::fnv_0089a760::HMagicItem *)(reinterpret_cast<::Callees *>(&(hit->weapon->effects))->FUN_00726070())))
         {
             HEquip* equipped = ((::fnv_0089a760::HProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((hit->attacker))->GetBaseTexture()))->vf148();
-            if (equipped && ((::fnv_0089a760::HExtraList *)(::FUN_00559450((int *)(equipped)))) && *((::fnv_0089a760::HExtra **)(new ((void *)(((::fnv_0089a760::HExtraList *)(::FUN_00559450((int *)(equipped)))))) ::Vec3())))
-                ::FUN_005ac750((::TESForm *)(hit->unk04), (::ExtraDataList *)(*((::fnv_0089a760::HExtra **)(new ((void *)(((::fnv_0089a760::HExtraList *)(::FUN_00559450((int *)(equipped)))))) ::Vec3()))), 0x80);
+            if (equipped && ((::fnv_0089a760::HExtraList *)(::FUN_00559450((int *)(equipped)))) && *((::fnv_0089a760::HExtra **)(((::Vec3 *)(void *)(((::fnv_0089a760::HExtraList *)(::FUN_00559450((int *)(equipped)))))))))
+                ::FUN_005ac750((::TESForm *)(hit->unk04), (::ExtraDataList *)(*((::fnv_0089a760::HExtra **)(((::Vec3 *)(void *)(((::fnv_0089a760::HExtraList *)(::FUN_00559450((int *)(equipped))))))))), 0x80);
         }
         if (((::fnv_0089a760::HAmmo *)(reinterpret_cast<::AmmoOwner *>((hit->weapon))->FUN_00525980((::AmmoActor *)(hit->attacker)))) &&
             ((::fnv_0089a760::HMagicItem *)(reinterpret_cast<::Callees *>(&(((::fnv_0089a760::HAmmo *)(reinterpret_cast<::AmmoOwner *>((hit->weapon))->FUN_00525980((::AmmoActor *)(hit->attacker))))->effects))->FUN_00726070())))
@@ -129756,7 +129765,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
                 HPartList* parts = ((::fnv_0089a760::HPartList *)(reinterpret_cast<::SearchOwner *>((explosion))->FindEntryResultByCategory((int)(this))));
                 while (parts && !parts->FUN_008256d0())
                 {
-                    HPartKey* key = *((::fnv_0089a760::HPartKey **)(new ((void *)(parts)) ::Vec3()));
+                    HPartKey* key = *((::fnv_0089a760::HPartKey **)(((::Vec3 *)(void *)(parts))));
                     parts = ((::fnv_0089a760::HPartList *)(reinterpret_cast<::Callees *>((parts))->FUN_00726070()));
                     int part = key->key;
                     HPart* limb = ((::fnv_0089a760::HPart *)(reinterpret_cast<::FUN_005e50f0_Obj *>((table))->GetValueByIndex(part)));
@@ -130814,7 +130823,7 @@ void LimbActor::FUN_008b43a0(LimbHit* apHit, int a2, int a3)
         LimbEntryList* pNode = ((::LimbEntryList *)(reinterpret_cast<::SearchOwner *>((pSource))->FindEntryResultByCategory((int)(this))));
         while (pNode && !pNode->FUN_008256d0() && iCount < 7)
         {
-            LimbEntry* pEntryRef = *((::LimbEntry **)(new ((void *)(pNode)) ::Vec3()));
+            LimbEntry* pEntryRef = *((::LimbEntry **)(((::Vec3 *)(void *)(pNode))));
             pNode = ((::LimbEntryList *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
             LimbBodyPart* pEntryPart = ((::LimbBodyPart *)(reinterpret_cast<::FUN_005e50f0_Obj *>((pBodyDataLoc))->GetValueByIndex(pEntryRef->iPart)));
             if (pEntryPart && pEntryRef->iPart)
@@ -135334,7 +135343,7 @@ bool MatchActor::FUN_008bcdf0(bool update, int unused)
                     (*(::fnv_008bcdf0::B006815c0 *)(reinterpret_cast<::Point3Offset *>((void *)(((::fnv_008bcdf0::B006815c0 *)(reinterpret_cast<::TESTopicInfo *>((((PlayerView*)_g_thePlayer)))->GetAddTopicList()))))->ProjectileLaunched((::NiPoint3 *)&(const ::fnv_008bcdf0::B006815c0 &)(FUN_004a3760(reinterpret_cast<::fnv_008be940::FloatValueProvider *>((((PlayerView*)_g_thePlayer)))->FUN_008be940(), (*reinterpret_cast<const ::fnv_008bcdf0::B006815c0 *>((void *)&::DAT_011a9484)))), {})));
             BoundView bound = (*(const ::fnv_008bcdf0::BoundView *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(node))->FUN_0043d450()));
             float distance4 =
-                reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_008bcdf0::B006815c0 &)((*(::fnv_008bcdf0::B006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(currentPosition))->FUN_00439ef0((::NiPoint3 *)&((*(::fnv_008bcdf0::B006815c0 *)(new ((void *)&(bound)) ::Vec3()))), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>((void *)&(bound))->GetStoredFloatValue() * 1.25;
+                reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_008bcdf0::B006815c0 &)((*(::fnv_008bcdf0::B006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(currentPosition))->FUN_00439ef0((::NiPoint3 *)&((*(::fnv_008bcdf0::B006815c0 *)(((::Vec3 *)(void *)&(bound))))), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>((void *)&(bound))->GetStoredFloatValue() * 1.25;
             FloatTripleBooleanFlagRecord = distance4 < ::fnv_008bd550::GetOriginalRuntimeFloatSetting37();
         }
         if (!result || !FloatTripleBooleanFlagRecord)
@@ -135398,7 +135407,6 @@ bool MatchActor::FUN_008bcdf0(bool update, int unused)
             if (face12)
             {
                 QuaternionView rotation;
-                new ((void *)&(rotation)) ::Vec3();
                 face12->GetRotation(&rotation);
                 reinterpret_cast<::FUN_008bd5e0_shell *>((((RagdollControllerView*)m_pRagdollController)))->FUN_008bd5e0((const ::NiQuaternion *)(const ::fnv_008bcdf0::QuaternionView *)(&rotation));
             }
@@ -139000,9 +139008,9 @@ void ActorView::FUN_008b52a0(void* reference, unsigned int partIndex, bool explo
                 PackageView* package15 = GetEquip() ? ((::fnv_008b52a0::PackageView *)(reinterpret_cast<::TESPackage *>((GetEquip()))->GetRefCount())) : 0;
                 EquipList* list6 = package15 ? ((::fnv_008b52a0::EquipList *)(reinterpret_cast<::Callees *>(&(package15->list))->FUN_00726070())) : 0;
                 FormList* entry15 = list6 ? ((::fnv_008b52a0::FormList *)(reinterpret_cast<::BGSCameraPath *>((list6))->GetConditions())) : 0;
-                while (entry15 && *((::fnv_008b52a0::Equipment **)(new ((void *)(entry15)) ::Vec3())) && !aLoc6)
+                while (entry15 && *((::fnv_008b52a0::Equipment **)(((::Vec3 *)(void *)(entry15)))) && !aLoc6)
                 {
-                    EquipInfo* info = ((::fnv_008b52a0::EquipInfo *)(reinterpret_cast<::FUN_004aaf30_Holder *>((GetEquip()))->FindEntry(*((::fnv_008b52a0::Equipment **)(new ((void *)(entry15)) ::Vec3())))));
+                    EquipInfo* info = ((::fnv_008b52a0::EquipInfo *)(reinterpret_cast<::FUN_004aaf30_Holder *>((GetEquip()))->FindEntry(*((::fnv_008b52a0::Equipment **)(((::Vec3 *)(void *)(entry15)))))));
                     aLoc6 = info ? info->keep : false;
                     entry15 = ((::fnv_008b52a0::FormList *)(reinterpret_cast<::Callees *>((entry15))->FUN_00726070()));
                 }
@@ -139064,7 +139072,7 @@ void ActorView::FUN_008b52a0(void* reference, unsigned int partIndex, bool explo
             ::FUN_00c6a350((::NiAVObject *)(result3), 1, true, true, true);
             world14->Add(result3, true, false, false, true);
             Bound boundary = (*(const ::fnv_008b52a0::Bound *)(reinterpret_cast<::FUN_0043d450_Owner *>((GetNode()))->FUN_0043d450()));
-            Vec center = (*(::fnv_008b52a0::Vec *)(new ((void *)&(boundary)) ::Vec3()));
+            Vec center = (*(::fnv_008b52a0::Vec *)(((::Vec3 *)(void *)&(boundary))));
             Vec impulse3 = result3->Call_0045bb80() - center;
             reinterpret_cast<::FUN_004a0c10_s *>(&(impulse3))->FUN_004a0c10();
             Vec aLoc4 = impulse3 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008b52a0::SettingView *>(&::originalRuntimeFloatSetting751))))));
@@ -139329,7 +139337,7 @@ void ActorResetView::FUN_008aa210(unsigned int flags)
         b = (DispositionListView*)&m_kSecondPointerList;
         while (b && !b->FUN_008256d0())
         {
-            k = *((::ActorListEntry **)(new ((void *)(b)) ::Vec3()));
+            k = *((::ActorListEntry **)(((::Vec3 *)(void *)(b))));
             j = k;
             ::FUN_00401030(j);
             b->FUN_0063f7b0();
@@ -140516,7 +140524,7 @@ bool MActor::FUN_008ae660(bool abUseAnim)
             reinterpret_cast<::FUN_00626c50_cls *>((query))->FUN_00626c50(filter);
         if (reinterpret_cast<::ShapeCaster *>((query))->FUN_00626b30((*(const ::NiPoint3 *)(&start)), (*(const ::NiPoint3 *)(&end)), reach))
         {
-            MHits* hits = ((::MHits *)(new ((void *)(query)) ::Vec3()));
+            MHits* hits = ((::MHits *)(((::Vec3 *)(void *)(query))));
             MColObj* hitObj = ((::MColObj *)(::FUN_004b5820((::FormLike *)(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((int)(hits))))))->FUN_00807770(0)))->unk48))));
             MRef* hitRef = hitObj ? ((::MRef *)(::FUN_0056f930((::NiAVObject *)(hitObj)))) : 0;
             MRigid* rigidBody = ((::MRigid *)(::FUN_004b59f0(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((int)(hits))))))->FUN_00807770(0)))->unk48)));
@@ -140568,7 +140576,7 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                 MPt dir = to - from;
                 reinterpret_cast<::FUN_004a0c10_s *>(&(dir))->FUN_004a0c10();
                 MPt pos;
-                ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&pos)), (*(const ::hkVector4 *)(((::MHkPos *)(new ((void *)(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((int)(hits))))))->FUN_00807770(0))))) ::Vec3())))));
+                ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&pos)), (*(const ::hkVector4 *)(((::MHkPos *)(((::Vec3 *)(void *)(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((int)(hits))))))->FUN_00807770(0))))))))));
                 float force;
                 if (weapon)
                 {
@@ -140637,7 +140645,7 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                 MVec4 hkImpulse;
                 ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(hkImpulse), (const ::fnv_004a3e00::NiPoint3 &)(impulse));
                 reinterpret_cast<::Script *>((world))->GetLocalData();
-                reinterpret_cast<::FUN_0081f1e0_Class *>((rigidBody))->ApplyVirtualCall((int)(&hkImpulse), (int)(((::MHkPos *)(new ((void *)(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((int)(hits))))))->FUN_00807770(0))))) ::Vec3()))));
+                reinterpret_cast<::FUN_0081f1e0_Class *>((rigidBody))->ApplyVirtualCall((int)(&hkImpulse), (int)(((::MHkPos *)(((::Vec3 *)(void *)(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((int)(hits))))))->FUN_00807770(0)))))))));
                 reinterpret_cast<::Script *>((world))->GetLocalData();
                 reinterpret_cast<::fnv_008acff0::ImpactActor *>(this)->ApplyImpact((*(int *)&(const ::MPt &)(pos)), (int)(hitRef), (int)(worldObj), (::fnv_008acff0::Ref *)(material), {}, {});
                 if (hitRef)
@@ -141273,7 +141281,7 @@ void LimbForceActor::FUN_008b65f0()
                 if (pFound)
                 {
                     LimbForceBound kTmpBound = *((::LimbForceBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((((LimbForceBoundView*)pRoot)))->FUN_0043d450()));
-                    NiPoint3 kTargetCenter = *((::NiPoint3 *)(new ((void *)&(kTmpBound)) ::Vec3()));
+                    NiPoint3 kTargetCenter = *((::NiPoint3 *)(((::Vec3 *)(void *)&(kTmpBound))));
                     NiPoint3 kWorldPosition = *(NiPoint3_sub*)((::NiPoint3 *)(::FUN_0045bb80((int)(pFound)))) - kTargetCenter;
                     reinterpret_cast<::FUN_004a0c10_s *>((((FUN_004a0c10_pt*)&kWorldPosition)))->FUN_004a0c10();
                     NiPoint3 _kForce = *(NiPoint3_helper*)&kWorldPosition * FUN_00403e20((float*)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting751)));
@@ -141860,7 +141868,7 @@ void FUN_008d3380_shell::FUN_008aa4c0(unsigned int aiFlags, unsigned int p2)
         while (ix && !ix->_ref_008256d0())
         {
             LinkDispositionItem* cell2;
-            cell2 = *((::ActorLinkDetail::LinkDispositionItem **)(new ((void *)(ix)) ::Vec3()));
+            cell2 = *((::ActorLinkDetail::LinkDispositionItem **)(((::Vec3 *)(void *)(ix))));
             void* tmp;
             tmp = cell2->actor;
             cell2->actor = dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)tmp));
@@ -141893,7 +141901,7 @@ void FUN_008d3380_shell::FUN_008aa4c0(unsigned int aiFlags, unsigned int p2)
         while (ix && !ix->_ref_008256d0())
         {
             LinkPowerItem* cell2;
-            cell2 = *((::ActorLinkDetail::LinkPowerItem **)(new ((void *)(ix)) ::Vec3()));
+            cell2 = *((::ActorLinkDetail::LinkPowerItem **)(((::Vec3 *)(void *)(ix))));
             unsigned int c;
             c = cell2->key;
             if (0 != c)
@@ -143303,12 +143311,12 @@ void MoveSelf454::FUN_008ad1c0(int destination, float angle, TESObjectCELL* cell
                     for (node = &actors; node; node = ((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())), ++count)
                     {
                         MoveFollowers454* followers =
-                            (MoveFollowers454*)((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::FUN_00422700_shell *>((((::fnv_008ad1c0::MoveExtra454 *)(reinterpret_cast<::FUN_005d43c0_ *>(((*((::fnv_008ad1c0::MoveActor454 **)(new ((void *)(node)) ::Vec3())))))->FUN_005d43c0()))))->FUN_00422700()));
+                            (MoveFollowers454*)((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::FUN_00422700_shell *>((((::fnv_008ad1c0::MoveExtra454 *)(reinterpret_cast<::FUN_005d43c0_ *>(((*((::fnv_008ad1c0::MoveActor454 **)(((::Vec3 *)(void *)(node)))))))->FUN_005d43c0()))))->FUN_00422700()));
                         if (followers)
                         {
                             for (MoveNode454* follower = followers->head; follower; follower = ((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::Callees *>((follower))->FUN_00726070())))
                             {
-                                MoveActor454* actor = *((::fnv_008ad1c0::MoveActor454 **)(new ((void *)(follower)) ::Vec3()));
+                                MoveActor454* actor = *((::fnv_008ad1c0::MoveActor454 **)(((::Vec3 *)(void *)(follower))));
                                 if (actor && ((::fnv_008ad1c0::MoveProcess454 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && !reinterpret_cast<::RefList *>(&(actors))->FUN_005f65d0((void **)(::fnv_008ad1c0::MoveActor454 **)(&actor)))
                                     reinterpret_cast<::Callees *>((node))->FUN_00905820(&actor);
                             }
@@ -143318,7 +143326,7 @@ void MoveSelf454::FUN_008ad1c0(int destination, float angle, TESObjectCELL* cell
                     extra = abUseOffset ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008ad1c0::MoveSetting454 *>(&::originalRuntimeFloatSetting291)))))) : 0.0f;
                     for (node = &actors; node; node = ((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
                     {
-                        currentActor = *((::fnv_008ad1c0::MoveActor454 **)(new ((void *)(node)) ::Vec3()));
+                        currentActor = *((::fnv_008ad1c0::MoveActor454 **)(((::Vec3 *)(void *)(node))));
                         if (!currentActor->V22c(0) && !reinterpret_cast<::TESForm *>((currentActor))->GetDisabled() && !reinterpret_cast<::fnv_008a6210::FUN_008a6210_shell *>((currentActor))->FUN_008a6210() &&
                             !((MovePlayer454*)::_g_thePlayer)->disabled &&
                             (allowed || currentActor == (MoveActor454*)this ||
@@ -147465,7 +147473,7 @@ void EventActor::ProcessEvents()
                     AttackMelee(0, true);
             }
             if (reinterpret_cast<::Callees *>(&(firingWeapon->effects))->FUN_00726070() && process->Weapon() && ((::EventExtra *)(::FUN_00559450((int *)(process->Weapon())))))
-                ::FUN_005ac750((::TESForm *)(::EventWeapon *)(((::EventWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((process->Weapon()))->GetName()))), (::ExtraDataList *)(((::EventExtra *)(new ((void *)(((::EventExtra *)(::FUN_00559450((int *)(process->Weapon())))))) ::Vec3()))->value), 0x400000);
+                ::FUN_005ac750((::TESForm *)(::EventWeapon *)(((::EventWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((process->Weapon()))->GetName()))), (::ExtraDataList *)(((::EventExtra *)(((::Vec3 *)(void *)(((::EventExtra *)(::FUN_00559450((int *)(process->Weapon()))))))))->value), 0x400000);
         }
     }
     if ((flags0 & 2) && weapon3 && weaponItem13)
@@ -149080,7 +149088,6 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
     reinterpret_cast<::FUN_005532a0_cls *>(&(v250))->FUN_005532a0(0.0f, 0.0f, 0.0f, 0.0f);
     if (((void *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((((KillSupport::This930*)this)))->FUN_009306d0())) != 0)
     {
-        new ((void *)&(it25c)) ::Vec3();
         reinterpret_cast<::HolderFUN *>((((KillSupport::Obj66*)((void *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((((KillSupport::This930*)this)))->FUN_009306d0())))))->FUN_0066ca00(&it25c);
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&v250)), (*(const ::fnv_004a3e00::NiPoint3 *)(&it25c)));
     }
@@ -149106,7 +149113,6 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
                 v274 = (*reinterpret_cast<::KillSupport::Vec3 *>((void *)&::NiPoint3::ZERO));
                 if (((double)(reinterpret_cast<::S004586d0_Obj *>((((KillSupport::Obj586*)v250.FUN_00630b40(&buf290))))->FUN_004586d0())) == 0.0)
                 {
-                    new ((void *)&(it2b4)) ::Vec3();
                     reinterpret_cast<::FUN_004a0c90_shell *>(&(it2b4))->FUN_004a0c90(((KillSupport::V2bcView*)this)->target(0));
                     v274 = *((KillSupport::Vec3*)it2b4.FUN_004b4500(&tmp2c0, &(*reinterpret_cast<::KillSupport::Vec3 *>(&::DAT_011a9478))));
                 }
@@ -149136,11 +149142,9 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
         else if (((KillSupport::V234View*)this)->target())
         {
             ::ApplyHavokOperation((::HavokObject *)(r240), 0, (void *)(1));
-            new ((void *)&(it314)) ::Vec3();
             reinterpret_cast<::FUN_004a0c90_shell *>(&(it314))->FUN_004a0c90(((KillSupport::V2bcView*)this)->target(0));
             reinterpret_cast<::FUN_00416870_t *>(&(za))->FUN_00416870(0.0f, ::DAT_0101712c, 0.0f);
             za = *((KillSupport::Obj320*)it314.FUN_004b4500(&tmp32c, &za));
-            new ((void *)&(it340)) ::Vec3();
             ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&it340)), (*(const ::fnv_004a3e00::NiPoint3 *)(&za)));
             ::FUN_0062b930((::NiAVObject *)(r240), (::Vec3Arg *)(void *)(&it340), 0);
         }
@@ -151744,7 +151748,7 @@ struct C74NiQuaternion {
 
 struct C74Vector4 {
     VectorBits m_vComponents;
-    float& operator()(int i) { return m_vComponents.m128_f32[i]; }
+    float& operator()(int i) { return m_vComponents[i]; }
 };
 
 struct C74Quaternion {
@@ -155651,6 +155655,13 @@ struct ScrapMarker
     }
 };
 
+struct Elem;
+struct EntryListNode;
+struct F8;
+struct Flag;
+struct ModelRef;
+struct P1;
+struct Renderer;
 struct Cls
 {
     int u000;
@@ -158401,7 +158412,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
                     (::NiPoint3 *)&(const ::ActorUpdate3D::NiPoint3 &)(FUN_004a3760(reinterpret_cast<::fnv_008be940::FloatValueProvider *>(((*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer))))->FUN_008be940(), (*reinterpret_cast<::ActorUpdate3D::NiPoint3 *>((void *)&::DAT_011a9484)))), {})));
             NiBound kBound = *((::ActorUpdate3D::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((p3D))->FUN_0043d450()));
             float fDistance =
-                reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::ActorUpdate3D::NiPoint3 &)((*(::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCameraPos))->FUN_00439ef0((::NiPoint3 *)&(*((::ActorUpdate3D::NiPoint3 *)(new ((void *)&(kBound)) ::Vec3()))), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>(&(kBound))->GetStoredFloatValue() * ::DAT_01021798;
+                reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::ActorUpdate3D::NiPoint3 &)((*(::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCameraPos))->FUN_00439ef0((::NiPoint3 *)&(*((::ActorUpdate3D::NiPoint3 *)(((::Vec3 *)(void *)&(kBound))))), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>(&(kBound))->GetStoredFloatValue() * ::DAT_01021798;
             bool bFar = false;
             NiObject* pFade = p3D->FUN_vt10();
             if (pFade)
@@ -158492,10 +158503,10 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
                 if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kType))->FUN_0043b4d0() == 0x1d)
                     ::FUN_00c804d0((::WalkNode_c804 *)(pFaceRoot), 8);
                 reinterpret_cast<::fnv_00561580::FUN_00561580_Class *>((pData))->FUN_00561580(1);
-                while (pIter && ((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(new ((void *)(pIter)) ::Vec3())))))))
+                while (pIter && ((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(((::Vec3 *)(void *)(pIter)))))))))
                 {
                     FaceProp* pFace =
-                        (FaceProp*)((void *)(::FUN_00653270((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_012683ec))), (::NiObject *)((int)((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(new ((void *)(pIter)) ::Vec3()))))))))));
+                        (FaceProp*)((void *)(::FUN_00653270((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_012683ec))), (::NiObject *)((int)((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(((::Vec3 *)(void *)(pIter))))))))))));
                     if (pFace)
                     {
                         float fDesiredHeadingAngle = FUN_vt2bc(0);
@@ -158533,9 +158544,9 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
                 if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kType))->FUN_0043b4d0() == 0x1d)
                     ::FUN_00c804d0((::WalkNode_c804 *)(pFaceRoot), 8);
                 reinterpret_cast<::fnv_00561580::FUN_00561580_Class *>((pData))->FUN_00561580(1);
-                while (pIter && ((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(new ((void *)(pIter)) ::Vec3())))))))
+                while (pIter && ((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(((::Vec3 *)(void *)(pIter)))))))))
                 {
-                    PropertyHolder* pProps = (PropertyHolder*)((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(new ((void *)(pIter)) ::Vec3()))))));
+                    PropertyHolder* pProps = (PropertyHolder*)((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(((::Vec3 *)(void *)(pIter))))))));
                     ShaderProp* pShader = pProps->FUN_vt44();
                     if (pShader)
                     {
@@ -159420,17 +159431,17 @@ __declspec(noinline) PoseTransform* FUN_00c74dd0(void* ptr,NiTransform_o2_nood_r
  PoseTransform* output=static_cast<PoseTransform*>(ptr);
  MatrixQuaternion matrixQ; matrixQ.FUN_00a6df40(&source->rotation);
  Quat q;
- q.m_vec.bits.quad.m128_f32[0]=matrixQ.x;
- q.m_vec.bits.quad.m128_f32[1]=matrixQ.y;
- q.m_vec.bits.quad.m128_f32[2]=matrixQ.z;
- q.m_vec.bits.quad.m128_f32[3]=matrixQ.w;
+ q.m_vec.bits.quad[0]=matrixQ.x;
+ q.m_vec.bits.quad[1]=matrixQ.y;
+ q.m_vec.bits.quad[2]=matrixQ.z;
+ q.m_vec.bits.quad[3]=matrixQ.w;
  ((NormalizeView*)&q)->FUN_005611c0();
  output->rotation=q;
  V4 translation;
- translation.bits.quad.m128_f32[0]=source->x*DAT_01267c20;
- translation.bits.quad.m128_f32[1]=source->y*DAT_01267c20;
- translation.bits.quad.m128_f32[2]=source->z*DAT_01267c20;
- translation.bits.quad.m128_f32[3]=0.0f;
+ translation.bits.quad[0]=source->x*DAT_01267c20;
+ translation.bits.quad[1]=source->y*DAT_01267c20;
+ translation.bits.quad[2]=source->z*DAT_01267c20;
+ translation.bits.quad[3]=0.0f;
  output->translation=translation;
  output->scale.bits.quad=LoadScalar(&source->scale);
  return output;
@@ -162003,7 +162014,7 @@ float xActor::FUN_008bdbd0(xActor* apTarget, float afHeight)
     reinterpret_cast<::FUN_004a0c90_shell *>(&(MAT))->FUN_004a0c90(FUN_2bc(0) + afHeight);
     reinterpret_cast<::FUN_00439f50_class *>(&(MAT))->FUN_00439f50(1, (::NiPoint3 *)&(DIR));
     reinterpret_cast<::FUN_004a0c10_s *>(&(DIR))->FUN_004a0c10();
-    xP3 TPOS = *((::fnv_008bdbd0::xP3 *)(new ((void *)(((::fnv_008bdbd0::xBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((apTarget->FUN_1d0()))->FUN_0043d450())))) ::Vec3()));
+    xP3 TPOS = *((::fnv_008bdbd0::xP3 *)(((::Vec3 *)(void *)(((::fnv_008bdbd0::xBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((apTarget->FUN_1d0()))->FUN_0043d450()))))));
     bool DONE = false;
     float RESULT = 0.0f;
     for (int I = 0; !DONE && I < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008bdbd0::xFltSetting *>(&::originalRuntimeFloatSetting1071)))))); I++)
@@ -164604,9 +164615,9 @@ void kSelf::FUN_0094cae0(kActor* p)
         (*reinterpret_cast<::fnv_0094cae0::kE * *>(&::DAT_011dd380)) = 0;
         kRList2 list;
         kNodeT<kRef>* n = &m764 ? &m764.head : 0;
-        while (n && *((::fnv_0094cae0::kRef **)(new ((void *)(n)) ::Vec3())))
+        while (n && *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(n)))))
         {
-            kRef* x = *((::fnv_0094cae0::kRef **)(new ((void *)(n)) ::Vec3()));
+            kRef* x = *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(n))));
             if (x)
                 list.FUN_005ae3d0(&x);
             n = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((n))->FUN_00726070()));
@@ -164615,7 +164626,7 @@ void kSelf::FUN_0094cae0(kActor* p)
         kE* best = 0;
         kRefList* rl = ((::fnv_0094cae0::kRefList *)(reinterpret_cast<::TESObjectCELL *>((p))->GetRegionList(1)));
         kRef* ref;
-        for (kNodeT<kRef>* it = rl ? &rl->head : 0; it && (ref = *((::fnv_0094cae0::kRef **)(new ((void *)(it)) ::Vec3()))) != 0; it = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((it))->FUN_00726070())))
+        for (kNodeT<kRef>* it = rl ? &rl->head : 0; it && (ref = *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(it))))) != 0; it = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((it))->FUN_00726070())))
         {
             kP2 pos(&((::fnv_0094cae0::kArea *)(reinterpret_cast<::BGSCameraPath *>(this)->GetShotList()))->pos);
             kNodeT<kRef>* sub = 0;
@@ -164624,7 +164635,7 @@ void kSelf::FUN_0094cae0(kActor* p)
                 continue;
             bool done = false;
             kShape* sh;
-            for (kNodeT<kShape>* m = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::BGSTerrainManager *>((ref))->GetMinLevel())); !done && m && (sh = *((::fnv_0094cae0::kShape **)(new ((void *)(m)) ::Vec3()))) != 0; m = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::Callees *>((m))->FUN_00726070())))
+            for (kNodeT<kShape>* m = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::BGSTerrainManager *>((ref))->GetMinLevel())); !done && m && (sh = *((::fnv_0094cae0::kShape **)(((::Vec3 *)(void *)(m))))) != 0; m = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::Callees *>((m))->FUN_00726070())))
             {
                 if (reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&pos)))
                 {
@@ -164642,9 +164653,9 @@ void kSelf::FUN_0094cae0(kActor* p)
                         if (!best || best == e)
                         {
                             sub = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(::GetOffsetC((int)(e))));
-                            while (sub && *((::fnv_0094cae0::kRef **)(new ((void *)(sub)) ::Vec3())))
+                            while (sub && *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(sub)))))
                             {
-                                m774.FUN_005ae3d0(((::fnv_0094cae0::kRef **)(new ((void *)(sub)) ::Vec3())));
+                                m774.FUN_005ae3d0(((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(sub)))));
                                 sub = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((sub))->FUN_00726070()));
                             }
                             if (e->v30())
@@ -164713,9 +164724,9 @@ void kSelf::FUN_0094cae0(kActor* p)
         reinterpret_cast<::FUN_00947d80_cls *>(this)->FUN_00947d80();
         reinterpret_cast<::FUN_009480c0_shell *>(this)->FUN_009480c0();
         kNodeT<kRef>* n2 = &list.head;
-        while (n2 && *((::fnv_0094cae0::kRef **)(new ((void *)(n2)) ::Vec3())))
+        while (n2 && *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(n2)))))
         {
-            kRef* x = *((::fnv_0094cae0::kRef **)(new ((void *)(n2)) ::Vec3()));
+            kRef* x = *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(n2))));
             if (x)
             {
                 kE* e = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(reinterpret_cast<::FUN_009611e0_shell *>((x))->FUN_009611e0()))))->FUN_004f35b0({})));
@@ -164728,9 +164739,9 @@ void kSelf::FUN_0094cae0(kActor* p)
             n2 = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((n2))->FUN_00726070()));
         }
         n2 = &m764 ? &m764.head : 0;
-        while (n2 && *((::fnv_0094cae0::kRef **)(new ((void *)(n2)) ::Vec3())))
+        while (n2 && *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(n2)))))
         {
-            kRef* x = *((::fnv_0094cae0::kRef **)(new ((void *)(n2)) ::Vec3()));
+            kRef* x = *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(n2))));
             if (x)
             {
                 kE* e = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(reinterpret_cast<::FUN_009611e0_shell *>((x))->FUN_009611e0()))))->FUN_004f35b0({})));
@@ -164740,10 +164751,10 @@ void kSelf::FUN_0094cae0(kActor* p)
                     kNodeT<kRef>* k = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::TESTopicInfoData *>((e2))->GetLinkToList()));
                     while (k)
                     {
-                        if (*((::fnv_0094cae0::kRef **)(new ((void *)(k)) ::Vec3())))
+                        if (*((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(k)))))
                         {
-                            reinterpret_cast<::CellView *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00548230((::RefView *)(*((::fnv_0094cae0::kRef **)(new ((void *)(k)) ::Vec3()))), 0);
-                            ::FUN_004f24e0((::TESSound *)(*((::fnv_0094cae0::kRef **)(new ((void *)(k)) ::Vec3()))), 1, 0);
+                            reinterpret_cast<::CellView *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00548230((::RefView *)(*((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(k))))), 0);
+                            ::FUN_004f24e0((::TESSound *)(*((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(k))))), 1, 0);
                         }
                         k = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((k))->FUN_00726070()));
                     }

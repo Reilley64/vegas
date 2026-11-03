@@ -1487,7 +1487,7 @@ Str Self::PlaySoundOnObject(Arg* arg, int p2, bool p3, bool abSkipSpawn, int aiU
             {
                 if (!abSkipSpawn)
                 {
-                    Spawn(((const char *)(::FUN_00559450((int *)(((::Named *)(new ((void *)(obj)) ::Vec3())))))), result, *GetPos(), p2, 1);
+                    Spawn(((const char *)(::FUN_00559450((int *)(((::Named *)(((::Vec3 *)(void *)(obj)))))))), result, *GetPos(), p2, 1);
                 }
             }
         }

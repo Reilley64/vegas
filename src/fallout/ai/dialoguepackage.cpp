@@ -1271,7 +1271,7 @@ void Dialogue114::FUN_009ee0a0(bool process)
                             reinterpret_cast<::FUN_008a5cf0_shell *>((speaker23))->SetFlag86(((bool)(reinterpret_cast<::TESObjectCELL *>((response))->GetField24())));
                             float duration13 = speaker23->v284(
                                 ((void *)(::FUN_00559450((int *)&(text6)))), &sound, ((::Obj114 *)(reinterpret_cast<::Twin_0044ddc0 *>((response))->GetName())), ((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((response))->FUN_0084e3a0())),
-                                ((void *)(reinterpret_cast<::FUN_004048e0_cls *>((((::Obj114 *)(new ((void *)(response)) ::Vec3()))))->FUN_004048e0())), ((::Obj114 *)(reinterpret_cast<::FUN_009611e0_shell *>((response))->FUN_009611e0())),
+                                ((void *)(reinterpret_cast<::FUN_004048e0_cls *>((((::Obj114 *)(((::Vec3 *)(void *)(response))))))->FUN_004048e0())), ((::Obj114 *)(reinterpret_cast<::FUN_009611e0_shell *>((response))->FUN_009611e0())),
                                 ((::Obj114 *)(reinterpret_cast<::BGSTerrainManager *>((response))->GetMinLevel())), second, 1, 0, 1, 1, flagA0);
                             if (third)
                             {
@@ -1285,7 +1285,7 @@ void Dialogue114::FUN_009ee0a0(bool process)
                                     reinterpret_cast<::FUN_008a5cf0_shell *>((third))->SetFlag86(((bool)(reinterpret_cast<::TESObjectCELL *>((response))->GetField24())));
                                     duration13 = third->v284(
                                         ((void *)(::FUN_00559450((int *)&(text6)))), &sound, ((::Obj114 *)(reinterpret_cast<::Twin_0044ddc0 *>((response))->GetName())),
-                                        ((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((response))->FUN_0084e3a0())), ((void *)(reinterpret_cast<::FUN_004048e0_cls *>((((::Obj114 *)(new ((void *)(response)) ::Vec3()))))->FUN_004048e0())),
+                                        ((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((response))->FUN_0084e3a0())), ((void *)(reinterpret_cast<::FUN_004048e0_cls *>((((::Obj114 *)(((::Vec3 *)(void *)(response))))))->FUN_004048e0())),
                                         ((::Obj114 *)(reinterpret_cast<::FUN_009611e0_shell *>((response))->FUN_009611e0())), ((::Obj114 *)(reinterpret_cast<::BGSTerrainManager *>((response))->GetMinLevel())), target20, 0, 0, 0, 1, 1);
                                 }
                             }
@@ -1312,7 +1312,7 @@ void Dialogue114::FUN_009ee0a0(bool process)
                                 current = speaker23;
                                 reinterpret_cast<::FUN_008a5cf0_shell *>((speaker23))->SetFlag86(((bool)(reinterpret_cast<::TESObjectCELL *>((response))->GetField24())));
                                 speaker23->v284(((void *)(::FUN_00559450((int *)&(text6)))), &sound, ((::Obj114 *)(reinterpret_cast<::Twin_0044ddc0 *>((response))->GetName())),
-                                                ((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((response))->FUN_0084e3a0())), ((void *)(reinterpret_cast<::FUN_004048e0_cls *>((((::Obj114 *)(new ((void *)(response)) ::Vec3()))))->FUN_004048e0())),
+                                                ((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((response))->FUN_0084e3a0())), ((void *)(reinterpret_cast<::FUN_004048e0_cls *>((((::Obj114 *)(((::Vec3 *)(void *)(response))))))->FUN_004048e0())),
                                                 ((::Obj114 *)(reinterpret_cast<::FUN_009611e0_shell *>((response))->FUN_009611e0())), ((::Obj114 *)(reinterpret_cast<::BGSTerrainManager *>((response))->GetMinLevel())), second, 1, 0, 0, 1,
                                                 flagA0);
                                 if (third)
@@ -1329,7 +1329,7 @@ void Dialogue114::FUN_009ee0a0(bool process)
                                             reinterpret_cast<::FUN_008a5cf0_shell *>((third))->SetFlag86(((bool)(reinterpret_cast<::TESObjectCELL *>((response))->GetField24())));
                                             third->v284(((void *)(::FUN_00559450((int *)&(text6)))), &sound, ((::Obj114 *)(reinterpret_cast<::Twin_0044ddc0 *>((response))->GetName())),
                                                         ((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((response))->FUN_0084e3a0())),
-                                                        ((void *)(reinterpret_cast<::FUN_004048e0_cls *>((((::Obj114 *)(new ((void *)(response)) ::Vec3()))))->FUN_004048e0())),
+                                                        ((void *)(reinterpret_cast<::FUN_004048e0_cls *>((((::Obj114 *)(((::Vec3 *)(void *)(response))))))->FUN_004048e0())),
                                                         ((::Obj114 *)(reinterpret_cast<::FUN_009611e0_shell *>((response))->FUN_009611e0())), ((::Obj114 *)(reinterpret_cast<::BGSTerrainManager *>((response))->GetMinLevel())), target24, 0,
                                                         0, 0, 1, 1);
                                         }
@@ -1379,7 +1379,7 @@ void Dialogue114::FUN_009ee0a0(bool process)
                         reinterpret_cast<::FUN_008a5cf0_shell *>((third))->SetFlag86(((bool)(reinterpret_cast<::TESObjectCELL *>((response))->GetField24())));
                         current = third;
                         third->v284(((void *)(::FUN_00559450((int *)&(text22)))), &sound, ((::Obj114 *)(reinterpret_cast<::Twin_0044ddc0 *>((response))->GetName())), ((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((response))->FUN_0084e3a0())),
-                                    ((void *)(reinterpret_cast<::FUN_004048e0_cls *>((((::Obj114 *)(new ((void *)(response)) ::Vec3()))))->FUN_004048e0())), ((::Obj114 *)(reinterpret_cast<::FUN_009611e0_shell *>((response))->FUN_009611e0())),
+                                    ((void *)(reinterpret_cast<::FUN_004048e0_cls *>((((::Obj114 *)(((::Vec3 *)(void *)(response))))))->FUN_004048e0())), ((::Obj114 *)(reinterpret_cast<::FUN_009611e0_shell *>((response))->FUN_009611e0())),
                                     ((::Obj114 *)(reinterpret_cast<::BGSTerrainManager *>((response))->GetMinLevel())), second, 0, 0, 0, 1, 1);
                         Manager114* manager45 = ((::Manager114 *)(::FUN_00ad9060()));
                         reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager45))->FUN_00adbfd0((int)(((void *)(::FUN_00559450((int *)&(sound))))), (int)(((void (&)())::FUN_00936ac0)), (int)(((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((third))->FUN_0084e3a0()))));
@@ -1400,10 +1400,10 @@ void Dialogue114::FUN_009ee0a0(bool process)
                 }
                 if ((this == (*reinterpret_cast<::Player114 * *>(&::_g_thePlayer))->process || (*reinterpret_cast<unsigned char *>(&::DAT_011f122d))) && ((::Obj114 *)(reinterpret_cast<::DialogueItem *>((list))->GetActiveResponse())) &&
                     ((::Obj114 *)(reinterpret_cast<::DialogueItem *>((((::Obj114 *)(reinterpret_cast<::DialogueItem *>((list))->GetActiveResponse()))))->GetActiveResponse())) &&
-                    ((void *)(::FUN_00559450((int *)(((::Obj114 *)(new ((void *)(((::Obj114 *)(reinterpret_cast<::DialogueItem *>((((::Obj114 *)(reinterpret_cast<::DialogueItem *>((list))->GetActiveResponse()))))->GetActiveResponse())))) ::Vec3())))))))
+                    ((void *)(::FUN_00559450((int *)(((::Obj114 *)(((::Vec3 *)(void *)(((::Obj114 *)(reinterpret_cast<::DialogueItem *>((((::Obj114 *)(reinterpret_cast<::DialogueItem *>((list))->GetActiveResponse()))))->GetActiveResponse())))))))))))
                 {
                     if (*(*reinterpret_cast<::Setting114 *>(&::g_011d8928)).FUN_00408d60() || (actor18->v100() && ::FUN_008c1bc0((int)(actor18))))
-                        FUN_00705210(((void *)(::FUN_00559450((int *)(((::Obj114 *)(new ((void *)(((::Obj114 *)(reinterpret_cast<::DialogueItem *>((((::Obj114 *)(reinterpret_cast<::DialogueItem *>((list))->GetActiveResponse()))))->GetActiveResponse())))) ::Vec3())))))), sound,
+                        FUN_00705210(((void *)(::FUN_00559450((int *)(((::Obj114 *)(((::Vec3 *)(void *)(((::Obj114 *)(reinterpret_cast<::DialogueItem *>((((::Obj114 *)(reinterpret_cast<::DialogueItem *>((list))->GetActiveResponse()))))->GetActiveResponse())))))))))), sound,
                                      actor18->v1f4(), second, 0);
                 }
                 if (delay <= 0.0 && second != actor18)

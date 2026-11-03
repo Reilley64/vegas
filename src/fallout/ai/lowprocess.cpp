@@ -644,7 +644,7 @@ void LowProcess::Update(MobileObject* mobile)
                 while (!reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(ReferenceListNode).IsEmpty())
                 {
                     TargetDoorController* item = reinterpret_cast<TargetDoorController*&>(
-                        ((::TESObjectREFR *)(new ((void *)&(reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(ReferenceListNode))) ::Vec3())));
+                        ((::TESObjectREFR *)(((::Vec3 *)(void *)&(reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(ReferenceListNode))))));
                     delete reinterpret_cast<Date*>(item);
                     reinterpret_cast<::ItemChangeListNode *>(&(reinterpret_cast<BSSimpleList<TESPackage*>&>(ReferenceListNode)))->FUN_00905330((::InventoryStackRecord *const &)(reinterpret_cast<TESPackage* const&>(item)));
                 }
@@ -851,7 +851,7 @@ bool LowProcess::CanProcessActor(Actor* actor, bool force)
             while (!reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(ReferenceListNode).IsEmpty())
             {
                 TargetDoorController* item = reinterpret_cast<TargetDoorController*&>(
-                    ((::TESObjectREFR *)(new ((void *)&(reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(ReferenceListNode))) ::Vec3())));
+                    ((::TESObjectREFR *)(((::Vec3 *)(void *)&(reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(ReferenceListNode))))));
                 delete reinterpret_cast<Date*>(item);
                 reinterpret_cast<::ItemChangeListNode *>(&(reinterpret_cast<BSSimpleList<TESPackage*>&>(ReferenceListNode)))->FUN_00905330((::InventoryStackRecord *const &)(reinterpret_cast<TESPackage* const&>(item)));
             }
@@ -898,7 +898,7 @@ void LowProcess::SetMobileObjectState(MobileObject* mobile, bool runEvents)
                     TESPackage* package;
                     PackageTargetRecord* target;
                 } context;
-                context.package = ((::TESPackage *)(new ((void *)(state.cursor)) ::Vec3()));
+                context.package = ((::TESPackage *)(((::Vec3 *)(void *)(state.cursor))));
                 context.targetRef = 0;
                 context.target = ((::PackageTargetRecord *)(reinterpret_cast<::Script *>((context.package))->GetData()));
                 if (context.target)
@@ -1148,7 +1148,7 @@ TESObjectREFR* LowProcess::ResolvePackageTarget(Actor* actor, TESPackage* packag
                                 int index = 0;
                                 while (list && !list->IsEmpty() && m_sFourthValue <= index)
                                 {
-                                    TESForm* item = ((::TESForm *)(new ((void *)(list)) ::Vec3()));
+                                    TESForm* item = (((list))->m_item);
                                     list = ((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                                     ++index;
                                 }
@@ -1213,7 +1213,7 @@ TESObjectREFR* LowProcess::ResolvePackageTarget(Actor* actor, TESPackage* packag
             if (!reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(ReferenceListNode).IsEmpty())
             {
                 m_pDetectionData60 = reinterpret_cast<TargetDoorController*&>(
-                    ((::TESObjectREFR *)(new ((void *)&(reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(ReferenceListNode))) ::Vec3())));
+                    ((::TESObjectREFR *)(((::Vec3 *)(void *)&(reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(ReferenceListNode))))));
                 if (m_pDetectionData60->eType == 2)
                 {
                     if (m_pDetectionData60->pObject->IsActor())
@@ -1711,7 +1711,7 @@ void LowProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
     BSSimpleList<TESObjectREFR*>* m_pPreviousBlock = 0;
     while (node && !node->IsEmpty())
     {
-        TESObjectREFR* item = ((::TESObjectREFR *)(new ((void *)(node)) ::Vec3()));
+        TESObjectREFR* item = (((node))->m_item);
         bool remove = false;
         if (item)
         {
@@ -1727,7 +1727,7 @@ void LowProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
         {
             if (m_pPreviousBlock)
             {
-                reinterpret_cast<::ItemChangeListNode *>((reinterpret_cast<BSSimpleList<TESPackage*>*>(m_pPreviousBlock)))->FUN_00905330((::InventoryStackRecord *const &)(reinterpret_cast<TESPackage* const&>(((::TESObjectREFR *)(new ((void *)(node)) ::Vec3())))));
+                reinterpret_cast<::ItemChangeListNode *>((reinterpret_cast<BSSimpleList<TESPackage*>*>(m_pPreviousBlock)))->FUN_00905330((::InventoryStackRecord *const &)(reinterpret_cast<TESPackage* const&>((((node))->m_item))));
                 node = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((m_pPreviousBlock))->FUN_00726070()));
             }
             else
@@ -1837,15 +1837,15 @@ TESObjectREFR* LowProcess::ResolvePackageLocation(Actor* actor, TESPackage* pack
                 m_eReferenceTypeInfo = static_cast<PACKAGE_OBJECT_TYPE>(0);
                 m_pBoundObject78 = 0;
                 search.node = &m_kReferenceList70;
-                while (search.node && ((::TESObjectREFR *)(new ((void *)(search.node)) ::Vec3())))
+                while (search.node && ((::TESObjectREFR *)(((::Vec3 *)(void *)(search.node)))))
                 {
-                    m_kReferenceList68.AddHead(((::TESObjectREFR *)(new ((void *)(search.node)) ::Vec3())));
+                    m_kReferenceList68.AddHead(((::TESObjectREFR *)(((::Vec3 *)(void *)(search.node)))));
                     search.node->RemoveHead();
                 }
             }
             if (!m_kReferenceList68.IsEmpty())
             {
-                result = ((::TESObjectREFR *)(new ((void *)&(m_kReferenceList68)) ::Vec3()));
+                result = ((::TESObjectREFR *)(((::Vec3 *)(void *)&(m_kReferenceList68))));
                 m_kReferenceList68.RemoveHead();
             }
         }
@@ -1871,7 +1871,7 @@ void LowProcess::ClearData()
     while (!reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(ReferenceListNode).IsEmpty())
     {
         TargetDoorController* item = reinterpret_cast<TargetDoorController*&>(
-            ((::TESObjectREFR *)(new ((void *)&(reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(ReferenceListNode))) ::Vec3())));
+            ((::TESObjectREFR *)(((::Vec3 *)(void *)&(reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(ReferenceListNode))))));
         reinterpret_cast<::ItemChangeListNode *>(&(reinterpret_cast<BSSimpleList<TESPackage*>&>(ReferenceListNode)))->FUN_00905330((::InventoryStackRecord *const &)(reinterpret_cast<TESPackage* const&>(item)));
         delete reinterpret_cast<Date*>(item);
     }
@@ -1880,7 +1880,7 @@ void LowProcess::ClearData()
     while (!reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(m_kDetectionDataList).IsEmpty())
     {
         TargetDoorController* item = reinterpret_cast<TargetDoorController*&>(
-            ((::TESObjectREFR *)(new ((void *)&(reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(m_kDetectionDataList))) ::Vec3())));
+            ((::TESObjectREFR *)(((::Vec3 *)(void *)&(reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(m_kDetectionDataList))))));
         reinterpret_cast<::ItemChangeListNode *>(&(reinterpret_cast<BSSimpleList<TESPackage*>&>(m_kDetectionDataList)))->FUN_00905330((::InventoryStackRecord *const &)(reinterpret_cast<TESPackage* const&>(item)));
         delete reinterpret_cast<Date*>(item);
     }
@@ -1904,10 +1904,10 @@ void LowProcess::ClearReferenceRecords(TESObjectREFR* reference)
     }
     BSSimpleList<TargetDoorController*>* node = &ReferenceListNode;
     while (node &&
-           reinterpret_cast<TargetDoorController*&>(((::TESObjectREFR *)(new ((void *)(reinterpret_cast<BSSimpleList<TESObjectREFR*>*>(node))) ::Vec3()))))
+           reinterpret_cast<TargetDoorController*&>((((reinterpret_cast<BSSimpleList<TESObjectREFR*>*>(node)))->m_item)))
     {
         TargetDoorController* item =
-            reinterpret_cast<TargetDoorController*&>(((::TESObjectREFR *)(new ((void *)(reinterpret_cast<BSSimpleList<TESObjectREFR*>*>(node))) ::Vec3())));
+            reinterpret_cast<TargetDoorController*&>((((reinterpret_cast<BSSimpleList<TESObjectREFR*>*>(node)))->m_item));
         if (item->pObject == reference)
         {
             reinterpret_cast<::ItemChangeListNode *>(&(reinterpret_cast<BSSimpleList<TESPackage*>&>(ReferenceListNode)))->FUN_00905330((::InventoryStackRecord *const &)(reinterpret_cast<TESPackage* const&>(item)));
@@ -1922,9 +1922,9 @@ void LowProcess::ClearReferenceRecords(TESObjectREFR* reference)
         m_pReference40 = 0;
     BSSimpleList<TESObjectREFR*>* current = &m_kReferenceList68;
     BSSimpleList<TESObjectREFR*>* previous = 0;
-    while (current && ((::TESObjectREFR *)(new ((void *)(current)) ::Vec3())))
+    while (current && (((current))->m_item))
     {
-        TESObjectREFR* item = ((::TESObjectREFR *)(new ((void *)(current)) ::Vec3()));
+        TESObjectREFR* item = (((current))->m_item);
         if (item == reference)
         {
             if (previous)
@@ -1966,7 +1966,7 @@ void LowProcess::UpdateCurrentPackage(Actor* actor)
     while (!reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(ReferenceListNode).IsEmpty())
     {
         TargetDoorController* item = reinterpret_cast<TargetDoorController*&>(
-            ((::TESObjectREFR *)(new ((void *)&(reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(ReferenceListNode))) ::Vec3())));
+            ((::TESObjectREFR *)(((::Vec3 *)(void *)&(reinterpret_cast<BSSimpleList<TESObjectREFR*>&>(ReferenceListNode))))));
         delete reinterpret_cast<Date*>(item);
         reinterpret_cast<::ItemChangeListNode *>(&(reinterpret_cast<BSSimpleList<TESPackage*>&>(ReferenceListNode)))->FUN_00905330((::InventoryStackRecord *const &)(reinterpret_cast<TESPackage* const&>(item)));
     }
@@ -4274,9 +4274,9 @@ void FUN_0090d240_stand::FUN_0090d240(Actor* apActor)
         {
             CrimeList* pCurrentElementNext = ((::CrimeList *)(reinterpret_cast<::TESDataHandler *>((ppack))->GetTESClassList()));
             bool bcombatflag = false;
-            while (pCurrentElementNext && *((::Crime **)(new ((void *)(pCurrentElementNext)) ::Vec3())) && !bcombatflag)
+            while (pCurrentElementNext && *((::Crime **)(((::Vec3 *)(void *)(pCurrentElementNext)))) && !bcombatflag)
             {
-                Crime* pcrime = *((::Crime **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+                Crime* pcrime = *((::Crime **)(((::Vec3 *)(void *)(pCurrentElementNext))));
                 TESObjectREFR* pcrimeRef = 0;
                 Actor* pcrimeAct = 0;
                 Actor* pactor = ((::Actor *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pcrime))->FUN_0084e3a0()));
@@ -7600,9 +7600,9 @@ void OwnerProxy::RemoveById(unsigned int id)
         unk68 = 0;
     }
     ItemList* node = &list5c;
-    while (node && ((::ItemProxy *)(new ((void *)(node)) ::Vec3())))
+    while (node && ((::ItemProxy *)(((::Vec3 *)(void *)(node)))))
     {
-        ItemProxy* item = ((::ItemProxy *)(new ((void *)(node)) ::Vec3()));
+        ItemProxy* item = ((::ItemProxy *)(((::Vec3 *)(void *)(node))));
         if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((item->ref))->FUN_0084e3a0())) == id)
         {
             reinterpret_cast<::ItemChangeListNode *>(&(list5c))->FUN_00905330((*(::InventoryStackRecord *const *)(&item)));
@@ -7618,9 +7618,9 @@ void OwnerProxy::RemoveById(unsigned int id)
         unk44 = 0;
     RefList* next = &list6c;
     RefList* previous = 0;
-    while (next && ((::RefProxy *)(new ((void *)(next)) ::Vec3())))
+    while (next && ((::RefProxy *)(((::Vec3 *)(void *)(next)))))
     {
-        RefProxy* object = ((::RefProxy *)(new ((void *)(next)) ::Vec3()));
+        RefProxy* object = ((::RefProxy *)(((::Vec3 *)(void *)(next))));
         if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((object))->FUN_0084e3a0())) == id)
         {
             if (previous)
@@ -8126,10 +8126,10 @@ bool __cdecl CheckPackageMatch(Ref57* ref, long aTargetRef)
             BaseNode57* node = 0;
             if (((::BaseList57 *)(reinterpret_cast<::FUN_004bffb0_shell *>((inventory27))->FUN_004bffb0())))
                 node = ((::BaseNode57 *)(reinterpret_cast<::BaseProcess *>((((::BaseList57 *)(reinterpret_cast<::FUN_004bffb0_shell *>((inventory27))->FUN_004bffb0()))))->GetCurrentProcessData()));
-            while (node && *((::BaseItem57 **)(new ((void *)(node)) ::Vec3())))
+            while (node && *((::BaseItem57 **)(((::Vec3 *)(void *)(node)))))
             {
                 bool baseMatch76 = false;
-                BaseItem57* base14 = *((::BaseItem57 **)(new ((void *)(node)) ::Vec3()));
+                BaseItem57* base14 = *((::BaseItem57 **)(((::Vec3 *)(void *)(node))));
                 if (base14)
                 {
                     FUN_004459e0_Entry57* existing = ((::FUN_004459e0_Entry57 *)(reinterpret_cast<::Rebuild004d0650::Inventory *>((inventory27))->FUN_004d0650((::Rebuild004d0650::Object *)(base14->form), 0)));
@@ -8201,7 +8201,7 @@ bool __cdecl CheckPackageMatch(Ref57* ref, long aTargetRef)
                             record101->count = 1;
                         reinterpret_cast<::Callees *>(&(package4->list))->FUN_00905820((void *)&(record101));
                         if (((::ExtraNode57 *)(::FUN_00559450((int *)(entry)))))
-                            record101->extra = *((::Extra57 **)(new ((void *)(((::ExtraNode57 *)(::FUN_00559450((int *)(entry)))))) ::Vec3()));
+                            record101->extra = *((::Extra57 **)(((::Vec3 *)(void *)(((::ExtraNode57 *)(::FUN_00559450((int *)(entry))))))));
                     }
                 }
                 delete entry;
@@ -8663,7 +8663,7 @@ void FUN_00910450_shell::FUN_00910450(BGSSaveFormBuffer* apBuffer)
     BSSimpleList<Actor*>* pNode = &kActors;
     while (pNode)
     {
-        Actor* pActor = ((::Actor *)(new ((void *)(pNode)) ::Vec3()));
+        Actor* pActor = (((pNode))->m_item);
         if (pActor)
         {
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((FUN_00865df0_buf*)apBuffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(pActor), 0);
@@ -11300,15 +11300,15 @@ void Host911b00::UpdateFollowerList(TESObjectREFR* pRef, float time)
         List_009e03e0* pNode6 = pTempX;
         List_009e03e0* pCur_2 = pFol->m_pkList;
 
-        while (pCur_2 != 0 && *((::TESObjectREFR **)(new ((void *)(pCur_2)) ::Vec3())) != 0)
+        while (pCur_2 != 0 && *((::TESObjectREFR **)(((::Vec3 *)(void *)(pCur_2)))) != 0)
         {
-            reinterpret_cast<::Callees *>((pTempX))->FUN_00905820((void *)&(*((::TESObjectREFR **)(new ((void *)(pCur_2)) ::Vec3()))));
+            reinterpret_cast<::Callees *>((pTempX))->FUN_00905820((void *)&(*((::TESObjectREFR **)(((::Vec3 *)(void *)(pCur_2))))));
             pCur_2 = ((::fnv_00911b00::List_009e03e0 *)(reinterpret_cast<::Callees *>((pCur_2))->FUN_00726070()));
         }
 
-        while (pNode6 != 0 && *((::TESObjectREFR **)(new ((void *)(pNode6)) ::Vec3())) != 0)
+        while (pNode6 != 0 && *((::TESObjectREFR **)(((::Vec3 *)(void *)(pNode6)))) != 0)
         {
-            TESObjectREFR* pRef2 = *((::TESObjectREFR **)(new ((void *)(pNode6)) ::Vec3()));
+            TESObjectREFR* pRef2 = *((::TESObjectREFR **)(((::Vec3 *)(void *)(pNode6))));
 
             if (bFlag)
             {
@@ -11351,9 +11351,9 @@ void Host911b00::UpdateFollowerList(TESObjectREFR* pRef, float time)
         }
 
         pNode6 = pCopiedFollowerList;
-        while (pNode6 != 0 && *((::TESObjectREFR **)(new ((void *)(pNode6)) ::Vec3())) != 0)
+        while (pNode6 != 0 && *((::TESObjectREFR **)(((::Vec3 *)(void *)(pNode6)))) != 0)
         {
-            TESObjectREFR* pRef3 = *((::TESObjectREFR **)(new ((void *)(pNode6)) ::Vec3()));
+            TESObjectREFR* pRef3 = *((::TESObjectREFR **)(((::Vec3 *)(void *)(pNode6))));
             reinterpret_cast<::fnv_00422690::FUN_00422690_shell *>((((ExtraDataShell*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pRef))->FUN_005d43c0())))))->FUN_00422690((::fnv_00422690::Actor *)(pRef3));
             pNode6 = ((::fnv_00911b00::List_009e03e0 *)(reinterpret_cast<::Callees *>((pNode6))->FUN_00726070()));
         }
@@ -11968,7 +11968,7 @@ void AcquireProcess::FUN_00909430(AcquireActor* actor)
             {
                 ExtraDataList* xData = 0;
                 if (((::EntryExtendList *)(::FUN_00559450((int *)(entry)))))
-                    xData = *((::ExtraDataList **)(new ((void *)(((::EntryExtendList *)(::FUN_00559450((int *)(entry)))))) ::Vec3()));
+                    xData = *((::ExtraDataList **)(((::Vec3 *)(void *)(((::EntryExtendList *)(::FUN_00559450((int *)(entry))))))));
                 void* ownerTmp = 0;
                 if (xData != 0 && reinterpret_cast<::FUN_0041c8d0_shell *>((xData))->FUN_0041c8d0())
                     ownerTmp = ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Actor*)reinterpret_cast<::FUN_0041c8d0_shell *>((xData))->FUN_0041c8d0())))->FUN_0084e3a0()));
@@ -11982,7 +11982,7 @@ void AcquireProcess::FUN_00909430(AcquireActor* actor)
                 else
                 {
                     if (((::EntryExtendList *)(::FUN_00559450((int *)(entry)))))
-                        xData = *((::ExtraDataList **)(new ((void *)(((::EntryExtendList *)(::FUN_00559450((int *)(entry)))))) ::Vec3()));
+                        xData = *((::ExtraDataList **)(((::Vec3 *)(void *)(((::EntryExtendList *)(::FUN_00559450((int *)(entry))))))));
                     NiPoint3* posVal = 0;
                     PackageTargetData* target = ((::PackageTargetData *)(reinterpret_cast<::BGSMessageInitAccess *>((packageNum))->GetIconFormID()));
                     PackageLocationData* packageLocation = ((::PackageLocationData *)(reinterpret_cast<::Script *>((packageNum))->GetData()));
@@ -12307,7 +12307,7 @@ void ObjQ::ResetAndClear(unsigned int auiFlags, A2Q* a2)
         i58 = 0;
         while (!kList.FUN_008256d0())
         {
-            FUN_007b3fa0* pElem = *((::FUN_007b3fa0 **)(new ((void *)&(kList)) ::Vec3()));
+            FUN_007b3fa0* pElem = *((::FUN_007b3fa0 **)(((::Vec3 *)(void *)&(kList))));
             reinterpret_cast<::ItemChangeListNode *>(&(kList))->FUN_00905330((::InventoryStackRecord *const &)(pElem));
             delete pElem;
         }
@@ -13590,9 +13590,9 @@ void Proc907::FUN_00907d90(Act907* arg)
     bool bCB = pkg_h ? reinterpret_cast<::FUN_008e3100_class *>((pkg_h))->FUN_008e3100() : false;
     bool bDoneZ;
 
-    while (itF != 0 && ((::acquire907_rework::Acq907 *)(new ((void *)(itF)) ::Vec3())))
+    while (itF != 0 && ((::acquire907_rework::Acq907 *)(((::Vec3 *)(void *)(itF)))))
     {
-        Acq907* pNodeM = ((::acquire907_rework::Acq907 *)(new ((void *)(itF)) ::Vec3()));
+        Acq907* pNodeM = ((::acquire907_rework::Acq907 *)(((::Vec3 *)(void *)(itF))));
         TESObjectREFR* pRefA = pNodeM->pObject;
         TESObjectREFR* pOther3 = 0;
         TESBoundObject* pItemR = pNodeM->pItem;

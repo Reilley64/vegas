@@ -278,11 +278,11 @@ unsigned short FUN_004a4200_class::FUN_004a4200()
 struct MersenneTwister
 {
     static MersenneTwister* GetRandomGenerator();
-    void* FUN_004a4260();
+    float FUN_004a4260();
 };
 
 // @fnv 0x004a4240
-void* FUN_004a4240()
+float FUN_004a4240()
 {
     return MersenneTwister::GetRandomGenerator()->FUN_004a4260();
 }

@@ -504,7 +504,6 @@ struct FUN_0097b940_shell
 // @fnv 0x0097b940
 void FUN_0097b940_shell::FUN_0097b940()
 {
-    new ((void *)(reinterpret_cast<B006815c0*>(this))) ::Vec3();
 }
 
 struct FUN_0097b960_shell

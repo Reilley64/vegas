@@ -2,6 +2,7 @@
 
 #include <new>
 #include "fnv/decl/FUN_0041fd00_shell.h"
+#include "havok/hkMemoryRouter.h"
 #include "fnv/decl/FUN_008c7860_Class.h"
 #include "fnv/decl/MagicCaster_shell.h"
 #include "fnv/decl/QuantitySet.h"
@@ -17,12 +18,6 @@ class GlobalObject_008c71b0
   public:
     GlobalObject_008c71b0(int);
     GlobalObject_008c71b0(const GlobalObject_008c71b0&);
-};
-class hkMemoryAllocator
-{
-  public:
-    virtual void vfn_0();
-    virtual void* vfn_4(int);
 };
 class OSGlobals
 {
@@ -67,19 +62,19 @@ class AILinearTaskThread
 {
   public:
     char padding[0x50];
-    char memoryRouter[0x24];
+    hkMemoryRouter memoryRouter;
     void* memory;
     void StartTaskThread();
 };
 // @fnv 0x008c6ff0
 void AILinearTaskThread::StartTaskThread()
 {
-    ((::hkMemorySystem *)(::FUN_00cbbfc0()))->vfn_c(memoryRouter, "AILinearTaskThread", GlobalObject_008c71b0(1));
-    ::FUN_00cbb930(memoryRouter);
-    reinterpret_cast<::FUN_0041fd00_shell *>((((TESEnchantableForm*)memoryRouter)))->FUN_0041fd00((*(int *)&(const ::MagicSystem__CastingType &)((MagicSystem__CastingType)((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((((OSGlobals*)memoryRouter)))->FUN_0044edb0())))));
-    reinterpret_cast<::TESPackage *>((((InterfaceManager*)memoryRouter)))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((((OSGlobals*)memoryRouter)))->FUN_0044edb0()))));
-    memory = ((hkMemoryAllocator*)((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((((OSGlobals*)memoryRouter)))->FUN_0044edb0())))->vfn_4(0x32000);
-    reinterpret_cast<::QuantitySet *>((((hkMemorySystem*)&((::BGSPerkEntry *)(new ((void *)(((BSSimpleList<BGSPerkEntry*>*)memoryRouter))) ::Vec3())))))->FUN_008c70c0((unsigned int)(memory), 0x32000);
+    ((::hkMemorySystem *)(::FUN_00cbbfc0()))->vfn_c(&memoryRouter, "AILinearTaskThread", GlobalObject_008c71b0(1));
+    ::FUN_00cbb930(&memoryRouter);
+    memoryRouter.m_temp = memoryRouter.m_heap;
+    memoryRouter.m_solver = memoryRouter.m_heap;
+    memory = memoryRouter.m_heap->blockAlloc(0x32000);
+    reinterpret_cast<::QuantitySet *>(&memoryRouter)->FUN_008c70c0((uintptr_t)memory, 0x32000);
     (*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))->BuildCompiledFileList();
 }
 
@@ -132,5 +127,5 @@ void Thr::InitMemory()
     ((::Alloc *)(reinterpret_cast<::MagicCaster_shell *>(&(memoryRouter))->FUN_0044edb0()))->v8(memory, 0x32000);
     hkInit();
     ((::HkSys *)(::FUN_00cbbfc0()))->v10(&memoryRouter, GlobalObject_008c71b0(1));
-    reinterpret_cast<::QuantitySet *>((((::Fin *)(new ((void *)&(memoryRouter)) ::Vec3()))))->FUN_008c70c0({}, {});
+    reinterpret_cast<::QuantitySet *>((((::Fin *)(((::Vec3 *)(void *)&(memoryRouter))))))->FUN_008c70c0({}, {});
 }

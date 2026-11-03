@@ -643,8 +643,8 @@ void Search::PrintDebugInfo(Output* output, int x, int y)
         break;
     case 1:
         output->Print(x, y, DAT_01092078);
-        output->Print(x, y, DAT_0109205c, (*(const ::SearchDiagnostics::Vector *)(new ((void *)&(location)) ::Vec3())).x, (*(const ::SearchDiagnostics::Vector *)(new ((void *)&(location)) ::Vec3())).y,
-                      (*(const ::SearchDiagnostics::Vector *)(new ((void *)&(location)) ::Vec3())).z);
+        output->Print(x, y, DAT_0109205c, (*(const ::SearchDiagnostics::Vector *)(((::Vec3 *)(void *)&(location)))).x, (*(const ::SearchDiagnostics::Vector *)(((::Vec3 *)(void *)&(location)))).y,
+                      (*(const ::SearchDiagnostics::Vector *)(((::Vec3 *)(void *)&(location)))).z);
         output->Print(x, y, DAT_0108cfe4, ((::SearchDiagnostics::Reference *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(location))->FUN_0084e3a0()))->Name());
         break;
     case 2:
@@ -677,8 +677,8 @@ void Search::PrintDebugInfo(Output* output, int x, int y)
         break;
     case 8:
         output->Print(x, y, DAT_01091f60);
-        output->Print(x, y, DAT_0109205c, (*(const ::SearchDiagnostics::Vector *)(new ((void *)&(location)) ::Vec3())).x, (*(const ::SearchDiagnostics::Vector *)(new ((void *)&(location)) ::Vec3())).y,
-                      (*(const ::SearchDiagnostics::Vector *)(new ((void *)&(location)) ::Vec3())).z);
+        output->Print(x, y, DAT_0109205c, (*(const ::SearchDiagnostics::Vector *)(((::Vec3 *)(void *)&(location)))).x, (*(const ::SearchDiagnostics::Vector *)(((::Vec3 *)(void *)&(location)))).y,
+                      (*(const ::SearchDiagnostics::Vector *)(((::Vec3 *)(void *)&(location)))).z);
         output->Print(x, y, DAT_0108cfe4, ((::SearchDiagnostics::Reference *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(location))->FUN_0084e3a0()))->Name());
         break;
     }
@@ -1114,7 +1114,7 @@ void SearchProcedure::UpdateSearchState()
             if (pObj28 && reinterpret_cast<::FUN_00985bb0_Class *>((pObj28))->FUN_00985bb0() > ::DAT_0101db88)
             {
                 PathingRequestHelper req;
-                reinterpret_cast<::ActorStandIn *>((pActor2))->BuildPathingRequest((::PathingRequest *)(void *)(&req), (*(const ::NiPoint3 *)(&(*(const ::NiPoint3 *)(new ((void *)(pObj28)) ::Vec3())))), (::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pObj28))->FUN_0084e3a0()))), ::DAT_0101e704, (::PathingAvoidNodeArray *)(0));
+                reinterpret_cast<::ActorStandIn *>((pActor2))->BuildPathingRequest((::PathingRequest *)(void *)(&req), (*(const ::NiPoint3 *)(&(*(const ::NiPoint3 *)(((::Vec3 *)(void *)(pObj28)))))), (::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pObj28))->FUN_0084e3a0()))), ::DAT_0101e704, (::PathingAvoidNodeArray *)(0));
                 reinterpret_cast<::FUN_008e7c50_cls *>(&(req))->SetUseSoft(false);
                 if (!pActor2->SetPathingRequestAvoidNodes(&req))
                 {
@@ -1158,7 +1158,7 @@ void SearchProcedure::UpdateSearchState()
                             PathingRequestHelper req;
                             if (reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>((pTile2))->FUN_009a02a0((*(const ::fnv_009a02a0::CoordinateTriple *)(&loc1ac)), 1, 0))
                             {
-                                reinterpret_cast<::ActorStandIn *>((pActor2))->BuildPathingRequest((::PathingRequest *)(void *)(&req), (*(const ::NiPoint3 *)(((void *)(new ((void *)&(loc1ac)) ::Vec3())))), (::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(loc1ac))->FUN_0084e3a0()))),
+                                reinterpret_cast<::ActorStandIn *>((pActor2))->BuildPathingRequest((::PathingRequest *)(void *)(&req), (*(const ::NiPoint3 *)(((void *)(((::Vec3 *)(void *)&(loc1ac)))))), (::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(loc1ac))->FUN_0084e3a0()))),
                                                              ::DAT_0101e704, (::PathingAvoidNodeArray *)(0));
                                 if (!pActor2->SetPathingRequestAvoidNodes(&req))
                                 {
@@ -1194,12 +1194,12 @@ void SearchProcedure::UpdateSearchState()
                         if (pSearch && (*(unsigned char*)pSearch == 1 || *(unsigned char*)pSearch == 2 ||
                                         *(unsigned char*)pSearch == 3))
                         {
-                            losReq.FUN_006e5a40(*(NiPoint3*)&(*(const ::NiPoint3 *)(new ((void *)(((SearchRef*)((char*)pSearch + 8)))) ::Vec3())),
+                            losReq.FUN_006e5a40(*(NiPoint3*)&(*(const ::NiPoint3 *)(((::Vec3 *)(void *)(((SearchRef*)((char*)pSearch + 8)))))),
                                                 reinterpret_cast<::FUN_009a0b00_s *>((pTile2))->FUN_009a0b00());
                         }
                         if (pObj28 && ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pObj28))->FUN_0084e3a0())) == ((void *)(reinterpret_cast<::s575ca0::Owner *>((pActor2))->FUN_00575ca0())))
                         {
-                            reinterpret_cast<::PathingRequest *>(&(losReq))->SetDestination(&PathingLocation((*(const ::NiPoint3 *)(new ((void *)(pObj28)) ::Vec3())), pActor2));
+                            reinterpret_cast<::PathingRequest *>(&(losReq))->SetDestination(&PathingLocation((*(const ::NiPoint3 *)(((::Vec3 *)(void *)(pObj28)))), pActor2));
                         }
                         reinterpret_cast<::FUN_006e4340_Class *>(&(losReq))->FUN_006e4340(::DAT_010231a0);
                         reinterpret_cast<::FUN_008ad8f0Class *>(&(losReq))->SetByteAtOffset9B(0);
@@ -1245,7 +1245,7 @@ void SearchProcedure::UpdateSearchState()
                     ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting460))))->f * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting460))))->f)
                 {
                     PathingLocation loc39c(&this->location);
-                    if (FUN_006d7490(&loc39c, ((void *)(new ((void *)&(loc374)) ::Vec3())), 0, 0))
+                    if (FUN_006d7490(&loc39c, ((void *)(((::Vec3 *)(void *)&(loc374)))), 0, 0))
                     {
                         bFlag361 = true;
                     }

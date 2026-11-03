@@ -3481,7 +3481,7 @@ PathingAvoidNodeArray* AvoidWork::BuildAvoidNodes(AvoidActor* actor, PathingAvoi
         {
             if (!h)
                 h = new PathingAvoidNodeArray;
-            reinterpret_cast<::FUN_00905450_StandIn *>((h))->AppendNode((::PathingAvoidanceNode *)&(const ::AvoidanceVectorData &)(AvoidanceVectorData((*(::AvoidVector *)(new ((void *)&(location)) ::Vec3())))));
+            reinterpret_cast<::FUN_00905450_StandIn *>((h))->AppendNode((::PathingAvoidanceNode *)&(const ::AvoidanceVectorData &)(AvoidanceVectorData((*(::AvoidVector *)(((::Vec3 *)(void *)&(location)))))));
         }
     }
     return h;
@@ -4594,7 +4594,7 @@ ItemObj* ItemList::FindBestItem(ActorObj* actor, unsigned char aucThreshold, Ite
         ItemObj* item = GetAt(i4);
         float score2 = reinterpret_cast<::FUN_00985bb0_Class *>((item))->FUN_00985bb0();
         float bonus2 = 0.0f;
-        if (target && ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((item))->FUN_0084e3a0())) == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((target))->FUN_0084e3a0())) && reinterpret_cast<::NiPoint3 *>((((::PosObj *)(new ((void *)(item)) ::Vec3()))))->FUN_004390c0((*(const ::NiPoint3 *)(((::PosObj *)(new ((void *)(target)) ::Vec3()))))))
+        if (target && ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((item))->FUN_0084e3a0())) == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((target))->FUN_0084e3a0())) && reinterpret_cast<::NiPoint3 *>((((::PosObj *)(((::Vec3 *)(void *)(item))))))->FUN_004390c0((*(const ::NiPoint3 *)(((::PosObj *)(((::Vec3 *)(void *)(target))))))))
             bonus2 += 5.0;
         if (score2 + bonus2 < aucThreshold)
             continue;
@@ -4914,7 +4914,6 @@ bool CombatSearchCls::CheckOtherEntriesForTarget(CombatEntryObj* pExcludeEntry, 
                 if (reinterpret_cast<::OuterObj *>((((RefTarget*)r2)))->FUN_00981420())
                 {
                     Probe16 probe;
-                    new ((void *)&(probe)) ::Vec3();
                     if (p2->FUN_008b3840(&probe))
                     {
                         reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((pGroupTarget))->AddItem((*(const ::fnv_0049f210::NiPoint3 *)(&probe)));
@@ -6813,7 +6812,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
                 debug.FUN_0066b0d0(new DebugNode(0));
             DebugColor color(0.5f, 0.0f, 0.5f, 0.5f);
             bool found3 = false;
-            DebugPoint position = (*(const ::DebugPoint *)(new ((void *)(spot)) ::Vec3()));
+            DebugPoint position = (*(const ::DebugPoint *)(((::Vec3 *)(void *)(spot))));
             unsigned int count2 = reinterpret_cast<::FUN_00990890_shell *>(this)->FUN_00990890();
             for (unsigned int j = 0; j < count2; ++j)
             {
@@ -6873,7 +6872,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
                 continue;
             DebugColor pointColor3 = (*(::DebugColor *)(reinterpret_cast<::FUN_00985be0_shell *>((point))->GetEffectColor({})));
             DebugNode* sphere = ((::DebugNode *)(::FUN_00c56680(32.0f, 10, 10, (const ::Color4 *)(const ::DebugColor *)(&pointColor3))));
-            reinterpret_cast<::FUN_00440460_S *>((sphere))->FUN_00440460((const ::V3 *)&((*(const ::DebugPoint *)(new ((void *)(point)) ::Vec3()))));
+            reinterpret_cast<::FUN_00440460_S *>((sphere))->FUN_00440460((const ::V3 *)&((*(const ::DebugPoint *)(((::Vec3 *)(void *)(point))))));
             ((::DebugNode *)(::FUN_00559450((int *)&(debug))))->Attach(sphere, true);
         }
         for (unsigned int q = 0; q < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pairs))->GetName())); ++q)
@@ -8579,7 +8578,7 @@ void Group::FUN_0098a580()
                             Region region(selected, start, endSlot0);
                             if (reinterpret_cast<::PathingLocationProxy *>(&(region))->FindContainingTriangle((::FindTriangleForLocationFilter *)(0)))
                             {
-                                reinterpret_cast<::fnv_006f4ed0::PathingLocation *>(&(region))->FUN_006f4ed0((const ::fnv_006f4ed0::NiPoint3 *)(void *)(((void *)(new ((void *)&(location)) ::Vec3()))));
+                                reinterpret_cast<::fnv_006f4ed0::PathingLocation *>(&(region))->FUN_006f4ed0((const ::fnv_006f4ed0::NiPoint3 *)(void *)(((void *)(((::Vec3 *)(void *)&(location))))));
                                 if (!((::CombatRegion::Shape *)(::FUN_00559450((int *)&(shape)))))
                                     shape.FUN_0066b0d0(new Shape);
                                 reinterpret_cast<::FUN_006e0320_cls *>((((::CombatRegion::Shape *)(::FUN_00559450((int *)&(shape))))))->FUN_006e0320((unsigned int)&(region), radius);

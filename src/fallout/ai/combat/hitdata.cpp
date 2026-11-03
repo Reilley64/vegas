@@ -2122,7 +2122,7 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
             Query9B6* pkQuery = ((::Query9B6 *)(::FUN_00626dd0(m_pkAttacker != (*reinterpret_cast<::Attacker9B6 * *>(&::_g_thePlayer)), 1)));
             reinterpret_cast<::FNVEffectOwner *>((pkQuery))->ApplyEffectToTarget(((::World9B6 *)(reinterpret_cast<::FUN_004543c0_cls *>((pkMiddle))->FUN_004543c0())));
             reinterpret_cast<::ShapeCaster *>((pkQuery))->FUN_00626b30((const ::NiPoint3 &)(kFrom), (const ::NiPoint3 &)(kLookDir), fScaleMultiplier);
-            Results9B6* pkResults = ((::Results9B6 *)(new ((void *)(pkQuery)) ::Vec3()));
+            Results9B6* pkResults = ((::Results9B6 *)(((::Vec3 *)(void *)(pkQuery))));
             if (reinterpret_cast<::FUN_005609f0_shell *>((void *)(void *)&(const ::hkBool9B6 &)((*(::hkBool9B6 *)(reinterpret_cast<::Hld621210 *>((pkResults))->FUN_00621210({})))))->FUN_005609f0())
             {
                 for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((((::HitArray9B6 *)(::FUN_00460140((int)(pkResults))))))->FUN_00726070())); i++)
@@ -2132,14 +2132,14 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
                     Ref9B6* pkRef = ((::Ref9B6 *)(::FUN_0056f930((::NiAVObject *)(pkObject))));
                     if (pkRef && pkRef == m_pkTarget)
                     {
-                        ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kHitPos), (const ::hkVector4 &)((*(const ::hkVector4_9B6 *)(new ((void *)&(kHit)) ::Vec3()))));
+                        ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kHitPos), (const ::hkVector4 &)((*(const ::hkVector4_9B6 *)(((::Vec3 *)(void *)&(kHit))))));
                         Entity9B6* pkEntity = ((::Entity9B6 *)(::FUN_004b59f0(kHit.m_pkCollidable)));
                         if (pkEntity)
                         {
                             if (!bFound)
                             {
                                 bFound = true;
-                                ::SetNiPoint3FromHkVector4((::NiPoint3 &)(m_kPathOffset), (const ::hkVector4 &)((*(const ::hkVector4_9B6 *)(new ((void *)&(kHit)) ::Vec3()))));
+                                ::SetNiPoint3FromHkVector4((::NiPoint3 &)(m_kPathOffset), (const ::hkVector4 &)((*(const ::hkVector4_9B6 *)(((::Vec3 *)(void *)&(kHit))))));
                                 m_kLightVector = kLookDir;
                             }
                             int iIndex = pkObject->GetBone() ? reinterpret_cast<::FUN_008b3ef0_cls *>((m_pkTarget))->FUN_008b3ef0((::TESObjectREFR *)(::NiAVObject9B6 *)(pkObject->GetBone()))
@@ -2157,8 +2157,8 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
         }
         if (!bFound && m_pkTarget->Get3D() && m_pkAttacker->Get3D())
         {
-            Point9B6 kTargetPos = *((const ::Point9B6 *)(new ((void *)(((::Transform9B6 *)(reinterpret_cast<::FUN_0043d450_Owner *>((m_pkTarget->Get3D()))->FUN_0043d450())))) ::Vec3()));
-            Point9B6 kAttackerPos = *((const ::Point9B6 *)(new ((void *)(((::Transform9B6 *)(reinterpret_cast<::FUN_0043d450_Owner *>((m_pkAttacker->Get3D()))->FUN_0043d450())))) ::Vec3()));
+            Point9B6 kTargetPos = *((const ::Point9B6 *)(((::Vec3 *)(void *)(((::Transform9B6 *)(reinterpret_cast<::FUN_0043d450_Owner *>((m_pkTarget->Get3D()))->FUN_0043d450()))))));
+            Point9B6 kAttackerPos = *((const ::Point9B6 *)(((::Vec3 *)(void *)(((::Transform9B6 *)(reinterpret_cast<::FUN_0043d450_Owner *>((m_pkAttacker->Get3D()))->FUN_0043d450()))))));
             m_kPathOffset = kTargetPos + (m_pkAttacker->GetEyePosition(1) - kTargetPos).UnitizeScaled(6.0f);
             m_kLightVector = kTargetPos - kAttackerPos;
             SpherePick9B6 kPick;

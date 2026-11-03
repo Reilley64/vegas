@@ -844,7 +844,7 @@ void GPShell::HandleContactHit(GPContact* apContact)
     if (pRefA_ && ((GPRefVt*)pRefA_)->Unk_89b())
     {
         kPTarget = pRefB;
-        ::SetNiPoint3FromHkVector4(kPos, *(const hkVector4*)((void *)(new ((void *)(apContact->pPoint)) ::Vec3())));
+        ::SetNiPoint3FromHkVector4(kPos, *(const hkVector4*)((void *)(((::Vec3 *)(void *)(apContact->pPoint)))));
         ::SetNiPoint3FromHkVector4(_kNormal, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(((TESForm*)apContact->pPoint))))));
         reinterpret_cast<::MyPoint439180 *>((((NiColor*)&_kNormal)))->FUN_00439180*=(-1.0f);
         iShapeKey = (int)apContact->pBodyB->GetLastNode();
@@ -1522,7 +1522,7 @@ bool ImpactProjectile::ProcessHits()
         while (node && !node->FUN_008256d0())
         {
 
-            Hit* hit = *((::Hit **)(new ((void *)(node)) ::Vec3()));
+            Hit* hit = *((::Hit **)(((::Vec3 *)(void *)(node))));
 
             node = ((::HitList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
 
@@ -1677,7 +1677,7 @@ bool GrenadeProjectile::FUN_009b4740()
     if (!m_kProjectileImpactList.IsEmpty())
     {
         NiNode* node1 = GetNiNode();
-        Projectile__ImpactData* impact = ((::Projectile__ImpactData *)(new ((void *)&(m_kProjectileImpactList)) ::Vec3()));
+        Projectile__ImpactData* impact = ((::Projectile__ImpactData *)(((::Vec3 *)(void *)&(m_kProjectileImpactList))));
         if (!reinterpret_cast<::FUN_0047c850 *>((::g_TESSaveLoadGame))->EvaluateCondition())
         {
             ::FUN_00c69f50((::S_00c69f50_Obj *)(node1), true, false);

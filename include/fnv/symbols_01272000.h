@@ -15,7 +15,7 @@ extern int tls_clearCount;
 // 0x01272010
 extern char tls_buffer[588];
 // 0x01272264
-extern int DAT_tls_0264;
+extern __declspec(thread) int DAT_tls_0264;
 // 0x01272268
 extern bool bConditionFunctionDebug;
 // 0x01272298

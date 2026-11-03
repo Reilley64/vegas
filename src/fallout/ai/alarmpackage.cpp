@@ -66,7 +66,7 @@
 // @fnv 0x0048e140
 void TESSpellList::LoadGame(BGSLoadFormBuffer* buffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x10)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x10)))->FUN_004280f0(0x10))
     {
         reinterpret_cast<::FileMatchList *>(&(spellList))->RemoveAll();
         reinterpret_cast<::FileMatchList *>(&(leveledSpellList))->RemoveAll();
@@ -311,9 +311,9 @@ struct FUN_009eba30_t
 void FUN_009eba30_t::FUN_009eba30()
 {
     FUN_009eba30_node* pnode = &list;
-    while (pnode && *((::XActor **)(new ((void *)(pnode)) ::Vec3())))
+    while (pnode && *((::XActor **)(((::Vec3 *)(void *)(pnode)))))
     {
-        XActor* pActor = *((::XActor **)(new ((void *)(pnode)) ::Vec3()));
+        XActor* pActor = *((::XActor **)(((::Vec3 *)(void *)(pnode))));
         FUN_009eba30_xl* pList = ((::FUN_0041cf00_shell *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(pActor))->FUN_005d43c0()))->FUN_0041cf00();
         if (pList)
             reinterpret_cast<::ItemChangeListNode *>((pList))->FUN_00905330((::InventoryStackRecord *const &)((const ::FUN_009eba30_t *const &)(this)));
@@ -449,9 +449,9 @@ void FUN_009ec780_shell::FUN_009ec780(TESForm* apCopy)
     if (pAlarmSource)
     {
         pCurrentElementNext = ((::CrimeNode *)(reinterpret_cast<::TESDataHandler *>((pAlarmSource))->GetTESClassList()));
-        while (pCurrentElementNext && *((int **)(new ((void *)(pCurrentElementNext)) ::Vec3())))
+        while (pCurrentElementNext && *((int **)(((::Vec3 *)(void *)(pCurrentElementNext)))))
         {
-            ((G2*)((char*)this + 0x80))->AddHead(*((int **)(new ((void *)(pCurrentElementNext)) ::Vec3())));
+            ((G2*)((char*)this + 0x80))->AddHead(*((int **)(((::Vec3 *)(void *)(pCurrentElementNext)))));
             pCurrentElementNext = ((::CrimeNode *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         }
     }
@@ -616,7 +616,7 @@ void FUN_009ecec0_shell::SaveCrimeList(BGSSaveFormBuffer* apSaveGameBuffer)
     CrimeNode* pCurrentElementNext = reinterpret_cast<CrimeNode*>((char*)this + 0x80);
     while (pCurrentElementNext)
     {
-        Crime* pcrime = *((::Crime **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        Crime* pcrime = *((::Crime **)(((::Vec3 *)(void *)(pCurrentElementNext))));
         if (pcrime)
         {
             char ccrimeType = (char)((::BSSimpleList< ::Crime *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<Crime*>*)pcrime)))->FUN_00726070()));
@@ -936,7 +936,7 @@ void Candidate::SaveToStream(SaveLocal* buffer)
     NodeLocal* node9 = &list1c;
     while (node9)
     {
-        TESForm* item1 = *((::TESForm **)(new ((void *)(node9)) ::Vec3()));
+        TESForm* item1 = *((::TESForm **)(((::Vec3 *)(void *)(node9))));
         if (item1)
         {
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(item1), 0);
@@ -951,7 +951,7 @@ void Candidate::SaveToStream(SaveLocal* buffer)
         NodeLocal* nodeTmp = list38;
         while (nodeTmp)
         {
-            TESForm* item6 = *((::TESForm **)(new ((void *)(nodeTmp)) ::Vec3()));
+            TESForm* item6 = *((::TESForm **)(((::Vec3 *)(void *)(nodeTmp))));
             if (item6)
             {
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(item6), 0);
@@ -1475,7 +1475,7 @@ void MyCand::WriteToSave()
     MyNode* action9 = &list1c;
     while (action9 && !action9->FUN_008256d0())
     {
-        TESForm* active = *((::TESForm **)(new ((void *)(action9)) ::Vec3()));
+        TESForm* active = *((::TESForm **)(((::Vec3 *)(void *)(action9))));
         int ac = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((active))->FUN_0084e3a0()));
         reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&ac), 4);
         a38++;
@@ -1584,7 +1584,7 @@ void Host009::ReadFromStream(Reader009* apReader)
                 strings->FUN_005ae3d0(&pFaction);
         }
     }
-    if (!*((void **)(new ((void *)(strings)) ::Vec3())))
+    if (!*((void **)(((::Vec3 *)(void *)(strings)))))
     {
         delete strings;
         strings = 0;
@@ -1638,7 +1638,7 @@ void FUN_009ec990_host::FUN_009ec990()
     BSSimpleList<void*>* pNodeX = 0;
     while (pNodeX != 0 && !pNodeX->IsEmpty())
     {
-        void* pv = ((void *)(new ((void *)(pNodeX)) ::Vec3()));
+        void* pv = ((void *)(((::Vec3 *)(void *)(pNodeX))));
         char cIndex2 = (char)((::CrimeList *)(reinterpret_cast<::Callees *>((((CrimeList*)pv)))->FUN_00726070()));
         reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&cIndex2, 1);
         unsigned short usResult6 = reinterpret_cast<::FUN_00972740_shell *>((((ProcessLists9EC990*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))))->FUN_00972740((int)cIndex2, (::BGSPerk *)(pv));
@@ -1716,7 +1716,7 @@ void AlarmPackageData::FUN_009ec400(void* unused)
     AlarmActorList* previous = 0;
     while (current && !current->FUN_008256d0())
     {
-        Actor* entry = *((::Actor **)(new ((void *)(current)) ::Vec3()));
+        Actor* entry = *((::Actor **)(((::Vec3 *)(void *)(current))));
         bool erase = false;
         if (entry)
         {
@@ -1738,7 +1738,7 @@ void AlarmPackageData::FUN_009ec400(void* unused)
         {
             if (previous)
             {
-                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((*(::InventoryStackRecord *const *)(((::Actor **)(new ((void *)(current)) ::Vec3())))));
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((*(::InventoryStackRecord *const *)(((::Actor **)(((::Vec3 *)(void *)(current)))))));
                 current = ((::AlarmActorList *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
             }
             else

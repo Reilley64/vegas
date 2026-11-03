@@ -4505,7 +4505,7 @@ bool FUN_0099e190_cls::SelectAndMoveToPoint(MyMover* mover, unsigned int mask1, 
     float radius = A9->FUN_008be1b0() + 8.0;
     PosHolder h7;
     reinterpret_cast<::FUN_00575650_Class *>((A9))->FUN_00575650((::FUN_00575650_Result *)(::PosHolder *)(&h7));
-    Vec3 pp = *new ((void *)&(h7)) ::Vec3();
+    Vec3 pp = *((::Vec3 *)(void *)&(h7));
     Vec3 T = *ref->GetPos();
     Picker p4(A9);
     Vec3 D_ = pp - T;
@@ -6714,8 +6714,8 @@ void Manager::EvaluateWeaponScores()
     }
     Weapon* forcedSlot30 = 0;
     Entry* equippedSlot10 = ((::CombatWeapons::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Equipped();
-    if (equippedSlot10 && ((::CombatWeapons::Extras *)(::FUN_00559450((int *)(equippedSlot10)))) && *((::CombatWeapons::Extra **)(new ((void *)(((::CombatWeapons::Extras *)(::FUN_00559450((int *)(equippedSlot10)))))) ::Vec3())) &&
-        reinterpret_cast<::FUN_00418b10_shell *>(((*((::CombatWeapons::Extra **)(new ((void *)(((::CombatWeapons::Extras *)(::FUN_00559450((int *)(equippedSlot10)))))) ::Vec3())))))->FUN_00418b10())
+    if (equippedSlot10 && ((::CombatWeapons::Extras *)(::FUN_00559450((int *)(equippedSlot10)))) && *((::CombatWeapons::Extra **)(((::Vec3 *)(void *)(((::CombatWeapons::Extras *)(::FUN_00559450((int *)(equippedSlot10)))))))) &&
+        reinterpret_cast<::FUN_00418b10_shell *>(((*((::CombatWeapons::Extra **)(((::Vec3 *)(void *)(((::CombatWeapons::Extras *)(::FUN_00559450((int *)(equippedSlot10)))))))))))->FUN_00418b10())
         forcedSlot30 = ((::CombatWeapons::Weapon *)(reinterpret_cast<::Twin_0044ddc0 *>((equippedSlot10))->GetName()));
     if (!forcedSlot30)
     {
@@ -8419,8 +8419,8 @@ bool WeaponSearch::SelectBestWeaponTarget()
             return false;
     }
     PickPtr* aId = ((::PickProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((aC1))->GetBaseTexture()))->GetActive();
-    if (aId && ((::PickWrap *)(::FUN_00559450((int *)(aId)))) && ((::PickWrap *)(new ((void *)(((::PickWrap *)(::FUN_00559450((int *)(aId)))))) ::Vec3()))->node &&
-        reinterpret_cast<::FUN_00418b10_shell *>((((::PickWrap *)(new ((void *)(((::PickWrap *)(::FUN_00559450((int *)(aId)))))) ::Vec3()))->node))->FUN_00418b10())
+    if (aId && ((::PickWrap *)(::FUN_00559450((int *)(aId)))) && ((::PickWrap *)(((::Vec3 *)(void *)(((::PickWrap *)(::FUN_00559450((int *)(aId))))))))->node &&
+        reinterpret_cast<::FUN_00418b10_shell *>((((::PickWrap *)(((::Vec3 *)(void *)(((::PickWrap *)(::FUN_00559450((int *)(aId))))))))->node))->FUN_00418b10())
         return false;
     reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::PickGlobal *>(&::g_011f1a60))))->ClearData();
     PickLoc aI4 = (*(::PickLoc *)(reinterpret_cast<::FUN_00575650_Class *>((aC1))->FUN_00575650({})));
@@ -9393,7 +9393,7 @@ bool FUN_0099b5a0_holder::FUN_0099b5a0(A1_99* a1, char* acArg, Weap99* apWeapon)
                 continue;
             if (((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(s2))->FUN_0084e3a0())) != ((void *)(reinterpret_cast<::s575ca0::Owner *>((mobj3))->FUN_00575ca0())))
                 continue;
-            v9 = *((::fnv_0099b5a0::P3 *)(new ((void *)&(s2)) ::Vec3()));
+            v9 = *((::fnv_0099b5a0::P3 *)(((::Vec3 *)(void *)&(s2))));
         }
         else
         {
@@ -9799,7 +9799,7 @@ bool FUN_0099b8e0_cls::FUN_0099b8e0(int a1, QOut* out, QState* st, int a4, int a
     QPoint pos2;
     if (this->target && (this->target->type == 1 || this->target->type == 2))
     {
-        pos2 = (*(::fnv_0099b8e0::QPoint *)(new ((void *)&(this->target->loc)) ::Vec3()));
+        pos2 = (*(::fnv_0099b8e0::QPoint *)(((::Vec3 *)(void *)&(this->target->loc))));
         dist7 = reinterpret_cast<::FUN_009a0b00_s *>(this)->FUN_009a0b00();
     }
     else
@@ -10584,7 +10584,7 @@ bool CombatStateQ::FUN_0099ac20(int aiType)
         case 6:
             if (pTargetInfo && !pTargetInfo->bInvalid)
             {
-                bFound = FUN_0099d030(kEC, pSearch, pFinalSpot, aiType, (CombatPos*)((::CombatFind::CombatCell *)(new ((void *)&(pTargetInfo->kPos)) ::Vec3())),
+                bFound = FUN_0099d030(kEC, pSearch, pFinalSpot, aiType, (CombatPos*)((::CombatFind::CombatCell *)(((::Vec3 *)(void *)&(pTargetInfo->kPos)))),
                                       0.0f, 0);
             }
             else if (((::CombatFind::CombatRef *)(reinterpret_cast<::AlchemyItem *>((pController))->FUN_004030b0())))
@@ -10631,7 +10631,7 @@ bool CombatStateQ::FUN_0099ac20(int aiType)
             bFound = true;
             break;
         case 15: {
-            CombatPos* pCover = ((::CombatFind::CombatPos *)(reinterpret_cast<::ItemList *>((((::CombatFind::CombatPathing *)(reinterpret_cast<::EffectSetting *>((pController))->GetCastSound()))))->FindBestItem((::ActorObj *)(pActorOld), 0x32, (::ItemObj *)(::CombatFind::CombatPos *)(((::CombatFind::CombatPos *)(new ((void *)(pFinalSpot)) ::Vec3()))))));
+            CombatPos* pCover = ((::CombatFind::CombatPos *)(reinterpret_cast<::ItemList *>((((::CombatFind::CombatPathing *)(reinterpret_cast<::EffectSetting *>((pController))->GetCastSound()))))->FindBestItem((::ActorObj *)(pActorOld), 0x32, (::ItemObj *)(::CombatFind::CombatPos *)(((::CombatFind::CombatPos *)(((::Vec3 *)(void *)(pFinalSpot))))))));
             if (pCover)
             {
                 reinterpret_cast<::FUN_0097ee60_shell *>((pFinalSpot))->AssignV4((::V4 *)(pCover));
@@ -10669,8 +10669,8 @@ bool CombatStateQ::FUN_0099ac20(int aiType)
     {
         if (!pFinalSpot->CallReferencedFunction())
             reinterpret_cast<::FUN_0099b520_shell *>((pFinalSpot))->FUN_0099b520((::MagicItem *)(void *)(((void *)(reinterpret_cast<::s575ca0::Owner *>((pActorOld))->FUN_00575ca0()))));
-        CombatPos kSpotPosTmp = *((::CombatFind::CombatPos *)(new ((void *)(pFinalSpot)) ::Vec3()));
-        if (reinterpret_cast<::NiPoint3 *>((((::CombatFind::CombatCell *)(new ((void *)&(kSpotPosTmp)) ::Vec3()))))->FUN_004390c0((*(const ::NiPoint3 *)(&(*reinterpret_cast<char *>((void *)&::NiPoint3::ZERO))))) || reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>(this)->FUN_009a02a0((*(const ::fnv_009a02a0::CoordinateTriple *)(&kSpotPosTmp)), 1, bFlag))
+        CombatPos kSpotPosTmp = *((::CombatFind::CombatPos *)(((::Vec3 *)(void *)(pFinalSpot))));
+        if (reinterpret_cast<::NiPoint3 *>((((::CombatFind::CombatCell *)(((::Vec3 *)(void *)&(kSpotPosTmp))))))->FUN_004390c0((*(const ::NiPoint3 *)(&(*reinterpret_cast<char *>((void *)&::NiPoint3::ZERO))))) || reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>(this)->FUN_009a02a0((*(const ::fnv_009a02a0::CoordinateTriple *)(&kSpotPosTmp)), 1, bFlag))
         {
             float fDistance = 0.0f;
             if ((*reinterpret_cast<CombatFind::CombatTypeInfo (*)[]>(&::MoveModes))[aiType].bMeasure)

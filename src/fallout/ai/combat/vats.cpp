@@ -196,7 +196,7 @@ void FUN_009ca410_shell::ProcessVATSCommands()
 
     while (!((FUN_009ca410_shell_base*)this)->FUN_008256d0())
     {
-        VATSCommand* pcommand = ((::Node *)(new ((void *)(((FUN_009ca410_shell_base*)this))) ::Vec3()))->item;
+        VATSCommand* pcommand = ((::Node *)(((::Vec3 *)(void *)(((FUN_009ca410_shell_base*)this)))))->item;
         VATSCommand* pItem = pcommand;
         VATSCommand* pItemCopy = pItem;
         pItemCopy ? reinterpret_cast<::FUN_009c8870_Class *>((((StandIn*)pItemCopy)))->FUN_009c8870(1) : 0;
@@ -244,7 +244,7 @@ struct ListHolder
 void* ListHolder::FUN_009c71c0()
 {
     if (!_ref_008256d0())
-        return *(void**)((void *)(new ((void *)this) ::Vec3()));
+        return *(void**)((void *)(((::Vec3 *)(void *)this)));
     return 0;
 }
 
@@ -261,7 +261,7 @@ VATSCommand* MyList::FUN_009c71f0()
     while (iter && !iter->_ref_008256d0())
     {
         if (!((::MyList *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070())))
-            return *((::VATSCommand **)(new ((void *)(iter)) ::Vec3()));
+            return *((::VATSCommand **)(((::Vec3 *)(void *)(iter))));
         iter = ((::MyList *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
     }
     return 0;
@@ -628,7 +628,7 @@ bool VatsList9c9::IsValidCommand(VatsCmd9c9* pkCmd)
 {
     VatsCmd9c9* pkCommand = pkCmd;
     if (!pkCommand)
-        pkCommand = *((::VatsCmd9c9 **)(new ((void *)this) ::Vec3()));
+        pkCommand = *((::VatsCmd9c9 **)(((::Vec3 *)(void *)this)));
     if (pkCommand)
     {
         switch (pkCommand->m_eRequestType)
@@ -1257,7 +1257,7 @@ void VATS9c9::FUN_009c9ae0(ActorObj9c9* apActor)
                 ActorObj9c9* pOwner = apActor;
                 if (((::fnv_009c9ae0::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture())))
                 {
-                    NiPoint3 kCenter5 = (*(::fnv_009c9ae0::NiPoint3 *)(new ((void *)&((*(const ::fnv_009c9ae0::NiBound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(apActor->v116()))->FUN_0043d450())))) ::Vec3()));
+                    NiPoint3 kCenter5 = (*(::fnv_009c9ae0::NiPoint3 *)(((::Vec3 *)(void *)&((*(const ::fnv_009c9ae0::NiBound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(apActor->v116()))->FUN_0043d450()))))));
                     NiPoint3 aKDir = *(*reinterpret_cast<::fnv_009c9ae0::ActorObj9c9 * *>(&::DAT_011f21f0))->v125() - *apActor->v125();
 
                     NiMatrix3_9c9 kRotX;
@@ -1291,7 +1291,7 @@ void VATS9c9::FUN_009c9ae0(ActorObj9c9* apActor)
 
                     reinterpret_cast<::MyPoint439180 *>((void *)&(const ::fnv_009c9ae0::NiPoint3 &)(kOffset5))->FUN_00439180(_fRange);
 
-                    fRadiusTmp = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_009c9ae0::NiPoint3 &)((kCenter5 - (*(::fnv_009c9ae0::NiPoint3 *)(new ((void *)&((*(const ::fnv_009c9ae0::NiBound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(apActor->v116()))->FUN_0043d450())))) ::Vec3())))))->ComputeMagnitude() * 2.0f;
+                    fRadiusTmp = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_009c9ae0::NiPoint3 &)((kCenter5 - (*(::fnv_009c9ae0::NiPoint3 *)(((::Vec3 *)(void *)&((*(const ::fnv_009c9ae0::NiBound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(apActor->v116()))->FUN_0043d450())))))))))->ComputeMagnitude() * 2.0f;
 
                     reinterpret_cast<::FUN_004f00e0_shell *>((((::fnv_009c9ae0::NiAVObject *)(::fnv_004e6540::FUN_004e6540((char *)(((::fnv_009c9ae0::LightTarget9c9 *)(::FUN_00559450((int *)&(m_spVATSLight))))))))))->FUN_004f00e0(&kCenter5);
                     ((::fnv_009c9ae0::NiAVObject *)(::fnv_004e6540::FUN_004e6540((char *)(((::fnv_009c9ae0::LightTarget9c9 *)(::FUN_00559450((int *)&(m_spVATSLight))))))))->FUN_0050dd50(NiPoint3(fRadiusTmp, 0.0f, 0.0f));
@@ -1467,22 +1467,22 @@ struct CmdList9c9
 // @fnv 0x009c9fe0
 NiPoint3 CmdList9c9::FUN_009c9fe0(float afScale)
 {
-    NiPoint3 kPlayerPos = *((::fnv_009c9fe0::NiPoint3 *)(new ((void *)&((*(const ::fnv_009c9fe0::Bound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(((::fnv_009c9fe0::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((Ref9c9*)DAT_011f21f0)))->FUN_0043fcd0()))))->FUN_0043d450())))) ::Vec3()));
-    Cmd9c9* pkCmd = *((::fnv_009c9fe0::Cmd9c9 **)(new ((void *)this) ::Vec3()));
+    NiPoint3 kPlayerPos = *((::fnv_009c9fe0::NiPoint3 *)(((::Vec3 *)(void *)&((*(const ::fnv_009c9fe0::Bound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(((::fnv_009c9fe0::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((Ref9c9*)DAT_011f21f0)))->FUN_0043fcd0()))))->FUN_0043d450()))))));
+    Cmd9c9* pkCmd = *((::fnv_009c9fe0::Cmd9c9 **)(((::Vec3 *)(void *)this)));
     if ((pkCmd && pkCmd->m_pkTarget) || (*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011f21cc)))
     {
         NiPoint3 kTarget = (*reinterpret_cast<const ::fnv_009c9fe0::NiPoint3 *>((void *)&::NiPoint3::ZERO));
         if (pkCmd && pkCmd->m_pkTarget)
         {
             if (pkCmd->m_pkTarget->GetNode())
-                kTarget = *((::fnv_009c9fe0::NiPoint3 *)(new ((void *)&((*(const ::fnv_009c9fe0::Bound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(pkCmd->m_pkTarget->GetNode()))->FUN_0043d450())))) ::Vec3()));
+                kTarget = *((::fnv_009c9fe0::NiPoint3 *)(((::Vec3 *)(void *)&((*(const ::fnv_009c9fe0::Bound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(pkCmd->m_pkTarget->GetNode()))->FUN_0043d450()))))));
             else
                 kTarget = *pkCmd->m_pkTarget->GetPos();
         }
         else if ((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011f21cc)))
         {
             if (((Ref9c9*)(*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011f21cc)))->GetNode())
-                kTarget = *((::fnv_009c9fe0::NiPoint3 *)(new ((void *)&((*(const ::fnv_009c9fe0::Bound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(((Ref9c9*)(*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011f21cc)))->GetNode()))->FUN_0043d450())))) ::Vec3()));
+                kTarget = *((::fnv_009c9fe0::NiPoint3 *)(((::Vec3 *)(void *)&((*(const ::fnv_009c9fe0::Bound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(((Ref9c9*)(*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011f21cc)))->GetNode()))->FUN_0043d450()))))));
             else
                 kTarget = *((Ref9c9*)(*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011f21cc)))->GetPos();
         }
@@ -2003,7 +2003,7 @@ void FUN_009c86b0_shell::FUN_009c86b0()
     {
         return;
     }
-    VATSCommand* pCmd = ((::Node *)(new ((void *)this) ::Vec3()))->item;
+    VATSCommand* pCmd = ((::Node *)(((::Vec3 *)(void *)this)))->item;
     if (pCmd)
     {
         delete (VATS_COMMAND_Del*)pCmd;
@@ -2016,7 +2016,7 @@ void FUN_009c86b0_shell::FUN_009c86b0()
         }
         while (!FUN_008256d0())
         {
-            pCmd = ((::Node *)(new ((void *)this) ::Vec3()))->item;
+            pCmd = ((::Node *)(((::Vec3 *)(void *)this)))->item;
             bool bRemove = false;
             if (pCmd && pCmd->pTarget)
             {
@@ -2150,7 +2150,7 @@ bool FUN_009c9920_shell::FUN_009c9920()
 {
     ::BSSimpleList< ::BGSCameraShot*>* nextCamera = m_pCameraShotList;
     bool found = false;
-    while (nextCamera && ((::BGSCameraShot *)(new ((void *)(nextCamera)) ::Vec3())) != pCamera)
+    while (nextCamera && (((nextCamera))->m_item) != pCamera)
     {
         nextCamera = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((nextCamera))->FUN_00726070()));
     }
@@ -2165,7 +2165,7 @@ bool FUN_009c9920_shell::FUN_009c9920()
             reinterpret_cast<::CameraState *>((static_cast<CameraShotExtra*>(pCamera)))->ResetCameraState();
             pCamera = 0;
         }
-        pCamera = ((::BGSCameraShot *)(new ((void *)(nextCamera)) ::Vec3()));
+        pCamera = (((nextCamera))->m_item);
         if (pCamera && m_fCameraDuration < reinterpret_cast<::FUN_005081b0_shell *>((static_cast<CameraShotExtra*>(pCamera)))->GetFloatAtOffset58())
         {
             m_fCameraDuration = reinterpret_cast<::FUN_005081b0_shell *>((static_cast<CameraShotExtra*>(pCamera)))->GetFloatAtOffset58();

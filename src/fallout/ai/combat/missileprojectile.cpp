@@ -628,6 +628,10 @@ struct FUN_009b7cc0_shell
 };
 
 int DAT_011f2250;
+struct Big;
+struct Str;
+struct Sub;
+struct V;
 namespace fnv_009b90b0
 {
 struct Actor
@@ -1029,12 +1033,12 @@ void S5870_Holder::FUN_009babe0()
     if (this->unk150 == 4 ||
         this->unk150 == 3)
     {
-        pimpact = *((::FUN_009babe0_impact **)(new ((void *)(reinterpret_cast<FUN_009babe0_list*>(reinterpret_cast<char*>(this) + 0x88))) ::Vec3()));
+        pimpact = *((::FUN_009babe0_impact **)(((::Vec3 *)(void *)(reinterpret_cast<FUN_009babe0_list*>(reinterpret_cast<char*>(this) + 0x88)))));
 
         if (this->unk150 == 4)
         {
             pimpact = ((::FUN_009babe0_list *)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_009babe0_list*>(reinterpret_cast<char*>(this) + 0x88)))->FUN_00726070()))
-                          ? *((::FUN_009babe0_impact **)(new ((void *)(((::FUN_009babe0_list *)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_009babe0_list*>(reinterpret_cast<char*>(this) + 0x88)))->FUN_00726070())))) ::Vec3()))
+                          ? *((::FUN_009babe0_impact **)(((::Vec3 *)(void *)(((::FUN_009babe0_list *)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_009babe0_list*>(reinterpret_cast<char*>(this) + 0x88)))->FUN_00726070()))))))
                           : 0;
         }
 
@@ -1548,7 +1552,7 @@ void ProjS::UpdateProjectileNodeVisibility()
         if (reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x10))
         {
             NiBounds bound5 = *((::NiBounds *)(reinterpret_cast<::FUN_0043d450_Owner *>((pNode5))->FUN_0043d450()));
-            NiPoint3s diff2 = (*(::NiPoint3s *)&(reinterpret_cast<::NiAVObject *>((pNode5))->FUN_0043c490())) - *((::NiPoint3s *)(new ((void *)&(bound5)) ::Vec3()));
+            NiPoint3s diff2 = (*(::NiPoint3s *)&(reinterpret_cast<::NiAVObject *>((pNode5))->FUN_0043c490())) - *((::NiPoint3s *)(((::Vec3 *)(void *)&(bound5))));
             float fLen = reinterpret_cast<::NiPoint3 *>(&(diff2))->ComputeMagnitude() + reinterpret_cast<::Twin_0084d030 *>(&(bound5))->GetStoredFloatValue();
             float fScale3 = fLen / reinterpret_cast<::FUN_009669c0_Class *>(this)->FUN_009669c0();
             SetPosAndScale(fScale3, NiPoint3s(0.0f, fLen, 0.0f));
@@ -1673,7 +1677,7 @@ struct Target890
 // @fnv 0x009b8900
 bool Target890::FUN_009b8900(int aiArg1, int aiArg2, int aiArg3, Collider890* collider, int aiArg5, int aiArg6)
 {
-    bool p = hits.FUN_008256d0() || (*((::HitItem **)(new ((void *)&(hits)) ::Vec3())))->flag;
+    bool p = hits.FUN_008256d0() || (*((::HitItem **)(((::Vec3 *)(void *)&(hits)))))->flag;
     int h = collider ? reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::CF845 &)(CF845(((int)(::FUN_0043b540((char *)(collider)))))))->FUN_0043b4d0() : 0;
     if (p && ::fnv_009c2c80::CanProjectileHit((::fnv_009c2c80::RefObj *)(aiArg1), (::fnv_009c2c80::CdBody *)(collider), (int)(this), (::fnv_009c2c80::ProjData *)(void *)(((void *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))) &&
         (kind != 3 || h == 1 || h == 2 || h == 9 || h == 17 || h == 13 || h == 20) &&
@@ -2027,7 +2031,7 @@ void UpdateProjectile::FUN_009b8030(float afDeltaTime)
     }
     if (reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(128) && kind == 4)
     {
-        UpdateImpact* impact = *((::UpdateImpact **)(new ((void *)&(hits)) ::Vec3()));
+        UpdateImpact* impact = *((::UpdateImpact **)(((::Vec3 *)(void *)&(hits))));
         if (impact)
         {
             UpdateRef* node = impact->reference ? ((::UpdateRef *)(::FUN_004b5820((::FormLike *)(void *)(((void *)(::FUN_00460140((int)(impact->reference)))))))) : 0;
@@ -2065,15 +2069,15 @@ void UpdateProjectile::FUN_009b8030(float afDeltaTime)
                 reinterpret_cast<::ObjB300 *>(this)->ApplyScale(afDeltaTime);
                 UpdateVec color = *GetPosition();
                 UpdateColor debugColor(1.0f, 1.0f, 0.0f, 1.0f);
-                void* pDebugLine = ((void *)(::fnv_004b3890::FUN_004b3890((*(const class class ::FUN_006815c0 *)(&newPosition)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&debugColor)), (*(const class class ::FUN_006815c0 *)(&color)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&debugColor)), 1)));
+                void* pDebugLine = ((void *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&newPosition)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&debugColor)), (*(const class ::FUN_006815c0 *)(&color)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&debugColor)), 1)));
                 reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::UpdateWorld * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pDebugLine), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UpdateFloatSetting *>(&::g_011f210c)))))));
             }
             else
                 reinterpret_cast<::ObjB300 *>(this)->ApplyScale(afDeltaTime);
         }
-        bool nearby = hits.FUN_008256d0() || (*((::UpdateImpact **)(new ((void *)&(hits)) ::Vec3())))->flag;
+        bool nearby = hits.FUN_008256d0() || (*((::UpdateImpact **)(((::Vec3 *)(void *)&(hits)))))->flag;
         if (!nearby && (!reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(1) || reinterpret_cast<::FUN_00508070_class *>(this)->FUN_00508070() > reinterpret_cast<::fnv_00979260::Projectile *>(this)->GetFirstLightParameter()))
-            reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)(&(*((::UpdateImpact **)(new ((void *)&(hits)) ::Vec3())))->position));
+            reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)(&(*((::UpdateImpact **)(((::Vec3 *)(void *)&(hits)))))->position));
         reinterpret_cast<::fnv_009bf470::Ref9bf *>(this)->UpdateNodeTransform(skipPosition, !stopped);
         if (Get3D())
             reinterpret_cast<::NiAVObject *>((Get3D()))->UpdateWorldLoc();
@@ -2394,7 +2398,7 @@ bool Impact::HandleContactResponse()
         if (((::ImpactResponse::Impact *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(&((*reinterpret_cast<::ImpactResponse::Selection *>(&::g_011f2250))))->FUN_007af430())) == this)
             reinterpret_cast<::S_009c8c40 *>(&((*reinterpret_cast<::ImpactResponse::Selection *>(&::g_011f2250))))->SetValue(0);
         Node* node7 = GetNode();
-        Contact* contact = *((::ImpactResponse::Contact **)(new ((void *)&(contacts)) ::Vec3()));
+        Contact* contact = *((::ImpactResponse::Contact **)(((::Vec3 *)(void *)&(contacts))));
         reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>(this)->FUN_005de0a0(4, 1);
         Refresh();
         Physics* physics = ((::ImpactResponse::Physics *)(::fnv_004b5260::FUN_004b5260((::NiAVObject *)(node7))));
@@ -2875,7 +2879,7 @@ void MissileActor::HandleMissileImpact()
         if (((::fnv_009ba660::MissileActor *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((MissileVats*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->FUN_007af430())) == this)
             reinterpret_cast<::S_009c8c40 *>((((MissileVats*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->SetValue(0);
         distance = DAT_01017b78;
-        MissileHit* hit31 = *((::fnv_009ba660::MissileHit **)(new ((void *)&(hitHandle)) ::Vec3()));
+        MissileHit* hit31 = *((::fnv_009ba660::MissileHit **)(((::Vec3 *)(void *)&(hitHandle))));
         if (!hit31 || !hit31->node)
             return;
         MissileNode* node3 = Get3D();
@@ -3949,11 +3953,11 @@ void Actor::FUN_009b90b0()
     {
         Obj* p24 = vf1d0();
         Obj* p28 = p24->vfc();
-        Owner* owner = (Owner*)*((::fnv_009b90b0::Obj **)(new ((void *)&(unk88)) ::Vec3()));
+        Owner* owner = (Owner*)*((::fnv_009b90b0::Obj **)(((::Vec3 *)(void *)&(unk88))));
         unk158 = 10.0f;
         if (unk150 == 4)
         {
-            owner = (Owner*)(((::fnv_009b90b0::Obj *)(reinterpret_cast<::Callees *>(&(unk88))->FUN_00726070())) ? *((::fnv_009b90b0::Obj **)(new ((void *)(((::fnv_009b90b0::Obj *)(reinterpret_cast<::Callees *>(&(unk88))->FUN_00726070())))) ::Vec3())) : 0);
+            owner = (Owner*)(((::fnv_009b90b0::Obj *)(reinterpret_cast<::Callees *>(&(unk88))->FUN_00726070())) ? *((::fnv_009b90b0::Obj **)(((::Vec3 *)(void *)(((::fnv_009b90b0::Obj *)(reinterpret_cast<::Callees *>(&(unk88))->FUN_00726070())))))) : 0);
         }
         if (owner && owner->unk00 && owner->unk00->vf100())
         {
@@ -4042,15 +4046,11 @@ void Actor::FUN_009b90b0()
                             Big big;
                             new ((void *)&(big)) ::FUN_004a3c20();
                             V v25c;
-                            new ((void *)&(v25c)) ::Vec3();
                             V v268;
-                            new ((void *)&(v268)) ::Vec3();
                             v25c = *vf1f4();
                             V9 m28c;
-                            new ((void *)&(m28c)) ::Vec3();
                             reinterpret_cast<::FUN_004a0c90_shell *>(&(m28c))->FUN_004a0c90(vf2bc(0));
                             V9 m2b0;
-                            new ((void *)&(m2b0)) ::Vec3();
                             reinterpret_cast<::FUN_00524ac0_shell *>(&(m2b0))->FUN_00524ac0(reinterpret_cast<::MobileObject *>(this)->GetLooking());
                             V9 m2d4;
                             m28c = *m28c.FUN_0043f8d0(&m2d4, &m2b0);
@@ -4081,13 +4081,11 @@ void Actor::FUN_009b90b0()
                                     reinterpret_cast<::FUN_009ba320_shell *>(&(path))->FUN_009ba320((unsigned int)(p63c), (unsigned int)(p630));
                                     Name n690(::FUN_004b4f00((::TESDataHandler *)(((::fnv_009b90b0::Obj *)(::FUN_004ae750((void *)(p63c)))))));
                                     Name n6d0(::FUN_004b4f00((::TESDataHandler *)(((::fnv_009b90b0::Obj *)(::FUN_004ae750((void *)(p630)))))));
-                                    reinterpret_cast<::CB2FC0Object *>((((::fnv_009b90b0::Obj *)(new ((void *)&(n690)) ::Vec3()))))->FUN_00cb2fc0();
-                                    reinterpret_cast<::CB2FC0Object *>((((::fnv_009b90b0::Obj *)(new ((void *)&(n6d0)) ::Vec3()))))->FUN_00cb2fc0();
+                                    reinterpret_cast<::CB2FC0Object *>((((::fnv_009b90b0::Obj *)(((::Vec3 *)(void *)&(n690))))))->FUN_00cb2fc0();
+                                    reinterpret_cast<::CB2FC0Object *>((((::fnv_009b90b0::Obj *)(((::Vec3 *)(void *)&(n6d0))))))->FUN_00cb2fc0();
                                     V v6dc;
-                                    new ((void *)&(v6dc)) ::Vec3();
                                     reinterpret_cast<::FUN_00439f50_class *>(&(((::fnv_009b90b0::Xform *)(::FUN_00461130((int)(vf1d0()))))->rot))->FUN_00439f50(1, (::NiPoint3 *)(::fnv_009b90b0::V *)(&v6dc));
                                     V5 v6f0;
-                                    new ((void *)&(v6f0)) ::Vec3();
                                     ::CopyCharacterControllerVector((::bhkCharacterController *)(::fnv_009b90b0::V5 *)(&v6f0), (*(const ::NiPoint3 *)(&v6dc)));
                                     reinterpret_cast<::S0062aea0_Vector *>(&(v6f0))->FUN_0062aea0();
                                     Xform x724 = *((::fnv_009b90b0::Xform *)(::FUN_00461130((int)(vf1d0()))));
@@ -4097,7 +4095,6 @@ void Actor::FUN_009b90b0()
                                     reinterpret_cast<::FUN_0045bb20_cls *>((((::fnv_009b90b0::V *)(reinterpret_cast<::P3 *>(&((*reinterpret_cast<::fnv_009b90b0::Glob *>(&::DAT_011a9478))))->FUN_004a0bd0((::P3 *)(::fnv_009b90b0::V *)(&v73c))))))->ApplyScaled((::FUN_0045bb20_target *)(::fnv_009b90b0::V *)(&v730), s_offset);
                                     x724.FUN_00524c40(&v748, &v730);
                                     V6 v760;
-                                    new ((void *)&(v760)) ::Vec3();
                                     ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&v760)), (*(const ::fnv_004a3e00::NiPoint3 *)(&v748)));
                                     reinterpret_cast<::FUN_009ba3d0_shell *>(&(path))->FUN_009ba3d0((int)(&n690), (int)(&n6d0), (int)(&v760.q), (int)(&v6f0));
                                     PathRef* ref = new PathRef(&path);
@@ -4107,15 +4104,11 @@ void Actor::FUN_009b90b0()
                                     Big big2;
                                     new ((void *)&(big2)) ::FUN_004a3c20();
                                     V v83c;
-                                    new ((void *)&(v83c)) ::Vec3();
                                     V v848;
-                                    new ((void *)&(v848)) ::Vec3();
                                     v83c = *vf1f4();
                                     V9 m86c;
-                                    new ((void *)&(m86c)) ::Vec3();
                                     reinterpret_cast<::FUN_004a0c90_shell *>(&(m86c))->FUN_004a0c90(vf2bc(0));
                                     V9 m890;
-                                    new ((void *)&(m890)) ::Vec3();
                                     reinterpret_cast<::FUN_00524ac0_shell *>(&(m890))->FUN_00524ac0(reinterpret_cast<::MobileObject *>(this)->GetLooking());
                                     V9 m8b4;
                                     m86c = *m86c.FUN_0043f8d0(&m8b4, &m890);
@@ -4152,7 +4145,7 @@ void Actor::FUN_009b90b0()
                                         Color c;
                                         new ((void *)&(c)) ::ImageSpaceEffectParam(1.0f, 0.5f, 0.5f, 1.0f);
                                         V tc20;
-                                        int c24 = ((int)(::fnv_004b3890::FUN_004b3890((*(const class class ::FUN_006815c0 *)(&v83c)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), (*(const class class ::FUN_006815c0 *)(((::fnv_009b90b0::V *)(reinterpret_cast<::Point3Offset *>(&(v83c))->ProjectileLaunched((::NiPoint3 *)(::fnv_009b90b0::V *)(&tc20), (::NiPoint3 *)(::fnv_009b90b0::V *)(&v8e0)))))), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), 1)));
+                                        int c24 = ((int)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&v83c)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), (*(const class ::FUN_006815c0 *)(((::fnv_009b90b0::V *)(reinterpret_cast<::Point3Offset *>(&(v83c))->ProjectileLaunched((::NiPoint3 *)(::fnv_009b90b0::V *)(&tc20), (::NiPoint3 *)(::fnv_009b90b0::V *)(&v8e0)))))), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), 1)));
                                         reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::fnv_009b90b0::Glob * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(c24), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b90b0::Glob *>(&::g_011f210c)))))));
                                     }
                                     for (int k = 0; !blocked && k < ((int)(reinterpret_cast<::Callees *>((((::fnv_009b90b0::List *)(::FUN_00460140((int)(((::fnv_009b90b0::ListH *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(big2))->FUN_008cdd90()))))))))->FUN_00726070()));
@@ -4195,7 +4188,6 @@ void Actor::FUN_009b90b0()
                                 {
                                     reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)(::fnv_009b90b0::V *)(&owner->unk04));
                                     V5 vcc0;
-                                    new ((void *)&(vcc0)) ::Vec3();
                                     ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&vcc0)), (*(const ::fnv_004a3e00::NiPoint3 *)(&owner->unk04)));
                                     ((::fnv_009b90b0::Obj *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))->FUN_00c6e390(&vcc0);
                                 }

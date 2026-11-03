@@ -191,7 +191,7 @@ bool FUN_00979e90_shell::FUN_00979e90(CombatController* apCombatController, Comb
     pList = reinterpret_cast<CombatWorldStateListNode*>(((void *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<TgtOps*>(this)))->GetCurrentProcessData())));
     while (pList)
     {
-        pWorldState4 = *((::UnsignedIdHandle **)(new ((void *)(reinterpret_cast<B006815c0*>(pList))) ::Vec3()));
+        pWorldState4 = *((::UnsignedIdHandle **)(((::Vec3 *)(void *)(reinterpret_cast<B006815c0*>(pList)))));
         if (pWorldState4)
         {
             iValue3 = ((int)(reinterpret_cast<::Callees *>((pWorldState4))->FUN_00726070())) == -1 ? aiActionValue : ((int)(reinterpret_cast<::Callees *>((pWorldState4))->FUN_00726070()));

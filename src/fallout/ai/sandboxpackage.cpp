@@ -1324,7 +1324,6 @@ void FalloffController::UpdateFalloff(float currentTime)
     else
     {
         FalloffPair falloffPair;
-        new ((void *)&(falloffPair)) ::Vec3();
         falloffPair.first = 1.0f - elapsed / firstDuration;
         falloffPair.second = 1.0f - elapsed / secondDuration;
         firstOutput = FUN_004e44d0(elapsed * firstRate) * firstStrength * falloffPair.first;

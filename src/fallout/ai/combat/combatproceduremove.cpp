@@ -453,7 +453,7 @@ FUN_009d69f0::FUN_009d69f0(MoveInput* input, float speed, unsigned int flags)
 {
     if (input)
     {
-        startTransform = *((::FUN_0097ede0 *)(new ((void *)(input)) ::Vec3()));
+        startTransform = *((::FUN_0097ede0 *)(((::Vec3 *)(void *)(input))));
         currentTransform = startTransform;
         target38 = ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((input))->FUN_0044edb0()));
         if (((bool)(reinterpret_cast<::FUN_0097be60_cls *>((input))->FUN_0097be60(2))))
@@ -1476,7 +1476,7 @@ bool Procedure052::UpdateMovementRequest(Output052* output)
     State052* i = k->FUN_007058c0();
     if (i && i->type == 1 && !reinterpret_cast<::TESActorBaseData *>((k))->GetFlag(256) && state != 8 && ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(i->location))->FUN_0084e3a0())) == ((void *)(reinterpret_cast<::s575ca0::Owner *>((a))->FUN_00575ca0())))
     {
-        h = *((::Point052 *)(new ((void *)&(i->location)) ::Vec3()));
+        h = *((::Point052 *)(((::Vec3 *)(void *)&(i->location))));
         g = reinterpret_cast<::FUN_009a0b00_s *>((k))->FUN_009a0b00();
         Point052 delta = h - a->position();
         if (reinterpret_cast<::TESCombatStyle *>(&(delta))->UpdateCombatStyle() > g * g)
@@ -1487,10 +1487,10 @@ bool Procedure052::UpdateMovementRequest(Output052* output)
         request = rate;
     if (state == 1 && mode == 1 && target)
     {
-        Point052 position = FUN_009a68b0(a, target, ((::Point052 *)(new ((void *)&(source)) ::Vec3())), DAT_01012054);
+        Point052 position = FUN_009a68b0(a, target, ((::Point052 *)(((::Vec3 *)(void *)&(source)))), DAT_01012054);
         Location052 location(position, a);
         if (reinterpret_cast<::PathingLocationCheck *>(&(location))->FUN_006ded70(a->FUN_008be1b0()) &&
-            ::FUN_009a7940((::SightReference *)(a), (::SightReference *)(target), (*(const ::NiPoint3 *)(&position)), (*(const ::NiPoint3 *)(((::Point052 *)(new ((void *)&(source)) ::Vec3())))), 0, -1))
+            ::FUN_009a7940((::SightReference *)(a), (::SightReference *)(target), (*(const ::NiPoint3 *)(&position)), (*(const ::NiPoint3 *)(((::Point052 *)(((::Vec3 *)(void *)&(source)))))), 0, -1))
         {
             reinterpret_cast<::fnv_0098ddd0::FUN_0098ddd0_shell *>(&(destination))->FUN_0098ddd0(&position);
             if (!((::Avoid052 *)(::FUN_00559450((int *)(output)))))
@@ -1516,7 +1516,7 @@ bool Procedure052::UpdateMovementRequest(Output052* output)
         request = -request;
         d = true;
     }
-    reinterpret_cast<::ActorStandIn *>((a))->BuildPathingRequest((::PathingRequest *)(e), (*(const ::NiPoint3 *)(((::Point052 *)(new ((void *)&(destination)) ::Vec3())))), (::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(destination))->FUN_0084e3a0()))), request, (::PathingAvoidNodeArray *)(void *)(((::Avoid052 *)(::FUN_00559450((int *)(output))))));
+    reinterpret_cast<::ActorStandIn *>((a))->BuildPathingRequest((::PathingRequest *)(e), (*(const ::NiPoint3 *)(((::Point052 *)(((::Vec3 *)(void *)&(destination)))))), (::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(destination))->FUN_0084e3a0()))), request, (::PathingAvoidNodeArray *)(void *)(((::Avoid052 *)(::FUN_00559450((int *)(output))))));
     reinterpret_cast<::FUN_006e2980_shell *>((((Request052*)e)))->FUN_006e2980((::NiPoint3 *)&(h), g);
     if (d)
         reinterpret_cast<::FUN_008e7c50_cls *>((((Request052*)e)))->SetUseSoft(0);
@@ -1723,7 +1723,7 @@ void MoveDebug::PrintDebugInfo(DebugDisplay* display, int x, int y)
         display->Print(x, y, "Check Cover Timer: %.02f/%.02f", reinterpret_cast<::FUN_00435e00_t *>(&(coverTimer))->FUN_00435e00(), reinterpret_cast<::TimeoutTimer *>(&(coverTimer))->FUN_006b9130());
         break;
     }
-    DebugPoint position = (*(::DebugPoint *)(new ((void *)&(destination)) ::Vec3()));
+    DebugPoint position = (*(::DebugPoint *)(((::Vec3 *)(void *)&(destination))));
     DebugReference* cell = ((::DebugReference *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(destination))->FUN_0084e3a0()));
     if (cell && cell != ((::DebugReference *)(reinterpret_cast<::s575ca0::Owner *>((((::DebugReference *)(::GetFieldBC((::FUN_0097ae90_Class *)(owner))))))->FUN_00575ca0())))
         display->Print(x, y, "Destination: %s (%.02f,%.02f,%.02f)", cell->GetDebugName(), position.x, position.y,
@@ -1847,7 +1847,7 @@ void MoveProcedure::FUN_009d6ca0()
                 switch (mode)
                 {
                 case 1:
-                    if (state != 2 && reinterpret_cast<::NiPlane *>((void *)&(const ::MoveVec &)(*((::MoveVec *)(new ((void *)&(current)) ::Vec3()))))->operator==((const ::NiPlane &)(*((::MoveVec *)(new ((void *)&(destination)) ::Vec3())))))
+                    if (state != 2 && reinterpret_cast<::NiPlane *>((void *)&(const ::MoveVec &)(*((::MoveVec *)(((::Vec3 *)(void *)&(current))))))->operator==((const ::NiPlane &)(*((::MoveVec *)(((::Vec3 *)(void *)&(destination)))))))
                         reinterpret_cast<::fnv_009a0ec0::FUN_009a0ec0_shell *>((manager2))->SetNodeBlockAndTimestamp((const ::fnv_009a0ec0::FUN_009a0ec0_Block *)&(destination));
                     break;
                 }
@@ -1900,7 +1900,7 @@ void MoveProcedure::FUN_009d6ca0()
                     {
                         if (!InRange((*(::MoveVec *)&(reinterpret_cast<::TaskQueueInterface *>(&(path->location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), *other7->Position(), path->start, path->end))
                             changed3 = true;
-                        else if (!reinterpret_cast<::FUN_0099ccd0_shell *>((manager2))->FUN_0099ccd0((::Seg99 *)(::MoveLoc *)(&path->location), (::NiPoint3Ex *)(::MoveVec *)(((::MoveVec *)(new ((void *)&(current)) ::Vec3()))), (::FUN_0099ccd0_Actor *)(other7), 0))
+                        else if (!reinterpret_cast<::FUN_0099ccd0_shell *>((manager2))->FUN_0099ccd0((::Seg99 *)(::MoveLoc *)(&path->location), (::NiPoint3Ex *)(::MoveVec *)(((::MoveVec *)(((::Vec3 *)(void *)&(current))))), (::FUN_0099ccd0_Actor *)(other7), 0))
                             changed3 = true;
                     }
                 }
@@ -1980,7 +1980,7 @@ void MoveProcedure::FUN_009d6ca0()
                 *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting460)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting460)))))))
             {
                 MoveProbe request(destination);
-                if (Probe(&request, ((::MoveVec *)(new ((void *)&(loc)) ::Vec3())), 0, 0))
+                if (Probe(&request, ((::MoveVec *)(((::Vec3 *)(void *)&(loc)))), 0, 0))
                     stop5 = true;
             }
             reinterpret_cast<::FUN_008d7f40_shell *>(&(probe))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::g_011cfad4)))))));
@@ -2022,7 +2022,7 @@ void MoveProcedure::FUN_009d6ca0()
             }
             if (!finished6 && reinterpret_cast<::fnv_0097ee90::DummyInner *>((manager2))->FUN_0097ee90() && reinterpret_cast<::TimeoutTimer *>(&(check))->CheckTimer())
             {
-                if (!reinterpret_cast<::FUN_0099ccd0_shell *>((manager2))->FUN_0099ccd0((::Seg99 *)(::MoveLoc *)(&path2->location), (::NiPoint3Ex *)(::MoveVec *)(((::MoveVec *)(new ((void *)&(current)) ::Vec3()))), (::FUN_0099ccd0_Actor *)(other7), 1))
+                if (!reinterpret_cast<::FUN_0099ccd0_shell *>((manager2))->FUN_0099ccd0((::Seg99 *)(::MoveLoc *)(&path2->location), (::NiPoint3Ex *)(::MoveVec *)(((::MoveVec *)(((::Vec3 *)(void *)&(current))))), (::FUN_0099ccd0_Actor *)(other7), 1))
                     finished6 = true;
                 reinterpret_cast<::FUN_008d7f40_shell *>(&(check))->FUN_008d7f40(0.25f);
             }

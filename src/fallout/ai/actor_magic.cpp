@@ -298,7 +298,7 @@ void Actor::AddDefaultSpells()
     BSSimpleList<SpellItem*>* defaultForm = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::BaseProcess *>(&(GetActorBase()->spells))->GetCurrentProcessData()));
     while (defaultForm)
     {
-        SpellItem* spell = ((::SpellItem *)(new ((void *)(defaultForm)) ::Vec3()));
+        SpellItem* spell = (((defaultForm))->m_item);
         if (spell && ::FUN_00804b30((int)(spell->vfn_18())))
             spell->Preload(false);
         defaultForm = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::Callees *>((defaultForm))->FUN_00726070()));
@@ -306,7 +306,7 @@ void Actor::AddDefaultSpells()
     defaultForm = GetRace() ? ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::BaseProcess *>(&(GetRace()->spells))->GetCurrentProcessData())) : 0;
     while (defaultForm)
     {
-        SpellItem* raceSpell = ((::SpellItem *)(new ((void *)(defaultForm)) ::Vec3()));
+        SpellItem* raceSpell = (((defaultForm))->m_item);
         if (raceSpell && ::FUN_00804b30((int)(raceSpell->vfn_18())))
             raceSpell->Preload(false);
         defaultForm = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::Callees *>((defaultForm))->FUN_00726070()));
@@ -1003,7 +1003,7 @@ void FUN_009b28a0_t::FUN_009b28a0(unsigned int c)
     {
         FUN_009b28a0_efx* peffect;
         FUN_009b28a0_node* m_pActionSuccessor = ((::FUN_009b28a0_node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
-        peffect = *((::FUN_009b28a0_efx **)(new ((void *)(pNode)) ::Vec3()));
+        peffect = *((::FUN_009b28a0_efx **)(((::Vec3 *)(void *)(pNode))));
         if (peffect && (unsigned int)peffect->m_pEffectInstance == c)
         {
             peffect->f6 = 1;
@@ -1911,7 +1911,7 @@ bool SummonOwner::DispelSummonEffects()
     EffectNode* pNode6 = pTarget3->magicTarget.GetActiveEffectList();
     while (pNode6 && !pNode6->IsEmpty())
     {
-        ActiveEffect* pEffect = *((::ActiveEffect **)(new ((void *)(pNode6)) ::Vec3()));
+        ActiveEffect* pEffect = *((::ActiveEffect **)(((::Vec3 *)(void *)(pNode6))));
         if (pEffect && reinterpret_cast<::S3e60 *>((pEffect->GetEffectSetting()))->FUN_00403e60(0x40000))
         {
             SummonCreatureEffect* pSummon = dynamic_cast<SummonCreatureEffect*>(pEffect);
@@ -3162,10 +3162,10 @@ void XHost17::FUN_00891e00(XRefr17* pRefr, int iCount, bool a2)
 
     reinterpret_cast<::ActorSoundStub *>(this)->PlayActorSound((int)(bound), 1, 0);
 
-    while (s != 0 && *((::XItem17 **)(new ((void *)(s)) ::Vec3())) != 0)
+    while (s != 0 && *((::XItem17 **)(((::Vec3 *)(void *)(s)))) != 0)
     {
 
-        XItem17* efx = *((::XItem17 **)(new ((void *)(s)) ::Vec3()));
+        XItem17* efx = *((::XItem17 **)(((::Vec3 *)(void *)(s))));
 
         if (efx != 0 && ((::XRefr17 *)(reinterpret_cast<::FUN_00881650_shell *>((efx))->FUN_00881650())) == pRefr)
         {
@@ -4644,7 +4644,7 @@ void FUN_008c2b60_shell::ApplyActorSpells()
     FUN_008c2b60_node* pNode2 = ((::FUN_008c2b60_node *)(reinterpret_cast<::BaseProcess *>((&GetActorBase()->spells))->GetCurrentProcessData()));
     while (pNode2)
     {
-        SpellItem* pSpell_2 = *((::SpellItem **)(new ((void *)(pNode2)) ::Vec3()));
+        SpellItem* pSpell_2 = *((::SpellItem **)(((::Vec3 *)(void *)(pNode2))));
         if (pSpell_2 && FUN_00804b30((int)pSpell_2->vfn_18()) && !((bool)(reinterpret_cast<::FlaggedData *>((((FUN_008c2e30_spell*)pSpell_2)))->FUN_008c2e30())))
             reinterpret_cast<::MagicTarget *>((((FUN_00824400_target*)static_cast<MagicTarget *>(this))))->Dispel(pSpell_2, (::MagicCaster *)(void *)(0), (::ActiveEffect *)(void *)(0));
         pNode2 = ((::FUN_008c2b60_node *)(reinterpret_cast<::Callees *>((pNode2))->FUN_00726070()));
@@ -4653,7 +4653,7 @@ void FUN_008c2b60_shell::ApplyActorSpells()
     pNode2 = ((FUN_008c2b60_vtbl*)this)->v223() ? ((::FUN_008c2b60_node *)(reinterpret_cast<::BaseProcess *>((&((FUN_008c2b60_vtbl*)this)->v223()->spells))->GetCurrentProcessData())) : 0;
     while (pNode2)
     {
-        SpellItem* _pRaceSpell = *((::SpellItem **)(new ((void *)(pNode2)) ::Vec3()));
+        SpellItem* _pRaceSpell = *((::SpellItem **)(((::Vec3 *)(void *)(pNode2))));
         if (_pRaceSpell && FUN_00804b30((int)_pRaceSpell->vfn_18()))
             reinterpret_cast<::MagicTarget *>((((FUN_00824400_target*)static_cast<MagicTarget *>(this))))->Dispel(_pRaceSpell, (::MagicCaster *)(void *)(0), (::ActiveEffect *)(void *)(0));
         pNode2 = ((::FUN_008c2b60_node *)(reinterpret_cast<::Callees *>((pNode2))->FUN_00726070()));
@@ -4769,7 +4769,7 @@ void Actor8c30::FUN_008c30a0()
     BSSimpleList<SpellItem*>* pkIter = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::BaseProcess *>(&(GetActorBase()->spells))->GetCurrentProcessData()));
     while (pkIter)
     {
-        SpellItem8c30* pkSpell = (SpellItem8c30*)((::SpellItem *)(new ((void *)(pkIter)) ::Vec3()));
+        SpellItem8c30* pkSpell = (SpellItem8c30*)(((pkIter))->m_item);
         if (pkSpell && ::FUN_00804b30((int)(pkSpell->vfn_18())))
             reinterpret_cast<::UnloadMagic *>((pkSpell))->FUN_0040b800(true);
         pkIter = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070()));
@@ -4777,7 +4777,7 @@ void Actor8c30::FUN_008c30a0()
     pkIter = GetRace() ? ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::BaseProcess *>(&(GetRace()->spells))->GetCurrentProcessData())) : 0;
     while (pkIter)
     {
-        SpellItem8c30* pkRaceSpell = (SpellItem8c30*)((::SpellItem *)(new ((void *)(pkIter)) ::Vec3()));
+        SpellItem8c30* pkRaceSpell = (SpellItem8c30*)(((pkIter))->m_item);
         if (pkRaceSpell && ::FUN_00804b30((int)(pkRaceSpell->vfn_18())))
             reinterpret_cast<::UnloadMagic *>((pkRaceSpell))->FUN_0040b800(true);
         pkIter = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070()));
@@ -7403,7 +7403,6 @@ bool SightActor::FUN_0088b880(bool force, SightActor* other, bool mode, int* res
                 if (!cell)
                     return false;
                 SightVec start;
-                new ((void *)&(start)) ::Vec3();
                 SightScene* source = 0;
                 SightBase* base = ((::SightBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase()));
                 void* race = base->Race();
@@ -7461,7 +7460,6 @@ bool SightActor::FUN_0088b880(bool force, SightActor* other, bool mode, int* res
                     void* buffer = 0;
                     SightWorld* world = ((::SightWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((cell))->FUN_004543c0()));
                     SightHkVec pos;
-                    new ((void *)&(pos)) ::Vec3();
                     ::CopyCharacterControllerVector((::bhkCharacterController *)(::SightHkVec *)(&pos), (const ::NiPoint3 &)(start));
                     SightBounds bounds;
                     reinterpret_cast<::Holder *>(&(bounds))->FUN_00628950((::Holder *)(::SightHkVec *)(&pos), (::Holder *)(::SightHkVec *)(&pos));

@@ -199,7 +199,7 @@ struct CallTarget_00cd1d80
 };
 struct SearchObject
 {
-    int Search(uintptr_t arg0, unsigned int arg1, uintptr_t arg2, unsigned int arg3);
+    int Search(uintptr_t arg0, uintptr_t arg1, uintptr_t arg2, unsigned int arg3);
 };
 // @fnv 0x00cd1e20
 int SearchObject::Search(uintptr_t arg0, uintptr_t arg1, uintptr_t arg2, unsigned int arg3)

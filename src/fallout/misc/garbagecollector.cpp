@@ -1,5 +1,6 @@
 // fallout/misc/garbagecollector.cpp: GarbageCollector (22 functions)
 
+#include <cstdint>
 #include "fnv/decl/Animation.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/ControllerOwner.h"
@@ -443,11 +444,11 @@ struct FUN_008693c0_shell
 {
     unsigned char _00[10];
     unsigned short m_0A;
-    void FUN_008693c0(int a);
+    void FUN_008693c0(std::intptr_t a);
 };
 // Forwards the value to FUN_00869640 together with the field at offset 0x0A.
 // @fnv 0x008693c0
-void FUN_008693c0_shell::FUN_008693c0(int aiValue)
+void FUN_008693c0_shell::FUN_008693c0(std::intptr_t aiValue)
 {
     reinterpret_cast<::FUN_00869640_StrArr *>(this)->FUN_00869640(m_0A, (*(char * *)(aiValue)));
 }

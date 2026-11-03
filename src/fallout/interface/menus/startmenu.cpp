@@ -1185,7 +1185,7 @@ int FUN_007d6950(BGSSaveLoadFileEntry* pThis)
 }
 
 // @fnv 0x007d6970
-int FUN_007d6970(BGSSaveLoadFileEntry* pThis)
+char* FUN_007d6970(BGSSaveLoadFileEntry* pThis)
 {
     pThis->ReadTypedData();
     return pThis->unk14;

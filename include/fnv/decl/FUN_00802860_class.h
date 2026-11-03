@@ -3,5 +3,5 @@
 struct FUN_00802860_class {
 public:
     // 0x00802860
-    int ResetField();
+    ::FUN_00802860_class *ResetField();
 };

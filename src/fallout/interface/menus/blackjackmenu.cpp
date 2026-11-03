@@ -3129,7 +3129,7 @@ Tile129* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required)
         char message[260];
         ::FUN_00406d00(message, 260, DAT_01070c58, (*reinterpret_cast<::Settings129 *>(&::g_011d451c)).FUN_00403df0(),
                      ((int)(reinterpret_cast<::TimeCounter *>((((Player129*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))))->FUN_00969b40())));
-        ::DispatchMessageToSink((std::intptr_t)(message), 0, (std::intptr_t)(DAT_01049638), 0, ::DAT_010162c0, 0);
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(DAT_01049638), 0, ::DAT_010162c0, 0);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -3137,7 +3137,7 @@ Tile129* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required)
     {
         char message[260];
         ::FUN_00406d00(message, 260, (*reinterpret_cast<::Settings129 *>(&::g_011d3abc)).FUN_00403df0());
-        ::DispatchMessageToSink((std::intptr_t)(message), 0, (std::intptr_t)(DAT_01049638), 0, ::DAT_010162c0, 0);
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(DAT_01049638), 0, ::DAT_010162c0, 0);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -3145,7 +3145,7 @@ Tile129* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required)
     {
         char message[260];
         ::FUN_00406d00(message, 260, (*reinterpret_cast<::Settings129 *>(&::g_011d2424)).FUN_00403df0());
-        ::DispatchMessageToSink((std::intptr_t)(message), 0, (std::intptr_t)(DAT_01049638), 0, ::DAT_010162c0, 0);
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(DAT_01049638), 0, ::DAT_010162c0, 0);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -3153,7 +3153,7 @@ Tile129* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required)
     {
         char message[260];
         ::FUN_00406d00(message, 260, (*reinterpret_cast<::Settings129 *>(&::g_011d3594)).FUN_00403df0());
-        ::DispatchMessageToSink((std::intptr_t)(message), 0, (std::intptr_t)(DAT_01049638), 0, ::DAT_010162c0, 0);
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(DAT_01049638), 0, ::DAT_010162c0, 0);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -5195,8 +5195,8 @@ void BlackjackUpdate::FUN_00734db0()
                 ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&msg), DAT_0101c178, -difference,
                              ::FUN_00482720((::TESForm *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0())))), (*reinterpret_cast<::Settings129 *>(&::g_011d3114)).FUN_00403df0(),
                              (*reinterpret_cast<::Settings129 *>(&::g_011d3db4)).FUN_00403df0());
-                ::DispatchMessageToSink(reinterpret_cast<std::intptr_t>((const char *)(msg)), 0, (std::intptr_t)(::g_011cba18_arg1),
-                                      (std::intptr_t)reinterpret_cast<::PickupSoundActorView *>((((PlayerUpdate*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))))->FUN_008adcf0((::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0()))), 1, false),
+                ::DispatchMessageToSink((const char *)(msg), 0, (const char *)(::g_011cba18_arg1),
+                                      (const char *)reinterpret_cast<::PickupSoundActorView *>((((PlayerUpdate*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))))->FUN_008adcf0((::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0()))), 1, false),
                                       ::DAT_010162c0, 0);
             }
             else if (difference > 0)
@@ -5212,8 +5212,8 @@ void BlackjackUpdate::FUN_00734db0()
                     ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&msg2), DAT_01070d8c, difference,
                                  ::FUN_00482720((::TESForm *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0())))),
                                  (*reinterpret_cast<::Settings129 *>(&::g_011d3114)).FUN_00403df0(), (*reinterpret_cast<::Settings129 *>(&::g_011d4e7c)).FUN_00403df0(), (*reinterpret_cast<::Settings129 *>(&::g_011d3abc)).FUN_00403df0());
-                    ::DispatchMessageToSink(reinterpret_cast<std::intptr_t>((const char *)(msg2)), 0, (std::intptr_t)(::g_011cba00_arg1),
-                                          (std::intptr_t)reinterpret_cast<::PickupSoundActorView *>((((PlayerUpdate*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))))->FUN_008adcf0((::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0()))), 1, false),
+                    ::DispatchMessageToSink((const char *)(msg2), 0, (const char *)(::g_011cba00_arg1),
+                                          (const char *)reinterpret_cast<::PickupSoundActorView *>((((PlayerUpdate*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))))->FUN_008adcf0((::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0()))), 1, false),
                                           ::DAT_010162c0, 0);
                 }
             }
@@ -5832,7 +5832,7 @@ void BlackjackUpdate::FUN_00734db0()
         {
             char warning[260];
             ::FUN_00406d00(warning, 260, (*reinterpret_cast<::Settings129 *>(&::g_011d2424)).FUN_00403df0());
-            ::DispatchMessageToSink((std::intptr_t)(warning), 0, (std::intptr_t)(DAT_01049638), 0, ::DAT_010162c0, 0);
+            ::DispatchMessageToSink((const char *)(warning), 0, (const char *)(DAT_01049638), 0, ::DAT_010162c0, 0);
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
             FUN_00731d30();
         }

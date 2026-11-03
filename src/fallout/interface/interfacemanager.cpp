@@ -3287,11 +3287,11 @@ void FUN_0070c4a0_shell::UpdateInterface()
         }
         if (pcontrols->SetHotkeyItem(0x19, 1) && !::FUN_0070edf0())
         {
-            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0070c4a0::GSet *>(&::g_011d4cb4))))->GetMenuTitle()))), 0, (std::intptr_t)(::g_011cba18_arg1), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0070c4a0::GSet *>(&::g_011d4cb4))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (int)(0), 2.0f, false);
         }
         if (pcontrols->SetHotkeyItem(0x1a, 1) && !::FUN_0070edf0())
         {
-            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0070c4a0::GSet *>(&::g_011d3fd0))))->GetMenuTitle()))), 0, (std::intptr_t)(::g_011cba18_arg1), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0070c4a0::GSet *>(&::g_011d3fd0))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (int)(0), 2.0f, false);
         }
     }
     bool tempMemContext = false;

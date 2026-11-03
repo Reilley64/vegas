@@ -612,7 +612,8 @@ struct Message
     String buttons;
     bool hasButtons;
     String hotkeys;
-    int buttonCount, type;
+    void* resultCallback;
+    int type;
     String sound;
     bool pause;
     int tileID, callback;
@@ -632,13 +633,13 @@ struct Setting
 };
 // Builds a Message from the given title, text, icon, sound and buttons, inserts it into the message queue, and triggers the display update.
 // @fnv 0x007a8e60
-bool QueueMessage(const char* title, const char* message, const char* icon, const char* sound, int buttonCount,
+bool QueueMessage(const char* title, const char* message, const char* icon, const char* sound, void* resultCallback,
                   bool hasButtons, int type, const char* firstButton, const char*** arguments, bool pause, int tileID,
                   int callback, float time, float alpha, float flags)
 {
     Message* info = new Message;
     String buttonSlot11(firstButton);
-    info->buttonCount = buttonCount;
+    info->resultCallback = resultCallback;
     info->hasButtons = hasButtons;
     info->type = type;
     info->message.FUN_00438390(message);

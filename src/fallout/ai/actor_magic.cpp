@@ -1053,7 +1053,7 @@ void FUN_008c1de0_shell::FUN_008c1de0(TESForm* pItem, ExtraDataList* pExtra, boo
     {
         if (this == (Actor*)::_g_thePlayer)
         {
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&(g_011d39fc))->GetMenuTitle()))), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&(g_011d39fc))->GetMenuTitle()))), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0),
                            2.0, false);
         }
         return;
@@ -5427,23 +5427,23 @@ void Owner5610::UpdateStageChange(void* apActor, int aiValueIndex, float oldValu
             if (delta > 0.0)
             {
                 std::sprintf(buffer, ((const char *)(reinterpret_cast<::StartMenu *>((((Setting5610*)&(*reinterpret_cast<char *>(&::g_011d2f40)))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)(buffer), 0, (int)(&(*reinterpret_cast<char *>((void *)&::g_011cba64_arg1))), (int)(0), 2.0f, false);
+                ::DispatchMessageToSink((const char *)(buffer), 0, (const char *)(&(*reinterpret_cast<char *>((void *)&::g_011cba64_arg1))), (const char *)(0), 2.0f, false);
             }
             else
             {
                 std::sprintf(buffer, ((const char *)(reinterpret_cast<::StartMenu *>((((Setting5610*)&(*reinterpret_cast<char *>(&::g_011d4b7c)))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)(buffer), 0, (int)(&(*reinterpret_cast<char *>((void *)&::g_011cba00_arg1))), (int)(0), 2.0f, false);
+                ::DispatchMessageToSink((const char *)(buffer), 0, (const char *)(&(*reinterpret_cast<char *>((void *)&::g_011cba00_arg1))), (const char *)(0), 2.0f, false);
             }
             if (newStage)
             {
                 std::sprintf(buffer, &(*reinterpret_cast<char *>((void *)&::DAT_01012058)), ((const char *)(reinterpret_cast<::StartMenu *>((((Setting5610*)&(*reinterpret_cast<char *>(&::g_011d3ebc)))))->GetMenuTitle())),
                              ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((Sound5610*)((char*)((::Spell5610 *)(reinterpret_cast<::BGSTerrainManager *>((newStage))->GetMinLevel())) + 0x18))))->FUN_00408da0())));
-                ::DispatchMessageToSink((int)(buffer), 0, (int)(&(*reinterpret_cast<char *>((void *)&::g_011cba64_arg1))), (int)(0), 2.0f, false);
+                ::DispatchMessageToSink((const char *)(buffer), 0, (const char *)(&(*reinterpret_cast<char *>((void *)&::g_011cba64_arg1))), (const char *)(0), 2.0f, false);
             }
             else
             {
                 std::sprintf(buffer, ((const char *)(reinterpret_cast<::StartMenu *>((((Setting5610*)&(*reinterpret_cast<char *>(&::g_011d4fd8)))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)(buffer), 0, (int)(&(*reinterpret_cast<char *>((void *)&::g_011cba00_arg1))), (int)(0), 2.0f, false);
+                ::DispatchMessageToSink((const char *)(buffer), 0, (const char *)(&(*reinterpret_cast<char *>((void *)&::g_011cba00_arg1))), (const char *)(0), 2.0f, false);
             }
             reinterpret_cast<::MagicTarget *>((((Target5610*)((char*)actor + 0x94))))->UpdateActiveEffects(0.0f);
         }
@@ -5751,23 +5751,23 @@ void __cdecl Entry5890::UpdateStageTransition(Values5890* pValues, int index, fl
             if (delta > 0.0)
             {
                 sprintf(buffer, ((const char *)(reinterpret_cast<::StartMenu *>((reinterpret_cast<Setting5890*>(&(*reinterpret_cast<char *>(&::g_011d1fd4)))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)(buffer), 0, (int)(&(*reinterpret_cast<char *>((void *)&::g_011cba64_arg1))), (int)(0), 2.0f, false);
+                ::DispatchMessageToSink((const char *)(buffer), 0, (const char *)(&(*reinterpret_cast<char *>((void *)&::g_011cba64_arg1))), (const char *)(0), 2.0f, false);
             }
             else
             {
                 sprintf(buffer, ((const char *)(reinterpret_cast<::StartMenu *>((reinterpret_cast<Setting5890*>(&(*reinterpret_cast<char *>(&::g_011d4c6c)))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)(buffer), 0, (int)(&(*reinterpret_cast<char *>((void *)&::g_011cba00_arg1))), (int)(0), 2.0f, false);
+                ::DispatchMessageToSink((const char *)(buffer), 0, (const char *)(&(*reinterpret_cast<char *>((void *)&::g_011cba00_arg1))), (const char *)(0), 2.0f, false);
             }
             if (newStage)
             {
                 sprintf(buffer, &(*reinterpret_cast<char *>((void *)&::DAT_01012058)), ((const char *)(reinterpret_cast<::StartMenu *>((reinterpret_cast<Setting5890*>(&(*reinterpret_cast<char *>(&::g_011d3ebc)))))->GetMenuTitle())),
                         ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((::Spell5890 *)(reinterpret_cast<::BGSTerrainManager *>((newStage))->GetMinLevel()))))->FUN_00408da0())));
-                ::DispatchMessageToSink((int)(buffer), 0, (int)(&(*reinterpret_cast<char *>((void *)&::g_011cba64_arg1))), (int)(0), 2.0f, false);
+                ::DispatchMessageToSink((const char *)(buffer), 0, (const char *)(&(*reinterpret_cast<char *>((void *)&::g_011cba64_arg1))), (const char *)(0), 2.0f, false);
             }
             else
             {
                 sprintf(buffer, ((const char *)(reinterpret_cast<::StartMenu *>((reinterpret_cast<Setting5890*>(&(*reinterpret_cast<char *>(&::g_011d3a14)))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)(buffer), 0, (int)(&(*reinterpret_cast<char *>((void *)&::g_011cba00_arg1))), (int)(0), 2.0f, false);
+                ::DispatchMessageToSink((const char *)(buffer), 0, (const char *)(&(*reinterpret_cast<char *>((void *)&::g_011cba00_arg1))), (const char *)(0), 2.0f, false);
             }
             reinterpret_cast<::MagicTarget *>(&(actor->target))->UpdateActiveEffects(0.0f);
         }
@@ -6206,25 +6206,25 @@ void OnActorValueStageChange(StandActorValueOwner* owner, int aiActorValue, floa
             if (delta > 0.0)
             {
                 sprintf(buffer, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_008c5350::Setting *>(&::g_011d3384))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)(buffer), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_in_pain.dds"), (int)(0), 2.0f,
+                ::DispatchMessageToSink((const char *)(buffer), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_in_pain.dds"), (const char *)(0), 2.0f,
                                false);
             }
             else
             {
                 sprintf(buffer, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_008c5350::Setting *>(&::g_011d40a8))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)(buffer), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"), (int)(0),
+                ::DispatchMessageToSink((const char *)(buffer), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"), (const char *)(0),
                                2.0f, false);
             }
             if (newStage)
             {
                 sprintf(buffer, "%s %s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_008c5350::Setting *>(&::g_011d3ebc))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((::fnv_008c5350::Spell *)(reinterpret_cast<::BGSTerrainManager *>((newStage))->GetMinLevel()))))->FUN_00408da0())));
-                ::DispatchMessageToSink((int)(buffer), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_in_pain.dds"), (int)(0), 2.0f,
+                ::DispatchMessageToSink((const char *)(buffer), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_in_pain.dds"), (const char *)(0), 2.0f,
                                false);
             }
             else
             {
                 sprintf(buffer, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_008c5350::Setting *>(&::g_011d29ac))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)(buffer), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"), (int)(0),
+                ::DispatchMessageToSink((const char *)(buffer), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"), (const char *)(0),
                                2.0f, false);
             }
             reinterpret_cast<::MagicTarget *>((actor))->UpdateActiveEffects(0.0f);
@@ -7893,13 +7893,13 @@ void OnSleepDeprivationStageChanged(ActorValueOwner* pOwner, int eAV, float fOld
             {
                 std::sprintf(aAcBuffer, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::ns8c5b10::Setting *>(&::g_011d2fac))))->GetMenuTitle())));
                 ::DispatchMessageToSink(
-                    (int)(aAcBuffer), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_in_pain.dds"), (int)(0), 2.0f, false);
+                    (const char *)(aAcBuffer), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_in_pain.dds"), (const char *)(0), 2.0f, false);
             }
             else
             {
                 std::sprintf(aAcBuffer, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::ns8c5b10::Setting *>(&::g_011d33b4))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)(aAcBuffer), 0,
-                                      (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"), (int)(0), 2.0f,
+                ::DispatchMessageToSink((const char *)(aAcBuffer), 0,
+                                      (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"), (const char *)(0), 2.0f,
                                       false);
             }
             if (pNewStageB)
@@ -7907,13 +7907,13 @@ void OnSleepDeprivationStageChanged(ActorValueOwner* pOwner, int eAV, float fOld
                 std::sprintf(aAcBuffer, "%s %s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::ns8c5b10::Setting *>(&::g_011d3ebc))))->GetMenuTitle())),
                              ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((::ns8c5b10::SpellItem *)(reinterpret_cast<::BGSTerrainManager *>((pNewStageB))->GetMinLevel()))))->FUN_00408da0())));
                 ::DispatchMessageToSink(
-                    (int)(aAcBuffer), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_in_pain.dds"), (int)(0), 2.0f, false);
+                    (const char *)(aAcBuffer), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_in_pain.dds"), (const char *)(0), 2.0f, false);
             }
             else
             {
                 std::sprintf(aAcBuffer, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::ns8c5b10::Setting *>(&::g_011d40d8))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)(aAcBuffer), 0,
-                                      (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"), (int)(0), 2.0f,
+                ::DispatchMessageToSink((const char *)(aAcBuffer), 0,
+                                      (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"), (const char *)(0), 2.0f,
                                       false);
             }
             reinterpret_cast<::MagicTarget *>((pActor4))->UpdateActiveEffects(0.0f);

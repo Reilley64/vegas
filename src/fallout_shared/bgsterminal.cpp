@@ -1194,12 +1194,12 @@ bool Terminal::ActivateTerminal(Ref* target, Ref* user, int arg3, int arg4, int 
     {
         Text message;
         ::FUN_00406f60((::FUN_00406f90_this *)(::Text *)(&message), ((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Setting *>(&::g_011c8394))))->IsDLCAvailable())), ::ActorValue::GetActorValueName((::ActorValue::Index)(40)), (int)::InventoryStackRecord::RoundToNearestStep(reinterpret_cast<::TermHack *>(this)->FUN_005017a0((::TESObjectREFR *)(target)), 1.0f));
-        ::DispatchMessageToSink((int)(message), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_angry.dds"), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_angry.dds"), (const char *)(0), 2.0f, false);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::Sound &)(((::Audio *)(::FUN_00453a70()))->GetSoundHandleByEditorID("UIPopUpMessageGeneral", 0x121)))->FUN_00ad8830(false);
     }
     else if (user == (Ref*)(*reinterpret_cast<::Player * *>(&::_g_thePlayer)) && ::FUN_005012c0((::TESObjectREFR *)(target)))
     {
-        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d4810))))->GetMenuTitle()))), 0, (int)(0), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d4810))))->GetMenuTitle()))), 0, (const char *)(0), (const char *)(0), 2.0f, false);
         return false;
     }
     else

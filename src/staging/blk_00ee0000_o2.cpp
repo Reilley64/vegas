@@ -4,6 +4,7 @@
 
 #include <winsock2.h>
 #include <windows.h>
+#include <mmsystem.h>
 #include <dinput.h>
 #include <dsound.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -22,7 +23,7 @@ extern int DAT_011011ec;
 
 struct FUN_00ee88b0
 {
-    int m_vftable;
+    void* m_vftable;
     FUN_00ee88b0();
 };
 
@@ -30,7 +31,7 @@ struct FUN_00ee88b0
 FUN_00ee88b0::FUN_00ee88b0()
 {
     _Call_a5d3a0();
-    m_vftable = (int)&DAT_011011ec;
+    m_vftable = &DAT_011011ec;
 }
 
 struct FUN_00ee8a10
@@ -149,7 +150,7 @@ int FUN_00ee6d8c(char* name, int namelen)
 // FUN_00ee6d92: 6-byte 'jmp [IAT]' forwarder to WSOCK32 ordinal 13 (listen, stdcall, 2 args).
 
 // @fnv 0x00ee6d92
-int FUN_00ee6d92(unsigned int s, int backlog)
+int FUN_00ee6d92(SOCKET s, int backlog)
 {
     return listen(s, backlog);
 }
@@ -157,17 +158,14 @@ int FUN_00ee6d92(unsigned int s, int backlog)
 // FUN_00ee6d98: 6-byte 'jmp [IAT]' forwarder to WSOCK32 ordinal 2 (bind, stdcall, 3 args).
 
 // @fnv 0x00ee6d98
-int FUN_00ee6d98(unsigned int s, const void* name, int namelen)
+int FUN_00ee6d98(SOCKET s, const sockaddr* name, int namelen)
 {
     return bind(s, name, namelen);
 }
 
-extern "C"
-{
-}
 
 // @fnv 0x00ee6da4
-char* FUN_00ee6da4(unsigned int addr)
+char* FUN_00ee6da4(in_addr addr)
 {
     return inet_ntoa(addr);
 }
@@ -189,12 +187,11 @@ unsigned short FUN_00ee6daa(unsigned short netshort)
 // FUN_00ee6db0: 6-byte 'jmp [IAT]' forwarder to WSOCK32 ordinal 1 (accept, stdcall, 3 args).
 
 // @fnv 0x00ee6db0
-int FUN_00ee6db0(unsigned int s, void* addr, int* addrlen)
+SOCKET FUN_00ee6db0(SOCKET s, sockaddr* addr, int* addrlen)
 {
     return accept(s, addr, addrlen);
 }
 
-extern "C" int __cdecl __WSAFDIsSet(unsigned long, void*);
 
 extern void(__cdecl* const FUN_00DF3880)();
 
@@ -327,7 +324,8 @@ void* FUN_00ee6e04(void* pOut, unsigned int Yaw, unsigned int Pitch, unsigned in
 // @fnv 0x00ee7f10
 long FUN_00ee7f10(void* hinst, unsigned long dwVersion, const void* riidltf, void** ppvOut, void* punkOuter)
 {
-    return DirectInput8Create(hinst, dwVersion, riidltf, ppvOut, punkOuter);
+    return DirectInput8Create(static_cast<HINSTANCE>(hinst), dwVersion, *static_cast<const IID*>(riidltf), ppvOut,
+                              static_cast<IUnknown*>(punkOuter));
 }
 
 // FUN_00ee81e0: forwards to DSOUND ordinal 11 (DirectSoundCreate8), tail-jumped through the IAT.
@@ -335,7 +333,8 @@ long FUN_00ee7f10(void* hinst, unsigned long dwVersion, const void* riidltf, voi
 // @fnv 0x00ee81e0
 long FUN_00ee81e0(const void* pcGuidDevice, void** ppDS8, void* pUnkOuter)
 {
-    return DirectSoundCreate8(pcGuidDevice, ppDS8, pUnkOuter);
+    return DirectSoundCreate8(static_cast<LPCGUID>(pcGuidDevice), reinterpret_cast<LPDIRECTSOUND8*>(ppDS8),
+                             static_cast<IUnknown*>(pUnkOuter));
 }
 
 // FUN_00ee81e6: forwards to libvorbisfile ov_clear (1 arg, cdecl), tail-jumped through the IAT.
@@ -403,7 +402,7 @@ void __cdecl FUN_00ee820a()
 // @fnv 0x00ee8210
 void FUN_00ee8210(void* TargetFrame, void* TargetIp, void* ExceptionRecord, void* ReturnValue)
 {
-    RtlUnwind(TargetFrame, TargetIp, ExceptionRecord, ReturnValue);
+    RtlUnwind(TargetFrame, TargetIp, static_cast<PEXCEPTION_RECORD>(ExceptionRecord), ReturnValue);
 }
 
 struct FUN_00ee88d0_base

@@ -1620,7 +1620,7 @@ void MagicTarget::UpdateActiveEffects(float delta)
                     }
                     if (show)
                     {
-                        ::DispatchMessageToSink((std::intptr_t)(message), 0, (std::intptr_t)(0), (std::intptr_t)("UIHealthChemsWearOff"), 2.0f, false);
+                        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(0), (const char *)("UIHealthChemsWearOff"), 2.0f, false);
                         AlchemyItem* potion = dynamic_cast<AlchemyItem*>(spell);
                         if (potion && potion->FUN_004030b0())
                         {

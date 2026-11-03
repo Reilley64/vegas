@@ -272,10 +272,10 @@ bool FUN_00b63f10_CH::DispatchHandler(FUN_00b63f10_Arg* apArg)
         int a8 = p9c->m_0c;
         if (c0 == 0 || a8 == 0)
             return true;
-        FUN_00b63f10_Handler fn = (*reinterpret_cast<bool (**[])(void *, FUN_00b63f10_Arg *, FUN_00b63f10_Sub9C *, int, int)>(&::DAT_011f9f80))[m_19c];
+        FUN_00b63f10_Handler fn = reinterpret_cast<FUN_00b63f10_Handler>(::DAT_011f9f80[m_19c]);
         if (fn != 0)
             return fn(this, apArg, p9c, a8, c0);
-        return (*reinterpret_cast<bool (**[])(void *, FUN_00b63f10_Arg *, FUN_00b63f10_Sub9C *, int, int)>(&::DAT_011f9f80))[0](this, apArg, p9c, a8, c0);
+        return reinterpret_cast<FUN_00b63f10_Handler>(::DAT_011f9f80[0])(this, apArg, p9c, a8, c0);
     }
     return true;
 }

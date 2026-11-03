@@ -3,6 +3,17 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include <d3d9.h>
+#include "fnv/decl/FUN_00e68830.h"
+#include "fnv/decl/NiD3DTextureData.h"
+#include "fnv/symbols_00e6e000.h"
+#include "fnv/symbols_00e83000.h"
+#include "fnv/symbols_00e94000.h"
+#include "fnv/symbols_00e97000.h"
+#include "fnv/symbols_00e98000.h"
+#include "fnv/symbols_00e9c000.h"
+#include "fnv/symbols_00e9e000.h"
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -32,7 +43,6 @@
 #include "fnv/decl/Owner_e8bff0.h"
 #include "fnv/decl/S_00b601a0_Map.h"
 #include "fnv/decl/S_00e89970.h"
-#include "fnv/decl/ShaderManagerRelease093.h"
 #include "fnv/decl/Tbl00b57f20.h"
 #include "fnv/decl/TexArray_e7fd20.h"
 #include "fnv/decl/fnv_00e7fb80__StageArrayStorage_e7fea0.h"
@@ -66,7 +76,8 @@
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_0126f000.h"
-#include "../../include/layout_support.h"
+
+extern volatile long DAT_011f4400;
 
 struct FUN_00e87a40_This {
     void FUN_00e87a40();
@@ -195,17 +206,17 @@ extern int DAT_010efc34;
 void __cdecl FUN_00e68830();
 
 struct FUN_00e8aa40_Class {
-    int FUN_00e8aa40(bool flag);
+    void* FUN_00e8aa40(bool flag);
 };
 
 // @fnv 0x00e8aa40
-int FUN_00e8aa40_Class::FUN_00e8aa40(bool abFree)
+void* FUN_00e8aa40_Class::FUN_00e8aa40(bool abFree)
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010efc34);
+    *(void**)this = (void*)&DAT_010efc34;
     FUN_00e68830();
     if (abFree & 1)
         operator delete(this, 0x88);
-    return (int)this;
+    return this;
 }
 
 // @fnv 0x00e8b490
@@ -457,7 +468,6 @@ void ClearFields(void* self)
     *(int*)((char*)self + 0xac) = 0;
 }
 
-extern "C" void __cdecl FUN_00aa1490(void*, unsigned int);
 struct FUN_00e89560_Class {
     void* m_ptr;
     void* m_obj;
@@ -590,7 +600,7 @@ void __cdecl FUN_00e91b90()
         p->m_auiShapeKeys[0] = 0;
         p->m_auiShapeKeys[1] = 0;
         p->m_auiShapeKeys[2] = 0;
-        *(int*)p = (int)&DAT_010f0af4;
+        *(void**)p = (void*)&DAT_010f0af4;
     } else {
         p = 0;
     }
@@ -878,7 +888,7 @@ void __cdecl FUN_00e91b40()
 {
     NiD3DShaderProgramCreator* p = (NiD3DShaderProgramCreator*)::operator new(0x10);
     if (p) {
-        *(int*)p = (int)&DAT_010f0ac0;
+        *(void**)p = (void*)&DAT_010f0ac0;
         *(int*)(p + 1) = 0;
         *(int*)(p + 2) = 0;
         *(int*)(p + 3) = 0;
@@ -971,16 +981,16 @@ struct FUN_00e88b00_Class {
     int m_auiShapeKeys[0x1100 / 4];
     virtual ~FUN_00e88b00_Class();
     int FUN_00e88b00();
-    int DestroyIfFlagged(bool flag);
+    void* DestroyIfFlagged(bool flag);
 };
 // Calls FUN_00e88b00, then deletes this with size 0x1100 if flag bit 0 is set, and returns this.
 // @fnv 0x00e88bf0
-int FUN_00e88b00_Class::DestroyIfFlagged(bool abDelete)
+void* FUN_00e88b00_Class::DestroyIfFlagged(bool abDelete)
 {
     FUN_00e88b00();
     if (abDelete & 1)
         operator delete(this, 0x1100);
-    return (int)this;
+    return this;
 }
 
 // @fnv 0x00e8a240
@@ -1098,6 +1108,8 @@ void* FUN_00e8ce70_Class::FUN_00e8ce70(int flag)
     return this;
 }
 
+struct ShaderManagerRelease093 { void FUN_00e8ceb0(); };
+
 struct FUN_00e8ceb0_Class {
     void* FUN_00e8d200(bool flag);
 };
@@ -1151,7 +1163,7 @@ void* FUN_00e91e30_This::FUN_00e91e30()
     int old = DAT_0126fa04;
     ++DAT_0126fa04;
     if (!old)
-        ::FUN_00aa2080((void (*)())(void *)((void*)::fnv_00e91dc0::FUN_00e91dc0), (int)((void*)FUN_00e91c80));
+        ::FUN_00aa2080((void (*)())(void *)((void*)::fnv_00e91dc0::FUN_00e91dc0), (intptr_t)((void*)FUN_00e91c80));
     return this;
 }
 
@@ -1194,7 +1206,7 @@ void* FUN_00e93650_Class::FUN_00e93650(int aiFlags)
 void FUN_00e93400_Class::FUN_00e93400()
 {
     char* self = reinterpret_cast<char*>(this);
-    *(int*)self = (int)&DAT_010f0e30;
+    *(void**)self = (void*)&DAT_010f0e30;
     if (self[0x10])
     {
         unsigned int i = 0;
@@ -1216,9 +1228,9 @@ void FUN_00e93400_Class::FUN_00e93400()
             } while (i < *(unsigned int*)(self + 4));
         }
     }
-    *(int*)self = (int)&DAT_010f0e10;
+    *(void**)self = (void*)&DAT_010f0e10;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)self)))->FUN_00b601a0();
-    *(int*)self = (int)&DAT_010f0df0;
+    *(void**)self = (void*)&DAT_010f0df0;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)self)))->FUN_00b601a0();
     _NiFree(*(void**)(self + 8));
 }
@@ -1233,7 +1245,7 @@ struct FUN_00e934d0_Class {
 // @fnv 0x00e934d0
 void FUN_00e934d0_Class::FUN_00e934d0()
 {
-    *(int*)this = (int)&DAT_010f0e90;
+    *(void**)this = (void*)&DAT_010f0e90;
     if (*(char*)((char*)this + 0x10)) {
         unsigned int i = 0;
         if (*(unsigned int*)((char*)this + 4) > 0) {
@@ -1250,9 +1262,9 @@ void FUN_00e934d0_Class::FUN_00e934d0()
             } while (i < *(unsigned int*)((char*)this + 4));
         }
     }
-    *(int*)this = (int)&DAT_010f0e70;
+    *(void**)this = (void*)&DAT_010f0e70;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
-    *(int*)this = (int)&DAT_010f0e50;
+    *(void**)this = (void*)&DAT_010f0e50;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
     _NiFree(*(void**)((char*)this + 8));
 }
@@ -1284,7 +1296,7 @@ struct FUN_00e935d0 : NiTMapBaseStub {
 // @fnv 0x00e935d0
 FUN_00e935d0::FUN_00e935d0(int unused)
 {
-    *(int*)this = (int)&DAT_010f0df0;
+    *(void**)this = (void*)&DAT_010f0df0;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     NiFree(m_data);
     if (unused & 1)
@@ -1370,7 +1382,7 @@ struct FUN_00e93710_Class : NiTMapBaseStub {
 // @fnv 0x00e93710
 void* FUN_00e93710_Class::FUN_00e93710(int aiFlags)
 {
-    *(int*)this = (int)&DAT_010f0eb0;
+    *(void**)this = (void*)&DAT_010f0eb0;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     _NiFree(m_ptr);
     if (aiFlags & 1) {
@@ -1717,13 +1729,16 @@ public:
     const char* m_kHandle;
 };
 
-class NiRefObjectE81 {
-public:
-    virtual ~NiRefObjectE81() throw() { InterlockedDecrement(&ms_lObjectCount); }
+class NiRefObjectE81
+{
+  public:
+    virtual ~NiRefObjectE81() throw()
+    {
+        InterlockedDecrement(&DAT_011f4400);
+    }
 
     unsigned int m_uiRefCount;
 
-    static long ms_lObjectCount;
 };
 
 class FUN_00e81c00 : public NiRefObjectE81 {
@@ -6743,9 +6758,7 @@ void* ScalarDeletingObject::DestroyScalarObject(unsigned char flags) {
     return this;
 }
 
-extern "C" void __cdecl FUN_00aa10f0(void*);
 extern int DAT_010ef73c;
-extern volatile long DAT_011f4400;
 struct ReleaseInterface {
     virtual void GetType();
     virtual void GetFlags();
@@ -8145,7 +8158,7 @@ struct FUN_00e8a9e0_owner {
 };
 
 struct FUN_00e8a9e0_cls {
-    int m_vptr;
+    void* m_vptr;
     int unk04;
     int unk08;
     int unk0c;
@@ -8180,14 +8193,14 @@ struct FUN_00e8a9e0_cls {
 FUN_00e8a9e0_cls* FUN_00e8a9e0_cls::FUN_00e8a9e0(unsigned char acFlags)
 {
     FUN_00e8a9e0_child* pChild = m_pChildObject;
-    m_vptr = (int)&DAT_010efb7c;
+    m_vptr = &DAT_010efb7c;
     if (pChild != 0) {
         FUN_00e8a9e0_mgr* pMgr = *(FUN_00e8a9e0_mgr**)((char*)m_pSharedOwner + 0x8b8);
         pMgr->Call57(pChild);
         m_pChildObject->Release();
         m_pChildObject = 0;
     }
-    m_vptr = (int)&DAT_010a080c;
+    m_vptr = &DAT_010a080c;
     reinterpret_cast<class ::FUN_00a5d3d0 *>(this)->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (acFlags & 1) {
         FUN_00aa1460(this, 0x6c);
@@ -8214,7 +8227,7 @@ struct CubeMapSource {
     virtual void v0F();
     virtual void v10();
     virtual void v11();
-    virtual int GetSurfaceLevel(int a, unsigned int b, int* c);
+    virtual int GetSurfaceLevel(int a, unsigned int b, intptr_t* c);
 };
 struct CubeMapSurface {
     virtual void v00();
@@ -8249,11 +8262,11 @@ struct FUN_00e8aaf0_cls {
     int unk60;
     CubeMapSource* m_64;
     unsigned int m_68;
-    void FUN_00e8aaf0(int a1, int a2);
+    void FUN_00e8aaf0(intptr_t a1, intptr_t a2);
 };
 // Copies data to each cube map surface: gets the surface level, copies data into it, and releases it, logging on failure.
 // @fnv 0x00e8aaf0
-void FUN_00e8aaf0_cls::FUN_00e8aaf0(int pData, int iFace) {
+void FUN_00e8aaf0_cls::FUN_00e8aaf0(intptr_t pData, intptr_t iFace) {
     CubeMapSource* src = m_64;
     unsigned int i = 0;
     if (i < m_68) {
@@ -8290,7 +8303,7 @@ struct CubeMapSource {
     virtual void v0F();
     virtual void v10();
     virtual void v11();
-    virtual int GetSurfaceLevel(int a, unsigned int b, int* c);
+    virtual int GetSurfaceLevel(int a, unsigned int b, intptr_t* c);
 };
 struct CubeMapSurface {
     virtual void v00();
@@ -8325,11 +8338,11 @@ struct FUN_00e8ab70_cls {
     int unk60;
     CubeMapSource* m_64;
     unsigned int m_68;
-    void FUN_00e8ab70(int a1, int a2);
+    void FUN_00e8ab70(intptr_t a1, intptr_t a2);
 };
 // Copies data into each surface level of the cube map source, releasing each surface and logging a failure if GetSurfaceLevel fails.
 // @fnv 0x00e8ab70
-void FUN_00e8ab70_cls::FUN_00e8ab70(int aiData, int a2) {
+void FUN_00e8ab70_cls::FUN_00e8ab70(intptr_t aiData, intptr_t a2) {
     CubeMapSource* src = m_64;
     unsigned int i = 0;
     if (i < m_68) {
@@ -8471,7 +8484,7 @@ struct S_00e8b4b0_Class {
     unsigned char m_70;
     unsigned char m_71;
 
-    S_00e8b4b0_Class* Init(int value1, int value2);
+    S_00e8b4b0_Class* Init(intptr_t value1, int value2);
 };
 
 struct Key {
@@ -8628,7 +8641,6 @@ void Target::FUN_00e8b630() {
 
 extern int DAT_010efdd8;
 extern int DAT_010efdf8;
-extern "C" void* __cdecl FUN_00aa1070(unsigned int);
 struct Observer {
     virtual void Slot0();
     virtual void Slot1();
@@ -8878,9 +8890,14 @@ struct ComStub {
     virtual unsigned long Release();
 };
 
-struct RefObjStub {
+struct RefObjStub
+{
     unsigned int m_uiRefCount;
-    RefObjStub() { m_uiRefCount = 0; InterlockedIncrement(&DAT_011f4400); }
+    RefObjStub()
+    {
+        m_uiRefCount = 0;
+        InterlockedIncrement(&DAT_011f4400);
+    }
     virtual void DeleteThis();
 };
 
@@ -8905,13 +8922,7 @@ struct MapStub : MapBaseStub {
     virtual void MapV1();
 };
 
-struct CritSecStub {
-    void* DebugInfo;
-    long LockCount;
-    long RecursionCount;
-    void* OwningThread;
-    void* LockSemaphore;
-    unsigned long SpinCount;
+struct CritSecStub : CRITICAL_SECTION {
 };
 
 struct FUN_00e8d0e0 : RefObjStub {
@@ -9065,7 +9076,7 @@ static inline unsigned int& NextKey_b5254(ListNode_b5254*& pos) {
 // Searches the linked list for key; if absent, allocates a node, sets its key and links it at the tail (or as head when the list is empty).
 // @fnv 0x00e91d50
 void AddKeyToList(unsigned int key) {
-    ListNode_b5254* cur = DAT_0126f0f8;
+    ListNode_b5254* cur = static_cast<ListNode_b5254*>(DAT_0126f0f8);
     ListNode_b5254* pFound = 0;
     if (cur != 0) {
         do {
@@ -9213,7 +9224,7 @@ struct FUN_00e94810_pool {
 };
 
 struct FUN_00e94810_cls {
-    int m_vptr;
+    void* m_vptr;
     int m_04;
     int m_08;
 
@@ -9224,7 +9235,7 @@ struct FUN_00e94810_cls {
 // @fnv 0x00e94810
 FUN_00e94810_cls* FUN_00e94810_cls::FUN_00e94810(unsigned int acFlags)
 {
-    m_vptr = (int)&::DAT_010f0f94;
+    m_vptr = &::DAT_010f0f94;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     FUN_00aa10f0(m_08);
     if (acFlags & 1) {
@@ -9895,7 +9906,7 @@ bool UpdateFromSource(LightSource* source);
 };
 // Initializes fields m_68, m_6c, m_70 and m_71, calls UpdateFromSource with value1, and returns this.
 // @fnv 0x00e8b4b0
-S_00e8b4b0_Class* S_00e8b4b0_Class::Init(int value1, int value2) {
+S_00e8b4b0_Class* S_00e8b4b0_Class::Init(intptr_t value1, int value2) {
     m_68 = 0;
     m_6c = value2;
     m_70 = 0;
@@ -9949,7 +9960,6 @@ f20=1.0f; return true;
 } return false;
 }
 
-extern "C" void __cdecl FUN_00aa10f0(void* p);
 extern int DAT_010f0ef0;
 
 struct FUN_00e93540_Node {
@@ -10189,7 +10199,7 @@ void FUN_00e89840_Class::FUN_00e89840()
     if (m_20 != 0) m_20->Release();
     m_20 = 0;
     m_ppVirtualMethodTable = &DAT_0101dce4;
-    InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
+    InterlockedDecrement(&DAT_011f4400);
 }
 
 class NiProperty : public NiRefObject {
@@ -11378,7 +11388,7 @@ struct ThisObj {
     int unk50; int unk54; int unk58; int unk5c;
     int unk60; int unk64; int unk68; int unk6c;
     int unk70; int unk74; int unk78; int unk7c;
-    SixIntegerRecord kLock;
+    CRITICAL_SECTION kLock;
     VBEntry* FUN_00e8c570(C_00e8f010* owner, unsigned short count, const TwoComponentVector* pos, const float* col, const unsigned int* uv, unsigned int streamFlags, VBEntry* existing, void* data);
 };
 // @fnv 0x00e8c570
@@ -11421,7 +11431,7 @@ VBEntry* ThisObj::FUN_00e8c570(C_00e8f010* owner, unsigned short count, const Tw
             }
         }
         if (!bReuse) {
-            if (!::FUN_00e8bfa0((::Outer *)this, (unsigned int)((Outer*)owner)))
+            if (!::FUN_00e8bfa0((::Outer *)this, (uintptr_t)((Outer*)owner)))
                 return 0;
             result = (VBEntry*)((FUN_00e69b40_shell*)owner)->GetEntry(0);
         }
@@ -11855,7 +11865,6 @@ struct FUN_00e93470_Class {
     unsigned char m_copyText;
     void FUN_00e93470(FUN_00e93470_Output* out, const char* text, unsigned int data);
 };
-extern "C" void* __cdecl FUN_00aa1070(unsigned int length);
 extern "C" void __cdecl FUN_00ec65a6(void* destination, unsigned int length, const char* source);
 
 // @fnv 0x00e93470
@@ -11875,7 +11884,7 @@ void FUN_00e93470_Class::FUN_00e93470(FUN_00e93470_Output* out, const char* text
 struct RefBaseE989 {
     unsigned int m_uiRefCount;
     RefBaseE989() : m_uiRefCount(0) {}
-    virtual ~RefBaseE989() { InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount))); }
+    virtual ~RefBaseE989() { InterlockedDecrement(&DAT_011f4400); }
 };
 struct ComReleaseE989 {
     virtual long QueryInterface(void* riid, void** out);
@@ -12776,7 +12785,6 @@ void FUN_00e88b00_Class::FUN_00e88b00()
 }  // namespace fnv_00e88b00
 
 namespace fnv_00e8aa70 {
-#include <d3d9.h>
 
 
 extern char DAT_010efcf0[];
@@ -13512,7 +13520,7 @@ struct PlainResource58 {
 
     void FUN_00e687a0(TextureInput*, ResourceConfig*);
     PlainResource58(TextureInput* input, ResourceConfig* config) {
-        new ((void *)this) ::FUN_00e687a0((int)(input), (int)(config));
+        new ((void *)this) ::FUN_00e687a0((intptr_t)(input), (intptr_t)(config));
         vtable = &DAT_010efc34;
         flags = 0;
     }
@@ -13958,14 +13966,14 @@ DeviceResource* __cdecl FUN_00e8abf0(TextureInput* input, ResourceConfig* config
                 ResourceManager* manager = ((::ResourceManager *)(::NiImageConverter::GetSharedImageConverter()));
                 surface = manager->GetTexture(resourceId, (unsigned int)directResource, (unsigned int)directResource);
             } else {
-                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000008, 1)));
+                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000008, 1)));
                 result->fallback = true;
             }
         }
     }
     TextureDescription* prepared = 0;
     if (!directResource && !surface) {
-        surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000008, 1)));
+        surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000008, 1)));
         result->fallback = true;
         ::FUN_00a29680();
     } else if (directResource) {
@@ -13975,17 +13983,17 @@ DeviceResource* __cdecl FUN_00e8abf0(TextureInput* input, ResourceConfig* config
         if (width == height && IsPowerOfTwo(width)) {
             prepared = ((::TextureDescription *)(::FUN_00e8a300((::ShaderRequest093 *)(result), (::ShaderTraits093 *)(description), (::ShaderChoices093 *)(textureDescription))));
             if (!prepared) {
-                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000007, 1)));
+                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000007, 1)));
                 result->fallback = true;
             }
         } else {
-            surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000009, 1)));
+            surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000009, 1)));
             result->fallback = true;
         }
         if (!result->fallback) {
             int handle = FUN_00e7bd20(description);
             if (!handle) {
-                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000007, 1)));
+                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000007, 1)));
                 result->fallback = true;
             } else {
                 AdapterFormat format = (*reinterpret_cast<::CreationContext * *>(&::NiRenderer::ms_pRenderer))->adapterFormat;
@@ -13994,7 +14002,7 @@ DeviceResource* __cdecl FUN_00e8abf0(TextureInput* input, ResourceConfig* config
                 unsigned int width = (*reinterpret_cast<::CreationContext * *>(&::NiRenderer::ms_pRenderer))->width;
                 long error = dev->CreateResource(width, type, format, 0, 3, handle);
                 if (error < 0) {
-                    surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000007, 1)));
+                    surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000007, 1)));
                     result->fallback = true;
                 } else directResource->description.unk0c = handle;
             }
@@ -14006,11 +14014,11 @@ DeviceResource* __cdecl FUN_00e8abf0(TextureInput* input, ResourceConfig* config
         if (width == height && IsPowerOfTwo(width)) {
             prepared = ((::TextureDescription *)(::FUN_00e8a300((::ShaderRequest093 *)(result), (::ShaderTraits093 *)(description), (::ShaderChoices093 *)(textureDescription))));
             if (!prepared || (description->unk04 == 2 || description->unk04 == 3)) {
-                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000007, 1)));
+                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000007, 1)));
                 result->fallback = true;
             }
         } else {
-            surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000009, 1)));
+            surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000009, 1)));
             result->fallback = true;
         }
     }
@@ -14035,7 +14043,7 @@ DeviceResource* __cdecl FUN_00e8abf0(TextureInput* input, ResourceConfig* config
             unsigned int pad = 0;
             if ((bytes & 0xfffff000) != bytes) pad = ((bytes & 0xfffff000) - bytes) + 0x1000;
             DAT_0126f9c0 += pad;
-            for (slot = 0; slot < 6; ++slot) reinterpret_cast<::fnv_00e8ab70::FUN_00e8ab70_cls *>((result))->FUN_00e8ab70((int)(directResource), slot);
+            for (slot = 0; slot < 6; ++slot) reinterpret_cast<::fnv_00e8ab70::FUN_00e8ab70_cls *>((result))->FUN_00e8ab70((intptr_t)(directResource), slot);
             goto succeeded;
         }
         goto failed;
@@ -14048,7 +14056,7 @@ DeviceResource* __cdecl FUN_00e8abf0(TextureInput* input, ResourceConfig* config
             preparedSurface = manager->PrepareTexture(surface, prepared, surface, result->mipmaps);
         }
         if (!preparedSurface) {
-            preparedSurface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000007, 1)));
+            preparedSurface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000007, 1)));
             prepared = renderTargets[config->defaultTarget];
         }
         result->flags = surface->GetFlags();
@@ -14063,7 +14071,7 @@ DeviceResource* __cdecl FUN_00e8abf0(TextureInput* input, ResourceConfig* config
                 result->Delete(1);
                 return 0;
             }
-            for (slot = 0; slot < 6; ++slot) reinterpret_cast<::FUN_00e8aaf0_cls *>((result))->FUN_00e8aaf0((int)(preparedSurface), slot);
+            for (slot = 0; slot < 6; ++slot) reinterpret_cast<::FUN_00e8aaf0_cls *>((result))->FUN_00e8aaf0((intptr_t)(preparedSurface), slot);
             
             reinterpret_cast<::E68760Pass *>((result))->SetProgram((::E68760Program *)(void *)(surface->GetPalette()));
             unsigned int bytes = preparedSurface->GetSize();
@@ -14415,7 +14423,7 @@ void FUN_00e8b0c0_Class::FUN_00e8b0c0()
     m_84 = a->m_68;
     if (m_64 != 0) {
         for (unsigned int i = 0; i < pResult->m_6c; i++) {
-            reinterpret_cast<::FUN_00e8aaf0_cls *>(this)->FUN_00e8aaf0((int)(pResult), i);
+            reinterpret_cast<::FUN_00e8aaf0_cls *>(this)->FUN_00e8aaf0((intptr_t)(pResult), i);
         }
     }
     if (pResult != 0) {
@@ -14556,7 +14564,7 @@ FUN_00e98910_Class::FUN_00e98910(int* context) {
     this->unk00 = &DAT_0101dce4;
     this->unk04 = 0;
 
-    InterlockedIncrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
+    InterlockedIncrement(&DAT_011f4400);
 
     this->unk00 = &DAT_010f16cc;
     this->unk08 = 0;
@@ -14604,7 +14612,6 @@ FUN_00e98910_Class::FUN_00e98910(int* context) {
 }
 
 extern "C" void __cdecl NiFree(void*);
-extern "C" void __cdecl FUN_00aa1490(void*, unsigned int);
 
 struct E895A0_Sdo {
     void FUN_00e89560();
@@ -14650,7 +14657,7 @@ extern unsigned char kVtbl_NiDX9IndexBufferManager;
 class NiRefObject2
 {
 public:
-    virtual ~NiRefObject2() { InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount))); }
+    virtual ~NiRefObject2() { InterlockedDecrement(&DAT_011f4400); }
     virtual void DeleteThis();
 
     unsigned int m_uiRefCount;
@@ -14943,8 +14950,6 @@ void IndexBufferOwnerE8F::FUN_00e8f840()
 
 using ::ConstantTarget;
 using ::Vec4;
-namespace ShaderSubtractData {
-}
 
 // Subtracts DAT_0126f8b0 from DAT_0126f8a0 into DAT_0126f900 based on typeA and typeB, then calls target->SetConstant(reg, &DAT_0126f900.x, 0).
 // @fnv 0x00e83320
@@ -14998,8 +15003,6 @@ int FUN_00e83320(ConstantTarget* target, intptr_t reg, intptr_t typeA, int typeB
 using ::ConstantTarget;
 using ::Vec4;
 
-namespace ShaderDivideDetail {
-}
 
 struct S00e82e70_D3DXMATRIX {
     float _11, _12, _13, _14;
@@ -15009,8 +15012,6 @@ struct S00e82e70_D3DXMATRIX {
 };
 
 
-extern "C" {
-}
 
 // Computes a divided matrix or vector from DAT_0126f820/DAT_0126f8a0 by DAT_0126f8b0, optionally inverting/transposing, then calls target->SetConstant.
 // @fnv 0x00e82e70
@@ -15082,4 +15083,425 @@ int FUN_00e82e70(ConstantTarget* target, intptr_t aiRegister, intptr_t type1, in
     }
 }
 
+void FUN_00e8b490(int* paiValues, int iFirst, int iSecond);
+
+void FUN_00e933d0();
+
+void __cdecl FUN_00e941a0(void* apData);
+
+
+
+void __cdecl FreeNodeList();
+
+
+void FUN_00e92080();
+
+
+char FUN_00e88ac0(void* self);
+
+
+
+extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
+
+void* __cdecl NiMemset(void* dst, int val, unsigned int size);
+
+
+
+void FUN_00e89740();
+
+
+static void CopyMatrix(S00e81b00_Mat* dst, const S00e81b00_Mat* src);
+
+void S00e81b00_Caller(S00e81b00_Mat* dst, const S00e81b00_Mat* src);
+
+
+struct Item_cd60 {
+    int unk00; int unk04; int unk08; int unk0C;
+    int unk10; int unk14; int unk18; int unk1C;
+    ComStub* m_pkHolder;
+    int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38;
+    void FUN_00e95b80();
+};
+
+struct Entry_cd60 {
+    int unk00;
+    int unk04;
+    void* items[5];
+};
+
+struct Map_cd60 : MapBaseStub {
+
+    __forceinline void* GetFirst()
+    {
+        for (unsigned int i = 0; i < m_uiHashSize; ++i)
+            if (m_ppkHashTable[i] != 0)
+                return m_ppkHashTable[i];
+        return 0;
+    }
+};
+
+struct This_cd60 {
+    int unk00;
+    int unk04;
+    int unk08;
+    Map_cd60 map;
+    void FUN_00e8cd60();
+};
+
+// @fnv 0x00e8cd60
+void This_cd60::FUN_00e8cd60()
+{
+    Map_cd60* map = &this->map;
+    {
+        void* current = map->GetFirst();
+        unsigned int key;
+        void* value;
+
+        while (current != 0) {
+            reinterpret_cast<::Tbl00b57f20 *>((map))->AdvanceToNextEntry((::Ent00b57f20 **)(void **)(&current), (int *)(unsigned int *)(&key), (int *)(void **)(&value));
+
+            if (value != 0) {
+                Entry_cd60* entry = (Entry_cd60*)value;
+                void** pp = entry->items;
+                for (int n = 5; n != 0; --n) {
+                    Item_cd60* item = (Item_cd60*)*pp;
+                    if (item != 0) {
+                        ComStub* holder = item->m_pkHolder;
+                        if (holder != 0)
+                            holder->Release();
+                        ((FUN_00e95b80_Class*)item)->FUN_00e95b80();
+                        operator delete(item, 0x3c);
+                    }
+                    ++pp;
+                }
+                operator delete(entry, 0x1c);
+            }
+        }
+
+    }
+    reinterpret_cast<::S_00b601a0_Map *>((map))->FUN_00b601a0();
+}
+
+extern int DAT_010efe94;
+
+struct ShaderEntry093 : FUN_00e95b80_Class {
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    ComStub* resource;
+    int unk24, unk28, unk2c, unk30, unk34, unk38;
+};
+
+struct ShaderRecord093 {
+    unsigned int unk00, unk04;
+    ShaderEntry093* entries[5];
+};
+
+struct TargetShaderNode093 {
+    TargetShaderNode093* next;
+    unsigned int key;
+    ShaderRecord093* value;
+};
+
+struct ShaderMapHeader093 { void* vtable; };
+
+struct ShaderMap093 {
+    virtual void Slot0();
+    virtual unsigned int Hash(unsigned int key);
+    void RemoveAll() { reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0(); }
+    void Dispose() {
+        ((ShaderMapHeader093*)this)->vtable = &DAT_010efe74;
+        RemoveAll();
+        ((ShaderMapHeader093*)this)->vtable = &DAT_010efe54;
+        RemoveAll();
+        ::FUN_00aa10f0(buckets);
+    }
+    unsigned int bucketCount;
+    TargetShaderNode093** buckets;
+    unsigned int count;
+    TargetShaderNode093* First() {
+        for (unsigned int i = 0; i < bucketCount; ++i)
+            if (buckets[i]) return buckets[i];
+        return 0;
+    }
+    void Next(TargetShaderNode093*& pos, unsigned int& key, ShaderRecord093*& value) {
+        TargetShaderNode093* current = pos;
+        value = current->value;
+        if (current->next) { pos = current->next; return; }
+        for (unsigned int i = Hash(current->key) + 1; i < bucketCount; ++i)
+            {
+                TargetShaderNode093* next = buckets[i];
+                if (next) { pos = next; return; }
+            }
+        pos = 0;
+    }
+};
+
+struct ShaderManagerLayout093 {
+    void* vtable;
+    unsigned int references;
+    ComStub* device;
+    ShaderMap093 first, second, third;
+    int unk3c;
+    void* allocation;
+    int unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
+    int unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
+    CritSecStub lock;
+};
+
+
+// @fnv 0x00e8ceb0
+void ShaderManagerRelease093::FUN_00e8ceb0() {
+    ShaderManagerLayout093* self = (ShaderManagerLayout093*)this;
+    self->vtable = &DAT_010efe94;
+    ShaderMap093* map;
+    for (unsigned int group = 0; group < 3; ++group) {
+        switch (group) {
+        case 0: map = &self->first; break;
+        case 1: map = &self->second; break;
+        case 2: map = &self->third; break;
+        }
+        TargetShaderNode093* pos = map->First();
+        while (pos) {
+            unsigned int key;
+            ShaderRecord093* record;
+            map->Next(pos, key, record);
+            if (record) {
+                for (unsigned int i = 0; i < 5; ++i) {
+                    ShaderEntry093* entry = record->entries[i];
+                    if (entry) {
+                        if (entry->resource) entry->resource->Release();
+                        entry->FUN_00e95b80();
+                        FUN_00aa1460(entry, sizeof(ShaderEntry093));
+                    }
+                }
+                FUN_00aa1460(record, sizeof(ShaderRecord093));
+            }
+        }
+    }
+    self->first.RemoveAll();
+    self->second.RemoveAll();
+    self->third.RemoveAll();
+    self->device->Release();
+    self->device = 0;
+    ::FUN_00aa10f0(self->allocation);
+    DeleteCriticalSection(&self->lock);
+    self->third.Dispose();
+    self->second.Dispose();
+    self->first.Dispose();
+    self->vtable = &DAT_0101dce4;
+    InterlockedDecrement(&DAT_011f4400);
+}
+
+void __cdecl FUN_00e89740();
+
+void __cdecl FUN_00e92080();
+
+// @fnv 0x00e91c80
+void __cdecl FUN_00e91c80()
+{
+    if ((*reinterpret_cast<unsigned char *>(&::fnv_00e91dc0::DAT_0126fa00)))
+    {
+        (*reinterpret_cast<unsigned char *>(&::fnv_00e91dc0::DAT_0126fa00)) = 0;
+        ::ResetGlobalString();
+        void* p = DAT_0126fa3c;
+        if (p)
+        {
+            ::FUN_00e93260((::NiD3DShaderProgramCreator *)(p));
+            if (DAT_0126fa3c)
+                ((ShaderNode*)DAT_0126fa3c)->Release(1);
+        }
+        DAT_0126fa3c = 0;
+        p = DAT_0126fa54;
+        if (p)
+        {
+            ::FUN_00e93260((::NiD3DShaderProgramCreator *)(p));
+            if (DAT_0126fa54)
+                ((ShaderNode*)DAT_0126fa54)->Release(1);
+        }
+        DAT_0126fa54 = 0;
+        p = (void*)DAT_0126fa50;
+        if (p)
+        {
+            ::FUN_00e93260((::NiD3DShaderProgramCreator *)(p));
+            if (DAT_0126fa50)
+                ((ShaderNode*)DAT_0126fa50)->Release(1);
+        }
+        DAT_0126fa50 = 0;
+        ::FUN_00e93f50(0);
+        FUN_00e933d0();
+        FUN_00e92080();
+        ::DestroyBucketTable();
+        ::FUN_00e80630();
+        ::DestroyGlobalQueues();
+        FUN_00e89740();
+        ::ShutdownE6EC20();
+    }
+}
+
+// @fnv 0x00e94290
+void __cdecl FUN_00e94290()
+{
+    FreeNodeList();
+    FUN_00e98640_Class* node = reinterpret_cast<FUN_00e98640_Class*>(DAT_0126fa30);
+    if (node)
+    {
+        FUN_00e98640_Class* next;
+        do
+        {
+            next = reinterpret_cast<FUN_00e98640_Class*>(
+                reinterpret_cast<int*>(node)[0x3c / 4]);
+            node->FUN_00e98640();
+            operator delete(node, 0x44);
+            node = next;
+        } while (node);
+    }
+    DAT_0126fa30 = 0;
+}
+
+void FUN_00e8b490(int* a, int b, int c);
+
+void __cdecl FUN_00e941a0(void* a);
+
+
+typedef void(* FUN_00e88780_D3DCall)(FUN_00e88780_D3DObject* pObject, int index, int value);
+
+
+typedef void(* FUN_00e88830_Slot)(void* self, int code, int value);
+
+typedef void(* FUN_00e88a20_Slot)(void* self, int code, int value);
+
+
+typedef int(* FUN_00e89ae0_vfn)(FUN_00e89ae0_obj*, int, int, int);
+
+void _delete(void*, unsigned int);
+
+
+
+
+extern "C" void(* DAT_00fdf1c0)(void*);
+
+extern "C" void(* DAT_00fdf1c4)(void*);
+
+
+typedef bool(__cdecl* FNV_CondFn_e9c8c0)(float, void*, unsigned int, void*, unsigned int);
+
+typedef int(__cdecl* FUN_00e9c950_handler)(float, void*, int, void*, int, int, int, int, int, int);
+
+typedef void(__cdecl* DispatchFn_b4010)(float, DispatchObj_b4010*, int, int, int, int, int);
+
+
+
+extern "C" void* __cdecl FUN_00aa1420(unsigned int size);
+
+struct SNAEntryElem
+{
+    unsigned char m_00;
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+    int m_18;
+    int m_1c;
+    int m_20;
+    int m_24;
+    int m_28;
+    int m_2c;
+    int m_30;
+    int m_34;
+    int m_38;
+    int m_3c;
+    int m_40;
+    int m_44;
+    int m_48;
+    int m_4c;
+    int m_50;
+    int m_54;
+    int m_58;
+    int m_5c;
+    int m_60;
+    int m_64;
+    int m_68;
+    int m_6c;
+    int m_70;
+    int m_74;
+    int m_78;
+    int m_7c;
+    int m_80;
+    unsigned char m_84;
+    int m_88;
+    int m_8c;
+    int m_90;
+    int m_94;
+    int m_98;
+    int m_9c;
+    int m_a0;
+    int m_a4;
+    unsigned char m_a8;
+    int m_ac;
+    int m_b0;
+    unsigned char m_b4;
+
+    SNAEntryElem() throw();
+    ~SNAEntryElem()
+    {}
+
+};
+
+// @fnv 0x00e89460
+SNAEntryElem* FUN_00e89460(unsigned int count)
+{
+    return new SNAEntryElem[count];
+}
+
+
+struct HeapA {  };
+
+void* __cdecl FUN_00aa1420(unsigned int);
+
+struct ArrayElementE80390 {
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    ArrayElementE80390() throw(); ~ArrayElementE80390() throw();
+    static __forceinline void* __cdecl operator new[](std::size_t size, unsigned int count) { if (count == 0) return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<HeapA*>(&(*reinterpret_cast<::GlobalHolder *>(&::g_memoryManager)))))->FUN_00aa3e40(4); return FUN_00aa1420(size); }
+};
+
+// @fnv 0x00e80390
+ArrayElementE80390* __cdecl FUN_00e80390(unsigned int count)
+{
+    return new(count) ArrayElementE80390[count];
+}
+
+// Clears a NiTPointerList through the shared 0x004ed900 for units whose layout_support.h
+// declares NiTPointerListBase as a template.
+void ClearPointerList(void* list)
+{
+    reinterpret_cast<::NiTPointerListBase*>(list)->FUN_004ed900();
+}
+
 #include "generated/data/staging/blk_00e80000_o2.inc"
+#include "generated/data/staging/blk_00e80000_o2_rtm_variant.inc"
+#include "generated/data/staging/blk_00e80000_o2_ehsc_noehsc_variant.inc"

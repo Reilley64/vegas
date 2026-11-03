@@ -3,6 +3,8 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/decl/fnv_00cd9d10__Q_00cd9d10.h"
+#include <intrin.h>
 #include <new>
 #include <windows.h>
 #include "fnv/decl/AttributeFormatter.h"
@@ -15,7 +17,6 @@
 #include "fnv/decl/FUN_00cc00e0.h"
 #include "fnv/decl/FUN_00cf6da0_cls.h"
 #include "fnv/decl/HostWorld_00c951b0.h"
-#include "fnv/decl/MapperX.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/ShapeData.h"
 #include "fnv/decl/SinkOwner.h"
@@ -40,13 +41,32 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+#include "fnv/decl/C97E80World.h"
+#include "fnv/decl/Cls_c7f4e0.h"
+#include "fnv/decl/FUN_00d86220_Class.h"
+#include "fnv/symbols_00ce0000.h"
+#include "fnv/symbols_00ce2000.h"
+#include "fnv/symbols_00ce4000.h"
+#include "fnv/symbols_00ce5000.h"
+#include "fnv/symbols_00cf0000.h"
+#include "fnv/symbols_00cf7000.h"
+#include "fnv/symbols_00cfb000.h"
+#include "fnv/symbols_00cfc000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/decl/Quat74.h"
 
 extern int DAT_010cc164;
 void __cdecl FUN_00d86220();
 
 struct FUN_00cf45d0_class
 {
-    int vtable;
+    intptr_t vtable;
     FUN_00cf45d0_class();
 };
 
@@ -54,7 +74,7 @@ struct FUN_00cf45d0_class
 FUN_00cf45d0_class::FUN_00cf45d0_class()
 {
     FUN_00d86220();
-    vtable = (int)&DAT_010cc164;
+    vtable = (intptr_t)&DAT_010cc164;
 }
 
 struct hkReferencedObject
@@ -84,9 +104,9 @@ struct FUN_00d06d50_cls
 
 // Calls FindClass on b with a; if it returns nonzero, passes a, the result and b to FUN_00cf6920.
 // @fnv 0x00cf6950
-void __cdecl FUN_00cf6950(int a, int apObject)
+void __cdecl FUN_00cf6950(intptr_t a, intptr_t apObject)
 {
-    int c = ((int)(reinterpret_cast<::D06D50Finder *>((((FUN_00d06d50_cls*)apObject)))->FindClass((const ::D06D50Object *)(a))));
+    intptr_t c = ((intptr_t)(reinterpret_cast<::D06D50Finder *>((((FUN_00d06d50_cls*)apObject)))->FindClass((const ::D06D50Object *)(a))));
     if (c)
         ::FUN_00cf6920((void *)(a), (::Node *)(c), (void *)(apObject));
 }
@@ -121,37 +141,37 @@ struct FUN_00ce4ae0_cls
 };
 struct FUN_00ce4a20_cls
 {
-    int m_kPointA;
+    intptr_t m_kPointA;
     short m_kPointB;
     short m_iThirdValue;
     int m_iFourthElementInteger;
-    int FUN_00ce4a20(int a);
+    intptr_t FUN_00ce4a20(intptr_t a);
 };
 extern int DAT_0102e378;
 // @fnv 0x00cf69a0
-void __cdecl FUN_00cf69a0(int* a)
+void __cdecl FUN_00cf69a0(intptr_t* a)
 {
     if (a)
-        *a = (int)&DAT_0102e378;
+        *a = (intptr_t)&DAT_0102e378;
 }
 
 struct FUN_00cf69c0_class
 {
-    int m_kPointA;
+    intptr_t m_kPointA;
     int m_auiShapeKeys;
-    int m_kPointB;
-    int FUN_00cf69c0(int a);
+    intptr_t m_kPointB;
+    intptr_t FUN_00cf69c0(intptr_t a);
 };
 
 
 // @fnv 0x00cf69c0
-int FUN_00cf69c0_class::FUN_00cf69c0(int a)
+intptr_t FUN_00cf69c0_class::FUN_00cf69c0(intptr_t a)
 {
     FUN_00cf69c0_class* self = this;
     for (;;)
     {
         if (self->m_kPointA && !::fnv_00cb0fa0::FUN_00cb0fa0((const char *)(a), (const char *)(self->m_kPointA)))
-            return (int)self;
+            return (intptr_t)self;
         if (!self->m_kPointB)
             return 0;
         self = (FUN_00cf69c0_class*)self->m_kPointB;
@@ -199,7 +219,7 @@ struct FUN_00cf86d0_cls
 // @fnv 0x00cf86d0
 void FUN_00cf86d0_cls::FUN_00cf86d0()
 {
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(intptr_t*)this = (intptr_t)&::DAT_0102e388;
 }
 
 // FUN_00ce29e0: member function that (re)initialises the object.
@@ -272,19 +292,13 @@ bool __cdecl FUN_00ce2a00(int unused, FnvSpawnedObject* obj)
 
 
 // @fnv 0x00ce2cf0
-void __cdecl FUN_00ce2cf0(int pObject, int param_2, int param_3)
+void __cdecl FUN_00ce2cf0(intptr_t pObject, intptr_t param_2, intptr_t param_3)
 {
-    ::FUN_00ce2ca0((void *)(*reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x74)), (::__m128 *)(param_3),
-                 (const ::__m128 *)(int *)(reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x40)), (const ::__m128 *)(param_2));
+    ::FUN_00ce2ca0((void *)(*reinterpret_cast<intptr_t*>(reinterpret_cast<char*>(pObject) + 0x74)), (__m128 *)(param_3),
+                 (const __m128 *)(int *)(reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x40)), (const __m128 *)(param_2));
 }
 
 
-// Calls FUN_00ce3090 with a1, a2, a3, two zero arguments, and a4.
-// @fnv 0x00ce4330
-void __cdecl FUN_00ce4330(int a1, int a2, int a3, int a4)
-{
-    reinterpret_cast<::MapperX *>((a1))->FUN_00ce3090((const ::PoseX *)(a2), (::PoseX *)(a3), (const short *)(0), (const short *)(0), a4);
-}
 
 namespace fnv_00ce5370 {
 extern "C" void _ReadWriteBarrier(void);
@@ -300,14 +314,13 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0c;
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct AudioObjectRef
 {
@@ -334,7 +347,7 @@ struct FUN_00ce5370_cls
 // @fnv 0x00ce5370
 void FUN_00ce5370_cls::FUN_00ce5370()
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapA = m_uCapA;
     m_iCountA = 0;
@@ -345,7 +358,7 @@ void FUN_00ce5370_cls::FUN_00ce5370()
     m_pDataA = 0;
     m_uCapA = 0x80000000u;
 
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     unsigned int uCapB = m_uCapB;
     m_iCountB = 0;
@@ -356,7 +369,7 @@ void FUN_00ce5370_cls::FUN_00ce5370()
     m_pDataB = 0;
     m_uCapB = 0x80000000u;
 
-    AudioHolder* pHolder3 = FUN_00c85750();
+    AudioHolder* pHolder3 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator3 = pHolder3->m_pAllocator;
     unsigned int uCapC = m_uCapC;
     m_iCountC = 0;
@@ -485,20 +498,20 @@ struct PacketSerializer
 struct SerializedObject
 {
     int base00, base04, base08, base0C, base10, word14, word18;
-    void SerializeToStream(int source);
+    void SerializeToStream(intptr_t source);
 };
 // Writes word14 and word18 to the stream at source+0x250, accumulating bytesWritten, after calling FUN_00d86160.
 // @fnv 0x00cf4670
-void SerializedObject::SerializeToStream(int source)
+void SerializedObject::SerializeToStream(intptr_t source)
 {
-    int saved = source;
+    intptr_t saved = source;
     ::FUN_00d86160((*(::NiStreamD8616 *)(saved)), (::DataD8616 *)(::SerializedObject *)(this));
     PacketSerializer* __restrict stream = *reinterpret_cast<PacketSerializer**>(saved + 0x250);
-    source = 4;
-    stream->bytesWritten += stream->write(stream, &word14, 4, &source, 1);
+    int size = 4;
+    stream->bytesWritten += stream->write(stream, &word14, 4, &size, 1);
     stream = *reinterpret_cast<PacketSerializer**>(saved + 0x250);
-    source = 4;
-    stream->bytesWritten += stream->write(stream, &word18, 4, &source, 1);
+    size = 4;
+    stream->bytesWritten += stream->write(stream, &word18, 4, &size, 1);
 }
 
 // Save a Havok-wrapped object: write its type id, then let a type-specific saver write the rest.
@@ -748,14 +761,13 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0c;
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct SubObject_b3813
 {
@@ -764,7 +776,7 @@ struct SubObject_b3813
 
 struct FUN_00cf4eb0_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     unsigned short m_uSize;
     unsigned short m_u06;
     int unk08;
@@ -778,12 +790,12 @@ struct FUN_00cf4eb0_cls
 // @fnv 0x00cf4eb0
 FUN_00cf4eb0_cls* FUN_00cf4eb0_cls::Destroy(unsigned char acFlags)
 {
-    m_vptr = (int)&DAT_010cc2fc;
-    ::FUN_00cb0c00((int)&(m_sub));
-    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr = (intptr_t)&DAT_010cc2fc;
+    ::FUN_00cb0c00((intptr_t)&(m_sub));
+    m_vptr = (intptr_t)&::DAT_0102e388;
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -970,7 +982,6 @@ struct AllocHolder
     SpawnedAllocator* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750();
 
 struct SpawnedObject
 {
@@ -986,15 +997,15 @@ struct SpawnedObject
 // @fnv 0x00cf6b10
 void __cdecl FUN_00cf6b10()
 {
-    AllocHolder* pAllocHolder = FUN_00c85750();
+    AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedAllocator* alloc = pAllocHolder->m_pAllocator;
     SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x18);
     if (obj != 0)
     {
-        (*reinterpret_cast<void * *>(&::DAT_01268794)) = ((void *)(reinterpret_cast<::FUN_00cf6da0_cls *>((obj))->FUN_00cf6da0(0x3e8)));
+        ::DAT_01268794 = (::_RTL_CRITICAL_SECTION *)(reinterpret_cast<::FUN_00cf6da0_cls *>((obj))->FUN_00cf6da0(0x3e8));
         return;
     }
-    (*reinterpret_cast<void * *>(&::DAT_01268794)) = 0;
+    ::DAT_01268794 = 0;
 }
 }  // namespace fnv_00cf6b10
 
@@ -1267,15 +1278,15 @@ void __cdecl FUN_00ce5300()
 class FUN_00ce5360_This
 {
   public:
-// @fnv 0x00ce5360
     virtual ~FUN_00ce5360_This()
     {}
-    unsigned int FUN_00ce5360(unsigned int arg);
+    uintptr_t FUN_00ce5360(uintptr_t arg);
 };
 
-unsigned int FUN_00ce5360_This::FUN_00ce5360(unsigned int arg)
+// @fnv 0x00ce5360
+uintptr_t FUN_00ce5360_This::FUN_00ce5360(uintptr_t arg)
 {
-    return reinterpret_cast<unsigned int>(this);
+    return reinterpret_cast<uintptr_t>(this);
 }
 
 class FUN_00ce9800_obj
@@ -1540,7 +1551,7 @@ extern "C" unsigned int __cdecl SaveUIntArray(CF4BC0Stream& kStream, const Array
 extern int DAT_010cc064;
 struct FUN_00cdf560
 {
-    int m0;
+    intptr_t m0;
     int m4;
     int m8;
     FUN_00cdf560(float);
@@ -1552,7 +1563,7 @@ struct FUN_00cf4190 : FUN_00cdf560
 // @fnv 0x00cf4190
 FUN_00cf4190::FUN_00cf4190() : FUN_00cdf560(0.0f)
 {
-    m0 = (int)&DAT_010cc064;
+    m0 = (intptr_t)&DAT_010cc064;
 }
 
 
@@ -1664,7 +1675,7 @@ void hkObjCF46::SaveToArchive(hkArchiveCF46* ar)
 
 struct hkCriticalSectionCF6B
 {
-    int m_kCriticalSection;
+    CRITICAL_SECTION m_kCriticalSection;
 };
 
 struct hkCriticalSectionLockCF6B
@@ -1713,7 +1724,7 @@ void hkMultiThreadCheckCF6B::MarkForRead()
 
 struct hkCriticalSectionCF61
 {
-    int m_kCriticalSection;
+    CRITICAL_SECTION m_kCriticalSection;
 };
 
 struct hkCriticalSectionLockCF61
@@ -1759,7 +1770,7 @@ bool hkMultiThreadCheckCF61::IsCurrentThreadOwner()
 
 struct hkCriticalSectionCF6C
 {
-    int m_kCriticalSection;
+    CRITICAL_SECTION m_kCriticalSection;
 };
 
 struct hkCriticalSectionLockCF6C
@@ -1806,7 +1817,7 @@ void hkMultiThreadCheckCF6C::FUN_00cf6c60()
 
 struct hkCriticalSectionCF6D
 {
-    int m_kCriticalSection;
+    CRITICAL_SECTION m_kCriticalSection;
 };
 
 struct hkCriticalSectionLockCF6D
@@ -2330,7 +2341,7 @@ void SerializableCF42::FUN_00cf4260(NiStreamCF42& kStream)
 
 // bhkVelocityConstraintMotor ctor (hkpVelocityConstraintMotor chain):
 // vptr(0), memSizeAndFlags(4), referenceCount(6), motor type(8), min/max force, tau, damping, velocity-clamp bool.
-const void* DAT_010cc0ec[];
+extern const void* DAT_010cc0ec[];
 
 extern "C" void _ReadWriteBarrier();
 
@@ -2716,7 +2727,6 @@ class FUN_00cf7060
 FUN_00cf7060::~FUN_00cf7060()
 {}
 
-#include <xmmintrin.h>
 
 struct __declspec(align(16)) CE5430Vector4
 {
@@ -3474,7 +3484,7 @@ bool __cdecl IsAddressInBlock(const BlockList_cfd* list, unsigned addr)
 
 inline AudioAllocator& heap_cfde()
 {
-    return *FUN_00c85750()->m_pAllocator;
+    return *static_cast<AudioHolder*>(::FUN_00c85750())->m_pAllocator;
 }
 
 struct BlockArr_cfde
@@ -3509,7 +3519,7 @@ struct BlockArr_cfde
             int newCap = c + 1;
             if (newCap < 1)
             {
-                AudioHolder* h = FUN_00c85750();
+                AudioHolder* h = static_cast<AudioHolder*>(::FUN_00c85750());
                 ::fnv_00c909d0::FUN_00c909d0((*(::fnv_00c909d0::hkMemoryAllocator *)(h->m_pAllocator)), this, sizeof(char*), m_kStorage, 1);
             }
             else if (newCap < getCapacity())
@@ -3536,7 +3546,7 @@ static __declspec(noinline) void FUN_00cfdeb0(BlockStack_cfde* s)
     {
         char* block = s->m_kBlocks.back();
         s->m_kBlocks.popBack();
-        AudioHolder* h = FUN_00c85750();
+        AudioHolder* h = static_cast<AudioHolder*>(::FUN_00c85750());
         h->m_pAllocator->Free(block, 0x200);
         s->m_uiBufferCapacity = 0x200;
     }
@@ -3753,9 +3763,10 @@ void SelectionMapper::MapSelection(const Selection& sel, hkArrayX<hkInt16>& sour
             hkInt16 linkIndex = i;
             hkArrayX<hkInt16> a;
             hkArrayX<hkInt16> b;
-            if (!(*(::hkBoolX *)(::WalkChainUntilLimit((unsigned char *)(src), (::ScanRec *)(m_ppLinks[linkIndex].m_kPointA), m_ppLinks[linkIndex].m_kPointB, (short)&(a), {}))))
+            ::hkBoolX found;
+            if (!(*(::hkBoolX *)(::WalkChainUntilLimit((unsigned char *)&(found), (::ScanRec *)(src), m_ppLinks[linkIndex].m_kPointA, m_ppLinks[linkIndex].m_kPointB, (::ScanObj *)&(a)))))
                 continue;
-            if (!(*(::hkBoolX *)(::WalkChainUntilLimit((unsigned char *)(dst), (::ScanRec *)(m_ppLinks[linkIndex].m_iThirdValue), m_ppLinks[linkIndex].m_iFourthElementInteger, (short)&(b), {}))))
+            if (!(*(::hkBoolX *)(::WalkChainUntilLimit((unsigned char *)&(found), (::ScanRec *)(dst), m_ppLinks[linkIndex].m_iThirdValue, m_ppLinks[linkIndex].m_iFourthElementInteger, (::ScanObj *)&(b)))))
                 continue;
             bool complete = true;
             for (int j = 0; j < a.GetLogicalSize(); ++j)
@@ -3782,22 +3793,8 @@ void SelectionMapper::MapSelection(const Selection& sel, hkArrayX<hkInt16>& sour
         targetMap[output[i]] = i;
 }
 
-#include <xmmintrin.h>
 namespace fnv_00ce0ca0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-}
 
 struct FUN_00ce0ca0_Quaternion
 {
@@ -3851,19 +3848,7 @@ void FUN_00ce0ca0_Quaternion::FUN_00ce0ca0(const FUN_00ce0ca0_Quaternion& rhs)
 }
 }  // namespace fnv_00ce0ca0
 
-#include <xmmintrin.h>
-#include "fnv/symbols_simd.h"
 namespace fnv_00cf4fb0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 extern const __m128 DAT_010c71d0;
 
 struct BoundsVector
@@ -3931,7 +3916,6 @@ void ShapeCollection::FUN_00cf4fb0(Bounds* bounds)
 }  // namespace fnv_00cf4fb0
 
 namespace fnv_00cf6d60 {
-#include <windows.h>
 
 struct AudioAllocator
 {
@@ -3942,26 +3926,25 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0c;
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 // Deletes the global critical section and frees its memory through the audio holder's allocator.
 // @fnv 0x00cf6d60
 void FUN_00cf6d60()
 {
-    if ((*reinterpret_cast<::fnv_00cf6d60::_RTL_CRITICAL_SECTION * *>(&::DAT_01268794)) != 0)
+    if (::DAT_01268794 != 0)
     {
-        CRITICAL_SECTION* p = (*reinterpret_cast<::fnv_00cf6d60::_RTL_CRITICAL_SECTION * *>(&::DAT_01268794));
-        DeleteCriticalSection((*reinterpret_cast<::fnv_00cf6d60::_RTL_CRITICAL_SECTION * *>(&::DAT_01268794)));
-        AudioHolder* pHolder = FUN_00c85750();
+        CRITICAL_SECTION* p = ::DAT_01268794;
+        DeleteCriticalSection(::DAT_01268794);
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         pHolder->m_pAllocator->Free(p, 0x18);
-        (*reinterpret_cast<::fnv_00cf6d60::_RTL_CRITICAL_SECTION * *>(&::DAT_01268794)) = 0;
+        ::DAT_01268794 = 0;
     }
 }
 }  // namespace fnv_00cf6d60
@@ -4048,7 +4031,7 @@ struct CECountArray
 void __cdecl FUN_00ce43e0(CEMap* map)
 {
     int count = map->b->count;
-    AudioHolder* scratch = FUN_00c85750();
+    AudioHolder* scratch = static_cast<AudioHolder*>(::FUN_00c85750());
     CECountArray counts;
     counts.m_data = reinterpret_cast<int*>(scratch->unk00);
     scratch->unk00 += (count * 4 + 127) & -128;
@@ -4168,8 +4151,8 @@ void __cdecl FUN_00ce43e0(CEMap* map)
             }
         }
     }
-    FUN_00c85750()->unk00 = reinterpret_cast<int>(data);
-    CEAllocator* allocator = reinterpret_cast<CEAllocator*>(FUN_00c85750()->m_pAllocator);
+    static_cast<AudioHolder*>(::FUN_00c85750())->unk00 = reinterpret_cast<intptr_t>(data);
+    CEAllocator* allocator = reinterpret_cast<CEAllocator*>(static_cast<AudioHolder*>(::FUN_00c85750())->m_pAllocator);
     if ((counts.m_iCapacityState & (int)0x80000000) == 0)
         allocator->free(data, (counts.m_iCapacityState & 0x3fffffff) * 4);
 }
@@ -4205,13 +4188,13 @@ struct MapperInitialization
     void FUN_00ce5310();
 };
 // @fnv 0x00ce4a20
-int FUN_00ce4a20_cls::FUN_00ce4a20(int a)
+intptr_t FUN_00ce4a20_cls::FUN_00ce4a20(intptr_t a)
 {
     m_iThirdValue = 1;
-    m_kPointA = (int)&DAT_010cb864;
+    m_kPointA = (intptr_t)&DAT_010cb864;
     reinterpret_cast<::MapperInitialization *>((((FUN_00ce4ae0_cls*)((char*)this + 0x10))))->FUN_00ce5310();
     reinterpret_cast<::ShapeData *>((((FUN_00ce4ae0_cls*)((char*)this + 0x10))))->FUN_00ce4ae0((*(const ::ShapeData *)(a)));
-    return (int)this;
+    return (intptr_t)this;
 }
 
 // @fnv 0x00ce5310
@@ -4237,4 +4220,841 @@ void MapperInitialization::FUN_00ce5310()
     _mm_store_ps(reinterpret_cast<float*>(&data->unk50), _mm_set1_ps(DAT_01012068));
 }
 
+void __cdecl FUN_00cf6950(intptr_t a, intptr_t apObject);
+
+
+
+
+void __cdecl FUN_00ce2cf0(intptr_t pObject, intptr_t param_2, intptr_t param_3);
+
+void* __cdecl FindKeyRecord(unsigned short aKey, FUN_00ce5480_cls* pKeyBox);
+
+CpuOpaque* __cdecl FUN_00cf45f0();
+
+void __cdecl FUN_00cf6980(FUN_00cf6980_class* object);
+
+int* __cdecl FUN_00cf6990();
+
+void __cdecl DeleteObjectIfNotNull(FUN_00ce9800_obj* pkObject);
+
+void __cdecl CallVirtualMethodWithOne(FUN_00ce9820_vt* pObject);
+
+int* FUN_00cf41b0();
+
+CpuOpaque* __cdecl FUN_00cf43f0();
+
+void __cdecl FUN_00cf74a0(void);
+
+void FUN_00cfb060();
+
+void FUN_00cfc580(int, int, int, int, int);
+
+void FUN_00cfdb40();
+
+void FUN_00cf6d10();
+
+void __cdecl CopyVectors(hkElementCE98* pkDst, const hkElementCE98* pkSrc, int iCount);
+
+void FUN_00cf6d00(int);
+
+void FUN_00cf8810(int a);
+
+static int FUN_00cfdb50(Cfd50Range* a);
+
+void Cfd50Caller(void);
+
+
+static void LinkEdge(Edge_cfdb70* e);
+
+void zz_probe_cfdb70(Edge_cfdb70* e);
+
+bool __cdecl IsAddressInBlock(const BlockList_cfd* list, unsigned addr);
+
+static void FUN_00cfdeb0(BlockStack_cfde* s);
+
+void zz_probe_cfdeb0(BlockStack_cfde* s);
+
+void __cdecl FUN_00ce43e0(CEMap* map);
+
+struct ElemA
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    __m128 m_v;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+};
+
+struct ElemB
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    __m128 m_v0;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    __m128 m_v1;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+};
+
+struct ScaleObj
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    ElemA* m_pA;
+    int m_nCallbackId;
+    int unk20;
+    ElemB* m_pB;
+    int m_nB;
+};
+
+// @fnv 0x00ce54c0
+void __cdecl FUN_00ce54c0(ScaleObj* obj, float scale)
+{
+    for (int i = 0; i < obj->m_nCallbackId; i++)
+    {
+        __m128 s = _mm_load_ss(&scale);
+        obj->m_pA[i].m_v = _mm_mul_ps(_mm_shuffle_ps(s, s, 0), obj->m_pA[i].m_v);
+    }
+    for (int i = 0; i < obj->m_nB; i++)
+    {
+        __m128 s = _mm_load_ss(&scale);
+        obj->m_pB[i].m_v0 = _mm_mul_ps(_mm_shuffle_ps(s, s, 0), obj->m_pB[i].m_v0);
+        __m128 t = _mm_load_ss(&scale);
+        obj->m_pB[i].m_v1 = _mm_mul_ps(_mm_shuffle_ps(t, t, 0), obj->m_pB[i].m_v1);
+    }
+}
+
+struct ScalarValue
+{
+    __m128 v;
+    ScalarValue(__m128 x) : v(x)
+    {}
+    __m128 splat() const
+    {
+        return _mm_shuffle_ps(v, v, 0);
+    }
+};
+
+struct __declspec(align(16)) VectorValue
+{
+    __m128 v;
+    void apply(const ScalarValue& s)
+    {
+        v = _mm_mul_ps(s.splat(), v);
+    }
+};
+
+struct QsTransform
+{
+    VectorValue m_vTranslation;
+    __m128 m_rotation;
+    VectorValue m_vScale;
+};
+
+static __forceinline float LengthSquared4(__m128 v, float& out)
+{
+    v = _mm_mul_ps(v, v);
+    __m128 s0 = _mm_add_ps(_mm_shuffle_ps(v, v, 0x4E), v);
+    __m128 s1 = _mm_add_ps(_mm_shuffle_ps(s0, s0, 0xB1), s0);
+    _mm_store_ss(&out, s1);
+    return out;
+}
+
+static __forceinline __m128 LengthSquared4v(__m128 v)
+{
+    v = _mm_mul_ps(v, v);
+    __m128 s0 = _mm_add_ps(_mm_shuffle_ps(v, v, 0x4E), v);
+    return _mm_add_ps(_mm_shuffle_ps(s0, s0, 0xB1), s0);
+}
+
+static __forceinline void Normalize4(QsTransform* p)
+{
+    float dots[4];
+    __declspec(align(16)) float len2[4];
+    len2[0] = LengthSquared4(p[0].m_rotation, dots[0]);
+    len2[1] = LengthSquared4(p[1].m_rotation, dots[1]);
+    len2[2] = LengthSquared4(p[2].m_rotation, dots[2]);
+    len2[3] = LengthSquared4(p[3].m_rotation, dots[3]);
+    _ReadWriteBarrier();
+    __m128 x = _mm_load_ps(len2);
+    __m128 y0 = _mm_rsqrt_ps(x);
+    __m128 ree = _mm_mul_ps(_mm_mul_ps(y0, x), y0);
+    __m128 t = _mm_sub_ps(::DAT_010c71c0, ree);
+    y0 = _mm_mul_ps(y0, ::DAT_010c71d0);
+    __m128 inv = _mm_mul_ps(t, y0);
+    __m128 s0 = _mm_shuffle_ps(inv, inv, 0);
+    p[0].m_rotation = _mm_mul_ps(s0, p[0].m_rotation);
+    __m128 s1 = _mm_shuffle_ps(inv, inv, 0x55);
+    s1 = _mm_shuffle_ps(s1, s1, 0);
+    p[1].m_rotation = _mm_mul_ps(s1, p[1].m_rotation);
+    __m128 s2 = _mm_shuffle_ps(inv, inv, 0xAA);
+    s2 = _mm_shuffle_ps(s2, s2, 0);
+    __m128 s3 = _mm_shuffle_ps(inv, inv, 0xFF);
+    p[2].m_rotation = _mm_mul_ps(s2, p[2].m_rotation);
+    _ReadWriteBarrier();
+    s3 = _mm_shuffle_ps(s3, s3, 0);
+    p[3].m_rotation = _mm_mul_ps(s3, p[3].m_rotation);
+}
+
+// @fnv 0x00ce4e20
+void __cdecl FUN_00ce4e20(QsTransform* xforms, const float* volatile weights, unsigned int count)
+{
+    unsigned int i = 0;
+    if (count > 0)
+    {
+        const float* input = weights;
+        __m128 one = _mm_load_ss(&DAT_01012068);
+        QsTransform* scaled = xforms;
+        do
+        {
+            ScalarValue inv(_mm_div_ss(_mm_load_ss((const float*)&one), _mm_load_ss(input + i)));
+            scaled->m_vTranslation.apply(inv);
+            scaled->m_vScale.apply(inv);
+            ++i;
+            ++scaled;
+        } while (i < count);
+    }
+
+    unsigned int n4 = count >> 2;
+    QsTransform* batch = xforms;
+    if (n4 > 0)
+    {
+        do
+        {
+            Normalize4(batch);
+            batch += 4;
+        } while (--n4);
+    }
+
+    unsigned int rem = count & 3;
+    if (rem > 0)
+    {
+        __m128 zero = _mm_set_ss(::DAT_01011d78);
+        __m128 three = _mm_set_ss(::DAT_01017718);
+        __m128 half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
+        unsigned int n = rem;
+        do
+        {
+            __m128 v = batch->m_rotation;
+            __m128 len2 = LengthSquared4v(v);
+            __m128 y0 = _mm_rsqrt_ss(len2);
+            __m128 ree = _mm_mul_ss(_mm_mul_ss(len2, y0), y0);
+            __m128 refined = _mm_mul_ss(_mm_mul_ss(half, y0), _mm_sub_ss(three, ree));
+            __m128 factor = _mm_andnot_ps(_mm_cmpeq_ss(len2, zero), refined);
+            factor = _mm_shuffle_ps(factor, factor, 0);
+            batch->m_rotation = _mm_mul_ps(factor, v);
+            ++batch;
+        } while (--n);
+    }
+}
+
+void __cdecl FUN_00cf6950(intptr_t a, intptr_t b);
+
+void __cdecl FUN_00ce2cf0(intptr_t param_1, intptr_t param_2, intptr_t param_3);
+
+void* __cdecl FindKeyRecord(unsigned short aKey, FUN_00ce5480_cls* pBox);
+
+void __cdecl CallVirtualMethodWithOne(FUN_00ce9820_vt* p);
+
+struct SimdReal
+{
+    __m128 m_vValue;
+    __forceinline SimdReal(__m128 r) : m_vValue(r)
+    {}
+    __forceinline operator __m128() const
+    {
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
+    }
+};
+
+struct FourFloatVector
+{
+    __m128 m_vComponents;
+
+    __forceinline SimdReal lengthSquared3() const
+    {
+        __m128 sq = _mm_mul_ps(m_vComponents, m_vComponents);
+        __m128 s = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq);
+        return SimdReal(_mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), s));
+    }
+    __forceinline void setXYZ_W(__m128 xyz, __m128 w)
+    {
+        m_vComponents = _mm_shuffle_ps(xyz, _mm_unpackhi_ps(xyz, w), 0xc4);
+    }
+    __forceinline void setSqrtInverse4(const FourFloatVector& v)
+    {
+        __m128 e = _mm_rsqrt_ps(v.m_vComponents);
+        __m128 he = _mm_mul_ps(::DAT_010c71d0, e);
+        __m128 ree = _mm_mul_ps(_mm_mul_ps(e, v.m_vComponents), e);
+        m_vComponents = _mm_mul_ps(_mm_sub_ps(::DAT_010c71c0, ree), he);
+    }
+};
+
+// @fnv 0x00ce2a50
+static __declspec(noinline) void FUN_00ce2a50(FourFloatVector* a, FourFloatVector* b)
+{
+    FourFloatVector len2;
+    SimdReal la = a->lengthSquared3();
+    SimdReal lb = b->lengthSquared3();
+    len2.setXYZ_W(la, lb);
+    FourFloatVector inv;
+    inv.setSqrtInverse4(len2);
+    __m128 x = _mm_shuffle_ps(inv.m_vComponents, inv.m_vComponents, 0x00);
+    a->m_vComponents = _mm_mul_ps(x, a->m_vComponents);
+    __m128 w = _mm_shuffle_ps(inv.m_vComponents, inv.m_vComponents, 0xff);
+    b->m_vComponents = _mm_mul_ps(_mm_shuffle_ps(w, w, 0), b->m_vComponents);
+}
+
+void CallerX(FourFloatVector* a, FourFloatVector* b)
+{
+    FUN_00ce2a50(a, b);
+}
+
+struct SubMatrix
+{
+    __m128 m_row[4];
+};
+
+struct TransformOwner
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+    SubMatrix m_matrix;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    __m128 m_vec140;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    __m128 m_quat170;
+};
+
+extern "C" TransformOwner* cf8b60_self(void);
+
+extern "C" __m128* cf8b60_quat(void);
+
+// @fnv 0x00cf8b60
+static __declspec(noinline) void FUN_00cf8b60(TransformOwner* self, __m128* pQuat)
+{
+    SubMatrix* m = &self->m_matrix;
+    reinterpret_cast<::RotationRows *>((m))->FUN_00cb2d90((void *)((const float*)pQuat));
+    __m128 q = self->m_quat170;
+    __m128 v = _mm_mul_ps(_mm_shuffle_ps(q, q, _MM_SHUFFLE(1, 1, 1, 1)), m->m_row[1]);
+    v = _mm_add_ps(v, _mm_mul_ps(_mm_shuffle_ps(q, q, _MM_SHUFFLE(0, 0, 0, 0)), m->m_row[0]));
+    v = _mm_add_ps(v, _mm_mul_ps(_mm_shuffle_ps(q, q, _MM_SHUFFLE(2, 2, 2, 2)), m->m_row[2]));
+    m->m_row[3] = _mm_sub_ps(self->m_vec140, v);
+}
+
+void cf8b60_caller(void)
+{
+    FUN_00cf8b60(cf8b60_self(), cf8b60_quat());
+}
+
+struct ResultByte
+{
+    char value;
+    __forceinline ResultByte(bool b) : value(b)
+    {}
+};
+
+struct ScalarValueEB6
+{
+    __m128 packed;
+    __forceinline ScalarValueEB6(__m128 x) : packed(x)
+    {}
+    __forceinline operator float() const
+    {
+        float f;
+        _mm_store_ss(&f, packed);
+        return f;
+    }
+};
+
+struct VectorValueEB6
+{
+    __m128 packed;
+    __forceinline void subtract(const VectorValueEB6& a, const VectorValueEB6& b)
+    {
+        packed = _mm_sub_ps(a.packed, b.packed);
+    }
+    __forceinline void cross(const VectorValueEB6& a, const VectorValueEB6& b)
+    {
+        packed =
+            _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a.packed, a.packed, 201), _mm_shuffle_ps(b.packed, b.packed, 210)),
+                       _mm_mul_ps(_mm_shuffle_ps(a.packed, a.packed, 210), _mm_shuffle_ps(b.packed, b.packed, 201)));
+    }
+    __forceinline ScalarValueEB6 dot(const VectorValueEB6& b) const
+    {
+        __m128 products = _mm_mul_ps(packed, b.packed);
+        __m128 first = _mm_add_ss(_mm_shuffle_ps(products, products, 85), products);
+        return ScalarValueEB6(_mm_add_ss(_mm_shuffle_ps(products, products, 170), first));
+    }
+};
+
+// @fnv 0x00ceb6f0
+ResultByte FUN_00ceb6f0(float& outT, float& outU, float& outV, const VectorValueEB6& position,
+                        const VectorValueEB6& direction, const VectorValueEB6& a, const VectorValueEB6& b, const VectorValueEB6& c,
+                        bool cull)
+{
+    VectorValueEB6 e1, e2, p;
+    e1.subtract(b, a);
+    e2.subtract(c, a);
+    p.cross(direction, e2);
+    float determinant = p.dot(e1);
+    if (cull)
+    {
+        if (determinant < DAT_01032980)
+            return false;
+    }
+    else
+    {
+        if (determinant > (double)-0.0001f && determinant < DAT_01032980)
+            return false;
+    }
+    float inverse = 1.0f / determinant;
+    VectorValueEB6 offset;
+    offset.subtract(position, a);
+    outU = offset.dot(p);
+    if (outU < 0.0f || outU > determinant)
+        return false;
+    VectorValueEB6 q;
+    q.cross(offset, e1);
+    outV = direction.dot(q);
+    if (outV < 0.0f || outU + outV > determinant)
+        return false;
+    outT = q.dot(e2);
+    outT *= inverse;
+    outU *= inverse;
+    outV *= inverse;
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+static void FUN_00ce2a50(FourFloatVector* a, FourFloatVector* b);
+
+void CallerX(FourFloatVector* a, FourFloatVector* b);
+
+static void FUN_00cf8b60(TransformOwner* self, __m128* pQuat);
+
+void cf8b60_caller(void);
+
+
+struct BoolX {
+    char value;
+    __forceinline BoolX(bool b) throw() : value((char)b) {}
+    __forceinline operator bool() const throw() { return value != 0; }
+};
+
+class ScalarX {
+    union { __m128 value; float lane[4]; };
+public:
+    ScalarX() {}
+    ScalarX(const ScalarX& a) : value(a.value) {}
+    void operator=(const ScalarX& a) { value=a.value; }
+    ScalarX(float x) { value=_mm_load_ss(&x); }
+    ScalarX(const __m128& x) : value(x) {}
+    __forceinline __m128 splat() const { return _mm_shuffle_ps(value,value,0); }
+    __forceinline const __m128& quad() const { return value; }
+};
+
+inline ScalarX __cdecl operator+(const ScalarX& a,const ScalarX& b) { return _mm_add_ss(a.quad(),b.quad()); }
+
+struct RotationX;
+
+class VectorX {
+    union { __m128 value; float lane[4]; };
+public:
+    __forceinline VectorX() {}
+    __forceinline VectorX(const VectorX& a) : value(a.value) {}
+    __forceinline __m128& quad() { return value; }
+    __forceinline const __m128& quad() const { return value; }
+    operator __m128() const { return value; }
+    __forceinline void operator=(const VectorX& x) throw() { value=x.value; }
+    __forceinline void zero() throw() { value=_mm_setzero_ps(); }
+    __forceinline void add(const VectorX& x) throw() { value=_mm_add_ps(value,x.value); }
+    __forceinline void multiply(const VectorX& x) throw() { value=_mm_mul_ps(value,x.value); }
+    __forceinline void multiply(const ScalarX& x) throw() { value=_mm_mul_ps(x.splat(),value); }
+    __forceinline void setProduct(const ScalarX& s, const VectorX& x) throw() { value=_mm_mul_ps(s.splat(),x.value); }
+    __forceinline ScalarX dot(const VectorX& x) const throw() {
+        __m128 squares = _mm_mul_ps(value,x.value);
+        __m128 xy = _mm_add_ss(_mm_shuffle_ps(squares,squares,0x55),squares);
+        return _mm_add_ss(_mm_shuffle_ps(squares,squares,0xaa),xy);
+    }
+    __forceinline ScalarX length() const throw() { return _mm_sqrt_ss(dot(*this).quad()); }
+    __forceinline void sumProduct(const VectorX& a,const VectorX& b,const VectorX& c) { value=_mm_add_ps(a.value,_mm_mul_ps(b.value,c.value)); }
+    __forceinline void product(const VectorX& a,const VectorX& b) { value=_mm_mul_ps(a.value,b.value); }
+    __forceinline void accumulateProduct(const VectorX& a,const VectorX& b) { value=_mm_add_ps(value,_mm_mul_ps(a.value,b.value)); }
+    __forceinline void sum(const VectorX& a,const VectorX& b) { value=_mm_add_ps(a.value,b.value); }
+    __forceinline void broadcast(const VectorX& a,int lane) { if(lane==0) value=_mm_shuffle_ps(a.value,a.value,0); else if(lane==1) value=_mm_shuffle_ps(a.value,a.value,0x55); else if(lane==2) value=_mm_shuffle_ps(a.value,a.value,0xaa); else if(lane==3) value=_mm_shuffle_ps(a.value,a.value,0xff); }
+    __forceinline void broadcast(int lane) { if(lane==0) value=_mm_shuffle_ps(value,value,0); else if(lane==1) value=_mm_shuffle_ps(value,value,0x55); else if(lane==2) value=_mm_shuffle_ps(value,value,0xaa); else if(lane==3) value=_mm_shuffle_ps(value,value,0xff); }
+    __forceinline void cross(const VectorX& a,const VectorX& b) {
+        __m128 lhs=_mm_mul_ps(_mm_shuffle_ps(a.value,a.value,0xc9),_mm_shuffle_ps(b.value,b.value,0xd2));
+        __m128 rhs=_mm_mul_ps(_mm_shuffle_ps(a.value,a.value,0xd2),_mm_shuffle_ps(b.value,b.value,0xc9));
+        value=_mm_sub_ps(lhs,rhs);
+    }
+    __forceinline ScalarX element(int lane) const {
+        if(lane==0) return _mm_shuffle_ps(value,value,0);
+        if(lane==1) return _mm_shuffle_ps(value,value,0x55);
+        if(lane==2) return _mm_shuffle_ps(value,value,0xaa);
+        return _mm_shuffle_ps(value,value,0xff);
+    }
+    __forceinline void fill(const ScalarX& x) { value=x.splat(); }
+    __forceinline void accumulateProduct(const ScalarX& s,const VectorX& x) { value=_mm_add_ps(value,_mm_mul_ps(s.splat(),x.value)); }
+    __forceinline void subtractProduct(const ScalarX& s,const VectorX& x) { value=_mm_sub_ps(value,_mm_mul_ps(s.splat(),x.value)); }
+    __forceinline void subtract(const VectorX& x) { value=_mm_sub_ps(value,x.value); }
+    __forceinline void pack(const VectorX& xyz,const VectorX& w) { value=_mm_shuffle_ps(xyz.value,_mm_unpackhi_ps(xyz.value,w.value),0xc4); }
+    __forceinline ScalarX dot4(const VectorX& x) const {
+        __m128 p=_mm_mul_ps(value,x.value);
+        __m128 s=_mm_add_ps(_mm_shuffle_ps(p,p,0x4e),p);
+        return _mm_add_ps(s,_mm_shuffle_ps(s,s,0xb1));
+    }
+    __forceinline void rotate(const RotationX& q,const VectorX& dir);
+
+};
+
+struct RotationX {
+    VectorX vec;
+    RotationX() {}
+    RotationX(const RotationX& a) { vec=a.vec; }
+    void operator=(const RotationX& a) { vec=a.vec; }
+    void flipped(const VectorX&);
+    __forceinline const VectorX& imag() const { return vec; }
+};
+
+__forceinline void VectorX::rotate(const RotationX& q,const VectorX& dir) {
+    VectorX half; half.quad()=DAT_010c71e0;
+    VectorX w; w.broadcast(q.vec,3);
+    VectorX coeff; coeff.sumProduct(half,w,w);
+    VectorX result; result.product(dir,coeff);
+    VectorX projection; projection.quad()=q.imag().dot(dir).quad();
+    projection.broadcast(0);
+    result.accumulateProduct(projection,q.imag());
+    VectorX perpendicular; perpendicular.cross(q.imag(),dir);
+    result.accumulateProduct(w,perpendicular);
+    sum(result,result);
+}
+
+static __forceinline __m128 reciprocalRootX(__m128 a) {
+    __m128 r=_mm_rsqrt_ps(a);
+    return _mm_mul_ps(_mm_mul_ps(_mm_set1_ps(0.5f),r),_mm_sub_ps(_mm_set1_ps(3.0f),_mm_mul_ps(_mm_mul_ps(r,a),r)));
+}
+struct PoseX { VectorX translation; RotationX rotation; VectorX scale;
+    __forceinline const VectorX& position() const { return translation; }
+    __forceinline const RotationX& orient() const { return rotation; }
+    __forceinline const VectorX& sizing() const { return scale; }
+};
+
+template<class T> struct ArrayBaseX {
+    T* data; int size, capacity;
+    __forceinline int count() const throw() { return size; }
+    __forceinline T* begin() throw() { return data; }
+    __forceinline const T* begin() const throw() { return data; }
+    __forceinline const T& operator[](int n) const throw() { return data[n]; }
+};
+
+template<class T> struct ArrayX : ArrayBaseX<T> {};
+
+template<class T> struct RefPtrX {
+    T* pointer;
+    __forceinline T* operator->() const throw() { return pointer; }
+};
+
+struct BoneX;
+
+struct SkeletonX {
+    int unk00, unk04;
+    const char* name;
+    ArrayX<short> parents;
+    ArrayX<BoneX> bones;
+    ArrayX<PoseX> reference;
+};
+
+struct RecordX { short a,b; PoseX offset; };
+
+struct LinkX { short a,b,c,d; PoseX root,end; };
+
+struct MapperX {
+    int unk00,unk04,unk08,unk0c;
+    RefPtrX<const SkeletonX> first,second;
+    ArrayX<RecordX> records;
+    ArrayX<LinkX> links;
+    ArrayX<short> unmapped;
+    PoseX motion;
+    BoolX keepLocal;
+    intptr_t property;
+    void __cdecl FUN_00ce3090(const PoseX*, PoseX*, const short*, const short*, bool) const;
+};
+
+// Calls FUN_00ce3090 with a1, a2, a3, two zero arguments, and a4.
+// @fnv 0x00ce4330
+void __cdecl FUN_00ce4330(intptr_t a1, intptr_t a2, intptr_t a3, int a4)
+{
+    reinterpret_cast<::MapperX *>((a1))->FUN_00ce3090((const ::PoseX *)(a2), (::PoseX *)(a3), (const short *)(0), (const short *)(0), a4);
+}
+
+struct ClockEventX { const char* tag; unsigned stamp; int unused; };
+
+struct ClockListX : ClockEventX { const char* split; };
+
+struct ClockX {
+    int unk00; char* current; int unk08; char* end;
+    __forceinline void mark(const char* tag) throw() {
+        if (current<end) {
+            ClockEventX* event=(ClockEventX*)current;
+            event->tag=tag;
+            unsigned ticks;
+            ticks = (unsigned int)__rdtsc();
+            event->stamp=ticks;
+            current=(char*)(event+1);
+        }
+    }
+    __forceinline void begin(const char* tag,const char* split) throw() {
+        if (current<end) {
+            ClockListX* event=(ClockListX*)current;
+            event->tag=tag; event->split=split;
+            unsigned ticks;
+            ticks = (unsigned int)__rdtsc();
+            event->stamp=ticks;
+            current=(char*)(event+1);
+        }
+    }
+    static __forceinline ClockX& instance() throw() { return *(ClockX*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))); }
+};
+
+template<class T> class StoredX {
+    T value;
+public:
+    __forceinline StoredX() throw() {}
+    __forceinline StoredX(T v) throw() : value(v) {}
+    __forceinline void operator=(T v) throw() { value=v; }
+    __forceinline operator T() const throw() { return value; }
+    __forceinline T get() const throw() { return value; }
+};
+
+template<class T> __forceinline T* stackAllocateX(int n) {
+    T** top=(T**)static_cast<AudioHolder*>(::FUN_00c85750());
+    T* result=*top;
+    *top=(T*)((char*)result+((n*int(sizeof(T))+127)&~127));
+    return result;
+}
+
+template<class T> struct BufferX {
+    StoredX<T*> data;
+    int debugSize;
+    __forceinline BufferX(int n) throw() { data=stackAllocateX<T>(n); }
+    __forceinline T* begin() throw() { return data; }
+    __forceinline ~BufferX() throw() { *(T**)static_cast<AudioHolder*>(::FUN_00c85750())=data.get(); }
+};
+
+// @fnv 0x00ce3090
+void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const short* mapA,const short* mapB,bool additive) const {
+    {
+        ClockX& timer=ClockX::instance();
+        if(timer.current<timer.end) {
+            ClockListX* event=(ClockListX*)timer.current;
+            event->tag="LtMapPoseLocalSpace";
+            event->split="Stinit";
+            unsigned ticks;
+            ticks = (unsigned int)__rdtsc();
+            event->stamp=ticks;
+            timer.current=(char*)(event+1);
+        }
+    }
+    {
+        ClockX& timer=ClockX::instance();
+        if(timer.current<timer.end) {
+            ClockEventX* event=(ClockEventX*)timer.current;
+            event->tag="StsimpleMappings";
+            
+            unsigned ticks;
+            ticks = (unsigned int)__rdtsc();
+            event->stamp=ticks;
+            timer.current=(char*)(event+1);
+        }
+    }
+    const BoolX sparse=mapA&&mapB;
+    BufferX<PoseX> scratch(first->bones.count());
+    if (additive) ::FUN_00ce2f30();
+    const PoseX* input=additive?scratch.begin():original;
+    {
+        const int total=records.count();
+        for(int i=0;i<total;++i) {
+            _mm_prefetch((const char*)&records[i]+128,_MM_HINT_NTA);
+            const RecordX& r=records[i];
+            int a=r.a,b=r.b;
+            if(sparse) { a=mapA[a]; if(a<0) continue; b=mapB[b]; }
+            ::FUN_00ce2ca0((void *)(property),(__m128 *)&(output[b]),(const __m128 *)&(r.offset),(const __m128 *)&(input[a]));
+            _mm_prefetch((const char*)&input[a]+128,_MM_HINT_NTA);
+            _mm_prefetch((const char*)&output[b]+128,_MM_HINT_NTA);
+        }
+    }
+    {
+        ClockX& timer=ClockX::instance();
+        if(timer.current<timer.end) {
+            ClockEventX* event=(ClockEventX*)timer.current;
+            event->tag="StchainMappings";
+            
+            unsigned ticks;
+            ticks = (unsigned int)__rdtsc();
+            event->stamp=ticks;
+            timer.current=(char*)(event+1);
+        }
+    }
+    {
+        const int total=links.count();
+        for(int i=0;i<total;++i) {
+            const LinkX& r=links[i];
+            VectorX posA,posB;
+            posA.zero(); posB.zero();
+            ScalarX length=0.0f;
+            bool valid=true;
+            for(short bone=r.b;bone>r.a;bone=first->parents[bone]) {
+                short track=sparse?mapA[bone]:bone;
+                if(track<0) { valid=false; break; }
+                const PoseX& t=input[track];
+                VectorX prev(posA);
+                posA.rotate(t.orient(),prev);
+                posA.add(t.position());
+                length=length+t.position().length();
+            }
+            if(sparse) { valid=valid&&mapA[r.a]>=0; if(!valid) continue; }
+            VectorX scale; scale.setProduct(length,r.end.sizing());
+            for(short bone=r.d;bone>r.c;bone=second->parents[bone]) {
+                short track=sparse?mapB[bone]:bone;
+                PoseX& t=output[track];
+                t.translation.multiply(scale);
+                VectorX prev(posB);
+                posB.rotate(t.orient(),prev);
+                posB.add(t.position());
+            }
+            int a=r.a,c=r.c,b=r.b,d=r.d;
+            if(sparse) { a=mapA[a];c=mapB[c];b=mapA[b];d=mapB[d]; }
+            ::FUN_00ce2ca0((void *)(property),(__m128 *)&(output[c]),(const __m128 *)&(r.root),(const __m128 *)&(input[a]));
+            FUN_00ce2a50((FourFloatVector*)&posA,(FourFloatVector*)&posB);
+            RotationX shortest; reinterpret_cast<::fnv_00cd9d10::Q_00cd9d10 *>(&shortest)->FUN_00cd9d10((const __m128 *)&posB,(const __m128 *)&posA);
+            RotationX offset; offset.vec=r.end.translation;
+            RotationX applied; reinterpret_cast<::Quat74 *>(&(applied))->FUN_00c74ac0((const ::Quat74 &)(shortest),(const ::Quat74 &)(offset));
+            reinterpret_cast<::fnv_00ce0ca0::FUN_00ce0ca0_Quaternion *>(&output[c].rotation)->FUN_00ce0ca0(*reinterpret_cast<const ::fnv_00ce0ca0::FUN_00ce0ca0_Quaternion *>(&applied));
+            ::fnv_00c66320::FUN_00c66320((__m128 *)&(output[d].rotation), nullptr, (const __m128 *)&(r.end.rotation), (const __m128 *)&(input[b].rotation));
+        }
+    }
+    if(additive) ::FUN_00ce2f40((unsigned int)(output),(uintptr_t)(second->reference.begin()),(unsigned int)(mapB),second->bones.count(),(unsigned int)(output));
+    {
+        ClockX& timer=ClockX::instance();
+        if(timer.current<timer.end) {
+            ClockEventX* event=(ClockEventX*)timer.current;
+            event->tag="lt";
+            
+            unsigned ticks;
+            ticks = (unsigned int)__rdtsc();
+            event->stamp=ticks;
+            timer.current=(char*)(event+1);
+        }
+    }
+}
+
 #include "generated/data/staging/blk_00ce0000_o2.inc"
+#include "generated/data/staging/blk_00ce0000_o2_rtm_variant.inc"
+#include "generated/data/staging/blk_00ce0000_o2_gs_nogs_variant.inc"
+#include "generated/data/staging/blk_00ce0000_o2_gs_nogs_variant_rtm_variant.inc"

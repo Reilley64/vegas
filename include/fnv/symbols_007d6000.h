@@ -11,7 +11,7 @@ namespace fnv_007d67b0 { void InitSaveLoadTile(::fnv_007d67b0::Tile *, ::BGSSave
 // 0x007d6950
 int FUN_007d6950(::BGSSaveLoadFileEntry *);
 // 0x007d6970
-int FUN_007d6970(::BGSSaveLoadFileEntry *);
+char *FUN_007d6970(::BGSSaveLoadFileEntry *);
 // 0x007d6990
 void FUN_007d6990(int);
 // 0x007d69d0

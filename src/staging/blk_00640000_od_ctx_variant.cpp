@@ -3,6 +3,7 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 // src/staging/blk_00640000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <new>
 #include <cstddef>
 #include <windows.h>
@@ -462,7 +463,7 @@ struct FUN_0065dfb0_Class
 };
 struct FUN_0065dfd0_class
 {
-    bool FUN_0065dfd0(int);
+    bool FUN_0065dfd0(std::intptr_t);
 };
 struct FUN_0065e000_class
 {

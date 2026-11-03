@@ -2,6 +2,25 @@
 // src/staging/blk_00e60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00c85000.h"
+#include "../../include/layout_support.h"
+#include <d3d9.h>
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/symbols_00e7d000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include <math.h>
+#include "fnv/decl/DFB0B0_Owner.h"
+#include "fnv/decl/fnv_00e63ba0__TetraHull.h"
+#include "fnv/decl/fnv_00e67740__Hull.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_010db000.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00c90000.h"
+#include <xmmintrin.h>
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -33,7 +52,6 @@
 #include "fnv/decl/NiDepthStencilBufferA9F.h"
 #include "fnv/decl/NiImageConverter.h"
 #include "fnv/decl/NiRenderer.h"
-#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/ResetRenderer.h"
 #include "fnv/decl/S_00b601a0_Map.h"
 #include "fnv/decl/S_00e8a2b0.h"
@@ -71,7 +89,6 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_0126e000.h"
 #include "fnv/symbols_0126f000.h"
-#include "../../include/layout_support.h"
 
 struct FUN_00a77980_shell
 {
@@ -83,7 +100,7 @@ struct FUN_00e7cdf0_shell
     int _p1;
     int _p2;
     int _p3;
-    int _p4;
+    void* _p4;
     int _p5;
     int _p6;
 };
@@ -173,8 +190,8 @@ void FUN_00e67fd0_cls::ClearEntries()
     }
 }
 
-typedef void*(* DepthDevice)(unsigned int);
-typedef int(* CreateExFn)(unsigned int, DepthDevice**);
+typedef void*(* Direct3DCreate9Fn)(unsigned int);
+typedef int(* CreateExFn)(unsigned int, Direct3DCreate9Fn**);
 extern void*(* DAT_00fdf0ac)(void*, const char*);
 extern void*(* DAT_00fdf0b0)(const char*);
 
@@ -189,7 +206,7 @@ unsigned char __cdecl InitD3D9CreateFunctions()
     {
         void*(* pfnGetProcAddress)(void*, const char*) = DAT_00fdf0ac;
         DAT_0126f0e0 = (CreateExFn)pfnGetProcAddress(DAT_0126f0d4, "Direct3DCreate9Ex");
-        ::g_0126f0dc = (DepthDevice)pfnGetProcAddress(DAT_0126f0d4, "Direct3DCreate9");
+        ::g_0126f0dc = (Direct3DCreate9Fn)pfnGetProcAddress(DAT_0126f0d4, "Direct3DCreate9");
         if (::g_0126f0dc)
             return 1;
     }
@@ -203,15 +220,15 @@ struct MemoryManager
 extern int DAT_010eec74;
 struct FUN_00e7b200_Class
 {
-    int vtbl;
-    int m_p;
+    void* vtbl;
+    void* m_p;
     FUN_00e7b200_Class* FUN_00e7b200(int);
 };
 // Sets the vtable, frees m_p with NiFree, and if bit 0 of a is set deallocates this via the memory manager; returns this.
 // @fnv 0x00e7b200
 FUN_00e7b200_Class* FUN_00e7b200_Class::FUN_00e7b200(int aiFlags)
 {
-    vtbl = (int)&DAT_010eec74;
+    vtbl = &DAT_010eec74;
     NiFree((void*)m_p);
     if (aiFlags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(this);
@@ -626,11 +643,11 @@ struct FUN_00e63ec0_Class
     int _04;
     int* _08;
     int _0c;
-    int FUN_00e63ec0(int a, int* out);
+    int FUN_00e63ec0(intptr_t a, int* out);
 };
 
 // @fnv 0x00e63ec0
-int FUN_00e63ec0_Class::FUN_00e63ec0(int a, int* out)
+int FUN_00e63ec0_Class::FUN_00e63ec0(intptr_t a, int* out)
 {
     int i = 0;
     if (_0c > 0)
@@ -660,16 +677,16 @@ struct NiTMapBaseStub
 };
 struct FUN_00e7afc0_Class : NiTMapBaseStub
 {
-    int vtbl;
+    void* vtbl;
     int _04;
-    int _08;
+    void* _08;
     FUN_00e7afc0_Class* FUN_00e7afc0(int);
 };
 // Sets the vtable, removes all entries, frees the buffer at _08, and deallocates this object when ai has bit 0 set.
 // @fnv 0x00e7afc0
 FUN_00e7afc0_Class* FUN_00e7afc0_Class::FUN_00e7afc0(int aiFlags)
 {
-    vtbl = (int)&DAT_010eec54;
+    vtbl = &DAT_010eec54;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     NiFree((void*)_08);
     if ((unsigned char)aiFlags & 1)
@@ -736,10 +753,7 @@ void* FUN_00e7b230_Class::FUN_00e7b230(unsigned char flags)
 namespace fnv_00e7bb50 {
 void __cdecl _NiFree(void* p);
 void __cdecl _delete(void* p, unsigned int size);
-
-struct M788
-{
-};
+void ClearPointerList(void* list);
 
 struct FUN_00e7b550_Class
 {
@@ -762,7 +776,7 @@ void FUN_00e7bb50_Class::FUN_00e7bb50()
 
         if (item)
         {
-            reinterpret_cast<::NiTPointerListBase *>((reinterpret_cast<M788*>(reinterpret_cast<unsigned char*>(item) + 0x10)))->FUN_004ed900();
+            ClearPointerList(reinterpret_cast<unsigned char*>(item) + 0x10);
             _delete(item, 0x1c);
         }
     }
@@ -918,22 +932,22 @@ struct FUN_00e7dbc0_Class
 // @fnv 0x00e7dbc0
 void FUN_00e7dbc0_Class::FUN_00e7dbc0()
 {
-    *(int*)this = (int)&::DAT_010ef184;
-    EnterCriticalSection(&(*reinterpret_cast<int *>(&::DAT_0126f600)));
+    *(void**)this = (void*)&::DAT_010ef184;
+    EnterCriticalSection(reinterpret_cast<CRITICAL_SECTION*>(&::DAT_0126f600));
     void* p = this;
     reinterpret_cast<::AlphaList *>((((BSBatchRenderer__AlphaList*)&DAT_0126f5cc)))->FUN_00e7db70((void *const *)(void **)(&p));
-    LeaveCriticalSection(&(*reinterpret_cast<int *>(&::DAT_0126f600)));
+    LeaveCriticalSection(reinterpret_cast<CRITICAL_SECTION*>(&::DAT_0126f600));
     void* q = *(void**)((char*)this + 0x14);
-    *(int*)this = (int)&::DAT_010eeed4;
+    *(void**)this = (void*)&::DAT_010eeed4;
     if (q)
     {
-        (*(void(**)(void*))(*(int*)q + 8))(q);
+        (*(void(**)(void*))(*(char**)q + 8))(q);
         *(int*)((char*)this + 0x14) = 0;
     }
     void* r = *(void**)((char*)this + 0xc);
     reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<void * *>(&::g_memoryManager)))))->FUN_00aa4060(r);
     *(int*)((char*)this + 0xc) = 0;
-    *(int*)this = (int)&::DAT_0101dce4;
+    *(void**)this = (void*)&::DAT_0101dce4;
     InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
 }
 }  // namespace fnv_00e7dbc0
@@ -1031,19 +1045,18 @@ struct FUN_00c85750_Result
     int unk04;
     int unk08;
     int unk0C;
-    int unk10;
+    void* unk10;
 };
 
-FUN_00c85750_Result* __cdecl FUN_00c85750();
 
 // Switches on object->unk14: case 0 calls AppendIndexSequence with object fields and value; case 1 calls AppendIndices when unk00 is 3 or 4.
 // @fnv 0x00e611d0
-void __cdecl FUN_00e611d0(FUN_00e611d0_Object* object, int value)
+void __cdecl FUN_00e611d0(FUN_00e611d0_Object* object, intptr_t value)
 {
     switch (object->unk14)
     {
     case 0: {
-        FUN_00c85750_Result* result = FUN_00c85750();
+        FUN_00c85750_Result* result = static_cast<FUN_00c85750_Result*>(::FUN_00c85750());
         ::AppendIndexSequence(object->unk00, object->unk08, object->unk0C, (::IndexArray *)(value), (void *)(result->unk10));
         break;
     }
@@ -2160,12 +2173,12 @@ class FUN_00e67660_cls
     int unkdd8;
     int unkddc;
     FnvNode67* m_de0[100];
-    int FUN_00e67660(FnvNode67* a1, int a2, int* a3, FnvEnt67** a4);
+    int FUN_00e67660(FnvNode67* a1, intptr_t a2, int* a3, FnvEnt67** a4);
 };
 
 
 // @fnv 0x00e67660
-int FUN_00e67660_cls::FUN_00e67660(FnvNode67* apNode, int aiArg, int* apiCount, FnvEnt67** apOutEntry)
+int FUN_00e67660_cls::FUN_00e67660(FnvNode67* apNode, intptr_t aiArg, int* apiCount, FnvEnt67** apOutEntry)
 {
     int iResult = 0;
     int i = 0;
@@ -3930,7 +3943,7 @@ void __cdecl FUN_00aa10f0(void* p);
 struct FUN_00e7bcd0_cls
 {
     int unk00;
-    int unk04;
+    void* unk04;
     FUN_00e7bcd0_Item** m_items;
     unsigned short unk0C;
     unsigned short m_uiItemCount;
@@ -3949,7 +3962,7 @@ void FUN_00e7bcd0_cls::DestroyItems()
             FUN_00aa1460(item, 0x468);
         }
     }
-    unk04 = (int)&DAT_010eec4c;
+    unk04 = &DAT_010eec4c;
     FUN_00aa10f0(m_items);
 }
 
@@ -4262,7 +4275,7 @@ unsigned char FUN_00e7ce30_cls::FUN_00e7ce30(void* a1)
         *slot = 0;
         return 0;
     }
-    m_0c = (void*)((int)(::CreatePixelFormat((int)(frame.out))));
+    m_0c = (void*)(::CreatePixelFormat((intptr_t)(frame.out)));
     reinterpret_cast<::FUN_00a8f080_Class *>((((FUN_00a8f080_shell*)m_08)))->SetValues(frame.unk18, frame.unk1c);
     return 1;
 }
@@ -4503,7 +4516,7 @@ struct FUN_00e7d4e0_pool
 
 struct FUN_00e7d4e0_cls
 {
-    int m_vptr;
+    void* m_vptr;
     int unk04;
     int unk08;
     void* m_0c;
@@ -4534,13 +4547,13 @@ struct FUN_00e7d4e0_cls
 // @fnv 0x00e7d4e0
 void FUN_00e7d4e0_cls::FUN_00e7d4e0()
 {
-    m_vptr = (int)&DAT_010ef06c;
+    m_vptr = &DAT_010ef06c;
     if (m_58 != 0)
     {
         m_58->Release();
         m_58 = 0;
     }
-    m_vptr = (int)&::DAT_010eeed4;
+    m_vptr = &::DAT_010eeed4;
     if (m_14 != 0)
     {
         m_14->Release();
@@ -4548,7 +4561,7 @@ void FUN_00e7d4e0_cls::FUN_00e7d4e0()
     }
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00e7d4e0::FUN_00e7d4e0_pool *>(&::g_memoryManager))))->FUN_00aa4060(m_0c);
     m_0c = 0;
-    m_vptr = (int)&::DAT_0101dce4;
+    m_vptr = &::DAT_0101dce4;
     InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
 }
 }  // namespace fnv_00e7d4e0
@@ -4578,7 +4591,7 @@ struct FUN_00e7d620_pool
 
 struct FUN_00e7d620_cls
 {
-    int m_vptr;
+    void* m_vptr;
     int unk04;
     int unk08;
     void* m_0c;
@@ -4592,7 +4605,7 @@ struct FUN_00e7d620_cls
 // @fnv 0x00e7d620
 FUN_00e7d620_cls* FUN_00e7d620_cls::FUN_00e7d620(unsigned char acFlags)
 {
-    m_vptr = (int)&::DAT_010eeed4;
+    m_vptr = &::DAT_010eeed4;
     if (m_14 != 0)
     {
         m_14->Release();
@@ -4600,7 +4613,7 @@ FUN_00e7d620_cls* FUN_00e7d620_cls::FUN_00e7d620(unsigned char acFlags)
     }
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00e7d620::FUN_00e7d620_pool *>(&::g_memoryManager))))->FUN_00aa4060(m_0c);
     m_0c = 0;
-    m_vptr = (int)&::DAT_0101dce4;
+    m_vptr = &::DAT_0101dce4;
     InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
     if (acFlags & 1)
     {
@@ -4975,11 +4988,11 @@ struct FUN_00e687a0 : Mid_00e687a0
 {
     Q74 q74;
     virtual void V1();
-    FUN_00e687a0(int p1, int p2);
+    FUN_00e687a0(intptr_t p1, intptr_t p2);
 };
 // Constructs the object by forwarding p1 and p2 to the base constructor and leaving the Q74 member default-initialized.
 // @fnv 0x00e687a0
-FUN_00e687a0::FUN_00e687a0(int p1, int p2) : Mid_00e687a0(p1, p2)
+FUN_00e687a0::FUN_00e687a0(intptr_t p1, intptr_t p2) : Mid_00e687a0(p1, p2)
 {}
 
 extern long(* DAT_00fdf1c0)(void*);
@@ -6447,7 +6460,7 @@ void __cdecl AppendIndices(int primType, const unsigned short* src, int count, i
     switch (primType)
     {
     case 3: {
-        FUN_00c85750_Result* pResult = FUN_00c85750();
+        FUN_00c85750_Result* pResult = static_cast<FUN_00c85750_Result*>(::FUN_00c85750());
         IndexAllocator* alloc = (IndexAllocator*)pResult->unk10;
         int oldSize = out->size;
         int newSize = oldSize + count;
@@ -6467,7 +6480,7 @@ void __cdecl AppendIndices(int primType, const unsigned short* src, int count, i
         }
         if (count > 0)
         {
-            int delta = (int)src - (int)dst;
+            int delta = (int)((char*)src - (char*)dst);
             do
             {
                 *dst = (unsigned short)(*(unsigned short*)((char*)dst + delta) + offset);
@@ -6478,7 +6491,7 @@ void __cdecl AppendIndices(int primType, const unsigned short* src, int count, i
     }
     case 4: {
         int n = count * 3 - 6;
-        FUN_00c85750_Result* pResult = FUN_00c85750();
+        FUN_00c85750_Result* pResult = static_cast<FUN_00c85750_Result*>(::FUN_00c85750());
         IndexAllocator* alloc = (IndexAllocator*)pResult->unk10;
         int oldSize = out->size;
         int newSize = oldSize + n;
@@ -6510,7 +6523,7 @@ void __cdecl AppendIndices(int primType, const unsigned short* src, int count, i
     }
 }
 
-struct HeapAlloc
+struct HeapAllocE60
 {
     virtual void* v00();
     virtual void v04();
@@ -6525,12 +6538,12 @@ struct MemRouter
     int unk04;
     int unk08;
     int unk0c;
-    HeapAlloc* heap;
+    HeapAllocE60* heap;
 };
 
 inline MemRouter* getRouter() throw()
 {
-    return (MemRouter*)FUN_00c85750();
+    return (MemRouter*)static_cast<FUN_00c85750_Result*>(::FUN_00c85750());
 }
 
 
@@ -6562,7 +6575,7 @@ struct U16Array
     int m_iCapacityState;
     char* m_pStackAllocation;
 
-    __forceinline void ClearAndRelease(HeapAlloc* alloc)
+    __forceinline void ClearAndRelease(HeapAllocE60* alloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -6842,7 +6855,6 @@ struct RouterE60F
 };
 
 namespace hkRouterE60F {
-extern "C" RouterE60F& __cdecl FUN_00c85750() throw();
 }
 
 
@@ -6860,7 +6872,7 @@ template <class T> class hkArrayE60F
 
     __forceinline T* expandBy(int n)
     {
-        AllocatorE60F& kAlloc = hkRouterE60F::FUN_00c85750().heap();
+        AllocatorE60F& kAlloc = (*static_cast<RouterE60F*>(::FUN_00c85750())).heap();
         int iOldSize = m_iElementCount;
         int iNewSize = iOldSize + n;
         if (getCapacity() < iNewSize)
@@ -7674,8 +7686,6 @@ void FUN_00e69620_cls::FUN_00e69620()
     unk884->vfB0(0);
 }
 
-typedef int D3DFORMAT;
-typedef int D3DDEVTYPE;
 struct S00e7b590_Mode
 {
     unsigned int Width;
@@ -8000,7 +8010,7 @@ FUN_00e7b590::FUN_00e7b590(S00e7b590_D3D* dev, int aiAdapter, D3DDEVTYPE aiDevic
     else
     {
 
-        caps.DeviceType = 0;
+        caps.DeviceType = (D3DDEVTYPE)0;
     }
 
     ListNode* pos = items.head;
@@ -8109,9 +8119,8 @@ template <class T> class NiTListE7CF
     }
 };
 
-struct CriticalSectionE7CF
+struct CriticalSectionE7CF : CRITICAL_SECTION
 {
-    int unk00[6];
 };
 
 extern NiTListE7CF<ItemE7CF*> DAT_0126f5c8;
@@ -8288,8 +8297,8 @@ struct RouterX
     int unk04;
     int unk08;
     int unk0c;
-    HeapAlloc* m_pStreamAllocator;
-    __forceinline HeapAlloc& heap()
+    HeapAllocE60* m_pStreamAllocator;
+    __forceinline HeapAllocE60& heap()
     {
         return *m_pStreamAllocator;
     }
@@ -8305,7 +8314,7 @@ struct IntArrayX
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    __forceinline void GrowArrayCapacity(HeapAlloc& alloc, int n)
+    __forceinline void GrowArrayCapacity(HeapAllocE60& alloc, int n)
     {
         const int cap = getCapacity();
         if (cap < n)
@@ -8317,7 +8326,7 @@ struct IntArrayX
     }
     __forceinline int* expandBy(int n)
     {
-        HeapAlloc& alloc = ((RouterX*)FUN_00c85750())->heap();
+        HeapAllocE60& alloc = ((RouterX*)static_cast<FUN_00c85750_Result*>(::FUN_00c85750()))->heap();
         int oldSize = m_iElementCount;
         GrowArrayCapacity(alloc, oldSize + n);
         m_iElementCount += n;
@@ -8360,19 +8369,7 @@ void __cdecl FUN_00e60e40(int type, int count, int aiStart, IntArray* out)
     }
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    } lanes;
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" void _mm_store_ss(float*, __m128);
 __forceinline float dot3(__m128 p)
 {
     float value;
@@ -8484,15 +8481,6 @@ void __cdecl FUN_00e61a10(const __m128* point, const __m128* apVertexA, const __
 }
 
 namespace fnv_00e63af0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
 
 extern double DAT_0109a3a0;
 
@@ -9064,12 +9052,12 @@ struct Owner
     int unk6fc;
     Block m_kBlock;
 
-    int FUN_00e695c0(int iArg);
+    int FUN_00e695c0(intptr_t iArg);
 };
 
 // Returns the result of SelectFormatTileValue called with iArg and a pointer to m_kBlock.
 // @fnv 0x00e695c0
-int Owner::FUN_00e695c0(int iArg)
+int Owner::FUN_00e695c0(intptr_t iArg)
 {
     return ::SelectFormatTileValue((::Pair *)(iArg), (::Counts *)(::se695c0::Block *)(&m_kBlock));
 }
@@ -9099,11 +9087,11 @@ class DepthStencilSearch
     int unk00;
     int unk04;
     SearchIndex m_08;
-    intptr_t FindBestFullscreenFormat(unsigned int p1, int p2, int p3);
+    intptr_t FindBestFullscreenFormat(uintptr_t p1, int p2, int p3);
 };
 // Returns the DAT_011bf140 value of the enabled fullscreen entry whose two values from FUN_00e7a8b0 are closest to p2 and p3, or 0.
 // @fnv 0x00e7ade0
-intptr_t DepthStencilSearch::FindBestFullscreenFormat(unsigned int p1, int aiDepth, int aiStencil)
+intptr_t DepthStencilSearch::FindBestFullscreenFormat(uintptr_t p1, int aiDepth, int aiStencil)
 {
     NiDX9RenderTargetInfo* pRenderTargetInfo = 0;
     int result = 0;
@@ -10394,9 +10382,9 @@ FUN_00e7b7d0::FUN_00e7b7d0(AdapterApi* apAdapter, int handle, FormatList& names)
     CurrentMode tech;
     apAdapter->GetTech(m_handle, &tech);
     m_stage1 = new (FUN_00aa13e0(sizeof(FUN_00e7b590)))
-        FUN_00e7b590((S00e7b590_D3D*)apAdapter, handle, 1, tech.unk0C, (OuterNode**)&names);
+        FUN_00e7b590((S00e7b590_D3D*)apAdapter, handle, (D3DDEVTYPE)1, (D3DFORMAT)tech.unk0C, (OuterNode**)&names);
     m_stage2 = new (FUN_00aa13e0(sizeof(FUN_00e7b590)))
-        FUN_00e7b590((S00e7b590_D3D*)apAdapter, handle, 2, tech.unk0C, (OuterNode**)&names);
+        FUN_00e7b590((S00e7b590_D3D*)apAdapter, handle, (D3DDEVTYPE)2, (D3DFORMAT)tech.unk0C, (OuterNode**)&names);
 }
 
 struct S00e60650
@@ -10439,7 +10427,6 @@ int* FUN_00e60660_Cls::FUN_00e60660()
 }
 
 namespace fnv_00e68010 {
-#include <d3d9.h>
 
 struct NiPixelFormatStub;
 D3DFORMAT GetD3DFormat(const NiPixelFormatStub* kFormat);
@@ -11189,14 +11176,6 @@ SwapChainBufferData* __cdecl FUN_00e7d6b0(DeviceE7D6B0* pkDevice, PresentParamsE
     return pkThis;
 }
 
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 
 class XfCallee
 {
@@ -11261,10 +11240,6 @@ void XfTransformBlock::FUN_00e62b20(__m128* in, __m128* out)
     out[2] = t2;
 }
 
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 
 struct __declspec(align(16)) Vector
 {
@@ -11358,21 +11333,6 @@ __m128* SupportOwner::FUN_00e62c60(Arg<__m128> out, const Vector* direction, Arg
 
 extern "C"
 {
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ps(float*, __m128);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
     void _ReadWriteBarrier();
     void _WriteBarrier();
 }
@@ -11456,7 +11416,6 @@ void TrianglePlane::FUN_00e67570()
     m_40 = m_00.dotFloat(first);
 }
 
-extern "C" __m128 _mm_sqrt_ss(__m128);
 
 struct S00e61d30_TriVerts
 {
@@ -11500,9 +11459,6 @@ void FUN_00e61d30(const S00e61d30_TriVerts* tri, float* out)
     out[3] = 1.0f / len;
 }
 
-extern "C"
-{
-}
 
 struct S00e67ae0_HullFace;
 
@@ -11675,4 +11631,1598 @@ NiDX9AdditionalDepthStencilBufferData* __cdecl FUN_00e7d850(D3DDevice_e7d850* pk
     return pkData;
 }
 
+int __cdecl FUN_00e60c70(int a);
+
+
+void __cdecl DestroyArrayElements(void* p);
+
+void __cdecl RunReceiverStage(FUN_00e61230_Receiver* receiver, void* value, unsigned int stage);
+
+static float FUN_00e65000(E65000Entry* pkEntries, int iIndex, float fValue);
+
+float E65000Swap(E65000Entry* pkEntries, int iIndex, float fValue);
+
+void* __cdecl _memmove(void*, const void*, unsigned);
+
+
+
+
+CpuOpaque* __cdecl FUN_00e7d220();
+
+
+int* __cdecl FUN_00e7d550();
+
+void* __cdecl FUN_00e7d680(void);
+
+
+
+
+void __cdecl BuildIndexArray(IndexSource* src, IntArray* out);
+
+
+
+
+static float FUN_00e62ac0(unsigned seed);
+
+
+void e62ac0_probe_caller(void);
+
+static void SetVec3FromHelper(Vec3* out, float a, float b);
+
+void FUN_dummycaller();
+
+static void SwapFloatPair(float* base, int i, float* outB, float a, float b, unsigned __int64 outA);
+
+void dummy_call_e64fe0(void);
+
+static float FUN_00e65020(E65020Entry* pkEntries, int iIndex, float fValue);
+
+float E65020Swap(E65020Entry* pkEntries, int iIndex, float fValue);
+
+void __cdecl FUN_00e67560();
+
+int ApplyOperator(int op, int val);
+
+
+void __cdecl FUN_00e61a10(const __m128* point, const __m128* a, const __m128* b, const __m128* c,
+                          BarycentricResult* result);
+
+void __cdecl FUN_00e67550();
+
+
+GlobalObjectO2_00a7b610* FUN_00e7cd30();
+
+int __cdecl FUN_00ec65a6(char* pcDest, unsigned int uiDestSize, const char* pcSrc);
+
+void* __cdecl FUN_00ec44d0(void* pvDest, const void* pvSrc, unsigned int uiSize);
+
+
+void* __cdecl FUN_00ec61c0(void* p, int c, unsigned int n);
+
+
+void FUN_00e61d30(const S00e61d30_TriVerts* tri, float* out);
+
+typedef float hkReal;
+
+typedef unsigned int hkUint32;
+
+typedef __m128 hkQuadReal;
+
+enum hkResult
+{
+    HK_SUCCESS = 0,
+    HK_FAILURE = 1
+};
+
+enum hkGskStatus
+{
+    HK_GSK_OK = 0,
+    HK_GSK_PD_HEURISTIC_SAMPLING_FAILED = 5
+};
+
+class VectorComponentValue
+{
+  public:
+    __forceinline VectorComponentValue(const hkQuadReal& x) : m_vValue(x)
+    {}
+    __forceinline VectorComponentValue(hkReal x)
+    {
+        m_vValue = _mm_load_ss(&x);
+    }
+    __forceinline VectorComponentValue()
+    {}
+    __forceinline operator hkReal() const
+    {
+        hkReal s;
+        _mm_store_ss(&s, m_vValue);
+        return s;
+    }
+    __forceinline hkQuadReal broadcast() const
+    {
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
+    }
+    __forceinline const hkQuadReal& getQuad() const
+    {
+        return m_vValue;
+    }
+
+  private:
+    hkQuadReal m_vValue;
+};
+
+typedef const VectorComponentValue& hkSimdRealParameter;
+
+static __forceinline void hkSimdReal_setMax(hkSimdRealParameter a, hkSimdRealParameter b, VectorComponentValue& result)
+{
+    result = VectorComponentValue(_mm_max_ps(a.getQuad(), b.getQuad()));
+}
+
+static __forceinline VectorComponentValue operator-(hkSimdRealParameter r, hkSimdRealParameter s)
+{
+    return _mm_sub_ss(r.getQuad(), s.getQuad());
+}
+
+static __forceinline VectorComponentValue operator+(hkSimdRealParameter r, hkSimdRealParameter s)
+{
+    return _mm_add_ss(r.getQuad(), s.getQuad());
+}
+
+static __forceinline VectorComponentValue operator/(hkSimdRealParameter r, hkSimdRealParameter s)
+{
+    return _mm_div_ss(r.getQuad(), s.getQuad());
+}
+
+static __forceinline int hkMath_isNegative(const VectorComponentValue& r0)
+{
+    return _mm_movemask_ps(r0.getQuad()) & 1;
+}
+
+static __forceinline float hkMath_fabs(float r)
+{
+    return fabsf(r);
+}
+
+template <typename TYPE> class ValueWrapper
+{
+  public:
+    __forceinline ValueWrapper()
+    {}
+    __forceinline void operator=(TYPE e)
+    {
+        m_kStorage = e;
+    }
+    __forceinline TYPE val() const
+    {
+        return m_kStorage;
+    }
+    __forceinline TYPE operator->() const
+    {
+        return m_kStorage;
+    }
+    __forceinline operator TYPE() const
+    {
+        return val();
+    }
+
+  private:
+    TYPE m_kStorage;
+};
+
+class hkBool
+{
+  public:
+    __forceinline hkBool(bool b)
+    {
+        m_cBooleanValue = (char)b;
+    }
+    __forceinline operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+
+  private:
+    char m_cBooleanValue;
+};
+
+class hkRotation;
+
+class hkTransform;
+
+class __declspec(align(16)) hkVector4
+{
+  public:
+    __forceinline void operator=(const hkVector4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+    __forceinline operator hkQuadReal() const
+    {
+        return m_vComponents;
+    }
+    __forceinline void set(hkReal a, hkReal b, hkReal c, hkReal d)
+    {
+        m_vComponents = _mm_setr_ps(a, b, c, d);
+    }
+    __forceinline void setZero4()
+    {
+        m_vComponents = _mm_setzero_ps();
+    }
+    __forceinline void setSub4(const hkVector4& v0, const hkVector4& v1)
+    {
+        m_vComponents = _mm_sub_ps(v0.m_vComponents, v1.m_vComponents);
+    }
+    __forceinline void setMul4(hkSimdRealParameter r, const hkVector4& v1)
+    {
+        m_vComponents = _mm_mul_ps(r.broadcast(), v1.m_vComponents);
+    }
+    __forceinline void addMul4(hkSimdRealParameter r, const hkVector4& v1)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(r.broadcast(), v1.m_vComponents));
+    }
+    __forceinline void setCross(const hkVector4& v0, const hkVector4& v1)
+    {
+        hkQuadReal cross0;
+        cross0 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xc9),
+                            _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2));
+        hkQuadReal cross1;
+        cross1 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xd2),
+                            _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+    __forceinline void setInterpolate4(const hkVector4& v0, const hkVector4& v1, hkSimdRealParameter _t)
+    {
+        static __declspec(align(16)) const float cw[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+        hkQuadReal t = _t.broadcast();
+        hkQuadReal s = _mm_sub_ps(*(const hkQuadReal*)&cw, t);
+        m_vComponents = _mm_add_ps(_mm_mul_ps(s, v0.m_vComponents), _mm_mul_ps(t, v1.m_vComponents));
+    }
+    __forceinline void setNeg4(const hkVector4& v)
+    {
+        static __declspec(align(16)) const hkUint32 negateMask[4] = {0x80000000, 0x80000000, 0x80000000, 0x80000000};
+        m_vComponents = _mm_xor_ps(v.m_vComponents, *(const hkQuadReal*)&negateMask);
+    }
+    __forceinline void setAbs4(const hkVector4& v)
+    {
+        static __declspec(align(16)) const hkUint32 absMask[4] = {0x7fffffff, 0x7fffffff, 0x7fffffff, 0x7fffffff};
+        m_vComponents = _mm_and_ps(v.m_vComponents, *(const hkQuadReal*)&absMask);
+    }
+    __forceinline void setXYZ0(const hkVector4& xyz)
+    {
+        static __declspec(align(16)) const hkUint32 cw[4] = {0xffffffff, 0xffffffff, 0xffffffff, 0x00000000};
+        m_vComponents = _mm_and_ps(xyz, *(const hkQuadReal*)&cw);
+    }
+    __forceinline VectorComponentValue dot3(const hkVector4& a) const
+    {
+        hkQuadReal x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+        hkQuadReal xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), xySum);
+    }
+    __forceinline VectorComponentValue horizontalAdd3() const
+    {
+        hkQuadReal xySum = _mm_add_ss(_mm_shuffle_ps(m_vComponents, m_vComponents, 0x55), m_vComponents);
+        return _mm_add_ss(_mm_shuffle_ps(m_vComponents, m_vComponents, 0xaa), xySum);
+    }
+    __forceinline VectorComponentValue length3() const
+    {
+        return _mm_sqrt_ss(this->dot3(*this).getQuad());
+    }
+    __forceinline VectorComponentValue lengthSquared3() const
+    {
+        return this->dot3(*this);
+    }
+    __forceinline VectorComponentValue lengthInverse3() const
+    {
+        const hkQuadReal half = _mm_set_ss(0.5f);
+        const hkQuadReal three = _mm_set_ss(3.0f);
+        const hkQuadReal zero = _mm_set_ss(0.0f);
+        const hkQuadReal len2 = this->dot3(*this).getQuad();
+        const hkQuadReal len2EqualsZero = _mm_cmpeq_ss(len2, zero);
+        const hkQuadReal approx = _mm_rsqrt_ss(len2);
+        const hkQuadReal refined =
+            _mm_mul_ss(_mm_mul_ss(half, approx), _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(len2, approx), approx)));
+        return _mm_andnot_ps(len2EqualsZero, refined);
+    }
+    __forceinline void normalize3()
+    {
+        hkQuadReal lenInv = lengthInverse3().broadcast();
+        m_vComponents = _mm_mul_ps(lenInv, m_vComponents);
+    }
+    __forceinline VectorComponentValue getSimdAt(int i) const
+    {
+        switch (i)
+        {
+        case 0:
+            return m_vComponents;
+        case 1:
+            return _mm_shuffle_ps(m_vComponents, m_vComponents, 0x55);
+        case 2:
+            return _mm_shuffle_ps(m_vComponents, m_vComponents, 0xaa);
+        case 3:
+        default:
+            return _mm_shuffle_ps(m_vComponents, m_vComponents, 0xff);
+        }
+    }
+    __forceinline hkReal& operator()(int a)
+    {
+        return reinterpret_cast<hkReal*>(&m_vComponents)[a];
+    }
+    __forceinline const hkReal& operator()(int a) const
+    {
+        return reinterpret_cast<const hkReal*>(&m_vComponents)[a];
+    }
+    void _setRotatedInverseDir(const hkRotation& r, const hkVector4& b);
+    void _setTransformedPos(const hkTransform& t, const hkVector4& b);
+    hkQuadReal m_vComponents;
+};
+
+class hkRotation
+{
+  public:
+    __forceinline const hkVector4& getColumn(int i) const
+    {
+        return m_col[i];
+    }
+    hkVector4 m_col[3];
+};
+
+class hkTransform
+{
+  public:
+    __forceinline const hkRotation& getRotation() const
+    {
+        return m_rotation;
+    }
+    __forceinline const hkVector4& getTranslation() const
+    {
+        return m_vTranslation;
+    }
+    __forceinline const hkVector4& getColumn(int i) const
+    {
+        return (&m_rotation.m_col[0])[i];
+    }
+    static const hkTransform& GetIdentityTransform();
+    hkRotation m_rotation;
+    hkVector4 m_vTranslation;
+};
+
+__forceinline const hkTransform& hkTransform::GetIdentityTransform()
+{
+    return (*reinterpret_cast<const ::hkTransform *>(&::DAT_01268370));
+}
+
+__forceinline void hkVector4::_setRotatedInverseDir(const hkRotation& r, const hkVector4& b)
+{
+    hkQuadReal c0 = r.getColumn(0).m_vComponents;
+    hkQuadReal c1 = r.getColumn(1).m_vComponents;
+    hkQuadReal c2 = r.getColumn(2).m_vComponents;
+    {
+        hkQuadReal _tmp, _ctmp;
+        _tmp = _mm_unpacklo_ps(c0, c1);
+        _ctmp = _mm_shuffle_ps(_mm_unpackhi_ps(c0, c1), c2, 0xe4);
+        c0 = _mm_movelh_ps(_tmp, c2);
+        c1 = _mm_shuffle_ps(_mm_movehl_ps(c0, _tmp), c2, 0xd4);
+        c2 = _ctmp;
+    }
+    const hkQuadReal b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
+    const hkQuadReal r0 = _mm_mul_ps(c0, b0);
+    const hkQuadReal b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
+    const hkQuadReal r1 = _mm_mul_ps(c1, b1);
+    const hkQuadReal b2 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
+    const hkQuadReal r2 = _mm_mul_ps(c2, b2);
+    m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), r2);
+}
+__forceinline void hkVector4::_setTransformedPos(const hkTransform& t, const hkVector4& b)
+{
+    const hkRotation& r = t.getRotation();
+    hkQuadReal b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
+    hkQuadReal r0 = _mm_mul_ps(r.getColumn(0).m_vComponents, b0);
+    hkQuadReal b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
+    hkQuadReal r1 = _mm_mul_ps(r.getColumn(1).m_vComponents, b1);
+    hkQuadReal b2 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
+    hkQuadReal r2 = _mm_mul_ps(r.getColumn(2).m_vComponents, b2);
+    m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), _mm_add_ps(r2, t.getTranslation().m_vComponents));
+}
+
+static __forceinline void calculatePerpendicularVector(const hkVector4& vectorIn, hkVector4& biVectorOut)
+{
+    int min = 0;
+    int ok1 = 1;
+    int ok2 = 2;
+    hkReal a0 = hkMath_fabs(vectorIn(0));
+    hkReal a1 = hkMath_fabs(vectorIn(1));
+    hkReal a2 = hkMath_fabs(vectorIn(2));
+    if (a1 < a0)
+    {
+        ok1 = 0;
+        min = 1;
+        a0 = a1;
+    }
+    if (a2 < a0)
+    {
+        ok2 = min;
+        min = 2;
+    }
+    biVectorOut.setZero4();
+    biVectorOut(ok1) = vectorIn(ok2);
+    biVectorOut(ok2) = -vectorIn(ok1);
+}
+
+struct GskPointPair
+{
+    hkVector4 m_vPointOnShapeA;
+    hkVector4 m_vPointOnShapeB;
+};
+
+struct hkGskShape
+{
+    virtual void unk00();
+    virtual void GetSupportPoint(const hkVector4& direction, hkVector4& supportOut) const;
+};
+
+struct hkWingedEdge_Vertex
+{
+    hkVector4 m_w;
+    hkVector4 m_vFirstVector;
+    hkVector4 m_vSecondVector;
+    ValueWrapper<void*> m_kEdge;
+    __forceinline hkWingedEdge_Vertex()
+    {}
+    __forceinline hkWingedEdge_Vertex& operator=(const hkWingedEdge_Vertex& o)
+    {
+        m_w = o.m_w;
+        m_vFirstVector = o.m_vFirstVector;
+        m_vSecondVector = o.m_vSecondVector;
+        m_kEdge = o.m_kEdge;
+        return *this;
+    }
+};
+
+class GskCollisionSolver
+{
+  public:
+    hkTransform m_kTransform;
+    hkVector4 m_fScalar;
+    ValueWrapper<hkReal> m_toleranceSquared;
+    ValueWrapper<const hkGskShape*> m_pShapeA;
+    ValueWrapper<const hkGskShape*> m_pShapeB;
+    int m_unk5c;
+    ValueWrapper<hkVector4*> m_kOutgoingTangent;
+    ValueWrapper<hkVector4*> m_kIncomingTangent;
+    ValueWrapper<hkVector4*> m_kVertexPosition;
+    ValueWrapper<int> m_iStridedVertexCount;
+
+    void FUN_00e62b20(const hkVector4& direction, hkWingedEdge_Vertex* result);
+    void FUN_00e62c10(const hkWingedEdge_Vertex& p);
+    VectorComponentValue FUN_00e62c60(const hkVector4& direction, const hkVector4& from, hkWingedEdge_Vertex& result);
+    hkBool case0To1(GskPointPair& output);
+    void case1To2();
+    void case2To3();
+    hkResult case3To4(const hkVector4& normal);
+    int FUN_00e62d30(GskPointPair& output, hkGskStatus& gjkStatus);
+};
+
+__declspec(noinline) void GskCollisionSolver::FUN_00e62b20(const hkVector4& direction, hkWingedEdge_Vertex* result)
+{
+    hkVector4 negDir;
+    negDir.setNeg4(direction);
+    hkVector4 negDirB;
+    negDirB._setRotatedInverseDir(m_kTransform.getRotation(), negDir);
+    m_pShapeA->GetSupportPoint(direction, result->m_vFirstVector);
+    hkVector4 pointBinB;
+    m_pShapeB->GetSupportPoint(negDirB, pointBinB);
+    hkVector4 pBinA;
+    pBinA._setTransformedPos(m_kTransform, pointBinB);
+    result->m_w.setSub4(result->m_vFirstVector, pBinA);
+    result->m_vSecondVector = pointBinB;
+}
+
+__declspec(noinline) void GskCollisionSolver::FUN_00e62c10(const hkWingedEdge_Vertex& p)
+{
+    int ss = m_iStridedVertexCount;
+    m_kVertexPosition.val()[ss] = p.m_w;
+    m_kOutgoingTangent.val()[ss] = p.m_vFirstVector;
+    m_kIncomingTangent.val()[ss] = p.m_vSecondVector;
+    m_iStridedVertexCount = ss + 1;
+}
+
+__declspec(noinline) VectorComponentValue GskCollisionSolver::FUN_00e62c60(const hkVector4& direction,
+                                                                                const hkVector4& from,
+                                                                                hkWingedEdge_Vertex& result)
+{
+    hkVector4 directionNeg;
+    directionNeg.setNeg4(direction);
+    hkWingedEdge_Vertex pA;
+    FUN_00e62b20(direction, &pA);
+    hkWingedEdge_Vertex* pB = &result;
+    FUN_00e62b20(directionNeg, pB);
+    hkVector4 t0;
+    t0.setSub4(pA.m_w, from);
+    VectorComponentValue distancePos = t0.dot3(direction);
+    hkVector4 t1;
+    t1.setSub4(pB->m_w, from);
+    VectorComponentValue distanceNeg = t1.dot3(directionNeg);
+    VectorComponentValue bestDist;
+    hkSimdReal_setMax(distancePos, distanceNeg, bestDist);
+    if (hkMath_isNegative(distanceNeg - distancePos))
+    {
+        result = pA;
+    }
+    return bestDist;
+}
+
+__forceinline hkBool GskCollisionSolver::case0To1(GskPointPair& output)
+{
+    const hkReal initDirLen2 = m_kTransform.getTranslation().lengthSquared3();
+    hkVector4 goodInitialDirection;
+    goodInitialDirection.setNeg4(m_kTransform.getTranslation());
+    if (initDirLen2 <= m_toleranceSquared)
+    {
+        goodInitialDirection = hkTransform::GetIdentityTransform().getColumn(1);
+    }
+    hkWingedEdge_Vertex p;
+    FUN_00e62b20(goodInitialDirection, &p);
+    FUN_00e62c10(p);
+    if (m_kVertexPosition.val()[0].lengthSquared3() <= m_toleranceSquared)
+    {
+        VectorComponentValue dist = m_kVertexPosition.val()[0].length3();
+        output.m_vPointOnShapeB = p.m_vFirstVector;
+        goodInitialDirection.normalize3();
+        output.m_vPointOnShapeA.set(goodInitialDirection.getSimdAt(0), goodInitialDirection.getSimdAt(1),
+                               goodInitialDirection.getSimdAt(2), dist);
+        return true;
+    }
+    return false;
+}
+
+__forceinline void GskCollisionSolver::case1To2()
+{
+    const hkVector4& sameSideOfOriginToFirstPoint = m_kVertexPosition.val()[0];
+    hkWingedEdge_Vertex pPos;
+    FUN_00e62b20(sameSideOfOriginToFirstPoint, &pPos);
+    hkVector4 distanceVectorPos;
+    distanceVectorPos.setSub4(pPos.m_w, m_kVertexPosition.val()[0]);
+    const hkReal distanceSquaredPos = distanceVectorPos.lengthSquared3();
+    hkVector4 oppositeSideOfOriginToFirstPoint;
+    oppositeSideOfOriginToFirstPoint.setNeg4(sameSideOfOriginToFirstPoint);
+    hkWingedEdge_Vertex pNeg;
+    FUN_00e62b20(oppositeSideOfOriginToFirstPoint, &pNeg);
+    hkVector4 distanceVectorNeg;
+    distanceVectorNeg.setSub4(pNeg.m_w, m_kVertexPosition.val()[0]);
+    const hkReal distanceSquaredNeg = distanceVectorNeg.lengthSquared3();
+    if (distanceSquaredPos >= distanceSquaredNeg)
+    {
+        FUN_00e62c10(pPos);
+    }
+    else
+    {
+        FUN_00e62c10(pNeg);
+    }
+}
+
+__forceinline void GskCollisionSolver::case2To3()
+{
+    hkVector4 segmentVector;
+    segmentVector.setSub4(m_kVertexPosition.val()[0], m_kVertexPosition.val()[1]);
+    hkVector4 segmentNormal;
+    calculatePerpendicularVector(segmentVector, segmentNormal);
+    hkVector4 rightAngleSegmentNormal;
+    rightAngleSegmentNormal.setCross(segmentVector, segmentNormal);
+    segmentNormal.normalize3();
+    rightAngleSegmentNormal.normalize3();
+    hkWingedEdge_Vertex resultA;
+    VectorComponentValue distA = FUN_00e62c60(segmentNormal, m_kVertexPosition.val()[0], resultA);
+    hkWingedEdge_Vertex resultB;
+    VectorComponentValue distB = FUN_00e62c60(rightAngleSegmentNormal, m_kVertexPosition.val()[0], resultB);
+    if (hkMath_isNegative(distB - distA))
+    {
+        FUN_00e62c10(resultA);
+    }
+    else
+    {
+        FUN_00e62c10(resultB);
+    }
+}
+
+__forceinline hkResult GskCollisionSolver::case3To4(const hkVector4& normal)
+{
+    hkWingedEdge_Vertex result;
+    VectorComponentValue dist = FUN_00e62c60(normal, m_kVertexPosition.val()[0], result);
+    if (hkMath_isNegative(dist - m_fScalar.getSimdAt(0)))
+    {
+        return HK_FAILURE;
+    }
+    FUN_00e62c10(result);
+    return HK_SUCCESS;
+}
+
+// @fnv 0x00e62d30
+int GskCollisionSolver::FUN_00e62d30(GskPointPair& output, hkGskStatus& gjkStatus)
+{
+    int highestCaseExecutedIndex = -1;
+    hkVector4 triangleNormal;
+    switch (m_iStridedVertexCount)
+    {
+    case 0:
+    DO_CASE0:
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(case0To1(output)))->FUN_005609f0())
+        {
+            gjkStatus = HK_GSK_OK;
+            return HK_FAILURE;
+        }
+        highestCaseExecutedIndex = 0;
+    case 1:
+    DO_CASE1:
+        if (m_kVertexPosition.val()[0].lengthSquared3() <= m_toleranceSquared)
+        {
+            if (highestCaseExecutedIndex < 0)
+            {
+                m_iStridedVertexCount = 0;
+                goto DO_CASE0;
+            }
+            gjkStatus = HK_GSK_PD_HEURISTIC_SAMPLING_FAILED;
+            return HK_FAILURE;
+        }
+        highestCaseExecutedIndex = 1;
+        case1To2();
+    case 2:
+    DO_CASE2: {
+        hkVector4 distanceVector;
+        distanceVector.setSub4(m_kVertexPosition.val()[0], m_kVertexPosition.val()[1]);
+        if (distanceVector.lengthSquared3() <= m_toleranceSquared)
+        {
+            if (highestCaseExecutedIndex < 1)
+            {
+                m_iStridedVertexCount = 1;
+                goto DO_CASE1;
+            }
+            gjkStatus = HK_GSK_PD_HEURISTIC_SAMPLING_FAILED;
+            return HK_FAILURE;
+        }
+    }
+        highestCaseExecutedIndex = 2;
+        case2To3();
+    case 3:
+    DO_CASE3: {
+        hkVector4 a;
+        a.setSub4(m_kVertexPosition.val()[0], m_kVertexPosition.val()[1]);
+        hkVector4 b;
+        b.setSub4(m_kVertexPosition.val()[1], m_kVertexPosition.val()[2]);
+        triangleNormal.setCross(a, b);
+    }
+        if (triangleNormal.lengthSquared3() == 0.0f)
+        {
+            if (highestCaseExecutedIndex < 2)
+            {
+                m_iStridedVertexCount = 2;
+                goto DO_CASE2;
+            }
+            hkVector4 a;
+            a.setSub4(m_kVertexPosition.val()[0], m_kVertexPosition.val()[1]);
+            hkVector4 normal;
+            calculatePerpendicularVector(a, normal);
+            normal.normalize3();
+            output.m_vPointOnShapeA.setXYZ0(normal);
+            {
+                hkVector4 sA;
+                sA.setAbs4(m_kVertexPosition.val()[0]);
+                hkVector4 sB;
+                sB.setAbs4(m_kVertexPosition.val()[1]);
+                VectorComponentValue la = sA.horizontalAdd3();
+                VectorComponentValue lb = sA.horizontalAdd3();
+                VectorComponentValue f = la / (la + lb + VectorComponentValue(::DAT_010c7200));
+                hkVector4 p;
+                p.setInterpolate4(m_kOutgoingTangent.val()[0], m_kOutgoingTangent.val()[1], f);
+                output.m_vPointOnShapeB = p;
+            }
+            gjkStatus = HK_GSK_OK;
+            return HK_FAILURE;
+        }
+        highestCaseExecutedIndex = 3;
+        triangleNormal.normalize3();
+        if (case3To4(triangleNormal) == HK_FAILURE)
+        {
+            output.m_vPointOnShapeA.setXYZ0(triangleNormal);
+            ValueWrapper<hkReal> lambda[3];
+            FUN_00e61a10(&(*reinterpret_cast<const ::hkVector4 *>(&::DAT_01267e30)).m_vComponents, &m_kVertexPosition.val()[0].m_vComponents,
+                         &m_kVertexPosition.val()[1].m_vComponents, &m_kVertexPosition.val()[2].m_vComponents,
+                         reinterpret_cast<BarycentricResult*>(lambda));
+            {
+                hkVector4 sum;
+                hkReal l0 = lambda[0].val();
+                sum.setMul4(l0, m_kOutgoingTangent.val()[0]);
+                sum.addMul4(lambda[1].val(), m_kOutgoingTangent.val()[1]);
+                sum.addMul4(lambda[2].val(), m_kOutgoingTangent.val()[2]);
+                output.m_vPointOnShapeB = sum;
+            }
+            gjkStatus = HK_GSK_OK;
+            return HK_FAILURE;
+        }
+    case 4: {
+        {
+            hkVector4 a;
+            a.setSub4(m_kVertexPosition.val()[0], m_kVertexPosition.val()[1]);
+            hkVector4 b;
+            b.setSub4(m_kVertexPosition.val()[1], m_kVertexPosition.val()[2]);
+            triangleNormal.setCross(a, b);
+        }
+        hkVector4 t0;
+        t0.setSub4(m_kVertexPosition.val()[3], m_kVertexPosition.val()[0]);
+        const hkReal normalLenSqrd = triangleNormal.lengthSquared3();
+        const hkReal distanceToTriangle = t0.dot3(triangleNormal);
+        if (distanceToTriangle * distanceToTriangle <= hkReal(m_toleranceSquared * normalLenSqrd))
+        {
+            if (highestCaseExecutedIndex < 3)
+            {
+                m_iStridedVertexCount = 3;
+                goto DO_CASE3;
+            }
+            gjkStatus = HK_GSK_PD_HEURISTIC_SAMPLING_FAILED;
+            return HK_FAILURE;
+        }
+    }
+        highestCaseExecutedIndex = 4;
+        break;
+    default:
+        gjkStatus = HK_GSK_PD_HEURISTIC_SAMPLING_FAILED;
+        return HK_FAILURE;
+    }
+    gjkStatus = HK_GSK_OK;
+    return HK_SUCCESS;
+}
+
+extern "C" double __cdecl _chgsign(double);
+
+struct Vertex
+{
+    __m128 position;
+    __m128 supportA;
+    __m128 supportB;
+    __m128 attributes;
+};
+
+struct Face;
+
+struct FaceEdge
+{
+    Vertex* vertex;
+    FaceEdge* next;
+    FaceEdge* twin;
+    Face* face;
+};
+
+struct Face
+{
+    __m128 normal;
+    FaceEdge edges[3];
+    float distance;
+    int state;
+    Face* previous;
+    Face* next;
+};
+
+struct Polytope
+{
+    int status;
+    int capacity;
+    int vertexCount;
+    int freeFaceCount;
+    int faceCount;
+    int edgeCount;
+    int iterations;
+    int flags;
+    Vertex vertices[55];
+    Face* freeFaces[100];
+    Face faces[100];
+};
+
+extern const float DAT_0104da4c = 1.1920928955078125e-7f;
+
+namespace fnv_00c88020 {
+extern "C" const float DAT_01016248 = 0.5f;
+}
+using ::fnv_00c88020::DAT_01016248;
+
+static __forceinline __m128 splat(const float* p)
+{
+    __m128 v = _mm_load_ss(p);
+    return _mm_shuffle_ps(v, v, 0);
+}
+
+static __forceinline __m128 dot3v(__m128 a, __m128 b)
+{
+    __m128 p = _mm_mul_ps(a, b);
+    return _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p));
+}
+
+static __forceinline __m128 normalize3(__m128 v)
+{
+    __m128 len = dot3v(v, v);
+    __m128 inv = _mm_rsqrt_ss(len);
+    __m128 correction = _mm_sub_ss(_mm_set_ss(3.0f), _mm_mul_ss(_mm_mul_ss(len, inv), inv));
+    __m128 scale =
+        _mm_andnot_ps(_mm_cmpeq_ss(len, _mm_set_ss(0.0f)), _mm_mul_ss(_mm_mul_ss(_mm_set_ss(0.5f), inv), correction));
+    return _mm_mul_ps(_mm_shuffle_ps(scale, scale, 0), v);
+}
+
+template <class T> static __forceinline T maximum(T a, T b)
+{
+    return a > b ? a : b;
+}
+
+// @fnv 0x00e67c50
+void __cdecl FUN_00e67c50(Polytope* a, Polytope* b, __m128* result, Face** outA, Face** outB)
+{
+    float best = ::DAT_0104da48;
+    int i = a->faceCount - 1;
+    float bestA = 0.0f, bestB = 0.0f;
+    if (i >= 0)
+    {
+        do
+        {
+            Face* fa = &a->faces[i];
+            if (!(fa->distance * fa->distance > best))
+            {
+                Polytope* pb = b;
+                int j = pb->faceCount - 1;
+                if (j >= 1)
+                {
+                    Face* z = &pb->faces[j];
+                    int remaining = j;
+                    do
+                    {
+                        if (!(z->distance * z->distance > best))
+                        {
+                            float c = dot3(_mm_mul_ps(fa->normal, z->normal));
+                            if (!(DAT_0102295c > c))
+                            {
+                                float d0 = fa->distance;
+                                float d1 = z->distance;
+                                float r0 = d0 - c * d1;
+                                float r1 = d1 - c * d0;
+                                float wa, wb, d;
+                                const double eps = DAT_0104da4c;
+                                if (r0 > eps)
+                                {
+                                    if (r1 > eps)
+                                    {
+                                        float l0, l1;
+                                        if (r1 < r0)
+                                        {
+                                            float ratio = r1 / r0;
+                                            wa = 1.0f / (1.0f + c * ratio);
+                                            wb = ratio * wa;
+                                            l1 = d0 / (1.0f + c * ratio);
+                                            l0 = ratio * l1;
+                                        }
+                                        else
+                                        {
+                                            float ratio = r0 / r1;
+                                            wb = 1.0f / (1.0f + c * ratio);
+                                            wa = ratio * wb;
+                                            l0 = d1 / (1.0f + c * ratio);
+                                            l1 = ratio * l0;
+                                        }
+                                        l1 = c * l0 + l1;
+                                        d = l1 * l1 + (1.0f - c * c) * l0 * l0;
+                                    }
+                                    else if (d1 > 0.0f)
+                                    {
+                                        wa = 1.0f;
+                                        wb = 0.0f;
+                                        d = d0 * d0;
+                                    }
+                                    else
+                                    {
+                                        wa = ::fnv_00c88020::DAT_01016248;
+                                        wb = ::fnv_00c88020::DAT_01016248;
+                                        d = -c * c;
+                                    }
+                                }
+                                else if (d0 > eps)
+                                {
+                                    wa = 0.0f;
+                                    wb = 1.0f;
+                                    d = d1 * d1;
+                                }
+                                else
+                                {
+                                    wa = ::fnv_00c88020::DAT_01016248;
+                                    wb = ::fnv_00c88020::DAT_01016248;
+                                    d = -c * c;
+                                }
+                                if (d < best)
+                                {
+                                    bestA = wa;
+                                    *outA = fa;
+                                    bestB = wb;
+                                    *outB = z;
+                                    best = d;
+                                }
+                            }
+                        }
+                        --z;
+                    } while (--remaining != 0);
+                }
+            }
+        } while (--i >= 0);
+    }
+    __m128* dst = result;
+    __m128 first = _mm_mul_ps(splat(&bestA), (*outA)->normal);
+    *dst = first;
+    *dst = normalize3(_mm_add_ps(_mm_mul_ps(splat(&bestB), (*outB)->normal), first));
+    (*dst)[3] = (float)sqrt(maximum(0.0f, best));
+}
+
+extern "C" void _ReadBarrier();
+
+static __forceinline void CopySupport_e63770(__m128*& out, int index, const __m128& source)
+{
+    __m128 value = source;
+    _ReadBarrier();
+    out[index] = value;
+}
+
+static __declspec(noinline) float FUN_00e62ac0(int seed)
+{
+    int v = (12345 - seed * 1043968403) & 0x7fffffff;
+    return (float)((double)v * ::DAT_010229b8);
+}
+
+struct E63Vert
+{
+    __m128 m_00;
+    __m128 m_10;
+    __m128 m_20;
+    int m_30;
+    int unk34;
+    int unk38;
+    int unk3c;
+};
+
+class E63Edge;
+
+class E63Face
+{
+  public:
+    __m128 m_vHitNormal;
+    E63Vert* m_v0;
+    int unk14;
+    E63Edge* m_18;
+    int unk1c;
+    E63Vert* m_v1;
+    int unk24;
+    E63Edge* m_28;
+    int unk2c;
+    E63Vert* m_v2;
+    int unk34;
+    E63Edge* m_38;
+    int unk3c;
+    float m_40;
+    int m_44;
+    int unk48;
+    int unk4c;
+    int Callee00e63af0(E63Vert* v, float* pMin, float* pMax);
+};
+
+template <class T> struct E63Quad
+{
+    T a, b, c, d;
+};
+
+template <class T> struct E63Oct
+{
+    E63Quad<T> a, b;
+};
+
+class E63Hull
+{
+  public:
+    float m_00;
+    float m_04;
+    int m_uiVertexCount;
+    int m_0c;
+    int m_10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    E63Vert m_vert0;
+    E63Vert m_vert1;
+    E63Vert m_vert2;
+    E63Quad<E63Vert> m_verts3_6;
+    E63Oct<E63Vert> m_verts7_14;
+    E63Oct<E63Vert> m_verts15_22;
+    E63Oct<E63Vert> m_verts23_30;
+    E63Oct<E63Vert> m_verts31_38;
+    E63Oct<E63Vert> m_verts39_46;
+    E63Oct<E63Vert> m_verts47_54;
+    E63Quad<E63Face*> m_ptrs0_3;
+    E63Oct<E63Quad<E63Face*> > m_ptrs4_35;
+    E63Oct<E63Quad<E63Face*> > m_ptrs36_67;
+    E63Oct<E63Quad<E63Face*> > m_ptrs68_99;
+    E63Quad<E63Face> m_faces0_3;
+    E63Oct<E63Quad<E63Face> > m_faces4_35;
+    E63Oct<E63Quad<E63Face> > m_faces36_67;
+    E63Oct<E63Quad<E63Face> > m_faces68_99;
+};
+
+struct E63Out
+{
+    union
+    {
+        __m128 m_00;
+        struct
+        {
+            float m_00x;
+            float m_00y;
+            float m_00z;
+            float m_0c;
+        };
+    };
+    __m128 m_10;
+};
+
+struct Solver
+{
+    __m128 unk00;
+    __m128 unk10;
+    __m128 unk20;
+    __m128 m_30;
+    __m128 m_40;
+    int unk50;
+    int unk54;
+    int unk58;
+    int m_5c;
+    __m128* m_60;
+    __m128* m_64;
+    __m128* m_68;
+    int m_6c;
+    void FUN_00e62b20(E63Face* face, E63Vert* vert);
+    int FUN_00e63770(E63Out* out);
+};
+
+static __forceinline void transposeThree(__m128& a, __m128& b, __m128& c)
+{
+    __m128 lo = _mm_unpacklo_ps(a, b);
+    __m128 hi = _mm_unpackhi_ps(a, b);
+    a = _mm_movelh_ps(lo, c);
+    b = _mm_shuffle_ps(_mm_movehl_ps(a, lo), c, 0xd4);
+    c = _mm_shuffle_ps(hi, c, 0xe4);
+}
+
+static __forceinline int expand(Solver* self, E63Hull& hull, E63Face* face, E63Vert* vert, int& status,
+                                E63Edge*& outEdge)
+{
+    __m128 v = vert->m_00;
+    __m128 d0 = _mm_sub_ps(v, face->m_v0->m_00);
+    __m128 d1 = _mm_sub_ps(v, face->m_v1->m_00);
+    __m128 d2 = _mm_sub_ps(v, face->m_v2->m_00);
+    transposeThree(d0, d1, d2);
+    __m128 r2 = d2;
+    __m128 r1 = d1;
+    __m128 r0 = d0;
+    __m128 n = face->m_vHitNormal;
+    __m128 s01 = _mm_add_ps(
+        _mm_mul_ps(r1, _mm_shuffle_ps(n, n, 0x55)),
+        _mm_mul_ps(_mm_shuffle_ps(n, n, 0x00), r0));
+    __m128 dots = _mm_add_ps(
+        s01, _mm_mul_ps(r2, _mm_shuffle_ps(n, n, 0xaa)));
+    if ((_mm_movemask_ps(_mm_cmplt_ps(dots, self->m_40)) & 7) != 0)
+    {
+        status = 0;
+        return 1;
+    }
+    hull.m_00 = 1e-07f;
+    hull.m_04 = ::DAT_0104da48;
+    outEdge = 0;
+    status = 0;
+    int vis = face->Callee00e63af0(vert, &hull.m_00, &hull.m_04);
+    face->m_44 = vis;
+    if (vis != 1)
+    {
+        status = 5;
+        return 1;
+    }
+    if (reinterpret_cast<::FUN_00e67660_cls *>(&(hull))->FUN_00e67660((::FnvNode67 *)(face), (intptr_t)(vert), &status, (::FnvEnt67 **)(::E63Edge **)(&outEdge)) != 0)
+    {
+        status = 5;
+        return 1;
+    }
+    if (hull.m_0c - hull.m_10 + 100 < status)
+    {
+        status = 2;
+        return 1;
+    }
+    if (reinterpret_cast<::fnv_00e67740::Hull *>(&(hull))->FUN_00e67740(status, (::fnv_00e67740::HullLink *)(outEdge), (const ::fnv_00e67740::HullVertex *)(vert)) != 0)
+    {
+        status = 5;
+        return 1;
+    }
+    return 0;
+}
+
+// @fnv 0x00e63770
+int Solver::FUN_00e63770(E63Out* out)
+{
+    int status;
+    E63Edge* outEdge;
+    __m128 bary;
+    E63Face* face;
+    for (;;)
+    {
+        status = 0;
+        if (reinterpret_cast<::GskCollisionSolver *>(this)->FUN_00e62d30((*(::GskPointPair *)(out)), (*(::hkGskStatus *)(&status))) == 1)
+        {
+            if (status != 5)
+                return status;
+            goto retry_step;
+        }
+        {
+            E63Hull hull;
+            reinterpret_cast<::fnv_00e63ba0::TetraHull *>(&(hull))->FUN_00e63ba0((const ::fnv_00e63ba0::hkVector4 *)(m_60), (const ::fnv_00e63ba0::hkVector4 *)(m_64), (const ::fnv_00e63ba0::hkVector4 *)(m_68));
+            for (;;)
+            {
+                face = ((::E63Face *)(reinterpret_cast<::DFB0B0_Owner *>(&(hull))->GetNearestEntry()));
+                int idx = hull.m_uiVertexCount;
+                E63Vert* vert = (&hull.m_vert0) + idx;
+                hull.m_uiVertexCount = idx + 1;
+                vert->m_30 = 0;
+                FUN_00e62b20(face, vert);
+                int expanded = expand(this, hull, face, vert, status, outEdge);
+                if (expanded == 1)
+                    break;
+                if (hull.m_uiVertexCount >= 0x37)
+                {
+                    status = 2;
+                    break;
+                }
+            }
+            if (status != 5)
+            {
+                for (int i = 0; i < 10; ++i)
+                {
+                    m_68[0] = face->m_v0->m_00;
+                    m_68[1] = face->m_v1->m_00;
+                    m_68[2] = face->m_v2->m_00;
+                    FUN_00e61a10(&(*reinterpret_cast<__m128 *>(&::DAT_01267e30)), &m_68[0], &m_68[1], &m_68[2],
+                                 reinterpret_cast<BarycentricResult*>(&bary));
+                    if (!(bary[0] < 0.0f) && !(bary[1] < 0.0f) && !(bary[2] < 0.0f))
+                        goto found_face;
+                    face = ((::E63Face *)(reinterpret_cast<::S00e67ae0_HullWalker *>(&(hull))->FUN_00e67ae0((::S00e67ae0_HullFace *)(face))));
+                }
+            found_face:
+                E63Vert* v0 = face->m_v0;
+                CopySupport_e63770(m_60, 0, v0->m_10);
+                CopySupport_e63770(m_64, 0, v0->m_20);
+                E63Vert* v1 = face->m_v1;
+                CopySupport_e63770(m_60, 1, v1->m_10);
+                CopySupport_e63770(m_64, 1, v1->m_20);
+                E63Vert* v2 = face->m_v2;
+                CopySupport_e63770(m_60, 2, v2->m_10);
+                CopySupport_e63770(m_64, 2, v2->m_20);
+
+                _ReadBarrier();
+
+                m_6c = 3;
+                *(float*)&outEdge = (float)(double)bary[0];
+                __m128 bx = _mm_load_ss((float*)&outEdge);
+                *(float*)&outEdge = (float)(double)bary[1];
+                __m128 by = _mm_load_ss((float*)&outEdge);
+                *(float*)&outEdge = (float)(double)bary[2];
+                __m128 bz = _mm_load_ss((float*)&outEdge);
+                __m128* p60 = m_60;
+                out->m_10 = _mm_add_ps(
+                    _mm_add_ps(
+                        _mm_mul_ps(_mm_shuffle_ps(by, by, 0), p60[1]),
+                        _mm_mul_ps(_mm_shuffle_ps(bx, bx, 0),
+                                                            p60[0])),
+                    _mm_mul_ps(_mm_shuffle_ps(bz, bz, 0), p60[2]));
+                out->m_00 = _mm_xor_ps(face->m_vHitNormal, ::DAT_010c44d0);
+                out->m_0c = -face->m_40;
+                return status;
+            }
+        }
+    retry_step:
+        m_5c += 1;
+        if (m_5c == 1)
+        {
+            m_6c = 1;
+            continue;
+        }
+        if (m_5c < 20)
+        {
+            m_6c = 0;
+            *(float*)&outEdge = (float)((FUN_00e62ac0(m_5c) - DAT_01032980) * ::DAT_010dbb40);
+            bary[0] = *(float*)&outEdge;
+            bary[1] = *(float*)&outEdge;
+            bary[2] = *(float*)&outEdge;
+            bary = _mm_add_ps(bary, m_30);
+            m_30 = bary;
+            continue;
+        }
+        else
+        {
+            return status;
+        }
+    }
+}
+
+
+
+
+
+extern "C" void _ReadWriteBarrier();
+
+struct MoppState
+{
+
+    unsigned int primitiveOffset;
+
+    unsigned int properties[1];
+};
+
+struct MoppResults
+{
+
+    unsigned int* data;
+
+    int size;
+
+    int capacityAndFlags;
+};
+
+struct HavokMemory
+{
+
+    void* router;
+
+    void* temporary;
+
+    void* heap;
+
+    void* debug;
+
+    void* allocator;
+};
+
+
+struct MoppErrorStream
+{
+
+    void* vtable;
+
+    unsigned short memorySizeAndFlags;
+
+    unsigned short referenceCount;
+
+    void* writer;
+
+
+
+};
+
+struct MoppError
+{
+
+    virtual void destroy();
+
+    virtual void SetErrorCodeEnabled(int, bool);
+
+    virtual bool isEnabled(int);
+
+    virtual int message(int, int, const char*, const char*, int);
+};
+
+struct MoppFindAllVirtualMachine
+{
+
+    MoppResults* results;
+
+    void FUN_00e66600(const MoppState* state, const unsigned char* code);
+};
+
+// @fnv 0x00e66600
+void MoppFindAllVirtualMachine::FUN_00e66600(const MoppState* state, const unsigned char* code)
+
+{
+
+    MoppState localState;
+
+    unsigned int primitive;
+
+    for (;;)
+    {
+
+        unsigned int command = *code;
+
+        switch (command)
+        {
+
+        case 0:
+            return;
+
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+
+        case 0x10:
+        case 0x11:
+        case 0x12:
+        case 0x13:
+        case 0x14:
+
+        case 0x15:
+        case 0x16:
+        case 0x17:
+        case 0x18:
+        case 0x19:
+
+        case 0x1a:
+        case 0x1b:
+        case 0x1c:
+
+            code += 4;
+            continue;
+
+        case 0x23:
+        case 0x24:
+        case 0x25:
+
+            code += (code[3] << 8) + code[4] + 7;
+            continue;
+
+        case 0x29:
+        case 0x2a:
+        case 0x2b:
+
+            code += 7;
+            continue;
+
+        case 5:
+
+            code += code[1] + 2;
+            continue;
+
+        case 6:
+
+            code += (code[1] << 8) + code[2] + 3;
+            continue;
+
+        case 7:
+
+            code += ((code[1] << 8) + code[2] << 8) + code[3] + 4;
+            continue;
+
+        case 9:
+
+        {
+
+            unsigned int offset = code[1];
+
+            if (state != &localState)
+            {
+                localState = *state;
+                state = &localState;
+            }
+
+            localState.primitiveOffset += offset;
+
+            code += 2;
+            continue;
+        }
+
+        case 10:
+
+        {
+
+            unsigned int offset = (code[1] << 8) + code[2];
+
+            if (state != &localState)
+            {
+                localState = *state;
+                state = &localState;
+            }
+
+            localState.primitiveOffset += offset;
+
+            code += 3;
+            continue;
+        }
+
+        case 11:
+
+        {
+
+            unsigned int offset = ((((code[1] << 8) + code[2]) << 8) + code[3] << 8) + code[4];
+
+            if (state != &localState)
+            {
+                localState = *state;
+                state = &localState;
+            }
+
+            localState.primitiveOffset = offset;
+
+            code += 5;
+            continue;
+        }
+
+        case 0x20:
+        case 0x21:
+        case 0x22:
+        case 0x26:
+        case 0x27:
+        case 0x28:
+
+            code += 3;
+            continue;
+
+        case 0x60:
+        case 0x61:
+        case 0x62:
+        case 0x63:
+
+        {
+
+            unsigned int value = code[1];
+
+            code += 2;
+
+            localState.properties[command - 0x60] = value;
+
+            goto property;
+        }
+
+        case 0x64:
+        case 0x65:
+        case 0x66:
+        case 0x67:
+
+            localState.properties[command - 0x64] = (code[1] << 8) + code[2];
+
+            code += 3;
+            goto property;
+
+        case 0x68:
+        case 0x69:
+        case 0x6a:
+        case 0x6b:
+
+            localState.properties[command - 0x68] = ((((code[1] << 8) + code[2]) << 8) + code[3] << 8) + code[4];
+
+            code += 5;
+
+        property:
+
+        {
+
+            unsigned int propertyValue = localState.properties[0];
+
+            if (state != &localState)
+            {
+                localState = *state;
+                state = &localState;
+            }
+
+            localState.properties[0] = propertyValue;
+
+            continue;
+        }
+
+        default:
+
+        {
+
+            char buffer[512];
+
+            MoppErrorStream stream;
+
+            new ((void *)&(stream)) ::FUN_00cb1600(buffer, sizeof(buffer));
+
+            reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(
+                "Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
+
+            if (reinterpret_cast<MoppError*>((*reinterpret_cast<int *>(&::DAT_01268360)))
+                    ->message(3, 0x1298fedd, buffer, ".\\Collide\\Mopp\\Machine\\hkpMoppFindAllVirtualMachine.cpp",
+                              305))
+
+                __debugbreak();
+
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
+
+            continue;
+        }
+
+        case 0x50:
+
+            primitive = code[1];
+            goto append;
+
+        case 0x51:
+
+            primitive = (code[1] << 8) + code[2];
+            goto append;
+
+        case 0x52:
+
+            primitive = ((code[1] << 8) + code[2] << 8) + code[3];
+            goto append;
+
+        case 0x53: {
+            primitive = code[1] << 24;
+            unsigned int part = code[2] << 16;
+            primitive += part;
+            part = code[3];
+            primitive = code[4] + primitive;
+            part <<= 8;
+            primitive += part;
+            goto append;
+        }
+        case 0x30:
+        case 0x31:
+        case 0x32:
+        case 0x33:
+
+        case 0x34:
+        case 0x35:
+        case 0x36:
+        case 0x37:
+
+        case 0x38:
+        case 0x39:
+        case 0x3a:
+        case 0x3b:
+
+        case 0x3c:
+        case 0x3d:
+        case 0x3e:
+        case 0x3f:
+
+        case 0x40:
+        case 0x41:
+        case 0x42:
+        case 0x43:
+
+        case 0x44:
+        case 0x45:
+        case 0x46:
+        case 0x47:
+
+        case 0x48:
+        case 0x49:
+        case 0x4a:
+        case 0x4b:
+
+        case 0x4c:
+        case 0x4d:
+        case 0x4e:
+        case 0x4f:
+
+            primitive = command - 0x30;
+            goto append;
+        }
+    }
+
+append:
+
+    primitive += state->primitiveOffset;
+
+    MoppResults* output = results;
+
+    HavokMemory* memory = (HavokMemory*)static_cast<FUN_00c85750_Result*>(::FUN_00c85750());
+
+    if (output->size == (output->capacityAndFlags & 0x3fffffff))
+
+        ::ResizeAudioStream((::AudioAllocator *)(void *)(memory->allocator), (::AudioStream *)(void *)(output), sizeof(unsigned int));
+
+    unsigned int* dest = output->data + output->size;
+
+    ++output->size;
+
+    *dest = primitive;
+}
+
 #include "generated/data/staging/blk_00e60000_o2.inc"
+#include "generated/data/staging/blk_00e60000_o2_rtm_variant.inc"
+#include "generated/data/staging/blk_00e60000_o2_gs_nogs_rtm_variant.inc"
+#include "generated/data/staging/blk_00e60000_o2_gs_ehsc_nogs_noehsc_variant.inc"

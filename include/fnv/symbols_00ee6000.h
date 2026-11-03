@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct D3DXIMAGE_INFO;
 struct D3DXMACRO;
@@ -9,15 +10,17 @@ struct EE6E40ConstantTable;
 struct ID3DXBuffer;
 struct ID3DXConstantTable;
 struct ID3DXInclude;
+struct in_addr;
+struct sockaddr;
 
 // 0x00ee6d9e
 int FUN_00ee6d9e(unsigned int, int, int, const char *, int);
 // 0x00ee6da4
-char *FUN_00ee6da4(unsigned int);
+char *FUN_00ee6da4(::in_addr);
 // 0x00ee6daa
 unsigned short FUN_00ee6daa(unsigned short);
 // 0x00ee6db0
-int FUN_00ee6db0(unsigned int, void *, int *);
+std::uintptr_t FUN_00ee6db0(std::uintptr_t, ::sockaddr *, int *);
 // 0x00ee6db6
 void FUN_00ee6db6();
 // 0x00ee6dbc
@@ -30,8 +33,10 @@ void FUN_00ee6dc2();
 void *FUN_00ee6dce(void *, const void *);
 // 0x00ee6dd4
 void FUN_00ee6dd4();
+void *FUN_00ee6dd4(void *, const void *);
 // 0x00ee6dda
 void FUN_00ee6dda();
+void *FUN_00ee6dda(void *, float *, const void *);
 // 0x00ee6de0
 void *FUN_00ee6de0(void *, const void *, const void *);
 // 0x00ee6de6

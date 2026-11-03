@@ -4065,4 +4065,4 @@ const char g_01203180_arg0[13] = "BSSceneGraph";
 const char g_01203348_arg0[18] = "BSScissorTriShape";
 const char g_01204380_arg0[20] = {66, 83, 78, 105, 78, 111, 100, 101};
 const char g_012043b8_arg0[12] = "PArrayPoint";
-int DAT_011cc694;
+void* DAT_011cc694;

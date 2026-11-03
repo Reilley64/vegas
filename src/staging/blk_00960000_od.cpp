@@ -705,7 +705,7 @@ void FUN_009627a0_Class::ShowStartMenuMessageOnce()
     if (!(*((unsigned char*)this + 0x86c)))
     {
         *((char*)this + 0x86c) = 1;
-        ::DispatchMessageToSink((int)(((StartMenu*)&::g_011d3048)->GetMenuTitle()), 0, (int)(0), (int)(0), ::DAT_010162c0, false);
+        ::DispatchMessageToSink((const char *)(((StartMenu*)&::g_011d3048)->GetMenuTitle()), 0, (const char *)(0), (const char *)(0), ::DAT_010162c0, false);
     }
 }
 
@@ -8778,47 +8778,47 @@ void WTActor::FUN_00969fa0()
 {
     if (v448())
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d4474)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
-                       (int)(0), ::DAT_010162c0, false);
+        ::DispatchMessageToSink((const char *)((*reinterpret_cast<::WTSetting *>(&::g_011d4474)).String()), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
+                       (const char *)(0), ::DAT_010162c0, false);
     }
     else if (reinterpret_cast<::C953C80Form *>(this)->HasActorsByPackage())
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d28b0)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((const char *)((*reinterpret_cast<::WTSetting *>(&::g_011d28b0)).String()), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0),
                        ::DAT_010162c0, false);
     }
     else if (reinterpret_cast<::A_00885520 *>(this)->FUN_00885520((const ::P3_00885520 *)(::WTWorld *)(GetWorld()), (::TESObjectCELL *)(::WTCell *)(((::WTCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), ::DAT_01084d20))
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d4948)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((const char *)((*reinterpret_cast<::WTSetting *>(&::g_011d4948)).String()), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0),
                        ::DAT_010162c0, false);
     }
     else if (reinterpret_cast<::DetectionList *>(&((*reinterpret_cast<::WTProcessLists *>(&::g_011e0e80))))->HasNearbyDetectedActor(reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>(((*reinterpret_cast<::WTPlayer * *>(&::_g_thePlayer))))->FUN_00575d10()))
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d2e50)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((const char *)((*reinterpret_cast<::WTSetting *>(&::g_011d2e50)).String()), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0),
                        ::DAT_010162c0, false);
     }
     else if (::FUN_005c0880((char *)(((::WTController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(((*reinterpret_cast<::WTPlayer * *>(&::_g_thePlayer))))->FUN_009306d0())))) == 1 || ::FUN_005c0880((char *)(((::WTController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(((*reinterpret_cast<::WTPlayer * *>(&::_g_thePlayer))))->FUN_009306d0())))) == 2)
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d3e20)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((const char *)((*reinterpret_cast<::WTSetting *>(&::g_011d3e20)).String()), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0),
                        ::DAT_010162c0, false);
     }
     else if (::FUN_005444c0((::TESObjectCELL *)(((::WTHighProcess *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::WTPlayer * *>(&::_g_thePlayer))))->GetTarget())))) || !reinterpret_cast<::FUN_00944360_Class *>(((*reinterpret_cast<::WTPlayer * *>(&::_g_thePlayer))))->GetByteAt66E())
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d20ac)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((const char *)((*reinterpret_cast<::WTSetting *>(&::g_011d20ac)).String()), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0),
                        ::DAT_010162c0, false);
     }
     else if (reinterpret_cast<::FUN_005098e0_Object *>(&((*reinterpret_cast<::WTProcessLists *>(&::g_011e0e80))))->IsFlagged())
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d4b10)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((const char *)((*reinterpret_cast<::WTSetting *>(&::g_011d4b10)).String()), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0),
                        ::DAT_010162c0, false);
     }
     else if (((::WTProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())) && ((::WTProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v764() != ::_DAT_01012060)
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d4b10)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((const char *)((*reinterpret_cast<::WTSetting *>(&::g_011d4b10)).String()), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0),
                        ::DAT_010162c0, false);
     }
     else if (reinterpret_cast<::FUN_00822e00_shell *>((((WTPlayerBounds*)((char*)(*reinterpret_cast<::WTPlayer * *>(&::_g_thePlayer)) + 0x94))))->FUN_00822e00())
     {
-        ::DispatchMessageToSink((int)((*reinterpret_cast<::WTSetting *>(&::g_011d47d4)).String()), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+        ::DispatchMessageToSink((const char *)((*reinterpret_cast<::WTSetting *>(&::g_011d47d4)).String()), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0),
                        ::DAT_010162c0, false);
     }
     else

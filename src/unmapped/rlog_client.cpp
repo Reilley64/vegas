@@ -27,15 +27,15 @@ struct ByteSwapFlag
 struct FUN_0060ce80_Obj
 {
     void* unk00;
-    void* unk04;
+    int m_iValue;
     void FUN_0060ce80();
 };
 
-// Calls FUN_00401080_helper on the object's field at offset 4, passing the byte-swap flag from a ByteSwapFlag.
+// Byte-swaps m_iValue with FUN_00401080 (the ByteSwapFlag tag argument is unused).
 // @fnv 0x0060ce80
 void FUN_0060ce80_Obj::FUN_0060ce80()
 {
-    ::FUN_00401080((int *)(void *)((void*)((char*)&this->unk04)));
+    ::FUN_00401080(&m_iValue);
 }
 
 struct LodCell

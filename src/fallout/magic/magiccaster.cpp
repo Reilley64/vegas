@@ -1169,7 +1169,7 @@ bool CastingCheck::TryCast(TESBoundObject* source)
         }
         FeedbackString message = ((SpellFeedback*)GetSelectedMagicItem())->GetNameForType(eReason);
         if (actor && actor->IsPlayer() && (!pCastSpell || pCastSpell->data.HasFoodEffect()))
-            ::DispatchMessageToSink((std::intptr_t)(((const char *)(::FUN_00559450((int *)&(message))))), 0, (std::intptr_t)(0), (std::intptr_t)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(::FUN_00559450((int *)&(message))))), 0, (const char *)(0), (const char *)(0), 2.0f, false);
         SetState(MagicCaster__State_ERR_CANNOT_CAST, (char*)((const char *)(::FUN_00559450((int *)&(message)))));
         SpellCast(GetSelectedMagicItem(), false);
         SetSelectedMagicItem(0);

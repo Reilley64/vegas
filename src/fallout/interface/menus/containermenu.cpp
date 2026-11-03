@@ -2506,7 +2506,7 @@ bool FUN_0075e0b0_shell::FUN_0075e0b0(Actor_75e0b0* actor, int amount)
         else
         {
             reinterpret_cast<::Actor *>(((*reinterpret_cast<::fnv_0075e0b0::Actor_75e0b0 * *>(&::_g_thePlayer))))->FUN_008c00e0((::TESObjectREFR *)(actor), 0, 0);
-            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0075e0b0::Setting_75e0b0 *>(&::g_011d3f94))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0075e0b0::Setting_75e0b0 *>(&::g_011d3f94))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, false);
             success = false;
             failed = true;
         }
@@ -3109,7 +3109,7 @@ void __cdecl HandleContainerMenuActivate(int aiCount)
                 {
                     ::FUN_00406d00(msgtext, 260, DAT_01012058, (char*)reinterpret_cast<::FUN_0055d520_shell *>((((Name75*)refObj)))->FUN_0055d520(),
                                  (std::intptr_t)((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StrThis75 *>(&::g_011d2628))))->GetMenuTitle())));
-                    ::DispatchMessageToSink((std::intptr_t)(msgtext), 2, (int)(0), (int)(0), 2.0f, false);
+                    ::DispatchMessageToSink((const char *)(msgtext), 2, (int)(0), (int)(0), 2.0f, false);
                     flag = true;
                     int id = (int)dynamic_cast<TESTopic*>(::TESForm::LookupFormByEditorID((const char *)(void *)(&DAT_010722dc)));
                     ((MenuEc75*)DAT_011d93f8)->PlaySelectedTopicInfo(id);

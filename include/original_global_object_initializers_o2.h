@@ -54,33 +54,34 @@
 #include "fnv/symbols_0126d000.h"
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01270000.h"
-class GlobalObjectO2_0045cf30
+#include "SettingT.h"
+class GlobalObjectO2_0045cf30 : public SettingT<INISettingCollection>
 {
   public:
-    GlobalObjectO2_0045cf30(const char*, int);
-    ~GlobalObjectO2_0045cf30();
-    char storage[4];
+    GlobalObjectO2_0045cf30(const char* key, int value) : SettingT(key, value != 0)
+    {
+    }
 };
-class GlobalObjectO2_0045cfe0
+class GlobalObjectO2_0045cfe0 : public SettingT<INISettingCollection>
 {
   public:
-    GlobalObjectO2_0045cfe0(const char*, int);
-    ~GlobalObjectO2_0045cfe0();
-    char storage[4];
+    GlobalObjectO2_0045cfe0(const char* key, int value) : SettingT(key, value)
+    {
+    }
 };
-class GlobalObjectO2_004a4a40
+class GlobalObjectO2_004a4a40 : public SettingT<SettingCollection_011f35a4>
 {
   public:
-    GlobalObjectO2_004a4a40(const char*, int);
-    ~GlobalObjectO2_004a4a40();
-    char storage[4];
+    GlobalObjectO2_004a4a40(const char* key, int value) : SettingT(key, value)
+    {
+    }
 };
-class GlobalObjectO2_004de2f0
+class GlobalObjectO2_004de2f0 : public SettingT<SettingCollection_011f35a4>
 {
   public:
-    GlobalObjectO2_004de2f0(const char*, int);
-    ~GlobalObjectO2_004de2f0();
-    char storage[4];
+    GlobalObjectO2_004de2f0(const char* key, int value) : SettingT(key, value != 0)
+    {
+    }
 };
 class GlobalObjectO2_00a7b610
 {

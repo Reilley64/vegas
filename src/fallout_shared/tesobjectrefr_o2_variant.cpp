@@ -2,6 +2,7 @@
 // src/fallout_shared/tesobjectrefr_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesobjectrefr.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstddef>
 #include <windows.h>
@@ -694,7 +695,7 @@ struct CollisionHandler
     virtual void v15();
     virtual void v16();
     virtual void v17();
-    virtual CollisionValue* Find(int target);
+    virtual CollisionValue* Find(std::intptr_t target);
     virtual void v19();
     virtual void v20();
     virtual void v21();
@@ -728,7 +729,7 @@ struct CollisionHandler
     virtual void v49();
     virtual void v50();
     virtual void v51();
-    virtual bool IsAllowed(int target);
+    virtual bool IsAllowed(std::intptr_t target);
 };
 struct ScopedMode
 {
@@ -790,11 +791,11 @@ struct WorldObjectView
     virtual void v43();
     virtual void v44();
     virtual CollisionResult* GetResult(unsigned char* used);
-    void FUN_00c85900(int a, int b);
+    void FUN_00c85900(std::intptr_t a, std::intptr_t b);
 };
 
 // @fnv 0x00c85900
-void WorldObjectView::FUN_00c85900(int a, int b)
+void WorldObjectView::FUN_00c85900(std::intptr_t a, std::intptr_t b)
 {
     ScopedMode mode;
     unsigned char used;

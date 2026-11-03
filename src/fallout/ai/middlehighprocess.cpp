@@ -16596,7 +16596,7 @@ struct P0
     virtual bool V22c(int);
     void* FUN_00569b80_asP0();
     CellCls* FUN_008d6f30();
-    void FUN_004534f0(unsigned int a);
+    void FUN_004534f0(std::uintptr_t a);
 };
 struct ObjE
 {
@@ -16994,7 +16994,7 @@ struct FUN_00905330
 };
 struct FUN_004534f0_shell
 {
-    void FUN_004534f0(unsigned int a);
+    void FUN_004534f0(std::uintptr_t a);
 };
 struct MobileObject;
 struct Proxy758a0

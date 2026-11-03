@@ -8548,7 +8548,7 @@ int __cdecl FUN_00741060(int a0, int a1, int a2, float a3, char a4)
     {
         char buf[0x104];
         ::FUN_00406d00(buf, 0x104, ((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::GlobalF8 *>(&::g_011d47f8))))->IsDLCAvailable())));
-        ::DispatchMessageToSink((std::intptr_t)(buf), 0, (std::intptr_t)(::DAT_01049638), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((const char *)(buf), 0, (const char *)(::DAT_01049638), (int)(0), 2.0f, false);
         {
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::BSAudioLike *)(::FUN_00453a70()))->FUN_00ad7550(::DAT_01025cc4, 0x121, 0)))->FUN_00ad8830({});
         }

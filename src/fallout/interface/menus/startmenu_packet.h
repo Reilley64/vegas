@@ -207,7 +207,7 @@ class BGSSaveLoadFileEntry
     int unk08;
     char* unk0c;
     char* m_pSaveFileName;  // +0x10
-    int unk14;
+    char* unk14;
     char* unk18;
     unsigned int unk1c;
     unsigned char pad20[0x20];

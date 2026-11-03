@@ -14,4 +14,4 @@ const char DAT_010cb9d8 = 73;
 const char DAT_010cb9f8 = 73;
 const char DAT_010cba14 = 73;
 char DAT_010cc688[15] = "TtRayCstFSPSim";
-int DAT_01268794;
+::_RTL_CRITICAL_SECTION *DAT_01268794;

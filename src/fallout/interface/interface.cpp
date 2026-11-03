@@ -2005,7 +2005,7 @@ bool FUN_00703e80(const char* aText, const char* apcIconFilename, const char* ap
     {
         char* xlist = (char*)&axFirst + 4;
         bool bresult =
-            ::MessageCreation::QueueMessage(aText, apcIconFilename, apcTitle, (const char *)(0), (int)(afpResult), aiFirstButtonResult, aiWarningContext, axFirst,
+            ::MessageCreation::QueueMessage(aText, apcIconFilename, apcTitle, (const char *)(0), afpResult, aiFirstButtonResult, aiWarningContext, axFirst,
                          (const char ***)(char **)(&xlist), 1, -1, -1, 0.0f, afBackgroundTextureOpacityOverride, afMenuWidthOverride);
         xlist = 0;
         return bresult;
@@ -4785,14 +4785,14 @@ void __cdecl HandleMenuKeyInput(void)
 
 
 // @fnv 0x00703f10
-bool __cdecl FUN_00703f10(int a1, int a2, int a3, int a4, int a5, int a6, int a7, float x, float y, int a10, ...)
+bool __cdecl FUN_00703f10(const char* a1, const char* a2, const char* a3, const char* a4, void* a5, int a6, int a7, float x, float y, const char* a10, ...)
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && ((FUN_009373f0_shell*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->FUN_009373f0())
     {
         bool result5;
         va_list args;
         va_start(args, a10);
-        result5 = ::MessageCreation::QueueMessage((const char *)(a1), (const char *)(a2), (const char *)(a3), (const char *)(a4), a5, a6, a7, (const char *)(a10), (const char ***)(char **)(&args), 1, -1, -1, 0.0f, x, y);
+        result5 = ::MessageCreation::QueueMessage(a1, a2, a3, a4, a5, a6, a7, a10, (const char ***)(char **)(&args), 1, -1, -1, 0.0f, x, y);
         va_end(args);
         return result5;
     }
@@ -4824,7 +4824,7 @@ char __cdecl FUN_00704010(const char* text, int aiArg1, int aiArg2, int aiArg3, 
         va_list args;
         va_start(args, aiArg3);
         success =
-            ::MessageCreation::QueueMessage(text, (const char *)(0), (const char *)(0), (const char *)(0), (int)(FUN_00704130), aiArg1, aiArg2, (const char *)(aiArg3), (const char ***)(char **)(&args), true, -1, -1, 0.0f, 0.0f, 0.0f);
+            ::MessageCreation::QueueMessage(text, (const char *)(0), (const char *)(0), (const char *)(0), (void *)(FUN_00704130), aiArg1, aiArg2, (const char *)(aiArg3), (const char ***)(char **)(&args), true, -1, -1, 0.0f, 0.0f, 0.0f);
         va_end(args);
     }
     if (success)

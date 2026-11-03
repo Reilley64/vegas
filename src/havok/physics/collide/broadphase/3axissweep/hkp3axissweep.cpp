@@ -3,12 +3,6 @@
 #include "fnv/symbols_simd.h"
 #include "fnv/symbols_011b3000.h"
 
-// g_D1A0E0Tables holds the byte offsets of an endpoint's min/max fields in a node (0 and 4); the generated data types it as char *.
-static inline int D1A0E0TableOffset(int i)
-{
-    return static_cast<int>(reinterpret_cast<uintptr_t>(::g_D1A0E0Tables[i]));
-}
-
 // src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
@@ -287,7 +281,7 @@ void D1A0E0EntryArray::FUN_00d1a0e0(char* nodes, const D1A0E0IntArray& remap)
         if (newIndex >= 0) {
             *dst = *src;
             dst->m_uiEdgeIndex = (unsigned short)newIndex;
-            *(unsigned short*)(nodes + newIndex * 16 + D1A0E0TableOffset(src->m_flags & 1)) = (unsigned short)count;
+            *(unsigned short*)(nodes + newIndex * 16 + ::g_D1A0E0Tables[src->m_flags & 1]) = (unsigned short)count;
             dst++;
             count++;
         }
@@ -2569,7 +2563,7 @@ void SweepMerge::FUN_00d19e40(char* cells, int aiTotalCount, Endpoint* apRightSt
     for (;;) {
         if (leftValue > rightValue) {
             *out = *left;
-            unsigned int slot = (left->handle << 4) + D1A0E0TableOffset(left->value & 1);
+            unsigned int slot = (left->handle << 4) + ::g_D1A0E0Tables[left->value & 1];
             *(unsigned short*)(cells + slot) = (unsigned short)index;
             --left;
             --out;
@@ -2577,7 +2571,7 @@ void SweepMerge::FUN_00d19e40(char* cells, int aiTotalCount, Endpoint* apRightSt
             leftValue = left->value;
         } else {
             *out = *right;
-            unsigned int slot = (right->handle << 4) + D1A0E0TableOffset(right->value & 1);
+            unsigned int slot = (right->handle << 4) + ::g_D1A0E0Tables[right->value & 1];
             *(unsigned short*)(cells + slot) = (unsigned short)index;
             --right;
             rightValue = right->value;

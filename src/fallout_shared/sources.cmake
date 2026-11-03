@@ -224,12 +224,14 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/settings/xgamesetting_h_unit.cpp
   src/fallout_shared/sky/atmosphere.cpp
   src/fallout_shared/sky/clouds.cpp
+  src/fallout_shared/sky/moon.cpp
   src/fallout_shared/sky/precipitation.cpp
   src/fallout_shared/sky/sky.cpp
   src/fallout_shared/sky/sky_h_unit.cpp
   src/fallout_shared/sky/skyobject.cpp
   src/fallout_shared/sky/skytexturemanager.cpp
   src/fallout_shared/sky/stars.cpp
+  src/fallout_shared/sky/sun.cpp
   src/fallout_shared/speedtree/bstreemanager.cpp
   src/fallout_shared/speedtree/bstreemodel.cpp
   src/fallout_shared/speedtree/bstreenode.cpp
@@ -344,6 +346,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/testopic.cpp
   src/fallout_shared/testopicinfo.cpp
   src/fallout_shared/tesvalueform.cpp
+  src/fallout_shared/teswater.cpp
   src/fallout_shared/teswaterform.cpp
   src/fallout_shared/tesweather.cpp
   src/fallout_shared/tesweatherlist.cpp
@@ -363,11 +366,8 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/extradatalist.cpp
   src/fallout_shared/inventorychanges.cpp
   src/fallout_shared/modelloader.cpp
-  src/fallout_shared/sky/moon.cpp
-  src/fallout_shared/sky/sun.cpp
   src/fallout_shared/tesobjectcell.cpp
   src/fallout_shared/tesobjectrefr.cpp
-  src/fallout_shared/teswater.cpp
 )
 target_sources(game PRIVATE ${VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES})
 set_source_files_properties(${VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES} PROPERTIES

@@ -98,6 +98,17 @@
 #include "fnv/tls.h"
 #include "tesscript_decls.h"
 #include "fnv/decl/TextString.h"
+
+// The compile data a script is initialised from: its name, compiled data and header.
+struct ScriptCompileDataView
+{
+    char pad[0x0c];
+    char kScriptName[8];
+    char pad14[0x20 - 0x14];
+    char* pScriptData;
+    char pad24[0x28 - 0x24];
+    char kHeader[0x14];
+};
 // @fnv 0x005ac740
 bool Script::IsConsolePlatform()
 {
@@ -746,13 +757,15 @@ void __cdecl FUN_005acc90(unsigned int* aiID, const double* adVal)
 
 struct FUN_00792760_shell : public TESQuest
 {
+    char pad18[0x40 - 0x18];
+    float fUnk40;
     float FUN_00792760();
 };
 
 // @fnv 0x00792760
 float FUN_00792760_shell::FUN_00792760()
 {
-    return *(float*)((char*)this + 0x40);
+    return fUnk40;
 }
 
 namespace fnv_005a8d20 {
@@ -933,6 +946,7 @@ void* DelStandIn::FUN_005aa3f0(unsigned int flags)
 
 struct FUN_005a9460_This
 {
+    char pad[0x1c4];
     unsigned int field_1c4;
     unsigned int FUN_005a9460();
 };
@@ -940,7 +954,7 @@ struct FUN_005a9460_This
 // @fnv 0x005a9460
 unsigned int FUN_005a9460_This::FUN_005a9460()
 {
-    return reinterpret_cast<unsigned int*>(this)[0x1c4 / 4];
+    return field_1c4;
 }
 
 namespace fnv_005aae20 {
@@ -1446,7 +1460,7 @@ struct FUN_004855a0
 struct FUN_00485680
 {
 };
-struct FUN_005abd90 : TESForm
+struct FUN_005abd90 : Script
 {
     void Save();
 };
@@ -1456,10 +1470,10 @@ void FUN_005abd90::Save()
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
     TESForm::ClearData();
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_00414220_shell *>((reinterpret_cast<ScriptHeaderData*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00414220();
-    ::AppendChunk(0x52484353, reinterpret_cast<char*>(this) + 0x18, 0x14);
+        reinterpret_cast<::FUN_00414220_shell *>(&m_kHeader)->FUN_00414220();
+    ::AppendChunk(0x52484353, reinterpret_cast<char*>(&m_kHeader), 0x14);
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_00414220_shell *>((reinterpret_cast<ScriptHeaderData*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00414220();
+        reinterpret_cast<::FUN_00414220_shell *>(&m_kHeader)->FUN_00414220();
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
 
@@ -1480,7 +1494,7 @@ char FUN_005ac6a0::Method_005ac6a0(const char* pcName, unsigned int* puiID)
     {
         ScriptVariableInfo* variable = (node->m_item);
         node = ((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
-        if (::FUN_00404dc0((const char*)(unsigned int)*(Flt*)((char*)variable + 0x18), pcName) == 0)
+        if (::FUN_00404dc0((const char*)(unsigned int)*reinterpret_cast<Flt*>(&variable->m_kName), pcName) == 0)
         {
             *puiID = variable->data.uiID;
             if (variable->data.m_bIsString)
@@ -2041,17 +2055,17 @@ void ScriptInitOwner::InitFromCompileData(CStringArgument* apCompileData)
 {
     this->InitItem();
 
-    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)((char*)apCompileData + 0x0C))))->FUN_004048e0())) == 0)
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(reinterpret_cast<S7010*>(reinterpret_cast<::ScriptCompileDataView*>(apCompileData)->kScriptName))->FUN_004048e0())) == 0)
     {
         this->MarkForDeletion(true);
     }
     else if (reinterpret_cast<::ScriptCmpOwner *>((this))->IsDifferentFromCompileData((::CompileDataStub *)(apCompileData)))
     {
-        this->SetEditorID_AtRuntime((const char*)(((GO*)((char*)apCompileData + 0x0C))->operator unsigned int()));
+        this->SetEditorID_AtRuntime((const char*)(reinterpret_cast<GO*>(reinterpret_cast<::ScriptCompileDataView*>(apCompileData)->kScriptName)->operator unsigned int()));
 
-        ::__memcpy((char*)&this->m_kHeader, (char*)apCompileData + 0x28, 0x14);
+        ::__memcpy((char*)&this->m_kHeader, reinterpret_cast<::ScriptCompileDataView*>(apCompileData)->kHeader, 0x14);
 
-        reinterpret_cast<::FUN_005aae70_shell *>((this))->FUN_005aae70(this->m_kHeader.dataSize, *(char**)((char*)apCompileData + 0x20));
+        reinterpret_cast<::FUN_005aae70_shell *>((this))->FUN_005aae70(this->m_kHeader.dataSize, reinterpret_cast<::ScriptCompileDataView*>(apCompileData)->pScriptData);
 
         this->InitializeActionList();
         this->FUN_005aa2e0();

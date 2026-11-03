@@ -13026,13 +13026,6 @@ void** FUN_00c939a0_Class::FUN_00c939a0(void* listener) {
     return AddBack(&m_kIslandPostCollideListeners, listener);
 }
 
-struct hkThreadMemory {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* unk10;
-};
 
 void ResizeAudioStream(void*, void*, int);
 
@@ -13044,9 +13037,9 @@ struct hkpWorld_Listener : hkpWorld {
 // @fnv 0x00c93a60
 void*& hkpWorld_Listener::FUN_00c93a60(void* listener) {
     hkArray<void*>* arr = &m_kWorldDeletionListeners;
-    hkThreadMemory* mem = (hkThreadMemory*)::FUN_00c85750();
+    hkMemoryRouter* mem = &hkMemoryRouter::getInstance();
     if (arr->m_iElementCount == (arr->m_iCapacityState & 0x3fffffff)) {
-        ResizeAudioStream(mem->unk10, arr, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(mem->m_heap), (::AudioStream *)(void *)(arr), 4);
     }
     void** slot = &arr->m_data[arr->m_iElementCount];
     *slot = listener;
@@ -13156,20 +13149,13 @@ bool HostClass::FUN_00c6d3f0(ArgClass* a1, int aiUnused) {
     return false;
 }
 
-struct hkThreadMemoryQ {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pMemoryAllocator;
-};
 
 void ResizeAudioStream(void*, void*, int);
 
 template <typename T>
-inline T* hkArrayPushBack(hkArray<T>& arr, hkThreadMemoryQ* mem, const T& t) {
+inline T* hkArrayPushBack(hkArray<T>& arr, hkMemoryRouter* mem, const T& t) {
     if (arr.m_iElementCount == (arr.m_iCapacityState & 0x3fffffff)) {
-        ResizeAudioStream(mem->m_pMemoryAllocator, &arr, sizeof(T));
+        ::ResizeAudioStream((::AudioAllocator *)(mem->m_heap), (::AudioStream *)(void *)(&arr), sizeof(T));
     }
     T* p = &arr.m_data[arr.m_iElementCount];
     *p = t;
@@ -13185,24 +13171,10 @@ struct FUN_00c93aa0_Class : hkpWorld {
 // @fnv 0x00c93aa0
 void* FUN_00c93aa0_Class::FUN_00c93aa0(void* listener) {
     hkArray<void*>* arr = &m_kContactImpulseLimitBreachedListeners;
-    return hkArrayPushBack(*arr, (hkThreadMemoryQ*)::FUN_00c85750(), listener);
+    return hkArrayPushBack(*arr, &hkMemoryRouter::getInstance(), listener);
 }
 
-struct PhantomBatchAllocator {
-    virtual void slot00() throw();
-    virtual void slot04() throw();
-    virtual void slot08() throw();
-    virtual void slot0C() throw();
-    virtual void ReturnMemory(void* p, int numBytes) throw();
-};
 
-struct PhantomBatchRouter {
-    void* m_aiEntries;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    PhantomBatchAllocator* m_pStreamAllocator;
-};
 
 
 
@@ -13239,13 +13211,10 @@ struct PhantomBatchLocalArray : hkArray<T> {
         this->m_data = 0;
         this->m_iElementCount = 0;
         this->m_iCapacityState = (int)0x80000000;
-        PhantomBatchRouter* mem = (PhantomBatchRouter*)::FUN_00c85750();
-        char* p = (char*)mem->m_aiEntries;
-        int bytes = (n * (int)sizeof(T) + 0x7f) & ~0x7f;
-        mem->m_aiEntries = p + bytes;
-        this->m_data = (T*)p;
+        void* p = hkMemoryRouter::getInstance().allocateStack((n * (int)sizeof(T) + 0x7f) & ~0x7f);
+        this->m_data = static_cast<T*>(p);
         this->m_iCapacityState = n | (int)0x80000000;
-        m_pTrailingData = (T*)p;
+        m_pTrailingData = static_cast<T*>(p);
     }
 };
 
@@ -13255,17 +13224,15 @@ __forceinline void PhantomBatchLocalArray_release(PhantomBatchLocalArray<T>& a) 
         a.m_iElementCount = 0;
     }
     T* local = a.m_pTrailingData;
-    PhantomBatchRouter* stackRouter = (PhantomBatchRouter*)::FUN_00c85750();
-    stackRouter->m_aiEntries = local;
+    hkMemoryRouter::getInstance().deallocateStack(local);
 
-    PhantomBatchRouter* router = (PhantomBatchRouter*)::FUN_00c85750();
-    PhantomBatchAllocator* heap = router->m_pStreamAllocator;
+    hkMemoryAllocator* heap = hkMemoryRouter::getInstance().m_heap;
     int cap = a.m_iCapacityState;
     a.m_iElementCount = 0;
     if (cap & (int)0x80000000) {
         return;
     }
-    heap->ReturnMemory(a.m_data, (cap & 0x3fffffff) * (int)sizeof(T));
+    heap->bufFree(a.m_data, (cap & 0x3fffffff) * (int)sizeof(T));
 }
 
 __forceinline int PhantomBatchIndexOf(const hkArray<hkpPhantom*>& arr, hkpPhantom* phantom) throw() {
@@ -13665,26 +13632,6 @@ ShapeCAA* ShapeClonerCAA::FUN_00caa250(ShapeCAA* apDstShape, ShapeCinfoCAA* cinf
 }
 
 namespace BatchAdd {
-class hkMemory {
-public:
-    virtual ~hkMemory() throw();
-    virtual void m04() throw();
-    virtual void m08() throw();
-    virtual void m0C() throw();
-    virtual void deallocateChunk(void* p, int nbytes) throw();
-};
-
-struct hkThreadMemory {
-    void* m_aiEntries;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    hkMemory* m_pMemoryAllocator;
-
-    __forceinline void deallocateStack(void* ptr) throw() {
-        m_aiEntries = ptr;
-    }
-};
 
 
 
@@ -13707,21 +13654,18 @@ public:
         this->m_data = 0;
         this->m_iElementCount = 0;
         this->m_iCapacityState = 0x80000000;
-        hkThreadMemory* tm = (hkThreadMemory*)::FUN_00c85750();
-        void* cur = tm->m_aiEntries;
-        int numBytes = (capacity * sizeof(T) + 0x7f) & ~0x7f;
-        tm->m_aiEntries = (char*)cur + numBytes;
-        this->m_data = (T*)cur;
+        void* cur = hkMemoryRouter::getInstance().allocateStack((capacity * int(sizeof(T)) + 0x7f) & ~0x7f);
+        this->m_data = static_cast<T*>(cur);
         this->m_iCapacityState = capacity | 0x80000000;
         this->m_initialBuffer = cur;
     }
 
-    __forceinline void ClearAndRelease(hkThreadMemory* tm) throw() {
-        hkMemory* mem = tm->m_pMemoryAllocator;
+    __forceinline void ClearAndRelease(hkMemoryRouter* tm) throw() {
+        hkMemoryAllocator* mem = tm->m_heap;
         int cap = this->m_iCapacityState;
         this->m_iElementCount = 0;
         if ((cap & 0x80000000) == 0) {
-            mem->deallocateChunk(this->m_data, (cap & 0x3fffffff) * sizeof(T));
+            mem->bufFree(this->m_data, (cap & 0x3fffffff) * sizeof(T));
         }
         this->m_data = 0;
         this->m_iCapacityState = 0x80000000;
@@ -13732,8 +13676,8 @@ public:
         if (initialBuffer == this->m_data) {
             this->m_iElementCount = 0;
         }
-        ((hkThreadMemory*)::FUN_00c85750())->deallocateStack(initialBuffer);
-        this->ClearAndRelease((hkThreadMemory*)::FUN_00c85750());
+        hkMemoryRouter::getInstance().deallocateStack(initialBuffer);
+        this->ClearAndRelease(&hkMemoryRouter::getInstance());
     }
 
     __forceinline void setSizeUnchecked(int size) throw() {
@@ -13751,9 +13695,9 @@ __forceinline void hkConstructWithCopy(T* p, int n, const T& t) throw() {
 template <typename T>
 struct hkArrayEx : public hkArray<T> {
     __forceinline void AddBack(const T& t) throw() {
-        hkThreadMemory* tm = (hkThreadMemory*)::FUN_00c85750();
+        hkMemoryRouter* tm = &hkMemoryRouter::getInstance();
         if (this->m_iElementCount == (this->m_iCapacityState & 0x3fffffff)) {
-            ::ResizeAudioStream(tm->m_pMemoryAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(tm->m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         }
         hkConstructWithCopy(this->m_data + this->m_iElementCount, 1, t);
         this->m_iElementCount++;
@@ -13859,13 +13803,6 @@ void WorldHelper::FUN_00c954e0(hkpPhantom* const* phantomBatch, int numPhantoms)
 struct PendingCalls_00c97510 { void FUN_00c91120();  };
 
 
-struct hkAllocQ70 {
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0c();
-    virtual void deallocate(void* p, int numBytes);
-};
 
 
 struct hkpEntity;
@@ -13879,9 +13816,9 @@ inline void ConstructWithCopyC97510(T* pDst, int iCount, const T& kItem)
 template <typename T>
 inline void PushBackC97510(::hkArray<T>& kArray, const T& kItem)
 {
-    ::hkThreadMemory* pkMemory = (::hkThreadMemory*)::FUN_00c85750();
+    hkMemoryRouter* pkMemory = &hkMemoryRouter::getInstance();
     if (kArray.m_iElementCount == (kArray.m_iCapacityState & 0x3fffffff))
-        ResizeAudioStream(pkMemory->unk10, &kArray, sizeof(T));
+        ::ResizeAudioStream((::AudioAllocator *)(pkMemory->m_heap), (::AudioStream *)(void *)(&kArray), sizeof(T));
     ConstructWithCopyC97510(kArray.m_data + kArray.m_iElementCount, 1, kItem);
     kArray.m_iElementCount++;
 }
@@ -13899,12 +13836,11 @@ struct InplaceArray4 : ::hkArray<T> {
     }
 
     void ClearAndRelease() {
-        ::hkThreadMemory* tm = (::hkThreadMemory*)::FUN_00c85750();
-        hkAllocQ70* mem = (hkAllocQ70*)tm->unk10;
+        hkMemoryAllocator* mem = hkMemoryRouter::getInstance().m_heap;
         int cap = this->m_iCapacityState;
         this->m_iElementCount = 0;
         if ((cap & 0x80000000) == 0) {
-            mem->deallocate(this->m_data, (cap & 0x3fffffff) * sizeof(T));
+            mem->bufFree(this->m_data, (cap & 0x3fffffff) * sizeof(T));
         }
     }
 };

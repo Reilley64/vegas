@@ -262,7 +262,6 @@ int FUN_00626390_class::FUN_00626390()
     return pFile ? FUN_004720a0(reinterpret_cast<char*>(pFile)) : 0;
 }
 
-int __cdecl strcat_s(char*, unsigned int, const char*);
 char* __cdecl FUN_00cb1410(const char*);
 struct FUN_00626420_shell
 {

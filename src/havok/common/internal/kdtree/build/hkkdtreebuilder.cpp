@@ -142,7 +142,8 @@ MASK_MEMSIZE=0x7fff
 hkUint16 m_usMemSizeAndFlags;
 public:
 hkReferencedObject(class FinishingFlag flag){}
-};template<typename T>
+};class hkError;
+template<typename T>
 class hkSingleton
 {
 public:
@@ -240,8 +241,7 @@ MASK_XYZW=15
 __forceinline void set(Mask m){m_uiMask=ms_kMaskValues[m];}
 private:
 hkQuadReal m_uiMask;};extern "C"{
-double __cdecl fabs([SA_Pre(Null=SA_No)][SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)]double _X);inline float fabsf([SA_Pre(Null=SA_No)][SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)]float _X)
-{return((float)fabs((double)_X));}
+double __cdecl fabs([SA_Pre(Null=SA_No)][SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)]double _X);
 }
 namespace MathUtilities
 {inline hkReal __cdecl fabs(hkReal r){return fabsf(r);}

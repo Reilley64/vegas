@@ -520,24 +520,6 @@ extern "C" const void* DAT_010ea51c;
 
 void __cdecl FUN_00c856c0(void* heap, void* ptr);
 
-struct hkMemoryAllocator
-{
-    virtual void func0() = 0;
-    virtual void func4() = 0;
-    virtual void ReleaseBlock(void* ptr, int numBytes) = 0;
-    virtual void funcC() = 0;
-    virtual void deallocateChunk(void* ptr, int numBytes) = 0;
-};
-
-struct NineIntegerRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    hkMemoryAllocator* m_pStreamAllocator;
-};
-
 template <typename T> struct hkArray
 {
     T* m_data;
@@ -550,7 +532,7 @@ template <typename T> struct hkArray
         this->m_iElementCount = 0;
         if ((cap & 0x80000000) == 0)
         {
-            alloc->deallocateChunk(this->m_data, (cap & 0x3fffffff) * sizeof(T));
+            alloc->bufFree(this->m_data, (cap & 0x3fffffff) * sizeof(T));
         }
         this->m_data = 0;
         this->m_iCapacityState = 0x80000000;
@@ -584,8 +566,8 @@ struct Map1Type
 
     void ClearAndRelease()
     {
-        NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
-        reinterpret_cast<::CB1A90Owner *>((this))->ProcessArgument((::CB1A90Argument *)(router->m_pStreamAllocator));
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        reinterpret_cast<::CB1A90Owner *>((this))->ProcessArgument((::CB1A90Argument *)(router->m_heap));
         ::FUN_00a29680();
     }
 };
@@ -852,33 +834,33 @@ void FUN_00e057c0_Class::FUN_00e057c0()
     for (i = 0; i < this->m_pMemoryAllocator.m_iElementCount; ++i)
     {
         void* item = this->m_pMemoryAllocator.m_data[i];
-        NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
-        FUN_00c856c0(router->m_pStreamAllocator, item);
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        FUN_00c856c0(router->m_heap, item);
     }
 
     for (i = 0; i < this->m_kChunks.m_iElementCount; ++i)
     {
         int size = this->m_kChunks.m_data[i].size;
         void* data = this->m_kChunks.m_data[i].data;
-        NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
-        router->m_pStreamAllocator->ReleaseBlock(data, size);
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        router->m_heap->blockFree(data, size);
     }
 
     void* unk0c = this->unk0c;
-    NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
-    FUN_00c856c0(router->m_pStreamAllocator, unk0c);
+    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+    FUN_00c856c0(router->m_heap, unk0c);
 
-    NineIntegerRecord* r1 = (NineIntegerRecord*)FUN_00c85750();
-    this->m_kImports.ClearAndRelease(r1->m_pStreamAllocator);
+    hkMemoryRouter* r1 = &hkMemoryRouter::getInstance();
+    this->m_kImports.ClearAndRelease(r1->m_heap);
 
-    NineIntegerRecord* r2 = (NineIntegerRecord*)FUN_00c85750();
-    this->m_kExports.ClearAndRelease(r2->m_pStreamAllocator);
+    hkMemoryRouter* r2 = &hkMemoryRouter::getInstance();
+    this->m_kExports.ClearAndRelease(r2->m_heap);
 
-    NineIntegerRecord* r3 = (NineIntegerRecord*)FUN_00c85750();
-    this->m_kChunks.ClearAndRelease(r3->m_pStreamAllocator);
+    hkMemoryRouter* r3 = &hkMemoryRouter::getInstance();
+    this->m_kChunks.ClearAndRelease(r3->m_heap);
 
-    NineIntegerRecord* r4 = (NineIntegerRecord*)FUN_00c85750();
-    this->m_pMemoryAllocator.ClearAndRelease(r4->m_pStreamAllocator);
+    hkMemoryRouter* r4 = &hkMemoryRouter::getInstance();
+    this->m_pMemoryAllocator.ClearAndRelease(r4->m_heap);
 
     if (this->m_obj)
     {

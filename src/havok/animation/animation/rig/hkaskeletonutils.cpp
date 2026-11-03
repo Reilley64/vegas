@@ -1838,6 +1838,23 @@ struct SkinXformEntry
     __m128 v1;
     __m128 v2;
 };
+static __forceinline __m128 rotate(__m128 a, __m128 b)
+{
+    __m128 w = _mm_shuffle_ps(b, b, 0xff);
+    __m128 weight = _mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0);
+    __m128 r = _mm_mul_ps(a, weight);
+    __m128 product = _mm_mul_ps(a, b);
+    __m128 xy = _mm_add_ss(_mm_shuffle_ps(product, product, 0x55), product);
+    __m128 xyz = _mm_add_ss(_mm_shuffle_ps(product, product, 0xaa), xy);
+    __m128 dot = _mm_shuffle_ps(xyz, xyz, 0);
+    r = _mm_add_ps(r, _mm_mul_ps(dot, b));
+    __m128 left = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9), _mm_shuffle_ps(b, b, 0xd2));
+    __m128 right = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xd2), _mm_shuffle_ps(b, b, 0xc9));
+    __m128 cross = _mm_sub_ps(right, left);
+    r = _mm_add_ps(_mm_mul_ps(cross, w), r);
+    return _mm_add_ps(r, r);
+}
+
 
 // @fnv 0x00cde2d0
 void __cdecl FUN_00cde2d0(SkinXformSet* set, const SkinXformEntry* input, SkinXformEntry* output)

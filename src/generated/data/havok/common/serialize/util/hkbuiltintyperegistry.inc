@@ -195,4 +195,4 @@ void *DAT_010d5430[354] = {nullptr, (void *)(fnv_data_012696ac), (void *)(fnv_da
 int DAT_010d59b8 = 0;
 int DAT_01268b0c;
 intptr_t DAT_01269b14;
-int DAT_01269b18;
+intptr_t DAT_01269b18;

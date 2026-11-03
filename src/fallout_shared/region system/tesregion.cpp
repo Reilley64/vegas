@@ -353,7 +353,7 @@ struct S_004f1300_Save
 void __cdecl FUN_004f1300()
 {
     unsigned short m_usPassCountLocal = 0;
-    unsigned short* pusCount4 = ((unsigned short *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::S_004f1300_Save * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    unsigned short* pusCount4 = ((unsigned short *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::S_004f1300_Save * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::S_004f1300_Save * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&m_usPassCountLocal, 2);
 
     BSSimpleList<S_004f1300_Item*>* pNodeX = ((::S_004f1300_Holder *)(reinterpret_cast<::FUN_004169d0_shell *>(((*reinterpret_cast<::S_004f1300_Mgr * *>(&::g_dataHandler))))->FUN_004169d0()));

@@ -557,7 +557,7 @@ void S_00507c90_Cls::ClearItemRef(S_00507c90_Obj* obj, S_00507c90_Ptr* ref)
             S_00507c90_Item* s;
             if ((s = (!t_ ? 0 : (((int)(reinterpret_cast<::BGSTerrainManager *>((t_))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((t_))->GetMinLevel())) <= 12)) ? t_ : 0) != 0)
             {
-                if (((::S_00507c90_Ptr *)(reinterpret_cast<::FUN_00507d80_Class *>((s))->FUN_00507d80())) == ref)
+                if (((::S_00507c90_Ptr *)(std::uintptr_t)(reinterpret_cast<::FUN_00507d80_Class *>((s))->FUN_00507d80())) == ref)
                     reinterpret_cast<::fnv_00b675c0::FUN_00b675c0_shell *>((s))->AssignRefObj((::fnv_00b675c0::RefObj *)(::S_00507c90_Ptr *)(0));
             }
         }
@@ -827,7 +827,7 @@ void FUN_005060f0Class::FUN_005060f0()
     if (reinterpret_cast<TESModel*>(&this->m_kFillTexture)->GetModelLength() == 0)
     {
         ::FUN_004856f0((void *)(0x4e4f4349), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(&this->m_kFillTexture)))->FUN_00408da0())),
-                     (void *)(reinterpret_cast<TESModel*>(&this->m_kFillTexture)->GetModelLength() + 1));
+                     (void *)(std::uintptr_t)(reinterpret_cast<TESModel*>(&this->m_kFillTexture)->GetModelLength() + 1));
     }
     else
     {
@@ -837,7 +837,7 @@ void FUN_005060f0Class::FUN_005060f0()
     if (reinterpret_cast<TESModel*>(&this->m_kParticleShaderTexture)->GetModelLength() == 0)
     {
         ::FUN_004856f0((void *)(0x324f4349), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(&this->m_kParticleShaderTexture)))->FUN_00408da0())),
-                     (void *)(reinterpret_cast<TESModel*>(&this->m_kParticleShaderTexture)->GetModelLength() + 1));
+                     (void *)(std::uintptr_t)(reinterpret_cast<TESModel*>(&this->m_kParticleShaderTexture)->GetModelLength() + 1));
     }
     else
     {
@@ -847,7 +847,7 @@ void FUN_005060f0Class::FUN_005060f0()
     if (reinterpret_cast<TESModel*>(&this->m_kHolesTexture)->GetModelLength() == 0)
     {
         ::FUN_004856f0((void *)(0x374d414e), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(&this->m_kHolesTexture)))->FUN_00408da0())),
-                     (void *)(reinterpret_cast<TESModel*>(&this->m_kHolesTexture)->GetModelLength() + 1));
+                     (void *)(std::uintptr_t)(reinterpret_cast<TESModel*>(&this->m_kHolesTexture)->GetModelLength() + 1));
     }
     else
     {

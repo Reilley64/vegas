@@ -847,7 +847,7 @@ void LocalRagdollTransform::FUN_004da340(SceneInput* source)
         NamedLink* link = ((::NamedLink *)(reinterpret_cast<::S_FUN_0045bc00 *>((node))->FUN_0045bc00(0)));
         if (link != 0)
         {
-            reinterpret_cast<::S_00a592c0_Matrix3 *>((((::Controller *)(::FUN_006a9540((char *)(link))))))->DecomposeToEulerAngles(*(float *)nullptr, *(float *)nullptr, *(float *)nullptr);
+            reinterpret_cast<::S_00a592c0_Matrix3 *>((((::Controller *)(::FUN_006a9540((char *)(link))))))->DecomposeToEulerAngles(*(float *)&(field08), *(float *)&(field0c), *(float *)&(field10));
         }
     }
 }

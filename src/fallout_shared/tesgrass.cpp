@@ -377,7 +377,7 @@ void FUN_0050a240_shell::CopyGrassData(TESForm* apCopy)
 
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct FUN_0050a550_shell
 {
@@ -389,7 +389,7 @@ struct FUN_0050a550_shell
 // @fnv 0x0050a550
 const char* FUN_0050a550_shell::FUN_0050a550()
 {
-    return _34 ? (const char*)(unsigned int)_34 : "";
+    return _34 ? (const char*)(std::uintptr_t)_34 : "";
 }
 
 struct FUN_00509af0_shell

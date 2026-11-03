@@ -445,7 +445,7 @@ bool IsIronSightsAnimGroup(unsigned short usAnimGroup)
     return ::FUN_005f2750((*(int *)&(const ::ANIM_GROUP_ENUM &)(TESAnimGroup::GetType(usAnimGroup))));
 }
 
-int __cdecl GetType(unsigned short);
+std::intptr_t __cdecl GetType(unsigned short);
 bool __cdecl IsNine(int);
 
 // Returns false for type 0xff, otherwise looks up the type's entry and returns the result of IsNine on its stored value.
@@ -515,7 +515,7 @@ void FUN_005f2820_shell::FUN_005f2820(unsigned int count)
     }
 }
 
-int __cdecl GetType(unsigned short);
+std::intptr_t __cdecl GetType(unsigned short);
 // Returns true when GetType(a) is 0, 1 or 0xAA, otherwise false.
 // @fnv 0x005f4cc0
 bool __cdecl FUN_005f4cc0(unsigned short ausType)
@@ -687,7 +687,7 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
     {
         unsigned int numKeys;
         char plocalKeyText[260];
-        TimedTextEntry* key = ((::fnv_005f3a20::TimedTextEntry *)(reinterpret_cast<::FUN_00495f30_shell *>((void *)(apSequence->GetTextKeys()))->FUN_00495f30((int *)&(numKeys))));
+        TimedTextEntry* key = ((::fnv_005f3a20::TimedTextEntry *)(std::uintptr_t)(reinterpret_cast<::FUN_00495f30_shell *>((void *)(apSequence->GetTextKeys()))->FUN_00495f30((int *)&(numKeys))));
         for (n = 0; n < numKeys; n++)
         {
             NiFixedStringEx keyText(*(NiFixedString*)((void *)(reinterpret_cast<::BaseProcess *>(&(key[n]))->GetCurrentProcessData())));

@@ -2,6 +2,8 @@
 // src/fallout_shared/bgsdecalnode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bgsdecalnode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv_result_slot.h"
+#include <atomic>
 #include <cstdint>
 #include <new>
 #include "fnv/decl/Callees.h"
@@ -19,6 +21,25 @@
 #include "fnv/symbols_00559000.h"
 #include "fnv/symbols_00a5b000.h"
 #include "fnv/symbols_00aa1000.h"
+
+namespace fnv_00a5e780 {
+// The detached child. Like NiPointer, its destructor releases the reference the call hands over.
+struct RefPtr
+{
+    struct RefObject
+    {
+        virtual ~RefObject();
+        virtual void DeleteThis();
+        unsigned int m_uiRefCount;
+    };
+    RefObject* m_pObject = nullptr;
+    ~RefPtr()
+    {
+        if (m_pObject && std::atomic_ref<unsigned int>(m_pObject->m_uiRefCount).fetch_sub(1) == 1)
+            m_pObject->DeleteThis();
+    }
+};
+}  // namespace fnv_00a5e780
 typedef struct GlobalObject_00a7b610
 {
     int data;
@@ -219,7 +240,7 @@ void FUN_004ee560_shell::FUN_004ee560(std::intptr_t aiValue)
 void TargetHost::CallVirtualAndForward(VirtParam* pVirtParam, void* b)
 {
     reinterpret_cast<::DecalNode *>((((S1*)this)))->RemoveEffect(pVirtParam);
-    reinterpret_cast<::fnv_00a5e780::NodeStandIn *>((((S2*)this)))->FUN_00a5e780((::fnv_00a5e780::RefObj *)(void *)(pVirtParam->v38(b)), *(::fnv_00a5e780::RefPtr *)nullptr);
+    reinterpret_cast<::fnv_00a5e780::NodeStandIn *>((((S2*)this)))->FUN_00a5e780((::fnv_00a5e780::RefObj *)(void *)(pVirtParam->v38(b)), ::ResultSlot<::fnv_00a5e780::RefPtr>());
 }
 // Removes the given effect from the list stored at offset 0xac of this node.
 // @fnv 0x004ee4f0
@@ -264,9 +285,9 @@ void FUN_004ee390_shell::InitNameAndData()
     pGlobalForm = new GlobalObject_004ee810;
 
     if (flag)
-        ::AssignFixedString((char *)this, (int)&(FUN_004a2c60()), {});
+        ::AssignFixedString((char *)this, (std::intptr_t)&(FUN_004a2c60()), {});
     else
-        ::AssignFixedString((char *)this, (int)&(FUN_004ee440()), {});
+        ::AssignFixedString((char *)this, (std::intptr_t)&(FUN_004ee440()), {});
 }
 
 struct NiObject

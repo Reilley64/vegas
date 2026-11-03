@@ -91,7 +91,7 @@ bool MagicItem::IsLoaded()
         while (pIter)
         {
             EffectItem* pItem = ((::EffectItem *)((void *)(pIter)));
-            EffectSetting* pEffect = pItem ? ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pItem))->FUN_00825c00())) : 0;
+            EffectSetting* pEffect = pItem ? ((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pItem))->FUN_00825c00())) : 0;
             if (pEffect && ::IsArchetypeFlagSet((::EffectSetting *)(pEffect)) && !pEffect->HasEffectID())
                 return false;
             pIter = (EffectItemList*)((::BSSimpleList< ::EffectItem *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
@@ -137,7 +137,7 @@ EffectSetting* MagicItem::GetEffectSettingForRange(MagicSystem::Range aeRange)
         }
         pIter = (EffectItemList*)((::BSSimpleList< ::EffectItem *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
     }
-    return best.item ? ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((best.item))->FUN_00825c00())) : 0;
+    return best.item ? ((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((best.item))->FUN_00825c00())) : 0;
 }
 
 // @fnv 0x0040b6b0
@@ -158,7 +158,7 @@ bool MagicItem::IsLoading()
             while (pIter)
             {
                 EffectItem* pItem = ((::EffectItem *)((void *)(pIter)));
-                EffectSetting* pEffect = pItem ? ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pItem))->FUN_00825c00())) : 0;
+                EffectSetting* pEffect = pItem ? ((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pItem))->FUN_00825c00())) : 0;
                 if (pEffect && ::IsArchetypeFlagSet((::EffectSetting *)(pEffect)) && !pEffect->HasEffectID())
                 {
                     m_bHeaderParsed = false;
@@ -212,7 +212,7 @@ void MagicItem::Preload(bool immediate)
                 EffectSetting* effect;
             } current;
             current.item = ((::EffectItem *)((void *)(pIter)));
-            current.effect = ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((current.item))->FUN_00825c00()));
+            current.effect = ((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((current.item))->FUN_00825c00()));
             if (::IsArchetypeFlagSet((::EffectSetting *)(current.effect)))
             {
                 if (bLoad)
@@ -441,7 +441,7 @@ bool MagicStatus::FUN_0040b580()
         while (primary)
         {
             EffectItem* item = ((::EffectItem *)((void *)(primary)));
-            EffectSetting* setting = item ? ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((item))->FUN_00825c00())) : 0;
+            EffectSetting* setting = item ? ((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((item))->FUN_00825c00())) : 0;
             if (setting && ::IsArchetypeFlagSet((::EffectSetting *)(setting)) && !reinterpret_cast<::EffectSetting *>((((EffectStatus*)setting)))->HasEffectID() &&
                 !reinterpret_cast<::EffectSetting *>((((EffectStatus*)setting)))->UsesAssociatedActorValue())
                 return false;
@@ -519,7 +519,7 @@ void FUN_0040ab70_shell::PreloadModels()
         while (pCurrentElementNext)
         {
             EffectItem* pitem = ((::EffectItem *)((void *)(pCurrentElementNext)));
-            EffectSetting* pes = ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pitem))->FUN_00825c00()));
+            EffectSetting* pes = ((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pitem))->FUN_00825c00()));
             TESForm* pform = reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((pes))->FUN_005f5f80();
             int icount = 0;
             if (pes->UsesAssociatedActorValue())
@@ -679,7 +679,7 @@ void UnloadMagic::FUN_0040b800(bool immediate)
         while (effects)
         {
             EffectItem* item = ((::EffectItem *)((void *)(effects)));
-            UnloadEffect* effect = (UnloadEffect*)((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((item))->FUN_00825c00()));
+            UnloadEffect* effect = (UnloadEffect*)((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((item))->FUN_00825c00()));
             if (::IsArchetypeFlagSet((::EffectSetting *)(effect)))
             {
                 if (!queued)

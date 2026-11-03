@@ -684,7 +684,7 @@ bool FUN_0060dab0_shell::FUN_0060dab0(const char* pcString)
     unsigned int size = ::FUN_0044a670(pcString) + 1;
     char* buffer = static_cast<char*>(_alloca(size));
     TaskQueueInterface::CopyStringToBuffer(buffer, size, pcString);
-    if (!((char *)(reinterpret_cast<::B408A80String *>((void *)(reinterpret_cast<BSStringT_char*>(&this->strEditorID)))->FUN_00408a80(buffer, true))))
+    if (!((char *)(std::uintptr_t)(reinterpret_cast<::B408A80String *>((void *)(reinterpret_cast<BSStringT_char*>(&this->strEditorID)))->FUN_00408a80(buffer, true))))
         return false;
     reinterpret_cast<::TextString *>((reinterpret_cast<BSStr*>(&this->strEditorID)))->FUN_004037f0(buffer, 0);
     return true;
@@ -692,7 +692,7 @@ bool FUN_0060dab0_shell::FUN_0060dab0(const char* pcString)
 
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct FUN_0060c5f0_Class
 {
@@ -704,7 +704,7 @@ struct FUN_0060c5f0_Class
 // @fnv 0x0060c5f0
 const char* FUN_0060c5f0_Class::GetStringOrEmpty()
 {
-    return (unsigned int)fld64 ? (const char*)(unsigned int)fld64 : "";
+    return (std::uintptr_t)fld64 ? (const char*)(std::uintptr_t)fld64 : "";
 }
 
 struct BGSSaveFormBuffer : BGSLoadFormBuffer
@@ -1279,14 +1279,14 @@ void QuestSave::FUN_0060dd50(unsigned int flags)
     reinterpret_cast<::PC7d *>(this)->FUN_00484c20(flags);
     unsigned short h = 0;  // Reserved block size.
     unsigned char* p = 0;  // Address of the reserved block-size field.
-    unsigned char* a = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+    unsigned char* a = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
     if ((*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011de4e8)).Bool()->b)
-        a = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        a = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
     if (reinterpret_cast<::FUN_00862110_cls *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
         unsigned int marker = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&marker, 4);
-        p = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        p = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
         reinterpret_cast<::FUN_008579b0_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&h, 2);
     }
     if (flags & 2)
@@ -1297,7 +1297,7 @@ void QuestSave::FUN_0060dd50(unsigned int flags)
     if (flags & 0x80000000)
     {
         unsigned char p = 0;  // Number of saved stages.
-        unsigned char* j = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        unsigned char* j = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&p, 1);
         QuestSaveStageNode* h = ((::QuestSaveStageNode *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));  // Stage iterator.
         while (h)
@@ -1310,7 +1310,7 @@ void QuestSave::FUN_0060dd50(unsigned int flags)
                 reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&eb, 1);
                 reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&f, 1);
                 unsigned char q = 0;  // Number of saved stage items.
-                unsigned char* cf = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+                unsigned char* cf = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
                 reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&q, 1);
                 QuestSaveItemNode* s = ((::QuestSaveItemNode *)(reinterpret_cast<::BaseProcess *>((stage))->GetCurrentProcessData()));  // Stage-item iterator.
                 while (s)
@@ -1345,7 +1345,7 @@ void QuestSave::FUN_0060dd50(unsigned int flags)
         reinterpret_cast<::ThisX *>((((QuestSaveLocals*)m_pScriptLocals)))->WriteScriptLocals();
     if ((*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011de4e8)).Bool()->b)
     {
-        unsigned char* end = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        unsigned char* end = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
         SaveFormInfo* formInfo = ((::SaveFormInfo *)(reinterpret_cast<::EffectSetting *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->GetHitSound()));
         if (formInfo)
         {
@@ -1359,7 +1359,7 @@ void QuestSave::FUN_0060dd50(unsigned int flags)
     }
     if (reinterpret_cast<::FUN_00862110_cls *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
-        unsigned char* h = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        unsigned char* h = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((QuestSaveManager*)(*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
         unsigned char* j = p;  // Beginning of the saved block.
         if (h > j + 65535)
             ::FUN_005b5e40();

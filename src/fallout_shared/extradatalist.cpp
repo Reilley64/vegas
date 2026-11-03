@@ -1,6 +1,7 @@
 // fallout_shared/extradatalist.cpp: ExtraDataList, Owner, DelStandIn, ExtraPatrolRefData and more (578 functions)
 
 #include "fnv_result_slot.h"
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include <new>
 #include <cmath>
@@ -21275,7 +21276,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
                 reinterpret_cast<::BGSSaveGameBuffer *>((apBuffer))->FUN_00865f60(cnt);
                 for (unsigned int i = 0; i < cnt; i++)
                 {
-                    ElemA* e = ((::fnv_00426a30::ElemA *)(reinterpret_cast<::S3e60 *>((((Cont45*)&record2->m_0c)))->FUN_006a7ad0(i)));
+                    ElemA* e = (::fnv_00426a30::ElemA *)&::SimpleArrayItem<float>((void *)((Cont45*)&record2->m_0c), i);
                     reinterpret_cast<::fnv_009a5f90::FUN_009a5f90_shell *>((e))->SaveTimeStamp((::fnv_009a5f90::BGSSaveFormBuffer *)(apBuffer));
                 }
                 break;
@@ -21329,7 +21330,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
                 reinterpret_cast<::BGSSaveGameBuffer *>((apBuffer))->FUN_00865f60(cnt);
                 for (unsigned int i = 0; i < cnt; i++)
                 {
-                    int* e = ((int *)(reinterpret_cast<::S3e60 *>((((Cont7c*)&record2->m_0c)))->FUN_006a7ad0(i)));
+                    int* e = (int *)&::SimpleArrayItem<unsigned int>((void *)((Cont7c*)&record2->m_0c), i);
                     reinterpret_cast<::FUN_00865db0_shell *>((apBuffer))->FUN_00865db0(*e, 0);
                 }
                 break;
@@ -21734,7 +21735,7 @@ void Target42::FUN_0042dae0(Buf42* pBuffer)
         if (((void *)(reinterpret_cast<::FUN_0042e250_shell *>(this)->FUN_0042e250())))
             p->v115(0, 1);
         if (((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x56))))
-            ::fnv_00477ce0::SetOrRemoveMapEntry((unsigned int)(p), 0);
+            ::fnv_00477ce0::SetOrRemoveMapEntry((std::uintptr_t)(p), 0);
         Ref42* ref = ((::fnv_0042dae0::Ref42 *)(reinterpret_cast<::FUN_0041de00_shell *>(this)->FUN_0041de00()));
         if (ref)
             reinterpret_cast<::fnv_0041e0d0::FUN_0041e0d0_shell *>((((::fnv_0042dae0::Extra42 *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0041e0d0(p);
@@ -28039,10 +28040,10 @@ void ExtraDataLoader::FUN_00428150(LoadBuffer* buf)
             case 0x56: {
                 X56* p56 = (X56*)(abHas[cType] ? reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(cType) : ((::ExtraData110 *)(reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>(this)->FUN_0040ff60((::BSExtraData *)(::ExtraData110 *)(new X56)))));
                 reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buf))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&p56->f0C), 4);
-                void* value = ((void *)(::GetDestructionStageSelfDamage((::TESObjectREFR *)(pRef), p56->f0C)));
+                unsigned int value = ::GetDestructionStageSelfDamage((::TESObjectREFR *)(pRef), p56->f0C);
                 if (value != 0)
                 {
-                    ::fnv_00477ce0::SetOrRemoveMapEntry((unsigned int)(pRef), (unsigned int)(value));
+                    ::fnv_00477ce0::SetOrRemoveMapEntry((std::uintptr_t)(pRef), value);
                 }
                 break;
             }
@@ -28197,7 +28198,7 @@ void ExtraDataLoader::FUN_00428150(LoadBuffer* buf)
                 reinterpret_cast<::BSSimpleArrayActor *>(&(extra_->kArray))->FUN_0042f5f0(uiAnimCount, 1);
                 for (unsigned int j = 0; j < uiAnimCount; j++)
                 {
-                    AnimItem* pAnim = (AnimItem*)((void **)(reinterpret_cast<::S3e60 *>(&(extra_->kArray))->FUN_006a7ad0(j)));
+                    AnimItem* pAnim = (AnimItem*)&::SimpleArrayItem<float>((void *)&(extra_->kArray), j);
                     reinterpret_cast<::CombatTargetTimestamp *>((pAnim))->LoadGame((::BGSLoadGameBuffer *)(buf));
                 }
                 if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(extra_->kArray))->GetName())) == 0)
@@ -28286,8 +28287,8 @@ void ExtraDataLoader::FUN_00428150(LoadBuffer* buf)
                 reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(extra_->kArray))->FUN_006f2290(count, 1);
                 for (unsigned int j = 0; j < count; j++)
                 {
-                    void** ppRef = ((void **)(reinterpret_cast<::S3e60 *>(&(extra_->kArray))->FUN_006a7ad0(j)));
-                    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buf))->FUN_008648e0((unsigned int *)(ppRef));
+                    unsigned int* puiRef = &::SimpleArrayItem<unsigned int>((void *)&(extra_->kArray), j);
+                    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buf))->FUN_008648e0(puiRef);
                 }
                 break;
             }

@@ -358,9 +358,9 @@ void QueuedPlayer::Attach()
 // @fnv 0x0043bfe0
 unsigned char QueuedTexture::GetFileIndex()
 {
-    if (((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())))
+    if (((::BSFileEntry *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())))
     {
-        Archive* archive = ((::Archive *)(::FindArchiveByKey((const ::FileNameHash *)(::BSFileEntry *)(((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))), (*(unsigned int *)&(const ::ARCHIVE_TYPE &)(static_cast<ARCHIVE_TYPE>(2))))));
+        Archive* archive = ((::Archive *)(::FindArchiveByKey((const ::FileNameHash *)(::BSFileEntry *)(((::BSFileEntry *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))), (*(unsigned int *)&(const ::ARCHIVE_TYPE &)(static_cast<ARCHIVE_TYPE>(2))))));
         if (archive)
             return ::FUN_0043c030((const char *)(archive)) + 4;
     }
@@ -371,9 +371,9 @@ unsigned char QueuedTexture::GetFileIndex()
 // @fnv 0x006fc440
 unsigned char BGSTerrainChunkLoadTask::GetFileIndex()
 {
-    if (((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())))
+    if (((::BSFileEntry *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())))
     {
-        Archive* archive = ((::Archive *)(::FindArchiveByKey((const ::FileNameHash *)(::BSFileEntry *)(((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))), (*(unsigned int *)&(const ::ARCHIVE_TYPE &)(static_cast<ARCHIVE_TYPE>(1))))));
+        Archive* archive = ((::Archive *)(::FindArchiveByKey((const ::FileNameHash *)(::BSFileEntry *)(((::BSFileEntry *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))), (*(unsigned int *)&(const ::ARCHIVE_TYPE &)(static_cast<ARCHIVE_TYPE>(1))))));
         if (archive)
             return ::FUN_0043c030((const char *)(archive)) + 4;
     }
@@ -1087,7 +1087,7 @@ bool FUN_0043caf0_shell::FUN_0043caf0()
 
 struct FUN_0043cc60_shell : public IOTask
 {
-    int FUN_0043cc60();
+    std::intptr_t FUN_0043cc60();
 };
 
 
@@ -1096,7 +1096,7 @@ struct FUN_0043cc80_shell : public IOTask
     unsigned char FUN_0043cc80();
 };
 // @fnv 0x0043cc60
-int FUN_0043cc60_shell::FUN_0043cc60()
+std::intptr_t FUN_0043cc60_shell::FUN_0043cc60()
 {
     return reinterpret_cast<::FUN_0043cc80_shell *>((this))->FUN_0043cc80();
 }
@@ -2940,7 +2940,7 @@ void FUN_0044b180_shell::FUN_0044b180()
         } d;
         d.doomed = (Del44b*)this;
         d.object = d.doomed;
-        d.object ? ((int)(reinterpret_cast<::FUN_0044b1f0_class *>((d.object))->FUN_0044b1f0(1))) : 0;
+        d.object ? ((std::intptr_t)(reinterpret_cast<::FUN_0044b1f0_class *>((d.object))->FUN_0044b1f0(1))) : 0;
     }
 }
 }  // namespace fnv_0044b180
@@ -3390,16 +3390,16 @@ void FUN_0043c550_shell::ApplyQueuedTexture()
 {
     if (!reinterpret_cast<::FUN_0043e530_shell *>((((H0*)this)))->FUN_0043e530() && (const char*)(*(BSStringT*)&this->m_uiUnk28))
     {
-        if (((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>((((H0*)this)))->GetIconFormID())))
+        if (((::BSFileEntry *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((((H0*)this)))->GetIconFormID())))
             ::TextureFileEntrySetter::SetTexture((::NiTexture *)((const char*)(*(BSStringT*)&this->m_uiUnk28)),
-                                               ((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>((((H0*)this)))->GetIconFormID())));
+                                               ((::BSFileEntry *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((((H0*)this)))->GetIconFormID())));
         else if (((::fnv_0043c550::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((void *)(((Tile*)this)))->FUN_0045cd60())))
             ::TextureFileEntrySetter::SetTexture((::NiTexture *)((const char*)(*(BSStringT*)&this->m_uiUnk28)), 0);
     }
-    if (((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>((((H0*)this)))->GetIconFormID())) && reinterpret_cast<::FUN_0043c630_shell *>((((H0*)this)))->FUN_0043c630())
+    if (((::BSFileEntry *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((((H0*)this)))->GetIconFormID())) && reinterpret_cast<::FUN_0043c630_shell *>((((H0*)this)))->FUN_0043c630())
     {
         reinterpret_cast<::FUN_0043c100_shell *>((((H0*)this)))->FUN_0043c100(0);
-        reinterpret_cast<::fnv_00448f50::FUN_00448f50_shell *>((((HM*)g_modelLoader)))->ForwardToVTableSlot((::fnv_00448f50::BSFileEntry *)(::BSFileEntry *)(((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>((((H0*)this)))->GetIconFormID()))));
+        reinterpret_cast<::fnv_00448f50::FUN_00448f50_shell *>((((HM*)g_modelLoader)))->ForwardToVTableSlot((::fnv_00448f50::BSFileEntry *)(::BSFileEntry *)(((::BSFileEntry *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((((H0*)this)))->GetIconFormID()))));
     }
     reinterpret_cast<::FUN_0043c610_shell *>((((H0*)this)))->RunVirtualMethod28();
 }
@@ -5094,7 +5094,7 @@ struct QueuedChildren
 };
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
     int pad[3];
 };
 struct QueuedKFLocal
@@ -5120,7 +5120,7 @@ KFModel* FUN_004471c0_shell::LoadKFModel(char* apFilename)
         QueuedKFLocal queuedKF(apFilename, 0);
         queuedKF.FUN_0043e2a0();
         reinterpret_cast<::fnv_0043e4b0::QK_0043e4b0 *>(&(queuedKF))->FUN_0043e4b0();
-        pkfModel2 = (KFModel*)(unsigned int)autoEvent3;
+        pkfModel2 = (KFModel*)(std::uintptr_t)autoEvent3;
     }
     else
     {
@@ -5167,11 +5167,11 @@ void* FUN_00447850_shell::FUN_00447850(void* apList, void* apDestList)
 namespace fnv_00448c10 {
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct GlobalObject_00528cb0 : public Flt
 {
-    GlobalObject_00528cb0(int);
+    GlobalObject_00528cb0(std::intptr_t);
     ~GlobalObject_00528cb0();
     void* pObj;
 };
@@ -5196,7 +5196,7 @@ bool ReleaseAllObjects(char* self)
     reinterpret_cast<::Q449 *>((((Q449*)*(void**)(self + 0x1c))))->FUN_00449280(&iter);
     while (iter)
     {
-        ((Obj*)(unsigned int)iter)->Release();
+        ((Obj*)(std::uintptr_t)iter)->Release();
         reinterpret_cast<::Q449 *>((((Q449*)*(void**)(self + 0x1c))))->FUN_00449280(&iter);
     }
     return true;
@@ -5279,11 +5279,11 @@ bool FUN_00448ed0_shell::InsertQueuedTexture(BSFileEntry* apFileEntry, QueuedTex
 namespace fnv_00448f80 {
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct GlobalObject_00528cb0 : public Flt
 {
-    GlobalObject_00528cb0(int);
+    GlobalObject_00528cb0(std::intptr_t);
     ~GlobalObject_00528cb0();
     void* pObj;
 };
@@ -5361,7 +5361,7 @@ struct NP
 };
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct Helper62d0
 {
@@ -5394,7 +5394,7 @@ bool LookupModelAndGetFlags(Map62d0* self, GetAtArgs aLookupArgs)
     bool bFound = false;
     if (reinterpret_cast<::Map62d0 *>((((Map62d0*)((char*)self + 4))))->FUN_006c62d0((std::uintptr_t)aLookupArgs.apcKey, (void **)&(entry)))
     {
-        *aLookupArgs.aspModel = (void*)((unsigned int)*(Flt*)&entry + 8);
+        *aLookupArgs.aspModel = (void*)((std::uintptr_t)*(Flt*)&entry + 8);
         aLookupArgs.out->FUN_0044b300(
             ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*(TESObjectREFR_GetFlags_Helper**)(aLookupArgs.aspModel))))->GetName())));
         bFound = true;
@@ -5913,7 +5913,7 @@ bool QueuedTreeModel::GetTreeModelDescription(char* apDescription, unsigned int 
 class Flt
 {
   public:
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 
 class IOTask;
@@ -6236,9 +6236,9 @@ struct FUN_0043c0d0_class
 // @fnv 0x0043c050
 void Q_0043c050::FUN_0043c050()
 {
-    if (((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())))
+    if (((::BSFileEntry *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())))
     {
-        bool bresult = reinterpret_cast<ML_0043c050*>(g_modelLoader)->InsertQueuedTexture(((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())), this);
+        bool bresult = reinterpret_cast<ML_0043c050*>(g_modelLoader)->InsertQueuedTexture(((::BSFileEntry *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())), this);
         reinterpret_cast<::FUN_0043c100_shell *>(this)->FUN_0043c100(bresult);
     }
     if (reinterpret_cast<::FUN_0043c130_shell *>((reinterpret_cast<ML_0043c050*>(g_modelLoader)))->IsLoadTexturesDegraded())
@@ -6368,7 +6368,7 @@ struct FUN_0043e990_Class
 void QueuedReplacementKF::FUN_0043e940()
 {
     reinterpret_cast<::fnv_0043e4b0::QK_0043e4b0 *>(this)->FUN_0043e4b0();
-    if (((Flt*)((char*)this + 0x30))->operator unsigned int())
+    if (((Flt*)((char*)this + 0x30))->operator std::uintptr_t())
     {
         if (!::FUN_00449130((int *)this))
         {
@@ -6712,7 +6712,7 @@ struct GO
 };
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 
 struct FUN_0043b640
@@ -6922,7 +6922,7 @@ struct Proc_S
 };
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct KFModelLookup
 {
@@ -7264,7 +7264,7 @@ class AutoMemHelper
 
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 
 struct TESModelV
@@ -7342,7 +7342,7 @@ struct TES
 };
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct CtlV
 {
@@ -7552,7 +7552,7 @@ struct SeqObj
 };
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct GO
 {
@@ -7700,7 +7700,7 @@ bool FUN_00440a90_shell::FUN_00440a90()
             {
                 ((QRView*)this)->spClone = ((VRef*)((QRView*)this)->pRef)->Get3DObject(true);
                 if (*(Flt*)&((QRView*)this)->spClone)
-                    reinterpret_cast<::WaitableObject *>((((SeqObj*)(unsigned int)*(Flt*)&((QRView*)this)->spClone)))->FUN_00401970();
+                    reinterpret_cast<::WaitableObject *>((((SeqObj*)(std::uintptr_t)*(Flt*)&((QRView*)this)->spClone)))->FUN_00401970();
             }
         }
         bresult = true;
@@ -7735,7 +7735,7 @@ struct TES
 };
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 class BSFaceGenModel;
 class BSFaceGenModelExtraData
@@ -8537,7 +8537,7 @@ struct Proc_S
 };
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct FUN_004483a0_t
 {
@@ -8594,7 +8594,7 @@ struct Q449
 };
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct VTask
 {
@@ -8713,11 +8713,11 @@ struct QHeadPtr
 };
 struct Flt : QHeadPtr
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct QueueObj : Flt
 {
-    QueueObj(int);
+    QueueObj(std::intptr_t);
 };
 struct S_00448f80
 {
@@ -8759,21 +8759,21 @@ struct V_00443540
 // @fnv 0x00443540
 bool FUN_00443540_shell::FUN_00443540(BSFileEntry* apTextureFileEntry, std::intptr_t aePriority, QueuedFile* apParent)
 {
-    QueueObj spexistingQueuedTexture(((int)(reinterpret_cast<::fnv_00448f80::Holder *>((((S_00448f80*)this)))->FUN_00448f80(apTextureFileEntry))));
+    QueueObj spexistingQueuedTexture(((std::intptr_t)(reinterpret_cast<::fnv_00448f80::Holder *>((((S_00448f80*)this)))->FUN_00448f80(apTextureFileEntry))));
     if (spexistingQueuedTexture)
     {
-        int estate = reinterpret_cast<::FUN_0084e3a0_Class *>((((S_0084e3a0*)(unsigned int)spexistingQueuedTexture)))->FUN_0084e3a0();
-        if (estate < 3 && reinterpret_cast<::FUN_00449190_cls *>((((FUN_00449190_cls*)(unsigned int)spexistingQueuedTexture)))->SetState(estate, 2))
+        int estate = reinterpret_cast<::FUN_0084e3a0_Class *>((((S_0084e3a0*)(std::uintptr_t)spexistingQueuedTexture)))->FUN_0084e3a0();
+        if (estate < 3 && reinterpret_cast<::FUN_00449190_cls *>((((FUN_00449190_cls*)(std::uintptr_t)spexistingQueuedTexture)))->SetState(estate, 2))
         {
-            if (reinterpret_cast<::FUN_0043c3d0_shell *>((((FUN_0043c3d0_shell*)(unsigned int)spexistingQueuedTexture)))->FUN_0043c3d0() &&
+            if (reinterpret_cast<::FUN_0043c3d0_shell *>((((FUN_0043c3d0_shell*)(std::uintptr_t)spexistingQueuedTexture)))->FUN_0043c3d0() &&
                 !reinterpret_cast<::FUN_0043c130_shell *>((((MLa*)this)))->IsLoadTexturesDegraded())
-                reinterpret_cast<::FUN_0043c0d0_class *>((((Q_0043c050*)(unsigned int)spexistingQueuedTexture)))->ForwardByteToMember(false);
+                reinterpret_cast<::FUN_0043c0d0_class *>((((Q_0043c050*)(std::uintptr_t)spexistingQueuedTexture)))->ForwardByteToMember(false);
             if (apParent)
-                reinterpret_cast<::IOTask *>((((S_00c3c7e0*)(unsigned int)spexistingQueuedTexture)))->FUN_00c3c7e0((::RefObj *)(apParent));
-            if (reinterpret_cast<::FUN_00449190_cls *>((((FUN_00449190_cls*)(unsigned int)spexistingQueuedTexture)))->SetState(2, estate))
+                reinterpret_cast<::IOTask *>((((S_00c3c7e0*)(std::uintptr_t)spexistingQueuedTexture)))->FUN_00c3c7e0((::RefObj *)(apParent));
+            if (reinterpret_cast<::FUN_00449190_cls *>((((FUN_00449190_cls*)(std::uintptr_t)spexistingQueuedTexture)))->SetState(2, estate))
             {
-                if (((IOTask*)(unsigned int)spexistingQueuedTexture)->FUN_0043cc60() > aePriority)
-                    ((V_00443540*)(unsigned int)spexistingQueuedTexture)->SetPriority(aePriority);
+                if (((IOTask*)(std::uintptr_t)spexistingQueuedTexture)->FUN_0043cc60() > aePriority)
+                    ((V_00443540*)(std::uintptr_t)spexistingQueuedTexture)->SetPriority(aePriority);
                 else
                     ((S_0044adb0*)::DAT_01202d98)->FUN_0044adb0();
                 return true;
@@ -8818,7 +8818,7 @@ struct FUN_004446a0_shell : public ModelLoader
 
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct QHeadLocal
 {
@@ -8923,7 +8923,7 @@ struct FUN_00447080_shell : public ModelLoader
 
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 namespace FUN_0043c6e0 {
 struct FUN_0043c830
@@ -8978,7 +8978,7 @@ NiNode* FUN_00447080_shell::FUN_00447080(char* apFilename, int aeLODFadeMult, bo
         reinterpret_cast<::FUN_00447190_dummy *>((reinterpret_cast<FUN_00447190_dummy*>(&queuedModel)))->FUN_00447190(1);
         reinterpret_cast<FUN_0043ccf0_s*>(&queuedModel)->FUN_0043ccf0();
         reinterpret_cast<FUN_0043d180_s*>(&queuedModel)->FUN_0043d180();
-        pmodel = (Model*)(unsigned int)queuedModel.model;
+        pmodel = (Model*)(std::uintptr_t)queuedModel.model;
     }
     else if (!reinterpret_cast<::FUN_00443190_shell *>((reinterpret_cast<FUN_00443190_s*>(pmodel)))->GetCombinedValue())
     {
@@ -9026,7 +9026,7 @@ struct QHeadPtr : public QueueObj
 };
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct QHeadLocal
 {
@@ -9150,7 +9150,7 @@ struct QueueObj : public QHeadPtr
 };
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct QueuedTask_00448cc0
 {
@@ -9225,7 +9225,7 @@ struct FUN_0044df00Class
 };
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct FUN_006ecba0_class
 {
@@ -9311,7 +9311,7 @@ struct BSAudio
 };
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 template <class T> struct BSStringT
 {
@@ -9406,8 +9406,8 @@ void FUN_00443270_shell::FUN_00443270(File_443270* pFile, bool bAll)
                 {
                     char acBuf[1024];
                     ::FUN_00406d00(acBuf, 1024, "MODELS:\t%3d\t%3d\t%3d\t%s\r\n",
-                               reinterpret_cast<::FUN_00443190_shell *>((((FUN_00443190_shell*)pVal)))->GetCombinedValue(), ((int)(reinterpret_cast<::Callees *>((void *)(((GridArray*)pVal)))->FUN_00726070())),
-                               ((int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(((GridArray*)pVal)))->GetName())), pKey);
+                               reinterpret_cast<::FUN_00443190_shell *>((((FUN_00443190_shell*)pVal)))->GetCombinedValue(), ((std::intptr_t)(reinterpret_cast<::Callees *>((void *)(((GridArray*)pVal)))->FUN_00726070())),
+                               ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(((GridArray*)pVal)))->GetName())), pKey);
                     ::FUN_005b5e40();
                     if (pFile)
                         pFile->Write(acBuf, std::strlen(acBuf) + 1);
@@ -9498,12 +9498,12 @@ struct QueuedTexture_0043c650
 void QueuedTexture_0043c650::FUN_0043c650(int aePreviousState, void* apTaskOwner)
 {
     reinterpret_cast<::fnv_00c3cb70::IOTask *>(this)->FUN_00c3cb70(aePreviousState, (::fnv_00c3cb70::RefObj *)((std::intptr_t)apTaskOwner));
-    if (((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())))
+    if (((::BSFileEntry *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())))
     {
         if (reinterpret_cast<::FUN_0043c630_shell *>(this)->FUN_0043c630())
         {
             reinterpret_cast<::FUN_0043c100_shell *>(this)->FUN_0043c100(false);
-            reinterpret_cast<::fnv_00448f50::FUN_00448f50_shell *>((((ModelLoader_00448f50*)g_modelLoader)))->ForwardToVTableSlot((::fnv_00448f50::BSFileEntry *)(::BSFileEntry *)(((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))));
+            reinterpret_cast<::fnv_00448f50::FUN_00448f50_shell *>((((ModelLoader_00448f50*)g_modelLoader)))->ForwardToVTableSlot((::fnv_00448f50::BSFileEntry *)(::BSFileEntry *)(((::BSFileEntry *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))));
         }
     }
 }
@@ -9514,7 +9514,7 @@ struct FUN_00449130_s
 };
 struct Flt_s
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct FUN_0043ea30_s
 {
@@ -10098,7 +10098,7 @@ namespace fnv_0043f2b0 {
 class GO
 {
   public:
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 
 class FUN_0043c610_shell
@@ -10117,7 +10117,7 @@ class QueuedHelmet
 // @fnv 0x0043f2b0
 void QueuedHelmet::FUN_0043f2b0()
 {
-    if (!reinterpret_cast<GO*>(reinterpret_cast<char*>(this) + 0x1c)->operator unsigned int() &&
+    if (!reinterpret_cast<GO*>(reinterpret_cast<char*>(this) + 0x1c)->operator std::uintptr_t() &&
         !::FUN_00449130(reinterpret_cast<int*>(this)))
     {
         reinterpret_cast<::IOManager *>((reinterpret_cast<IOTask*>(this)))->SubmitTask();
@@ -10136,7 +10136,7 @@ struct BSFaceGenModel
 struct GO
 {
     void* p;
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 
 enum BIPED_OBJECT
@@ -10174,11 +10174,11 @@ void QueuedHelmet::ApplyQueuedModels()
     int n;
     for (n = 0; n < 0x14; ++n)
     {
-        if (m_kQueuedModelsSecondary[n].operator unsigned int() != 0)
+        if (m_kQueuedModelsSecondary[n].operator std::uintptr_t() != 0)
         {
             reinterpret_cast<::FUN_004aeb20_holder *>((pExistingBipedAnim))->AttachFaceGenModel(
-                (::BSFaceGenModel *)(::fnv_0043fb80::BSFaceGenModel *)(reinterpret_cast<BSFaceGenModel*>(m_kQueuedModels[n].operator unsigned int())),
-                reinterpret_cast<NiNode*>(m_kQueuedModelsSecondary[n].operator unsigned int()),
+                (::BSFaceGenModel *)(::fnv_0043fb80::BSFaceGenModel *)(reinterpret_cast<BSFaceGenModel*>(m_kQueuedModels[n].operator std::uintptr_t())),
+                reinterpret_cast<NiNode*>(m_kQueuedModelsSecondary[n].operator std::uintptr_t()),
                 (*(::BIPED_OBJECT *)&(const ::fnv_0043fb80::BIPED_OBJECT &)(static_cast<BIPED_OBJECT>(n))));
         }
     }
@@ -10242,7 +10242,7 @@ struct FUN_00446990_StandIn
 // @fnv 0x00446990
 unsigned int FUN_00446990_StandIn::GetObjectFlags()
 {
-    return m_pObject ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR_GetFlags_Helper*>(m_pObject)))->GetName())) : 0;
+    return m_pObject ? ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR_GetFlags_Helper*>(m_pObject)))->GetName())) : 0;
 }
 }  // namespace fnv_00446990
 
@@ -10470,7 +10470,7 @@ struct FUN_006ecba0_class
 
 struct GO : public FUN_006ecba0_class
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 
 struct FUN_00529000_Class
@@ -10512,15 +10512,15 @@ bool FUN_009066d0_Class::FUN_009066d0(int arg1, int arg2)
         reinterpret_cast<::FUN_006ecba0_class *>(&(go3))->FUN_006ecba0(false, (void*)ClearLowBit((int*)&member18));
         reinterpret_cast<::FUN_006ecba0_class *>(&(go2))->FUN_006ecba0(true, (void*)ClearLowBit((int*)&member18));
 
-        if (!::FUN_004491c0((volatile long *)(void *)((void*)(member14.FUN_0044df00() + 8)), go2.operator unsigned int(),
-                          go3.operator unsigned int()))
+        if (!::FUN_004491c0((volatile long *)(void *)((void*)(std::uintptr_t)(member14.FUN_0044df00() + 8)), go2.operator std::uintptr_t(),
+                          go3.operator std::uintptr_t()))
         {
             continue;
         }
 
         reinterpret_cast<::FUN_006ecba0_class *>(&(go1))->FUN_006ecba0(false, (void*)ClearLowBit((int*)&member14));
 
-        if (::FUN_004491c0((volatile long *)(member10), go3.operator unsigned int(), go1.operator unsigned int()))
+        if (::FUN_004491c0((volatile long *)(member10), go3.operator std::uintptr_t(), go1.operator std::uintptr_t()))
         {
             reinterpret_cast<::fnv_005292a0::FUN_005292a0 *>(this)->SetRace(ClearLowBit((int*)&member14));
         }
@@ -10974,7 +10974,7 @@ class Sub_0043d5b0
 {
   public:
     unsigned int m_00;
-    int Release(unsigned int flags);
+    std::intptr_t Release(unsigned int flags);
 };
 
 class Base_0043d5b0
@@ -11011,7 +11011,7 @@ FUN_0043d5b0_cls::~FUN_0043d5b0_cls()
     Sub_0043d5b0* tmp;
     copy = m_38;
     tmp = copy;
-    tmp != 0 ? ((int)(reinterpret_cast<::FUN_0051d400_shell *>((tmp))->DeleteIfFlagged(1))) : 0;
+    tmp != 0 ? ((std::intptr_t)(reinterpret_cast<::FUN_0051d400_shell *>((tmp))->DeleteIfFlagged(1))) : 0;
 }
 
 class Obj43D730
@@ -11107,7 +11107,7 @@ void D750Batch::CreateAndProcessObject()
         kPacket.m_pkTarget = ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pUserData->m_pkOwnerManager))->FUN_0084e3a0()));
         kPacket.m_pPointer = pkObject;
         kPacket.m_iFlags = 0;
-        ::FUN_00b59ae0(m_pUserData->m_pvArg1, (unsigned int)(m_pUserData->m_pvArg2), (::Obj3 *)(m_pUserData->m_pvArg3), (::ObjA4 *)(::D750Packet *)(&kPacket), (::Vec3 *)(m_pUserData->m_pvArg5),
+        ::FUN_00b59ae0(m_pUserData->m_pvArg1, (std::uintptr_t)(m_pUserData->m_pvArg2), (::Obj3 *)(m_pUserData->m_pvArg3), (::ObjA4 *)(::D750Packet *)(&kPacket), (::Vec3 *)(m_pUserData->m_pvArg5),
                     (float *)(m_pUserData->m_pvArg6), m_pUserData->m_usElementCount);
         delete kPacket.m_pPointer;
     }
@@ -11205,7 +11205,7 @@ void FUN_0043dac0_cls::UpdateStateAndNotify(int aIndex, int aFlags)
 
     if (aIndex >= 4)
     {
-        reinterpret_cast<::C665be0_shell *>(((*reinterpret_cast<::SaveGameListener * *>(&::fnv_0043da00::DAT_011d5c48))))->FUN_00665be0((int)(m_48));
+        reinterpret_cast<::C665be0_shell *>(((*reinterpret_cast<::SaveGameListener * *>(&::fnv_0043da00::DAT_011d5c48))))->FUN_00665be0((std::intptr_t)(m_48));
     }
 }
 
@@ -12406,7 +12406,7 @@ void FUN_00445370_cls::FUN_00445370(uintptr_t a1, bool flag)
                 this->m_04->v14(a1);
                 TargetObj* a = p;
                 TargetObj* aQ = a;
-                (aQ != 0) ? ((int)(reinterpret_cast<::fnv_00443240::p07::DelStandIn *>((aQ))->FUN_00443240(1))) : 0;
+                (aQ != 0) ? ((std::intptr_t)(reinterpret_cast<::fnv_00443240::p07::DelStandIn *>((aQ))->FUN_00443240(1))) : 0;
             }
         }
     }
@@ -12500,7 +12500,7 @@ class B445670Loader
 // @fnv 0x00445670
 void B445670Loader::FUN_00445670(B445670Cell* pkCell)
 {
-    if (!pkCell || !((void *)(reinterpret_cast<::FUN_005e3fc0_shell *>((pkCell))->Get())))
+    if (!pkCell || !((void *)(std::uintptr_t)(reinterpret_cast<::FUN_005e3fc0_shell *>((pkCell))->Get())))
         return;
 
     B445670Iterator kIter;
@@ -12622,8 +12622,8 @@ struct ModelLoaderKFList : public ModelLoader
 struct IndexedValueTable
 {
     unsigned int count;
-    unsigned int* values;
-    unsigned int GetValueAt(unsigned int index);
+    std::uintptr_t* values;
+    std::uintptr_t GetValueAt(unsigned int index);
 };
 // Walks a list of names, optionally prefixes each into a path buffer, and queues each KF path either via owner tasks or directly.
 // @fnv 0x004463b0
@@ -12650,7 +12650,7 @@ void ModelLoaderKFList::QueueKFPathsFromList(BSSimpleList<const char*>* apNames,
             }
             else
             {
-                reinterpret_cast<::QueueHelper *>(this)->FUN_00444040((int)(name), priority, (int)(queued), 0, 1, 0, 0);
+                reinterpret_cast<::QueueHelper *>(this)->FUN_00444040((std::intptr_t)(name), priority, (std::intptr_t)(queued), 0, 1, 0, 0);
             }
         }
         index++;
@@ -12660,7 +12660,7 @@ void ModelLoaderKFList::QueueKFPathsFromList(BSSimpleList<const char*>* apNames,
 
 // Returns values[index] when index is below count, otherwise returns 0.
 // @fnv 0x004464c0
-unsigned int IndexedValueTable::GetValueAt(unsigned int index)
+std::uintptr_t IndexedValueTable::GetValueAt(unsigned int index)
 {
     return index < count ? values[index] : 0;
 }
@@ -12864,7 +12864,7 @@ struct Entry44
 struct Slot44
 {
     int m_val;
-    int GetHead();
+    std::intptr_t GetHead();
     Entry44* GetEntry();
 };
 
@@ -13522,7 +13522,7 @@ struct IntegerMapEntry
 struct TaggedEntry
 {
     int m_bits;
-    int GetPixelBitData();
+    std::intptr_t GetPixelBitData();
     IntegerMapEntry* GetEntry();
 };
 
@@ -14357,7 +14357,7 @@ void Main::UpdateModels()
         while (iterator)
         {
             Entry* entry = *((::ModelResources::Entry **)((void *)(iterator)));
-            Reference* reference = ((::ModelResources::Reference *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((entry))->FUN_00825c00()));
+            Reference* reference = ((::ModelResources::Reference *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((entry))->FUN_00825c00()));
             if (::IsArchetypeFlagSet((::EffectSetting *)(reference)) && (!loaded || !reinterpret_cast<::EffectSetting *>((reference))->UsesAssociatedActorValue()))
             {
                 Form* form = ((::ModelResources::Form *)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((reference))->FUN_005f5f80()));
@@ -14370,7 +14370,7 @@ void Main::UpdateModels()
                             Weapon* weapon = (Weapon*)form;
                             if (weapon->FUN_0048cee0() > 0)
                                 reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::ModelResources::Manager * *>(&::g_modelLoader))))->FUN_00443d30((std::uintptr_t)(static_cast<Model*>(weapon)), (std::intptr_t)(((void *)(reinterpret_cast<::FUN_0043cc60_shell *>(this)->FUN_0043cc60()))), (std::uintptr_t)(this),
-                                                           (std::intptr_t)(((void *)(::FUN_0045c6b0((::TESForm_0045c6b0 *)(weapon))))), 1, 0, 0);
+                                                           (std::intptr_t)(((void *)(std::uintptr_t)(::FUN_0045c6b0((::TESForm_0045c6b0 *)(weapon))))), 1, 0, 0);
                         }
                     }
                     else if (reinterpret_cast<::S3e60 *>((reference))->FUN_00403e60(0x20000))
@@ -14379,9 +14379,9 @@ void Main::UpdateModels()
                         {
                             Armor* armor = (Armor*)form;
                             reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::ModelResources::Manager * *>(&::g_modelLoader))))->FUN_00443d30((std::uintptr_t)(((::ModelResources::Model *)(reinterpret_cast<::FUN_00481150_shell *>(&(armor->models))->GetBipedModel((::SEX)(0))))), (std::intptr_t)(((void *)(reinterpret_cast<::FUN_0043cc60_shell *>(this)->FUN_0043cc60()))), (std::uintptr_t)(this),
-                                                       (std::intptr_t)(((void *)(::FUN_0045c6b0((::TESForm_0045c6b0 *)(armor))))), 1, 0, 0);
+                                                       (std::intptr_t)(((void *)(std::uintptr_t)(::FUN_0045c6b0((::TESForm_0045c6b0 *)(armor))))), 1, 0, 0);
                             reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::ModelResources::Manager * *>(&::g_modelLoader))))->FUN_00443d30((std::uintptr_t)(((::ModelResources::Model *)(reinterpret_cast<::FUN_00481150_shell *>(&(armor->models))->GetBipedModel((::SEX)(1))))), (std::intptr_t)(((void *)(reinterpret_cast<::FUN_0043cc60_shell *>(this)->FUN_0043cc60()))), (std::uintptr_t)(this),
-                                                       (std::intptr_t)(((void *)(::FUN_0045c6b0((::TESForm_0045c6b0 *)(armor))))), 1, 0, 0);
+                                                       (std::intptr_t)(((void *)(std::uintptr_t)(::FUN_0045c6b0((::TESForm_0045c6b0 *)(armor))))), 1, 0, 0);
                         }
                     }
                     else if (reinterpret_cast<::S3e60 *>((reference))->FUN_00403e60(0x40000))
@@ -14400,7 +14400,7 @@ void Main::UpdateModels()
                             (*reinterpret_cast<::ModelResources::Manager * *>(&::g_modelLoader))->QueueModelAnimations(static_cast<Model*>(creature), ((void *)(reinterpret_cast<::FUN_0043cc60_shell *>(this)->FUN_0043cc60())), this, 0,
                                                                1, 1);
                             reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::ModelResources::Manager * *>(&::g_modelLoader))))->FUN_00443d30((std::uintptr_t)(static_cast<Model*>(creature)), (std::intptr_t)(((void *)(reinterpret_cast<::FUN_0043cc60_shell *>(this)->FUN_0043cc60()))), (std::uintptr_t)(this),
-                                                       (std::intptr_t)(((void *)(::FUN_0045c6b0((::TESForm_0045c6b0 *)(creature))))), 1, 0, 0);
+                                                       (std::intptr_t)(((void *)(std::uintptr_t)(::FUN_0045c6b0((::TESForm_0045c6b0 *)(creature))))), 1, 0, 0);
                         }
                     }
                 }
@@ -14923,7 +14923,7 @@ void FnvRoot::FUN_0043f2f0()
                                             FnvRenderSelector* a = ((::FnvRenderSelector *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::FnvRenderSelector *)(reinterpret_cast<::FUN_0043f010 *>((master28))->Get()))))->FUN_007af430()));
                                             FnvEntry p[4];   // Resource entries for the selected geometry.
                                             FnvHandle h(0);  // Retains the active scene object.
-                                            reinterpret_cast<::NiObjectD510 *>((((::FnvSceneNode *)(::fnv_005495f0::FUN_005495f0((const char *)(geometry))))))->FUN_00a5d510(*(::NiPointerD510 *)nullptr);
+                                            reinterpret_cast<::NiObjectD510 *>((((::FnvSceneNode *)(::fnv_005495f0::FUN_005495f0((const char *)(geometry))))))->FUN_00a5d510(*(::NiPointerD510 *)&(current));
                                             h.FUN_0066b0d0(((::FnvSceneNode *)(::FUN_00559450((int *)&(current)))));
                                             geometry->vfnE4(((::FnvSceneNode *)(::FUN_00559450((int *)&(h)))));
                                             a->FUN_00603ad0(p);
@@ -15123,7 +15123,7 @@ void FUN_00440310_shell::FUN_00440310(AttachNode* pkNode)
     }
     else
     {
-        reinterpret_cast<::FUN_006f74f0_cls *>((void *)&(const ::NiPointer< ::QueuedFile> &)(m_spTask))->FUN_006f74f0((::ObjA *)(::QueuedFile *)((QueuedFile*)new FUN_004404c0(m_pkRef, (int)pkNode)));
+        reinterpret_cast<::FUN_006f74f0_cls *>((void *)&(const ::NiPointer< ::QueuedFile> &)(m_spTask))->FUN_006f74f0((::ObjA *)(::QueuedFile *)((QueuedFile*)new FUN_004404c0(m_pkRef, (std::intptr_t)pkNode)));
         reinterpret_cast<::fnv_00440710::FUN_00440710_t *>((((AttachLoader*)g_modelLoader)))->DispatchToQueue((std::intptr_t)(QueuedFile*)(m_spTask));
     }
 }
@@ -15388,7 +15388,7 @@ class B441420Owner
 // @fnv 0x00441420
 B441420Info* B441420Owner::GetInfoAt(int iIndex)
 {
-    return ((::B441420Info *)(reinterpret_cast<::S3e60 *>(&(m_kInfos))->FUN_006a7ad0(iIndex)));
+    return (*(::B441420Info **)(reinterpret_cast<::S3e60 *>(&(m_kInfos))->FUN_006a7ad0(iIndex)));
 }
 
 struct MLPackage
@@ -16467,7 +16467,7 @@ void AnimLoader445::QueueModelAnimations(TESModel* model, int priority, std::int
                 if (actor && actor->IsActor())
                 {
                     Actor445* filename = actor;
-                    raceContext = ((void *)(reinterpret_cast<::fnv_008a1760::FUN_008a1760_shell *>((filename))->FUN_008a1760()));
+                    raceContext = ((void *)(std::uintptr_t)(reinterpret_cast<::fnv_008a1760::FUN_008a1760_shell *>((filename))->FUN_008a1760()));
                 }
                 AnimList* skeletonAnimations;
                 skeletonAnimations = MakeRaceList(idleSlash, 1, 1, raceContext);
@@ -17246,7 +17246,7 @@ void FUN_0043e9b0_s::FUN_0043e9b0()
 {
     if (!::FUN_00449130((int *)(((FUN_00449130_s*)this))))
     {
-        reinterpret_cast<::FUN_00490fa0_cls *>((((FUN_00490fa0_s*)*(void**)((char*)this + 0x38))))->FUN_00490fa0((::FUN_00490fa0_src *)((unsigned int)*(Flt_s*)((char*)this + 0x30)));
+        reinterpret_cast<::FUN_00490fa0_cls *>((((FUN_00490fa0_s*)*(void**)((char*)this + 0x38))))->FUN_00490fa0((::FUN_00490fa0_src *)((std::uintptr_t)*(Flt_s*)((char*)this + 0x30)));
         if (*(void**)((char*)this + 0x3c))
             ((FUN_0043ea30_s*)*(void**)((char*)this + 0x3c))->FUN_0043ea30();
     }
@@ -19594,7 +19594,7 @@ struct QueueX
 bool Q449::FUN_00449280(void* arData)
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
-    bool bResult = reinterpret_cast<::QueueX *>((FUN_00449f80(arData)))->Pop(*(::PtrX *)nullptr);
+    bool bResult = reinterpret_cast<::QueueX *>((FUN_00449f80(arData)))->Pop(*(::PtrX *)(arData));
     reinterpret_cast<::RecursiveSpinLock *>(&(lock))->FUN_0040fba0();
     return bResult;
 }
@@ -20119,7 +20119,7 @@ int ParentByteQuery::FUN_0043c430()
 
 {
 
-    return ((::NiNode *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType())) ? reinterpret_cast<::NiAVObject *>(&(((::NiNode *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType()))->FUN_0043c490()))->FUN_0043c470() : 0;
+    return ((::NiNode *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType())) ? reinterpret_cast<::NiAVObject *>(&(((::NiNode *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType()))->FUN_0043c490()))->FUN_0043c470() : 0;
 }
 
 struct CharacterClone : public QueuedCharacter
@@ -20360,9 +20360,9 @@ void CQueuedTexture::FUN_0043c150()
     AutoMemContext_ctx memContext(this->unk18, true,
                               "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 695);
 
-    if (((void *)(reinterpret_cast<::BGSMessageInitAccess *>((this))->GetIconFormID())))
+    if (((void *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((this))->GetIconFormID())))
     {
-        GetNodePointer((NiNode*)((void *)(reinterpret_cast<::BGSMessageInitAccess *>((this))->GetIconFormID())), this->unk30);
+        GetNodePointer((NiNode*)((void *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((this))->GetIconFormID())), this->unk30);
     }
     else if (((const char *)(reinterpret_cast<::FUN_0045cd60_shell *>((this))->FUN_0045cd60())))
     {
@@ -20392,7 +20392,7 @@ void CQueuedTexture::FUN_0043c150()
         }
         if (strstr(path, "_e.dd"))
         {
-            this->unk30 = ((::NiNode *)(::fnv_00a61040::FUN_00a61040((char **)&(const ::NiFixedString &)(NiFixedString(path)), (int)(fileEntry), FUN_0043c4b0(), (int *)(void *)(&DAT_011a9598))));
+            this->unk30 = ((::NiNode *)(::fnv_00a61040::FUN_00a61040((char **)&(const ::NiFixedString &)(NiFixedString(path)), (std::intptr_t)(fileEntry), FUN_0043c4b0(), (int *)(void *)(&DAT_011a9598))));
         }
         else
         {
@@ -20400,7 +20400,7 @@ void CQueuedTexture::FUN_0043c150()
         }
         FUN_0043c3f0(tlsVal);
     }
-    else if (((void *)(reinterpret_cast<::BGSMessageInitAccess *>((this))->GetIconFormID())))
+    else if (((void *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((this))->GetIconFormID())))
     {
         ::FUN_005b5e40();
     }
@@ -20666,7 +20666,7 @@ void WalkX::FUN_00c3a9c0(ObjX* pkObj, unsigned int uiFlags)
             {
                 void* pkVal;
                 if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((m_pTaskMap))->FUN_00853130((std::uintptr_t)(pkKey), (*(::fnv_00853130::CombatThreatRecord * *)(&pkVal))))
-                    reinterpret_cast<::FUN_00ec2f00_cls *>((m_pTaskMap))->AddOrUpdate(pkKey, (unsigned int)(pkObj));
+                    reinterpret_cast<::FUN_00ec2f00_cls *>((m_pTaskMap))->AddOrUpdate(pkKey, (std::uintptr_t)(pkObj));
             }
             else
             {
@@ -21781,7 +21781,7 @@ bool WalkY::FUN_00c3afc0(ObjY* pkObj)
             m_pkHelper->Do(this, pkObj);
         }
         uiIndexVal = m_kArr.GetSize();
-        reinterpret_cast<::HashTableBase *>(&(m_kFormatEntries))->InsertOrUpdate((unsigned int)(pkObj), uiIndexVal);
+        reinterpret_cast<::HashTableBase *>(&(m_kFormatEntries))->InsertOrUpdate((std::uintptr_t)(pkObj), uiIndexVal);
         m_kArr.Add(pkCur);
         return true;
     }
@@ -22042,7 +22042,7 @@ void S00c3fce0_cls::FUN_00c3fce0()
         {
             S00c3fce0_Args a;
 
-            if (reinterpret_cast<::Map40 *>(this)->FUN_00c40e70((::Iter40 *)(::S00c3fce0_Iter *)(&iterator), (long long *)(::S00c3fce0_Key *)(&a.key), (int)(&a.item), true))
+            if (reinterpret_cast<::Map40 *>(this)->FUN_00c40e70((::Iter40 *)(::S00c3fce0_Iter *)(&iterator), (long long *)(::S00c3fce0_Key *)(&a.key), (std::intptr_t)(&a.item), true))
             {
                 reinterpret_cast<::TaskProcessor *>(this)->FUN_0044ac40((::QueuedTask *)(a.item.object), 0);
                 changed = true;

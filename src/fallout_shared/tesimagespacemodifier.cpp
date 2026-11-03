@@ -1,5 +1,6 @@
 // fallout_shared/tesimagespacemodifier.cpp: TESImageSpaceModifier, RgbaColor, ImageSpaceModifierEffectData, NiColorInterpolator and more (37 functions)
 
+#include "fnv_result_slot.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
@@ -1768,13 +1769,13 @@ void BlendImageSpaceModifiers(float blend, TESImageSpaceModifier* pPreviousModif
     BlendColor color(0, 0, 0, 0), aFirstColor(0, 0, 0, 0), secondColor(0, 0, 0, 0);
     pPreviousModifier->m_kColorInterpolatorOne.Update(time, 0, (RgbaColor&)aFirstColor);
     pNextModifier->m_kColorInterpolatorOne.Update(time, 0, (RgbaColor&)secondColor);
-    color = (*(::BlendColor *)(reinterpret_cast<::FUN_00532e40_s *>((void *)&(aFirstColor))->AddDelta((::FUN_00532e40_s *)&(const ::BlendColor &)(FUN_00532f40(blend, (*(::BlendColor *)(reinterpret_cast<::FUN_00532ec0 *>((void *)&(secondColor))->SUB((::FUN_00532ec0_v4 *)&(aFirstColor), *(const ::FUN_00532ec0_v4 *)nullptr))))), {})));
+    color = (*(::BlendColor *)(reinterpret_cast<::FUN_00532e40_s *>((void *)&(aFirstColor))->AddDelta((::FUN_00532e40_s *)&(const ::BlendColor &)(FUN_00532f40(blend, (*(::BlendColor *)(reinterpret_cast<::FUN_00532ec0 *>((void *)&(secondColor))->SUB(&::ResultSlot<::FUN_00532ec0_v4>(), *(const ::FUN_00532ec0_v4 *)((::FUN_00532ec0_v4 *)&(aFirstColor))))))), {})));
     color.a *= strength_15;
     FUN_005330e0(color.a, 0.0f, 1.0f);
     manager4->ApplyTintColorParamModifier((RgbaColor&)color);
     pPreviousModifier->m_kColorInterpolatorTwo.Update(time, 0, (RgbaColor&)aFirstColor);
     pNextModifier->m_kColorInterpolatorTwo.Update(time, 0, (RgbaColor&)secondColor);
-    color = (*(::BlendColor *)(reinterpret_cast<::FUN_00532e40_s *>((void *)&(aFirstColor))->AddDelta((::FUN_00532e40_s *)&(const ::BlendColor &)(FUN_00532f40(blend, (*(::BlendColor *)(reinterpret_cast<::FUN_00532ec0 *>((void *)&(secondColor))->SUB((::FUN_00532ec0_v4 *)&(aFirstColor), *(const ::FUN_00532ec0_v4 *)nullptr))))), {})));
+    color = (*(::BlendColor *)(reinterpret_cast<::FUN_00532e40_s *>((void *)&(aFirstColor))->AddDelta((::FUN_00532e40_s *)&(const ::BlendColor &)(FUN_00532f40(blend, (*(::BlendColor *)(reinterpret_cast<::FUN_00532ec0 *>((void *)&(secondColor))->SUB(&::ResultSlot<::FUN_00532ec0_v4>(), *(const ::FUN_00532ec0_v4 *)((::FUN_00532ec0_v4 *)&(aFirstColor))))))), {})));
     color.a *= strength_15;
     FUN_005330e0(color.a, 0.0f, 1.0f);
     manager4->SetFadeColorParamModifier((RgbaColor&)color);
@@ -1830,7 +1831,7 @@ void BlendImageSpaceModifiers(float blend, TESImageSpaceModifier* pPreviousModif
         aFirstCenter = (const BlendPoint&)pPreviousModifier->Data.m_kRadialBlurCenter;
     if (!pNextModifier->Data.m_bUseRadialBlur)
         secondCenter5 = (const BlendPoint&)pNextModifier->Data.m_kRadialBlurCenter;
-    center7 = aFirstCenter.FUN_004dfe30(FUN_00532fd0(blend, (*(::BlendPoint *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(secondCenter5))->Subtract((::NiPoint2 *)&(aFirstCenter), *(const ::NiPoint2 *)nullptr)))));
+    center7 = aFirstCenter.FUN_004dfe30(FUN_00532fd0(blend, (*(::BlendPoint *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(secondCenter5))->Subtract(&::ResultSlot<::NiPoint2>(), *(const ::NiPoint2 *)((::NiPoint2 *)&(aFirstCenter)))))));
     manager4->SetRadialBlurParameters(kRadialStrength * strength_15, radialRampUp_19, radialStart_8, radialRampDown_15,
                                       radialDownStart_3, (const NiPoint2&)center7);
     BlendPoint firstDepthB(0, 0), secondDepth(0, 0), depth5;
@@ -1848,7 +1849,7 @@ void BlendImageSpaceModifiers(float blend, TESImageSpaceModifier* pPreviousModif
         firstDepthB = BlendPoint(firstDepthDistance_, firstDepthRange_2);
     if (!pNextModifier->Data.m_bUseEffectEntries)
         secondDepth = BlendPoint(secondDepthDistance, secondDepthRange_12);
-    depth5 = firstDepthB.FUN_004dfe30(FUN_00532fd0(blend, (*(::BlendPoint *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(secondDepth))->Subtract((::NiPoint2 *)&(firstDepthB), *(const ::NiPoint2 *)nullptr)))));
+    depth5 = firstDepthB.FUN_004dfe30(FUN_00532fd0(blend, (*(::BlendPoint *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(secondDepth))->Subtract(&::ResultSlot<::NiPoint2>(), *(const ::NiPoint2 *)((::NiPoint2 *)&(firstDepthB)))))));
     manager4->SetDepthOfFieldParameters(depthStrength_4 * strength_15,
                                         blend < 0.5 ? pPreviousModifier->Data.m_ucEffectMode
                                                     : pNextModifier->Data.m_ucEffectMode,

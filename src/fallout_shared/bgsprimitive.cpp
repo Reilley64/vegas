@@ -1,5 +1,6 @@
 // fallout_shared/bgsprimitive.cpp: BGSPrimitiveSphere, BGSPrimitiveBox, BSMultiBoundAABB, BSMultiBoundSphere and more (113 functions)
 
+#include "fnv_result_slot.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
@@ -121,7 +122,7 @@ void BGSPrimitiveBox::Build()
     if (!m_pController)
     {
         m_pController = new BSFadeNode;
-        ::AssignFixedString((char *)((m_pController).operator->()), (int)&(const ::NiFixedString &)(NiFixedString("Box")), {});
+        ::AssignFixedString((char *)((m_pController).operator->()), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("Box")), {});
         reinterpret_cast<::FUN_00a5a040_Class *>(((m_pController).operator->()))->FUN_00a5a040();
     }
 }
@@ -1702,7 +1703,7 @@ struct FUN_004a5300_shell
 void FUN_004a5300_shell::CreatePlaneFadeNode()
 {
     m_go = new BSFadeNode;
-    ::AssignFixedString((char *)(reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(m_go))), (int)&(const ::NiFixedString &)(NiFixedString("Plane")), {});
+    ::AssignFixedString((char *)(reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(m_go))), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("Plane")), {});
     reinterpret_cast<::FUN_00a5a040_Class *>((reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(m_go))))->FUN_00a5a040();
 }
 }  // namespace fnv_004a5300
@@ -2975,14 +2976,14 @@ void BGSPrimitiveSphere::CreateSphereGeometry()
         m_kGeometry = lines2;
 
         NiPointer<NiAlphaProperty> spAlphaProperty2 = new NiAlphaProperty;
-        ::AssignFixedString((char *)(((NiAlphaProperty*)spAlphaProperty2)), (int)&(const ::NiFixedString &)(NiFixedString("primitive: alpha")), {});
+        ::AssignFixedString((char *)(((NiAlphaProperty*)spAlphaProperty2)), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("primitive: alpha")), {});
         reinterpret_cast<::FUN_0049ed90_shell *>((((NiAlphaProperty*)spAlphaProperty2)))->FUN_0049ed90(true);
         reinterpret_cast<::FUN_00439410_cls *>((((Lines_Standin*)(NiGeometry*)m_kGeometry)))->FUN_00439410((::ArgObject *)(void *)((NiAlphaProperty*)spAlphaProperty2));
         ((::fnv_004a72d0::NiPropertyHelper *)(reinterpret_cast<::FUN_00a59d30_C *>((((NiGeometryHelper*)(NiGeometry*)m_kGeometry)))->FUN_00a59d30(3)))->FUN_00441130(32, false);
 
         m_pController = new BSFadeNode;
         ((BSFadeNodeHelper*)(BSFadeNode*)m_pController)->AttachChildInAvailableSlot(m_kGeometry, true);
-        ::AssignFixedString((char *)((m_pController).operator->()), (int)&(const ::NiFixedString &)(NiFixedString("Sphere")), {});
+        ::AssignFixedString((char *)((m_pController).operator->()), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("Sphere")), {});
         reinterpret_cast<::FUN_00a5a040_Class *>(((m_pController).operator->()))->FUN_00a5a040();
         reinterpret_cast<::FUN_00a5a040_Class *>(((m_kGeometry).operator->()))->FUN_00a5a040();
     }
@@ -4941,7 +4942,7 @@ int BSMultiBoundSphere::FUN_00c4ff60(BSMultiBound* other)
         float radiusSquared8 = radius * radius;
         for (int i = 0; i < 8; i++)
         {
-            BoundPoint diff2 = (*(::fnv_00c4ff60::BoundPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(center))->FUN_00439ef0((::NiPoint3 *)&(_vertices[i]), *(const ::NiPoint3 *)nullptr)));
+            BoundPoint diff2 = (*(::fnv_00c4ff60::BoundPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(center))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(::NiPoint3(0.0f, 0.0f, 0.0f)), *(const ::NiPoint3 *)((::NiPoint3 *)&(_vertices[i])))));
             float distanceSquared = reinterpret_cast<::TESCombatStyle *>((void *)&(diff2))->UpdateCombatStyle();
             if (distanceSquared > radiusSquared8)
                 return 0;
@@ -4956,7 +4957,7 @@ int BSMultiBoundSphere::FUN_00c4ff60(BSMultiBound* other)
         float radiusSquared = radius * radius;
         for (int i = 0; i < 8; i++)
         {
-            BoundPoint diff = (*(::fnv_00c4ff60::BoundPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(center))->FUN_00439ef0((::NiPoint3 *)&(vertices5[i]), *(const ::NiPoint3 *)nullptr)));
+            BoundPoint diff = (*(::fnv_00c4ff60::BoundPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(center))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(::NiPoint3(0.0f, 0.0f, 0.0f)), *(const ::NiPoint3 *)((::NiPoint3 *)&(vertices5[i])))));
             {
                 float distanceSquared = reinterpret_cast<::TESCombatStyle *>((void *)&(diff))->UpdateCombatStyle();
                 if (distanceSquared > radiusSquared)
@@ -4969,7 +4970,7 @@ int BSMultiBoundSphere::FUN_00c4ff60(BSMultiBound* other)
     {
         BSMultiBoundSphere* sphere = static_cast<BSMultiBoundSphere*>(other->GetShape());
         {
-            BoundPoint diff3 = (*(::fnv_00c4ff60::BoundPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(center))->FUN_00439ef0((::NiPoint3 *)&(sphere->center), *(const ::NiPoint3 *)nullptr)));
+            BoundPoint diff3 = (*(::fnv_00c4ff60::BoundPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(center))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(::NiPoint3(0.0f, 0.0f, 0.0f)), *(const ::NiPoint3 *)((::NiPoint3 *)&(sphere->center)))));
             {
                 float distance = reinterpret_cast<::NiPoint3 *>((void *)&(diff3))->ComputeMagnitude();
                 if (distance + sphere->radius - radius <= 0.0)
@@ -5018,7 +5019,7 @@ struct C50380_Sphere
 // @fnv 0x00c50380
 bool C50380_Sphere::FUN_00c50380(C50380_Point* other)
 {
-    float fDist = reinterpret_cast<::NiPoint3 *>((void *)&(const ::C50380_Point &)((*(::C50380_Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(other))->FUN_00439ef0((::NiPoint3 *)&(m_kCenter), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+    float fDist = reinterpret_cast<::NiPoint3 *>((void *)&(const ::C50380_Point &)((*(::C50380_Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(other))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(::NiPoint3(0.0f, 0.0f, 0.0f)), *(const ::NiPoint3 *)((::NiPoint3 *)&(m_kCenter)))))))->ComputeMagnitude();
     return (fDist < m_fBoundRadius) ? true : false;
 }
 

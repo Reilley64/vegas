@@ -722,8 +722,8 @@ struct CellExtra28
 // @fnv 0x00551740
 char* FUN_00551740_shell::GetCellName()
 {
-    if (((char *)(reinterpret_cast<::fnv_0041c7c0::FUN_0041c7c0_Class *>((reinterpret_cast<CellExtra28*>(reinterpret_cast<char*>(this) + 0x28)))->FUN_0041c7c0())))
-        return ((char *)(reinterpret_cast<::fnv_0041c7c0::FUN_0041c7c0_Class *>((reinterpret_cast<CellExtra28*>(reinterpret_cast<char*>(this) + 0x28)))->FUN_0041c7c0()));
+    if (((char *)(std::uintptr_t)(reinterpret_cast<::fnv_0041c7c0::FUN_0041c7c0_Class *>((reinterpret_cast<CellExtra28*>(reinterpret_cast<char*>(this) + 0x28)))->FUN_0041c7c0())))
+        return ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_0041c7c0::FUN_0041c7c0_Class *>((reinterpret_cast<CellExtra28*>(reinterpret_cast<char*>(this) + 0x28)))->FUN_0041c7c0()));
     if (!reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<TESObjectCELL*>(this)))->IsCellInterior())
         return (char*)((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00551740::StartMenu *>(&::g_011ca130))))->GetMenuTitle()));
     return reinterpret_cast<TESObjectCELL*>(this)->FUN_00451cb0();
@@ -737,7 +737,7 @@ struct FUN_005f0060_shell : public TESForm
 
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 // Returns the value at offset 0x1c as a string pointer if nonzero, otherwise an empty string.
 // @fnv 0x005f0060
@@ -762,7 +762,7 @@ struct FUN_005fe0f0_shell : public TESForm
 
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 // @fnv 0x005fe0f0
 char* FUN_005fe0f0_shell::FUN_005fe0f0()
@@ -884,14 +884,14 @@ struct FUN_00618660_shell : public TESForm
 
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 extern char $SG5889[];
 // @fnv 0x00618660
 char* FUN_00618660_shell::FUN_00618660()
 {
-    return ((Flt*)((char*)this + 0x40))->operator unsigned int()
-               ? (char*)((Flt*)((char*)this + 0x40))->operator unsigned int()
+    return ((Flt*)((char*)this + 0x40))->operator std::uintptr_t()
+               ? (char*)((Flt*)((char*)this + 0x40))->operator std::uintptr_t()
                : $SG5889;
 }
 }  // namespace fnv_00618660
@@ -1161,7 +1161,7 @@ void FUN_00401150_cls::FUN_00401150()
     reinterpret_cast<::TESForm *>((this))->GetFormType();
 }
 
-extern "C" void* __cdecl FUN_00ec43fb(unsigned int, int, const void*, const void*, int);
+extern "C" void* __cdecl FUN_00ec43fb(std::uintptr_t, int, const void*, const void*, int);
 extern const char DAT_01189dbc;
 struct LightQuery
 {
@@ -2531,7 +2531,7 @@ struct ActionActor
     virtual void actionSlot07a();
     virtual void actionSlot07b();
     virtual void actionSlot07c();
-    virtual unsigned int GetActionEntry();
+    virtual std::uintptr_t GetActionEntry();
     virtual void actionSlot07e();
     virtual void actionSlot07f();
     virtual void actionSlot080();
@@ -2738,7 +2738,7 @@ bool ActionHandler::FUN_005095b0(ActionReference* reference, ActionActor* activa
                                  unsigned int arg5)
 {
     ActionActor* actor =
-        static_cast<ActionActor*>(FUN_00ec43fb((unsigned int)activator, 0, &::DAT_011841cc, &DAT_0118a23c, 0));
+        static_cast<ActionActor*>(FUN_00ec43fb((std::uintptr_t)activator, 0, &::DAT_011841cc, &DAT_0118a23c, 0));
     if (!actor)
         return false;
     if (!actor->GetActionState())
@@ -2746,7 +2746,7 @@ bool ActionHandler::FUN_005095b0(ActionReference* reference, ActionActor* activa
         unsigned int result = 0;
         ActionData data;
         reinterpret_cast<::FUN_00509890_class *>(&(data))->FUN_00509890(255);
-        if (!reinterpret_cast<::MarkerRef *>((reference))->FUN_005686b0((*(const ::MarkerPoint *)((unsigned int)activator->GetActionEntry())), 1, 1, (::MarkerOutput *)(::ActionData *)(&data), &result, 1))
+        if (!reinterpret_cast<::MarkerRef *>((reference))->FUN_005686b0((*(const ::MarkerPoint *)(activator->GetActionEntry())), 1, 1, (::MarkerOutput *)(::ActionData *)(&data), &result, 1))
             return false;
         if (::TESFurniture::IsFurnitureSleepMarker(reinterpret_cast<::FUN_005094b0_shell *>(&(data))->FUN_005094b0()))
         {
@@ -4357,7 +4357,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
         if (pkEntryCur && reinterpret_cast<struct ::FUN_0041ca90 *>((pkEntryCur))->get() == 0xf)
         {
             AAInventory* pkInventory = ((::AAInventory *)(reinterpret_cast<::FUN_005d43c0_ *>((pkActorVal))->FUN_005d43c0()));
-            reinterpret_cast<::FUN_0041c930_shell *>((((::AAInventory *)(reinterpret_cast<::FUN_005d43c0_ *>((pkActivator))->FUN_005d43c0()))))->FUN_0041c930((::Package_0041c930 *)(pkEntryCur), 4, ((int)(reinterpret_cast<::FUN_0041cb70_shell *>((pkInventory))->FUN_0041cb70())), {}, {}, {});
+            reinterpret_cast<::FUN_0041c930_shell *>((((::AAInventory *)(reinterpret_cast<::FUN_005d43c0_ *>((pkActivator))->FUN_005d43c0()))))->FUN_0041c930((::Package_0041c930 *)(pkEntryCur), 4, ((std::intptr_t)(reinterpret_cast<::FUN_0041cb70_shell *>((pkInventory))->FUN_0041cb70())), {}, {}, {});
             ((::AAProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActorVal))->GetBaseTexture()))->GiveItem(pkActivator, pkEntryCur);
             if (reinterpret_cast<::TESPackage *>((pkEntryCur))->IsMustReachLocation())
                 pkActivator->TakeItem(pkEntryCur, ((bool)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::AAMenuMode *>(&::g_011de7b8))))->GetDayOfMonth())));

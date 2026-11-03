@@ -380,7 +380,7 @@ struct FUN_004fe6e0_Class
 };
 struct PlayerMover
 {
-    unsigned int GetActorStateFlags();
+    std::uintptr_t GetActorStateFlags();
 };
 struct Proxy00511120
 {
@@ -473,7 +473,7 @@ struct FUN_004ff930_shell : ::BGSTalkingActivator
 // @fnv 0x004ff930
 void FUN_004ff930_shell::RevertAndClearField(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    TESForm::Revert((unsigned int)apLoadGameBuffer);
+    TESForm::Revert((std::uintptr_t)apLoadGameBuffer);
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_004ff930::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x800000)))->FUN_004280f0(0x800000))
         *(int*)((char*)this + 0x90) = 0;
 }

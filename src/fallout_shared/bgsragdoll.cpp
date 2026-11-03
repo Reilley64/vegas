@@ -411,7 +411,7 @@ void FUN_005ed360_shell::FUN_005ed360(const GrabIK_DATA& arSource)
 {
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&this->m_kGrabArmData)))->Clear(true);
     for (unsigned int ui = 0; ui < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&this->m_kGrabNames)))->GetName())); ui++)
-        delete (void*)*((Arr*)((char*)this + 4))->GetAt(ui);
+        delete (void*)(std::uintptr_t)*((Arr*)((char*)this + 4))->GetAt(ui);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&this->m_kGrabNames)))->Clear(true);
 
     this->m_kGrabArmData.SetSize(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&arSource.m_kGrabArmData)))->GetName())), true);
@@ -423,10 +423,10 @@ void FUN_005ed360_shell::FUN_005ed360(const GrabIK_DATA& arSource)
 
     for (unsigned int ui = 0; ui < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&arSource.m_kGrabNames)))->GetName())); ui++)
     {
-        unsigned int uiLength = ::FUN_0044a670((const char*)*((Arr*)((char*)&arSource + 4))->GetAt(ui)) + 1;
+        unsigned int uiLength = ::FUN_0044a670(*reinterpret_cast<const char**>(((Arr*)((char*)&arSource + 4))->GetAt(ui))) + 1;
         char* pString = new char[uiLength];
-        ::TaskQueueInterface::CopyStringToBuffer(pString, uiLength, (const char*)*((Arr*)((char*)&arSource + 4))->GetAt(ui));
-        *((Arr*)((char*)this + 4))->GetAt(ui) = (unsigned int)pString;
+        ::TaskQueueInterface::CopyStringToBuffer(pString, uiLength, *reinterpret_cast<const char**>(((Arr*)((char*)&arSource + 4))->GetAt(ui)));
+        *reinterpret_cast<char**>(((Arr*)((char*)this + 4))->GetAt(ui)) = pString;
     }
 
     bEnabled = arSource.bEnabled;
@@ -512,17 +512,17 @@ void FUN_005edfb0_shell::ClearRagdollData()
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&this->m_kRagdollAnimationData.m_kFootIndices)))->Clear(true);
 
     for (unsigned int ui = 0; ui < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&this->m_kFootIKData.m_kFootNames)))->GetName())); ui++)
-        delete (void*)*((Arr*)((char*)this + 0xb0))->GetAt(ui);
+        delete (void*)(std::uintptr_t)*((Arr*)((char*)this + 0xb0))->GetAt(ui);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&this->m_kFootIKData.m_kLegData)))->Clear(true);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&this->m_kFootIKData.m_kFootNames)))->Clear(true);
 
     for (unsigned int ui = 0; ui < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&this->m_kLookIKData.m_kLookNames)))->GetName())); ui++)
-        delete (void*)*((Arr*)((char*)this + 0xd4))->GetAt(ui);
+        delete (void*)(std::uintptr_t)*((Arr*)((char*)this + 0xd4))->GetAt(ui);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&this->m_kLookIKData.m_kHeadData)))->Clear(true);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&this->m_kLookIKData.m_kLookNames)))->Clear(true);
 
     for (unsigned int ui = 0; ui < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&this->m_kGrabIKData.m_kGrabNames)))->GetName())); ui++)
-        delete (void*)*((Arr*)((char*)this + 0xf8))->GetAt(ui);
+        delete (void*)(std::uintptr_t)*((Arr*)((char*)this + 0xf8))->GetAt(ui);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&this->m_kGrabIKData.m_kGrabArmData)))->Clear(true);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&this->m_kGrabIKData.m_kGrabNames)))->Clear(true);
 }
@@ -1124,10 +1124,10 @@ void FUN_005ee110_shell::FUN_005ee110()
     ::FUN_00485910(0x5245564e, 1);
 
     *reinterpret_cast<unsigned short*>(reinterpret_cast<unsigned char*>(&saveData) + 0x00) =
-        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(&this->m_kRagdollAnimationData.m_kFootIndices)))->GetName()));
+        ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(&this->m_kRagdollAnimationData.m_kFootIndices)))->GetName()));
 
     *reinterpret_cast<unsigned short*>(reinterpret_cast<unsigned char*>(&saveData) + 0x02) =
-        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(&this->m_kFootIKData.m_kLegData)))->GetName()));
+        ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(&this->m_kFootIKData.m_kLegData)))->GetName()));
 
     saveData.m_usHeadDataCount =
         ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(&this->m_kLookIKData.m_kHeadData)))->GetName()));
@@ -1185,7 +1185,7 @@ void FUN_005ee110_shell::FUN_005ee110()
         ::FUN_00485730(reinterpret_cast<void*>(0x42464152),
                      &reinterpret_cast<::FUN_005eeda0_this *>((reinterpret_cast<DA00694f80*>(&this->m_kRagdollAnimationData.m_kFootIndices)))->GetBufferEntry(0),
                      reinterpret_cast<void*>(
-                         ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(&this->m_kRagdollAnimationData.m_kFootIndices)))->GetName()))));
+                         ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(&this->m_kRagdollAnimationData.m_kFootIndices)))->GetName()))));
     }
 
     if (((bool)(::FUN_00401500())))
@@ -1203,7 +1203,7 @@ void FUN_005ee110_shell::FUN_005ee110()
                          reinterpret_cast<FUN_005ee110_String*>(&this->m_kRagdollFeedbackProfile.m_kAnimationFileName)
                              ->
                              operator unsigned int()),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<FUN_005ee110_String*>(&this->m_kRagdollFeedbackProfile.m_kAnimationFileName)))->FUN_004048e0())) +
+                     (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<FUN_005ee110_String*>(&this->m_kRagdollFeedbackProfile.m_kAnimationFileName)))->FUN_004048e0())) +
                          1));
     }
 

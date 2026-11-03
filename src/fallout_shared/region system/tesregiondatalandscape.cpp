@@ -160,7 +160,7 @@ void FUN_004f29f0_shell::FUN_004f29f0()
 
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct FUN_004f2ab0_shell : public FUN_004f2eb0_shell
 {
@@ -172,9 +172,9 @@ bool FUN_004f2ab0_shell::FUN_004f2ab0(const Flt& aName)
     if (m_pLandscapeTexture)
     {
         if (!m_pLandscapeTexture->GetModelLength() ||
-            ::FUN_00404dc0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)m_pLandscapeTexture)))->FUN_00408da0())), (const char*)aName.operator unsigned int()) != 0)
+            ::FUN_00404dc0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)m_pLandscapeTexture)))->FUN_00408da0())), (const char*)aName.operator std::uintptr_t()) != 0)
         {
-            reinterpret_cast<::TESFullName *>((((TESTexture*)m_pLandscapeTexture)))->SetFullName((const char*)aName.operator unsigned int());
+            reinterpret_cast<::TESFullName *>((((TESTexture*)m_pLandscapeTexture)))->SetFullName((const char*)aName.operator std::uintptr_t());
             return true;
         }
     }

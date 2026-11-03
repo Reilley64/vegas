@@ -321,7 +321,7 @@ float PlcPlacer::GetPlacementChance(PlcPoint2* apPos, PlcWorldSpace* apWorld, bo
 
     if (GetSoundByEditorID())
     {
-        PlcSound* pSoundA = ((::PlcSound *)(reinterpret_cast<::FUN_0053a5e0_cls *>((((::PlcWater *)(reinterpret_cast<::S00546fb0_Cell *>((pCell8))->FUN_00546fb0()))))->FUN_0053a5e0((std::intptr_t)(apPos))));
+        PlcSound* pSoundA = ((::PlcSound *)(std::uintptr_t)(reinterpret_cast<::FUN_0053a5e0_cls *>((((::PlcWater *)(reinterpret_cast<::S00546fb0_Cell *>((pCell8))->FUN_00546fb0()))))->FUN_0053a5e0((std::intptr_t)(apPos))));
         if (!pSoundA || ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pSoundA))->FUN_0084e3a0())) != ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((GetSoundByEditorID()))->FUN_0084e3a0())))
             return 0.0f;
     }

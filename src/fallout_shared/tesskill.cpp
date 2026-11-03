@@ -98,8 +98,8 @@ void FUN_00617ea0_shell::ResetState()
         *(float*)((char*)this + 0x38 + iIndex * 4) = 1.0f;
     int iSlot = 0;
     for (; iSlot < 4; ++iSlot)
-        ((void(*)(void*))(*(int**)((char*)this + 0x40 + iSlot * 8))[0])((char*)this + 0x40 + iSlot * 8);
-    ((void(*)(void*, int))(*(int**)((char*)this + 0x00))[0x32])((char*)this, 0);
+        (*(void(***)(void*))((char*)this + 0x40 + iSlot * 8))[0]((char*)this + 0x40 + iSlot * 8);
+    (*(void(***)(void*, int))((char*)this + 0x00))[0x32]((char*)this, 0);
     ((TgtOps*)this)->ClearSourceFiles();
 }
 

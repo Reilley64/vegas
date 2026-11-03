@@ -134,12 +134,12 @@ void TESWaterForm::InitItem()
             while (node && (!radiation || !health))
             {
                 EffectItem* effect = ((::EffectItem *)((void *)(node)));
-                if (effect->GetAffectedActorValue() == 54 && reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((effect))->FUN_00825c00()))))->FUN_00403e60(4))
+                if (effect->GetAffectedActorValue() == 54 && reinterpret_cast<::S3e60 *>((((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((effect))->FUN_00825c00()))))->FUN_00403e60(4))
                 {
                     radiation = effect;
                     m_iRadiationMagnitude = reinterpret_cast<::FUN_00404390_shell *>((radiation))->FUN_00404390();
                 }
-                else if (effect->GetAffectedActorValue() == 16 && !reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((effect))->FUN_00825c00()))))->FUN_00403e60(4))
+                else if (effect->GetAffectedActorValue() == 16 && !reinterpret_cast<::S3e60 *>((((::EffectSetting *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((effect))->FUN_00825c00()))))->FUN_00403e60(4))
                 {
                     health = effect;
                     m_iHealthMagnitude = reinterpret_cast<::FUN_00404390_shell *>((health))->FUN_00404390();
@@ -488,7 +488,7 @@ void FUN_00580730_shell::FUN_00580730(BGSLoadGameBuffer* apLoadGameBuffer)
 
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct Holder
 {
@@ -502,7 +502,7 @@ public:
 // @fnv 0x0057fda0
 const char* Holder::FUN_0057fda0()
 {
-    return m_kHandle ? (const char*)(unsigned int)m_kHandle : "";
+    return m_kHandle ? (const char*)(std::uintptr_t)m_kHandle : "";
 }
 
 struct FUN_00580100_obj
@@ -1107,10 +1107,10 @@ void FUN_0057fbf0_shell::SaveWaterForm()
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0_standin*)this)))->FUN_004855a0();
     ((FUN_00487010_shell*)static_cast<TESFullName *>(this))->FUN_00487010();
     ::FUN_004856f0((void *)(0x4d414e4e), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)&this->m_kNoiseMapTexture)))->FUN_00408da0())),
-                 (void *)(((TESModel*)&this->m_kNoiseMapTexture)->GetModelLength() + 1));
+                 (void *)(std::uintptr_t)(((TESModel*)&this->m_kNoiseMapTexture)->GetModelLength() + 1));
     FUN_004858f0(0x4d414e41, m_ucOpacity);
     FUN_004858f0(0x4d414e46, cFlags);
-    ::FUN_004856f0((void *)(0x4d414e4d), (void*)((Holder*)this)->FUN_0057fda0(), (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)&this->m_kMaterialId)))->FUN_004048e0())) + 1));
+    ::FUN_004856f0((void *)(0x4d414e4d), (void*)((Holder*)this)->FUN_0057fda0(), (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)&this->m_kMaterialId)))->FUN_004048e0())) + 1));
     if (m_pWaterSound)
     {
         unsigned int itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pWaterSound))->FUN_0084e3a0()));

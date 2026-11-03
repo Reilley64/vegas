@@ -1375,20 +1375,20 @@ void __cdecl FUN_004a1a50(void* apEmitter)
 namespace fnv_004a0330 {
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 
 struct FUN_004a0330_shell
 {
     char pad[0x10c];
     Flt f;
-    unsigned int FUN_004a0330();
+    std::uintptr_t FUN_004a0330();
 };
 
 // @fnv 0x004a0330
-unsigned int FUN_004a0330_shell::FUN_004a0330()
+std::uintptr_t FUN_004a0330_shell::FUN_004a0330()
 {
-    return static_cast<unsigned int>(f);
+    return static_cast<std::uintptr_t>(f);
 }
 }  // namespace fnv_004a0330
 
@@ -2344,7 +2344,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
             {
                 DecalPoint kHitPos;
                 DecalPoint kHitNormal;
-                DecalNode* pHitTmp = ((::DecalAdd::DecalNode *)(reinterpret_cast<::DecalCaster *>((DAT_011c57e0))->GetCollisionFlags(i)));
+                DecalNode* pHitTmp = ((::DecalAdd::DecalNode *)(std::uintptr_t)(reinterpret_cast<::DecalCaster *>((DAT_011c57e0))->GetCollisionFlags(i)));
                 if (pHitTmp)
                 {
                     reinterpret_cast<::TileSetHelper *>((DAT_011c57e0))->SetTileSetValues(i, (std::intptr_t)(&kHitPos), (std::intptr_t)(&kHitNormal));
@@ -3028,7 +3028,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                             if (!arg->skin)
                             {
                                 arg->skin = new DSkin(0);
-                                ::AssignFixedString((char *)(arg->skin), (std::intptr_t)(((::fnv_004a2070::CStringProvider *)(::FUN_004a2c60()))), {});
+                                ::AssignFixedString((char *)(arg->skin), (std::intptr_t)(((::fnv_004a2070::CStringProvider *)(std::uintptr_t)(::FUN_004a2c60()))), {});
                                 selected->Virtualdc((DObj*)arg->skin, true);
                                 ++::DAT_011c57f0;
                                 if (*(*reinterpret_cast<::ProcessLists *>(&::g_011c5904)).GetLifeStateControlFlag())

@@ -117,7 +117,7 @@ int FUN_004a7cf0_shell::GetValueAt(int index)
 
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 
 struct Script
@@ -126,12 +126,12 @@ struct Script
 
 struct FUN_004a8070_shell
 {
-    int GetScriptText();
+    std::intptr_t GetScriptText();
 };
 
 // Calls GetText on the Script pointer stored at offset 0xb8 of this object and returns the result.
 // @fnv 0x004a8070
-int FUN_004a8070_shell::GetScriptText()
+std::intptr_t FUN_004a8070_shell::GetScriptText()
 {
     return ((int)(reinterpret_cast<::BGSMessageInitAccess *>(((*(Script**)((char*)this + 0xb8))))->GetIconFormID()));
 }
@@ -181,11 +181,11 @@ int FUN_004a9100()
 struct DummyArr
 {
     int GetBufferElementAddress(unsigned int);
-    int FUN_004a95b0(unsigned int);
+    std::intptr_t FUN_004a95b0(unsigned int);
 };
 
 // @fnv 0x004a95b0
-int DummyArr::FUN_004a95b0(unsigned int a)
+std::intptr_t DummyArr::FUN_004a95b0(unsigned int a)
 {
     return GetBufferElementAddress(a);
 }
@@ -270,13 +270,13 @@ struct BSThread
 };
 struct FUN_004a8030_shell
 {
-    unsigned int FUN_004a8030();
+    std::uintptr_t FUN_004a8030();
 };
 // Returns the thread ID of the BSThread stored at offset 0xb8 of this object.
 // @fnv 0x004a8030
-unsigned int FUN_004a8030_shell::FUN_004a8030()
+std::uintptr_t FUN_004a8030_shell::FUN_004a8030()
 {
-    return reinterpret_cast<::ActorMover *>((((BSThread*)((Flt*)((char*)this + 0xb8))->operator unsigned int())))->GetCurrentMoveModeType();
+    return reinterpret_cast<::ActorMover *>((((BSThread*)((Flt*)((char*)this + 0xb8))->operator std::uintptr_t())))->GetCurrentMoveModeType();
 }
 
 struct Proc_S
@@ -375,7 +375,7 @@ struct Target
     virtual int v33();
     virtual int v34();
     virtual int v35();
-    virtual int v36();
+    virtual std::intptr_t v36();
 };
 struct FUN_004a8090_shell
 {
@@ -386,7 +386,7 @@ struct FUN_004a8090_shell
 // @fnv 0x004a8090
 int FUN_004a8090_shell::CallTargetV36()
 {
-    return ((Target*)(unsigned int)m_kHandle)->v36();
+    return ((Target*)(std::uintptr_t)m_kHandle)->v36();
 }
 
 struct INISettingCollection
@@ -1073,7 +1073,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
             StatObject* fade = 0;
             if (node3->AsFade())
                 fade = node3;
-            if (fade && (reference = ((::fnv_004a82d0::StatRef *)(reinterpret_cast<::BSFadeNode *>((fade))->FUN_009ad610()))) && !reinterpret_cast<::FUN_00444ed0_shell *>((reference))->FUN_00444ed0() && (!actorNode || !addon))
+            if (fade && (reference = ((::fnv_004a82d0::StatRef *)(std::uintptr_t)(reinterpret_cast<::BSFadeNode *>((fade))->FUN_009ad610()))) && !reinterpret_cast<::FUN_00444ed0_shell *>((reference))->FUN_00444ed0() && (!actorNode || !addon))
             {
                 counts[0]++;
                 if (::fnv_00565580::FUN_00565580((::fnv_00565580::NiAVObject *)(object)))
@@ -1199,7 +1199,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
                 if (particle)
                 {
                     StatObject* manager = ((::fnv_004a82d0::StatObject *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)));
-                    if (manager && ((std::intptr_t)(::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(manager), (int)(particle), {}))))
+                    if (manager && ((std::intptr_t)(::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(manager), (std::intptr_t)(particle), {}))))
                         counts[12]++;
                 }
             }

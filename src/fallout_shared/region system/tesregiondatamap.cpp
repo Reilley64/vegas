@@ -109,7 +109,7 @@ public:
 };
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct H14c0
 {
@@ -133,7 +133,7 @@ void FUN_004f3e40Shell::FUN_004f3e40()
 {
     reinterpret_cast<::RegionSource *>((((H14c0*)this)))->WriteSaveData();
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(u.s))->FUN_004048e0())))
-        ::FUN_004856f0((void *)(0x504D4452), (void*)(unsigned int)u.f, (void *)(reinterpret_cast<::S7010 *>(&(u.h))->GetLengthPlusOne()));
+        ::FUN_004856f0((void *)(0x504D4452), (void*)(std::uintptr_t)u.f, (void *)(std::uintptr_t)(reinterpret_cast<::S7010 *>(&(u.h))->GetLengthPlusOne()));
 }
 
 namespace fnv_004f3f10 {
@@ -142,7 +142,7 @@ struct BSStr
 };
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct S004f3f10
 {
@@ -154,7 +154,7 @@ struct S004f3f10
 // @fnv 0x004f3f10
 void S004f3f10::FUN_004f3f10(BSStr& a)
 {
-    reinterpret_cast<::TextString *>(&(a))->FUN_004037f0((const char*)(unsigned int)_f, 0);
+    reinterpret_cast<::TextString *>(&(a))->FUN_004037f0((const char*)(std::uintptr_t)_f, 0);
 }
 }  // namespace fnv_004f3f10
 

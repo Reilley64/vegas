@@ -426,7 +426,7 @@ struct S7010
 
 struct GO
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 
 struct FUN_00485680
@@ -454,8 +454,8 @@ void FUN_00504280_shell::FUN_00504280()
     {
         ::FUN_004856f0((void *)(0x4d414e4f),
                      reinterpret_cast<void*>(
-                         reinterpret_cast<GO*>(&this->m_kPrimaryString)->operator unsigned int()),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kPrimaryString)))->FUN_004048e0())) + 1));
+                         reinterpret_cast<GO*>(&this->m_kPrimaryString)->operator std::uintptr_t()),
+                     (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kPrimaryString)))->FUN_004048e0())) + 1));
     }
 
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();

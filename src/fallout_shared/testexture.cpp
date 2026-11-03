@@ -255,7 +255,7 @@ struct FUN_0048e370_shell
 void FUN_0048e370_shell::FUN_0048e370(unsigned int aeTextureID)
 {
     if (((TESModel*)this)->GetModelLength())
-        ::FUN_004856f0((void *)(std::uintptr_t)(aeTextureID), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)this)))->FUN_00408da0())), (void *)(((TESModel*)this)->GetModelLength() + 1));
+        ::FUN_004856f0((void *)(std::uintptr_t)(aeTextureID), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)this)))->FUN_00408da0())), (void *)(std::uintptr_t)(((TESModel*)this)->GetModelLength() + 1));
 }
 }  // namespace fnv_0048e370
 
@@ -313,7 +313,7 @@ bool FUN_0048e4f0_shell::FUN_0048e4f0(BaseFormComponent* apCompareFC)
 
 struct FUN_00480ef0_obj;
 
-int __cdecl FUN_00ec43fb(FUN_00480ef0_obj* owner, int zero, char* name, char* table, int flags);
+std::intptr_t __cdecl FUN_00ec43fb(FUN_00480ef0_obj* owner, int zero, char* name, char* table, int flags);
 
 struct FUN_00480ef0_sub
 {

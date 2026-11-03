@@ -246,7 +246,7 @@ struct Class87d40
 void Class87d40::ForwardActorBaseData(void* apObject, intptr_t aiArg2, intptr_t aiArg3, std::intptr_t aiArg4, std::intptr_t aiArg5,
                                                  int aiArg6)
 {
-    reinterpret_cast<::SkinInstance *>(this)->FUN_00a855f0((const ::NiPoint3 *)(void *)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((RefObj*)apObject)))->FUN_007af430()))), (const ::NiPoint3 *)(reinterpret_cast<::ActorMover *>((((BSThread*)apObject)))->GetCurrentMoveModeType()),
+    reinterpret_cast<::SkinInstance *>(this)->FUN_00a855f0((const ::NiPoint3 *)(void *)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((RefObj*)apObject)))->FUN_007af430()))), (const ::NiPoint3 *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((BSThread*)apObject)))->GetCurrentMoveModeType()),
                  ((TESActorBaseData*)apObject)->GetFatigue(), (::NiPoint3 *)(aiArg2), (::NiPoint3 *)(aiArg3), (::NiPoint3 *)(aiArg4), (::NiPoint3 *)(aiArg5), aiArg6);
 }
 
@@ -2039,7 +2039,7 @@ void DDecal::BuildDecalGeometry()
         unsigned short* finalIndices_1 = new unsigned short[indexCount_11];
         ::__memcpy(finalIndices_1, indices_3, indexCount_11 * 2);
         DPoint* sourcePositions_18 = ((::DPoint *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::DGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(((::DGeometry *)(::FUN_00559450((int *)&(geometry))))))))))->FUN_007af430()));
-        DPoint* sourceNormals_7 = ((::DPoint *)(reinterpret_cast<::ActorMover *>((((::DGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(((::DGeometry *)(::FUN_00559450((int *)&(geometry))))))))))->GetCurrentMoveModeType()));
+        DPoint* sourceNormals_7 = ((::DPoint *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((::DGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(((::DGeometry *)(::FUN_00559450((int *)&(geometry))))))))))->GetCurrentMoveModeType()));
         DPoint* finalPositions_26 = new DPoint[outputVertexCount_4];
         DPoint* finalTexcoords_13 = new DPoint[outputVertexCount_4];
         for (int iSourceVertexIndex = 0; iSourceVertexIndex < sourceVertexCount_3; iSourceVertexIndex++)
@@ -2411,7 +2411,7 @@ void DDecal::CreateDecalGeometry(DGeometry* geom, unsigned short ausVertexCount,
 {
     NiTriShape* objA =
         new NiTriShape(ausVertexCount, (NiPoint3*)apVertices, (NiPoint3*)d, 0, 0, 0, 0, ausIndexCount / 3, apIndices);
-    ::AssignFixedString((char *)(objA), (int)&(*FUN_00688460()), {});
+    ::AssignFixedString((char *)(objA), (std::intptr_t)&(*FUN_00688460()), {});
     ObjB* entries;
     entries = new ObjB();
     reinterpret_cast<::FUN_00439410_cls *>((objA))->FUN_00439410((::ArgObject *)(entries));
@@ -2429,7 +2429,7 @@ void DDecal::CreateDecalGeometry(DGeometry* geom, unsigned short ausVertexCount,
     ObjC* textObj;
     textObj = new ObjC(objD, bone, ::GetOffsetC((std::intptr_t)(((::SkinDataX *)(reinterpret_cast<::TESRegionDataMap *>((count))->GetRegionMapName())))));
     int* s;
-    s = ((int *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((count))->FUN_00825c00()));
+    s = ((int *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((count))->FUN_00825c00()));
     long objC;
     int* partList = new int[objD];
     for (objC = 0; objC < objD; objC++)
@@ -2439,7 +2439,7 @@ void DDecal::CreateDecalGeometry(DGeometry* geom, unsigned short ausVertexCount,
     unsigned int vertexMap[15];
     if (apNewPartition)
     {
-        skin = (int)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((DPartitionData*)apNewPartition)))->GetName()));
+        skin = (int)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((DPartitionData*)apNewPartition)))->GetName()));
     }
     else
     {
@@ -2717,20 +2717,20 @@ void Decal688::FUN_00688b00()
 {
     unsigned short usSize = 0;
     char* pcSizePos = 0;
-    char* pStart = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveGameBuffer688*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+    char* pStart = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveGameBuffer688*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
     if (*(*reinterpret_cast<::FeatureState *>(&::g_011de4e8)).FUN_00408d60())
-        pStart = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveGameBuffer688*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        pStart = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveGameBuffer688*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned int uiTag = 'BLOK';
         reinterpret_cast<::FUN_008579b0_shell *>((((SaveGameBuffer688*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&uiTag), 4);
-        pcSizePos = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveGameBuffer688*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        pcSizePos = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveGameBuffer688*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
         reinterpret_cast<::FUN_008579b0_shell *>((((SaveGameBuffer688*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&usSize), 2);
     }
 
     if (*(*reinterpret_cast<::FeatureState *>(&::g_011de4e8)).FUN_00408d60())
     {
-        char* pcEnd = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveGameBuffer688*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        char* pcEnd = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveGameBuffer688*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
         char* pcRecord = ((char *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (pcRecord)
         {
@@ -2746,7 +2746,7 @@ void Decal688::FUN_00688b00()
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        char* pCur = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveGameBuffer688*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        char* pCur = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveGameBuffer688*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
         char* pBlock = pcSizePos;
         if (pCur > pBlock + 0xffff)
             ::FUN_005b5e40(
@@ -2824,7 +2824,7 @@ struct FUN_00683900_cls : BaseA
 // @fnv 0x00683900
 FUN_00683900_cls::FUN_00683900_cls(int a1, float a2, const Aux30* a3, Obj4* a4, SubDef a5, SubDef a6, float a11,
                                    float a12, unsigned int a13)
-    : BaseA(a1, a2), m_00((int)&DAT_010699bc), m_1c(0), m_2c(0), m_30(0), m_34(0), m_38(), m_44()
+    : BaseA(a1, a2), m_00((std::intptr_t)&DAT_010699bc), m_1c(0), m_2c(0), m_30(0), m_34(0), m_38(), m_44()
 {
     m_1c.unk0c = 0;
     m_1c.Reset(0);

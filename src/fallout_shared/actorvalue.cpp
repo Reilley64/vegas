@@ -594,7 +594,7 @@ const char* __cdecl FUN_0066eac0(ActorValue::Index index)
 
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 
 // @fnv 0x0066eb00
@@ -603,7 +603,7 @@ const char* __cdecl FUN_0066eb00(ActorValue::Index aiIndex)
     const char* presult = 0;
     ActorValueInfo* pinfo = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(aiIndex)))));
     if (pinfo)
-        presult = (const char*)(reinterpret_cast<Flt*>(&pinfo->m_cAbbreviation))->operator unsigned int();
+        presult = (const char*)(reinterpret_cast<Flt*>(&pinfo->m_cAbbreviation))->operator std::uintptr_t();
     return presult;
 }
 
@@ -688,7 +688,7 @@ struct S7010
 };
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct FUN_006703b0_shell
 {
@@ -702,8 +702,8 @@ void FUN_006703b0_shell::FUN_006703b0()
     reinterpret_cast<::FUN_00482cb0_shell *>((((FUN_00482cb0_shell*)((char*)this + 0x24))))->FUN_00482cb0();
     reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x2c))))->FUN_0048e370(0x4e4f4349);
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)((char*)this + 0x3c))))->FUN_004048e0())))
-        ::FUN_004856f0((void *)(0x4d414e41), (void*)((Flt*)((char*)this + 0x3c))->operator unsigned int(),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)((char*)this + 0x3c))))->FUN_004048e0())) + 1));
+        ::FUN_004856f0((void *)(0x4d414e41), (void*)((Flt*)((char*)this + 0x3c))->operator std::uintptr_t(),
+                     (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)((char*)this + 0x3c))))->FUN_004048e0())) + 1));
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 }  // namespace fnv_006703b0

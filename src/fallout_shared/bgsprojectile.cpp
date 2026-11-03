@@ -129,7 +129,7 @@ void BGSProjectile::InitItem()
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         reinterpret_cast<::FUN_004078a0_shell *>((reinterpret_cast<EffectSetting*>(this)))->SetEffectID(
-            (int)dynamic_cast<TESSound*>(::FUN_004839c0(formID)));
+            (std::intptr_t)dynamic_cast<TESSound*>(::FUN_004839c0(formID)));
     }
     formID = (unsigned int)(std::uintptr_t)reinterpret_cast<InterfaceManager*>(this)->FUN_00586150();
     if (formID)
@@ -759,9 +759,9 @@ ProjResult* ProjShell::CreateOrClone(ProjRef* apRef, bool abVal)
             break;
         default: {
             ProjRef* pRef8 = apRef;
-            if (pRef8 && ((::ProjBaseHolder *)(reinterpret_cast<::FUN_009d9f00_Class *>((pRef8))->FUN_009d9f00())) && ((::ProjBase *)(reinterpret_cast<::Twin_0044ddc0 *>((((::ProjBaseHolder *)(reinterpret_cast<::FUN_009d9f00_Class *>((pRef8))->FUN_009d9f00()))))->GetName())))
+            if (pRef8 && ((::ProjBaseHolder *)(std::uintptr_t)(reinterpret_cast<::FUN_009d9f00_Class *>((pRef8))->FUN_009d9f00())) && ((::ProjBase *)(reinterpret_cast<::Twin_0044ddc0 *>((((::ProjBaseHolder *)(std::uintptr_t)(reinterpret_cast<::FUN_009d9f00_Class *>((pRef8))->FUN_009d9f00()))))->GetName())))
             {
-                ProjNiObject* pNodeVal = ((::ProjBase *)(reinterpret_cast<::Twin_0044ddc0 *>((((::ProjBaseHolder *)(reinterpret_cast<::FUN_009d9f00_Class *>((pRef8))->FUN_009d9f00()))))->GetName()))->Get3D(0);
+                ProjNiObject* pNodeVal = ((::ProjBase *)(reinterpret_cast<::Twin_0044ddc0 *>((((::ProjBaseHolder *)(std::uintptr_t)(reinterpret_cast<::FUN_009d9f00_Class *>((pRef8))->FUN_009d9f00()))))->GetName()))->Get3D(0);
                 CloningProcess kCloningA(1.0f);
                 if (pNodeVal)
                     pResult4 = (ProjResult*)((void *)(reinterpret_cast<::A5D2C0Object *>((pNodeVal))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&kCloningA)))));
@@ -771,7 +771,7 @@ ProjResult* ProjShell::CreateOrClone(ProjRef* apRef, bool abVal)
                 ProjNiObject* p3D = Get3D(apRef);
                 if (p3D && reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::ProjDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apRef))->FUN_0084e3a0()))) && !reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::ProjSaveLoad * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
                 {
-                    pResult4 = ((::ProjResult *)(reinterpret_cast<::FUN_004b0ba0_cls *>((((::ProjCache *)(::GetOrCreateInstance(true)))))->FUN_004b0ba0((std::uintptr_t)(p3D))));
+                    pResult4 = ((::ProjResult *)(std::uintptr_t)(reinterpret_cast<::FUN_004b0ba0_cls *>((((::ProjCache *)(::GetOrCreateInstance(true)))))->FUN_004b0ba0((std::uintptr_t)(p3D))));
                 }
                 if (!pResult4)
                 {
@@ -1019,7 +1019,7 @@ void ProjectileSave::WriteProjectileSave()
     fielda0 = saveda7;
     if (!((SaveComponent*)&fieldb4)->Length())
     {
-        ::FUN_004856f0((void *)(0x314d414e), ((SaveModel*)&fieldb4)->Text(), (void *)(((SaveComponent*)&fieldb4)->Length() + 1));
+        ::FUN_004856f0((void *)(0x314d414e), ((SaveModel*)&fieldb4)->Text(), (void *)(std::uintptr_t)(((SaveComponent*)&fieldb4)->Length() + 1));
     }
     else
     {

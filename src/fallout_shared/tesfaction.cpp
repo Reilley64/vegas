@@ -726,7 +726,7 @@ struct BSStr
 };
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 
 struct FUN_005fd210_shell : TESFaction
@@ -753,8 +753,8 @@ void FUN_005fd210_shell::FUN_005fd210(TESForm* apCopy)
             while (pSourceRankList && !pSourceRankList->IsEmpty())
             {
                 FactionRankPresentation* pdata = new FactionRankPresentation;
-                reinterpret_cast<::TextString *>((((BSStr*)&pdata->m_kMaleRankName)))->FUN_004037f0((const char*)(unsigned int)*(Flt*)&(pSourceRankList->m_item)->m_kMaleRankName, 0);
-                reinterpret_cast<::TextString *>((((BSStr*)&pdata->m_kFemaleRankName)))->FUN_004037f0((const char*)(unsigned int)*(Flt*)&(pSourceRankList->m_item)->m_kFemaleRankName, 0);
+                reinterpret_cast<::TextString *>((((BSStr*)&pdata->m_kMaleRankName)))->FUN_004037f0((const char*)(std::uintptr_t)*(Flt*)&(pSourceRankList->m_item)->m_kMaleRankName, 0);
+                reinterpret_cast<::TextString *>((((BSStr*)&pdata->m_kFemaleRankName)))->FUN_004037f0((const char*)(std::uintptr_t)*(Flt*)&(pSourceRankList->m_item)->m_kFemaleRankName, 0);
                 pdata->m_kRankTexture.CopyFromBase(&(pSourceRankList->m_item)->m_kRankTexture);
                 reinterpret_cast<::Callees *>((pDestRankList))->FUN_00905820((void *)&(pdata));
                 if (((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<::Callees *>((pDestRankList))->FUN_00726070())))
@@ -927,13 +927,13 @@ void TESFactionSaveShell::SaveFactionData()
         ::FUN_00485910(0x4d414e52, iRankIndex);
         if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(static_cast<RankTitle&>(pRank->m_kMaleRankName)))->FUN_004048e0())))
             ::FUN_004856f0((void *)(0x4d414e4d), (void *)((const char*)static_cast<RankTitle&>(pRank->m_kMaleRankName)),
-                          (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(static_cast<RankTitle&>(pRank->m_kMaleRankName)))->FUN_004048e0())) + 1));
+                          (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(static_cast<RankTitle&>(pRank->m_kMaleRankName)))->FUN_004048e0())) + 1));
         if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(static_cast<RankTitle&>(pRank->m_kFemaleRankName)))->FUN_004048e0())))
             ::FUN_004856f0((void *)(0x4d414e46), (void *)((const char*)static_cast<RankTitle&>(pRank->m_kFemaleRankName)),
-                          (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(static_cast<RankTitle&>(pRank->m_kFemaleRankName)))->FUN_004048e0())) + 1));
+                          (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(static_cast<RankTitle&>(pRank->m_kFemaleRankName)))->FUN_004048e0())) + 1));
         if (static_cast<RankInsignia&>(pRank->m_kRankTexture).GetModelLength())
             ::FUN_004856f0((void *)(0x4d414e49), (void *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(static_cast<RankInsignia&>(pRank->m_kRankTexture)))->FUN_00408da0()))),
-                          (void *)(static_cast<RankInsignia&>(pRank->m_kRankTexture).GetModelLength() + 1));
+                          (void *)(std::uintptr_t)(static_cast<RankInsignia&>(pRank->m_kRankTexture).GetModelLength() + 1));
         iRankIndex++;
         pNode = ((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }

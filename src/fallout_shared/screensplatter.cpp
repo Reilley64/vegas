@@ -193,7 +193,7 @@ void FUN_004e00d0()
 
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct GO
 {
@@ -204,7 +204,7 @@ void FUN_004e0800()
 {
     if (DAT_011c7834)
     {
-        reinterpret_cast<::FUN_004def90_Class *>((((NiNode*)((Flt*)&(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)))->operator unsigned int())))->FUN_004def90();
+        reinterpret_cast<::FUN_004def90_Class *>((((NiNode*)((Flt*)&(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)))->operator std::uintptr_t())))->FUN_004def90();
         ((GO*)&(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)))->operator=(0);
         ((GO*)&(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c7840)))->operator=(0);
     }
@@ -335,7 +335,7 @@ void FUN_004e0330(unsigned int requested, float time)
             s.d = p;
             FUN_004e04e0* h = new FUN_004e04e0(s);
             reinterpret_cast<::FUN_00a5bca0_shell *>((a))->SetExtraDataName((::NiExtraData *)(h));
-            ::AssignFixedString((char *)(a), (int)&(const ::NiFixedString &)(NiFixedString("ScreenSplatterRoot")), {});
+            ::AssignFixedString((char *)(a), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("ScreenSplatterRoot")), {});
             ((RootProxy*)(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)).operator->())->Attach(a, true);
             ::FUN_00b81420((::S_00b81420_AVObject *)(a), ((std::uintptr_t)(reinterpret_cast<::NonActorMagicTarget *>((h))->GetActiveEffectList())));
             NiUpdateData i(0.0f, false, false);

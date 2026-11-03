@@ -401,7 +401,7 @@ bool ACTIView::FUN_005111e0(TESForm* apForm)
         return true;
     if (((::TESForm *)(reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820())) != ((::TESForm *)(reinterpret_cast<::FUN_00407820_shell *>((pOther))->FUN_00407820())))
         return true;
-    if (((::TESForm *)(reinterpret_cast<::TESPackage *>(this)->GetRefCount())) != ((::TESForm *)(reinterpret_cast<::TESPackage *>((pOther))->GetRefCount())))
+    if (((::TESForm *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>(this)->GetRefCount())) != ((::TESForm *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((pOther))->GetRefCount())))
         return true;
     if (Unk_50() != pOther->Unk_50())
         return true;
@@ -740,7 +740,7 @@ void ActiV511::FUN_00511120(TESForm* pkForm)
         return;
 
     reinterpret_cast<::TESObjectACTI *>(this)->SetLoopingSound(reinterpret_cast<::FUN_004fd3a0_shell *>((pkActi))->FUN_004fd3a0());
-    reinterpret_cast<::EffectSetting *>(this)->SetEnchantEffectShader(((::TESEffectShader *)(reinterpret_cast<::TESPackage *>((pkActi))->GetRefCount())));
+    reinterpret_cast<::EffectSetting *>(this)->SetEnchantEffectShader(((::TESEffectShader *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((pkActi))->GetRefCount())));
     reinterpret_cast<::TESObjectACTI *>(this)->SetActivateSound(((::TESSound *)(reinterpret_cast<::FUN_00407820_shell *>((pkActi))->FUN_00407820())));
     reinterpret_cast<::FUN_008ac890_shell *>(this)->SetWaterForm(pkActi->GetWaterForm());
     reinterpret_cast<::EffectSetting *>(this)->SetBoltSound(((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pkActi)))));

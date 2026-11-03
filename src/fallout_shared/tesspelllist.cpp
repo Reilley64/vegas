@@ -635,12 +635,12 @@ void TESSpellList_Target::SaveSpellList(unsigned int flags)
         {
             blok = 0x424C4F4B;
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&blok, 4);
-            pBlockSize3 = (unsigned short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+            pBlockSize3 = (unsigned short*)(std::uintptr_t)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&unk0CVal, 2);
         }
 
         spellCount1 = 0;
-        pNumSpells = (unsigned short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        pNumSpells = (unsigned short*)(std::uintptr_t)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&spellCount1, 2);
 
         curNodePtr = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<ActorMagicSpellList*>(this)))->GetCurrentProcessData()));

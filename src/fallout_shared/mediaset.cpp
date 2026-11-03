@@ -572,7 +572,7 @@ void FUN_005991b0_shell::FUN_005991b0()
         ::FUN_004856f0((void *)(0x324d414e),
                      reinterpret_cast<void*>(static_cast<unsigned int>(
                          *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(&this->m_kMediaSetEntry1)))),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry1)))->FUN_004048e0())) + 1));
+                     (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry1)))->FUN_004048e0())) + 1));
     }
 
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry2)))->FUN_004048e0())) > 0)
@@ -580,7 +580,7 @@ void FUN_005991b0_shell::FUN_005991b0()
         ::FUN_004856f0((void *)(0x334d414e),
                      reinterpret_cast<void*>(static_cast<unsigned int>(
                          *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(&this->m_kMediaSetEntry2)))),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry2)))->FUN_004048e0())) + 1));
+                     (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry2)))->FUN_004048e0())) + 1));
     }
 
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry3)))->FUN_004048e0())) > 0)
@@ -588,7 +588,7 @@ void FUN_005991b0_shell::FUN_005991b0()
         ::FUN_004856f0((void *)(0x344d414e),
                      reinterpret_cast<void*>(static_cast<unsigned int>(
                          *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(&this->m_kMediaSetEntry3)))),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry3)))->FUN_004048e0())) + 1));
+                     (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry3)))->FUN_004048e0())) + 1));
     }
 
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry4)))->FUN_004048e0())) > 0)
@@ -596,7 +596,7 @@ void FUN_005991b0_shell::FUN_005991b0()
         ::FUN_004856f0((void *)(0x354d414e),
                      reinterpret_cast<void*>(static_cast<unsigned int>(
                          *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(&this->m_kMediaSetEntry4)))),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry4)))->FUN_004048e0())) + 1));
+                     (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry4)))->FUN_004048e0())) + 1));
     }
 
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry5)))->FUN_004048e0())) > 0)
@@ -604,7 +604,7 @@ void FUN_005991b0_shell::FUN_005991b0()
         ::FUN_004856f0((void *)(0x364d414e),
                      reinterpret_cast<void*>(static_cast<unsigned int>(
                          *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(&this->m_kMediaSetEntry5)))),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry5)))->FUN_004048e0())) + 1));
+                     (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry5)))->FUN_004048e0())) + 1));
     }
 
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry6)))->FUN_004048e0())) > 0)
@@ -612,7 +612,7 @@ void FUN_005991b0_shell::FUN_005991b0()
         ::FUN_004856f0((void *)(0x374d414e),
                      reinterpret_cast<void*>(static_cast<unsigned int>(
                          *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(&this->m_kMediaSetEntry6)))),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry6)))->FUN_004048e0())) + 1));
+                     (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry6)))->FUN_004048e0())) + 1));
     }
 
     ::FUN_00485910(0x384d414e, this->m_kMediaSetEntry1.Attenuation);

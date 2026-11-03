@@ -1000,13 +1000,13 @@ void TerminalSave::FUN_00500a40()
         if (static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->ResponseText)))
             ::FUN_004856f0(
                 (void *)(0x54585449), (void *)(static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->ResponseText))),
-                (void *)(::FUN_0044a670(static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->ResponseText))) + 1));
+                (void *)(std::uintptr_t)(::FUN_0044a670(static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->ResponseText))) + 1));
         else
             ::FUN_00485910(0x54585449, 0);
         if (static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->m_kMenuText)))
             ::FUN_004856f0(
                 (void *)(0x4d414e52), (void *)(static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->m_kMenuText))),
-                (void *)(::FUN_0044a670(static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->m_kMenuText))) + 1));
+                (void *)(std::uintptr_t)(::FUN_0044a670(static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->m_kMenuText))) + 1));
         else
             ::FUN_00485910(0x4d414e52, 0);
         FUN_004858f0(0x4d414e41, item->cFlags);

@@ -559,7 +559,7 @@ struct DummyPointerMap
 
 // If a2 is zero, removes the entry for a1 from g_011c4104; otherwise sets a1 to a2 in that map.
 // @fnv 0x00477ce0
-void __cdecl SetOrRemoveMapEntry(unsigned int uiKey, unsigned int uiValue)
+void __cdecl SetOrRemoveMapEntry(std::uintptr_t uiKey, unsigned int uiValue)
 {
     if (uiValue == 0)
     {
@@ -575,7 +575,7 @@ void __cdecl SetOrRemoveMapEntry(unsigned int uiKey, unsigned int uiValue)
 struct FUN_004759a0_Elem
 {
     char _pad[20];
-    int value;
+    std::intptr_t value;
 };
 struct FUN_004759a0_Mid
 {
@@ -588,7 +588,7 @@ struct FUN_004759a0_First
 };
 FUN_004759a0_First* __cdecl FUN_00475400(void*);
 // @fnv 0x004759a0
-int __cdecl GetElementValue(void* a, int aiIndex)
+std::intptr_t __cdecl GetElementValue(void* a, int aiIndex)
 {
     FUN_004759a0_First* pFirst = FUN_00475400(a);
     if (!pFirst || aiIndex == -1)

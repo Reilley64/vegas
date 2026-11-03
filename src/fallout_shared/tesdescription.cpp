@@ -176,7 +176,7 @@ void __cdecl WriteDescChunk(void* apDesc, std::intptr_t aiChunk)
         if (((int)(reinterpret_cast<::FUN_00482d30_shell *>((((DescStandIn*)apDesc)))->GetMenuParsedXmlLength())))
         {
             ::FUN_004856f0((void *)(aiChunk), ((DescStandIn*)apDesc)->vf4(0, 0x43534544),
-                         (void *)(((int)(reinterpret_cast<::FUN_00482d30_shell *>((((DescStandIn*)apDesc)))->GetMenuParsedXmlLength())) + 1));
+                         (void *)(std::uintptr_t)(((int)(reinterpret_cast<::FUN_00482d30_shell *>((((DescStandIn*)apDesc)))->GetMenuParsedXmlLength())) + 1));
         }
         else
         {

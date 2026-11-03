@@ -1285,7 +1285,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                     if (!!s)
                     {
                         nodeX = *(NodeObj**)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(((*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0))))->AddEight((std::intptr_t)(s))));
-                        if (((::AVObj *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((nodeX))->FUN_0056c7f0())) != 0 && ((::AVObj *)(::fnv_004a8a90::FUN_004a8a90((char *)(nodeX)))) != 0)
+                        if (((::AVObj *)(std::uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((nodeX))->FUN_0056c7f0())) != 0 && ((::AVObj *)(::fnv_004a8a90::FUN_004a8a90((char *)(nodeX)))) != 0)
                         {
                             {
                                 FUN_00416870_t n;
@@ -1328,11 +1328,11 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                         {
                                                                                                             FUN_00416870_t
                                                                                                                 oldNode;
-                                                                                                            ::AssignFixedString((char *)(((::AVObj *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((nodeX))->FUN_0056c7f0()))), 
-                                                                                                                    (int)&(const ::NiFixedString &)(NiFixedString(
+                                                                                                            ::AssignFixedString((char *)(((::AVObj *)(std::uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((nodeX))->FUN_0056c7f0()))),
+                                                                                                                    (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(
                                                                                                                         "AutoWaterNode")), {});
                                                                                                             ::AssignFixedString((char *)(((::AVObj *)(::fnv_004a8a90::FUN_004a8a90((char *)(nodeX))))), 
-                                                                                                                    (int)&(const ::NiFixedString &)(NiFixedString(
+                                                                                                                    (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(
                                                                                                                         "AutoWater")), {});
                                                                                                             p84 =
                                                                                                                 new FUN_0055a2f0;
@@ -1341,7 +1341,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                             reinterpret_cast<::FUN_00439410_cls *>((((::AVObj *)(::fnv_004a8a90::FUN_004a8a90((char *)(nodeX))))))->FUN_00439410(
                                                                                                                     (::ArgObject *)(geom));
                                                                                                             ::BSShaderManager::UpdateObjectTypeRecurse(
-                                                                                                                (::NiAVObject *)(void *)(((::AVObj *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((nodeX))->FUN_0056c7f0()))),
+                                                                                                                (::NiAVObject *)(void *)(((::AVObj *)(std::uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((nodeX))->FUN_0056c7f0()))),
                                                                                                                 0, 0);
                                                                                                             minY =
                                                                                                                 new FUN_0049ec80;
@@ -1375,7 +1375,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                             bufA =
                                                                                                                 ((::AVObj *)(::fnv_004a8a90::FUN_004a8a90((char *)(nodeX))));
                                                                                                             verts =
-                                                                                                                (FUN_00416870_t*)((int)(reinterpret_cast<::FUN_0049ec60 *>((bufA))->GetNext()));
+                                                                                                                (FUN_00416870_t*)(std::uintptr_t)((int)(reinterpret_cast<::FUN_0049ec60 *>((bufA))->GetNext()));
                                                                                                             for (
                                                                                                                 b = 0;
                                                                                                                 b <
@@ -1469,7 +1469,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                                 oldNode2,
                                                                                                                 true);
                                                                                                             oldNode2->FUN_vtdc(
-                                                                                                                ((::AVObj *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((nodeX))->FUN_0056c7f0())),
+                                                                                                                ((::AVObj *)(std::uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((nodeX))->FUN_0056c7f0())),
                                                                                                                 true);
                                                                                                             new ((void *)&(res)) ::NiUpdateData(
                                                                                                                 0.0f,

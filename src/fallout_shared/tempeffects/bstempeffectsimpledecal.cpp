@@ -1,5 +1,6 @@
 // fallout_shared/tempeffects/bstempeffectsimpledecal.cpp: BSTempEffectSimpleDecal, NiPoint3, DecalStub, DecalHolder and more (27 functions)
 
+#include "fnv_result_slot.h"
 #include <cstdint>
 #include <new>
 #include <cmath>
@@ -234,7 +235,7 @@ double FUN_0068b050(double adValue, float afValue)
 
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct DecalHolder
 {
@@ -243,7 +244,7 @@ struct DecalHolder
 namespace fnv_0068acc0 {
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 
 struct FUN_0068acc0_shell
@@ -256,7 +257,7 @@ struct FUN_0068acc0_shell
 // @fnv 0x0068acc0
 void* FUN_0068acc0_shell::FUN_0068acc0()
 {
-    return (void*)m_flt.operator unsigned int();
+    return (void*)m_flt.operator std::uintptr_t();
 }
 }  // namespace fnv_0068acc0
 
@@ -624,7 +625,7 @@ bool DecalHost::UpdateDecalFade(float alpha)
         if (elapsed >= ::_DAT_01012060 && elapsed <= ::g_01012070)
         {
             intensity = (float)((1.0 - elapsed) / ::g_01012070);
-            DecalEffect* pDecalEffect = ((::DecalEffect *)(reinterpret_cast<::FUN_00a59d30_C *>((((::DecalState *)(::FUN_00559450((int *)&(decalRef))))))->FUN_00a59d30((int)(((void *)(::FUN_004af350()))))));
+            DecalEffect* pDecalEffect = ((::DecalEffect *)(reinterpret_cast<::FUN_00a59d30_C *>((((::DecalState *)(::FUN_00559450((int *)&(decalRef))))))->FUN_00a59d30((std::intptr_t)(((void *)(std::uintptr_t)(::FUN_004af350()))))));
             DecalEffect* pEffect = pDecalEffect;
             if (pEffect && reinterpret_cast<::TESObjectREFR *>((pEffect))->GetScale() != intensity)
                 reinterpret_cast<::DecalStub *>((pEffect))->FUN_0068c9f0(intensity);
@@ -1984,7 +1985,7 @@ void FUN_0068d230_Class::ProcessDecalTriangles(Geometry* input)
 {
     Geometry* data = input;
     Point* normals = ((::Point *)(reinterpret_cast<::FUN_0049ec60 *>((data))->GetNext()));
-    Point* geometry = ((::Point *)(reinterpret_cast<::FUN_004a8030_shell *>((data))->FUN_004a8030()));
+    Point* geometry = ((::Point *)(std::uintptr_t)(reinterpret_cast<::FUN_004a8030_shell *>((data))->FUN_004a8030()));
     UnsignedShortBuffer* vertices = ((::UnsignedShortBuffer *)(::fnv_005495f0::FUN_005495f0((const char *)(data))));
     if (normals && !geometry)
     {
@@ -2090,7 +2091,7 @@ int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const Point*
             {
                 Point start4 = positions[previous];
                 Point _end = positions[current];
-                Point edgeTmp = (*(::DecalClipping::Point *)(reinterpret_cast<::FUN_00439ef0_class *>(&(start4))->FUN_00439ef0((::NiPoint3 *)&(_end), *(const ::NiPoint3 *)nullptr)));
+                Point edgeTmp = (*(::DecalClipping::Point *)(reinterpret_cast<::FUN_00439ef0_class *>(&(start4))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(::NiPoint3(0.0f, 0.0f, 0.0f)), *(const ::NiPoint3 *)((::NiPoint3 *)&(_end)))));
                 Point normal = (*(const ::DecalClipping::Point *)((void *)(plane)));
                 float fraction = (((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal))->DotProduct((void *)&(start4)))) + -((double)(reinterpret_cast<::Twin_0084d030 *>((plane))->GetStoredFloatValue()))) / ((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal))->DotProduct((void *)&(edgeTmp))));
                 if (fraction > ::g_01012070 && fraction <= DAT_01069ff0)
@@ -2120,7 +2121,7 @@ int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const Point*
             {
                 Point start_ = positions[current];
                 Point end2 = positions[previous];
-                Point edge_ = (*(::DecalClipping::Point *)(reinterpret_cast<::FUN_00439ef0_class *>(&(start_))->FUN_00439ef0((::NiPoint3 *)&(end2), *(const ::NiPoint3 *)nullptr)));
+                Point edge_ = (*(::DecalClipping::Point *)(reinterpret_cast<::FUN_00439ef0_class *>(&(start_))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(::NiPoint3(0.0f, 0.0f, 0.0f)), *(const ::NiPoint3 *)((::NiPoint3 *)&(end2)))));
                 Point normal3 = (*(const ::DecalClipping::Point *)((void *)(plane)));
                 float fraction2 = (((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal3))->DotProduct((void *)&(start_)))) + -((double)(reinterpret_cast<::Twin_0084d030 *>((plane))->GetStoredFloatValue()))) / ((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal3))->DotProduct((void *)&(edge_))));
                 if (fraction2 < ::_DAT_01012060)
@@ -2351,7 +2352,7 @@ bool Host::FUN_0068b4c0(Param* apParam)
         }
         else
         {
-            eValue2 = (*(::P3 *)(reinterpret_cast<::FUN_00439ef0_class *>(&(c34Value43))->FUN_00439ef0((::NiPoint3 *)(::P3 *)(((::P3 *)(::FUN_0045bb80((std::intptr_t)(apParam))))), *(const ::NiPoint3 *)nullptr)));
+            eValue2 = (*(::P3 *)(reinterpret_cast<::FUN_00439ef0_class *>(&(c34Value43))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(::NiPoint3(0.0f, 0.0f, 0.0f)), *(const ::NiPoint3 *)((::NiPoint3 *)(::P3 *)(((::P3 *)(::FUN_0045bb80((std::intptr_t)(apParam)))))))));
             eValue2 = eValue2.ApplyScaled(1.0f / reinterpret_cast<::FUN_008d01e0_Class *>((apParam))->FUN_008d01e0());
         }
         ::FUN_00a582f0((const float *)(::M3 *)(&mecValue16), (const float *)(const char *)((const char*)&(*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO))), 1, (const ::Point314 *)(::P3 *)(&eValue2), (::Point314 *)(::P3 *)(&gValue23));
@@ -2667,7 +2668,7 @@ void FUN_0068dea0_cls::UpdateDebugDecalBox(const xColorA* COLOR, bool FLAG)
         {
             if (::GetRefAt21C((const char *)(::xStream *)(&qfTOqo)) == 1)
                 (*reinterpret_cast<::xGO *>(&::g_011c58e0)) = ((::xAV *)(reinterpret_cast<::MLx *>(&(qfTOqo))->GetStringAt(0)));
-            ::AssignFixedString((char *)(((*reinterpret_cast<::xGO *>(&::g_011c58e0))).operator->()), (int)&(const ::xFixedStr &)(xFixedStr("Debug Decal Box")), {});
+            ::AssignFixedString((char *)(((*reinterpret_cast<::xGO *>(&::g_011c58e0))).operator->()), (std::intptr_t)&(const ::xFixedStr &)(xFixedStr("Debug Decal Box")), {});
         }
     }
     if ((*reinterpret_cast<::xGO *>(&::g_011c58e0)))

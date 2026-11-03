@@ -1395,7 +1395,7 @@ void Grid::FUN_004baf10()
                 iResult = reinterpret_cast<::FUN_005477f0_Class *>((pCam9))->FUN_005477f0((std::intptr_t)(&pTexVal), (std::intptr_t)(&pInfo9));
                 if (pTexVal && pInfo9 && pInfo9->iFlag)
                 {
-                    pTailB = ((::Obj *)(reinterpret_cast<::ActorMover *>((pTexVal))->GetCurrentMoveModeType()));
+                    pTailB = ((::Obj *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((pTexVal))->GetCurrentMoveModeType()));
                     pDev4 = pTailB->GetDev();
                     pDev4->SetFoo(0);
                     pInfo9->iFlag = 0;

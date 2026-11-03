@@ -850,14 +850,14 @@ void DebugLocation::FormatDebugString(char* acBuffer, unsigned int capacity)
                 for (i3 = 0; i3 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((meshes))->GetName())); i3++)
                 {
                     char entry2[64];
-                    ::FUN_00406d00(entry2, 64, "%08x", ((unsigned int)(::FUN_00559450((int *)(((::DebugMesh *)(reinterpret_cast<::S3e60 *>((meshes))->FUN_006a7ad0(i3))))))));
+                    ::FUN_00406d00(entry2, 64, "%08x", ((unsigned int)(::FUN_00559450((int *)((*(::DebugMesh **)(reinterpret_cast<::S3e60 *>((meshes))->FUN_006a7ad0(i3))))))));
                     FUN_00406d50(list7, 256, entry2);
                     if (i3 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((meshes))->GetName())) - 1)
                         FUN_00406d50(list7, 256, ", ");
                 }
                 FUN_00406d50(list7, 256, "]");
-                DebugWorld* listWorld4 = ((::DebugWorld *)(::FUN_00690800((const ::NavMeshInfo *)(((::DebugMesh *)(reinterpret_cast<::S3e60 *>((meshes))->FUN_006a7ad0(0)))))));
-                DebugForm* listCell3 = ((::DebugForm *)(reinterpret_cast<::NavMeshInfoStandIn *>((((::DebugMesh *)(reinterpret_cast<::S3e60 *>((meshes))->FUN_006a7ad0(0)))))->FUN_006b7770()));
+                DebugWorld* listWorld4 = ((::DebugWorld *)(::FUN_00690800((const ::NavMeshInfo *)((*(::DebugMesh **)(reinterpret_cast<::S3e60 *>((meshes))->FUN_006a7ad0(0)))))));
+                DebugForm* listCell3 = ((::DebugForm *)(reinterpret_cast<::NavMeshInfoStandIn *>(((*(::DebugMesh **)(reinterpret_cast<::S3e60 *>((meshes))->FUN_006a7ad0(0)))))->FUN_006b7770()));
                 if (!listWorld4)
                 {
                     ::FUN_00406d00(acBuffer, capacity, "%s Cell %s, %.2f %.2f %.2f", list7, listCell3->editorName(),

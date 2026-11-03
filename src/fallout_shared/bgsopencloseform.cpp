@@ -311,7 +311,7 @@ void __cdecl ProcessOpenCloseEvent(Ref* ref, SequenceEvent* sequence)
         {
             handled = true;
             ::FUN_005ac750((::TESForm *)(ref), (::ExtraDataList *)(::EventExtra *)(((::EventExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))), 0x10000);
-            Ref* openTarget = ((::Ref *)(reinterpret_cast<::FUN_0041e660_class *>((((::EventExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0041e660()));
+            Ref* openTarget = ((::Ref *)(std::uintptr_t)(reinterpret_cast<::FUN_0041e660_class *>((((::EventExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0041e660()));
             if (openTarget)
             {
                 OpenCloseHandler* openHandler = ((::OpenCloseHandler *)(::GetOpenCloseForm((::TESForm *)(::BaseForm *)(((::BaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))))));
@@ -333,7 +333,7 @@ void __cdecl ProcessOpenCloseEvent(Ref* ref, SequenceEvent* sequence)
         {
             handled = true;
             ::FUN_005ac750((::TESForm *)(ref), (::ExtraDataList *)(::EventExtra *)(((::EventExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))), 0x20000);
-            Ref* closeTarget = ((::Ref *)(reinterpret_cast<::FUN_0041e660_class *>((((::EventExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0041e660()));
+            Ref* closeTarget = ((::Ref *)(std::uintptr_t)(reinterpret_cast<::FUN_0041e660_class *>((((::EventExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0041e660()));
             if (closeTarget)
             {
                 OpenCloseHandler* closeHandler = ((::OpenCloseHandler *)(::GetOpenCloseForm((::TESForm *)(::BaseForm *)(((::BaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))))));
@@ -635,7 +635,7 @@ void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseFor
                         else
                         {
                             if (pPathNodeDoor)
-                                p28 = (SoundH*)reinterpret_cast<::TESPackage *>((((DoorX*)pPathNodeDoor)))->GetRefCount();
+                                p28 = (SoundH*)(std::uintptr_t)reinterpret_cast<::TESPackage *>((((DoorX*)pPathNodeDoor)))->GetRefCount();
                             p2c = pSeqB;
                             ((FUN_00572db0_shell_ctxr*)apRefr)->FUN_00572db0(4);
                         }

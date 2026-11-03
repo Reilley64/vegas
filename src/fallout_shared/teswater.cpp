@@ -1,5 +1,6 @@
 // fallout_shared/teswater.cpp: BGSPlaceableWater, TESObjectCELL, WaterZoneManager, Owner and more (135 functions)
 
+#include "fnv_result_slot.h"
 #include <cstdint>
 #include <new>
 #include <cmath>
@@ -763,7 +764,7 @@ template <class T, unsigned int N> class BSSimpleArray
 // @fnv 0x004ebbc0
 ImageSpaceEffect* FUN_004ebbc0_shell::FUN_004ebbc0(int aiIndex)
 {
-    return (ImageSpaceEffect*)((BSSimpleArray<unsigned int, 1024>*)pEffectList)->GetAt(aiIndex);
+    return *reinterpret_cast<ImageSpaceEffect**>(&((BSSimpleArray<unsigned int, 1024>*)pEffectList)->GetAt(aiIndex));
 }
 
 extern double DAT_010231e8;
@@ -955,9 +956,9 @@ short FUN_004e6560_class::FUN_004e6560()
 
 
 // @fnv 0x004e69d0
-int FUN_004e69d0()
+std::intptr_t FUN_004e69d0()
 {
-    return (*reinterpret_cast<int *>(&::DAT_011ff370));
+    return reinterpret_cast<std::intptr_t>(::DAT_011ff370);
 }
 
 struct NP
@@ -1036,16 +1037,16 @@ void FUN_004e6a40_shell::FUN_004e6a40(void* apNP)
 
 
 // @fnv 0x004e6a60
-int FUN_004e6a60()
+std::intptr_t FUN_004e6a60()
 {
-    return DAT_011ffff8;
+    return reinterpret_cast<std::intptr_t>(DAT_011ffff8);
 }
 
 
 // @fnv 0x004e6a70
-int __cdecl FUN_004e6a70()
+std::intptr_t __cdecl FUN_004e6a70()
 {
-    return DAT_0120006c;
+    return reinterpret_cast<std::intptr_t>(DAT_0120006c);
 }
 
 
@@ -2921,7 +2922,7 @@ bool WaterScanner_004e83e0::IsPlayerNearWaterActor(void* collection)
                 Vec_004e83e0 distance = *reinterpret_cast<const Vec_004e83e0*>(&object->GetPos());
                 vPlayerPos.z = 0.0f;
                 distance.z = 0.0f;
-                float playerPos = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::Vec_004e83e0 &)((*(::Vec_004e83e0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(vPlayerPos))->FUN_00439ef0((::NiPoint3 *)&(distance), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+                float playerPos = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::Vec_004e83e0 &)((*(::Vec_004e83e0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(vPlayerPos))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(distance)))))))->ComputeMagnitude();
                 if (playerPos <= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))))
                     return true;
             }
@@ -5826,13 +5827,13 @@ Reference61* Main61::CreateWaterReference(Node61* geometry, World61* world, Node
         shader82->enabled = 1;
         if (extra)
             shader82->extra = 1;
-        reinterpret_cast<::ExtraOwnerB *>((geometry))->FUN_00a5b230((std::intptr_t)(((void *)(::FUN_00438220()))));
+        reinterpret_cast<::ExtraOwnerB *>((geometry))->FUN_00a5b230((std::intptr_t)(((void *)(std::uintptr_t)(::FUN_00438220()))));
         reinterpret_cast<::FUN_00439410_cls *>((geometry))->FUN_00439410((::ArgObject *)(shader82));
         reinterpret_cast<::FUN_00a5a040_Class *>((geometry))->FUN_00a5a040();
         ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(geometry), 0, 0);
         Material61* material11 = new Material61;
         reinterpret_cast<::fnv_0049ee30::NiObjectNET *>((material11))->FUN_0049ee30(3);
-        reinterpret_cast<::ExtraOwnerB *>((geometry))->FUN_00a5b230((std::intptr_t)(((void *)(::FUN_005d9660()))));
+        reinterpret_cast<::ExtraOwnerB *>((geometry))->FUN_00a5b230((std::intptr_t)(((void *)(std::uintptr_t)(::FUN_005d9660()))));
         reinterpret_cast<::FUN_00439410_cls *>((geometry))->FUN_00439410((::ArgObject *)(material11));
         reinterpret_cast<::Fn575690 *>((reference2))->FUN_00575690(((void *)(reinterpret_cast<::fnv_00580330::FUN_00580330_shell *>((((::fnv_004e4c80::Cell61 *)(reinterpret_cast<::FUN_005860c0_shell *>((world))->FUN_005860c0()))))->FUN_00580330())));
         Node61* node15 = new Node61;
@@ -7433,7 +7434,7 @@ void FUN_004e8ec0_cls::UpdateWaterObjects()
             {
                 m_fPackageValue += ::FUN_00452e70(true);
             }
-            reinterpret_cast<::BB97550Shader *>((((::fnv_004e8ec0::WRenderer *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b97550((unsigned int)(((::fnv_004e8ec0::WObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e8ec0::WObjPtr *>(&::g_011c7b64))))))), 0, 1, {}, {}, {});
+            reinterpret_cast<::BB97550Shader *>((((::fnv_004e8ec0::WRenderer *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b97550((std::uintptr_t)(((::fnv_004e8ec0::WObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e8ec0::WObjPtr *>(&::g_011c7b64))))))), 0, 1, {}, {}, {});
             DAT_011fffed = false;
         }
     }
@@ -8626,7 +8627,7 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                     {
                         reinterpret_cast<::FUN_004a1040_Helper *>((((::fnv_004e9d40::FUN_00b660d0 *)(::FUN_00559450((int *)&(state->acc))))))->Set(15);
                         P3 light = ((::fnv_004e9d40::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetBaseTexture()))->FUN_004ea950();
-                        P3 tint = (*(::fnv_004e9d40::P3 *)(reinterpret_cast<::BGSCameraPath *>((((::fnv_004e9d40::RefActor *)(reinterpret_cast<::FUN_004ea980_shell *>((((::fnv_004e9d40::ColorObj *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->GetFloatAsUInt()))))->GetShotList()));
+                        P3 tint = (*(::fnv_004e9d40::P3 *)(reinterpret_cast<::BGSCameraPath *>((((::fnv_004e9d40::RefActor *)(std::uintptr_t)(reinterpret_cast<::FUN_004ea980_shell *>((((::fnv_004e9d40::ColorObj *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->GetFloatAsUInt()))))->GetShotList()));
                         FUN_00414430 color(light.x * tint.x, light.y * tint.y, light.z * tint.z, 1.0f);
                         reinterpret_cast<::FUN_004ea880_shell *>((((::fnv_004e9d40::FUN_00b660d0 *)(::FUN_00559450((int *)&(state->acc))))))->FUN_004ea880((const ::FUN_004ea880_Data *)(::fnv_004e9d40::FUN_00414430 *)(&color));
                     }
@@ -9298,7 +9299,7 @@ void Main60::FUN_004eaa00(void* target)
     {
         reinterpret_cast<::FUN_004a1040_Helper *>((((::fnv_004eaa00::Accumulator60 *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004eaa00::Smart60< ::fnv_004eaa00::Accumulator60> *>(&::g_011c7cb8))))))))->Set(0xf);
         RGB60 ambientColor = *((::fnv_004eaa00::RGB60 *)(::FUN_004ea950((::std::intptr_t)(((::fnv_004eaa00::Environment60 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_004eaa00::World60 * *>(&::g_TES))))->GetBaseTexture()))))));
-        RGB60 tint = *((::fnv_004eaa00::RGB60 *)(reinterpret_cast<::BGSCameraPath *>((((::fnv_004eaa00::RGBHolder60 *)(reinterpret_cast<::FUN_004ea980_shell *>((((::fnv_004eaa00::Renderer60 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->GetFloatAsUInt()))))->GetShotList()));
+        RGB60 tint = *((::fnv_004eaa00::RGB60 *)(reinterpret_cast<::BGSCameraPath *>((((::fnv_004eaa00::RGBHolder60 *)(std::uintptr_t)(reinterpret_cast<::FUN_004ea980_shell *>((((::fnv_004eaa00::Renderer60 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->GetFloatAsUInt()))))->GetShotList()));
         Color60 color(ambientColor.r * tint.r, ambientColor.g * tint.g, ambientColor.b * tint.b, 1.0f);
         reinterpret_cast<::FUN_004ea880_shell *>((((::fnv_004eaa00::Accumulator60 *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004eaa00::Smart60< ::fnv_004eaa00::Accumulator60> *>(&::g_011c7cb8))))))))->FUN_004ea880((const ::FUN_004ea880_Data *)&(color));
     }
@@ -9709,7 +9710,7 @@ void WRWaterManager::UpdateWaterReflection(WRCamera* apCamera)
 
     reinterpret_cast<::NiTPointerListBaseRaw *>(&((*reinterpret_cast<::WRList *>(&::g_011c7bcc))))->FUN_004ed900();
     reinterpret_cast<::NiTPointerListBaseRaw *>(&((*reinterpret_cast<::WRList *>(&::g_011c7c30))))->FUN_004ed900();
-    reinterpret_cast<::ScriptList *>(&((*reinterpret_cast<::WRList *>(&::g_011c7bcc))))->FUN_0076b660((unsigned int *)&(const unsigned int &)(((unsigned int)(reinterpret_cast<::StrOwner *>((((::WRProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::WRTES * *>(&::g_TES))))->GetBaseTexture()))))->FUN_007fa950()))));
+    reinterpret_cast<::ScriptList *>(&((*reinterpret_cast<::WRList *>(&::g_011c7bcc))))->FUN_0076b660((unsigned int *)&(const unsigned int &)(((std::uintptr_t)(reinterpret_cast<::StrOwner *>((((::WRProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::WRTES * *>(&::g_TES))))->GetBaseTexture()))))->FUN_007fa950()))));
 
     ::AccumTaskDetail::FUN_00ba3390((::AccumTaskDetail::AccumTaskReceiver *)(((::WRRenderer *)(::TaskThreadManager::GetSingleton()))), (*reinterpret_cast<::WRNodePtr *>(&::g_011c7cbc)), (::AccumTaskDetail::NiRefObject *)(0), (::AccumTaskDetail::TaskArg1 *)(0), (::AccumTaskDetail::NiRefObject *)(::WRList *)(&(*reinterpret_cast<::WRList *>(&::g_011c7bcc))), &(*reinterpret_cast<::WRList *>(&::g_011c7c30)), (*reinterpret_cast<::WRAccumPtr *>(&::g_011c7be8)),
                                        (::AccumTaskDetail::NiRefObject *)(4), ::fnv_004e21b0::DAT_011c7a70 + 1, 0, {});
@@ -11886,7 +11887,7 @@ void WaterSound098::UpdateWaterSound()
                     samples.y += -1.0 * count + pos * x;
                     NiPoint3 kTemp11887_8(samples.x, samples.y, 0.0f);
                     if (!terrain || !reinterpret_cast<::fnv_00550200::FUN_00550200 *>((terrain))->IsPointInCell((*(const ::fnv_00550200::NiPoint3 *)(&kTemp11887_8))))
-                        terrain = ((::WaterCell098 *)(reinterpret_cast<::fnv_00587550::FUN_00587550_shell *>((((::World098 *)(reinterpret_cast<::EffectSetting *>((((TES098*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetHitSound()))))->FUN_00587550(*(const ::fnv_00587550::NiPoint3 *)nullptr)));
+                        terrain = ((::WaterCell098 *)(reinterpret_cast<::fnv_00587550::FUN_00587550_shell *>((((::World098 *)(reinterpret_cast<::EffectSetting *>((((TES098*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetHitSound()))))->FUN_00587550(*(const ::fnv_00587550::NiPoint3 *)(&kTemp11887_8))));
                     float water = terrain ? reinterpret_cast<::FUN_005471e0_shell *>((terrain))->FUN_005471e0() : DAT_01015f5c;
                     if (reinterpret_cast<::FUN_004572e0_shell *>((((TES098*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetLandHeightAt((*(const ::NiPoint3 *)(&samples)), (*(float *)(&range))) && range < water)
                     {
@@ -11963,14 +11964,14 @@ void WaterSound098::UpdateWaterSound()
         }
         else if (height > 0.0 && ::_g_thePlayer && ((::CellWater098 *)(reinterpret_cast<::LowProcess *>((((Player098*)::_g_thePlayer)))->GetTarget())) &&
                  ((::WaterForm098 *)(reinterpret_cast<::FUN_00547770_shell *>((((::CellWater098 *)(reinterpret_cast<::LowProcess *>((((Player098*)::_g_thePlayer)))->GetTarget()))))->FUN_00547770())) &&
-                 ((::Sound098 *)(reinterpret_cast<::TESPackage *>((((::WaterForm098 *)(reinterpret_cast<::FUN_00547770_shell *>((((::CellWater098 *)(reinterpret_cast<::LowProcess *>((((Player098*)::_g_thePlayer)))->GetTarget()))))->FUN_00547770()))))->GetRefCount())))
+                 ((::Sound098 *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((((::WaterForm098 *)(reinterpret_cast<::FUN_00547770_shell *>((((::CellWater098 *)(reinterpret_cast<::LowProcess *>((((Player098*)::_g_thePlayer)))->GetTarget()))))->FUN_00547770()))))->GetRefCount())))
         {
             unsigned int sound;
-            Sound098* flags = ((::Sound098 *)(reinterpret_cast<::TESPackage *>((((::WaterForm098 *)(reinterpret_cast<::FUN_00547770_shell *>((((::CellWater098 *)(reinterpret_cast<::LowProcess *>((((Player098*)::_g_thePlayer)))->GetTarget()))))->FUN_00547770()))))->GetRefCount()));
+            Sound098* flags = ((::Sound098 *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((((::WaterForm098 *)(reinterpret_cast<::FUN_00547770_shell *>((((::CellWater098 *)(reinterpret_cast<::LowProcess *>((((Player098*)::_g_thePlayer)))->GetTarget()))))->FUN_00547770()))))->GetRefCount()));
             sound = ((unsigned int)(::GetFlagMask((*(::SoundData098 *)(reinterpret_cast<::Holder *>((flags))->CopyBig({}))).flags)));
             sound |= ((*(::SoundData098 *)(reinterpret_cast<::Holder *>((flags))->CopyBig({}))).flags & 0x40) ? 0x8000001 : 2;
             BSSoundHandleEx kWaterSound = ((::Audio098 *)(::FUN_00453a70()))->FUN_00ad73b0(
-                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::Sound098 *)(reinterpret_cast<::TESPackage *>((((::WaterForm098 *)(reinterpret_cast<::FUN_00547770_shell *>((((::CellWater098 *)(reinterpret_cast<::LowProcess *>((((Player098*)::_g_thePlayer)))->GetTarget()))))->FUN_00547770()))))->GetRefCount()))))->FUN_0084e3a0())), sound);
+                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::Sound098 *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((((::WaterForm098 *)(reinterpret_cast<::FUN_00547770_shell *>((((::CellWater098 *)(reinterpret_cast<::LowProcess *>((((Player098*)::_g_thePlayer)))->GetTarget()))))->FUN_00547770()))))->GetRefCount()))))->FUN_0084e3a0())), sound);
             reinterpret_cast<::SoundPlaybackHandle *>(&(handle))->operator=((*(const ::SoundPlaybackHandle *)(&kWaterSound)));
         }
     }

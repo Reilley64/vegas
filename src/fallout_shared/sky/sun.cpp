@@ -449,7 +449,7 @@ struct NP
 };
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct Setting_S
 {
@@ -548,34 +548,34 @@ void FUN_00640810_t::FUN_00640810(NiNode* apSkyRoot)
 
     (NP&)((Sun*)this)->m_pThirdSceneObject =
         new NiTriShape(4, psunVertices, psunNormals, psunColors, psunTexture, 1, 0, 2, ssunVertOrder);
-    reinterpret_cast<::TaskQueueInterface *>((((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pThirdSceneObject)))->FUN_004902f0(true);
+    reinterpret_cast<::TaskQueueInterface *>((((NiTriShape*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pThirdSceneObject)))->FUN_004902f0(true);
 
     (NP&)((Sun*)this)->m_pFirstSceneObject = new FUN_0051cf00;
-    reinterpret_cast<::TaskQueueInterface *>((((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pFirstSceneObject)))->FUN_004902f0(true);
-    reinterpret_cast<::NiTriGeom2 *>((((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pFirstSceneObject)))->FUN_0051d000(2);
-    ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pFirstSceneObject)
-        ->AttachChildInAvailableSlot((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pThirdSceneObject, true);
+    reinterpret_cast<::TaskQueueInterface *>((((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pFirstSceneObject)))->FUN_004902f0(true);
+    reinterpret_cast<::NiTriGeom2 *>((((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pFirstSceneObject)))->FUN_0051d000(2);
+    ((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pFirstSceneObject)
+        ->AttachChildInAvailableSlot((NiTriShape*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pThirdSceneObject, true);
 
     (NP&)((Sun*)this)->m_pFourthSceneObject =
         new NiTriShape(4, pglareVertices, pglareNormals, pglareColors, pglareTexture, 1, 0, 2, sglareVertOrder);
-    reinterpret_cast<::TaskQueueInterface *>((((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pFourthSceneObject)))->FUN_004902f0(true);
+    reinterpret_cast<::TaskQueueInterface *>((((NiTriShape*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pFourthSceneObject)))->FUN_004902f0(true);
 
     (NP&)((Sun*)this)->m_pSecondSceneObject = new FUN_0051cf00;
-    reinterpret_cast<::TaskQueueInterface *>((((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pSecondSceneObject)))->FUN_004902f0(true);
-    reinterpret_cast<::NiTriGeom2 *>((((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pSecondSceneObject)))->FUN_0051d000(2);
-    reinterpret_cast<::FUN_00440490_shell *>((((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pSecondSceneObject)))->FUN_00440490(((Sun*)this)->m_fSunGlareIntensity);
-    ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pSecondSceneObject)
-        ->AttachChildInAvailableSlot((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pFourthSceneObject, true);
+    reinterpret_cast<::TaskQueueInterface *>((((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pSecondSceneObject)))->FUN_004902f0(true);
+    reinterpret_cast<::NiTriGeom2 *>((((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pSecondSceneObject)))->FUN_0051d000(2);
+    reinterpret_cast<::FUN_00440490_shell *>((((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pSecondSceneObject)))->FUN_00440490(((Sun*)this)->m_fSunGlareIntensity);
+    ((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pSecondSceneObject)
+        ->AttachChildInAvailableSlot((NiTriShape*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pFourthSceneObject, true);
 
-    ((NiNode*)(unsigned int)(const Flt&)((Sun*)this)->m_pRootNode)
-        ->AttachChildInAvailableSlot((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pFirstSceneObject, true);
+    ((NiNode*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pRootNode)
+        ->AttachChildInAvailableSlot((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pFirstSceneObject, true);
 
     (NP&)((Sun*)this)->m_pMenuLight = new NiDirectionalLight;
-    reinterpret_cast<::NiPointLight *>((((NiDirectionalLight*)(unsigned int)(const Flt&)((Sun*)this)->m_pMenuLight)))->FUN_0050dd20(1.0f);
-    reinterpret_cast<::FUN_004bc280_S *>((((FUN_004bc280_S*)(unsigned int)(const Flt&)((Sun*)this)->m_pMenuLight)))->FUN_004bc280((const ::C3 *)(const ::fnv_00640810::C3 *)((const C3*)&(*reinterpret_cast<::fnv_00640810::NiColor *>(&::DAT_011a9b7c))));
-    reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((((NiDirectionalLight*)(unsigned int)(const Flt&)((Sun*)this)->m_pMenuLight)))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)((const NiPoint3&)(*reinterpret_cast<::fnv_00640810::NiColor *>(&::DAT_011a9b7c))));
-    ((NiNode*)(unsigned int)(const Flt&)((Sun*)this)->m_pRootNode)
-        ->AttachChildInAvailableSlot((NiDirectionalLight*)(unsigned int)(const Flt&)((Sun*)this)->m_pMenuLight, true);
+    reinterpret_cast<::NiPointLight *>((((NiDirectionalLight*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pMenuLight)))->FUN_0050dd20(1.0f);
+    reinterpret_cast<::FUN_004bc280_S *>((((FUN_004bc280_S*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pMenuLight)))->FUN_004bc280((const ::C3 *)(const ::fnv_00640810::C3 *)((const C3*)&(*reinterpret_cast<::fnv_00640810::NiColor *>(&::DAT_011a9b7c))));
+    reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((((NiDirectionalLight*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pMenuLight)))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)((const NiPoint3&)(*reinterpret_cast<::fnv_00640810::NiColor *>(&::DAT_011a9b7c))));
+    ((NiNode*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pRootNode)
+        ->AttachChildInAvailableSlot((NiDirectionalLight*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pMenuLight, true);
 
     ((Sun*)this)->m_pSunGlarePick = new GlobalObject_00e98f20(0, 8);
     reinterpret_cast<::FUN_00537e90 *>((((QuantityData*)((Sun*)this)->m_pSunGlarePick)))->SetQuantity(1);
@@ -586,9 +586,9 @@ void FUN_00640810_t::FUN_00640810(NiNode* apSkyRoot)
     new ((void *)(((FUN_00baf3c0_S*)&bsshaderdata))) ::fnv_00baf3c0::FUN_00baf3c0();
     bsshaderdata.m_iShaderType = 6;
     bsshaderdata.m_iShaderOptionIndex = 0;
-    reinterpret_cast<::FUN_00bb0180_shell *>((((FUN_00bb0180_S*)&bsshaderdata)))->AddProperties((::NiAVObject *)(::fnv_00640810::NiAVObject *)((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pThirdSceneObject), 1);
+    reinterpret_cast<::FUN_00bb0180_shell *>((((FUN_00bb0180_S*)&bsshaderdata)))->AddProperties((::NiAVObject *)(::fnv_00640810::NiAVObject *)((NiTriShape*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pThirdSceneObject), 1);
     bsshaderdata.m_iShaderOptionIndex = 1;
-    reinterpret_cast<::FUN_00bb0180_shell *>((((FUN_00bb0180_S*)&bsshaderdata)))->AddProperties((::NiAVObject *)(::fnv_00640810::NiAVObject *)((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pFourthSceneObject), 1);
+    reinterpret_cast<::FUN_00bb0180_shell *>((((FUN_00bb0180_S*)&bsshaderdata)))->AddProperties((::NiAVObject *)(::fnv_00640810::NiAVObject *)((NiTriShape*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pFourthSceneObject), 1);
 }
 }  // namespace fnv_00640810
 
@@ -839,7 +839,7 @@ struct GlobalObject_0044f440
 };
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct RgbaColor
 {
@@ -991,7 +991,7 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
             fDiscAlpha = 1.0f - (fhour - fAlphaOutBegin) / (fAlphaOutEnd - fAlphaOutBegin);
         }
         TESWeather* pCurr = (TESWeather*)((void *)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio*)apSky)))->FUN_0044edb0()));
-        TESWeather* pLast = (TESWeather*)((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((AnimIdle*)apSky)))->FUN_00825c00()));
+        TESWeather* pLast = (TESWeather*)((std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((AnimIdle*)apSky)))->FUN_00825c00()));
         float fCurrPct = ::FUN_006447d0((const char*)apSky);
         float fGlareAlpha = (pCurr ? pCurr->GetWeatherData(4, fCurrPct * fDiscAlpha, 0.0f) : fDiscAlpha) +
                             (pLast ? pLast->GetWeatherData(4, (1.0f - fCurrPct) * fDiscAlpha, 0.0f) : 0.0f);
@@ -1286,7 +1286,7 @@ void A6A0Sun::FUN_006426a0(void* pvArg0, A6A0Target* pkTarget, void* pvArg1)
             m_kRoomNode.Reset(pkTarget);
             A6A0World* pkWorld = ((::A6A0World *)(::fnv_006fa820::FUN_006fa820((const char *)this)));
             reinterpret_cast<::FUN_006427a0_Class *>((pkWorld))->SetValue((float)(reinterpret_cast<::FUN_008d01e0_Class *>((pkWorld))->FUN_008d01e0() / ::DAT_0104f2f0));
-            reinterpret_cast<::Candidate *>((pkCurrent))->RenderGeometryPass(pkWorld, (unsigned int)(pvArg0), pvArg1);
+            reinterpret_cast<::Candidate *>((pkCurrent))->RenderGeometryPass(pkWorld, (unsigned int)(std::uintptr_t)(pvArg0), pvArg1);
             reinterpret_cast<::FUN_006427a0_Class *>((pkWorld))->SetValue((float)(reinterpret_cast<::FUN_008d01e0_Class *>((pkWorld))->FUN_008d01e0() * ::DAT_0104f2f0));
         }
     }

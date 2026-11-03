@@ -371,7 +371,7 @@ void MessageCopyAccess::CopyFromMessage(TESForm* form)
     BSSimpleList<PerkButtonEntry*>* node;
     ClearData();
     MessageCopyAccess* src = (MessageCopyAccess*)form;
-    reinterpret_cast<::Twin_0086cf00 *>(this)->SetD3DPixelShader((::GeometryRelatedType *const)(((::BGSMenuIcon *)(reinterpret_cast<::BGSMessageInitAccess *>((((MessageCopyAccess*)form)))->GetIconFormID()))));
+    reinterpret_cast<::Twin_0086cf00 *>(this)->SetD3DPixelShader((::GeometryRelatedType *const)(((::BGSMenuIcon *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((((MessageCopyAccess*)form)))->GetIconFormID()))));
     reinterpret_cast<::FUN_00590e80_shell *>(this)->SetEnabled(reinterpret_cast<::FUN_00590d00_shell *>((src))->FUN_00590d00());
     reinterpret_cast<::FUN_00590ef0_shell *>(this)->FUN_00590ef0(reinterpret_cast<::FUN_00590ed0_shell *>((src))->IsFlagSet());
     reinterpret_cast<::FUN_00409480_shell *>(this)->FUN_00409480((::TESActorBase *)(::TESForm *)(((::TESForm *)(reinterpret_cast<::Twin_00639b40 *>((src))->GetEntryPoint()))));
@@ -431,7 +431,7 @@ void Target0bc0::WriteToStream()
     reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
     reinterpret_cast<::FUN_00482cb0_shell *>(&(description))->FUN_00482cb0();
     reinterpret_cast<::FUN_00487010_shell *>(&(fullName))->FUN_00487010();
-    unsigned int id = ((::Icon0bc0 *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())) ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::Icon0bc0 *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->FUN_0084e3a0())) : 0;
+    unsigned int id = ((::Icon0bc0 *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())) ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::Icon0bc0 *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->FUN_0084e3a0())) : 0;
     ::FUN_00485910(0x4d414e49, id);
     ::FUN_00485910(0x4d414e44, flags);
     if (!reinterpret_cast<::FUN_00590d00_shell *>(this)->FUN_00590d00())
@@ -442,7 +442,7 @@ void Target0bc0::WriteToStream()
         Button0bc0* button = ((::Button0bc0 *)((void *)(node)));
         node = ((::List0bc0 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         if (((const char *)(::FUN_00559450((int *)&(button->text)))))
-            ::FUN_004856f0((void *)(0x54585449), (void *)(((const char *)(::FUN_00559450((int *)&(button->text))))), (void *)(((int)(::FUN_0044a670(((const char *)(::FUN_00559450((int *)&(button->text))))))) + 1));
+            ::FUN_004856f0((void *)(0x54585449), (void *)(((const char *)(::FUN_00559450((int *)&(button->text))))), (void *)(std::uintptr_t)(((int)(::FUN_0044a670(((const char *)(::FUN_00559450((int *)&(button->text))))))) + 1));
         else
             ::FUN_00485910(0x54585449, 0);
         reinterpret_cast<::FUN_00680910_shell *>(&(button->conditions))->ProcessItems();

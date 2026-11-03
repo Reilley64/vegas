@@ -1,5 +1,6 @@
 // fallout/ai/combat/grenadeprojectile.cpp: GrenadeProjectile, GPShell, ImpactProjectile (11 functions)
 
+#include "fnv/vats_camera_data_view.h"
 #include <new>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -2044,7 +2045,7 @@ struct hkVector4Mul
 // @fnv 0x009b4460
 bool Actor9B4::FUN_009b4460(TESObjectREFR9B4* pkTarget, intptr_t a2, intptr_t a3, intptr_t a4, int a5, int a6)
 {
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::GameModeState9B4 *>(&::g_011f2250))))->GetName())) == 4)
+    if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4)
     {
         NiNode9B4* pkNode = ((::NiNode9B4 *)(::bhkCollisionObject::GetFromNiAVObject((::NiAVObject *)(void *)(Get3D()))));
         if (pkNode)

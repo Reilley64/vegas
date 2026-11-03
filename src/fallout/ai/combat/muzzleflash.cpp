@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/muzzleflash.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/muzzleflash.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/vats_camera_data_view.h"
 #include <cstdint>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -1285,7 +1286,7 @@ void S_009bb080::FUN_009bb080(float afDeltaTime, S_009bb080_Base0* proj)
     }
     if (unk2)
         reinterpret_cast<::FUN_009bb8a0_Class *>(this)->UpdateLightVisibility();
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::S_009bb080_Global *>(&::g_011f2250))))->GetName())) == 4 && FUN_00716440() > ::_DAT_01012060)
+    if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && FUN_00716440() > ::_DAT_01012060)
     {
         afDeltaTime = afDeltaTime / FUN_00716440();
     }

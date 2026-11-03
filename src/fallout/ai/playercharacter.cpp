@@ -1,5 +1,6 @@
 // fallout/ai/playercharacter.cpp: PlayerView, PlayerCharacter_StandIn, PlayerCharacter, PlayerStub and more (251 functions)
 
+#include "fnv/vats_camera_data_view.h"
 #include "fnv/result_slot.h"
 #include "fnv/simple_array_item.h"
 #include <cstdint>
@@ -13322,7 +13323,7 @@ void PlayerCharacterEx::FUN_0093e530(intptr_t a1, float afValue, bool a3, unsign
     soundHandle = ((::fnv_0093e530::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID("UIPopUpQuestNew", 0x121);
     soundHandle.Play(false);
 
-    if (!a1 || ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0093e530::VATS *>(&::g_011f2250))))->GetName())))
+    if (!a1 || ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)))
         return;
 
     if (a3 && reinterpret_cast<PlayerCharacterStandin*>(this)->unk0E1C <= 0.0)
@@ -17028,7 +17029,7 @@ bool PlayerX::FUN_00948310()
     qpia = ((::fnv_00948310::InputX *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::fnv_00948310::OSX * *>(&::g_osGlobals))))->FUN_00877720()));
     qJDuOZ = false;
     qpydTG = pProcess->GetEquipped() ? ((::fnv_00948310::WeapX *)(reinterpret_cast<::Twin_0044ddc0 *>((pProcess->GetEquipped()))->GetName())) : 0;
-    qhQRuW = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00948310::DlgX *>(&::g_011f2250))))->GetName())) == 4;
+    qhQRuW = ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4;
     qfTOqo = 0;
     qBLsiu = (*reinterpret_cast<::fnv_00948310::TimerX *>(&::g_timeGlobal)).GetMovementDelta() * reinterpret_cast<::VATS *>(&((*reinterpret_cast<::fnv_00948310::DlgX *>(&::g_011f2250))))->GetModeTimeMultiplier();
     if (qhQRuW)
@@ -19921,7 +19922,7 @@ void Obj117::FUN_0094ae40(bool force, bool skip)
     static Static117 cameraNode;
     reinterpret_cast<::C52020Obj *>((((::fnv_0094ae40::Manager117 *)(::FUN_0045c670()))))->FUN_00c52020(fov1, 0, (::C52020Obj *)(0), 0);
     ::BSShaderManager::SetFOV(fov1);
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0094ae40::Mode117 *>(&::g_011f2250))))->GetName())) == 4 && flag64c)
+    if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && flag64c)
     {
         position17 = (*reinterpret_cast<::fnv_0094ae40::V117 *>(&::DAT_011e0808));
         reinterpret_cast<::FUN_00440460_S *>(&(cameraNode))->FUN_00440460((const ::V3 *)&(position17));
@@ -19968,7 +19969,7 @@ void Obj117::FUN_0094ae40(bool force, bool skip)
                 reinterpret_cast<::FUN_00a59c60_cls *>((DAT_011e07d8))->FUN_00a59c60((std::intptr_t)&(upd));
             }
         }
-        if (control && control->FUN_00621440() && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0094ae40::Mode117 *>(&::g_011f2250))))->GetName())) != 4)
+        if (control && control->FUN_00621440() && ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) != 4)
             reinterpret_cast<::FUN_0094c380_Class *>((control))->FUN_0094c380();
     }
     else
@@ -20060,7 +20061,7 @@ void Obj117::FUN_0094ae40(bool force, bool skip)
         reinterpret_cast<::ThreeByThreeMatrix *>(&(temp29))->GetRow(2, (::NiPoint3 &)(row13));
         reinterpret_cast<::M3_ *>(&(rotation52))->SetElement(2, row13.z, row13.x, row13.y);
     }
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0094ae40::Mode117 *>(&::g_011f2250))))->GetName())) != 4 ||
+    if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) != 4 ||
         (((::fnv_0094ae40::Obj117 *)(reinterpret_cast<::MagicCaster_shell *>(&((*reinterpret_cast<::fnv_0094ae40::Mode117 *>(&::g_011f2250))))->FUN_0044edb0())) && reinterpret_cast<::FUN_0058d630_shell *>((((::fnv_0094ae40::Obj117 *)(reinterpret_cast<::MagicCaster_shell *>(&((*reinterpret_cast<::fnv_0094ae40::Mode117 *>(&::g_011f2250))))->FUN_0044edb0()))))->FUN_0058d630()))
     {
         M117 shake2;
@@ -43625,7 +43626,7 @@ void ThisCls_cls::FUN_00962290(ArgCls_cls* a1)
         f = ::fnv_00648a80::ComputeSettingLerp(reinterpret_cast<::NiPoint3 *>(&(tmp))->ComputeMagnitude());
         if (f > ::_DAT_01012060)
         {
-            if (!((int)(reinterpret_cast<::Twin_0044ddc0 *>((((Global_cls*)&(*reinterpret_cast<::AimMode *>(&::g_011f2250)))))->GetName())))
+            if (!((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)))
             {
                 ::ImageSpaceModifierInstanceForm::Trigger((::TESImageSpaceModifier *)(((intptr_t)(::FUN_005d2860()))), f, (::NiAVObject *)(a1->v74()));
             }
@@ -48116,14 +48117,14 @@ void AimPlayer::UpdateAim(AimObject* actor, AimObject* source, float* yawOut, fl
     bool cameraAim = false;
     AimObject* target4 = 0;
     AimVector point15 = explicitTarget ? *explicitTarget : (source ? source->FUN_0045bb80() : (*reinterpret_cast<::fnv_00965620::NiPoint3_ext *>((void *)&::NiPoint3::ZERO)));
-    if (reinterpret_cast<::FUN_008bbc10_shell *>(this)->FUN_008bbc10() && !((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00965620::AimCamera *>(&::g_011f2250))))->GetName())) && ((::fnv_00965620::AimWeapon *)(reinterpret_cast<::FUN_008a1710_shell *>(this)->FUN_008a1710())))
+    if (reinterpret_cast<::FUN_008bbc10_shell *>(this)->FUN_008bbc10() && !((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) && ((::fnv_00965620::AimWeapon *)(reinterpret_cast<::FUN_008a1710_shell *>(this)->FUN_008a1710())))
     {
         if (reinterpret_cast<::FUN_004ad030_shell *>((((::fnv_00965620::AimWeapon *)(reinterpret_cast<::FUN_008a1710_shell *>(this)->FUN_008a1710()))))->GetFlag() && process && process->GetFlags() && reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((process->GetFlags()))->HasEffect(14))
             return;
         else if (reinterpret_cast<::FUN_004ad010_shell *>((((::fnv_00965620::AimWeapon *)(reinterpret_cast<::FUN_008a1710_shell *>(this)->FUN_008a1710()))))->IsFlag4Set() && !reinterpret_cast<::FUN_004ad030_shell *>((((::fnv_00965620::AimWeapon *)(reinterpret_cast<::FUN_008a1710_shell *>(this)->FUN_008a1710()))))->GetFlag())
             return;
     }
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00965620::AimCamera *>(&::g_011f2250))))->GetName())) == 4 && camera3 && camera3->target)
+    if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && camera3 && camera3->target)
     {
         cameraAim = true;
         target4 = camera3->target->GetRoot();
@@ -52599,7 +52600,7 @@ class FUN_00967ae0_cls
 void FUN_00950530_shell::FUN_00950530()
 {
     if (*reinterpret_cast<unsigned char*>((char*)this + 0x64f) && !((unsigned char)(reinterpret_cast<::FUN_00967ae0_cls *>(this)->FUN_00967ae0())) &&
-        reinterpret_cast<unsigned int>(((::SettingsOwner *)(reinterpret_cast<::Twin_0044ddc0 *>((((CRow*)&(*reinterpret_cast<::AimMode *>(&::g_011f2250)))))->GetName()))) != 4)
+        reinterpret_cast<unsigned int>(((::SettingsOwner *)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode))) != 4)
     {
         if (DAT_011e0780 || !((unsigned char)(reinterpret_cast<::FUN_008bbc10_shell *>(this)->FUN_008bbc10())) || !((ActorRef82*)*(void**)((char*)this + 0x68))->v82() ||
             !((::xModel *)(reinterpret_cast<::FUN_00504e60_shell *>((((::SettingsOwner *)(reinterpret_cast<::Twin_0044ddc0 *>((((ActorRef82*)*(void**)((char*)this + 0x68))->v82()))->GetName()))))->FUN_00504e60()))->FUN_0048cee0())
@@ -60334,7 +60335,7 @@ void InputPlayer::FUN_009466d0(float dt, bool paused)
             ((::InputProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->Refresh(this);
         unsigned short oldFlags3 = ((int)(reinterpret_cast<::FUN_008846e0_shell *>(this)->GetVtbl20Result()));
         flags3 = oldFlags3 & 0xcc00;
-        if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::AimMode *>(&::g_011f2250))))->GetName())) && reinterpret_cast<::AimPlayer *>(this)->FUN_009445b0(dt, 0, &flags3, 0))
+        if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) && reinterpret_cast<::AimPlayer *>(this)->FUN_009445b0(dt, 0, &flags3, 0))
             changed = true;
         InputMatrix velocity_;
         InputMatrix movement;
@@ -69202,7 +69203,7 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
     bool handledScope4 = false;
     AimObject* targetScope2 = 0;
     int partScope2 = -1;
-    switch (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::AimMode *>(&::g_011f2250))))->GetName())))
+    switch (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)))
     {
     case 4: {
         if (((::AimSelection *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::AimMode *>(&::g_011f2250))))->FUN_009c71c0())))
@@ -69322,7 +69323,7 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
                     positionScope12Local0 = centerScope17;
                     bool adjustedScope27 = false;
                     AimCombat* combatScope28 = ((::AimCombat *)(::fnv_004b7210::FUN_004b7210()));
-                    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::AimMode *>(&::g_011f2250))))->GetName())) == 2 && reinterpret_cast<::FUN_00755680_shell *>((combatScope28))->FUN_00755680() &&
+                    if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 2 && reinterpret_cast<::FUN_00755680_shell *>((combatScope28))->FUN_00755680() &&
                         reinterpret_cast<::MotionRule *>((DAT_011e0774))->FUN_00946280() && reinterpret_cast<::MotionRule *>((DAT_011e0760))->FUN_00946280())
                     {
                         int stateScope2 = reinterpret_cast<::InterfaceManager *>((combatScope28))->FUN_00747d00();
@@ -69370,7 +69371,7 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
                                 adjustedScope27 = false;
                         }
                     }
-                    if (!adjustedScope27 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::AimMode *>(&::g_011f2250))))->GetName())) != 3 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::AimMode *>(&::g_011f2250))))->GetName())) != 1 &&
+                    if (!adjustedScope27 && ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) != 3 && ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) != 1 &&
                         DAT_011a3b31 && reinterpret_cast<::MotionRule *>((DAT_011e0774))->FUN_00946280() && reinterpret_cast<::MotionRule *>((DAT_011e0760))->FUN_00946280())
                     {
                         AimBody* bodyScope42 = ((::AimBase *)(reinterpret_cast<::Actor *>((actorScope16))->GetActorBase()))->GetBodyParts();
@@ -69428,9 +69429,9 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
             if (changedScope13Local13)
             {
                 float durationScope53 = 0.0f;
-                if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::AimMode *>(&::g_011f2250))))->GetName())) == 1)
+                if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 1)
                     durationScope53 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting1258))))));
-                else if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::AimMode *>(&::g_011f2250))))->GetName())) == 2)
+                else if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 2)
                 {
                     if (sameTargetScope5)
                         durationScope53 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting1260))))));
@@ -70229,7 +70230,7 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
     }
     NiPoint3 v128 = *p2 + v60 * DAT_011e0768;
     bool ok = false;
-    if (state != 0 || ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ModeShell *>(&::g_011f2250))))->GetName())) == 4)
+    if (state != 0 || ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4)
     {
         if (state < 0)
         {
@@ -70243,7 +70244,7 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
         else if (DAT_011e0768 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::g_011e0a84)))))))
             DAT_011e0768 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::g_011e0a84))))));
     }
-    else if (!FUN_00702680(0x40c, 0) && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ModeShell *>(&::g_011f2250))))->GetName())) != 4)
+    else if (!FUN_00702680(0x40c, 0) && ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) != 4)
     {
         void* o = ((void *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
         float ft = reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>((((TObjShell*)this)))->GetActorHeight() - 124.0;
@@ -70265,7 +70266,7 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
         if (DAT_011a3b38 < 1.0)
         {
             DAT_011a3b38 += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeShell *>(&::g_timeGlobal))))->GetStoredFloatValue() * 4.0;
-            if (DAT_011a3b38 > 1.0 || (state != 0 || ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ModeShell *>(&::g_011f2250))))->GetName())) == 4))
+            if (DAT_011a3b38 > 1.0 || (state != 0 || ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4))
                 DAT_011a3b38 = 1.0f;
             reinterpret_cast<::Actor *>(this)->UpdateActorPresentation();
         }

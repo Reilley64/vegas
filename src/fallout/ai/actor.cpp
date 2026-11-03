@@ -1,5 +1,6 @@
 // fallout/ai/actor.cpp: ActorValue, ActorX, Holder, ActorStub and more (806 functions)
 
+#include "fnv/vats_camera_data_view.h"
 #include "fnv/tls.h"
 #include "fnv/simple_array_item.h"
 #include "fnv/result_slot.h"
@@ -9045,7 +9046,7 @@ bool FUN_008a6970_shell::FUN_008a6970()
 {
     if (reinterpret_cast<::FUN_008846e0_shell *>((((ActMM*)this)))->GetVtbl20Result() & 0x800)
     {
-        if (this == pPlayer && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((DatT*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4)
+        if (this == pPlayer && ((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4)
             reinterpret_cast<::VATS *>((((DatT*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->FUN_009c8950(false, false);
         return false;
     }
@@ -24387,7 +24388,7 @@ void fnv_00887b90::ActorX::FUN_00887b90(float afTime, int)
     float fTime = afTime;
     if (reinterpret_cast<::FUN_00576d30_shell *>((void *)(((fnv_00887b90::TESForm*)this)))->FUN_00576d30())
         return;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4 && this == DAT_011f21cc)
+    if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == DAT_011f21cc)
         fTime *= reinterpret_cast<::FUN_009c8d60_t *>((((VATS*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->FUN_009c8d60();
     if (*(Proc**)&this->m_pBaseProcess && !Interface::IsMenuActive(0x3f0, 0))
     {
@@ -43244,7 +43245,7 @@ void FUN_00567050_shell::FUN_00567050()
         }
         else if (iRandom && ((Calendar*)iRandom)->GetDaysPassed())
         {
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4 && this == DAT_011f21cc)
+            if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == DAT_011f21cc)
                 reinterpret_cast<::FUN_00491180_shell *>((pAnim))->FUN_00491180((::TESObjectREFR *)(::Actor *)(this), reinterpret_cast<::Twin_0084d030 *>((((Twin_0084d030*)&g_timeGlobal)))->GetStoredFloatValue() *
                                         reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATS *>(&::g_011f2250))))->FUN_009c8d60(), {});
             else
@@ -67110,7 +67111,7 @@ intptr_t Target8990::FUN_008990f0()
     Value8990* a = d ? (Value8990*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((d))->GetName())) : 0;
     float speed = a ? FUN_006463e0(reinterpret_cast<::NiCamera *>((a))->GetMaxFarNearRatio()) : slot_380();
     speed *= reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400();
-    if (slot_360() && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((Value8990*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4)
+    if (slot_360() && ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4)
         speed *= ((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting8990 *>(&::originalRuntimeFloatSetting547))))))[0];
     result3 = ((intptr_t)(::FUN_009a60e0((::Actor *)(::Target8990 *)(this), speed)));
     return result3;
@@ -78133,7 +78134,7 @@ float CalcActor::GetCachedSpeed(int mode)
         moving = (flags2 & 15) ? reinterpret_cast<::FUN_00884730_shell *>(this)->FUN_00884730() : false;
     }
     void* animation5 = GetAnimation();
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ValueInfo *>(&::g_011f2250))))->GetName())) == 2 || ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ValueInfo *>(&::g_011f2250))))->GetName())) == 3)
+    if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 2 || ((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 3)
         resultB = CalculateSpeed(this, info2, base5, true, false, s, moving);
     else
         resultB = CalculateSpeed(this, info2, base5, reinterpret_cast<::FUN_008bbc10_shell *>(this)->FUN_008bbc10(), reinterpret_cast<::Actor *>(this)->IsSneaking(), s, moving);
@@ -80862,7 +80863,7 @@ void ActorSoundView::FUN_008b3230(float elapsed)
             float delta = elapsed;
             if (delta == 0.0 && !Paused())
             {
-                if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VatsView *>(&::g_011f2250))))->GetName())) == 4 && this == (*reinterpret_cast<::ActorSoundView * *>(&::DAT_011f21cc)))
+                if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == (*reinterpret_cast<::ActorSoundView * *>(&::DAT_011f21cc)))
                     delta = reinterpret_cast<::Twin_0084d030 *>(&(actorClock))->GetStoredFloatValue() * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VatsView *>(&::g_011f2250))))->FUN_009c8d60();
                 else
                     delta = reinterpret_cast<::Twin_0084d030 *>(&(actorClock))->GetStoredFloatValue();
@@ -87317,7 +87318,7 @@ void PlayerView::SetActiveState(unsigned char selected, unsigned char bypass, un
     if (prevent && type == 1)
         return;
     m_68->SetActive(selected);
-    if (this == DAT_011dea3c && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<CurrentMode*>(&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) != 4)
+    if (this == DAT_011dea3c && ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) != 4)
     {
         ::fnv_00771700::FUN_00771700(1);
         float unity = 1.0f;
@@ -97441,7 +97442,7 @@ void UAMActor::FUN_008885e0(UAMAnim* apAnimation, float afDelta)
         bool bIdle = (!bBusyX && !::FUN_00579670((char *)this) && !bPlayerNotReadyTmp);
         bool bSaved;
         float fTime2 = reinterpret_cast<::Twin_0084d030 *>(&(g_kUAMTimer))->GetStoredFloatValue();
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::UAMVATS *>(&::g_011f2250))))->GetName())) == 4 && this == (*reinterpret_cast<::UAMActor * *>(&::DAT_011f21cc)))
+        if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == (*reinterpret_cast<::UAMActor * *>(&::DAT_011f21cc)))
             fTime2 *= reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::UAMVATS *>(&::g_011f2250))))->FUN_009c8d60();
         if (bIdle)
         {
@@ -103612,7 +103613,7 @@ bool W20Actor::FUN_00891360(W20Item* item, float amount, int unused)
                 ::DispatchMessageToSink((const char *)(((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00891360::W20Settings *>(&::g_011d291c))))->GetMenuTitle()))), 2, (const char *)(0), (const char *)(str_010849c0), 4.0f, false);
             }
             reinterpret_cast<::FUN_00ad8570_S *>((FUN_00453a70()))->FUN_00ad8570((intptr_t)(((::fnv_00891360::W20Node *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()))), 0.0f, false);
-            if (v360() && e && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((W20Vats*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4)
+            if (v360() && e && ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4)
                 reinterpret_cast<::InventoryStackRecord *>((((W20Vats*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->SetPointers(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), *((void **)(((::Vec3 *)(void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item)))))))));
             else
                 reinterpret_cast<::FUN_0088d7d0_shell *>(this)->FUN_0088d7d0((::TESBoundObject *)(::fnv_00891360::W20Form *)(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))), 1, (::ExtraDataList *)(*((void **)(((::Vec3 *)(void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item))))))))), false, true, true);
@@ -105274,7 +105275,7 @@ void This899::SpawnProjectile(Actor* apActor, unsigned char arg2, void* apSource
 
     S_008c1c60 obj1(new Node9b());
 
-    ptrTable = (((ThisV*)this)->V216() && ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((Ref44*)&(*reinterpret_cast<::fnv_00899cb0::VATS *>(&::g_011f2250)))))->GetName())) == (void*)4)
+    ptrTable = (((ThisV*)this)->V216() && ((void *)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == (void*)4)
                    ? reinterpret_cast<::ListHolder *>((((ListHolder*)&(*reinterpret_cast<::fnv_00899cb0::VATS *>(&::g_011f2250)))))->FUN_009c71c0()
                    : 0;
 
@@ -122392,7 +122393,7 @@ void ActorHitOwner::FUN_008a7d50(bool abQueue, bool abPlayerFX)
     reinterpret_cast<::FUN_008a7f40_Class *>((pProcess))->FUN_008a7f40(fHitCooldown + *(float*)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1004)))))));
     if ((void*)this == (void*)g_thePlayer)
     {
-        if (abPlayerFX && !((int)(reinterpret_cast<::Twin_0044ddc0 *>((((VatsQuery*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())))
+        if (abPlayerFX && !((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)))
             ::ImageSpaceModifierInstanceForm::Trigger((::TESImageSpaceModifier *)(::fnv_008a7d50::HitMod *)(((::fnv_008a7d50::HitMod *)(::FUN_005d2860()))), *(float*)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting731)))))), (::NiAVObject *)(0));
         if (!::FUN_00702360())
         {
@@ -128708,7 +128709,7 @@ void ZActor::FUN_00899200(bool arg1, bool abFindTarget)
         reinterpret_cast<::FUN_0087b040_shell *>((((::fnv_00899200::ZQueue *)(::TaskQueueInterface::GetSingleton()))))->QueuePowerAttackTask((::Actor *)(::fnv_00899200::ZActor *)(this), arg1, abFindTarget);
         return;
     }
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00899200::ZVats *>(&::g_011f2250))))->GetName())) == 4 && this == (*reinterpret_cast<::fnv_00899200::ZActor * *>(&::DAT_011f21f0)))
+    if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == (*reinterpret_cast<::fnv_00899200::ZActor * *>(&::DAT_011f21f0)))
     {
         ZForm* vatsWeapon6 = process->equipped() ? (ZForm*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((process->equipped()))->GetName())) : 0;
         ZVatsEntry* vatsEntry = ((::fnv_00899200::ZVatsEntry *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::fnv_00899200::ZVats *>(&::g_011f2250))))->FUN_009c71c0()));
@@ -130003,7 +130004,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
             }
             if (this == DAT_011dea3c)
             {
-                if (!((int)(reinterpret_cast<::Twin_0044ddc0 *>((((HVats*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())))
+                if (!((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)))
                     ::ImageSpaceModifierInstanceForm::Trigger((::TESImageSpaceModifier *)(void *)(((void *)(::FUN_005d2860()))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0089a760::MSetting *>(&::originalRuntimeFloatSetting731)))))), (::NiAVObject *)(::fnv_0089a760::HNode *)(0));
                 if (!::FUN_00702360())
                 {
@@ -130111,7 +130112,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
                 reinterpret_cast<::fnv_0087ada0::FUN_0087ada0_shell *>((((::fnv_0089a760::HQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087ada0((intptr_t)(this), (::fnv_0087ada0::FUN_0087adf0_shell *)(hit));
             if (this == DAT_011dea3c)
             {
-                if (hit->attacker && !((int)(reinterpret_cast<::Twin_0044ddc0 *>((((HVats*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())))
+                if (hit->attacker && !((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)))
                     ::ImageSpaceModifierInstanceForm::Trigger((::TESImageSpaceModifier *)(void *)(((void *)(::FUN_005d2860()))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0089a760::MSetting *>(&::originalRuntimeFloatSetting731)))))), (::NiAVObject *)(::fnv_0089a760::HNode *)(hit->attacker->vf1d0()));
                 if (!::FUN_00702360() && !reinterpret_cast<::FUN_00525430_Class *>((((HVats*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->FUN_00525430())
                 {
@@ -132352,7 +132353,7 @@ void SelActor::FUN_00964260()
         reinterpret_cast<::FUN_0059ceb0_shell *>(&(ray))->FUN_0059ceb0((::hkpClosestRayHitCollector *)(void *)(&collector));
     SelPoint origin = GetPosition();
     SelPoint end(0.0f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00964260::SelSetting *>(&::originalRuntimeFloatSetting515)))))), 0.0f);
-    if (((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((SelEntry*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == (void*)4 || ::DAT_011e07b8)
+    if (((void *)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == (void*)4 || ::DAT_011e07b8)
     {
         origin.z += ::FUN_0070c3b0((::FUN_0070c3b0_Dummy *)this);
         SelMatrix rotation, looking;
@@ -132394,7 +132395,7 @@ void SelActor::FUN_00964260()
     SelProcess* process = ((::fnv_00964260::SelProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()));
     SelEntry* entry = process->GetWeaponEntry();
     SelWeapon* weapon = entry ? (SelWeapon*)((void *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) : 0;
-    if (((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((SelEntry*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) != (void*)2 && hitRef && hitRef == selectedTarget)
+    if (((void *)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) != (void*)2 && hitRef && hitRef == selectedTarget)
     {
         SelNode* root = selectedTarget->GetSceneNode();
         float distance = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00964260::SelSetting *>(&::originalRuntimeFloatSetting515))))));
@@ -132413,7 +132414,7 @@ void SelActor::FUN_00964260()
             }
         }
     }
-    else if (((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((SelEntry*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == (void*)2 && DAT_011f21cc && weapon &&
+    else if (((void *)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == (void*)2 && DAT_011f21cc && weapon &&
              !::FUN_006450c0((::TESObjectWEAP *)(weapon)) && !::FUN_004b71d0())
     {
         SelNode* root = ((SelActor*)DAT_011f21cc)->GetSceneNode();
@@ -135425,7 +135426,7 @@ bool MatchActor::FUN_008bcdf0(bool update, int unused)
             reinterpret_cast<::S1a130 *>((((RagdollControllerView*)m_pRagdollController)))->FUN_005ba130(aAllowed);
             reinterpret_cast<::FUN_00c747d0_Class *>((((RagdollControllerView*)m_pRagdollController)))->FUN_00c747d0(aAllowed && FloatTripleBooleanFlagRecord && _enabled ? true : false);
             ::SetCastDown((char *)(((RagdollControllerView*)m_pRagdollController)), std::bit_cast<::blob1>(!moving6));
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((StateView*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4)
+            if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4)
                 reinterpret_cast<::C75910Water *>((((RagdollControllerView*)m_pRagdollController)))->UpdateShaderParams();
             else
                 reinterpret_cast<::FUN_00c759f0_Class *>((((RagdollControllerView*)m_pRagdollController)))->FUN_00c759f0();
@@ -135965,7 +135966,7 @@ void UpdateActor::FUN_00886360(float delta)
     ((ActorPacketView*)this)->vfn_140();
     *(unsigned char*)&m_bSecondOfTwoFlags = ((unsigned char)(reinterpret_cast<::fnv_008a40e0::MatchActor *>(this)->FUN_008a40e0((::fnv_008a40e0::RefView *)(0))));
     float elapsed = reinterpret_cast<::Twin_0084d030 *>(&(g_timeGlobal))->GetStoredFloatValue();
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<ParentSpaceNode, 1024>*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4 && this == DAT_011f21cc)
+    if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == DAT_011f21cc)
         elapsed *= reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATS *>(&::g_011f2250))))->FUN_009c8d60();
     if (BooleanIntegerTwoFloatData > ::_DAT_01012060)
         BooleanIntegerTwoFloatData -= elapsed;
@@ -139142,7 +139143,7 @@ void ActorView::FUN_008b52a0(void* reference, uintptr_t partIndex, bool explode,
             process->UpdatePart(partIndex, original6, result3, explode);
         else
             reinterpret_cast<::fnv_008b6290::Cls *>(this)->ProcessObjects((void *)(partIndex), original6, (::fnv_008b6290::Src *)(result3), explode);
-        if (!explode && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((VatsView*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4 && result3)
+        if (!explode && ((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && result3)
         {
             Target* target = ((::fnv_008b52a0::Target *)(reinterpret_cast<::ListHolder *>((((VatsView*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->FUN_009c71c0()));
             if (target && target->ref == reference)
@@ -144495,7 +144496,7 @@ void RestoreActionPointsEntry::FUN_0088b660(float afTime)
 {
     if (reinterpret_cast<ActorVirtualView*>(this)->Query216())
     {
-        if (!((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ItemView*>(&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())))
+        if (!((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)))
         {
             float fAmount = ::ActionPoints::GetActionPoints() * afTime;
             unsigned int uiFlags = 0;
@@ -147662,7 +147663,7 @@ bool AttackActor::FUN_00893a40(int action)
             return false;
         }
     }
-    bool isVats22 = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((AttackMode*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4;
+    bool isVats22 = ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4;
     if ((!reinterpret_cast<::Actor *>(this)->IsSneaking() || isVats22) && (IsCreature() || this == ((AttackActor*)pPlayer)) &&
         (!weapon51 || (weapon51 && !weapon51->FUN_00446390())))
     {
@@ -148734,7 +148735,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
                 ::ChallengeManager::UpdateChallengeProgress((::CHALLENGE_TYPE)(2), 1, (::TESForm *)(void *)((void*)0), (::TESForm *)(form), 0, (unsigned short)(short)(signed char)flag,
                                           (unsigned short)(form != 0 ? form->FUN_00446390() + 1 : 1));
             }
-            if (((int)(reinterpret_cast<::Twin_0044ddc0 *>((((KillSupport::GlobObj*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4)
+            if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4)
                 reinterpret_cast<::FUN_0089f560_Class *>((((KillSupport::GlobObj*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->IncrementCount();
         }
     }
@@ -149060,7 +149061,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
     }
     if ((::Actor*)this == KillSupport::DAT_011dea3c)
     {
-        if (((int)(reinterpret_cast<::Twin_0044ddc0 *>((((KillSupport::GlobObj*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) != 4 ||
+        if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) != 4 ||
             !((int *)(reinterpret_cast<::ListHolder *>((((KillSupport::GlobV*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->FUN_009c71c0())) ||
             *((int *)(reinterpret_cast<::ListHolder *>((((KillSupport::GlobV*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->FUN_009c71c0())) != 0xf)
             reinterpret_cast<::VATS_COMMAND_LIST *>((((KillSupport::GlobV*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->CreateCommandAndUpdateHUD();
@@ -149227,7 +149228,7 @@ cleanup:
                 reinterpret_cast<::FUN_008b7c00_cls *>((((KillSupport::ThisB7*)this)))->FUN_008b7c00(1, 1);
             }
         }
-        if (((int)(reinterpret_cast<::Twin_0044ddc0 *>((((KillSupport::GlobObj*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 0)
+        if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 0)
         {
             if ((unsigned int)s350 <= 0)
             {
@@ -158328,7 +158329,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
     float fTimeSinceScaleStart = afDelta;
     if (fTimeSinceScaleStart == ::_DAT_01012060 && !FUN_00931850())
     {
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ActorUpdate3D::ActorList *>(&::g_011f2250))))->GetName())) == 4 && this == (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::DAT_011f21cc)))
+        if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::DAT_011f21cc)))
             fTimeSinceScaleStart = reinterpret_cast<::Twin_0084d030 *>(&(DAT_011f6394))->GetStoredFloatValue() * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::ActorUpdate3D::ActorList *>(&::g_011f2250))))->FUN_009c8d60();
         else
             fTimeSinceScaleStart = reinterpret_cast<::Twin_0084d030 *>(&(DAT_011f6394))->GetStoredFloatValue();

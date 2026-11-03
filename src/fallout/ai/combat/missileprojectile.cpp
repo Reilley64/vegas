@@ -4,6 +4,7 @@
 
 
 // @fnv 0x009b7cb0
+#include "fnv/vats_camera_data_view.h"
 #include "fnv/tls.h"
 #include <cstdint>
 #include <new>
@@ -1372,7 +1373,7 @@ struct VRes
 // @fnv 0x009b7cc0
 void FUN_009b7cc0_shell::UpdateBeamFlags()
 {
-    bool bTime = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 4;
+    bool bTime = ((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4;
 
     bool bTarget = reinterpret_cast<PathingRequest*>(((void *)(reinterpret_cast<::Actor *>((reinterpret_cast<XActor*>(this)))->GetActorBase())))
                        ->IsRandomBelowRadiusThreshold();

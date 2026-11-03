@@ -1,5 +1,6 @@
 // fallout/ai/highprocess.cpp: HighProcess, HighProcessStandIn, Process, HighProcessHack and more (352 functions)
 
+#include "fnv/vats_camera_data_view.h"
 #include <cstdint>
 #include "fnv/result_slot.h"
 #include "fnv/simple_array_item.h"
@@ -1881,7 +1882,7 @@ bool HighProcess::StartIdleAnimation(MobileObject* object, TESIdleForm* idle, An
         context.pActor = (Actor*)object;
     if (!context.pActor || !context.pCurrentAnimation)
         return false;
-    if (context.pActor == (Actor*)::_g_thePlayer && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::BSSimpleArray<unsigned int, 1024> *>(&::g_011f2250))))->GetName())) == 4)
+    if (context.pActor == (Actor*)::_g_thePlayer && ((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4)
         return false;
     switch (context.pActor->vfn_214())
     {

@@ -1,5 +1,6 @@
 // fallout/ai/combat/projectile.cpp: Projectile, BGSProjectile, Holder, PlayerCharacter and more (71 functions)
 
+#include "fnv/vats_camera_data_view.h"
 #include <cstdint>
 #include "fnv/tls.h"
 #include "fnv/result_slot.h"
@@ -3985,14 +3986,14 @@ struct ProjX
 void ProjX::FUN_009bd860()
 {
     bool bShouldUpdate = true;
-    if (reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(4) && !reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(8) && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_009bd860::GlobalMgrX *>(&::g_011f2250))))->GetName())) != 4)
+    if (reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(4) && !reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(8) && ((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) != 4)
         bShouldUpdate = false;
     if (bShouldUpdate)
     {
         ObjX* target = (*reinterpret_cast<::fnv_009bd860::Player965 * *>(&::_g_thePlayer))->GetTarget();
         if (!target)
             target = GetDefTarget();
-        if ((reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x40000) || !reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(4)) && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_009bd860::GlobalMgrX *>(&::g_011f2250))))->GetName())) == 4 &&
+        if ((reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x40000) || !reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(4)) && ((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 &&
             ((::fnv_009bd860::ListEntryX *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::fnv_009bd860::GlobalMgrX *>(&::g_011f2250))))->FUN_009c71c0())) && ((::fnv_009bd860::ListEntryX *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::fnv_009bd860::GlobalMgrX *>(&::g_011f2250))))->FUN_009c71c0()))->byte4)
         {
             reinterpret_cast<::FUN_008126e0_shell *>(this)->SetWhich((intptr_t)(new ObjX9c5()));
@@ -12125,7 +12126,7 @@ void ZProjectile::UpdateDetonation(float elapsed)
                 reinterpret_cast<::FUN_00476c70_Class *>((result3))->FUN_00476c70(reinterpret_cast<::FUN_00476c90_Class *>(this)->FUN_00476c90());
             if (reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x8000))
             {
-                if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ZMode *>(&::g_011f2250))))->GetName())) == 4)
+                if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4)
                     Release();
                 reinterpret_cast<::Projectile *>(this)->FUN_009bc8f0();
             }
@@ -12907,7 +12908,7 @@ class ProjPB : public RefPB
 void ProjPB::FUN_009becc0(float fUnused)
 {
     float fTimeSinceScaleStart = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerPB *>(&::g_timeGlobal))))->GetStoredFloatValue();
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSPB *>(&::g_011f2250))))->GetName())) == 4 && !reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(4))
+    if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && !reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(4))
     {
         if (((::RefPB *)(::FUN_00874480((char *)this))) == (*reinterpret_cast<::RefPB * *>(&::_g_thePlayer)))
             fTimeSinceScaleStart *= reinterpret_cast<::VATS *>(&((*reinterpret_cast<::VATSPB *>(&::g_011f2250))))->GetModeTimeMultiplier();

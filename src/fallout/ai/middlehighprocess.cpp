@@ -1,5 +1,6 @@
 // fallout/ai/middlehighprocess.cpp: MiddleHighProcess, FurnitureProcess, MiddleHighProcessStandIn, ActorPackage_GetTarget_Helper and more (180 functions)
 
+#include "fnv/vats_camera_data_view.h"
 #include "fnv/result_slot.h"
 #include <new>
 #include <cstdint>
@@ -3906,7 +3907,7 @@ struct Setting_S
 void FUN_0092c120_shell::UpdateHideLimbNodes(Actor* apActor, float afDeltaTime)
 {
     HideLimbNodeList* pCurrentElementNext;
-    float fUpdatePeriod = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0092c120::TESObjectREFR_GetFlags_Helper *>(&::g_011f2250))))->GetName())) == 4 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0092c120::Setting_S *>(&::originalRuntimeFloatSetting734))))))
+    float fUpdatePeriod = ((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0092c120::Setting_S *>(&::originalRuntimeFloatSetting734))))))
                                                            : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0092c120::Setting_S *>(&::originalRuntimeFloatSetting733))))));
     HideLimbNodeList* plastlist;
     pCurrentElementNext = (HideLimbNodeList*)((char*)this + 0x1b0);

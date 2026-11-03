@@ -5,6 +5,7 @@
 
 // Returns a divided by the product of FUN_005b9e80(b) and c.
 // @fnv 0x009a7dd0
+#include "fnv/vats_camera_data_view.h"
 #include <cstdint>
 #include "fnv/simple_array_item.h"
 #include "fnv/result_slot.h"
@@ -1105,7 +1106,7 @@ Actor* FUN_009a60e0(Actor* actor, float maxDist)
         {
             cand7 = 0;
         }
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((TESObjectREFR*)&(*reinterpret_cast<int *>(&::g_011f2250))))->GetName())) == 4 && cand7 && cand7->IsSlot139(false))
+        if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && cand7 && cand7->IsSlot139(false))
         {
             continue;
         }

@@ -2538,7 +2538,7 @@ void CreatureEquipment::FUN_005f9e00(TESObjectREFR* reference, int unused, bool 
     if (weapon && reinterpret_cast<::B5FA120Checker *>(this)->FUN_005fa120((::B5FA120Form *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())))) && !reinterpret_cast<::Thing575 *>((reference))->FUN_00575400((int)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())))))
     {
         reference->EquipItem(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())), 1, 0, false);
-        if (aWeapon && !reinterpret_cast<::Thing575 *>((reference))->FUN_00575400((int)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((aWeapon))->GetName())))))
+        if (aWeapon && !reinterpret_cast<::Thing575 *>((reference))->FUN_00575400((std::intptr_t)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((aWeapon))->GetName())))))
         {
             ExtraDataList* extra = 0;
             if (((::ExtraDataNode *)(::FUN_00559450((int *)(aWeapon)))))
@@ -3339,7 +3339,7 @@ void Actor::ApplyEffectToBodyParts(Effect* effect, int type, int part, void* sou
     case 31:
         break;
     default:
-        reinterpret_cast<::FUN_00572fc0_shell *>(this)->FUN_00572fc0(-1, (int)(source), (int)(target), effect ? effect->part : part, false);
+        reinterpret_cast<::FUN_00572fc0_shell *>(this)->FUN_00572fc0(-1, (std::intptr_t)(source), (std::intptr_t)(target), effect ? effect->part : part, false);
         return;
     }
     if (reinterpret_cast<::TESObjectREFR *>(this)->IsLimbMissing(part))
@@ -3404,7 +3404,7 @@ void Actor::ApplyEffectToBodyParts(Effect* effect, int type, int part, void* sou
             a = false;
         if (!reinterpret_cast<::FUN_008b5190_Class *>((c))->FUN_008b5190() && !reinterpret_cast<::FUN_008b4360_Class *>((c))->FUN_008b4360())
             continue;
-        reinterpret_cast<::FUN_00572fc0_shell *>(this)->FUN_00572fc0(ba, (int)(source), (int)(target), ba, a);
+        reinterpret_cast<::FUN_00572fc0_shell *>(this)->FUN_00572fc0(ba, (std::intptr_t)(source), (std::intptr_t)(target), ba, a);
         if (!::FUN_008c7aa0())
             reinterpret_cast<::fnv_008b52a0::ActorView *>(this)->FUN_008b52a0((void *)(type), ba, a, !flag, true, false);
         else

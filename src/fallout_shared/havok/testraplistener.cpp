@@ -1377,7 +1377,7 @@ void Shell62C::ApplyEntriesToRef(Ref62C* ref)
         {
             Ref62C* target = (Ref62C*)form;
             ::FUN_005ac750((::TESForm *)(target), (::ExtraDataList *)(extra), 0x40000000);
-            reinterpret_cast<::s572e10::Owner *>((ref))->FUN_00572e10((int)(target));
+            reinterpret_cast<::s572e10::Owner *>((ref))->FUN_00572e10((std::intptr_t)(target));
             reinterpret_cast<::fnv_00565870::FUN_00565870_shell *>((ref))->FUN_00565870();
         }
     }
@@ -1835,7 +1835,7 @@ bool Subject62::ProcessCollisionPairs(int arg)
         {
             Extra62C* extra = ((::Extra62C *)(reinterpret_cast<::FUN_005d43c0_ *>((((::TESObjectREFR *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_005d43c0()));
             world |= ::FUN_005ac750((::TESForm *)(flags), (::ExtraDataList *)(extra), ref);
-            reinterpret_cast<::s572e10::Owner *>((((::TESObjectREFR *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_00572e10((int)(flags));
+            reinterpret_cast<::s572e10::Owner *>((((::TESObjectREFR *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_00572e10((std::intptr_t)(flags));
         }
     }
     return world;

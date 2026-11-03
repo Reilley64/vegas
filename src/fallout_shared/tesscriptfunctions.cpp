@@ -5458,7 +5458,7 @@ struct SkyObject { void Update(Sky*, int); };
 // @fnv 0x005b5cf0
 bool __cdecl FUN_005b5cf0()
 {
-    reinterpret_cast<::FUN_008d0600_s *>((((SkyObject*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_008d0600((int)((Sky*)0), -1);
+    reinterpret_cast<::FUN_008d0600_s *>((((SkyObject*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_008d0600((std::intptr_t)((Sky*)0), -1);
     DebugLog("Ai Lists Printed");
     return true;
 }
@@ -9152,7 +9152,7 @@ bool __cdecl FUN_005df930(const ScriptParameter* apParameters, const char* apScr
     }
     BSSimpleListTESRaceSize* list =
         static_cast<BSSimpleListTESRaceSize*>(
-            ((void *)(::GetOffsetC((int)(static_cast<PathingRequest*>(
+            ((void *)(::GetOffsetC((std::intptr_t)(static_cast<PathingRequest*>(
                 ((void *)&(reinterpret_cast<::BSSystemUtility *>((static_cast<BSSystemUtility*>(_Immortalize::StandardLibrarySingletonObject())))->QDLCUtility()))))))));
     if (list) {
         afResult = list->GetSize();
@@ -9250,7 +9250,7 @@ bool FUN_005dfa20(const ScriptParameter* apParameters, const char* apCompiledPar
         *afReturnValue = 0;
         return false;
     }
-    list = ((::BSSimpleList< ::fnv_005dfa20::ContentMountRecord *> *)(::GetOffsetC((int)(((::fnv_005dfa20::PathingRequest *)&(reinterpret_cast<::BSSystemUtility *>((((BSSystemUtility*)&std::_Immortalize<std::StandardLibrarySingletonObject>())))->QDLCUtility()))))));
+    list = ((::BSSimpleList< ::fnv_005dfa20::ContentMountRecord *> *)(::GetOffsetC((::std::intptr_t)(((::fnv_005dfa20::PathingRequest *)&(reinterpret_cast<::BSSystemUtility *>((((BSSystemUtility*)&std::_Immortalize<std::StandardLibrarySingletonObject>())))->QDLCUtility()))))));
     _sprintf_s(tmp, 200, "Checking for DLC package '%s'", pName);
     while (list)
     {
@@ -15302,7 +15302,7 @@ bool FUN_005b70c0()
         } else {
             void* r = ((void *)(reinterpret_cast<::BSFaceGenNiNode *>((((GrassMgr*)((void *)(::FUN_0045c670())))))->GetAnimationData()));
             if (r != 0) {
-                FUN_0057d0a0(*((::Vec3f *)(::FUN_0045bb80((int)(((GrassItem*)r))))), (*reinterpret_cast<::Vec3f *>((void *)&::NiPoint3::ZERO)), 0.0f);
+                FUN_0057d0a0(*((::Vec3f *)(::FUN_0045bb80((std::intptr_t)(((GrassItem*)r))))), (*reinterpret_cast<::Vec3f *>((void *)&::NiPoint3::ZERO)), 0.0f);
             }
         }
         FUN_00703c00("Grass Display %s", (flag == 0) ? "Enabled." : "Disabled.");
@@ -20221,7 +20221,7 @@ bool __cdecl FUN_005d17f0(void* a1, void* a2, void* a3, void* a4, void* a5, void
         v4 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::fnv_005d17f0::DecMgr * *>(&::_g_thePlayer))))->FUN_007af430()));
     }
     if (v8 != 0) {
-        reinterpret_cast<::FUN_00546bf0_class *>((v8))->FUN_00546bf0((int)(v4));
+        reinterpret_cast<::FUN_00546bf0_class *>((v8))->FUN_00546bf0((std::intptr_t)(v4));
     }
     return true;
 }
@@ -25262,7 +25262,7 @@ bool __cdecl FUN_005b53d0(const ScriptParameter* apParamInfo, const char* apScri
     if (apThisObj && apThisObj && apContainingObj) {
         Actor* pActor2 = dynamic_cast<Actor*>(apContainingObj);
         ExtraDataList* pExtraA = 0;
-        if (pActor2 && reinterpret_cast<::Thing575 *>((static_cast<CmdRef*>((TESObjectREFR*)pActor2)))->FUN_00575400((int)(((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apThisObj))->FUN_007af430()))))) {
+        if (pActor2 && reinterpret_cast<::Thing575 *>((static_cast<CmdRef*>((TESObjectREFR*)pActor2)))->FUN_00575400((std::intptr_t)(((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apThisObj))->FUN_007af430()))))) {
             CmdInventoryChanges* pChanges = CmdInventoryChanges::GetOrAdd(apContainingObj);
             if (pChanges)
                 pExtraA = reinterpret_cast<::fnv_004bfda0::FUN_004bfda0_shell *>((pChanges))->FUN_004bfda0((::fnv_004bfda0::TESBoundObject *)(::TESForm *)(((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apThisObj))->FUN_007af430()))), 0);
@@ -25300,7 +25300,7 @@ bool __cdecl FUN_005b55a0(const ScriptParameter* args, const char* raw, TESObjec
         PerkTarget* target = ((::fnv_005b55a0::PerkTarget *)(reinterpret_cast<::ExtraDataList *>((((::fnv_005b55a0::ScriptTargetBase *)(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<ScriptReference*>(reference)))->FUN_005d43c0()))))->GetContainerChangeData()));
         if (target)
         {
-            reinterpret_cast<::FUN_004ce340_stand *>((target))->FUN_004ce340((int)(reference), firstValue, false, hasSecondValue, false, thirdValue != 0, fourthOutput, fifthInput);
+            reinterpret_cast<::FUN_004ce340_stand *>((target))->FUN_004ce340((std::intptr_t)(reference), firstValue, false, hasSecondValue, false, thirdValue != 0, fourthOutput, fifthInput);
             reinterpret_cast<::FUN_00952c30_shell *>(((*reinterpret_cast<::fnv_005b55a0::ActorUpdateQueue * *>(&::_g_thePlayer))))->FUN_00952c30(reference);
         }
     }
@@ -30491,7 +30491,7 @@ bool FUN_005be900(const ScriptParameter* parameters, const char* scriptData,
     result = 0.0;
     if (!ExtractArgs(parameters,scriptData,&opcodeOffset,thisObject,container,script,locals,name))
         return false;
-    pSetting = ((::fnv_005be900::GameSettingValue *)(reinterpret_cast<::FUN_004f8a30_shell2 *>((((::fnv_005be900::GameSettingCollection *)(::GetGameSettingCollection()))))->FUN_004f8a30((int)(name))));
+    pSetting = ((::fnv_005be900::GameSettingValue *)(reinterpret_cast<::FUN_004f8a30_shell2 *>((((::fnv_005be900::GameSettingCollection *)(::GetGameSettingCollection()))))->FUN_004f8a30((std::intptr_t)(name))));
     if (pSetting) {
         switch (pSetting->FUN_004f8940()) {
         case 3:
@@ -42860,7 +42860,7 @@ bool __cdecl FUN_005d8cf0(void* paramInfo, void* scriptData, TESObjectREFR* this
         FUN_005ac190(thisObj, (ExtraDataList*)reinterpret_cast<::FUN_005d43c0_ *>((thisObj))->FUN_005d43c0());
         FUN_005ac750(form, (ExtraDataList*)reinterpret_cast<::FUN_005d43c0_ *>((thisObj))->FUN_005d43c0(), 0x20000000);
         FUN_005ac750(form, (ExtraDataList*)reinterpret_cast<::FUN_005d43c0_ *>((thisObj))->FUN_005d43c0(), 0x10000000);
-        reinterpret_cast<::s572e10::Owner *>((((ActivateRef_5d8cf0*)thisObj)))->FUN_00572e10((int)(form));
+        reinterpret_cast<::s572e10::Owner *>((((ActivateRef_5d8cf0*)thisObj)))->FUN_00572e10((std::intptr_t)(form));
         if ((*reinterpret_cast<::ActivateTls_5d8cf0 *>(&::g_tlsBlock)).iActivateDepth < 5)
         {
             (*reinterpret_cast<::ActivateTls_5d8cf0 *>(&::g_tlsBlock)).iActivateDepth++;
@@ -46983,7 +46983,7 @@ void Projectile::FUN_009bc8f0() {
   ::FUN_0040fbe0();
   ::FUN_0040fbe0();
  }
- if(FUN_00401170()==62) ::FUN_007f6a20((int)(this));
+ if(FUN_00401170()==62) ::FUN_007f6a20((std::intptr_t)(this));
  if(reinterpret_cast<::BSShaderRenderUtility *>((((HandlerAccess*)(*reinterpret_cast<::DataHandler * *>(&::g_dataHandler)))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))) Set(true);
  else reinterpret_cast<::Ref *>(this)->FUN_00574400();
 }
@@ -50546,7 +50546,7 @@ bool __cdecl FUN_005c25f0(const ScriptParameter* apParameters, const char* apCom
     reinterpret_cast<::FUN_00502670_stand *>(&(wrap8))->InitFromActor((::XActor *)(::fnv_005c25f0::XActor *)((XActor*)(*reinterpret_cast<::fnv_005c25f0::TESObjectREFR * *>(&::_g_thePlayer))));
     PathingLocation locA6((TESObjectREFR*)(*reinterpret_cast<::fnv_005c25f0::TESObjectREFR * *>(&::_g_thePlayer)));
     PathingLocation aArr(apRefObject);
-    if (::BuildPathWithDoors((::Location *)(::fnv_005c25f0::PathingLocation *)(&locA6), (::Location *)(::fnv_005c25f0::PathingLocation *)(&aArr), (::Result *)(::fnv_005c25f0::FUN_006f48b0 *)(&aBId), (int)(&wrap8), outA8 != 0))
+    if (::BuildPathWithDoors((::Location *)(::fnv_005c25f0::PathingLocation *)(&locA6), (::Location *)(::fnv_005c25f0::PathingLocation *)(&aArr), (::Result *)(::fnv_005c25f0::FUN_006f48b0 *)(&aBId), (std::intptr_t)(&wrap8), outA8 != 0))
     {
         unsigned int aD1x = 0;
         for (; aD1x < (unsigned int)((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(aBId.m_10))->GetName())); ++aD1x)
@@ -50850,7 +50850,7 @@ bool FUN_005bfe90(const ScriptParameter* parameters,const char* data,DecalRefere
     DecalCamera* camera3=((::fnv_005bfe90::DecalCamera *)(reinterpret_cast<::BSFaceGenNiNode *>((((::fnv_005bfe90::DecalRenderManager *)(::FUN_0045c670()))))->GetAnimationData()));
     DecalParams params;
     new ((void *)&(params)) ::FUN_004a37b0();
-    params.position=*((const ::fnv_005bfe90::DecalPoint *)(::FUN_0045bb80((int)(camera3))));
+    params.position=*((const ::fnv_005bfe90::DecalPoint *)(::FUN_0045bb80((std::intptr_t)(camera3))));
     float size;
     if(reference) {
         effect4=((::fnv_005bfe90::DecalEffect *)(reinterpret_cast<::LowProcess *>((reference))->GetTarget()));
@@ -52901,7 +52901,7 @@ bool FUN_005cc4f0(const ScriptParameter* params, const char* data,
         ((::ProcessSV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->SetPackage(actor, package);
         if (reinterpret_cast<::FUN_009611e0_shell *>((package))->FUN_009611e0() == -1)
             reinterpret_cast<::fnv_006777b0::FUN_006777b0_shell *>((package))->ComputePackageFlags(reinterpret_cast<::FUN_00569b80_shell *>((actor))->FUN_00569b80());
-        reinterpret_cast<::s56ae10::Owner *>((actor))->FUN_0056ae10((int)(((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor))->FUN_00575d70()))), (int)(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget()))),
+        reinterpret_cast<::s56ae10::Owner *>((actor))->FUN_0056ae10((std::intptr_t)(((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor))->FUN_00575d70()))), (std::intptr_t)(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget()))),
             (int)(actor->GetPosition()), (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((actor))->GetData())).z);
         reinterpret_cast<::FUN_00674e00_cls *>((package))->SetFlag4000(true);
         actor->ApplyPackage(package, false, false);

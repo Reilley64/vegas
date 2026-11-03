@@ -1744,8 +1744,8 @@ void __cdecl QueueFaceGenAssets(TESActorBase* apNPC, int aePriority, QueuedFile*
     }
     if (faceGenData.m_pHair)
     {
-        reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((int)(faceGenData.m_pHair ? (TESModel*)((char*)faceGenData.m_pHair + 0x24) : 0),
-                                           aePriority, (int)(apParent), 0, false, false, true);
+        reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((std::uintptr_t)(faceGenData.m_pHair ? (TESModel*)((char*)faceGenData.m_pHair + 0x24) : 0),
+                                           aePriority, (std::uintptr_t)(apParent), 0, false, false, true);
         char pTexturePath[260];
         ::TaskQueueInterface::CopyStringToBuffer(pTexturePath, 260, "Textures\\");
         strcat_s(pTexturePath, 260, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)faceGenData.m_pHair + 0x3c))))->FUN_00408da0())));
@@ -1793,7 +1793,7 @@ void __cdecl QueueFaceGenAssets(TESActorBase* apNPC, int aePriority, QueuedFile*
         TESModel* pmodel = (TESModel*)*faceGenData.m_kModelObjectsItem.GetAt(ipart);
         if (pmodel && ((FUN_0048cee0_shell*)pmodel)->FUN_0048cee0())
         {
-            reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((int)(pmodel), aePriority, (int)(apParent), 0, false, false, true);
+            reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((std::uintptr_t)(pmodel), aePriority, (std::uintptr_t)(apParent), 0, false, false, true);
             reinterpret_cast<::MeshLoader *>((::g_modelLoader))->LoadMesh((::MeshSource *)(pmodel), aePriority, apParent, ipart);
             reinterpret_cast<::fnv_00448080::Owner448 *>((::g_modelLoader))->LoadTaskFromPath((::fnv_00448080::Task448 *)(pmodel), aePriority, apParent, ipart);
         }
@@ -1804,7 +1804,7 @@ void __cdecl QueueFaceGenAssets(TESActorBase* apNPC, int aePriority, QueuedFile*
         BGSHeadPart* pheadPart = *((::BGSHeadPart **)((void *)(pheadPartList)));
         if (pheadPart && ((FUN_0048cee0_shell*)((char*)pheadPart + 0x24))->FUN_0048cee0())
         {
-            reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((int)(pheadPart ? (TESModel*)((char*)pheadPart + 0x24) : 0), aePriority,
+            reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((std::uintptr_t)(pheadPart ? (TESModel*)((char*)pheadPart + 0x24) : 0), aePriority,
                                                (int)(apParent), 0, false, false, true);
             reinterpret_cast<::MeshLoader *>((::g_modelLoader))->LoadMesh((::MeshSource *)(::TESModel *)(pheadPart ? (TESModel*)((char*)pheadPart + 0x24) : 0), aePriority, apParent, ipart);
             reinterpret_cast<::fnv_00448080::Owner448 *>((::g_modelLoader))->LoadTaskFromPath((::fnv_00448080::Task448 *)(::TESModel *)(pheadPart ? (TESModel*)((char*)pheadPart + 0x24) : 0), aePriority, apParent,
@@ -1858,7 +1858,7 @@ bool FGModelCache::FUN_00650200(void* key, Helper62d0* out)
     FUN_00652140();
     GO entry(0);
     bool res = false;
-    if (reinterpret_cast<::Map62d0 *>(&(map))->FUN_006c62d0((unsigned int)(key), (void **)&(entry)))
+    if (reinterpret_cast<::Map62d0 *>(&(map))->FUN_006c62d0((std::uintptr_t)(key), (void **)&(entry)))
     {
         static_cast<FGEntry*>(entry)->tick = ((unsigned int)(::FUN_00457fe0()));
         *out = static_cast<FGEntry*>(entry)->model;
@@ -3474,7 +3474,7 @@ void FGModelCache::FUN_0064ffd0(const char* apcKey, void* apModel)
     GO spentry(0);
     if (!apModel)
     {
-        reinterpret_cast<::NiTMap_S *>((((MapH*)((char*)this + 4))))->RemoveKey((unsigned int)apcKey);
+        reinterpret_cast<::NiTMap_S *>((((MapH*)((char*)this + 4))))->RemoveKey((std::uintptr_t)apcKey);
         FUN_00652190();
         return;
     }
@@ -3520,7 +3520,7 @@ bool BSFaceGenModelMap_t::FUN_00650780(const char* apKey)
     bool bres = false;
     GO spentry(0);
     FUN_00652140();
-    if (!reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 4))))->FUN_006c62d0((unsigned int)((void*)apKey), (void **)&(spentry)))
+    if (!reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 4))))->FUN_006c62d0((std::uintptr_t)((void*)apKey), (void **)&(spentry)))
     {
         char* pext;
         char ptemp[260];
@@ -3530,7 +3530,7 @@ bool BSFaceGenModelMap_t::FUN_00650780(const char* apKey)
         {
             *pext = 0;
             strcat_s(ptemp, 260, ".egm");
-            reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 4))))->FUN_006c62d0((unsigned int)(ptemp), (void **)&(spentry));
+            reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 4))))->FUN_006c62d0((std::uintptr_t)(ptemp), (void **)&(spentry));
         }
     }
     if ((Flt&)spentry)
@@ -4083,8 +4083,8 @@ bool FaceGenModelCacheX::TouchCachedModel(FGModelKey* apKey)
         return false;
     bool bResultTmp = false;
     FUN_00652140();
-    if (reinterpret_cast<::Map62d0 *>(&(kMap))->FUN_006c62d0((unsigned int)(::FUN_00650600((char *)(apKey))), (void **)&(spEntry)) ||
-        (((const char *)(reinterpret_cast<::fnv_006505d0::FUN_006505d0_class *>((apKey))->GetFloatValue())) && reinterpret_cast<::Map62d0 *>(&(kMap))->FUN_006c62d0((unsigned int)(((const char *)(reinterpret_cast<::fnv_006505d0::FUN_006505d0_class *>((apKey))->GetFloatValue()))), (void **)&(spEntry))))
+    if (reinterpret_cast<::Map62d0 *>(&(kMap))->FUN_006c62d0((std::uintptr_t)(::FUN_00650600((char *)(apKey))), (void **)&(spEntry)) ||
+        (((const char *)(reinterpret_cast<::fnv_006505d0::FUN_006505d0_class *>((apKey))->GetFloatValue())) && reinterpret_cast<::Map62d0 *>(&(kMap))->FUN_006c62d0((std::uintptr_t)(((const char *)(reinterpret_cast<::fnv_006505d0::FUN_006505d0_class *>((apKey))->GetFloatValue()))), (void **)&(spEntry))))
     {
         ((FaceGenCacheEntry*)spEntry)->uiTick = ((unsigned int)(::FUN_00457fe0()));
         reinterpret_cast<::fnv_00650ba0::BSFaceGenModelMap_t *>(this)->FUN_00650ba0(spEntry);

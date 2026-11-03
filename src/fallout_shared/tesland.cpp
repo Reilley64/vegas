@@ -6046,7 +6046,7 @@ data->weights[quad][indexValue4+18][layer]>0.1f)) {
  }
  }
  }
- if(samples4[0]) reinterpret_cast<::FUN_00844700_Class *>(&(data->maps[quad]))->FUN_00844700(indexValue4,(unsigned int)(samples4));
+ if(samples4[0]) reinterpret_cast<::FUN_00844700_Class *>(&(data->maps[quad]))->FUN_00844700(indexValue4,(std::uintptr_t)(samples4));
  else delete[] samples4;
  count1=0;
  }

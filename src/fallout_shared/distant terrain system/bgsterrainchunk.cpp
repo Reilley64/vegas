@@ -1459,7 +1459,7 @@ void D6Detacher::FUN_006fb3d0(bool force)
         {
             if (((::detach6fb::D6Queue *)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES)))))))
             {
-                reinterpret_cast<::Cls5140 *>((((::detach6fb::D6Queue *)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES))))))))->DetachRef((::Ref5140 *)(pObjectA), (int)(((::detach6fb::D6Root *)(::FUN_00559450((int *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))),
+                reinterpret_cast<::Cls5140 *>((((::detach6fb::D6Queue *)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES))))))))->DetachRef((::Ref5140 *)(pObjectA), (std::intptr_t)(((::detach6fb::D6Root *)(::FUN_00559450((int *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))),
                                                         (::Target5140 *)(::detach6fb::D6Node *)(((::detach6fb::D6Node *)(::fnv_0043b230::FUN_0043b230((const char *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))));
             }
             if (((::detach6fb::D6Child *)(::FUN_00559450((int *)&(kAttachA)))))
@@ -1473,7 +1473,7 @@ void D6Detacher::FUN_006fb3d0(bool force)
         {
             if (((::detach6fb::D6Queue *)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES)))))))
             {
-                reinterpret_cast<::Cls5140 *>((((::detach6fb::D6Queue *)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES))))))))->DetachRef((::Ref5140 *)(pObjectB), (int)(((::detach6fb::D6Root *)(::FUN_00559450((int *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))),
+                reinterpret_cast<::Cls5140 *>((((::detach6fb::D6Queue *)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES))))))))->DetachRef((::Ref5140 *)(pObjectB), (std::intptr_t)(((::detach6fb::D6Root *)(::FUN_00559450((int *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))),
                                                         (::Target5140 *)(::detach6fb::D6Node *)(((::detach6fb::D6Node *)(::fnv_0043b230::FUN_0043b230((const char *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))));
             }
             if (((::detach6fb::D6Child *)(::FUN_00559450((int *)&(kAttachB)))))

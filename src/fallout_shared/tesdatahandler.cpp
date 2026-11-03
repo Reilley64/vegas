@@ -642,7 +642,7 @@ void TESDataHandler::MarkGameSettingsLoaded()
             node = ((::BSSimpleList< ::TESClass *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
     }
-    BSSimpleList<TESRace*>* pRaceList = ((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((int)this)));
+    BSSimpleList<TESRace*>* pRaceList = ((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((std::intptr_t)this)));
     nCount = pRaceList->GetSize();
     for (int i = 0; i < nCount - 1; ++i)
     {
@@ -702,7 +702,7 @@ void TESDataHandler::GetReferencesInArea(TESObjectCELL* cell, const NiPoint3& po
     {
         TESWorldSpace* world = cell->GetParentWorldSpace();
         if (world)
-            reinterpret_cast<::WORLD_SHELL *>((world))->ProcessCellsInRadius((const ::NiPoint3 *)&(point), radius, (const ::NiPoint3 *)&(direction), angle, (int)(callback), data);
+            reinterpret_cast<::WORLD_SHELL *>((world))->ProcessCellsInRadius((const ::NiPoint3 *)&(point), radius, (const ::NiPoint3 *)&(direction), angle, (std::intptr_t)(callback), data);
     }
     else
         reinterpret_cast<::s54da20::Owner *>((cell))->FUN_0054da20((::s54da20::Position *)&(point), radius, (::s54da20::Position *)&(direction), angle, (bool (*)(s54da20::Actor *, void *))(callback), (void *)(data));
@@ -1932,7 +1932,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
         pcamshot->InitItem();
         pcamshotlist = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pcamshotlist))->FUN_00726070()));
     }
-    pRaceList = (LC3_Node*)((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((int)this)));
+    pRaceList = (LC3_Node*)((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((std::intptr_t)this)));
     while (pRaceList && (pRace = (TESForm*)*((void **)((void *)(pRaceList)))) != 0)
     {
         pRace->InitItem();
@@ -1986,7 +1986,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
         pCasinoObjectCur->InitItem();
         pCasinoList = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pCasinoList))->FUN_00726070()));
     }
-    pltex = (LC3_Node*)((::BSSimpleList< ::TESCaravanDeck *> *)(::FUN_00514f30((int)this)));
+    pltex = (LC3_Node*)((::BSSimpleList< ::TESCaravanDeck *> *)(::FUN_00514f30((std::intptr_t)this)));
     while (pltex && (m_pCardListHeadCur = (TESForm*)*((void **)((void *)(pltex)))) != 0)
     {
         m_pCardListHeadCur->InitItem();
@@ -3680,7 +3680,7 @@ bool TESDataHandler::AddFormToDataHandler(TESForm* form)
     }
     case 117: {
         TESCaravanDeck* entry = static_cast<TESCaravanDeck*>(form);
-        ((::BSSimpleList< ::TESCaravanDeck *> *)(::FUN_00514f30((int)this)))->AddHead(entry);
+        ((::BSSimpleList< ::TESCaravanDeck *> *)(::FUN_00514f30((std::intptr_t)this)))->AddHead(entry);
         break;
     }
     case 7: {
@@ -3710,7 +3710,7 @@ bool TESDataHandler::AddFormToDataHandler(TESForm* form)
     }
     case 12: {
         TESRace* entry = static_cast<TESRace*>(form);
-        ((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((int)this)))->AddHead(entry);
+        ((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((std::intptr_t)this)))->AddHead(entry);
         break;
     }
     case 97: {

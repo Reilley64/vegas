@@ -186,11 +186,11 @@ struct FUN_0067c6c0_shell
     char pad[4];
     MagicCaster caster;
     PackageEventActionData action;
-    void FUN_0067c6c0(int item);
+    void FUN_0067c6c0(std::intptr_t item);
 };
 
 // @fnv 0x0067c6c0
-void FUN_0067c6c0_shell::FUN_0067c6c0(int item)
+void FUN_0067c6c0_shell::FUN_0067c6c0(std::intptr_t item)
 {
     reinterpret_cast<::FUN_0041fd00_shell *>(&(caster))->FUN_0041fd00(3);
     reinterpret_cast<PackageEventActionData*>(&this->caster)->InitItem((::TESForm *)(item));

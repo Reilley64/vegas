@@ -389,9 +389,9 @@ void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
     }
     if (apCamera)
     {
-        fcamLoc[0] = ((::NiPoint3 *)(::FUN_0045bb80((int)(apCamera))))->x;
-        fcamLoc[1] = ((::NiPoint3 *)(::FUN_0045bb80((int)(apCamera))))->y;
-        fcamLoc[2] = ((::NiPoint3 *)(::FUN_0045bb80((int)(apCamera))))->z;
+        fcamLoc[0] = ((::NiPoint3 *)(::FUN_0045bb80((std::intptr_t)(apCamera))))->x;
+        fcamLoc[1] = ((::NiPoint3 *)(::FUN_0045bb80((std::intptr_t)(apCamera))))->y;
+        fcamLoc[2] = ((::NiPoint3 *)(::FUN_0045bb80((std::intptr_t)(apCamera))))->z;
         vecTemp = NiPosData::ComputePositionAtTime(-1.0f, apCamera->GetWorldTranslation());
         fcamDir[0] = vecTemp.x;
         fcamDir[1] = vecTemp.y;

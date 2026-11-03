@@ -4438,7 +4438,7 @@ void TESNPC::UpdateModel3D(TESObjectREFR* refr, bool armor, bool weapon, bool up
             bool bShouldEquip = true;
             TESBoundObject* pItemObject = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((equipment.pArmorItem))->GetName()));
             if ((!equipment.pBodyModel || !equipment.pBodyModel->HasBipedModel((::BIPED_OBJECT)(iBipedObject), false, (::BGSBipedModelList *)(void *)(0))) &&
-                !reinterpret_cast<::Thing575 *>((refr))->FUN_00575400((int)(pItemObject)))
+                !reinterpret_cast<::Thing575 *>((refr))->FUN_00575400((std::intptr_t)(pItemObject)))
             {
                 if (((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(equipment.pArmorItem)))))
                     equipment.pExtraData = ((((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(equipment.pArmorItem)))))->m_item);
@@ -4466,7 +4466,7 @@ void TESNPC::UpdateModel3D(TESObjectREFR* refr, bool armor, bool weapon, bool up
         if (pArmorItem)
         {
             bool bDeleteItem = true;
-            if (!reinterpret_cast<::Thing575 *>((refr))->FUN_00575400((int)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((pArmorItem))->GetName())))))
+            if (!reinterpret_cast<::Thing575 *>((refr))->FUN_00575400((std::intptr_t)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((pArmorItem))->GetName())))))
             {
                 ExtraDataList* pExtraData = 0;
                 if (((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(pArmorItem)))))
@@ -5197,7 +5197,7 @@ void CopyData::FUN_00604ba0(CopyPrefix* apSource)
 
                 source9 = reinterpret_cast<CopyNpc*>(&fallback);
 
-                reinterpret_cast<::CombatProcedure *>(&(source9->race))->Initialize((::CombatController *)(*((int *)((void *)(((::DefaultNpcValue *)(::FUN_004ea950((int)((*reinterpret_cast<::DefaultNpcManager * *>(&::g_dataHandler)))))))))));
+                reinterpret_cast<::CombatProcedure *>(&(source9->race))->Initialize((::CombatController *)(*((int *)((void *)(((::DefaultNpcValue *)(::FUN_004ea950((std::intptr_t)((*reinterpret_cast<::DefaultNpcManager * *>(&::g_dataHandler)))))))))));
 
                 reinterpret_cast<::FUN_00601c70_shell *>((source9))->FUN_00601c70(*((int *)((void *)(((::DefaultNpcValue *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::DefaultNpcManager * *>(&::g_dataHandler))))->GetTESClassList()))))));
             }
@@ -7814,7 +7814,7 @@ class Shell_00608f00_NPC : public TESNPC
 // @fnv 0x00608f00
 void Shell_00608f00_NPC::FUN_00608f00(BGSSaveFormBuffer* apFile)
 {
-    reinterpret_cast<::FUN_005f1f30_shell *>((((Shell_00608f00_Base*)this)))->FUN_005f1f30((unsigned int)apFile);
+    reinterpret_cast<::FUN_005f1f30_shell *>((((Shell_00608f00_Base*)this)))->FUN_005f1f30((std::uintptr_t)apFile);
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::Shell_00608f00_Flags &)(apFile->FUN_00428110()))->FUN_004280f0(0x200))
         reinterpret_cast<::FUN_00865e50_shell *>((apFile))->FUN_00865e50(&data, 0x1c, 0);
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::Shell_00608f00_Flags &)(apFile->FUN_00428110()))->FUN_004280f0(0x400))
@@ -7979,7 +7979,7 @@ bool TESNPCActivate::FUN_00607990(TESObjectREFR* apTargetRef, TESObjectREFR* apA
         if (pActivator != ::_g_thePlayer && pPackage && reinterpret_cast<struct ::FUN_0041ca90 *>((pPackage))->get() == 15)
         {
             ExtraDataList* pTargetExtra = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pTarget))->FUN_005d43c0()));
-            reinterpret_cast<::FUN_0041c930_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pActivator))->FUN_005d43c0()))))->FUN_0041c930((::Package_0041c930 *)(pPackage), 4, (unsigned int)(((::Actor *)(reinterpret_cast<::FUN_0041cb70_shell *>((pTargetExtra))->FUN_0041cb70()))), true, true,
+            reinterpret_cast<::FUN_0041c930_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pActivator))->FUN_005d43c0()))))->FUN_0041c930((::Package_0041c930 *)(pPackage), 4, (std::uintptr_t)(((::Actor *)(reinterpret_cast<::FUN_0041cb70_shell *>((pTargetExtra))->FUN_0041cb70()))), true, true,
                                                            false);
             if (pPackage->IsMustReachLocation())
                 pActivator->SetExtraRunOncePacks(pPackage, GetCalendarDay(&(*reinterpret_cast<::Calendar *>(&::g_011de7b8))));
@@ -9039,7 +9039,7 @@ void TESNPC::FUN_006047c0(TESObjectREFR* a2, bool a3, bool a4, bool a5, bool a6)
             bool val = true;
             TESBoundObject* p;
             p = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()));
-            if ((!res || !res->HasBipedModel((::BIPED_OBJECT)i, false, NULL)) && !reinterpret_cast<::Thing575 *>((a2))->FUN_00575400((int)(p)))
+            if ((!res || !res->HasBipedModel((::BIPED_OBJECT)i, false, NULL)) && !reinterpret_cast<::Thing575 *>((a2))->FUN_00575400((std::intptr_t)(p)))
             {
                 if (((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(item)))))
                 {
@@ -9080,7 +9080,7 @@ void TESNPC::FUN_006047c0(TESObjectREFR* a2, bool a3, bool a4, bool a5, bool a6)
         if (pWeaponExtra)
         {
             bool pItem = true;
-            if (!reinterpret_cast<::Thing575 *>((a2))->FUN_00575400((int)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((pWeaponExtra))->GetName())))))
+            if (!reinterpret_cast<::Thing575 *>((a2))->FUN_00575400((std::intptr_t)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((pWeaponExtra))->GetName())))))
             {
                 ExtraDataList* fWeight;
                 fWeight = NULL;

@@ -6850,11 +6850,11 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
                                 }
                             }
                         }
-                        Obj* inner = ((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(((::fnv_0045bc80::Obj *)(::FUN_00514f30((int)(((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(((Obj*)(void*)&smart)))))))))))));
+                        Obj* inner = ((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(((::fnv_0045bc80::Obj *)(::FUN_00514f30((std::intptr_t)(((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(((Obj*)(void*)&smart)))))))))))));
                         while (inner != 0)
                         {
                             Obj* nxt2 =
-                                *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::ListStandIn *>((((::fnv_0045bc80::Obj *)(::FUN_00514f30((int)(((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(((Obj*)(void*)&smart)))))))))))->FUN_0057cbe0((int **)(::fnv_0045bc80::Obj **)(&inner))));
+                                *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::ListStandIn *>((((::fnv_0045bc80::Obj *)(::FUN_00514f30((std::intptr_t)(((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(((Obj*)(void*)&smart)))))))))))->FUN_0057cbe0((int **)(::fnv_0045bc80::Obj **)(&inner))));
                             if (nxt2 != 0)
                                 reinterpret_cast<::FUN_0045c4a0_class *>((nxt2))->ClearField40();
                         }
@@ -8043,7 +8043,7 @@ void Grid::RefreshGrid()
                             reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(update));
                         }
                     }
-                    ((::GridRefresh::CellHandle *)(::FUN_0045bb80((int)this)))->FUN_005ae3d0();
+                    ((::GridRefresh::CellHandle *)(::FUN_0045bb80((std::intptr_t)this)))->FUN_005ae3d0();
                 }
             }
         }
@@ -9827,7 +9827,7 @@ void AddonOwner::FUN_00459f10()
             }
             else
             {
-                reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((int)(static_cast<TESModel*>(addon)), 5, (int)(((::QueuedFile *)(::FUN_00559450((int *)&(queuedFile))))), 0, true,
+                reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((std::uintptr_t)(static_cast<TESModel*>(addon)), 5, (std::uintptr_t)(((::QueuedFile *)(::FUN_00559450((int *)&(queuedFile))))), 0, true,
                                                    false, false);
             }
         }
@@ -11516,7 +11516,7 @@ void AttachmentHandler::FUN_00451ef0(AttachRef* ref, AttachCell* cell, AttachRef
             TESObjectTREE* tree = dynamic_cast<TESObjectTREE*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())));
             if (tree && FUN_00452480())
             {
-                TreeDimensions treeDimensions = *((::TreeDimensions *)(::FUN_0045bb80((int)(tree))));
+                TreeDimensions treeDimensions = *((::TreeDimensions *)(::FUN_0045bb80((std::intptr_t)(tree))));
                 if (treeDimensions.x > ::DAT_010179e0 && treeDimensions.y > ::DAT_010179e0)
                 {
                     cell->FUN_00547ad0(*ref->GetPoint((unsigned int)(tree->GetTreeScale(1.0f) * ((double)(reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((ref))->FUN_00567400())))));
@@ -11535,7 +11535,7 @@ void AttachmentHandler::FUN_00451ef0(AttachRef* ref, AttachCell* cell, AttachRef
 // @fnv 0x004539a0
 void FUN_004539a0_cls::FUN_004539a0(unsigned char a1, unsigned char a2)
 {
-    reinterpret_cast<::FileMatchList *>((((FUN_004539a0_helperA*)((::FUN_004539a0_cls *)(::FUN_0045bb80((int)this))))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((((FUN_004539a0_helperA*)((::FUN_004539a0_cls *)(::FUN_0045bb80((std::intptr_t)this))))))->RemoveAll();
     if (a1 == 0 || ((::TESObjectCELL *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) != 0)
     {
         reinterpret_cast<::fnv_00453940::FUN_00453940_shell *>(this)->FUN_00453940();
@@ -14626,7 +14626,7 @@ void Grid_ob1::RefreshGrid()
                             reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(update));
                         }
                     }
-                    ((::GridRefresh::CellHandle_ob1 *)(::FUN_0045bb80((int)this)))->FUN_005ae3d0();
+                    ((::GridRefresh::CellHandle_ob1 *)(::FUN_0045bb80((std::intptr_t)this)))->FUN_005ae3d0();
                 }
             }
         }

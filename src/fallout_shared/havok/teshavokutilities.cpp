@@ -496,7 +496,7 @@ struct FUN_0061f890_shell
 // @fnv 0x0061f890
 bool FUN_0061f890_shell::FUN_0061f890(NiAVObject* object, bool flag)
 {
-    bool removed = reinterpret_cast<::NiTMap_S *>(&(m_map))->RemoveKey((unsigned int)object);
+    bool removed = reinterpret_cast<::NiTMap_S *>(&(m_map))->RemoveKey((std::uintptr_t)object);
     if (removed && flag)
         SoundPlaybackManager::ResetAcousticSpace(((::BGSAcousticSpace *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Ref*)object)))->FUN_007af430())));
     return removed;

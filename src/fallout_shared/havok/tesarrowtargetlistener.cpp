@@ -230,7 +230,7 @@ void FUN_0062a510_cls::FUN_0062a510(int a1)
                                     Obj* v = ((::Obj *)(reinterpret_cast<::Owner_0062a670 *>((u))->GetNodeItem()));
                                     if (v->unk1c == a1)
                                     {
-                                        if (::FUN_00472380((int)(u)) == 4)
+                                        if (::FUN_00472380((std::intptr_t)(u)) == 4)
                                         {
                                             reinterpret_cast<::Projectile *>((u))->FUN_009bc8f0();
                                         }
@@ -451,7 +451,7 @@ void S_0062a690_Class::FUN_0062a690(int arg0)
                 if (v_24 && reinterpret_cast<::FUN_00444d00_Class *>((v_24))->FUN_00444d00(0x80) && v_24->FUN_00401170() == 0x3d)
                 {
                     S_0062a690_Extra* v_28 = ((::fnv_0062a690::S_0062a690_Extra *)(reinterpret_cast<::Owner_0062a670 *>((v_24))->GetNodeItem()));
-                    if (v_28->unk1c == arg0 && ::FUN_00472380((int)(v_24)) == 4)
+                    if (v_28->unk1c == arg0 && ::FUN_00472380((std::intptr_t)(v_24)) == 4)
                     {
                         reinterpret_cast<::Projectile *>((v_24))->FUN_009bc8f0();
                     }

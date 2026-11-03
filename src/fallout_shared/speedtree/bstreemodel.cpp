@@ -3084,7 +3084,7 @@ void TreeActor::UpdateTreeLod(TreeCallback* pCallback)
             return;
         if (!::FUN_0054ee20({}))
             return;
-        worldPos = *((::Point3X *)(::FUN_0045bb80((int)(pCallback))));
+        worldPos = *((::Point3X *)(::FUN_0045bb80((std::intptr_t)(pCallback))));
         reinterpret_cast<::S00b065e0_Cls *>((runtime))->FUN_00b065e0(worldPos.x, worldPos.y, worldPos.z);
 
         if (GetByteAtOffset1B())

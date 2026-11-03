@@ -1776,7 +1776,7 @@ bool WaterOwner::FUN_0062f6b0(WaterRequest* request)
     if (d == (TESObjectREFR*)_g_thePlayer)
         FUN_0062f310(((TESObjectREFR*)c)->WaterType());
     void* a = ((void *)(reinterpret_cast<::ImpactManager620 *>(&(updates))->FUN_00620340((::CollisionInfo620 *)(request), b, d, (void *)(0), 0)));
-    reinterpret_cast<::FUN_0057b0d0_cls *>((((WaterContactReference*)d)))->FUN_0057b0d0((int)(a), 1);
+    reinterpret_cast<::FUN_0057b0d0_cls *>((((WaterContactReference*)d)))->FUN_0057b0d0((std::intptr_t)(a), 1);
     if (FUN_008c7aa0() && ((::WaterTaskQueue *)(::TaskQueueInterface::GetSingleton())))
     {
         reinterpret_cast<::FakeTaskQueue *>((((::WaterTaskQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b4a0((int)(b), (int)(d), 0.0f);
@@ -2121,7 +2121,7 @@ void WaterZoneRemoval::FUN_0062fc70(ParamStruct* apParams)
 
     if (apParams->unk0c)
     {
-        reinterpret_cast<::FUN_0057b0d0_cls *>((apParams->unk00))->FUN_0057b0d0((int)(apParams->unk0c), 0);
+        reinterpret_cast<::FUN_0057b0d0_cls *>((apParams->unk00))->FUN_0057b0d0((std::intptr_t)(apParams->unk0c), 0);
     }
     reinterpret_cast<::Ref57b240 *>((apParams->unk00))->FUN_0057b240(0);
 
@@ -2886,7 +2886,7 @@ void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
                     if (iResult == 1)
                     {
                         reinterpret_cast<::Ref57b240 *>((((::ImpactObjE *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkList))->FUN_0084e3a0()))))->FUN_0057b240(true);
-                        reinterpret_cast<::FUN_0057b0d0_cls *>((((::ImpactObjE *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkList))->FUN_0084e3a0()))))->FUN_0057b0d0((int)(pkCell), true);
+                        reinterpret_cast<::FUN_0057b0d0_cls *>((((::ImpactObjE *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkList))->FUN_0084e3a0()))))->FUN_0057b0d0((std::intptr_t)(pkCell), true);
                     }
                 }
                 pkList = static_cast<SpawnListE*>(((::LinkE *)(reinterpret_cast<::Callees *>((pkList))->FUN_00726070())));
@@ -2897,7 +2897,7 @@ void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
     }
     if (((::CameraE *)(::FUN_00524c90())) && ((::ProcessE *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))))->GetTarget())))
     {
-        if (((const ::NiPoint3E *)(::FUN_0045bb80((int)(((::CameraE *)(::FUN_00524c90()))))))->z < reinterpret_cast<::FUN_005471e0_shell *>((((::ProcessE *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_005471e0())
+        if (((const ::NiPoint3E *)(::FUN_0045bb80((std::intptr_t)(((::CameraE *)(::FUN_00524c90()))))))->z < reinterpret_cast<::FUN_005471e0_shell *>((((::ProcessE *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_005471e0())
             ::FUN_0062f310((std::intptr_t)(((void *)(reinterpret_cast<::FUN_00547770_shell *>((((::ProcessE *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_00547770()))));
     }
 }

@@ -3337,7 +3337,7 @@ void Obj::FUN_00cab1b0(void* a1, void* a2)
     out.unk20.y = 0;
     out.unk20.z = 0;
     out.unk20.w = 0;
-    ::FUN_00c9fb70((::MyObj *)this, (int)(&out), {});
+    ::FUN_00c9fb70((::MyObj *)this, (std::intptr_t)(&out), {});
     reinterpret_cast<::S004b4db0_Quaternion *>(&(out.unk10))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(this && unk08 ? unk08->unk20 : (*reinterpret_cast<float (*)[]>(&::DAT_01267e30)))));
     reinterpret_cast<::S004b4db0_Quaternion *>(&(out.unk20))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(this && unk08 ? unk08->unk30 : (*reinterpret_cast<float (*)[]>(&::DAT_01267e30)))));
     FUN_00d22dc0* sub =

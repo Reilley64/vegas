@@ -316,7 +316,7 @@ void TESObjectWEAP::ClearData()
 void TESObjectWEAP::QueueResourceLoad(int priority, QueuedFile* file, bool includeScope)
 {
     if(m_kModel.GetModelLength())
-        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(&m_kModel),priority,(int)(file),false,true,false,false);
+        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(&m_kModel),priority,(std::uintptr_t)(file),false,true,false,false);
     if(includeScope && reinterpret_cast<::FUN_004ad010_shell *>(this)->IsFlag4Set() && m_kModel1stPerson.GetModelLength())
         reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(&m_kModel1stPerson),priority,(int)(file),::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESObject *)(this)),true,false,false);
     if(((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))))) ((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))))->QueueResourceLoad(priority,file);
@@ -1252,7 +1252,7 @@ struct FUN_00525450_shell {
 void FUN_00525450_shell::QueueModelsForLoad(int aiIndex, class QueuedFile* apFile)
 {
     if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x104)->GetModelLength())
-        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x104)), aiIndex, (int)(apFile), 0, true, false, false);
+        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x104)), aiIndex, (std::uintptr_t)(apFile), 0, true, false, false);
     if (((::BGSProjectile *)(reinterpret_cast<::Thing *>((reinterpret_cast<TESObjectWEAP*>(reinterpret_cast<char*>(this) - 0xcc)))->GetOrFallback((int)(0)))))
         reinterpret_cast<TESModel*>(static_cast<BGSPreloadable *>((::BGSProjectile *)(reinterpret_cast<::Thing *>((reinterpret_cast<TESObjectWEAP*>(reinterpret_cast<char*>(this) - 0xcc)))->GetOrFallback((int)(0)))))->vfn_10(aiIndex, apFile);
     if (*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x180))
@@ -2866,14 +2866,14 @@ NiPoint3 WeapAimShell::FUN_005257a0(TESObjectREFR* ref)
         void* biped = isPlayer_2 ? ((void *)(::_g_thePlayer->FUN_00950b00(reinterpret_cast<::FUN_004eaf60_shell *>((::_g_thePlayer))->FUN_004eaf60()))) : actor2->GetBipedRoot();
         WeapNode* weapNode = process->GetWeaponNode(biped);
         if (weapNode)
-            pos5 = *((::NiPoint3 *)(::FUN_0045bb80((int)(weapNode))));
+            pos5 = *((::NiPoint3 *)(::FUN_0045bb80((std::intptr_t)(weapNode))));
     } else {
         if (process)
             node9 = ref->Get3D();
         else
             node9 = ((::WeapNode *)(reinterpret_cast<::UnkClass25700 *>(this)->FUN_00525700((::NiAVObject *)(void *)(isPlayer_2 ? ((void *)(::FUN_00950be0((bool *)(::_g_thePlayer)))) : ref->GetNiNode()))));
         if (node9)
-            pos5 = *((::NiPoint3 *)(::FUN_0045bb80((int)(node9))));
+            pos5 = *((::NiPoint3 *)(::FUN_0045bb80((std::intptr_t)(node9))));
     }
     return pos5;
 }
@@ -3825,13 +3825,13 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
     if (muzzle11 && muzzle11->node() && ((::FireNode *)(reinterpret_cast<::S_FUN_0045bc00 *>((muzzle11->node()))->FUN_0045bc00(0)))) reinterpret_cast<::TaskQueueInterface *>((((::FireNode *)(reinterpret_cast<::NiNode *>((muzzle11->node()))->GetAt(0)))))->QueueActorDisarm(true);
    }
    muzzle11 = process39->muzzle(actor19->biped());
-   if (muzzle11) position6 = *((::FirePoint *)(::FUN_0045bb80((int)(muzzle11))));
+   if (muzzle11) position6 = *((::FirePoint *)(::FUN_0045bb80((std::intptr_t)(muzzle11))));
    if (player12) ::fnv_00524d70::FUN_00524d70((char *)((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))));
   } else {
    if (process39) muzzle11 = reference->muzzle();
    else muzzle11 = ((::FireNode *)(reinterpret_cast<::UnkClass25700 *>(this)->FUN_00525700((::NiAVObject *)(::FireNode *)(player12 ? ((::FireNode *)(::FUN_00950be0((bool *)((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)))))) : reference->root()))));
    if (muzzle11) {
-    position6 = *((::FirePoint *)(::FUN_0045bb80((int)(muzzle11))));
+    position6 = *((::FirePoint *)(::FUN_0045bb80((std::intptr_t)(muzzle11))));
     if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetName()))!=4 && actor19==(*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)) && reinterpret_cast<::FUN_008bbc10_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->FUN_008bbc10() && ((::FireString *)(reinterpret_cast<::FUN_00504e60_shell *>(this)->FUN_00504e60()))->GetModelLength()) {
      bool useFace2 = false;
      if (reinterpret_cast<::FUN_004ad030_shell *>(this)->GetFlag()) {
@@ -4252,14 +4252,14 @@ void ThisObj::FUN_00524db0(Param* param)
     node3 = ((::fnv_00524db0::NodeObj *)(::FUN_004aae30((::NiAVObject *)(pR), (::NiFixedString *)((const char*)&DAT_0102cb00))));
     if (node3 != 0) {
     flag7 = true;
-    if (!::FUN_004b61d0((*(::NiPoint3 *)&(const ::fnv_00524db0::P12 &)(*((::fnv_00524db0::P12 *)(::FUN_0045bb80((int)(node3)))))), (::NiCamera *)(::fnv_00524db0::BSFaceGenAnimationData *)(((::fnv_00524db0::BSFaceGenAnimationData *)(::FUN_00524c90()))), ::DAT_0101e704))
+    if (!::FUN_004b61d0((*(::NiPoint3 *)&(const ::fnv_00524db0::P12 &)(*((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(node3)))))), (::NiCamera *)(::fnv_00524db0::BSFaceGenAnimationData *)(((::fnv_00524db0::BSFaceGenAnimationData *)(::FUN_00524c90()))), ::DAT_0101e704))
         flag7 = false;
-    reinterpret_cast<::FUN_00439ef0_class *>((((::fnv_00524db0::P12 *)(::FUN_0045bb80((int)(node3))))))->FUN_00439ef0((::NiPoint3 *)(::fnv_00524db0::P12 *)(&aVec24), (*(const ::NiPoint3 *)(((::fnv_00524db0::P12 *)(::FUN_0045bb80((int)(((::fnv_00524db0::BSFaceGenAnimationData *)(::FUN_00524c90())))))))));
+    reinterpret_cast<::FUN_00439ef0_class *>((((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(node3))))))->FUN_00439ef0((::NiPoint3 *)(::fnv_00524db0::P12 *)(&aVec24), (*(const ::NiPoint3 *)(((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(((::fnv_00524db0::BSFaceGenAnimationData *)(::FUN_00524c90())))))))));
     if (((double)(reinterpret_cast<::NiPoint3 *>(&(aVec24))->ComputeMagnitude())) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting640)))))))
         flag7 = false;
     if (flag7) {
     dword4 = ((::fnv_00524db0::SubA *)(reinterpret_cast<::FUN_004600d0_shell *>((this))->FUN_004600d0()))->vfn_14();
-    point1 = *((::fnv_00524db0::P12 *)(::FUN_0045bb80((int)(node3))));
+    point1 = *((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(node3))));
     matTmp = *(Mat36*)((::fnv_00524db0::Sub461130 *)(::FUN_00461130((std::intptr_t)(node3))));
     reinterpret_cast<::FUN_00439f50_class *>((((::fnv_00524db0::Sub461130 *)(::FUN_00461130((std::intptr_t)(node3))))))->FUN_00439f50(2, (::NiPoint3 *)(::fnv_00524db0::P12 *)(&obj34));
     f7c5 = -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting638))))));

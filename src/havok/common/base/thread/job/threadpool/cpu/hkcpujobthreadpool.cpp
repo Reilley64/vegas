@@ -2,6 +2,7 @@
 // src/havok/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/WorkerThreadPoolViewD2.h"
 #include "fnv/decl/fnv_00d2d240__hkCpuJobThreadPoolD2D.h"
 #include <windows.h>
@@ -419,7 +420,7 @@ FUN_00d2d110::FUN_00d2d110(const hkCpuJobThreadPoolCinfoD2D1& kCi)
             kData.m_iOffset1C = kCi.m_pHardwareThreadIds[i];
         else
             kData.m_iOffset1C = iThreadId % iNumCores;
-        reinterpret_cast<::Thr_00d87940 *>(&(kData.m_iThreadHandle))->FUN_00d87940((unsigned long)(((void *(&)(void *))::CpuJobThreadMain)), (unsigned long)(&kData), m_pName, m_iTimerBufferPerThreadAllocation);
+        reinterpret_cast<::Thr_00d87940 *>(&(kData.m_iThreadHandle))->FUN_00d87940((uintptr_t)(((void *(&)(void *))::CpuJobThreadMain)), (uintptr_t)(&kData), m_pName, m_iTimerBufferPerThreadAllocation);
     }
     ::FUN_00c90410(1);
 }
@@ -718,7 +719,7 @@ void hkCpuJobThreadPoolD2D::InitializeWorkerThread()
     int processorCount = *(volatile int*)&sysInfo.dwNumberOfProcessors;
     data.m_iOffset1C = threadId % processorCount;
 
-    reinterpret_cast<::Thr_00d87940 *>(&(data.m_iThreadHandle))->FUN_00d87940((unsigned long)(((void (&)(void *))::CpuJobThreadMain)), (unsigned long)(&data), m_pName, m_iTimerBufferPerThreadAllocation);
+    reinterpret_cast<::Thr_00d87940 *>(&(data.m_iThreadHandle))->FUN_00d87940((uintptr_t)(((void (&)(void *))::CpuJobThreadMain)), (uintptr_t)(&data), m_pName, m_iTimerBufferPerThreadAllocation);
 
     m_iHardwareInfoValue++;
 }
@@ -791,17 +792,17 @@ struct THREADNAME_INFO
 
 struct Thr_00d87940
 {
-    unsigned int m0;
+    uintptr_t m0;
     unsigned int m4;
     unsigned int m8;
     unsigned int mC;
-    int FUN_00d87940(unsigned long a0, unsigned long a1, const char* a2, unsigned long a3);
+    int FUN_00d87940(uintptr_t a0, uintptr_t a1, const char* a2, unsigned long a3);
 };
 
 // @fnv 0x00d87940
-int Thr_00d87940::FUN_00d87940(unsigned long a0, unsigned long a1, const char* a2, unsigned long a3)
+int Thr_00d87940::FUN_00d87940(uintptr_t a0, uintptr_t a1, const char* a2, unsigned long a3)
 {
-    m0 = (unsigned int)CreateThread(0, a3, (unsigned long(*)(void*))a0, (void*)a1, 0, &a1);
+    m0 = (uintptr_t)CreateThread(0, a3, (unsigned long(*)(void*))a0, (void*)a1, 0, &a1);
     if (m0 == 0)
     {
         return 1;

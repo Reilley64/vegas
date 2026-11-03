@@ -2,6 +2,7 @@
 // src/staging/blk_00620000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -388,7 +389,7 @@ struct FUN_006228e0_shell
 
 // Calls FUN_006228e0 with the 16-bit value at offset 0xa of this object and the given argument, returning its result.
 // @fnv 0x006227b0
-unsigned int FUN_006228e0_shell::FUN_006227b0(unsigned int arg)
+unsigned int FUN_006228e0_shell::FUN_006227b0(uintptr_t arg)
 {
     return FUN_006228e0(*(unsigned short*)((char*)this + 0xa), (void*)arg);
 }
@@ -3911,7 +3912,7 @@ struct FUN_00457880_Class
     unsigned int FUN_00457880(int value);
 };
 // @fnv 0x0062b150
-unsigned int __cdecl FUN_0062b150(unsigned int param_1, unsigned int uiValue)
+unsigned int __cdecl FUN_0062b150(uintptr_t param_1, uintptr_t uiValue)
 {
     int iStack_8;
     unsigned int uiResult;

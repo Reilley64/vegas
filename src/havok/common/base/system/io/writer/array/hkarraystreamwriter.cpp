@@ -2,6 +2,7 @@
 // src/havok/common/base/system/io/writer/array/hkarraystreamwriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/writer/array/hkarraystreamwriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -15,7 +16,7 @@ struct FUN_00d468a0_obj
 {
     unsigned int pad[2];
     FUN_00d467c0* p;
-    unsigned int WriteToStream(unsigned int arg, unsigned int b);
+    unsigned int WriteToStream(uintptr_t arg, unsigned int b);
 };
 struct FUN_00d469c0
 {
@@ -212,7 +213,7 @@ struct FUN_00d46be0_Inner
     virtual void s1();
     virtual void s2();
     virtual void s3();
-    virtual void s4(int a, int b);
+    virtual void s4(intptr_t a, int b);
 };
 struct FUN_00d46be0_Res
 {
@@ -242,7 +243,7 @@ void FUN_00d46be0_Cls::FUN_00d46be0()
     m0c = 0;
     if (v & 0x80000000)
         goto done;
-    pInner->s4(reinterpret_cast<int>(m08), (v & 0x3fffffff) * 4);
+    pInner->s4(reinterpret_cast<intptr_t>(m08), (v & 0x3fffffff) * 4);
 done:
     m08 = 0;
     m10 = 0x80000000;
@@ -696,7 +697,7 @@ class Stream_d467
     void FUN_00d467c0(const char* pcData, int iSize);
 };
 // @fnv 0x00d468a0
-unsigned int FUN_00d468a0_obj::WriteToStream(unsigned int apData, unsigned int auiSize)
+unsigned int FUN_00d468a0_obj::WriteToStream(uintptr_t apData, unsigned int auiSize)
 {
     reinterpret_cast<::Stream_d467 *>((p))->FUN_00d467c0((const char*)apData, auiSize);
     return auiSize;

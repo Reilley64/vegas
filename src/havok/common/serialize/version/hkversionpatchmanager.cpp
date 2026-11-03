@@ -2,6 +2,7 @@
 // src/havok/common/serialize/version/hkversionpatchmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/version/hkversionpatchmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/BufferOwner.h"
@@ -59,7 +60,7 @@
 #include "fnv/symbols_00dba000.h"
 #include "fnv/symbols_00dc8000.h"
 #include "fnv/symbols_01268000.h"
-extern "C" void* __cdecl FUN_00cb1410(unsigned int);
+extern "C" void* __cdecl FUN_00cb1410(uintptr_t);
 struct FUN_00d479e0_class
 {
     void* GetValue(const void* a, const void* b);
@@ -70,18 +71,18 @@ struct FUN_00d874d0_s
 };
 struct FUN_00db7d00_class
 {
-    void* FUN_00db7d00(unsigned int a);
+    void* FUN_00db7d00(uintptr_t a);
 };
 // @fnv 0x00db7d00
-void* FUN_00db7d00_class::FUN_00db7d00(unsigned int a)
+void* FUN_00db7d00_class::FUN_00db7d00(uintptr_t a)
 {
     if (a)
     {
-        void* p = ((void *)(reinterpret_cast<::hkObjectD878 *>((((FUN_00d479e0_class*)((char*)this + 0x1c))))->GetValue((int)((const void*)a), (int)(0))));
+        void* p = ((void *)(reinterpret_cast<::hkObjectD878 *>((((FUN_00d479e0_class*)((char*)this + 0x1c))))->GetValue((intptr_t)((const void*)a), (int)(0))));
         if (!p)
         {
             p = FUN_00cb1410(a);
-            reinterpret_cast<::hkStringMapD874 *>((((FUN_00d874d0_s*)((char*)this + 0x1c))))->FUN_00d874d0((const char*)p, (int)p);
+            reinterpret_cast<::hkStringMapD874 *>((((FUN_00d874d0_s*)((char*)this + 0x1c))))->FUN_00d874d0((const char*)p, (intptr_t)p);
         }
         return p;
     }
@@ -135,13 +136,13 @@ struct DepthLimit
 // @fnv 0x00db7e70
 int __cdecl FUN_00db7e70(void* apTarget, void* apItem, GraphTable* apTable, DepthLimit* apDepth)
 {
-    if (reinterpret_cast<::FUN_00cb18f0_t *>((apDepth))->FindSlot((int)(apItem)) > apDepth->m_iLimit)
+    if (reinterpret_cast<::FUN_00cb18f0_t *>((apDepth))->FindSlot((intptr_t)(apItem)) > apDepth->m_iLimit)
     {
         AudioHolder* pHolder = FUN_00c85750();
         void* pAllocator = pHolder->m_pAllocator;
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((apDepth))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(pAllocator)), (unsigned int)(apItem), 0);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((apDepth))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(pAllocator)), (uintptr_t)(apItem), 0);
 
-        int iIndex = ((int)(::LookupWithDefault((::HashEntryTable *)(apTable), (int)(apItem), {})));
+        int iIndex = ((int)(::LookupWithDefault((::HashEntryTable *)(apTable), (intptr_t)(apItem), {})));
         while (iIndex != -1)
         {
             void* pKey = apTable->m_pEntries[iIndex].m_pKey;
@@ -390,8 +391,8 @@ int __cdecl FUN_00db7cb0(int* values)
 
 struct Entry_t
 {
-    unsigned int unk00;
-    unsigned int unk04;
+    uintptr_t unk00;
+    uintptr_t unk04;
     unsigned int unk08;
     unsigned int unk0C;
 };
@@ -407,7 +408,7 @@ struct Owner_t
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
-    int FUN_00db7d60(unsigned int a, unsigned int b);
+    int FUN_00db7d60(uintptr_t a, unsigned int b);
 };
 // @fnv 0x00db7dd0
 void DB7DD0Outer::FUN_00db7dd0()
@@ -415,7 +416,7 @@ void DB7DD0Outer::FUN_00db7dd0()
     reinterpret_cast<::Owner_t *>((m_inner))->FUN_00db7d60({}, {});
 }
 
-__declspec(noinline) int Owner_t::FUN_00db7d60(unsigned int a, unsigned int b)
+__declspec(noinline) int Owner_t::FUN_00db7d60(uintptr_t a, unsigned int b)
 {
     return (int)a;
 }
@@ -741,7 +742,7 @@ struct Graph
 };
 
 // @fnv 0x00db83c0
-int __cdecl FUN_00db83c0(int node, hkIntArray* state, Graph* graph, int counter, hkIntArray* stack, int arg)
+int __cdecl FUN_00db83c0(int node, hkIntArray* state, Graph* graph, int counter, hkIntArray* stack, intptr_t arg)
 {
     if (state->m_data[node] == -1)
     {
@@ -1154,7 +1155,7 @@ struct Elem
 {
     int m_00;
     int m_04;
-    int m_08;
+    intptr_t m_08;
     int m_0c;
     Pair5* m_10;
     int m_14;
@@ -1163,7 +1164,7 @@ struct VObj
 {
     virtual void v0() throw();
     virtual void v1() throw();
-    virtual int FUN_v2() throw();
+    virtual intptr_t FUN_v2() throw();
     virtual int FUN_v3() throw();
 };
 struct ArgA
@@ -1344,7 +1345,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
             }
             else
             {
-                int q1 = FUN_00db7d40(iKeyLo, iKeyHi);
+                intptr_t q1 = FUN_00db7d40(iKeyLo, iKeyHi);
                 int q2 = ForwardToInner(iKeyLo, iKeyHi);
                 if (q2 != -1)
                 {
@@ -1360,7 +1361,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                         reinterpret_cast<struct ::FUN_00cc00e0 *>(&(oErrorStream))->FUN_00cc00e0::~FUN_00cc00e0();
                         return 1;
                     }
-                    int hv = ((int)(reinterpret_cast<::FnvClassNameNode *>((pVerObj))->FUN_00d46d40()));
+                    intptr_t hv = ((intptr_t)(reinterpret_cast<::FnvClassNameNode *>((pVerObj))->FUN_00d46d40()));
                     if (!reinterpret_cast<::DC7300Owner *>(&(world))->FUN_00dc7300((void *)(hv)))
                         reinterpret_cast<::hkDataWorldDC82 *>(&(world))->FUN_00dc8270((*(const ::hkClassDC82 *)(pVerObj)));
                 }
@@ -1374,10 +1375,10 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
             for (ii = apOutput->m_iArrayLength - 1; ii >= 0; ii--)
             {
                 Elem* ce = (Elem*)apOutput->m_pData[ii];
-                int saved = ce->m_00;
-                int key = ce->m_04 ? ce->m_04 : saved;
+                intptr_t saved = ce->m_00;
+                intptr_t key = ce->m_04 ? ce->m_04 : saved;
                 StrX oStr;
-                reinterpret_cast<::FUN_00dba650_cls *>(&(oStr))->FUN_00dba650((unsigned int)(reinterpret_cast<::DC7300Owner *>(&(world))->FUN_00dc7300((void *)(key))));
+                reinterpret_cast<::FUN_00dba650_cls *>(&(oStr))->FUN_00dba650((uintptr_t)(reinterpret_cast<::DC7300Owner *>(&(world))->FUN_00dc7300((void *)(key))));
                 if (((int)(reinterpret_cast<::CpuObject *>(&(oStr))->FUN_00dba670())))
                 {
                     ClassCinfo oCinfo;
@@ -1386,7 +1387,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                     oCinfo.parent = 0;
                     {
                         StrX oTmpStr;
-                        reinterpret_cast<::FUN_00dba650_cls *>(&(oTmpStr))->FUN_00dba650((unsigned int)(((void *)(reinterpret_cast<::fnv_00dc80c0::SkOwner *>(&(world))->CreateItem((::fnv_00dc80c0::SkDesc *)(void *)(&oCinfo))))));
+                        reinterpret_cast<::FUN_00dba650_cls *>(&(oTmpStr))->FUN_00dba650((uintptr_t)(((void *)(reinterpret_cast<::fnv_00dc80c0::SkOwner *>(&(world))->CreateItem((::fnv_00dc80c0::SkDesc *)(void *)(&oCinfo))))));
                         oStr.m_00 = oTmpStr.m_00;
                         ::FUN_00dba660();
                     }
@@ -1414,7 +1415,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                         case 5: {
                             int* data5 = pr->m_04;
                             StrX removed;
-                            reinterpret_cast<::FUN_00dba650_cls *>(&(removed))->FUN_00dba650((unsigned int)(reinterpret_cast<::DC7300Owner *>(&(world))->FUN_00dc7300((void *)(data5[0]))));
+                            reinterpret_cast<::FUN_00dba650_cls *>(&(removed))->FUN_00dba650((uintptr_t)(reinterpret_cast<::DC7300Owner *>(&(world))->FUN_00dc7300((void *)(data5[0]))));
                             ::FUN_00dba660();
                             break;
                         }
@@ -1423,14 +1424,14 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                             if (data6[0])
                             {
                                 StrX oTmpStr;
-                                reinterpret_cast<::FUN_00dba650_cls *>(&(oTmpStr))->FUN_00dba650((unsigned int)(reinterpret_cast<::DC7300Owner *>(&(world))->FUN_00dc7300((void *)(data6[0]))));
+                                reinterpret_cast<::FUN_00dba650_cls *>(&(oTmpStr))->FUN_00dba650((uintptr_t)(reinterpret_cast<::DC7300Owner *>(&(world))->FUN_00dc7300((void *)(data6[0]))));
                                 reinterpret_cast<::FUN_00dc7cc0_Class *>(&(world))->AssignRefCountedSlot((void **)(::fnv_00db95c0::StrX *)(&oStr), (void **)(::fnv_00db95c0::StrX *)(&oTmpStr));
                                 ::FUN_00dba660();
                             }
                             else
                             {
                                 StrX oTmpStr;
-                                reinterpret_cast<::FUN_00dba650_cls *>(&(oTmpStr))->FUN_00dba650((unsigned int)((void*)0));
+                                reinterpret_cast<::FUN_00dba650_cls *>(&(oTmpStr))->FUN_00dba650((uintptr_t)((void*)0));
                                 reinterpret_cast<::FUN_00dc7cc0_Class *>(&(world))->AssignRefCountedSlot((void **)(::fnv_00db95c0::StrX *)(&oStr), (void **)(::fnv_00db95c0::StrX *)(&oTmpStr));
                                 ::FUN_00dba660();
                             }
@@ -1469,8 +1470,8 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
         for (i5 = 0; i5 < drain.m_iArrayLength; i5++)
         {
             VObj* e = (VObj*)drain.m_pData[i5];
-            int r = e->FUN_v2();
-            reinterpret_cast<::hkStringMapD874 *>(&(mga))->FUN_00d874d0((const char *)(r), (int)(e));
+            intptr_t r = e->FUN_v2();
+            reinterpret_cast<::hkStringMapD874 *>(&(mga))->FUN_00d874d0((const char *)(r), (intptr_t)(e));
         }
         int j5;
         for (j5 = 0; j5 < pSource.m_iArrayLength; j5++)
@@ -1500,7 +1501,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
 }
 }  // namespace fnv_00db95c0
 
-extern "C" void* __cdecl FUN_00cb1410(unsigned int);
+extern "C" void* __cdecl FUN_00cb1410(uintptr_t);
 
 struct PatchFactory
 {
@@ -1569,12 +1570,12 @@ struct PatchManager
     int unk18;
     int unk1C;
 
-    int FUN_00dba0d0(int param2, int param3);
+    int FUN_00dba0d0(intptr_t param2, intptr_t param3);
 };
 
 // Applies a patch to a world object, resolving the allocator, running patch operations, and releasing the allocated patch data.
 // @fnv 0x00dba0d0
-int PatchManager::FUN_00dba0d0(int apWorld, int param3)
+int PatchManager::FUN_00dba0d0(intptr_t apWorld, intptr_t param3)
 {
     if (param3 == 0)
     {
@@ -1700,7 +1701,7 @@ struct FUN_00dba4d0_cls
 // @fnv 0x00dba4d0
 void FUN_00dba4d0_cls::FUN_00dba4d0(const SortedEntry* apValue)
 {
-    for (int i = 0; i < m_iArrayLength; ++i)
+    for (intptr_t i = 0; i < m_iArrayLength; ++i)
     {
         SortedEntry cur = m_pData[i];
         if (apValue->m_key < cur.m_key)
@@ -1796,11 +1797,11 @@ struct FUN_00db7ef0_cls
     FUN_00db7ef0_list m_kNode;
     FUN_00db7ef0_sub m_sub;
 
-    void FUN_00db7ef0(unsigned int auiValue);
+    void FUN_00db7ef0(uintptr_t auiValue);
 };
 
 // @fnv 0x00db7ef0
-void FUN_00db7ef0_cls::FUN_00db7ef0(unsigned int auiValue)
+void FUN_00db7ef0_cls::FUN_00db7ef0(uintptr_t auiValue)
 {
     if (::FUN_00db7cb0((int *)(auiValue)) == 0)
     {
@@ -1953,7 +1954,7 @@ extern "C" void _ReadWriteBarrier(void);
 // @fnv 0x00db7d60
 unsigned __int64 VersionUidCache::FUN_00db7d60(unsigned int a1, int a2)
 {
-    unsigned int item = reinterpret_cast<unsigned int>(reinterpret_cast<::FUN_00db7d00_class *>((reinterpret_cast<DB7D00_Shell*>(this)))->FUN_00db7d00(a1));
+    uintptr_t item = reinterpret_cast<uintptr_t>(reinterpret_cast<::FUN_00db7d00_class *>((reinterpret_cast<DB7D00_Shell*>(this)))->FUN_00db7d00(a1));
     unsigned int uiSize = m_vec.m_uiItemCount;
     unsigned int r = ((unsigned int)(reinterpret_cast<::hkStringMapD876 *>(this)->GetOrSetInt((const char *)(item), uiSize)));
     if (r == m_vec.m_uiItemCount)

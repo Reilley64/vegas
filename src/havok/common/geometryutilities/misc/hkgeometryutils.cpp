@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <xmmintrin.h>
 #include <math.h>
 #include "fnv/symbols_00c90000.h"
@@ -355,8 +356,8 @@ static __forceinline void appendCapsuleEnd(hkGeometry* geom, int numSides, int s
     }
 }
 // @fnv 0x00da16d0
-void __cdecl FUN_00da16d0(const hkVector4& top, const hkVector4& bottom, float radius, int numHeightSegments,
-                          int numSides, const hkTransform& transform, hkGeometry*& outGeom) throw()
+void __cdecl FUN_00da16d0(const hkVector4& top, const hkVector4& bottom, float radius, intptr_t numHeightSegments,
+                          intptr_t numSides, const hkTransform& transform, hkGeometry*& outGeom) throw()
 {
     const int halfSides = numSides >> 1;
     hkArray<hkVector4> localVertices;

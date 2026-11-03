@@ -2,6 +2,7 @@
 // src/havok/common/base/debugutil/statisticscollector/stream/hkstreamstatisticscollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/debugutil/statisticscollector/stream/hkstreamstatisticscollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include "fnv/symbols_01063000.h"
 #include <new>
@@ -72,7 +73,7 @@ struct hkArrayChar
     int m_iElementCount;
     int m_iCapacityState;
 
-    int getCapacity() const
+    intptr_t getCapacity() const
     {
         return m_iCapacityState & 0x3fffffff;
     }
@@ -243,7 +244,7 @@ struct MonitorNode
 };
 struct MonitorString
 {
-    unsigned int tagged;
+    uintptr_t tagged;
     void FUN_00cb0b80(const char* s);
     void FUN_00cb0bd0(const MonitorString& s);
     void FUN_00cb0c00();
@@ -463,12 +464,12 @@ struct FUN_00ddf170_cls
     SpawnedHandle m_14;
     SpawnedHandle m_20;
 
-    FUN_00ddf170_cls* FUN_00ddf170(int a1, int a2);
+    FUN_00ddf170_cls* FUN_00ddf170(intptr_t a1, int a2);
 };
 
 // Calls a base method, sets the vtable, initializes two SpawnedHandle members, and optionally allocates a buffer.
 // @fnv 0x00ddf170
-FUN_00ddf170_cls* FUN_00ddf170_cls::FUN_00ddf170(int a1, int aiBufferSize)
+FUN_00ddf170_cls* FUN_00ddf170_cls::FUN_00ddf170(intptr_t a1, int aiBufferSize)
 {
     new ((void *)(((SubBase*)this))) ::FUN_00d06f50((void *)(a1));
     int value = aiBufferSize;
@@ -500,7 +501,7 @@ FUN_00ddf170_cls* FUN_00ddf170_cls::FUN_00ddf170(int a1, int aiBufferSize)
     pHandle2->m_uiFilterValue = 0;
     pHandle2->m_flags = 0xffffffffu;
     AudioAllocator* pAudioAllocator = holderGet()->m_pAllocator;
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(m_20))->EnsureCapacity((int)(pAudioAllocator), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(m_20))->EnsureCapacity((intptr_t)(pAudioAllocator), 0);
 
     pHandle->SetSizeAndGrow(0);
     return this;
@@ -607,7 +608,7 @@ struct FUN_00ddf640_Cls : Obj
 unsigned char* FUN_00ddf640_Cls::FUN_00ddf640()
 {
     unsigned char* out = (unsigned char*)m14.getCapacity();
-    if ((int)out > m14.m_iElementCount + 0x46)
+    if ((intptr_t)out > m14.m_iElementCount + 0x46)
     {
         out = (unsigned char*)FUN_00ddf370(&m14, 0);
         out[0] = 0x70;
@@ -689,7 +690,7 @@ struct SpawnHolder
     int unk04;
     int unk08;
     int unk0C;
-    int m_10;
+    intptr_t m_10;
 };
 
 SpawnHolder* FUN_00c85750();
@@ -713,12 +714,12 @@ struct FUN_00ddfa10_cls
     Sub20_cls m_20;
 
     void DDF420(int a, int b, int c);
-    void FUN_00ddfa10(int a1, int a2, unsigned char flag);
+    void FUN_00ddfa10(int a1, intptr_t a2, unsigned char flag);
 };
 
 // After capacity and a2 checks, updates m_20 and calls a virtual function from a2; when flag bit 0 is clear, it also calls DDF420 and DDF020.
 // @fnv 0x00ddfa10
-void FUN_00ddfa10_cls::FUN_00ddfa10(int a1, int a2, unsigned char aiFlags)
+void FUN_00ddfa10_cls::FUN_00ddfa10(int a1, intptr_t a2, unsigned char aiFlags)
 {
     int count = (int)(m_1c & 0x3fffffffu);
     if (count <= m_18 + 0x46)
@@ -734,14 +735,14 @@ void FUN_00ddfa10_cls::FUN_00ddfa10(int a1, int a2, unsigned char aiFlags)
     {
         DDF420(a1, a2, reinterpret_cast<::FUN_00d06d90_cls *>(this)->GetFlagsOrProcess((::Rec *)(a2)));
         void** pVTable = *(void***)a2;
-        int r = ((int)(reinterpret_cast<::D06D50Finder *>(this)->FindClass((const ::D06D50Object *)(a2))));
+        intptr_t r = ((intptr_t)(reinterpret_cast<::D06D50Finder *>(this)->FindClass((const ::D06D50Object *)(a2))));
         ((VSlot8)pVTable[2])((void*)a2, this, r);
         reinterpret_cast<::FUN_00ddf020_Class *>(this)->FUN_00ddf020();
     }
     else
     {
         void** pVTable = *(void***)a2;
-        int r = ((int)(reinterpret_cast<::D06D50Finder *>(this)->FindClass((const ::D06D50Object *)(a2))));
+        intptr_t r = ((intptr_t)(reinterpret_cast<::D06D50Finder *>(this)->FindClass((const ::D06D50Object *)(a2))));
         ((VSlot8)pVTable[2])((void*)a2, this, r);
     }
 }
@@ -754,7 +755,7 @@ struct AudioHolder
     int unk04;
     int unk08;
     int unk0C;
-    int m_10;
+    intptr_t m_10;
 };
 
 struct Param1
@@ -780,12 +781,12 @@ struct FUN_00ddfab0_cls
     Sub20 m_20;
 
     void FUN_00ddf420(int a, int b, int c);
-    void FUN_00ddfab0(Param1* a1, int a2, int a3, int a4);
+    void FUN_00ddfab0(Param1* a1, int a2, intptr_t a3, int a4);
 };
 
 // Checks m_1c, m_18, and a3; updates m_20, then calls FUN_00cf6920 and conditionally calls FUN_00ddf420 and FUN_00ddf020.
 // @fnv 0x00ddfab0
-void FUN_00ddfab0_cls::FUN_00ddfab0(Param1* a1, int a2, int a3, int aiFlags)
+void FUN_00ddfab0_cls::FUN_00ddfab0(Param1* a1, int a2, intptr_t a3, int aiFlags)
 {
     int iMasked = (int)(m_1c & 0x3fffffff);
     int iLimit = m_18 + 0x46;
@@ -830,7 +831,7 @@ struct AllocIface
     virtual void v20();
     virtual void v24();
     virtual void v28();
-    virtual unsigned int allocTag(int size, int tag);
+    virtual unsigned int allocTag(intptr_t size, int tag);
 };
 struct MonitorStream
 {
@@ -899,7 +900,7 @@ void Pkt::FUN_00ddf420(const char* str, const void* a2, int a3)
     if (a3 == 0)
         v = 0;
     else
-        v = ((AllocIface&)audio()->heap()).allocTag((int)a2, a3);
+        v = ((AllocIface&)audio()->heap()).allocTag((intptr_t)a2, a3);
     rec->b = (unsigned short)v;
     if (len > 0)
     {

@@ -2,6 +2,7 @@
 // src/havok/common/base/types/physics/motionstate/hkmotionstate.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/types/physics/motionstate/hkmotionstate.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "havok/hkMotionState.h"
 
 struct FUN_00c9ea90_Base
@@ -20,7 +21,7 @@ struct __declspec(align(16)) FUN_00827200_class
 {
     int unk00;
     int unk04;
-    void FUN_00cb26e0(int);
+    void FUN_00cb26e0(intptr_t);
 };
 
 struct FUN_00cf2410_class

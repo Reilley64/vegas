@@ -2,6 +2,7 @@
 // src/havok/common/base/types/hkrefvariant.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/types/hkrefvariant.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_01269000.h"
@@ -12,11 +13,11 @@ struct hkReferencedObject
 struct FUN_00d47770
 {
     hkReferencedObject* m_pObject;
-    void SetObject(hkReferencedObject* object, int extra);
+    void SetObject(hkReferencedObject* object, intptr_t extra);
 };
 
 // @fnv 0x00d47770
-void FUN_00d47770::SetObject(hkReferencedObject* object, int extra)
+void FUN_00d47770::SetObject(hkReferencedObject* object, intptr_t extra)
 {
     if (object)
         reinterpret_cast<::FUN_00c90510_class *>((object))->FUN_00c90510();

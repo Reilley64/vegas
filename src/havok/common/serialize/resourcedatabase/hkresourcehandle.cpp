@@ -2,6 +2,7 @@
 // src/havok/common/serialize/resourcedatabase/hkresourcehandle.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/resourcedatabase/hkresourcehandle.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include "fnv/decl/AttributeFormatter.h"
 #include "fnv/decl/FUN_00cb1600.h"
@@ -48,15 +49,15 @@ extern int DAT_010eb19c;
 struct FUN_00e2def0_class
 {
     void* m_p;
-    int InitAndMaybeFree(int flags);
+    intptr_t InitAndMaybeFree(int flags);
 };
 // @fnv 0x00e2def0
-int FUN_00e2def0_class::InitAndMaybeFree(int flags)
+intptr_t FUN_00e2def0_class::InitAndMaybeFree(int flags)
 {
     m_p = &DAT_010eb19c;
     if (flags & 1)
         ::FUN_00401030(this);
-    return (int)this;
+    return (intptr_t)this;
 }
 
 struct FUN_00e2df40_class
@@ -67,7 +68,7 @@ struct FUN_00e2df40_class
 // @fnv 0x00e2df40
 const char* FUN_00e2df40_class::FUN_00e2df40(int)
 {
-    int v = *(const int*)(this + 0xc) & 0xfffffffe;
+    intptr_t v = *(const int*)(this + 0xc) & 0xfffffffe;
     return v ? reinterpret_cast<const char*>(v) : "null";
 }
 
@@ -95,7 +96,7 @@ struct FUN_00e2df30_class
 // @fnv 0x00e2df30
 void FUN_00e2df30_class::FUN_00e2df30(D481D0ReferencedObject* obj, D481D0Class const* cls)
 {
-    reinterpret_cast<::FUN_00d47770 *>((((D481D0RefVariant*)((char*)this + 8))))->SetObject((::hkReferencedObject *)(obj), (int)(cls));
+    reinterpret_cast<::FUN_00d47770 *>((((D481D0RefVariant*)((char*)this + 8))))->SetObject((::hkReferencedObject *)(obj), (intptr_t)(cls));
 }
 }  // namespace fnv_00e2df30
 
@@ -126,7 +127,7 @@ int FUN_00e2df80_class::FUN_00e2df80(void* apKey, int* piOut)
 {
     if (piOut)
         *piOut = 0;
-    FUN_00e2df80_obj* obj = (FUN_00e2df80_obj*)((void *)(reinterpret_cast<::hkObjectD878 *>((((FUN_00d479e0_class*)((char*)this + 4))))->GetValue((int)(apKey), 0)));
+    FUN_00e2df80_obj* obj = (FUN_00e2df80_obj*)((void *)(reinterpret_cast<::hkObjectD878 *>((((FUN_00d479e0_class*)((char*)this + 4))))->GetValue((intptr_t)(apKey), 0)));
     if (!obj)
         return 0;
     if (piOut)
@@ -141,7 +142,7 @@ struct FUN_00cb0a70
 };
 struct FUN_00e2ea20_class
 {
-    int m_p;
+    intptr_t m_p;
     int m_kPointA;
     int m_kPointB;
     FUN_00cb0a70 m_h;
@@ -150,7 +151,7 @@ struct FUN_00e2ea20_class
 // @fnv 0x00e2ea20
 FUN_00e2ea20_class* FUN_00e2ea20_class::FUN_00e2ea20(int aiValue)
 {
-    m_p = (int)&DAT_010eb288;
+    m_p = (intptr_t)&DAT_010eb288;
     m_h.m(aiValue);
     return this;
 }
@@ -301,7 +302,7 @@ struct FNVEntry
 {
     int unk00;
     int unk04;
-    unsigned int taggedType;
+    uintptr_t taggedType;
 };
 int __cdecl FUN_00cb0fa0(const void* filter, const void* tagged);
 struct FNVEntryCollection
@@ -870,7 +871,7 @@ void S00e2e3f0_Obj::FUN_00e2e3f0()
 extern "C" int __cdecl FUN_00cb0fa0(const char*, const char*);
 struct String839
 {
-    unsigned int tagged;
+    uintptr_t tagged;
     void FUN_00cb0c00();
     const char* text() const
     {
@@ -1112,7 +1113,7 @@ struct Item_e2ebc0
     int unk00;
     int unk04;
     int unk08;
-    int unk0c;
+    intptr_t unk0c;
 };
 
 struct F_e2ebc0
@@ -1127,7 +1128,7 @@ struct FUN_00cb0a70_Class
 
 struct FUN_00e2ebc0_class
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -1143,12 +1144,12 @@ struct FUN_00e2ebc0_class
 // @fnv 0x00e2ebc0
 FUN_00e2ebc0_class* FUN_00e2ebc0_class::Init(F_e2ebc0 flags)
 {
-    unk00 = (int)&DAT_010eb2c4;
+    unk00 = (intptr_t)&DAT_010eb2c4;
     ((FUN_00cb0a70_Class*)&this->unk08)->FUN_00cb0a70(flags.v);
     if (flags.v)
     {
         for (int i = 0; i < itemCount; ++i)
-            items[i]->unk0c = (int)this;
+            items[i]->unk0c = (intptr_t)this;
     }
     return this;
 }
@@ -1402,7 +1403,7 @@ struct FUN_00e2eae0_class
 
 struct FUN_00cbbd80_Local
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -1479,8 +1480,8 @@ void FUN_00e2eae0_class::FUN_00e2eae0(int* apTarget)
     void* value = vf10(&local);
 
     FUN_00d61df0_Obj* target = (FUN_00d61df0_Obj*)apTarget;
-    reinterpret_cast<::FUN_00d61df0_cls *>((target))->FUN_00d61df0((int)(&(*reinterpret_cast<int *>((void *)&::DAT_01063cbc))));
-    reinterpret_cast<::FUN_00d61df0_cls *>((target))->FUN_00d61df0((int)(value));
+    reinterpret_cast<::FUN_00d61df0_cls *>((target))->FUN_00d61df0((intptr_t)(&(*reinterpret_cast<int *>((void *)&::DAT_01063cbc))));
+    reinterpret_cast<::FUN_00d61df0_cls *>((target))->FUN_00d61df0((intptr_t)(value));
 
     FUN_00c85750_Object* allocator = FUN_00c85750()->unk0c;
     int handle = local.unk08;
@@ -1640,8 +1641,8 @@ struct S00e2e0b0_Array
 };
 struct S00e2e0b0_Entry
 {
-    unsigned int unk00;
-    unsigned int unk04;
+    uintptr_t unk00;
+    uintptr_t unk04;
 };
 void FUN_00c908c0(void*, S00e2e0b0_Array*, int, int);
 struct S00e2e0b0_Stream
@@ -1728,7 +1729,7 @@ void S00e2e0b0_Viewer::FUN_00e2e0b0(S00e2e0b0_Array* array)
         {
             out->unk00 = name;
             S00e2e0b0_Access access;
-            out->unk08 = *((::S00e2e0b0_Access *)(reinterpret_cast<::FUN_00d87180_cls *>(&(access))->FUN_00d87180((unsigned int)(object), (::B *)(member))));
+            out->unk08 = *((::S00e2e0b0_Access *)(reinterpret_cast<::FUN_00d87180_cls *>(&(access))->FUN_00d87180((uintptr_t)(object), (::B *)(member))));
             out->unk04 = (const char*)(unk10[i].unk04 & ~1u);
         }
         else

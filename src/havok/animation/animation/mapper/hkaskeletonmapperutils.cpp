@@ -2,6 +2,7 @@
 // src/havok/animation/animation/mapper/hkaskeletonmapperutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/mapper/hkaskeletonmapperutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/AttributeFormatter.h"
@@ -29,7 +30,7 @@ struct CE5F90QsTransform
 
 // @fnv 0x00ce5f90
 void __cdecl FUN_00ce5f90(CE5F90QsTransform* out, const CE5F90QsTransform* poseA, short boneA,
-                          const CE5F90QsTransform* poseB, short boneB, int mode, float weightA, float weightB)
+                          const CE5F90QsTransform* poseB, short boneB, intptr_t mode, float weightA, float weightB)
 {
     ::fnv_00ce5a70::FUN_00ce5a70(out, &poseA[boneA], &poseB[boneB], mode, weightA, weightB);
 }
@@ -380,7 +381,7 @@ void FUN_00ce5fe0(const void* data, const hkaSkeleton* skelA, const hkQsTransfor
     out->m_boneA1 = boneA1;
     out->m_boneB0 = boneB0;
     out->m_boneB1 = boneB1;
-    ::FUN_00ce5f90((::CE5F90QsTransform *)(data), (const ::CE5F90QsTransform *)(poseA), boneA0, (const ::CE5F90QsTransform *)(poseB), boneB0, (int)(&out->m_offset), 1e-5f, 1.0f);
+    ::FUN_00ce5f90((::CE5F90QsTransform *)(data), (const ::CE5F90QsTransform *)(poseA), boneA0, (const ::CE5F90QsTransform *)(poseB), boneB0, (intptr_t)(&out->m_offset), 1e-5f, 1.0f);
 
     hkReal lenA;
     hkReal lenB;
@@ -678,7 +679,7 @@ found:
 void __cdecl FUN_00ce5a70(CE5F90QsTransform* out, const CE5F90QsTransform* a, const CE5F90QsTransform* b, int mode,
                           float weightA, float weightB);
 void __cdecl FUN_00ce5f90(CE5F90QsTransform* out, const CE5F90QsTransform* poseA, short boneA,
-                          const CE5F90QsTransform* poseB, short boneB, int mode, float weightA, float weightB);
+                          const CE5F90QsTransform* poseB, short boneB, intptr_t mode, float weightA, float weightB);
 extern const __m128 DAT_010c71e0;
 extern const __m128 DAT_010c71b0;
 extern const __m128 DAT_010c7170;
@@ -1063,9 +1064,9 @@ template <typename E, typename S> class HkEnumValue
     S m_kStorage;
 };
 
-__forceinline long __cdecl hkByteOffset(const void* base, const void* pntr)
+__forceinline intptr_t __cdecl hkByteOffset(const void* base, const void* pntr)
 {
-    return long(pntr) - long(base);
+    return intptr_t(pntr) - intptr_t(base);
 }
 
 template <typename TYPE> __forceinline TYPE* __cdecl hkAddOffset(TYPE* base, long offset)
@@ -1529,7 +1530,7 @@ class HkStrPtr
 
 inline const char* HkStrPtr::cString() const
 {
-    return reinterpret_cast<char*>((unsigned long)(m_pcText) & ~OWNED_FLAG);
+    return reinterpret_cast<char*>((uintptr_t)(m_pcText) & ~OWNED_FLAG);
 }
 
 class HkBone
@@ -1770,13 +1771,13 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
 
     HkLocalArr<HkQs> modelPoseA(numBonesA);
     modelPoseA.setSizeUnchecked(numBonesA);
-    ::CallWithGlobal(numBonesA, (int)(params.m_pSkeletonA->m_kParentIndices.begin()),
-                 (int)(params.m_pSkeletonA->m_kReferencePose.begin()), (int)(modelPoseA.begin()));
+    ::CallWithGlobal(numBonesA, (intptr_t)(params.m_pSkeletonA->m_kParentIndices.begin()),
+                 (intptr_t)(params.m_pSkeletonA->m_kReferencePose.begin()), (intptr_t)(modelPoseA.begin()));
 
     HkLocalArr<HkQs> modelPoseB(numBonesB);
     modelPoseB.setSizeUnchecked(numBonesB);
-    ::CallWithGlobal(numBonesB, (int)(params.m_pSkeletonB->m_kParentIndices.begin()),
-                 (int)(params.m_pSkeletonB->m_kReferencePose.begin()), (int)(modelPoseB.begin()));
+    ::CallWithGlobal(numBonesB, (intptr_t)(params.m_pSkeletonB->m_kParentIndices.begin()),
+                 (intptr_t)(params.m_pSkeletonB->m_kReferencePose.begin()), (intptr_t)(modelPoseB.begin()));
 
     const HkQs* poseA = (params.m_eMappingType == HK_RAGDOLL_MAPPING) ? modelPoseA.begin()
                                                                       : params.m_pSkeletonA->m_kReferencePose.begin();
@@ -2661,9 +2662,9 @@ static __forceinline void warnAlways(int id, const char* text, int line)
 
 // @fnv 0x00ce5a70
 void __cdecl FUN_00ce5a70(CE5F90QsTransform* mappingType, const CE5F90QsTransform* poseA,
-                          const CE5F90QsTransform* poseB, int outputAddress, float tolerance, float defaultScale)
+                          const CE5F90QsTransform* poseB, intptr_t outputAddress, float tolerance, float defaultScale)
 {
-    int type = reinterpret_cast<int>(mappingType);
+    intptr_t type = reinterpret_cast<intptr_t>(mappingType);
     CE5F90QsTransform* mapOut = reinterpret_cast<CE5F90QsTransform*>(outputAddress);
     HkQs* a = (HkQs*)poseA;
     HkQs* b = (HkQs*)poseB;

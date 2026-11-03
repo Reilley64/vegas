@@ -2,6 +2,7 @@
 // src/havok/common/base/reflection/hkclassupdate.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/reflection/hkclassupdate.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00cb1930_t.h"
 #include "fnv/decl/FUN_00d46f70_cls.h"
 #include "fnv/decl/FUN_00d46f80_class.h"
@@ -44,11 +45,11 @@ void __cdecl VisitTypeMembers(TypeNode* node, VisitMap* visited, unsigned int ma
 {
     for (;;)
     {
-        unsigned int flags = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>((visited))->LookupHashEntry((int)(node), 0)));
+        unsigned int flags = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>((visited))->LookupHashEntry((intptr_t)(node), 0)));
         if (mask & flags)
             return;
         BSAudio* audio = FUN_00c85750();
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((visited))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(audio->allocator)), (unsigned int)(node), flags | mask);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((visited))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(audio->allocator)), (uintptr_t)(node), flags | mask);
         for (int i = 0; i < reinterpret_cast<::FUN_00d46f70_cls *>((node))->FUN_00d46f70(); ++i)
         {
             Member* member = ((::Member *)(reinterpret_cast<::FUN_00d46f80_class *>((node))->FUN_00d46f80(i)));
@@ -98,11 +99,11 @@ extern char DAT_010ea4cc[], DAT_010e5210[];
 // @fnv 0x00e04bb0
 void VisitTypeNode(TypeNode* node, VisitMap* visited)
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>((visited))->LookupHashEntry((int)(node), 0)));
+    unsigned int flags = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>((visited))->LookupHashEntry((intptr_t)(node), 0)));
     if (!(flags & 1))
     {
         BSAudio* audio = FUN_00c85750();
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((visited))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(audio->allocator)), (unsigned int)(node), flags | 1);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((visited))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(audio->allocator)), (uintptr_t)(node), flags | 1);
         unsigned int offset = ((::fnv_00e04bb0::Property *)(reinterpret_cast<::FUN_00d46fe0_Class *>(&((*reinterpret_cast<::fnv_00e04bb0::Registry *>(&::g_0126ed90))))->FUN_00d46fe0((const int *)(DAT_010ea4cc))))->offset;
         TypeNode* ancestor = node;
         while (ancestor->FUN_00d46d60())
@@ -175,11 +176,11 @@ struct TypeRegistry
 // @fnv 0x00e04cc0
 static __declspec(noinline) void __cdecl FUN_00e04cc0(TraverseNode* node, VisitMap* visited)
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>((visited))->LookupHashEntry((int)(reinterpret_cast<TypeNode*>(node)), 0)));
+    unsigned int flags = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>((visited))->LookupHashEntry((intptr_t)(reinterpret_cast<TypeNode*>(node)), 0)));
     if ((flags & 4) == 0)
     {
         BSAudio* audio = FUN_00c85750();
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((visited))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(audio->allocator)), (unsigned int)(reinterpret_cast<TypeNode*>(node)), flags | 4);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((visited))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(audio->allocator)), (uintptr_t)(reinterpret_cast<TypeNode*>(node)), flags | 4);
         if (::fnv_00cb0fa0::FUN_00cb0fa0(reinterpret_cast<::FnvClassNameNode *>((node))->FUN_00d46d40(), ::g_0126908c_arg0) == 0)
         {
             char* member = ((char *)(reinterpret_cast<::FUN_00d46f80_class *>((void *)(node))->FUN_00d46f80(2)));

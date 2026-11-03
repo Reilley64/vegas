@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class Actor;
 class BGSLoadFormBuffer;
@@ -14,7 +15,7 @@ public:
     // 0x005a8060
     void SetPackageObjectType(int);
     // 0x006286d0
-    int GetPackageObjectType();
+    intptr_t GetPackageObjectType();
     // 0x008041a0
     ::TESObjectREFR *GetActiveCombatTarget();
     // 0x008d0430

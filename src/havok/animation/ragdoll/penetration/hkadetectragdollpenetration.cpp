@@ -2,6 +2,7 @@
 // src/havok/animation/ragdoll/penetration/hkadetectragdollpenetration.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/penetration/hkadetectragdollpenetration.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include <cstddef>
 #include <new>
@@ -354,7 +355,7 @@ AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00d1fe70_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     unsigned short m_uSize;
     unsigned short m_u06;
     int unk08;
@@ -383,7 +384,7 @@ FUN_00d1fe70_cls* FUN_00d1fe70_cls::FUN_00d1fe70(unsigned char acFlags)
     }
     m_p18 = 0;
     m_20 = 0x80000000;
-    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1)
     {
         AudioHolder* pHolder2 = FUN_00c85750();

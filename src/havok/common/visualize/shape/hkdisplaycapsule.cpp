@@ -2,6 +2,7 @@
 // src/havok/common/visualize/shape/hkdisplaycapsule.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaycapsule.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv_simd.h"
 #include "fnv/symbols_0104f000.h"
 #include <xmmintrin.h>
@@ -25,7 +26,7 @@ struct hkDisplayCapsule
 void hkDisplayCapsule::FUN_00d22d70()
 {
     ::FUN_00da16d0((*(const ::hkVector4 *)(this + 0x60)), (*(const ::hkVector4 *)(this + 0x70)), *(float*)((char*)this + 0x80),
-                                    (int)(*(void**)((char*)this + 0x88)), (int)(*(void**)((char*)this + 0x84)), (*(const ::hkTransform *)(this + 0x10)),
+                                    (intptr_t)(*(void**)((char*)this + 0x88)), (intptr_t)(*(void**)((char*)this + 0x84)), (*(const ::hkTransform *)(this + 0x10)),
                                     (*(::hkGeometry * *)(this + 0x8)));
 }
 

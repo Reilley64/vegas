@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/entity/hkprigidbody.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/hkprigidbody.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/CA8Owner.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91120.h"
@@ -269,7 +270,7 @@ public:
     ::Owner *FUN_00cf5ea0();
 };
 // @fnv 0x00ca85f0
-void Owner::FUN_00ca85f0(unsigned int value)
+void Owner::FUN_00ca85f0(uintptr_t value)
 {
     subobjectE0.update(value);
     unsigned int source = unk10;
@@ -641,7 +642,7 @@ struct FUN_00ca8860_cls
 
 // Calls the sub-object's Do virtual with aiFirst and aiSecond, then invokes FUN_00ca8700 on this.
 // @fnv 0x00ca8860
-void FUN_00ca8860_cls::FUN_00ca8860(int aiFirst, int aiSecond)
+void FUN_00ca8860_cls::FUN_00ca8860(intptr_t aiFirst, intptr_t aiSecond)
 {
     m_sub.m_pVtbl->Do(&m_sub, aiFirst, aiSecond);
     ::FUN_00ca8700((::Entity *)(void *)(this));
@@ -1272,7 +1273,7 @@ struct CA8890Object
 
 // Calls setValue on the member with value, then calls FUN_00ca8700 on this object.
 // @fnv 0x00ca8890
-void CA8890Object::FUN_00ca8890(int value)
+void CA8890Object::FUN_00ca8890(intptr_t value)
 {
     m_kMemberDescriptor.setValue(value);
     ::FUN_00ca8700((::Entity *)(::CA8890Object *)(this));

@@ -2,6 +2,7 @@
 // src/havok/common/visualize/hkserverprocesshandler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkserverprocesshandler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
@@ -59,10 +60,10 @@ struct FUN_00d607b0_s
 };
 struct FUN_00d60ca0_s
 {
-    int FUN_00d60ca0(int a, int b);
+    int FUN_00d60ca0(intptr_t a, int b);
 };
 // @fnv 0x00d60ca0
-int FUN_00d60ca0_s::FUN_00d60ca0(int a, int b)
+int FUN_00d60ca0_s::FUN_00d60ca0(intptr_t a, int b)
 {
     int iClamped = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(a));
     if (iClamped > 0xffff)
@@ -172,10 +173,10 @@ struct FUN_00d60d40_Class
     FUN_00d60d40_Element** m_p;
     int m_uiItemCount;
 
-    int FUN_00d60d40(int value);
+    int FUN_00d60d40(intptr_t value);
 };
 
-int FUN_00d60d40_Class::FUN_00d60d40(int value)
+int FUN_00d60d40_Class::FUN_00d60d40(intptr_t value)
 {
     int count = m_uiItemCount;
     int index = 0;
@@ -253,7 +254,7 @@ hkObjD60B* hkObjD60B::FUN_00d60bd0(unsigned int uiFlags) throw()
 
 struct hkEntryD60D
 {
-    unsigned int m_name;
+    uintptr_t m_name;
     int unk04;
     int unk08;
 };
@@ -716,7 +717,7 @@ int OwnerD60E::FUN_00d60e80(int aiSoundId)
 {
     if (reinterpret_cast<::FUN_00d60d40_Class *>(this)->FUN_00d60d40(aiSoundId) >= 0)
         return 0;
-    EntryD60E* pkEntry = ((::EntryD60E *)(reinterpret_cast<::FUN_00dd92f0_cls *>((((EntryFactoryD60E*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->InvokeRecord(aiSoundId, (int)(&m_unk44))));
+    EntryD60E* pkEntry = ((::EntryD60E *)(reinterpret_cast<::FUN_00dd92f0_cls *>((((EntryFactoryD60E*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->InvokeRecord(aiSoundId, (intptr_t)(&m_unk44))));
     if (pkEntry)
     {
         EntryD60E* const receiver = pkEntry;
@@ -781,7 +782,7 @@ struct Part_d60e
 // @fnv 0x00d60e20
 int Part_d60e::FUN_00d60e20(void* key)
 {
-    int index = reinterpret_cast<::FUN_00d60d40_Class *>((((Owner_d60e*)((char*)this - 8))))->FUN_00d60d40((int)(key));
+    int index = reinterpret_cast<::FUN_00d60d40_Class *>((((Owner_d60e*)((char*)this - 8))))->FUN_00d60d40((intptr_t)(key));
     if (index >= 0)
     {
         Item_d60e* item = m_items[index];
@@ -929,7 +930,7 @@ struct HandleSet
     int unk08;
     HandleSet(int count = 0) : unk00(0), unk04(0), unk08(-1)
     {
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)(&FUN_00c85750().heap()), count);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)(&FUN_00c85750().heap()), count);
     }
 };
 

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiAVObject;
 class NiPoint3;
@@ -16,7 +17,7 @@ struct WorldObject62b3;
 struct bhkWorldObject;
 
 // 0x0062b150
-unsigned int FUN_0062b150(unsigned int, unsigned int);
+unsigned int FUN_0062b150(uintptr_t, uintptr_t);
 // 0x0062b310
 float GetObjectMass(::WorldObject62b3 *);
 // 0x0062b4e0

@@ -1,3 +1,4 @@
+#include <cstdint>
 
 // src/havok/common/base/memory/allocator/freelist/hkfreelist.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/freelist/hkfreelist.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -162,7 +163,7 @@ unsigned int hkFreeListStandIn::FUN_00dd7240()
         node = node->next;
     }
 
-    count += (m_field9 - m_field8) / reinterpret_cast<unsigned int>(m_kBlocks);
+    count += (m_field9 - m_field8) / reinterpret_cast<uintptr_t>(m_kBlocks);
 
     node = static_cast<hkFreeListNode*>(m_pFreeBlocks);
     while (node != 0)
@@ -291,7 +292,7 @@ bool* FreeListCheck::ValidateFreeList(bool* result)
     FreeNode* pNode = m_freeHead;
     while (pNode != 0)
     {
-        if ((reinterpret_cast<unsigned int>(pNode) & (m_alignment - 1)) != 0)
+        if ((reinterpret_cast<uintptr_t>(pNode) & (m_alignment - 1)) != 0)
             goto invalid;
         FreeBlock* block = m_kBlocks;
         if (block == 0)
@@ -301,7 +302,7 @@ bool* FreeListCheck::ValidateFreeList(bool* result)
             if (!m_pThreadAllocator->TestBlock(block))
                 goto invalid;
             unsigned int base = block->m_pRayStart;
-            unsigned int addr = reinterpret_cast<unsigned int>(pNode);
+            uintptr_t addr = reinterpret_cast<uintptr_t>(pNode);
             if (addr >= base && addr < base + block->m_uiItemCount * m_iFirstIndex)
             {
                 if ((addr - base) % m_iFirstIndex != 0)
@@ -493,7 +494,7 @@ void* hkFreeListDD75::AllocateElement()
         return 0;
     int iAllocatedSize = m_pkBlockAllocator->GetUsableSize(pkBlock, m_uiIndexCapacity);
     pkBlock->m_iBlockSize = iAllocatedSize;
-    char* pcStart = (char*)(((unsigned int)(pkBlock + 1) + m_uiAlign - 1) & ~(m_uiAlign - 1));
+    char* pcStart = (char*)(((uintptr_t)(pkBlock + 1) + m_uiAlign - 1) & ~(m_uiAlign - 1));
     pkBlock->m_pcStart = pcStart;
     pkBlock->m_uiNumElements = (unsigned int)((char*)pkBlock + iAllocatedSize - pkBlock->m_pcStart) / m_uiFreeCount;
     m_pcTop = pkBlock->m_pcStart;
@@ -699,7 +700,7 @@ struct B60Large
 struct B60State
 {
     int current;
-    int link;
+    intptr_t link;
     int limit;
 };
 
@@ -754,7 +755,7 @@ struct B60Owner
 // @fnv 0x00dd8b60
 void B60Owner::AdvanceState(unsigned char* result, B60State* state)
 {
-    int current = state->current;
+    intptr_t current = state->current;
 
     if (current == 0)
         goto empty;
@@ -764,9 +765,9 @@ void B60Owner::AdvanceState(unsigned char* result, B60State* state)
 
     if (current == state->limit)
     {
-        int next = ((B60Link*)state->link)->unk04;
+        intptr_t next = ((B60Link*)state->link)->unk04;
 
-        if (next == (int)((char*)this + 0xA4))
+        if (next == (intptr_t)((char*)this + 0xA4))
         {
             state->current = 0;
             goto empty;
@@ -858,8 +859,8 @@ struct FUN_00dd7430_cls
     int unk00;
     int m_iArrayCapacity;
     int unk08;
-    int m_iB;
-    int m_iA;
+    intptr_t m_iB;
+    intptr_t m_iA;
     int unk14;
     int unk18;
     int unk1C;
@@ -1256,7 +1257,7 @@ struct S00dd74b0_cls
     int unk10;
     int unk14;
     int unk18;
-    int unk1C;
+    intptr_t unk1C;
     int unk20;
     int unk24;
     int unk28;
@@ -1289,7 +1290,7 @@ void S00dd74b0_cls::FUN_00dd74b0(int a2, int aiAlignment, int a4, int a5)
         size = ((unsigned int)a2 + (unsigned int)aiAlignment - 1u) & ~((unsigned int)aiAlignment - 1u);
 
     unk04 = (int)size;
-    unk1C = (int)FUN_00dd73d0((void*)0xFF0u, (unsigned int)aiAlignment);
+    unk1C = (intptr_t)FUN_00dd73d0((void*)0xFF0u, (unsigned int)aiAlignment);
 }
 }  // namespace fnv_00dd74b0
 

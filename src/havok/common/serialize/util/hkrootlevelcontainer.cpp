@@ -2,6 +2,7 @@
 // src/havok/common/serialize/util/hkrootlevelcontainer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hkrootlevelcontainer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FnvClassNameNode.h"
 #include "fnv/decl/ReferencedObjectHolder.h"
 #include "fnv/symbols_00cb0000.h"
@@ -25,7 +26,7 @@ struct FUN_00d477a0_s
 struct EntryD480
 {
     int unk00;
-    unsigned int m_pcText;
+    uintptr_t m_pcText;
     FUN_00d477a0_s m_pReferencedResource;
 
     const void* GetUnderlyingObject() const
@@ -61,7 +62,7 @@ lNext:
     }
     for (int i = iStart; i < m_iElementCount; i++)
     {
-        if (m_data[i].getName() && ::fnv_00cb0fa0::FUN_00cb0fa0((const char *)((int)pcName), (const char *)((int)m_data[i].getName())) == 0)
+        if (m_data[i].getName() && ::fnv_00cb0fa0::FUN_00cb0fa0((const char *)((intptr_t)pcName), (const char *)((intptr_t)m_data[i].getName())) == 0)
             return m_data[i].m_pReferencedResource.m_object;
     }
     return 0;
@@ -97,7 +98,7 @@ int Cls_d48150::FUN_00d48150(void* apContext, int key)
     int iIndex = idx(key);
     for (; iIndex < m_iElementCount; iIndex++)
     {
-        int v = (int)m_data[iIndex].unk00;
+        intptr_t v = (int)m_data[iIndex].unk00;
         if ((v & -2) == 0 || ::fnv_00cb0fa0::FUN_00cb0fa0((const char *)(apContext), (const char *)(v & -2)) != 0)
             continue;
         return m_data[iIndex].unk08;

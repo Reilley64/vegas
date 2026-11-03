@@ -2,6 +2,7 @@
 // src/havok/common/base/system/io/oarchive/hkoarchive.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/oarchive/hkoarchive.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/CB1BC0Map.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/MapCB1C.h"
@@ -32,7 +33,7 @@ void FUN_00d60810::AssignReferencedObject(hkReferencedObject* apObject)
 extern "C" unsigned int WriteSwapped(void*, int, int);
 
 // @fnv 0x00d609c0
-unsigned int HashUInt(unsigned int auiValue)
+unsigned int HashUInt(uintptr_t auiValue)
 {
     return WriteSwapped(&auiValue, 4, 1);
 }
@@ -52,7 +53,7 @@ struct FUN_00d60600_class
 
 struct FUN_00d60a60_class : public FUN_00d60600_class
 {
-    void FUN_00d60a60(int a, int b);
+    void FUN_00d60a60(intptr_t a, int b);
 };
 
 struct FUN_00d60a80_class
@@ -80,11 +81,11 @@ void hkOArchive::WriteArray(const void* data, unsigned int elementCount)
 
 struct FUN_00d60ae0_Class
 {
-    void FUN_00d60ae0(int a, int b);
+    void FUN_00d60ae0(intptr_t a, int b);
 };
 struct hkOArchive_2
 {
-    void WriteInt(int val);
+    void WriteInt(intptr_t val);
 };
 // @fnv 0x00d60960
 void FUN_00d60960(const float* p)
@@ -99,7 +100,7 @@ struct FUN_00d60980_class : public hkOArchive
 
 struct FUN_00d609a0_Class
 {
-    void FUN_00d609a0(int value, int other);
+    void FUN_00d609a0(intptr_t value, int other);
 };
 
 struct FUN_00d605b0_writer
@@ -160,11 +161,11 @@ struct FUN_00d607e0_class
     void* m_iWordAt04;
     FUN_00d607e0_object* m_8;
 
-    int ForwardValueToObject(int value);
+    intptr_t ForwardValueToObject(intptr_t value);
 };
 
 // @fnv 0x00d607e0
-int FUN_00d607e0_class::ForwardValueToObject(int value)
+intptr_t FUN_00d607e0_class::ForwardValueToObject(intptr_t value)
 {
     m_8->FUN_00d607e0_virtual3(value);
     return value;
@@ -185,7 +186,7 @@ struct FUN_00d60830
 FUN_00d60830::FUN_00d60830(hkReferencedObject* apObject, char b)
 {
     m_6 = 1;
-    *(int*)this = (int)&DAT_010d14f8;
+    *(int*)this = (intptr_t)&DAT_010d14f8;
     m_8 = apObject;
     m_iThirdValue = b;
     reinterpret_cast<::FUN_00c90510_class *>((apObject))->FUN_00c90510();
@@ -198,7 +199,7 @@ struct FUN_00d60a00_class : public hkOArchive
 
 struct FUN_00d60a40_class : public hkOArchive
 {
-    void FUN_00d60a40(int a, int b);
+    void FUN_00d60a40(intptr_t a, int b);
 };
 struct FUN_00d60b00_class
 {
@@ -233,10 +234,10 @@ struct FUN_00d607b0_class
     int unk00;
     int unk04;
     hkStub* unk08;
-    void FUN_00d607b0(int a);
+    void FUN_00d607b0(intptr_t a);
 };
 // @fnv 0x00d607b0
-void FUN_00d607b0_class::FUN_00d607b0(int a)
+void FUN_00d607b0_class::FUN_00d607b0(intptr_t a)
 {
     unk08->vf10(a);
 }
@@ -285,7 +286,7 @@ void FUN_00d60a20_class::FUN_00d60a20(const void* data, unsigned int size)
     reinterpret_cast<::Archive *>(this)->WriteSwapped(data, 1, size);
 }
 // @fnv 0x00d60a60
-void FUN_00d60a60_class::FUN_00d60a60(int aiFirst, int aiSecond)
+void FUN_00d60a60_class::FUN_00d60a60(intptr_t aiFirst, int aiSecond)
 {
     reinterpret_cast<::Archive *>(this)->WriteSwapped((const void *)(aiFirst), 2, aiSecond);
 }
@@ -300,12 +301,12 @@ void FUN_00d60aa0_class::FUN_00d60aa0(const void* data, int count)
     reinterpret_cast<::Archive *>(this)->WriteSwapped(data, 4, count);
 }
 // @fnv 0x00d60ae0
-void FUN_00d60ae0_Class::FUN_00d60ae0(int a, int b)
+void FUN_00d60ae0_Class::FUN_00d60ae0(intptr_t a, int b)
 {
     reinterpret_cast<::Archive *>(this)->WriteSwapped((void*)a, 8, b);
 }
 // @fnv 0x00d60940
-void hkOArchive_2::WriteInt(int aiValue)
+void hkOArchive_2::WriteInt(intptr_t aiValue)
 {
     reinterpret_cast<::Archive *>(this)->WriteSwapped(&aiValue, 4, 1);
 }
@@ -315,7 +316,7 @@ void FUN_00d60980_class::FUN_00d60980(int aiValue, int aiUnused)
     reinterpret_cast<::Archive *>(this)->WriteSwapped(&aiValue, 8, 1);
 }
 // @fnv 0x00d609a0
-void FUN_00d609a0_Class::FUN_00d609a0(int value, int)
+void FUN_00d609a0_Class::FUN_00d609a0(intptr_t value, int)
 {
     reinterpret_cast<::Archive *>(this)->WriteSwapped(&value, 8, 1);
 }
@@ -325,7 +326,7 @@ void FUN_00d60a00_class::WriteData(const void* data, unsigned int size)
     reinterpret_cast<::Archive *>(this)->WriteSwapped((void*)data, 1, size);
 }
 // @fnv 0x00d60a40
-void FUN_00d60a40_class::FUN_00d60a40(int apData, int b)
+void FUN_00d60a40_class::FUN_00d60a40(intptr_t apData, int b)
 {
     reinterpret_cast<::Archive *>(this)->WriteSwapped((void*)apData, 2, b);
 }

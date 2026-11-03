@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/alignscene/hkalignscenetonodeoptions.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/alignscene/hkalignscenetonodeoptions.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include "fnv/decl/S_00e3ed00_Foo.h"
 #include "fnv/symbols_00cb0000.h"
@@ -57,7 +58,7 @@ class FUN_00cb0c00_class
 
     ~FUN_00cb0c00_class()
     {
-        ::FUN_00cb0c00((int)this);
+        ::FUN_00cb0c00((intptr_t)this);
     }
 };
 

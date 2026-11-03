@@ -2,6 +2,7 @@
 // src/havok/common/base/math/matrix/hkmatrix4.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkmatrix4.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include "fnv_simd.h"
 #include "fnv/decl/Matrix4V.h"
@@ -272,10 +273,10 @@ struct FUN_00cdf230_cls
     int unk5c;
     SourceBlockCDF m_kSource;
     TargetBlockCDF m_kRoomNode;
-    void FUN_00cdf230(int iArg);
+    void FUN_00cdf230(intptr_t iArg);
 };
 // @fnv 0x00cdf230
-void FUN_00cdf230_cls::FUN_00cdf230(int iArg)
+void FUN_00cdf230_cls::FUN_00cdf230(intptr_t iArg)
 {
     reinterpret_cast<::MProduct *>(&(m_kRoomNode))->FUN_00cd55b0((*(const ::MProduct *)(&m_kSource)), (*(const ::MProduct *)(iArg)));
 }

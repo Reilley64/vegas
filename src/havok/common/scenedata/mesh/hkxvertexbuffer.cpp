@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/mesh/hkxvertexbuffer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxvertexbuffer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/DFD680MeshData.h"
@@ -289,10 +290,10 @@ struct FUN_00e3e760_Base
 
 struct FUN_00e3e760_Class
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     FUN_00e3e760_Base unk08;
-    int unk5C;
+    intptr_t unk5C;
     int unk60;
     int unk64;
 
@@ -322,7 +323,7 @@ skip:
     unk5C = 0;
     unk64 = 0x80000000;
     reinterpret_cast<::DFD680MeshData *>(&(unk08))->FUN_00dfd680();
-    unk00 = (int)(unsigned int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    unk00 = (int)(uintptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00e3e760
 
@@ -467,7 +468,7 @@ void BufferHelper::FUN_00e3e030(const hkxVertexBuffer* src, int srcIndex, int ds
         }
         aiUsageCounts[decl.m_eDataUsage]++;
         void* dstData = ((void *)(reinterpret_cast<::FUN_00e3dfb0_cls *>(this)->FUN_00e3dfb0((::FUN_00e3dfb0_arg *)&(decl))));
-        const void* srcData = ((const void *)(::FUN_00e3e020((int)(srcBuf), (int *)&(*srcDecl))));
+        const void* srcData = ((const void *)(::FUN_00e3e020((intptr_t)(srcBuf), (int *)&(*srcDecl))));
 
         int size = 0;
         switch (decl.m_type)

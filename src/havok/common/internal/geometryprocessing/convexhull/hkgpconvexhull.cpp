@@ -1,5 +1,6 @@
 // havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp: hkVector4, hkMatrix3, hkTransform, Owner and more (89 functions)
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include "fnv_simd.h"
 #include <cstddef>
@@ -105,7 +106,7 @@ struct FUN_00d75850_class {
     int m1;
     FUN_00d7ac40_class* m2;
     int m3;
-    int m4;
+    intptr_t m4;
     void FUN_00d75850();
 };
 // @fnv 0x00d76300
@@ -375,11 +376,11 @@ struct D75060Outer {
     int unk04;
     D75060Inner* unk08;
 
-    int FUN_00d75060();
+    intptr_t FUN_00d75060();
 };
 
 // @fnv 0x00d75060
-int D75060Outer::FUN_00d75060()
+intptr_t D75060Outer::FUN_00d75060()
 {
     return unk08->unk24;
 }
@@ -409,7 +410,7 @@ struct ChildData {
     int unk030;
     int unk034;
     int unk038;
-    int unk03c;
+    intptr_t unk03c;
     int unk040;
     int unk044;
     int unk048;
@@ -565,7 +566,7 @@ int Owner::FUN_00d75070(Request* request) {
 }
 
 // @fnv 0x00d75120
-int FUN_00d75120(int* p)
+intptr_t FUN_00d75120(int* p)
 {
     return *p;
 }
@@ -905,12 +906,12 @@ struct FUN_00d771c0_Owner {
     int unk00;
     int unk04;
     FUN_00d81510_Class* unk08;
-    void FUN_00d771c0(int a, int b, const Vec4i& v);
+    void FUN_00d771c0(intptr_t a, int b, const Vec4i& v);
 };
 
 // Stores v into the m_00 field of unk08, then calls unk08's FUN_00d81510 with a, b, 0, 0.
 // @fnv 0x00d771c0
-void FUN_00d771c0_Owner::FUN_00d771c0(int a, int b, const Vec4i& v)
+void FUN_00d771c0_Owner::FUN_00d771c0(intptr_t a, int b, const Vec4i& v)
 {
     unk08->m_00 = v;
     reinterpret_cast<::S00d81510_Hull *>((unk08))->FUN_00d81510((const ::S00d81510_Vector4 *)(a), b, 0, (const ::S00d81510_Hull *)(0));
@@ -1759,12 +1760,12 @@ struct FUN_00d75820_cls {
     int m04;
     FUN_00d75820_Target* m08;
 
-    void CallTargetWithTemp(int a1, float a2, int a3);
+    void CallTargetWithTemp(intptr_t a1, float a2, intptr_t a3);
 };
 
 // Builds a temporary FUN_00d75820_Tmp8 and forwards a1, a2, its address and a3 to m08's FUN_00d7a200.
 // @fnv 0x00d75820
-void FUN_00d75820_cls::CallTargetWithTemp(int a1, float a2, int a3)
+void FUN_00d75820_cls::CallTargetWithTemp(intptr_t a1, float a2, intptr_t a3)
 {
     FUN_00d75820_Tmp8 tmpArg;
     reinterpret_cast<::S_00d7a200_Owner *>((this->m08))->FUN_00d7a200((*(const ::S_00d7a200_V4 *)(a1)), a2, (int *)(::FUN_00d75820_Tmp8 *)(&tmpArg), (float *)(a3));
@@ -2438,7 +2439,7 @@ void FUN_00d77320_cls::CopyAndDispatch(int* a1, int a2, const __m128* pVec, cons
     dst[2] = pUInts[2];
     dst[3] = pUInts[3];
     *(__m128*)((char*)m_08 + 0xe0) = *pVec;
-    reinterpret_cast<::S00d81510_Hull *>((m_08))->FUN_00d81510((const ::S00d81510_Vector4 *)((int)a1), a2, 1, (const ::S00d81510_Hull *)(0));
+    reinterpret_cast<::S00d81510_Hull *>((m_08))->FUN_00d81510((const ::S00d81510_Vector4 *)((intptr_t)a1), a2, 1, (const ::S00d81510_Hull *)(0));
 }
 
 struct FnvCpu_FUN_00d74e00_CpuObject {
@@ -2448,7 +2449,7 @@ struct FnvCpu_FUN_00d74e00_CpuObject {
     int FUN_00d74e00();
 };
 // @fnv 0x00d74e00
-int FnvCpu_FUN_00d74e00_CpuObject::FUN_00d74e00()
+intptr_t FnvCpu_FUN_00d74e00_CpuObject::FUN_00d74e00()
 {
     return value;
 }
@@ -3418,7 +3419,7 @@ struct D7Pair {
     __forceinline D7Pair Next() const { D7Pair n; n.node=node; n.idx=(9>>(idx*2))&3; return n; }
     __forceinline D7Pair Prev() const { D7Pair n; n.node=node; n.idx=(18>>(idx*2))&3; return n; }
     __forceinline D7Pair Adjacent() const {
-        unsigned int p=node->child[idx];
+        uintptr_t p=node->child[idx];
         D7Pair n; n.idx=p&3; n.node=(D7Node*)(p&~3u); return n;
     }
     __forceinline void Unlink()
@@ -3884,7 +3885,7 @@ float Shape::FUN_00d76840(const hkVec4& avInput)
     hkVec4 kNegated;
     hkVec4 kResult;
     *(__m128*)&kNegated = _mm_xor_ps(*(__m128*)&avInput, *(__m128*)&(*reinterpret_cast<const ::hkVec4 *>((void *)&::DAT_010c44d0)));
-    reinterpret_cast<::S76320_Cls *>((((ShapeHelper*)this)))->FUN_00d76320((int)(&kNegated), (int)(&kResult));
+    reinterpret_cast<::S76320_Cls *>((((ShapeHelper*)this)))->FUN_00d76320((intptr_t)(&kNegated), (intptr_t)(&kResult));
     __m128 kW;
     if (&avInput) kW = _mm_shuffle_ps(*(__m128*)&avInput, *(__m128*)&avInput, 0xff);
     __m128 kP = _mm_mul_ps(*(__m128*)&avInput, *(__m128*)&kResult);
@@ -3898,7 +3899,7 @@ float Shape::FUN_00d76840(const hkVec4& avInput)
 
 // Collects node vectors into a temporary array, sorts them via m_sorter, frees the array, then calls FUN_00dea810 with a1 and a2.
 // @fnv 0x00d76320
-void S76320_Cls::FUN_00d76320(int a1, int a2)
+void S76320_Cls::FUN_00d76320(intptr_t a1, intptr_t a2)
 {
     S76320_Owner* owner = m_pOwnerObject;
     if (owner->m_built == 0) {
@@ -4639,7 +4640,7 @@ struct FUN_00d76940_member {
 };
 
 struct FUN_00d76940_cls {
-    int m_vptr;
+    intptr_t m_vptr;
     int unk04;
     FUN_00d7ce20_cls* m_08;
     int unk0c;
@@ -4652,7 +4653,7 @@ struct FUN_00d76940_cls {
 // @fnv 0x00d76940
 void FUN_00d76940_cls::FUN_00d76940()
 {
-    m_vptr = (int)&DAT_010d36e0;
+    m_vptr = (intptr_t)&DAT_010d36e0;
     FUN_00d7ce20_cls* pObj = m_08;
     if (pObj != 0) {
         reinterpret_cast<::fnv_00d7ce20::FUN_00d7ce20 *>((pObj))->fnv_00d7ce20::FUN_00d7ce20::~FUN_00d7ce20();
@@ -4665,7 +4666,7 @@ void FUN_00d76940_cls::FUN_00d76940()
         pMember->vDtor(1);
     }
     m_10 = 0;
-    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00d76940
 
@@ -5849,7 +5850,7 @@ if(1) { hkUint32 assertBuf[128]; S00d7b600_ErrStore ostrStore; new(&ostrStore) h
 reinterpret_cast<::S_00cd4b60 *>(&(eigenVectors))->FUN_00cd4b60();
 reinterpret_cast<::CB2FC0Object *>(&(eigenVectors))->FUN_00cb2fc0();
 m_kTransformMatrix = inertiaM;
-reinterpret_cast<::FUN_00cd5880_cls *>(&(inertiaM))->FUN_00cd5880((unsigned int)&(eigenVectors));
+reinterpret_cast<::FUN_00cd5880_cls *>(&(inertiaM))->FUN_00cd5880((uintptr_t)&(eigenVectors));
 m_vOffset.set(inertiaM(0, 0), inertiaM(1, 1), inertiaM(2, 2), 0.0f);
 reinterpret_cast<::S_00cd4b60 *>(&(eigenVectors))->FUN_00cd4b60();
 m_kLocalTransform.SetBodyOrientation(eigenVectors);
@@ -6051,7 +6052,7 @@ void* __cdecl FUN_00d78ea0(int first, ArgPair* apPairs, int count)
 
         FUN_00d76ca0* obj = new FUN_00d76ca0;
         obj->m10 = listener;
-        reinterpret_cast<::FUN_00d771c0_Owner *>((obj))->FUN_00d771c0((int)arr.m_data, arr.m_iElementCount, (const ::Vec4i &)(key));
+        reinterpret_cast<::FUN_00d771c0_Owner *>((obj))->FUN_00d771c0((intptr_t)arr.m_data, arr.m_iElementCount, (const ::Vec4i &)(key));
 
         if (reinterpret_cast<::FUN_00d74e10_cls *>((obj))->FUN_00d74e10() != -1)
         {
@@ -6644,7 +6645,7 @@ struct CloneHeapMap : CloneMapBase
     __forceinline void reserve(int n)
     {
         Singleton* s = (Singleton*)FUN_00c85750();
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)(s->m_10), n);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)(s->m_10), n);
     }
     __forceinline int insert(unsigned long k, unsigned long v)
     {
@@ -6821,8 +6822,8 @@ ThisCls* ThisCls::FUN_00d7f720()
         {
             do
             {
-                int v = ((int)(reinterpret_cast<::PoolList *>(&(dst->m_18))->CloneNode((::Node *)(node))));
-                low.insert((unsigned long)node, v);
+                intptr_t v = ((intptr_t)(reinterpret_cast<::PoolList *>(&(dst->m_18))->CloneNode((::Node *)(node))));
+                low.insert((uintptr_t)node, v);
                 node = node->m_04;
             } while (node);
         }
@@ -7023,7 +7024,7 @@ static __declspec(noinline) void FUN_00cc0080(Cc0080Stream* out, const char* str
     if (!str)
         out->Write("(null)", 6);
     else
-        out->Write(str, ::fnv_00cb10d0::FUN_00cb10d0((const char *)((int)str)));
+        out->Write(str, ::fnv_00cb10d0::FUN_00cb10d0((const char *)((intptr_t)str)));
 }
 
 struct FUN_00cc02d0_cls {
@@ -7548,9 +7549,9 @@ struct S_00d76410_Map {
     S_00d76410_Map() { m_kPrimitiveElement = 0; m_iCapacityFlags = 0; m_iPairCount = -1; }
     ~S_00d76410_Map() throw();
     int GetLogicalSize() const { return m_iCapacityFlags & 0x7fffffff; }
-    __forceinline void writeIndex(S_00d76410_Vertex* v,int& out) { out=reinterpret_cast<::FUN_00cb1930_t *>(this)->LookupHashEntry((int)(v),-1); }
-    __forceinline void reserve(int n) { reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(getRouter().heap()), n); }
-    __forceinline void insert(S_00d76410_Vertex* key, int value) { reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(getRouter().heap()), (unsigned int)(key), value); }
+    __forceinline void writeIndex(S_00d76410_Vertex* v,int& out) { out=reinterpret_cast<::FUN_00cb1930_t *>(this)->LookupHashEntry((intptr_t)(v),-1); }
+    __forceinline void reserve(int n) { reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)&(getRouter().heap()), n); }
+    __forceinline void insert(S_00d76410_Vertex* key, int value) { reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(getRouter().heap()), (uintptr_t)(key), value); }
     __forceinline void clear() { reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&(getRouter().heap())); }
 };
 struct S_00d76410_Hull {
@@ -7805,10 +7806,10 @@ struct S_00d77380_Array {
 
 struct S_00d77380 {
     int CopyAndDispatch(const S_00d77380_Vec4* verts, int count, int a, int b);
-    int FUN_00d77380(S_00d77380_Strided* s, int a, int b);
+    int FUN_00d77380(S_00d77380_Strided* s, intptr_t a, intptr_t b);
 };
 // @fnv 0x00d77380
-int S_00d77380::FUN_00d77380(S_00d77380_Strided* s, int a, int b)
+int S_00d77380::FUN_00d77380(S_00d77380_Strided* s, intptr_t a, intptr_t b)
 {
     if (s->stride == 16)
         return CopyAndDispatch((const S_00d77380_Vec4*)s->data, s->count, a, b);
@@ -7945,7 +7946,7 @@ BlendObject* __cdecl FUN_00d78ca0(const BlendInput* a,const BlendInput* b,const 
     span.data=out.data;
     span.count=out.count;
     span.stride=16;
-    if(reinterpret_cast<::H77ConvexHull *>((result))->FUN_00d77200((*(const ::H77StridedVertices *)(&span)),(int)(&options))==-1) {
+    if(reinterpret_cast<::H77ConvexHull *>((result))->FUN_00d77200((*(const ::H77StridedVertices *)(&span)),(intptr_t)(&options))==-1) {
         if(result) delete result;
         result=0;
     }
@@ -8385,7 +8386,7 @@ struct ExportEdge {
     __forceinline ExportVertex* vertex() const { return face->vertices[corner]; }
     __forceinline ExportEdge next() const { return ExportEdge(face,(9>>(corner*2))&3); }
     __forceinline ExportEdge adjacent() const {
-        unsigned int link=face->links[corner];
+        uintptr_t link=face->links[corner];
         return ExportEdge((ExportFace*)(link&~3u),link&3);
     }
 };
@@ -8744,7 +8745,7 @@ struct PolygonEdge {
     __forceinline static int nextIndex(int e) { return (9 >> (e + e)) & 3; }
     __forceinline PolygonEdge getNext() const { return PolygonEdge(triangle, nextIndex(edge)); }
     __forceinline PolygonEdge getTwin() const {
-        unsigned int link = triangle->links[edge];
+        uintptr_t link = triangle->links[edge];
         PolygonEdge r; r.edge = link & 3; r.triangle = (PolygonTriangle*)(link & ~3); return r;
     }
     __forceinline void advance(int component) {
@@ -9043,7 +9044,7 @@ struct SupportShape {
 float SupportShape::FUN_00d768b0(const SupportVector& input)
 {
     SupportVector normal;
-    reinterpret_cast<::S76320_Cls *>(this)->FUN_00d76320((int)&(input), (int)&(normal));
+    reinterpret_cast<::S76320_Cls *>(this)->FUN_00d76320((intptr_t)&(input), (intptr_t)&(normal));
     __m128 c = normal.q;
     __m128 a = input.q;
     __m128 offset = _mm_shuffle_ps(a, a, 0xff);
@@ -9159,7 +9160,7 @@ static __forceinline void Tt_setMul3(Tt_V4& out, const Tt_M3& a, const Tt_V4& b)
 
 struct S_00d77840 {
     int unk00;
-    int FUN_00d77840(const D76250Vector4* pts, int n, const D76250Vector4* sph, int a4);
+    int FUN_00d77840(const D76250Vector4* pts, int n, const D76250Vector4* sph, intptr_t a4);
 };
 // @fnv 0x00d78720
 void S_00d79f90_Result::FUN_00d78720(float f,const S_00d79f90_Opts& opts)
@@ -9194,7 +9195,7 @@ void S_00d79f90_Result::FUN_00d78720(float f,const S_00d79f90_Opts& opts)
             ((hkVec4&)plane).w-=displacement;
             array.AddBack((__m128&)plane);
         }
-        if(reinterpret_cast<::FUN_00d74e10_cls *>((owner))->FUN_00d74e10()==2) reinterpret_cast<::S_00d77840 *>((owner))->FUN_00d77840((const ::D76250Vector4 *)(array.data),array.size,(const ::D76250Vector4 *)&(const ::ValueBlock &)(reinterpret_cast<::FUN_00d74e50_cls *>((owner))->GetValueBlock()),(int)(((void *)(reinterpret_cast<::FnvCpu_FUN_00d74e00_CpuObject *>((owner))->FUN_00d74e00()))));
+        if(reinterpret_cast<::FUN_00d74e10_cls *>((owner))->FUN_00d74e10()==2) reinterpret_cast<::S_00d77840 *>((owner))->FUN_00d77840((const ::D76250Vector4 *)(array.data),array.size,(const ::D76250Vector4 *)&(const ::ValueBlock &)(reinterpret_cast<::FUN_00d74e50_cls *>((owner))->GetValueBlock()),(intptr_t)(((void *)(reinterpret_cast<::FnvCpu_FUN_00d74e00_CpuObject *>((owner))->FUN_00d74e00()))));
         else owner->FUN_00d774a0(array.data,array.size,((void *)(reinterpret_cast<::FnvCpu_FUN_00d74e00_CpuObject *>((owner))->FUN_00d74e00())));
         array.clearAndFree();
         break;
@@ -9232,10 +9233,10 @@ void S_00d79f90_Result::FUN_00d78720(float f,const S_00d79f90_Opts& opts)
         }
         if(reinterpret_cast<::FUN_00d74e10_cls *>((owner))->FUN_00d74e10()==2) {
             OffsetView view={array.data,array.size,16};
-            reinterpret_cast<::S_00d77380 *>((owner))->FUN_00d77380((::S_00d77380_Strided *)&(view),(int)&(const ::ValueBlock &)(reinterpret_cast<::FUN_00d74e50_cls *>((owner))->GetValueBlock()),(int)(((void *)(reinterpret_cast<::FnvCpu_FUN_00d74e00_CpuObject *>((owner))->FUN_00d74e00()))));
+            reinterpret_cast<::S_00d77380 *>((owner))->FUN_00d77380((::S_00d77380_Strided *)&(view),(intptr_t)&(const ::ValueBlock &)(reinterpret_cast<::FUN_00d74e50_cls *>((owner))->GetValueBlock()),(intptr_t)(((void *)(reinterpret_cast<::FnvCpu_FUN_00d74e00_CpuObject *>((owner))->FUN_00d74e00()))));
         } else {
             OffsetView view={array.data,array.size,16};
-            reinterpret_cast<::H77ConvexHull *>((owner))->FUN_00d77200((const ::H77StridedVertices &)(view),(int)(((void *)(reinterpret_cast<::FnvCpu_FUN_00d74e00_CpuObject *>((owner))->FUN_00d74e00()))));
+            reinterpret_cast<::H77ConvexHull *>((owner))->FUN_00d77200((const ::H77StridedVertices &)(view),(intptr_t)(((void *)(reinterpret_cast<::FnvCpu_FUN_00d74e00_CpuObject *>((owner))->FUN_00d74e00()))));
         }
         array.clearAndFree();
         break;
@@ -9258,7 +9259,7 @@ static __forceinline void release_out(D76250VectorArray& out)
 }
 
 // @fnv 0x00d77840
-int S_00d77840::FUN_00d77840(const D76250Vector4* pts, int n, const D76250Vector4* sph, int a4)
+int S_00d77840::FUN_00d77840(const D76250Vector4* pts, int n, const D76250Vector4* sph, intptr_t a4)
 {
     __m128 p;
     (void)p;
@@ -9328,7 +9329,7 @@ int S_00d77840::FUN_00d77840(const D76250Vector4* pts, int n, const D76250Vector
         view->m_data = out.m_data;
         view->m_iElementCount = out.m_iElementCount;
         view->m_iCapacityState = 0x10;
-        int result = reinterpret_cast<::S_00d77380 *>(this)->FUN_00d77380((::S_00d77380_Strided *)(view), (int)(sph), a4);
+        int result = reinterpret_cast<::S_00d77380 *>(this)->FUN_00d77380((::S_00d77380_Strided *)(view), (intptr_t)(sph), a4);
         release_out(out);
         return result;
     }
@@ -10842,10 +10843,10 @@ struct PlanePointArray: D76250VectorArray {
 };
 struct PlaneHull: ::PlaneHull {
     int FUN_00d771c0(const PlaneVector*,int,int);
-    int FUN_00d774a0(const PlaneVector*,int,int);
+    int FUN_00d774a0(const PlaneVector*,int,intptr_t);
 };
 // @fnv 0x00d774a0
-int PlaneHull::FUN_00d774a0(const PlaneVector* planes,int count,int config)
+int PlaneHull::FUN_00d774a0(const PlaneVector* planes,int count,intptr_t config)
 {
     PlanePointArray points;
     markEnumeration("TtVertexEnumeration");
@@ -10933,7 +10934,7 @@ template<class E> struct IndexEdgeBase {
     unsigned int m_ucOperationType;
     IndexEdgeBase() {}
     IndexEdgeBase(HullFace* f,int t):m_face(f),m_ucOperationType(t) {}
-    IndexEdgeBase(unsigned int packed) { m_ucOperationType=packed&3; m_face=(HullFace*)(packed&~3u); }
+    IndexEdgeBase(uintptr_t packed) { m_ucOperationType=packed&3; m_face=(HullFace*)(packed&~3u); }
     HullFace* triangle() const { return m_face; }
     E next() const { return E(m_face,(9>>(m_ucOperationType*2))&3); }
     E prev() const { return E(m_face,(18>>(m_ucOperationType*2))&3); }
@@ -10985,13 +10986,13 @@ struct FacePtrMap {
     {
         AllocHolder* h = Holder();
         HullAllocator* a = h->m_pTemp;
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)(a), n);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)(a), n);
     }
     void Insert(HullFace* key, int val)
     {
         AllocHolder* h = Holder();
         HullAllocator* a = h->m_pTemp;
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(a)), (unsigned int)(key), val);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(a)), (uintptr_t)(key), val);
     }
 };
 inline void PushEdge(HullArray<IndexEdge>& a, const IndexEdge& e)
@@ -11251,7 +11252,7 @@ void HullBuilder::FUN_00d7d2a0()
             if (f->m_planeIndex != -1) {
                 continue;
             }
-            int pi = reinterpret_cast<::FUN_00cb1930_t *>(&(map))->LookupHashEntry((int)(f), -1);
+            int pi = reinterpret_cast<::FUN_00cb1930_t *>(&(map))->LookupHashEntry((intptr_t)(f), -1);
             __m128* ref = &facePlanes.m_data[pi];
             f->m_planeIndex = m_kPlaneArray.m_iElementCount;
             PushPlane(&m_kPlaneArray, *ref);
@@ -11266,7 +11267,7 @@ void HullBuilder::FUN_00d7d2a0()
                 if (nf->m_planeIndex != -1) {
                     continue;
                 }
-                int ni = reinterpret_cast<::FUN_00cb1930_t *>(&(map))->LookupHashEntry((int)(nf), -1);
+                int ni = reinterpret_cast<::FUN_00cb1930_t *>(&(map))->LookupHashEntry((intptr_t)(nf), -1);
                 HullVec4* other = (HullVec4*)&facePlanes.m_data[ni];
                 HullBool res;
                 if (other->FUN_00c7f520(&res, 1e-4f)->m_cBooleanValue != 0) {
@@ -12123,10 +12124,10 @@ void D81340Cls::FUN_00d81340(D81340Vec4& a0, D81340Transform& a1) {
     D81340Transform v40;
     float s;
     for (int i = 0; i < m_58; ++i) {
-        int elem = (int)m_54 + i * 16;
+        intptr_t elem = (intptr_t)m_54 + i * 16;
         r = reinterpret_cast<::ProjectionHull *>(this)->FUN_00d7c610((*(const ::D76250Vector4 *)(elem)), (*(float *)(&u18)), (*(float *)(&u1c)));
         if (r < t24) {
-            int elem2 = (int)m_54 + i * 16;
+            intptr_t elem2 = (intptr_t)m_54 + i * 16;
             t14 = reinterpret_cast<::BoxHull *>(this)->FUN_00d7f090((::BoxPointer<const ::BoxVector *>)(elem2), (*(::BoxVector *)(&v30)), (*(::BoxTransform *)(&v40))) * (u1c - u18);
             if (t14 < t2c) {
                 t24 = r;
@@ -13845,7 +13846,7 @@ public:
 // @fnv 0x00d81510
 int S00d81510_Hull::FUN_00d81510(const S00d81510_Vector4* points, int numPoints, bool planar, const S00d81510_Hull* domainSource)
 {
-    if (numPoints && (((unsigned long)points) & 15)) {
+    if (numPoints && (((uintptr_t)points) & 15)) {
         S00d81510_VecArray aligned;
         aligned.SetSizeAndGrow(numPoints);
         for (int i = 0; i < numPoints; ++i) {
@@ -14380,7 +14381,7 @@ seed.bits.w=source->first->point.bits.w;
         points.data[4][2]+=halfRadius;
         points.data[5][2]-=halfRadius;
         ExpandView view; view.set(points);
-        reinterpret_cast<::H77ConvexHull *>(this)->FUN_00d77200((const ::H77StridedVertices &)(view),(int)&(saved));
+        reinterpret_cast<::H77ConvexHull *>(this)->FUN_00d77200((const ::H77StridedVertices &)(view),(intptr_t)&(saved));
         points.clearAndFree();
         break;
     }
@@ -14411,7 +14412,7 @@ seed.bits.w=source->first->point.bits.w;
         points.AllocatePair().setSub(b,cross);
         }
         ExpandView view; view.set(points);
-        reinterpret_cast<::H77ConvexHull *>(this)->FUN_00d77200((const ::H77StridedVertices &)(view),(int)&(saved));
+        reinterpret_cast<::H77ConvexHull *>(this)->FUN_00d77200((const ::H77StridedVertices &)(view),(intptr_t)&(saved));
         points.clearAndFree();
         break;
     }
@@ -14429,11 +14430,11 @@ seed.bits.w=source->first->point.bits.w;
             points.AllocatePair().setAddMul(pos,normal,ExpandScalar(-radius));
         }
         ExpandView view; view.set(points);
-        if (reinterpret_cast<::H77ConvexHull *>(this)->FUN_00d77200((const ::H77StridedVertices &)(view),(int)&(saved))!=3) {
+        if (reinterpret_cast<::H77ConvexHull *>(this)->FUN_00d77200((const ::H77StridedVertices &)(view),(intptr_t)&(saved))!=3) {
             points.size=0;
             points.AddBack(seed);
             view.set(points);
-            reinterpret_cast<::H77ConvexHull *>(this)->FUN_00d77200((const ::H77StridedVertices &)(view),(int)&(saved));
+            reinterpret_cast<::H77ConvexHull *>(this)->FUN_00d77200((const ::H77StridedVertices &)(view),(intptr_t)&(saved));
             bool result=FUN_00d77be0(radius); points.clearAndFree(); return result;
         }
         points.clearAndFree();
@@ -14443,7 +14444,7 @@ seed.bits.w=source->first->point.bits.w;
         ExpandArray& points=av.points; points.init();
         points.reserve(6*reinterpret_cast<::D75130Outer *>((void *)this)->FUN_00d75130());
         reinterpret_cast<::S00d76120_cls *>((void *)this)->FUN_00d76120(0,(::S00d76120_Arr &)(points));
-        for (int f=((int)(reinterpret_cast<::fnv_00d75140::Owner *>((void *)this)->FUN_00d75140()));f;f=::FUN_00d75200((const int *)this)) {
+        for (intptr_t f=((intptr_t)(reinterpret_cast<::fnv_00d75140::Owner *>((void *)this)->FUN_00d75140()));f;f=::FUN_00d75200((const int *)this)) {
             ExpandVector plane;
             FUN_00d75b80(&plane,f);
 
@@ -14455,7 +14456,7 @@ seed.bits.w=source->first->point.bits.w;
             }
         }
         ExpandView view; view.set(points);
-        reinterpret_cast<::H77ConvexHull *>(this)->FUN_00d77200((const ::H77StridedVertices &)(view),(int)&(saved));
+        reinterpret_cast<::H77ConvexHull *>(this)->FUN_00d77200((const ::H77StridedVertices &)(view),(intptr_t)&(saved));
         points.clearAndFree();
         break;
     }
@@ -14571,7 +14572,7 @@ struct H77ConvexHull
 };
 
 // @fnv 0x00d77200
-int H77ConvexHull::FUN_00d77200(const H77StridedVertices& points, int config)
+int H77ConvexHull::FUN_00d77200(const H77StridedVertices& points, intptr_t config)
 {
     if (points.m_iVertexStride == sizeof(H77Vector4))
     {

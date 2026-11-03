@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct D88310Bool;
 struct D88310Stream;
@@ -33,7 +34,7 @@ void FUN_00d88300();
 // 0x00d88340
 void FUN_00d88340(::State *, int);
 // 0x00d883c0
-int FUN_00d883c0(const ::S883_Island &, char *, int, ::S883_TaskHeader &);
+intptr_t FUN_00d883c0(const ::S883_Island &, char *, int, ::S883_TaskHeader &);
 // 0x00d88470
 ::D88310Bool CheckTotalsWithinLimits(::D88470Obj *, ::D88470Elem **, int);
 // 0x00d88580

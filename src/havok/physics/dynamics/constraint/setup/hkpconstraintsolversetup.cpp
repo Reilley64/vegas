@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d01000.h"
@@ -882,7 +883,7 @@ struct S883_TaskHeader
 
 // Lays out accumulator, schema and solver-element-temporary regions in buffer, sets taskHeader pointers and sizes, and initialises the first accumulator as fixed.
 // @fnv 0x00d883c0
-int __cdecl FUN_00d883c0(const S883_Island& island, char* buffer, int bufferSize, S883_TaskHeader& taskHeader)
+intptr_t __cdecl FUN_00d883c0(const S883_Island& island, char* buffer, int bufferSize, S883_TaskHeader& taskHeader)
 {
     taskHeader.m_buffer = buffer;
     int numEntities = island.GetEntities().GetLogicalSize();

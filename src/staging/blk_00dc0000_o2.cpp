@@ -1,5 +1,6 @@
 // staging/blk_00dc0000_o2.cpp: SpawnedObject, ArrayHost, Lock_dd9, hkOwnerDCB1 and more (96 functions)
 
+#include <cstdint>
 #include <windows.h>
 // src/staging/blk_00dc0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
@@ -1632,7 +1633,7 @@ struct FUN_00dda690 : Base_00d60b40
 };
 
 // @fnv 0x00dda690
-FUN_00dda690::FUN_00dda690(int a)
+FUN_00dda690::FUN_00dda690(intptr_t a)
 {
     new ((void *)this) ::FUN_00d60b40((void *)(a), (*(char *)&(const ::Bool1 &)(0)));
     vft = &DAT_010d7db8;

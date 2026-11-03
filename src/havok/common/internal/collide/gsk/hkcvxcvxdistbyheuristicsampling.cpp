@@ -148,18 +148,6 @@ void ProjectShapes(const Matrix* matrix, Shape* shape, Shape* other, const Vec* 
 static void FUN_00e625c0(const Matrix* matrix, Shape* shape, Shape* other, const Vec* normal, Result* result);
 extern const float DAT_01017d00 = 0.001f;
 
-extern "C" ::__m128_mm_setzero_ps();
-
-extern "C" ::__m128_mm_set_ss(float);
-
-extern "C" ::__m128_mm_rsqrt_ss(::__m128);
-
-extern "C" ::__m128_mm_cmpeq_ss(::__m128, ::__m128);
-
-extern "C" ::__m128_mm_andnot_ps(::__m128, ::__m128);
-
-extern "C" ::__m128_mm_mul_ss(::__m128, ::__m128);
-
 
 struct SamplingOutPair_e62740
 {

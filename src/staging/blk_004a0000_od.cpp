@@ -2,6 +2,7 @@
 // src/staging/blk_004a0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -570,7 +571,7 @@ struct FUN_004b4ab0_Class
 };
 
 // @fnv 0x004b4ab0
-void FUN_004b4ab0_Class::FUN_004b4ab0(int a, int b)
+void FUN_004b4ab0_Class::FUN_004b4ab0(intptr_t a, intptr_t b)
 {
     FUN_004b4ad0(a, b);
 }

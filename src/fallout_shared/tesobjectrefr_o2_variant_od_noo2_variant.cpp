@@ -5,6 +5,7 @@
 
 // src/fallout_shared/tesobjectrefr_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesobjectrefr.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/C68CB0World.h"
 #include "fnv/decl/C8F670Object.h"
@@ -2216,7 +2217,7 @@ struct FUN_005610f0_cls : VtblHolder
 };
 
 // @fnv 0x005610f0
-void FUN_005610f0_cls::FUN_005610f0(int a1)
+void FUN_005610f0_cls::FUN_005610f0(intptr_t a1)
 {
     __declspec(align(16)) TmpObj tmp;
     this->v55(((int)(::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&tmp)), (*(const ::fnv_004a3e00::NiPoint3 *)(a1))))));

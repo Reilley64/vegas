@@ -1,6 +1,7 @@
 // src/havok/common/scenedata/material/hkxtexturefileclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/material/hkxtexturefileclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/symbols_00cb0000.h"
 #include "fnv/symbols_0102e000.h"
 struct Part
@@ -38,9 +39,9 @@ UnkRet* FUN_00c85750();
 // @fnv 0x00e01870
 FUN_00e01870_Class* FUN_00e01870_Class::FUN_00e01870(unsigned int flags)
 {
-    ::FUN_00cb0c00((int)&(part10));
-    ::FUN_00cb0c00((int)&(part0c));
-    ::FUN_00cb0c00((int)&(part08));
+    ::FUN_00cb0c00((intptr_t)&(part10));
+    ::FUN_00cb0c00((intptr_t)&(part0c));
+    ::FUN_00cb0c00((intptr_t)&(part08));
     vptr = &DAT_0102e388;
     if (flags & 1)
     {

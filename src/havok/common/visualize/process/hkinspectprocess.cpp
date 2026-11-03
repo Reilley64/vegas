@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00ddb2f0
+#include <cstdint>
 #include "fnv/decl/DD8FE0_Stream.h"
 #include "fnv/decl/FUN_00d46f60_Class.h"
 #include "fnv/decl/FUN_00dd90d0_cls.h"
@@ -46,7 +47,7 @@ struct hkProcessFactory
 // @fnv 0x00ddb750
 void __cdecl RegisterObjectInspectionProcess()
 {
-    DAT_01269cd4 = ((::hkInspectProcess *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::hkProcessFactory * *>(&::DAT_01269cd0))))->FUN_00dd9380("ObjectInspection", (int)(((void (&)(hkProcess *))::FUN_00ddb710)))));
+    DAT_01269cd4 = ((::hkInspectProcess *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::hkProcessFactory * *>(&::DAT_01269cd0))))->FUN_00dd9380("ObjectInspection", (intptr_t)(((void (&)(hkProcess *))::FUN_00ddb710)))));
 }
 
 struct hkInspectProcessStandIn
@@ -74,7 +75,7 @@ struct hkInspectProcess;
 // @fnv 0x00ddc1a0
 hkInspectProcess* __cdecl CreateStatisticsProcess()
 {
-    return DAT_01269cd8 = ((::hkInspectProcess *)(reinterpret_cast<::S_00dd9380 *>((((hkProcessFactory*)(*reinterpret_cast<::hkProcess * *>(&::DAT_01269cd0)))))->FUN_00dd9380("Statistics", (int)(((void (&)(hkProcess *))::fnv_00ddc160::CreateImpl)))));
+    return DAT_01269cd8 = ((::hkInspectProcess *)(reinterpret_cast<::S_00dd9380 *>((((hkProcessFactory*)(*reinterpret_cast<::hkProcess * *>(&::DAT_01269cd0)))))->FUN_00dd9380("Statistics", (intptr_t)(((void (&)(hkProcess *))::fnv_00ddc160::CreateImpl)))));
 }
 
 struct hkInspectProcess;
@@ -321,7 +322,7 @@ struct FnvCpu_FUN_00ddb710_CpuBlock
     FnvCpu_FUN_00ddb710_CpuBlock* FUN_00ddb600(unsigned int value);
 };
 // @fnv 0x00ddb710
-void* __cdecl FUN_00ddb710(unsigned int value)
+void* __cdecl FUN_00ddb710(uintptr_t value)
 {
     FnvCpu_FUN_00ddb710_CpuHolder* pCpuHolder = static_cast<FnvCpu_FUN_00ddb710_CpuHolder*>(FUN_00c85750());
     FnvCpu_FUN_00ddb710_CpuBlock* pCpuBlock =
@@ -441,8 +442,8 @@ int hkInspectProcess::WriteObjectHeader(void* object, const hkClass* pClassInfo,
             pActualClass = pClassInfo;
     }
     reinterpret_cast<::FUN_00d605d0_class *>((archive))->FUN_00d605d0(33);
-    reinterpret_cast<::FUN_00d609a0_Class *>((archive))->FUN_00d609a0(reinterpret_cast<unsigned int>(object), {});
-    reinterpret_cast<::FUN_00d609a0_Class *>((archive))->FUN_00d609a0(reinterpret_cast<unsigned int>(pActualClass), {});
+    reinterpret_cast<::FUN_00d609a0_Class *>((archive))->FUN_00d609a0(reinterpret_cast<uintptr_t>(object), {});
+    reinterpret_cast<::FUN_00d609a0_Class *>((archive))->FUN_00d609a0(reinterpret_cast<uintptr_t>(pActualClass), {});
     reinterpret_cast<::FUN_00d609a0_Class *>((archive))->FUN_00d609a0(flags, {});
     return 25;
 }
@@ -465,7 +466,7 @@ class FUN_00d605d0_Class
 struct TrackedObjectDDB3
 {
     void* m_pvObject;
-    int m_iType;
+    intptr_t m_iType;
     int m_iFlags;
 };
 
@@ -524,7 +525,7 @@ void InspectProcessDDB3::WriteTrackedObjects()
         return;
     ::FUN_00d60960((const float *)(m_pDataStream));
     reinterpret_cast<::FUN_00d605d0_class *>((m_pDataStream))->FUN_00d605d0(0x20);
-    reinterpret_cast<::FUN_00d609a0_Class *>((m_pDataStream))->FUN_00d609a0((int)(&g_0126cae8), 0);
+    reinterpret_cast<::FUN_00d609a0_Class *>((m_pDataStream))->FUN_00d609a0((intptr_t)(&g_0126cae8), 0);
     reinterpret_cast<::FUN_00d605d0_class *>((m_pDataStream))->FUN_00d605d0((*reinterpret_cast<const ::LayoutRulesDDB3 *>(&::DAT_011b7b88)).m_ucBytesInPointer);
     reinterpret_cast<::FUN_00d605d0_class *>((m_pDataStream))->FUN_00d605d0((*reinterpret_cast<const ::LayoutRulesDDB3 *>(&::DAT_011b7b88)).m_bLittleEndian);
     reinterpret_cast<::FUN_00d605d0_class *>((m_pDataStream))->FUN_00d605d0((*reinterpret_cast<const ::LayoutRulesDDB3 *>(&::DAT_011b7b88)).m_bReusePaddingOptimization);
@@ -844,7 +845,7 @@ int hkInspectProcessQ::FUN_00ddb770(const void* object, const hkClassQ* pClassIn
 
     hkArrQ<char> buffer;
     hkArrayStreamWriterQ writer(&buffer, 1);
-    int size = ::FUN_00e0bd40((::Sink *)(::hkArrayStreamWriterQ *)(&writer), (::ObjectWriteInfo *)(::hkStructureLayoutQ *)(&layout), (unsigned int)(object), 0, (int)(object), (unsigned int)(realClass), (::ObjectWriteArrItem *)(::hkArrQ< ::hkObjectPatchQ> *)(&patches));
+    int size = ::FUN_00e0bd40((::Sink *)(::hkArrayStreamWriterQ *)(&writer), (::ObjectWriteInfo *)(::hkStructureLayoutQ *)(&layout), (uintptr_t)(object), 0, (intptr_t)(object), (uintptr_t)(realClass), (::ObjectWriteArrItem *)(::hkArrQ< ::hkObjectPatchQ> *)(&patches));
     if (size != buffer.GetLogicalSize() || size < 1)
     {
         return -1;
@@ -853,7 +854,7 @@ int hkInspectProcessQ::FUN_00ddb770(const void* object, const hkClassQ* pClassIn
     int total = size + 1;
     ::FUN_00d60960((const float *)(m_pDisplayStream));
     reinterpret_cast<::FUN_00d605d0_class *>((m_pDisplayStream))->FUN_00d605d0(0x24);
-    reinterpret_cast<::FUN_00d607b0_class *>((m_pDisplayStream))->FUN_00d607b0((int)(buffer.m_data));
+    reinterpret_cast<::FUN_00d607b0_class *>((m_pDisplayStream))->FUN_00d607b0((intptr_t)(buffer.m_data));
     if (recurse)
     {
         for (int i = 0; i < patches.GetLogicalSize(); i++)
@@ -1262,7 +1263,7 @@ void InspectConsumer::FUN_00ddbae0(unsigned char command)
         unsigned int bytes = input->ReadTag();
         List<unsigned char> payload(bytes);
         payload.SetSizeAndGrow(bytes);
-        reinterpret_cast<::FUN_00dd90d0_cls *>((input))->FUN_00dd90d0((int)(payload.begin()));
+        reinterpret_cast<::FUN_00dd90d0_cls *>((input))->FUN_00dd90d0((intptr_t)(payload.begin()));
         if (objectID > 0 && classID > 0 && path.GetLogicalSize() > 0 && bytes > 0)
         {
             void* object = reinterpret_cast<void*>(unsigned int(objectID));

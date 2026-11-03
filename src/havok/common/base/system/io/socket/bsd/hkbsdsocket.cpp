@@ -52,11 +52,11 @@ struct hkBsdSocket
 // @fnv 0x00da3080
 void hkBsdSocket::Destroy()
 {
-    *(int*)this = (int)&DAT_010d5030;
+    *(int*)this = (intptr_t)&DAT_010d5030;
     reinterpret_cast<::FUN_00da2dc0_class *>((this))->CloseSocket();
-    *(int*)((char*)this + 0x14) = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
-    *(int*)((char*)this + 8) = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(int*)((char*)this + 0x14) = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(int*)((char*)this + 8) = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(int*)this = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 extern "C" void __cdecl FUN_00d2b850(void);
@@ -92,11 +92,11 @@ struct FUN_00da2e60_cls
     void* m_vft;  // +0x00
     char m_auiShapeKeys[0x1c];
     int m_pSocket;  // +0x20
-    int FUN_00da2e60(int, int);
+    int FUN_00da2e60(intptr_t, int);
 };
 
 // @fnv 0x00da2e60
-int FUN_00da2e60_cls::FUN_00da2e60(int a, int b)
+int FUN_00da2e60_cls::FUN_00da2e60(intptr_t a, int b)
 {
     int r;
     if (m_pSocket != -1)
@@ -155,10 +155,10 @@ struct FUN_00da2f90_cls
 {
     char m_auiShapeKeys[0x20];
     int m_pSocket;
-    bool FUN_00da2f90(int a, int b, int c);
+    bool FUN_00da2f90(intptr_t a, int b, int c);
 };
 // @fnv 0x00da2f90
-bool FUN_00da2f90_cls::FUN_00da2f90(int aiArg1, int aiArg2, int c)
+bool FUN_00da2f90_cls::FUN_00da2f90(intptr_t aiArg1, int aiArg2, int c)
 {
     return WSAAsyncSelect(m_pSocket, (HWND)(aiArg1), aiArg2, ((c & 3) | ((c & 0xc) << 2))) != 0;
 }

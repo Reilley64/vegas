@@ -2,6 +2,7 @@
 // src/havok/common/base/math/qstransform/hkqstransform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/qstransform/hkqstransform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/symbols_00d72000.h"
 #include "fnv/symbols_01012000.h"
 #include "fnv/decl/FUN_00827200_class.h"
@@ -78,7 +79,7 @@ struct S_00ce5070_QsTransform
 // @fnv 0x00ce5070
 void S_00ce5070_QsTransform::FUN_00ce5070(const S_00ce5070_Transform& akTransform)
 {
-    reinterpret_cast<::FUN_00827200_class *>(&(m_rotation))->FUN_00cb26e0((int)&(akTransform.m_rotation));
+    reinterpret_cast<::FUN_00827200_class *>(&(m_rotation))->FUN_00cb26e0((intptr_t)&(akTransform.m_rotation));
     m_vTranslation.m_vComponents = akTransform.m_vTranslation.m_vComponents;
     m_vScale.m_vComponents = (*reinterpret_cast<const ::S_00ce5070_Vector4 *>(&::DAT_010c7170)).m_vComponents;
 }
@@ -124,11 +125,11 @@ struct Transform
     Vector position;
     float rotationX, rotationY, rotationZ, rotationW;
     float scaleX, scaleY, scaleZ;
-    void FUN_00ce51f0(int);
+    void FUN_00ce51f0(intptr_t);
 };
 // Builds a matrix from rotation, scale, and position, then passes out to FUN_00cb2050.
 // @fnv 0x00ce51f0
-void Transform::FUN_00ce51f0(int out)
+void Transform::FUN_00ce51f0(intptr_t out)
 {
     FUN_008cd6a0_Class rotMatrix;
     reinterpret_cast<::RotationRows *>(&(rotMatrix))->FUN_00cb2d90(&rotationX);
@@ -140,7 +141,7 @@ void Transform::FUN_00ce51f0(int out)
     *(__m128*)&scaleMatrix.row2 = _mm_setzero_ps();
     scaleMatrix.row2.z = scaleZ;
     FUN_00cdf250_class combinedMatrix;
-    reinterpret_cast<::MProduct *>(&(combinedMatrix))->FUN_00cd55b0((*(const ::MProduct *)((int*)&rotMatrix)), (*(const ::MProduct *)((int)&scaleMatrix)));
+    reinterpret_cast<::MProduct *>(&(combinedMatrix))->FUN_00cd55b0((*(const ::MProduct *)((int*)&rotMatrix)), (*(const ::MProduct *)((intptr_t)&scaleMatrix)));
     TransformMatrix resultMatrix;
     *(__m128*)&resultMatrix.row0 = *(__m128*)&combinedMatrix.row0;
     *(__m128*)&resultMatrix.row1 = *(__m128*)&combinedMatrix.row1;

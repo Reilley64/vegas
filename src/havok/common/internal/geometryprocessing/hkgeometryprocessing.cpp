@@ -2,6 +2,7 @@
 // src/havok/common/internal/geometryprocessing/hkgeometryprocessing.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/hkgeometryprocessing.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv_simd.h"
 #include <cstddef>
 #include <new>
@@ -55,7 +56,7 @@ FUN_00dee620::FUN_00dee620(int aiFlags)
 // @fnv 0x00dee5f0
 void __cdecl FUN_00dee5f0(void* first, void* second, void* third, void* fourth)
 {
-    ::FUN_00dedf10((*(const ::Sdedf10_Geometry *)(first)), (int)(second), (*(::Sdedf10_Array< ::Sdedf10_Vector4, ::Sdedf10_TypeIsPod> *)(third)), (int)(fourth), 0, (const ::Sdedf10_IFunction *)(0));
+    ::FUN_00dedf10((*(const ::Sdedf10_Geometry *)(first)), (intptr_t)(second), (*(::Sdedf10_Array< ::Sdedf10_Vector4, ::Sdedf10_TypeIsPod> *)(third)), (intptr_t)(fourth), 0, (const ::Sdedf10_IFunction *)(0));
 }
 
 struct FUN_00dee6b0_Class
@@ -91,7 +92,7 @@ AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00dee6c0_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
 
     FUN_00dee6c0_cls* FUN_00dee6c0(unsigned char acFlags);
 };
@@ -100,7 +101,7 @@ struct FUN_00dee6c0_cls
 // @fnv 0x00dee6c0
 FUN_00dee6c0_cls* FUN_00dee6c0_cls::FUN_00dee6c0(unsigned char acFlags)
 {
-    m_vptr = (int)&DAT_010cd664;
+    m_vptr = (intptr_t)&DAT_010cd664;
     if (acFlags & 1)
     {
         AudioHolder* pHolder = FUN_00c85750();
@@ -383,14 +384,14 @@ struct Edge
 
     Edge(Triangle* t, unsigned int i) : m_pkTriangle(t), m_uiEdgeIndex(i)
     {}
-    Edge(unsigned int uid)
+    Edge(uintptr_t uid)
     {
         m_uiEdgeIndex = uid & 3;
         m_pkTriangle = (Triangle*)(uid & ~3u);
     }
-    unsigned int uid() const
+    uintptr_t uid() const
     {
-        return (unsigned int)m_pkTriangle + m_uiEdgeIndex;
+        return (uintptr_t)m_pkTriangle + m_uiEdgeIndex;
     }
     Edge link() const
     {
@@ -1436,8 +1437,8 @@ struct Sdedf10_NearestFeaturePolicy : Sdedf10_ClosestPointCollector
 
 
 // @fnv 0x00dedf10
-bool __cdecl FUN_00dedf10(const Sdedf10_Geometry& geometry, int numPoints, Sdedf10_Array<Sdedf10_Vector4>& points,
-                          int maxIterations, int seed, const Sdedf10_IFunction* densityFunction)
+bool __cdecl FUN_00dedf10(const Sdedf10_Geometry& geometry, intptr_t numPoints, Sdedf10_Array<Sdedf10_Vector4>& points,
+                          intptr_t maxIterations, int seed, const Sdedf10_IFunction* densityFunction)
 {
     static Sdedf10_ConstFunction unityFunction(1);
     Sdedf10_PseudoRandom rng(seed);

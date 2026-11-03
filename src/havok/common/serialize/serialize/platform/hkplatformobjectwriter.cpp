@@ -2,6 +2,7 @@
 // src/havok/common/serialize/serialize/platform/hkplatformobjectwriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/serialize/platform/hkplatformobjectwriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
@@ -135,7 +136,7 @@ struct FUN_00e02bb0_cls
     void* m_p08;
     void* m_p0c;
 
-    FUN_00e02bb0_cls* FUN_00e02bb0(int a1);
+    FUN_00e02bb0_cls* FUN_00e02bb0(intptr_t a1);
 };
 
 struct hkMemoryHeapE02
@@ -231,7 +232,7 @@ hkObjectE02* hkLoaderE02::GetOrCreateObject(const char* pcName, hkTrackerE02* pk
 
     hkObjectE02* pkNew = ((::hkObjectE02 *)(::FUN_00e4afe0(pcName, (*(const ::ClassInfo *)(&(*reinterpret_cast<::hkRegistryE02 *>(&::g_0126cae8)))), (::PtrMap *)(::hkLoaderE02 *)(this), (::VtableClassReg *)(0), (::LoadedObjectReg *)(0), (*(int *)&(const ::hkFlagsE02 &)(hkFlagsE02(0))))));
     m_kThirdFollowingStreamField.AddBack(pkNew);
-    reinterpret_cast<::FUN_00dc1bb0_Class *>((pkTracker))->FUN_00dc1bb0((unsigned int)(pkNew), (unsigned int)(&m_kOwner), 1);
+    reinterpret_cast<::FUN_00dc1bb0_Class *>((pkTracker))->FUN_00dc1bb0((uintptr_t)(pkNew), (uintptr_t)(&m_kOwner), 1);
     return pkNew;
 }
 
@@ -348,7 +349,7 @@ struct E02DE0Map
 
     E02DE0Map() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
     {
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(fnvc_adapt::FUN_00c85750().heap()), 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)&(fnvc_adapt::FUN_00c85750().heap()), 0);
     }
 
 };
@@ -373,7 +374,7 @@ struct FUN_00e02de0
 };
 // Sets the vtable and flag, allocates and initialises a blob from a key and a1, and conditionally allocates a small object whose Make result is stored in m_p0c.
 // @fnv 0x00e02bb0
-FUN_00e02bb0_cls* FUN_00e02bb0_cls::FUN_00e02bb0(int a1)
+FUN_00e02bb0_cls* FUN_00e02bb0_cls::FUN_00e02bb0(intptr_t a1)
 {
     m_w06 = 1;
     m_vptr = DAT_010ea370;
@@ -515,12 +516,12 @@ struct E02A80_cls
     E02A80Iface* unk08;
     E02A80Helper* unk0c;
 
-    int FUN_00e02a80(E02A80Arg* arg1, int arg2, E02A80Helper* arg3, int arg4);
+    int FUN_00e02a80(E02A80Arg* arg1, intptr_t arg2, E02A80Helper* arg3, intptr_t arg4);
 };
 
 // Resolves a helper, optionally seeks and builds a box via the iface, then calls unk0C and returns whether the result string is empty.
 // @fnv 0x00e02a80
-int E02A80_cls::FUN_00e02a80(E02A80Arg* apArg, int aiValue, E02A80Helper* apHelper, int arg4)
+int E02A80_cls::FUN_00e02a80(E02A80Arg* apArg, intptr_t aiValue, E02A80Helper* apHelper, intptr_t arg4)
 {
     E02A80Helper* pResolvedHelper;
     E02A80Helper* pHelper = unk0c;

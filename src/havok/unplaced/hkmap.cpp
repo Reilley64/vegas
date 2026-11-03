@@ -1,14 +1,15 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/ProbeMap64.h"
 #include "fnv/symbols_00a29000.h"
 struct FUN_00cb18f0_t
 {
-    int m_uiStandInValue;
+    intptr_t m_uiStandInValue;
     int m_iValueAfterStandIn;
     int m_iPairCount;
-    int FindSlot(int);
+    intptr_t FindSlot(intptr_t);
     int FUN_00cb1fb0(int key);
 };
 
@@ -30,11 +31,11 @@ struct FUN_00cb1930_t
     int* m_uiStandInValue;
     int m_iValueAfterStandIn;
     int m_iPairCount;
-    int LookupHashEntry(int key, int defaultValue);
+    intptr_t LookupHashEntry(intptr_t key, int defaultValue);
 };
 
 // @fnv 0x00cb1930
-int FUN_00cb1930_t::LookupHashEntry(int key, int defaultValue)
+intptr_t FUN_00cb1930_t::LookupHashEntry(intptr_t key, int defaultValue)
 {
     if (m_iPairCount > 0)
     {
@@ -75,7 +76,7 @@ struct DepthLimit
 };
 // Hashes key, and if the hash is within the limit, writes the bucket's paired value to out and returns 0; otherwise returns 1.
 // @fnv 0x00cb1980
-int LookupBucketValue(DepthLimit* self, int edx, int key, int* paiOut)
+int LookupBucketValue(DepthLimit* self, intptr_t edx, intptr_t key, int* paiOut)
 {
     int iHash = reinterpret_cast<::FUN_00cb18f0_t *>((self))->FindSlot(key);
     if (iHash <= *(int*)((char*)self + 8))
@@ -107,7 +108,7 @@ void FUN_00cb1a60_t::ResetEntries()
 namespace fnv_00cb1ac0 {
 struct TypeNode
 {
-    int m_key;
+    intptr_t m_key;
     int m_uiFilterValue;
 };
 
@@ -198,7 +199,7 @@ struct HashEntryTable
 {
 };
 // @fnv 0x00dc8e30
-unsigned long LookupWithDefault(HashEntryTable* self, int edx, unsigned long key)
+unsigned long LookupWithDefault(HashEntryTable* self, intptr_t edx, unsigned long key)
 {
     return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((HashEntryTable*)((char*)self + 0xc))))->LookupHashEntry(key, -1)));
 }
@@ -251,7 +252,7 @@ class hkMapBaseCB19
 // @fnv 0x00cb1fb0
 int FUN_00cb18f0_t::FUN_00cb1fb0(int key)
 {
-    int found = FindSlot(key);
+    intptr_t found = FindSlot(key);
     if (found <= m_iPairCount)
     {
         reinterpret_cast<::hkMapBaseCB19 *>(this)->RemoveEntry((void *)(found));
@@ -369,11 +370,11 @@ struct FUN_00cb1ac0_Obj
 
 struct FUN_00cb1fe0_t
 {
-    void EnsureCapacity(int a1, int n);
+    void EnsureCapacity(intptr_t a1, int n);
 };
 
 // @fnv 0x00cb1fe0
-void FUN_00cb1fe0_t::EnsureCapacity(int a1, int n)
+void FUN_00cb1fe0_t::EnsureCapacity(intptr_t a1, int n)
 {
     int iWantedSize = n * 2;
     int size = 8;
@@ -439,12 +440,12 @@ class hkMapBaseCB18
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    int FUN_00cb1870(hkMemoryAllocatorCB18& alloc, unsigned int key, unsigned int val);
+    int FUN_00cb1870(hkMemoryAllocatorCB18& alloc, uintptr_t key, uintptr_t val);
 };
 
 // Inserts or updates a key/val pair in the hash map, resizing if needed, and returns 1 if the key was new.
 // @fnv 0x00cb1870
-int hkMapBaseCB18::FUN_00cb1870(hkMemoryAllocatorCB18& alloc, unsigned int key, unsigned int val)
+int hkMapBaseCB18::FUN_00cb1870(hkMemoryAllocatorCB18& alloc, uintptr_t key, uintptr_t val)
 {
     if ((m_iCapacityFlags & 0x7fffffff) * 2 > m_iPairCount)
         reinterpret_cast<::fnv_00cb1ac0::DepthLimit *>(this)->ResizeAndRehash((::fnv_00cb1ac0::Allocator *)&(alloc), m_iPairCount + m_iPairCount + 2);
@@ -522,7 +523,7 @@ bool* Target::FUN_00e48e80(bool* apResult)
 {
     EdgeMap edgeMap = {0, 0, -1};
     Allocator& allocator = FUN_00c85750()->heap();
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(edgeMap))->EnsureCapacity((int)&(allocator), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(edgeMap))->EnsureCapacity((intptr_t)&(allocator), 0);
     int count = unk18;
     int iVertexOffset = 0;
     for (int i = 0; i < count; ++i)
@@ -801,7 +802,7 @@ struct hkMapPairCB1F
 class hkMapBaseCB1F
 {
   public:
-    int FUN_00cb1f40(hkMemoryAllocatorCB1F& alloc, unsigned int key, unsigned int val);
+    int FUN_00cb1f40(hkMemoryAllocatorCB1F& alloc, uintptr_t key, unsigned int val);
 
     hkMapPairCB1F* m_kPrimitiveElement;
     int m_iCapacityFlags;
@@ -810,7 +811,7 @@ class hkMapBaseCB1F
 
 // Grows the table if over half full, adds key/val if key is absent, and returns the key's slot index.
 // @fnv 0x00cb1f40
-int hkMapBaseCB1F::FUN_00cb1f40(hkMemoryAllocatorCB1F& alloc, unsigned int key, unsigned int uiValue)
+int hkMapBaseCB1F::FUN_00cb1f40(hkMemoryAllocatorCB1F& alloc, uintptr_t key, unsigned int uiValue)
 {
     {
         int numElems = m_iCapacityFlags & static_cast<int>(0x7fffffff);
@@ -837,7 +838,7 @@ int hkMapBaseCB1F::FUN_00cb1f40(hkMemoryAllocatorCB1F& alloc, unsigned int key, 
 
 // Hashes key into the open-addressing table and linearly probes for a matching entry, returning its slot index or a not-found value.
 // @fnv 0x00cb18f0
-int FUN_00cb18f0_t::FindSlot(int key)
+intptr_t FUN_00cb18f0_t::FindSlot(intptr_t key)
 {
     int mod = m_iPairCount;
     if (mod > 0)

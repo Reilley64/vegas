@@ -2,6 +2,7 @@
 // src/havok/common/serialize/tagfile/binary/hkbinarytagfilereader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/tagfile/binary/hkbinarytagfilereader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include "fnv/decl/S00dc5f30_Obj.h"
 #include <new>
@@ -157,7 +158,7 @@ class hkMemoryAllocatorDC5D;
 
 struct hkMemoryRouterDC5D
 {
-    int m_00;
+    intptr_t m_00;
     int m_04;
     int m_08;
     int m_0c;
@@ -408,7 +409,7 @@ char* hkBinaryReaderDC5D::ReadString()
     if (iLen > 0)
     {
         char* pcString = AllocateWithHeader(&FUN_00c85750().heap(), iLen + 1);
-        reinterpret_cast<::FUN_00dd90d0_cls *>(this)->FUN_00dd90d0((int)(pcString));
+        reinterpret_cast<::FUN_00dd90d0_cls *>(this)->FUN_00dd90d0((intptr_t)(pcString));
         pcString[iLen] = 0;
         m_pStringFunctions.AddBack(pcString);
         return pcString;
@@ -574,7 +575,7 @@ struct FUN_00dc5d50_Local
 };
 
 // @fnv 0x00dc5d50
-unsigned int FUN_00dc5d50(unsigned int a, unsigned int b, unsigned int c)
+unsigned int FUN_00dc5d50(uintptr_t a, uintptr_t b, unsigned int c)
 {
     FUN_00dc5d50_Local local;
     local.FUN_00dc5f30(b, c);
@@ -622,7 +623,7 @@ struct S00dc5f30_Obj
 
 // Initializes the object with a0 and a1, sets m_p10 and m_n14, and adds three entries to the m_hl18 and m_hl24 lists.
 // @fnv 0x00dc5f30
-S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(int a0, int a1)
+S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(intptr_t a0, int a1)
 {
     reinterpret_cast<::FUN_00dd9130_class *>(this)->Init((::hkReferencedObject *)(a0), (*(bool *)&(const ::S00dc5f30_Tag &)(S00dc5f30_Tag())));
     m_p10 = (void*)a1;
@@ -739,7 +740,7 @@ template <typename T> struct hkLocalArrayTF : public hkArrayTF<T>
     {
         hkMemoryRouterDC5D& kRouter = FUN_00c85750();
         T* pLocal = (T*)kRouter.m_00;
-        kRouter.m_00 = (int)((char*)pLocal + ((n * sizeof(T) + 0x7f) & ~0x7f));
+        kRouter.m_00 = (intptr_t)((char*)pLocal + ((n * sizeof(T) + 0x7f) & ~0x7f));
         this->m_data = pLocal;
         this->m_iCapacityState = n | 0x80000000;
         m_pStackAllocation = pLocal;
@@ -749,7 +750,7 @@ template <typename T> struct hkLocalArrayTF : public hkArrayTF<T>
         T* pLocal = m_pStackAllocation;
         if (pLocal == this->m_data)
             this->m_iElementCount = 0;
-        FUN_00c85750().m_00 = (int)pLocal;
+        FUN_00c85750().m_00 = (intptr_t)pLocal;
     }
     T* m_pStackAllocation;
 };
@@ -798,7 +799,7 @@ class hkDataClassTF
   public:
     hkDataClassTF(hkDataClassImplTF* pkImpl)
     {
-        reinterpret_cast<::FUN_00dba650_cls *>(this)->FUN_00dba650((unsigned int)(pkImpl));
+        reinterpret_cast<::FUN_00dba650_cls *>(this)->FUN_00dba650((uintptr_t)(pkImpl));
     }
     void close()
     {
@@ -875,7 +876,7 @@ class hkBinaryTagfileReaderTF
     {
         return reinterpret_cast<::ReaderDC5BD0 *>((this))->FUN_00dc5bd0();
     }
-    hkDataObjectTF FUN_00dc6970(int aiAllocationTag);
+    hkDataObjectTF FUN_00dc6970(intptr_t aiAllocationTag);
     int unk00;
     int unk04;
     int unk08;
@@ -911,7 +912,7 @@ __forceinline TagRouter* getTagRouter()
 template <class T> struct TagArray
 {
     T* data;
-    int size;
+    intptr_t size;
     int capacity;
     __forceinline TagArray() : data(0), size(0), capacity(0x80000000)
     {}
@@ -1014,11 +1015,11 @@ struct TagClass
 struct TagReader
 {
     TagString FUN_00dc6970(int) throw();
-    void FUN_00dc6100(TagArrayRef*, int);
+    void FUN_00dc6100(TagArrayRef*, intptr_t);
 };
 // Reads an array of 'count' elements from the tag stream into the given TagArrayRef, dispatching on the element type code.
 // @fnv 0x00dc6100
-void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
+void TagReader::FUN_00dc6100(TagArrayRef* array, intptr_t count)
 {
     switch (array->FUN_00dbac10())
     {
@@ -1026,7 +1027,7 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
         TagArray<char> values(count);
         values.reserve(getTagRouter()->temporary, count);
         reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(values.data, 1, count);
-        reinterpret_cast<::fnv_00dbae10::Outer *>((array))->FUN_00dbae10((int)(values.data));
+        reinterpret_cast<::fnv_00dbae10::Outer *>((array))->FUN_00dbae10((intptr_t)(values.data));
         values.release(getTagRouter()->temporary);
         break;
     }
@@ -1049,7 +1050,7 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
         for (int i = 0; i < count; ++i)
         {
             reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(values, 4, width);
-            reinterpret_cast<::FUN_00dbad60_cls *>((void *)&(const ::TagArrayValue &)(array->FUN_00dbab90(i)))->FUN_00dbad60((int)(values), 4);
+            reinterpret_cast<::FUN_00dbad60_cls *>((void *)&(const ::TagArrayValue &)(array->FUN_00dbab90(i)))->FUN_00dbad60((intptr_t)(values), 4);
         }
         break;
     }
@@ -1065,7 +1066,7 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
                 reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&value, 4, 1);
                 values[j] = value;
             }
-            reinterpret_cast<::FUN_00dbad60_cls *>((void *)&(const ::TagArrayValue &)(array->FUN_00dbab90(i)))->FUN_00dbad60((int)(values), width);
+            reinterpret_cast<::FUN_00dbad60_cls *>((void *)&(const ::TagArrayValue &)(array->FUN_00dbab90(i)))->FUN_00dbad60((intptr_t)(values), width);
         }
         break;
     }
@@ -1171,7 +1172,7 @@ struct ValueReader : TagFileReader
 };
 // Reads a data object from the binary tagfile stream, resolves its class and members, reads present values, and returns the object.
 // @fnv 0x00dc6970
-hkDataObjectTF hkBinaryTagfileReaderTF::FUN_00dc6970(int aiAllocationTag)
+hkDataObjectTF hkBinaryTagfileReaderTF::FUN_00dc6970(intptr_t aiAllocationTag)
 {
     int iTagType = aiAllocationTag;
     if (iTagType == -1)
@@ -1238,7 +1239,7 @@ void ValueReader::FUN_00dc6720(ParamP value, const Item20* item)
     {
         Item20 local;
         memcpy(&local, item, sizeof(local));
-        int index = reinterpret_cast<::ReaderDC5BD0 *>((this))->FUN_00dc5bd0();
+        intptr_t index = reinterpret_cast<::ReaderDC5BD0 *>((this))->FUN_00dc5bd0();
         if (reinterpret_cast<::fnv_00dba920::Target *>(&(value))->QueryAndWriteResult() == 0x19 && item->objectClass == 0)
         {
             int objectIndex = reinterpret_cast<::ReaderDC5BD0 *>((this))->FUN_00dc5bd0();
@@ -1283,19 +1284,19 @@ void ValueReader::FUN_00dc6720(ParamP value, const Item20* item)
             reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&scalar, 4, 1);
             values[i] = scalar;
         }
-        reinterpret_cast<::AudioHandle *>(&(value))->FUN_00dbab10((unsigned int)(values), count);
+        reinterpret_cast<::AudioHandle *>(&(value))->FUN_00dbab10((uintptr_t)(values), count);
         break;
     }
     case 8:
     case 9: {
         RefA object;
-        reinterpret_cast<::hkBinaryTagfileReaderTF *>(this)->FUN_00dc6970((int)(&object));
+        reinterpret_cast<::hkBinaryTagfileReaderTF *>(this)->FUN_00dc6970((intptr_t)(&object));
         reinterpret_cast<::FUN_00dbaa50_cls *>(&(value))->DispatchToObject((void **)(::RefA *)(&object));
         reinterpret_cast<::DBA7F0Ref *>(&(object))->FUN_00dba7f0();
         break;
     }
     case 10:
-        reinterpret_cast<::S_00dbab30_Ref *>(&(value))->FUN_00dbab30((int)(reinterpret_cast<::hkBinaryReaderDC5D *>((this))->ReadString()));
+        reinterpret_cast<::S_00dbab30_Ref *>(&(value))->FUN_00dbab30((intptr_t)(reinterpret_cast<::hkBinaryReaderDC5D *>((this))->ReadString()));
         break;
     default:
         break;

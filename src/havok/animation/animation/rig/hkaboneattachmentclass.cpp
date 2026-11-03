@@ -1,6 +1,7 @@
 // src/havok/animation/animation/rig/hkaboneattachmentclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/rig/hkaboneattachmentclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00cb0000.h"
 #include "fnv/symbols_0102e000.h"
@@ -56,11 +57,11 @@ struct Owner
 // @fnv 0x00dfe620
 Owner* Owner::FUN_00dfe620(unsigned int flags)
 {
-    ::FUN_00cb0c00((int)&(child54));
+    ::FUN_00cb0c00((intptr_t)&(child54));
     if (owned50)
         reinterpret_cast<::hkReferencedObjectC905 *>((owned50))->FUN_00c905b0();
     owned50 = 0;
-    ::FUN_00cb0c00((int)&(child08));
+    ::FUN_00cb0c00((intptr_t)&(child08));
     vtable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (flags & 1)
     {

@@ -2,6 +2,7 @@
 // src/havok/common/visualize/process/hkstatisticsprocess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/process/hkstatisticsprocess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_00cb1fe0_t.h"
@@ -183,7 +184,7 @@ struct Entry
 struct Pair
 {
     int m_00;
-    int m_04;
+    intptr_t m_04;
 };
 struct ObjA
 {
@@ -374,8 +375,8 @@ void ThisCls::WriteToStream(int aiUnused)
     if (vecStarts.m_iArrayLength == 0)
     {
         TlsBuf* pTlsBuf = (TlsBuf*)TlsGetValue(DAT_0126835c);
-        int cur = (int)pTlsBuf->m_pCurrent;
-        int end = (int)pTlsBuf->m_pRecordEnd;
+        intptr_t cur = (intptr_t)pTlsBuf->m_pCurrent;
+        intptr_t end = (intptr_t)pTlsBuf->m_pRecordEnd;
         Singleton* s = GetSingleton();
         if (vecStarts.m_iArrayLength == (vecStarts.m_iCapacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(s->m_10), (::AudioStream *)(void *)(&vecStarts), 4);
@@ -398,7 +399,7 @@ void ThisCls::WriteToStream(int aiUnused)
     objRecords.m_04 = 0;
     objRecords.m_iArrayLength = -1;
     Singleton* pSingleton4 = GetSingleton();
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(objRecords))->EnsureCapacity((int)(pSingleton4->m_10), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(objRecords))->EnsureCapacity((intptr_t)(pSingleton4->m_10), 0);
     Vec3 vecProcessed;
     new ((void *)&(vecProcessed)) ::FUN_00e0f6e0();
     for (int i = 0; i < vecStarts.m_iArrayLength; i++)
@@ -428,7 +429,7 @@ void ThisCls::WriteToStream(int aiUnused)
     objStr.m_08->m_pData[objStr.m_08->m_iArrayLength] = 0;
     MiniStr ms;
     new ((void *)&(ms)) ::FUN_00dc1680((*(const ::FUN_00dc1680 *)(&(*reinterpret_cast<char *>(&::DAT_010d6ae8)))));
-    ::FUN_00e0bd40((::Sink *)(::SObj *)(&objStr), (::ObjectWriteInfo *)(::MiniStr *)(&ms), 1, 0, (int)(&vecProcessed), (unsigned int)(&(*reinterpret_cast<char *>(&::g_0126c830))), (::ObjectWriteArrItem *)(::Vec4 *)(&vec4));
+    ::FUN_00e0bd40((::Sink *)(::SObj *)(&objStr), (::ObjectWriteInfo *)(::MiniStr *)(&ms), 1, 0, (intptr_t)(&vecProcessed), (uintptr_t)(&(*reinterpret_cast<char *>(&::g_0126c830))), (::ObjectWriteArrItem *)(::Vec4 *)(&vec4));
     objStr.m_00 = &DAT_010c9368;
     if (objStr.m_10 == 0)
     {
@@ -494,7 +495,7 @@ void ThisCls::WriteToStream(int aiUnused)
             reinterpret_cast<::FUN_00d607b0_class *>((m_0c))->FUN_00d607b0(m_24);
         reinterpret_cast<::hkOArchive_2 *>((m_0c))->WriteInt(iTextLen2);
         if (iTextLen2 > 0)
-            reinterpret_cast<::FUN_00d607b0_class *>((m_0c))->FUN_00d607b0((int)pOutText->m_pData);
+            reinterpret_cast<::FUN_00d607b0_class *>((m_0c))->FUN_00d607b0((intptr_t)pOutText->m_pData);
         reinterpret_cast<::hkOArchive_2 *>((m_0c))->WriteInt(numRanges);
         for (int i = 0; i < numRanges; i++)
         {
@@ -729,7 +730,7 @@ FUN_00ddbf00::FUN_00ddbf00(PtrArrayMember* pSource)
     {
         Sbf00_Name kName;
         new ((void *)&(kName)) ::FUN_00dc1680((*(const ::FUN_00dc1680 *)(&(*reinterpret_cast<char *>(&::DAT_010d6ae8)))));
-        ::FUN_00e0bd40((::Sink *)(::Sbf00_Ctx *)(&kCtx), (::ObjectWriteInfo *)(::Sbf00_Name *)(&kName), 1, 0, (int)(&kCtx.m_kSub), (unsigned int)(&(*reinterpret_cast<int *>(&::g_0126c860))), (::ObjectWriteArrItem *)(::Sbf00_Arr24 *)(&kArr));
+        ::FUN_00e0bd40((::Sink *)(::Sbf00_Ctx *)(&kCtx), (::ObjectWriteInfo *)(::Sbf00_Name *)(&kName), 1, 0, (intptr_t)(&kCtx.m_kSub), (uintptr_t)(&(*reinterpret_cast<int *>(&::g_0126c860))), (::ObjectWriteArrItem *)(::Sbf00_Arr24 *)(&kArr));
     }
     reinterpret_cast<::FUN_00cc0780 *>(&(kCtx))->FUN_00cc0780::~FUN_00cc0780();
     kArr.Free();
@@ -808,7 +809,7 @@ void FUN_00ddc870_cls::FUN_00ddc870()
         int n = iCount;
         do
         {
-            ::FUN_00cb0c00((int)(s));
+            ::FUN_00cb0c00((intptr_t)(s));
             s = (ElemSub*)((char*)s + 16);
         } while (--n != 0);
     }

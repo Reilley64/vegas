@@ -2,6 +2,7 @@
 // src/havok/common/base/thread/jobqueue/hkjobqueue.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/jobqueue/hkjobqueue.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/CriticalSectionOwner.h"
@@ -113,7 +114,7 @@ struct ItemManager
 
 struct Bucket
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0C;
@@ -237,7 +238,7 @@ struct Owner
     int unk14;
     int unk18;
     int unk1C;
-    int unk20;
+    intptr_t unk20;
     int unk24;
     int unk28;
     int unk2C;
@@ -279,7 +280,7 @@ struct Mgr
 
 struct Obj
 {
-    int ForwardWithZero(int a, int b);
+    int ForwardWithZero(intptr_t a, int b);
 };
 
 struct S_00d056a0_Allocator
@@ -1252,7 +1253,7 @@ struct PoolTable
 
 struct Slot16
 {
-    int m_i00;
+    intptr_t m_i00;
     int m_i04;
     void* m_p08;
     void* m_p0c;
@@ -1460,10 +1461,10 @@ static __forceinline short& Ref212(Registry* r, unsigned char sub)
 }
 struct LunaOwner : Owner
 {
-    int ProcessCallback(int param_2, int param_3, int param_4);
+    int ProcessCallback(intptr_t param_2, intptr_t param_3, int param_4);
 };
 // @fnv 0x00d05190
-int Obj::ForwardWithZero(int aiFirst, int aiSecond)
+int Obj::ForwardWithZero(intptr_t aiFirst, int aiSecond)
 {
     return reinterpret_cast<::LunaOwner *>(this)->ProcessCallback(0, aiFirst, aiSecond);
 }
@@ -1652,7 +1653,7 @@ struct S00df8570_Rec
     int m08;
     int m0c;
     int m10;
-    int m14;
+    intptr_t m14;
     int m18;
     int m1c;
     int m20;
@@ -1703,13 +1704,13 @@ struct S00df8570_Enc
 int __cdecl FUN_00df8570(S00df8570_Enc* encoder, S00df8570_Input* input)
 {
     volatile unsigned int stamp;
-    int output;
+    intptr_t output;
     {
         S00df8570_Trace* trace = static_cast<S00df8570_Trace*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));
         unsigned int* next = trace->next;
         if (next < trace->end)
         {
-            next[0] = reinterpret_cast<unsigned int>(str_010dba98);
+            next[0] = reinterpret_cast<uintptr_t>(str_010dba98);
             _ReadWriteBarrier();
             stamp = static_cast<unsigned int>(__rdtsc());
             next[1] = stamp;
@@ -1723,7 +1724,7 @@ int __cdecl FUN_00df8570(S00df8570_Enc* encoder, S00df8570_Input* input)
     *input->outCount = count;
     if (count > 0)
     {
-        records[0].m14 = reinterpret_cast<int>(input->outCount);
+        records[0].m14 = reinterpret_cast<intptr_t>(input->outCount);
         records[0].m10 = input->m10;
         records[0].m1c = input->m1c;
         records[0].m20 = input->m20;
@@ -1743,13 +1744,13 @@ int __cdecl FUN_00df8570(S00df8570_Enc* encoder, S00df8570_Input* input)
             reinterpret_cast<::Mgr *>((encoder))->InsertItemAndNotify((::PoolSet *)(output), (*(const ::Item *)(&records[i])), 0);
         encoder->FUN_00d04420(output);
     }
-    int iResult = reinterpret_cast<::LunaOwner *>((encoder))->ProcessCallback((int)(input), (int)(input), 0);
+    int iResult = reinterpret_cast<::LunaOwner *>((encoder))->ProcessCallback((intptr_t)(input), (intptr_t)(input), 0);
     {
         S00df8570_Trace* trace = static_cast<S00df8570_Trace*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));
         unsigned int* next = trace->next;
         if (next < trace->end)
         {
-            next[0] = reinterpret_cast<unsigned int>(::DAT_010c41f8);
+            next[0] = reinterpret_cast<uintptr_t>(::DAT_010c41f8);
             _ReadWriteBarrier();
             reinterpret_cast<volatile unsigned int&>(output) = static_cast<unsigned int>(__rdtsc());
             next[1] = reinterpret_cast<volatile unsigned int&>(output);
@@ -2218,7 +2219,7 @@ int Dispatcher::FUN_00d051b0()
 {
     TimerSamples samples;
     DispatchJob job;
-    int result = reinterpret_cast<::Obj *>((((JobFetchView*)this)))->ForwardWithZero((int)&job, 0);
+    int result = reinterpret_cast<::Obj *>((((JobFetchView*)this)))->ForwardWithZero((intptr_t)&job, 0);
     if (result != 0)
         return result;
     do
@@ -2382,7 +2383,7 @@ struct QueueLockView : Owner
 };
 // When param_2 is nonzero, invokes the owner callback and inserts its payload; repeats FUN_00d05840 until it returns a value other than -1.
 // @fnv 0x00d04e80
-int LunaOwner::ProcessCallback(int param_2, int param_3, int param_4)
+int LunaOwner::ProcessCallback(intptr_t param_2, intptr_t param_3, int param_4)
 {
     union Phase212
     {
@@ -2395,7 +2396,7 @@ int LunaOwner::ProcessCallback(int param_2, int param_3, int param_4)
         unsigned int* cursor = trace->current;
         if (cursor < trace->end)
         {
-            *cursor = (unsigned int)str_010ccd90;
+            *cursor = (uintptr_t)str_010ccd90;
             _ReadWriteBarrier();
             phase.tick = static_cast<unsigned int>(__rdtsc());
             cursor[1] = phase.tick;
@@ -2469,7 +2470,7 @@ int LunaOwner::ProcessCallback(int param_2, int param_3, int param_4)
         unsigned int* cursor = trace->current;
         if (cursor < trace->end)
         {
-            *cursor = (unsigned int)::DAT_010c41f8;
+            *cursor = (uintptr_t)::DAT_010c41f8;
             _ReadWriteBarrier();
             volatile unsigned int stamp = static_cast<unsigned int>(__rdtsc());
             cursor[1] = (unsigned int)stamp;
@@ -2515,7 +2516,7 @@ int S_00d05020_JobQueue::FUN_00d05020(int aiJobType, int priority, S_00d05020_Jo
                 queue.enqueue(jobInOut);
             jobToAdd = false;
         }
-        result = reinterpret_cast<::Host *>(this)->FUN_00d05840(queueIndex, (::Refs *)(data), waitStatus, (int)&(jobInOut));
+        result = reinterpret_cast<::Host *>(this)->FUN_00d05840(queueIndex, (::Refs *)(data), waitStatus, (intptr_t)&(jobInOut));
     } while (result == -1);
     {
         MonitorStream* s = (MonitorStream*)TlsGetValue(::DAT_0126835c);
@@ -3138,7 +3139,7 @@ struct Host
     if (TlsGetValue((*reinterpret_cast<int *>(&::g_dwTlsIndex))) == 0)
         v = m_def54;
     else
-        v = ((signed char*)TlsGetValue((*reinterpret_cast<int *>(&::g_dwTlsIndex))))[(int)this + 0xea];
+        v = ((signed char*)TlsGetValue((*reinterpret_cast<int *>(&::g_dwTlsIndex))))[(intptr_t)this + 0xea];
     signed char* cursor = (signed char*)this + (v * 9 + 0x48) * 2;
     int cur = *cursor;
     while(cur >= 0) {
@@ -3217,7 +3218,7 @@ int Host::FUN_00d05840(int a1, Refs* refs, int a3, int a4)
             }
             if (refs->pending[bEA] > 0) {
                 refs->pending[bEA]--;
-                ::FUN_00d043c0((::CallTarget *)((int)m_iSlotIds[bEA]), 1);
+                ::FUN_00d043c0((::CallTarget *)((intptr_t)m_iSlotIds[bEA]), 1);
             }
         }
         if (maskZero && refs->f1C != 1) {
@@ -3232,11 +3233,11 @@ tail_check:
         return 1;
     }
     {
-        int idx = ((signed char*)TlsGetValue((*reinterpret_cast<int *>(&::g_dwTlsIndex))))[(int)&this->bEA];
+        int idx = ((signed char*)TlsGetValue((*reinterpret_cast<int *>(&::g_dwTlsIndex))))[(intptr_t)&this->bEA];
         refs->pending[idx]++;
         reinterpret_cast<::CriticalSectionOwner *>(this)->FUN_00d04420((::Registry *)(refs));
         CaptureMarker((void*)str_010ccd70);
-        ::FUN_00d043b0((void *)((int)m_iSlotIds[idx]));
+        ::FUN_00d043b0((void *)((intptr_t)m_iSlotIds[idx]));
         CaptureMarker((void*)::DAT_010c41f8);
         return -1;
     }

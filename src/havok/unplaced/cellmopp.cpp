@@ -2,6 +2,7 @@
 // src/havok/unplaced/cellmopp.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/cellmopp.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include "fnv/decl/FUN_00622490.h"
@@ -87,7 +88,7 @@ void FUN_00621e40Class::FUN_00621e40()
 
 struct FUN_00622290_cls
 {
-    int FUN_00622290(int a, int b, int c);
+    intptr_t FUN_00622290(int a, int b, int c);
 };
 
 struct FUN_006222c0_class
@@ -96,10 +97,10 @@ struct FUN_006222c0_class
 };
 // Calls SetPackedValue with the three arguments, then returns this.
 // @fnv 0x00622290
-int FUN_00622290_cls::FUN_00622290(int a, int b, int c)
+intptr_t FUN_00622290_cls::FUN_00622290(int a, int b, int c)
 {
     reinterpret_cast<::FUN_006222c0_class *>(this)->SetPackedValue(a, b, c);
-    return (int)this;
+    return (intptr_t)this;
 }
 
 // @fnv 0x006222c0
@@ -418,7 +419,7 @@ class C621EF0Object
     virtual void VFunc088();
     virtual void VFunc08C();
     virtual void VFunc090();
-    virtual unsigned int GetFormID();
+    virtual uintptr_t GetFormID();
 };
 
 class C621EF0Pointer
@@ -440,7 +441,7 @@ class C621EF0Owner
     int unk04;
     C621EF0Array m_kThirdFollowingStreamField;
 
-    int LookupFirstFormID();
+    intptr_t LookupFirstFormID();
 };
 // @fnv 0x00621e60
 void FUN_00621e60::Clear()
@@ -457,7 +458,7 @@ void CellMopp_00621e80::FUN_00621e80()
     {
         for (unsigned int i = 0; i < ((int)(::FUN_009938b0((const unsigned short *)(void *)((char*)this + 8)))); ++i)
         {
-            unsigned int p = *(Flt*)((Arr*)((char*)this + 8))->GetAt(i);
+            uintptr_t p = *(Flt*)((Arr*)((char*)this + 8))->GetAt(i);
             if (p)
                 ((This5380d0*)pArray)->FUN_005380d0((::Param5380d0 *)(p));
         }
@@ -465,10 +466,10 @@ void CellMopp_00621e80::FUN_00621e80()
 }
 
 // @fnv 0x00621ef0
-int C621EF0Owner::LookupFirstFormID()
+intptr_t C621EF0Owner::LookupFirstFormID()
 {
     if (::FUN_009938b0((const unsigned short *)&(m_kThirdFollowingStreamField)) && ((::C621EF0Object *)(::FUN_00559450((int *)&(m_kThirdFollowingStreamField.GetAt(0))))))
-        return ((int)(::FUN_00621480((::HighProcess *)(((::C621EF0Object *)(::FUN_00559450((int *)&(m_kThirdFollowingStreamField.GetAt(0)))))->GetFormID()))));
+        return ((intptr_t)(::FUN_00621480((::HighProcess *)(((::C621EF0Object *)(::FUN_00559450((int *)&(m_kThirdFollowingStreamField.GetAt(0)))))->GetFormID()))));
     else
         return 0;
 }
@@ -532,7 +533,7 @@ bool FUN_00622590_Owner::PlaceGridObjects(FUN_0056d2c0_Class* p1, const NiPoint3
                 NiPoint3 kPos = *pPos;
                 kPos.x += _offsetX;
                 kPos.y += offsetY2;
-                reinterpret_cast<::FUN_005610f0_cls *>((pObj4))->FUN_005610f0((int)(&kPos));
+                reinterpret_cast<::FUN_005610f0_cls *>((pObj4))->FUN_005610f0((intptr_t)(&kPos));
                 reinterpret_cast<::S00561150_Object *>((pObj4))->FUN_00561150((const ::S00561150_Source *)(::FUN_00622730_S *)(&kRot));
                 _offsetX += 2048.0;
             }
@@ -610,7 +611,7 @@ struct This
     virtual void v43();
     virtual void v44();
     virtual Result* GetResult(char* output);
-    void FUN_00ca4e50(int first, int second);
+    void FUN_00ca4e50(intptr_t first, intptr_t second);
 };
 struct Resolved
 {
@@ -676,7 +677,7 @@ struct Child
 };
 
 // @fnv 0x00ca4e50
-void This::FUN_00ca4e50(int first, int second)
+void This::FUN_00ca4e50(intptr_t first, intptr_t second)
 {
     char output;
     Result* result = GetResult(&output);
@@ -1323,7 +1324,7 @@ struct QTF
     virtual void f42();
     virtual void f43();
     virtual void f44();
-    virtual int M45(void* p);
+    virtual intptr_t M45(void* p);
     void FUN_00ca4f00(EP* a1);
 };
 
@@ -1333,10 +1334,10 @@ void QTF::FUN_00ca4f00(EP* a1)
     char tmp;
     void* r;
     r = (void*)this->M45(&tmp);
-    int v = ((int)(reinterpret_cast<::NiStream *>((a1))->GetLoadedObject()));
+    intptr_t v = ((intptr_t)(reinterpret_cast<::NiStream *>((a1))->GetLoadedObject()));
     if (v != 0)
         ((int*)r)[1] = ((int*)v)[2];
-    ::FUN_00c84cc0((int *)(this), (unsigned int)(a1));
+    ::FUN_00c84cc0((int *)(this), (uintptr_t)(a1));
 }
 
 struct FUN_00ca4fd0_Value
@@ -2352,7 +2353,7 @@ bool xMgr::FUN_00621f60(xRef** apList, unsigned int auiCount, float afVal)
                     reinterpret_cast<::FUN_006222f0_Class *>(&(CI))->FUN_006222f0(((int)(reinterpret_cast<::FUN_00620b80_shell *>((((void *)(::FUN_00559450((int *)&(SHAPE))))))->GetReferenceFlags())));
                     xPhantom* PHANTOM = new xPhantom(&CI);
                     reinterpret_cast<::S_00c85c10 *>((PHANTOM))->FUN_00c85c10((int *)(REF), (int *)(::xThing *)(&(*reinterpret_cast<::xThing *>(&::g_011f4a20))));
-                    reinterpret_cast<::FUN_006228e0_shell *>(&(m_8))->FUN_006227b0((unsigned int)&(const ::xPtr &)(PHANTOM));
+                    reinterpret_cast<::FUN_006228e0_shell *>(&(m_8))->FUN_006227b0((uintptr_t)&(const ::xPtr &)(PHANTOM));
                 }
             }
         }

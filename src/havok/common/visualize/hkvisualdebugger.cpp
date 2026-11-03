@@ -2,6 +2,7 @@
 // src/havok/common/visualize/hkvisualdebugger.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkvisualdebugger.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include "fnv/decl/FUN_00cd1970.h"
 #include "fnv/decl/Owner_cd0e.h"
@@ -946,7 +947,7 @@ struct hkStringPtrCD1
 {
     const char* cString() const
     {
-        return reinterpret_cast<const char*>(reinterpret_cast<unsigned long>(m_pcText) & ~1);
+        return reinterpret_cast<const char*>(reinterpret_cast<uintptr_t>(m_pcText) & ~1);
     }
     const char* m_pcText;
 };
@@ -1248,7 +1249,7 @@ void hkVisualDebuggerCD1::CaptureSimulationState(const char* pcCaptureFilename) 
                 kClient.m_pProcessHandler->selectProcess(aiAllocationTag);
             }
         }
-        reinterpret_cast<::FUN_00d61df0_cls *>((void *)&(const ::hkStringBufCD1 &)(kViewerNames))->FUN_00d61df0((int)("]"));
+        reinterpret_cast<::FUN_00d61df0_cls *>((void *)&(const ::hkStringBufCD1 &)(kViewerNames))->FUN_00d61df0((intptr_t)("]"));
         {
             unsigned int reportBuf[128];
             hkOstreamCD1 ostr(reportBuf, sizeof(reportBuf));
@@ -1645,18 +1646,18 @@ struct FUN_00cd1610_cls
     unsigned int unk4c;
     DefaultProcessSlot* m_processes;
     int m_uiItemCount;
-    void FUN_00cd1610(unsigned int wanted);
+    void FUN_00cd1610(uintptr_t wanted);
 };
 // Removes the process slot matching wanted from m_processes, or logs an error via DAT_01268360 if it is not found.
 // @fnv 0x00cd1610
-void FUN_00cd1610_cls::FUN_00cd1610(unsigned int wanted)
+void FUN_00cd1610_cls::FUN_00cd1610(uintptr_t wanted)
 {
     for (int i = 0; i < m_uiItemCount; ++i)
     {
-        unsigned int current = m_processes[i].taggedPtr;
+        uintptr_t current = m_processes[i].taggedPtr;
         if (::fnv_00cb0fa0::FUN_00cb0fa0((const char *)(current & ~1u), (const char *)(wanted)) == 0)
         {
-            ::FUN_00cb0c00((int)&(m_processes[i]));
+            ::FUN_00cb0c00((intptr_t)&(m_processes[i]));
             --m_uiItemCount;
             if (m_uiItemCount != i)
             {

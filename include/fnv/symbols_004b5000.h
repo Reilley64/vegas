@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class BSXFlags;
 class NiAVObject;
@@ -38,11 +39,11 @@ unsigned int FindAcceptedForm(::FNVNode *);
 // 0x004b5710
 ::BSShaderPPLightingProperty *FindPPLightingProperty(::NiNode *);
 // 0x004b5820
-unsigned int FUN_004b5820(::FormLike *);
+uintptr_t FUN_004b5820(::FormLike *);
 // 0x004b5950
 void *FUN_004b5950(const void *);
 // 0x004b5980
-int FUN_004b5980(int);
+int FUN_004b5980(intptr_t);
 // 0x004b59c0
 const void *FUN_004b59c0(const char *);
 // 0x004b59d0

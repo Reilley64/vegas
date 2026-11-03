@@ -18,6 +18,7 @@
 // to EAX; the parameter order (out, self, count) is what makes the call site
 // materialise EDX before ESI.
 
+#include <cstdint>
 #include "fnv_simd.h"
 #include <cmath>
 #include "fnv/symbols_01012000.h"
@@ -1488,7 +1489,7 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
     else
         decoded48 = 0;
     bool flag = false;
-    int iIndex = 0;
+    intptr_t iIndex = 0;
     if (decoded48)
     {
         BoundingVolumeNode* found = 0;
@@ -1661,7 +1662,7 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
     }
 end:
     if ((sub.flags & 1) && flag)
-        reinterpret_cast<::FUN_00c6c720_class *>(&(sub))->AccumulateValue((int)((void*)iIndex), scalar(_mm_shuffle_ps(_mm_load_ps(a->v), _mm_load_ps(a->v), 170)));
+        reinterpret_cast<::FUN_00c6c720_class *>(&(sub))->AccumulateValue((intptr_t)((void*)iIndex), scalar(_mm_shuffle_ps(_mm_load_ps(a->v), _mm_load_ps(a->v), 170)));
     return flag;
 }
 struct hkBool_c7f5

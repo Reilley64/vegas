@@ -2,6 +2,7 @@
 // src/havok/common/base/math/matrix/hkrotation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkrotation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/Shell_c8da40.h"
 #include "fnv/symbols_010c7000.h"
 #include "fnv/symbols_01268000.h"
@@ -236,7 +237,7 @@ static __forceinline void convertRotation(RotationRows& output, __m128 quaternio
     __m128 squareX = _mm_mul_ss(quaternion, twice);
     __m128 products = _mm_mul_ps(pairInputs, crossInputs);
     ProductHolder savedProducts(products);
-    __assume((reinterpret_cast<unsigned>(&output) & 15) == 0);
+    __assume((reinterpret_cast<uintptr_t>(&output) & 15) == 0);
     __m128 diagonalStart = _mm_sub_ss((*reinterpret_cast<const ::__m128 *>(&::DAT_010c7180)), squareX);
     __m128 signs = DAT_010c8780;
     __m128 signedProducts = _mm_xor_ps(static_cast<__m128>(savedProducts), DAT_010c8780);

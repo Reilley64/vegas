@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstdint>
 #include "fnv/symbols_0102e000.h"
 struct AudioAllocator
 {
@@ -26,10 +27,10 @@ AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00e02650_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     unsigned short m_uSize;
     unsigned short m_u06;
-    int m_08;
+    intptr_t m_08;
     int m_0c;
     unsigned int m_10;
 
@@ -51,7 +52,7 @@ FUN_00e02650_cls* FUN_00e02650_cls::Destroy(unsigned char acFlags)
     bool bFree = (acFlags & 1) != 0;
     m_08 = 0;
     m_10 = 0x80000000u;
-    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (bFree)
     {
         AudioHolder* pHolder2 = FUN_00c85750();

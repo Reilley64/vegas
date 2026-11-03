@@ -2,6 +2,7 @@
 // src/havok/common/base/math/matrix/hkmatrix3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkmatrix3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include "fnv_simd.h"
 #include <cmath>
@@ -48,7 +49,7 @@ CD4AF0Bool CD4AF0Matrix3::FUN_00cd4af0() const
 }
 
 // @fnv 0x00cd4b50
-int __cdecl FUN_00cd4b50()
+intptr_t __cdecl FUN_00cd4b50()
 {
     return 0x1268370;
 }
@@ -170,7 +171,7 @@ struct FUN_00cd5880_cls
     unsigned int unk00;
     unsigned int unk04;
     void FUN_00cd55b0(unsigned int a1, CdPairOut_cls* out);
-    void FUN_00cd5880(unsigned int a1);
+    void FUN_00cd5880(uintptr_t a1);
 };
 
 struct CdOwner_cls
@@ -180,7 +181,7 @@ struct CdOwner_cls
 };
 
 // @fnv 0x00cd5880
-void FUN_00cd5880_cls::FUN_00cd5880(unsigned int a1)
+void FUN_00cd5880_cls::FUN_00cd5880(uintptr_t a1)
 {
     CdBlob_cls blob;
     ((CdPairOut_cls*)&blob.m_00)->FUN_00cd5610((CdOwner_cls*)this, a1);
@@ -943,7 +944,7 @@ struct FUN_00cd5680_cls
     __m128 m_v1;
     __m128 m_v2;
 
-    void FUN_00cd5680(int arg);
+    void FUN_00cd5680(intptr_t arg);
 };
 // Diagonalizes the matrix via Jacobi rotations, accumulating eigenvectors in vectors and eigenvalues in values, returning 1 on failure.
 // @fnv 0x00cd56c0
@@ -966,9 +967,9 @@ int DiagMat::FUN_00cd56c0(DiagMat& apEigenvectors, DiagVec& apEigenvalues, int a
         FUN_00cd54d0((Matrix34*)&jacobi, (const SrcRec*)&rotation);
         DiagMat transposed(jacobi);
         reinterpret_cast<::S_00cd4b60 *>(&(transposed))->FUN_00cd4b60();
-        reinterpret_cast<::FUN_00cd5680_cls *>(&(current))->FUN_00cd5680((int)&(jacobi));
+        reinterpret_cast<::FUN_00cd5680_cls *>(&(current))->FUN_00cd5680((intptr_t)&(jacobi));
         reinterpret_cast<::MProduct *>(&(current))->FUN_00cd55b0((const ::MProduct &)(transposed), (const ::MProduct &)(current));
-        reinterpret_cast<::FUN_00cd5680_cls *>(&(apEigenvectors))->FUN_00cd5680((int)&(jacobi));
+        reinterpret_cast<::FUN_00cd5680_cls *>(&(apEigenvectors))->FUN_00cd5680((intptr_t)&(jacobi));
         ++iteration;
         norm = current.offnorm();
     }
@@ -996,7 +997,7 @@ struct __declspec(align(16)) FUN_00cd5680_tmp
 
 // Loads three 16-byte blocks from a temporary populated by FUN_00cd55b0 into m_v0, m_v1, and m_v2.
 // @fnv 0x00cd5680
-void FUN_00cd5680_cls::FUN_00cd5680(int arg)
+void FUN_00cd5680_cls::FUN_00cd5680(intptr_t arg)
 {
     FUN_00cd5680_tmp tmp;
     reinterpret_cast<::MProduct *>((((FUN_00cd55b0_cls*)&tmp)))->FUN_00cd55b0((*(const ::MProduct *)(this)), (*(const ::MProduct *)(arg)));

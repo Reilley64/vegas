@@ -2,6 +2,7 @@
 // src/havok/common/base/system/io/iarchive/hkiarchive.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/iarchive/hkiarchive.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_010d7000.h"
@@ -58,11 +59,11 @@ struct FUN_00dd90d0_cls
     int unk00;
     int unk04;
     Inner* m_08;
-    void FUN_00dd90d0(int a);
+    void FUN_00dd90d0(intptr_t a);
 };
 
 // @fnv 0x00dd90d0
-void FUN_00dd90d0_cls::FUN_00dd90d0(int a)
+void FUN_00dd90d0_cls::FUN_00dd90d0(intptr_t a)
 {
     m_08->Tail(a);
 }

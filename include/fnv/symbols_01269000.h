@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class GlobalObjectO2_00d472a0;
 class HkBool;
@@ -98,7 +99,7 @@ extern ::GlobalObjectO2_00d472a0 g_01269a54;
 // 0x01269a84
 extern ::S_00d2b3e0_Mgr *DAT_01269a84;
 // 0x01269b10
-extern int DAT_01269b10;
+extern intptr_t DAT_01269b10;
 // 0x01269b28
 extern ::GlobalObjectO2_00d472a0 g_01269b28;
 // 0x01269b74

@@ -2,6 +2,7 @@
 // src/havok/common/base/memory/allocator/solver/hksolverallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/solver/hksolverallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include <windows.h>
@@ -569,7 +570,7 @@ struct S00d5eb10_BlockArray
 
     void aiRecipeIndex(int index, const S00d5eb10_Block& b)
     {
-        reinterpret_cast<::SearchObject *>(this)->FUN_00d5eda0(0, index, (unsigned int)(&b));
+        reinterpret_cast<::SearchObject *>(this)->FUN_00d5eda0(0, index, (uintptr_t)(&b));
     }
 };
 

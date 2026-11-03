@@ -2,6 +2,7 @@
 // src/havok/common/base/memory/system/freelist/hkfreelistmemorysystem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/system/freelist/hkfreelistmemorysystem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FNVArray.h"
 #include "fnv/decl/FUN_00cbbfe0_This.h"
 #include "fnv/decl/FUN_00cd06a0_class.h"
@@ -378,7 +379,7 @@ Sub0b0c* Owner::FUN_00cd0740(const Pair* apPair, Flags flags)
         int b = apPair->b;
         if (b)
         {
-            int r = svc->s1(b, b);
+            intptr_t r = svc->s1(b, b);
             reinterpret_cast<::hkObjD5E9 *>(&(cnt0b30))->InitStream((char *)(r), {});
         }
     }
@@ -1083,7 +1084,7 @@ struct S_00cd0a60_sub1c
     int unka98;
     __forceinline S_00cd0a60_sub1c(S_00cd0a60_sub8* a1)
     {
-        reinterpret_cast<::FUN_00d60270_cls *>(this)->FUN_00d60270((int)(a1));
+        reinterpret_cast<::FUN_00d60270_cls *>(this)->FUN_00d60270((intptr_t)(a1));
     }
 };
 
@@ -1366,7 +1367,7 @@ struct FUN_00cd0a60
 // @fnv 0x00cd0a60
 FUN_00cd0a60::FUN_00cd0a60() : unk04(0), m1c(&m08)
 {
-    unsigned int r = (unsigned int)&m1c;
+    uintptr_t r = (uintptr_t)&m1c;
     DAT_012686cc = r;
     m0b00.unk08 = r;
 }
@@ -1533,12 +1534,12 @@ void FUN_00cd0830_cls::AcquireSlot(unsigned int* out, unsigned int a2, unsigned 
 
         char* slot = self + iSlotIndex * 0x138 + 0xc6c;
         *(unsigned int*)(slot + 0x128) = a2;
-        unsigned int uiValue = *(unsigned int*)(self + 0xb08);
+        uintptr_t uiValue = *(unsigned int*)(self + 0xb08);
         reinterpret_cast<::FUN_00d2c3a0_class *>((((FUN_00d2c3a0_t*)slot)))->FUN_00d2c3a0((void *)(uiValue), (void *)(8));
 
         uiZero = 0;
         out[3] = uiZero;
-        out[4] = (unsigned int)slot;
+        out[4] = (uintptr_t)slot;
         out[7] = *(unsigned int*)(self + 0xb08);
         out[5] = *(unsigned int*)(self + 4);
         out[6] = uiZero;
@@ -1564,10 +1565,10 @@ void FUN_00cd0830_cls::AcquireSlot(unsigned int* out, unsigned int a2, unsigned 
             out[0] = r;
             out[2] = r + ebp;
             *(unsigned int*)(slot + 0x130) = ebp;
-            *(unsigned int*)(slot + 0x134) = (unsigned int)out;
+            *(unsigned int*)(slot + 0x134) = (uintptr_t)out;
         }
-        out[3] = (unsigned int)slot;
-        out[6] = (unsigned int)(self + 0xb30);
+        out[3] = (uintptr_t)slot;
+        out[6] = (uintptr_t)(self + 0xb30);
     }
 }
 
@@ -1657,12 +1658,12 @@ struct CtorLocal
 
 struct FUN_00cd0b30_cls
 {
-    void FUN_00cd0b30(int a1);
+    void FUN_00cd0b30(intptr_t a1);
 };
 
 // Calls FUN_00cc01c0 twice, collects slot pointers and values, passes the local to FUN_00cbc220, then calls its FUN_00cd0c80 method.
 // @fnv 0x00cd0b30
-void FUN_00cd0b30_cls::FUN_00cd0b30(int apTarget)
+void FUN_00cd0b30_cls::FUN_00cd0b30(intptr_t apTarget)
 {
     char* self = (char*)this;
     reinterpret_cast<::SinkOwner *>((((Target_cc01*)apTarget)))->FUN_00cc01c0(&str_010cade0);

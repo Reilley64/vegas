@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/WorldData.h"
@@ -14,11 +15,11 @@ struct FUN_00d87430_class
     int* m_p;
     int m_kPointB;
     int m_iThirdValue;
-    int GetEntry(int idx);
+    intptr_t GetEntry(int idx);
 };
 
 // @fnv 0x00d87430
-int FUN_00d87430_class::GetEntry(int idx)
+intptr_t FUN_00d87430_class::GetEntry(int idx)
 {
     return m_p[m_iThirdValue + idx + 1];
 }
@@ -28,10 +29,10 @@ struct FUN_00d87440_Class
     void* m_iWordAt00;
     int m_iWordAt04;
     int m_8;
-    int FUN_00d87440(int a);
+    intptr_t FUN_00d87440(int a);
 };
 // @fnv 0x00d87440
-int FUN_00d87440_Class::FUN_00d87440(int aiIndex)
+intptr_t FUN_00d87440_Class::FUN_00d87440(int aiIndex)
 {
     return *(int*)((char*)m_iWordAt00 + aiIndex * 4 + m_8 * 8 + 8);
 }
@@ -80,7 +81,7 @@ char* FUN_00d874b0_class::SetBoolFromThreshold(char* pbOut, int value)
 
 struct FUN_00d87460_class
 {
-    int m_iWordAt00;
+    intptr_t m_iWordAt00;
     int m_iWordAt04;
     int m_8;
     void SetElement(int idx, int val);
@@ -141,8 +142,8 @@ void FUN_00d877d0_class::FreeBuffer()
 
 struct FUN_00d87820_Class
 {
-    int FindStringKey(int);
-    int FUN_00d87820(int a);
+    intptr_t FindStringKey(intptr_t);
+    int FUN_00d87820(intptr_t a);
 };
 
 namespace fnv_00dc8080 {
@@ -216,7 +217,7 @@ static __forceinline int stringHash(const char* str)
 }
 
 // @fnv 0x00d87580
-int FUN_00d87820_Class::FindStringKey(int key)
+intptr_t FUN_00d87820_Class::FindStringKey(intptr_t key)
 {
     const char* str = (const char*)key;
     SlotBitmap* table = (SlotBitmap*)this;
@@ -273,7 +274,7 @@ FUN_00d87790::FUN_00d87790(int a)
 class hkObjectD878
 {
   public:
-    int GetValue(int a, int b);
+    intptr_t GetValue(intptr_t a, int b);
 };
 
 struct hkBoolD876
@@ -322,7 +323,7 @@ class hkStringMapD8765
     int FUN_00d87650(const char* key, int* out);
 };
 // @fnv 0x00d87800
-int hkObjectD878::GetValue(int a, int aiDefault)
+intptr_t hkObjectD878::GetValue(intptr_t a, int aiDefault)
 {
     int iValue = aiDefault;
     reinterpret_cast<::hkStringMapD8765 *>(this)->FUN_00d87650((const char *)(a), &iValue);
@@ -333,7 +334,7 @@ int hkObjectD878::GetValue(int a, int aiDefault)
 // @fnv 0x00d87650
 int hkStringMapD8765::FUN_00d87650(const char* key, int* piOut)
 {
-    int it = reinterpret_cast<::FUN_00d87820_Class *>(this)->FindStringKey((int)(key));
+    intptr_t it = reinterpret_cast<::FUN_00d87820_Class *>(this)->FindStringKey((intptr_t)(key));
     if ((*(::hkBoolD8765 *)(reinterpret_cast<::FUN_00d874b0_class *>(this)->SetBoolFromThreshold((char *)(it), {}))))
     {
         *piOut = reinterpret_cast<::FUN_00d87440_Class *>(this)->FUN_00d87440(it);
@@ -383,7 +384,7 @@ struct S00d876a0_Map
     void FUN_00d876a0(int it);
 };
 // @fnv 0x00d87820
-int FUN_00d87820_Class::FUN_00d87820(int a)
+int FUN_00d87820_Class::FUN_00d87820(intptr_t a)
 {
     int v = FindStringKey(a);
     char r;
@@ -457,13 +458,13 @@ class hkStringMapD874
         return h & 0x7fffffff;
     }
 
-    void FUN_00d874d0(const char* pcKey, int iValue);
+    void FUN_00d874d0(const char* pcKey, intptr_t iValue);
 };
 // Looks up key; if found returns its value, otherwise stores def under key and returns def.
 // @fnv 0x00d87600
 int hkStringMapD876::GetOrSetInt(const char* key, int iDefault)
 {
-    int it = reinterpret_cast<::FUN_00d87820_Class *>(this)->FindStringKey((int)(key));
+    intptr_t it = reinterpret_cast<::FUN_00d87820_Class *>(this)->FindStringKey((intptr_t)(key));
     if ((*(::hkBoolD876 *)(reinterpret_cast<::FUN_00d874b0_class *>(this)->SetBoolFromThreshold((char *)(it), {}))))
         return reinterpret_cast<::FUN_00d87440_Class *>(this)->FUN_00d87440(it);
     reinterpret_cast<::hkStringMapD874 *>(this)->FUN_00d874d0(key, iDefault);
@@ -492,7 +493,7 @@ void FUN_00d874d0_s::FUN_00d87860(int iNewCap)
 
 // Inserts a key-value pair into the hash map, growing the table if the load factor exceeds half capacity.
 // @fnv 0x00d874d0
-void hkStringMapD874::FUN_00d874d0(const char* pcKey, int iValue)
+void hkStringMapD874::FUN_00d874d0(const char* pcKey, intptr_t iValue)
 {
     int uiHash = hash(pcKey);
     if (m_iCapacityFlags * 2 > m_iPairCount)
@@ -514,7 +515,7 @@ void hkStringMapD874::FUN_00d874d0(const char* pcKey, int iValue)
 
 KEY_FOUND:
     m_kPrimitiveElement[i] = uiHash;
-    m_kPrimitiveElement[m_iPairCount + i + 1] = (unsigned long)pcKey;
+    m_kPrimitiveElement[m_iPairCount + i + 1] = (uintptr_t)pcKey;
     m_kPrimitiveElement[2 * m_iPairCount + 2 + i] = iValue;
 }
 
@@ -638,7 +639,7 @@ void NamedObjectsE028::FUN_00e02800(void* pkObject, const char* pcName)
     if (!m_pkPool)
         m_pkPool = new StringMapE028();
     StringMapE028* pkPool = m_pkPool;
-    int iIt = reinterpret_cast<::FUN_00d87820_Class *>((pkPool))->FindStringKey((int)(pcName));
+    int iIt = reinterpret_cast<::FUN_00d87820_Class *>((pkPool))->FindStringKey((intptr_t)(pcName));
     const char* pcPooled;
     if (!pkPool->isValid(iIt))
     {

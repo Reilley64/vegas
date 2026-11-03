@@ -2,6 +2,7 @@
 // src/havok/animation/animation/rig/hkaskeletonutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/rig/hkaskeletonutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include "fnv/decl/FUN_005611c0_t.h"
 #include "fnv/symbols_00c85000.h"
@@ -40,11 +41,11 @@ void FUN_00cdd3f0(struct FUN_00cdd3f0_s* pEntries)
         *(char*)((char*)pEntries->field_0x18 + i * 8 + 4) = 0;
 }
 
-extern "C" void __cdecl FUN_00cddad0(int, int, int*, int, int);
+extern "C" void __cdecl FUN_00cddad0(int, intptr_t, int*, intptr_t, intptr_t);
 
 // Calls FUN_00cddad0 with a, b, the address of DAT_01268700, c and d.
 // @fnv 0x00cddcf0
-void __cdecl CallWithGlobal(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void __cdecl CallWithGlobal(int aiArg1, intptr_t aiArg2, intptr_t aiArg3, intptr_t aiArg4)
 {
     FUN_00cddad0(aiArg1, aiArg2, &DAT_01268700, aiArg3, aiArg4);
 }
@@ -67,7 +68,7 @@ void __cdecl FUN_00ce00f0(float afFirst, float afSecond)
 
 struct S_00cdd390_Entry
 {
-    unsigned int m_uiTaggedItem;
+    uintptr_t m_uiTaggedItem;
     int unk04;
 };
 struct S_00cdd390_Table
@@ -311,7 +312,7 @@ unsigned char* WalkChainUntilLimit(unsigned char* pabResult, ScanRec* rec, short
             if ((short)idx == sLimit)
                 break;
             HolderRec* h = FUN_00c85750();
-            reinterpret_cast<::FUN_00cde940_cls *>((obj))->FUN_00cde940(h->m_10, 0, (int)(&iCurrent));
+            reinterpret_cast<::FUN_00cde940_cls *>((obj))->FUN_00cde940(h->m_10, 0, (intptr_t)(&iCurrent));
             idx = rec->m_0c[(short)idx];
             iCurrent = idx;
         } while ((short)idx > 0);
@@ -319,7 +320,7 @@ unsigned char* WalkChainUntilLimit(unsigned char* pabResult, ScanRec* rec, short
     {
         int out;
         HolderRec* h = FUN_00c85750();
-        reinterpret_cast<::FUN_00cde940_cls *>((obj))->FUN_00cde940(h->m_10, 0, (int)(&out));
+        reinterpret_cast<::FUN_00cde940_cls *>((obj))->FUN_00cde940(h->m_10, 0, (intptr_t)(&out));
     }
     *pabResult = ((short)idx >= 0);
     return pabResult;
@@ -1184,7 +1185,7 @@ struct QsXform
     }
 };
 
-__forceinline void toLocal(int count, const short* parents, const QsXform& root, const QsXform* world,
+__forceinline void toLocal(intptr_t count, const short* parents, const QsXform& root, const QsXform* world,
                            QsXform* localOut)
 {
     for (int i = 0; i < count; i++)
@@ -1199,7 +1200,7 @@ __forceinline void toLocal(int count, const short* parents, const QsXform& root,
 // @fnv 0x00cddd20
 extern "C" void __cdecl FUN_00cddd20(void* aiCount, void* apParents, void* apRoot, void* apWorld, void* apLocalOut)
 {
-    toLocal((int)aiCount, (const short*)apParents, *(const QsXform*)apRoot, (const QsXform*)apWorld,
+    toLocal((intptr_t)aiCount, (const short*)apParents, *(const QsXform*)apRoot, (const QsXform*)apWorld,
             (QsXform*)apLocalOut);
 }
 // ---------------------------------------------------------------------------
@@ -1351,8 +1352,8 @@ class hkQsTransformDAD
 };
 
 // @fnv 0x00cddad0
-extern "C" void __cdecl FUN_00cddad0(int numTransforms, int parentIndicesIn, int* worldFromModelIn, int poseLocalIn,
-                                     int poseModelIn)
+extern "C" void __cdecl FUN_00cddad0(int numTransforms, intptr_t parentIndicesIn, int* worldFromModelIn, intptr_t poseLocalIn,
+                                     intptr_t poseModelIn)
 {
     for (int i = 0; i < numTransforms; i++)
     {

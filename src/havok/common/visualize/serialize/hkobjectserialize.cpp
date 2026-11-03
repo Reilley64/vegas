@@ -2,6 +2,7 @@
 // src/havok/common/visualize/serialize/hkobjectserialize.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/serialize/hkobjectserialize.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/D60590Object.h"
 #include "fnv/decl/E02A80_cls.h"
@@ -687,11 +688,11 @@ extern char DAT_011b7b89;
 
 // Writes an object record to a sink by serializing its fixups and payload via FUN_00e0b850, returning the total bytes written.
 // @fnv 0x00e0bd40
-int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, unsigned int aiIdLow, unsigned int aiIdHigh, int p5,
-                         unsigned int p6, ObjectWriteArrItem* out)
+int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, uintptr_t aiIdLow, unsigned int aiIdHigh, intptr_t p5,
+                         uintptr_t p6, ObjectWriteArrItem* out)
 {
     ObjectWriteX x;
-    reinterpret_cast<::FUN_00e02bb0_cls *>(&(x))->FUN_00e02bb0((int)(p2));
+    reinterpret_cast<::FUN_00e02bb0_cls *>(&(x))->FUN_00e02bb0((intptr_t)(p2));
     ObjectWriteArrByte y;
     y.m_data = 0;
     y.m_iElementCount = 0;
@@ -712,7 +713,7 @@ int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, unsigned int aiIdLow, un
     w.m_a3.m_iElementCount = 0;
     w.m_a3.m_cap = 0x80000000;
     w.m_30 = 0;
-    reinterpret_cast<::E02A80_cls *>(&(x))->FUN_00e02a80((::E02A80Arg *)(::ObjectWriteZ *)(&z), p5, (::E02A80Helper *)(p6), (int)(&w));
+    reinterpret_cast<::E02A80_cls *>(&(x))->FUN_00e02a80((::E02A80Arg *)(::ObjectWriteZ *)(&z), p5, (::E02A80Helper *)(p6), (intptr_t)(&w));
 
     int need = out->m_iElementCount + w.m_a1.m_iElementCount;
     C68E30Allocator& alloc = FUN_00c85750().heap();

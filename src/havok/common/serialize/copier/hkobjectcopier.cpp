@@ -1,5 +1,6 @@
 // havok/common/serialize/copier/hkobjectcopier.cpp: Object, Host (12 functions)
 
+#include <cstdint>
 #include "fnv/decl/Owner.h"
 #include "fnv/decl/TestClass.h"
 #include "fnv/decl/fnv_00e036b0__Host.h"
@@ -196,7 +197,7 @@ static __declspec(noinline) void WriteUIntArray(const unsigned int* data, int co
         return;
     }
     unsigned int* pArena = FNV_e03300_arena();
-    unsigned int base = *pArena;
+    uintptr_t base = *pArena;
     *pArena = base + (((unsigned int)count * 8 + 0x7f) & 0xffffff80u);
     Pair* pPairs = (Pair*)base;
     for (int i = 0; i < count; i++) {
@@ -271,7 +272,7 @@ __declspec(noinline) static void FUN_00e03360(VObj* p, int n)
 }
 
 // @fnv 0x00e03e20
-static int AppendListEntry(Ctx* ctx, List* list, int a, int b)
+static int AppendListEntry(Ctx* ctx, List* list, intptr_t a, int b)
 {
     VObj* value = ((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((ctx))->FUN_00d60800()));
     FUN_00e03360(value, 2);
@@ -310,14 +311,14 @@ struct FUN_00e04920_cls {
     unsigned int unk10;
     unsigned char m_flag14;
     unsigned int FUN_00e036b0(unsigned int a, unsigned int b, Scratch16* scratch, unsigned int c);
-    int FUN_00e04920(unsigned int a1, unsigned int a2, unsigned int a3,
-                     unsigned int a4, unsigned int a5);
+    int FUN_00e04920(uintptr_t a1, uintptr_t a2, uintptr_t a3,
+                     uintptr_t a4, uintptr_t a5);
 };
 
 // Calls FUN_00e036b0 and FUN_00e03ea0 with a scratch object, then returns whether the byte from ForwardValueToObject is zero.
 // @fnv 0x00e04920
-int FUN_00e04920_cls::FUN_00e04920(unsigned int a1, unsigned int a2,
-                                   unsigned int a3, unsigned int a4, unsigned int a5)
+int FUN_00e04920_cls::FUN_00e04920(uintptr_t a1, uintptr_t a2,
+                                   uintptr_t a3, uintptr_t a4, uintptr_t a5)
 {
     Scratch16 scratch;
     VObj* original = reinterpret_cast<VObj*>(a3);
@@ -326,7 +327,7 @@ int FUN_00e04920_cls::FUN_00e04920(unsigned int a1, unsigned int a2,
     FUN_00e03360(original, 16);
     reinterpret_cast<::S00e03ea0_Ser *>(this)->FUN_00e03ea0((char *)(a1), (::S00e03ea0_Schema *)(a2), (::S00e03ea0_Writer *)(::Scratch16 *)(&scratch), (::S00e03ea0_Schema *)(a4), uiIntermediate, (::S00e03ea0_Out *)(a5), 0);
     FUN_00e03360(original, 16);
-    unsigned char* status = ((unsigned char *)(reinterpret_cast<::FUN_00d607e0_class *>(&(scratch))->ForwardValueToObject((int)(&a1))));
+    unsigned char* status = ((unsigned char *)(reinterpret_cast<::FUN_00d607e0_class *>(&(scratch))->ForwardValueToObject((intptr_t)(&a1))));
     unsigned int success = (*status == 0);
     reinterpret_cast<::D60590Object *>(&(scratch))->FUN_00d60590();
     return success;
@@ -515,7 +516,7 @@ struct Item {
     int f00; int f04; int f08;
     unsigned char type; unsigned char f0d; unsigned char f0e; unsigned char f0f;
     unsigned short f10; unsigned short f12;
-    int getName() const { return f00; }
+    intptr_t getName() const { return f00; }
     int FUN_00d86940();
 };
 struct EbpObj {
@@ -644,7 +645,7 @@ static __declspec(noinline) void WriteUIntArray(int count, const unsigned int* d
     }
     {
         unsigned int* arena = FNV_e03300_arena();
-        unsigned int saved = *arena;
+        uintptr_t saved = *arena;
         *arena += (count * 8 + 127) & ~127;
         Pair* output = (Pair*)saved;
         for (int index = 0; index < count; ++index) {
@@ -684,14 +685,14 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                 continue;
             }
             if (fl & 1) {
-                ::FUN_00e03240((::S_00e03240_Holder *)(apDescriptorList), (::S_00e03240_Node *)(pItem), state0.index, (int)state1.ebp);
+                ::FUN_00e03240((::S_00e03240_Holder *)(apDescriptorList), (::S_00e03240_Node *)(pItem), state0.index, (intptr_t)state1.ebp);
                 continue;
             }
         }
         {
             Item* nb = (Item*)((::fnv_00e036b0::StreamObj *)(reinterpret_cast<::FUN_00d46fe0_Class *>((apLookupStream))->FUN_00d46fe0((const int *)(pItem->getName()))));
             if (nb && this->v10(nb, pItem)) {
-            int iSourceOffset = (int)nb->f12 + (int)apSourceStream;
+            intptr_t iSourceOffset = (int)nb->f12 + (intptr_t)apSourceStream;
             switch (pItem->type - 1) {
             case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
             case 8: case 9: case 10: case 11: case 12: case 13: case 14: case 15:
@@ -748,14 +749,14 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                 if (rawCount <= 0) break;
                 count = rawCount;
                 do {
-                    reinterpret_cast<::FUN_00d607b0_class *>((apOutputStream))->FUN_00d607b0((int)(scratch.pair));
+                    reinterpret_cast<::FUN_00d607b0_class *>((apOutputStream))->FUN_00d607b0((intptr_t)(scratch.pair));
                     count--;
                 } while (count != 0);
                 break;
             }
             case 21: case 25: case 26: {
                 StreamObj* pStream = apOutputStream;
-                int ebpInt = iSourceOffset;
+                intptr_t ebpInt = iSourceOffset;
                 if (pItem->type == 0x1b) {
                     scratch.pair2[0] = 0; scratch.pair2[1] = 0;
                     reinterpret_cast<::Archive *>((pStream))->WriteSwapped(scratch.pair2, (int)this->f0c, 1);
@@ -875,7 +876,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
             }
             }
             } else {
-                ::FUN_00e03240((::S_00e03240_Holder *)(apDescriptorList), (::S_00e03240_Node *)(pItem), state0.index, (int)state1.ebp);
+                ::FUN_00e03240((::S_00e03240_Holder *)(apDescriptorList), (::S_00e03240_Node *)(pItem), state0.index, (intptr_t)state1.ebp);
             }
         }
     }
@@ -889,7 +890,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
 
 static int FUN_00e03100(Obj* apObj);
 static void WriteUIntArray(const unsigned int* data, int count, Writer* pWriter, int elemSize);
-static int AppendListEntry(Ctx* ctx, List* list, int a, int b);
+static int AppendListEntry(Ctx* ctx, List* list, intptr_t a, int b);
 static void __cdecl FUN_00e03360(Reader* obj, int n);
 static void FUN_00e03170(unsigned int a, unsigned int b, unsigned int type, Target* obj, void* p);
 
@@ -965,7 +966,7 @@ struct S00e03ea0_Out {
     int unk14;
     S00e03ea0_PairArray m_pairs;
 
-    void AppendPair(int at, int data);
+    void AppendPair(int at, intptr_t data);
 };
 
 struct S00e03ea0_Array {
@@ -1019,16 +1020,16 @@ struct S00e03ea0_Ser {
     unsigned char m_flags;
 
     void FUN_00e03ea0(char* src, S00e03ea0_Schema* srcClass, S00e03ea0_Writer* writer,
-                      S00e03ea0_Schema* dstClass, int dst, S00e03ea0_Out* out, int depth);
+                      S00e03ea0_Schema* dstClass, intptr_t dst, S00e03ea0_Out* out, int depth);
 };
 
-static __forceinline void fixedPointerLoop(S00e03ea0_Ser*& self, char* s, S00e03ea0_Member* member, S00e03ea0_Writer* writer, int dst, S00e03ea0_Out* out, int count, int stride, int& j) {
+static __forceinline void fixedPointerLoop(S00e03ea0_Ser*& self, char* s, S00e03ea0_Member* member, S00e03ea0_Writer* writer, intptr_t dst, S00e03ea0_Out* out, int count, int stride, int& j) {
             for (; j < count; j++) {
                 void* p = *(void**)s;
                 if (p) {
                     int off = self->m_dstPtrSize * j + member->getOffset();
                     if (member->m_subType == 2)
-                        AppendListEntry((Ctx*)writer, (List*)out, (int)p, (int)(dst + off));
+                        AppendListEntry((Ctx*)writer, (List*)out, (intptr_t)p, (int)(dst + off));
                     else
                         reinterpret_cast<::E04A00Registry *>((out))->AddEntry((void *)(dst + off), p, ((::S00e03ea0_Schema *)(reinterpret_cast<::Struct_d86920 *>((member))->FUN_00d86920())), (void *)(0));
                 }
@@ -1037,7 +1038,7 @@ static __forceinline void fixedPointerLoop(S00e03ea0_Ser*& self, char* s, S00e03
 }
 // @fnv 0x00e03ea0
 void S00e03ea0_Ser::FUN_00e03ea0(char* src, S00e03ea0_Schema* srcClass, S00e03ea0_Writer* writer,
-                                 S00e03ea0_Schema* dstClass, int dst, S00e03ea0_Out* out, int depth)
+                                 S00e03ea0_Schema* dstClass, intptr_t dst, S00e03ea0_Out* out, int depth)
 {
     S00e03ea0_Ser* self = this;
     S00e03ea0_Locals sc;
@@ -1069,7 +1070,7 @@ void S00e03ea0_Ser::FUN_00e03ea0(char* src, S00e03ea0_Schema* srcClass, S00e03ea
         case 0x1d: {
             void* p = *(void**)s;
             if (p)
-                AppendListEntry((Ctx*)writer, (List*)out, (int)p, (int)(dst + member->getOffset()));
+                AppendListEntry((Ctx*)writer, (List*)out, (intptr_t)p, (int)(dst + member->getOffset()));
             break;
         }
         case 0x21: {
@@ -1093,7 +1094,7 @@ void S00e03ea0_Ser::FUN_00e03ea0(char* src, S00e03ea0_Schema* srcClass, S00e03ea
             if (sub == 0)
                 break;
             if (sub == 0x14) {
-                out->AppendPair(dst + member->getOffset(), (int)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20());
+                out->AppendPair(dst + member->getOffset(), (intptr_t)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20());
                 S00e03ea0_Scr2& scratch = sc.s14;
                 scratch.a = 0;
                 scratch.b = 0;
@@ -1103,34 +1104,34 @@ void S00e03ea0_Ser::FUN_00e03ea0(char* src, S00e03ea0_Schema* srcClass, S00e03ea
                     void* volatile p = condition;
                     if (condition) {
                         VObj* r = ((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()));
-                        reinterpret_cast<::E04A00Registry *>((out))->AddEntry((void *)((int)r->v20()), p, ((::S00e03ea0_Schema *)(reinterpret_cast<::Struct_d86920 *>((type))->FUN_00d86920())), (void *)(0));
+                        reinterpret_cast<::E04A00Registry *>((out))->AddEntry((void *)((intptr_t)r->v20()), p, ((::S00e03ea0_Schema *)(reinterpret_cast<::Struct_d86920 *>((type))->FUN_00d86920())), (void *)(0));
                     }
-                    reinterpret_cast<::FUN_00d607b0_class *>((writer))->FUN_00d607b0((int)(&scratch));
+                    reinterpret_cast<::FUN_00d607b0_class *>((writer))->FUN_00d607b0((intptr_t)(&scratch));
                     off += stride;
                 } while (++j < arr->m_iElementCount); }
             } else if (sub == 0x1d) {
-                out->AppendPair(dst + member->getOffset(), (int)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20());
+                out->AppendPair(dst + member->getOffset(), (intptr_t)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20());
                 S00e03ea0_Scr2& scratch = sc.s1d;
                 scratch.a = 0;
                 scratch.b = 0;
-                int d = (int)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20();
+                intptr_t d = (intptr_t)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20();
                 if (arr->m_iElementCount > 0) {
                     S00e03ea0_Ser* loopSelf = self;
-                    int j = 0; do { reinterpret_cast<::FUN_00d607b0_class *>((writer))->FUN_00d607b0((int)(&scratch)); } while (++j < arr->m_iElementCount);
+                    int j = 0; do { reinterpret_cast<::FUN_00d607b0_class *>((writer))->FUN_00d607b0((intptr_t)(&scratch)); } while (++j < arr->m_iElementCount);
                 }
                 for (int j = 0; j < arr->m_iElementCount; j++) {
                     void** e = (void**)arr->m_data + j;
-                    if (*e) { _ReadWriteBarrier(); AppendListEntry((Ctx*)writer, (List*)out, (int)*e, d + self->m_dstPtrSize * j); }
+                    if (*e) { _ReadWriteBarrier(); AppendListEntry((Ctx*)writer, (List*)out, (intptr_t)*e, d + self->m_dstPtrSize * j); }
                 }
             } else if (sub == 0x21) {
-                out->AppendPair(dst + member->getOffset(), (int)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20());
+                out->AppendPair(dst + member->getOffset(), (intptr_t)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20());
                 S00e03ea0_Scr2& scratch = sc.s21;
                 scratch.a = 0;
                 scratch.b = 0;
-                int d = (int)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20();
+                intptr_t d = (intptr_t)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20();
                 if (arr->m_iElementCount > 0) {
                     S00e03ea0_Ser* loopSelf = self;
-                    int j = 0; do { reinterpret_cast<::FUN_00d607b0_class *>((writer))->FUN_00d607b0((int)(&scratch)); } while (++j < arr->m_iElementCount);
+                    int j = 0; do { reinterpret_cast<::FUN_00d607b0_class *>((writer))->FUN_00d607b0((intptr_t)(&scratch)); } while (++j < arr->m_iElementCount);
                 }
                 for (int j = 0; j < arr->m_iElementCount; j++) {
                     unsigned int e = ((unsigned int*)arr->m_data)[j];
@@ -1138,7 +1139,7 @@ void S00e03ea0_Ser::FUN_00e03ea0(char* src, S00e03ea0_Schema* srcClass, S00e03ea
                         AppendListEntry((Ctx*)writer, (List*)out, (int)(e & ~1u), (int)(d + self->m_dstPtrSize * j));
                 }
             } else if (sub == 0x19) {
-                int d = (int)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20();
+                intptr_t d = (intptr_t)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20();
                 out->AppendPair(dst + member->getOffset(), d);
                 S00e03ea0_Schema* sc = ((::S00e03ea0_Schema *)(reinterpret_cast<::Struct_d86920 *>((type))->FUN_00d86920()));
                 S00e03ea0_Schema* dc = ((::S00e03ea0_Schema *)(reinterpret_cast<::Struct_d86920 *>((member))->FUN_00d86920()));
@@ -1151,7 +1152,7 @@ void S00e03ea0_Ser::FUN_00e03ea0(char* src, S00e03ea0_Schema* srcClass, S00e03ea
                                      d + reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((dc))->FUN_00d470d0() * j, out, depth);
                 }
             } else if (sub == 0x1c) {
-                int d = (int)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20();
+                intptr_t d = (intptr_t)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20();
                 out->AppendPair(dst + member->getOffset(), d);
                 S00e03ea0_Scr4& scratch = sc.s1c;
                 for (int j = 0; j < arr->m_iElementCount; j++) {
@@ -1172,7 +1173,7 @@ void S00e03ea0_Ser::FUN_00e03ea0(char* src, S00e03ea0_Schema* srcClass, S00e03ea
             } else {
                 VObj* stream = ((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()));
                 int off = member->getOffset();
-                out->AppendPair(dst + off, (int)stream->v20());
+                out->AppendPair(dst + off, (intptr_t)stream->v20());
                 if (member->m_subType == 0x1e) {
                     const unsigned int* rawData = (const unsigned int*)arr->m_data;
                     int rawCount = arr->m_iElementCount;
@@ -1192,7 +1193,7 @@ void S00e03ea0_Ser::FUN_00e03ea0(char* src, S00e03ea0_Schema* srcClass, S00e03ea
             if (!c)
                 break;
             reinterpret_cast<::E04A00Registry *>((out))->AddEntry((void *)(dst + member->getOffset()), c, &(*reinterpret_cast<int *>(&::g_0126cae8)), (void *)(1));
-            int d = (int)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20();
+            intptr_t d = (intptr_t)((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((writer))->FUN_00d60800()))->v20();
             out->AppendPair(dst + self->m_dstPtrSize + member->getOffset(), d);
             char* data = arr->m_data;
             for (int j = 0; j < arr->m_iElementCount; j++)
@@ -1311,7 +1312,7 @@ void ZeroCopier::FUN_00e03460(ZeroArchive& archive, const ZeroMember& member)
         bytes += 4;
         if (member.type() == 22) {
             char header[12] = {0};
-            reinterpret_cast<::FUN_00d607b0_class *>(&(archive))->FUN_00d607b0((int)(header));
+            reinterpret_cast<::FUN_00d607b0_class *>(&(archive))->FUN_00d607b0((intptr_t)(header));
             ::FUN_00d60960((const float *)&(archive));
             return;
         }
@@ -1337,7 +1338,7 @@ void ZeroCopier::FUN_00e03460(ZeroArchive& archive, const ZeroMember& member)
     }
     LocalCharArray zero(bytes);
     zero.SetSizeAndGrow(bytes);
-    reinterpret_cast<::FUN_00d607b0_class *>(&(archive))->FUN_00d607b0((int)(zero.m_data));
+    reinterpret_cast<::FUN_00d607b0_class *>(&(archive))->FUN_00d607b0((intptr_t)(zero.m_data));
     zero.destroyLocal();
 }
 

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct SearchObject {
 public:
@@ -9,11 +10,11 @@ public:
     // 0x00cde920
     int FUN_00cde920(unsigned int, unsigned int, unsigned int, unsigned int);
     // 0x00d5a4c0
-    int FUN_00d5a4c0(unsigned int, unsigned int, unsigned int, unsigned int);
+    int FUN_00d5a4c0(uintptr_t, unsigned int, uintptr_t, unsigned int);
     // 0x00d5ed80
     int Search_00d5ed80(unsigned int, unsigned int, unsigned int, unsigned int);
     // 0x00d5eda0
-    int FUN_00d5eda0(unsigned int, unsigned int, unsigned int);
+    int FUN_00d5eda0(unsigned int, unsigned int, uintptr_t);
     // 0x00dba320
     int FUN_00dba320(unsigned int, unsigned int, unsigned int, unsigned int);
     // 0x00e5c420

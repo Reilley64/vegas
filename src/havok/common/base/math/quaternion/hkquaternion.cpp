@@ -7,6 +7,7 @@
    for compilation. Do not write or repeat packet-declarations, nor any headers that might
    be present in the checker's context. */
 
+#include <cstdint>
 #include "fnv_simd.h"
 #include "fnv/symbols_00c74000.h"
 #include "fnv/symbols_01011000.h"
@@ -121,7 +122,7 @@ void FUN_00cf5950_cls::CopyBlock(Block64* src)
     dst->v1 = src->v1;
     dst->v2 = src->v2;
     dst->v3 = src->v3;
-    reinterpret_cast<::FUN_00827200_class *>(&(m_sub))->FUN_00cb26e0((int)(dst));
+    reinterpret_cast<::FUN_00827200_class *>(&(m_sub))->FUN_00cb26e0((intptr_t)(dst));
 }
 
 struct S00cb2550_V4

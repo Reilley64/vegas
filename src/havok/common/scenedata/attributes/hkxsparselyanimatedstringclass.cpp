@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/attributes/hkxsparselyanimatedstringclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxsparselyanimatedstringclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/symbols_00cb0000.h"
 struct S_00e01900_Allocator
 {
@@ -31,7 +32,7 @@ struct S_00e01900_Ref
     void* m_ptr;
     ~S_00e01900_Ref() throw()
     {
-        ::FUN_00cb0c00((int)this);
+        ::FUN_00cb0c00((intptr_t)this);
     }
 };
 

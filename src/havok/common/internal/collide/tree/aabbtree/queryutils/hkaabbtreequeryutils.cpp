@@ -2,6 +2,7 @@
 // src/havok/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/symbols_00d1b000.h"
@@ -102,7 +103,7 @@ bool S_00d1bcb0::FUN_00d1bcb0(int iFirst, int iSecond)
 
 // Returns 0 if arg0 is null, otherwise forwards arg0, arg1 and arg2 to FUN_00d1c560 with the remaining arguments zeroed.
 // @fnv 0x00d1d4a0
-int __cdecl CallWithDefaults(void* arg0, int arg1, int arg2)
+int __cdecl CallWithDefaults(void* arg0, intptr_t arg1, intptr_t arg2)
 {
     if (!arg0)
         return 0;
@@ -116,13 +117,13 @@ int __cdecl FUN_00d1d4d0(void* a, void* apArg2, void* apArg5, void* apArg6)
 {
     if (!a)
         return 0;
-    return ::FUN_00d1c560((const ::QueryTree16 *)(a), (*(const ::QueryAabb *)(apArg2)), (::AabbCollector *)(0), (::VoidArray *)(0), (void ***)(apArg5), (int)(apArg6));
+    return ::FUN_00d1c560((const ::QueryTree16 *)(a), (*(const ::QueryAabb *)(apArg2)), (::AabbCollector *)(0), (::VoidArray *)(0), (void ***)(apArg5), (intptr_t)(apArg6));
 }
 
 
 // If arg0 is non-null, forwards it with arg1 and arg2 plus three zero arguments to FUN_00d1c560 and returns its result; otherwise returns 0.
 // @fnv 0x00d1d500
-int __cdecl FUN_00d1d500(void* arg0, int arg1, int arg2)
+int __cdecl FUN_00d1d500(void* arg0, intptr_t arg1, intptr_t arg2)
 {
     if (!arg0)
         return 0;
@@ -132,18 +133,18 @@ int __cdecl FUN_00d1d500(void* arg0, int arg1, int arg2)
 
 // If p is non-null, forwards it to FUN_00d1ce50 with zeroed middle arguments and returns the result; otherwise returns 0.
 // @fnv 0x00d1d540
-extern "C" void* __cdecl FUN_00d1d540(void* p, int aiArg1, int aiArg4, int aiArg5)
+extern "C" void* __cdecl FUN_00d1d540(void* p, intptr_t aiArg1, intptr_t aiArg4, int aiArg5)
 {
     if (!p)
         return 0;
     return ((void *)(::FUN_00d1ce50((::TreeD1C *)(p), (*(const ::hkAabbD1C *)(aiArg1)), (::CollectorD1C *)(0), (::hkArrayIntD1C *)(0), (int **)(aiArg4), aiArg5)));
 }
 
-extern "C" void* __cdecl FUN_00d1d240(void* p, int a, int b, int c, int d, int e);
+extern "C" void* __cdecl FUN_00d1d240(void* p, intptr_t a, intptr_t b, intptr_t c, intptr_t d, int e);
 
 // If p is non-null, forwards it to FUN_00d1d240 with a, b and three zero arguments; otherwise returns p unchanged.
 // @fnv 0x00d1d570
-extern "C" void* __cdecl FUN_00d1d570(void* p, int aiArg1, int aiArg2)
+extern "C" void* __cdecl FUN_00d1d570(void* p, intptr_t aiArg1, intptr_t aiArg2)
 {
     if (!p)
         return p;
@@ -226,14 +227,14 @@ struct DIntArray
 
 // Traverses the tree, reporting overlapping leaves to a visitor or storing their child-atom values in an output array.
 // @fnv 0x00d1d240
-extern "C" void* __cdecl FUN_00d1d240(void* apOwner, int apQueryBox, int apVisitor, int apIntArray, int apOutArray,
+extern "C" void* __cdecl FUN_00d1d240(void* apOwner, intptr_t apQueryBox, intptr_t apVisitor, intptr_t apIntArray, intptr_t apOutArray,
                                       int aiMaxCount)
 {
     DOwner* owner = (DOwner*)apOwner;
     DNode* node = owner->m_pTreeNode;
     if (!node)
         return 0;
-    int count = 0;
+    intptr_t count = 0;
     __m128 lo;
     __m128 hi;
     if (apVisitor)
@@ -581,8 +582,8 @@ struct Inner
 struct Frame
 {
     DWORD unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
-    int m_20;
-    int m_24;
+    intptr_t m_20;
+    intptr_t m_24;
     int m_28;
     Inner* m_2C;
     int m_30;
@@ -615,13 +616,13 @@ void __cdecl ProcessAabbTree(Target* apTarget, Frame* apFrame)
         int k = n;
         do
         {
-            int iCount = in->m_20;
+            intptr_t iCount = in->m_20;
             int initial = in->m_24;
             in->m_28 = 0;
             *rem = initial;
             if (pFrame->m_20)
             {
-                int r = ((int)(::FUN_00d1d540((void *)(pFrame->m_20), (int)(in), (int)(rem), iCount)));
+                intptr_t r = ((intptr_t)(::FUN_00d1d540((void *)(pFrame->m_20), (intptr_t)(in), (intptr_t)(rem), iCount)));
                 in->m_28 += r;
                 iCount -= r;
             }
@@ -649,7 +650,7 @@ void __cdecl ProcessAabbTree(Target* apTarget, Frame* apFrame)
         pProfRec->m_iTick = dwTick2;
         pProfBuf->m_pCur = pProfRec + 1;
     }
-    reinterpret_cast<::LunaOwner *>((apTarget))->ProcessCallback((int)(pFrame), (int)(pFrame), 0);
+    reinterpret_cast<::LunaOwner *>((apTarget))->ProcessCallback((intptr_t)(pFrame), (intptr_t)(pFrame), 0);
 }
 
 
@@ -1600,7 +1601,7 @@ struct VoidArray
 // Traverses a QueryTree16, tests node bounds against the query AABB, and reports overlapping leaf hits through a collector, iterator, or array.
 // @fnv 0x00d1c560
 int __cdecl FUN_00d1c560(const QueryTree16* tree, const QueryAabb& apQueryAabb, AabbCollector* collector,
-                         VoidArray* hitArray, void*** appHitIter, int hitCapacity)
+                         VoidArray* hitArray, void*** appHitIter, intptr_t hitCapacity)
 {
     const QueryNode* rootNode = tree->getRootNode();
     const QueryNode* node = treeGetNode(rootNode);
@@ -2091,7 +2092,7 @@ void __cdecl FUN_00e2bbd0(const FilterRays_Tree* tree, const FilterRays_Node* no
             FilterRays_filterSetAll(earlyOut, 1.0f);
             if (aabb.overlaps(rays[idx], earlyOut))
             {
-                ::FUN_00e2baa0((::E2baaDst *)(collector), (::E2baaSrc *)(commandArray + idx), (int)(filter));
+                ::FUN_00e2baa0((::E2baaDst *)(collector), (::E2baaSrc *)(commandArray + idx), (intptr_t)(filter));
                 collector->GetHitDistance(node);
             }
         }
@@ -2140,7 +2141,7 @@ void __cdecl FUN_00e2bbd0(const FilterRays_Tree* tree, const FilterRays_Node* no
             {
                 rayIdx[j] = raysIdx[j + b * 4];
                 const RayCastRequest* command = commandArray + rayIdx[j];
-                ::FUN_00e2baa0((::E2baaDst *)(::hkCpuWorldRayCastCollector *)(&collectors[j]), (::E2baaSrc *)(command), (int)(filter));
+                ::FUN_00e2baa0((::E2baaDst *)(::hkCpuWorldRayCastCollector *)(&collectors[j]), (::E2baaSrc *)(command), (intptr_t)(filter));
                 FilterRays_filterSetAll(collectors[j].m_fEarlyOutHitFraction, earlyHitFractionArray[rayIdx[j]]);
                 fractions[j] = earlyHitFractionArray[rayIdx[j]];
                 if (command->m_useFilterCollector)
@@ -2487,7 +2488,7 @@ __forceinline int TreeD1C::queryAll(const hkAabbD1C& kAabb, CollectorD1C* pkColl
 }
 
 // @fnv 0x00d1ce50
-int __cdecl FUN_00d1ce50(TreeD1C* pkTree, const hkAabbD1C& kAabb, CollectorD1C* pkCollector, hkArrayIntD1C* pkHits,
+intptr_t __cdecl FUN_00d1ce50(TreeD1C* pkTree, const hkAabbD1C& kAabb, CollectorD1C* pkCollector, hkArrayIntD1C* pkHits,
                          int** ppiOut, int iMaxOut)
 {
     if (!pkTree->m_pTreeNode)

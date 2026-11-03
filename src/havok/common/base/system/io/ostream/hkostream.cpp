@@ -2,6 +2,7 @@
 // src/havok/common/base/system/io/ostream/hkostream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/ostream/hkostream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include <cstddef>
 #include "fnv/symbols_00c85000.h"
@@ -165,9 +166,9 @@ int* __cdecl FUN_00cc04c0()
 
 
 // @fnv 0x00cc0770
-int __cdecl FUN_00cc0770()
+intptr_t __cdecl FUN_00cc0770()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_01268ad8)));
+    return reinterpret_cast<intptr_t>(&(*reinterpret_cast<int *>(&::g_01268ad8)));
 }
 
 // @fnv 0x00e3b490
@@ -810,7 +811,7 @@ static __declspec(noinline) void FUN_00cc0080(hkWriter0080* out, const char* str
 {
     if (str)
     {
-        out->write(str, ::fnv_00cb10d0::FUN_00cb10d0((const char *)((int)str)));
+        out->write(str, ::fnv_00cb10d0::FUN_00cb10d0((const char *)((intptr_t)str)));
     }
     else
     {
@@ -824,7 +825,7 @@ void __cdecl FUN_00cc0410(hkOstream* self, const char* fmt, ...)
     char buf[0x2728];
     va_list ap;
     va_start(ap, fmt);
-    ::FUN_00cb0f50((int)(buf), 0x2728, (int)(fmt), (int)(ap));
+    ::FUN_00cb0f50((intptr_t)(buf), 0x2728, (intptr_t)(fmt), (intptr_t)(ap));
     va_end(ap);
     FUN_00cc0080((hkWriter0080*)self->m_pStreamWriter, buf);
 }

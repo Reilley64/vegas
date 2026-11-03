@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00cbc440
+#include <cstdint>
 #include "fnv/decl/FUN_00537e90.h"
 #include "fnv/symbols_00cbb000.h"
 #include "fnv/decl/Target.h"
@@ -15,7 +16,7 @@ int FUN_00cbc440(int a, int b)
 
 
 // @fnv 0x00cbbfc0
-int FUN_00cbbfc0()
+intptr_t FUN_00cbbfc0()
 {
     return (*reinterpret_cast<int *>(&::DAT_01268418));
 }
@@ -31,14 +32,14 @@ extern int DAT_010c8efc;
 
 struct FUN_00cbbfe0_This
 {
-    int unk00;
+    intptr_t unk00;
     void FUN_00cbbfe0();
 };
 
 // @fnv 0x00cbbfe0
 void FUN_00cbbfe0_This::FUN_00cbbfe0()
 {
-    this->unk00 = reinterpret_cast<int>(&DAT_010c8efc);
+    this->unk00 = reinterpret_cast<intptr_t>(&DAT_010c8efc);
 }
 
 // FUN_00cbc450 - 10 bytes
@@ -112,7 +113,7 @@ struct S00cbc000_Stats
 
 // Formats values derived from S00cbc000_Stats and limit through FUN_00cc0410.
 // @fnv 0x00cbc000
-static __declspec(noinline) void FUN_00cbc000(S00cbc000_Stats* apStats, unsigned int limit, int handle,
+static __declspec(noinline) void FUN_00cbc000(S00cbc000_Stats* apStats, unsigned int limit, intptr_t handle,
                                               const char* name)
 {
     unsigned int total = S00cbc000_max(apStats->unk00, apStats->unk04);
@@ -344,10 +345,10 @@ struct QuantitySet
     Quantity m_kPointA;
     Quantity m_kPointB;
     Quantity m_iThirdValue;
-    void FUN_008c70c0(unsigned int q, int v);
+    void FUN_008c70c0(uintptr_t q, int v);
 };
 // @fnv 0x008c70c0
-void QuantitySet::FUN_008c70c0(unsigned int q, int v)
+void QuantitySet::FUN_008c70c0(uintptr_t q, int v)
 {
     reinterpret_cast<::FUN_00537e90 *>(&(m_kPointB))->SetQuantity(q);
     reinterpret_cast<::FUN_00537e90 *>(&(m_kPointA))->SetQuantity(q);

@@ -2,6 +2,7 @@
 // src/havok/unplaced/focollisionlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/focollisionlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/C00624070.h"
@@ -54,7 +55,7 @@ struct FUN_006234f0_class
 // @fnv 0x006234d0
 FUN_006234d0::~FUN_006234d0()
 {
-    *(int*)this = (int)&DAT_0104dd5c;
+    *(int*)this = (intptr_t)&DAT_0104dd5c;
     reinterpret_cast<::FUN_006234f0_class *>(this)->FUN_006234f0();
 }
 
@@ -67,14 +68,14 @@ void FUN_006234f0_class::FUN_006234f0()
 
 struct FUN_00623570_class
 {
-    int FUN_00623570();
+    intptr_t FUN_00623570();
 };
 
 // @fnv 0x00623570
-int FUN_00623570_class::FUN_00623570()
+intptr_t FUN_00623570_class::FUN_00623570()
 {
     *reinterpret_cast<int**>(this) = &(*reinterpret_cast<int *>(&::DAT_0104dd7c));
-    return reinterpret_cast<int>(this);
+    return reinterpret_cast<intptr_t>(this);
 }
 
 struct FUN_00623590_class
@@ -527,12 +528,12 @@ struct S_006240f0_Char : S_006240f0_Actor
 };
 struct S_006240f0
 {
-    void ApplyToCharacter(S_006240f0_Form* form, int arg);
+    void ApplyToCharacter(S_006240f0_Form* form, intptr_t arg);
 };
 
 // If form is an actor of kind 3, casts it to a character and calls HandleContactHit with arg.
 // @fnv 0x006240f0
-void S_006240f0::ApplyToCharacter(S_006240f0_Form* form, int arg)
+void S_006240f0::ApplyToCharacter(S_006240f0_Form* form, intptr_t arg)
 {
     if (form && form->IsActor())
     {
@@ -901,8 +902,8 @@ void Owner_623cb0::ProcessHit(Rec_623cb0* apHitRecord)
         {
             Key_623cb0 key1;
             Key_623cb0 key8;
-            new ((void *)&(key1)) ::GlobalObject_008c71b0((int)(((void *)(::FUN_0043b540((char *)(((Gen_623cb0*)keyTmp)))))));
-            new ((void *)&(key8)) ::GlobalObject_008c71b0((int)(((void *)(::FUN_0043b540((char *)(((Gen_623cb0*)entry)))))));
+            new ((void *)&(key1)) ::GlobalObject_008c71b0((intptr_t)(((void *)(::FUN_0043b540((char *)(((Gen_623cb0*)keyTmp)))))));
+            new ((void *)&(key8)) ::GlobalObject_008c71b0((intptr_t)(((void *)(::FUN_0043b540((char *)(((Gen_623cb0*)entry)))))));
             if (((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>(&(key1))->FUN_004a3a20())) == ((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>(&(key8))->FUN_004a3a20())))
             {
                 if (((unsigned char)(reinterpret_cast<::C00624070 *>(&(key1))->FUN_00624070())))
@@ -927,11 +928,11 @@ void Owner_623cb0::ProcessHit(Rec_623cb0* apHitRecord)
         }
         ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&ctx2)), (*(const ::hkVector4 *)(((::Request **)(new ((void *)(((RequestList*)apHitRecord->m_10))) ::Vec3())))));
         extra = apHitRecord->m_18 ? reinterpret_cast<::FUN_00624050_Class *>((((Gen_623cb0*)((char*)apHitRecord->m_18 + 8))))->FUN_00624050() : DAT_01017870;
-        fval.a = ((unsigned char)(::FUN_0062b150((unsigned int)(apHitRecord->m_00), (unsigned int)(&ctx2))));
-        fval.b = ((unsigned char)(::FUN_0062b150((unsigned int)(apHitRecord->m_04), (unsigned int)(&ctx2))));
+        fval.a = ((unsigned char)(::FUN_0062b150((uintptr_t)(apHitRecord->m_00), (uintptr_t)(&ctx2))));
+        fval.b = ((unsigned char)(::FUN_0062b150((uintptr_t)(apHitRecord->m_04), (uintptr_t)(&ctx2))));
         mid = 0;
         node1 = 0;
-        if (keyTmp != 0 && ::FUN_004b5980((int)(((Gen_623cb0*)keyTmp))) == 1)
+        if (keyTmp != 0 && ::FUN_004b5980((intptr_t)(((Gen_623cb0*)keyTmp))) == 1)
         {
             void* src = ::FUN_004b59f0(keyTmp);
             if (src != 0)
@@ -939,7 +940,7 @@ void Owner_623cb0::ProcessHit(Rec_623cb0* apHitRecord)
                 mid = ((::HitRefTarget *)(::FUN_004b5a80((HitForm*)src)));
             }
         }
-        if (entry != 0 && ::FUN_004b5980((int)(((Gen_623cb0*)entry))) == 1)
+        if (entry != 0 && ::FUN_004b5980((intptr_t)(((Gen_623cb0*)entry))) == 1)
         {
             void* src = ::FUN_004b59f0(entry);
             if (src != 0)
@@ -960,8 +961,8 @@ void Owner_623cb0::ProcessHit(Rec_623cb0* apHitRecord)
     key2 = idx ? ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((idx))->GetName())) : 0;
     hold = key2 ? ((::Actor *)(::FUN_0056f930((::NiAVObject *)(key2)))) : 0;
     reinterpret_cast<::HitTrackerImpl *>(this)->AddHitEntries(apHitRecord->m_1c, (::HitForm *)(node), (::HitForm *)(cell2), (::HitActor *)(cell3), (::HitActor *)(hold));
-    ((S_006240f0*)this)->ApplyToCharacter((S_006240f0_Form*)cell3, (int)apHitRecord);
-    ((S_006240f0*)this)->ApplyToCharacter((S_006240f0_Form*)hold, (int)apHitRecord);
+    ((S_006240f0*)this)->ApplyToCharacter((S_006240f0_Form*)cell3, (intptr_t)apHitRecord);
+    ((S_006240f0*)this)->ApplyToCharacter((S_006240f0_Form*)hold, (intptr_t)apHitRecord);
 }
 
 struct FUN_00623540 : FUN_006234d0

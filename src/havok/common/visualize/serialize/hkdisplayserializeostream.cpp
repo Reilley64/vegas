@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dda830
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/Archive.h"
@@ -35,7 +36,7 @@ unsigned int FUN_00dda830(const unsigned int* puiValues)
 }
 
 // @fnv 0x00dda730
-void FUN_00dda730(unsigned int p)
+void FUN_00dda730(uintptr_t p)
 {
     reinterpret_cast<::FUN_00d60b00_class *>((p))->WriteFloatArray((const float *)(3), {});
 }
@@ -106,12 +107,12 @@ struct FUN_00d60830 : RefObj
 
 struct FUN_00dda6e0 : FUN_00d60830
 {
-    FUN_00dda6e0(int a);
+    FUN_00dda6e0(intptr_t a);
 };
 
 // Constructs a FUN_00d60830 base with a newly allocated FUN_00d27460(a, 0x2000), sets the vtable, and calls FUN_00c905b0 on m_8.
 // @fnv 0x00dda6e0
-FUN_00dda6e0::FUN_00dda6e0(int a) : FUN_00d60830(new(hkAlloc(sizeof(FUN_00d27460))) FUN_00d27460(a, 0x2000), false)
+FUN_00dda6e0::FUN_00dda6e0(intptr_t a) : FUN_00d60830(new(hkAlloc(sizeof(FUN_00d27460))) FUN_00d27460(a, 0x2000), false)
 {
     m_vtbl = (*reinterpret_cast<char (*)[]>(&::DAT_010d7db8));
     reinterpret_cast<::hkReferencedObjectC905 *>((m_8))->FUN_00c905b0();
@@ -159,7 +160,7 @@ void DDA7C0OStream::WriteGeometry(const DDA7C0Geometry& geometry)
     int numVertices = geometry.m_kVertices.m_iElementCount;
     reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(numVertices);
     for (int i = 0; i < numVertices; i++)
-        ::FUN_00dda730((unsigned int)this);
+        ::FUN_00dda730((uintptr_t)this);
     int numTriangles = geometry.m_uiTriangleCount.m_iElementCount;
     reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(numTriangles);
     for (int i = 0; i < numTriangles; i++)
@@ -285,7 +286,7 @@ void S_00dda740::WriteTransform(const S_00dda740_Transform& t)
     S_00dda740_Vector4 trans = t.m_vTranslation;
     __declspec(align(16)) S_00dda740_Matrix3 rot = t.m_rotation;
     __declspec(align(16)) S_00dda740_Quaternion q;
-    reinterpret_cast<::FUN_00827200_class *>(&(q))->FUN_00cb26e0((int)&(rot));
+    reinterpret_cast<::FUN_00827200_class *>(&(q))->FUN_00cb26e0((intptr_t)&(rot));
     reinterpret_cast<::FUN_00d60b00_class *>(this)->WriteFloatArray(&trans.x, 3);
     reinterpret_cast<::FUN_00d60b00_class *>(this)->WriteFloatArray(&q.m_vec.x, 4);
 }
@@ -293,7 +294,7 @@ void S_00dda740::WriteTransform(const S_00dda740_Transform& t)
 
 // Returns a constant chosen by the int at param+0x50 (0x1d plus FUN_00dda830(param+8) for 6), or 1 for other values.
 // @fnv 0x00dda850
-int FUN_00dda850(int param)
+int FUN_00dda850(intptr_t param)
 {
     int result = 1;
     switch (*(int*)(param + 0x50))
@@ -372,63 +373,63 @@ void DDA8C0Writer::WriteShape(Shape* p)
     case 1: {
         reinterpret_cast<::S_00dda740 *>(this)->WriteTransform((*(const ::S_00dda740_Transform *)(&p->unk10)));
         t[0] = p->vec60;
-        ::HashUInt((unsigned int)this);
-        ::FUN_00dda730((unsigned int)this);
+        ::HashUInt((uintptr_t)this);
+        ::FUN_00dda730((uintptr_t)this);
         reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(p->i70);
         reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(p->i74);
         break;
     }
     case 8: {
         reinterpret_cast<::S_00dda740 *>(this)->WriteTransform((*(const ::S_00dda740_Transform *)(&p->unk10)));
-        ::HashUInt((unsigned int)this);
-        ::FUN_00dda730((unsigned int)this);
-        ::FUN_00dda730((unsigned int)this);
+        ::HashUInt((uintptr_t)this);
+        ::FUN_00dda730((uintptr_t)this);
+        ::FUN_00dda730((uintptr_t)this);
         reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(p->i84);
         reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(p->i88);
         break;
     }
     case 9: {
         reinterpret_cast<::S_00dda740 *>(this)->WriteTransform((*(const ::S_00dda740_Transform *)(&p->unk10)));
-        ::HashUInt((unsigned int)this);
-        ::FUN_00dda730((unsigned int)this);
-        ::FUN_00dda730((unsigned int)this);
+        ::HashUInt((uintptr_t)this);
+        ::FUN_00dda730((uintptr_t)this);
+        ::FUN_00dda730((uintptr_t)this);
         reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(p->i84);
         reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(p->i88);
         break;
     }
     case 2: {
         reinterpret_cast<::S_00dda740 *>(this)->WriteTransform((*(const ::S_00dda740_Transform *)(&p->unk10)));
-        ::FUN_00dda730((unsigned int)this);
+        ::FUN_00dda730((uintptr_t)this);
         break;
     }
     case 3: {
-        ::FUN_00dda730((unsigned int)this);
-        ::FUN_00dda730((unsigned int)this);
+        ::FUN_00dda730((uintptr_t)this);
+        ::FUN_00dda730((uintptr_t)this);
         break;
     }
     case 4: {
-        ::FUN_00dda730((unsigned int)this);
-        ::FUN_00dda730((unsigned int)this);
-        ::HashUInt((unsigned int)this);
-        ::HashUInt((unsigned int)this);
-        reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(((int)(reinterpret_cast<::FUN_00de5360_cls *>((p))->FUN_00de5360())));
+        ::FUN_00dda730((uintptr_t)this);
+        ::FUN_00dda730((uintptr_t)this);
+        ::HashUInt((uintptr_t)this);
+        ::HashUInt((uintptr_t)this);
+        reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(((intptr_t)(reinterpret_cast<::FUN_00de5360_cls *>((p))->FUN_00de5360())));
         break;
     }
     case 5: {
-        ::FUN_00dda730((unsigned int)this);
-        ::FUN_00dda730((unsigned int)this);
-        ::FUN_00dda730((unsigned int)this);
-        ::HashUInt((unsigned int)this);
-        ::HashUInt((unsigned int)this);
-        ::HashUInt((unsigned int)this);
+        ::FUN_00dda730((uintptr_t)this);
+        ::FUN_00dda730((uintptr_t)this);
+        ::FUN_00dda730((uintptr_t)this);
+        ::HashUInt((uintptr_t)this);
+        ::HashUInt((uintptr_t)this);
+        ::HashUInt((uintptr_t)this);
         reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(reinterpret_cast<::FUN_00de4910_cls *>((p))->FUN_00de4910());
         break;
     }
     case 7: {
-        ::FUN_00dda730((unsigned int)this);
-        ::FUN_00dda730((unsigned int)this);
-        ::FUN_00dda730((unsigned int)this);
-        ::HashUInt((unsigned int)this);
+        ::FUN_00dda730((uintptr_t)this);
+        ::FUN_00dda730((uintptr_t)this);
+        ::FUN_00dda730((uintptr_t)this);
+        ::HashUInt((uintptr_t)this);
         break;
     }
     }

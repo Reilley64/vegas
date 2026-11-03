@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/environment/hkxenvironment.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/environment/hkxenvironment.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include "fnv/decl/FUN_00d619d0.h"
 #include "fnv/decl/FUN_00d61df0_cls.h"
@@ -62,7 +63,7 @@ extern int DAT_010ebab8;
 
 struct FnvVtObj
 {
-    int m_vptr;
+    intptr_t m_vptr;
 
     FnvVtObj* FUN_00e3f510(unsigned int unusedArg);
 };
@@ -70,7 +71,7 @@ struct FnvVtObj
 // @fnv 0x00e3f510
 FnvVtObj* FnvVtObj::FUN_00e3f510(unsigned int unusedArg)
 {
-    m_vptr = (int)&DAT_010ebab8;
+    m_vptr = (intptr_t)&DAT_010ebab8;
     return this;
 }
 
@@ -107,8 +108,8 @@ struct EnvironmentArray
             int remaining = size;
             do
             {
-                ::FUN_00cb0c00((int)(&entry->value));
-                ::FUN_00cb0c00((int)(&entry->name));
+                ::FUN_00cb0c00((intptr_t)(&entry->value));
+                ::FUN_00cb0c00((intptr_t)(&entry->name));
                 ++entry;
             } while (--remaining != 0);
         }
@@ -164,7 +165,7 @@ class hkStringPtrE3F3
     }
     ~hkStringPtrE3F3()
     {
-        ::FUN_00cb0c00((int)this);
+        ::FUN_00cb0c00((intptr_t)this);
     }
     void operator=(const char* pcString)
     {
@@ -237,7 +238,7 @@ class hkxAttributeMapE3F3
 // @fnv 0x00e3f3b0
 int hkxAttributeMapE3F3::FUN_00e3f3b0(const char* pcName, const char* pcValue) throw()
 {
-    int iIndex = reinterpret_cast<::FUN_00e3f230_cls *>(this)->FindEntryByKey((int)(pcName));
+    int iIndex = reinterpret_cast<::FUN_00e3f230_cls *>(this)->FindEntryByKey((intptr_t)(pcName));
     if (pcValue == 0)
     {
         if (iIndex == -1)
@@ -409,13 +410,13 @@ int hkxEnvironmentParser::FUN_00e3f520(const char* str)
             break;
         case 1: {
             char tmp[2] = {str[pos], 0};
-            reinterpret_cast<::FUN_00d61df0_cls *>((void *)&(const ::InlineStorageString &)(name))->FUN_00d61df0((int)(tmp));
+            reinterpret_cast<::FUN_00d61df0_cls *>((void *)&(const ::InlineStorageString &)(name))->FUN_00d61df0((intptr_t)(tmp));
             pos++;
             break;
         }
         case 2: {
             char tmp[2] = {str[pos], 0};
-            reinterpret_cast<::FUN_00d61df0_cls *>((void *)&(const ::InlineStorageString &)(value))->FUN_00d61df0((int)(tmp));
+            reinterpret_cast<::FUN_00d61df0_cls *>((void *)&(const ::InlineStorageString &)(value))->FUN_00d61df0((intptr_t)(tmp));
             pos++;
             break;
         }

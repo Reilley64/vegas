@@ -2,6 +2,7 @@
 // src/havok/common/base/system/error/hkdefaulterror.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/error/hkdefaulterror.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_00c903b0_class.h"
 #include "fnv/decl/FUN_00cb1930_t.h"
@@ -61,7 +62,7 @@ struct FUN_00c85750_return
     int unk04;
     int unk08;
     int unk0c;
-    int unk10;
+    intptr_t unk10;
 };
 FUN_00c85750_return* __cdecl FUN_00c85750();
 struct FUN_00d2b5c0_class
@@ -258,7 +259,7 @@ struct D2B6Sub
 
 struct FUN_00d2b6b0_cls
 {
-    int m_vptr00;
+    intptr_t m_vptr00;
     int unk04;
     D2B6Sub m_sub;
     void* m_pData;
@@ -285,7 +286,7 @@ void FUN_00d2b6b0_cls::ClearAndReset()
     D2B6Sub* pSub = &m_sub;
     reinterpret_cast<::CB1A90Owner *>((pSub))->ProcessArgument((::CB1A90Argument *)(FUN_00c85750()->unk10));
     ::FUN_00a29680();
-    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr00 = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 
@@ -309,7 +310,7 @@ struct S_00d2b3e0
     int unk18;
     int unk1c;
     void(__cdecl* m_callback)(const char*, int);
-    int m_user;
+    intptr_t m_user;
     void FUN_00d2b3e0(const char* kind, int code, const char* msg, const char* file, int line, char trace);
 };
 
@@ -335,7 +336,7 @@ void S_00d2b3e0::FUN_00d2b3e0(const char* kind, int code, const char* msg, const
             DAT_01269a84 = pCurMgr;
         }
         void* frames[20];
-        int n = ::FUN_00da2b20((int)(DAT_01269a84), (int)(frames));
+        int n = ::FUN_00da2b20((intptr_t)(DAT_01269a84), (intptr_t)(frames));
         if (n > 2)
         {
             m_callback("Stack trace is:\n", m_user);
@@ -396,12 +397,12 @@ struct D2ErrorHost
             return data[size - 1];
         }
     } items;
-    int FUN_00d2b4f0(int mode, int index, int a3, int a4, int a5);
+    int FUN_00d2b4f0(int mode, int index, intptr_t a3, intptr_t a4, int a5);
 };
 
 // Resolves index to last item if -1, validates it via v14, maps mode to a name and flag, calls FUN_00d2b3e0, returns 1 for modes 2 or 3.
 // @fnv 0x00d2b4f0
-int D2ErrorHost::FUN_00d2b4f0(int mode, int index, int aiArg3, int aiArg4, int aiArg5)
+int D2ErrorHost::FUN_00d2b4f0(int mode, int index, intptr_t aiArg3, intptr_t aiArg4, int aiArg5)
 {
     if (index == -1)
     {

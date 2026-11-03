@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/mesh/hkxmesh.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxmesh.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/SearchObject.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/decl/hkxMeshSectionImpl.h"
@@ -54,7 +55,7 @@ extern int DAT_010ec1dc;
 
 struct FUN_00e4ad00_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
 
     FUN_00e4ad00_cls* FUN_00e4ad00(unsigned int unusedArg);
 };
@@ -62,7 +63,7 @@ struct FUN_00e4ad00_cls
 // @fnv 0x00e4ad00
 FUN_00e4ad00_cls* FUN_00e4ad00_cls::FUN_00e4ad00(unsigned int unusedArg)
 {
-    m_vptr = (int)&DAT_010ec1dc;
+    m_vptr = (intptr_t)&DAT_010ec1dc;
     return this;
 }
 
@@ -180,11 +181,11 @@ class hkObjectE4AE
 {
   public:
     int InsertElements(int a, int b, int c, int d, int e);
-    int FUN_00e4ae00(int a, int b, int d, int e);
+    int FUN_00e4ae00(intptr_t a, int b, intptr_t d, int e);
 };
 
 // @fnv 0x00e4ae00
-int hkObjectE4AE::FUN_00e4ae00(int aiArg1, int aiArg2, int aiArg4, int aiArg5)
+int hkObjectE4AE::FUN_00e4ae00(intptr_t aiArg1, int aiArg2, intptr_t aiArg4, int aiArg5)
 {
     return InsertElements(aiArg1, aiArg2, 0, aiArg4, aiArg5);
 }
@@ -279,7 +280,7 @@ void MeshE4AB80::FUN_00e4ab80(GeoOutputE4AB80* output, hkArray<void*>* materials
             ArrayElement_CCE530* pVertices = data.first.data;
             FUN_00e4ae20_Router* pRouter = FUN_00c85750();
             void* pAllocator = pRouter->m_pMemoryManager;
-            reinterpret_cast<::SearchObject *>((output))->FUN_00d5a4c0((unsigned int)(pAllocator), baseVertex, (unsigned int)(pVertices), vn);
+            reinterpret_cast<::SearchObject *>((output))->FUN_00d5a4c0((uintptr_t)(pAllocator), baseVertex, (uintptr_t)(pVertices), vn);
         }
         {
             int tn = data.second.size;
@@ -287,7 +288,7 @@ void MeshE4AB80::FUN_00e4ab80(GeoOutputE4AB80* output, hkArray<void*>* materials
             ArrayElement_CCE530* pTriangles = data.second.data;
             FUN_00e4ae20_Router* r2 = FUN_00c85750();
             void* al2 = r2->m_pMemoryManager;
-            reinterpret_cast<::hkObjectE4AE *>((((TriangleInsertE4AB80*)&output->triangles)))->FUN_00e4ae00((int)al2, iTriangleStart, (int)pTriangles, tn);
+            reinterpret_cast<::hkObjectE4AE *>((((TriangleInsertE4AB80*)&output->triangles)))->FUN_00e4ae00((intptr_t)al2, iTriangleStart, (intptr_t)pTriangles, tn);
         }
         reinterpret_cast<::FUN_00cce530 *>(&(data))->FUN_00cce530::~FUN_00cce530();
     }

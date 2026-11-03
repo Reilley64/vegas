@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/selection/hkxnodeselectionsetclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/selection/hkxnodeselectionsetclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00e3eaa0.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00cb0000.h"
@@ -99,7 +100,7 @@ struct E01D40Object : E01D40Base
 // @fnv 0x00e01d40
 void E01D40Object::FUN_00e01d40()
 {
-    ::FUN_00cb0c00((int)&(m_name));
+    ::FUN_00cb0c00((intptr_t)&(m_name));
     m_kTrackedObjects.ClearAndRelease(FUN_00c85750().heap());
     reinterpret_cast<::FUN_00e3eaa0 *>(this)->FUN_00e3eaa0::~FUN_00e3eaa0();
 }

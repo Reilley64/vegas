@@ -2,6 +2,7 @@
 // src/havok/unplaced/viewcaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/viewcaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/AlignedVector.h"
@@ -73,11 +74,11 @@ struct FUN_00621440_cls
 
 // If FUN_00559450 returns non-null, passes the result of its FUN_00c87a40 call through FUN_00621480; otherwise returns 0.
 // @fnv 0x00621440
-int FUN_00621440_cls::FUN_00621440()
+intptr_t FUN_00621440_cls::FUN_00621440()
 {
-    int result = 0;
+    intptr_t result = 0;
     if (((void *)(::FUN_00559450((int *)this))))
-        result = ((int)(::FUN_00621480((::HighProcess *)(((int)(reinterpret_cast<::FUN_00c87a40_obj *>((((Inner62*)((void *)(::FUN_00559450((int *)this))))))->FUN_00c87a40()))))));
+        result = ((intptr_t)(::FUN_00621480((::HighProcess *)(((intptr_t)(reinterpret_cast<::FUN_00c87a40_obj *>((((Inner62*)((void *)(::FUN_00559450((int *)this))))))->FUN_00c87a40()))))));
     return result;
 }
 
@@ -1126,7 +1127,7 @@ TESObjectREFR631* ViewCaster631::FUN_00631d60(const Point631* pkOrigin, const Po
         kInput.m_fRadiusA = 0.01f;
         reinterpret_cast<::AlignedVector *>((void *)&(const ::hkVector4_631 &)(kInput.m_kTo))->FUN_004a3f10((const ::AlignedVector &)(kTo));
         reinterpret_cast<::fnv_00632df0::ShadowLightData *>(this)->CallWithConstant();
-        reinterpret_cast<::ScriptX *>((((::Shape631 *)(::FUN_00559450((int *)this)))))->InvokeInterfaceCall((int)&(kFrom), (int)&(kInput), (int)&(kQuery), 0);
+        reinterpret_cast<::ScriptX *>((((::Shape631 *)(::FUN_00559450((int *)this)))))->InvokeInterfaceCall((intptr_t)&(kFrom), (intptr_t)&(kInput), (intptr_t)&(kQuery), 0);
         if (reinterpret_cast<::FUN_005609f0_shell *>((void *)(void *)&(const ::hkBool631 &)((*(::hkBool631 *)(reinterpret_cast<::Hld621210 *>(&(kQuery))->FUN_00621210({})))))->FUN_005609f0())
         {
             reinterpret_cast<::SortableArray *>(&(kQuery))->FUN_00cabad0();
@@ -1148,10 +1149,10 @@ TESObjectREFR631* ViewCaster631::FUN_00631d60(const Point631* pkOrigin, const Po
             TESObjectREFR631* pkLast = 0;
             TESObjectREFR631* pkRef = 0;
             Entity631* pkLastEntity = 0;
-            for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((((::HitArray631 *)(::FUN_00460140((int)&(kQuery))))))->FUN_00726070())); i++)
+            for (int i = 0; i < ((intptr_t)(reinterpret_cast<::Callees *>((((::HitArray631 *)(::FUN_00460140((intptr_t)&(kQuery))))))->FUN_00726070())); i++)
             {
                 ::DAT_011d8a90 = 0xdaf;
-                Hit631 kHit(((::HitArray631 *)(::FUN_00460140((int)&(kQuery))))->GetAt(i));
+                Hit631 kHit(((::HitArray631 *)(::FUN_00460140((intptr_t)&(kQuery))))->GetAt(i));
                 if (kHit.m_pkCollidable)
                 {
                     ::DAT_011d8a90 = 0xdb0;
@@ -1183,7 +1184,7 @@ TESObjectREFR631* ViewCaster631::FUN_00631d60(const Point631* pkOrigin, const Po
                         break;
                     case 1: {
                         Owner631* pkOwner = ((::Owner631 *)(::FUN_00559450((int *)(kHit.m_pkCollidable))));
-                        if (pkOwner && ((int)(::fnv_0043b230::FUN_0043b230((const char *)(pkOwner)))) == 0xa)
+                        if (pkOwner && ((intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(pkOwner)))) == 0xa)
                             bSolid = true;
                     }
                     break;
@@ -1221,7 +1222,7 @@ TESObjectREFR631* ViewCaster631::FUN_00631d60(const Point631* pkOrigin, const Po
                         if (pkLast != pkRef && pkRef->Get3D() && iTargets < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting631 *>(&::g_011cc644)))))))
                         {
                             iTargets++;
-                            ::FUN_004b2780((::NiPick *)(::List631 *)(&kList), (int)(pkOrigin), (int)(pkDir), fImpulseRadiusSquared, (int)(pkRef->Get3D()), 0);
+                            ::FUN_004b2780((::NiPick *)(::List631 *)(&kList), (intptr_t)(pkOrigin), (intptr_t)(pkDir), fImpulseRadiusSquared, (intptr_t)(pkRef->Get3D()), 0);
                         }
                     }
                     bool bValid = true;
@@ -1232,7 +1233,7 @@ TESObjectREFR631* ViewCaster631::FUN_00631d60(const Point631* pkOrigin, const Po
                         {
                             Process631* pkProcess = ((::Process631 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkRef))->GetBaseTexture()));
                             Controller631* pkController = ((::Controller631 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pkRef))->FUN_009306d0()));
-                            if (pkProcess && pkController && ((int)(reinterpret_cast<::FUN_00632d00_Class *>((pkController))->GetField600())) == 1)
+                            if (pkProcess && pkController && ((intptr_t)(reinterpret_cast<::FUN_00632d00_Class *>((pkController))->GetField600())) == 1)
                             {
                                 int iState = pkProcess->GetState();
                                 if (iState == 9 || iState == 4)
@@ -1276,17 +1277,17 @@ TESObjectREFR631* ViewCaster631::FUN_00631d60(const Point631* pkOrigin, const Po
                                     iRays++;
                                     Pick631 kPick;
                                     kPick.SetFilter(((::Shape631 *)(::FUN_00559450((int *)this)))->GetFilter());
-                                    reinterpret_cast<::S3e60 *>(&(kPick))->FUN_0056d340((unsigned int)&(kFrom));
+                                    reinterpret_cast<::S3e60 *>(&(kPick))->FUN_0056d340((uintptr_t)&(kFrom));
                                     reinterpret_cast<::PD_ *>(&(kPick))->FUN_004a3f40((void *)&((*(const ::hkVector4_631 *)(new ((void *)&(kHit)) ::Vec3()))));
                                     AllRayHits631 kRayHits;
                                     reinterpret_cast<::FUN_004a3fb0_shell *>(&(kPick))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::AllRayHits631 *)(&kRayHits));
                                     pkCaster->CastRay(&kPick);
                                     if (!((bool)(reinterpret_cast<::FUN_00632ce0_Class *>(&(kPick))->FUN_00632ce0())))
                                     {
-                                        if (((int)(reinterpret_cast<::Callees *>((((::RayHitArray631 *)(::FUN_00460140((int)&(kRayHits))))))->FUN_00726070())) > 0)
+                                        if (((intptr_t)(reinterpret_cast<::Callees *>((((::RayHitArray631 *)(::FUN_00460140((intptr_t)&(kRayHits))))))->FUN_00726070())) > 0)
                                         {
                                             NiAVObject631* pkHitObject = ((::NiAVObject631 *)(::FUN_004b5820(
-                                                (::FormLike *)(::Collidable631 *)((Collidable631*)((::RayHit631 *)(reinterpret_cast<::FUN_004a46b0_class *>((((::RayHitArray631 *)(::FUN_00460140((int)&(kRayHits))))))->GetEntryAt(0)))->m_pvRootCollidable))));
+                                                (::FormLike *)(::Collidable631 *)((Collidable631*)((::RayHit631 *)(reinterpret_cast<::FUN_004a46b0_class *>((((::RayHitArray631 *)(::FUN_00460140((intptr_t)&(kRayHits))))))->GetEntryAt(0)))->m_pvRootCollidable))));
                                             if (pkHitObject)
                                             {
                                                 TESObjectREFR631* pkHitRef = ((::TESObjectREFR631 *)(::FUN_0056f930((::NiAVObject *)(pkHitObject))));
@@ -1319,7 +1320,7 @@ TESObjectREFR631* ViewCaster631::FUN_00631d60(const Point631* pkOrigin, const Po
         }
         fClosest *= fImpulseRadiusSquared;
         ::DAT_011d8a90 = 0xdb5;
-        if (((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((((::Results631 *)(reinterpret_cast<::BGSCameraPath *>(&(kList))->GetConditions()))))->FUN_0044edb0())) > 0)
+        if (((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((((::Results631 *)(reinterpret_cast<::BGSCameraPath *>(&(kList))->GetConditions()))))->FUN_0044edb0())) > 0)
         {
             ::DAT_011d8a90 = 0xdb6;
             void* pvObject = ((::Result631 *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::Results631 *)(reinterpret_cast<::BGSCameraPath *>(&(kList))->GetConditions()))))->FUN_00968670(0)))->GetObject();

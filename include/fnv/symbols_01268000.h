@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class GlobalObjectO2_00a7b610;
 class GlobalObjectO2_00d107b0;
@@ -18,7 +19,7 @@ extern bool g_bC11F0Debug;
 // 0x01268100
 extern ::GlobalObjectO2_00a7b610 g_01268100;
 // 0x01268108
-extern int DAT_01268108;
+extern intptr_t DAT_01268108;
 // 0x0126810c
 extern int DAT_0126810c;
 // 0x01268110
@@ -64,7 +65,7 @@ extern ::GlobalObjectO2_00a7b610 g_012681c0;
 // 0x012681cc
 extern ::GlobalObjectO2_00a7b610 g_012681cc;
 // 0x012681d4
-extern int DAT_012681d4;
+extern intptr_t DAT_012681d4;
 // 0x012681e0
 extern void *DAT_012681e0;
 // 0x012681e8
@@ -334,7 +335,7 @@ extern "C" extern bool DAT_01268a44;
 // 0x01268ad8
 extern ::GlobalObjectO2_00d472a0 g_01268ad8;
 // 0x01268b08
-extern int DAT_01268b08;
+extern intptr_t DAT_01268b08;
 // 0x01268b54
 extern ::GlobalObjectO2_00d472a0 g_01268b54;
 // 0x01268b9c

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/FnvCpu_FUN_00d470d0_CpuObject.h"
 #include "fnv/symbols_00cb1000.h"
@@ -58,12 +59,12 @@ class Handler
     virtual void v0c();
     virtual void v10();
     virtual void Emit(int kind, int a, const char* s, int len, int hash);
-    void EmitString(int a, unsigned int* str);
+    void EmitString(intptr_t a, unsigned int* str);
 };
 
 // If the string pointer in str is non-null, computes its length and hash and emits it via Emit with kind 3.
 // @fnv 0x00d07030
-void Handler::EmitString(int a, unsigned int* str)
+void Handler::EmitString(intptr_t a, unsigned int* str)
 {
     const char* s = (const char*)(*str & ~1u);
     if (s)
@@ -261,12 +262,12 @@ struct S_00d06dd0_Obj
     virtual void v3();
     virtual void v4();
     virtual void slot14(int a, int b, int c, int d, int e);
-    void DispatchIfNotFlagged(int a, unsigned int flags);
+    void DispatchIfNotFlagged(intptr_t a, unsigned int flags);
 };
 
 // When bit 0 of flags is clear, computes a value from a, calls the router heap's vfn2c with both, and passes the results to slot14.
 // @fnv 0x00d06dd0
-void S_00d06dd0_Obj::DispatchIfNotFlagged(int a, unsigned int flags)
+void S_00d06dd0_Obj::DispatchIfNotFlagged(intptr_t a, unsigned int flags)
 {
     if ((flags & 1) == 0)
     {
@@ -319,12 +320,12 @@ class FUN_00d06e10_cls
     virtual void v10();
     virtual void Emit(int kind, int a, const char* s, int len, int hash);
 
-    void FUN_00d06e10(int a1, int a2, unsigned char flag);
+    void FUN_00d06e10(intptr_t a1, intptr_t a2, unsigned char flag);
 };
 
 // When flag bit 0 is clear, reads a length from a1, computes a hash via holder->m_10->v2c(a2, len), and calls Emit with that length and hash.
 // @fnv 0x00d06e10
-void FUN_00d06e10_cls::FUN_00d06e10(int pSource, int pData, unsigned char flag)
+void FUN_00d06e10_cls::FUN_00d06e10(intptr_t pSource, intptr_t pData, unsigned char flag)
 {
     if ((flag & 1) == 0)
     {
@@ -414,12 +415,12 @@ struct FUN_00d06ff0_cls
     virtual void v10();
     virtual void V14(int aiZero, int aiA, int aiB, int aiC, int aiR);
 
-    void FUN_00d06ff0(int aiA, int aiB, int aiC, int aiD);
+    void FUN_00d06ff0(int aiA, intptr_t aiB, int aiC, int aiD);
 };
 
 // If aiC is positive and aiD is zero, computes a result via FUN_00d06f80(aiB, aiC), then calls V14 with zero, aiA, aiB, aiC and the result.
 // @fnv 0x00d06ff0
-void FUN_00d06ff0_cls::FUN_00d06ff0(int aiA, int aiB, int aiC, int aiD)
+void FUN_00d06ff0_cls::FUN_00d06ff0(int aiA, intptr_t aiB, int aiC, int aiD)
 {
     int iResult = aiD;
     if (aiC > 0 && aiD == 0)

@@ -2,6 +2,7 @@
 // src/havok/common/visualize/shape/hkdisplaysphere.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaysphere.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include "fnv_simd.h"
 #include "fnv/symbols_00c90000.h"
@@ -300,7 +301,7 @@ struct SphereBuildFace
     int m_0c;
 };
 
-inline void SphereBuildSetFace(SphereBuildFace* f, int a, int b, int c)
+inline void SphereBuildSetFace(SphereBuildFace* f, int a, int b, intptr_t c)
 {
     f->m_00 = a;
     f->m_04 = b;
@@ -311,7 +312,7 @@ inline void SphereBuildSetFace(SphereBuildFace* f, int a, int b, int c)
 struct SphereBuildFaces
 {
     SphereBuildFace* m_pData;
-    int m_iArrayLength;
+    intptr_t m_iArrayLength;
     int m_iCap;
 };
 
@@ -369,7 +370,7 @@ __declspec(noinline) void SphereMeshBuilder::FUN_00e0b360()
         raw->verts.m_iCap = (int)0x80000000;
         zero = (SphereBuildVertex* const&)raw->verts.m_pData;
         raw->faces.m_pData = (SphereBuildFace*)zero;
-        raw->faces.m_iArrayLength = (int)zero;
+        raw->faces.m_iArrayLength = (intptr_t)zero;
         raw->faces.m_iCap = (int)0x80000000;
         geo = raw;
     }
@@ -399,7 +400,7 @@ __declspec(noinline) void SphereMeshBuilder::FUN_00e0b360()
     geo->verts.m_pData[1].set(s, 0.0f, t, 0.0f);
     {
         SphereBuildVertex* dst = (SphereBuildVertex* const&)geo->verts.m_pData + 2;
-        __assume(((unsigned int)dst & 15) == 0);
+        __assume(((uintptr_t)dst & 15) == 0);
         dst->set(-s, 0.0f, -t, 0.0f);
     }
     geo->verts.m_pData[3].set(s, 0.0f, -t, 0.0f);
@@ -423,8 +424,8 @@ __declspec(noinline) void SphereMeshBuilder::FUN_00e0b360()
         ::FUN_00c908c0((::SpawnedObject *)(fa), (::SpawnedArray *)(fv), nc2, 0x10);
     }
     fv->m_iArrayLength = 20;
-    SphereBuildSetFace(fv->m_pData + 0, 1, 4, (int)zero);
-    SphereBuildSetFace(fv->m_pData + 1, 4, 9, (int)zero);
+    SphereBuildSetFace(fv->m_pData + 0, 1, 4, (intptr_t)zero);
+    SphereBuildSetFace(fv->m_pData + 1, 4, 9, (intptr_t)zero);
     SphereBuildSetFace(fv->m_pData + 2, 4, 5, 9);
     SphereBuildSetFace(fv->m_pData + 3, 8, 5, 4);
     SphereBuildSetFace(fv->m_pData + 4, 1, 8, 4);

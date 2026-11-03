@@ -2,6 +2,7 @@
 // src/havok/common/serialize/util/hknativepackfileutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hknativepackfileutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
@@ -19,7 +20,7 @@
 #include "fnv/symbols_010d6000.h"
 #include "fnv/symbols_011b7000.h"
 #include "fnv/symbols_01268000.h"
-extern "C" void __cdecl ProcessElements(int, int, int);
+extern "C" void __cdecl ProcessElements(intptr_t, intptr_t, intptr_t);
 
 struct FUN_00dc0ed0_class
 {
@@ -85,7 +86,7 @@ struct FUN_00dc08f0_Header
 };
 
 // @fnv 0x00dc08f0
-extern "C" void __cdecl ProcessElements(int header, int first, int second)
+extern "C" void __cdecl ProcessElements(intptr_t header, intptr_t first, intptr_t second)
 {
     FUN_00dc08f0_Header* pHeader = (FUN_00dc08f0_Header*)header;
     for (int i = 0; i < pHeader->count; i++)
@@ -93,7 +94,7 @@ extern "C" void __cdecl ProcessElements(int header, int first, int second)
         FUN_00dc08f0_Element* pElement = &pHeader->elements[i];
         void* data = (char*)pHeader + pElement->dataOffset;
         reinterpret_cast<::ExportSection *>((pElement))->ReadRecords(data, (*(::ExportList< ::ExportRecord, ::ExportAlloc> *)(first)));
-        reinterpret_cast<::ParserE030 *>((pElement))->FUN_00e03010((int)(data), (*(::hkArrayE030< ::RangeE030> *)(second)));
+        reinterpret_cast<::ParserE030 *>((pElement))->FUN_00e03010((intptr_t)(data), (*(::hkArrayE030< ::RangeE030> *)(second)));
     }
 }
 
@@ -379,7 +380,7 @@ void* __cdecl CreateResourceFromArray(void* arg0, void* arg1, void* arg2) throw(
     void* pKey = UnpackPackfile(arg0, arg1, tempArray.m_data, needed, arg2);
     S_00dc0cd0_Map* map = (S_00dc0cd0_Map*)((char*)tempArray.m_data + 8);
     void* pFound = 0;
-    void** ppValue = (void**)((void *)(reinterpret_cast<::FUN_00cb1930_t *>((map))->LookupHashEntry((int)(pKey), 0)));
+    void** ppValue = (void**)((void *)(reinterpret_cast<::FUN_00cb1930_t *>((map))->LookupHashEntry((intptr_t)(pKey), 0)));
     if (ppValue)
     {
         pFound = *ppValue;
@@ -421,7 +422,7 @@ struct BSAudio;
 
 struct FUN_00dc0f20_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     int unk04;
     void* m_08;
     void* m_0c;
@@ -435,7 +436,7 @@ struct FUN_00dc0f20_cls
 // @fnv 0x00dc0f20
 void FUN_00dc0f20_cls::FUN_00dc0f20()
 {
-    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_010d6a94));
+    m_vptr = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_010d6a94));
     if (m_14 != 0)
     {
         ::FUN_00dc0de0((::S_00dc0de0 *)(m_08));
@@ -452,7 +453,7 @@ void FUN_00dc0f20_cls::FUN_00dc0f20()
     }
     m_08 = 0;
     m_10 = 0x80000000u;
-    *(volatile int*)&m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(volatile int*)&m_vptr = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00dc0f20
 
@@ -546,7 +547,7 @@ int __cdecl ValidatePackfileHeader(const hkPackfileHeader* header, const char** 
                 "Trying to process a binary file with a different empty base class optimization than this platform.";
         return 1;
     }
-    if (((unsigned int)header & 3) != 0)
+    if (((uintptr_t)header & 3) != 0)
     {
         if (outError)
             *outError = "Packfile data source needs to be 4 byte aligned";
@@ -733,7 +734,7 @@ extern "C" void* __cdecl UnpackPackfile(void* packfileData, void* dataSize, void
                 if (typeInfo)
                 {
                     S_00dc0de0_Allocator& heap = FUN_00c85750()->heap();
-                    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(out->m_pTracker))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&heap)), (unsigned int)(obj), (unsigned int)(typeInfo));
+                    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(out->m_pTracker))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&heap)), (uintptr_t)(obj), (uintptr_t)(typeInfo));
                 }
             }
         }

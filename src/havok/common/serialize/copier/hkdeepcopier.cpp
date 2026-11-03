@@ -1,3 +1,4 @@
+#include <cstdint>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_00cb18f0_t.h"
 #include "fnv/decl/FUN_00cb1930_t.h"
@@ -159,23 +160,23 @@ struct PtrMap
     PtrMapBase m_map;
     __forceinline PtrMap()
     {
-        reinterpret_cast<::FUN_00cb1fe0_t *>(&(m_map))->EnsureCapacity((int)&(GetRouter()->heap()), 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(&(m_map))->EnsureCapacity((intptr_t)&(GetRouter()->heap()), 0);
     }
     __forceinline ~PtrMap()
     {
         reinterpret_cast<::CB1A90Owner *>(&(m_map))->ProcessArgument((::CB1A90Argument *)&(GetRouter()->heap()));
     }
-    __forceinline void insert(const void* key, int val)
+    __forceinline void insert(const void* key, intptr_t val)
     {
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetRouter()->heap()), (unsigned int)(key), val);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetRouter()->heap()), (uintptr_t)(key), val);
     }
     __forceinline int FindValueForKey(const void* key, int def)
     {
-        return reinterpret_cast<::FUN_00cb1930_t *>(&(m_map))->LookupHashEntry((int)(key), def);
+        return reinterpret_cast<::FUN_00cb1930_t *>(&(m_map))->LookupHashEntry((intptr_t)(key), def);
     }
     __forceinline bool contains(const void* key)
     {
-        return m_map.isValid(reinterpret_cast<::FUN_00cb18f0_t *>(&(m_map))->FindSlot((int)(key)));
+        return m_map.isValid(reinterpret_cast<::FUN_00cb18f0_t *>(&(m_map))->FindSlot((intptr_t)(key)));
     }
 };
 
@@ -300,7 +301,7 @@ void* FUN_00e4afe0(const void* dataIn, const ClassInfo& klassIn, PtrMap* previou
         const char* name = reinterpret_cast<::FnvClassNameNode *>((void *)(pClassInfo))->FUN_00d46d40();
         records.pushBackConstruct(CopyRecord(offset, obj, name));
 
-        reinterpret_cast<::FUN_00e04920_cls *>(&(copier))->FUN_00e04920((unsigned int)(obj), (unsigned int)&(*pClassInfo), (unsigned int)(dataOut.GetStreamWriter()), (unsigned int)&(*pClassInfo), (unsigned int)&(reloc));
+        reinterpret_cast<::FUN_00e04920_cls *>(&(copier))->FUN_00e04920((uintptr_t)(obj), (uintptr_t)&(*pClassInfo), (uintptr_t)(dataOut.GetStreamWriter()), (uintptr_t)&(*pClassInfo), (uintptr_t)&(reloc));
 
         for (int j = globalStart; j < reloc.m_pGlobal.GetLogicalSize(); ++j)
         {
@@ -312,7 +313,7 @@ void* FUN_00e4afe0(const void* dataIn, const ClassInfo& klassIn, PtrMap* previou
                 continue;
             if (previousCopies)
             {
-                int prev = previousCopies->FindValueForKey(ptr, 0);
+                intptr_t prev = previousCopies->FindValueForKey(ptr, 0);
                 if (prev)
                 {
                     reloc.m_pGlobal[j].m_pData = (void*)prev;
@@ -350,7 +351,7 @@ void* FUN_00e4afe0(const void* dataIn, const ClassInfo& klassIn, PtrMap* previou
         if (previousCopies)
         {
             for (int i = 0; i < records.GetLogicalSize(); ++i)
-                previousCopies->insert(records[i].m_object, (int)(versioned + records[i].m_offset));
+                previousCopies->insert(records[i].m_object, (intptr_t)(versioned + records[i].m_offset));
         }
 
         if (loadedObjectRegistry)

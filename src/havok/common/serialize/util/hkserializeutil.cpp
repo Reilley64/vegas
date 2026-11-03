@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00d48640
+#include <cstdint>
 #include "fnv/decl/DbbOwner.h"
 #include "fnv/decl/FUN_00dba680_cls.h"
 #include "fnv/decl/FUN_00dba810_cls.h"
@@ -153,7 +154,7 @@ struct GlobalDispatch
     virtual int Dispatch(int, int, int, int, int);
 };
 // @fnv 0x00d484a0
-int __cdecl FUN_00d484a0(int a1, int a2, int a3, int a4, int useLocal, int a6)
+int __cdecl FUN_00d484a0(intptr_t a1, intptr_t a2, intptr_t a3, intptr_t a4, int useLocal, intptr_t a6)
 {
     if (a3)
     {
@@ -163,7 +164,7 @@ int __cdecl FUN_00d484a0(int a1, int a2, int a3, int a4, int useLocal, int a6)
             FUN_00dbc670_shell* shell = (FUN_00dbc670_shell*)&msgStorage;
             new ((void *)(shell)) ::FUN_00dbc670();
             reinterpret_cast<::Cls *>((shell))->FUN_00dbda50((void *)(a1), (void *)(a2), (void *)(a6));
-            int result = ((int)(reinterpret_cast<::fnv_00dbd620::S_00dbd620_Owner *>((shell))->ProcessPoly((::fnv_00dbd620::S_00dbd620_Poly *)(a3), (::fnv_00dbd620::S_00dbd620_Arg *)(a4))));
+            intptr_t result = ((intptr_t)(reinterpret_cast<::fnv_00dbd620::S_00dbd620_Owner *>((shell))->ProcessPoly((::fnv_00dbd620::S_00dbd620_Poly *)(a3), (::fnv_00dbd620::S_00dbd620_Arg *)(a4))));
             reinterpret_cast<::FUN_00dbc6e0_s *>((shell))->FUN_00dbc6e0();
             return result;
         }
@@ -183,7 +184,7 @@ struct CtorBox
 
 // Constructs a CtorBox from a1, calls FUN_00d48d30 on its b field with a2 and a3, destroys the box, and returns the result.
 // @fnv 0x00d48ec0
-void* __cdecl FUN_00d48ec0(void* a1, int a2, int a3)
+void* __cdecl FUN_00d48ec0(void* a1, intptr_t a2, int a3)
 {
     CtorBox obj;
     CtorBox* p = ((::CtorBox *)(reinterpret_cast<::FUN_00dcc670_Class *>(&(obj))->InitFromValue((int *)(a1))));
@@ -228,12 +229,12 @@ struct Object180
     Object180* FUN_00dcc6a0(void* input, int arg2);
 };
 // @fnv 0x00d48f00
-int __cdecl FUN_00d48f00(Header180* pHeader, int arg2, int arg3, int arg4)
+intptr_t __cdecl FUN_00d48f00(Header180* pHeader, intptr_t arg2, intptr_t arg3, int arg4)
 {
     Header180 defaultHeader;
     if (pHeader->unk00 == defaultHeader.unk00 && pHeader->unk04 == defaultHeader.unk04 &&
         ::FUN_00cb1290((const unsigned char *)(const void *)(&pHeader->unk10), (const unsigned char *)(const void *)(&DAT_011b7b88), 4) == 0 && ::fnv_00cb0fa0::FUN_00cb0fa0(&pHeader->unk28, ((const char *)(::FUN_00dc0fb0()))) == 0)
-        return ((int)(::CreateResourceFromArray(pHeader, (void *)(arg2), (void *)(0))));
+        return ((intptr_t)(::CreateResourceFromArray(pHeader, (void *)(arg2), (void *)(0))));
     Object180 wrapper;
     Object180* result = wrapper.FUN_00dcc6a0(pHeader, arg2);
     void* payload = result->unk08;
@@ -279,7 +280,7 @@ static inline int S_00d49350_Compare(const char* a, const char* b)
 
 struct S_00d49350
 {
-    unsigned int m_pcText;
+    uintptr_t m_pcText;
 
     const char* cString() const
     {
@@ -342,12 +343,12 @@ struct D493E0Loader
     int unk08;
     D493E0Registry* m_registry;
 
-    D493E0Ref FindObject(const void* key, int flags) const;
+    D493E0Ref FindObject(const void* key, intptr_t flags) const;
 };
 
 // Looks up key in m_registry when key is non-null and returns a D493E0Ref wrapping the found object, otherwise a null D493E0Ref.
 // @fnv 0x00d493e0
-D493E0Ref D493E0Loader::FindObject(const void* key, int flags) const
+D493E0Ref D493E0Loader::FindObject(const void* key, intptr_t flags) const
 {
     if (key)
         return D493E0Ref(m_registry->find(key, flags));
@@ -442,7 +443,7 @@ Obj1* FUN_00d49420_cls::ProcessPair(Obj1* apArg1, Obj2* apArg2)
             }
             else
             {
-                reinterpret_cast<::D493E0Loader *>(this)->FindObject(apArg1, (int)(first));
+                reinterpret_cast<::D493E0Loader *>(this)->FindObject(apArg1, (intptr_t)(first));
                 ::FUN_00dba660();
                 return apArg1;
             }
@@ -452,7 +453,7 @@ Obj1* FUN_00d49420_cls::ProcessPair(Obj1* apArg1, Obj2* apArg2)
     return apArg1;
 }
 
-extern volatile int DAT_01269b70;
+extern volatile intptr_t DAT_01269b70;
 
 static __declspec(noinline) int FUN_00d48950(int d, int a, int b, int c)
 {
@@ -487,7 +488,7 @@ static __declspec(noinline) int FUN_00d48a90(int a1, int esi_in, int edi_in, int
     Holder_cls h;
 
     new ((void *)&(p)) ::FUN_00dc5d30();
-    ::FUN_00dc5d50((unsigned int)&(p), (unsigned int)(&h), a1);
+    ::FUN_00dc5d50((uintptr_t)&(p), (uintptr_t)(&h), a1);
     reinterpret_cast<::DBA7F0Ref *>(&(h))->FUN_00dba7f0();
 
     if (edi_in != 0)
@@ -598,8 +599,8 @@ static __declspec(noinline) int FUN_00d48a90(S00d48d30_Stream* s, S00d48d30_Read
     return 0;
 }
 
-static __declspec(noinline) int FUN_00d48760(S00d48d30_Stream* s, S00d48d30_Format* format, S00d48d30_Result* out,
-                                             int opts)
+static __declspec(noinline) intptr_t FUN_00d48760(S00d48d30_Stream* s, S00d48d30_Format* format, S00d48d30_Result* out,
+                                             intptr_t opts)
 {
     if (format->m_type < 2)
     {
@@ -622,7 +623,7 @@ static __declspec(noinline) int FUN_00d48760(S00d48d30_Stream* s, S00d48d30_Form
 
 // Validates the stream, resolves load options, and dispatches to a format-specific loader based on the detected stream type.
 // @fnv 0x00d48d30
-int __cdecl FUN_00d48d30(S00d48d30_Stream* apStream, S00d48d30_Result* apResult, int aiOptions) throw()
+intptr_t __cdecl FUN_00d48d30(S00d48d30_Stream* apStream, S00d48d30_Result* apResult, intptr_t aiOptions) throw()
 {
     if (apStream == 0)
     {
@@ -659,7 +660,7 @@ int __cdecl FUN_00d48d30(S00d48d30_Stream* apStream, S00d48d30_Result* apResult,
         S00d48d30_Reader reader;
         if (FUN_00d48a90(apStream, &reader, apResult) == 0)
         {
-            return ((int)(::FUN_00dc3300((::S_PH *)&(const ::S00d48d30_Ref &)((*(::S00d48d30_Ref *)(reinterpret_cast<::FUN_00dc72a0_class *>(&(reader))->ForwardToReceiver({})))), (::S_Dom *)(aiOptions))));
+            return ((intptr_t)(::FUN_00dc3300((::S_PH *)&(const ::S00d48d30_Ref &)((*(::S00d48d30_Ref *)(reinterpret_cast<::FUN_00dc72a0_class *>(&(reader))->ForwardToReceiver({})))), (::S_Dom *)(aiOptions))));
         }
         return 0;
     }
@@ -704,7 +705,7 @@ struct S00d48680_Obj
     virtual void v1();
     virtual void v2();
     virtual void v3();
-    virtual int v4(int a, int b);
+    virtual int v4(intptr_t a, int b);
     virtual void v5();
     virtual void v6();
     virtual void v7();
@@ -736,7 +737,7 @@ static __declspec(noinline) void FUN_00d48680(S00d48680_Obj* apReader, S00d48680
         }
         apBuffer->m_iElementCount = iNeeded;
         apReader->v10(0, 0);
-        apReader->v4((int)apBuffer->m_data, apBuffer->m_iElementCount);
+        apReader->v4((intptr_t)apBuffer->m_data, apBuffer->m_iElementCount);
         return;
     }
 
@@ -757,7 +758,7 @@ static __declspec(noinline) void FUN_00d48680(S00d48680_Obj* apReader, S00d48680
         }
         char* d = apBuffer->m_data;
         int iSize = apBuffer->m_iElementCount;
-        r = apReader->v4((int)(d + iSize), 0x20000);
+        r = apReader->v4((intptr_t)(d + iSize), 0x20000);
         apBuffer->m_iElementCount += r;
     } while (r > 0);
 }
@@ -916,7 +917,7 @@ struct LoadStream;
 struct LoadBuffer
 {
     char* data;
-    int size;
+    intptr_t size;
     unsigned int capacity;
 };
 struct LoadAllocator
@@ -991,7 +992,7 @@ static __declspec(noinline) ObjectResource* FUN_00d48840(LoadStream* input, Load
     reinterpret_cast<::FUN_00d47970_Class *>(&(unfinished))->FUN_00d47970((void *)&(*types));
     ResourceRef resource;
     resource.take((Resource*)FUN_00d48760((S00d48d30_Stream*)input, (S00d48d30_Format*)&format,
-                                          (S00d48d30_Result*)error, (int)&unfinished));
+                                          (S00d48d30_Result*)error, (intptr_t)&unfinished));
     NativeWorld data;
     reinterpret_cast<::FUN_00dbb490_class *>(&(data))->SetReferencedObject((::hkReferencedObject *)(classes));
     const RuntimeClass* rootClass = classes->find(resource->name());
@@ -1139,7 +1140,7 @@ void S00d48950_Caller()
     g00d48950_out = FUN_00d48950(g00d48950_result, g00d48950_target, g00d48950_lookup, g00d48950_root);
 }
 
-extern "C" int __cdecl FUN_00d485a0(int, int, int, int, int);
+extern "C" int __cdecl FUN_00d485a0(intptr_t, intptr_t, int, int, int);
 
 extern int DAT_010cf9b4;
 struct Lister
@@ -1185,7 +1186,7 @@ static __declspec(noinline) int helper(int a, void* b, int* c)
     return dispatch(&p, c, a, b);
 }
 // @fnv 0x00d485a0
-extern "C" int __cdecl FUN_00d485a0(int a1, int a2, int a3, int a4, int a5)
+extern "C" int __cdecl FUN_00d485a0(intptr_t a1, intptr_t a2, int a3, int a4, int a5)
 {
     Lister lister;
     World world;
@@ -1253,7 +1254,7 @@ struct BufferBase : S00d48680_Arr
     }
     __forceinline ~BufferBase()
     {}
-    __forceinline int size() const
+    __forceinline intptr_t size() const
     {
         return m_iElementCount;
     }
@@ -1449,7 +1450,7 @@ struct BufferedText
 };
 inline const char* stringText(const hkStringPtr& s)
 {
-    return reinterpret_cast<const char*>(reinterpret_cast<unsigned int>(s.m_pcText) & ~1u);
+    return reinterpret_cast<const char*>(reinterpret_cast<uintptr_t>(s.m_pcText) & ~1u);
 }
 void __cdecl FUN_00cb1280(void*, int, int);
 struct PackHeader
@@ -1565,7 +1566,7 @@ static __forceinline void detect(VersionedDataBlock* reader, FormatInfo& out)
     {
         out.type = 3;
         BufferedText header;
-        reinterpret_cast<::FUN_00d61a50_cls *>(&(header))->FUN_00d61a50((int)(FUN_00cb1130(bytes, "<hkpackfile")));
+        reinterpret_cast<::FUN_00d61a50_cls *>(&(header))->FUN_00d61a50((intptr_t)(FUN_00cb1130(bytes, "<hkpackfile")));
         hkStringPtr version;
         new ((void *)(reinterpret_cast<StringOps*>(&version))) struct ::FUN_00cb0a60();
         if (ParseQuotedValue(header.cString(), "classversion", version))
@@ -1592,7 +1593,7 @@ static __forceinline void detect(VersionedDataBlock* reader, FormatInfo& out)
         }
         else
             reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out.version))->FUN_00cb0c10("Havok-3.0.0");
-        ::FUN_00cb0c00((int)(reinterpret_cast<StringOps*>(&version)));
+        ::FUN_00cb0c00((intptr_t)(reinterpret_cast<StringOps*>(&version)));
     }
 }
 // @fnv 0x00d48af0

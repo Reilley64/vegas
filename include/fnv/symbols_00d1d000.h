@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 namespace fnv_00d1d5a0 { struct AabbTree; }
 namespace fnv_00d1d5a0 { struct TreePairArray; }
@@ -16,17 +17,17 @@ void FUN_00d1d0b0(::NodeTree *, const ::TreeVector4 *, const ::TreeVector4 *, ::
 // 0x00d1d490
 int FUN_00d1d490();
 // 0x00d1d4a0
-int CallWithDefaults(void *, int, int);
+int CallWithDefaults(void *, intptr_t, intptr_t);
 // 0x00d1d4d0
 int FUN_00d1d4d0(void *, void *, void *, void *);
 // 0x00d1d500
-int FUN_00d1d500(void *, int, int);
+int FUN_00d1d500(void *, intptr_t, intptr_t);
 // 0x00d1d530
 extern "C" void FUN_00d1d530();
 // 0x00d1d540
-extern "C" void *FUN_00d1d540(void *, int, int, int);
+extern "C" void *FUN_00d1d540(void *, intptr_t, intptr_t, int);
 // 0x00d1d570
-extern "C" void *FUN_00d1d570(void *, int, int);
+extern "C" void *FUN_00d1d570(void *, intptr_t, intptr_t);
 // 0x00d1d5a0
 namespace fnv_00d1d5a0 { int FUN_00d1d5a0(::fnv_00d1d5a0::AabbTree *, ::fnv_00d1d5a0::AabbTree *, ::fnv_00d1d5a0::TreePairArray *); }
 // 0x00d1d890

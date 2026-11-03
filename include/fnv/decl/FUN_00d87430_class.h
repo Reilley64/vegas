@@ -1,7 +1,8 @@
 #pragma once
+#include <cstdint>
 
 struct FUN_00d87430_class {
 public:
     // 0x00d87430
-    int GetEntry(int);
+    intptr_t GetEntry(int);
 };

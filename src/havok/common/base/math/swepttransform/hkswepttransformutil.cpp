@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00cf1480
+#include <cstdint>
 #include "fnv_simd.h"
 #include "fnv/decl/C74C20Quat.h"
 #include "fnv/decl/Quat74.h"
@@ -853,7 +854,7 @@ void SetMotionState(const MotionMat4* transform, MotionState_cls* apMotionState)
 {
     MotionVec4 q;
     _mm_store_ps((float*)&apMotionState->m_kDeltaAngle, _mm_setzero_ps());
-    reinterpret_cast<::FUN_00827200_class *>((((MotionRotSet_cls*)&q)))->FUN_00cb26e0((int)(transform));
+    reinterpret_cast<::FUN_00827200_class *>((((MotionRotSet_cls*)&q)))->FUN_00cb26e0((intptr_t)(transform));
     const __m128* m = (const __m128*)transform;
     _mm_store_ps((float*)&apMotionState->m_kMotionTransform.c0, m[0]);
     _mm_store_ps((float*)&apMotionState->m_kMotionTransform.c1, m[1]);

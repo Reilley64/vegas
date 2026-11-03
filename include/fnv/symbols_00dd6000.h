@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct Arg;
 struct Contact;
@@ -11,7 +12,7 @@ struct hkVector4;
 template <class> struct hkArray;
 
 // 0x00dd6270
-int ProcessArg(::Arg *, int);
+int ProcessArg(::Arg *, intptr_t);
 // 0x00dd6380
 int FUN_00dd6380(::S00dd6380_PlaneSet *, int, int, int, ::S00dd6380_PointResult *);
 // 0x00dd6510

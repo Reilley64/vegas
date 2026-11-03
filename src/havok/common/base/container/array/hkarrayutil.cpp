@@ -2,6 +2,7 @@
 // src/havok/common/base/container/array/hkarrayutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/array/hkarrayutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00db0060_class.h"
@@ -90,7 +91,7 @@ struct SpawnedObject
 
 struct SpawnedArray
 {
-    int m_00;
+    intptr_t m_00;
     int m_04;
     unsigned int m_08;
 };
@@ -108,7 +109,7 @@ void __cdecl FUN_00c908c0(SpawnedObject* apObject, SpawnedArray* apArray, int ai
     }
     else
     {
-        int pNewData = apObject->v03(&iNewSize);
+        intptr_t pNewData = apObject->v03(&iNewSize);
         std::memmove((void *)(pNewData), (const void *)(apArray->m_00), apArray->m_04 * stride);
         apArray->m_00 = pNewData;
         apArray->m_08 = (unsigned int)(iNewSize / stride);
@@ -207,11 +208,11 @@ struct S_00da2bd0_CallTree
         return m_data[m_iElementCount++];
     }
 
-    int FindOrAddCallTrace(const hkUlong* trace, int depth);
+    int FindOrAddCallTrace(const hkUlong* trace, intptr_t depth);
 };
 
 // @fnv 0x00da2bd0
-int S_00da2bd0_CallTree::FindOrAddCallTrace(const hkUlong* trace, int depth)
+int S_00da2bd0_CallTree::FindOrAddCallTrace(const hkUlong* trace, intptr_t depth)
 {
     if (m_iElementCount == 0)
     {
@@ -252,7 +253,7 @@ struct Holder
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
-    unsigned int unk10;
+    uintptr_t unk10;
     void* m_pAllocator;
 };
 
@@ -422,7 +423,7 @@ struct S00c70de0_Array
 
 // Builds 18 vertices using scaled start coordinates, end z, radius, and height, then passes them to CreateFromSource.
 // @fnv 0x00c70de0
-int __cdecl FUN_00c70de0(float* end, float* start, float radius, float height)
+intptr_t __cdecl FUN_00c70de0(float* end, float* start, float radius, float height)
 {
     S00c70de0_Guard memGuard(16);
     float fScaledRadius = radius * ::DAT_01267bcc;
@@ -473,7 +474,7 @@ int __cdecl FUN_00c70de0(float* end, float* start, float radius, float height)
     vertex.component(2) += halfRadius;
     mesh.AddBack(vertex);
 
-    return ((int)(::CreateFromSource((::SrcD *)(void *)(&mesh))));
+    return ((intptr_t)(::CreateFromSource((::SrcD *)(void *)(&mesh))));
 }
 
 namespace fnv_00c909d0 {

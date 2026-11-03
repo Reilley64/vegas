@@ -1,5 +1,6 @@
 // fallout_shared/globalfunc.cpp: BipedNodeNames, NiAVObject, ActorMover, PathingGraphNode and more (110 functions)
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include "runtime/crt.h"
@@ -569,7 +570,7 @@ class FOPipboyManager
 
 
 // @fnv 0x004b2780
-bool __cdecl FUN_004b2780(NiPick* pPicker, int p2, int p3, float p4, int p5, bool p6)
+bool __cdecl FUN_004b2780(NiPick* pPicker, intptr_t p2, intptr_t p3, float p4, intptr_t p5, bool p6)
 {
     bool bResult = false;
     if (pPicker != 0 && p5 != 0 && p4 != 0.0)
@@ -1455,7 +1456,7 @@ void* FUN_004b51e0_shell::FUN_004b51e0(unsigned int flags)
 int GetCharAtOffset4(int);
 
 // @fnv 0x004b5980
-int FUN_004b5980(int param_1)
+int FUN_004b5980(intptr_t param_1)
 {
     return GetCharAtOffset4(param_1 + 0x14);
 }

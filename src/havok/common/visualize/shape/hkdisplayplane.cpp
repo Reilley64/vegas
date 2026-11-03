@@ -2,6 +2,7 @@
 // src/havok/common/visualize/shape/hkdisplayplane.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplayplane.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include <cstddef>
 #include <new>
@@ -137,11 +138,11 @@ __declspec(align(16)) struct VecTemp4
 
 struct FUN_00de5050_cls
 {
-    void FUN_00de5050(VecBuf* s, unsigned int a2);
+    void FUN_00de5050(VecBuf* s, uintptr_t a2);
 };
 
 // @fnv 0x00de5050
-void FUN_00de5050_cls::FUN_00de5050(VecBuf* s, unsigned int a2)
+void FUN_00de5050_cls::FUN_00de5050(VecBuf* s, uintptr_t a2)
 {
     int n = (int)(s->m_iElementCount & 0x3fffffff);
     if (n < 12)
@@ -366,7 +367,7 @@ class FUN_00de4f20_cls
   public:
     FUN_00de4f20_cls* FUN_00de4f20(const Vec4i* p0, const Vec4i* p1, const Vec4i* p2, const Vec4i* p3);
 
-    int m_vptr;              // 0x00
+    intptr_t m_vptr;              // 0x00
     unsigned short unk04;    // 0x04
     unsigned short m_06;     // 0x06
     int m_08;                // 0x08
@@ -400,7 +401,7 @@ FUN_00de4f20_cls* FUN_00de4f20_cls::FUN_00de4f20(const Vec4i* p0, const Vec4i* p
     *(volatile float*)&m_rot1.s.y = one;
     *(volatile float*)&m_rot2.s.z = one;
     _mm_store_ps((float*)&m_kAxisEndPoints.v, _mm_setzero_ps());
-    m_vptr = (int)&DAT_010d828c;
+    m_vptr = (intptr_t)&DAT_010d828c;
     m_60 = *p0;
     m_70 = *p2;
     m_80 = *p1;

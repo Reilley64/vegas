@@ -2,6 +2,7 @@
 // src/havok/common/base/system/io/reader/buffered/hkbufferedstreamreader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/reader/buffered/hkbufferedstreamreader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00cb1000.h"
@@ -223,10 +224,10 @@ struct FUN_00d2bbd0_cls
     int m_0c;
     int m_10;
     int m_14;
-    FUN_00d2bbd0_cls* Init(int p);
+    FUN_00d2bbd0_cls* Init(intptr_t p);
 };
 // @fnv 0x00d2bbd0
-FUN_00d2bbd0_cls* FUN_00d2bbd0_cls::Init(int p)
+FUN_00d2bbd0_cls* FUN_00d2bbd0_cls::Init(intptr_t p)
 {
     void* a = (MemoryManager*)FUN_00c85750()->m_10;
     m_00 = FUN_00c85620(a, (void*)p, 0x40);
@@ -447,7 +448,7 @@ struct FUN_00d2bc30_cls
     int* m_pVTable;
     unsigned short m_04;
     unsigned short m_06;
-    int m_08;
+    intptr_t m_08;
     FUN_00d2bbd0_cls* Init(int);
     FUN_00d2bc30_cls* FUN_00d2bc30(int, int);
 };

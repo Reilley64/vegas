@@ -2,6 +2,7 @@
 // src/havok/common/internal/kdtree/hkkdtree.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/kdtree/hkkdtree.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/symbols_00c90000.h"
@@ -68,13 +69,13 @@ void FUN_00d97710_class::ClearEntryByKey(int key)
 
 struct DrawParams
 {
-    int m_i00;
-    int m_i04;
+    intptr_t m_i00;
+    intptr_t m_i04;
     int unk08;
     int m_i0c;
     int m_iArrayLength;
     int unk14;
-    int m_i18;
+    intptr_t m_i18;
     int m_i1c;
 };
 

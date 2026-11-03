@@ -2,6 +2,7 @@
 // src/havok/animation/animation/animation/deltacompressed/hkadeltacompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/deltacompressed/hkadeltacompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_01012000.h"
 #include <xmmintrin.h>
@@ -136,8 +137,8 @@ public:
 // @fnv 0x00e34bb0
 void DeltaAnimationStandIn::GetCompressedBlockRange(unsigned int blockIndex, unsigned int blockCount, CompressedBlockRange* apRange)
 {
-    unsigned int start = m_uiCompressedBlockSize * blockIndex +
-        (unsigned int)m_kCompressedData.m_data + m_uiNumDynamicDofs;
+    uintptr_t start = m_uiCompressedBlockSize * blockIndex +
+        (uintptr_t)m_kCompressedData.m_data + m_uiNumDynamicDofs;
     unsigned char offset = (unsigned char)start & 15;
     apRange->alignedStart = start & ~15u;
     apRange->prefixBytes = offset;
@@ -298,10 +299,10 @@ struct DqArgs {
     unsigned int m_offset;         // +0x08
     hkUint8 m_ucSecondQuantizationParameter;           // +0x0c
     hkUint8 m_ucFirstQuantizationParameter;         // +0x0d
-    unsigned int m_offsetIdxOff;   // +0x10
-    unsigned int m_scaleIdxOff;    // +0x14
-    unsigned int m_bitWidthIdxOff; // +0x18
-    unsigned int m_quantOff;       // +0x1c
+    uintptr_t m_offsetIdxOff;   // +0x10
+    uintptr_t m_scaleIdxOff;    // +0x14
+    uintptr_t m_bitWidthIdxOff; // +0x18
+    uintptr_t m_quantOff;       // +0x1c
 };
 
 // simplified stand-in body; never byte-compared, only its convention + clobber set matter
@@ -353,10 +354,10 @@ static __declspec(noinline) void FUN_00e34d80(hkaDeltaCompressedAnimation* anim,
         args.m_offset = (unsigned int)r;
         args.m_ucSecondQuantizationParameter = anim->m_eQuantizationFormat.m_ucSecondQuantizationParameter;
         args.m_ucFirstQuantizationParameter = anim->m_eQuantizationFormat.m_ucFirstQuantizationParameter;
-        args.m_offsetIdxOff = (unsigned int)(data + anim->m_eQuantizationFormat.m_uiOffsetIndexOffset);
-        args.m_scaleIdxOff = (unsigned int)(data + anim->m_eQuantizationFormat.m_uiScaleIndexOffset);
-        args.m_bitWidthIdxOff = (unsigned int)(data + anim->m_eQuantizationFormat.m_uiBitWidthIndexOffset);
-        args.m_quantOff = (unsigned int)(data + (anim->m_uiCompressedBlockSize * q + anim->m_uiNumDynamicDofs));
+        args.m_offsetIdxOff = (uintptr_t)(data + anim->m_eQuantizationFormat.m_uiOffsetIndexOffset);
+        args.m_scaleIdxOff = (uintptr_t)(data + anim->m_eQuantizationFormat.m_uiScaleIndexOffset);
+        args.m_bitWidthIdxOff = (uintptr_t)(data + anim->m_eQuantizationFormat.m_uiBitWidthIndexOffset);
+        args.m_quantOff = (uintptr_t)(data + (anim->m_uiCompressedBlockSize * q + anim->m_uiNumDynamicDofs));
         args.m_iDofCount = (unsigned int)anim->m_iDofCount;
         FUN_00e349c0(dst, args);
     }
@@ -568,11 +569,11 @@ static void* FUN_00e34e80(ChunkCacheRef* cache, const hkaDeltaCompressedAnimatio
     return data;
 }
 
-extern int g_sink;
+extern intptr_t g_sink;
 static void FUN_00e34d80(const hkaDeltaCompressedAnimation* anim, int block, void* out, int numPoses)
 {
     hkTimer("TtcacheD");
-    g_sink = anim->m_iDofCount + anim->m_iFrameCount * block + (int)out + numPoses + anim->m_uiNumDynamicDofs;
+    g_sink = anim->m_iDofCount + anim->m_iFrameCount * block + (intptr_t)out + numPoses + anim->m_uiNumDynamicDofs;
     hkTimer("Et");
 }
 
@@ -1046,7 +1047,7 @@ public:
                       hkUint32 maxNumFloatTracks, float* floatTracksOut, ChunkCache* cache) const;
 };
 
-void __cdecl FUN_00e349c0(int a, int b, int c, int d, int e, int f, int g, int h);
+void __cdecl FUN_00e349c0(int a, int b, int c, int d, intptr_t e, int f, int g, int h);
 
 static __declspec(noinline) void Decompress(const DeltaSampler* anim, hkUint32 frame, float* out, hkUint32 count)
 {
@@ -1055,7 +1056,7 @@ static __declspec(noinline) void Decompress(const DeltaSampler* anim, hkUint32 f
     hkUint32 b = frame / block;
     int n = block;
     if (n > anim->m_iFrameCount) { n = anim->m_iFrameCount; b = 0; }
-    FUN_00e349c0(b * block, n, anim->m_eQuantizationFormat.m_uiDynamicDofCount, anim->m_kCompressedData.m_iElementCount, (int)out, count, 0, 0);
+    FUN_00e349c0(b * block, n, anim->m_eQuantizationFormat.m_uiDynamicDofCount, anim->m_kCompressedData.m_iElementCount, (intptr_t)out, count, 0, 0);
     TimerSplit("StInterpD");
 }
 

@@ -2,6 +2,7 @@
 // src/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include <cstddef>
 #include <new>
@@ -38,7 +39,7 @@ struct Buffer
     int m_iElementCount;
 };
 
-void __cdecl CallHandlerByIndex(int, int, int);
+void __cdecl CallHandlerByIndex(int, intptr_t, intptr_t);
 
 struct VecArray
 {
@@ -66,7 +67,7 @@ void Writer::FUN_00e319e0(unsigned char flags, int type, const FUN_005611c0_t* a
             FUN_005611c0_t t = apVecArray->m_data[i];
             t.FUN_005611c0();
             ::fnv_00e31800::FUN_00e31800(size, (::fnv_00e31800::Buf *)(::Buffer *)(&m_buf));
-            CallHandlerByIndex(type, (int)&t, (int)(m_buf.m_data + m_buf.m_iElementCount - size));
+            CallHandlerByIndex(type, (intptr_t)&t, (intptr_t)(m_buf.m_data + m_buf.m_iElementCount - size));
         }
     }
     else if (flags & 0x0f)
@@ -76,7 +77,7 @@ void Writer::FUN_00e319e0(unsigned char flags, int type, const FUN_005611c0_t* a
         FUN_005611c0_t t = *apVec;
         t.FUN_005611c0();
         ::fnv_00e31800::FUN_00e31800(size, (::fnv_00e31800::Buf *)(::Buffer *)(&m_buf));
-        CallHandlerByIndex(type, (int)&t, (int)(m_buf.m_data + m_buf.m_iElementCount - size));
+        CallHandlerByIndex(type, (intptr_t)&t, (intptr_t)(m_buf.m_data + m_buf.m_iElementCount - size));
     }
 }
 
@@ -413,7 +414,7 @@ void e319Cls::FUN_00e31900()
     for (int i = 0; i < m_2c; i++)
     {
         unsigned char* pSrc = (unsigned char*)(m_44[i] + m_74);
-        char* p = m_34 + (unsigned int)pSrc;
+        char* p = m_34 + (uintptr_t)pSrc;
         for (int n = 0; n < m_10; n++)
         {
             e319Rec rec;
@@ -723,7 +724,7 @@ void __cdecl FUN_00e318a0(unsigned int auBit, FUN_00e318a0_buf* apBuf)
                 ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(apBuf), 1);
             }
             char* volatile* pp = &apBuf->m_pData;
-            char* p = (char*)((unsigned int)*pp + apBuf->m_uLength);
+            char* p = (char*)((uintptr_t)*pp + apBuf->m_uLength);
             *p = 0;
             apBuf->m_uLength++;
             mask = *(volatile unsigned int*)&DAT_010eb3e8[auBit];
@@ -1423,15 +1424,15 @@ void Se31d50_Anim::FUN_00e31d50(const Se31d50_Raw& raw, const Se31d50_PerTrack& 
                     {
                         int numKnots;
                         int numControlPoints;
-                        ::FUN_00e58740(nf, (int)(U[c].begin()), (int)(data[c].begin()), degree[c], tolerance[c], (int)(&numKnots),
-                                     (int)(knots.begin()), (int)(&numControlPoints), (int)(controlPoints.begin()));
+                        ::FUN_00e58740(nf, (intptr_t)(U[c].begin()), (intptr_t)(data[c].begin()), degree[c], tolerance[c], (intptr_t)(&numKnots),
+                                     (intptr_t)(knots.begin()), (intptr_t)(&numControlPoints), (intptr_t)(controlPoints.begin()));
                         knots.SetSizeAndGrow(numKnots);
                         controlPoints.SetSizeAndGrow(numControlPoints);
                         if (controlPoints.GetLogicalSize() > nf)
                         {
                             degree[c] = 1;
-                            ::FUN_00e58740(nf, (int)(U[c].begin()), (int)(data[c].begin()), degree[c], tolerance[c], (int)(&numKnots),
-                                         (int)(knots.begin()), (int)(&numControlPoints), (int)(controlPoints.begin()));
+                            ::FUN_00e58740(nf, (intptr_t)(U[c].begin()), (intptr_t)(data[c].begin()), degree[c], tolerance[c], (intptr_t)(&numKnots),
+                                         (intptr_t)(knots.begin()), (intptr_t)(&numControlPoints), (intptr_t)(controlPoints.begin()));
                             knots.SetSizeAndGrow(numKnots);
                             controlPoints.SetSizeAndGrow(numControlPoints);
                         }
@@ -1482,13 +1483,13 @@ void Se31d50_Anim::FUN_00e31d50(const Se31d50_Raw& raw, const Se31d50_PerTrack& 
     {
         char reportBuf[512];
         Se31d50_ErrStream ostr(reportBuf, sizeof(reportBuf));
-        reinterpret_cast<::SinkOwner *>(&((*(::Se31d50_ErrStream *)&(reinterpret_cast<::CC0280Writer *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::SinkOwner *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(str_010eb418)))))->FUN_00cc02d0(originalSize)))))->FUN_00cc01c0(str_010eb428)))))->WriteInt(((int)(reinterpret_cast<::FUN_00e33330_Class *>((void *)this)->FUN_00e33330())))))))->FUN_00cc01c0(str_010eb468);
+        reinterpret_cast<::SinkOwner *>(&((*(::Se31d50_ErrStream *)&(reinterpret_cast<::CC0280Writer *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::SinkOwner *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(str_010eb418)))))->FUN_00cc02d0(originalSize)))))->FUN_00cc01c0(str_010eb428)))))->WriteInt(((intptr_t)(reinterpret_cast<::FUN_00e33330_Class *>((void *)this)->FUN_00e33330())))))))->FUN_00cc01c0(str_010eb468);
         (*reinterpret_cast<::Se31d50_Error * *>(&::DAT_01268360))->message(0, -1, reportBuf, str_010eb470, 372);
     }
     {
         char reportBuf[512];
         Se31d50_ErrStream ostr(reportBuf, sizeof(reportBuf));
-        reinterpret_cast<::SinkOwner *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::FloatArgStream *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(str_010eb400)))))->WriteFloat((float)originalSize / ((int)(reinterpret_cast<::FUN_00e33330_Class *>((void *)this)->FUN_00e33330())))))))->FUN_00cc01c0(str_010eb414);
+        reinterpret_cast<::SinkOwner *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::FloatArgStream *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(str_010eb400)))))->WriteFloat((float)originalSize / ((intptr_t)(reinterpret_cast<::FUN_00e33330_Class *>((void *)this)->FUN_00e33330())))))))->FUN_00cc01c0(str_010eb414);
         (*reinterpret_cast<::Se31d50_Error * *>(&::DAT_01268360))->message(0, -1, reportBuf, str_010eb470, 373);
     }
     (*reinterpret_cast<::Se31d50_Error * *>(&::DAT_01268360))->EndSection();

@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/mesh/hkxmeshclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxmeshclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00e3eaa0.h"
 #include "fnv/symbols_00cb0000.h"
 struct FUN_00cb0c00_class
@@ -32,8 +33,8 @@ struct Owner
 // @fnv 0x00e01ef0
 void* Owner::Destroy(unsigned int flags)
 {
-    ::FUN_00cb0c00((int)&(unk18));
-    ::FUN_00cb0c00((int)&(unk14));
+    ::FUN_00cb0c00((intptr_t)&(unk18));
+    ::FUN_00cb0c00((intptr_t)&(unk14));
     reinterpret_cast<::FUN_00e3eaa0 *>(this)->FUN_00e3eaa0::~FUN_00e3eaa0();
     if (flags & 1)
     {

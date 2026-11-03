@@ -2,6 +2,7 @@
 // src/havok/common/internal/collide/gsk/hkgsk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/gsk/hkgsk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv_simd.h"
 #include <xmmintrin.h>
 #include "fnv/decl/Solver.h"
@@ -1642,7 +1643,7 @@ GskStatus Gsk::FUN_00e4c730(const Input& input, GskCache* __restrict cache, GskO
         dir.set(1.0f, 0.0f, 0.0f, 0.0f);
         Vec4 dirNeg;
         dirNeg.setNeg4(dir);
-        reinterpret_cast<::FUN_004b4ab0_Class *>(&(dirNeg))->FUN_004b4ab0((int)&(input.m_kTransform.getRotation()), (int)&(dirNeg));
+        reinterpret_cast<::FUN_004b4ab0_Class *>(&(dirNeg))->FUN_004b4ab0((intptr_t)&(input.m_kTransform.getRotation()), (intptr_t)&(dirNeg));
         shapeA->GetSupportPoint(dir, &m_akPackedVerticesA[0]);
         shapeB->GetSupportPoint(dirNeg, &m_akPackedVerticesB[0]);
         m_akCachedVectors[0].FUN_00c7f700(input.m_kTransform.getRotation(), m_akPackedVerticesB[0]);

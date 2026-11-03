@@ -2,6 +2,7 @@
 // src/havok/common/base/math/matrix/hktransform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hktransform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include "fnv/decl/Cls_c7f4e0.h"
 #include "fnv/decl/CD4BA0Matrix3.h"
@@ -93,7 +94,7 @@ bool* S_cb2110_Foo::FUN_00cb2110(bool* result)
     bool value2;
     bool value;
 
-    if (*unk30.CheckFloatsFinite(&value1) && *((bool *)(::FUN_00cb2d70((unsigned int)this))))
+    if (*unk30.CheckFloatsFinite(&value1) && *((bool *)(::FUN_00cb2d70((uintptr_t)this))))
     {
         value = true;
     }

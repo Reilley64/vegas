@@ -2,6 +2,7 @@
 // src/havok/common/internal/kdtree/build/hkkdtreebuildingutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/kdtree/build/hkkdtreebuildingutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00df3110.h"
 #include "fnv/symbols_00df3000.h"
@@ -231,7 +232,7 @@ void __cdecl FUN_00d9d950(S9d950_Owner* apA, int aiB, const S9d950_Box* apC, con
             }
             else
             {
-                S9d950_Rel* left = (S9d950_Rel*)((unsigned long)&srcPair + (srcPair.m_off & 0x7ffffffc));
+                S9d950_Rel* left = (S9d950_Rel*)((uintptr_t)&srcPair + (srcPair.m_off & 0x7ffffffc));
                 dstPair = srcPair;
                 int d = left - (p + i);
                 dstPair.m_off = (d * 8) | (dstPair.m_off & 0x80000003);

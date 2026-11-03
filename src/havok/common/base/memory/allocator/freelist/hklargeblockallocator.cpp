@@ -2,6 +2,7 @@
 // src/havok/common/base/memory/allocator/freelist/hklargeblockallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/freelist/hklargeblockallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/fnv_00dd74b0__S00dd74b0_cls.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00dd7000.h"
@@ -10,11 +11,11 @@
 #include "fnv/symbols_010d7000.h"
 struct FUN_00dd74b0_cls
 {
-    void* FUN_00dd7650(int a, int b, int c, int d);
+    void* FUN_00dd7650(int a, int b, int c, intptr_t d);
 };
 // Calls FUN_00dd74b0 with the four arguments and returns this.
 // @fnv 0x00dd7650
-void* FUN_00dd74b0_cls::FUN_00dd7650(int a, int b, int c, int d)
+void* FUN_00dd74b0_cls::FUN_00dd7650(int a, int b, int c, intptr_t d)
 {
     reinterpret_cast<::fnv_00dd74b0::S00dd74b0_cls *>(this)->FUN_00dd74b0(a, b, c, d);
     return this;
@@ -191,7 +192,7 @@ struct TreeChunk
 };
 
 // @fnv 0x00dd8310
-unsigned int GetMaxChunkSize(TreeChunk* apTreeChunk, unsigned int maxSize)
+unsigned int GetMaxChunkSize(TreeChunk* apTreeChunk, uintptr_t maxSize)
 {
     while (apTreeChunk)
     {
@@ -226,7 +227,7 @@ unsigned int FUN_00dd8350_Alloc::FUN_00dd8350()
     {
         void* tree = m_treeBins[i];
         if (tree)
-            return ::GetMaxChunkSize((::TreeChunk *)this, (unsigned int)(tree));
+            return ::GetMaxChunkSize((::TreeChunk *)this, (uintptr_t)(tree));
     }
     return size;
 }
@@ -870,7 +871,7 @@ struct FUN_00dd8480_cls
     int unk0C;
     int unk10;
     unsigned int m_14;
-    int Allocate(int a);
+    intptr_t Allocate(intptr_t a);
 };
 
 
@@ -1121,7 +1122,7 @@ struct FUN_00dd8010_cls
 };
 struct FUN_00dd8400_cls
 {
-    void ResizeSegment(unsigned char* p, unsigned int n);
+    void ResizeSegment(unsigned char* p, uintptr_t n);
 };
 
 // @fnv 0x00dd8790
@@ -1174,7 +1175,7 @@ void FUN_00dd8790_cls::PurgeAndSelectBlock()
             return;
         }
         FUN_00dd8790_node* head = m_a4.m_04;
-        ((FUN_00dd8400_cls*)this)->ResizeSegment(&b, (unsigned int)m_10 - (unsigned int)head->m_10 + 0x120);
+        ((FUN_00dd8400_cls*)this)->ResizeSegment(&b, (uintptr_t)m_10 - (uintptr_t)head->m_10 + 0x120);
         return;
     }
     FUN_00dd8790_hdr* cur = m_10;
@@ -1239,7 +1240,7 @@ struct FUN_00dd8910_cls
 // @fnv 0x00dd8910
 bool* FUN_00dd8910_cls::IsChunkInPageList(bool* result, char* mem)
 {
-    unsigned int addr = (unsigned int)mem;
+    uintptr_t addr = (uintptr_t)mem;
     if ((addr & 0xf) != 0)
     {
         *result = false;
@@ -1255,8 +1256,8 @@ bool* FUN_00dd8910_cls::IsChunkInPageList(bool* result, char* mem)
     }
     BlockPage* page = m_kPage.next;
     BlockPage* sentinel = &m_kPage;
-    unsigned int start = 0;
-    unsigned int end = 0;
+    uintptr_t start = 0;
+    uintptr_t end = 0;
     if (page == sentinel)
     {
         goto fail;
@@ -1562,7 +1563,7 @@ struct Allocator_dd84c0
 
 inline char* alignUp(char* p)
 {
-    return (char*)(((int)p + 15) & -16);
+    return (char*)(((intptr_t)p + 15) & -16);
 }
 
 inline void alignEnd(char*& p)
@@ -1735,11 +1736,11 @@ struct S_dd8180_Alloc
 };
 // Tries ProbeSmall when m_08 is set, then AllocSlow if a+0x100 is below m_14, otherwise returns 0.
 // @fnv 0x00dd8480
-int FUN_00dd8480_cls::Allocate(int aiSize)
+intptr_t FUN_00dd8480_cls::Allocate(intptr_t aiSize)
 {
     if (m_08 != 0)
     {
-        int r = ((int)(reinterpret_cast<::S_dd8180_Alloc *>((aiSize))->FUN_00dd8180({})));
+        intptr_t r = ((intptr_t)(reinterpret_cast<::S_dd8180_Alloc *>((aiSize))->FUN_00dd8180({})));
         if (r != 0)
         {
             return r;
@@ -1747,7 +1748,7 @@ int FUN_00dd8480_cls::Allocate(int aiSize)
     }
     if ((unsigned int)(aiSize + 0x100) < m_14)
     {
-        return ((int)(reinterpret_cast<::hkBlockAllocator *>(this)->AllocateBlock(aiSize)));
+        return ((intptr_t)(reinterpret_cast<::hkBlockAllocator *>(this)->AllocateBlock(aiSize)));
     }
     return 0;
 }

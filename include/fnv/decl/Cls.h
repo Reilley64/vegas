@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct Elem;
 struct Entry;
@@ -17,7 +18,7 @@ public:
     // 0x00529330
     void FUN_00529330();
     // 0x00626420
-    void FUN_00626420(int);
+    void FUN_00626420(intptr_t);
     // 0x0082c810
     void ApplyEffect();
     // 0x00858af0

@@ -2,6 +2,7 @@
 // src/havok/common/base/container/string/hkstringptr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/string/hkstringptr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/SStringPtr.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cb1000.h"
@@ -57,8 +58,8 @@ static __declspec(noinline) void FUN_00cc0080(WriterCC0* apWriter, const char* a
         apWriter->Write("(null)", 6);
 }
 
-volatile int g_wcc0;
-volatile int g_scc0;
+volatile intptr_t g_wcc0;
+volatile intptr_t g_scc0;
 void CallTarget_cc0080()
 {
     WriterCC0* w = (WriterCC0*)g_wcc0;
@@ -94,7 +95,7 @@ extern "C"
 // @fnv 0x00cb11b0
 void* __cdecl FUN_00cb11b0(void* apSrc, int anMaxLen, void* p3)
 {
-    int len = (int)((void *)(::fnv_00cb10d0::FUN_00cb10d0((const char *)(apSrc))));
+    intptr_t len = (intptr_t)((void *)(::fnv_00cb10d0::FUN_00cb10d0((const char *)(apSrc))));
     if (len > anMaxLen)
         len = anMaxLen;
 

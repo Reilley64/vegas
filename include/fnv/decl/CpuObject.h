@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct CpuObject {
 public:
@@ -7,7 +8,7 @@ public:
     // 0x00c91020
     float FUN_00c91020();
     // 0x00cac910
-    unsigned int FUN_00cac910();
+    uintptr_t FUN_00cac910();
     // 0x00d872e0
     int FUN_00d872e0(int);
     // 0x00dba670

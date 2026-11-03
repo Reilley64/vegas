@@ -2,6 +2,7 @@
 // src/havok/common/serialize/packfile/hkpackfiledata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/packfile/hkpackfiledata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
@@ -47,7 +48,7 @@ struct FUN_00e05140_Class
 unsigned long FUN_00e05140_Class::FUN_00e05140()
 {
     if (m_iThirdValue)
-        return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((FUN_00cb1930_Class*)((char*)this + 0x10))))->LookupHashEntry((int)(m_iThirdValue), 0)));
+        return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((FUN_00cb1930_Class*)((char*)this + 0x10))))->LookupHashEntry((intptr_t)(m_iThirdValue), 0)));
     return 0;
 }
 
@@ -100,11 +101,11 @@ int FUN_00e05950_class::FindFirstNonEmptySlot()
 void* FUN_00c85750();
 struct UnkRet
 {
-    int a;
+    intptr_t a;
     int b;
     int c;
     int d;
-    int e;
+    intptr_t e;
 };
 struct UnkHolder
 {
@@ -129,7 +130,7 @@ void UnkHolder::FUN_00e055a0(UnkRet* r, int v)
         ::ResizeAudioStream((::AudioAllocator *)(void *)((void*)pTemp->e), (::AudioStream *)(slot), 8);
     UnkRet* p = (UnkRet*)((char*)slot->a + slot->b * 8);
     slot->b++;
-    p->a = (int)r;
+    p->a = (intptr_t)r;
     p->b = v;
 }
 
@@ -252,19 +253,19 @@ struct FUN_00e06d70_Class
 {
     char pad[0x10];
     void* m_pWriter;
-    void WriteSize(unsigned int size);
+    void WriteSize(uintptr_t size);
 };
 
 // @fnv 0x00e06d70
-void FUN_00e06d70_Class::WriteSize(unsigned int size)
+void FUN_00e06d70_Class::WriteSize(uintptr_t size)
 {
     void* p = m_pWriter;
     if (size < 0x100)
         ((ByteSink*)p)->PutBytePair(9, (char)size);
     else if (size < 0x10000)
-        reinterpret_cast<::FUN_00e06800_cls *>((((FUN_00e06800_Class*)p)))->FUN_00e06800(0xa, (int)((void*)size));
+        reinterpret_cast<::FUN_00e06800_cls *>((((FUN_00e06800_Class*)p)))->FUN_00e06800(0xa, (intptr_t)((void*)size));
     else
-        reinterpret_cast<::FUN_00e069a0_cls *>((((E06C20Writer*)p)))->FUN_00e069a0(0xb, (unsigned int)((void*)size));
+        reinterpret_cast<::FUN_00e069a0_cls *>((((E06C20Writer*)p)))->FUN_00e069a0(0xb, (uintptr_t)((void*)size));
 }
 
 struct FUN_00e05100_cls
@@ -272,11 +273,11 @@ struct FUN_00e05100_cls
     int unk00;
     int unk04;
     int m_iValue08;
-    void FUN_00e05100(int value, int unused);
+    void FUN_00e05100(int value, intptr_t unused);
 };
 
 // @fnv 0x00e05100
-void FUN_00e05100_cls::FUN_00e05100(int value, int unused)
+void FUN_00e05100_cls::FUN_00e05100(int value, intptr_t unused)
 {
     m_iValue08 = value;
 }
@@ -454,11 +455,11 @@ struct hkPointerMapE055 : public FUN_00e05950_class
         }
         return i;
     }
-    unsigned long GetIteratorKey(int iIt) const
+    uintptr_t GetIteratorKey(int iIt) const
     {
         return ((hkPointerMapPairE055*)m_p)[iIt].m_uiKey;
     }
-    unsigned long getValue(int iIt) const
+    uintptr_t getValue(int iIt) const
     {
         return ((hkPointerMapPairE055*)m_p)[iIt].m_uiCurrentValue;
     }
@@ -485,7 +486,7 @@ void* hkPackfileDataE055::FUN_00e055f0(const char* pcExpectedClassName, const hk
     if (m_pvTopLevelObject)
     {
         const char* pcTopClassName =
-            (const char*)((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((FUN_00dce8d0_class*)&m_kTrackedTypes)))->LookupHashEntry((unsigned long)m_pvTopLevelObject, 0)));
+            (const char*)((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((FUN_00dce8d0_class*)&m_kTrackedTypes)))->LookupHashEntry((uintptr_t)m_pvTopLevelObject, 0)));
         if (pcExpectedClassName)
         {
             const hkClassRegistryE055* pkRegistry = m_pkClassRegistry;
@@ -910,7 +911,7 @@ void FUN_00e05370_Class::Clear()
             do
             {
                 void* key = list.data[index].key;
-                FUN_00e05370_Callback* pCallback = ((::FUN_00e05370_Callback *)(reinterpret_cast<::hkObjectD878 *>(&(map))->GetValue((int)(key), 0)));
+                FUN_00e05370_Callback* pCallback = ((::FUN_00e05370_Callback *)(reinterpret_cast<::hkObjectD878 *>(&(map))->GetValue((intptr_t)(key), 0)));
                 if (pCallback && pCallback->invoke)
                     pCallback->invoke(list.data[index].id);
                 int next = index + 1;
@@ -1006,7 +1007,7 @@ S00e05700_Class* S00e05700_Class::FUN_00e05700()
     void* audio = FUN_00c85750();
     void* audioObject = *reinterpret_cast<void**>(reinterpret_cast<char*>(audio) + 0x10);
 
-    reinterpret_cast<::FUN_00cb1fe0_t *>((reinterpret_cast<FUN_00cb1fe0_Class*>(first)))->EnsureCapacity((int)(audioObject), zero);
+    reinterpret_cast<::FUN_00cb1fe0_t *>((reinterpret_cast<FUN_00cb1fe0_Class*>(first)))->EnsureCapacity((intptr_t)(audioObject), zero);
 
     unsigned char flag = static_cast<unsigned char>(zero);
     int flagArg = *reinterpret_cast<int*>(&flag);
@@ -1019,7 +1020,7 @@ S00e05700_Class* S00e05700_Class::FUN_00e05700()
     arr4C.reset(static_cast<int>(0x80000000u));
     arr58.reset(static_cast<int>(0x80000000u));
 
-    int result = (*reinterpret_cast<::FUN_01268B08_Obj * *>(&::DAT_01268b08))->vf10();
+    intptr_t result = (*reinterpret_cast<::FUN_01268B08_Obj * *>(&::DAT_01268b08))->vf10();
 
     if (result != 0)
     {

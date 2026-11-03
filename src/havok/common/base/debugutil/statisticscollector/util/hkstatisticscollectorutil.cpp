@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstdint>
 #include "fnv/decl/D06D50Finder.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00d46f70_cls.h"
@@ -58,7 +59,7 @@ class Handler
     virtual void v10();
     virtual void Emit(int kind, int a, const char* s, int len, int hash);
 public:
-    void EmitString(int, unsigned int *);
+    void EmitString(intptr_t, unsigned int *);
 };
 
 // If s is non-null, computes its length plus one, hashes it via the audio hasher, and emits it through h with kind 1 and *a.
@@ -284,10 +285,10 @@ void __cdecl CalleeB_00cf60d0(int aiA, int aiB, int aiC, int aiD);
 
 // Calls CalleeA on the object at aiSecond with aiFirst; if it returns nonzero, passes 0, aiFirst, the result and aiSecond to CalleeB_00cf60d0.
 // @fnv 0x00cf6140
-void __cdecl CallObjectMethodAndDispatch(int aiFirst, int aiSecond)
+void __cdecl CallObjectMethodAndDispatch(intptr_t aiFirst, intptr_t aiSecond)
 {
     SpawnedObject* pObj = (SpawnedObject*)aiSecond;
-    int result = ((int)(reinterpret_cast<::D06D50Finder *>((pObj))->FindClass((const ::D06D50Object *)(aiFirst))));
+    intptr_t result = ((intptr_t)(reinterpret_cast<::D06D50Finder *>((pObj))->FindClass((const ::D06D50Object *)(aiFirst))));
     if (result != 0)
     {
         CalleeB_00cf60d0(0, aiFirst, result, aiSecond);
@@ -461,7 +462,7 @@ __declspec(noinline) int FNV_Cf62b0_Obj::FUN_cf62b0_get04()
     return m04;
 }
 
-extern "C" void __cdecl FUN_cf62b0_next(unsigned char* out, int node);
+extern "C" void __cdecl FUN_cf62b0_next(unsigned char* out, intptr_t node);
 
 // @fnv 0x00cf62b0
 unsigned char* GetFlagByState(unsigned char* pucOut, FNV_Cf62b0_Obj* pObj)
@@ -515,7 +516,7 @@ unsigned char* GetFlagByState(unsigned char* pucOut, FNV_Cf62b0_Obj* pObj)
         return pucOut;
 
     case 24:
-        FUN_cf62b0_next(pucOut, ((int)(reinterpret_cast<::TestClass *>((pObj))->FUN_00d86910())));
+        FUN_cf62b0_next(pucOut, ((intptr_t)(reinterpret_cast<::TestClass *>((pObj))->FUN_00d86910())));
         return pucOut;
 
     default:
@@ -626,13 +627,13 @@ void __cdecl WriteReflectedMembers(void* base, Meta64* apMeta, Writer64* writer)
             if (n <= 1)
             {
                 const char* name = m->name;
-                reinterpret_cast<::Handler *>((writer))->EmitString((int)(name), (unsigned int *)(((const char *)(reinterpret_cast<::StringMemberAccessor *>(&(value))->FUN_00d87230(0)))));
+                reinterpret_cast<::Handler *>((writer))->EmitString((intptr_t)(name), (unsigned int *)(((const char *)(reinterpret_cast<::StringMemberAccessor *>(&(value))->FUN_00d87230(0)))));
             }
             else
                 for (int j = 0; j < n; ++j)
                 {
                     const char* name = m->name;
-                    reinterpret_cast<::Handler *>((writer))->EmitString((int)(name), (unsigned int *)(((const char *)(reinterpret_cast<::StringMemberAccessor *>(&(value))->FUN_00d87230(j)))));
+                    reinterpret_cast<::Handler *>((writer))->EmitString((intptr_t)(name), (unsigned int *)(((const char *)(reinterpret_cast<::StringMemberAccessor *>(&(value))->FUN_00d87230(j)))));
                 }
             break;
         }
@@ -771,7 +772,7 @@ static __declspec(noinline) const char* FUN_00cf6210(const void* object, const h
             return s ? s : "unnamed";
         }
         case 0x21: {
-            const char* s = (const char*)((unsigned int)(*(::hkStringPtr *)(reinterpret_cast<::StringMemberAccessor *>(&(accessor))->FUN_00d87230(0))).m_pcText & ~1u);
+            const char* s = (const char*)((uintptr_t)(*(::hkStringPtr *)(reinterpret_cast<::StringMemberAccessor *>(&(accessor))->FUN_00d87230(0))).m_pcText & ~1u);
             return s ? s : "unnamed";
         }
         }
@@ -791,7 +792,7 @@ extern const char DAT_01094398[];
 extern const char DAT_010cc458[];
 struct TaggedString64
 {
-    unsigned int bits;
+    uintptr_t bits;
 };
 static __declspec(noinline) const char* FUN_00cf6210(Meta64* pClassInfo, void* object)
 {
@@ -855,7 +856,7 @@ void __cdecl FUN_00cf6460(Member64* member, void* elements, int count, Writer64*
         return;
     case 0x21: {
         for (int i = 0; i < count; ++i)
-            reinterpret_cast<::Handler *>((writer))->EmitString((int)(member->name), (unsigned int *)((const char*)((const char**)elements + i)));
+            reinterpret_cast<::Handler *>((writer))->EmitString((intptr_t)(member->name), (unsigned int *)((const char*)((const char**)elements + i)));
         return;
     }
     }

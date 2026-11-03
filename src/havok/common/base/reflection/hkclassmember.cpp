@@ -2,6 +2,7 @@
 // src/havok/common/base/reflection/hkclassmember.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/reflection/hkclassmember.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00d46cf0_C.h"
 #include "fnv/decl/FUN_00d46f00_s.h"
 #include "fnv/decl/FnvCpu_FUN_00d470d0_CpuObject.h"
@@ -34,7 +35,7 @@ const hkVariant* hkClassMember_FUN_00d86960::FUN_00d86960(const char* name) cons
 extern char DAT_011b6ab0;
 
 // @fnv 0x00d868a0
-char* __cdecl FUN_00d868a0(int index)
+char* __cdecl FUN_00d868a0(intptr_t index)
 {
     return &DAT_011b6ab0 + index * 12;
 }
@@ -43,7 +44,7 @@ int __cdecl FUN_00d86980();
 
 // Stores v into p as a char, short or int depending on the size returned by FUN_00d86980.
 // @fnv 0x00d86bc0
-void FUN_00d86bc0(int apTarget, int aiValue)
+void FUN_00d86bc0(intptr_t apTarget, int aiValue)
 {
     switch (FUN_00d86980())
     {
@@ -89,11 +90,11 @@ struct Struct_d86920
 {
     int unk00;
     int unk04;
-    int FUN_00d86920();
+    intptr_t FUN_00d86920();
 };
 
 // @fnv 0x00d86920
-int Struct_d86920::FUN_00d86920()
+intptr_t Struct_d86920::FUN_00d86920()
 {
     return unk04;
 }
@@ -127,7 +128,7 @@ struct FUN_00d86bc0_Obj
 };
 
 // @fnv 0x00dc1bf0
-unsigned int FUN_00dc1bf0(int aiArg, int pMember, int pSource, int aiUnused)
+unsigned int FUN_00dc1bf0(intptr_t aiArg, intptr_t pMember, intptr_t pSource, intptr_t aiUnused)
 {
     FUN_00d86bc0_Obj* member = (FUN_00d86bc0_Obj*)pMember;
     unsigned int type = member->unk0C;
@@ -138,13 +139,13 @@ unsigned int FUN_00dc1bf0(int aiArg, int pMember, int pSource, int aiUnused)
         if (member->unk08 != 0)
         {
             int result = reinterpret_cast<::S_00dba990 *>((((FUN_00dba990_Obj*)pSource)))->FUN_00dba990();
-            ::FUN_00d86bc0((int)(member), aiArg);
+            ::FUN_00d86bc0((intptr_t)(member), aiArg);
         }
         return 0;
     case 0x1f:
         if (member->unk08 != 0)
         {
-            ::FUN_00d86bc0((int)(member), aiArg);
+            ::FUN_00d86bc0((intptr_t)(member), aiArg);
         }
         return 0;
     }

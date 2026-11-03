@@ -2,6 +2,7 @@
 // src/havok/common/serialize/util/hkbuiltintyperegistry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hkbuiltintyperegistry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/symbols_00401000.h"
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
@@ -49,7 +50,7 @@ struct FUN_00d479e0_class
 // @fnv 0x00d479e0
 void* FUN_00d479e0_class::FUN_00d479e0(const void* key)
 {
-    return ((void *)(reinterpret_cast<::hkObjectD878 *>((((FUN_00d479e0_class*)((char*)this + 8))))->GetValue((int)(key), (int)(0))));
+    return ((void *)(reinterpret_cast<::hkObjectD878 *>((((FUN_00d479e0_class*)((char*)this + 8))))->GetValue((intptr_t)(key), (int)(0))));
 }
 
 struct FUN_00d47a80_class
@@ -60,7 +61,7 @@ struct FUN_00d47a80_class
 // @fnv 0x00d47a80
 void* FUN_00d47a80_class::ForwardToOffsetMember(void* apArg)
 {
-    return ((void *)(reinterpret_cast<::hkObjectD878 *>((((FUN_00d47a80_class*)((char*)this + 0xc))))->GetValue((int)(apArg), 0)));
+    return ((void *)(reinterpret_cast<::hkObjectD878 *>((((FUN_00d47a80_class*)((char*)this + 0xc))))->GetValue((intptr_t)(apArg), 0)));
 }
 
 struct HashEntryTable
@@ -89,18 +90,18 @@ struct FUN_00d47aa0_s
     int a;
     int b;
     int c;
-    void FUN_00d47aa0(int a, const char* name);
+    void FUN_00d47aa0(intptr_t a, const char* name);
 };
 // Calls FUN_00d874d0 on the object at this+0xc with the given name (or the name from a) and a.
 // @fnv 0x00d47aa0
-void FUN_00d47aa0_s::FUN_00d47aa0(int a, const char* name)
+void FUN_00d47aa0_s::FUN_00d47aa0(intptr_t a, const char* name)
 {
     reinterpret_cast<::hkStringMapD874 *>((((FUN_00d874d0_s*)((char*)this + 0xc))))->FUN_00d874d0(name ? name : reinterpret_cast<::FnvClassNameNode *>((void *)(((D481D0Class*)a)))->FUN_00d46d40(), a);
 }
 
 struct FUN_00d87440_Class
 {
-    int FUN_00d87440(int);
+    intptr_t FUN_00d87440(int);
 };
 struct SlotBitmap
 {
@@ -136,7 +137,7 @@ void FUN_00d47ad0_class::ProcessRegistryEntries(FUN_00d874b0_class* reg)
 
 struct MemoryManager
 {
-    int a, b, c, d;
+    intptr_t a, b, c, d;
     void* e;
 };
 struct MemoryRouter
@@ -160,10 +161,10 @@ void FUN_00d47c60_class::FUN_00d47c60(void* key, int aiDefault)
 {
     MemoryRouter* r = D1A0E0GetMemoryRouter();
     void* p = (void*)r->j.a;
-    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(z))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(p)), (unsigned int)(key), aiDefault);
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(z))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(p)), (uintptr_t)(key), aiDefault);
 }
 
-extern int DAT_01269b18;
+extern intptr_t DAT_01269b18;
 
 // @fnv 0x00d47a00
 int __cdecl FUN_00d47a00()
@@ -171,7 +172,7 @@ int __cdecl FUN_00d47a00()
     return DAT_01269b18;
 }
 
-extern int DAT_01269b14;
+extern intptr_t DAT_01269b14;
 
 // @fnv 0x00d47a10
 int __cdecl FUN_00d47a10()
@@ -203,7 +204,7 @@ struct D477C0RegistryA
     virtual void slot10();
     virtual void slot14();
     virtual void slot18();
-    virtual void registerObject(D477C0Source*, int);
+    virtual void registerObject(D477C0Source*, intptr_t);
 };
 struct D477C0RegistryB
 {
@@ -223,7 +224,7 @@ struct D477C0RegistryC
 void RegisterInputSource(D477C0Input* input, D477C0Source* source)
 {
     D477C0RegistryA* registryA = *(D477C0RegistryA**)&DAT_01269b14;
-    registryA->registerObject(source, ((int)(reinterpret_cast<::FnvClassNameNode *>((source))->FUN_00d46d40())));
+    registryA->registerObject(source, ((intptr_t)(reinterpret_cast<::FnvClassNameNode *>((source))->FUN_00d46d40())));
     D477C0RegistryB* registryB = *(D477C0RegistryB**)&DAT_01269b18;
     registryB->registerInput(input);
     if (reinterpret_cast<::hkBlockD46E *>((source))->SumLinkedValues() > 0)
@@ -256,7 +257,7 @@ class hkClassNameRegistryD478
 // @fnv 0x00d478e0
 void hkClassNameRegistryD478::RegisterClass(const hkClassD478* pkClass)
 {
-    reinterpret_cast<::hkStringMapD874 *>(&(m_map))->FUN_00d874d0(pkClass->getName(), (int)pkClass);
+    reinterpret_cast<::hkStringMapD874 *>(&(m_map))->FUN_00d874d0(pkClass->getName(), (intptr_t)pkClass);
 }
 
 struct hkEntryD479
@@ -281,7 +282,7 @@ struct hkObjD479
 // @fnv 0x00d47900
 hkEntryD479* hkObjD479::FindEntryAndCall(void* apArg, void* key)
 {
-    hkEntryD479* p = (hkEntryD479*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_map))->GetValue((int)(key), 0)));
+    hkEntryD479* p = (hkEntryD479*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_map))->GetValue((intptr_t)(key), 0)));
     if (p)
     {
         if (p->m_func)
@@ -307,14 +308,14 @@ struct FUN_00d47940_Obj
     int unk00;
     int unk04;
     FUN_00d47940_Registry unk08;
-    void* FUN_00d47940(int param1, int param2);
+    void* FUN_00d47940(int param1, intptr_t param2);
 };
 
 // Looks up a result by key in the registry, and if found and it has a callback, invokes that callback with param1; returns the result.
 // @fnv 0x00d47940
-void* FUN_00d47940_Obj::FUN_00d47940(int param1, int aKey)
+void* FUN_00d47940_Obj::FUN_00d47940(int param1, intptr_t aKey)
 {
-    FUN_00d47940_Result* result = (FUN_00d47940_Result*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(this->unk08))->GetValue((int)((const void*)aKey), (int)(0))));
+    FUN_00d47940_Result* result = (FUN_00d47940_Result*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(this->unk08))->GetValue((intptr_t)((const void*)aKey), (int)(0))));
 
     if (result != 0 && result->unk08 != 0)
     {
@@ -348,7 +349,7 @@ void FUN_00d47970_Class::FUN_00d47970(void* iterator)
         do
         {
             int key = ((FUN_00d87440_Class*)registry)->FUN_00d87440(index);
-            int value = reinterpret_cast<::FUN_00d87430_class *>((((FUN_00d87430_Class*)registry)))->GetEntry(index);
+            intptr_t value = reinterpret_cast<::FUN_00d87430_class *>((((FUN_00d87430_Class*)registry)))->GetEntry(index);
             reinterpret_cast<::hkStringMapD874 *>((destination))->FUN_00d874d0((const char*)value, key);
             index = ((SlotBitmap*)registry)->FindNextUsedSlot(index);
             ((FUN_00d874b0_class*)registry)->SetBoolFromThreshold((char*)&iterator, index);
@@ -582,7 +583,7 @@ class hkPointerMapD47C
 
     hkMapIteratorD47C GetFirstIterator() const
     {
-        int i;
+        intptr_t i;
         for (i = 0; i <= m_iPairCount; ++i)
         {
             if (m_kPrimitiveElement[i].key != -1)
@@ -592,7 +593,7 @@ class hkPointerMapD47C
     }
     hkMapIteratorD47C getNext(hkMapIteratorD47C it) const
     {
-        int i = reinterpret_cast<int>(it);
+        intptr_t i = reinterpret_cast<intptr_t>(it);
         for (i += 1; i <= m_iPairCount; ++i)
         {
             if (m_kPrimitiveElement[i].key != -1)
@@ -602,11 +603,11 @@ class hkPointerMapD47C
     }
     bool isValid(hkMapIteratorD47C it) const
     {
-        return reinterpret_cast<int>(it) <= m_iPairCount;
+        return reinterpret_cast<intptr_t>(it) <= m_iPairCount;
     }
     int getValue(hkMapIteratorD47C it) const
     {
-        return m_kPrimitiveElement[reinterpret_cast<int>(it)].val;
+        return m_kPrimitiveElement[reinterpret_cast<intptr_t>(it)].val;
     }
 };
 
@@ -714,7 +715,7 @@ void FUN_00d47d70_class::InitGlobalObjects()
     {
         reinterpret_cast<::FUN_00c903b0_class *>(((void*)DAT_01269b14))->ReleaseReference();
     }
-    DAT_01269b14 = (int)p;
+    DAT_01269b14 = (intptr_t)p;
 
     Obj2* n;
     n = (Obj2*)FUN_00c85750()->alloc(0x1c);
@@ -729,7 +730,7 @@ void FUN_00d47d70_class::InitGlobalObjects()
     {
         reinterpret_cast<::FUN_00c903b0_class *>(((void*)DAT_01269b18))->ReleaseReference();
     }
-    DAT_01269b18 = (int)n;
+    DAT_01269b18 = (intptr_t)n;
 
     Obj3* kIter;
     kIter = (Obj3*)FUN_00c85750()->alloc(0x14);
@@ -742,13 +743,13 @@ void FUN_00d47d70_class::InitGlobalObjects()
     pDepth->d1 = 0;
     pDepth->d2 = -1;
     MyRouter* r = FUN_00c85750();
-    reinterpret_cast<::FUN_00cb1fe0_t *>((pDepth))->EnsureCapacity((int)(r->heap), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>((pDepth))->EnsureCapacity((intptr_t)(r->heap), 0);
 
     if (DAT_01269b10)
     {
         reinterpret_cast<::FUN_00c903b0_class *>(((void*)DAT_01269b10))->ReleaseReference();
     }
-    DAT_01269b10 = (int)kIter;
+    DAT_01269b10 = (intptr_t)kIter;
 
     ::FUN_00d47860();
 }

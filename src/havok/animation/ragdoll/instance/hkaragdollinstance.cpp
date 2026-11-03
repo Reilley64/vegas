@@ -2,6 +2,7 @@
 // src/havok/animation/ragdoll/instance/hkaragdollinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/instance/hkaragdollinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_005611c0_t.h"
 #include "fnv/decl/FUN_00c86490_Class.h"
 #include "fnv/decl/Quat74.h"
@@ -32,7 +33,7 @@
 #include "havok/hkaRagdollInstance.h"
 
 // @fnv 0x00ce18d0
-void FUN_00ce18d0(int a)
+void FUN_00ce18d0(intptr_t a)
 {
     reinterpret_cast<::Ragdoll4 *>((a))->FUN_00ce1760((::hkQsTransformC17 *)((int)&DAT_01268700), (*(const ::hkQsTransformC17 *)(0)), {});
 }
@@ -110,7 +111,7 @@ void* FUN_00ce29b0_standin::Destroy(unsigned char deletingFlag)
 
 struct FnvVtObj
 {
-    int m_vptr;
+    intptr_t m_vptr;
 
     FnvVtObj* FUN_00ce25f0(unsigned int unusedArg);
 };
@@ -118,7 +119,7 @@ struct FnvVtObj
 // @fnv 0x00ce25f0
 FnvVtObj* FnvVtObj::FUN_00ce25f0(unsigned int unusedArg)
 {
-    m_vptr = (int)&::DAT_010cb830;
+    m_vptr = (intptr_t)&::DAT_010cb830;
     return this;
 }
 
@@ -302,7 +303,7 @@ void FUN_00ce26f0_Class::FUN_00ce26f0(FUN_00ce2430_Transform* apTransform)
 
     if (target == 0)
     {
-        ::FUN_00ce18d0((int)(this));
+        ::FUN_00ce18d0((intptr_t)(this));
         return;
     }
 
@@ -685,7 +686,7 @@ struct Vec4x3
 
 // Reserves stack space for count Vec4x3 values, transforms each source entry with SIMD, calls FUN_00ce2d10, then restores the stack cursor.
 // @fnv 0x00ce2f40
-void __cdecl FUN_00ce2f40(unsigned int arg0, unsigned int arg1, unsigned int arg2, int count, unsigned int arg4)
+void __cdecl FUN_00ce2f40(unsigned int arg0, uintptr_t arg1, unsigned int arg2, int count, unsigned int arg4)
 {
     void** cursor = (void**)FUN_00c85750();
     unsigned char* pMatBase = (unsigned char*)*cursor;
@@ -857,7 +858,7 @@ void RagdollHelper::FUN_00ce1560(PoseW pose)
             hkpRigidBody* rb = (hkpRigidBody*)m_ppRigidBodies.m_data[rbIndex];
             if (rb)
             {
-                reinterpret_cast<::FUN_00ca8860_cls *>((rb))->FUN_00ca8860((int)&(cursor->m_vTranslation), (int)&(cursor->m_rotation));
+                reinterpret_cast<::FUN_00ca8860_cls *>((rb))->FUN_00ca8860((intptr_t)&(cursor->m_vTranslation), (intptr_t)&(cursor->m_rotation));
 
                 __m128 kZeroVec = *(const __m128*)&zero;
                 __m128 kLinVel = *(const __m128*)&rb->m_pMotionState.m_kTranslationalVelocity;
@@ -908,12 +909,12 @@ struct FUN_00ce2510
     InitArray<int> m_kBoneMap;
     int m_2c;
 
-    FUN_00ce2510(int a, int b, int c, ObjectArray<int>* d);
+    FUN_00ce2510(intptr_t a, intptr_t b, intptr_t c, ObjectArray<int>* d);
 };
 
 // Sets the vtable and reference count, calls FUN_00ce22c0, and assigns m_kBoneMap from the provided array.
 // @fnv 0x00ce2510
-FUN_00ce2510::FUN_00ce2510(int a, int b, int c, ObjectArray<int>* apBoneMap) : m_vptr(&DAT_010cb830), m_6(1)
+FUN_00ce2510::FUN_00ce2510(intptr_t a, intptr_t b, intptr_t c, ObjectArray<int>* apBoneMap) : m_vptr(&DAT_010cb830), m_6(1)
 {
     m_2c = 0;
 
@@ -949,7 +950,7 @@ class FUN_00827200_class
 {
   public:
     float m_00, m_04, m_08, m_0c;
-    void FUN_00cb26e0(int);
+    void FUN_00cb26e0(intptr_t);
 };
 
 static __forceinline __m128 Dot3(__m128 v)
@@ -998,7 +999,7 @@ void FUN_00ce0d30(ThisX* th, void* edx_unused, const Elem* points, VecF* out)
     _mm_store_ps(&axes[0].x, c2);
     _mm_store_ps(&axes[1].x, b);
     _mm_store_ps(&axes[2].x, n1);
-    obj.FUN_00cb26e0((int)&axes[0]);
+    obj.FUN_00cb26e0((intptr_t)&axes[0]);
     _mm_store_ps(&out->x, _mm_load_ps(&obj.m_00));
 }
 
@@ -2070,7 +2071,7 @@ class RagdollMapperC18
 // @fnv 0x00ce18f0
 void RagdollMapperC18::FUN_00ce18f0(hkQsTransformC18* pkPoseOut, const hkQsTransformC18& kWorldFromModel)
 {
-    ::FUN_00ce18d0((int)this);
+    ::FUN_00ce18d0((intptr_t)this);
     int iNumBones = m_pkSkeleton->m_iBoneCount;
     hkQsTransformC18 kModelFromWorld;
     kModelFromWorld.SetConjugate(kWorldFromModel);
@@ -2140,7 +2141,7 @@ static __declspec(noinline) void FUN_00ce0ff0(const hkVec4& dir, hkQuat& q)
     m.m_kColumn1.m_vComponents = dirQuad;
     m.m_kColumn2.m_vComponents = c;
     hkQuat rq;
-    reinterpret_cast<::FUN_00827200_class *>(&(rq))->FUN_00cb26e0((int)&(m));
+    reinterpret_cast<::FUN_00827200_class *>(&(rq))->FUN_00cb26e0((intptr_t)&(m));
     hkQuat inv;
     __m128 mask = DAT_010c4c00;
     _ReadWriteBarrier();
@@ -2857,7 +2858,7 @@ void RagInstance::FUN_00ce1ad0(const RagQsTransform* pose, const RagQsTransform&
             RagQsTransform rbWorld;
             rbWorld.SetProduct(worldFromModel, *pose);
             reinterpret_cast<::FUN_005611c0_t *>(&(rbWorld.m_rotation))->FUN_005611c0();
-            reinterpret_cast<::FUN_00ca8860_cls *>((rb))->FUN_00ca8860((int)(&rbWorld.m_vTranslation), (int)(&rbWorld.m_rotation));
+            reinterpret_cast<::FUN_00ca8860_cls *>((rb))->FUN_00ca8860((intptr_t)(&rbWorld.m_vTranslation), (intptr_t)(&rbWorld.m_rotation));
 
             const float* zero = &::DAT_01267e30;
             if (!equals4(rb->m_kTranslationalVelocity, zero))
@@ -3178,8 +3179,8 @@ void PoseVelocity_RagdollPoseUpdater::FUN_00ce1ca0(const PoseVelocity_MyQsTransf
                 worldPoseB.SetProduct(worldFromModelB, poseB[i]);
                 reinterpret_cast<::FUN_005611c0_t *>(&(worldPoseB.m_rotation))->FUN_005611c0();
 
-                reinterpret_cast<::FUN_00ca8860_cls *>((body))->FUN_00ca8860((int)&(reinterpret_cast<const hkVector4&>(worldPoseB.m_vTranslation)),
-                                   (int)&(reinterpret_cast<const hkQuaternion&>(worldPoseB.m_rotation)));
+                reinterpret_cast<::FUN_00ca8860_cls *>((body))->FUN_00ca8860((intptr_t)&(reinterpret_cast<const hkVector4&>(worldPoseB.m_vTranslation)),
+                                   (intptr_t)&(reinterpret_cast<const hkQuaternion&>(worldPoseB.m_rotation)));
 
                 PoseVelocity_MyVector4 linearVelocity;
                 linearVelocity.setSub4(worldPoseB.m_vTranslation, worldPoseA.m_vTranslation);

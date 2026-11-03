@@ -2,6 +2,7 @@
 // src/havok/common/serialize/packfile/binary/hkbinarypackfilewriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/packfile/binary/hkbinarypackfilewriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/Archive.h"
@@ -53,7 +54,7 @@ extern void* DAT_010d65bc;
 struct FUN_00dbdf30_s
 {
 public:
-    void FUN_00dbdf30(int, int);
+    void FUN_00dbdf30(intptr_t, intptr_t);
 };
 struct FUN_00dbc670
 {
@@ -68,14 +69,14 @@ FUN_00dbc670::FUN_00dbc670()
     FUN_00dbe4d0();
     m_vft = &DAT_010d65bc;
     ::FUN_00dbdef0();
-    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30((int)(&::g_0126cae8), DAT_011b7aec);
-    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30((int)(&::g_0126ca58), DAT_011b7aec);
-    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30((int)(&::g_0126cab8), DAT_011b7aec);
-    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30((int)(&::g_0126ca88), DAT_011b7aec);
+    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30((intptr_t)(&::g_0126cae8), DAT_011b7aec);
+    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30((intptr_t)(&::g_0126ca58), DAT_011b7aec);
+    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30((intptr_t)(&::g_0126cab8), DAT_011b7aec);
+    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30((intptr_t)(&::g_0126ca88), DAT_011b7aec);
 }
 
 // @fnv 0x00dbd720
-unsigned int __cdecl FUN_00dbd720(unsigned int arg)
+uintptr_t __cdecl FUN_00dbd720(uintptr_t arg)
 {
     return *reinterpret_cast<unsigned int*>(arg + 4) * 3 * 16;
 }
@@ -273,7 +274,7 @@ static inline int S_Rev(int v)
 }
 
 // @fnv 0x00dbc6f0
-void WriteNodeDiff(FUN_00dbc6f0_cls_owner* apOwner, FUN_00dbc6f0_cls_source* apSource, int aiDiff)
+void WriteNodeDiff(FUN_00dbc6f0_cls_owner* apOwner, FUN_00dbc6f0_cls_source* apSource, intptr_t aiDiff)
 {
     int x = ((int)(reinterpret_cast<::FUN_00d47690_class *>((apSource))->ComputeSignature(0)));
     if (apOwner->m_byReverse != 0)
@@ -662,7 +663,7 @@ void* S_00dbd620_Owner::ProcessPoly(S_00dbd620_Poly* pPoly, S_00dbd620_Arg* a2)
     void* pSaved = ((S_00dbd620_Poly*)&writer)->v8();
 
     unsigned int one = 1;
-    ((S_00dbd620_Poly*)&writer)->v7((void*)::FUN_00dbd720((unsigned int)&obj.unk04), one);
+    ((S_00dbd620_Poly*)&writer)->v7((void*)::FUN_00dbd720((uintptr_t)&obj.unk04), one);
 
     FUN_00dbcea0(&obj);
 
@@ -892,7 +893,7 @@ struct S_00db8670_MapUlong : S_00db8670_MapBaseUlong
 {
     S_00db8670_MapUlong() throw()
     {
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(S_GetRouter().heap()), 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)&(S_GetRouter().heap()), 0);
     }
     ~S_00db8670_MapUlong() throw()
     {
@@ -1642,8 +1643,8 @@ void WriterOwner::FUN_00dbc960(SourceData* source, int position)
     RootObject* section;
     section = roots[objectIndex].object;
     reinterpret_cast<::hkOArchive_2 *>(&(ptr))->WriteInt(0);
-    unsigned long index;
-    index = ((int)(reinterpret_cast<::FnvClassNameNode *>((section))->FUN_00d46d40()));
+    uintptr_t index;
+    index = ((intptr_t)(reinterpret_cast<::FnvClassNameNode *>((section))->FUN_00d46d40()));
     reinterpret_cast<::hkOArchive_2 *>(&(ptr))->WriteInt(reinterpret_cast<::hkObjectD878 *>(&(source->keys))->GetValue(index, -1));
     reinterpret_cast<::D60590Object *>(&(ptr))->FUN_00d60590();
     reinterpret_cast<::D60590Object *>(&(values))->FUN_00d60590();
@@ -1712,7 +1713,7 @@ int S_00db8670_PatchManager::FUN_00db8670() throw()
             }
             if (p->m_oldVersion != -1)
             {
-                S_00db8670_Uint64 uid = ((unsigned long long)(reinterpret_cast<::Owner_t *>((void *)(m_pUidFromClassVersion))->FUN_00db7d60((unsigned int)(p->m_oldName), p->m_oldVersion)));
+                S_00db8670_Uint64 uid = ((unsigned long long)(reinterpret_cast<::Owner_t *>((void *)(m_pUidFromClassVersion))->FUN_00db7d60((uintptr_t)(p->m_oldName), p->m_oldVersion)));
                 if (patchIndexFromUid.hasKey(uid))
                 {
                     return 1;
@@ -1725,7 +1726,7 @@ int S_00db8670_PatchManager::FUN_00db8670() throw()
             }
             else
             {
-                S_00db8670_Uint64 uid = ((unsigned long long)(reinterpret_cast<::Owner_t *>((void *)(m_pUidFromClassVersion))->FUN_00db7d60((unsigned int)(p->m_newName), p->m_newVersion)));
+                S_00db8670_Uint64 uid = ((unsigned long long)(reinterpret_cast<::Owner_t *>((void *)(m_pUidFromClassVersion))->FUN_00db7d60((uintptr_t)(p->m_newName), p->m_newVersion)));
                 if (newClassIndexFromUid.hasKey(uid))
                 {
                     return 1;
@@ -1735,7 +1736,7 @@ int S_00db8670_PatchManager::FUN_00db8670() throw()
             if (p->m_newVersion != -1)
             {
                 const char* name = p->m_newName ? p->m_newName : p->m_oldName;
-                S_00db8670_Uint64 uid = ((unsigned long long)(reinterpret_cast<::Owner_t *>((void *)(uidFromClassVersion))->FUN_00db7d60((unsigned int)(name), p->m_newVersion)));
+                S_00db8670_Uint64 uid = ((unsigned long long)(reinterpret_cast<::Owner_t *>((void *)(uidFromClassVersion))->FUN_00db7d60((uintptr_t)(name), p->m_newVersion)));
                 reinterpret_cast<::ListMapDBA *>(&(patchesFromUid))->Insert(uid, i);
             }
         }
@@ -1759,7 +1760,7 @@ int S_00db8670_PatchManager::FUN_00db8670() throw()
                 return 1;
             }
         }
-        S_00db8670_Uint64 uid = ((unsigned long long)(reinterpret_cast<::Owner_t *>((void *)(uidFromClassVersion))->FUN_00db7d60((unsigned int)(name), version)));
+        S_00db8670_Uint64 uid = ((unsigned long long)(reinterpret_cast<::Owner_t *>((void *)(uidFromClassVersion))->FUN_00db7d60((uintptr_t)(name), version)));
         int iNewClassIndex;
         if (p->m_oldVersion == -1)
         {
@@ -1781,7 +1782,7 @@ int S_00db8670_PatchManager::FUN_00db8670() throw()
             if (component.m_type == 6)
             {
                 const S_00db8670_DependsPatch* dep = (const S_00db8670_DependsPatch*)component.m_patch;
-                S_00db8670_Uint64 depUid = ((unsigned long long)(reinterpret_cast<::Owner_t *>((void *)(uidFromClassVersion))->FUN_00db7d60((unsigned int)(dep->m_name), dep->m_version)));
+                S_00db8670_Uint64 depUid = ((unsigned long long)(reinterpret_cast<::Owner_t *>((void *)(uidFromClassVersion))->FUN_00db7d60((uintptr_t)(dep->m_name), dep->m_version)));
                 int depIndex = (int)patchIndexFromUid.FindValueForKey(depUid, S_00db8670_Uint64(-1));
                 if (depIndex != -1)
                 {
@@ -1807,7 +1808,7 @@ int S_00db8670_PatchManager::FUN_00db8670() throw()
                     S_00db8670_MultiMapUlong* target;
                     if (lastIndex == -1)
                     {
-                        if (reinterpret_cast<::hkObjectD878 *>((void *)&(newClassNames))->GetValue((int)(name), -1) != -1)
+                        if (reinterpret_cast<::hkObjectD878 *>((void *)&(newClassNames))->GetValue((intptr_t)(name), -1) != -1)
                         {
                             return 1;
                         }
@@ -1855,7 +1856,7 @@ int S_00db8670_PatchManager::FUN_00db8670() throw()
     int next = 0;
     for (int i = 0; i < sorted.GetLogicalSize(); i++)
     {
-        next = ::fnv_00db83c0::FUN_00db83c0(i, (::fnv_00db83c0::hkIntArray *)&(newIndex), (::fnv_00db83c0::Graph *)&(dependencies), next, (::fnv_00db83c0::hkIntArray *)&(stack), (int)&(sorted));
+        next = ::fnv_00db83c0::FUN_00db83c0(i, (::fnv_00db83c0::hkIntArray *)&(newIndex), (::fnv_00db83c0::Graph *)&(dependencies), next, (::fnv_00db83c0::hkIntArray *)&(stack), (intptr_t)&(sorted));
     }
 
     m_kPatchInfos.SetSizeAndGrow(sorted.GetLogicalSize());
@@ -1876,7 +1877,7 @@ int S_00db8670_PatchManager::FUN_00db8670() throw()
         const S_00db8670_PatchInfo* p = m_kPatchInfos[i];
         if (p->m_oldName)
         {
-            patchIndexFromUid.insert(((unsigned long long)(reinterpret_cast<::Owner_t *>((void *)(m_pUidFromClassVersion))->FUN_00db7d60((unsigned int)(p->m_oldName), p->m_oldVersion))), i);
+            patchIndexFromUid.insert(((unsigned long long)(reinterpret_cast<::Owner_t *>((void *)(m_pUidFromClassVersion))->FUN_00db7d60((uintptr_t)(p->m_oldName), p->m_oldVersion))), i);
         }
     }
     return 0;
@@ -1917,7 +1918,7 @@ struct LocObj
 struct Pair8
 {
     int p0;
-    int p1;
+    intptr_t p1;
 };
 struct Record16
 {
@@ -2026,7 +2027,7 @@ struct Src
 struct ThisEntry
 {
     int t00;
-    int t04;
+    intptr_t t04;
     int t08;
     int t0c;
     int t10;
@@ -2068,7 +2069,7 @@ struct ThisCls
     int GetOrAddString(int v);
     void FUN_00dbcea0(Src* arg);
 };
-extern int DAT_011b7aec;
+extern intptr_t DAT_011b7aec;
 void* FUN_00c85750();
 extern int __cdecl FUN_00cb10d0(void* p);
 struct Router
@@ -2105,7 +2106,7 @@ static __declspec(noinline) void FUN_00dbcdd0(ClockObj* obj0, unsigned int count
         }
         ::FUN_00c908c0((::SpawnedObject *)(void *)(&heap), (::SpawnedArray *)(void *)(&arr), newCap, 1);
     }
-    int end = (int)arr.m_data + arr.m_iElementCount;
+    intptr_t end = (intptr_t)arr.m_data + arr.m_iElementCount;
     int fill = (int)count - arr.m_iElementCount;
     if (fill > 0)
     {
@@ -2196,7 +2197,7 @@ __forceinline void RemoveAt(Vec<Record16>& a, int index, int byteOffset)
 }
 __forceinline MapIter BeginPairs(PairMap* map)
 {
-    int i = 0;
+    intptr_t i = 0;
     while (i <= map->last)
     {
         if (map->data[i].p0 != -1)
@@ -2207,7 +2208,7 @@ __forceinline MapIter BeginPairs(PairMap* map)
 }
 __forceinline MapIter NextPair(PairMap* map, MapIter previous)
 {
-    int i = (int)previous + 1;
+    intptr_t i = (intptr_t)previous + 1;
     while (i <= map->last)
     {
         if (map->data[i].p0 != -1)
@@ -2239,17 +2240,17 @@ void ThisCls::FUN_00dbcea0(Src* apSrc)
             FUN_00d46d40_s* g = (FUN_00d46d40_s*)tbl[i];
             const char* name = reinterpret_cast<::FnvClassNameNode *>((g))->FUN_00d46d40();
             reinterpret_cast<::hkStringMapD874 *>(&(locObj))->FUN_00d874d0(name, 1);
-            ::WriteNodeDiff((::FUN_00dbc6f0_cls_owner *)this, (::FUN_00dbc6f0_cls_source *)(apSrc), (int)(tbl[i]));
+            ::WriteNodeDiff((::FUN_00dbc6f0_cls_owner *)this, (::FUN_00dbc6f0_cls_source *)(apSrc), (intptr_t)(tbl[i]));
         }
         for (j = 0, objectBytes = 0; j < entries.m_iElementCount; j++, objectBytes += sizeof(ThisEntry))
         {
-            void* found = ((void *)(reinterpret_cast<::FUN_00d87820_Class *>(&(locObj))->FindStringKey((int)(((ThisEntry*)((char*)entries.m_data + objectBytes))->getName()))));
-            MapBool has = (*(::MapBool *)(reinterpret_cast<::FUN_00d874b0_class *>(&(locObj))->SetBoolFromThreshold((char *)((int)found), {})));
+            void* found = ((void *)(reinterpret_cast<::FUN_00d87820_Class *>(&(locObj))->FindStringKey((intptr_t)(((ThisEntry*)((char*)entries.m_data + objectBytes))->getName()))));
+            MapBool has = (*(::MapBool *)(reinterpret_cast<::FUN_00d874b0_class *>(&(locObj))->SetBoolFromThreshold((char *)((intptr_t)found), {})));
             if (!has)
             {
                 const char* name = ((ThisEntry*)((char*)entries.m_data + objectBytes))->getName();
                 reinterpret_cast<::hkStringMapD874 *>(&(locObj))->FUN_00d874d0(name, 1);
-                ::WriteNodeDiff((::FUN_00dbc6f0_cls_owner *)this, (::FUN_00dbc6f0_cls_source *)(apSrc), (int)((void*)((ThisEntry*)((char*)entries.m_data + objectBytes))->t04));
+                ::WriteNodeDiff((::FUN_00dbc6f0_cls_owner *)this, (::FUN_00dbc6f0_cls_source *)(apSrc), (intptr_t)((void*)((ThisEntry*)((char*)entries.m_data + objectBytes))->t04));
             }
         }
         FUN_00dbcdd0(apSrc->clock1c, 16);
@@ -2355,11 +2356,11 @@ void ThisCls::FUN_00dbcea0(Src* apSrc)
         {
             MapIter idx = BeginPairs(&map2c);
             bool flag = false;
-            if ((int)idx <= map2c.last)
+            if ((intptr_t)idx <= map2c.last)
             {
                 for (;;)
                 {
-                    Pair8* pr = map2c.data + (int)idx;
+                    Pair8* pr = map2c.data + (intptr_t)idx;
                     int v = pr->p0;
                     int foundIdx = reinterpret_cast<::FUN_00cb1930_t *>((((FUN_00dce8d0_class*)&sub14)))->LookupHashEntry((unsigned long)v, (unsigned long)-1);
                     if (foundIdx >= 0)
@@ -2367,7 +2368,7 @@ void ThisCls::FUN_00dbcea0(Src* apSrc)
                         ThisEntry* pEntry = &entries[foundIdx];
                         if (pEntry->t10 == counter)
                         {
-                            int second = (map2c.data + (int)idx)->p1;
+                            intptr_t second = (map2c.data + (intptr_t)idx)->p1;
                             int av = apSrc->arr10.m_data[foundIdx].p1;
                             flag = true;
                             reinterpret_cast<::hkOArchive_2 *>((((FUN_00d60940_Class*)&ctx)))->WriteInt((unsigned int)av);
@@ -2377,7 +2378,7 @@ void ThisCls::FUN_00dbcea0(Src* apSrc)
                         }
                     }
                     idx = NextPair(&map2c, idx);
-                    if ((int)idx > map2c.last)
+                    if ((intptr_t)idx > map2c.last)
                         break;
                 }
             }
@@ -2476,7 +2477,7 @@ void Writer::FUN_00dbc7a0(Context* context)
     }
     ConstructHeaders(headers->data + headers->size, count - headers->size);
     headers->size = count;
-    unsigned int bytes = (::FUN_00dbd720)((unsigned int)(headers));
+    unsigned int bytes = (::FUN_00dbd720)((uintptr_t)(headers));
     FUN_00cb1280(headers->data, -1, (int)bytes);
     for (int i = 0; i < tagCount; ++i)
         (CopyIfNonEmpty)(headers->data[i].tag, tags[i], 19);

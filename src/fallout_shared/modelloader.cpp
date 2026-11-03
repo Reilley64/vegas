@@ -1,5 +1,6 @@
 // fallout_shared/modelloader.cpp: DelStandIn, QueuedTreeModel, ModelLoader, QueuedHelmet and more (493 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdio>
@@ -703,7 +704,7 @@ struct hkpTypedBroadPhaseHandle
 };
 
 // @fnv 0x0043b540
-unsigned int FUN_0043b540(char* pThis)
+uintptr_t FUN_0043b540(char* pThis)
 {
     return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((hkpTypedBroadPhaseHandle*)(pThis + 0x14))))->GetName()));
 }
@@ -3114,7 +3115,7 @@ const char* FUN_005495f0(const char* pThis)
 }  // namespace fnv_005495f0
 
 // @fnv 0x00559450
-int FUN_00559450(int* pThis)
+intptr_t FUN_00559450(int* pThis)
 {
     return *pThis;
 }

@@ -2,6 +2,7 @@
 // src/havok/common/base/reflection/hkclassenum.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/reflection/hkclassenum.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "havok/hkClassEnum_decl_hkclassenum.h"
 #include "fnv/decl/FUN_00d607b0_class.h"
 #include "fnv/decl/hkOArchive_2.h"
@@ -184,13 +185,13 @@ void hkClassEnum::FUN_00db7600(hkStreamWriter* writer) const
 {
     hkOArchive archive(writer, false);
     const char* name = m_name;
-    reinterpret_cast<::FUN_00d607b0_class *>(&(archive))->FUN_00d607b0((int)(name));
+    reinterpret_cast<::FUN_00d607b0_class *>(&(archive))->FUN_00d607b0((intptr_t)(name));
     int count = m_items.m_iElementCount;
     for (int i = 0; i < count; ++i)
     {
         const hkClassEnumItem& item = m_items.m_data[i];
         const char* itemName = item.name;
-        reinterpret_cast<::FUN_00d607b0_class *>(&(archive))->FUN_00d607b0((int)(itemName));
+        reinterpret_cast<::FUN_00d607b0_class *>(&(archive))->FUN_00d607b0((intptr_t)(itemName));
         reinterpret_cast<::hkOArchive_2 *>(&(archive))->WriteInt(item.value);
     }
     reinterpret_cast<::hkOArchive_2 *>(&(archive))->WriteInt(count);

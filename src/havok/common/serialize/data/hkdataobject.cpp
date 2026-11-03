@@ -2,6 +2,7 @@
 // src/havok/common/serialize/data/hkdataobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/data/hkdataobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00dc72e0_class.h"
 #include "fnv/decl/FUN_00dc73a0_Holder.h"
@@ -250,7 +251,7 @@ struct FirstInterface
 {
     virtual void slot0();
     virtual void slot1();
-    virtual int acquire();
+    virtual intptr_t acquire();
 };
 struct SecondInterface
 {
@@ -468,10 +469,10 @@ struct AudioHandle
 {
     AudioInterface* system;
     void* object;
-    void FUN_00dbab10(unsigned int, unsigned int);
+    void FUN_00dbab10(uintptr_t, unsigned int);
 };
 // @fnv 0x00dbab10
-void AudioHandle::FUN_00dbab10(unsigned int a, unsigned int b)
+void AudioHandle::FUN_00dbab10(uintptr_t a, unsigned int b)
 {
     system->Apply(object, a, b);
 }
@@ -504,10 +505,10 @@ struct S_00dbab30_Ref
 {
     S_00dbab30_Target* m_target;
     int m_04;
-    int FUN_00dbab30(int b);
+    int FUN_00dbab30(intptr_t b);
 };
 // @fnv 0x00dbab30
-int S_00dbab30_Ref::FUN_00dbab30(int b)
+int S_00dbab30_Ref::FUN_00dbab30(intptr_t b)
 {
     return m_target->unk50(m_04, b);
 }
@@ -856,10 +857,10 @@ struct FUN_00dbad60_cls
 {
     dbad60_Target* m_p;
     int m_f;
-    void FUN_00dbad60(int a, int b);
+    void FUN_00dbad60(intptr_t a, int b);
 };
 // @fnv 0x00dbad60
-void FUN_00dbad60_cls::FUN_00dbad60(int aiArg, int aiUnused)
+void FUN_00dbad60_cls::FUN_00dbad60(intptr_t aiArg, int aiUnused)
 {
     m_p->v9(m_f, aiArg);
 }
@@ -970,11 +971,11 @@ struct Inner
 struct Outer
 {
     Inner* unk00;
-    int FUN_00dbae10(int a);
+    int FUN_00dbae10(intptr_t a);
 };
 
 // @fnv 0x00dbae10
-int Outer::FUN_00dbae10(int a)
+int Outer::FUN_00dbae10(intptr_t a)
 {
     return unk00->v80(a);
 }
@@ -1085,11 +1086,11 @@ DBAFB0Result DBAFB0Handle::GetResult()
 struct FUN_00dba650_cls
 {
     unsigned int m_00;
-    FUN_00dba650_cls* FUN_00dba650(unsigned int value);
+    FUN_00dba650_cls* FUN_00dba650(uintptr_t value);
 };
 
 // @fnv 0x00dba650
-FUN_00dba650_cls* FUN_00dba650_cls::FUN_00dba650(unsigned int value)
+FUN_00dba650_cls* FUN_00dba650_cls::FUN_00dba650(uintptr_t value)
 {
     this->m_00 = value;
     return this;
@@ -1123,7 +1124,7 @@ struct ValueHolder
 
 void ValueHolder::SetValue(void* p)
 {
-    m_uiFilterValue = (void*)((unsigned int)m_uiFilterValue << ((unsigned int)p & 31));
+    m_uiFilterValue = (void*)((uintptr_t)m_uiFilterValue << ((uintptr_t)p & 31));
 }
 
 struct FUN_00dba6a0_cls
@@ -1136,7 +1137,7 @@ struct FUN_00dba6a0_cls
 void* FUN_00dba6a0_cls::SetShiftedValue(void* pTarget)
 {
     void* r = m_00->v10();
-    reinterpret_cast<::FUN_00dba650_cls *>((reinterpret_cast<ValueHolder*>(pTarget)))->FUN_00dba650((unsigned int)(r));
+    reinterpret_cast<::FUN_00dba650_cls *>((reinterpret_cast<ValueHolder*>(pTarget)))->FUN_00dba650((uintptr_t)(r));
     return pTarget;
 }
 
@@ -2544,9 +2545,9 @@ typedef void(__cdecl* DB8000_Callback)(DB8000_Ref*);
 
 struct DB8000_OpData
 {
-    int m_00;
-    int m_04;
-    int m_08;
+    intptr_t m_00;
+    intptr_t m_04;
+    intptr_t m_08;
     int m_0c;
 };
 
@@ -2652,7 +2653,7 @@ static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_I
                         DB8000_Callback pCallback = (DB8000_Callback)op->m_data->m_04;
                         DB8000_PtrArray arr4;
                         arr4.init();
-                        reinterpret_cast<::FUN_00dc73c0_class *>((self))->InitAndRun((int)(name), (int)(&arr4));
+                        reinterpret_cast<::FUN_00dc73c0_class *>((self))->InitAndRun((intptr_t)(name), (intptr_t)(&arr4));
                         for (int kIndex = 0; kIndex < arr4.m_iElementCount; ++kIndex)
                         {
                             DB8000_Ref ref4;
@@ -2678,12 +2679,12 @@ static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_I
                         reinterpret_cast<::FUN_00dba650_cls *>(&(hSub5))->FUN_00dba650(self->vfn9((const char*)d->m_00));
                         DB8000_PtrArray arr5;
                         arr5.init();
-                        reinterpret_cast<::FUN_00dc73a0_Holder *>((self))->CallWithReset((int)(name), (int *)(::DB8000_PtrArray *)(&arr5));
+                        reinterpret_cast<::FUN_00dc73a0_Holder *>((self))->CallWithReset((intptr_t)(name), (int *)(::DB8000_PtrArray *)(&arr5));
                         for (int kIndex = 0; kIndex < arr5.m_iElementCount; ++kIndex)
                         {
                             DB8000_Ref ref5;
                             ref5.FUN_00dba760(arr5.m_data[kIndex]);
-                            reinterpret_cast<::FUN_00dc7dc0_StandIn *>((self))->FUN_00dc7dc0((int)(&ref5), (int)(&hSub5));
+                            reinterpret_cast<::FUN_00dc7dc0_StandIn *>((self))->FUN_00dc7dc0((intptr_t)(&ref5), (intptr_t)(&hSub5));
                             reinterpret_cast<::DBA7F0Ref *>(&(ref5))->FUN_00dba7f0();
                         }
                         arr5.ClearAndRelease();
@@ -2697,7 +2698,7 @@ static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_I
                 } while (jIndex < item->m_numOps);
             }
 
-            int unk0c = item->m_unk0c;
+            intptr_t unk0c = item->m_unk0c;
             if (unk0c == -1)
             {
                 reinterpret_cast<::hkObjDC88 *>((self))->ReleaseRef((*(struct struct ::FUN_00dba660 *)(&hMain)));

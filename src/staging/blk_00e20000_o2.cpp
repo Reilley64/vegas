@@ -2,6 +2,7 @@
 // src/staging/blk_00e20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include <ctime>
@@ -330,7 +331,7 @@ struct E2baaDst
 
 // Initializes an output record from a source record: sets a float, copies several source fields, and derives unk54 from src->unk20 and flag.
 // @fnv 0x00e2baa0
-E2baaDst* __cdecl FUN_00e2baa0(E2baaDst* out, E2baaSrc* src, int flag)
+E2baaDst* __cdecl FUN_00e2baa0(E2baaDst* out, E2baaSrc* src, intptr_t flag)
 {
     out->unk14 = 1.0f;
     out->unk18 = 0;
@@ -2051,7 +2052,7 @@ class FUN_00e3dfb0_cls
 
 // Selects one of the object's fields based on rec->m_type and returns rec->value plus that field, or 0 for unknown types.
 // @fnv 0x00e3dfb0
-int FUN_00e3dfb0_cls::FUN_00e3dfb0(FUN_00e3dfb0_arg* apRecord)
+intptr_t FUN_00e3dfb0_cls::FUN_00e3dfb0(FUN_00e3dfb0_arg* apRecord)
 {
     int field;
     switch (apRecord->m_type)
@@ -2681,7 +2682,7 @@ FUN_00e3df50_Class* FUN_00e3df50_Class::FUN_00e3df50(int param)
 
 
 // @fnv 0x00e3e020
-int __cdecl FUN_00e3e020(int param_1, int* param_2)
+intptr_t __cdecl FUN_00e3e020(intptr_t param_1, int* param_2)
 {
     return reinterpret_cast<::FUN_00e3dfb0_cls *>((param_1))->FUN_00e3dfb0((::FUN_00e3dfb0_arg *)(param_2));
 }

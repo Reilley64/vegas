@@ -2,6 +2,7 @@
 // src/havok/common/internal/convexhull/hkplaneequationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/convexhull/hkplaneequationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include "fnv_simd.h"
 #include <cmath>
@@ -42,7 +43,7 @@ struct A
 };
 
 // @fnv 0x00dd6270
-int __cdecl ProcessArg(Arg* a, int second)
+int __cdecl ProcessArg(Arg* a, intptr_t second)
 {
     if (a->count < 4)
     {
@@ -58,7 +59,7 @@ int __cdecl ProcessArg(Arg* a, int second)
     void* data = a->data;
 
     void* q = ((void *)(reinterpret_cast<::FUN_00d74d40_cls *>(&(objB))->FUN_00d74d40()));
-    int iResult = reinterpret_cast<::enumeration_rework::PlaneHull *>(&(objA))->FUN_00d774a0((const ::enumeration_rework::PlaneVector *)(data), count, (int)(q));
+    int iResult = reinterpret_cast<::enumeration_rework::PlaneHull *>(&(objA))->FUN_00d774a0((const ::enumeration_rework::PlaneVector *)(data), count, (intptr_t)(q));
 
     if (iResult != -1)
     {

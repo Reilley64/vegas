@@ -2,6 +2,7 @@
 // src/havok/common/visualize/hkprocessfactory.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkprocessfactory.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00cb0a60.h"
 #include "fnv/decl/FUN_00cf6da0_cls.h"
@@ -138,7 +139,7 @@ struct S_00dd94c0_Array
         int n = m_iElementCount;
         S_00dd94c0_Entry* p = m_data;
         for (int i = 0; i < n; i++, p++)
-            ::FUN_00cb0c00((int)(p));
+            ::FUN_00cb0c00((intptr_t)(p));
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             h.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(S_00dd94c0_Entry));
@@ -206,7 +207,7 @@ struct S_00dd9380_Router
 
 struct S_00dd9380_StringPtr
 {
-    unsigned int m_pcText;
+    uintptr_t m_pcText;
     const char* cString() const
     {
         return (const char*)(m_pcText & ~1u);
@@ -273,12 +274,12 @@ struct S_00dd9380
     int m_nextId;
     S_00dd9380_Array m_entries;
     CRITICAL_SECTION* m_lock;
-    int FUN_00dd9380(const char* name, int value);
+    intptr_t FUN_00dd9380(const char* name, intptr_t value);
 };
 
 // Finds an entry by name or creates one with the supplied value and next owner offset, then returns its owner offset.
 // @fnv 0x00dd9380
-int S_00dd9380::FUN_00dd9380(const char* name, int value)
+intptr_t S_00dd9380::FUN_00dd9380(const char* name, intptr_t value)
 {
     EnterCriticalSection(m_lock);
     S_00dd9380_Entry* e = 0;

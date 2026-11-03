@@ -2,6 +2,7 @@
 // src/havok/common/visualize/process/hkdebugdisplayprocess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/process/hkdebugdisplayprocess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/S_00dd9380.h"
@@ -754,7 +755,7 @@ struct S_00ddcbc0_Factory
 // @fnv 0x00ddcbc0
 void FUN_00ddcbc0()
 {
-    (*reinterpret_cast<void * *>(&::g_1269cdc)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::fnv_00ddcbc0::S_00ddcbc0_Factory * *>(&::DAT_01269cd0))))->FUN_00dd9380("Debug Display", (int)(((void *(&)())::FUN_00ddcb90)))));
+    (*reinterpret_cast<void * *>(&::g_1269cdc)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::fnv_00ddcbc0::S_00ddcbc0_Factory * *>(&::DAT_01269cd0))))->FUN_00dd9380("Debug Display", (intptr_t)(((void *(&)())::FUN_00ddcb90)))));
 }
 }  // namespace fnv_00ddcbc0
 

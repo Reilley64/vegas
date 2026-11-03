@@ -2,6 +2,7 @@
 // src/havok/common/internal/convexhull/hkgeometryutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/convexhull/hkgeometryutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv_simd.h"
 #include "fnv/decl/FUN_00d5d660_cls.h"
 #include "fnv/symbols_00d5c000.h"
@@ -51,7 +52,7 @@ struct FUN_00d5a5e0_ctxB
 
 // Initializes two context objects, looks up a1 in the first, and if found calls SetB with 0 and a2, then finishes.
 // @fnv 0x00d5a5e0
-void __cdecl InitAndSetB(void* a1, int a2)
+void __cdecl InitAndSetB(void* a1, intptr_t a2)
 {
     FUN_00d5a5e0_ctxB b;
     FUN_00d5a5e0_ctxA a;
@@ -59,7 +60,7 @@ void __cdecl InitAndSetB(void* a1, int a2)
     new ((void *)&(a)) ::fnv_00d76ca0::FUN_00d76ca0();
     reinterpret_cast<::FUN_00d74d40_cls *>(&(b))->FUN_00d74d40();
     b.m_00 = 1;
-    if (reinterpret_cast<::H77ConvexHull *>(&(a))->FUN_00d77200((*(const ::H77StridedVertices *)(a1)), (int)(&b)) != -1)
+    if (reinterpret_cast<::H77ConvexHull *>(&(a))->FUN_00d77200((*(const ::H77StridedVertices *)(a1)), (intptr_t)(&b)) != -1)
     {
         reinterpret_cast<::S_00d76410_Builder *>(&(a))->FUN_00d76410(0, (*(::S_00d76410_Geometry *)(a2)));
     }
@@ -90,7 +91,7 @@ struct FUN_00d5a630_ctxB
 
 // Initialises two context objects, sets a flag, looks up a1 in the first context and, if found, applies a2 and a3 and a float constant before finishing.
 // @fnv 0x00d5a630
-void __cdecl FUN_00d5a630(void* a1, int a2, int a3)
+void __cdecl FUN_00d5a630(void* a1, intptr_t a2, intptr_t a3)
 {
     FUN_00d5a630_ctxB b;
     FUN_00d5a630_ctxA a;
@@ -98,7 +99,7 @@ void __cdecl FUN_00d5a630(void* a1, int a2, int a3)
     new ((void *)&(a)) ::fnv_00d76ca0::FUN_00d76ca0();
     reinterpret_cast<::FUN_00d74d40_cls *>(&(b))->FUN_00d74d40();
     b.m_00 = 1;
-    if (reinterpret_cast<::H77ConvexHull *>(&(a))->FUN_00d77200((*(const ::H77StridedVertices *)(a1)), (int)(&b)) != -1)
+    if (reinterpret_cast<::H77ConvexHull *>(&(a))->FUN_00d77200((*(const ::H77StridedVertices *)(a1)), (intptr_t)(&b)) != -1)
     {
         reinterpret_cast<::S_00d76410_Builder *>(&(a))->FUN_00d76410(0, (*(::S_00d76410_Geometry *)(a2)));
         reinterpret_cast<::FUN_00d76990_Class *>(&(a))->SetValue(DAT_0106ea1c, 0);
@@ -140,7 +141,7 @@ struct D5C110Allocator
 
 struct D5C110MemoryRouter
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0C;
@@ -202,14 +203,14 @@ struct D5C110Geometry
 void __cdecl BuildGeometryFromShape(const void* shape, D5C110Geometry& aGeometry)
 {
     D5C110VertexArray vertices;
-    ::ProcessArg((::Arg *)(shape), (int)&(vertices));
+    ::ProcessArg((::Arg *)(shape), (intptr_t)&(vertices));
     if (vertices.m_iElementCount > 0)
     {
         D5C110StridedVertices stridedVertices;
         stridedVertices.m_iStridedVertexCount = vertices.m_iElementCount;
         stridedVertices.m_kVertices = &vertices.m_data->m_uiX;
         stridedVertices.m_iVertexStride = sizeof(D5C110Vector4);
-        ::InitAndSetB((void *)&(stridedVertices), (int)&(aGeometry));
+        ::InitAndSetB((void *)&(stridedVertices), (intptr_t)&(aGeometry));
     }
     else
     {
@@ -224,7 +225,7 @@ struct D5C110VertexArray;
 // @fnv 0x00d5a6a0
 void __cdecl FUN_00d5a6a0(const void* shape, D5C110VertexArray& vertices)
 {
-    ::ProcessArg((::Arg *)(shape), (int)&(vertices));
+    ::ProcessArg((::Arg *)(shape), (intptr_t)&(vertices));
 }
 
 #include <math.h>
@@ -340,8 +341,8 @@ extern "C" void _ReadWriteBarrier(void);
 
 struct S4
 {
-    int v;
-    S4(int x) : v(x)
+    intptr_t v;
+    S4(intptr_t x) : v(x)
     {}
 };
 
@@ -448,7 +449,7 @@ static __declspec(noinline) void FUN_00d5ae60(const char* verts, const char* mat
 static __declspec(noinline) float FUN_00d5b990(S4 verts, S4 count, S4 src, int steps, int stride, char* dest)
 {
     *(int*)dest = stride + steps;
-    int acc = verts.v + count.v + src.v + steps + stride + (int)dest;
+    intptr_t acc = verts.v + count.v + src.v + steps + stride + (intptr_t)dest;
     return (float)(acc + ae60_mix(acc));
 }
 
@@ -457,13 +458,13 @@ static __declspec(noinline) float FUN_00d5b990(S4 verts, S4 count, S4 src, int s
 void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
 {
     ObbGeom geom;
-    ::InitAndSetB((void *)&(*(const D5C110StridedVertices*)shape), (int)&(*(D5C110Geometry*)&geom));
+    ::InitAndSetB((void *)&(*(const D5C110StridedVertices*)shape), (intptr_t)&(*(D5C110Geometry*)&geom));
 
     int nStack = geom.numTris * 3;
     ObbArr arr;
     D5C110MemoryRouter& router = FUN_00c85750();
     char* start = (char*)router.unk00;
-    router.unk00 = (int)(start + ((nStack * 16 + 0x7f) & ~0x7f));
+    router.unk00 = (intptr_t)(start + ((nStack * 16 + 0x7f) & ~0x7f));
     arr.m_cap = nStack | 0x80000000;
     arr.m_data = (ObbVec*)start;
     arr.m_pTrailingData = start;
@@ -491,7 +492,7 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
         char* saved = arr.m_pTrailingData;
         if (saved == (char*)arr.m_data)
             arr.m_iElementCount = 0;
-        FUN_00c85750().unk00 = (int)saved;
+        FUN_00c85750().unk00 = (intptr_t)saved;
         D5C110Allocator& alloc = FUN_00c85750().heap();
         arr.m_iElementCount = 0;
         if ((arr.m_cap & 0x80000000) == 0)
@@ -510,22 +511,22 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
     f.rot0.c1.q = _mm_setr_ps(DAT_01011d78, DAT_01012068, DAT_01011d78, DAT_01011d78);
     f.rot0.c2.q = _mm_setr_ps(DAT_01011d78, DAT_01011d78, DAT_01012068, DAT_01011d78);
 
-    FUN_00d5ae60(data, (const char*)&f.rot0, count, 16, S4((int)&f.ext0), S4((int)&f.ctr0));
+    FUN_00d5ae60(data, (const char*)&f.rot0, count, 16, S4((intptr_t)&f.ext0), S4((intptr_t)&f.ctr0));
     float vol0 = f.ext0.y() * f.ext0.x() * f.ext0.z();
     ObbFlag flag;
     flag.c = 0;
     FUN_00d5c1a0((void*)data, count, 16, &f.cov, &f.ctr1, flag);
     char ok;
     FUN_00d5ac50(&ok, &f.cov, &f.rot1.c0, &f.rot1.c1, &f.rot1.c2);
-    FUN_00d5ae60(data, (const char*)&f.rot1, count, 16, S4((int)&f.ext1), S4((int)&f.ctr1));
+    FUN_00d5ae60(data, (const char*)&f.rot1, count, 16, S4((intptr_t)&f.ext1), S4((intptr_t)&f.ctr1));
     float vol1 = f.ext1.y() * f.ext1.x() * f.ext1.z();
 
     if (mode == 2)
     {
-        vol0 = FUN_00d5b990(S4((int)data), S4(count), S4((int)&f.rot0), 20, 16, (char*)&f.rot0);
-        FUN_00d5ae60(data, (const char*)&f.rot0, count, 16, S4((int)&f.ext0), S4((int)&f.ctr0));
-        vol1 = FUN_00d5b990(S4((int)data), S4(count), S4((int)&f.rot1), 20, 16, (char*)&f.rot1);
-        FUN_00d5ae60(data, (const char*)&f.rot1, count, 16, S4((int)&f.ext1), S4((int)&f.ctr1));
+        vol0 = FUN_00d5b990(S4((intptr_t)data), S4(count), S4((intptr_t)&f.rot0), 20, 16, (char*)&f.rot0);
+        FUN_00d5ae60(data, (const char*)&f.rot0, count, 16, S4((intptr_t)&f.ext0), S4((intptr_t)&f.ctr0));
+        vol1 = FUN_00d5b990(S4((intptr_t)data), S4(count), S4((intptr_t)&f.rot1), 20, 16, (char*)&f.rot1);
+        FUN_00d5ae60(data, (const char*)&f.rot1, count, 16, S4((intptr_t)&f.ext1), S4((intptr_t)&f.ctr1));
     }
 
     __m128 vPickedCtr;
@@ -554,7 +555,7 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
     char* saved = arr.m_pTrailingData;
     if (saved == (char*)arr.m_data)
         arr.m_iElementCount = 0;
-    FUN_00c85750().unk00 = (int)saved;
+    FUN_00c85750().unk00 = (intptr_t)saved;
     D5C110Allocator& alloc2 = FUN_00c85750().heap();
     arr.m_iElementCount = 0;
     if ((arr.m_cap & 0x80000000) == 0)
@@ -582,7 +583,7 @@ static __declspec(noinline) Vec4* FUN_00d5bb10(Vec4* res, Vec4* p0, Vec4* p1, fl
 {
     res->x = 0.0f;
     Vec4 a = *p0;
-    res->y = a.x + t + (float)(int)p1;
+    res->y = a.x + t + (float)(intptr_t)p1;
     res->w = a.y;
     return res;
 }
@@ -591,7 +592,7 @@ static __declspec(noinline) Vec4* FUN_00d5bb80(Vec4* res, Vec4* p0, Vec4* p1, Ve
 {
     res->x = 0.0f;
     Vec4 a = *p0;
-    res->y = a.x + t + (float)(int)p1 + (float)(int)p2;
+    res->y = a.x + t + (float)(intptr_t)p1 + (float)(intptr_t)p2;
     res->w = a.y;
     return res;
 }
@@ -600,7 +601,7 @@ static __declspec(noinline) Vec4* FUN_00d5bce0(Vec4* res, Vec4* p0, Vec4* p1, Ve
 {
     res->x = 0.0f;
     Vec4 a = *p0;
-    res->y = a.x + t + (float)(int)p1 + (float)(int)p2 + (float)(int)p3;
+    res->y = a.x + t + (float)(intptr_t)p1 + (float)(intptr_t)p2 + (float)(intptr_t)p3;
     res->w = a.y;
     return res;
 }
@@ -746,8 +747,8 @@ class ObbAxis
 const float ObbAxis::kHalf = 0.5f, ObbAxis::kThree = 3.0f, ObbAxis::kZero = 0.0f;
 struct ObbWord
 {
-    int v;
-    ObbWord(int x) : v(x)
+    intptr_t v;
+    ObbWord(intptr_t x) : v(x)
     {}
     operator int() const
     {
@@ -785,7 +786,7 @@ static __declspec(noinline) float FUN_00d5b0c0(const float* verts, int count, in
     tmp[2].cross(axes[0], axes[1]);
     tmp[2].normalize();
     ObbAxis position, extents;
-    FUN_00d5ae60(verts, count, stride, ObbWord((int)&extents), tmp, ObbWord((int)&position));
+    FUN_00d5ae60(verts, count, stride, ObbWord((intptr_t)&extents), tmp, ObbWord((intptr_t)&position));
     return extents(1) * extents(0) * extents(2);
 }
 static __declspec(noinline) void FUN_00d5b440(const ObbAxis* axes, ObbAxis* direction, float step, ObbAxis* out)
@@ -1822,7 +1823,7 @@ struct hkVec4X
 };
 
 // @fnv 0x00d5b2a0
-static __declspec(noinline) void FUN_00d5b2a0(int a1, int a2, int a3, float d, int outI, const float* p)
+static __declspec(noinline) void FUN_00d5b2a0(intptr_t a1, int a2, int a3, float d, intptr_t outI, const float* p)
 
 {
 

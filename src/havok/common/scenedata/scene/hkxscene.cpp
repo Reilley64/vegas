@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/scene/hkxscene.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/scene/hkxscene.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00cb0000.h"
@@ -209,8 +210,8 @@ void Scene::ClearScene()
         unk18.capacity = 0x80000000;
     }
     unk14.~Root();
-    ::FUN_00cb0c00((int)&(unk0c));
-    ::FUN_00cb0c00((int)&(unk08));
+    ::FUN_00cb0c00((intptr_t)&(unk0c));
+    ::FUN_00cb0c00((intptr_t)&(unk08));
     unk00 = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
@@ -389,7 +390,7 @@ void Mesh_e4a4::FUN_00e4a460()
     int n = m_entries.GetLogicalSize();
     for (int i = 0; i < n; i++)
         m_entries[i].~Entry_e4a4();
-    ::FUN_00cb0c00((int)&(m_name));
+    ::FUN_00cb0c00((intptr_t)&(m_name));
     m_iSlotIds.ClearAndRelease();
     m_ppIndices.ClearAndRelease();
     m_entries.ClearAndRelease();

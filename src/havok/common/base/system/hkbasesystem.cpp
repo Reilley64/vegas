@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00cbb950
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -29,7 +30,7 @@ void __cdecl FUN_00cbb950(unsigned char* out)
 struct FUN_00c903b0_Class
 {
 };
-extern int DAT_011b3dec;
+extern intptr_t DAT_011b3dec;
 extern "C" void __cdecl FUN_00cbb990();
 extern "C" void __cdecl FUN_00cbbbd0();
 // @fnv 0x00cbbcb0
@@ -233,7 +234,7 @@ found:
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_cls *>(&::g_memoryManager))))->FUN_00aa4060(cur);
 }
 
-extern int DAT_01268790;
+extern intptr_t DAT_01268790;
 
 struct SoundNode
 {
@@ -456,7 +457,7 @@ void __cdecl FUN_00cbb9c0()
 
 namespace fnv_00cbbb10 {
 extern "C" unsigned char DAT_010c8eb8;
-extern int DAT_01268410;
+extern intptr_t DAT_01268410;
 
 struct FNV_Allocator
 {
@@ -498,7 +499,7 @@ AllocHolder* __cdecl FUN_00c85750();
 
 // Allocates and initializes two spawned objects, stores them in global pointers, and sets the initialization flag.
 // @fnv 0x00cbbb10
-int __cdecl FUN_00cbbb10(int a1, unsigned int auParam1, unsigned int auParam2)
+int __cdecl FUN_00cbbb10(intptr_t a1, unsigned int auParam1, unsigned int auParam2)
 {
     if (DAT_01268414 != 0)
     {
@@ -514,7 +515,7 @@ int __cdecl FUN_00cbbb10(int a1, unsigned int auParam1, unsigned int auParam2)
     {
         reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<int *>(&::DAT_01268364)))))->ReleaseReference();
     }
-    (*reinterpret_cast<int *>(&::DAT_01268364)) = (int)obj8;
+    (*reinterpret_cast<int *>(&::DAT_01268364)) = (intptr_t)obj8;
 
     holder = FUN_00c85750();
     SpawnedObject28* obj28 = (SpawnedObject28*)holder->m_pAllocator->Alloc(0x28);
@@ -524,7 +525,7 @@ int __cdecl FUN_00cbbb10(int a1, unsigned int auParam1, unsigned int auParam2)
     {
         reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<int *>(&::DAT_01268360)))))->ReleaseReference();
     }
-    (*reinterpret_cast<int *>(&::DAT_01268360)) = (int)obj28;
+    (*reinterpret_cast<int *>(&::DAT_01268360)) = (intptr_t)obj28;
     ::FUN_00cbb9f0();
     ((VirtualIface*)DAT_01268410)->v3();
     DAT_01268414 = 1;

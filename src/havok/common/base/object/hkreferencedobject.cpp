@@ -2,6 +2,7 @@
 // src/havok/common/base/object/hkreferencedobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/object/hkreferencedobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/fnv_00cc49b0__FUN_00cc49b0_class.h"
@@ -475,7 +476,7 @@ struct FUN_00c90490_state
 void __cdecl EnterTlsGuard()
 {
     FUN_00c90490_state* st = reinterpret_cast<FUN_00c90490_state*>(DAT_012681d4);
-    if ((int)TlsGetValue(DAT_012681d8) == 0x23df4554)
+    if ((intptr_t)TlsGetValue(DAT_012681d8) == 0x23df4554)
     {
         st->m_0c++;
         return;
@@ -1406,7 +1407,7 @@ E5C4Ref E5C4Foo::FUN_00e5c4d0(E5C4Key akKey)
     int bCreated = 0;
     volatile int tmp[2];
     tmp[0] = 0;
-    int i = reinterpret_cast<::FUN_00e5c490_cls *>(this)->FindEntryIndex((unsigned int)(((volatile E5C4Key&)akKey).p));
+    int i = reinterpret_cast<::FUN_00e5c490_cls *>(this)->FindEntryIndex((uintptr_t)(((volatile E5C4Key&)akKey).p));
     tmp[0] = 0;
     tmp[1] = 0;
     E5C4Ref* slot;
@@ -1428,14 +1429,14 @@ E5C4Ref E5C4Foo::FUN_00e5c4d0(E5C4Key akKey)
 }
 
 extern "C" void _ReadWriteBarrier(void);
-volatile int S00e3eba0_sink;
+volatile intptr_t S00e3eba0_sink;
 __declspec(noinline) void FUN_00c90510(void* self)
 {
-    S00e3eba0_sink = (int)self;
+    S00e3eba0_sink = (intptr_t)self;
 }
 __declspec(noinline) void FUN_00c905b0(void* self)
 {
-    S00e3eba0_sink = (int)self + 1;
+    S00e3eba0_sink = (intptr_t)self + 1;
 }
 struct S00e3eba0_class
 {
@@ -1538,9 +1539,9 @@ void ReferenceIncrementC906::FUN_00c903a0()
 void __cdecl FUN_00c90670(const void* objects, int numObjects, int stride)
 {
     hkReferencedObjectLockC905* lock = (hkReferencedObjectLockC905*)DAT_012681d4;
-    if (lock->m_multiThreaded && (unsigned int)TlsGetValue(DAT_012681d8) != 0x23df4554)
+    if (lock->m_multiThreaded && (uintptr_t)TlsGetValue(DAT_012681d8) != 0x23df4554)
     {
-        if ((unsigned int)TlsGetValue(DAT_012681d8) == 0x23df4554)
+        if ((uintptr_t)TlsGetValue(DAT_012681d8) == 0x23df4554)
         {
             lock->m_lLockCount++;
         }

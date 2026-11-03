@@ -2,6 +2,7 @@
 // src/havok/common/serialize/data/dict/hkdataobjectdict.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/data/dict/hkdataobjectdict.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include "fnv/decl/AF70Owner.h"
 #include "fnv/decl/ClassDictDC.h"
@@ -215,7 +216,7 @@ struct FUN_00dcad80_node
     int m_0c;
     int m_10;
     int m_14;
-    int m_18;
+    intptr_t m_18;
     int m_1c;
     int m_20;
     int m_24;
@@ -231,7 +232,7 @@ struct FUN_00dcad80
     int m_0c;
     int m_10;
     int m_14;
-    int m_18;
+    intptr_t m_18;
     int m_1c;
     int m_20;
     int m_24;
@@ -261,7 +262,7 @@ struct FUN_00dcb0d0_class
 // @fnv 0x00dcb0d0
 void FUN_00dcb0d0_class::FUN_00dcb0d0(int* pOut)
 {
-    *pOut = (int)this;
+    *pOut = (intptr_t)this;
     pOut[1] = 0;
 }
 
@@ -288,8 +289,8 @@ struct FUN_00dcb490_Class
     int m_00;
     int m_04;
     int m_08;
-    int m_0c;
-    int FUN_00dcb490(int);
+    intptr_t m_0c;
+    int FUN_00dcb490(intptr_t);
 };
 
 // @fnv 0x00dc72f0
@@ -337,17 +338,17 @@ struct FUN_00dc8e50_Class
     int m_0c;
     int m_10;
     int m_14;
-    int m_18;
+    intptr_t m_18;
     int m_1c;
     int m_20;
     int m_24;
-    int m_28;
+    intptr_t m_28;
     int m_2c;
-    int* FindEntry(int value);
+    int* FindEntry(intptr_t value);
 };
 
 // @fnv 0x00dc8e50
-int* FUN_00dc8e50_Class::FindEntry(int value)
+int* FUN_00dc8e50_Class::FindEntry(intptr_t value)
 {
     FUN_00dc8e50_Class* dict = this;
     while (dict)
@@ -382,11 +383,11 @@ struct FUN_00dcb0c0_class
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void SetPair(void** out, int value);
+    void SetPair(void** out, intptr_t value);
 };
 
 // @fnv 0x00dcb0c0
-void FUN_00dcb0c0_class::SetPair(void** out, int value)
+void FUN_00dcb0c0_class::SetPair(void** out, intptr_t value)
 {
     out[0] = this;
     out[1] = (void*)value;
@@ -1313,7 +1314,7 @@ void FUN_00dc9cd0_Class::FUN_00dc9cd0(int count)
 {
     int* arr = &this->m_iThirdValue;
     void* router = _D1A0E0GetMemoryRouter();
-    int alloc = *(int*)((char*)router + 0x10);
+    intptr_t alloc = *(int*)((char*)router + 0x10);
     int cap = arr[2] & 0x3fffffff;
     if (cap < count)
     {
@@ -1378,7 +1379,7 @@ int FUN_00dca080_StandIn::FUN_00dca080(int i)
 extern int DAT_010d7114;
 struct FUN_00dca260_Class
 {
-    int m0;
+    intptr_t m0;
     unsigned short m4;
     unsigned short m6;
     int m8;
@@ -1395,7 +1396,7 @@ FUN_00dca260_Class::FUN_00dca260_Class()
     mc = 0;
     m10 = 0;
     m14 = 0x80000000;
-    m0 = (int)&DAT_010d7114;
+    m0 = (intptr_t)&DAT_010d7114;
 }
 
 struct FUN_00dca280_Class
@@ -1621,7 +1622,7 @@ struct FUN_00dcb120_Inner
     void* m0;
     void* m4;
     void* m8;
-    int m_iThirdValue;
+    intptr_t m_iThirdValue;
     int m_10;
 };
 
@@ -1739,7 +1740,7 @@ struct FUN_00dcb320_Class
     int m_04;
     int m_08;
     char* m_0c;
-    int CallWithArgs(int a, int b);
+    int CallWithArgs(intptr_t a, int b);
 };
 
 struct FUN_00dcb3a0_Entry
@@ -1808,7 +1809,7 @@ struct FUN_00dcb3a0_class
     FUN_00dcb2b0_StandIn* m_iThirdValue;
     int m_10;
 
-    int FUN_00dcb3a0(int index);
+    int FUN_00dcb3a0(intptr_t index);
 };
 
 struct FUN_00dcb3d0_virtual
@@ -1839,7 +1840,7 @@ struct FUN_00dcb3d0_class
     void* m_08;
     FUN_00dcb2b0_StandIn* m_0c;
     int m_10;
-    __int64 CallVirtualOnElement(int);
+    __int64 CallVirtualOnElement(intptr_t);
 };
 
 struct FUN_00dcb400_Target
@@ -1866,7 +1867,7 @@ struct FUN_00dcb400_Class
     void* m_08;
     FUN_00dcb2b0_StandIn* m_0c;
     int m_10;
-    void DispatchToIndexedTarget(int value);
+    void DispatchToIndexedTarget(intptr_t value);
 };
 
 struct FUN_00dcb6f0_Object
@@ -2565,7 +2566,7 @@ void* DC7300Owner::FUN_00dc7300(void* p)
 {
     DC7300Callee* callee = m_callee;
     if (p)
-        return ((void *)(reinterpret_cast<::hkObjectD878 *>((callee))->GetValue((int)(p), 0)));
+        return ((void *)(reinterpret_cast<::hkObjectD878 *>((callee))->GetValue((intptr_t)(p), 0)));
     return 0;
 }
 
@@ -2578,7 +2579,7 @@ struct FUN_00dc73a0_Holder
     int unk00;
     int unk04;
     FUN_00dc92d0_Obj* unk08;
-    void CallWithReset(int a, int* b);
+    void CallWithReset(intptr_t a, int* b);
 };
 
 struct FUN_00dc92d0_StandIn
@@ -2591,12 +2592,12 @@ struct FUN_00dc73c0_class
     void* m0;
     void* m4;
     FUN_00dc92d0_StandIn* m8;
-    int InitAndRun(int a, int b);
+    int InitAndRun(intptr_t a, intptr_t b);
 };
 
 // Clears the int at offset 4 of b, then calls CollectShapes on m8 with a, 1, 1, b and returns its result.
 // @fnv 0x00dc73c0
-int FUN_00dc73c0_class::InitAndRun(int aiArg, int b)
+int FUN_00dc73c0_class::InitAndRun(intptr_t aiArg, intptr_t b)
 {
     FUN_00dc92d0_StandIn* m = m8;
     *(int*)(b + 4) = 0;
@@ -2702,11 +2703,11 @@ class hkDataWorldImplDC76
     {
         if (pcStr)
         {
-            const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_stringPool))->GetValue((int)(pcStr), 0)));
+            const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_stringPool))->GetValue((intptr_t)(pcStr), 0)));
             if (pcPooled == 0)
             {
                 pcPooled = FUN_00cb1410(pcStr);
-                reinterpret_cast<::hkStringMapD874 *>(&(m_stringPool))->FUN_00d874d0(pcPooled, (int)(pcPooled));
+                reinterpret_cast<::hkStringMapD874 *>(&(m_stringPool))->FUN_00d874d0(pcPooled, (intptr_t)(pcPooled));
             }
             return pcPooled;
         }
@@ -2740,7 +2741,7 @@ struct FUN_00dc7dc0_StandIn
     int m0;
     int m4;
     int m8;
-    void FUN_00dc7dc0(int a, int b);
+    void FUN_00dc7dc0(intptr_t a, intptr_t b);
 };
 namespace fnv_00dc8030 {
 struct FUN_00dc8030_Allocator
@@ -2910,11 +2911,11 @@ struct SkStore
 
     char* Lookup(char* str)
     {
-        char* name = (char*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_ppNames))->GetValue((int)(str), 0)));
+        char* name = (char*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_ppNames))->GetValue((intptr_t)(str), 0)));
         if (!name)
         {
             name = FUN_00cb1410(str);
-            reinterpret_cast<::hkStringMapD874 *>(&(m_ppNames))->FUN_00d874d0(name, (int)name);
+            reinterpret_cast<::hkStringMapD874 *>(&(m_ppNames))->FUN_00d874d0(name, (intptr_t)name);
         }
         return name;
     }
@@ -2954,7 +2955,7 @@ SkItem* SkOwner::CreateItem(SkDesc* desc)
     SkItem* item = mem->FUN_00dcabb0(this, desc->unk00, desc->unk04);
     if (desc->shared)
     {
-        SkShared* shared = (SkShared*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_store->m_map))->GetValue((int)(desc->shared), 0)));
+        SkShared* shared = (SkShared*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_store->m_map))->GetValue((intptr_t)(desc->shared), 0)));
         if (shared)
         {
             shared->m_iObjectReferenceCount++;
@@ -3055,7 +3056,7 @@ union hkDataValueDC88
 };
 
 // @fnv 0x00dc88c0
-void __cdecl ReleaseDataValues(int iType, hkDataValueDC88* pkValues, int iCount)
+void __cdecl ReleaseDataValues(intptr_t iType, hkDataValueDC88* pkValues, int iCount)
 {
     if (iType & 0x30)
     {
@@ -3152,11 +3153,11 @@ hkPooledStringDC8D hkObjDC8D::GetPooledString(const char* name)
     hkPooledStringDC8D result;
     if (name)
     {
-        char* s = (char*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_kNodePool))->GetValue((int)((void*)name), 0)));
+        char* s = (char*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_kNodePool))->GetValue((intptr_t)((void*)name), 0)));
         if (!s)
         {
             s = FUN_00cb1410(name);
-            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(s, (int)s);
+            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(s, (intptr_t)s);
         }
         result.m_kStringBuffer = s;
     }
@@ -3195,7 +3196,7 @@ struct FUN_00cb18f0_t
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    int FindSlot(int key);
+    intptr_t FindSlot(intptr_t key);
 };
 
 struct hkLinkDC90
@@ -3213,14 +3214,14 @@ class hkMultiMapDC90
     FUN_00cb18f0_t m_pHashFunction;
     int m_kFreeListEntries;
 
-    void RemoveKey(int key);
+    void RemoveKey(intptr_t key);
 };
 
 // Looks up key in the map, unlinks its entry, and moves the entry's chain to the front of the free list.
 // @fnv 0x00dc9030
-void hkMultiMapDC90::RemoveKey(int key)
+void hkMultiMapDC90::RemoveKey(intptr_t key)
 {
-    int it = m_pHashFunction.FindSlot(key);
+    intptr_t it = m_pHashFunction.FindSlot(key);
     int first = m_pHashFunction.m_kPrimitiveElement[it].val;
     reinterpret_cast<::hkMapBaseCB19 *>(&(m_pHashFunction))->RemoveEntry((void *)(it));
     if (first != -1)
@@ -3684,9 +3685,9 @@ int FnvObjectHolder::AddNodeEntry(FnvNode* node)
     FnvNodeValue* source = node->m_keySource;
     void* original = source->m_uiFilterValue;
     FnvStringMaker* maker = manager->GetCreator()->m_maker;
-    void* key = original ? ((void *)(reinterpret_cast<::hkObjectD878 *>((maker))->GetValue((int)(original), 0))) : 0;
+    void* key = original ? ((void *)(reinterpret_cast<::hkObjectD878 *>((maker))->GetValue((intptr_t)(original), 0))) : 0;
     void* context = node->m_iValueAtOffset0C;
-    FnvRefCounted* created = ((::fnv_00dc9c20::FnvRefCounted *)(::FUN_00dc7de0((unsigned int)(context), (int)(key), node->m_flags)));
+    FnvRefCounted* created = ((::fnv_00dc9c20::FnvRefCounted *)(::FUN_00dc7de0((uintptr_t)(context), (intptr_t)(key), node->m_flags)));
     entry->m_object = created;
     ++created->m_refs;
     return m_entries.m_iElementCount - 1;
@@ -4505,7 +4506,7 @@ void DCA5F0Owner::AssignElements(const void* source, int count)
 }
 }  // namespace fnv_00dca5f0
 
-void __cdecl FUN_00cb13c0(int iString);
+void __cdecl FUN_00cb13c0(intptr_t iString);
 extern "C" char* __cdecl FUN_00cb1410(const char* pcString);
 
 class hkObjDCA6
@@ -4522,7 +4523,7 @@ class hkObjDCA6
 // @fnv 0x00dca670
 void hkObjDCA6::SetStringAt(int i, const char* pcValue)
 {
-    FUN_00cb13c0(reinterpret_cast<int>(m_pStringFunctions[i]));
+    FUN_00cb13c0(reinterpret_cast<intptr_t>(m_pStringFunctions[i]));
     m_pStringFunctions[i] = pcValue ? FUN_00cb1410(pcValue) : 0;
 }
 
@@ -4579,7 +4580,7 @@ class hkRefObjDCA6
     short m_sReferenceCount;
 };
 
-void __cdecl FUN_00cb13c0(int p) throw();
+void __cdecl FUN_00cb13c0(intptr_t p) throw();
 
 class FUN_00dca6b0 : public hkRefObjDCA6
 {
@@ -4836,7 +4837,7 @@ class FUN_00d47a80_class
   public:
     void* lookup(void* pvObject)
     {
-        return pvObject ? ((void *)(reinterpret_cast<::hkObjectD878 *>(this)->GetValue((int)(pvObject), 0))) : 0;
+        return pvObject ? ((void *)(reinterpret_cast<::hkObjectD878 *>(this)->GetValue((intptr_t)(pvObject), 0))) : 0;
     }
 };
 
@@ -4940,11 +4941,11 @@ struct InnerContext
     {
         if (name)
         {
-            void* key = ((void *)(reinterpret_cast<::hkObjectD878 *>(&(map))->GetValue((int)(name), 0)));
+            void* key = ((void *)(reinterpret_cast<::hkObjectD878 *>(&(map))->GetValue((intptr_t)(name), 0)));
             if (!key)
             {
                 key = FUN_00cb1410(name);
-                reinterpret_cast<::hkStringMapD874 *>(&(map))->FUN_00d874d0((const char *)(key), (int)(key));
+                reinterpret_cast<::hkStringMapD874 *>(&(map))->FUN_00d874d0((const char *)(key), (intptr_t)(key));
             }
             return key;
         }
@@ -5010,7 +5011,7 @@ class FUN_00d47a80_class
   public:
     void* lookup(void* pvObject)
     {
-        return pvObject ? ((void *)(reinterpret_cast<::hkObjectD878 *>(this)->GetValue((int)(pvObject), 0))) : 0;
+        return pvObject ? ((void *)(reinterpret_cast<::hkObjectD878 *>(this)->GetValue((intptr_t)(pvObject), 0))) : 0;
     }
 };
 
@@ -5182,7 +5183,7 @@ class hkObjDCB3
     hkImplDCB3* m_pClassImpl;
     int m_10;
 
-    int GetMemberInt(int iName, int iUnused) throw();
+    int GetMemberInt(intptr_t iName, int iUnused) throw();
 };
 
 class hkObjectDCB3
@@ -5225,7 +5226,7 @@ class hkOwnerDCB3
     hkTableDCB3* m_table;
     int m_10;
 
-    int FUN_00dcb370(int iKey);
+    int FUN_00dcb370(intptr_t iKey);
 };
 
 struct hkValueDCB4
@@ -5281,7 +5282,7 @@ class hkObjDCB4
     hkImplDCB4* m_pClassImpl;
     int m_10;
 
-    hkValueDCB4 GetMemberValue(int iName) throw();
+    hkValueDCB4 GetMemberValue(intptr_t iName) throw();
 };
 
 struct hkPairDCB6
@@ -5790,7 +5791,7 @@ struct FUN_00dcba40_class
     int m_04;
     int m_08;
     int m_0c;
-    int m_10;
+    intptr_t m_10;
     int FUN_00dcbbf0(int a);
 };
 
@@ -6164,11 +6165,11 @@ struct Registry7320
 
     const char* GetPooled(const char* pcName)
     {
-        const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kNodePool))->GetValue((int)(pcName), (int)(0))));
+        const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kNodePool))->GetValue((intptr_t)(pcName), (int)(0))));
         if (!pcPooled)
         {
             pcPooled = StrDup7320(pcName);
-            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(pcPooled, (int)((void*)pcPooled));
+            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(pcPooled, (intptr_t)((void*)pcPooled));
         }
         return pcPooled;
     }
@@ -6189,7 +6190,7 @@ class Owner7320
 };
 
 // @fnv 0x00dc73e0
-static __declspec(noinline) unsigned int FUN_00dc73e0(unsigned int value)
+static __declspec(noinline) unsigned int FUN_00dc73e0(uintptr_t value)
 {
     return (value >> 2) + 3;
 }
@@ -6320,7 +6321,7 @@ struct ShapeG7DE0 : public Shape7DE0
 
 // Creates a Shape7DE0 subclass based on uiType, wrapping the result in Wrapper7DE0 when the 0x20 flag is set.
 // @fnv 0x00dc7de0
-Shape7DE0* FUN_00dc7de0(unsigned int uiType, int iArg, int iData)
+Shape7DE0* FUN_00dc7de0(uintptr_t uiType, intptr_t iArg, intptr_t iData)
 {
     if (uiType & 0x20)
     {
@@ -6422,7 +6423,7 @@ hkObjDC82* CreateAndRegisterObject(hkCtxDC82* ctx, hkDescDC82* desc)
         flags &= ~0x20;
         owner = 0;
     }
-    hkObjDC82* obj = ((::hkObjDC82 *)(::FUN_00dc7de0(flags, (int)(desc->m_type), (int)(owner))));
+    hkObjDC82* obj = ((::hkObjDC82 *)(::FUN_00dc7de0(flags, (intptr_t)(desc->m_type), (intptr_t)(owner))));
     obj->setTarget(target);
     ctx->m_registry->registerObject(desc->m_key, obj);
     return obj;
@@ -6680,11 +6681,11 @@ struct NameRegistryDC8F20
 
     const char* GetPooled(const char* pcName)
     {
-        const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kNodePool))->GetValue((int)(pcName), (int)(0))));
+        const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kNodePool))->GetValue((intptr_t)(pcName), (int)(0))));
         if (!pcPooled)
         {
             pcPooled = FUN_00cb1410(pcName);
-            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(pcPooled, (int)((void*)pcPooled));
+            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(pcPooled, (intptr_t)((void*)pcPooled));
         }
         return pcPooled;
     }
@@ -6704,17 +6705,17 @@ void Owner7320::FUN_00dc7320(const ClassInfo7320* pkClass, const char* pcNewName
 // @fnv 0x00dc8f20
 void NameRegistryDC8F20::FUN_00dc8f20(const char* pcOldName, const char* pcNewName)
 {
-    void* pvValue = pcOldName ? ((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_iSlotIds))->GetValue((int)(pcOldName), (int)(0)))) : 0;
+    void* pvValue = pcOldName ? ((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_iSlotIds))->GetValue((intptr_t)(pcOldName), (int)(0)))) : 0;
     const char* pcPooled = pcNewName ? GetPooled(pcNewName) : 0;
     if (pcOldName != pcPooled)
     {
-        NamedEntryDC8F20* pkEntry = (NamedEntryDC8F20*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_entries))->GetValue((int)(pcOldName), (int)(0))));
-        reinterpret_cast<::FUN_00d87820_Class *>(&(m_entries))->FUN_00d87820((int)(pcOldName));
+        NamedEntryDC8F20* pkEntry = (NamedEntryDC8F20*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_entries))->GetValue((intptr_t)(pcOldName), (int)(0))));
+        reinterpret_cast<::FUN_00d87820_Class *>(&(m_entries))->FUN_00d87820((intptr_t)(pcOldName));
         pkEntry->m_name = pcPooled;
-        reinterpret_cast<::hkStringMapD874 *>(&(m_entries))->FUN_00d874d0(pcPooled, (int)(pkEntry));
+        reinterpret_cast<::hkStringMapD874 *>(&(m_entries))->FUN_00d874d0(pcPooled, (intptr_t)(pkEntry));
     }
-    reinterpret_cast<::FUN_00d87820_Class *>(&(m_iSlotIds))->FUN_00d87820((int)(pcOldName));
-    reinterpret_cast<::hkStringMapD874 *>(&(m_iSlotIds))->FUN_00d874d0(pcPooled, (int)(pvValue));
+    reinterpret_cast<::FUN_00d87820_Class *>(&(m_iSlotIds))->FUN_00d87820((intptr_t)(pcOldName));
+    reinterpret_cast<::hkStringMapD874 *>(&(m_iSlotIds))->FUN_00d874d0(pcPooled, (intptr_t)(pvValue));
 }
 
 struct Entry_dc90f0
@@ -6744,12 +6745,12 @@ struct Object_dc90f0
     Entry_dc90f0* entries;
     int count;
 
-    void FUN_00dc90f0(int key);
+    void FUN_00dc90f0(intptr_t key);
 };
 
 // Finds the matching entry, releases its value when metadata exists, decrements count, and copies the last entry into its position when needed.
 // @fnv 0x00dc90f0
-void Object_dc90f0::FUN_00dc90f0(int key)
+void Object_dc90f0::FUN_00dc90f0(intptr_t key)
 {
     const int n = count;
     int i = 0;
@@ -6766,7 +6767,7 @@ void Object_dc90f0::FUN_00dc90f0(int key)
                     reinterpret_cast<Entry_dc90f0*>(reinterpret_cast<char*>(base) + byteOffset)->key)));
                 if (metadata)
                     ::fnv_00dc88c0::ReleaseDataValues(
-                        (int)(metadata->type),
+                        (intptr_t)(metadata->type),
                         (::fnv_00dc88c0::hkDataValueDC88 *)(long long *)(&reinterpret_cast<Entry_dc90f0*>(reinterpret_cast<char*>(base) + byteOffset)->value), 1);
 
                 --count;
@@ -6980,7 +6981,7 @@ class ShapeRegistryDC9
 };
 // Resets b[1] to 0 and forwards a, 0, 1 and b to the object stored at unk08.
 // @fnv 0x00dc73a0
-void FUN_00dc73a0_Holder::CallWithReset(int a, int* pBuffer)
+void FUN_00dc73a0_Holder::CallWithReset(intptr_t a, int* pBuffer)
 {
     FUN_00dc92d0_Obj* o = unk08;
     reinterpret_cast<::ShapeRegistryDC9 *>((o))->CollectShapes((::KeyDC9 *)(a), (pBuffer[1] = 0, 0), 1, (::hkArrayDC9< ::ShapeDC9 *> *)(pBuffer));
@@ -6995,14 +6996,14 @@ void ShapeRegistryDC9::CollectShapes(KeyDC9* pkKey, int bRecurse, int bGroups, h
     OwnerDC9* pkOwner = ((::OwnerDC9 *)(reinterpret_cast<::hkObjectD878 *>((pkKey))->GetValue(0, {})));
     if (!pkOwner)
         return;
-    for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kShapes), (int)(pkOwner), {}))); i != -1; i = m_kShapes.m_pkEntryArray[i].m_iNext)
+    for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kShapes), (intptr_t)(pkOwner), {}))); i != -1; i = m_kShapes.m_pkEntryArray[i].m_iNext)
     {
         ShapeDC9* pkShape = m_kShapes.m_pkEntryArray[i].m_kValue;
         PushBackDC9(*pkShapesOut, pkShape);
     }
     if (bGroups)
     {
-        for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kObjectGroups), (int)(pkOwner), {}))); i != -1; i = m_kObjectGroups.m_pkEntryArray[i].m_iNext)
+        for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kObjectGroups), (intptr_t)(pkOwner), {}))); i != -1; i = m_kObjectGroups.m_pkEntryArray[i].m_iNext)
         {
             ShapeGroupDC9* pkGroup = m_kObjectGroups.m_pkEntryArray[i].m_kValue;
             for (int j = 0; j < pkGroup->GetNumShapes(); j++)
@@ -7014,7 +7015,7 @@ void ShapeRegistryDC9::CollectShapes(KeyDC9* pkKey, int bRecurse, int bGroups, h
     }
     if (bRecurse)
     {
-        for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kLinks), (int)(pkOwner), {}))); i != -1; i = m_kLinks.m_pkEntryArray[i].m_iNext)
+        for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kLinks), (intptr_t)(pkOwner), {}))); i != -1; i = m_kLinks.m_pkEntryArray[i].m_iNext)
         {
             LinkDC9* pkLink = m_kLinks.m_pkEntryArray[i].m_kValue;
             CollectShapes(pkLink->GetKey(), bRecurse, bGroups, pkShapesOut);
@@ -7058,11 +7059,11 @@ struct Registry9570
 
     const char* GetPooled(const char* pcName)
     {
-        const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kNodePool))->GetValue((int)(pcName), (int)(0))));
+        const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kNodePool))->GetValue((intptr_t)(pcName), (int)(0))));
         if (!pcPooled)
         {
             pcPooled = StrDup9570(pcName);
-            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(pcPooled, (int)((void*)pcPooled));
+            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(pcPooled, (intptr_t)((void*)pcPooled));
         }
         return pcPooled;
     }
@@ -7094,7 +7095,7 @@ class Owner9570
     RegistryHolder9570* m_pkHolder;
 };
 // @fnv 0x00dcb320
-int FUN_00dcb320_Class::CallWithArgs(int aiArg1, int aiArg2)
+int FUN_00dcb320_Class::CallWithArgs(intptr_t aiArg1, int aiArg2)
 {
     FUN_00dc9570_StandIn* p = *(FUN_00dc9570_StandIn**)(m_0c + 0x18);
     reinterpret_cast<::Owner9570 *>((p))->FUN_00dc9570((const char *)(aiArg1));
@@ -7155,12 +7156,12 @@ class OwnerDC9E
     int unk04[2];
     hkMapDC9E m_kFormatEntries;
 
-    void FUN_00dc9ec0(unsigned long key, const KeyDC9E* pkVal);
+    void FUN_00dc9ec0(uintptr_t key, const KeyDC9E* pkVal);
 };
 
 // Looks up an existing entry for key, allocates a slot, links the new entry to the old one, and stores the slot index in m_kFormatEntries.
 // @fnv 0x00dc9ec0
-void OwnerDC9E::FUN_00dc9ec0(unsigned long key, const KeyDC9E* pkVal)
+void OwnerDC9E::FUN_00dc9ec0(uintptr_t key, const KeyDC9E* pkVal)
 {
     unsigned long uiOldIndex = ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>(&(m_kFormatEntries))->LookupHashEntry(key, (unsigned long)-1)));
     int iNewIndex = reinterpret_cast<::fnv_00dbe710::S_00dbe710 *>(this)->AllocateSlot();
@@ -7184,7 +7185,7 @@ struct FUN_00dca040_class
     int mc;
     int m10;
     int m14;
-    int m18;
+    intptr_t m18;
     void* Init(void* arg);
 };
 
@@ -7200,7 +7201,7 @@ void* FUN_00dca040_class::Init(void* arg)
     m0 = (void*)&DAT_010d6fe4;
     if (arg != 0)
         ((int*)arg)[2]++;
-    m18 = (int)arg;
+    m18 = (intptr_t)arg;
     return (void*)this;
 }
 
@@ -7303,15 +7304,15 @@ void Registry::RegisterObject(Obj* volatile apObject)
     Obj* const current = apObject;
     void* key = current->GetIteratorKey();
     const char* name = current->getName();
-    int it = reinterpret_cast<::FUN_00d87820_Class *>(this)->FindStringKey((int)(name));
+    int it = reinterpret_cast<::FUN_00d87820_Class *>(this)->FindStringKey((intptr_t)(name));
     char valid;
     reinterpret_cast<::FUN_00d874b0_class *>((reinterpret_cast<Find*>(this)))->SetBoolFromThreshold(&valid, it);
     if (!valid)
     {
         const char* pName2 = current->getName();
-        reinterpret_cast<::hkStringMapD874 *>((reinterpret_cast<Add*>(this)))->FUN_00d874d0(pName2, (int)current);
+        reinterpret_cast<::hkStringMapD874 *>((reinterpret_cast<Add*>(this)))->FUN_00d874d0(pName2, (intptr_t)current);
         if (key)
-            reinterpret_cast<::OwnerDC9E *>(&(map))->FUN_00dc9ec0((unsigned long)(key), (const ::KeyDC9E *)(::Obj **)(const_cast<Obj**>(&apObject)));
+            reinterpret_cast<::OwnerDC9E *>(&(map))->FUN_00dc9ec0((uintptr_t)(key), (const ::KeyDC9E *)(::Obj **)(const_cast<Obj**>(&apObject)));
     }
 }
 
@@ -7384,11 +7385,11 @@ struct RegistryDCAC
 
     const char* GetPooled(const char* pcName)
     {
-        const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kNodePool))->GetValue((int)(pcName), (int)(0))));
+        const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kNodePool))->GetValue((intptr_t)(pcName), (int)(0))));
         if (!pcPooled)
         {
             pcPooled = StrDupDCAC(pcName);
-            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(pcPooled, (int)((void*)pcPooled));
+            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(pcPooled, (intptr_t)((void*)pcPooled));
         }
         return pcPooled;
     }
@@ -7481,11 +7482,11 @@ struct RegistryADA0
 
     const char* GetPooled(const char* pcName)
     {
-        const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kNodePool))->GetValue((int)(pcName), (int)(0))));
+        const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kNodePool))->GetValue((intptr_t)(pcName), (int)(0))));
         if (!pcPooled)
         {
             pcPooled = StrDupADA0(pcName);
-            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(pcPooled, (int)((void*)pcPooled));
+            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(pcPooled, (intptr_t)((void*)pcPooled));
         }
         return pcPooled;
     }
@@ -7627,11 +7628,11 @@ struct RegistryB2B0
 
     const char* GetPooled(const char* pcName)
     {
-        const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kNodePool))->GetValue((int)(pcName), (int)(0))));
+        const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kNodePool))->GetValue((intptr_t)(pcName), (int)(0))));
         if (!pcPooled)
         {
             pcPooled = StrDupB2B0(pcName);
-            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(pcPooled, (int)((void*)pcPooled));
+            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(pcPooled, (intptr_t)((void*)pcPooled));
         }
         return pcPooled;
     }
@@ -7671,13 +7672,13 @@ class TableB2B0
     ContextB2B0* m_pkContext;
 };
 // @fnv 0x00dcb490
-int FUN_00dcb490_Class::FUN_00dcb490(int a)
+int FUN_00dcb490_Class::FUN_00dcb490(intptr_t a)
 {
     int i = reinterpret_cast<::TableB2B0 *>((((FUN_00dcb2b0_StandIn*)this)))->FUN_00dcb2b0((const char *)(a));
     return ((int*)m_0c)[i * 2 + 1];
 }
 // @fnv 0x00dcb3a0
-int FUN_00dcb3a0_class::FUN_00dcb3a0(int index)
+int FUN_00dcb3a0_class::FUN_00dcb3a0(intptr_t index)
 {
     int result = reinterpret_cast<::TableB2B0 *>((m_iThirdValue))->FUN_00dcb2b0((const char *)(index));
 
@@ -7689,7 +7690,7 @@ int FUN_00dcb3a0_class::FUN_00dcb3a0(int index)
 }
 // Looks up the element at index via m_0c, fetches the object pointer from the element array, and calls its virtual slot 16 with m_10.
 // @fnv 0x00dcb3d0
-__int64 FUN_00dcb3d0_class::CallVirtualOnElement(int index)
+__int64 FUN_00dcb3d0_class::CallVirtualOnElement(intptr_t index)
 {
     int element = reinterpret_cast<::TableB2B0 *>((m_0c))->FUN_00dcb2b0((const char *)(index));
     void** elements = *reinterpret_cast<void***>(reinterpret_cast<char*>(m_0c) + 0x0c);
@@ -7699,7 +7700,7 @@ __int64 FUN_00dcb3d0_class::CallVirtualOnElement(int index)
 }
 // Looks up an index via m_0c, fetches a target pointer from the table at that index, and calls its target method with m_10.
 // @fnv 0x00dcb400
-void FUN_00dcb400_Class::DispatchToIndexedTarget(int value)
+void FUN_00dcb400_Class::DispatchToIndexedTarget(intptr_t value)
 {
     int index = reinterpret_cast<::TableB2B0 *>((m_0c))->FUN_00dcb2b0((const char *)(value));
 
@@ -7710,21 +7711,21 @@ void FUN_00dcb400_Class::DispatchToIndexedTarget(int value)
 }
 // Looks up the member index by name in the implementation and returns the accessor's int value for m_10.
 // @fnv 0x00dcb340
-int hkObjDCB3::GetMemberInt(int iName, int iUnused) throw()
+int hkObjDCB3::GetMemberInt(intptr_t iName, int iUnused) throw()
 {
     int idx = reinterpret_cast<::TableB2B0 *>((m_pClassImpl))->FUN_00dcb2b0((const char *)(iName));
     return m_pClassImpl->m_members[idx].m_accessor->getInt(m_10);
 }
 // Looks up the table entry for iKey and returns the object's V10 result for m_10.
 // @fnv 0x00dcb370
-int hkOwnerDCB3::FUN_00dcb370(int iKey)
+int hkOwnerDCB3::FUN_00dcb370(intptr_t iKey)
 {
     int iIndex = reinterpret_cast<::TableB2B0 *>((m_table))->FUN_00dcb2b0((const char *)(iKey));
     return m_table->m_entries[iIndex].m_object->V10(m_10);
 }
 // Looks up the member index for iName in the implementation and returns the value its accessor reads from m_10.
 // @fnv 0x00dcb430
-hkValueDCB4 hkObjDCB4::GetMemberValue(int iName) throw()
+hkValueDCB4 hkObjDCB4::GetMemberValue(intptr_t iName) throw()
 {
     int idx = reinterpret_cast<::TableB2B0 *>((m_pClassImpl))->FUN_00dcb2b0((const char *)(iName));
     return m_pClassImpl->m_members[idx].m_accessor->getValue(m_10);
@@ -7925,11 +7926,11 @@ struct RegistryDC7
 
     const char* GetPooled(const char* pcName)
     {
-        const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kNodePool))->GetValue((int)(pcName), (int)(0))));
+        const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kNodePool))->GetValue((intptr_t)(pcName), (int)(0))));
         if (!pcPooled)
         {
             pcPooled = FUN_00cb1410(pcName);
-            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(pcPooled, (int)((void*)pcPooled));
+            reinterpret_cast<::hkStringMapD874 *>(&(m_kNodePool))->FUN_00d874d0(pcPooled, (intptr_t)((void*)pcPooled));
         }
         return pcPooled;
     }
@@ -8109,7 +8110,7 @@ Node_dc7c* Builder_dc7c::FUN_00dc7c40(RefCounted_dc7c* const& parent)
         NameView_dc7c* view = reinterpret_cast<NameView_dc7c*>(node);
         entry = node;
         const char* name = view->getName();
-        reinterpret_cast<::OwnerDC9E *>(&(registry->m_kNodeCollection))->FUN_00dc9ec0((unsigned long)(name), (const ::KeyDC9E *)(::Node_dc7c **)(&entry));
+        reinterpret_cast<::OwnerDC9E *>(&(registry->m_kNodeCollection))->FUN_00dc9ec0((uintptr_t)(name), (const ::KeyDC9E *)(::Node_dc7c **)(&entry));
     }
     if (!registry->m_pHeadNode)
         registry->m_pHeadNode = node;
@@ -8187,7 +8188,7 @@ struct Registry_dc8d
 
 // For a nonzero type-name pointer, looks up or creates a registry entry and stores it in pvHandleOut.
 // @fnv 0x00dc8d70
-void* Registry_dc8d::FUN_00dc8d70(void* pvDataTypeOut, int pcTypeName) throw()
+void* Registry_dc8d::FUN_00dc8d70(void* pvDataTypeOut, intptr_t pcTypeName) throw()
 {
     RegistryLayout_dc8d* registry = reinterpret_cast<RegistryLayout_dc8d*>(this);
     RegistryImpl_dc8d* impl = reinterpret_cast<RegistryImpl_dc8d*>(this);
@@ -8202,7 +8203,7 @@ void* Registry_dc8d::FUN_00dc8d70(void* pvDataTypeOut, int pcTypeName) throw()
     if (pcTypeName != 0)
     {
         const char* name = reinterpret_cast<const char*>(pcTypeName);
-        void* found = ((void *)(reinterpret_cast<::hkObjectD878 *>(&(registry->m_map))->GetValue((int)(name), (int)(0))));
+        void* found = ((void *)(reinterpret_cast<::hkObjectD878 *>(&(registry->m_map))->GetValue((intptr_t)(name), (int)(0))));
 
         if (found == 0)
         {
@@ -8220,7 +8221,7 @@ void* Registry_dc8d::FUN_00dc8d70(void* pvDataTypeOut, int pcTypeName) throw()
 
             const char* typeName = result->m_kStringBuffer;
             dataType->m_name = typeName;
-            reinterpret_cast<::hkStringMapD874 *>(&(registry->m_map))->FUN_00d874d0(typeName, (int)(dataType));
+            reinterpret_cast<::hkStringMapD874 *>(&(registry->m_map))->FUN_00d874d0(typeName, (intptr_t)(dataType));
             found = dataType;
         }
 
@@ -8271,7 +8272,7 @@ struct S00dc8ea0_Obj
 
 // Finds the Pair_dc8e entry with the given key, releases its reference, shifts the remaining entries down, and decrements the count.
 // @fnv 0x00dc8ea0
-void S00dc8ea0_Obj::FUN_00dc8ea0(int key)
+void S00dc8ea0_Obj::FUN_00dc8ea0(intptr_t key)
 {
     int count = m_iElementCount;
     for (int i = 0; i < count; i++)
@@ -8377,11 +8378,11 @@ void hkDataWorldDictDC7::FUN_00dc73f0(hkDataClassDC7& kClass, const char* pcOldN
 // @fnv 0x00dc9180
 void Registry_dc91::FUN_00dc9180(const void* key, int recurse, hkArray_dc91<void*>& out)
 {
-    for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_iSlotIds), (int)(key), {}))); i != -1; i = m_iSlotIds.m_data[i].m_next)
+    for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_iSlotIds), (intptr_t)(key), {}))); i != -1; i = m_iSlotIds.m_data[i].m_next)
         out.AddBack(m_iSlotIds.m_data[i].m_uiFilterValue);
     if (recurse)
     {
-        for (int j = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_children), (int)(key), {}))); j != -1; j = m_children.m_data[j].m_next)
+        for (int j = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_children), (intptr_t)(key), {}))); j != -1; j = m_children.m_data[j].m_next)
             FUN_00dc9180(m_children.m_data[j].m_uiFilterValue, recurse, out);
     }
 }
@@ -8480,11 +8481,11 @@ void hkDataWorldDC76::FUN_00dc7600(FUN_00dba680_cls& kClass, const char* pcName)
     hkArrayDC76<hkDataObjectImplDC76*> kObjects;
     m_pClassImpl->GetObjectsOfClass(kClass.FUN_00dba680(), kObjects);
     for (int i = 0; i < kObjects.GetLogicalSize(); i++)
-        reinterpret_cast<::Object_dc90f0 *>((kObjects[i]))->FUN_00dc90f0((int)(pcNewName));
+        reinterpret_cast<::Object_dc90f0 *>((kObjects[i]))->FUN_00dc90f0((intptr_t)(pcNewName));
     hkArrayDC76<hkDataArrayImplDC76*> kArrays;
     reinterpret_cast<::Registry_dc91 *>((m_pClassImpl))->FUN_00dc9180(pkClassImpl, 1, (::hkArray_dc91<void *> &)(kArrays));
     for (int i = 0; i < kArrays.GetLogicalSize(); i++)
-        reinterpret_cast<::S00dc8ea0_Obj *>((kArrays[i]))->FUN_00dc8ea0((int)(pcNewName));
+        reinterpret_cast<::S00dc8ea0_Obj *>((kArrays[i]))->FUN_00dc8ea0((intptr_t)(pcNewName));
     reinterpret_cast<::ClassDictDC *>((pkClassImpl))->FUN_00dc9470(pcNewName);
 }
 
@@ -8514,11 +8515,11 @@ found:
     idx = i;
 tail:
     m_members.removeAtAndCopy(idx);
-    return ((::MemberInfoDC *)(reinterpret_cast<::FUN_00dc8e50_Class *>(this)->FindEntry((int)(name)))) != 0;
+    return ((::MemberInfoDC *)(reinterpret_cast<::FUN_00dc8e50_Class *>(this)->FindEntry((intptr_t)(name)))) != 0;
 }
 
 void __cdecl FUN_00cb1260(void*, void const*, int);
-static __declspec(noinline) void* FUN_00dc73e0(int c)
+static __declspec(noinline) void* FUN_00dc73e0(intptr_t c)
 {
     return (void*)(c + 1);
 }
@@ -8539,7 +8540,7 @@ struct S00dc9950_cls
     int m_8;
     int m_iThirdValue;
     char* m_10;
-    void FUN_00dc9950(int a, int b, int c);
+    void FUN_00dc9950(int a, intptr_t b, int c);
 };
 struct S00dc9950_9710
 {
@@ -8891,7 +8892,7 @@ FUN_00dcaeb0::FUN_00dcaeb0(S00dcaeb0_Node* apNode) : m18(apNode), m1c(0)
     void* holder = m18->v1();
     void* tracker = *(void**)((char*)holder + 8);
     void* value = ((S00dcaeb0_Iface*)this)->f6();
-    reinterpret_cast<::OwnerDC9E *>((((FUN_00dc9ec0_Obj*)((char*)tracker + 0x6c))))->FUN_00dc9ec0((unsigned long)(value), (const ::KeyDC9E *)(void **)((void**)&argument));
+    reinterpret_cast<::OwnerDC9E *>((((FUN_00dc9ec0_Obj*)((char*)tracker + 0x6c))))->FUN_00dc9ec0((uintptr_t)(value), (const ::KeyDC9E *)(void **)((void**)&argument));
 }
 
 class FUN_00dbab70
@@ -8960,12 +8961,12 @@ void FUN_00dcb1c0_C::ApplySourceToEntries(void* pArg, SourceDCB1* pkSource)
     {
         EntryDCB1& kEntry = m_pEntries[i];
         int iKey = kEntry.iKey;
-        reinterpret_cast<::AF70Owner *>((kEntry.pkTarget))->FUN_00dcaf70((int)(pArg), (*(::AF70Variant *)&(const ::PairDCB1 &)(pkSource->v03(iKey))));
+        reinterpret_cast<::AF70Owner *>((kEntry.pkTarget))->FUN_00dcaf70((intptr_t)(pArg), (*(::AF70Variant *)&(const ::PairDCB1 &)(pkSource->v03(iKey))));
     }
 }
 // Stores an AF70Variant value at index idx by dispatching on GetType() to the matching SetXX accessor.
 // @fnv 0x00dcaf70
-void AF70Owner::FUN_00dcaf70(int aiIndex, AF70Variant avVariant)
+void AF70Owner::FUN_00dcaf70(intptr_t aiIndex, AF70Variant avVariant)
 {
     if (GetType() & 0x20)
     {
@@ -9022,7 +9023,7 @@ void FUN_00dc8fe0_class::FUN_00dc8fe0(void* key, int* piValue)
 compare:
     if (entries[index].key == wanted)
     {
-        reinterpret_cast<::hkSerializeMultiMapDC90 *>(this)->FUN_00dcb4b0((int)(key), index);
+        reinterpret_cast<::hkSerializeMultiMapDC90 *>(this)->FUN_00dcb4b0((intptr_t)(key), index);
         return;
     }
 
@@ -9062,12 +9063,12 @@ void DCAAOwner::FUN_00dcaaf0(void* volatile key, DCAAObject* object)
     void* pKey = key;
     if (pKey)
     {
-        int index = ((int)(::LookupWithDefault((::HashEntryTable *)&(table), (int)(pKey), {})));
+        int index = ((int)(::LookupWithDefault((::HashEntryTable *)&(table), (intptr_t)(pKey), {})));
         while (index != -1)
         {
             if (table.entries[index].value == pObject)
             {
-                reinterpret_cast<::hkSerializeMultiMapDC90 *>(&(table))->FUN_00dcb4b0((int)(pKey), index);
+                reinterpret_cast<::hkSerializeMultiMapDC90 *>(&(table))->FUN_00dcb4b0((intptr_t)(pKey), index);
                 break;
             }
             index = table.entries[index].next;
@@ -9075,10 +9076,10 @@ void DCAAOwner::FUN_00dcaaf0(void* volatile key, DCAAObject* object)
     }
     void* nextKey = pObject->GetIteratorKey();
     if (nextKey)
-        reinterpret_cast<::OwnerDC9E *>(&(table))->FUN_00dc9ec0((unsigned long)(nextKey), (const ::KeyDC9E *)(::DCAAObject **)(&object));
+        reinterpret_cast<::OwnerDC9E *>(&(table))->FUN_00dc9ec0((uintptr_t)(nextKey), (const ::KeyDC9E *)(::DCAAObject **)(&object));
 }
 // @fnv 0x00dc7dc0
-void FUN_00dc7dc0_StandIn::FUN_00dc7dc0(int piA, int piB)
+void FUN_00dc7dc0_StandIn::FUN_00dc7dc0(intptr_t piA, intptr_t piB)
 {
     reinterpret_cast<::DCAB_Owner *>((((FUN_00dcab50_StandIn*)*(int**)((char*)this + 8))))->FUN_00dcab50((::DCAB_Object *)(*(int*)piA), (const char *)(*(int*)piB));
 }
@@ -9088,7 +9089,7 @@ void DCAB_Owner::FUN_00dcab50(DCAB_Object* object, const char* newName)
 {
     DCAB_Object* obj = *(DCAB_Object* volatile*)&object;
     const char* name = obj->GetName();
-    int index = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_map), (int)(name), {})));
+    int index = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_map), (intptr_t)(name), {})));
     if (!name)
         return;
     do
@@ -9107,7 +9108,7 @@ void DCAB_Owner::FUN_00dcab50(DCAB_Object* object, const char* newName)
 
 // Removes the entry at index from its hash chain, adds it to the free list, and returns the next chain index.
 // @fnv 0x00dcb4b0
-int hkSerializeMultiMapDC90::FUN_00dcb4b0(int key, int index)
+int hkSerializeMultiMapDC90::FUN_00dcb4b0(intptr_t key, int index)
 {
     int next = m_ppLinks[index].m_next;
     int freed = next;
@@ -9225,11 +9226,11 @@ struct Crux53_MapBody
     {
         if (key)
         {
-            void* value = ((void *)(reinterpret_cast<::hkObjectD878 *>(&(map4c))->GetValue((int)(key), 0)));
+            void* value = ((void *)(reinterpret_cast<::hkObjectD878 *>(&(map4c))->GetValue((intptr_t)(key), 0)));
             if (!value)
             {
                 value = FUN_00cb1410(key);
-                reinterpret_cast<::hkStringMapD874 *>(&(map4c))->FUN_00d874d0((const char *)(value), (int)(value));
+                reinterpret_cast<::hkStringMapD874 *>(&(map4c))->FUN_00d874d0((const char *)(value), (intptr_t)(value));
             }
             return value;
         }
@@ -9286,7 +9287,7 @@ int Crux53_Owner::FUN_00dcb5d0(const char* key)
             ++e;
         } while (i < count);
     }
-    return reinterpret_cast<::FUN_00dcb550_class *>(this)->SetItemContextByKey((unsigned int)(value));
+    return reinterpret_cast<::FUN_00dcb550_class *>(this)->SetItemContextByKey((uintptr_t)(value));
 }
 
 void ResizeAudioStream(void* mem, void* arr, int elemSize) throw();
@@ -9358,7 +9359,7 @@ struct Multimap
     void FUN_00dcb4b0(void* key, int index) throw();
     void FUN_00dc8fe0(void* key, Node* const& node) throw()
     {
-        for (int it = ((int)(::LookupWithDefault((::HashEntryTable *)this, (int)(key), {}))); it != -1; it = m_entries[it].next)
+        for (int it = ((int)(::LookupWithDefault((::HashEntryTable *)this, (intptr_t)(key), {}))); it != -1; it = m_entries[it].next)
         {
             if (m_entries[it].val == node)
             {
@@ -9542,7 +9543,7 @@ void hkDataObjectDict::FUN_00dc90a0()
         do
         {
             hkDataMemberValue* entry = (members.m_data + index);
-            hkDataMemberInfo* metadata = ((::hkDataMemberInfo *)(reinterpret_cast<::FUN_00dc8e50_Class *>((pClassInfo))->FindEntry((int)((members.m_data + index)->name))));
+            hkDataMemberInfo* metadata = ((::hkDataMemberInfo *)(reinterpret_cast<::FUN_00dc8e50_Class *>((pClassInfo))->FindEntry((intptr_t)((members.m_data + index)->name))));
             if (metadata)
                 ::fnv_00dc88c0::ReleaseDataValues(metadata->type, (::fnv_00dc88c0::hkDataValueDC88 *)(::hkDataValue *)(&entry->value), 1);
             ++index;
@@ -9741,7 +9742,7 @@ class hkDataWorldDictTrackerDCA
 void ManagerClass::FUN_00dcbdd0(Node* apNode) throw()
 {
     void* target = apNode->GetTarget();
-    TargetInfo* targetInfo = target ? (TargetInfo*)((void *)(reinterpret_cast<::hkObjectD878 *>((this))->GetValue((int)(target), (int)(0)))) : 0;
+    TargetInfo* targetInfo = target ? (TargetInfo*)((void *)(reinterpret_cast<::hkObjectD878 *>((this))->GetValue((intptr_t)(target), (int)(0)))) : 0;
     reinterpret_cast<::hkDataWorldDictTrackerDCA *>((this))->FUN_00dca890((::hkDataObjectImplDCA *)(apNode));
     void* subTarget = targetInfo->GetSubTarget();
     if (subTarget != 0)
@@ -9752,7 +9753,7 @@ void ManagerClass::FUN_00dcbdd0(Node* apNode) throw()
 
     {
         StackAllocatedArray<Node*> stackNodes(64);
-        int it = ((int)(::LookupWithDefault((::HashEntryTable *)&(this->m_multimap), (int)(apNode), {})));
+        int it = ((int)(::LookupWithDefault((::HashEntryTable *)&(this->m_multimap), (intptr_t)(apNode), {})));
         bool hasKey = (it != -1);
         if (hasKey)
         {
@@ -9772,14 +9773,14 @@ void ManagerClass::FUN_00dcbdd0(Node* apNode) throw()
 
         if (hasKey)
         {
-            reinterpret_cast<::hkMultiMapDC90 *>(&(this->m_multimap))->RemoveKey((int)(apNode));
+            reinterpret_cast<::hkMultiMapDC90 *>(&(this->m_multimap))->RemoveKey((intptr_t)(apNode));
         }
     }
 
-    hkReferencedObject* refObj = (hkReferencedObject*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(this->m_map5c))->GetValue((int)(target), (int)(0))));
-    reinterpret_cast<::FUN_00d87820_Class *>(&(this->m_map5c))->FUN_00d87820((int)(target));
+    hkReferencedObject* refObj = (hkReferencedObject*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(this->m_map5c))->GetValue((intptr_t)(target), (int)(0))));
+    reinterpret_cast<::FUN_00d87820_Class *>(&(this->m_map5c))->FUN_00d87820((intptr_t)(target));
     reinterpret_cast<::hkReferencedObjectC905 *>((refObj))->FUN_00c905b0();
-    reinterpret_cast<::FUN_00d87820_Class *>((this))->FUN_00d87820((int)(target));
+    reinterpret_cast<::FUN_00d87820_Class *>((this))->FUN_00d87820((intptr_t)(target));
 }
 
 // Recursively removes pkObject and its children from the tracker, clearing members and releasing references while warning about external references.
@@ -9787,9 +9788,9 @@ void ManagerClass::FUN_00dcbdd0(Node* apNode) throw()
 void hkDataWorldDictTrackerDCA::FUN_00dca890(hkDataObjectImplDCA* pkObject) throw()
 {
     hkDataClassImplDCA* pkClass = pkObject->GetVariantValue();
-    int iClassKey = pkClass ? reinterpret_cast<::hkObjectD878 *>((void *)this)->GetValue((int)(pkClass), 0) : 0;
+    int iClassKey = pkClass ? reinterpret_cast<::hkObjectD878 *>((void *)this)->GetValue((intptr_t)(pkClass), 0) : 0;
 
-    for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_children), (int)(pkObject), {}))); i != -1; i = m_children.GetNextChainIndex(i))
+    for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_children), (intptr_t)(pkObject), {}))); i != -1; i = m_children.GetNextChainIndex(i))
     {
         FUN_00dca890(m_children.getValue(i));
     }
@@ -9905,11 +9906,11 @@ inline void* Intern_dc95d0(Holder_dc95d0* holder, const void* key)
     if (key)
     {
         FUN_00d479e0_class* t = &holder->m_4c;
-        value = ((void *)(reinterpret_cast<::hkObjectD878 *>((t))->GetValue((int)(key), (int)(0))));
+        value = ((void *)(reinterpret_cast<::hkObjectD878 *>((t))->GetValue((intptr_t)(key), (int)(0))));
         if (!value)
         {
             value = FUN_00cb1410(key);
-            reinterpret_cast<::hkStringMapD874 *>((t))->FUN_00d874d0((const char*)value, (int)value);
+            reinterpret_cast<::hkStringMapD874 *>((t))->FUN_00d874d0((const char*)value, (intptr_t)value);
         }
         return value;
     }
@@ -9989,11 +9990,11 @@ inline char* internDC96(hkWorldDC96* world, const char* name)
 {
     if (name)
     {
-        char* s = static_cast<char*>(((void *)(reinterpret_cast<::hkObjectD878 *>(&(world->m_pStringFunctions))->GetValue((int)(const_cast<char*>(name)), 0))));
+        char* s = static_cast<char*>(((void *)(reinterpret_cast<::hkObjectD878 *>(&(world->m_pStringFunctions))->GetValue((intptr_t)(const_cast<char*>(name)), 0))));
         if (!s)
         {
             s = FUN_00cb1410(name);
-            reinterpret_cast<::hkStringMapD874 *>(&(world->m_pStringFunctions))->FUN_00d874d0(s, reinterpret_cast<int>(s));
+            reinterpret_cast<::hkStringMapD874 *>(&(world->m_pStringFunctions))->FUN_00d874d0(s, reinterpret_cast<intptr_t>(s));
         }
         return s;
     }
@@ -10164,7 +10165,7 @@ void FUN_00dcb890_cls::FUN_00dcb890()
         if (--r->refCount == 0)
             r->Destroy(1);
     }
-    int base = unk18->Lookup()->unk08;
+    intptr_t base = unk18->Lookup()->unk08;
     int key = ((int(*)(FUN_00dcb890_cls*))((void**)unk00)[6])(this);
     FUN_00dcb890_Table* tbl = reinterpret_cast<FUN_00dcb890_Table*>(base + 0x6c);
     int idx = ((int)(::LookupWithDefault((::HashEntryTable *)(tbl), key, {})));
@@ -10357,7 +10358,7 @@ void WorldData::FUN_00dc7750()
         {
             p = ((::ReferencedObject *)(reinterpret_cast<::FUN_00d87440_Class *>(&(objects))->FUN_00d87440(iterator)));
             retainedObjects.push(p);
-            int index = ((int)(::LookupWithDefault((::HashEntryTable *)&(chains), (int)(p), {})));
+            int index = ((int)(::LookupWithDefault((::HashEntryTable *)&(chains), (intptr_t)(p), {})));
             if (index != -1)
             {
                 do
@@ -10365,7 +10366,7 @@ void WorldData::FUN_00dc7750()
                     pendingObjects.push(chains.data[index].object);
                     index = chains.data[index].next;
                 } while (index != -1);
-                reinterpret_cast<::hkMultiMapDC90 *>(&(chains))->RemoveKey((int)(p));
+                reinterpret_cast<::hkMultiMapDC90 *>(&(chains))->RemoveKey((intptr_t)(p));
             }
             iterator = reinterpret_cast<::SlotBitmap *>(&(objects))->FindNextUsedSlot(iterator);
             reinterpret_cast<::FUN_00d874b0_class *>(&(objects))->SetBoolFromThreshold(&valid, iterator);
@@ -10517,14 +10518,14 @@ struct VarSet
 int FUN_00dcba40_class::FUN_00dcbbf0(int a)
 {
     int out[2];
-    reinterpret_cast<::VarSet *>(this)->FUN_00dcba40((int)(out), a);
+    reinterpret_cast<::VarSet *>(this)->FUN_00dcba40((intptr_t)(out), a);
     return ((int*)m_10)[out[1] * 4 + 2];
 }
 // @fnv 0x00dcbc50
 __int64 FUN_00dcbc50_Class::GetItemValue(FUN_00dcbc50_Argument* argument)
 {
     FUN_00dcbc50_Result result;
-    reinterpret_cast<::VarSet *>(this)->FUN_00dcba40((int)(&result), (int)(argument));
+    reinterpret_cast<::VarSet *>(this)->FUN_00dcba40((intptr_t)(&result), (intptr_t)(argument));
 
     if ((unsigned int)(result.entry->count - 1) <= 1)
         return items[result.index].value;
@@ -10533,7 +10534,7 @@ __int64 FUN_00dcbc50_Class::GetItemValue(FUN_00dcbc50_Argument* argument)
 }
 // Looks up a VarRecord by key, adds a new VarEntry to m_kEntries if missing, and returns a VarResult with the record and entry index.
 // @fnv 0x00dcba40
-VarResult VarSet::FUN_00dcba40(int iKey, int iType)
+VarResult VarSet::FUN_00dcba40(intptr_t iKey, intptr_t iType)
 {
     VarRecord* pkRecord = (VarRecord*)m_pkLookup->FindEntry(iKey);
     if (pkRecord)
@@ -10712,7 +10713,7 @@ void FUN_00dc97f0_Class::SetSlotValue(int index, void* value)
 
     reinterpret_cast<::S00dcbd40_Destination *>(this)->FUN_00dc9710((::S00dcbd40_Handle)(local), index);
 
-    *(int*)((char*)m_10 + local[1] * 16 + 8) = (int)value;
+    *(int*)((char*)m_10 + local[1] * 16 + 8) = (intptr_t)value;
 }
 // Increments obj's counter, calls obj->vf04(), runs FUN_00dc9710 with value and result|0x10, then stores obj in m_10 at the slot indexed by local.unk04.
 // @fnv 0x00dc9830
@@ -10725,7 +10726,7 @@ void FUN_00dc9830_Class::AddObjectToSlot(int value, FUN_00dc9830_Object* pObject
     FUN_00dc9830_Local local;
     reinterpret_cast<::S00dcbd40_Destination *>(this)->FUN_00dc9710((::S00dcbd40_Handle)(&local), value);
 
-    *(int*)((char*)m_10 + (local.unk04 << 4) + 8) = (int)pObject;
+    *(int*)((char*)m_10 + (local.unk04 << 4) + 8) = (intptr_t)pObject;
 }
 // Looks up the slot for index via FUN_00dc9710 and writes value into the float at offset 8 of that slot in m10.
 // @fnv 0x00dc98d0
@@ -10739,7 +10740,7 @@ void FUN_00dc98d0_StandIn::SetValueAt(int index, float value)
 }
 // Calls FUN_00dc9710, allocates c*4 bytes, copies b there, and stores the pointer through m_10 at an indexed offset.
 // @fnv 0x00dc9950
-void S00dc9950_cls::FUN_00dc9950(int a, int apSource, int aiCount)
+void S00dc9950_cls::FUN_00dc9950(int a, intptr_t apSource, int aiCount)
 {
     S00dc9950_pair out;
     reinterpret_cast<::S00dcbd40_Destination *>((((S00dc9950_9710*)this)))->FUN_00dc9710((::S00dcbd40_Handle)(&out), a);
@@ -10963,11 +10964,11 @@ struct S00dc7d20_World
     {
         if (pcStr)
         {
-            const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_stringPool))->GetValue((int)(pcStr), 0)));
+            const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_stringPool))->GetValue((intptr_t)(pcStr), 0)));
             if (pcPooled == 0)
             {
                 pcPooled = FUN_00cb1410(pcStr);
-                reinterpret_cast<::hkStringMapD874 *>(&(m_stringPool))->FUN_00d874d0(pcPooled, (int)(pcPooled));
+                reinterpret_cast<::hkStringMapD874 *>(&(m_stringPool))->FUN_00d874d0(pcPooled, (intptr_t)(pcPooled));
             }
             return pcPooled;
         }
@@ -11439,11 +11440,11 @@ struct hkTrackerDC82
     {
         if (s)
         {
-            const char* r = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_pStringFunctions))->GetValue((int)(s), (int)(0))));
+            const char* r = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_pStringFunctions))->GetValue((intptr_t)(s), (int)(0))));
             if (r == 0)
             {
                 r = FUN_00cb1410(s);
-                reinterpret_cast<::hkStringMapD874 *>(&(m_pStringFunctions))->FUN_00d874d0(r, (int)(r));
+                reinterpret_cast<::hkStringMapD874 *>(&(m_pStringFunctions))->FUN_00d874d0(r, (intptr_t)(r));
             }
             return r;
         }
@@ -11463,7 +11464,7 @@ struct hkDataWorldDC82
     hkDataClassDictDC82* GetClassFromName(const char* name)
     {
         hkStringMapDC82& classes = m_pTracker->m_kLookupMap;
-        return name ? (hkDataClassDictDC82*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(classes))->GetValue((int)(name), (int)(0)))) : 0;
+        return name ? (hkDataClassDictDC82*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(classes))->GetValue((intptr_t)(name), (int)(0)))) : 0;
     }
     const char* internString(const char* s)
     {

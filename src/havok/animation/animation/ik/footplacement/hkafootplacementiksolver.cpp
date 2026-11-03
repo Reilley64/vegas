@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00cd8800
+#include <cstdint>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_011f6000.h"
@@ -18,7 +19,7 @@ struct GlobalMgr
 
 struct FUN_00c74e70_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
 
     FUN_00c74e70_cls* FUN_00c74e70(unsigned char acFlags);
 };
@@ -27,7 +28,7 @@ struct FUN_00c74e70_cls
 // @fnv 0x00c74e70
 FUN_00c74e70_cls* FUN_00c74e70_cls::FUN_00c74e70(unsigned char acFlags)
 {
-    m_vptr = (int)&DAT_010c4b60;
+    m_vptr = (intptr_t)&DAT_010c4b60;
     if (acFlags & 1)
     {
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::GlobalMgr *>(&::g_memoryManager))))->FUN_00aa4060(this);

@@ -2,6 +2,7 @@
 // src/havok/animation/ragdoll/utils/hkaragdollutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/utils/hkaragdollutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00ce9000.h"
@@ -66,7 +67,7 @@ struct Container
     Item** items;
     int unk0c;
     int unk10;
-    int unk14;
+    intptr_t unk14;
     int unk18;
 };
 struct Counter
@@ -195,14 +196,14 @@ struct SourceRecord
 
 // Allocates a 0x30-byte SpawnedObject from the global allocator and initializes it from src's fields, returning Init's result.
 // @fnv 0x00ce9ff0
-int __cdecl SpawnObjectFromRecord(SourceRecord* pSourceRecord)
+intptr_t __cdecl SpawnObjectFromRecord(SourceRecord* pSourceRecord)
 {
     SpawnedGlobal* holder = FUN_00c85750();
     SpawnedAllocator* pAllocator = holder->m_pAllocator;
     SpawnedObject* obj = (SpawnedObject*)pAllocator->allocate(0x30);
     obj->m_size04 = 0x30;
     int iValue = pSourceRecord->m_i2c;
-    return ((int)(new ((void *)(obj)) ::FUN_00ce2510((int)(&pSourceRecord->unk08), (int)(&pSourceRecord->unk14), iValue, (::ObjectArray<int> *)(void *)(&pSourceRecord->unk20))));
+    return ((intptr_t)(new ((void *)(obj)) ::FUN_00ce2510((intptr_t)(&pSourceRecord->unk08), (intptr_t)(&pSourceRecord->unk14), iValue, (::ObjectArray<int> *)(void *)(&pSourceRecord->unk20))));
 }
 
 struct Node
@@ -644,7 +645,7 @@ void __cdecl FUN_00ceaf60(Ragdoll* original, int aiSourceBone, Ragdoll** first, 
         }
         Ragdoll* result = (Ragdoll*)scratchState()->heap->AllocateMemoryBlock(0x30);
         result->memorySizeAndFlags = 0x30;
-        result = ((::fnv_00ceaf60::Ragdoll *)(new ((void *)(result)) ::FUN_00ce2510((int)&(bodies), (int)&(constraints), (int)(original->getSkeleton()), (::ObjectArray<int> *)&(remap))));
+        result = ((::fnv_00ceaf60::Ragdoll *)(new ((void *)(result)) ::FUN_00ce2510((intptr_t)&(bodies), (intptr_t)&(constraints), (intptr_t)(original->getSkeleton()), (::ObjectArray<int> *)&(remap))));
         *outputs[partition] = result;
         HeapAllocator* allocator = scratchState()->heap;
         remap.size = 0;
@@ -1088,22 +1089,22 @@ static __declspec(noinline) int FUN_00ce9880(const hkQsXform& t, Body* body)
             new ((void *)&(a)) ::FUN_00d733e0();
             MassB b;
             new ((void *)&(b)) ::FUN_00d73410();
-            ::FUN_00d748d0((::hkpEntityD748 *)(body), (int)(&a), (int)(&b));
+            ::FUN_00d748d0((::hkpEntityD748 *)(body), (intptr_t)(&a), (intptr_t)(&b));
         }
         GetError()->SetErrorCodeEnabled(0x2ff8c16f, bErrorEnabled);
         reinterpret_cast<::FUN_00ce50b0_cls *>((void *)&(combined))->FUN_00ce50b0((::CB2FC0Object *)(void *)(&kXform));
-        reinterpret_cast<::CA8890Object *>((body))->FUN_00ca8890((int)&(kXform));
+        reinterpret_cast<::CA8890Object *>((body))->FUN_00ca8890((intptr_t)&(kXform));
         if (body->m_bFlag != 5)
         {
             hkVec4 lc;
             reinterpret_cast<::FUN_00c7f690_cls *>(&(lc))->FUN_00c7f690((const ::S_00c7f690_M *)&(kXform), (const ::S_00c7f690_V *)&(com));
-            reinterpret_cast<::Owner *>((body))->FUN_00ca85f0((unsigned int)&(lc));
+            reinterpret_cast<::Owner *>((body))->FUN_00ca85f0((uintptr_t)&(lc));
         }
     }
     return 0;
 }
-volatile int g_inT;
-volatile int g_inBody;
+volatile intptr_t g_inT;
+volatile intptr_t g_inBody;
 volatile int g_out;
 void CallTarget_ce9880()
 {
@@ -1317,7 +1318,7 @@ static __forceinline void destroyBones(Bone* bone, int count) throw()
 {
     for (int i = 0; i < count; ++i)
     {
-        ::FUN_00cb0c00((int)(bone));
+        ::FUN_00cb0c00((intptr_t)(bone));
         ++bone;
     }
 }
@@ -1518,7 +1519,7 @@ Skeleton* __cdecl FUN_00ceb2c0(BodyList* bodies, ConstraintList* constraints) th
         {
             reinterpret_cast<::S_00ce5070_QsTransform *>(&(result->pose.data[i]))->FUN_00ce5070((*(const ::S_00ce5070_Transform *)(&body->transform)));
         }
-        const char* name = reinterpret_cast<const char*>(reinterpret_cast<unsigned int>(body->name) & ~1u);
+        const char* name = reinterpret_cast<const char*>(reinterpret_cast<uintptr_t>(body->name) & ~1u);
         if (name)
             reinterpret_cast<::SStringPtr *>(&(currentBone.name))->FUN_00cb0c10(name);
         else

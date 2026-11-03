@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/AllocatorStatisticsDD8D.h"
@@ -32,11 +33,11 @@
 #include "fnv/symbols_010d1000.h"
 struct hkFreeListAllocator
 {
-    void PrintStatistics(int);
+    void PrintStatistics(intptr_t);
 };
 
 // @fnv 0x00d5f950
-void hkFreeListAllocator::PrintStatistics(int aiUnused)
+void hkFreeListAllocator::PrintStatistics(intptr_t aiUnused)
 {
     ::FUN_00cc0410((::hkOstream *)(aiUnused),
                  "printStatistics is not supported on hkFreeListAllocator - use hkDebugMemory or hkPoolMemory\n");
@@ -244,12 +245,12 @@ struct D603E0Object : D603E0Base
 
 struct FUN_00d61f30_shell
 {
-    void FUN_00d61f30(int a, int b, int c, int d, int e, int f);
+    void FUN_00d61f30(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e, intptr_t f);
 };
 
 // Calls FUN_00d61cc0, then forwards the six arguments to AppendStrings.
 // @fnv 0x00d61f30
-void FUN_00d61f30_shell::FUN_00d61f30(int a, int b, int c, int d, int e, int f)
+void FUN_00d61f30_shell::FUN_00d61f30(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e, intptr_t f)
 {
     reinterpret_cast<::FUN_00d61cc0_t *>(this)->FUN_00d61cc0();
     reinterpret_cast<::hkStringBufD61E *>(this)->AppendStrings((const char *)(a), (const char *)(b), (const char *)(c), (const char *)(d), (const char *)(e), (const char *)(f));
@@ -407,7 +408,7 @@ struct HeapBase60270
 class FUN_00d60270_cls : public HeapBase60270
 {
   public:
-    FUN_00d60270_cls* FUN_00d60270(int a1);
+    FUN_00d60270_cls* FUN_00d60270(intptr_t a1);
     void* m_vptr;
     int unk004;
     int unk008;
@@ -642,7 +643,7 @@ struct SizeClassPool
     int unk14;
     int unk18;
     int unk1c;
-    volatile unsigned int m_20;
+    volatile uintptr_t m_20;
     unsigned int m_24;
     int m_28;
 
@@ -2429,7 +2430,7 @@ struct S_00d5fb70
 };
 // Initializes the object: sets the vtable, initializes sub-objects and item array, resets state, and allocates the size-class table slots.
 // @fnv 0x00d60270
-FUN_00d60270_cls* FUN_00d60270_cls::FUN_00d60270(int a1)
+FUN_00d60270_cls* FUN_00d60270_cls::FUN_00d60270(intptr_t a1)
 {
     m_vptr = (*reinterpret_cast<char (*)[]>(&::DAT_010d1464));
     reinterpret_cast<::FUN_00cf6da0_cls *>((reinterpret_cast<Sub4*>(&unk004)))->FUN_00cf6da0(0xfa0);
@@ -3341,7 +3342,7 @@ FUN_00dd7200_cls* Owner17::FUN_00d60020(int aiParam1, int aiParam2, int aiParam3
     cur238 = s + 1;
     if (s != 0)
     {
-        reinterpret_cast<::FUN_00dd74b0_cls *>((s))->FUN_00dd7650(aiParam1, aiParam2, aiParam3, (int)(&unk28));
+        reinterpret_cast<::FUN_00dd74b0_cls *>((s))->FUN_00dd7650(aiParam1, aiParam2, aiParam3, (intptr_t)(&unk28));
     }
     for (int i = 0; i < count234; i++)
     {

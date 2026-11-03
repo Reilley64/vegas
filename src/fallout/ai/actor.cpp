@@ -5029,7 +5029,7 @@ struct VTableHelper00886080
 };
 
 // @fnv 0x00886080
-unsigned int FUN_00886080(char* pThis)
+uintptr_t FUN_00886080(char* pThis)
 {
     if (*reinterpret_cast<VTableHelper00886080**>(pThis + 0x68))
     {
@@ -112551,7 +112551,7 @@ struct Ref_891d30
 };
 // Returns the result of FUN_004cafe0 on the object obtained via FUN_005d43c0 and FUN_00418520, or 0 if that object is null.
 // @fnv 0x00891d30
-int Ref_891d30::FUN_00891d30()
+intptr_t Ref_891d30::FUN_00891d30()
 {
     Obj_4cafe0* obj;
     int result = 0;

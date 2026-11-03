@@ -1,5 +1,6 @@
 
 // SSE_DECLARATIONS_DEFER_TO_SDK
+#include <cstdint>
 #include "generated/data/vtables.h"
 #include <windows.h>
 // src/staging/blk_00ca0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
@@ -10407,7 +10408,7 @@ int CompareStringsCaseInsensitive(const char* pStringA, const char* pStringB)
 
 void FUN_00cd4af0(int a1);
 // @fnv 0x00cb2d70
-unsigned int FUN_00cb2d70(unsigned int uiValue)
+uintptr_t FUN_00cb2d70(uintptr_t uiValue)
 {
     FUN_00cd4af0((int)uiValue);
     return uiValue;

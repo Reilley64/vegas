@@ -2,6 +2,7 @@
 // src/havok/animation/animation/animation/interleaved/hkainterleaveduncompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/interleaved/hkainterleaveduncompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/symbols_simd.h"
 #include "fnv/decl/FUN_005611c0_t.h"
 #include "fnv/symbols_00c85000.h"
@@ -136,7 +137,7 @@ struct S00e3fd20_Desc
 // @fnv 0x00e3fd20
 void S00e3fd20_Desc::FUN_00e3fd20(int scale, int unused1, int* out, int unused2)
 {
-    out[0] = (int)this;
+    out[0] = (intptr_t)this;
     out[1] = 0x40;
 
     int segment = 1;

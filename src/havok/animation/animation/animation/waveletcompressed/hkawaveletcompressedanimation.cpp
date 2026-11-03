@@ -1,3 +1,4 @@
+#include <cstdint>
 #include "fnv/symbols_00e2f000.h"
 #include "fnv/symbols_00e51000.h"
 #include "fnv/symbols_00e59000.h"
@@ -601,7 +602,7 @@ struct S00e306d0_Args {
 };
 
 static volatile unsigned int s00e306d0_sink;
-static __declspec(noinline) void FUN_00e300b0(unsigned int x, S00e306d0_Args args) { unsigned int* p = (unsigned int*)x; p[0] = args.f00; p[1] = args.f18; p[2] = args.f04; }
+static __declspec(noinline) void FUN_00e300b0(uintptr_t x, S00e306d0_Args args) { unsigned int* p = (unsigned int*)x; p[0] = args.f00; p[1] = args.f18; p[2] = args.f04; }
 
 struct S00e306d0_Stream {
     int unk00;
@@ -672,13 +673,13 @@ struct S00e306d0_Obj {
 
 // Calls timerBegin and timerEnd around a 12-byte write to b containing c, a computed address, and the divisor.
 // @fnv 0x00e306d0
-static __declspec(noinline) void FUN_00e306d0(S00e306d0_Obj* self, unsigned int auiIndex, unsigned int auiTarget, unsigned int auiValue)
+static __declspec(noinline) void FUN_00e306d0(S00e306d0_Obj* self, unsigned int auiIndex, uintptr_t auiTarget, unsigned int auiValue)
 {
     S00e306d0_TlsFn tls = (S00e306d0_TlsFn)DAT_00fdf044;
     S00e306d0_Stream* s = (S00e306d0_Stream*)tls(DAT_0126835c);
     s->timerBegin();
 
-    unsigned int base = self->m_ui64;
+    uintptr_t base = self->m_ui64;
     unsigned int uiDivisor = self->m_ui2c;
     S00e306d0_Args args;
     args.f00 = auiValue;
@@ -815,11 +816,11 @@ static void* FUN_00e307b0(ChunkCacheRef* cache, const hkaWaveletCompressedAnimat
     return data;
 }
 
-extern int g_sink;
+extern intptr_t g_sink;
 static void FUN_00e306d0(const hkaWaveletCompressedAnimation* anim, int block, void* out, int numPoses)
 {
     hkTimer("TtcacheW");
-    g_sink = anim->m_iDofCount + anim->m_iFrameCount * block + (int)out + numPoses + anim->m_uiNumDynamicDofs;
+    g_sink = anim->m_iDofCount + anim->m_iFrameCount * block + (intptr_t)out + numPoses + anim->m_uiNumDynamicDofs;
     hkTimer("Et");
 }
 
@@ -838,7 +839,7 @@ struct hkDmaRefE2FA {
 
     void set(const void* p, int size)
     {
-        m_offset = (unsigned char)((unsigned int)p & 0xf);
+        m_offset = (unsigned char)((uintptr_t)p & 0xf);
         m_ptr = p;
         m_iElementCount = size;
     }
@@ -908,11 +909,11 @@ void hkQueueE2FA::FUN_00e2fac0(unsigned int offset, int unused, hkDmaRefE2FA* de
 
     desc[0].m_ptr = this;
     desc[0].m_iElementCount = 0x70;
-    desc[0].m_offset = (unsigned char)(unsigned int)desc[0].m_ptr &15;
+    desc[0].m_offset = (unsigned char)(uintptr_t)desc[0].m_ptr &15;
 
     desc[1].m_ptr = m_data;
     desc[1].m_iElementCount = (m_iDataSize+15)&~15;
-    desc[1].m_offset = (unsigned char)(unsigned int)desc[1].m_ptr &15;
+    desc[1].m_offset = (unsigned char)(uintptr_t)desc[1].m_ptr &15;
 
     unsigned int slot = offset / m_slotSize;
     reinterpret_cast<::HostE2FB *>((void *)this)->FUN_00e2fa60(slot, (::InfoE2FB *)(::hkDmaRefE2FA *)(&desc[2]));
@@ -926,7 +927,7 @@ void hkQueueE2FA::FUN_00e2fac0(unsigned int offset, int unused, hkDmaRefE2FA* de
 __declspec(noinline) void HostE2FB::FUN_00e2fa60(unsigned int uiIndex, InfoE2FB* pkInfo)
 {
     const unsigned int* blockOffsets = reinterpret_cast<const unsigned int*>(m_kCompressedData.m_data + m_uiIndexDataOffset);
-    unsigned int address = reinterpret_cast<unsigned int>(m_kCompressedData.m_data + m_uiNumDynamicDofs) + blockOffsets[uiIndex];
+    uintptr_t address = reinterpret_cast<uintptr_t>(m_kCompressedData.m_data + m_uiNumDynamicDofs) + blockOffsets[uiIndex];
     pkInfo->m_iFirstValue = address & ~15;
     pkInfo->m_bFlag = address & 15;
     if (uiIndex != m_uiNumIndices - 1)
@@ -967,7 +968,7 @@ struct ChunkRetry {
     unsigned int size;
     unsigned char misalignment;
     void setStart(const void* p) {
-        unsigned long bits = (unsigned long)p;
+        uintptr_t bits = (uintptr_t)p;
         misalignment = (unsigned char)(bits & 15);
         bits &= ~15UL;
         data = (const void*)bits;
@@ -1294,7 +1295,7 @@ static __declspec(noinline) float* FUN_00e307b0(CacheCtrlE30** cache, e2f910_Cls
         (*cache)->vf18(key, size);
         (*cache)->vf20(key, size);
         (*cache)->unlock();
-        FUN_00e306d0((S00e306d0_Obj*)anim, frame, (unsigned int)data, numD);
+        FUN_00e306d0((S00e306d0_Obj*)anim, frame, (uintptr_t)data, numD);
         (*cache)->lock();
         (*cache)->vf24(key, size);
         (*cache)->unlock();
@@ -1380,7 +1381,7 @@ void WaveletSamplerE30::FUN_00e30980(float time, unsigned int transformCount, hk
     a->m_aiEntries.m_pTileTemplate = (char*)interpolated + ((dynamicDOFs * 4 + 127) & ~127);
     float* decompressed = block;
     if (!cache || !(decompressed = FUN_00e307b0(&cache, (e2f910_Cls*)this, frame, quantizedDOFs))) {
-        FUN_00e306d0((S00e306d0_Obj*)this, frame, (unsigned int)block, dynamicDOFs);
+        FUN_00e306d0((S00e306d0_Obj*)this, frame, (uintptr_t)block, dynamicDOFs);
         decompressed = block;
     }
     MonSplitE30(DAT_010eb38c);
@@ -1405,7 +1406,7 @@ void WaveletSamplerE30::FUN_00e30980(float time, unsigned int transformCount, hk
         offset = 0;
         decompressed = block;
         if (!cache || !(decompressed = FUN_00e307b0(&cache, (e2f910_Cls*)this, frame, quantizedDOFs))) {
-            FUN_00e306d0((S00e306d0_Obj*)this, frame, (unsigned int)block, dynamicDOFs);
+            FUN_00e306d0((S00e306d0_Obj*)this, frame, (uintptr_t)block, dynamicDOFs);
             decompressed = block;
         }
         MonSplitE30(DAT_010eb38c);

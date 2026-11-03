@@ -1,4 +1,5 @@
 // staging/blk_00cc0000_o2.cpp: CacheOwner_cls, Owner, Obj, hkVector4CDA and more (425 functions)
+#include <cstdint>
 #include <windows.h>
 #include <math.h>
 
@@ -15488,7 +15489,7 @@ public:
 };
 
 // @fnv 0x00cde940
-void FUN_00cde940_cls::FUN_00cde940(int p1, int p2, int p3)
+void FUN_00cde940_cls::FUN_00cde940(int p1, int p2, intptr_t p3)
 {
     reinterpret_cast<::SearchObject *>((this))->FUN_00cde920(p1, p2, p3, 1);
 }

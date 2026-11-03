@@ -2,6 +2,7 @@
 // src/havok/animation/animation/motionanalysis/hkafootstepanalysisinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/motionanalysis/hkafootstepanalysisinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -507,7 +508,7 @@ AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00e41e20_cls
 {
-    int m_vptr00;
+    intptr_t m_vptr00;
     unsigned int unk04;
     void* m_pData;
     int m_iArrayLength;
@@ -520,7 +521,7 @@ struct FUN_00e41e20_cls
 // @fnv 0x00e41e20
 void FUN_00e41e20_cls::FUN_00e41e20()
 {
-    m_vptr00 = (int)&::DAT_010e58c8;
+    m_vptr00 = (intptr_t)&::DAT_010e58c8;
     AudioHolder* pHolder = FUN_00c85750();
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapBits = m_uCapBits;
@@ -531,6 +532,6 @@ void FUN_00e41e20_cls::FUN_00e41e20()
     }
     m_pData = 0;
     m_uCapBits = 0x80000000u;
-    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr00 = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00e41e20

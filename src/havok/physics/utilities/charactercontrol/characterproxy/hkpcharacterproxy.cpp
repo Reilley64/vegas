@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/Controller197.h"
 #include "fnv/decl/FUN_006212c0_shell.h"
@@ -408,7 +409,7 @@ struct CpuObject {
     unsigned int FUN_00cac910();
 };
 // @fnv 0x00cac910
-unsigned int CpuObject::FUN_00cac910()
+uintptr_t CpuObject::FUN_00cac910()
 {
     return value->value + 48u;
 }

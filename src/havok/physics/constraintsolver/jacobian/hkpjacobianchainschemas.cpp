@@ -25,7 +25,7 @@ int* __cdecl FUN_00dd13c0(DD13C0Object* object)
 // @fnv 0x00dd13b0
 void* __cdecl FUN_00dd13b0(void* arg0)
 {
-    return (char*)arg0 + 16;
+    return &static_cast<DD13C0Object*>(arg0)->m_data;
 }
 
 // @fnv 0x00dd13d0

@@ -77,14 +77,14 @@ void FUN_00d1ff40_cls::FUN_00d1ff40(hkVector4* out)
     _mm_store_ps(&out->x, _mm_mul_ps(half, total));
 }
 
-struct FUN_00d1ff20_s {
+struct FUN_00d1ff20_s : public ::hkpTriangleShape {
     void CopyVector(float* dst);
 };
 
 // @fnv 0x00d1ff20
 void FUN_00d1ff20_s::CopyVector(float* dst)
 {
-    __m128 v = *(__m128*)((char*)this + 0x20);
+    __m128 v = *(const __m128*)&m_kVertexA;
     *(__m128*)dst = v;
 }
 

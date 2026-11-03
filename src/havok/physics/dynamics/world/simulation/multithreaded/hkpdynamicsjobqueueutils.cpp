@@ -46,7 +46,9 @@ struct S_00d96530_Block
     int unk8;
     int unkC;
     S_00d96530_RelArray m_ppData;
-    S_00d96530_Block(int capacity) : m_ppData((char*)this + 0x20, capacity)
+    // The inline storage follows the 0x20-byte block header.
+    static const int kHeaderBytes = 0x20;
+    S_00d96530_Block(int capacity) : m_ppData((char*)this + kHeaderBytes, capacity)
     {}
 };
 

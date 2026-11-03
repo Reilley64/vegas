@@ -9,6 +9,7 @@
 #include "fnv/decl/hkMatrix3CD4B.h"
 #include "fnv/symbols_00d21000.h"
 #include "havok/hkpConstraintAtom.h"
+#include "havok/hkpModifierConstraintAtom.h"
 
 struct FUN_00d21ce0_cls
 {
@@ -41,7 +42,7 @@ int __cdecl FUN_00d22120(void* pNode, void* a, void* b)
         do
         {
             result |= ((FUN_00d22090_cls*)p)->FUN_00d22090(a, b);
-            p = *(void**)((char*)p + 0x14);
+            p = static_cast<hkpModifierConstraintAtom*>(p)->m_pChildAtom;
         } while (*(unsigned short*)p >= 0x17);
     }
     return result;

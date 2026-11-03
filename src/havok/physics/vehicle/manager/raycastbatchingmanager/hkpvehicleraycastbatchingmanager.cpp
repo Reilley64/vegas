@@ -79,7 +79,7 @@ struct LocalWheelResults : hkArray<WheelResult> {
   m_data = 0; m_iElementCount = 0; m_iCapacityState = 0x80000000;
   ThreadMemory* memory = static_cast<ThreadMemory*>(::FUN_00c85750());
   WheelResult* block = (WheelResult*)memory->stack;
-  memory->stack = (char*)(block + 16);
+  memory->stack = reinterpret_cast<char*>(block + 16);
   m_data = block; m_iCapacityState = 0x80000010; original = block;
  }
  void resize(int size) {

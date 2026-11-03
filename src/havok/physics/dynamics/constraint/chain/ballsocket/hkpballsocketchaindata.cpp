@@ -29,7 +29,7 @@ void hkpBallSocketChainData_00d53cf0::GetConstraintSizeInfo(bool abEnabled, S_00
 {
     if (abEnabled)
     {
-        apSizeInfo->y = 3 * *(int*)((char*)this + 0x1c);
+        apSizeInfo->y = 3 * reinterpret_cast<hkpBallSocketChainData*>(this)->m_pConstraintInfo.m_iElementCount;
         apSizeInfo->x = apSizeInfo->y * 8;
     }
     else

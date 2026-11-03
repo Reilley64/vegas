@@ -228,6 +228,8 @@ struct FUN_00def450_cls
     char* CheckAndWriteResult(char* apResult, Operand* apFirst, Operand* apSecond);
 };
 
+// The collidable-collidable filter interface sits at +0x8 in hkpPairCollisionFilter (x86 layout).
+static const int kPairFilterInterfaceOffset = 0x8;
 // @fnv 0x00def450
 char* FUN_00def450_cls::CheckAndWriteResult(char* apResult, Operand* apFirst, Operand* apSecond)
 {
@@ -245,7 +247,7 @@ char* FUN_00def450_cls::CheckAndWriteResult(char* apResult, Operand* apFirst, Op
     Converted* pFirst = (apFirst->m_cType == 1) ? (Converted*)((char*)apFirst + apFirst->m_cByteAtOffset10) : 0;
     Converted* pSecond = (apSecond->m_cType == 1) ? (Converted*)((char*)apSecond + apSecond->m_cByteAtOffset10) : 0;
 
-    ResultWriter* pWriter = (ResultWriter*)((char*)this - 8);
+    ResultWriter* pWriter = (ResultWriter*)((char*)this - kPairFilterInterfaceOffset);
     reinterpret_cast<::Owner *>((pWriter))->CheckPairAgainstThreshold((volatile unsigned char *)(apResult), pFirst, pSecond);
     return apResult;
 }

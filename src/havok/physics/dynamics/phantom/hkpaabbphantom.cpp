@@ -1169,7 +1169,7 @@ struct PhantomBounds
 // @fnv 0x00cf24a0
 void PhantomBounds::FUN_00cf24a0(const hkAabb& source)
 {
-    hkAabb* target = reinterpret_cast<hkAabb*>(reinterpret_cast<char*>(this) + 0xb0);
+    hkAabb* target = reinterpret_cast<hkAabb*>(&reinterpret_cast<hkpAabbPhantom*>(this)->m_kBounds);
     _mm_store_ps(&target->m_kMinimumCorner.x, _mm_load_ps(&source.m_kMinimumCorner.x));
     _mm_store_ps(&target->m_kMaximumCorner.x, _mm_load_ps(&source.m_kMaximumCorner.x));
     reinterpret_cast<::hkpAabbPhantomD07 *>(this)->FUN_00d07ec0((*(const ::hkAabbD07 *)(target)));

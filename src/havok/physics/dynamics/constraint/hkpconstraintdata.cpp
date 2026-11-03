@@ -133,7 +133,7 @@ void __cdecl FUN_00d21a60(const hkpConstraintAtom* atoms, int sizeOfAllAtoms, Ge
         switch (atom->type)
         {
         case hkpConstraintAtom::INVALID:
-            cursor = reinterpret_cast<const char*>((reinterpret_cast<uintptr_t>(cursor) + 15) & ~uintptr_t(15));
+            cursor = reinterpret_cast<const char*>((reinterpret_cast<uintptr_t>(cursor) + uintptr_t(15)) & ~uintptr_t(15));
             goto dispatchAlignedAtom;
         case hkpConstraintAtom::BALL_SOCKET:
             addSolverSchema(info, 144, 3, 3);

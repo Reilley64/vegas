@@ -71,7 +71,7 @@ struct CpuObject
 // @fnv 0x00c9e810
 char* CpuObject::FUN_00c9e810()
 {
-    return reinterpret_cast<char*>(this) + 176;
+    return reinterpret_cast<char*>(&reinterpret_cast<hkpShapePhantom*>(this)->m_kMotionState);
 }
 
 // @fnv 0x00c9e820

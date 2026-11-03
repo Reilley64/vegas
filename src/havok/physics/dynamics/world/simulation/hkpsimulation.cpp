@@ -1290,7 +1290,7 @@ struct TimerEvent { const char* tag; u32 stamp; u32 unk08; const char* subtag; }
 typedef void* (*TlsFn)(unsigned long);
 static __forceinline void record16(TlsFn get,volatile u32& t){
  Stream* s=(Stream*)get(::DAT_0126835c); TimerEvent* p=(TimerEvent*)s->pos;
- if((char*)p < s->cap){ p->tag=::DAT_010cc624; p->subtag=str_010cc618; _ReadWriteBarrier(); t=(u32)__rdtsc(); p->stamp=t; s->pos=(char*)p+16; }
+ if((char*)p < s->cap){ p->tag=::DAT_010cc624; p->subtag=str_010cc618; _ReadWriteBarrier(); t=(u32)__rdtsc(); p->stamp=t; s->pos=reinterpret_cast<char*>(p+1); }
 }
 static __forceinline void record12(const char* tag, TlsFn get=TlsGetValue){
  Stream* s=(Stream*)get(::DAT_0126835c); TimerEvent* p=(TimerEvent*)s->pos;

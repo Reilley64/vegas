@@ -2255,16 +2255,23 @@ void LcPhantom::FUN_00d1f270(const LcVec4& position, const LcCastIn& input, void
     }
 }
 
-// Copies 12 floats from source to this at float index 0x2C using SSE, then calls FUN_00d1f270 with source plus 0x30 bytes and a, b, c.
+// hkTransform: three rotation columns, then the translation.
+struct D1F450_Transform
+{
+    __m128 m_rotation[3];
+    __m128 m_translation;
+};
+// Copies the rotation of source into the phantom's motion state using SSE, then calls FUN_00d1f270 with source's translation and a, b, c.
 // @fnv 0x00d1f450
 void FUN_00d1f450_Obj::FUN_00d1f450(int* source, const void* a, void* b, void* c)
 {
-    float* destination = reinterpret_cast<float*>(this) + 0x2C;
-    float* vectors = reinterpret_cast<float*>(source);
+    float* destination = reinterpret_cast<float*>(&reinterpret_cast<hkpShapePhantom*>(this)->m_kMotionState);
+    const D1F450_Transform* transform = reinterpret_cast<const D1F450_Transform*>(source);
+    const float* vectors = reinterpret_cast<const float*>(transform->m_rotation);
 
     _mm_store_ps(destination + 0, _mm_load_ps(vectors + 0));
     _mm_store_ps(destination + 4, _mm_load_ps(vectors + 4));
     _mm_store_ps(destination + 8, _mm_load_ps(vectors + 8));
 
-    reinterpret_cast<::LcPhantom *>((this))->FUN_00d1f270((*(const ::LcVec4 *)(reinterpret_cast<int*>(reinterpret_cast<char*>(source) + 0x30))), (*(const ::LcCastIn *)(a)), (void *)(b), (void *)(c));
+    reinterpret_cast<::LcPhantom *>((this))->FUN_00d1f270((*(const ::LcVec4 *)(&transform->m_translation)), (*(const ::LcCastIn *)(a)), (void *)(b), (void *)(c));
 }

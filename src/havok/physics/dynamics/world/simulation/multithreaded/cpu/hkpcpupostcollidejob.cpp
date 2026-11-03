@@ -115,7 +115,7 @@ int __cdecl AccumulateShapes(Worker** a1, TargetClass* apTarget, Caller* apCalle
     {
         if (i < count - 4)
         {
-            _mm_prefetch((const char*)apCaller->m_20->shapes[(short)(i + 4)], _MM_HINT_NTA);
+            _mm_prefetch(reinterpret_cast<const char*>(apCaller->m_20->shapes[(short)(i + 4)]), _MM_HINT_NTA);
         }
 
         Shape* shape = apCaller->m_20->shapes[(short)i];

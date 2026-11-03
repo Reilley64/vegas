@@ -46,14 +46,17 @@ void SetTargetValues(char param, int* target)
     }
 }
 
+// hkpHingeConstraintData::m_atoms.m_ballSocket (+0x94 in the atoms) breach impulse; the generated atoms header is padding only.
 struct FUN_00cbe190_class
 {
+    char pad00[0xa8];
+    float m_ballSocketBreachImpulse;  // +0xa8
     void FUN_00cbe190(float value);
 };
 // @fnv 0x00cbe190
 void FUN_00cbe190_class::FUN_00cbe190(float value)
 {
-    *(float*)((char*)this + 0xa8) = value;
+    m_ballSocketBreachImpulse = value;
 }
 
 struct CpuObject

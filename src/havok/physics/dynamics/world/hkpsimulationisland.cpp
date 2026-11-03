@@ -319,14 +319,24 @@ GlobalObjectO2_00d472a0* FUN_00d078d0()
     return &::g_012687cc;
 }
 
-// FUN_00d07100: OR a flag byte into a sub-object's flags field.
-// Sub-object pointer lives at +0x30 of the owner; flags byte at +0x12 of it.
+// hkpConstraintInstance::m_internal (+0x30) and hkConstraintInternal::m_callbackRequest (+0x12).
+struct D07100_Instance
+{
+    char pad00[0x30];
+    struct D07100_Internal* m_internal;
+};
+struct D07100_Internal
+{
+    char pad00[0x12];
+    unsigned char m_callbackRequest;
+};
 
+// ORs bits into the constraint's internal callback-request flags.
 // @fnv 0x00d07100
 void FUN_00d07100(char* owner, unsigned char bits)
 {
-    char* sub = *(char**)(owner + 0x30);
-    *(unsigned char*)(sub + 0x12) |= bits;
+    D07100_Internal* sub = reinterpret_cast<D07100_Instance*>(owner)->m_internal;
+    sub->m_callbackRequest |= bits;
 }
 
 struct S_00d074c0_Heap

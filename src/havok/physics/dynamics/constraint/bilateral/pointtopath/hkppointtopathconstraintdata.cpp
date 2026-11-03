@@ -16,10 +16,17 @@
 #include "havok/hkpPointToPathConstraintData.h"
 
 // @fnv 0x00dee720
+// hkpConstraintData::RuntimeInfo as this function fills it.
+struct PointToPathRuntimeInfo
+{
+    int m_sizeOfExternalRuntime;
+    int m_numSolverResults;
+};
 void FUN_00dee720(int aiUnused, void* apData)
 {
-    *(int*)((char*)apData + 4) = 7;
-    *(int*)apData = 0x3c;
+    PointToPathRuntimeInfo* info = static_cast<PointToPathRuntimeInfo*>(apData);
+    info->m_numSolverResults = 7;
+    info->m_sizeOfExternalRuntime = 0x3c;
 }
 
 class hkpConstraintAtom;

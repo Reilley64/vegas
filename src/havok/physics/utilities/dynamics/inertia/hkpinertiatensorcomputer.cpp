@@ -581,11 +581,11 @@ static __declspec(noinline) void FUN_00cebfd0(Owner* self, float afScale)
 }
 Owner* volatile g_owner;
 volatile float g_value;
-Owner* volatile g_sink;
-void caller()
+Owner* volatile FnvHavok_hkpinertiatensorcomputer_g_sink;
+void FnvHavok_hkpinertiatensorcomputer_caller()
 {
     FUN_00cebfd0(g_owner, g_value);
-    g_sink = g_owner;
+    FnvHavok_hkpinertiatensorcomputer_g_sink = g_owner;
 }
 
 struct __declspec(align(16)) S00ceccf0_Vec
@@ -2854,7 +2854,7 @@ void FUN_00cf07a0(void* a, float b, Dest* c)
 void __cdecl FUN_00ced230(float afDivisor, S_00ced230_T* pData);
 void FUN_00cebdb0(const MotionLike* source, MotionLike* destination);
 static void FUN_00cebfd0(Owner* self, float value);
-void caller();
+void FnvHavok_hkpinertiatensorcomputer_caller();
 int __cdecl FUN_00ceccf0(float start, float span, float t, S00ceccf0_Out* out);
 void __cdecl SetDiagonal(S_00ced310_M* m);
 

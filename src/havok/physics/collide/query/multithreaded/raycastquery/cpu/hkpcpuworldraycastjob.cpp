@@ -224,32 +224,32 @@ DF8930Object::DF8930Object()
 // lives in another translation unit of the game), so the tail jump stays an
 // undefined external and the linker/checker resolves it from the original.
 
-struct NiObjectBase
+struct FnvHavok00df8950_NiObjectBase
 {
-    NiObjectBase();
+    FnvHavok00df8950_NiObjectBase();
     virtual void FUN_00df8950(int flag);
     int unk04;
 };
 
-struct NiExtraDataBase
+struct FnvHavok00df8950_NiExtraDataBase
 {
-    NiExtraDataBase();
+    FnvHavok00df8950_NiExtraDataBase();
     virtual void FUN_00df8950(int flag);
 };
 
-class Derived : public NiObjectBase, public NiExtraDataBase
+class FnvHavok00df8950_Derived : public FnvHavok00df8950_NiObjectBase, public FnvHavok00df8950_NiExtraDataBase
 {
   public:
-    Derived();
+    FnvHavok00df8950_Derived();
 // @fnv 0x00df8950
     virtual void FUN_00df8950(int flag);
 };
 
-NiObjectBase::NiObjectBase()
+FnvHavok00df8950_NiObjectBase::FnvHavok00df8950_NiObjectBase()
 {}
-NiExtraDataBase::NiExtraDataBase()
+FnvHavok00df8950_NiExtraDataBase::FnvHavok00df8950_NiExtraDataBase()
 {}
-Derived::Derived()
+FnvHavok00df8950_Derived::FnvHavok00df8950_Derived()
 {}
 
 #include <xmmintrin.h>

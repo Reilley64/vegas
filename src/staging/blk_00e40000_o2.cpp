@@ -887,7 +887,7 @@ FUN_00e4ae80_class::FUN_00e4ae80_class(int flags)
 // add ecx,0x14; jmp FUN_00cb0c10 : the derived override forwards to the secondary base's
 // virtual, so `this` is moved forward by the size of the primary base (vptr + 4 ints = 0x14)
 // before the tail jump to the secondary base's implementation.
-struct ThunkPrimary
+struct ThunkPrimary_00e4af50
 {
     virtual void FUN_00e4af50();
     int unk04;
@@ -896,23 +896,23 @@ struct ThunkPrimary
     int unk10;
 };
 
-struct ThunkSecondary
+struct ThunkSecondary_00e4af50
 {
     virtual void FUN_00cb0c10();
 };
 
-struct ThunkDerived : ThunkPrimary, ThunkSecondary
+struct ThunkDerived_00e4af50 : ThunkPrimary_00e4af50, ThunkSecondary_00e4af50
 {
-    ThunkDerived();
+    ThunkDerived_00e4af50();
     virtual void FUN_00e4af50();
 };
 
-ThunkDerived::ThunkDerived()
+ThunkDerived_00e4af50::ThunkDerived_00e4af50()
 {
 }
 
 // @fnv 0x00e4af50
-void ThunkDerived::FUN_00e4af50()
+void ThunkDerived_00e4af50::FUN_00e4af50()
 {
     reinterpret_cast<::SStringPtr *>((this))->FUN_00cb0c10({});
 }
@@ -5946,7 +5946,7 @@ static void FUN_00e59700(SolverState* __restrict state, const BoundaryTable* tab
     output->m_08 = (float)sqrt(j);
 }
 
-void caller(SolverState* s, const BoundaryTable* t, SolverOutput* o) {
+void probeCaller_00e59700(SolverState* s, const BoundaryTable* t, SolverOutput* o) {
     FUN_00e59700(s, t, o);
 }
 
@@ -7144,7 +7144,7 @@ void __cdecl FUN_00e58210(int a1, int a2, int a3, float a4, int a5, int a6, int 
 
 static void FUN_00e59700(SolverState* __restrict state, const BoundaryTable* table, SolverOutput* output);
 
-void caller(SolverState* s, const BoundaryTable* t, SolverOutput* o);
+void probeCaller_00e59700(SolverState* s, const BoundaryTable* t, SolverOutput* o);
 
 
 Se5b160_Instance* __cdecl CreatePoweredConstraint(const Se5b160_Instance* __restrict original, Se5b160_Motor* motor, bool enableMotors);

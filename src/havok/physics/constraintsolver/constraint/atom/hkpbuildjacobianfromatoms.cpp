@@ -5200,11 +5200,11 @@ extern Src* g_src;
 extern Mat* g_a2;
 extern Mat* g_a3;
 extern AxisRowOut* g_out;
-int g_sink;
+int FnvHavok_hkpbuildjacobianfromatoms_g_sink;
 
 void zz_probe_call()
 {
-    g_sink = FUN_00d6d2e0(g_obj, g_src, g_a2, g_a3, g_out);
+    FnvHavok_hkpbuildjacobianfromatoms_g_sink = FUN_00d6d2e0(g_obj, g_src, g_a2, g_a3, g_out);
 }
 
 struct S00d6f300_A

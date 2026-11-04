@@ -9126,7 +9126,7 @@ void TESNPC::FUN_006047c0(TESObjectREFR* a2, bool a3, bool a4, bool a5, bool a6)
 // Both bases declare the same virtual function, the derived class redeclares
 // it and only defines its constructor, which is what makes the compiler emit
 // the vtables and the adjusting thunk.
-struct PrimaryBase
+struct PrimaryBase_0060c440
 {
     virtual void FUN_0060c440();
     int unk04;
@@ -9185,19 +9185,19 @@ struct PrimaryBase
     int unkD8;
 };
 
-struct SecondaryBase
+struct SecondaryBase_0060c440
 {
     virtual void FUN_0060c440();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_0060c440 : PrimaryBase_0060c440, SecondaryBase_0060c440
 {
-    Derived();
+    Derived_0060c440();
 // @fnv 0x0060c440
     virtual void FUN_0060c440();
 };
 
-Derived::Derived()
+Derived_0060c440::Derived_0060c440()
 {}
 
 // FUN_0060c450 is a MSVC this-adjusting thunk (adjustor thunk).
@@ -9395,7 +9395,7 @@ Derived::Derived()
 // The primary base occupies 0x90 bytes, so the secondary base sub-object starts
 // at +0x90 and the compiler emits an adjustor thunk for the secondary base's
 // virtual slot, moving 'this' back onto the secondary base before the jump.
-struct AdjPrimaryBase
+struct AdjPrimaryBase_0060c490
 {
     virtual void FUN_0060c490();
     int unk04;
@@ -9435,19 +9435,19 @@ struct AdjPrimaryBase
     int unk8C;
 };
 
-struct AdjSecondaryBase
+struct AdjSecondaryBase_0060c490
 {
     virtual void FUN_0060c490();
 };
 
-struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
+struct AdjDerived_0060c490 : AdjPrimaryBase_0060c490, AdjSecondaryBase_0060c490
 {
-    AdjDerived();
+    AdjDerived_0060c490();
 // @fnv 0x0060c490
     virtual void FUN_0060c490();
 };
 
-AdjDerived::AdjDerived()
+AdjDerived_0060c490::AdjDerived_0060c490()
 {}
 
 namespace fnv_0060c4a0 {

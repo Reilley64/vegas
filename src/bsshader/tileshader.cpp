@@ -251,7 +251,7 @@ void TileStandin::FUN_00bca070()
     reinterpret_cast<::FUN_00b71b90_class *>(this)->FUN_00be08b0();
 }
 
-struct X
+struct X_00bcae60
 {
     void FUN_00bca510();
     void* DestroyIfFlagged(unsigned int);
@@ -1627,7 +1627,7 @@ struct FUN_00bca510 : FUN_00be0f10
 };
 // Calls FUN_00bca510, then if bit 0 of a1 is set frees this with _delete and returns this.
 // @fnv 0x00bcae60
-void* X::DestroyIfFlagged(unsigned int auiFlags)
+void* X_00bcae60::DestroyIfFlagged(unsigned int auiFlags)
 {
     reinterpret_cast<::FUN_00bca510 *>(this)->FUN_00bca510::~FUN_00bca510();
     if (auiFlags & 1)

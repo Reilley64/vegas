@@ -485,25 +485,25 @@ hkBoolDEF0 hkListDEF0::FUN_00def020(const void* a, const void* b, const void* c,
 
 // sub ecx,8; jmp target == MSVC adjustor thunk for a virtual that Derived overrides
 // through its second base. PrimaryBase is vptr + one int (8 bytes).
-struct PrimaryBase
+struct FnvHavok00def4c0_PrimaryBase
 {
     virtual void FUN_00def4c0();
     int unk04;
 };
 
-struct SecondaryBase
+struct FnvHavok00def4c0_SecondaryBase
 {
     virtual void FUN_00def4c0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00def4c0_Derived : FnvHavok00def4c0_PrimaryBase, FnvHavok00def4c0_SecondaryBase
 {
-    Derived();
+    FnvHavok00def4c0_Derived();
 // @fnv 0x00def4c0
     virtual void FUN_00def4c0();
 };
 
-Derived::Derived()
+FnvHavok00def4c0_Derived::FnvHavok00def4c0_Derived()
 {}
 
 struct DEF4D0Primary

@@ -15,7 +15,7 @@
 // src/fallout_shared/tesvalueform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesvalueform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct Base1
+struct Base1_004f9c90
 {
     virtual void FUN_004f9c90();
     int unk04;
@@ -47,17 +47,17 @@ struct Base1
     int unk6C;
     int unk70;
 };
-struct Base2
+struct Base2_004f9c90
 {
     virtual void FUN_004f9c90();
 };
-struct Derived : Base1, Base2
+struct Derived_004f9c90 : Base1_004f9c90, Base2_004f9c90
 {
-    Derived();
+    Derived_004f9c90();
 // @fnv 0x004f9c90
     virtual void FUN_004f9c90();
 };
-Derived::Derived()
+Derived_004f9c90::Derived_004f9c90()
 {}
 
 namespace fnv_004f9ca0 {
@@ -422,9 +422,9 @@ Derived::Derived()
 // original image.  The thunk's own mangled name carries the tag, which
 // satisfies the canary.
 
-struct ThunkPrimaryBase
+struct ThunkPrimaryBase_005160d0
 {
-    ThunkPrimaryBase();
+    ThunkPrimaryBase_005160d0();
     virtual void FUN_005160d0(int flag, int value);
     int unk04;
     int unk08;
@@ -449,24 +449,24 @@ struct ThunkPrimaryBase
     int unk54;
 };
 
-struct ThunkSecondaryBase
+struct ThunkSecondaryBase_005160d0
 {
-    ThunkSecondaryBase();
+    ThunkSecondaryBase_005160d0();
 // @fnv 0x005160d0
     virtual void FUN_005160d0(int flag, int value);
 };
 
-struct ThunkDerived : public ThunkPrimaryBase, public ThunkSecondaryBase
+struct ThunkDerived_005160d0 : public ThunkPrimaryBase_005160d0, public ThunkSecondaryBase_005160d0
 {
-    ThunkDerived();
+    ThunkDerived_005160d0();
     virtual void FUN_005160d0(int flag, int value);  // declared, never defined
 };
 
-ThunkPrimaryBase::ThunkPrimaryBase()
+ThunkPrimaryBase_005160d0::ThunkPrimaryBase_005160d0()
 {}
-ThunkSecondaryBase::ThunkSecondaryBase()
+ThunkSecondaryBase_005160d0::ThunkSecondaryBase_005160d0()
 {}
-ThunkDerived::ThunkDerived() : ThunkPrimaryBase(), ThunkSecondaryBase()
+ThunkDerived_005160d0::ThunkDerived_005160d0() : ThunkPrimaryBase_005160d0(), ThunkSecondaryBase_005160d0()
 {}
 
 // Adjustor thunk: the secondary-base (+0x58) entry for an override defined on the derived class.
@@ -647,7 +647,7 @@ static AdjTO g_adjThunk;
 // FUN_00525c10: MSVC adjustor thunk (sub ecx,0x84; jmp target) emitted for a virtual that
 // lives in the first base but is reached through the second base's vtable slot.
 // 0x84 = sizeof(AdjustPrimaryBase) = vptr + 32 int fields.
-struct AdjustPrimaryBase
+struct AdjustPrimaryBase_00525c10
 {
     virtual void FUN_00525c10();
     int unk04;
@@ -684,23 +684,23 @@ struct AdjustPrimaryBase
     int unk80;
 };
 
-struct AdjustSecondaryBase
+struct AdjustSecondaryBase_00525c10
 {
     virtual void FUN_00525c10();
 };
 
-struct AdjustDerived : AdjustPrimaryBase, AdjustSecondaryBase
+struct AdjustDerived_00525c10 : AdjustPrimaryBase_00525c10, AdjustSecondaryBase_00525c10
 {
-    AdjustDerived();
+    AdjustDerived_00525c10();
 // @fnv 0x00525c10
     virtual void FUN_00525c10();
 };
 
-AdjustDerived::AdjustDerived()
+AdjustDerived_00525c10::AdjustDerived_00525c10()
 {}
 
 // sub ecx,0x84; jmp FUN_00523020 == MSVC adjustor thunk (multiple inheritance).
-struct AdjPrimaryBase
+struct AdjPrimaryBase_00525c20
 {
     virtual void FUN_00525c20();
     int unk08;
@@ -737,19 +737,19 @@ struct AdjPrimaryBase
     int unk84;
 };
 
-struct AdjSecondaryBase
+struct AdjSecondaryBase_00525c20
 {
     virtual void FUN_00525c20();
 };
 
-struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
+struct AdjDerived_00525c20 : AdjPrimaryBase_00525c20, AdjSecondaryBase_00525c20
 {
-    AdjDerived();
+    AdjDerived_00525c20();
 // @fnv 0x00525c20
     virtual void FUN_00525c20();
 };
 
-AdjDerived::AdjDerived()
+AdjDerived_00525c20::AdjDerived_00525c20()
 {}
 
 // Adjustor thunk: the secondary-base (+0x84) vtable entry for an override defined on the derived class.

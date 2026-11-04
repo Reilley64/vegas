@@ -795,49 +795,49 @@ int Part_d60e::FUN_00d60e20(void* key)
 // The secondary base sits at offset 0x0c inside the derived object, so the
 // thunk moves `this` back to the start of the primary base before tail-calling
 // the shared virtual implementation.
-struct ThunkPrimaryBase
+struct FnvHavok00d61220_ThunkPrimaryBase
 {
     virtual void FUN_00d61220();
     int unk04;
     int unk08;
 };
 
-struct ThunkSecondaryBase
+struct FnvHavok00d61220_ThunkSecondaryBase
 {
     virtual void FUN_00d61220();
 };
 
-struct ThunkDerived : ThunkPrimaryBase, ThunkSecondaryBase
+struct FnvHavok00d61220_ThunkDerived : FnvHavok00d61220_ThunkPrimaryBase, FnvHavok00d61220_ThunkSecondaryBase
 {
-    ThunkDerived();
+    FnvHavok00d61220_ThunkDerived();
 // @fnv 0x00d61220
     virtual void FUN_00d61220();
 };
 
-ThunkDerived::ThunkDerived()
+FnvHavok00d61220_ThunkDerived::FnvHavok00d61220_ThunkDerived()
 {}
 
 // sub ecx,8; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (8).
-struct PrimaryBase
+struct FnvHavok00d61230_PrimaryBase
 {
     virtual void FUN_00d61230();
     int unk04;
 };
 
-struct SecondaryBase
+struct FnvHavok00d61230_SecondaryBase
 {
     virtual void FUN_00d61230();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d61230_Derived : FnvHavok00d61230_PrimaryBase, FnvHavok00d61230_SecondaryBase
 {
-    Derived();
+    FnvHavok00d61230_Derived();
 // @fnv 0x00d61230
     virtual void FUN_00d61230();
 };
 
-Derived::Derived()
+FnvHavok00d61230_Derived::FnvHavok00d61230_Derived()
 {}
 
 namespace fnv_00d60f30 {

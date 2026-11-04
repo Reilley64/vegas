@@ -370,7 +370,7 @@ bool FUN_0051afb0_shell::FUN_0051afb0(TESForm* apCompare)
 
 // MSVC adjustor thunk: the primary base occupies 0x3c bytes; both bases declare the virtual,
 // the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
-struct PrimaryBase
+struct PrimaryBase_0051b130
 {
     virtual void FUN_0051b130();
     int unk04;
@@ -389,17 +389,17 @@ struct PrimaryBase
     int unk38;
 };
 
-struct SecondaryBase
+struct SecondaryBase_0051b130
 {
     virtual void FUN_0051b130();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_0051b130 : PrimaryBase_0051b130, SecondaryBase_0051b130
 {
-    Derived();
+    Derived_0051b130();
 // @fnv 0x0051b130
     virtual void FUN_0051b130();
 };
 
-Derived::Derived()
+Derived_0051b130::Derived_0051b130()
 {}

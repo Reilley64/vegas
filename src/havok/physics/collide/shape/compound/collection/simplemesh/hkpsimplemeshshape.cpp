@@ -458,7 +458,7 @@ void MeshShapeE3C::FUN_00e3c4e0(StatsCollectorE3C* collector, const void* cls) c
 
 // sub ecx,0x10; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x10).
-struct PrimaryBase
+struct FnvHavok00dfcfc0_PrimaryBase
 {
     virtual void FUN_00dfcfc0();
     int unk04;
@@ -466,19 +466,19 @@ struct PrimaryBase
     int unk0C;
 };
 
-struct SecondaryBase
+struct FnvHavok00dfcfc0_SecondaryBase
 {
     virtual void FUN_00dfcfc0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00dfcfc0_Derived : FnvHavok00dfcfc0_PrimaryBase, FnvHavok00dfcfc0_SecondaryBase
 {
-    Derived();
+    FnvHavok00dfcfc0_Derived();
 // @fnv 0x00dfcfc0
     virtual void FUN_00dfcfc0();
 };
 
-Derived::Derived()
+FnvHavok00dfcfc0_Derived::FnvHavok00dfcfc0_Derived()
 {}
 
 // Partial views: only the established virtual operation is declared.

@@ -445,7 +445,7 @@ static __declspec(noinline) void FUN_00d4bf70(Owner* owner, Entity* volatile apE
 Owner* volatile probeOwner;
 Value* volatile probeValue;
 Entity* volatile probeEntity;
-void probeCaller()
+void FnvHavok_hkpphysicsdata_probeCaller()
 {
     OwnerArg o = {probeOwner};
     ValueArg v = {probeValue};
@@ -517,7 +517,7 @@ FUN_00d4c250::~FUN_00d4c250()
 #include "fnv/decl/hkOwnerXd06540.h"
 #include "fnv/decl/hkOwnerXd06590.h"
 static void FUN_00d4bf70(Owner* owner, Entity* volatile entityArg, Value* value);
-void probeCaller();
+void FnvHavok_hkpphysicsdata_probeCaller();
 
 struct SplitPlace
 {

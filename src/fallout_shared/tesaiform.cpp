@@ -740,7 +740,7 @@ bool AIFormFlags::FUN_0047f600(TESForm* apForm)
     return bResult2;
 }
 
-struct PrimaryBase
+struct PrimaryBase_005fbf90
 {
     virtual void FUN_005fbf90();
     int unk04;
@@ -780,19 +780,19 @@ struct PrimaryBase
     int unk8C;
 };
 
-struct SecondaryBase
+struct SecondaryBase_005fbf90
 {
     virtual void FUN_005fbf90();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_005fbf90 : PrimaryBase_005fbf90, SecondaryBase_005fbf90
 {
-    Derived();
+    Derived_005fbf90();
 // @fnv 0x005fbf90
     virtual void FUN_005fbf90();
 };
 
-Derived::Derived()
+Derived_005fbf90::Derived_005fbf90()
 {}
 
 namespace fnv_005fbfc0 {

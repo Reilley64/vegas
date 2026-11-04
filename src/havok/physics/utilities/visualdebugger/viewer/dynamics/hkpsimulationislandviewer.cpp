@@ -349,7 +349,7 @@ FUN_00d64a50::FUN_00d64a50(void* pkInfo) throw() : FUN_00ddccb0(pkInfo)
     }
 }
 
-struct Prim
+struct FnvHavok00d651f0_Prim
 {
     virtual void FUN_00d651f0();
     int p04;
@@ -361,40 +361,40 @@ struct Prim
     int p1c;
 };
 
-struct B1
+struct FnvHavok00d651f0_B1
 {
     virtual void FUN_00d651f0();
 };
 
-struct ThunkOwner : Prim, B1
+struct FnvHavok00d651f0_ThunkOwner : FnvHavok00d651f0_Prim, FnvHavok00d651f0_B1
 {
 // @fnv 0x00d651f0
     virtual void FUN_00d651f0();
 };
 
-static ThunkOwner g_thunk;
+static FnvHavok00d651f0_ThunkOwner g_thunk;
 
 // sub ecx,8; jmp target == MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (8).
-struct PrimaryBase
+struct FnvHavok00d65200_PrimaryBase
 {
     virtual void FUN_00d65200();
     int unk04;
 };
 
-struct SecondaryBase
+struct FnvHavok00d65200_SecondaryBase
 {
     virtual void FUN_00d65200();
 };
 
-struct AdjustedDerived : PrimaryBase, SecondaryBase
+struct FnvHavok00d65200_AdjustedDerived : FnvHavok00d65200_PrimaryBase, FnvHavok00d65200_SecondaryBase
 {
-    AdjustedDerived();
+    FnvHavok00d65200_AdjustedDerived();
 // @fnv 0x00d65200
     virtual void FUN_00d65200();
 };
 
-AdjustedDerived::AdjustedDerived()
+FnvHavok00d65200_AdjustedDerived::FnvHavok00d65200_AdjustedDerived()
 {}
 
 // FUN_00d65210 : MSVC this-adjusting thunk  (sub ecx, 0x28 ; jmp <impl>)

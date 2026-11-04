@@ -386,24 +386,24 @@ static TO_508db0 g_thunk;
 
 // sub ecx,0xc; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0xc).
-struct PrimaryBase
+struct PrimaryBase_00508df0
 {
     virtual void FUN_00508df0();
     int unk04;
     int unk08;
 };
 
-struct SecondaryBase
+struct SecondaryBase_00508df0
 {
     virtual void FUN_00508df0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_00508df0 : PrimaryBase_00508df0, SecondaryBase_00508df0
 {
-    Derived();
+    Derived_00508df0();
 // @fnv 0x00508df0
     virtual void FUN_00508df0();
 };
 
-Derived::Derived()
+Derived_00508df0::Derived_00508df0()
 {}

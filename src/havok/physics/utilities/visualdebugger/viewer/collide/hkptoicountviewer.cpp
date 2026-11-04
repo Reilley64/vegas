@@ -834,7 +834,7 @@ D681E0Object::D681E0Object()
 // FUN_00d68200: thiscall adjustor thunk (sub ecx,0x28; jmp FUN_00d68230).
 // Written as multiple inheritance: the primary base is 0x28 bytes (vptr + 9 ints),
 // so the secondary base sits at +0x28 and MSVC emits the this-adjusting thunk.
-struct AdjPrimaryBase
+struct FnvHavok00d68200_AdjPrimaryBase
 {
     virtual void FUN_00d68200();
     int unk04;
@@ -848,19 +848,19 @@ struct AdjPrimaryBase
     int unk24;
 };
 
-struct AdjSecondaryBase
+struct FnvHavok00d68200_AdjSecondaryBase
 {
     virtual void FUN_00d68200();
 };
 
-struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
+struct FnvHavok00d68200_AdjDerived : FnvHavok00d68200_AdjPrimaryBase, FnvHavok00d68200_AdjSecondaryBase
 {
-    AdjDerived();
+    FnvHavok00d68200_AdjDerived();
 // @fnv 0x00d68200
     virtual void FUN_00d68200();
 };
 
-AdjDerived::AdjDerived()
+FnvHavok00d68200_AdjDerived::FnvHavok00d68200_AdjDerived()
 {}
 
 namespace fnv_00d68230 {

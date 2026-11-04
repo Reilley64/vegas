@@ -229,25 +229,25 @@ void hkpDisableEntityCollisionFilterE46::FUN_00e46880(hkpEntityE46* entity)
 
 // sub ecx,8; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (8).
-struct PrimaryBase
+struct FnvHavok00dff960_PrimaryBase
 {
     virtual void FUN_00dff960();
     int unk04;
 };
 
-struct SecondaryBase
+struct FnvHavok00dff960_SecondaryBase
 {
     virtual void FUN_00dff960();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00dff960_Derived : FnvHavok00dff960_PrimaryBase, FnvHavok00dff960_SecondaryBase
 {
-    Derived();
+    FnvHavok00dff960_Derived();
 // @fnv 0x00dff960
     virtual void FUN_00dff960();
 };
 
-Derived::Derived()
+FnvHavok00dff960_Derived::FnvHavok00dff960_Derived()
 {}
 
 namespace fnv_00dff970 {

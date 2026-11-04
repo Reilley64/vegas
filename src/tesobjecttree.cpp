@@ -2179,7 +2179,7 @@ void TreeCopy::FUN_0051c140(TESForm* source)
 
 // MSVC adjustor thunk: the primary base occupies 0x30 bytes; both bases declare the virtual,
 // the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
-struct PrimaryBase
+struct PrimaryBase_0051d760
 {
     virtual void FUN_0051d760();
     int unk04;
@@ -2195,19 +2195,19 @@ struct PrimaryBase
     int unk2C;
 };
 
-struct SecondaryBase
+struct SecondaryBase_0051d760
 {
     virtual void FUN_0051d760();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_0051d760 : PrimaryBase_0051d760, SecondaryBase_0051d760
 {
-    Derived();
+    Derived_0051d760();
 // @fnv 0x0051d760
     virtual void FUN_0051d760();
 };
 
-Derived::Derived()
+Derived_0051d760::Derived_0051d760()
 {}
 
 #include "generated/data/tesobjecttree.inc"

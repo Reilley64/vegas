@@ -757,7 +757,7 @@ void BGSExplosion_shell::FUN_004fb5a0(TESForm* apCopy)
 }
 
 // sub ecx,0x3c; jmp FUN_004facf0  ==  MSVC adjustor thunk (multiple inheritance, primary base size 0x3c)
-struct PrimaryBase
+struct PrimaryBase_004fb9f0
 {
     virtual void FUN_004fb9f0();
     int unk04;
@@ -776,19 +776,19 @@ struct PrimaryBase
     int unk38;
 };
 
-struct SecondaryBase
+struct SecondaryBase_004fb9f0
 {
     virtual void FUN_004fb9f0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_004fb9f0 : PrimaryBase_004fb9f0, SecondaryBase_004fb9f0
 {
-    Derived();
+    Derived_004fb9f0();
 // @fnv 0x004fb9f0
     virtual void FUN_004fb9f0();
 };
 
-Derived::Derived()
+Derived_004fb9f0::Derived_004fb9f0()
 {}
 
 #include "generated/data/fallout_shared/bgsexplosion.inc"

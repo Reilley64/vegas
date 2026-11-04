@@ -1355,7 +1355,7 @@ int StorageMeshShape::FUN_00d49dc0(const TrianglesSubpart& partIn)
 
 // sub ecx,0x10; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x10).
-struct PrimaryBase
+struct FnvHavok00d4ad50_PrimaryBase
 {
     virtual void FUN_00d4ad50();
     int unk04;
@@ -1363,19 +1363,19 @@ struct PrimaryBase
     int unk0C;
 };
 
-struct SecondaryBase
+struct FnvHavok00d4ad50_SecondaryBase
 {
     virtual void FUN_00d4ad50();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d4ad50_Derived : FnvHavok00d4ad50_PrimaryBase, FnvHavok00d4ad50_SecondaryBase
 {
-    Derived();
+    FnvHavok00d4ad50_Derived();
 // @fnv 0x00d4ad50
     virtual void FUN_00d4ad50();
 };
 
-Derived::Derived()
+FnvHavok00d4ad50_Derived::FnvHavok00d4ad50_Derived()
 {}
 
 #include <xmmintrin.h>

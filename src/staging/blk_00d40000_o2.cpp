@@ -5899,7 +5899,7 @@ void FnvCpu_FUN_00d54e40_CpuObject::CopyFrom(FnvCpu_FUN_00d54e40_CpuData0* apDat
 // MSVC adjustor thunk: a class derives from two bases that both declare the same
 // virtual, so the secondary base's vtable entry is an adjustor thunk that moves
 // `this` back by the size of the primary base (0x10 = vptr + three int fields).
-struct PrimaryBase
+struct PrimaryBase_00d57110
 {
     virtual void FUN_00d57110();
     int unk04;
@@ -5907,19 +5907,19 @@ struct PrimaryBase
     int unk0C;
 };
 
-struct SecondaryBase
+struct SecondaryBase_00d57110
 {
     virtual void FUN_00d57110();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_00d57110 : PrimaryBase_00d57110, SecondaryBase_00d57110
 {
-    Derived();
+    Derived_00d57110();
 // @fnv 0x00d57110
     virtual void FUN_00d57110();
 };
 
-Derived::Derived()
+Derived_00d57110::Derived_00d57110()
 {}
 
 struct VectorS
@@ -5982,7 +5982,7 @@ volatile S* g_src;
 ::S_00dad640_Target* volatile g_b;
 void* volatile g_c;
 
-void caller()
+void probeCaller_00d409b0()
 {
     FUN_00d409b0((S*)g_dst, (S*)g_src, g_b, g_c);
 }
@@ -6604,7 +6604,7 @@ char* d48420_caller();
 
 static void FUN_00d409b0(S* dst, S* src, ::S_00dad640_Target* b, void* c);
 
-void caller();
+void probeCaller_00d409b0();
 
 
 struct RecordVector

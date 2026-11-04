@@ -2190,7 +2190,7 @@ struct FUN_0062dfe0_shell_o2
 // PrimaryBase is the first base (vptr + six int fields = 0x1c bytes); SecondaryBase
 // declares the same virtual; Derived derives from both, redeclares the virtual and
 // defines only its constructor, so the compiler emits the adjusting thunk.
-struct PrimaryBase
+struct PrimaryBase_0062e3a0
 {
     virtual void* FUN_0062e3a0(unsigned int flags);
     int unk04;
@@ -2201,19 +2201,19 @@ struct PrimaryBase
     int unk18;
 };
 
-struct SecondaryBase
+struct SecondaryBase_0062e3a0
 {
     virtual void* FUN_0062e3a0(unsigned int flags);
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_0062e3a0 : PrimaryBase_0062e3a0, SecondaryBase_0062e3a0
 {
-    Derived();
+    Derived_0062e3a0();
 // @fnv 0x0062e3a0
     virtual void* FUN_0062e3a0(unsigned int flags);
 };
 
-Derived::Derived()
+Derived_0062e3a0::Derived_0062e3a0()
 {}
 
 namespace fnv_0062e3b0 {

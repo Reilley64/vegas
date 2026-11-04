@@ -417,7 +417,7 @@ FUN_004f91b0::FUN_004f91b0() : ExtraDataBase(FUN_004f9230())
 // Derived overrides a virtual that both of its bases declare, so the second base's vtable slot
 // holds a thunk that moves `this` back by the size of the first base (0x30) and tail-jumps to
 // the final overrider. Only the constructor is defined, so the vtables (and the thunk) get emitted.
-struct PrimaryBase
+struct PrimaryBase_004f93a0
 {
     virtual void FUN_004f93a0();
     int unk04;
@@ -433,19 +433,19 @@ struct PrimaryBase
     int unk2C;
 };
 
-struct SecondaryBase
+struct SecondaryBase_004f93a0
 {
     virtual void FUN_004f93a0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_004f93a0 : PrimaryBase_004f93a0, SecondaryBase_004f93a0
 {
-    Derived();
+    Derived_004f93a0();
 // @fnv 0x004f93a0
     virtual void FUN_004f93a0();
 };
 
-Derived::Derived()
+Derived_004f93a0::Derived_004f93a0()
 {}
 
 #include "generated/data/fallout_shared/bgsaddonnode.inc"

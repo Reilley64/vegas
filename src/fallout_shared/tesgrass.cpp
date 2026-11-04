@@ -833,7 +833,7 @@ struct FUN_00509c90_shell_o2
 // virtual that both of its bases declare, so the secondary base's vtable slot
 // holds a thunk that walks `this` back to the derived object (the size of the
 // primary base, 0x30) and tail-jumps to the derived override.
-struct PrimaryBase
+struct PrimaryBase_0050a590
 {
     virtual void* FUN_0050a590(unsigned int flags);
     int unk04;
@@ -849,17 +849,17 @@ struct PrimaryBase
     int unk2C;
 };
 
-struct SecondaryBase
+struct SecondaryBase_0050a590
 {
     virtual void* FUN_0050a590(unsigned int flags);
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_0050a590 : PrimaryBase_0050a590, SecondaryBase_0050a590
 {
-    Derived();
+    Derived_0050a590();
 // @fnv 0x0050a590
     virtual void* FUN_0050a590(unsigned int flags);
 };
 
-Derived::Derived()
+Derived_0050a590::Derived_0050a590()
 {}

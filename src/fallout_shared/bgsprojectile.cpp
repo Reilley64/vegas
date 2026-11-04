@@ -1041,7 +1041,7 @@ void ProjectileSave::WriteProjectileSave()
 // bytes).  Both bases declare the same virtual function, the derived class
 // redeclares it and defines only its constructor, which is what makes the
 // compiler emit the vtables and the adjusting thunk.
-struct PrimaryBase
+struct PrimaryBase_004fe250
 {
     virtual void FUN_004fe250();
     int unk04;
@@ -1060,17 +1060,17 @@ struct PrimaryBase
     int unk38;
 };
 
-struct SecondaryBase
+struct SecondaryBase_004fe250
 {
     virtual void FUN_004fe250();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_004fe250 : PrimaryBase_004fe250, SecondaryBase_004fe250
 {
-    Derived();
+    Derived_004fe250();
 // @fnv 0x004fe250
     virtual void FUN_004fe250();
 };
 
-Derived::Derived()
+Derived_004fe250::Derived_004fe250()
 {}

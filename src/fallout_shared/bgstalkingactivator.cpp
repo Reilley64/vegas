@@ -714,7 +714,7 @@ bool TalkingActivatorComparison::FUN_004fed50(TESForm* form)
 // Both bases declare the same virtual, the derived class redeclares it and
 // defines only its constructor, which is what makes the compiler emit the
 // vtables and the adjusting thunk.
-struct AdjustorPrimary
+struct AdjustorPrimary_004ffa90
 {
     virtual void FUN_004ffa90();
     int unk04;
@@ -733,17 +733,17 @@ struct AdjustorPrimary
     int unk38;
 };
 
-struct AdjustorSecondary
+struct AdjustorSecondary_004ffa90
 {
     virtual void FUN_004ffa90();
 };
 
-struct AdjustorDerived : AdjustorPrimary, AdjustorSecondary
+struct AdjustorDerived_004ffa90 : AdjustorPrimary_004ffa90, AdjustorSecondary_004ffa90
 {
-    AdjustorDerived();
+    AdjustorDerived_004ffa90();
 // @fnv 0x004ffa90
     virtual void FUN_004ffa90();
 };
 
-AdjustorDerived::AdjustorDerived()
+AdjustorDerived_004ffa90::AdjustorDerived_004ffa90()
 {}

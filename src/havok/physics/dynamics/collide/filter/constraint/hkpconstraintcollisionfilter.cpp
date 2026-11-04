@@ -653,7 +653,7 @@ void WorldOpTask::FUN_00d87ca0(Arg_b1297* a1)
 
 // sub ecx,0x14; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x14).
-struct PrimaryBase
+struct FnvHavok00d87fc0_PrimaryBase
 {
     virtual void FUN_00d87fc0();
     int unk04;
@@ -662,19 +662,19 @@ struct PrimaryBase
     int unk10;
 };
 
-struct SecondaryBase
+struct FnvHavok00d87fc0_SecondaryBase
 {
     virtual void FUN_00d87fc0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d87fc0_Derived : FnvHavok00d87fc0_PrimaryBase, FnvHavok00d87fc0_SecondaryBase
 {
-    Derived();
+    FnvHavok00d87fc0_Derived();
 // @fnv 0x00d87fc0
     virtual void FUN_00d87fc0();
 };
 
-Derived::Derived()
+FnvHavok00d87fc0_Derived::FnvHavok00d87fc0_Derived()
 {}
 
 struct D87FD0Primary

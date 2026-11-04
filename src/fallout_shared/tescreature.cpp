@@ -3921,7 +3921,7 @@ void CreatureHost_5fa0a0::FUN_005fa0a0(TESObjectREFR* ref)
 
 // sub ecx,0x7c; jmp target  ==  MSVC adjustor thunk (multiple inheritance, shared virtual).
 // PrimaryBase = vptr + 30 named int fields = 0x7c bytes; Derived redeclares the claimed virtual and defines only its ctor.
-struct PrimaryBase
+struct PrimaryBase_005fbf80
 {
     virtual void FUN_005fbf80();
     int unk04;
@@ -3956,19 +3956,19 @@ struct PrimaryBase
     int unk78;
 };
 
-struct SecondaryBase
+struct SecondaryBase_005fbf80
 {
     virtual void FUN_005fbf80();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_005fbf80 : PrimaryBase_005fbf80, SecondaryBase_005fbf80
 {
-    Derived();
+    Derived_005fbf80();
 // @fnv 0x005fbf80
     virtual void FUN_005fbf80();
 };
 
-Derived::Derived()
+Derived_005fbf80::Derived_005fbf80()
 {}
 
 namespace fnv_005fbfb0 {

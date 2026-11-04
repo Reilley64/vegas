@@ -291,7 +291,7 @@ unsigned char* FUN_00e49040(unsigned char* pbResult, const int* bits, unsigned i
 }
 
 // sub ecx,0x10; jmp target  ==  MSVC adjustor thunk for a virtual declared by both bases.
-struct PrimaryBase
+struct FnvHavok00e01040_PrimaryBase
 {
     virtual void FUN_00e01040();
     int unk04;
@@ -299,19 +299,19 @@ struct PrimaryBase
     int unk0C;
 };
 
-struct SecondaryBase
+struct FnvHavok00e01040_SecondaryBase
 {
     virtual void FUN_00e01040();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00e01040_Derived : FnvHavok00e01040_PrimaryBase, FnvHavok00e01040_SecondaryBase
 {
-    Derived();
+    FnvHavok00e01040_Derived();
 // @fnv 0x00e01040
     virtual void FUN_00e01040();
 };
 
-Derived::Derived()
+FnvHavok00e01040_Derived::FnvHavok00e01040_Derived()
 {}
 
 // Moved from hkpconvexpiecemeshshape_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).

@@ -292,7 +292,7 @@ static ThkDerived g_thunk;
 
 // sub ecx,0x6c; jmp target == MSVC adjustor thunk for a second base's virtual.
 // PrimaryBase = vptr (4) + 26 named ints (104) = 0x6c.
-struct PrimaryBase
+struct PrimaryBase_00b90320
 {
     virtual void FUN_00b90320();
     int unk04;
@@ -323,19 +323,19 @@ struct PrimaryBase
     int unk68;
 };
 
-struct SecondaryBase
+struct SecondaryBase_00b90320
 {
     virtual void FUN_00b90320();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_00b90320 : PrimaryBase_00b90320, SecondaryBase_00b90320
 {
-    Derived();
+    Derived_00b90320();
 // @fnv 0x00b90320
     virtual void FUN_00b90320();
 };
 
-Derived::Derived()
+Derived_00b90320::Derived_00b90320()
 {}
 
 namespace fnv_00b90510 {
@@ -586,7 +586,7 @@ FUN_00b90ca0::~FUN_00b90ca0()
 
 // Adjustor thunk: this-adjusting thunk that converts a secondary-base pointer
 // back into the most-derived pointer before tail-jumping to the implementation.
-struct ThunkPrimaryBase
+struct ThunkPrimaryBase_00b90cd0
 {
     virtual void FUN_00b90cd0();
     int m_i00;
@@ -617,19 +617,19 @@ struct ThunkPrimaryBase
     int m_i25;
 };
 
-struct ThunkSecondaryBase
+struct ThunkSecondaryBase_00b90cd0
 {
     virtual void FUN_00b90cd0();
 };
 
-struct ThunkDerived : ThunkPrimaryBase, ThunkSecondaryBase
+struct ThunkDerived_00b90cd0 : ThunkPrimaryBase_00b90cd0, ThunkSecondaryBase_00b90cd0
 {
-    ThunkDerived();
+    ThunkDerived_00b90cd0();
 // @fnv 0x00b90cd0
     virtual void FUN_00b90cd0();
 };
 
-ThunkDerived::ThunkDerived()
+ThunkDerived_00b90cd0::ThunkDerived_00b90cd0()
 {}
 
 namespace fnv_00b90e60 {

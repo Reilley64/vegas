@@ -1133,7 +1133,7 @@ bool CaravanMoneyCompare::FUN_0059b740(TESForm* other)
 // The secondary base sits at offset 0x3c inside the derived object, so the
 // thunk rewinds 'this' to the start of the derived object and tail-jumps to
 // the overriding implementation.
-class PrimaryBase
+class PrimaryBase_0059bf40
 {
   public:
     virtual void FUN_0059bf40();
@@ -1153,21 +1153,21 @@ class PrimaryBase
     int unk38;
 };
 
-class SecondaryBase
+class SecondaryBase_0059bf40
 {
   public:
     virtual void FUN_0059bf40();
 };
 
-class Derived : public PrimaryBase, public SecondaryBase
+class Derived_0059bf40 : public PrimaryBase_0059bf40, public SecondaryBase_0059bf40
 {
   public:
 // @fnv 0x0059bf40
     virtual void FUN_0059bf40();
-    Derived();
+    Derived_0059bf40();
 };
 
-Derived::Derived()
+Derived_0059bf40::Derived_0059bf40()
 {}
 
 namespace fnv_0059bf70 {

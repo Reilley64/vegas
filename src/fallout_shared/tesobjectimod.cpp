@@ -666,7 +666,7 @@ struct FUN_0051a420_shell_o2 : public TESObjectIMOD_o2
     void FUN_0051a420();
 };
 
-struct B1
+struct B1_0051a680
 {
     virtual void FUN_0051a680(unsigned int);
     int unk04;
@@ -685,17 +685,17 @@ struct B1
     int unk38;
 };
 
-struct B2
+struct B2_0051a680
 {
     virtual void FUN_0051a680(unsigned int);
 };
 
-struct Derived : B1, B2
+struct Derived_0051a680 : B1_0051a680, B2_0051a680
 {
-    Derived();
+    Derived_0051a680();
 // @fnv 0x0051a680
     virtual void FUN_0051a680(unsigned int);
 };
 
-Derived::Derived()
+Derived_0051a680::Derived_0051a680()
 {}

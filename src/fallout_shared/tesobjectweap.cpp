@@ -4301,7 +4301,7 @@ void ThisObj::FUN_00524db0(Param* param)
 // sub ecx, 0x3c ; jmp target  --  MSVC virtual adjustor thunk.
 // The thunk converts the pointer to the second base sub-object back into a
 // pointer to the complete object before jumping to the implementation.
-struct PrimaryBase
+struct PrimaryBase_00525c00
 {
     virtual void FUN_00525c00();
     int unk04;
@@ -4320,19 +4320,19 @@ struct PrimaryBase
     int unk38;
 };
 
-struct SecondaryBase
+struct SecondaryBase_00525c00
 {
     virtual void FUN_00525c00();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_00525c00 : PrimaryBase_00525c00, SecondaryBase_00525c00
 {
-    Derived();
+    Derived_00525c00();
 // @fnv 0x00525c00
     virtual void FUN_00525c00();
 };
 
-Derived::Derived()
+Derived_00525c00::Derived_00525c00()
 {}
 
 static float NI_HALF_PI;

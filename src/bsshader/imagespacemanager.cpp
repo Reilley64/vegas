@@ -2532,7 +2532,7 @@ void FUN_00b8cb30_cls::FUN_00b8cb30(int mode, int aiIndex, float* apValues, floa
 // Both bases declare the same virtual function, the derived class redeclares
 // it and only defines its constructor, which is what makes the compiler emit
 // the vtables and the adjusting thunk.
-struct PrimaryBase
+struct PrimaryBase_00b8bd80
 {
     virtual void FUN_00b8bd80();
     int unk04;
@@ -2563,19 +2563,19 @@ struct PrimaryBase
     int unk68;
 };
 
-struct SecondaryBase
+struct SecondaryBase_00b8bd80
 {
     virtual void FUN_00b8bd80();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_00b8bd80 : PrimaryBase_00b8bd80, SecondaryBase_00b8bd80
 {
-    Derived();
+    Derived_00b8bd80();
 // @fnv 0x00b8bd80
     virtual void FUN_00b8bd80();
 };
 
-Derived::Derived()
+Derived_00b8bd80::Derived_00b8bd80()
 {}
 
 namespace fnv_00b8bfd0 {

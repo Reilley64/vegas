@@ -391,7 +391,7 @@ bool FUN_00509540_obj::FUN_00509540(TESForm* apCompare)
 // Adjustor (this-adjusting) thunk for FUN_00509a00: "sub ecx, 0x3c; jmp Destroy".
 // PrimaryBase is a vtable pointer plus 14 int members (4 + 56 = 0x3c), so the secondary
 // base sub-object is moved back by 0x3c before tail-jumping to the final overrider.
-struct PrimaryBase
+struct PrimaryBase_00509a00
 {
     virtual void FUN_00509a00();
     int unk04;
@@ -410,19 +410,19 @@ struct PrimaryBase
     int unk38;
 };
 
-struct SecondaryBase
+struct SecondaryBase_00509a00
 {
     virtual void FUN_00509a00();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_00509a00 : PrimaryBase_00509a00, SecondaryBase_00509a00
 {
-    Derived();
+    Derived_00509a00();
 // @fnv 0x00509a00
     virtual void FUN_00509a00();
 };
 
-Derived::Derived()
+Derived_00509a00::Derived_00509a00()
 {}
 
 #include "generated/data/fallout_shared/tesfurniture.inc"

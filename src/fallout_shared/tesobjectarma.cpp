@@ -569,7 +569,7 @@ bool ArmaCompare::FUN_00512940(TESForm* apCompare)
 
 // MSVC adjustor thunk: the primary base occupies 0x58 bytes; both bases declare the virtual,
 // the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
-struct PrimaryBase
+struct PrimaryBase_005129c0
 {
     virtual void FUN_005129c0();
     int unk04;
@@ -595,19 +595,19 @@ struct PrimaryBase
     int unk54;
 };
 
-struct SecondaryBase
+struct SecondaryBase_005129c0
 {
     virtual void FUN_005129c0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_005129c0 : PrimaryBase_005129c0, SecondaryBase_005129c0
 {
-    Derived();
+    Derived_005129c0();
 // @fnv 0x005129c0
     virtual void FUN_005129c0();
 };
 
-Derived::Derived()
+Derived_005129c0::Derived_005129c0()
 {}
 
 // FUN_005129d0 : 8-byte MSVC this-adjusting (virtual) thunk.

@@ -891,7 +891,7 @@ unsigned short S0048d8f0_SpellListSaveSizer::FUN_0048d8f0(unsigned int saveFlags
 // MSVC adjustor thunk: a class derives from two bases that both declare the same
 // virtual, so the secondary base's vtable entry is an adjustor thunk that moves
 // `this` back by the size of the primary base (0x7c = vptr + thirty int fields).
-struct ThunkPrimaryBase
+struct ThunkPrimaryBase_005fbf70
 {
     virtual void FUN_005fbf70();
     int unk04;
@@ -926,24 +926,24 @@ struct ThunkPrimaryBase
     int unk78;
 };
 
-struct ThunkSecondaryBase
+struct ThunkSecondaryBase_005fbf70
 {
     virtual void FUN_005fbf70();
 };
 
-struct ThunkDerived : ThunkPrimaryBase, ThunkSecondaryBase
+struct ThunkDerived_005fbf70 : ThunkPrimaryBase_005fbf70, ThunkSecondaryBase_005fbf70
 {
-    ThunkDerived();
+    ThunkDerived_005fbf70();
 // @fnv 0x005fbf70
     virtual void FUN_005fbf70();
 };
 
-ThunkDerived::ThunkDerived()
+ThunkDerived_005fbf70::ThunkDerived_005fbf70()
 {}
 
 // MSVC adjustor thunk: the primary base occupies 0x7c bytes; both bases declare the virtual,
 // the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
-struct PrimaryBase
+struct PrimaryBase_005fbfe0
 {
     virtual void FUN_005fbfe0();
     int unk04;
@@ -978,19 +978,19 @@ struct PrimaryBase
     int unk78;
 };
 
-struct SecondaryBase
+struct SecondaryBase_005fbfe0
 {
     virtual void FUN_005fbfe0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_005fbfe0 : PrimaryBase_005fbfe0, SecondaryBase_005fbfe0
 {
-    Derived();
+    Derived_005fbfe0();
 // @fnv 0x005fbfe0
     virtual void FUN_005fbfe0();
 };
 
-Derived::Derived()
+Derived_005fbfe0::Derived_005fbfe0()
 {}
 
 namespace fnv_005fc020 {

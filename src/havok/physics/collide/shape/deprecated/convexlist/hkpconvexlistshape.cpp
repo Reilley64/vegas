@@ -1054,7 +1054,7 @@ void FUN_00d5e600_Class::FUN_00d5e600(const ShapeRayCastQuery& input, const hkpC
 
 // sub ecx,0x14; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x14).
-struct PrimaryBase
+struct FnvHavok00d5e840_PrimaryBase
 {
     virtual void FUN_00d5e840();
     int unk04;
@@ -1063,19 +1063,19 @@ struct PrimaryBase
     int unk10;
 };
 
-struct SecondaryBase
+struct FnvHavok00d5e840_SecondaryBase
 {
     virtual void FUN_00d5e840();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d5e840_Derived : FnvHavok00d5e840_PrimaryBase, FnvHavok00d5e840_SecondaryBase
 {
-    Derived();
+    FnvHavok00d5e840_Derived();
 // @fnv 0x00d5e840
     virtual void FUN_00d5e840();
 };
 
-Derived::Derived()
+FnvHavok00d5e840_Derived::FnvHavok00d5e840_Derived()
 {}
 
 

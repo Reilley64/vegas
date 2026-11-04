@@ -359,7 +359,7 @@ FUN_00d6a280::FUN_00d6a280(int a) : FUN_00ddccb0(a)
 
 // this -= 0x20; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x20).
-struct PrimaryBase
+struct FnvHavok00d6a880_PrimaryBase
 {
     virtual void FUN_00d6a880();
     int unk04;
@@ -371,19 +371,19 @@ struct PrimaryBase
     int unk1C;
 };
 
-struct SecondaryBase
+struct FnvHavok00d6a880_SecondaryBase
 {
     virtual void FUN_00d6a880();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d6a880_Derived : FnvHavok00d6a880_PrimaryBase, FnvHavok00d6a880_SecondaryBase
 {
-    Derived();
+    FnvHavok00d6a880_Derived();
 // @fnv 0x00d6a880
     virtual void FUN_00d6a880();
 };
 
-Derived::Derived()
+FnvHavok00d6a880_Derived::FnvHavok00d6a880_Derived()
 {}
 
 // Adjustor thunk for a secondary base.
@@ -402,31 +402,31 @@ Derived::Derived()
 // an undefined external and the linker/checker resolves it from the original
 // image.
 
-struct AdjustorPrimaryBase
+struct FnvHavok00d6a890_AdjustorPrimaryBase
 {
     int m_00;  // +0x04
-    AdjustorPrimaryBase();
+    FnvHavok00d6a890_AdjustorPrimaryBase();
     virtual void FUN_00d6a890(int flag);
 };
 
-struct AdjustorSecondaryBase
+struct FnvHavok00d6a890_AdjustorSecondaryBase
 {
-    AdjustorSecondaryBase();
+    FnvHavok00d6a890_AdjustorSecondaryBase();
     virtual void FUN_00d6a890(int flag);
 };
 
-struct AdjustorDerived : public AdjustorPrimaryBase, public AdjustorSecondaryBase
+struct FnvHavok00d6a890_AdjustorDerived : public FnvHavok00d6a890_AdjustorPrimaryBase, public FnvHavok00d6a890_AdjustorSecondaryBase
 {
-    AdjustorDerived();
+    FnvHavok00d6a890_AdjustorDerived();
 // @fnv 0x00d6a890
     virtual void FUN_00d6a890(int flag);
 };
 
-AdjustorPrimaryBase::AdjustorPrimaryBase() : m_00(0)
+FnvHavok00d6a890_AdjustorPrimaryBase::FnvHavok00d6a890_AdjustorPrimaryBase() : m_00(0)
 {}
-AdjustorSecondaryBase::AdjustorSecondaryBase()
+FnvHavok00d6a890_AdjustorSecondaryBase::FnvHavok00d6a890_AdjustorSecondaryBase()
 {}
-AdjustorDerived::AdjustorDerived()
+FnvHavok00d6a890_AdjustorDerived::FnvHavok00d6a890_AdjustorDerived()
 {}
 
 // ---------------------------------------------------------------------------

@@ -516,7 +516,7 @@ float hkPackedNiTriStripsShape_StandIn::FUN_00d216e0(int arg)
 
 // sub ecx,0x10; jmp Destroy == MSVC adjustor thunk: Derived overrides a virtual that both
 // bases declare; the second base's vtable gets a thunk that moves `this` back by sizeof(PrimaryBase) = 0x10.
-struct PrimaryBase
+struct FnvHavok00cf57d0_PrimaryBase
 {
     virtual void FUN_00cf57d0();
     int unk04;
@@ -524,19 +524,19 @@ struct PrimaryBase
     int unk0C;
 };
 
-struct SecondaryBase
+struct FnvHavok00cf57d0_SecondaryBase
 {
     virtual void FUN_00cf57d0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00cf57d0_Derived : FnvHavok00cf57d0_PrimaryBase, FnvHavok00cf57d0_SecondaryBase
 {
-    Derived();
+    FnvHavok00cf57d0_Derived();
 // @fnv 0x00cf57d0
     virtual void FUN_00cf57d0();
 };
 
-Derived::Derived()
+FnvHavok00cf57d0_Derived::FnvHavok00cf57d0_Derived()
 {}
 
 class hkpShape_ctor : public hkpShape

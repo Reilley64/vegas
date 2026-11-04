@@ -752,7 +752,7 @@ void* probe_caller(SelectorTarget* p)
 
 void* probe_sink;
 
-int main()
+int FnvHavok_hkpworldagentutil_ProbeMain()
 {
     SelectorTarget a;
     a.m_00 = 4;

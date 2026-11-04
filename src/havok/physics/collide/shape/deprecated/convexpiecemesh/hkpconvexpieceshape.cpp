@@ -531,7 +531,7 @@ void FUN_00e60b00_cls::ProcessCollisionShapes(const BodyA* bodyA, const BodyB* b
 }
 
 // sub ecx,0x14; jmp Destroy == MSVC adjustor thunk (Derived overrides a virtual both bases declare).
-struct AdjPrimaryBase
+struct FnvHavok00e60c20_AdjPrimaryBase
 {
     virtual void FUN_00e60c20();
     int unk04;
@@ -540,19 +540,19 @@ struct AdjPrimaryBase
     int unk10;
 };
 
-struct AdjSecondaryBase
+struct FnvHavok00e60c20_AdjSecondaryBase
 {
     virtual void FUN_00e60c20();
 };
 
-struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
+struct FnvHavok00e60c20_AdjDerived : FnvHavok00e60c20_AdjPrimaryBase, FnvHavok00e60c20_AdjSecondaryBase
 {
-    AdjDerived();
+    FnvHavok00e60c20_AdjDerived();
 // @fnv 0x00e60c20
     virtual void FUN_00e60c20();
 };
 
-AdjDerived::AdjDerived()
+FnvHavok00e60c20_AdjDerived::FnvHavok00e60c20_AdjDerived()
 {
 }
 

@@ -1368,7 +1368,7 @@ struct FUN_008c1be0_shell_o2
 // sub ecx,0x30; jmp FUN_004029f0  ==  MSVC adjustor thunk (multiple inheritance,
 // primary base occupies 0x30 bytes; both bases declare the same virtual, the derived
 // class only defines its constructor so the compiler emits the this-adjusting thunk).
-struct PrimaryBase
+struct PrimaryBase_00403a40
 {
     virtual void FUN_00403a40();
     int unk04;
@@ -1384,19 +1384,19 @@ struct PrimaryBase
     int unk2C;
 };
 
-struct SecondaryBase
+struct SecondaryBase_00403a40
 {
     virtual void FUN_00403a40();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_00403a40 : PrimaryBase_00403a40, SecondaryBase_00403a40
 {
-    Derived();
+    Derived_00403a40();
 // @fnv 0x00403a40
     virtual void FUN_00403a40();
 };
 
-Derived::Derived()
+Derived_00403a40::Derived_00403a40()
 {}
 
 namespace fnv_0040a110 {

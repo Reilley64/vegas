@@ -324,7 +324,7 @@ struct FUN_00ddcc40
 FUN_00ddcc40::~FUN_00ddcc40()
 {}
 
-struct Base1
+struct FnvHavok00ddcd50_Base1
 {
 // @fnv 0x00ddcd50
     virtual void FUN_00ddcd50();
@@ -336,16 +336,16 @@ struct Base1
     int unk18;
     int unk1c;
 };
-struct Base2
+struct FnvHavok00ddcd50_Base2
 {
     virtual void FUN_00ddcd50();
 };
-struct Derived : Base1, Base2
+struct FnvHavok00ddcd50_Derived : FnvHavok00ddcd50_Base1, FnvHavok00ddcd50_Base2
 {
-    Derived();
+    FnvHavok00ddcd50_Derived();
     virtual void FUN_00ddcd50();
 };
-Derived::Derived()
+FnvHavok00ddcd50_Derived::FnvHavok00ddcd50_Derived()
 {}
 
 // FUN_00ddcd60 : MSVC this-adjusting thunk  (sub ecx, 0x08 ; jmp <impl>)

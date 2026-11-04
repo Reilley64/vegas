@@ -249,7 +249,7 @@ void FnvCpu_FUN_00d66370_CpuOwner::FUN_00d66370()
 }
 
 // add ecx,-0x20; jmp AttachToIsland : override in Derived forwards to the primary base's virtual.
-struct PrimaryBase
+struct FnvHavok00d66380_PrimaryBase
 {
     virtual void AttachToIsland();
     int unk04;
@@ -261,23 +261,23 @@ struct PrimaryBase
     int unk1C;
 };
 
-struct SecondaryBase
+struct FnvHavok00d66380_SecondaryBase
 {
     virtual void FUN_00d66380();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d66380_Derived : FnvHavok00d66380_PrimaryBase, FnvHavok00d66380_SecondaryBase
 {
-    Derived();
+    FnvHavok00d66380_Derived();
     virtual void FUN_00d66380();
 };
 
-Derived::Derived()
+FnvHavok00d66380_Derived::FnvHavok00d66380_Derived()
 {}
 
 // Calls the base constructor AttachToIsland on this object.
 // @fnv 0x00d66380
-void Derived::FUN_00d66380()
+void FnvHavok00d66380_Derived::FUN_00d66380()
 {
     reinterpret_cast<::FUN_00d662c0_stub *>((this))->AttachToIsland({});
 }

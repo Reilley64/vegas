@@ -2877,25 +2877,25 @@ void hkOstreamD624::WriteFormatted(const char* pcFormat, ...) throw()
 
 // sub ecx,8; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (8).
-struct PrimaryBase
+struct PrimaryBase_00d68830
 {
     virtual void FUN_00d68830();
     int unk04;
 };
 
-struct SecondaryBase
+struct SecondaryBase_00d68830
 {
     virtual void FUN_00d68830();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_00d68830 : PrimaryBase_00d68830, SecondaryBase_00d68830
 {
-    Derived();
+    Derived_00d68830();
 // @fnv 0x00d68830
     virtual void FUN_00d68830();
 };
 
-Derived::Derived()
+Derived_00d68830::Derived_00d68830()
 {}
 
 namespace fnv_00d68900 {

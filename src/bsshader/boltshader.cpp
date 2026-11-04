@@ -77,13 +77,13 @@ bool EnsurePassAndUpdate(char* pThis)
     return true;
 }
 
-struct X
+struct X_00bc1540
 {
     void* DestroyIfFlagged(unsigned int);
 };
 // Calls FUN_00bc0f80, then if f has bit 1 set calls _delete on this with size 0x194, and returns this.
 // @fnv 0x00bc1540
-void* X::DestroyIfFlagged(unsigned int auiFlags)
+void* X_00bc1540::DestroyIfFlagged(unsigned int auiFlags)
 {
     reinterpret_cast<::fnv_00bc0f80::FUN_00bc0f80 *>(this)->fnv_00bc0f80::FUN_00bc0f80::~FUN_00bc0f80();
     if (auiFlags & 1)

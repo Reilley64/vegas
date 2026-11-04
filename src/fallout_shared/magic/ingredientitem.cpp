@@ -560,7 +560,7 @@ FUN_0040a140::~FUN_0040a140()
 
 // sub ecx,0x30; jmp <target>  ==  MSVC adjustor thunk for a second base.
 // PrimaryBase is vptr + 11 ints = 0x30 bytes. The shared virtual is named after the claim.
-struct PrimaryBase
+struct PrimaryBase_0040a120
 {
     virtual void FUN_0040a120();
     int unk04;
@@ -576,17 +576,17 @@ struct PrimaryBase
     int unk2C;
 };
 
-struct SecondaryBase
+struct SecondaryBase_0040a120
 {
     virtual void FUN_0040a120();
 };
 
-struct AdjustedDerived : PrimaryBase, SecondaryBase
+struct AdjustedDerived_0040a120 : PrimaryBase_0040a120, SecondaryBase_0040a120
 {
-    AdjustedDerived();
+    AdjustedDerived_0040a120();
 // @fnv 0x0040a120
     virtual void FUN_0040a120();
 };
 
-AdjustedDerived::AdjustedDerived()
+AdjustedDerived_0040a120::AdjustedDerived_0040a120()
 {}

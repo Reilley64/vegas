@@ -343,49 +343,49 @@ void FUN_00d0af60(S_00d0af60_Input* in)
 
 // sub ecx,8; jmp target: MSVC adjustor thunk for the SecondaryBase slot of a
 // class deriving from two bases; PrimaryBase is 8 bytes (vptr + one int).
-struct AdjPrimaryBase
+struct FnvHavok00d0b1c0_AdjPrimaryBase
 {
     virtual void FUN_00d0b1c0();
     int unk04;
 };
 
-struct AdjSecondaryBase
+struct FnvHavok00d0b1c0_AdjSecondaryBase
 {
     virtual void FUN_00d0b1c0();
 };
 
-struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
+struct FnvHavok00d0b1c0_AdjDerived : FnvHavok00d0b1c0_AdjPrimaryBase, FnvHavok00d0b1c0_AdjSecondaryBase
 {
-    AdjDerived();
+    FnvHavok00d0b1c0_AdjDerived();
 // @fnv 0x00d0b1c0
     virtual void FUN_00d0b1c0();
 };
 
-AdjDerived::AdjDerived()
+FnvHavok00d0b1c0_AdjDerived::FnvHavok00d0b1c0_AdjDerived()
 {}
 
 // sub ecx,0xc; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0xc).
-struct PrimaryBase
+struct FnvHavok00d0b1d0_PrimaryBase
 {
     virtual void FUN_00d0b1d0();
     int unk04;
     int unk08;
 };
 
-struct SecondaryBase
+struct FnvHavok00d0b1d0_SecondaryBase
 {
     virtual void FUN_00d0b1d0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d0b1d0_Derived : FnvHavok00d0b1d0_PrimaryBase, FnvHavok00d0b1d0_SecondaryBase
 {
-    Derived();
+    FnvHavok00d0b1d0_Derived();
 // @fnv 0x00d0b1d0
     virtual void FUN_00d0b1d0();
 };
 
-Derived::Derived()
+FnvHavok00d0b1d0_Derived::FnvHavok00d0b1d0_Derived()
 {}
 
 namespace fnv_00d0b040 {

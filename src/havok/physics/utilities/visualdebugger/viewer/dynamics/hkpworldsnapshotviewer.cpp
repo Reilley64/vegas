@@ -261,25 +261,25 @@ FUN_00d63280_cls* FUN_00d63280_cls::FUN_00d63280(int a, const void* b)
 }
 
 // Adjustor thunk for virtual FUN_00d63230 (sub ecx,8; jmp to the Derived implementation).
-struct PrimaryBase
+struct FnvHavok00d63230_PrimaryBase
 {
     virtual void FUN_00d63230();
     int unk04;
 };
 
-struct SecondaryBase
+struct FnvHavok00d63230_SecondaryBase
 {
     virtual void FUN_00d63230();
 };
 
-struct ThunkOwner : PrimaryBase, SecondaryBase
+struct FnvHavok00d63230_ThunkOwner : FnvHavok00d63230_PrimaryBase, FnvHavok00d63230_SecondaryBase
 {
-    ThunkOwner();
+    FnvHavok00d63230_ThunkOwner();
 // @fnv 0x00d63230
     virtual void FUN_00d63230();
 };
 
-ThunkOwner::ThunkOwner()
+FnvHavok00d63230_ThunkOwner::FnvHavok00d63230_ThunkOwner()
 {}
 
 struct D63240Primary

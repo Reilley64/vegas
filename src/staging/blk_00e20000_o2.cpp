@@ -2761,13 +2761,6 @@ __int64 probe_caller(void)
 typedef __int64 (*probe_fn)(void);
 probe_fn volatile g_keep = probe_caller;
 
-int main(void)
-{
-    g_ptr = 0;
-    probe_fn f = g_keep;
-    return (int)f();
-}
-
 // @fnv 0x00e2abd0
 void __cdecl FUN_00e2abd0()
 {

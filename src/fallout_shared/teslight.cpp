@@ -1480,7 +1480,7 @@ bool LightComparison::FUN_0050d120(TESForm* form)
     return false;
 }
 
-struct PrimaryBase
+struct PrimaryBase_0050e680
 {
     virtual void FUN_0050e680();
     int unk04;
@@ -1519,19 +1519,19 @@ struct PrimaryBase
     int unk88;
 };
 
-struct SecondaryBase
+struct SecondaryBase_0050e680
 {
     virtual void FUN_0050e680();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_0050e680 : PrimaryBase_0050e680, SecondaryBase_0050e680
 {
-    Derived();
+    Derived_0050e680();
 // @fnv 0x0050e680
     virtual void FUN_0050e680();
 };
 
-Derived::Derived()
+Derived_0050e680::Derived_0050e680()
 {}
 
 namespace fnv_0050e690 {
@@ -1590,7 +1590,7 @@ Derived::Derived()
 // inherited class but is reached through the second base's vtable slot: the
 // slot holds a thunk that walks `this` back to the derived object (the size of
 // the primary base, 0x8c) and tail-jumps to the derived override.
-struct ThunkPrimaryBase
+struct ThunkPrimaryBase_0050e6a0
 {
     virtual void* FUN_0050e6a0(unsigned int flags);
     int unk04;
@@ -1629,19 +1629,19 @@ struct ThunkPrimaryBase
     int unk88;
 };
 
-struct ThunkSecondaryBase
+struct ThunkSecondaryBase_0050e6a0
 {
     virtual void* FUN_0050e6a0(unsigned int flags);
 };
 
-struct ThunkDerived : ThunkPrimaryBase, ThunkSecondaryBase
+struct ThunkDerived_0050e6a0 : ThunkPrimaryBase_0050e6a0, ThunkSecondaryBase_0050e6a0
 {
-    ThunkDerived();
+    ThunkDerived_0050e6a0();
 // @fnv 0x0050e6a0
     virtual void* FUN_0050e6a0(unsigned int flags);
 };
 
-ThunkDerived::ThunkDerived()
+ThunkDerived_0050e6a0::ThunkDerived_0050e6a0()
 {}
 
 namespace fnv_0050e6b0 {

@@ -612,25 +612,25 @@ static TO g_thunk;
 // MSVC adjustor thunk: a class derives from two bases that both declare the same
 // virtual, so the secondary base's vtable entry is an adjustor thunk that moves
 // `this` back by the size of the primary base (8 = vptr + one int field).
-struct PrimaryBase
+struct FnvHavok00d63de0_PrimaryBase
 {
     virtual void FUN_00d63de0();
     int unk04;
 };
 
-struct SecondaryBase
+struct FnvHavok00d63de0_SecondaryBase
 {
     virtual void FUN_00d63de0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d63de0_Derived : FnvHavok00d63de0_PrimaryBase, FnvHavok00d63de0_SecondaryBase
 {
-    Derived();
+    FnvHavok00d63de0_Derived();
 // @fnv 0x00d63de0
     virtual void FUN_00d63de0();
 };
 
-Derived::Derived()
+FnvHavok00d63de0_Derived::FnvHavok00d63de0_Derived()
 {}
 
 struct Parent;

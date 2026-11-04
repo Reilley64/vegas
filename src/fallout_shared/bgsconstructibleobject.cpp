@@ -797,7 +797,7 @@ FUN_004f94b0_BGSConstructibleObject::~FUN_004f94b0_BGSConstructibleObject()
 }
 
 // sub ecx,0x3c; jmp target: MSVC adjustor thunk from multiple inheritance (Derived overrides a virtual both bases declare).
-struct PrimaryBase
+struct PrimaryBase_004f9cb0
 {
     virtual void FUN_004f9cb0();
     unsigned int unk04;
@@ -816,17 +816,17 @@ struct PrimaryBase
     unsigned int unk38;
 };
 
-struct SecondaryBase
+struct SecondaryBase_004f9cb0
 {
     virtual void FUN_004f9cb0();
 };
 
-struct AdjustedDerived : PrimaryBase, SecondaryBase
+struct AdjustedDerived_004f9cb0 : PrimaryBase_004f9cb0, SecondaryBase_004f9cb0
 {
-    AdjustedDerived();
+    AdjustedDerived_004f9cb0();
 // @fnv 0x004f9cb0
     virtual void FUN_004f9cb0();
 };
 
-AdjustedDerived::AdjustedDerived()
+AdjustedDerived_004f9cb0::AdjustedDerived_004f9cb0()
 {}

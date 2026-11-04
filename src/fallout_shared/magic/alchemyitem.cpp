@@ -1169,7 +1169,7 @@ void AlchemyItemMagic::FUN_00403600(MagicItem* source)
 // sub ecx,0x30; jmp FUN_004029b0
 // MSVC adjustor thunk: a derived class overrides a virtual declared by two bases;
 // the secondary-base vtable entry is a thunk that moves 'this' back by the primary base size.
-struct PrimaryBase
+struct PrimaryBase_00403a50
 {
     virtual void FUN_00403a50();
     int unk04;
@@ -1185,24 +1185,24 @@ struct PrimaryBase
     int unk2C;
 };
 
-struct SecondaryBase
+struct SecondaryBase_00403a50
 {
     virtual void FUN_00403a50();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_00403a50 : PrimaryBase_00403a50, SecondaryBase_00403a50
 {
-    Derived();
+    Derived_00403a50();
 // @fnv 0x00403a50
     virtual void FUN_00403a50();
 };
 
-Derived::Derived()
+Derived_00403a50::Derived_00403a50()
 {}
 
 // sub ecx,0x4c; jmp target  ==  MSVC adjustor thunk: the derived class overrides a virtual that both
 // bases declare, so the secondary base's vtable gets a thunk that moves `this` back by the primary base size (0x4c).
-struct AdjustPrimaryBase
+struct AdjustPrimaryBase_00403a60
 {
     virtual void FUN_00403a60();
     int unk04;
@@ -1225,19 +1225,19 @@ struct AdjustPrimaryBase
     int unk48;
 };
 
-struct AdjustSecondaryBase
+struct AdjustSecondaryBase_00403a60
 {
     virtual void FUN_00403a60();
 };
 
-struct AdjustDerived : AdjustPrimaryBase, AdjustSecondaryBase
+struct AdjustDerived_00403a60 : AdjustPrimaryBase_00403a60, AdjustSecondaryBase_00403a60
 {
-    AdjustDerived();
+    AdjustDerived_00403a60();
 // @fnv 0x00403a60
     virtual void FUN_00403a60();
 };
 
-AdjustDerived::AdjustDerived()
+AdjustDerived_00403a60::AdjustDerived_00403a60()
 {}
 
 #include "generated/data/fallout_shared/magic/alchemyitem.inc"

@@ -157,17 +157,17 @@ void NiObjectNET::FUN_0049ee30(unsigned short a)
 }
 }  // namespace fnv_0049ee30
 
-struct TaskQueueInterface
+struct TaskQueueInterface_0049ee80
 {
     void SetTaskFlagDWord(bool, unsigned int);
     void SetEnabledFlag(bool enabled);
 };
 
-void TaskQueueInterface::SetTaskFlagDWord(bool, unsigned int)
+void TaskQueueInterface_0049ee80::SetTaskFlagDWord(bool, unsigned int)
 {}
 
 // @fnv 0x0049ee80
-void TaskQueueInterface::SetEnabledFlag(bool enabled)
+void TaskQueueInterface_0049ee80::SetEnabledFlag(bool enabled)
 {
     reinterpret_cast<::FUN_0043b370_cls *>(this)->FUN_0043b370(enabled, 0x8000);
 }
@@ -207,7 +207,7 @@ void NiObjectNET::FUN_00439360(unsigned short value, unsigned int uiMask, unsign
         (*(unsigned short*)((char*)this + 0x18) & ~(unsigned short)uiMask) | (value << (unsigned short)shift);
 }
 
-struct FUN_0049ee60_shell : TaskQueueInterface
+struct FUN_0049ee60_shell : TaskQueueInterface_0049ee80
 {
     void FUN_0049ee60(bool enabled);
 };

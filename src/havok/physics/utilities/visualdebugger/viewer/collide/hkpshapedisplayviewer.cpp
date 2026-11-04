@@ -1013,25 +1013,25 @@ D661E0Object::D661E0Object()
 {}
 
 // sub ecx,8; jmp FUN_00d661f0: adjustor thunk from multiple inheritance.
-struct PrimaryBase
+struct FnvHavok00d661f0_PrimaryBase
 {
     virtual void FUN_00d661f0();
     int unk04;
 };
 
-struct SecondaryBase
+struct FnvHavok00d661f0_SecondaryBase
 {
     virtual void FUN_00d661f0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d661f0_Derived : FnvHavok00d661f0_PrimaryBase, FnvHavok00d661f0_SecondaryBase
 {
-    Derived();
+    FnvHavok00d661f0_Derived();
 // @fnv 0x00d661f0
     virtual void FUN_00d661f0();
 };
 
-Derived::Derived()
+FnvHavok00d661f0_Derived::FnvHavok00d661f0_Derived()
 {}
 
 // FUN_00d66200 : MSVC this-adjusting thunk  (sub ecx, 0x28 ; jmp <impl>)

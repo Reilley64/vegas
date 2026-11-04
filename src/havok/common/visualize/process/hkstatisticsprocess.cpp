@@ -535,25 +535,25 @@ void ThisCls::WriteToStream(int aiUnused)
 }
 
 // sub ecx,8; jmp FUN_00ddc840 == MSVC adjustor thunk for the secondary base's slot.
-struct PrimaryBase
+struct FnvHavok00ddc830_PrimaryBase
 {
     virtual void FUN_00ddc830();
     int unk04;
 };
 
-struct SecondaryBase
+struct FnvHavok00ddc830_SecondaryBase
 {
     virtual void FUN_00ddc830();
 };
 
-struct AdjustDerived : PrimaryBase, SecondaryBase
+struct FnvHavok00ddc830_AdjustDerived : FnvHavok00ddc830_PrimaryBase, FnvHavok00ddc830_SecondaryBase
 {
-    AdjustDerived();
+    FnvHavok00ddc830_AdjustDerived();
 // @fnv 0x00ddc830
     virtual void FUN_00ddc830();
 };
 
-AdjustDerived::AdjustDerived()
+FnvHavok00ddc830_AdjustDerived::FnvHavok00ddc830_AdjustDerived()
 {}
 
 namespace fnv_00ddc840 {

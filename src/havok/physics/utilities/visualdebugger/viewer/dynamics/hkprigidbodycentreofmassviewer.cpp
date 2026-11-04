@@ -704,25 +704,25 @@ void COMViewerPart::FUN_00d69d00(void* unused)
 
 // MSVC adjustor thunk: the primary base occupies 0x8 bytes; both bases declare the virtual,
 // the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
-struct PrimaryBase
+struct FnvHavok00d6a1b0_PrimaryBase
 {
     virtual void FUN_00d6a1b0();
     int unk04;
 };
 
-struct SecondaryBase
+struct FnvHavok00d6a1b0_SecondaryBase
 {
     virtual void FUN_00d6a1b0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d6a1b0_Derived : FnvHavok00d6a1b0_PrimaryBase, FnvHavok00d6a1b0_SecondaryBase
 {
-    Derived();
+    FnvHavok00d6a1b0_Derived();
 // @fnv 0x00d6a1b0
     virtual void FUN_00d6a1b0();
 };
 
-Derived::Derived()
+FnvHavok00d6a1b0_Derived::FnvHavok00d6a1b0_Derived()
 {}
 
 // FUN_00d6a1c0 : MSVC this-adjusting thunk.
@@ -740,35 +740,35 @@ Derived::Derived()
 // The override is DECLARED ONLY, so the thunk is the single defined
 // function symbol carrying the name FUN_00d6a1c0, and a defined key function in the
 // derived class makes the vftable that references the thunk be emitted here.
-struct AdjBase1
+struct FnvHavok00d6a1c0_AdjBase1
 {
-    AdjBase1();
+    FnvHavok00d6a1c0_AdjBase1();
     virtual void FUN_00d6a1c0();
     char pad[0x24];
 };
 
-struct AdjBase2
+struct FnvHavok00d6a1c0_AdjBase2
 {
-    AdjBase2();
+    FnvHavok00d6a1c0_AdjBase2();
 // @fnv 0x00d6a1c0
     virtual void FUN_00d6a1c0();
 };
 
-struct AdjOwner : AdjBase1, AdjBase2
+struct FnvHavok00d6a1c0_AdjOwner : FnvHavok00d6a1c0_AdjBase1, FnvHavok00d6a1c0_AdjBase2
 {
-    AdjOwner();
+    FnvHavok00d6a1c0_AdjOwner();
     virtual void key_fn();  // key function - defined, so the vftable is emitted
     void FUN_00d6a1c0();    // the shared override - declared only
 };
 
-AdjOwner::AdjOwner()
+FnvHavok00d6a1c0_AdjOwner::FnvHavok00d6a1c0_AdjOwner()
 {}
-void AdjOwner::key_fn()
+void FnvHavok00d6a1c0_AdjOwner::key_fn()
 {}
 
-AdjOwner* make_adj_owner()
+FnvHavok00d6a1c0_AdjOwner* FnvHavok_hkprigidbodycentreofmassviewer_make_adj_owner()
 {
-    static AdjOwner o;
+    static FnvHavok00d6a1c0_AdjOwner o;
     return &o;
 }
 

@@ -849,7 +849,7 @@ float FUN_00b66b80_cls::FUN_00b66b80()
 // the secondary base still refers to the implementation living in the primary
 // base, so the compiler emits a thunk that walks `this` back by the primary
 // base's size (0x30) and tail-jumps to that implementation.
-struct ThunkPrimaryBase
+struct ThunkPrimaryBase_00593230
 {
     virtual void* FUN_00593230(unsigned int flags);
     int unk04;
@@ -865,19 +865,19 @@ struct ThunkPrimaryBase
     int unk2C;
 };
 
-struct ThunkSecondaryBase
+struct ThunkSecondaryBase_00593230
 {
     virtual void* FUN_00593230(unsigned int flags);
 };
 
-struct ThunkDerived : ThunkPrimaryBase, ThunkSecondaryBase
+struct ThunkDerived_00593230 : ThunkPrimaryBase_00593230, ThunkSecondaryBase_00593230
 {
-    ThunkDerived();
+    ThunkDerived_00593230();
 // @fnv 0x00593230
     virtual void* FUN_00593230(unsigned int flags);
 };
 
-ThunkDerived::ThunkDerived()
+ThunkDerived_00593230::ThunkDerived_00593230()
 {}
 
 struct FnvRefObj

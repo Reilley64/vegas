@@ -380,25 +380,25 @@ void FUN_00e46e70(int a)
 // a vtable pointer plus one int member (4 + 4 = 8). Both bases declare the same
 // virtual function; the derived class redeclares it and defines only its
 // constructor, which is what makes the compiler emit the vtables and the thunk.
-struct PrimaryBase
+struct FnvHavok00dffb30_PrimaryBase
 {
     virtual void FUN_00dffb30();
     int unk04;
 };
 
-struct SecondaryBase
+struct FnvHavok00dffb30_SecondaryBase
 {
     virtual void FUN_00dffb30();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00dffb30_Derived : FnvHavok00dffb30_PrimaryBase, FnvHavok00dffb30_SecondaryBase
 {
-    Derived();
+    FnvHavok00dffb30_Derived();
 // @fnv 0x00dffb30
     virtual void FUN_00dffb30();
 };
 
-Derived::Derived()
+FnvHavok00dffb30_Derived::FnvHavok00dffb30_Derived()
 {}
 
 namespace fnv_00dffb40 {

@@ -748,32 +748,32 @@ FUN_00502850::~FUN_00502850()
 // MSVC emits it for the second copy of a duplicated common base: the most
 // derived class inherits the same common base twice, so the vtable slot of
 // the second copy has to move `this` back onto the first copy.
-class ThunkCommonBase
+class ThunkCommonBase_00503bb0
 {
   public:
     virtual void FUN_00503bb0();
 };
 
-class ThunkPrimaryBase : public ThunkCommonBase
+class ThunkPrimaryBase_00503bb0 : public ThunkCommonBase_00503bb0
 {
   public:
     int m_pad01[14];
 };
 
-class ThunkSecondaryBase : public ThunkCommonBase
+class ThunkSecondaryBase_00503bb0 : public ThunkCommonBase_00503bb0
 {
   public:
 };
 
-class ThunkDerived : public ThunkPrimaryBase, public ThunkSecondaryBase
+class ThunkDerived_00503bb0 : public ThunkPrimaryBase_00503bb0, public ThunkSecondaryBase_00503bb0
 {
   public:
 // @fnv 0x00503bb0
     virtual void FUN_00503bb0();
-    ThunkDerived();
+    ThunkDerived_00503bb0();
 };
 
-ThunkDerived::ThunkDerived()
+ThunkDerived_00503bb0::ThunkDerived_00503bb0()
 {}
 
-ThunkDerived g_thunkDerived;
+ThunkDerived_00503bb0 g_thunkDerived;

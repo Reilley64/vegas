@@ -584,25 +584,25 @@ void D64020Viewer::DisplayConstraintPivots(D64020Constraint* constraint)
 }
 
 // sub ecx,8; jmp FUN_00d649c0 == MSVC adjustor thunk for the secondary base's override.
-struct PrimaryBase
+struct FnvHavok00d64980_PrimaryBase
 {
     virtual void FUN_00d64980();
     int unk04;
 };
 
-struct SecondaryBase
+struct FnvHavok00d64980_SecondaryBase
 {
     virtual void FUN_00d64980();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d64980_Derived : FnvHavok00d64980_PrimaryBase, FnvHavok00d64980_SecondaryBase
 {
-    Derived();
+    FnvHavok00d64980_Derived();
 // @fnv 0x00d64980
     virtual void FUN_00d64980();
 };
 
-Derived::Derived()
+FnvHavok00d64980_Derived::FnvHavok00d64980_Derived()
 {}
 
 // FUN_00d64990 : MSVC this-adjusting thunk  (sub ecx, 0x28 ; jmp <impl>)

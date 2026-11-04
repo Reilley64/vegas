@@ -469,8 +469,8 @@ static __declspec(noinline) unsigned short FUN_00e2f9d0(unsigned short usValue)
     u.b[1] = (unsigned char)usValue;
     return u.w;
 }
-unsigned short volatile g_in; unsigned short g_out;
-void caller() { g_out = FUN_00e2f9d0(g_in); }
+unsigned short volatile g_in; unsigned short FnvHavok_hkawaveletcompressedanimation_g_out;
+void FnvHavok_hkawaveletcompressedanimation_caller() { FnvHavok_hkawaveletcompressedanimation_g_out = FUN_00e2f9d0(g_in); }
 
 #include <xmmintrin.h>
 

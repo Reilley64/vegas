@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <new>
 #include <cstdlib>
+#include "fnv/decl/TaskQueueInterface.h"
 #include "fnv/decl/A_00885520.h"
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorDeletionQueue.h"
@@ -508,17 +509,17 @@ void FUN_00937f40_Class::FreeArrayItems()
     }
 }
 
-struct TaskQueueInterface
+struct TaskQueueInterface_00938160
 {
     void SetTaskFlagDWord(bool, unsigned int);
     void SetEnabledFlag(bool);
 };
 
-void TaskQueueInterface::SetTaskFlagDWord(bool, unsigned int)
+void TaskQueueInterface_00938160::SetTaskFlagDWord(bool, unsigned int)
 {}
 
 // @fnv 0x00938160
-void TaskQueueInterface::SetEnabledFlag(bool enabled)
+void TaskQueueInterface_00938160::SetEnabledFlag(bool enabled)
 {
     reinterpret_cast<::FUN_0043b370_cls *>(this)->FUN_0043b370(enabled, 0x8000000);
 }
@@ -774,7 +775,7 @@ void FUN_009380e0(TaskQueueInterface* self)
 {
     if (!self)
         return;
-    self->SetEnabledFlag(true);
+    reinterpret_cast<TaskQueueInterface_00938160*>(self)->SetEnabledFlag(true);
     if (((FUN_009380e0_shell*)self)->FUN_009380e0_get())
     {
         NiNode* node = ((FUN_009380e0_shell*)self)->FUN_009380e0_get();

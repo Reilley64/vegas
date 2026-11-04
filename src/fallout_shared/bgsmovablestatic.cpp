@@ -621,7 +621,7 @@ bool MovableStaticFormComparison::FUN_004fc080(::TESForm* apCompare)
 // PrimaryBase is vptr (4) + 16 int fields (64) = 0x44 bytes; the shared virtual
 // is named after the claimed function so the compiler emits the thunk symbol
 // ?FUN_004fc1a0@...@WGI@AEX_v@Z.
-struct PrimaryBase
+struct PrimaryBase_004fc1a0
 {
     virtual void FUN_004fc1a0();
     int unk04;
@@ -642,19 +642,19 @@ struct PrimaryBase
     int unk40;
 };
 
-struct SecondaryBase
+struct SecondaryBase_004fc1a0
 {
     virtual void FUN_004fc1a0();
 };
 
-struct AdjustedDerived : PrimaryBase, SecondaryBase
+struct AdjustedDerived_004fc1a0 : PrimaryBase_004fc1a0, SecondaryBase_004fc1a0
 {
-    AdjustedDerived();
+    AdjustedDerived_004fc1a0();
 // @fnv 0x004fc1a0
     virtual void FUN_004fc1a0();
 };
 
-AdjustedDerived::AdjustedDerived()
+AdjustedDerived_004fc1a0::AdjustedDerived_004fc1a0()
 {}
 
 class TESFile;

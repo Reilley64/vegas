@@ -593,7 +593,7 @@ static __declspec(noinline) int FUN_00dad990(const ContactWork& w, ContactResult
         return 1;
     }
 }
-int probeCaller(const ContactWork& w, ContactResult& r, const S_00dad4d0_Entry* f)
+int FnvHavok_hkpgskmanifoldutil_probeCaller(const ContactWork& w, ContactResult& r, const S_00dad4d0_Entry* f)
 {
     EntryParameter e = {f};
     return FUN_00dad990(w, r, e);
@@ -873,11 +873,11 @@ static __declspec(noinline) int FUN_00dad720(S_00dad720_Rec* rec, S_00dad720_Vec
 }
 void* volatile g_rec;
 void* volatile g_vecs;
-void* volatile g_out;
+void* volatile FnvHavok_hkpgskmanifoldutil_g_out;
 volatile int g_res;
 void CallTarget_dad720()
 {
-    S_00dad720_Out* o = (S_00dad720_Out*)g_out;
+    S_00dad720_Out* o = (S_00dad720_Out*)FnvHavok_hkpgskmanifoldutil_g_out;
     g_res = FUN_00dad720((S_00dad720_Rec*)g_rec, (S_00dad720_Vec*)g_vecs, o);
 }
 namespace fnv_00dad860 {
@@ -1454,7 +1454,7 @@ static __declspec(noinline) int FUN_00dad6a0(S_00dad6a0_Rec* rec, S_00dad6a0_Vec
 }
 void CallTarget_dad6a0()
 {
-    S_00dad6a0_Out* o = (S_00dad6a0_Out*)g_out;
+    S_00dad6a0_Out* o = (S_00dad6a0_Out*)FnvHavok_hkpgskmanifoldutil_g_out;
     g_res = FUN_00dad6a0((S_00dad6a0_Rec*)g_rec, (S_00dad6a0_Vec*)g_vecs, o);
     g_res = FUN_00dad6a0((S_00dad6a0_Rec*)g_rec, (S_00dad6a0_Vec*)g_vecs, o);
 }

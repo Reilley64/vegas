@@ -376,7 +376,7 @@ FUN_00d4bbb0::FUN_00d4bbb0()
 {}
 
 // sub ecx,0x10; jmp target  ==  MSVC adjustor thunk for a virtual inherited through a second base.
-struct PrimaryBase
+struct FnvHavok00d4bdf0_PrimaryBase
 {
     virtual void FUN_00d4bdf0();
     int unk04;
@@ -384,19 +384,19 @@ struct PrimaryBase
     int unk0C;
 };
 
-struct SecondaryBase
+struct FnvHavok00d4bdf0_SecondaryBase
 {
     virtual void FUN_00d4bdf0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d4bdf0_Derived : FnvHavok00d4bdf0_PrimaryBase, FnvHavok00d4bdf0_SecondaryBase
 {
-    Derived();
+    FnvHavok00d4bdf0_Derived();
 // @fnv 0x00d4bdf0
     virtual void FUN_00d4bdf0();
 };
 
-Derived::Derived()
+FnvHavok00d4bdf0_Derived::FnvHavok00d4bdf0_Derived()
 {}
 
 extern "C" void _ReadWriteBarrier();

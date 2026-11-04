@@ -24,7 +24,7 @@
 // sub ecx,0x3e0; jmp FUN_008d1130 == MSVC adjustor thunk (11 bytes, thiscall).
 // Derived overrides a virtual that both bases declare; the second base's vtable gets a thunk
 // that moves this back by the first base's size (0x3e0 = vptr + 247 ints).
-struct PrimaryBase
+struct PrimaryBase_009c6a20
 {
     virtual void FUN_009c6a20();
     int unk04;
@@ -276,19 +276,19 @@ struct PrimaryBase
     int unk3DC;
 };
 
-struct SecondaryBase
+struct SecondaryBase_009c6a20
 {
     virtual void FUN_009c6a20();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_009c6a20 : PrimaryBase_009c6a20, SecondaryBase_009c6a20
 {
-    Derived();
+    Derived_009c6a20();
 // @fnv 0x009c6a20
     virtual void FUN_009c6a20();
 };
 
-Derived::Derived()
+Derived_009c6a20::Derived_009c6a20()
 {}
 
 struct xP3

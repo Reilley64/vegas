@@ -501,12 +501,12 @@ Box g_p10;
 
 intptr_t g_a2;
 
-int g_sink;
+int g_sink_00d6c500;
 
 void zz_call()
 {
     FUN_00d6c500(g_span, g_a1, g_base, g_p10, g_a2);
-    g_sink = 1;
+    g_sink_00d6c500 = 1;
 }
 
 void FUN_00d6c030(D6Owner* a, V16* b, D6Idx* c, void* d, void* e);

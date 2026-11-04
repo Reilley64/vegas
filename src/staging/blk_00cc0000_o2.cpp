@@ -18613,7 +18613,7 @@ static __declspec(noinline) T* FUN_00cc0e00(T* a, T* b)
     return r;
 }
 T* volatile g_a; T* volatile g_b; T* volatile g_sink;
-void caller() { g_sink = FUN_00cc0e00(g_a, g_b); }
+void probeCaller_00cc0e00() { g_sink = FUN_00cc0e00(g_a, g_b); }
 
 extern int DAT_010c93fc;
 
@@ -25174,7 +25174,7 @@ void* FUN_00aa13e0(unsigned int size);
 static T* FUN_00cc0e00(T* a, T* b);
 
 
-void caller();
+void probeCaller_00cc0e00();
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
 

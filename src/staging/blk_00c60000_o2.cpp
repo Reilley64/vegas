@@ -19927,25 +19927,25 @@ intptr_t __cdecl FUN_00c7ffd0(XRef* apRef)
 
 // sub ecx,8; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (8).
-struct PrimaryBase
+struct PrimaryBase_00c66630
 {
     virtual void FUN_00c66630();
     int unk04;
 };
 
-struct SecondaryBase
+struct SecondaryBase_00c66630
 {
     virtual void FUN_00c66630();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_00c66630 : PrimaryBase_00c66630, SecondaryBase_00c66630
 {
-    Derived();
+    Derived_00c66630();
 // @fnv 0x00c66630
     virtual void FUN_00c66630();
 };
 
-Derived::Derived()
+Derived_00c66630::Derived_00c66630()
 {}
 
 namespace fnv_00c66640 {

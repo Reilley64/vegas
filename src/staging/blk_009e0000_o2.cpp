@@ -5649,34 +5649,34 @@ Derived_009fdd00::Derived_009fdd00()
 // emit the vftable that references the thunk.
 // ---------------------------------------------------------------------------
 
-struct ThunkBaseA
+struct ThunkBaseA_009fdd10
 {
-    ThunkBaseA();
+    ThunkBaseA_009fdd10();
     virtual void __cdecl FUN_009fdd10();
-    char pad_10[0x10];  // makes ThunkBaseA exactly 0x14 bytes
+    char pad_10[0x10];  // makes ThunkBaseA_009fdd10 exactly 0x14 bytes
 };
 
-struct ThunkBaseB
+struct ThunkBaseB_009fdd10
 {
-    ThunkBaseB();
+    ThunkBaseB_009fdd10();
 // @fnv 0x009fdd10
     virtual void __cdecl FUN_009fdd10();
 };
 
-struct ThunkOwner : ThunkBaseA, ThunkBaseB
+struct ThunkOwner_009fdd10 : ThunkBaseA_009fdd10, ThunkBaseB_009fdd10
 {
-    ThunkOwner();
+    ThunkOwner_009fdd10();
     virtual void ThunkKey();      // key function -> the vftable is emitted
     void __cdecl FUN_009fdd10();  // the shared override: DECLARED ONLY
 };
 
-ThunkBaseA::ThunkBaseA()
+ThunkBaseA_009fdd10::ThunkBaseA_009fdd10()
 {}
-ThunkBaseB::ThunkBaseB()
+ThunkBaseB_009fdd10::ThunkBaseB_009fdd10()
 {}
-ThunkOwner::ThunkOwner()
+ThunkOwner_009fdd10::ThunkOwner_009fdd10()
 {}
-void ThunkOwner::ThunkKey()
+void ThunkOwner_009fdd10::ThunkKey()
 {}
 
 // FUN_009fdd20: __cdecl adjustor thunk (sub [esp+4],0x18; jmp target).
@@ -5734,25 +5734,25 @@ Derived_009fdd30::Derived_009fdd30()
 
 // sub ecx,8; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (8).
-struct AdjPrimaryBase
+struct AdjPrimaryBase_009fdd50
 {
     virtual void FUN_009fdd50();
     int unk04;
 };
 
-struct AdjSecondaryBase
+struct AdjSecondaryBase_009fdd50
 {
     virtual void FUN_009fdd50();
 };
 
-struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
+struct AdjDerived_009fdd50 : AdjPrimaryBase_009fdd50, AdjSecondaryBase_009fdd50
 {
-    AdjDerived();
+    AdjDerived_009fdd50();
 // @fnv 0x009fdd50
     virtual void FUN_009fdd50();
 };
 
-AdjDerived::AdjDerived()
+AdjDerived_009fdd50::AdjDerived_009fdd50()
 {}
 
 // FUN_009fdd60: __cdecl adjustor thunk (sub dword ptr [esp+4],0x18; jmp target).

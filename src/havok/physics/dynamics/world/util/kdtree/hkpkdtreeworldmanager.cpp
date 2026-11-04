@@ -1080,7 +1080,7 @@ void S00d0a560_Owner::FUN_00d0a560(void** out, void* ch)
 
 // sub ecx,0x14; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x14).
-struct PrimaryBase
+struct FnvHavok00d0ada0_PrimaryBase
 {
     virtual void FUN_00d0ada0();
     int unk04;
@@ -1089,22 +1089,22 @@ struct PrimaryBase
     int unk10;
 };
 
-struct SecondaryBase
+struct FnvHavok00d0ada0_SecondaryBase
 {
     virtual void FUN_00d0ada0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d0ada0_Derived : FnvHavok00d0ada0_PrimaryBase, FnvHavok00d0ada0_SecondaryBase
 {
-    Derived();
+    FnvHavok00d0ada0_Derived();
 // @fnv 0x00d0ada0
     virtual void FUN_00d0ada0();
 };
 
-Derived::Derived()
+FnvHavok00d0ada0_Derived::FnvHavok00d0ada0_Derived()
 {}
 
-struct ThunkPrim
+struct FnvHavok00d0adb0_ThunkPrim
 {
     virtual void FUN_00d0adb0();
     int p04;
@@ -1114,18 +1114,18 @@ struct ThunkPrim
     int p14;
 };
 
-struct ThunkSec
+struct FnvHavok00d0adb0_ThunkSec
 {
     virtual void FUN_00d0adb0();
 };
 
-struct ThunkOwner : ThunkPrim, ThunkSec
+struct FnvHavok00d0adb0_ThunkOwner : FnvHavok00d0adb0_ThunkPrim, FnvHavok00d0adb0_ThunkSec
 {
 // @fnv 0x00d0adb0
     virtual void FUN_00d0adb0();
 };
 
-static ThunkOwner g_thunk;
+static FnvHavok00d0adb0_ThunkOwner g_thunk;
 
 struct __declspec(align(16)) FourFloatVector
 {

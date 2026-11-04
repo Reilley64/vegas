@@ -8718,7 +8718,7 @@ static __declspec(noinline) void WriteFloatToVector(float a, float b, float* out
     out[2] = a;
 }
 
-void dummy_caller(void)
+void probeCaller_00df9b20(void)
 {
     WriteFloatToVector(g_wv, g_wv, &g_wv);
 }
@@ -10617,7 +10617,7 @@ FUN_00de10b0_cls::~FUN_00de10b0_cls()
 
 // sub ecx,0x28; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x28).
-struct PrimaryBase
+struct PrimaryBase_00de3040
 {
     virtual void FUN_00de3040();
     int unk04;
@@ -10631,19 +10631,19 @@ struct PrimaryBase
     int unk24;
 };
 
-struct SecondaryBase
+struct SecondaryBase_00de3040
 {
     virtual void FUN_00de3040();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_00de3040 : PrimaryBase_00de3040, SecondaryBase_00de3040
 {
-    Derived();
+    Derived_00de3040();
 // @fnv 0x00de3040
     virtual void FUN_00de3040();
 };
 
-Derived::Derived()
+Derived_00de3040::Derived_00de3040()
 {}
 
 namespace fnv_00dfed30 {
@@ -10707,25 +10707,25 @@ Derived::Derived()
 // 00dff450: compiler-generated thiscall adjustor thunk (sub ecx,0xc; jmp DestroySelf).
 // Reproduce via MI dual-slot override: the override lands in both the primary vftable
 // and the secondary vftable (which sits at offset 0xc), so VC9 emits the adjustor thunk.
-struct AdjPrim
+struct AdjPrim_00dff450
 {
     virtual void FUN_00dff450();
     int p04;
     int p08;
 };
 
-struct AdjSec
+struct AdjSec_00dff450
 {
     virtual void FUN_00dff450();
 };
 
-struct AdjDerived : AdjPrim, AdjSec
+struct AdjDerived_00dff450 : AdjPrim_00dff450, AdjSec_00dff450
 {
 // @fnv 0x00dff450
     virtual void FUN_00dff450();
 };
 
-static AdjDerived g_adjThunk;
+static AdjDerived_00dff450 g_adjThunk;
 
 namespace fnv_00dff460 {
 // sub ecx,0x14; jmp target  ==  MSVC adjustor thunk (second base of multiple inheritance).
@@ -13597,7 +13597,7 @@ void q_call_df9ae0(void);
 
 static void WriteFloatToVector(float a, float b, float* out);
 
-void dummy_caller(void);
+void probeCaller_00df9b20(void);
 
 extern "C" void* df3210_target(void);
 

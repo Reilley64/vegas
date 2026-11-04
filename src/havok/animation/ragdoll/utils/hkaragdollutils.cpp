@@ -150,7 +150,7 @@ static bool IsSupportedRagdollConstraint(Obj* obj, bool reportError) throw()
     return false;
 }
 
-void caller(Obj* obj)
+void FnvHavok_hkaragdollutils_caller(Obj* obj)
 {
     IsSupportedRagdollConstraint(obj, true);
 }
@@ -1104,10 +1104,10 @@ static __declspec(noinline) int FUN_00ce9880(const hkQsXform& t, Body* body)
 }
 volatile intptr_t g_inT;
 volatile intptr_t g_inBody;
-volatile int g_out;
+volatile int FnvHavok_hkaragdollutils_g_out;
 void CallTarget_ce9880()
 {
-    g_out = FUN_00ce9880(*(const hkQsXform*)g_inT, (Body*)g_inBody);
+    FnvHavok_hkaragdollutils_g_out = FUN_00ce9880(*(const hkQsXform*)g_inT, (Body*)g_inBody);
 }
 
 static bool IsSupportedRagdollConstraint(Obj* obj, bool reportError) throw();

@@ -8571,7 +8571,7 @@ unsigned char __cdecl FUN_00aafc80(const std::Str& pStr, int* pOut, Arr28* pA, A
 
 // namespace fnv_00aafc80
 
-int g_sink;
+int g_sink_00ab0a30;
 
 struct Ab0a30Chunk
 {
@@ -8598,7 +8598,7 @@ inline Ab0a30Chunk::Ab0a30Chunk()
 {
     unsigned int d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21,
         d22, d23, d24, d25;
-    d0 = g_sink;
+    d0 = g_sink_00ab0a30;
     d1 = d0;
     d2 = d1;
     d3 = d2;
@@ -8676,7 +8676,7 @@ inline Ab0a30Chunk::Ab0a30Chunk()
     d23 = d24 | 1;
     d24 = d25 | 1;
     d25 = d0 | 1;
-    g_sink = d0;
+    g_sink_00ab0a30 = d0;
 }
 
 inline void Ab0a30Owner::FUN_00ab0d50(int arg, Ab0a30Msg msg)
@@ -8684,7 +8684,7 @@ inline void Ab0a30Owner::FUN_00ab0d50(int arg, Ab0a30Msg msg)
     unsigned int e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21,
         e22, e23, e24, e25, e26, e27, e28, e29, e30, e31, e32, e33, e34, e35, e36, e37, e38, e39, e40, e41, e42, e43,
         e44;
-    e0 = g_sink + arg;
+    e0 = g_sink_00ab0a30 + arg;
     e1 = e0;
     e2 = e1;
     e3 = e2;
@@ -8774,7 +8774,7 @@ inline void Ab0a30Owner::FUN_00ab0d50(int arg, Ab0a30Msg msg)
     e42 = e41 + 1;
     e43 = e42 + 1;
     e44 = e43 + 1;
-    g_sink = e0;
+    g_sink_00ab0a30 = e0;
 }
 
 // @fnv 0x00ab0a30

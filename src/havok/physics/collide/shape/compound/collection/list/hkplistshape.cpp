@@ -778,7 +778,7 @@ S00cf5140_Bool S00cf5140_Obj::FUN_00cf5140(const S00cf5140_Input& input, S00cf51
 
 // sub ecx,0x10; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x10).
-struct PrimaryBase
+struct FnvHavok00cf5820_PrimaryBase
 {
     virtual void FUN_00cf5820();
     int unk04;
@@ -786,19 +786,19 @@ struct PrimaryBase
     int unk0C;
 };
 
-struct SecondaryBase
+struct FnvHavok00cf5820_SecondaryBase
 {
     virtual void FUN_00cf5820();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00cf5820_Derived : FnvHavok00cf5820_PrimaryBase, FnvHavok00cf5820_SecondaryBase
 {
-    Derived();
+    FnvHavok00cf5820_Derived();
 // @fnv 0x00cf5820
     virtual void FUN_00cf5820();
 };
 
-Derived::Derived()
+FnvHavok00cf5820_Derived::FnvHavok00cf5820_Derived()
 {}
 
 namespace fnv_00cf5750 {

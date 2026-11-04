@@ -8037,8 +8037,8 @@ static __declspec(noinline) void FUN_00c92950(PhantomWorld* world, PhantomSink* 
     }
 }
 PhantomWorld* volatile g_world;
-PhantomSink* volatile g_out;
-void invokePhantomCopy() { FUN_00c92950(g_world, g_out); }
+PhantomSink* volatile FnvHavok_hkpworld_g_out;
+void invokePhantomCopy() { FUN_00c92950(g_world, FnvHavok_hkpworld_g_out); }
 
 struct MonitorStream {
     char* start;
@@ -9015,26 +9015,26 @@ Own_00c98320* make_00c98320() { static Own_00c98320 o; return &o; }
 
 // sub ecx,8; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (8).
-struct PrimaryBase
+struct FnvHavok00c98330_PrimaryBase
 {
     virtual void FUN_00c98330();
     int unk04;
     int unk08;
 };
 
-struct SecondaryBase
+struct FnvHavok00c98330_SecondaryBase
 {
     virtual void FUN_00c98330();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00c98330_Derived : FnvHavok00c98330_PrimaryBase, FnvHavok00c98330_SecondaryBase
 {
-    Derived();
+    FnvHavok00c98330_Derived();
 // @fnv 0x00c98330
     virtual void FUN_00c98330();
 };
 
-Derived::Derived()
+FnvHavok00c98330_Derived::FnvHavok00c98330_Derived()
 {
 }
 

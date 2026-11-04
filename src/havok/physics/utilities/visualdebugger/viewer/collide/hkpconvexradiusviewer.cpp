@@ -989,35 +989,35 @@ D69190Object::D69190Object()
 // The override is DECLARED ONLY, so the thunk is the single defined
 // function symbol carrying the name FUN_00d691a0, and a defined key function in the
 // derived class makes the vftable that references the thunk be emitted here.
-struct AdjBase1
+struct FnvHavok00d691a0_AdjBase1
 {
-    AdjBase1();
+    FnvHavok00d691a0_AdjBase1();
     virtual void FUN_00d691a0();
     char pad[0x04];
 };
 
-struct AdjBase2
+struct FnvHavok00d691a0_AdjBase2
 {
-    AdjBase2();
+    FnvHavok00d691a0_AdjBase2();
 // @fnv 0x00d691a0
     virtual void FUN_00d691a0();
 };
 
-struct AdjOwner : AdjBase1, AdjBase2
+struct FnvHavok00d691a0_AdjOwner : FnvHavok00d691a0_AdjBase1, FnvHavok00d691a0_AdjBase2
 {
-    AdjOwner();
+    FnvHavok00d691a0_AdjOwner();
     virtual void key_fn();  // key function - defined, so the vftable is emitted
     void FUN_00d691a0();    // the shared override - declared only
 };
 
-AdjOwner::AdjOwner()
+FnvHavok00d691a0_AdjOwner::FnvHavok00d691a0_AdjOwner()
 {}
-void AdjOwner::key_fn()
+void FnvHavok00d691a0_AdjOwner::key_fn()
 {}
 
-AdjOwner* make_adj_owner()
+FnvHavok00d691a0_AdjOwner* FnvHavok_hkpconvexradiusviewer_make_adj_owner()
 {
-    static AdjOwner o;
+    static FnvHavok00d691a0_AdjOwner o;
     return &o;
 }
 

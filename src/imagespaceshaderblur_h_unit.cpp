@@ -319,7 +319,7 @@ FUN_00b8e900::~FUN_00b8e900()
 
 // Adjustor thunk for FUN_00b8e930: "sub ecx, 0x6c; jmp FUN_00b8e900".
 // Derived overrides a virtual inherited from a secondary base; the thunk moves this back by the primary base size (vptr + 26 ints = 0x6c).
-struct PrimaryBase
+struct PrimaryBase_00b8e930
 {
     virtual void FUN_00b8e930();
     int unk04;
@@ -350,19 +350,19 @@ struct PrimaryBase
     int unk68;
 };
 
-struct SecondaryBase
+struct SecondaryBase_00b8e930
 {
     virtual void FUN_00b8e930();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_00b8e930 : PrimaryBase_00b8e930, SecondaryBase_00b8e930
 {
-    Derived();
+    Derived_00b8e930();
 // @fnv 0x00b8e930
     virtual void FUN_00b8e930();
 };
 
-Derived::Derived()
+Derived_00b8e930::Derived_00b8e930()
 {}
 
 namespace fnv_00b8ead0 {

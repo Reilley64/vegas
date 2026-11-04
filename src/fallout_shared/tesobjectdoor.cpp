@@ -2428,7 +2428,7 @@ TESObjectDOOR::~TESObjectDOOR()
 // Adjustor thunk: sub ecx,0x3c; jmp FUN_005174d0
 // Both bases declare the same virtual; Derived overrides it, so the compiler
 // emits a this-adjusting thunk in Derived's vtable for the secondary base.
-struct PrimaryBase
+struct PrimaryBase_00519cb0
 {
     virtual void FUN_00519cb0();
     int unk04;
@@ -2447,19 +2447,19 @@ struct PrimaryBase
     int unk38;
 };
 
-struct SecondaryBase
+struct SecondaryBase_00519cb0
 {
     virtual void FUN_00519cb0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_00519cb0 : PrimaryBase_00519cb0, SecondaryBase_00519cb0
 {
-    Derived();
+    Derived_00519cb0();
 // @fnv 0x00519cb0
     virtual void FUN_00519cb0();
 };
 
-Derived::Derived()
+Derived_00519cb0::Derived_00519cb0()
 {}
 
 #include "generated/data/fallout_shared/tesobjectdoor.inc"

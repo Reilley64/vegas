@@ -2490,7 +2490,7 @@ static __declspec(noinline) void CopyFloatsFromBytes(float* dst, const unsigned 
 }
 unsigned char volatile g_src[4];
 float volatile g_dst[4];
-void caller()
+void probeCaller_00dd31d0()
 {
     CopyFloatsFromBytes((float*)g_dst, (const unsigned char*)g_src);
 }
@@ -3338,7 +3338,7 @@ void mask_test_caller();
 
 static void CopyFloatsFromBytes(float* dst, const unsigned char* src);
 
-void caller();
+void probeCaller_00dd31d0();
 
 static void StoreBigEndian(BEStoreTarget* self, unsigned int value);
 
@@ -3662,11 +3662,11 @@ static __declspec(noinline) bool FUN_00dd2fb0(const __m128* a, const __m128* b)
 volatile intptr_t g_in1;
 volatile intptr_t g_in0;
 
-volatile int g_out;
+volatile int g_out_00dd2fb0;
 
 void caller_dd2fb0()
 {
-    g_out = FUN_00dd2fb0((const __m128*)g_in0, (const __m128*)g_in1);
+    g_out_00dd2fb0 = FUN_00dd2fb0((const __m128*)g_in0, (const __m128*)g_in1);
 }
 
 struct Comparison4

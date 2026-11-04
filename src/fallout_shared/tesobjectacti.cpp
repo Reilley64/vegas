@@ -762,7 +762,7 @@ void ActiV511::FUN_00511120(TESForm* pkForm)
 
 // First base of the complete object: 0x3C bytes long (vtable pointer plus the
 // state that precedes the second base sub-object).
-struct ThunkPrimary
+struct ThunkPrimary_00511940
 {
     virtual void FUN_00511940();
     int unk04;
@@ -782,19 +782,19 @@ struct ThunkPrimary
 };
 
 // Second base of the complete object, placed at offset 0x3C.
-struct ThunkSecondary
+struct ThunkSecondary_00511940
 {
     virtual void FUN_00511940();
 };
 
 // Complete object: the virtual is overridden here, so the vtable slot of the
 // second base needs a `this` adjusting thunk.
-struct ThunkDerived : public ThunkPrimary, public ThunkSecondary
+struct ThunkDerived_00511940 : public ThunkPrimary_00511940, public ThunkSecondary_00511940
 {
 // @fnv 0x00511940
     virtual void FUN_00511940();
-    ThunkDerived();
+    ThunkDerived_00511940();
 };
 
-ThunkDerived::ThunkDerived()
+ThunkDerived_00511940::ThunkDerived_00511940()
 {}

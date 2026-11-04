@@ -611,25 +611,25 @@ void S_00d9ea80::FUN_00d9ea80(int arg)
 }
 
 // sub ecx,8; jmp FUN_00d9ee20  ==  MSVC adjustor thunk (multiple inheritance, 8-byte primary base).
-struct AdjPrimaryBase
+struct FnvHavok00d9ee10_AdjPrimaryBase
 {
     virtual void FUN_00d9ee10();
     int unk04;
 };
 
-struct AdjSecondaryBase
+struct FnvHavok00d9ee10_AdjSecondaryBase
 {
     virtual void FUN_00d9ee10();
 };
 
-struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
+struct FnvHavok00d9ee10_AdjDerived : FnvHavok00d9ee10_AdjPrimaryBase, FnvHavok00d9ee10_AdjSecondaryBase
 {
-    AdjDerived();
+    FnvHavok00d9ee10_AdjDerived();
 // @fnv 0x00d9ee10
     virtual void FUN_00d9ee10();
 };
 
-AdjDerived::AdjDerived()
+FnvHavok00d9ee10_AdjDerived::FnvHavok00d9ee10_AdjDerived()
 {}
 
 struct NotifyProperties

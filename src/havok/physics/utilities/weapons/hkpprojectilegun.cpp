@@ -918,25 +918,25 @@ hkpProjectileGun::hkpProjectileGun(void* pkWorld) : FUN_00e466a0::hkpFirstPerson
 }  // namespace fnv_00e45010
 
 // sub ecx,8; jmp target  ==  MSVC adjustor thunk
-struct PrimaryBase
+struct FnvHavok00e450a0_PrimaryBase
 {
     virtual void FUN_00e450a0();
     int unk04;
 };
 
-struct SecondaryBase
+struct FnvHavok00e450a0_SecondaryBase
 {
     virtual void FUN_00e450a0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00e450a0_Derived : FnvHavok00e450a0_PrimaryBase, FnvHavok00e450a0_SecondaryBase
 {
-    Derived();
+    FnvHavok00e450a0_Derived();
 // @fnv 0x00e450a0
     virtual void FUN_00e450a0();
 };
 
-Derived::Derived()
+FnvHavok00e450a0_Derived::FnvHavok00e450a0_Derived()
 {}
 
 struct ProjectileBodyE44C : hkpEntityE44C

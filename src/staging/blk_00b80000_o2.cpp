@@ -16936,7 +16936,7 @@ float B9DBE0Fader::ComputeFade(const B9DBE0Bound* pkBound)
 }
 
 // sub ecx,0x6c; jmp target: MSVC adjustor thunk for the secondary base (PrimaryBase is 0x6c bytes).
-struct PrimaryBase
+struct PrimaryBase_00b8d430
 {
     virtual void FUN_00b8d430();
     int unk04;
@@ -16967,19 +16967,19 @@ struct PrimaryBase
     int unk68;
 };
 
-struct SecondaryBase
+struct SecondaryBase_00b8d430
 {
     virtual void FUN_00b8d430();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_00b8d430 : PrimaryBase_00b8d430, SecondaryBase_00b8d430
 {
-    Derived();
+    Derived_00b8d430();
 // @fnv 0x00b8d430
     virtual void FUN_00b8d430();
 };
 
-Derived::Derived()
+Derived_00b8d430::Derived_00b8d430()
 {}
 
 namespace fnv_00b8d6f0 {
@@ -17242,7 +17242,7 @@ Own_00b8dd70* make_00b8dd70()
 // it and defines only its constructor, which is what makes the compiler emit
 // the vtables and the adjusting thunk. The virtual stays undefined, so the
 // thunk's jump is a relocation to an external symbol.
-struct ThunkPrimaryBase
+struct ThunkPrimaryBase_00b8dec0
 {
     virtual void FUN_00b8dec0();
     int unk04;
@@ -17273,19 +17273,19 @@ struct ThunkPrimaryBase
     int unk68;
 };
 
-struct ThunkSecondaryBase
+struct ThunkSecondaryBase_00b8dec0
 {
     virtual void FUN_00b8dec0();
 };
 
-struct ThunkDerived : ThunkPrimaryBase, ThunkSecondaryBase
+struct ThunkDerived_00b8dec0 : ThunkPrimaryBase_00b8dec0, ThunkSecondaryBase_00b8dec0
 {
-    ThunkDerived();
+    ThunkDerived_00b8dec0();
 // @fnv 0x00b8dec0
     virtual void FUN_00b8dec0();
 };
 
-ThunkDerived::ThunkDerived()
+ThunkDerived_00b8dec0::ThunkDerived_00b8dec0()
 {}
 
 namespace fnv_00b8e010 {
@@ -17920,7 +17920,7 @@ Derived::Derived()
 
 // FUN_00b8fbd0 : 8-byte MSVC adjustor thunk.
 //   sub ecx, 0x6c ; jmp FUN_00b8fba0
-struct AdjPrimaryBase
+struct AdjPrimaryBase_00b8fbd0
 {
     virtual void FUN_00b8fbd0();
     int m_04;
@@ -17951,19 +17951,19 @@ struct AdjPrimaryBase
     int m_68;
 };
 
-struct AdjSecondaryBase
+struct AdjSecondaryBase_00b8fbd0
 {
     virtual void FUN_00b8fbd0();
 };
 
-struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
+struct AdjDerived_00b8fbd0 : AdjPrimaryBase_00b8fbd0, AdjSecondaryBase_00b8fbd0
 {
-    AdjDerived();
+    AdjDerived_00b8fbd0();
 // @fnv 0x00b8fbd0
     virtual void FUN_00b8fbd0();
 };
 
-AdjDerived::AdjDerived()
+AdjDerived_00b8fbd0::AdjDerived_00b8fbd0()
 {}
 
 struct S_Base1

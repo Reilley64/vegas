@@ -704,28 +704,28 @@ D67900Object::D67900Object()
 // The override is DECLARED ONLY, so the thunk is the single defined
 // function symbol carrying the name FUN_00d67920, and a defined key function in the
 // derived class makes the vftable that references the thunk be emitted here.
-struct AdjBase1 {
-    AdjBase1();
+struct FnvHavok00d67920_AdjBase1 {
+    FnvHavok00d67920_AdjBase1();
     virtual void FUN_00d67920();
     char pad[0x24];
 };
 
-struct AdjBase2 {
-    AdjBase2();
+struct FnvHavok00d67920_AdjBase2 {
+    FnvHavok00d67920_AdjBase2();
 // @fnv 0x00d67920
     virtual void FUN_00d67920();
 };
 
-struct AdjOwner : AdjBase1, AdjBase2 {
-    AdjOwner();
+struct FnvHavok00d67920_AdjOwner : FnvHavok00d67920_AdjBase1, FnvHavok00d67920_AdjBase2 {
+    FnvHavok00d67920_AdjOwner();
     virtual void key_fn();    // key function - defined, so the vftable is emitted
     void FUN_00d67920();              // the shared override - declared only
 };
 
-AdjOwner::AdjOwner() { }
-void AdjOwner::key_fn() { }
+FnvHavok00d67920_AdjOwner::FnvHavok00d67920_AdjOwner() { }
+void FnvHavok00d67920_AdjOwner::key_fn() { }
 
-AdjOwner* make_adj_owner() { static AdjOwner o; return &o; }
+FnvHavok00d67920_AdjOwner* FnvHavok_hkprigidbodyinertiaviewer_make_adj_owner() { static FnvHavok00d67920_AdjOwner o; return &o; }
 
 namespace fnv_00d67930 {
 

@@ -1649,7 +1649,7 @@ FUN_00cd1e90_cls::~FUN_00cd1e90_cls()
 {}
 
 // sub ecx,0x58; jmp target == MSVC adjustor thunk (second base's vtable slot, this moved back by sizeof(PrimaryBase)=0x58).
-struct PrimaryBase
+struct FnvHavok00cd28a0_PrimaryBase
 {
     virtual void FUN_00cd28a0();
     int unk04;
@@ -1675,19 +1675,19 @@ struct PrimaryBase
     int unk54;
 };
 
-struct SecondaryBase
+struct FnvHavok00cd28a0_SecondaryBase
 {
     virtual void FUN_00cd28a0();
 };
 
-struct ThunkOwner : PrimaryBase, SecondaryBase
+struct FnvHavok00cd28a0_ThunkOwner : FnvHavok00cd28a0_PrimaryBase, FnvHavok00cd28a0_SecondaryBase
 {
-    ThunkOwner();
+    FnvHavok00cd28a0_ThunkOwner();
 // @fnv 0x00cd28a0
     virtual void FUN_00cd28a0();
 };
 
-ThunkOwner::ThunkOwner()
+FnvHavok00cd28a0_ThunkOwner::FnvHavok00cd28a0_ThunkOwner()
 {}
 
 // FUN_00cd28b0: MSVC this-adjusting thunk.
@@ -1708,35 +1708,35 @@ ThunkOwner::ThunkOwner()
 //     function symbol carrying the name FUN_00cd28b0,
 //   * a defined key function in the derived class, so that its vftable
 //     (which references the thunk) is emitted in this translation unit.
-struct AdjBase1
+struct FnvHavok00cd28b0_AdjBase1
 {
-    AdjBase1();
+    FnvHavok00cd28b0_AdjBase1();
     virtual void FUN_00cd28b0();
     char pad[0x58];  // vptr + 0x58 -> size 0x5c, so AdjBase2 lands at +0x5c
 };
 
-struct AdjBase2
+struct FnvHavok00cd28b0_AdjBase2
 {
-    AdjBase2();
+    FnvHavok00cd28b0_AdjBase2();
 // @fnv 0x00cd28b0
     virtual void FUN_00cd28b0();
 };
 
-struct AdjOwner : AdjBase1, AdjBase2
+struct FnvHavok00cd28b0_AdjOwner : FnvHavok00cd28b0_AdjBase1, FnvHavok00cd28b0_AdjBase2
 {
-    AdjOwner();
+    FnvHavok00cd28b0_AdjOwner();
     virtual void key_fn();  // key function - defined, so the vftable is emitted
     void FUN_00cd28b0();    // the shared override - declared only
 };
 
-AdjOwner::AdjOwner()
+FnvHavok00cd28b0_AdjOwner::FnvHavok00cd28b0_AdjOwner()
 {}
-void AdjOwner::key_fn()
+void FnvHavok00cd28b0_AdjOwner::key_fn()
 {}
 
-AdjOwner* make_adj_owner()
+FnvHavok00cd28b0_AdjOwner* FnvHavok_hkpphysicscontext_make_adj_owner()
 {
-    static AdjOwner o;
+    static FnvHavok00cd28b0_AdjOwner o;
     return &o;
 }
 

@@ -496,30 +496,30 @@ void FUN_00df6e00(const QueryJob* job, const QueryInput* source, PairCommand* co
 // the derived implementation.  The implementation itself lives in another
 // translation unit, so it is only declared here.
 
-struct PrimaryBase
+struct FnvHavok00df6db0_PrimaryBase
 {
-    PrimaryBase();
+    FnvHavok00df6db0_PrimaryBase();
     virtual void FUN_00df6db0(int flag);
 };
 
-struct SecondaryBase
+struct FnvHavok00df6db0_SecondaryBase
 {
-    SecondaryBase();
+    FnvHavok00df6db0_SecondaryBase();
     virtual void FUN_00df6db0(int flag);
 };
 
-struct Derived : public PrimaryBase, public SecondaryBase
+struct FnvHavok00df6db0_Derived : public FnvHavok00df6db0_PrimaryBase, public FnvHavok00df6db0_SecondaryBase
 {
-    Derived();
+    FnvHavok00df6db0_Derived();
 // @fnv 0x00df6db0
     virtual void FUN_00df6db0(int flag);
 };
 
-PrimaryBase::PrimaryBase()
+FnvHavok00df6db0_PrimaryBase::FnvHavok00df6db0_PrimaryBase()
 {}
-SecondaryBase::SecondaryBase()
+FnvHavok00df6db0_SecondaryBase::FnvHavok00df6db0_SecondaryBase()
 {}
-Derived::Derived() : PrimaryBase(), SecondaryBase()
+FnvHavok00df6db0_Derived::FnvHavok00df6db0_Derived() : FnvHavok00df6db0_PrimaryBase(), FnvHavok00df6db0_SecondaryBase()
 {}
 
 struct DF6DC0Primary

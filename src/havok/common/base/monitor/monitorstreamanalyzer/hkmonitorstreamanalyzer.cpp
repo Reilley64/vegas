@@ -1754,14 +1754,14 @@ static __declspec(noinline) RecEntry* FUN_00e0cb80(RecBox* box, NameArg name, bo
 }
 volatile intptr_t g_in_name;
 RecBox* volatile g_in_box;
-void* volatile g_out;
+void* volatile FnvHavok_hkmonitorstreamanalyzer_g_out;
 void* volatile g_out2;
 void CallTarget_e0cb80()
 {
     RecBox* box = g_in_box;
     NameArg a;
     a.unk00 = (const char*)g_in_name;
-    g_out = FUN_00e0cb80(box, a, true);
+    FnvHavok_hkmonitorstreamanalyzer_g_out = FUN_00e0cb80(box, a, true);
     a.unk00 = (const char*)g_in_name;
     g_out2 = FUN_00e0cb80(box, a, false);
 }

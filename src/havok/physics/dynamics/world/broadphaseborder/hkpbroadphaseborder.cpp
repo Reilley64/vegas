@@ -504,7 +504,7 @@ hkBroadPhaseBorder::hkBroadPhaseBorder() : hkBroadPhasePrimary(), hkBroadPhaseSe
 
 // sub ecx,0x10; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x10).
-struct PrimaryBase
+struct FnvHavok00d0bbe0_PrimaryBase
 {
     virtual void FUN_00d0bbe0();
     int unk04;
@@ -512,19 +512,19 @@ struct PrimaryBase
     int unk0C;
 };
 
-struct SecondaryBase
+struct FnvHavok00d0bbe0_SecondaryBase
 {
     virtual void FUN_00d0bbe0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d0bbe0_Derived : FnvHavok00d0bbe0_PrimaryBase, FnvHavok00d0bbe0_SecondaryBase
 {
-    Derived();
+    FnvHavok00d0bbe0_Derived();
 // @fnv 0x00d0bbe0
     virtual void FUN_00d0bbe0();
 };
 
-Derived::Derived()
+FnvHavok00d0bbe0_Derived::FnvHavok00d0bbe0_Derived()
 {}
 
 namespace fnv_00d0bbf0 {

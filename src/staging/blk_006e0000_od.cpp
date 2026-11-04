@@ -11316,7 +11316,7 @@ FUN_006e3c60::~FUN_006e3c60()
 // inherited class sits 0x10 bytes into the object, so the slot inherited from
 // that base has to move `this` back to the start of the derived object before
 // jumping to the implementation of the overridden virtual.
-struct PrimaryBase
+struct PrimaryBase_006e3f10
 {
     virtual void FUN_006e3f10();
     int unk04;
@@ -11324,19 +11324,19 @@ struct PrimaryBase
     int unk0C;
 };
 
-struct SecondaryBase
+struct SecondaryBase_006e3f10
 {
     virtual void FUN_006e3f10();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_006e3f10 : PrimaryBase_006e3f10, SecondaryBase_006e3f10
 {
-    Derived();
+    Derived_006e3f10();
 // @fnv 0x006e3f10
     virtual void FUN_006e3f10();
 };
 
-Derived::Derived()
+Derived_006e3f10::Derived_006e3f10()
 {}
 
 

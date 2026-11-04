@@ -2374,7 +2374,7 @@ extern float* volatile probeSquared;
 extern float* volatile probeParameter;
 extern const ExtentBox* volatile probeBox;
 extern const AxisValues* volatile probeDirection;
-void probeCaller()
+void probeCaller_00eb5010()
 {
     BoxInput b = {probeBox};
     AxisIndex a = {probeAxis0};

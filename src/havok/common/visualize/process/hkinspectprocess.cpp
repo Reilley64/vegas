@@ -863,25 +863,25 @@ int hkInspectProcessQ::FUN_00ddb770(const void* object, const hkClassQ* pClassIn
 }
 
 // sub ecx,8; jmp FUN_00ddbed0 == MSVC adjustor thunk for a secondary base vtable slot.
-struct PrimaryBase
+struct FnvHavok00ddbec0_PrimaryBase
 {
     virtual void FUN_00ddbec0();
     int unk04;
 };
 
-struct SecondaryBase
+struct FnvHavok00ddbec0_SecondaryBase
 {
     virtual void FUN_00ddbec0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00ddbec0_Derived : FnvHavok00ddbec0_PrimaryBase, FnvHavok00ddbec0_SecondaryBase
 {
-    Derived();
+    FnvHavok00ddbec0_Derived();
 // @fnv 0x00ddbec0
     virtual void FUN_00ddbec0();
 };
 
-Derived::Derived()
+FnvHavok00ddbec0_Derived::FnvHavok00ddbec0_Derived()
 {}
 
 namespace fnv_00ddb450 {

@@ -256,7 +256,7 @@ bool HairComparisonEntry::FUN_005fded0(TESForm* apCompare)
 // The primary base occupies 0x24 bytes; both bases declare the same virtual, and the
 // derived class defines only its constructor, so the compiler emits the this-adjusting
 // thunk for the secondary base's vtable slot.
-struct PrimaryBase
+struct PrimaryBase_005fe030
 {
     virtual void FUN_005fe030();
     int unk04;
@@ -269,17 +269,17 @@ struct PrimaryBase
     int unk20;
 };
 
-struct SecondaryBase
+struct SecondaryBase_005fe030
 {
     virtual void FUN_005fe030();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_005fe030 : PrimaryBase_005fe030, SecondaryBase_005fe030
 {
-    Derived();
+    Derived_005fe030();
 // @fnv 0x005fe030
     virtual void FUN_005fe030();
 };
 
-Derived::Derived()
+Derived_005fe030::Derived_005fe030()
 {}

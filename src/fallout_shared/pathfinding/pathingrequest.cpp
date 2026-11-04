@@ -662,7 +662,7 @@ void PathingRequestDebugView::PrintDebugInfo(PathingDebugOutput* output)
 
 // sub ecx,0x10; jmp FUN_006e3880  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x10).
-struct PrimaryBase
+struct PrimaryBase_006e3f20
 {
     virtual void FUN_006e3f20();
     int unk04;
@@ -670,19 +670,19 @@ struct PrimaryBase
     int unk0C;
 };
 
-struct SecondaryBase
+struct SecondaryBase_006e3f20
 {
     virtual void FUN_006e3f20();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct Derived_006e3f20 : PrimaryBase_006e3f20, SecondaryBase_006e3f20
 {
-    Derived();
+    Derived_006e3f20();
 // @fnv 0x006e3f20
     virtual void FUN_006e3f20();
 };
 
-Derived::Derived()
+Derived_006e3f20::Derived_006e3f20()
 {}
 
 #include "generated/data/fallout_shared/pathfinding/pathingrequest.inc"

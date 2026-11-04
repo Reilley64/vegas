@@ -264,7 +264,7 @@ volatile void* g_v;
 volatile void* g_n;
 volatile void* g_m;
 
-void dummy_caller()
+void FnvHavok_hkpcollidecapsuleutil_dummy_caller()
 {
     FUN_00cd6120((const float*)g_p, (const hkVector4*)g_v, *(hkVector4*)g_n, *(hkMatrix4*)g_m);
 }

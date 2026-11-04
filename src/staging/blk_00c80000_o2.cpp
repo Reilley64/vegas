@@ -13,6 +13,7 @@
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C00624070.h"
 #include "fnv/decl/C68D50World.h"
 #include "fnv/decl/EntityOwner_c87b.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -15987,11 +15988,6 @@ void __cdecl FUN_00c9e3e0(void)
 }
 
 #include <stdlib.h>
-struct C00624070
-{
-    unsigned int value;
-    __declspec(noinline) bool FUN_00624070();
-};
 
 
 
@@ -16047,11 +16043,6 @@ bool FUN_00c84740(unsigned int a, unsigned int b)
     return Mask135(cachedA, cachedB);
 }
 
-__declspec(noinline) bool C00624070::FUN_00624070()
-{
-    unsigned int layer = value & 127;
-    return layer == 8 || layer == 29;
-}
 
 // @fnv 0x00c85d20
 struct B0

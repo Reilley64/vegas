@@ -16,6 +16,7 @@
 #include "fnv/decl/BSMultiBoundSphere.h"
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C00624070.h"
 #include "fnv/decl/C68E30Owner.h"
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/Callees.h"
@@ -1579,10 +1580,6 @@ void FUN_00623310_Class::FUN_00623310(float scale)
 
 struct H0043b4d0
 {
-};
-struct C00624070
-{
-    bool FUN_00624070();
 };
 // @fnv 0x00624070
 bool C00624070::FUN_00624070()

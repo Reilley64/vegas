@@ -16,6 +16,7 @@ add_library(game STATIC
   src/fileformat/plugin_header.cpp
   src/runtime/crt.cpp
   src/runtime/havok_router_tls.cpp
+  src/runtime/havok_memory_prerequisite.cpp
   src/runtime/tls.cpp
 )
 target_include_directories(game PUBLIC src)

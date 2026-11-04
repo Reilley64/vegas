@@ -662,20 +662,13 @@ void TaskQueueInterface::SetTaskFlag(bool enabled)
     reinterpret_cast<::FUN_0043b370_cls *>(this)->FUN_0043b370(enabled, 0x4000);
 }
 
-struct MersenneTwister
-{
-    unsigned int GetRandomUInt(unsigned int);
-};
+#include "bscore/bsrandom.h"
 
-struct FUN_00476be0_Class
-{
-    unsigned int FUN_00476be0();
-};
 
 // @fnv 0x00476be0
-unsigned int FUN_00476be0_Class::FUN_00476be0()
+unsigned int MersenneTwister::FUN_00476be0()
 {
-    return reinterpret_cast<MersenneTwister*>(this)->GetRandomUInt(0xffffffff);
+    return GetRandomUInt(0xffffffff);
 }
 
 struct FUN_00476c70_Class

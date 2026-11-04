@@ -458,18 +458,9 @@ ShaderArrayHolder* ShaderArrayOwner::EnsureShaderArrayEntries(int p1, int, int, 
     return m_pHolder;
 }
 
-struct FUN_00aa5140
-{
-    FUN_00aa5140();
-    static FUN_00aa5140& Get()
-    {
-        static FUN_00aa5140 generator;
-        return generator;
-    }
-};
 inline float RandomRange(const float& high, const float& low)
 {
-    unsigned int random = ((int)(reinterpret_cast<::MersenneTwister *>(&(FUN_00aa5140::Get()))->GetRandomUInt(-1)));
+    unsigned int random = ((int)(MersenneTwister::GetRandomGenerator()->GetRandomUInt(-1)));
     float result = low + (high - low) * random * 2.3283064365386963e-10;
     return result;
 }
@@ -504,9 +495,9 @@ void ParticleInitializer::InitParticles(float time)
         reinterpret_cast<Particle*>(pParticles)[i].unk24 = rotationSpeed;
         reinterpret_cast<Particle*>(pParticles)[i].unk28 = RandomRange(1.0f + speedVariation, 1.0f - speedVariation);
         int boundX = (int)m_fParticleParameter12;
-        float textureX = (float)((int)(reinterpret_cast<::MersenneTwister *>(&(FUN_00aa5140::Get()))->GetRandomUInt(boundX)));
+        float textureX = (float)((int)(MersenneTwister::GetRandomGenerator()->GetRandomUInt(boundX)));
         int boundY = (int)m_fParticleParameter13;
-        float textureY = (float)((int)(reinterpret_cast<::MersenneTwister *>(&(FUN_00aa5140::Get()))->GetRandomUInt(boundY)));
+        float textureY = (float)((int)(MersenneTwister::GetRandomGenerator()->GetRandomUInt(boundY)));
         float v = textureY / m_fParticleParameter13;
         float u = textureX / m_fParticleParameter12;
         float texture = v * 100.0 + u;

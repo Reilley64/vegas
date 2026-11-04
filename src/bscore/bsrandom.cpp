@@ -1,8 +1,7 @@
 
 // bscore/bsrandom.cpp
 //
-// Translation unit that emits the bsrandom.inl helper bodies as out-of-line
-// /Gy comdats, exactly as the original consumer translation units did.
+// Owns the global random generator and the bsrandom.inl helper definitions.
 #include "fnv/decl/FUN_00476b90_shell.h"
 #include "fnv/decl/FUN_00476be0_Class.h"
 #include "fnv/symbols_00476000.h"

@@ -274,20 +274,12 @@ FUN_00aa18c0::~FUN_00aa18c0()
 }
 
 
-struct MersenneTwister
-{
-    int _0;
-    int _4;
-    char _8[0x9C0];
-    int _9C8;
-    void FUN_00aa5170(unsigned int);
-    void Seed(unsigned int);
-};
+#include "bscore/bsrandom.h"
 // @fnv 0x00aa5170
 void MersenneTwister::FUN_00aa5170(unsigned int a)
 {
-    _4 = 0;
-    _9C8 = 0x271;
+    m_uiLastValue = 0;
+    mti = 0x271;
     Seed(a);
 }
 

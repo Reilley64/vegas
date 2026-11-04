@@ -6,17 +6,7 @@
 #include <cstring>
 #include "runtime/crt.h"
 #include "fnv/symbols_011f6000.h"
-class MersenneTwister
-{
-  public:
-    MersenneTwister();
-    unsigned int GetRandomUInt(unsigned int);
-    static __forceinline MersenneTwister& GetRandomGenerator()
-    {
-        static MersenneTwister random;
-        return random;
-    }
-};
+#include "bscore/bsrandom.h"
 class BSGameSound
 {
   public:

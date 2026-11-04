@@ -2504,7 +2504,7 @@ bool FUN_0075e0b0_shell::FUN_0075e0b0(Actor_75e0b0* actor, int amount)
     {
         int chance = ::ComputeClampedSettingSum(reinterpret_cast<::ActorValueOwner *>(&((*reinterpret_cast<::fnv_0075e0b0::Actor_75e0b0 * *>(&::_g_thePlayer))->av))->GetActorValueAsInteger((::ActorValue::Index)(42)), actor->av.GetValue(42), (float)amount);
         (*reinterpret_cast<::fnv_0075e0b0::Actor_75e0b0 * *>(&::_g_thePlayer))->UpdateSkill(42, 1);
-        if (reinterpret_cast<::MersenneTwister *>((((::fnv_0075e0b0::Random_75e0b0 *)(::MersenneTwister::GetRandomGenerator()))))->GetRandomUInt({}) < (unsigned int)chance)
+        if (::MersenneTwister::GetRandomGenerator()->GetRandomUInt({}) < (unsigned int)chance)
         {
             if (active == &embedded && !warned)
             {

@@ -469,20 +469,13 @@ void FUN_004dfe80_Class::SetSlotValue(int index, void* value)
     *(GO*)((char*)this + index * 4 + 0x60) = value;
 }
 
-struct MersenneTwister
-{
-    static MersenneTwister* GetRandomGenerator();
-};
+#include "bscore/bsrandom.h"
 
-struct FUN_004dfec0_StandIn
-{
-    void FUN_004dfec0();
-};
 
 // @fnv 0x004dfea0
 void FUN_004dfea0()
 {
-    reinterpret_cast<FUN_004dfec0_StandIn*>(MersenneTwister::GetRandomGenerator())->FUN_004dfec0();
+    MersenneTwister::GetRandomGenerator()->FUN_004dfec0();
 }
 
 struct FUN_004d4f10_StandIn : public NiTPointerMap<int, int>
@@ -3150,14 +3143,10 @@ C4DF040Node* __cdecl CreateDebrisNode(unsigned int uiPieceCount, float fWidthSca
     return pkNodeRoot;
 }
 
-struct FUN_004dfec0_Class
-{
-    float FUN_004dfec0();
-};
 // @fnv 0x004dfec0
-float FUN_004dfec0_Class::FUN_004dfec0()
+float MersenneTwister::FUN_004dfec0()
 {
-    unsigned int randomValue = reinterpret_cast<::FUN_00476be0_Class *>(this)->FUN_00476be0();
+    unsigned int randomValue = FUN_00476be0();
     return static_cast<float>(static_cast<double>(randomValue) * DAT_010229b8 - ::g_01012070);
 }
 

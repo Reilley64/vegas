@@ -3131,18 +3131,9 @@ struct IOManager
     virtual void v48(AudioTask_adf080::FUN_00ae6f50*);
 };
 
-struct FUN_00aa5140
-{
-    unsigned int state[624];
-    unsigned int index;
-    unsigned int seed;
-    unsigned int mode;
-    FUN_00aa5140();
-};
 static __forceinline float AudioRandomRange_adf080(float minimum, float maximum)
 {
-    static FUN_00aa5140 generator;
-    UInt32 random = reinterpret_cast<::MersenneTwister *>(&(generator))->GetRandomUInt(0xffffffff);
+    UInt32 random = MersenneTwister::GetRandomGenerator()->GetRandomUInt(0xffffffff);
     return (float)(minimum + random * (maximum - minimum) / 4294967296.0);
 }
 

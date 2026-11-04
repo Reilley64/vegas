@@ -30520,7 +30520,7 @@ void Obj120::UpdatePackageExecution(Obj120* actor)
             if (speechTimer <= 0.0 && !reinterpret_cast<::FUN_00969860_Class *>((((Obj120*)(*reinterpret_cast<intptr_t *>(&::_g_thePlayer)))))->FUN_00969860() &&
                 !reinterpret_cast<::FUN_008defe0_shell *>((((Obj120*)(*reinterpret_cast<intptr_t *>(&::_g_thePlayer)))))->FUN_008defe0())
             {
-                int roll = reinterpret_cast<::FUN_00944480_shell *>((((::fnv_008dddf0::Obj120 *)(::MersenneTwister::GetRandomGenerator()))))->IntInRange({}, {});
+                int roll = ::MersenneTwister::GetRandomGenerator()->IntInRange({}, {});
                 if (roll <= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::g_011cd838)))))))
                 {
                     Obj120* topic = ((::fnv_008dddf0::Obj120 *)(::fnv_0061a2d0::GetTopicSubTypeName(2, 3)));

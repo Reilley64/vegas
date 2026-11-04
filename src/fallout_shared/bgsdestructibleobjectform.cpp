@@ -461,35 +461,12 @@ void FUN_00476ab0(BSFadeNode_Dummy* pThis)
     ((Fn)&FUN_00476ae0)(pThis, true);
 }
 
-struct MersenneTwister
-{
-    void Init(unsigned int);
-    void Seed(unsigned int);
-    void Kill();
-    unsigned int GetRandomUInt(unsigned int, unsigned int);
-    unsigned int GetRandomUInt();
-    unsigned int GetRandomUInt(unsigned int);
-    int Int(int, int);
-    int Int();
-    float Float0To1();
-    float FloatNeg1To1();
-    float FloatTwoPi();
-    float FloatNegPiToPi();
-    bool Bool(float);
-    unsigned int m_uiSeed;
-    unsigned int m_uiLastValue;
-    char mt[2496];
-    unsigned int mti;
-};
-struct FUN_00476b90_shell : public MersenneTwister
-{
-    float FUN_00476b90(float, float);
-};
+#include "bscore/bsrandom.h"
 
 // @fnv 0x00476b90
-float FUN_00476b90_shell::FUN_00476b90(float afMin, float afMax)
+float MersenneTwister::FUN_00476b90(float afMin, float afMax)
 {
-    unsigned int r = reinterpret_cast<::FUN_00476be0_Class *>(this)->FUN_00476be0();
+    unsigned int r = FUN_00476be0();
     return (float)(r * (afMax - afMin) / 4294967296.0 + afMin);
 }
 

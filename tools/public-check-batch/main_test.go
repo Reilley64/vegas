@@ -717,3 +717,74 @@ regex = 'fixture-token-[0-9]{8}'
 		}
 	}
 }
+
+func TestRootGitleaksCPPPolicy(t *testing.T) {
+	t.Setenv("GITLEAKS_CONFIG", "")
+	t.Setenv("GITLEAKS_CONFIG_TOML", "")
+	root, err := filepath.Abs("../..")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defaults, err := loadSecrets(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer defaults.close()
+	policy, err := loadSecrets(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer policy.close()
+	check := func(t *testing.T, text string, want bool) {
+		t.Helper()
+		baseline, err := defaults.scan(context.Background(), strings.NewReader(text+"\n"))
+		if err != nil || !baseline {
+			t.Fatalf("default control: found=%v err=%v", baseline, err)
+		}
+		found, err := policy.scan(context.Background(), strings.NewReader(text+"\n"))
+		if err != nil || found != want {
+			t.Errorf("root batch policy: want=%v found=%v err=%v", want, found, err)
+		}
+		code, out := shell(t, root, []byte(text+"\n"), "text")
+		wantCode := 0
+		if want {
+			wantCode = 1
+		}
+		if code != wantCode || want && !strings.Contains(out, "gitleaks") {
+			t.Errorf("root shell policy: want=%d code=%d %s", wantCode, code, out)
+		}
+	}
+	// These six source expressions compare integer fields or declare typed map parameters.
+	lines := []struct{ name, text string }{
+		{"comparison", `        return key0.m_ucLowNibble == key1.m_ucLowNibble && key0.m_ucHighNibble == key1.m_ucHighNibble;`},
+		{"handle-declaration", `    void Insert(S_00dc5970_Allocator& alloc, S_00dc5970_Handle key, S_00dc5970_Handle val) throw();  // insert`},
+		{"handle-definition", `    void insert(S_00dc5970_Handle key, S_00dc5970_Handle val) throw()`},
+		{"uint64", `    S_00db8670_Uint64 FindValueForKey(S_00db8670_Uint64 key, S_00db8670_Uint64 def) const throw()`},
+		{"ulong-lookup", `    S_00db8670_Ulong LookupHashEntry(S_00db8670_Ulong key, S_00db8670_Ulong def) const throw();`},
+		{"ulong-insert", `    void FUN_00cb1870(S_00db8670_Heap& alloc, S_00db8670_Ulong key, S_00db8670_Ulong value) throw();`},
+	}
+	// Synthetic assignments are assembled so the test source contains no credential fixture literal.
+	assignments := []struct{ name, value string }{
+		{"api_key", "7Q2w9E4r" + "8T1y6U3i" + "5O0p"},
+		{"password", "9Z3x7C1v" + "5B0n8M2q" + "6W4e"},
+		{"token", "4R8t2Y6u" + "0I3o7P1a" + "5S9d"},
+	}
+	for _, line := range lines {
+		t.Run(line.name, func(t *testing.T) {
+			check(t, line.text, false)
+			for _, assignment := range assignments {
+				text := "const char* " + assignment.name + " = \"" + assignment.value + "\";"
+				t.Run(assignment.name, func(t *testing.T) {
+					check(t, text+" "+line.text, true)
+					check(t, line.text+" "+text, true)
+				})
+			}
+		})
+	}
+	t.Run("altered-comparison", func(t *testing.T) {
+		check(t, strings.Join([]string{"key0.m_ucLowNibble", "key2." + "m_ucLowNibble;"}, " == "), true)
+	})
+	t.Run("quoted-identifier-assignment", func(t *testing.T) {
+		check(t, strings.Join([]string{"api_key", "\"S_00dc5970_Handle\";"}, " = "), true)
+	})
+}
